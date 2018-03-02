@@ -1,4 +1,5 @@
 //app.js
+var http = require('utils/http.js')  
 App({
   onLaunch: function () {
     // 展示本地存储能力
@@ -35,5 +36,8 @@ App({
   },
   globalData: {
     userInfo: null
-  }
+  },
+  func: {
+    req: http.req
+  },
 })

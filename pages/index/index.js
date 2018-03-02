@@ -5,14 +5,17 @@ const app = getApp()
 Page({
   data: {
     city: "武汉市",
-    object: '',
+    // object: '',
     logs: []
   },
   onLoad: function (options) {
     this.setData({
       posts_key: postsData.postList
     });
-    this.getdata();
+    // this.getdata();
+    app.func.req('/user/list', {}, function (res) {
+      console.log(res)
+    }); 
   },
   onShow() {
     wx.getStorage({
@@ -37,47 +40,39 @@ Page({
       }
     })
   },
-  getdata: function () {//定义函数名称
-    var that = this;   // 这个地方非常重要，重置data{}里数据时候setData方法的this应为以及函数的this, 如果在下方的sucess直接写this就变成了wx.request()的this了
-    wx.request({
-      url: 'http://www.hbxq001.cn/user/list',//请求地址
-      data: {//发送给后台的数据
-        "code": 0,
-        "message": "success",
-      },
-      header: {//请求头
-        "Content-Type": "applciation/json"
-      },
-      method: "GET",//get为默认方法/POST
-      success: function (res) {
-        console.log(res.data);//res.data相当于ajax里面的data,为后台返回的数据
-        that.setData({//如果在sucess直接写this就变成了wx.request()的this了.必须为getdata函数的this,不然无法重置调用函数
+  // getdata: function () {//定义函数名称
+  //   var that = this;   // 这个地方非常重要，重置data{}里数据时候setData方法的this应为以及函数的this, 如果在下方的sucess直接写this就变成了wx.request()的this了
+  //   wx.request({
+  //     url: 'http://www.hbxq001.cn/user/list',//请求地址
+  //     data: {//发送给后台的数据
+  //       "code": 0,
+  //       "message": "success",
+  //     },
+  //     header: {//请求头
+  //       "Content-Type": "applciation/json"
+  //     },
+  //     method: "GET",//get为默认方法/POST
+  //     success: function (res) {
+  //       console.log(res.data);//res.data相当于ajax里面的data,为后台返回的数据
+  //       that.setData({//如果在sucess直接写this就变成了wx.request()的this了.必须为getdata函数的this,不然无法重置调用函数
 
-          logs: res.data.result
+  //         logs: res.data.result
 
-        })
+  //       })
 
-      },
-      fail: function (err) { },//请求失败
-      complete: function () { }//请求完成后执行的函数
-    })
-  },
-  // getUserInfo: function (e) {
-  //   console.log(e)
-  //   app.globalData.userInfo = e.detail.userInfo
-  //   this.setData({
-  //     userInfo: e.detail.userInfo,
-  //     hasUserInfo: true
+  //     },
+  //     fail: function (err) { },//请求失败
+  //     complete: function () { }//请求完成后执行的函数
   //   })
   // },
-  // // 用户定位
+  // 用户定位
   userLocation: function () {
     wx.navigateTo({
       url: 'user-location/user-location',
     })
   },
 
-  // //用户搜索
+  //用户搜索
   seekTap: function () {
     wx.navigateTo({
       url: 'user-seek/user-seek',
@@ -101,7 +96,7 @@ Page({
     })
   },
 
-  // //未开放 酒店 景点 休闲娱乐
+//未开放 酒店 景点 休闲娱乐
   hotelUnopen: function () {
     wx.showToast({
       title: '该功能更新中...',
