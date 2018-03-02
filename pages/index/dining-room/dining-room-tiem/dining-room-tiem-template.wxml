@@ -1,0 +1,45 @@
+<template name="tpeMerchant">
+  <view class='shopWrap' catchtap='diningRoomList'>
+    <view class='navigationPractical'>
+      <view class='practical_left'>
+        <image class='practicalImg' src='{{item.merchant_img}}'></image>
+      </view>
+      <view class='practical_right'>
+        <view class='elsk'>
+          <text class='trade_name'>{{item.merchant_name}}</text>
+          <view>
+            <image class='dq_popularity' src='/images/icon/restaurant_hot.png'></image>
+            <text class='trade_rq'>人气<text class='trade_figure'>{{item.merchant_popularity}}</text></text>
+          </view>
+        </view>
+        <view class='trade_site_distance'>
+          <text class='trade_caim'>{{item.merchant_form}}</text>
+          <!-- <text class='trade_guangu'>{{item.merchant_location}}</text>| -->
+           <text class='trade_site_lxg'>{{item.merchant_locationms}}</text> 
+          <text>{{item.merchant_meter}}</text>
+        </view>
+      </view>
+    </view>
+    <view class='navigationButtom'>
+      <view class='navigationKb_left'></view>
+      <view class='navigationKb_right'>
+        <view class='navigationKb_Wrapp'>
+          <image class='navigationKb_img' src='/images/icon/restaurant_newuser.png'></image>
+          <text class='navigationKb_text'>{{item.merchant_roll}}</text>
+        </view>
+        <view class='navigationKb_Wrapp'>
+          <image class='navigationKb_img' src='/images/icon/restaurant_huo.png'></image>
+          <text class='navigationKb_text'>{{item.merchant_consume}}</text>
+        </view>
+        <view class='navigationKb_Wrapp'>
+          <image class='navigationKb_img' src='/images/icon/restaurant_ticket.png'></image>
+          <text class='navigationKb_text'>{{item.merchant_consume}}</text>
+        </view>
+        <view class='navigationKb_Wrapp'>
+          <image class='navigationKb_img' src='/images/icon/restaurant_detrusion.png'></image>
+          <text class='navigationKb_text'>{{item.merchant_reserve}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</template>

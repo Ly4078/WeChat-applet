@@ -1,0 +1,60 @@
+<import src="index-item/index-item-template.wxml" />
+<!--index.wxml-->
+<view class="container">
+  <!--顶部 定位 搜索 卷  -->
+  <template is="locationSeek" data="{{...item}}" />
+  <!-- 轮播组件 -->
+  <!-- <template is="Allslideshow" data="{{...item}}" /> -->
+  <swiper indicator-dots="true" autoplay="true" interval="5000" indicator-active-color="rgba(252, 94, 45,0.8)">
+    <block wx:for="{{posts_key}}" wx:for-item="item" wx:for-index="idx">
+      <swiper-item>
+        <image class="lbtupian" src='{{item.bannerImg}}'></image>
+      </swiper-item>
+    </block>
+  </swiper>
+  <!-- 分类 -->
+  <template is="allClassify" data="{{...item}}" />
+  <view wx:for="{{logs}}" wx:for-item="value">
+    {{value.shopName}}
+  </view>
+  <!--推荐餐厅 -->
+  <template is="postItem" data="{{...item}}" />
+  <!--推荐餐厅  -->
+  <view class='scroll_box'>
+    <scroll-view scroll-x="true" class='scroll'>
+      <block wx:for="{{posts_key}}" wx:for-item="item" wx:for-index="idx">
+        <template is="postItemss" data="{{item}}" />
+      </block>
+    </scroll-view>
+  </view>
+  <!--美食墙 -->
+  <template is="classify" data="{{...item}}" />
+  <!--美食墙 -->
+  <view class='scroll_box'>
+    <scroll-view scroll-x="true" class='scroll element'>
+      <block wx:for="{{posts_key}}" wx:for-item="item" wx:for-index="idx">
+        <template is="classifyss" data="{{item}}" />
+      </block>
+    </scroll-view>
+  </view>
+  <!--热门活动 -->
+  <template is="hotActivity" data="{{...item}}" />
+  <!--热门活动  -->
+  <view class='scroll_box'>
+    <scroll-view scroll-x="true" class='scroll_activity'>
+      <block wx:for="{{posts_key}}">
+        <template is="hotActivityss" data="{{item}}" />
+      </block>
+    </scroll-view>
+  </view>
+  <!--趣享直播 -->
+  <template is="liveStreaming" data="{{...item}}" />
+  <!--趣享直播  -->
+  <view class='scroll_box'>
+    <scroll-view scroll-x="true" class='scroll_anchor'>
+      <block wx:for="{{posts_key}}">
+        <template is="liveStreamingss" data="{{item}}" />
+      </block>
+    </scroll-view>
+  </view>
+</view>

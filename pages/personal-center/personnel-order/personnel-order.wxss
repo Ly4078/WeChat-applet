@@ -1,0 +1,91 @@
+page{
+  background-color: #EBEBEB;
+}
+
+.personnelWrap{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.personnelOrder{
+  width: 92%;
+  height: 166rpx;
+  background-color: white;
+  margin-top: 26rpx;
+  display: flex;
+  flex-direction: row;
+}
+
+.iconLogoWrap{
+  width: 24%;
+  height: 166rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.iconLogo_sj{
+  width: 132rpx;
+  height: 130rpx;
+}
+
+.iconLogo-right{
+  width: 76%;
+  height: 166rpx;
+}
+
+.logo-right-top{
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  height: 120rpx;
+  border-bottom: 1px dashed #E0E0E0;
+}
+
+.logo-right-condition{
+  width: 60%;
+  height: 120rpx;
+}
+
+.catecondition-top{
+  display: block;
+  font-size: 36rpx;
+  margin-top: 20rpx;
+}
+
+.catecondition-xia{
+  font-size: 28rpx;
+  color: #555555;
+}
+
+.roll-unused{
+  height: 120rpx;
+  font-size: 24rpx;
+  color: #555555;
+  display: flex;
+  align-items: center;
+  padding-right: 30rpx;
+}
+
+.roll-wrap-button{
+  width: 100%;
+  height: 40rpx;
+  display: flex;
+  justify-content: space-between;
+  color: #B1B1B1;
+  font-size: 24rpx;
+  align-items: center;
+  letter-spacing:2px;
+}
+
+.roll-wrap-Images{
+  width: 12rpx;
+  height: 22rpx;
+  padding-right: 30rpx;
+}
+
+.price-specific{
+  letter-spacing:0px;
+}
+

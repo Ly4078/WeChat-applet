@@ -1,0 +1,60 @@
+<view>
+  <view class='initiate-exhibition the-second'>
+    <view>
+      <image class='initiate-left' src='/images/icon/home_sign.png'></image>
+      <text class='initiate-text'>享七直播</text>
+    </view>
+    <image class='initiate-right' src='/images/icon/home_arrow.png'></image>
+  </view>
+
+  <view class='scroll_box'>
+    <scroll-view scroll-x="true" class='scroll_anchor'>
+      <block wx:for="{{posts_key}}">
+        <view id="green" class="anchor bc_green">
+          <image class='anchor_img' src='{{item.activity_img}}'></image>
+          <image class='live-Images' src='/images/icon/dot_mos.png'></image>
+          <text class='on-line'>{{item.activity_player}}</text>
+          <view class='cate_site'>
+            <text class='live-streaming'>{{item.sort_name}}</text>
+            <text class='live-name'>{{item.sort_digit}}</text>
+          </view>
+        </view>
+      </block>
+    </scroll-view>
+  </view>
+
+  <view class='initiate-exhibition the-second'>
+    <view>
+      <image class='initiate-left' src='/images/icon/home_sign.png'></image>
+      <text class='initiate-text'>享七直播</text>
+    </view>
+  </view>
+
+  <block wx:for="{{posts_key}}" wx:for-item="item" wx:for-index="idx">
+    <view>
+      <view class='find-cate'>
+        <view class='find-rwap-nmx'>
+          <image class='find-cate-img' src='{{item.sort_touxiang}}'></image>
+          <view class='west-gansu'>
+            <text class='find-name-es'>{{item.sort_nameere}}</text>
+            <view class='find-time-ms'>15分钟前</view>
+          </view>
+        </view>
+        <view class='find-wrap-zsu'>
+          <view class='find-like-rs'>{{item.sort_digitese}}</view>
+          <image class='find-cate-right' src='/images/icon/home_zan.png'></image>
+        </view>
+      </view>
+      <view class='evaluate-wrap'>{{item.sort_center}}</view>
+
+      <view class="list-dImg">
+        <block wx:for="{{posts_key}}" wx:for-item="item" wx:for-index="idx">
+          <image class='evaluate-issue-img' src="{{posts_key[0].activity_img}}"></image>
+        </block>
+      </view>
+    </view>
+  </block>
+  <!-- <view class='publish-dynamic-wrap'> -->
+    <image catchtap='announceState' class='publish-dynamic-condition' src='/images/icon/send_dongtai.png'></image>
+  <!-- </view> -->
+</view>

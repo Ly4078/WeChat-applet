@@ -1,0 +1,30 @@
+<!--pages/index/dining-room/dining-room.wxml-->
+ <import src="dining-room-tiem/dining-room-tiem-template.wxml" /> 
+
+<view class='page_row'>
+  <view class="search" bindtap="seekTap">
+    <view class="search_arr">
+      <icon class="searchcion" size='20' type='search'></icon>
+      <input class='inputs' placeholder="搜索商品" value="{{searchValue}}" />
+    </view>
+  </view>
+  <!-- 附近 、美食、综合排序 -->
+  <view class='sonNavigation'>
+    <view class='Navigation_data'>
+      <text>附近</text>
+      <image class='Navigation_img' src='/images/icon/restaurant_arrow.png'></image>
+    </view>
+    <view class='Navigation_data'>
+      <text>美食</text>
+      <image class='Navigation_img' src='/images/icon/restaurant_arrow.png'></image>
+    </view>
+    <view class='Navigation_data'>
+      <text>综合排序</text>
+      <image class='Navigation_img' src='/images/icon/restaurant_arrow.png'></image>
+    </view>
+  </view>
+  <!-- 商家 -->
+  <block wx:for="{{posts_key}}" wx:for-item="item" wx:for-index="idx">
+     <template is="tpeMerchant" data="{{item}}" /> 
+  </block>
+</view>

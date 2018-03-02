@@ -1,0 +1,146 @@
+<!--首页顶部定位 搜索 卷  -->
+<template name="locationSeek">
+  <view class='headSeek'>
+    <view class='site_location' bindtap='userLocation'>
+      <text class='site_location_text'>{{city}}</text>
+      <image class='location' src='/images/icon/home_bar_arrow.png'></image>
+    </view>
+     <view class='page_row' bindtap="seekTap">
+      <view class="search">
+        <view class="df search_arr">
+          <icon class="searchcion" size='20' type='search'></icon>
+          <input disabled placeholder="请输入关键字" value="{{searchValue}}" />
+        </view>
+      </view>
+    </view> 
+    <view catchtap='discountCoupon'>
+      <image class='usingTheVolume' src='/images/icon/home_bar_quan.png'></image>
+    </view>
+  </view>
+</template>
+<!--轮播图  -->
+<!-- <template name="Allslideshow">
+  
+</template> -->
+<!--分类  -->
+<template name="allClassify">
+  <view class='warp_classify'>
+    <view class='classify' catchtap='shopping'>
+      <image class='classify_img' src='/images/icon/home_icon_xqq.png'></image>
+      <view class='classify_text'>享7劵</view>
+    </view>
+    <view class='classify' bindtap='diningRoom'>
+      <image class='classify_img' src='/images/icon/home_icon_ct.png'></image>
+      <view class='classify_text'>餐厅</view>
+    </view>
+    <view class='classify' bindtap='hotelUnopen'>
+      <image class='classify_img' src='/images/icon/home_icon_jd.png'></image>
+      <view class='classify_text'>酒店</view>
+    </view>
+    <view class='classify' bindtap='scenicSpot'>
+      <image class='classify_img' src='/images/icon/home_iocn_jingd.png'></image>
+      <view class='classify_text'>景点</view>
+    </view>
+    <view class='classify' bindtap='entertainment'>
+      <image class='classify_img' src='/images/icon/home_icon_yl.png'></image>
+      <view class='classify_text'>休闲娱乐</view>
+    </view>
+  </view>
+</template>
+<!--推荐餐厅-->
+<template name="postItem">
+  <view class='wrap_recommend' catchtap='recommendCt'>
+    <view class='recommend'>
+      <image class='recommend_img' src='/images/icon/home_sign.png'></image>
+      <view class='recommend_text'>推荐餐厅</view>
+    </view>
+    <view class='djevenMore'>
+      <view class='recommend_right'>查看更多</view>
+      <image class='recommend_more' src='/images/icon/home_arrow.png'></image>
+    </view>
+  </view>
+</template>
+<!--推荐餐厅  -->
+<template name="postItemss">
+  <view id="green" class="scroll-view-item bc_green" data-postId="{{item.postId}}" catchtap='diningHhall'>
+    <image class='scroll-view-item-img' src='{{item.scrollTop}}'></image>
+    <view class='cate_site'>{{item.toView}}</view>
+  </view>
+</template>
+<!--美食墙 -->
+<template name="classify">
+  <view class='wrap_recommend' catchtap='cateWall'>
+    <view class='recommend'>
+      <image class='recommend_img' src='/images/icon/home_sign.png'></image>
+      <view class='recommend_text'>美食墙</view>
+    </view>
+    <view class='djevenMore'>
+      <view class='recommend_right'>查看更多</view>
+      <image class='recommend_more' src='/images/icon/home_arrow.png'></image>
+    </view>
+  </view>
+</template>
+<!--美食墙  -->
+<template name="classifyss">
+   <view id="greens" class="scroll_user">
+    <view class='userinfo_warp'>
+      <view class='userinfo_left'>
+        <image class='userinfo_left_img' src='{{item.headPortrait}}'></image>
+        <text class='userinfo_left_text'>{{item.userName}}</text>
+      </view>
+      <view class='userinfo_right'>
+        <image class='userinfo_right_img' src='/images/icon/home_zaned.png'></image>
+      </view>
+    </view>
+    <view class='evaluation'>
+       <view class='evaluation_left'> 
+        <text class='evaluation_left_text'>{{item.describe}}</text>
+       </view> 
+      <view class='evaluation_right'>
+        <image class='evaluation_right_img' src='{{item.content_img}}'></image>
+      </view>
+    </view>
+  </view>
+</template>
+
+<!--热门活动  -->
+<template name="hotActivity">
+  <view class='wrap_recommend' catchtap='preferential'>
+    <view class='recommend'>
+      <image class='recommend_img' src='/images/icon/home_sign.png'></image>
+      <view class='recommend_text'>热门活动</view>
+    </view>
+    <view class='djevenMore'>
+      <view class='recommend_right'>查看更多</view>
+      <image class='recommend_more' src='/images/icon/home_arrow.png'></image>
+    </view>
+  </view>
+</template>
+<!--热门活动  -->
+<template name="hotActivityss">
+  <view class="preferential" catchtap='detailOfTheActivity'>
+    <image class='preferential_img' src='{{item.activity_raph}}'></image>
+  </view>
+</template>
+
+<!--趣享直播  -->
+<template name="liveStreaming">
+  <view class='wrap_recommend'>
+    <view class='recommend'>
+      <image class='recommend_img' src='/images/icon/home_sign.png'></image>
+      <view class='recommend_text'>享七直播</view>
+    </view>
+    <view class='djevenMore'>
+      <view class='recommend_right'>查看更多</view>
+      <image class='recommend_more' src='/images/icon/home_arrow.png'></image>
+    </view>
+  </view>
+</template>
+
+<!--趣享直播  -->
+<template name="liveStreamingss">
+  <view id="green" class="anchor bc_green">
+    <image class='anchor_img' src='{{item.streamingImg}}'></image>
+    <view class='cate_site'>{{item.streamingName}}</view>
+  </view>
+</template>

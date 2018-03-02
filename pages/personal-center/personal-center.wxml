@@ -1,0 +1,90 @@
+<view>
+  <view class='centreWrap'>
+    <view class='centreTopName'>
+      <image class='centreImages' src='/images/head/head_portrait4.jpg'></image>
+      <view class='centreText'>Montage</view>
+    </view>
+    <view class='messageCase'>
+      <view class='messageWrap'>
+        <text class='messageTop'>动态</text>
+        <text>12</text>
+      </view>
+      <image class='halving-line' src='/images/icon/vertical.png'></image>
+      <view class='messageWrap' catchtap='enshrineClick'>
+        <text class='messageTop'>收藏</text>
+        <text>23</text>
+      </view>
+      <image class='halving-line' src='/images/icon/vertical.png'></image>
+      <view class='messageWrap'>
+        <text class='messageTop'>消息</text>
+        <text>0</text>
+      </view>
+    </view>
+  </view>
+
+  <view class='mylistWrap'>
+    <view class='myList' catchtap='myTickets'>
+      <view class='myList-single'>
+        <view>
+          <image class='myListImages' src='/images/icon/voucher.png'></image>
+          <text class='mylistText'>我的票劵</text>
+        </view>
+        <image class='myListArrows' src='/images/icon/home_arrow.png'></image>
+      </view>
+    </view>
+    <view class='myList'>
+      <view class='myList-single' catchtap='carefulness'>
+        <view>
+          <image class='myListImages' src='/images/icon/order.png'></image>
+          <text class='mylistText'>我的订单</text>
+        </view>
+        <image class='myListArrows' src='/images/icon/home_arrow.png'></image>
+      </view>
+    </view>
+  </view>
+
+  <view class='mylistWrap'>
+    <view class='myList'>
+      <view class='myList-single'>
+        <view>
+          <image class='myListImages' src='/images/icon/merchants_join.png'></image>
+          <text class='mylistText'>免费入驻</text>
+        </view>
+        <image class='myListArrows' src='/images/icon/home_arrow.png'></image>
+      </view>
+    </view>
+    <view class='myList'>
+      <view class='myList-single'>
+        <view>
+          <image class='myListImages' src='/images/icon/anchor_join.png'></image>
+          <text class='mylistText'>主播招募</text>
+        </view>
+        <image class='myListArrows' src='/images/icon/home_arrow.png'></image>
+      </view>
+    </view>
+    <view class='myList'>
+      <view class='myList-single' catchtap='scanAqrCode'>
+        <view>
+          <image class='myListImages' src='/images/icon/richScan.png'></image>
+          <text class='mylistText'>扫一扫</text>
+        </view>
+        <image class='myListArrows' src='/images/icon/home_arrow.png'></image>
+      </view>
+    </view>
+  </view>
+
+  <view class='myList'>
+    <view class='myList-single'>
+      <view>
+      <image class='myListImages' src='/images/icon/customer_service.png'></image>
+         <text class='mylistText'>联系客服</text> 
+      </view>
+      <view class='telephone-Wrap'>
+        <image catchtap='calling' class='telephone' src='/images/icon/telephone_bd.png'></image>
+      </view>
+      <view class='customer-service'>
+        <contact-button type='default-light' class='wicket' size='20' session-from='weapp'></contact-button>
+      </view>
+    </view>
+  </view>
+</view>

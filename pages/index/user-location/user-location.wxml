@@ -1,0 +1,20 @@
+<view class="header">
+   <input placeholder="请输入地址" bindconfirm="searchAddress"/>
+</view>
+<view>
+  <view class="title">当前地址</view>
+  <view class="current-site">
+    <view>{{currentSite}}</view>
+    <view bindtap="anewPosition">重新定位</view>
+  </view>
+</view>
+<view>
+  <view class="title">搜索地址</view>
+  <block wx:for="{{resultPosition}}" wx:key="key">
+    <view class="result-address" bindtap="selectAddress" data-title="{{item.title}}">
+      <view class="addressTitle">{{item.title}}</view>
+      <view class="addressDetail">{{item.address}}</view>
+    </view>
+  </block>
+</view>
+ 

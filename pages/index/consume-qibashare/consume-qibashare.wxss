@@ -1,0 +1,97 @@
+/* pages/index/consume-qibashare/consume-qibashare.wxss */
+page{
+  width: 100%;
+  height: 100%;
+  background: #EBEBEB;
+}
+
+.consumeWrap{
+  width: 100%;
+  height: 210rpx;
+  background-color: white;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.consumeLogo{
+  width: 176rpx;
+  height: 176rpx;
+}
+
+.consumeLimit{
+  display: block;
+  color: #191919;
+  font-size: 36rpx;
+  font-weight: 500;
+}
+
+.limitConfine{
+  color: #B1B1B1;
+  font-size: 26rpx;
+  font-family: NotoSansHans-Medium;
+  padding-left: 5rpx;
+}
+
+.sumDiscount{
+  display: flex;
+  flex-direction: row;
+  align-items: baseline; 
+  padding-top: 12rpx;
+}
+
+.discountMomey{
+  color: #FC5E2D;
+  font-size: 26rpx;
+  padding-left:5rpx;
+  padding-right: 15rpx;
+}
+
+.figureSum{
+  color: #FC5E2D;
+  font-size: 42rpx;
+}
+
+.consumeCenter{
+  width: 46%;
+}
+
+.discount_fels_zq{
+  font-size: 20rpx;
+  width: 57rpx;
+  height: 26rpx;
+  border: 1px solid #FC5E2D;
+  border-radius: 4rpx 4rpx 4rpx 4rpx;
+  text-align: center;
+  color: #FC5E2D;
+  line-height: 25rpx;
+}
+
+.buy-immediately{
+  width: 166rpx;
+  height: 72rpx;
+  background-color: #FC5E2D;
+  border-radius: 8rpx 8rpx 8rpx 8rpx;
+  font-size: 30rpx;
+  color: #FFFFFF;
+  text-align: center;
+  line-height: 72rpx;
+}
+
+.powerScroll{
+  width: 166rpx;
+  padding-top: 22rpx;
+  padding-right: 20rpx;
+}
+
+.already_text{
+  font-size: 26rpx;
+  color: #B1B1B1;
+}
+
+.already{
+  width: 166rpx;
+  text-align: right;
+  margin-top: 4rpx;
+}

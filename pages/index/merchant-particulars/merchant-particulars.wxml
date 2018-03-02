@@ -1,0 +1,116 @@
+<view>
+  <view class='detailsWrap'>
+    <image class='cateImages' src='{{posts_key[0].store_img1}}'></image>
+    <text class='wrapImages'>共<text>{{posts_key[0].store_zong}}</text>张</text>
+  </view>
+  <view>
+    <view class='shop-z-Wrap'>
+      <view class='shop-left-wrap'>
+        <image class='detailsName-img' src='{{posts_key[0].store_img2}}'></image>
+        <view class='detailsName-genre'>
+          <text class='details-Name'>{{posts_key[0].store_name}}</text>
+          <text class='details-form'>{{posts_key[0].store_from}}</text>
+        </view>
+      </view>
+      <view class='popularityCollect'>
+        <text class='popularity'>{{posts_key[0].store_number}}人气</text>
+        <text class='collect'>收藏</text>
+        <!-- <image wx:if="{{collected}}" class='colletionImg' catchtap='onColletionTap' src='/images/icon/shoucang1.png'></image> -->
+        <!-- <image class='colletionImg' catchtap='onColletionTap' src='/images/icon/shoucang2.png'></image> -->
+      </view>
+    </view>
+  </view>
+  <view class='locationWrap'>
+    <image class='location-left' src='/images/icon/location.png'></image>
+    <text class='location-text'>{{posts_key[0].store_site}}</text>
+    <text class='cut-off0-rule'></text>
+    <image class='location-right' bindtap="calling" src='/images/icon/telephone.png'></image>
+  </view>
+  <!-- 主页跟动态 -->
+  <view class='homepage'>
+    <!--导航条-->
+    <view class="navbar">
+      <text wx:for="{{navbar}}" data-idx="{{index}}" class="item {{currentTab==index ? 'active' : ''}}" wx:key="unique" bindtap="navbarTap">{{item}}</text>
+    </view>
+    <!--主页-->
+    <view hidden="{{currentTab!==0}}">
+      <view class='currentTabWrap'>
+        <view>
+          <image class='currentTabImg' src='/images/icon/quanhuodong.png'></image>
+          <text class='currentTabLose'>{{posts_key[0].store_discount}}折</text>
+          <text class='currentTabtext'>购买享七劵</text>
+        </view>
+        <image class='currentTabjiantou' src='/images/icon/home_arrow.png'></image>
+      </view>
+      <view class='currentTabButton'>
+        <image class='voteList' src='/images/icon/votehuodong.png'></image>
+        <image class='currentTabjiantou' src='/images/icon/home_arrow.png'></image>
+      </view>
+      <view class='currentTabButton distance-es'>
+        <view>
+          <text class='serial_number'>{{posts_key[0].time_signature}}号</text>
+          <text class='cuttentTabxiangq'>正在参数不辣不欢活动</text>
+        </view>
+        <text class='vote-entrance'>投票</text>
+      </view>
+      <view class='initiate-wrapp'>
+        <view class='initiate-exhibition'>
+          <view>
+            <image class='initiate-left' src='/images/icon/home_sign.png'></image>
+            <text class='initiate-text'>推荐菜</text>
+          </view>
+          <image class='initiate-right' src='/images/icon/home_arrow.png'></image>
+        </view>
+        <view class='scroll_box'>
+          <scroll-view scroll-x="true" class='scroll_anchor'>
+            <block wx:for="{{posts_key}}">
+              <view id="green" class="anchor bc_green">
+                <image class='anchor_img' src='{{item.store_img3}}'></image>
+                <view class='cate_site'>{{item.store_dishname}}</view>
+              </view>
+            </block>
+          </scroll-view>
+        </view>
+      </view>
+
+      <view class='initiate-exhibition the-second'>
+        <view>
+          <image class='initiate-left' src='/images/icon/home_sign.png'></image>
+          <text class='initiate-text'>精选评价</text>
+        </view>
+        <image class='initiate-right' src='/images/icon/home_arrow.png'></image>
+      </view>
+
+      <block wx:for="{{posts_key}}">
+        <view class='evaluate-maximum'>
+          <view class='evaluate-wrap'>
+            <view>
+              <image class='evaluateImages' src='{{item.store_headportrait}}'></image>
+              <text class='evaluateText'>{{item.store_merchant}}</text>
+            </view>
+            <view>
+              <text class='evaluaterightTx'>{{item.store_like}}</text>
+              <image wx:if="{{collection}}" bindtap="toCollect" class='evaluateright' src='/images/icon/home_zan.png'></image>
+              <image class='evaluateright' wx:else src="/images/icon/home_zaned.png" bindtap="toCollect"></image>
+            </view>
+          </view>
+          <text class='introduce-details'>{{item.store_text}}</text>
+          <view class='carry-out-data'>{{item.store_dang}}</view>
+        </view>
+      </block>
+      <view class='total-comment'>
+        <view class='total-center'>
+          <text>查看全部<text>{{posts_key[0].store_prices}}</text>条评论</text>
+        </view>
+      </view>
+      <view class='botton-comment'>
+        <image class='comment-images' src='/images/icon/write.png'></image>
+        <text class='reviewyan'>写评论</text>
+      </view>
+    </view>
+    <!--动态-->
+    <view hidden="{{currentTab!==1}}">
+      动态页待更新...
+    </view>
+  </view>
+</view>

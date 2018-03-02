@@ -1,0 +1,37 @@
+<view>
+  <view class='particulars'>
+    <view class='particulars_details'>
+      <text class='particulars_text'>100元代金券</text>
+      <text>¥10</text>
+    </view>
+  </view>
+  <view class='particulars'>
+    <view class='particulars_details'>
+      <text class='particulars_text'>数量</text>
+      <view class="stepper">
+        <!-- 减号 -->
+        <text class="{{minusStatus}}" bindtap="bindMinus">-</text>
+        <!-- 数值 -->
+        <input type="number" bindchange="bindManual" value="{{num}}" />
+        <!-- 加号 -->
+        <text class="normal" bindtap="bindPlus">+</text>
+      </view>
+    </view>
+  </view>
+  <view class='particulars'>
+    <view class='particulars_details'>
+      <text class='particulars_text' bindtap="cellPhone">手机号</text>
+      <text>15827245422</text>
+    </view>
+  </view>
+  <view class='particulars'>
+    <view class='particulars_details'>
+      <text class='particulars_text'>小计</text>
+      <text class='subtotal'>¥10</text>
+    </view>
+  </view>
+  <view class='affirm'>
+    <text>确认支付</text>
+    <text class='affirmNumber'>￥10</text>
+  </view>
+</view>

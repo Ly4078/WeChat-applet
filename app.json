@@ -1,0 +1,62 @@
+{
+  "pages":[
+    "pages/index/index",
+    "pages/personal-center/personal-center",
+    "pages/discover-plate/dynamic-state/dynamic-state",
+    "pages/activityDetails/details-like/details-like",
+    "pages/index/order-for-goods/order-for-goods",
+    "pages/personal-center/enshrine/enshrine",
+    "pages/personal-center/lelectronic-coupons/lectronic-coupons",
+    "pages/personal-center/my-discount/my-discount",
+    "pages/personal-center/personnel-order/personnel-order",
+    "pages/discover-plate/discover-plate",
+    "pages/index/merchant-particulars/merchant-particulars",
+    "pages/index/consume-qibashare/consume-qibashare",
+    "pages/index/voucher-details/voucher-details",
+    "pages/index/user-location/user-location",
+    "pages/index/user-seek/user-seek",
+    "pages/index/dining-room/dining-room",
+    "pages/activityDetails/activity-details"
+  ],
+  "window":{
+    "backgroundTextStyle":"light",
+    "navigationBarBackgroundColor": "#fc5e2d",
+    "navigationBarTitleText": "享7",
+    "navigationBarTextStyle":"white",
+    "navigationStyle":"default"
+  },
+  "tabBar":{
+    "selectedColor": "#FF4411",
+    "backgroundColor":"#FFFFFF",
+    "list":[{
+        "selectedColor":"#FF4411",
+        "pagePath":"pages/index/index",
+        "text":"首页",
+        "iconPath":"images/icon/home_tab_home.png",
+        "selectedIconPath":"images/icon/home_tab_homeed.png"
+    },
+    {
+      "selectedColor": "#FF4411",
+      "pagePath": "pages/activityDetails/activity-details",
+      "text": "活动",
+      "iconPath": "images/icon/home_tab_huodong.png",
+      "selectedIconPath": "images/icon/home_tab_huodonged.png"
+    },
+    {
+      "selectedColor": "#FF4411",
+      "pagePath": "pages/discover-plate/discover-plate",
+      "text": "发现",
+      "iconPath": "images/icon/home_tab_search.png",
+      "selectedIconPath": "images/icon/home_tab_searched.png"
+    },
+    {
+      "selectedColor": "#FF4411",
+      "pagePath": "pages/personal-center/personal-center",
+      "text": "我的",
+      "iconPath": "images/icon/home_tab_mine.png",
+      "selectedIconPath": "images/icon/home_tab_mineed.png"
+    }
+
+    ]
+  }
+}

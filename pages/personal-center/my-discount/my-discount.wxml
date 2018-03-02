@@ -1,0 +1,31 @@
+<block wx:for="{{posts_key}}" wx:for-item="item" wx:for-index="idx">
+  <view class='securityWrap'>
+    <view class='security-use'>
+      <view class='security-top'>
+        <view class='security-top-left'>
+          <text class='security-money'>￥<text class='security-money-se'>{{item.numbers_ss}}</text></text>
+          <text class='security-available'>{{item.numbers_dd}}</text>
+        </view>
+        <view class='security-top-right' catchtap='immediateUse'>
+          <view class='my-immediateUse'>立即使用</view>
+        </view>
+      </view>
+      <view class='deadline-time'>
+        <view>
+          <text>有效期至:</text>
+          <text>{{item.numbers_ee}}</text>
+        </view>
+        <view>
+          <text>{{item.numbers_oo}}</text>
+        </view>
+      </view>
+    </view>
+    <view class='conceal-dot'></view>
+    <view class='conceal-dot-right'></view>
+  </view>
+</block>
+<view class='already-past-wrap'>
+  <view class='already-past-due'>
+    <text>查看过期/已用劵</text>
+  </view>
+</view>

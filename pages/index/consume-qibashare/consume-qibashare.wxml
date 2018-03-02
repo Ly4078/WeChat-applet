@@ -1,0 +1,27 @@
+<!--pages/index/consume-qibashare/consume-qibashare.wxml-->
+<view>
+  <block wx:for="{{posts_key}}" wx:for-item="item" wx:for-index="idx">
+    <view class='consumeWrap' catchtap='particulars'>
+      <image class='consumeLogo' src='/images/icon/xqlogo.png'></image>
+      <view class='consumeCenter'>
+        <view>
+          <text class='consumeLimit'>{{item.how_many}}</text>
+          <view class='limitConfine'>{{item.how_astrict}}</view>
+        </view>
+        <view class='sumDiscount'>
+          <view class='figureSum'>{{item.how_specific}}
+            <text class='discountMomey'>元</text>
+          </view>
+          <!-- <view class='discount_fels'></view> -->
+          <text class='discount_fels_zq'>{{item.how_folder}}折</text>
+        </view>
+      </view>
+      <view class='powerScroll'>
+        <view class='buy-immediately' catchtap='directPurchase'>立即购买</view>
+        <view class='already'>
+          <text class='already_text'>已售{{item.how_sold_out}}</text>
+        </view>
+      </view>
+    </view>
+  </block>
+</view>

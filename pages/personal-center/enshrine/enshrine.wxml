@@ -1,0 +1,20 @@
+<view>
+<block wx:for="{{posts_key}}" wx:for-item="item" wx:for-index="idx">
+  <view class='enshrineWrap' catchtap='enshrineXim'>
+    <view class='enshrineLeft'>
+      <view class='enshrineImages-wrap'>
+        <image class='enshrineImages' src='{{item.enshrine_img}}'></image>
+      </view>
+      <view class='enshrine-caip'>
+        <text class='enshrine-name'>{{item.enshrine_name}}</text>
+        <text class='enshrine-classify'>{{item.enshrine_xl}}</text>
+        <text class='enshrine-dynamic'>动态</text>
+        <text class='enshrine-vote'>投票</text>
+      </view>
+    </view>
+    <view class='enshrineWrap-right'>
+      <image class='enshrineImages-right' src='/images/icon/home_arrow.png'></image>
+    </view>
+  </view>
+  </block>
+</view>
