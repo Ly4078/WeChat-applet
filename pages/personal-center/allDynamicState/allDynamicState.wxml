@@ -1,0 +1,38 @@
+<view class='dynamic-wrap'>
+  <view class='dynmaic-specific'>
+    <view class='dynmai-top-qw'>
+      <view class='dynmai-top-left'>
+        <image class='dynmai-top-img' src='/images/head/head_ortrait1.jpg'></image>
+        <view class='dynmai-text-wrap'>
+          <text class='dynmai-text'>大头贴</text>
+          <text class='dynmai-text-name'>1<text>小时前</text></text>
+        </view>
+      </view>
+      <view class='dynmai-top-right-wz'>
+        <text class='numberOfpeople'>1453413</text>
+        <image class='dynmai-top-right' src='/images/icon/home_zan.png'></image>
+      </view>
+    </view>
+
+    <view class='center-text'>
+      <text>每个月，我们帮助 1000 万的开发者解决各种各样的技术问题。并助力他们在技术能力、职业生涯、影响力上获得提升。</text>
+    </view>
+
+    <view class='center-imgWrap'>
+      <view class='center-circulation' wx:for='{{imgArr}}'>
+        <image class='center-images' src='{{item}}' data-index='{{index}}' bindtap='amplification'></image>
+      </view>
+    </view>
+
+    <view class='click-amount'>
+      <view class='click-amount-left'>
+        <image class='click-amout-img' src='/images/icon/tuoyuan_w.png'></image>
+        <text class='click-amout-text'>6434</text>
+      </view>
+      <view class='click-amount-right'>
+        <image class='amount-icon' src='/images/icon/word.png'></image>
+        <text class='evaluate-text'>34</text>
+      </view>
+    </view>
+  </view>
+</view>

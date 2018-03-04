@@ -1,0 +1,70 @@
+page{
+ background-color: #EBEBEB;
+}
+
+.bannerTop{
+  width: 100%;
+  height: 177rpx;
+} 
+
+.commercial{
+  height: 52rpx;
+  font-size: 28rpx;
+  color: #B1B1B1;
+  padding-left: 30rpx;
+  line-height: 52rpx;
+}
+
+.commercial-message{
+  background-color: white;
+  display: flex;
+  justify-content: center;
+}
+
+.message-each{
+  width: 93%;
+  height: 100rpx;
+  border-bottom: 1px solid #E0E0E0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.message-img{
+  width: 15rpx;
+  height: 14rpx;
+}
+
+.message-text{
+  padding-left: 88rpx;
+  font-size: 30rpx;
+  color: #B1B1B1;
+}
+
+.message-text-suo{
+  padding-left: 119rpx;
+  font-size: 30rpx;
+  color: #B1B1B1;
+}
+
+.sbumitApply-for{
+  height: 200rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+}
+
+.message-name{
+  font-size: 30rpx;
+  color: #191919;
+  padding-left: 4rpx;
+}
+
+.sbujit-button{
+  width: 90%;
+  background-color: #FC5E2D;
+  color: #FFFFFF;
+  font-size: 36rpx;
+  letter-spacing: 2px;
+}
