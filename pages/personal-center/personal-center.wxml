@@ -5,7 +5,7 @@
       <view class='centreText'>Montage</view>
     </view>
     <view class='messageCase'>
-      <view class='messageWrap'>
+      <view class='messageWrap' bindtap='DynamicState'>
         <text class='messageTop'>动态</text>
         <text>12</text>
       </view>
@@ -45,7 +45,7 @@
 
   <view class='mylistWrap'>
     <view class='myList'>
-      <view class='myList-single'>
+      <view class='myList-single' catchtap='enterEntrance'>
         <view>
           <image class='myListImages' src='/images/icon/merchants_join.png'></image>
           <text class='mylistText'>免费入驻</text>

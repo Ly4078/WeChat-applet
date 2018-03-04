@@ -9,7 +9,7 @@
 
   <view class='scroll_box'>
     <scroll-view scroll-x="true" class='scroll_anchor'>
-      <block wx:for="{{posts_key}}">
+      <block wx:for="{{posts_key}}" wx:key="{{index}}">
         <view id="green" class="anchor bc_green">
           <image class='anchor_img' src='{{item.activity_img}}'></image>
           <image class='live-Images' src='/images/icon/dot_mos.png'></image>
@@ -30,7 +30,7 @@
     </view>
   </view>
 
-  <block wx:for="{{posts_key}}" wx:for-item="item" wx:for-index="idx">
+  <block wx:for="{{posts_key}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
     <view>
       <view class='find-cate'>
         <view class='find-rwap-nmx'>
@@ -48,7 +48,7 @@
       <view class='evaluate-wrap'>{{item.sort_center}}</view>
 
       <view class="list-dImg">
-        <block wx:for="{{posts_key}}" wx:for-item="item" wx:for-index="idx">
+        <block wx:for="{{posts_key}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
           <image class='evaluate-issue-img' src="{{posts_key[0].activity_img}}"></image>
         </block>
       </view>

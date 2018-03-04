@@ -24,7 +24,7 @@
     </view>
   </view>
   <!-- 商家 -->
-  <block wx:for="{{posts_key}}" wx:for-item="item" wx:for-index="idx">
+  <block wx:for="{{posts_key}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
      <template is="tpeMerchant" data="{{item}}" /> 
   </block>
 </view>

@@ -1,6 +1,6 @@
 <view>
   <view class='detailsWrap'>
-    <image class='cateImages' src='{{posts_key[0].store_img1}}'></image>
+    <image class='cateImages' src='{{posts_key[0].store_img1}}' bindtap='moreImages'></image>
     <text class='wrapImages'>共<text>{{posts_key[0].store_zong}}</text>张</text>
   </view>
   <view>
@@ -15,14 +15,12 @@
       <view class='popularityCollect'>
         <text class='popularity'>{{posts_key[0].store_number}}人气</text>
         <text class='collect'>收藏</text>
-        <!-- <image wx:if="{{collected}}" class='colletionImg' catchtap='onColletionTap' src='/images/icon/shoucang1.png'></image> -->
-        <!-- <image class='colletionImg' catchtap='onColletionTap' src='/images/icon/shoucang2.png'></image> -->
       </view>
     </view>
   </view>
   <view class='locationWrap'>
     <image class='location-left' src='/images/icon/location.png'></image>
-    <text class='location-text'>{{posts_key[0].store_site}}</text>
+    <text class='location-text' catchtap='TencentMap'>{{posts_key[0].store_site}}</text>
     <text class='cut-off0-rule'></text>
     <image class='location-right' bindtap="calling" src='/images/icon/telephone.png'></image>
   </view>
@@ -30,10 +28,17 @@
   <view class='homepage'>
     <!--导航条-->
     <view class="navbar">
-      <text wx:for="{{navbar}}" data-idx="{{index}}" class="item {{currentTab==index ? 'active' : ''}}" wx:key="unique" bindtap="navbarTap">{{item}}</text>
+      <text wx:for="{{navbar}}" wx:key="{{index}}" data-idx="{{index}}" class="item {{currentTab==index ? 'active' : ''}}" bindtap="navbarTap">{{item}}</text>
     </view>
     <!--主页-->
     <view hidden="{{currentTab!==0}}">
+      <swiper class='lunbotu' indicator-dots="true" autoplay="true" interval="5000" indicator-active-color="rgba(252, 94, 45,0.8)">
+        <block wx:for="{{posts_key}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
+          <swiper-item>
+            <image class="lbtupian" src='{{item.store_img3}}'></image>
+          </swiper-item>
+        </block>
+      </swiper>
       <view class='currentTabWrap'>
         <view>
           <image class='currentTabImg' src='/images/icon/quanhuodong.png'></image>
@@ -63,7 +68,7 @@
         </view>
         <view class='scroll_box'>
           <scroll-view scroll-x="true" class='scroll_anchor'>
-            <block wx:for="{{posts_key}}">
+            <block wx:for="{{posts_key}}" wx:key="{{index}}">
               <view id="green" class="anchor bc_green">
                 <image class='anchor_img' src='{{item.store_img3}}'></image>
                 <view class='cate_site'>{{item.store_dishname}}</view>
@@ -81,7 +86,7 @@
         <image class='initiate-right' src='/images/icon/home_arrow.png'></image>
       </view>
 
-      <block wx:for="{{posts_key}}">
+      <block wx:for="{{posts_key}}" wx:key="{{index}}">
         <view class='evaluate-maximum'>
           <view class='evaluate-wrap'>
             <view>

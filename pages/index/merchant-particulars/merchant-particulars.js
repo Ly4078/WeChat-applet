@@ -64,6 +64,27 @@ Page({
       }
     })
   },
+  moreImages:function(event){
+    wx.navigateTo({
+      url: 'preview-picture/preview-picture',
+    })
+  },
+  TencentMap:function(event){
+    wx.getLocation({
+      type: 'gcj02', //返回可以用于wx.openLocation的经纬度  
+      success: function (res) {
+        var latitude = res.latitude
+        var longitude = res.longitude
+        wx.openLocation({
+          latitude: 23.362490,
+          longitude: 116.715790,
+          scale: 18,
+          name: '华乾大厦',
+          address: '金平区长平路93号'  
+        })
+      }
+    })  
+  },
   // tab栏
   navbarTap: function (e) {
     this.setData({

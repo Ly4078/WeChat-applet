@@ -1,5 +1,5 @@
 <view>
-  <block wx:for="{{posts_key}}" wx:for-item="item" wx:for-index="idx">
+  <block wx:for="{{posts_key}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
     <view class='activity-particulars' catchtap='clickVote'>
       <image class='activity-particularsImg' src='{{item.conditions}}'></image>
       <view class='details-hits'>

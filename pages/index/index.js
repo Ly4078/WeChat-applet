@@ -1,4 +1,5 @@
-//index.js
+//index.js 
+import Api from '/../../utils/config/api.js';  //每个有请求的JS文件都要写这个，注意路径
 var postsData = require('/../../data/posts-data.js')
 const app = getApp()
 
@@ -12,10 +13,10 @@ Page({
     this.setData({
       posts_key: postsData.postList
     });
-    // this.getdata();
-    app.func.req('/user/list', {}, function (res) {
-      console.log(res)
-    }); 
+    this.getdata();
+    // app.func.req('/user/list', {}, function (res) {
+    //   console.log(res)
+    // }); 
   },
   onShow() {
     wx.getStorage({
@@ -37,6 +38,25 @@ Page({
         this.setData({
           city: res.data.result.address_component.city
         })
+        console.log(res)
+      }
+    })
+  },
+  getdata: function () { //new  新的请求方式
+    let that = this;
+    let _parms = {  //  _parms为要传回到后台的参数，使用key：value传值
+    //   status: this.data.activeIndex
+    }
+    // if (true) {  // 不同状态下选择传回不同的参数
+    //   _parms.sortby = 'release_time desc'
+    // } else {
+    //   _parms.sortby = 'create_time asc'
+    // }
+    Api.userlist(_parms).then((res) => {  //固定格式  userlist在utils/config/api.js中配置
+      if (res.data.code == 0 && res.data.data != null) { //如果返回数据正常（data.code =0 且 data.data不为空）
+        console.log(res)
+      }else {  //弹窗报告错误信息
+        res.data && res.data.msg && utils.toast("error", res.data.msg);
       }
     })
   },
@@ -55,11 +75,8 @@ Page({
   //     success: function (res) {
   //       console.log(res.data);//res.data相当于ajax里面的data,为后台返回的数据
   //       that.setData({//如果在sucess直接写this就变成了wx.request()的this了.必须为getdata函数的this,不然无法重置调用函数
-
-  //         logs: res.data.result
-
+  //       logs: res.data.result
   //       })
-
   //     },
   //     fail: function (err) { },//请求失败
   //     complete: function () { }//请求完成后执行的函数

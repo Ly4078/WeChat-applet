@@ -18,6 +18,16 @@ Page({
       }
     })
   },
+  enterEntrance:function(event){
+    wx.navigateTo({
+      url: 'free-of-charge/free-of-charge',
+    })
+  },
+  DynamicState:function(e){
+    wx.navigateTo({
+      url: 'allDynamicState/allDynamicState',
+    })
+  },
   myTickets:function(event){
     wx.navigateTo({
       url: 'my-discount/my-discount',

@@ -33,7 +33,7 @@
         </view>
       </view>
     </view>
-    <block wx:for="{{posts_key}}" wx:for-item="item" wx:for-index="idx">
+    <block wx:for="{{posts_key}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
       <view class='merchant-sub'>
         <view class='merchant-img-left'>
           <image class='merchant-images' src='{{item.sort_img}}'></image>

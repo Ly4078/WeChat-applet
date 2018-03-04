@@ -13,7 +13,13 @@ page {
   height: 424rpx;
 }
 
+.lbtupian{
+  width: 100%;
+}
 
+.lunbotu{
+  height: 306rpx;
+}
 .wrapImages {
   width: 148rpx;
   height: 70rpx;
