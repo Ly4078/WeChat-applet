@@ -31,6 +31,7 @@
   "tabBar":{
     "selectedColor": "#FF4411",
     "backgroundColor":"#FFFFFF",
+    "position":"button",
     "list":[{
         "selectedColor":"#FF4411",
         "pagePath":"pages/index/index",
