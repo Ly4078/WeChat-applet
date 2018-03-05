@@ -13,10 +13,7 @@ Page({
     this.setData({
       posts_key: postsData.postList
     });
-    this.getdata();
-    // app.func.req('/user/list', {}, function (res) {
-    //   console.log(res)
-    // }); 
+    this.getdata()
   },
   onShow() {
     wx.getStorage({
