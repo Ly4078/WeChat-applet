@@ -62,9 +62,10 @@
 </template>
 <!--推荐餐厅  -->
 <template name="postItemss">
-  <view id="green" class="scroll-view-item bc_green" data-postId="{{item.postId}}" catchtap='diningHhall'>
-    <image class='scroll-view-item-img' src='{{item.scrollTop}}'></image>
-    <view class='cate_site'>{{item.toView}}</view>
+  <view id="{{item.id}}" class="scroll-view-item bc_green" data-postId="{{item.id}}" catchtap='diningHhall' >
+    <!-- <image class='scroll-view-item-img' src='{{item.logoUrl}}'></image> -->
+    <image class='scroll-view-item-img' src='https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1975347470,2770072390&fm=27&gp=0.jpg'></image>
+    <view class='cate_site'>{{item.shopName}}</view>
   </view>
 </template>
 <!--美食墙 -->

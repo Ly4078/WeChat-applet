@@ -6,6 +6,17 @@ Page({
     positionArr: []
   },
   onLoad() {
+    console.log("onload")
+    wx.getLocation({
+      type: 'wgs84',
+      success: function (res) {
+        console.log("res11:",res)
+        var latitude = res.latitude
+        var longitude = res.longitude
+        var speed = res.speed
+        var accuracy = res.accuracy
+      }
+    })
     this.getLoaction();
   },
   anewPosition() {
@@ -15,9 +26,11 @@ Page({
     this.getLoaction();
   },
   getLoaction() {
+    console.log("loaction")
     wx.getLocation({
       type: 'wgs84',
       success: (res) => {
+        console.log("res",res)
         var latitude = res.latitude
         var longitude = res.longitude
         this.requestCityName(latitude, longitude);
@@ -31,6 +44,7 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success: (res) => {
+        console.log("res:",res)
         this.setData({
           currentSite: res.data.result.address
         })

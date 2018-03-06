@@ -6,21 +6,32 @@ const app = getApp()
 Page({
   data: {
     city: "武汉市",
+    business:[], //商家列表，推荐餐厅
     // object: '',
     logs: []
   },
   onLoad: function (options) {
+    wx.getLocation({  //获取当前的地理位置
+      type: 'wgs84',
+      success: (res) => {
+        var latitude = res.latitude
+        var longitude = res.longitude
+        this.requestCityName(latitude, longitude);
+      }
+    })
+    this.getdata()
     this.setData({
       posts_key: postsData.postList
     });
-    this.getdata()
+    
+    
   },
   onShow() {
     wx.getStorage({
       key: "address",
       success: (res) => {
         this.setData({
-          city: res.data
+          // city: res.data
         })
       }
     })
@@ -35,7 +46,6 @@ Page({
         this.setData({
           city: res.data.result.address_component.city
         })
-        console.log(res)
       }
     })
   },
@@ -49,12 +59,18 @@ Page({
     // } else {
     //   _parms.sortby = 'create_time asc'
     // }
-    Api.userlist(_parms).then((res) => {  //固定格式  userlist在utils/config/api.js中配置
-      if (res.data.code == 0 && res.data.data != null) { //如果返回数据正常（data.code =0 且 data.data不为空）
-        console.log(res)
-      }else {  //弹窗报告错误信息
-        res.data && res.data.msg && utils.toast("error", res.data.msg);
-      }
+    Api.shoptop(_parms).then((res) => {  //固定格式  shoptop在utils/config/api.js中配置
+
+    this.setData({
+      business: res.data.data
+    })
+    // console.log("business:",that.data.business)
+
+      // if (res.data.code == 0 && res.data.data != null) { //如果返回数据正常（data.code = 0 且 data.data不为空）
+      //   console.log(res)
+      // }else {  //弹窗报告错误信息
+      //   res.data && res.data.msg && utils.toast("error", res.data.msg);
+      // }
     })
   },
   // getdata: function () {//定义函数名称
@@ -133,8 +149,9 @@ Page({
     })
   },
   diningHhall: function (event) {
-    wx.navigateTo({
-      url: 'merchant-particulars/merchant-particulars',
+    const stopid = event.currentTarget.id
+    wx.navigateTo({  // 页面传参
+      url: 'merchant-particulars/merchant-particulars?stopid=' + stopid
     })
   },
   cateWall: function (event) {

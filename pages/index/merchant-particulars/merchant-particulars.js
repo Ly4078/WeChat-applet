@@ -1,14 +1,20 @@
 var postsData = require('/../../../data/store-particulars.js')
+import Api from '/../../../utils/config/api.js';  //每个有请求的JS文件都要写这个，注意路径
 var app = getApp()
 Page({
   data: {
     navbar: ['主页', '动态'],
+    stopid:'',  //商家ID
+    store_details:[],  //店铺详情
     currentTab: 0
   },
   onLoad: function (options) {
     this.setData({
-      posts_key: postsData.postList
+      posts_key: postsData.postList,
+      stopid: options.stopid  
     });
+    this.getstoredata();
+    console.log("stopid:",this.data.stopid)
     // 分享功能
     wx.showShareMenu({
       withShareTicket: true,
@@ -22,6 +28,19 @@ Page({
         console.log(res)
       }
     });
+  },
+  getstoredata(){  //获取店铺详情数据
+    console.log("id:",this.data.stopid)
+    let _parms = {
+      id: this.data.stopid
+    }
+    console.log(_parms)
+    Api.shopget(_parms).then((res) => { 
+      console.log("shopget res:",res)
+      this.setData({
+        // store_details: res.data.data.list
+      })
+    })
   },
   liuynChange: function (e) {
     var that = this;

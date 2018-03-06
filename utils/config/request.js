@@ -86,7 +86,7 @@ function MyHttp(defaultParams, ALL_API) {
     let _config = ALL_API[actionName];
 
     resource[actionName] = (pdata) => {
-      let _params_data = extend({ token: myStore.get(myStore.staticName.USER_TOKEN)}, defaultParams, pdata);
+      let _params_data = extend( defaultParams, pdata);
       return sendRrquest(_build_url + _config.url, _config.method, _params_data, {
         'content-type': 'application/x-www-form-urlencoded'
       });
