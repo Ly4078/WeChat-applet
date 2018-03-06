@@ -13,13 +13,12 @@ Page({
       actid:options.actid
     });
     getactdetails()
-    // console.log(this.data.actid)
+    console.log(this.data.actid)
     // var postsCollected = wx.getStorageSync(postsCollected)
   },
   getactdetails(){  //获取单个活动详情
     let _parms = {
       id:this.data.actid
     }
-    Api.
   }
 })

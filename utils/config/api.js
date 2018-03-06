@@ -26,6 +26,10 @@ const ALL_API = {
   actget: {   //分页查询活动列表
     method: 'GET',
     url: 'act/get'
+  },
+  actget: {   //单个图片上传
+    method: 'POST',
+    url: 'img/upload'
   }
 }
 
