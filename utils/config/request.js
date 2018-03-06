@@ -10,7 +10,6 @@ var deepCopy = function (o) {
       n[i] = deepCopy(o[i]);
     }
     return n;
-
   } else if (o instanceof Object) {
     var n = {}
     for (var i in o) {

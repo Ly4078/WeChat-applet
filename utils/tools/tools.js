@@ -10,17 +10,8 @@ class Tool {
 
   }
 
-  getImgPath(value) {
-    if (typeof (value) != undefined && value && (value.indexOf("http") != 0 && value.indexOf("//") != 0)) {
-      return config.imgbaseurl + value;
-    } else if (value && 0 == value.indexOf("http") && value.indexOf("www.huaaotech.date") > 0) {
-      value = value.replace("www.huaaotech.date", config.domain);
-    } else if (value && 0 == value.indexOf("http") && value.indexOf("www.huaaotech.tech") > 0) {
-      value = value.replace("www.huaaotech.tech", config.domain);
-    }
+
   
-    return value;
-  }
 
   findUserByToken(isRefresh) {
     let _user = myStore.get(myStore.staticName.USER_INFO);

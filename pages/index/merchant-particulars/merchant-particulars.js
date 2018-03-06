@@ -1,5 +1,6 @@
 var postsData = require('/../../../data/store-particulars.js')
 import Api from '/../../../utils/config/api.js';  //每个有请求的JS文件都要写这个，注意路径
+import { GLOBAL_API_DOMAIN } from '/../../../utils/config/config.js';
 var app = getApp()
 Page({
   data: {
@@ -14,14 +15,13 @@ Page({
       stopid: options.stopid  
     });
     this.getstoredata();
-    console.log("stopid:",this.data.stopid)
     // 分享功能
     wx.showShareMenu({
       withShareTicket: true,
       success: function (res) {
         // 分享成功
-        console.log('shareMenu share success')
-        console.log(res)
+        // console.log('shareMenu share success')
+        // console.log(res)
       },
       fail: function (res) {
         // 分享失败
@@ -29,17 +29,16 @@ Page({
       }
     });
   },
-  getstoredata(){  //获取店铺详情数据
-    console.log("id:",this.data.stopid)
-    let _parms = {
-      id: this.data.stopid
-    }
-    console.log(_parms)
-    Api.shopget(_parms).then((res) => { 
-      console.log("shopget res:",res)
-      this.setData({
-        // store_details: res.data.data.list
+  getstoredata(){  //获取店铺详情数据   带值传参示例
+    let id = this.data.stopid;
+    let _build_url = GLOBAL_API_DOMAIN;
+    wx.request({
+      url: _build_url + 'shop/get/' + id, 
+      success: function (res) {
+        this.setData({
+        store_details: res.data.data.list
       })
+      }
     })
   },
   liuynChange: function (e) {

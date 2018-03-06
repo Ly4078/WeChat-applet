@@ -12,11 +12,9 @@ Page({
     });
     let _parms = {}
     Api.actlist(_parms).then((res) => {
-      console.log(res)  
       this.setData({
         actdata: res.data.data.list
       })
-      console.log("actdata:", this.data.actdata)
     })
 
   },

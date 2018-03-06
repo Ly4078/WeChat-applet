@@ -20,11 +20,6 @@ Page({
       }
     })
     this.getdata()
-    this.setData({
-      posts_key: postsData.postList
-    });
-    
-    
   },
   onShow() {
     wx.getStorage({
@@ -59,7 +54,7 @@ Page({
     // } else {
     //   _parms.sortby = 'create_time asc'
     // }
-    Api.shoptop(_parms).then((res) => {  //固定格式  shoptop在utils/config/api.js中配置
+    Api.shoptop().then((res) => {  //固定格式  shoptop在utils/config/api.js中配置
 
     this.setData({
       business: res.data.data
