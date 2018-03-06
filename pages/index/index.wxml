@@ -59,7 +59,7 @@
   <!--热门活动  -->
   <view class='scroll_box'>
     <scroll-view scroll-x="true" class='scroll_activity'>
-      <block wx:for="{{posts_key}}" wx:key="{{index}}">
+      <block wx:for="{{actlist}}" wx:key="{{index}}">
         <template is="hotActivityss" data="{{item}}" />
       </block>
     </scroll-view>
@@ -69,7 +69,7 @@
   <!--趣享直播  -->
   <view class='scroll_box'>
     <scroll-view scroll-x="true" class='scroll_anchor'>
-      <block wx:for="{{posts_key}}" wx:key="{{index}}">
+      <block wx:for="{{hotlive}}" wx:key="{{index}}">
         <template is="liveStreamingss" data="{{item}}" />
       </block>
     </scroll-view>

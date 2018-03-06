@@ -1,9 +1,10 @@
 var postsData = require('/../../../data/store-particulars.js')
-import Api from '/../../../utils/config/api.js';  //每个有请求的JS文件都要写这个，注意路径
+import Api from '/../../../utils/config/api.js';  
 import { GLOBAL_API_DOMAIN } from '/../../../utils/config/config.js';
 var app = getApp()
 Page({
   data: {
+    _build_url: GLOBAL_API_DOMAIN,
     navbar: ['主页', '动态'],
     stopid:'',  //商家ID
     store_details:[],  //店铺详情
@@ -31,13 +32,12 @@ Page({
   },
   getstoredata(){  //获取店铺详情数据   带值传参示例
     let id = this.data.stopid;
-    let _build_url = GLOBAL_API_DOMAIN;
     wx.request({
-      url: _build_url + 'shop/get/' + id, 
+      url: this.data._build_url + 'shop/get/' + id, 
       success: function (res) {
-        this.setData({
-        store_details: res.data.data.list
-      })
+        // this.setData({
+        //   store_details: res.data.data.list
+        // })
       }
     })
   },

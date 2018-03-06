@@ -23,6 +23,10 @@ const ALL_API = {
     method: 'GET',
     url: 'act/list'
   },
+  acttop: {   //热门活动列表
+    method: 'GET',
+    url: 'act/top'
+  },
   actget: {   //根据id查询一条活动信息
     method: 'GET',
     url: 'act/get'

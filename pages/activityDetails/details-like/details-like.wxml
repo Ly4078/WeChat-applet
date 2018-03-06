@@ -33,7 +33,8 @@
         </view>
       </view>
     </view>
-    <block wx:for="{{posts_key}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
+    <!-- posts_key -->
+    <block wx:for="{{actlist}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
       <view class='merchant-sub'>
         <view class='merchant-img-left'>
           <image class='merchant-images' src='{{item.sort_img}}'></image>
@@ -41,7 +42,7 @@
         </view>
         <view class='merchant-img-right'>
           <view class='merchant-right-wrap'>
-            <text class='merchant-right-text'>{{item.sort_name}}</text>
+            <text class='merchant-right-text'>{{item.actName}}</text>
             <view class='merchant-total'>
               <text class='merchant-right-number'>{{item.sort_digit}}</text>
               <text class='merchant-right-piao'>票</text>

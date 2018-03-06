@@ -1,13 +1,16 @@
 //index.js 
-import Api from '/../../utils/config/api.js';  //每个有请求的JS文件都要写这个，注意路径
+import Api from '/../../utils/config/api.js'; 
+import { GLOBAL_API_DOMAIN } from '/../../utils/config/config.js';
 var postsData = require('/../../data/posts-data.js')
 const app = getApp()
 
 Page({
   data: {
+    _build_url: GLOBAL_API_DOMAIN,
     city: "武汉市",
     business:[], //商家列表，推荐餐厅
-    // object: '',
+    actlist:[],  //热门活动
+    hotlive:[],  //热门直播
     logs: []
   },
   onLoad: function (options) {
@@ -19,7 +22,9 @@ Page({
         this.requestCityName(latitude, longitude);
       }
     })
-    this.getdata()
+    this.getdata();
+    this.getactlist();
+    this.gethotlive();
   },
   onShow() {
     wx.getStorage({
@@ -44,52 +49,33 @@ Page({
       }
     })
   },
-  getdata: function () { //new  新的请求方式
-    let that = this;
-    let _parms = {  //  _parms为要传回到后台的参数，使用key：value传值
-    //   status: this.data.activeIndex
-    }
-    // if (true) {  // 不同状态下选择传回不同的参数
-    //   _parms.sortby = 'release_time desc'
-    // } else {
-    //   _parms.sortby = 'create_time asc'
-    // }
-    Api.shoptop().then((res) => {  //固定格式  shoptop在utils/config/api.js中配置
-
+  getdata: function () { // 获取推荐餐厅数据
+    Api.shoptop().then((res) => { 
     this.setData({
-      business: res.data.data
+        business: res.data.data
+      })
     })
-    // console.log("business:",that.data.business)
-
-      // if (res.data.code == 0 && res.data.data != null) { //如果返回数据正常（data.code = 0 且 data.data不为空）
-      //   console.log(res)
-      // }else {  //弹窗报告错误信息
-      //   res.data && res.data.msg && utils.toast("error", res.data.msg);
-      // }
+  }, 
+  getactlist(){  //获取热门活动数据
+    Api.actlist().then((res) => {
+      // console.log("actlist:",res)
+      this.setData({
+        actlist: res.data.data.list
+      })
     })
   },
-  // getdata: function () {//定义函数名称
-  //   var that = this;   // 这个地方非常重要，重置data{}里数据时候setData方法的this应为以及函数的this, 如果在下方的sucess直接写this就变成了wx.request()的this了
-  //   wx.request({
-  //     url: 'http://www.hbxq001.cn/user/list',//请求地址
-  //     data: {//发送给后台的数据
-  //       "code": 0,
-  //       "message": "success",
-  //     },
-  //     header: {//请求头
-  //       "Content-Type": "applciation/json"
-  //     },
-  //     method: "GET",//get为默认方法/POST
-  //     success: function (res) {
-  //       console.log(res.data);//res.data相当于ajax里面的data,为后台返回的数据
-  //       that.setData({//如果在sucess直接写this就变成了wx.request()的this了.必须为getdata函数的this,不然无法重置调用函数
-  //       logs: res.data.result
-  //       })
-  //     },
-  //     fail: function (err) { },//请求失败
-  //     complete: function () { }//请求完成后执行的函数
-  //   })
-  // },
+  gethotlive(){  //获取热门直播数据 
+    let that = this;
+    wx.request({
+      url: that.data._build_url + 'zb/top/',
+      success: function (res) {
+        console.log("hotlive:",res)
+        that.setData({
+          hotlive: res.data.data
+        })
+      }
+    })
+  },
   // 用户定位
   userLocation: function () {
     wx.navigateTo({

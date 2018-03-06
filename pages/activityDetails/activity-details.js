@@ -11,9 +11,10 @@ Page({
       // posts_key: postsData.postList
     });
     let _parms = {}
-    Api.actlist(_parms).then((res) => {
+    Api.acttop(_parms).then((res) => {
+      console.log(res)
       this.setData({
-        actdata: res.data.data.list
+        actdata: res.data.data
       })
     })
 

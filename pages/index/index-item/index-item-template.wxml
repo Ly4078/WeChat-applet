@@ -120,7 +120,7 @@
 <!--热门活动  -->
 <template name="hotActivityss">
   <view class="preferential" catchtap='detailOfTheActivity'>
-    <image class='preferential_img' src='{{item.activity_raph}}'></image>
+    <image class='preferential_img' src='{{item.actUrl}}'></image>
   </view>
 </template>
 
@@ -133,7 +133,7 @@
     </view>
     <view class='djevenMore'>
       <view class='recommend_right'>查看更多</view>
-      <image class='recommend_more' src='/images/icon/home_arrow.png'></image>
+      <image class='recommend_more' src='{{item.mainPicUrl}}'></image>
     </view>
   </view>
 </template>
