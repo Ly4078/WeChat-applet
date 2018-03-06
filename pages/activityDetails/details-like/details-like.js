@@ -1,7 +1,8 @@
 var postsData = require('/../../../data/activity-data.js')
 Page({
   data: {
-    actid:''  //活动ID
+    actid:'',  //活动ID
+    actdetail:[]
   },
 
   onLoad: function (options) {
@@ -11,8 +12,14 @@ Page({
       posts_key: postsData.postList,
       actid:options.actid
     });
-    console.log(this.data.actid)
+    getactdetails()
+    // console.log(this.data.actid)
     // var postsCollected = wx.getStorageSync(postsCollected)
   },
-
+  getactdetails(){  //获取单个活动详情
+    let _parms = {
+      id:this.data.actid
+    }
+    Api.
+  }
 })
