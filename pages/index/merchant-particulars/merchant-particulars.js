@@ -1,19 +1,19 @@
 var postsData = require('/../../../data/store-particulars.js')
-import Api from '/../../../utils/config/api.js';  
+import Api from '/../../../utils/config/api.js';  //每个有请求的JS文件都要写这个，注意路径
 import { GLOBAL_API_DOMAIN } from '/../../../utils/config/config.js';
 var app = getApp()
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
     navbar: ['主页', '动态'],
-    stopid:'',  //商家ID
-    store_details:[],  //店铺详情
+    shopid:'',  //商家ID
+    store_details: {},  //店铺详情
     currentTab: 0
   },
   onLoad: function (options) {
     this.setData({
       posts_key: postsData.postList,
-      stopid: options.stopid  
+      shopid: options.shopid  
     });
     this.getstoredata();
     // 分享功能
@@ -31,13 +31,15 @@ Page({
     });
   },
   getstoredata(){  //获取店铺详情数据   带值传参示例
-    let id = this.data.stopid;
+    let id = this.data.shopid;
+    let that = this;
     wx.request({
-      url: this.data._build_url + 'shop/get/' + id, 
+      url: that.data._build_url + 'shop/get/' + id, 
       success: function (res) {
-        // this.setData({
-        //   store_details: res.data.data.list
-        // })
+        console.log(res.data.data);
+        that.setData({
+          store_details: res.data.data
+        })
       }
     })
   },
@@ -72,8 +74,9 @@ Page({
   },
   // 电话号码功能
   calling: function () {
+    let that = this;
     wx.makePhoneCall({
-      phoneNumber: '15827245422', //此号码并非真实电话号码，仅用于测试
+      phoneNumber: that.data.store_details.mobile, //此号码并非真实电话号码，仅用于测试
       success: function () {
         console.log("拨打电话成功！")
       },
@@ -108,6 +111,6 @@ Page({
     this.setData({
       currentTab: e.currentTarget.dataset.idx
     })
-  },
+  }
   
 }) 

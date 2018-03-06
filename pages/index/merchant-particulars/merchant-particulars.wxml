@@ -6,21 +6,21 @@
   <view>
     <view class='shop-z-Wrap'>
       <view class='shop-left-wrap'>
-        <image class='detailsName-img' src='{{posts_key[0].store_img2}}'></image>
+        <image class='detailsName-img' src='{{store_details.logo_url}}'></image>
         <view class='detailsName-genre'>
-          <text class='details-Name'>{{posts_key[0].store_name}}</text>
-          <text class='details-form'>{{posts_key[0].store_from}}</text>
+          <text class='details-Name'>{{store_details.shopName}}</text>
+          <text class='details-form'>{{store_details.shopInfo}}</text>
         </view>
       </view>
       <view class='popularityCollect'>
-        <text class='popularity'>{{posts_key[0].store_number}}人气</text>
+        <text class='popularity'>{{store_details.popNum}}人气</text>
         <text class='collect'>收藏</text>
       </view>
     </view>
   </view>
   <view class='locationWrap'>
     <image class='location-left' src='/images/icon/location.png'></image>
-    <text class='location-text' catchtap='TencentMap'>{{posts_key[0].store_site}}</text>
+    <text class='location-text' catchtap='TencentMap'>{{store_details.address}}</text>
     <text class='cut-off0-rule'></text>
     <image class='location-right' bindtap="calling" src='/images/icon/telephone.png'></image>
   </view>
