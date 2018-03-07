@@ -1,23 +1,23 @@
 <view>
-  <image class='particulars-images' src='{{posts_key[0].activity_img}}'></image>
+  <image class='particulars-images' src='{{actdetail.mainPic}}'></image>
   <view class='particulars-ed'>
     <view class='particulars-option'>
       <view class='particulars-warp'>
         <text class='particulars-text'>参与选手</text>
-        <text class='particulars-digit'>{{posts_key[0].activity_player}}</text>
+        <text class='particulars-digit'>{{actdetail.voteNum}}</text>
       </view>
       <view class='particulars-warp'>
         <text class='particulars-text'>累计投票</text>
-        <text class='particulars-digit'>{{posts_key[0].activity_addup}}</text>
+        <text class='particulars-digit'>{{actdetail.shopNum}}</text>
       </view>
       <view class='particulars-warp'>
         <text class='particulars-text'>访问人数</text>
-        <text class='particulars-digit'>{{posts_key[0].activity_visit}}</text>
+        <text class='particulars-digit'>{{actdetail.viewNum}}</text>
       </view>
     </view>
     <view class='end-time'>
       <image class='end-images' src='/images/icon/xingzhuang_w.png'></image>
-      <text>距离此活动结束还有<text class='timeFate'>{{posts_key[0].activity_timeLimit}}</text>天</text>
+      <text>距离此活动结束还有<text class='timeFate'>{{actdetail[0].activity_timeLimit}}</text>天</text>
     </view>
     <view class='end-button'>
       <text class='end-activity'>活动详情</text>

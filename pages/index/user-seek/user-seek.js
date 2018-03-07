@@ -1,12 +1,75 @@
-//index.js
-var postsData = require('/../../../data/posts-data.js') 
-var app = getApp()
+var postsData = require('/../../../data/posts-data.js');
+import Api from '/../../../utils/config/api.js'; 
+var app = getApp();
 Page({
   data: {
     selectHide: false,
     inputValue: '',
     getSearch: [],
+    busarr:[],
+    historyarr:[],
+    storename:'',
+    _is:true,
     modalHidden: true
+  },
+  onReady: function(){  //页面渲染完成   每次进行都会执行一次
+    let that = this;
+    wx.getStorage({
+      key: 'his',
+      success: function (res) {
+        let _his = res.data;
+        let _arr = [];
+        if (_his){
+          _arr = _his.split(',');
+          that.setData({
+            historyarr:_arr
+          })
+        }
+      }
+    })
+  },
+  selectAddress(){  //点击搜索按钮
+    let that = this;
+    let _value = this.data.storename;
+    that.data.historyarr.push(_value);
+    let  _str = that.data.historyarr.join(',');
+    wx.setStorage({
+      key: "his",
+      data: _str
+    })
+    if(_value){
+      let _parms = {
+        shopName: _value
+      }
+      Api.shoplist(_parms).then((res) => {
+        that.backHomepage();
+        that.setData({
+          busarr: res.data.data.list
+        })
+      })
+    }
+  },
+  searchbusiness(e){  //实时获取输入框的值
+    this.setData({
+      storename: e.detail.value
+    })
+  },
+  backHomepage: function () {  //取消  清空输入框
+    this.setData({
+      storename: ''
+    })
+  },
+  onTouchItem: function (event) {
+    var shopid = event.currentTarget.id
+    wx.navigateTo({
+      url: '../merchant-particulars/merchant-particulars?shopid=' + shopid,
+    })
+  },
+  diningRoomList(e){
+    let shopid = currentTarget.id;
+    wx.navigateTo({
+      url: '../merchant-particulars/merchant-particulars?shopid=' + shopid,
+    })
   },
   bindInput: function (e) {
     this.setData({
@@ -40,7 +103,6 @@ Page({
       url: '../search/search'
     })
     // this.onLoad();
-
   },
   modalChangeCancel: function () {
     this.setData({
@@ -53,30 +115,41 @@ Page({
     })
     // this.onLoad();
   },
-  backHomepage:function(event){
-    wx: wx.redirectTo({
-      url: 'index/index',
-      success: function (res) { },
-      fail: function (res) { },
-      complete: function (res) { },
-    })
-  },
-  sweepAway: function (event) {
+  sweepAway: function (event) {   //点击清除
+    let that = this;
+    let _len = this.data.busarr.length;
+    let _font ='历史记录';
+    if (_len == 0){
+      _font = '历史记录'
+    }else{
+      _font = '商家列表'
+    }
     wx.showModal({
       title: '温馨提示',
-      content: '确定要删除历史记录?',
+      content: '确定要清除'+_font+'?',
       success: function (res) {
         if (res.confirm) {
-          console.log('用户点击确定')
+          if(_len ==0){
+            let _arr = [];
+            that.setData({
+              historyarr: _arr
+            })
+            wx.setStorage({
+              key: "his",
+              data: ''
+            })
+          }else{
+            that.setData({
+              busarr: []
+            })
+          }
         } else {
-          console.log('用户点击取消')
+          console.log('用户点击取消');
         }
-
       }
     })
   },
   onLoad: function () {
-    console.log('search is onLoad');
     // 历史记录更新
     this.setData({
       Key_data: postsData.postList
@@ -88,7 +161,6 @@ Page({
       getSearch: getSearch,
       inputValue: ''
     })
-    console.log('search is onshow')
   },
   onHide: function () {
     console.log('search is onHide')

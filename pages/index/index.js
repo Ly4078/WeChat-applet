@@ -7,38 +7,55 @@ const app = getApp()
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
-    city: "武汉市",
+    city: "",
+    carousel:[],  //轮播图
     business:[], //商家列表，推荐餐厅
     actlist:[],  //热门活动
     hotlive:[],  //热门直播
+    food:[],   //美食墙
     logs: []
   },
   onLoad: function (options) {
+    let lat= '', lng= '';  //lat纬度   lng经度
     wx.getLocation({  //获取当前的地理位置
       type: 'wgs84',
       success: (res) => {
-        var latitude = res.latitude
-        var longitude = res.longitude
-        this.requestCityName(latitude, longitude);
+        var lat = res.latitude
+        var lng = res.longitude
+        this.requestCityName(lat, lng);
       }
     })
+    this.getcarousel();
     this.getdata();
     this.getactlist();
     this.gethotlive();
+    this.gettopic();
+
   },
   onShow() {
+    let lat = '', lng = '';  //lat纬度   lng经度
     wx.getStorage({
-      key: "address",
-      success: (res) => {
-        this.setData({
-          // city: res.data
-        })
+      key: 'lat',
+      success: function (res) {
+        lat = res.data;
       }
     })
+    wx.getStorage({
+      key: 'lng',
+      success: function (res) {
+        lng = res.data;
+      }
+    })
+    let that = this;
+    setTimeout(function(){
+      if(lat && lng){
+        that.requestCityName(lat, lng)
+      }
+    },500)
   },
-  requestCityName(latitude, longitude) {//获取当前城市
+  requestCityName(lat, lng) {//获取当前城市
     wx.request({
-      url: 'http://apis.map.qq.com/ws/geocoder/v1/?location=' + latitude + "," + longitude + "&key=4YFBZ-K7JH6-OYOS4-EIJ27-K473E-EUBV7",
+      url: 'http://apis.map.qq.com/ws/geocoder/v1/?location=' + lat + "," + lng + "&key=4YFBZ-K7JH6-OYOS4-EIJ27-K473E-EUBV7",
       header: {
         'content-type': 'application/json' // 默认值
       },
@@ -49,16 +66,34 @@ Page({
       }
     })
   },
+  getcarousel: function () {  //轮播图
+    let that = this;
+    Api.hcllist().then((res) => {
+      // console.log("carousel:",res.data.data)
+      this.setData({
+        carousel: res.data.data
+      })
+    })
+  },
   getdata: function () { // 获取推荐餐厅数据
     Api.shoptop().then((res) => { 
+      // console.log("businss:",res.data.data)
     this.setData({
         business: res.data.data
       })
     })
   }, 
+  gettopic:function(){  // 美食墙
+    Api.topiclist().then((res) => {
+      // console.log("food:",res.data.data.list)
+      this.setData({
+        food: res.data.data.list
+      })
+    })
+  },
   getactlist(){  //获取热门活动数据
     Api.actlist().then((res) => {
-      // console.log("actlist:",res)
+      // console.log("actlist:",res.data.data.list)
       this.setData({
         actlist: res.data.data.list
       })
@@ -69,7 +104,7 @@ Page({
     wx.request({
       url: that.data._build_url + 'zb/top/',
       success: function (res) {
-        // console.log("hotlive:",res)
+        // console.log("hotlive:",res.data.data)
         that.setData({
           hotlive: res.data.data
         })

@@ -1,5 +1,3 @@
-// 本文件为配置文件，保持现状，
-
 import { GLOBAL_API_DOMAIN } from './config.js';
 import { myStore } from '../tools/store';
 
@@ -10,6 +8,7 @@ var deepCopy = function (o) {
       n[i] = deepCopy(o[i]);
     }
     return n;
+
   } else if (o instanceof Object) {
     var n = {}
     for (var i in o) {
@@ -85,9 +84,9 @@ function MyHttp(defaultParams, ALL_API) {
     let _config = ALL_API[actionName];
 
     resource[actionName] = (pdata) => {
-      let _params_data = extend( defaultParams, pdata);
+      let _params_data = extend(defaultParams, pdata);
       return sendRrquest(_build_url + _config.url, _config.method, _params_data, {
-        'content-type': 'application/x-www-form-urlencoded'
+        'content-type': 'application/x-www-form-urlencoded;charset=utf-8;Authorization'
       });
     }
   }
