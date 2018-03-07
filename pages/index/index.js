@@ -69,7 +69,7 @@ Page({
     wx.request({
       url: that.data._build_url + 'zb/top/',
       success: function (res) {
-        console.log("hotlive:",res)
+        // console.log("hotlive:",res)
         that.setData({
           hotlive: res.data.data
         })
