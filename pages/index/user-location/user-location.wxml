@@ -11,7 +11,7 @@
 <view>
   <view class="title">搜索地址</view>
   <block wx:for="{{resultPosition}}" wx:key="key">
-    <view class="result-address" bindtap="selectAddress" data-title="{{item.title}}">
+    <view class="result-address" id='{{item.id}}' data-postId="{{item.id}}" bindtap="selectAddress" data-title="{{item.title}}">
       <view class="addressTitle">{{item.title}}</view>
       <view class="addressDetail">{{item.address}}</view>
     </view>

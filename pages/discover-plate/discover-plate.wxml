@@ -9,14 +9,14 @@
 
   <view class='scroll_box'>
     <scroll-view scroll-x="true" class='scroll_anchor'>
-      <block wx:for="{{posts_key}}" wx:key="{{index}}">
+      <block wx:for="{{hotlive}}" wx:key="{{index}}">
         <view id="green" class="anchor bc_green">
-          <image class='anchor_img' src='{{item.activity_img}}'></image>
+          <image class='anchor_img' src='{{item.mainPicUrl}}'></image>
           <image class='live-Images' src='/images/icon/dot_mos.png'></image>
-          <text class='on-line'>{{item.activity_player}}</text>
+          <text class='on-line'>{{item.clickNum}}</text>
           <view class='cate_site'>
-            <text class='live-streaming'>{{item.sort_name}}</text>
-            <text class='live-name'>{{item.sort_digit}}</text>
+            <text class='live-streaming'>{{item.title}}</text>
+            <text class='live-name'>{{item.summary}}</text>
           </view>
         </view>
       </block>

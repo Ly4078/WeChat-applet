@@ -11,7 +11,7 @@ const ALL_API = {
     method: 'GET',
     url: 'shop/top'
   },
-  shoplist: {   //分页查询商家列表信息
+  shoplist: {   //根据条件查询商家列表信息， 分页查询商家列表信息
     method: 'GET',
     url: 'shop/list'
   },
@@ -26,6 +26,14 @@ const ALL_API = {
   acttop: {   //热门活动列表
     method: 'GET',
     url: 'act/top'
+  },
+  hcllist:{  //首页轮播图
+    method:'GET',
+    url:'hcl/list'
+  },
+  topiclist: {   //主题列表  美食墙
+    method: 'GET',
+    url: 'topic/list'
   },
   actget: {   //根据id查询一条活动信息
     method: 'GET',

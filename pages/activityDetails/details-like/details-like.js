@@ -19,28 +19,49 @@ Page({
     // var postsCollected = wx.getStorageSync(postsCollected)
   },
   getactdetails(){  //获取单个活动详情
-    let id = this.data.actid;
-    wx.request({
-      url: this.data._build_url + 'act/get/' + id,
+    let userid = '',username='';
+    let that = this;
+    wx.getStorage({
+      key: 'userid',
       success: function (res) {
-        console.log("res:",res)
-        // this.setData({
-        //   store_details: res.data.data.list
-        // })
+        userid =res.data;
       }
+    })
+    wx.getStorage({
+      key: 'username',
+      success: function (res) {
+        username = res.data;
+      }
+    })
+   
+    let _parms = {
+      id:this.data.actid,
+      userId: userid,
+      userName: username,
+      sourceType:'1'
+    }
+    Api.actlist(_parms).then((res) => {
+      this.setData({
+        actdetail: res.data
+      })
     })
   },
   getactlist(){  //获取活动列表
     let that = this;
     wx.request({
       url: this.data._build_url + 'act/list/',
+      header: {
+        'content-type': 'application/json;Authorization' 
+      },
       success: function (res) {
-        console.log("resactlist:", res)
         that.setData({
           actlist: res.data.data.list
         })
       }
     })
-    console.log(this.actlist)
   }
+    
+   
+    
+  
 })

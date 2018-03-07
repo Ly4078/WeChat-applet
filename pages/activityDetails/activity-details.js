@@ -7,17 +7,16 @@ Page({
   },
 
   onLoad: function (options) {
+    let that = this;
     this.setData({
       // posts_key: postsData.postList
     });
     let _parms = {}
     Api.acttop(_parms).then((res) => {
-      console.log(res)
-      this.setData({
+      that.setData({
         actdata: res.data.data
       })
     })
-
   },
   clickVote:function(event){
     const actid = event.currentTarget.id

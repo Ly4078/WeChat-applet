@@ -1,6 +1,7 @@
 {
   "pages":[
     "pages/index/index",
+    "pages/index/search/search",
     "pages/personal-center/free-of-charge/free-of-charge",
     "pages/personal-center/allDynamicState/allDynamicState",
     "pages/index/merchant-particulars/merchant-particulars",

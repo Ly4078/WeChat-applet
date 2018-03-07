@@ -39,6 +39,9 @@ Page({
     let that = this;
     wx.request({
       url: that.data._build_url + 'shop/get/' + id, 
+      header: {
+        'content-type': 'application/json;Authorization' 
+      },
       success: function (res) {
         console.log(res.data.data);
         that.setData({

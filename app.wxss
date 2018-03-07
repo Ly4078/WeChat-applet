@@ -25,7 +25,7 @@
 .searchcion {
   margin: 10rpx 10rpx 10rpx 10rpx;
   position: absolute;
-  left: 8%;
+  /* left: 8%; */
   z-index: 2;
   width: 20px;
   height: 20px;
@@ -50,3 +50,209 @@
   letter-spacing: 4rpx;
 }
 
+/*  */
+ .search_arr {
+  width: 75%;
+}
+
+.search {
+  /* justify-content: space-around; */
+  flex-direction: row;
+}
+
+.search_arr input{
+  margin-left: 94rpx;
+}
+
+.searchcion {
+  /* left: 8%; */
+}
+.foo{width: 100%;height: 100%;display: block; padding: 0 30rpx;}
+.user-cancel{
+  float: right;
+  width: 130rpx;
+  height: 80rpx;
+  color: white;
+  font-size: 15px;
+  padding-left: 22rpx; 
+  margin-top:-70rpx;
+  background: none;
+  border: none;
+}
+
+.clearFileHistoryWarp{
+  width: 100%;
+  height: 110rpx;
+  display: flex;
+  font-size: 15px;
+}
+
+.record{
+  width: 50%;
+  height: 110rpx;
+  line-height: 110rpx;
+  padding-left: 40rpx;
+}
+
+.clearFileHistory{
+  width: 50%;
+  height: 110rpx;
+  text-align: right;
+  line-height: 110rpx;
+  padding-right: 40rpx;
+  color: #FC5E2D;
+}
+
+.record_rwap{
+  width: 86%;
+  margin-left: 32rpx;
+  overflow: hidden;
+}
+
+.record_text{
+  background: #F7F7F7;
+  font-size: 13px;
+  clear: #555555;
+  float: left;
+  margin: 10rpx;
+  text-align: center;
+  line-height: 70rpx;
+}
+
+.record_text_xw{
+  padding: 0rpx 19rpx;
+}
+.shopWrap {
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.navigationPractical {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  height: 200rpx;
+  padding-top: 10rpx;
+}
+
+.practical_left {
+  width: 35%;
+  height: 200rpx;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+
+.practical_left {
+  width: 35%;
+  height: 200rpx;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.practical_right {
+  width: 65%;
+  height: auto;
+  border-bottom: 1px dotted #e0e0e0;
+  line-height: 55rpx;
+}
+
+.elsk{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.trade_name {
+  font-size: 16px;
+  margin-top: 20rpx;
+}
+
+.dq_popularity {
+  width: 33rpx;
+  height: 33rpx;
+  display: inline-block;
+  vertical-align: middle;
+  padding-right: 10rpx;
+}
+
+.trade_rq {
+  font-size: 13px;
+  color: #fc5e2d;
+  display: inline-block;
+  vertical-align: middle;
+  padding-top: 4rpx;
+}
+
+.trade_site_distance {
+  display: block;
+  color: #808080;
+  font-size: 13px;
+  word-spacing: 7rpx;
+  font-weight: 600;
+}
+
+.trade_caim{
+  display: block;
+}
+
+.trade_site_lxg {
+  padding: 0rpx 30rpx 0rpx 0rpx;
+}
+
+.navigationButtom {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+.navigationKb_left {
+  width: 35%;
+}
+
+.navigationKb_right {
+  width: 65%;
+  padding-bottom: 20rpx;
+}
+
+.navigationKb_Wrapp {
+  display: block;
+}
+
+.navigationKb_img {
+  width: 28rpx;
+  height: 28rpx;
+  vertical-align: middle;
+  padding-right: 10rpx;
+}
+
+.navigationKb_text {
+  font-size: 13px;
+  color: #808080;
+}
+
+.navigationKb_Wrapp {
+  display: block;
+}
+
+.navigationKb_text {
+  font-size: 13px;
+  color: #808080;
+}
+
+.navigationKb_Wrapp {
+  display: block;
+}
+
+.navigationKb_img {
+  width: 28rpx;
+  height: 28rpx;
+  vertical-align: middle;
+  padding-right: 10rpx;
+}
+
+.navigationKb_text {
+  font-size: 13px;
+  color: #808080;
+}

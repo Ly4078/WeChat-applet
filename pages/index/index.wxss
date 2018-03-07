@@ -306,6 +306,7 @@ page {
 }
 
 .search_arr {
+  width: 90%;
   background-color: white;
   border-radius: 10rpx;
 }
@@ -329,7 +330,7 @@ page {
 .searchcion {
   margin: 10rpx 10rpx 10rpx 10rpx;
   position: absolute;
-  left: 23%;
+  left: 26%;
   z-index: 2;
   width: 20px;
   height: 20px;
