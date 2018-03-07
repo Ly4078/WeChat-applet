@@ -8,7 +8,8 @@ Page({
     navbar: ['主页', '动态'],
     shopid:'',  //商家ID
     store_details: {},  //店铺详情
-    currentTab: 0
+    currentTab: 0,
+    isCollected: false   //是否收藏，默认false
   },
   onLoad: function (options) {
     this.setData({
@@ -16,6 +17,9 @@ Page({
       shopid: options.shopid  
     });
     this.getstoredata();
+    this.isCollected();
+    this.commentList();
+    console.log(this.data.isCollected)
     // 分享功能
     wx.showShareMenu({
       withShareTicket: true,
@@ -52,6 +56,7 @@ Page({
       to_user_id: e.currentTarget.dataset.user
     })
   },  
+  //分享APP
   onShareAppMessage: function () {
     return {
       title: '哇,看着流口水',
@@ -90,18 +95,25 @@ Page({
       url: 'preview-picture/preview-picture',
     })
   },
+  //腾讯地图
   TencentMap:function(event){
+    let that = this;
     wx.getLocation({
       type: 'gcj02', //返回可以用于wx.openLocation的经纬度  
       success: function (res) {
+        console.log(res)
         var latitude = res.latitude
         var longitude = res.longitude
+        var storeDetails = that.data.store_details
         wx.openLocation({
-          latitude: 23.362490,
-          longitude: 116.715790,
+          latitude: storeDetails.locationX,
+          longitude: storeDetails.locationY,
           scale: 18,
-          name: '华乾大厦',
-          address: '金平区长平路93号'  
+          name: '江岸区',
+          address: storeDetails.address,
+          success: function(res) {
+            console.log(res)
+          }
         })
       }
     })  
@@ -111,8 +123,120 @@ Page({
     this.setData({
       currentTab: e.currentTarget.dataset.idx
     })
+  },
+  //评论列表
+  commentList:function() {
+    let that = this;
+    wx.request({
+      url: that.data._build_url + 'cmt/list',
+      success: function (res) {
+        console.log(res.data.data.list);
+        that.setData({
+          comment_list: res.data.data.list
+        })
+      }
+    })
+  },
+  //评论点赞
+  toLike: function(event) {
+    let that = this,
+        id = event.currentTarget.id,
+        index = "";
+    for(var i = 0; i < this.data.comment_list.length; i++) {
+      if (this.data.comment_list[i].id == id) {
+        index = i;
+      }
+    }
+    wx.request({
+      url: that.data._build_url + 'zan/add?refId=' + id + '&type=4&userId=1',
+      method: "POST",
+      success: function(res) {
+        if(res.data.code == 0) {
+          var comment_list = that.data.comment_list
+          comment_list[index].isZan = 1;
+          that.setData({
+            comment_list: comment_list
+          });
+        }
+      }
+    })
+  },
+  //取消点赞
+  cancelLike: function(event) {
+    let that = this,
+      id = event.currentTarget.id,
+      cmtType = "",
+      index = "";
+    for (var i = 0; i < this.data.comment_list.length; i++) {
+      console.log(123)
+      if (this.data.comment_list[i].id == id) {
+        index = i;
+      }
+    }
+    wx.request({
+      url: that.data._build_url + 'zan/delete?refId=' + id + '&type=4&userId=1',
+      method: "POST",
+      success: function (res) {
+        if (res.data.code == 0) {
+          var comment_list = that.data.comment_list
+          comment_list[index].isZan = 0;
+          that.setData({
+            comment_list: comment_list
+          });
+        }
+      }
+    })
+  },
+  //查询是否收藏
+  isCollected: function() {
+    let that = this;
+    wx.request({
+      url: that.data._build_url + 'fvs/isCollected?userId=1&shopId=' + that.data.shopid,
+      method: "POST",
+      success: function (res) {
+        const data = res.data;
+        if (data.code == 0) {
+          that.data.isCollected = data.data;
+        }
+      }
+    })
+  },
+  //收藏
+  onCollect: function(event) {
+    let that = this;
+    wx.request({
+      url: that.data._build_url + 'fvs/add?userId=1&shopId=' + that.data.shopid,
+      method: "POST",
+      success: function(res) {
+        if(res.data.code == 0) {
+          that.setData({
+            isCollected: !that.data.isCollected
+          })
+          wx.showToast({
+            title: "收藏成功"
+          })
+        }
+      }
+    })
+  },
+  //取消收藏
+  cancelCollect: function() {
+    let that = this;
+    wx.request({
+      url: that.data._build_url + 'fvs/delete?userId=1&shopId=' + that.data.shopid,
+      method: "POST",
+      success: function (res) {
+        if (res.data.code == 0) {
+          that.setData({
+            isCollected: !that.data.isCollected
+          })
+          wx.showToast({
+            title: "取消成功"
+          })
+        }
+      }
+    })
   }
-  
 }) 
 // 标记
 // 获取flag

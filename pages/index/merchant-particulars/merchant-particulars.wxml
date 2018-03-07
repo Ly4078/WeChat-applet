@@ -6,7 +6,7 @@
   <view>
     <view class='shop-z-Wrap'>
       <view class='shop-left-wrap'>
-        <image class='detailsName-img' src='{{store_details.logo_url}}'></image>
+        <image class='detailsName-img' src='{{store_details.logoUrl}}'></image>
         <view class='detailsName-genre'>
           <text class='details-Name'>{{store_details.shopName}}</text>
           <text class='details-form'>{{store_details.shopInfo}}</text>
@@ -14,7 +14,8 @@
       </view>
       <view class='popularityCollect'>
         <text class='popularity'>{{store_details.popNum}}人气</text>
-        <text class='collect'>收藏</text>
+        <text wx:if="{{isCollected}}" class='collect active' catchtap="cancelCollect">取消收藏</text>
+        <text wx:else class='collect' catchtap="onCollect">收藏</text>
       </view>
     </view>
   </view>
@@ -86,21 +87,21 @@
         <image class='initiate-right' src='/images/icon/home_arrow.png'></image>
       </view>
 
-      <block wx:for="{{posts_key}}" wx:key="{{index}}">
+      <block wx:for="{{comment_list}}" wx:key="{{index}}">
         <view class='evaluate-maximum'>
           <view class='evaluate-wrap'>
             <view>
               <image class='evaluateImages' src='{{item.store_headportrait}}'></image>
-              <text class='evaluateText'>{{item.store_merchant}}</text>
+              <text class='evaluateText'>{{item.userName}}</text>
             </view>
-            <view>
-              <text class='evaluaterightTx'>{{item.store_like}}</text>
-              <image wx:if="{{collection}}" bindtap="toCollect" class='evaluateright' src='/images/icon/home_zan.png'></image>
-              <image class='evaluateright' wx:else src="/images/icon/home_zaned.png" bindtap="toCollect"></image>
+            <view catchtap="onLike">
+              <text class='evaluaterightTx'>{{item.zan}}</text>
+              <image wx:if="{{item.isZan == 0}}" bindtap="toLike" class='evaluateright' src='/images/icon/home_zan.png' id="{{item.id}}"></image>
+              <image class='evaluateright' wx:else src="/images/icon/home_zaned.png" bindtap="cancelLike" id="{{item.id}}"></image>
             </view>
           </view>
-          <text class='introduce-details'>{{item.store_text}}</text>
-          <view class='carry-out-data'>{{item.store_dang}}</view>
+          <text class='introduce-details'>{{item.content}}</text>
+          <view class='carry-out-data'>{{item.createTime}}</view>
         </view>
       </block>
       <view class='total-comment'>

@@ -28,5 +28,24 @@ Page({
     wx.navigateTo({
       url: '../merchant-particulars/merchant-particulars?shopid=' + shopid,
     })
+  },
+  onInputText: function(e) {
+    this.setData({
+      searchValue: e.detail.value
+    })
+  },
+  onSearchInp: function () {
+    console.log('回车事件触发');
+    console.log(this.data.searchValue);
+    let _parms = {
+      shopName: this.data.searchValue,
+      userName: this.data.searchValue
+    }
+    console.log("parms:",_parms)
+    Api.shoplist(_parms).then((res) => {
+      this.setData({
+        searchList: res.data.data.list
+      });
+    })
   }
 })

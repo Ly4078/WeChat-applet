@@ -1,4 +1,5 @@
 <template name="tpeMerchant">
+
   <view class='shopWrap' catchtap='diningRoomList' id='{{item.id || ""}}' catchtap="onTouchItem">
     <view class='navigationPractical'>
       <view class='practical_left'>

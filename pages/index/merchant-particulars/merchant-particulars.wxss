@@ -77,7 +77,7 @@ page {
 }
 
 .popularityCollect {
-  width: 24%;
+  width: 26%;
   text-align: center;
 }
 
@@ -98,6 +98,10 @@ page {
   border-bottom-left-radius: 50rpx;
   border-bottom-right-radius: 50rpx;
   letter-spacing: 2px;
+}
+.collect.active {
+  background-color: gray;
+  color: #fff;
 }
 
 .locationWrap {
