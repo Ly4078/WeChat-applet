@@ -4,11 +4,11 @@
     <view class='particulars-option'>
       <view class='particulars-warp'>
         <text class='particulars-text'>参与选手</text>
-        <text class='particulars-digit'>{{actdetail.voteNum}}</text>
+        <text class='particulars-digit'>{{actdetail.shopNum}}</text>
       </view>
       <view class='particulars-warp'>
         <text class='particulars-text'>累计投票</text>
-        <text class='particulars-digit'>{{actdetail.shopNum}}</text>
+        <text class='particulars-digit'>{{actdetail.voteNum}}</text>
       </view>
       <view class='particulars-warp'>
         <text class='particulars-text'>访问人数</text>
@@ -17,7 +17,7 @@
     </view>
     <view class='end-time'>
       <image class='end-images' src='/images/icon/xingzhuang_w.png'></image>
-      <text>距离此活动结束还有<text class='timeFate'>{{actdetail[0].activity_timeLimit}}</text>天</text>
+      <text>距离此活动结束还有<text class='timeFate'>{{endtime}}</text>天</text>
     </view>
     <view class='end-button'>
       <text class='end-activity'>活动详情</text>
@@ -26,25 +26,25 @@
   </view>
   <view class='vote'>
     <view>
-      <view class="search" bindtap="seekTap">
+      <view class="search">
         <view class="search_arr">
-          <icon class="searchcion" size='20' type='search'></icon>
-          <input class='inputs' placeholder="请输入编号、名称" value="{{searchValue}}" />
+          <icon class="searchcion" size='20' type='search' bindtap='searchnum'></icon>
+          <input type='text' class='inputs' placeholder="请输入编号、名称" auto-focus bindinput="bindInput" bindconfirm="selectnum"/>
         </view>
       </view>
     </view>
     <!-- posts_key -->
     <block wx:for="{{actlist}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
-      <view class='merchant-sub'>
+      <view class='merchant-sub' id="{{item.id}}" bindtap='clickshop'>
         <view class='merchant-img-left'>
-          <image class='merchant-images' src='{{item.sort_img}}'></image>
-          <view class='serial-number'>{{item.activity_sort}}</view>
+          <image class='merchant-images' src='{{item.logoUrl}}'></image>
+          <view class='serial-number'>{{item.shopInfo}}</view>
         </view>
         <view class='merchant-img-right'>
           <view class='merchant-right-wrap'>
-            <text class='merchant-right-text'>{{item.actName}}</text>
+            <text class='merchant-right-text'>{{item.shopName}}</text>
             <view class='merchant-total'>
-              <text class='merchant-right-number'>{{item.sort_digit}}</text>
+              <text class='merchant-right-number'>{{item.voteNum}}</text>
               <text class='merchant-right-piao'>票</text>
               <!-- <text class='merchant-right-button'>投票</text> -->
               <image class='merchant-right-button' wx:if="{{collected}}" catchtap='onColletionTap' src='/images/icon/vote_time.png'></image>

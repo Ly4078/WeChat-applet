@@ -5,9 +5,9 @@ import { myStore } from '../tools/store';
 const ALL_API = {
   userlist: { //openId登录
     method: 'POST',  //请求方式  POST OR GET OR 其他请方式
-    url: 'user/list'  //请求地址   完整地址是：http://www.hbxq001.cn/user/list    其中http://www.hbxq001.cn/已经在utils/config/config.js中配置，如果更换了后台地址或服务器，可直接到到config.js中统一更换，此处url只与后面部分
+    url: 'user/list'  //请求地址   完整地址是：http://www.hbxq001.cn/user/list    其中http://www.hbxq001.cn/已经在utils/config/config.js中配置，如果更换了后台地址或服务器，可直接到到config.js中统一更换，此处url只写后面部分
   }, 
-  shoptop: {   //分页查询热门商家列表
+  shoptop: {   //分页查询热门商家列表   推荐餐厅
     method: 'GET',
     url: 'shop/top'
   },
@@ -38,6 +38,15 @@ const ALL_API = {
   actget: {   //根据id查询一条活动信息
     method: 'GET',
     url: 'act/get'
+  },
+
+  actshoplist:{  //查询参加某一活动的商家
+    method:'GET',
+    url:'actshop/list'
+  },
+  actshoptop: {  //根据编号或名称搜索查询参加某一活动的商家某个商家
+    method: 'GET',
+    url: 'actshop/top'
   },
   merchantEnter: {   //商家入驻信息
     method: 'POST',

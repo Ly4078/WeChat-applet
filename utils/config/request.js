@@ -42,7 +42,6 @@ function sendRrquest(url, method, data, header) {
       success: resolve,
       fail: reject,
       complete: function () {
-        // complete
         wx.hideNavigationBarLoading(); //完成停止加载
         wx.stopPullDownRefresh(); //停止下拉刷新
       }
@@ -84,7 +83,8 @@ function MyHttp(defaultParams, ALL_API) {
     let _config = ALL_API[actionName];
 
     resource[actionName] = (pdata) => {
-      let _params_data = extend(defaultParams, pdata);
+      // let _params_data = extend(defaultParams, pdata);
+      let _params_data = pdata;
       return sendRrquest(_build_url + _config.url, _config.method, _params_data, {
         'content-type': 'application/x-www-form-urlencoded;charset=utf-8;Authorization'
       });

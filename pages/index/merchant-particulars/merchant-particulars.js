@@ -44,6 +44,7 @@ Page({
         'content-type': 'application/json;Authorization' 
       },
       success: function (res) {
+        // console.log(res.data.data);
         that.setData({
           store_details: res.data.data
         })
@@ -52,7 +53,7 @@ Page({
   },
   liuynChange: function (e) {
     var that = this;
-    console.log(e.currentTarget.dataset.id)
+    // console.log(e.currentTarget.dataset.id)
     that.setData({
       llbView: true,
       pid: e.currentTarget.dataset.id,
@@ -65,7 +66,7 @@ Page({
       title: '哇,看着流口水',
       path: '/pages/activityDetails/merchant-particulars/merchant-particulars',
       success: function (res) {
-        console.log(res.shareTickets[0])
+        // console.log(res.shareTickets[0])
         // console.log
         wx.getShareInfo({
           shareTicket: res.shareTickets[0],

@@ -164,12 +164,7 @@ Page({
       url: 'dining-room/dining-room',
     })
   },
-  diningHhall: function (event) {
-    const stopid = event.currentTarget.id
-    wx.navigateTo({  // 页面传参
-      url: 'merchant-particulars/merchant-particulars?stopid=' + stopid
-    })
-  },
+
   cateWall: function (event) {
     wx.switchTab({
       url: '../discover-plate/discover-plate',
@@ -180,10 +175,31 @@ Page({
       url: '../activityDetails/activity-details',
     })
   },
-  detailOfTheActivity: function (event) {
+  diningHhall: function (event) {  //跳转到商家（餐厅）内页
+    const stopid = event.currentTarget.id
     wx.navigateTo({
-      url: '../activityDetails/details-like/details-like',
+      url: 'merchant-particulars/merchant-particulars?stopid=' + stopid
     })
+  },
+  fooddetails: function (e) {  //跳转美食墙内页
+    const sfoodid = e.currentTarget.id
+    // wx.navigateTo({
+    //   url: 'test?sfoodid=' + sfoodid
+    // })
+  },
+  detailOfTheActivity: function (event) { //跳转到活动内页
+    const actid = event.currentTarget.id
+    // console.log("actid:",actid)
+    wx.navigateTo({
+      url: '../activityDetails/details-like/details-like?actid=' + actid,
+    })
+  },
+  tolive:function(ev){ //跳转到直播内页
+    const liveid = ev.currentTarget.id
+    // console.log("liveid:",liveid)
+    // wx.navigateTo({
+    //   url: 'test?liveid=' + liveid,
+    // })
   }
 
 })
