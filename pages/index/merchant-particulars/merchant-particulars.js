@@ -9,7 +9,9 @@ Page({
     shopid:'',  //商家ID
     store_details: {},  //店铺详情
     currentTab: 0,
-    isCollected: false   //是否收藏，默认false
+    isCollected: false,   //是否收藏，默认false
+    isComment: false,
+    value: ""
   },
   onLoad: function (options) {
     this.setData({
@@ -19,7 +21,6 @@ Page({
     this.getstoredata();
     this.isCollected();
     this.commentList();
-    console.log(this.data.isCollected)
     // 分享功能
     wx.showShareMenu({
       withShareTicket: true,
@@ -43,7 +44,6 @@ Page({
         'content-type': 'application/json;Authorization' 
       },
       success: function (res) {
-        console.log(res.data.data);
         that.setData({
           store_details: res.data.data
         })
@@ -104,7 +104,6 @@ Page({
     wx.getLocation({
       type: 'gcj02', //返回可以用于wx.openLocation的经纬度  
       success: function (res) {
-        console.log(res)
         var latitude = res.latitude
         var longitude = res.longitude
         var storeDetails = that.data.store_details
@@ -133,7 +132,7 @@ Page({
     wx.request({
       url: that.data._build_url + 'cmt/list',
       success: function (res) {
-        console.log(res.data.data.list);
+        // console.log(res.data.data.list);
         that.setData({
           comment_list: res.data.data.list
         })
@@ -151,12 +150,16 @@ Page({
       }
     }
     wx.request({
-      url: that.data._build_url + 'zan/add?refId=' + id + '&type=4&userId=1',
+      url: that.data._build_url + 'zan/add?refId=' + id + '&type=5&userId=1',
       method: "POST",
       success: function(res) {
         if(res.data.code == 0) {
+          wx.showToast({
+            title: '点赞成功'
+          })
           var comment_list = that.data.comment_list
           comment_list[index].isZan = 1;
+          comment_list[index].zan++;
           that.setData({
             comment_list: comment_list
           });
@@ -177,12 +180,17 @@ Page({
       }
     }
     wx.request({
-      url: that.data._build_url + 'zan/delete?refId=' + id + '&type=4&userId=1',
+      url: that.data._build_url + 'zan/delete?refId=' + id + '&type=5&userId=1',
       method: "POST",
       success: function (res) {
         if (res.data.code == 0) {
+          wx.showToast({
+            title: '取消成功'
+          })
           var comment_list = that.data.comment_list
           comment_list[index].isZan = 0;
+          comment_list[index].zan == 0 ? comment_list[index].zan : comment_list[index].zan--;
+          console.log(comment_list[index].zan)
           that.setData({
             comment_list: comment_list
           });
@@ -199,7 +207,10 @@ Page({
       success: function (res) {
         const data = res.data;
         if (data.code == 0) {
-          that.data.isCollected = data.data;
+          that.setData({
+            isCollected: data.data
+          })
+
         }
       }
     })
@@ -239,7 +250,36 @@ Page({
         }
       }
     })
-  }
+  },
+  //发送评论
+  showAreatext: function() {
+    this.setData({
+      isComment: true
+    })
+  },
+  // sendComment: function(e) {
+  //   let that = this;
+  //   let _parms = {};
+  //   wx.request({
+  //     url: that.data._build_url + 'cmt/add',
+  //     header: {
+  //       'content-type': 'application/json;Authorization'
+  //     },
+  //     data: {
+  //       refId: that.data.shopid,
+  //       cmtType: 5,
+  //       content: "",
+  //       userId: 1,
+  //       userName: test,
+  //       nickName:test
+  //     },
+  //     success: function (res) {
+  //       that.setData({
+  //         store_details: res.data.data
+  //       })
+  //     }
+  //   });
+  // }
 }) 
 // 标记
 // 获取flag
