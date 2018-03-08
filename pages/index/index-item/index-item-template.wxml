@@ -83,7 +83,7 @@
 </template>
 <!--美食墙  -->
 <template name="classifyss">
-   <view id="greens" class="scroll_user">
+   <view id="{{item.id}}" bindtab="fooddetails" class="scroll_user">
     <view class='userinfo_warp'>
       <view class='userinfo_left'>
         <image class='userinfo_left_img' src='{{item.picUrls[0].smallPicUrl}}'></image>
@@ -95,10 +95,10 @@
     </view>
     <view class='evaluation'>
        <view class='evaluation_left'> 
-        <text class='evaluation_left_text'>{{item.describe}}</text>
+        <text class='evaluation_left_text'>{{item.content}}</text>
        </view> 
       <view class='evaluation_right'>
-        <image class='evaluation_right_img' src='{{item.content_img}}'></image>
+        <image class='evaluation_right_img' src='{{item.picUrls[1].smallPicUrl}}'></image>
       </view>
     </view>
   </view>
@@ -119,7 +119,7 @@
 </template>
 <!--热门活动  -->
 <template name="hotActivityss">
-  <view class="preferential" catchtap='detailOfTheActivity'>
+  <view class="preferential" id="{{item.id}}" catchtap='detailOfTheActivity'>
   <image wx:if="{{item.actUrl}}" class='preferential_img' src='{{item.actUrl}}'></image> 
   <image wx:else class='scroll-view-item-img' src='https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1975347470,2770072390&fm=27&gp=0.jpg'></image>
   </view>
@@ -134,15 +134,15 @@
     </view>
     <view class='djevenMore'>
       <view class='recommend_right'>查看更多</view>
-      <image class='recommend_more' src='{{item.mainPicUrl}}'></image>
+      <image class='recommend_more' src='/images/icon/home_arrow.png'></image>
     </view>
   </view>
 </template>
 
 <!--趣享直播  -->
 <template name="liveStreamingss">
-  <view id="green" class="anchor bc_green">
-   <image wx:if="{{item.streamingImg}}" class='anchor_img' src='{{item.streamingImg}}'></image> 
+  <view id="{{item.id}}" bindtap='tolive' class="anchor bc_green">
+   <image wx:if="{{item.mainPicUrl}}" class='anchor_img' src='{{item.mainPicUrl}}'></image> 
   <image wx:else class='anchor_img' src='https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=230388057,1937205237&fm=27&gp=0.jpg'></image>
     
     <view class='cate_site'>{{item.streamingName}}</view>
