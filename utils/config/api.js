@@ -38,6 +38,10 @@ const ALL_API = {
   actget: {   //根据id查询一条活动信息
     method: 'GET',
     url: 'act/get'
+  },
+  merchantEnter: {   //商家入驻信息
+    method: 'POST',
+    url: 'shopEnter/add'
   }
 }
 

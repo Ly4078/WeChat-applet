@@ -36,15 +36,17 @@ page{
 }
 
 .message-text{
-  padding-left: 88rpx;
+  margin-left: 88rpx;
   font-size: 30rpx;
   color: #B1B1B1;
+  width: 65%;
 }
 
 .message-text-suo{
-  padding-left: 119rpx;
+  margin-left: 119rpx;
   font-size: 30rpx;
   color: #B1B1B1;
+  width: 65%;
 }
 
 .sbumitApply-for{

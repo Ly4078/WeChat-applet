@@ -1,54 +1,49 @@
-<view>
-  <image class='bannerTop' src='/images/icon/banner1.png'></image>
-  <view class='commercial'>
-    <text>商户信息</text>
-  </view>
-  <view class='commercial-message'>
-    <view class='message-each'>
-      <image class='message-img' src='/images/icon/import.png'></image>
-      <text class='message-name'>申请人</text>
-      <input class='message-text-suo' type='text' placeholder="输入申请人姓名" ></input>
+<form bindsubmit="formSubmit" bindreset="formReset">
+  <view>
+    <image class='bannerTop' src='/images/icon/banner1.png'></image>
+    <view class='commercial'>
+      <text>商户信息</text>
+    </view>
+    <view class='commercial-message'>
+      <view class='message-each'>
+        <image class='message-img' src='/images/icon/import.png'></image>
+        <text class='message-name'>申请人</text>
+        <input class='message-text-suo' placeholder="输入店铺的全称" bindblur="namebindblur" type='text' name="name" ></input>
+      </view>
+    </view>
+    <view class='commercial-message'>
+      <view class='message-each'>
+        <image class='message-img' src='/images/icon/import.png'></image>
+        <text class='message-name'>联系方式</text>
+        <input name="phone" maxlength="11" class='message-text' bindblur="information" placeholder="输入座机或电话号码" type="number"></input>
+      </view>
+    </view>
+    <view class='commercial'>
+      <text>店铺信息</text>
+    </view>
+    <view class='commercial-message'>
+      <view class='message-each'>
+        <image class='message-img' src='/images/icon/import.png'></image>
+        <text class='message-name'>店铺名称</text>
+        <input class='message-text' name="storeName" bindblur="namebindblurDetails" placeholder="输入店铺的全称"></input>
+      </view>
+    </view>
+    <view class='commercial-message'>
+      <view class='message-each'>
+        <image class='message-img' src='/images/icon/import.png'></image>
+        <text class='message-name'>详细地址</text>
+        <input class='message-text' name="location" bindblur="indetailedMinute" placeholder="输入店铺地址"></input>
+      </view>
+    </view>
+    <view class='commercial-message'>
+      <view class='message-each'>
+        <image class='message-img' src='/images/icon/import.png'></image>
+        <text class='message-name'>人均消费</text>
+        <input class='message-text' name="perCapita" bindblur="inperFigure"  placeholder="输入人均消费金额" type="number"></input>
+      </view>
+    </view>
+    <view class='sbumitApply-for'>
+      <button class='sbujit-button' formType="submit">提交申请</button>
     </view>
   </view>
-  <view class='commercial-message'>
-    <view class='message-each'>
-      <image class='message-img' src='/images/icon/import.png'></image>
-      <text class='message-name'>联系方式</text>
-      <input class='message-text' placeholder="输入手机或电话号码" type="number" ></input>
-    </view>
-  </view>
-  <view class='commercial-message'>
-    <view class='message-each'>
-      <image class='message-img' src='/images/icon/import.png'></image>
-      <text class='message-name'>微信号</text>
-      <input class='message-text-suo' placeholder="输入微信号码" ></input>
-    </view>
-  </view>
-  <view class='commercial'>
-    <text>店铺信息</text>
-  </view>
-  <view class='commercial-message'>
-    <view class='message-each'>
-      <image class='message-img' src='/images/icon/import.png'></image>
-      <text class='message-name'>店铺名称</text>
-      <input class='message-text' placeholder="输入店铺的全称" ></input>
-    </view>
-  </view>
-  <view class='commercial-message'>
-    <view class='message-each'>
-      <image class='message-img' src='/images/icon/import.png'></image>
-      <text class='message-name'>详细地址</text>
-      <input class='message-text' placeholder="输入店铺地址" ></input>
-    </view>
-  </view>
-  <view class='commercial-message'>
-    <view class='message-each'>
-      <image class='message-img' src='/images/icon/import.png'></image>
-      <text class='message-name'>人均消费</text>
-      <input class='message-text' placeholder="输入人均消费金额" type="number"></input>
-    </view>
-  </view>
-  <view class='sbumitApply-for'>
-    <button class='sbujit-button'>提交申请</button>
-  </view>
-</view>
+</form>

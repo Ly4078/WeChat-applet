@@ -1,65 +1,125 @@
+import Api from '/../../../utils/config/api.js'
 Page({
 
-  /**
-   * 页面的初始数据
-   */
   data: {
-    
+      isname:false,
+      incontactInformation:false,
+      instoreName:false,
+      indetailedAddress:false,
+      inperCapita:false
   },
 
-  /**
-   * 生命周期函数--监听页面加载
-   */
   onLoad: function (options) {
     
   },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-    
+  //判断申请人姓名
+  namebindblur(e){
+    let name = e.detail.value;
+    if(name){
+      this.setData({
+        isname:true,
+      })
+    }else{
+      wx.showToast({
+        title: '输入申请人名字',
+        icon: 'succes',
+        duration: 1000,
+        mask: true
+      })
+    }
   },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-    
+  //判断联系方式
+  information(e) {
+    let contactInformation = e.detail.value;
+    if (contactInformation) {
+      
+      this.setData({
+        incontactInformation: true,
+      })
+    } else {
+      wx.showToast({
+        title: '输入正确电话号',
+        icon: 'succes',
+        duration: 1000,
+        mask: true
+      })
+    }
   },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-    
+  //判断店铺名称
+  namebindblurDetails(e) {
+    let storeName = e.detail.value;
+    if (storeName) {
+      this.setData({
+        instoreName: true,
+      })
+    } else {
+      wx.showToast({
+        title: '请输入店铺名称',
+        icon: 'succes',
+        duration: 1000,
+        mask: true
+      })
+    }
   },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-    
+  //判断详细地址
+  indetailedMinute(e) {
+    let detailedAddress = e.detail.value;
+    if (detailedAddress) {
+      this.setData({
+        indetailedAddress: true,
+      })
+    } else {
+      wx.showToast({
+        title: '请输入详细地址',
+        icon: 'succes',
+        duration: 1000,
+        mask: true
+      })
+    }
   },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-    
+  //判断人均消费
+  inperFigure(e) {
+    let perCapita = e.detail.value;
+    if (perCapita) {
+      this.setData({
+        inperCapita: true,
+      })
+    } else {
+      wx.showToast({
+        title: '请输入人均消费',
+        icon: 'succes',
+        duration: 1000,
+        mask: true
+      })
+    }
   },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-    
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-    
+  formSubmit: function (e) {
+    let that = this;
+    console.log('点击提交携带数据为：', e.detail.value)
+    let arr = e.detail.value; 
+    if (this.data.isname && this.data.incontactInformation && this.data.instoreName && this.data.indetailedAddress && this.data.inperCapita) {
+      let _parms = {
+        userName: arr.name, //申请人
+        address: arr.location, //详细地址
+        shopName: arr.storeName,//店铺名称
+        perCapita: arr.perCapita, //人均消费
+        mobile: arr.phone, //联系方式
+      }
+      Api.merchantEnter(_parms).then((res) => {
+        console.log("成功上传:", res)
+        wx.showToast({
+          title: '提交成功',
+          icon: 'loading',
+          duration: 1500,
+          mask: true
+        })
+        setTimeout(function () {
+          wx.navigateBack({
+            delta: 2
+          })
+        }, 1500)
+      })
+    }
   }
+  
 })

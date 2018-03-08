@@ -1,12 +1,12 @@
 {
   "pages":[
     "pages/index/index",
-    "pages/index/search/search",
+    "pages/personal-center/personal-center",
     "pages/personal-center/free-of-charge/free-of-charge",
+    "pages/index/search/search",
     "pages/personal-center/allDynamicState/allDynamicState",
     "pages/index/merchant-particulars/merchant-particulars",
     "pages/index/merchant-particulars/preview-picture/preview-picture",
-    "pages/personal-center/personal-center",
     "pages/discover-plate/dynamic-state/dynamic-state",
     "pages/activityDetails/details-like/details-like",
     "pages/index/order-for-goods/order-for-goods",
