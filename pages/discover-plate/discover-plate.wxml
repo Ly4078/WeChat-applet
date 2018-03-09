@@ -26,35 +26,47 @@
   <view class='initiate-exhibition the-second'>
     <view>
       <image class='initiate-left' src='/images/icon/home_sign.png'></image>
-      <text class='initiate-text'>享七直播</text>
+      <text class='initiate-text'>美食墙</text>
     </view>
   </view>
 
-  <block wx:for="{{posts_key}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
-    <view>
-      <view class='find-cate'>
-        <view class='find-rwap-nmx'>
-          <image class='find-cate-img' src='{{item.sort_touxiang}}'></image>
-          <view class='west-gansu'>
-            <text class='find-name-es'>{{item.sort_nameere}}</text>
-            <view class='find-time-ms'>15分钟前</view>
+  <!-- <block wx:for="{{posts_key}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}"> -->
+  <view class='articleWrap'>
+    <view class='articleLittle'>
+      <view class='articleTop'>
+        <view>
+          <image class='userImg-portrait' src='/images/head/head_portrait2.jpg'></image>
+          <view class='user-text'>
+            <text class='user-name'>大哥大</text>
+            <text class='user-name-time'>1个小时</text>
           </view>
         </view>
-        <view class='find-wrap-zsu'>
-          <view class='find-like-rs'>{{item.sort_digitese}}</view>
-          <image class='find-cate-right' src='/images/icon/home_zan.png'></image>
+        <view>
+          <text class='somebody-text'>145</text>
+          <image class='somebody-thumbs' src='/images/icon/home_zaned.png'></image>
         </view>
       </view>
-      <view class='evaluate-wrap'>{{item.sort_center}}</view>
-
-      <view class="list-dImg">
-        <block wx:for="{{posts_key}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
-          <image class='evaluate-issue-img' src="{{posts_key[0].activity_img}}"></image>
-        </block>
+      <view class='article-level-wrap'>
+        <image class='cover-images' src='/images/post/timg13.jpg'></image>
+        <text class='article-describe'>陆勇,帅哥哥哥哥哥哥哥</text>
+      </view>
+      <view class='article-bottom-xia'>
+        <view>
+          <image class='click-volume' src='/images/icon/tuoyuan_w.png'></image>
+          <text class='click-text-ar'>52423</text>
+        </view>
+        <view>
+          <image class='click-volume' src='/images/icon/find_share.png'></image>
+          <text class='click-text-ar click-text-right'>23</text>
+          <image class='click-volume ' src='/images/icon/find_comment.png'></image>
+          <text class='click-text-ar click-text-right'>23</text>
+          <!-- 下个版本需要用  不要删除: -->
+          <!-- <image class='click-volume' src='/images/icon/find_gold.png'></image>
+          <text class='click-text-ar'>23</text> -->
+        </view>
       </view>
     </view>
-  </block>
-  <!-- <view class='publish-dynamic-wrap'> -->
-    <image catchtap='announceState' class='publish-dynamic-condition' src='/images/icon/send_dongtai.png'></image>
-  <!-- </view> -->
+  </view>
+  <!-- </block> -->
+  <image catchtap='announceState' class='publish-dynamic-condition' src='/images/icon/send_dongtai.png'></image>
 </view>

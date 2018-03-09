@@ -1,6 +1,7 @@
 {
   "pages":[
     "pages/index/index",
+    "pages/index/consume-qibashare/consume-qibashare",
     "pages/index/search/search",
     "pages/personal-center/free-of-charge/free-of-charge",
     "pages/activityDetails/details-like/details-like",
@@ -15,7 +16,6 @@
     "pages/personal-center/my-discount/my-discount",
     "pages/personal-center/personnel-order/personnel-order",
     "pages/discover-plate/discover-plate",
-    "pages/index/consume-qibashare/consume-qibashare",
     "pages/index/voucher-details/voucher-details",
     "pages/index/user-location/user-location",
     "pages/index/user-seek/user-seek",

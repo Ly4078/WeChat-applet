@@ -51,6 +51,10 @@ const ALL_API = {
   merchantEnter: {   //商家入驻信息
     method: 'POST',
     url: 'shopEnter/add'
+  },
+  terraceRoll: {   //享七劵列表
+    method: 'GET',
+    url: 'sku/list'
   }
 }
 
