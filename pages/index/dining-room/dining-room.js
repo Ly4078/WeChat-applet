@@ -29,22 +29,19 @@ Page({
       url: '../merchant-particulars/merchant-particulars?shopid=' + shopid,
     })
   },
+  //获取搜索框内的值
   onInputText: function(e) {
     this.setData({
       searchValue: e.detail.value
     })
   },
   onSearchInp: function () {
-    console.log('回车事件触发');
-    console.log(this.data.searchValue);
     let _parms = {
-      shopName: this.data.searchValue,
-      userName: this.data.searchValue
+      searchKey: this.data.searchValue
     }
-    console.log("parms:",_parms)
     Api.shoplist(_parms).then((res) => {
       this.setData({
-        searchList: res.data.data.list
+        posts_key: res.data.data.list
       });
     })
   }
