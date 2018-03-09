@@ -10,7 +10,8 @@ Page({
     store_details: {},  //店铺详情
     currentTab: 0,
     isCollected: false,   //是否收藏，默认false
-    isComment: false
+    isComment: false,
+    commentNum: 0     //评论数
   },
   onLoad: function (options) {
     this.setData({
@@ -51,7 +52,6 @@ Page({
   },
   liuynChange: function (e) {
     var that = this;
-    console.log(e.currentTarget.dataset.id)
     that.setData({
       llbView: true,
       pid: e.currentTarget.dataset.id,
@@ -64,8 +64,6 @@ Page({
       title: '哇,看着流口水',
       path: '/pages/activityDetails/merchant-particulars/merchant-particulars',
       success: function (res) {
-        console.log(res.shareTickets[0])
-        // console.log
         wx.getShareInfo({
           shareTicket: res.shareTickets[0],
           success: function (res) { console.log(res) },
@@ -75,7 +73,6 @@ Page({
       },
       fail: function (res) {
         // 分享失败
-        console.log(res)
       }
     }
   },
@@ -141,7 +138,8 @@ Page({
         let data = res.data;
         if (data.code == 0 && data.data.list != null && data.data.list != "") {
           that.setData({
-            comment_list: res.data.data.list
+            comment_list: res.data.data.list,
+            commentNum: res.data.data.total
           })
         } else {
           that.setData({
@@ -193,7 +191,6 @@ Page({
       cmtType = "",
       index = "";
     for (var i = 0; i < this.data.comment_list.length; i++) {
-      console.log(123)
       if (this.data.comment_list[i].id == id) {
         index = i;
       }
@@ -209,7 +206,6 @@ Page({
           var comment_list = that.data.comment_list
           comment_list[index].isZan = 0;
           comment_list[index].zan == 0 ? comment_list[index].zan : comment_list[index].zan--;
-          console.log(comment_list[index].zan)
           that.setData({
             comment_list: comment_list
           });
@@ -301,11 +297,17 @@ Page({
         nickName: "test"
       },
       success: function (res) {
-        that.setData({
-          isComment: false,
-          commentVal: ""
-        });
-        that.commentList();
+        if (res.data.code == 0) {
+          that.setData({
+            isComment: false,
+            commentVal: ""
+          });
+          that.commentList();
+        } else {
+          wx.showToast({
+            title: '发表失败'
+          })
+        }
       }
     });
   }
