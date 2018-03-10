@@ -121,10 +121,8 @@ Page({
   //用户上拉触底
   onReachBottom: function() {
     if (this.data.reFresh) {
-      let page = 0;
-      page = this.data.page + 1;
       this.setData({
-        page: page
+        page: this.data.page + 1
       });
       this.commentList();
     }

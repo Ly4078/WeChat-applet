@@ -1,0 +1,5 @@
+/* pages/personal-center/my-discount/expired-ticket/expired-ticket.wxss */
+@import "../discount-template/discount-template.wxss";
+page{
+  background-color: #EBEBEB;
+}

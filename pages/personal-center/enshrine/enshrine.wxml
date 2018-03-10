@@ -1,13 +1,13 @@
 <view>
-<block wx:for="{{posts_key}}" wx:for-item="item" wx:for-index="idx">
-  <view class='enshrineWrap' catchtap='enshrineXim'>
+<block wx:for="{{posts_key}}" wx:key="index">
+  <view class='enshrineWrap' catchtap='enshrineXim' id="{{item.id}}">
     <view class='enshrineLeft'>
       <view class='enshrineImages-wrap'>
-        <image class='enshrineImages' src='{{item.enshrine_img}}'></image>
+        <image class='enshrineImages' src='{{item.logoUrl}}'></image>
       </view>
       <view class='enshrine-caip'>
-        <text class='enshrine-name'>{{item.enshrine_name}}</text>
-        <text class='enshrine-classify'>{{item.enshrine_xl}}</text>
+        <text class='enshrine-name'>{{item.shopName}}</text>
+        <text class='enshrine-classify'>{{item.shopInfo}}</text>
         <text class='enshrine-dynamic'>动态</text>
         <text class='enshrine-vote'>投票</text>
       </view>

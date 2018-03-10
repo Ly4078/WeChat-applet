@@ -1,0 +1,4 @@
+<import src="../discount-template/discount-template.wxml" />
+<block wx:for="{{ticket_list}}" wx:key="index">
+  <template is="discountList" data="{{item}}"></template>
+</block>

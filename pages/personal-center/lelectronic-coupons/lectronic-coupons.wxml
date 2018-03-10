@@ -6,23 +6,22 @@
           <image class='lectronic-images' src='/images/icon/icon_logosj.png'></image>
         </view>
         <view class='lectronic-text'>
-          <text class='lectronic-reel'>100元代金券</text>
-          <text class='lectronic-limit'>满500元可用</text>
+          <text class='lectronic-reel'>{{ticketInfo.skuName}}</text>
+          <text class='lectronic-limit'>{{ticketInfo.promotionRules[0].ruleDesc}}</text>
         </view>
       </view>
       <view class='lectronic-right'>
         <text>未使用</text>
       </view>
     </view>
-
     <view catchtap='sublevelSum'>
       <view class='restrict-time'>
         <view class='restrict-caution'>
           <text>有限期至:</text>
-          <text>2018/07/07</text>
+          <text>{{ticketInfo.expiryDate}}</text>
         </view>
         <view class='restric-page-down'>
-          <text class='restric-page-text'>详情</text>
+          <text class='restric-page-text' id="{{ticketInfo.id}}">详情</text>
           <image class='restrict-Images' src='/images/icon/home_arrow.png'></image>
         </view>
       </view>
@@ -30,10 +29,9 @@
   </view>
 
   <view class='qr-code'>
-    <image class='qr-code-images' src='/images/post/erweima.jpg'></image>
-    <text class='qr-code-text'>劵码:<text class='qr-code-matter'>12345678</text></text>
+    <image class='qr-code-images' src='{{ticketInfo.qrcodeUrl}}'></image>
+    <text class='qr-code-text'>劵码:<text class='qr-code-matter'>{{ticketInfo.couponCode}}</text></text>
   </view>
-
   <view class='order-for-goods'>
     <view class='order-for-nei'>
       <view class='order-for-text'>
@@ -41,23 +39,23 @@
       </view>
       <view class='order-for-colour'>
         <text>订单号</text>
-        <text>734563456</text>
+        <text>{{ticketInfo.soId}}</text>
       </view>
       <view class='order-for-colour'>
         <text>付款时间</text>
-        <text>2018/03/03</text>
+        <text>{{orderInfo.paidTime || ""}}</text>
       </view>
       <view class='order-for-colour'>
         <text>手机号</text>
-        <text>15827245422</text>
+        <text>{{}}</text>
       </view>
       <view class='order-for-colour'>
         <text>数量</text>
-        <text>1</text>
+        <text>{{orderInfo.skuNum}}</text>
       </view>
       <view class='order-for-colour'>
         <text>总价</text>
-        <text>￥<text>10</text></text>
+        <text>￥<text>{{orderInfo.soAmount}}</text></text>
       </view>
     </view>
   </view>
