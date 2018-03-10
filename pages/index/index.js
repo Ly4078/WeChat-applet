@@ -176,9 +176,10 @@ Page({
     })
   },
   diningHhall: function (event) {  //跳转到商家（餐厅）内页
-    const stopid = event.currentTarget.id
+    const shopid = event.currentTarget.id
+    console.log("diningHhall:",shopid)
     wx.navigateTo({
-      url: 'merchant-particulars/merchant-particulars?stopid=' + stopid
+      url: 'merchant-particulars/merchant-particulars?shopid=' + shopid
     })
   },
   fooddetails: function (e) {  //跳转美食墙内页

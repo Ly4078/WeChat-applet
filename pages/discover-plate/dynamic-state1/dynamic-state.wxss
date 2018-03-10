@@ -1,0 +1,54 @@
+.dynamicWrap{
+  width: 100%;
+  height: 270rpx;
+  display: flex;
+  justify-content: center;
+}
+
+.dynamictext{
+  width: 94%;
+  height: 200rpx;
+  font-size: 30rpx;
+  color: #555555;
+  padding-top: 14rpx;
+}
+
+.uploading{
+  width: 100%;
+  /* height: 250rpx; */
+  border-bottom: 1px solid #E0E0E0;
+}
+
+.uploadingImg{
+  width: 27%;
+  height: 200rpx;
+  padding:10rpx 23rpx;
+}
+
+.announce{
+  width: 100%;
+  height: 108rpx;
+  border-bottom: 1px solid #E0E0E0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.announce-im-left{
+  width: 60rpx;
+  height: 48rpx;
+  padding-left: 58rpx;
+}
+
+.announce-im-right{
+  color: #FFFFFF;
+  font-size: 34rpx;
+  padding: 10rpx 34rpx;
+  background-color: #FC5E2D;
+  border-top-left-radius: 40rpx;
+  border-top-right-radius: 40rpx;
+  border-bottom-left-radius: 40rpx;
+  border-bottom-right-radius: 40rpx;
+  letter-spacing: 2rpx;
+  margin-right: 34rpx;
+}

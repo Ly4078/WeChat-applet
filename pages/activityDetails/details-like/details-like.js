@@ -67,7 +67,8 @@ Page({
       actlist: []
     })
     let _parms = {
-      actId: this.data.actid
+      actId: this.data.actid,
+      voteUserId:'1'
     }
     Api.actshoplist(_parms).then((res) => {
       console.log("actlist:", res.data.data.list)
@@ -109,6 +110,49 @@ Page({
     // console.log("stopid:", stopid)
     wx.navigateTo({  
       url: '../../index/merchant-particulars/merchant-particulars?stopid=' + stopid
+    })
+  },
+
+  isvote:function(e){  //投票
+    let that = this;
+    let stopid = e.currentTarget.id;
+    let userid= '' 
+    wx.getStorage({
+      key: 'userid',
+      success: function (res) {
+        userid = res.data;
+      }
+    })
+    let _parms = {
+      actId: this.data.actid,
+      shopId: stopid,
+      userId: userid
+    }
+
+    let arr = this.data.actlist
+    Api.voteadd(_parms).then((res) => {
+      let arr = this.data.actlist
+      if(res.data.log){
+          for (let i = 0; i < arr.length; i++) {
+            if (stopid == arr[i].id) {
+              arr[i].isVote = '1',
+              arr[i].voteNum = arr[i].voteNum+1
+            }
+          }
+      }else{
+        for (let i = 0; i < arr.length; i++) {
+          if (stopid == arr[i].id) {
+            arr[i].isVote = '0',
+            arr[i].voteNum = arr[i].voteNum - 1
+            if (arr[i].voteNum < 0){
+              arr[i].voteNum = 0;
+            }
+          }
+        }
+      }
+      that.setData({
+        actlist: arr
+      })
     })
   }
 

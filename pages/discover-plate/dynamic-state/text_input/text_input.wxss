@@ -1,0 +1,12 @@
+.textarea{
+  width: 90%;
+  line-height: 2rem;
+  overflow: hidden;
+  margin: 2% 5%;
+  border: 1px solid #ccc;
+}
+
+.submit{
+  width: 90%;
+  margin: 0 5%;
+}

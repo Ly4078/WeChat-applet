@@ -1,20 +1,34 @@
-<view>
-  <view class='dynamicWrap'>
-    <textarea class='dynamictext' auto-focus="ture"></textarea>
+<view class='dynamic'>
+<!-- <form bindsubmit="bindFormSubmit"> -->
+  <image wx:if="{{coverimg}}" bindtap='getcover' class='dynamic_cover' src='{{coverimg}}'></image>
+  <image wx:else bindtap='getcover' class='dynamic_cover' src='/images/icon/set_cover.png'></image>
+  <input bindblur="bindblur" class='title' type='text' placeholder='请输入标题'></input>
+
+  <view wx:for="{{content}}" wx:key="{{index}}">
+     <view class='box' wx:if="{{item.type == 'img'}}">
+      <image class='childimg' id="{{index}}" bindtap='changepicture' src='{{item.value}}'></image>
+      <textarea id="{{index}}" bindblur="bindblurnote" class='childimgtext' placeholder='图片简介'>{{item.txt}}</textarea>
+    </view>
+    <view class='box' wx:if="{{item.type == 'text'}}">
+      <textarea class='childtext'>{{item.value}}</textarea>
+    </view> 
+<!-- 
+    <view wx:if="{{isplus}}" id="{{index}}" bindtap='clickplus' class='add'>+</view>
+    <view wx:else class='img_txt'>
+      <image bindtap='clickimg' class='addimg' src='/images/icon/send_photo.png'></image>
+      <image bindtap='clicktxt' class='addtxt' src='/images/icon/send_txt.png'></image>
+    </view> -->
+
   </view>
-  <view class='uploading'>
-    <image class='uploadingImg' mode="aspecFill" src='{{tempFilePaths}}'></image>
-    <image class='uploadingImg' bindtap="chooseimage" src='/images/icon/add.png'></image>
-    <view class="img-v">
-  <view class="img" wx:for="{{imgs}}" wx:for-item="item" wx:key="*this">
-    <image src="{{item}}" data-index="{{index}}" mode="aspectFill" bindtap="previewImg"></image>
-    <view class="delete-btn" data-index="{{index}}" catchtap="deleteImg"></view>
+
+  <view wx:if="{{isplus}}" id="" bindtap='clickplus' class='add'>+</view>
+  <view wx:else class='img_txt'>
+    <image bindtap='clickimg' class='addimg' src='/images/icon/send_photo.png'></image>
+    <image bindtap='clicktxt' class='addtxt' src='/images/icon/send_txt.png'></image>
   </view>
-  <view class="upload-img-btn" bindtap="chooseImg"></view>
-</view>
+  <view wx:for="{{butt}}" wx:key="{{index}}" wx:if="{{!issee}}">
+    <button form-type="submit" id="{{index}}" bindtap='FormSubmit' class='submit'> {{item}} </button>
   </view>
-  <view class='announce'>
-    <image class='announce-im-left' src='/images/icon/announce-im-le.png'></image>
-    <text class='announce-im-right'>发表</text>
-  </view>
+  <button wx:if="{{issee}}" bindtap='goback'>返回</button>
+  <!-- </form> -->
 </view>

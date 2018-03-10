@@ -11,6 +11,7 @@
     "pages/index/merchant-particulars/preview-picture/preview-picture",
     "pages/personal-center/personal-center",
     "pages/discover-plate/dynamic-state/dynamic-state",
+    "pages/discover-plate/dynamic-state/text_input/text_input",
     "pages/index/order-for-goods/order-for-goods",
     "pages/personal-center/enshrine/enshrine",
     "pages/personal-center/lelectronic-coupons/lectronic-coupons",
