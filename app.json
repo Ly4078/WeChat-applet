@@ -7,6 +7,7 @@
     "pages/activityDetails/details-like/details-like",
     "pages/personal-center/allDynamicState/allDynamicState",
     "pages/index/merchant-particulars/merchant-particulars",
+    "pages/index/merchant-particulars/total-comment/total-comment",
     "pages/index/merchant-particulars/preview-picture/preview-picture",
     "pages/personal-center/personal-center",
     "pages/discover-plate/dynamic-state/dynamic-state",
@@ -27,7 +28,8 @@
     "navigationBarBackgroundColor": "#fc5e2d",
     "navigationBarTitleText": "享7",
     "navigationBarTextStyle":"white",
-    "navigationStyle":"default"
+    "navigationStyle":"default",
+    "enablePullDownRefresh":true
   },
   "tabBar":{
     "selectedColor": "#FF4411",

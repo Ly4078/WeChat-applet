@@ -10,8 +10,7 @@ Page({
     store_details: {},  //店铺详情
     currentTab: 0,
     isCollected: false,   //是否收藏，默认false
-    isComment: false,
-    value: ""
+    isComment: false
   },
   onLoad: function (options) {
     this.setData({
@@ -44,7 +43,6 @@ Page({
         'content-type': 'application/json;Authorization' 
       },
       success: function (res) {
-        // console.log(res.data.data);
         that.setData({
           store_details: res.data.data
         })
@@ -53,7 +51,7 @@ Page({
   },
   liuynChange: function (e) {
     var that = this;
-    // console.log(e.currentTarget.dataset.id)
+    console.log(e.currentTarget.dataset.id)
     that.setData({
       llbView: true,
       pid: e.currentTarget.dataset.id,
@@ -66,7 +64,7 @@ Page({
       title: '哇,看着流口水',
       path: '/pages/activityDetails/merchant-particulars/merchant-particulars',
       success: function (res) {
-        // console.log(res.shareTickets[0])
+        console.log(res.shareTickets[0])
         // console.log
         wx.getShareInfo({
           shareTicket: res.shareTickets[0],
@@ -132,12 +130,32 @@ Page({
     let that = this;
     wx.request({
       url: that.data._build_url + 'cmt/list',
+      data: {
+        refId: that.data.shopid,
+        cmtType: 5,
+        zanUserId: 1,
+        page: 1,
+        rows: 5
+      },
       success: function (res) {
-        // console.log(res.data.data.list);
-        that.setData({
-          comment_list: res.data.data.list
-        })
+        let data = res.data;
+        if (data.code == 0 && data.data.list != null && data.data.list != "") {
+          that.setData({
+            comment_list: res.data.data.list
+          })
+        } else {
+          that.setData({
+            totalComment: true
+          })
+        }
       }
+    })
+  },
+  //跳转至所有评论
+  jumpTotalComment: function() {
+    let that = this;
+    wx.navigateTo({
+      url: 'total-comment/total-comment?shopid=' + that.data.shopid
     })
   },
   //评论点赞
@@ -252,35 +270,45 @@ Page({
       }
     })
   },
-  //发送评论
+  //显示发表评论框
   showAreatext: function() {
     this.setData({
       isComment: true
     })
   },
-  // sendComment: function(e) {
-  //   let that = this;
-  //   let _parms = {};
-  //   wx.request({
-  //     url: that.data._build_url + 'cmt/add',
-  //     header: {
-  //       'content-type': 'application/json;Authorization'
-  //     },
-  //     data: {
-  //       refId: that.data.shopid,
-  //       cmtType: 5,
-  //       content: "",
-  //       userId: 1,
-  //       userName: test,
-  //       nickName:test
-  //     },
-  //     success: function (res) {
-  //       that.setData({
-  //         store_details: res.data.data
-  //       })
-  //     }
-  //   });
-  // }
+  //获取评论输入框
+  getCommentVal: function(e) {
+    this.setData({
+      commentVal: e.detail.value
+    })
+  },
+  //发表评论
+  sendComment: function(e) {
+    let that = this;
+    let _parms = {};
+    wx.request({
+      url: that.data._build_url + 'cmt/add?refId=' + that.data.shopid + '&cmtType=5&content=' + that.data.commentVal + '&userId=1&userName=test&nickName=test',
+      method: "POST",
+      header: {
+        'content-type': 'application/json;Authorization'
+      },
+      data: {
+        refId: that.data.shopid,
+        cmtType: 5,
+        content: that.data.commentVal,
+        userId: 1,
+        userName: "test",
+        nickName: "test"
+      },
+      success: function (res) {
+        that.setData({
+          isComment: false,
+          commentVal: ""
+        });
+        that.commentList();
+      }
+    });
+  }
 }) 
 // 标记
 // 获取flag

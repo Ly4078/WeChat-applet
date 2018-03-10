@@ -1,0 +1,19 @@
+<view class="commentBox">
+  <block wx:for="{{comment_list}}" wx:key="{{index}}">
+    <view class='evaluate-maximum'>
+      <view class='evaluate-wrap'>
+        <view>
+          <image class='evaluateImages' src='{{item.store_headportrait}}'></image>
+          <text class='evaluateText'>{{item.userName}}</text>
+        </view>
+        <view>
+          <text class='evaluaterightTx'>{{item.zan}}</text>
+          <image wx:if="{{item.isZan == 0}}" bindtap="toLike" class='evaluateright' src='/images/icon/home_zan.png' id="{{item.id}}"></image>
+          <image class='evaluateright' wx:else src="/images/icon/home_zaned.png" bindtap="cancelLike" id="{{item.id}}"></image>
+        </view>
+      </view>
+      <text class='introduce-details'>{{item.content}}</text>
+      <view class='carry-out-data'>{{item.createTime}}</view>
+    </view>
+  </block>
+</view>
