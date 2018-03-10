@@ -8,6 +8,9 @@ Page({
   },
   
   onLoad: function (options) {
+    this.setData({
+      posts_key: postsData.postList
+    });
     let that = this;
     wx.request({
       url: that.data._build_url + 'zb/list/',

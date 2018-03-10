@@ -1,8 +1,8 @@
 <view>
   <view class='particulars'>
     <view class='particulars_details'>
-      <text class='particulars_text'>100元代金券</text>
-      <text>¥10</text>
+      <text class='particulars_text'>{{obj.inp}}元平台劵</text>
+      <text>￥{{obj.sell}}</text>
     </view>
   </view>
   <view class='particulars'>
@@ -12,7 +12,7 @@
         <!-- 减号 -->
         <text class="{{minusStatus}}" bindtap="bindMinus">-</text>
         <!-- 数值 -->
-        <input type="number" bindchange="bindManual" value="{{num}}" />
+        <input type="number" bindchange="bindManual" value="{{number}}" />
         <!-- 加号 -->
         <text class="normal" bindtap="bindPlus">+</text>
       </view>
@@ -27,11 +27,11 @@
   <view class='particulars'>
     <view class='particulars_details'>
       <text class='particulars_text'>小计</text>
-      <text class='subtotal'>¥10</text>
+      <text class='subtotal'>¥{{paymentAmount}}</text>
     </view>
   </view>
-  <view class='affirm'>
+  <view class='affirm' catchtap='confirmPayment'>
     <text>确认支付</text>
-    <text class='affirmNumber'>￥10</text>
+    <text class='affirmNumber'>￥{{paymentAmount}}</text>
   </view>
 </view>

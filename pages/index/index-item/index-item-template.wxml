@@ -1,27 +1,3 @@
-<!--首页顶部定位 搜索 卷  -->
-<template name="locationSeek">
-  <view class='headSeek'>
-    <view class='site_location' bindtap='userLocation'>
-      <text class='site_location_text'>{{city}}</text>
-      <image class='location' src='/images/icon/home_bar_arrow.png'></image>
-    </view>
-     <view class='page_row' bindtap="seekTap">
-      <view class="search">
-        <view class="df search_arr">
-          <icon class="searchcion" size='20' type='search'></icon>
-          <input disabled placeholder="请输入关键字" value="{{searchValue}}" />
-        </view>
-      </view>
-    </view> 
-    <view catchtap='discountCoupon'>
-      <image class='usingTheVolume' src='/images/icon/home_bar_quan.png'></image>
-    </view>
-  </view>
-</template>
-<!--轮播图  -->
-<!-- <template name="Allslideshow">
-  
-</template> -->
 <!--分类  -->
 <template name="allClassify">
   <view class='warp_classify'>
@@ -62,9 +38,9 @@
 </template>
 <!--推荐餐厅  -->
 <template name="postItemss">
-  <view id="{{item.id}}" class="scroll-view-item bc_green" data-postId="{{item.id}}" catchtap='diningHhall' >
-     <image wx:if="{{item.logoUrl}}" class='scroll-view-item-img' src='{{item.logoUrl}}'></image> 
-     <image wx:else class='scroll-view-item-img' src='https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1975347470,2770072390&fm=27&gp=0.jpg'></image> 
+  <view id="{{item.id}}" class="scroll-view-item bc_green" data-postId="{{item.id}}" catchtap='diningHhall'>
+    <image wx:if="{{item.logoUrl}}" class='scroll-view-item-img' src='{{item.logoUrl}}'></image>
+    <image wx:else class='scroll-view-item-img' src='https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1975347470,2770072390&fm=27&gp=0.jpg'></image>
     <view class='cate_site'>{{item.shopName}}</view>
   </view>
 </template>
@@ -83,23 +59,14 @@
 </template>
 <!--美食墙  -->
 <template name="classifyss">
-   <view id="{{item.id}}" bindtab="fooddetails" class="scroll_user">
-    <view class='userinfo_warp'>
-      <view class='userinfo_left'>
-        <image class='userinfo_left_img' src='{{item.picUrls[0].smallPicUrl}}'></image>
-        <text class='userinfo_left_text'>{{item.title}}</text>
-      </view>
-      <view class='userinfo_right'>
-        <image class='userinfo_right_img' src='/images/icon/home_zaned.png'></image>
-      </view>
+  <view id="{{item.id}}" bindtab="fooddetails" class="scroll_user">
+    <image class='cateWallImg' src='/images/post/timg7.jpg'></image>
+    <view class='catewallGroup'>
+      <image class='catewalltou' src='/images/head/head_portrait4.jpg'></image>
+      <text class='catewallText'>陆勇大牛</text>
     </view>
-    <view class='evaluation'>
-       <view class='evaluation_left'> 
-        <text class='evaluation_left_text'>{{item.content}}</text>
-       </view> 
-      <view class='evaluation_right'>
-        <image class='evaluation_right_img' src='{{item.picUrls[1].smallPicUrl}}'></image>
-      </view>
+    <view class='foodDescription'>
+      <view class='DescriptionText'>国外媒体报道，奥斯卡影帝科林·费斯(Colin Firth)和他的妻子利维亚·吉吉丽（Livia Giuggioli）承认了吉吉丽曾和一个被控跟踪她的男人有过婚外情。</view>
     </view>
   </view>
 </template>
@@ -120,8 +87,8 @@
 <!--热门活动  -->
 <template name="hotActivityss">
   <view class="preferential" id="{{item.id}}" catchtap='detailOfTheActivity'>
-  <image wx:if="{{item.actUrl}}" class='preferential_img' src='{{item.actUrl}}'></image> 
-  <image wx:else class='scroll-view-item-img' src='https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1975347470,2770072390&fm=27&gp=0.jpg'></image>
+    <image wx:if="{{item.actUrl}}" class='preferential_img' src='{{item.actUrl}}'></image>
+    <image wx:else class='scroll-view-item-img' src='https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1975347470,2770072390&fm=27&gp=0.jpg'></image>
   </view>
 </template>
 
@@ -142,9 +109,9 @@
 <!--趣享直播  -->
 <template name="liveStreamingss">
   <view id="{{item.id}}" bindtap='tolive' class="anchor bc_green">
-   <image wx:if="{{item.mainPicUrl}}" class='anchor_img' src='{{item.mainPicUrl}}'></image> 
-  <image wx:else class='anchor_img' src='https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=230388057,1937205237&fm=27&gp=0.jpg'></image>
-    
+    <image wx:if="{{item.mainPicUrl}}" class='anchor_img' src='{{item.mainPicUrl}}'></image>
+    <image wx:else class='anchor_img' src='https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=230388057,1937205237&fm=27&gp=0.jpg'></image>
+
     <view class='cate_site'>{{item.streamingName}}</view>
   </view>
 </template>

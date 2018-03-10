@@ -170,7 +170,7 @@ page {
 }
 
 .scroll_user {
-  width: 74%;
+  width: 80%;
   border: 1px solid #b1b1b1;
   display: inline-block;
   border-top-left-radius: 10rpx;
@@ -178,93 +178,12 @@ page {
   border-bottom-right-radius: 10rpx;
   border-bottom-left-radius: 10rpx;
   margin-right: 15rpx;
+  position: relative;
 }
 
-.element {
-  height: 290rpx;
-}
-
-.userinfo_warp {
-  width: 100%;
-  height: 100rpx;
-  display: flex;
-  flex-direction: row;
-}
-
-.userinfo_left {
-  width: 70%;
-  height: auto;
-  padding-left: 15rpx;
-  display: flex;
-  align-items: center;
-}
-
-.userinfo_left_img {
-  width: 19%;
-  height: 67%;
-  border-radius: 50%;
-}
-
-.userinfo_right {
-  width: 30%;
-  height: auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.userinfo_right_img {
-  width: 30%;
-  height: 40%;
-}
-
-.userinfo_left_text {
-  color: #191919;
-  font-size: 14px;
-  padding-left: 12rpx;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.evaluation {
-  width: 100%;
-  height: 135rpx;
-  display: flex;
-  flex-direction: row;
-}
-
-.evaluation_left {
-  width: 67.5%;
-  padding-left: 15rpx;
-  color: #555;
-  font-size: 12px;
-}
-
-.evaluation_right {
-  width: 30%;
-  display: flex;
-  justify-content: center;
-}
-
-.evaluation_right_img {
-  width: 80%;
-  height: 120rpx;
-}
-
-.evaluation_left_text {
-  width: 100%;
-  height: 118rpx;
-  color: #555;
-  font-size: 12px;
-  text-overflow:ellipsis; 
-  overflow:hidden;
-  -webkit-line-clamp:3;  
-  word-break: break-all;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  display: inline-block;
-}
+/* .element {
+  height: 340rpx;
+} */
 
 .preferential_img {
   width: 100%;
@@ -510,3 +429,54 @@ page {
   background: blue;
 }
 
+
+/* 美食墙 */
+.cateWallImg{
+  width: 100%;
+  height: 340rpx;
+  border-top-left-radius: 10rpx;
+  border-top-right-radius: 10rpx;
+  border-bottom-right-radius: 10rpx;
+  border-bottom-left-radius: 10rpx;
+}
+
+.catewalltou{
+  width: 44rpx;
+  height: 44rpx;
+  border-radius: 50rpx;
+  border: 1px solid #e0e0e0;
+  vertical-align: middle;
+}
+
+.catewallText{
+  font-size: 24rpx;
+  color: white;
+  vertical-align: middle;
+  padding-left: 10rpx;
+}
+
+.catewallGroup{
+  position: absolute;
+  top: 10rpx;
+  left: 16rpx;
+}
+
+.DescriptionText{
+  font-size: 30rpx;
+  color: #FFF;
+  width:26%;
+  height: 80rpx;
+  border: 1px solid red;
+  overflow:hidden; 
+  /* word-break:break-all;
+  display:-webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+  overflow:hidden; */
+}
+
+.foodDescription{
+  position: absolute;
+  bottom: 78rpx;
+  margin: 0rpx 10rpx 10rpx 30rpx;
+}

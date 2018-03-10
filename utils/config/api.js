@@ -55,6 +55,10 @@ const ALL_API = {
   terraceRoll: {   //享七劵列表
     method: 'GET',
     url: 'sku/list'
+  }, 
+  paymentPay: {   //享七劵列表
+    method: 'POST',
+    url: '/wxpay/pay'
   }
 }
 

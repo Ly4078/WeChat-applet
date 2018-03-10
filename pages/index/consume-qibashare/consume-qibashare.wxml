@@ -13,7 +13,7 @@
             <text class='discountMomey'>元</text>
           </view>
           <!-- <view class='discount_fels'></view> -->
-          <text class='discount_fels_zq'>{{item.sellPrice/item.inPrice*10}}折</text>
+          <!-- <text class='discount_fels_zq'>{{item.sellPrice/item.inPrice*10}}折</text> -->
         </view>
       </view>
       <view class='powerScroll'>

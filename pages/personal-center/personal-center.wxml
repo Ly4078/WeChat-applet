@@ -6,7 +6,7 @@
     </view>
     <view class='messageCase'>
       <view class='messageWrap' bindtap='DynamicState'>
-        <text class='messageTop'>动态</text>
+        <text class='messageTop'>文章</text>
         <text>12</text>
       </view>
       <image class='halving-line' src='/images/icon/vertical.png'></image>

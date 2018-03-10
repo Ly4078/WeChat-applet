@@ -2,7 +2,8 @@ var postsData = require('/../../../data/merchant-data.js')
 import Api from '/../../../utils/config/api.js'
 Page({
   data: {
-    information: []
+    information: [],
+    obj: {}
   },
   onLoad: function (options) {
     let that = this;
@@ -37,8 +38,9 @@ Page({
     })
   },
   directPurchase: function () {
+    let data = this.data.obj
     wx.navigateTo({
-      url: '../order-for-goods/order-for-goods',
+      url: '../order-for-goods/order-for-goods?id=' + id + "&sell=" + sell + "&inp=" + _inPrice + "&rule=" + _ruleDesc
     })
   },
 
