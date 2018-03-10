@@ -1,3 +1,4 @@
+<import src="comment-template/comment-template.wxml" />
 <view>
   <view class='detailsWrap'>
     <image class='cateImages' src='{{posts_key[0].store_img1}}' bindtap='moreImages'></image>
@@ -87,28 +88,11 @@
         <image class='initiate-right' src='/images/icon/home_arrow.png'></image>
       </view>
       <block wx:for="{{comment_list}}" wx:key="{{index}}">
-        <view class='evaluate-maximum'>
-          <view class='evaluate-wrap'>
-            <view>
-              <image class='evaluateImages' src='{{item.store_headportrait}}'></image>
-              <text class='evaluateText'>{{item.userName}}</text>
-            </view>
-            <view wx:if="{{item.isZan == 0}}" bindtap="toLike" id="{{item.id}}">
-              <text class='evaluaterightTx'>{{item.zan}}</text>
-              <image class='evaluateright' src='/images/icon/home_zan.png'></image>
-            </view>
-            <view wx:else bindtap="cancelLike" id="{{item.id}}">
-              <text class='evaluaterightTx'>{{item.zan}}</text>
-              <image class='evaluateright' src="/images/icon/home_zaned.png"></image>
-            </view>
-          </view>
-          <text class='introduce-details'>{{item.content}}</text>
-          <view class='carry-out-data'>{{item.createTime}}</view>
-        </view>
+        <template is="commentItem" data="{{item}}"></template>  
       </block>
       <view class='total-comment' hidden='{{totalComment}}' catchtap='jumpTotalComment'>
         <view class='total-center'>
-          <text>查看全部<text>{{comment_list.length}}</text>条评论</text>
+          <text>查看全部<text>{{commentNum}}</text>条评论</text>
         </view>
       </view>  
       <view class='botton-comment' bindtap='showAreatext'>

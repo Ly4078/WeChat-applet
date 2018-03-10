@@ -3,13 +3,15 @@ import { GLOBAL_API_DOMAIN } from '/../../../../utils/config/config.js';
 var app = getApp();
 Page({
   data: {
-    _build_url: GLOBAL_API_DOMAIN
+    _build_url: GLOBAL_API_DOMAIN,
+    comment_list: [],
+    page: 1,
+    reFresh: true
   },
   onLoad: function (options) {
     this.setData({
       shopid: options.shopid
     });
-    console.log(this.data.shopid);
     this.commentList();
   },
   //评论列表
@@ -21,14 +23,21 @@ Page({
         refId: that.data.shopid,
         cmtType: 5,
         zanUserId: 1,
-        page: 1,
-        rows: 10
+        page: that.data.page,
+        rows: 8
       },
       success: function (res) {
         let data = res.data;
-        if (data.code == 0 && data.data.list != null && data.data.list != "") {
+        if (data.code == 0 && data.data.list != null && data.data.list != "" && data.data.list != []) {
+          let comment_list = [];
+          comment_list = that.data.page == 1 ? res.data.data.list : that.data.comment_list.concat(res.data.data.list);
           that.setData({
-            comment_list: res.data.data.list
+            comment_list: comment_list,
+            reFresh: true
+          })
+        } else {
+          that.setData({
+            reFresh: false
           })
         }
       }
@@ -69,7 +78,6 @@ Page({
       cmtType = "",
       index = "";
     for (var i = 0; i < this.data.comment_list.length; i++) {
-      console.log(123)
       if (this.data.comment_list[i].id == id) {
         index = i;
       }
@@ -92,5 +100,33 @@ Page({
         }
       }
     })
+  },
+  //用户下拉刷新
+  onPullDownRefresh: function() {
+    let that = this;
+    this.setData({
+      page: 1
+    });
+    wx.showLoading({
+      title: '',
+      success: function() {
+        that.commentList();
+        setTimeout(function () {
+          wx.hideLoading();
+          wx.stopPullDownRefresh();
+        }, 1000);
+      }
+    });
+  },
+  //用户上拉触底
+  onReachBottom: function() {
+    if (this.data.reFresh) {
+      let page = 0;
+      page = this.data.page + 1;
+      this.setData({
+        page: page
+      });
+      this.commentList();
+    }
   }
 })
