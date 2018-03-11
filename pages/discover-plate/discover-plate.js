@@ -19,9 +19,22 @@ Page({
       }
     })
     
+
+    wx.setStorage({
+      key: 'cover',
+      data: ''
+    })
+    wx.setStorage({
+      key: 'title',
+      data: '',
+    })
+    wx.setStorage({
+      key: 'text',
+      data: '',
+    })
   },
-  announceState:function(event){
-    wx.navigateTo({
+  announceState:function(event){ // 跳转到编辑动态页面
+    wx.redirectTo({
       url: 'dynamic-state/dynamic-state',
     })
   }

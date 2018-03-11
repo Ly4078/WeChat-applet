@@ -2,15 +2,15 @@
 <!-- <form bindsubmit="bindFormSubmit"> -->
   <image wx:if="{{coverimg}}" bindtap='getcover' class='dynamic_cover' src='{{coverimg}}'></image>
   <image wx:else bindtap='getcover' class='dynamic_cover' src='/images/icon/set_cover.png'></image>
-  <input bindblur="bindblur" class='title' type='text' placeholder='请输入标题'></input>
+  <input bindblur="bindblurinput" value='{{title}}' class='title' type='text' placeholder='请输入标题'></input>
 
   <view wx:for="{{content}}" wx:key="{{index}}">
-     <view class='box' wx:if="{{item.type == 'img'}}">
+     <view class='box imgbox' wx:if="{{item.type == 'img'}}">
       <image class='childimg' id="{{index}}" bindtap='changepicture' src='{{item.value}}'></image>
       <textarea id="{{index}}" bindblur="bindblurnote" class='childimgtext' placeholder='图片简介'>{{item.txt}}</textarea>
     </view>
     <view class='box' wx:if="{{item.type == 'text'}}">
-      <textarea class='childtext'>{{item.value}}</textarea>
+      <textarea class='childtext' maxlength="-1">{{item.value}}</textarea>
     </view> 
 <!-- 
     <view wx:if="{{isplus}}" id="{{index}}" bindtap='clickplus' class='add'>+</view>

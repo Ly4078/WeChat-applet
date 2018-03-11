@@ -1,7 +1,6 @@
 .textarea{
   width: 90%;
-  line-height: 2rem;
-  overflow: hidden;
+  min-height: 2rem;           
   margin: 2% 5%;
   border: 1px solid #ccc;
 }
