@@ -19,6 +19,16 @@ Page({
     let that = this;
     var article = app.globalData.article;  //获取全局变量
     let _text = wx.getStorageSync('text'); //获取同步缓存数据
+    wx.getStorage({
+      key: 'title',
+      success: function(res) {
+        console.log("restitle:",res.data);
+        that.setData({
+          title: res.data
+        })
+      },
+    })
+    console.log("title11:",this.data.title)
     if (_text){
       let obj = {
           type: 'text',
@@ -26,30 +36,7 @@ Page({
         }
         article.push(obj);
     }
-    // wx.getStorage({
-    //   key: 'text',
-    //   success: function (res) {
-    //     console.log("text",res.data)
-    //     if (res.data) {
-    //       let obj = {
-    //         type: 'text',
-    //         value: res.data
-    //       }
-    //       article.push(obj);
-    //     }
-    //   }
-    // }),
-    
-    wx.getStorage({  
-      key: 'title',
-      success: function(res) {
-        if(res.data){
-          that.setData({
-            title: res.data
-          })
-        }
-      }
-    }),
+  
     wx.getStorage({
       key: 'cover',
       success: function(res) {
@@ -76,24 +63,37 @@ Page({
     })
   },
   onUnload: function () { //生命周期函数--监听页面卸载
-    getApp().globalData.article = []
+    getApp().globalData.article = [];
+    wx.setStorage({
+      key: 'cover',
+      data: ''
+    })
+    wx.setStorage({
+      key: 'title',
+      data: '',
+    })
+    wx.setStorage({
+      key: 'text',
+      data: '',
+    })
   },
   onShow: function () {
   },
   bindblur: function (e) { //焦点离开标题框  获取框中value
     let that = this;
-    let _title = e.detail.value;
-    wx.getStorage({
-      key: 'title',
-      success: function(res) {
-        if(res.data){
-          _title = res.data;
-          that.setData({
-            title: res.data
-          })
-        }
-      },
-    })
+    let _title = e.detail.value
+    console.log("_title:",_title)
+    // wx.getStorage({
+    //   key: 'title',
+    //   success: function(res) {
+    //     console.log("res:",res.data);
+    //     if(res.data){
+    //       that.setData({
+    //         title: res.data
+    //       })
+    //     }
+    //   },
+    // })
     wx.setStorage({
       key: 'title',
       data: _title
@@ -101,7 +101,7 @@ Page({
     that.setData({
       title: _title
     })
-    console.log("title:",this.data.title)
+    // console.log("title:",this.data.title)
   },
   getcover: function () {  //获取封面图片
     this.getimg('b');
@@ -149,9 +149,6 @@ Page({
   },
   FormSubmit(e){  // 点击按钮
     let ind = e.currentTarget.id;
-    // this.data.title
-    // this.data.coverimg
-    // this.data.content
     console.log("ind:",ind)
     if (ind == 0) {  //  ['预览','提交']
       this.setData({
@@ -248,8 +245,8 @@ Page({
           },
           success: function (res) {
             var article = getApp().globalData.article;  //获取全局变量
-            let _data = res.data
-            _data = JSON.parse(_data)
+            let _data = res.data;
+            _data = JSON.parse(_data);
             let _img = _data.data.smallPicUrl
 
             if (type == 'a') {  //添加内容图片

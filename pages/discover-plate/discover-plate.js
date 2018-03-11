@@ -18,6 +18,7 @@ Page({
         })
       }
     })
+    
   },
   announceState:function(event){
     wx.navigateTo({
