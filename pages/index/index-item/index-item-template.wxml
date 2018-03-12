@@ -59,14 +59,14 @@
 </template>
 <!--美食墙  -->
 <template name="classifyss">
-  <view id="{{item.id}}" bindtab="fooddetails" class="scroll_user">
-    <image class='cateWallImg' src='/images/post/timg7.jpg'></image>
+  <view id="{{item.id}}" catchtap="fooddetails" class="scroll_user">
+    <image class='cateWallImg' src='{{item.homePic}}'></image>
     <view class='catewallGroup'>
-      <image class='catewalltou' src='/images/head/head_portrait4.jpg'></image>
-      <text class='catewallText'>陆勇大牛</text>
+      <image class='catewalltou' src='{{item.homePic}}'></image>
+      <text class='catewallText'>{{item.title}}</text>
     </view>
     <view class='foodDescription'>
-      <view class='DescriptionText'>国外媒体报道，奥斯卡影帝科林·费斯(Colin Firth)和他的妻子利维亚·吉吉丽（Livia Giuggioli）承认了吉吉丽曾和一个被控跟踪她的男人有过婚外情。</view>
+      <view class='DescriptionText'>{{item.summary}}</view>
     </view>
   </view>
 </template>

@@ -1,34 +1,37 @@
-<view class='dynamic'>
-<!-- <form bindsubmit="bindFormSubmit"> -->
-  <image wx:if="{{coverimg}}" bindtap='getcover' class='dynamic_cover' src='{{coverimg}}'></image>
-  <image wx:else bindtap='getcover' class='dynamic_cover' src='/images/icon/set_cover.png'></image>
-  <input bindblur="bindblurinput" value='{{title}}' class='title' type='text' placeholder='请输入标题'></input>
+<view class='dynamic' catchtap='isplusf'>
+
+  <image wx:if="{{coverimg}}" catchtap='getcover' class='dynamic_cover' src='{{coverimg}}'></image>
+  <image wx:else catchtap='getcover' class='dynamic_cover' src='/images/icon/set_cover.png'></image>
+  <input bindblur="bindblurinput" placeholder-class="phcolor" value='{{title}}' class='title' type='text' placeholder='请输入标题'></input>
 
   <view wx:for="{{content}}" wx:key="{{index}}">
-     <view class='box imgbox' wx:if="{{item.type == 'img'}}">
-      <image class='childimg' id="{{index}}" bindtap='changepicture' src='{{item.value}}'></image>
-      <textarea id="{{index}}" bindblur="bindblurnote" class='childimgtext' placeholder='图片简介'>{{item.txt}}</textarea>
+    <view class='box' wx:if="{{item.type == 'img'}}">
+      <image class='childimg' id="{{index}}" catchtap='changepicture' src='{{item.value}}'></image>
+      <textarea id="{{index}}" catchtap='illustrate' class='childimgtext'  disabled='true' placeholder='图片简介' value='{{item.txt}}'></textarea>
     </view>
     <view class='box' wx:if="{{item.type == 'text'}}">
-      <textarea class='childtext' maxlength="-1">{{item.value}}</textarea>
-    </view> 
-<!-- 
-    <view wx:if="{{isplus}}" id="{{index}}" bindtap='clickplus' class='add'>+</view>
-    <view wx:else class='img_txt'>
-      <image bindtap='clickimg' class='addimg' src='/images/icon/send_photo.png'></image>
-      <image bindtap='clicktxt' class='addtxt' src='/images/icon/send_txt.png'></image>
-    </view> -->
+      <textarea class='childtext' disabled='true' maxlength="-1" id="{{index}}" catchtap='modify'>{{item.value}}</textarea>
+    </view>
+
 
   </view>
 
-  <view wx:if="{{isplus}}" id="" bindtap='clickplus' class='add'>+</view>
+  <view wx:if="{{isplus}}" id="" catchtap='clickplus' class='add'>+</view>
   <view wx:else class='img_txt'>
-    <image bindtap='clickimg' class='addimg' src='/images/icon/send_photo.png'></image>
-    <image bindtap='clicktxt' class='addtxt' src='/images/icon/send_txt.png'></image>
+    <image catchtap='clickimg' class='addimg' src='/images/icon/send_photo.png'></image>
+    <image catchtap='clicktxt' class='addtxt' src='/images/icon/send_txt.png'></image>
   </view>
-  <view wx:for="{{butt}}" wx:key="{{index}}" wx:if="{{!issee}}">
-    <button form-type="submit" id="{{index}}" bindtap='FormSubmit' class='submit'> {{item}} </button>
+
+  <view wx:for="{{butt}}" wx:key="{{index}}">
+    <button form-type="submit" id="{{index}}" catchtap='FormSubmit' class='submit'> {{item}} </button>
   </view>
-  <button wx:if="{{issee}}" bindtap='goback'>返回</button>
-  <!-- </form> -->
+
 </view>
+
+
+<!-- 
+    <view wx:if="{{isplus}}" id="{{index}}" catchtap='clickplus' class='add'>+</view>
+    <view wx:else class='img_txt'>
+      <image catchtap='clickimg' class='addimg' src='/images/icon/send_photo.png'></image>
+      <image catchtap='clicktxt' class='addtxt' src='/images/icon/send_txt.png'></image>
+    </view> -->

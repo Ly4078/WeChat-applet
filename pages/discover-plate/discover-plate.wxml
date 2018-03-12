@@ -26,11 +26,38 @@
   <view class='initiate-exhibition the-second'>
     <view>
       <image class='initiate-left' src='/images/icon/home_sign.png'></image>
-      <text class='initiate-text'>享七直播</text>
+      <text class='initiate-text'>美食墙</text>
     </view>
   </view>
 
-  <block wx:for="{{posts_key}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
+  <view wx:for="{{food}}" wx:key="{{index}}">
+    <view id="{{item.id}}" catchtap="clickarticle" class="scroll_user find">
+      <image class='cateWallImg findimg' src='{{item.homePic}}'></image>
+      <view class='catewallGroup'>
+        <image class='catewalltou' src='{{item.homePic}}'></image>
+        <text class='catewallText'>{{item.title}}</text>
+      </view>
+      <view class='foodDescription finddes'>
+        <view class='DescriptionText findtext'>{{item.summary}}</view>
+      </view>
+      <view class='otherdata'>
+        <view class='browsing'>
+          <image src='/images/icon/tuoyuan_w.png' class='hits findhits'></image>
+          0</view>
+        <view class='forwarding'>
+          <image src='/images/icon/find_share.png' class='hits findhits'></image>
+          1</view>
+        <view class='evaluate'>
+          <image src='/images/icon/word.png' class='hits findhits'></image>
+          2</view>
+        <view class='reward'>
+          <image src='/images/icon/find_gold.png' class='hits findhits'></image>
+          3</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- <block wx:for="{{posts_key}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
     <view>
       <view class='find-cate'>
         <view class='find-rwap-nmx'>
@@ -53,8 +80,8 @@
         </block>
       </view>
     </view>
-  </block>
+  </block> -->
   <!-- <view class='publish-dynamic-wrap'> -->
-    <image catchtap='announceState' class='publish-dynamic-condition' src='/images/icon/send_dongtai.png'></image>
+  <image catchtap='announceState' class='publish-dynamic-condition' src='/images/icon/send_dongtai.png'></image>
   <!-- </view> -->
 </view>

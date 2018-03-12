@@ -6,26 +6,64 @@ Page({
     _build_url: GLOBAL_API_DOMAIN,   //域名
     article: app.globalData.article,   //获取全局变量
     isplus: true,
-    issee: false,
     addind: '',
     num: 0,
     title: '',  //标题
     coverimg: '',  //封面图片
     content: [],   //文章内容数据
-    butt: ['预览', '提交','取消']
+    butt: ['预览', '提交', '退出文章编辑'],
+
+    userId: '1'
   },
 
   onLoad: function (options) {  // 生命周期函数--监听页面加载
     let that = this;
+    let _isIll = wx.getStorageSync('isIll')
+    let _ismodi = wx.getStorageSync('ismodi')
+    let _idnum = wx.getStorageSync('idnum')
     var article = app.globalData.article;  //获取全局变量
     let _text = wx.getStorageSync('text') //获取同步缓存数据
-    if (_text) {
-      let obj = {
-        type: 'text',
-        value: _text
+
+    if (_isIll) {
+      let data = article;
+      data[_idnum].txt = _text;
+      that.setData({
+        content: data
+      })
+      wx.setStorage({
+        key: 'isIll',
+        data: false,
+      })
+      wx.setStorage({
+        key: 'idnum',
+        data: '',
+      })
+    } else {
+      if (_ismodi) {
+        let obj = {
+          type: 'text',
+          value: _text
+        }
+        article[_idnum] = obj;
+        wx.setStorage({
+          key: 'ismodi',
+          data: false,
+        })
+        wx.setStorage({
+          key: 'idnum',
+          data: '',
+        })
+      } else {
+        if (_text) {
+          let obj = {
+            type: 'text',
+            value: _text
+          }
+          article.push(obj);
+        }
       }
-      article.push(obj);
     }
+
 
     wx.getStorage({
       key: 'cover',
@@ -65,6 +103,10 @@ Page({
   },
   onUnload: function () { //生命周期函数--监听页面卸载
     getApp().globalData.article = []
+    wx.setStorage({
+      key: 'text',
+      data: '',
+    })
   },
   onShow: function () {
   },
@@ -78,7 +120,7 @@ Page({
       key: 'title',
       data: _title
     })
-    
+
   },
   getcover: function () {  //获取封面图片
     this.getimg('b');
@@ -88,6 +130,11 @@ Page({
     this.setData({
       isplus: false,
       addind: ind
+    })
+  },
+  isplusf: function () {  //关闭选择图文
+    this.setData({
+      isplus: true
     })
   },
   clickimg: function () {  //添加内容图片
@@ -124,18 +171,52 @@ Page({
       })
     }
   },
+  illustrate: function (e) {  //点击编辑图片简介
+    let ind = e.currentTarget.id;
+    wx.setStorage({
+      key: 'modi',
+      data: this.data.content[ind].txt,
+    })
+    wx.setStorage({
+      key: 'idnum',
+      data: ind,
+    })
+    wx.setStorage({
+      key: 'isIll',
+      data: true,
+    })
+    wx.navigateTo({
+      url: 'text_input/text_input'
+    })
+  },
+  modify(e) {  //修改文本
+    let ind = e.currentTarget.id
+    wx.setStorage({
+      key: 'modi',
+      data: this.data.content[ind].value,
+    })
+    wx.setStorage({
+      key: 'ismodi',
+      data: true,
+    })
+    wx.setStorage({
+      key: 'idnum',
+      data: ind,
+    })
+    wx.navigateTo({
+      url: 'text_input/text_input'
+    })
+  },
   FormSubmit(e) {  // 点击按钮
     let ind = e.currentTarget.id
-    if (ind == 0) {  //  ['预览','提交','取消']
-      this.setData({
-        issee: true
+    if (ind == 0) {  //  ['预览','提交','退出文章编辑']
+      let [..._data] = this.data.content
+      _data= JSON.stringify(_data)
+      wx.navigateTo({
+        content: [],   //文章内容数据
+        url: 'article_details/article_details?content=' + _data+'&title='+this.data.title
       })
-      wx.showToast({
-        title: '预览正在开发中。。。',
-        icon: 'none',
-        duration: 1500
-      })
-    } else if(ind ==1) {
+    } else if (ind == 1) {
       let sum = [];
       let _content = JSON.stringify(this.data.content);
       let _title = this.data.title;
@@ -171,7 +252,7 @@ Page({
       let _parms = {
         title: _title,
         content: _content,
-        userId: '1',
+        userId: this.data.userId,
         summary: sum[0],
         homePic: _coverimg,
         userName: app.globalData.userInfo.nickName,
@@ -204,10 +285,10 @@ Page({
         }, 1500)
 
       })
-    } else if(ind ==2){
+    } else if (ind == 2) {
       wx.showModal({
         title: '提示',
-        content: '即将清空数据并退出编辑',
+        content: '退出编辑将清空数据',
         success: function (res) {
           if (res.confirm) {
             wx.switchTab({
@@ -219,11 +300,6 @@ Page({
         }
       })
     }
-  },
-  goback: function () {  //点击返回按钮  退出预览
-    this.setData({
-      issee: false
-    })
   },
   getimg: function (type) {   // 获取图片  公用
     let that = this;

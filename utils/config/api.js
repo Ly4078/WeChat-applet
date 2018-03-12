@@ -35,7 +35,11 @@ const ALL_API = {
     method:'GET',
     url:'hcl/list'
   },
-  topiclist: {   //主题列表  美食墙
+  topictop: { //首页美食墙
+    method:'GET',
+    url:'topic/top'
+  },
+  topiclist: {   //主题列表  
     method: 'GET',
     url: 'topic/list'
   },
@@ -68,10 +72,26 @@ const ALL_API = {
     method:'POST',
     url:'vote/add'
   },
-  topicadd:{
+  topicadd:{  //文章列表
     method:'POST',
     url:'topic/add'
-  }
+  },
+  cmtlist: {  //查询文章评论
+    method:'GET',
+    url:'cmt/list'
+  },
+  cmtadd:{   //新增文章评论
+    method:'POST',
+    url:'cmt/add'
+  },
+  zanadd:{   //点赞
+    method:'POST',
+    url:'zan/add'
+  },
+  zandelete:{   //取消点赞
+    method: 'POST',
+    url: 'zan/delete'
+  },
 }
 
 const Api = new MyHttp({}, ALL_API);

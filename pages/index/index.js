@@ -84,10 +84,10 @@ Page({
     })
   }, 
   gettopic:function(){  // 美食墙
-    Api.topiclist().then((res) => {
-      // console.log("food:",res.data.data.list)
+    Api.topictop().then((res) => {
+      // console.log("food:", res.data.data)
       this.setData({
-        food: res.data.data.list
+        food: res.data.data
       })
     })
   },
@@ -165,7 +165,7 @@ Page({
     })
   },
 
-  cateWall: function (event) {
+  cateWall: function (event) {  //美食墙 查看更多
     wx.switchTab({
       url: '../discover-plate/discover-plate',
     })
@@ -183,7 +183,11 @@ Page({
     })
   },
   fooddetails: function (e) {  //跳转美食墙内页
-    const sfoodid = e.currentTarget.id
+    const id = e.currentTarget.id
+    wx.navigateTo({
+      // url:'../discover-plate/dynamic-state/dynamic-state'
+      url: '../discover-plate/dynamic-state/article_details/article_details?id='+id,
+    })
     // wx.navigateTo({
     //   url: 'test?sfoodid=' + sfoodid
     // })

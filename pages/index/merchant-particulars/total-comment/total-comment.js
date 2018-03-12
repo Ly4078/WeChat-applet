@@ -6,11 +6,16 @@ Page({
     _build_url: GLOBAL_API_DOMAIN,
     comment_list: [],
     page: 1,
+    id:'',
+    source:'',   //请求来源   查明是谁来调用这个文件
+    cmtType:'',  //评论类别
     reFresh: true
   },
   onLoad: function (options) {
     this.setData({
-      shopid: options.shopid
+      id: options.id,
+      source: options.source,
+      cmtType: options.cmtType
     });
     this.commentList();
   },
@@ -20,12 +25,13 @@ Page({
     wx.request({
       url: that.data._build_url + 'cmt/list',
       data: {
-        refId: that.data.shopid,
-        cmtType: 5,
+        refId: that.data.id,
+        cmtType: that.data.cmtType,
         zanUserId: 1,
         page: that.data.page,
         rows: 8
       },
+      
       success: function (res) {
         let data = res.data;
         if (data.code == 0 && data.data.list != null && data.data.list != "" && data.data.list != []) {

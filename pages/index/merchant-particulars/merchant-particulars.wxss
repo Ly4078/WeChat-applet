@@ -347,66 +347,6 @@ page {
   background-color: white;
 }
 
-.botton-comment{
-  border-top: 0.1px solid #808080;
-  height: 100rpx;
-  background-color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #191919;
-}
-
-.comment-images{
-  width: 40rpx;
-  height: 40rpx;
-  padding-right: 24rpx;
-}
-
-.total-comment{
-  height: 100rpx;
-  background-color: white;
-  display: flex;
-  justify-content: center;
-}
-
-.total-center{
-  width: 60%;
-  height: 80rpx;
-  border: 1px solid #FC5E2D;
-  color: #FC5E2D;
-  font-size: 28rpx;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-top-left-radius: 10rpx;
-  border-top-right-radius: 10rpx;
-  border-bottom-left-radius: 10rpx;
-  border-bottom-right-radius: 10rpx;
-  letter-spacing: 0.5px;
-}
-
-.reviewyan{
-  color: #555555;
-}
-
-.show {
-  display: block;
-}
-.hide {
-  display: none;
-}
-
-.commentBox {
-  width: 100%;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  padding: 10rpx;
-  box-sizing: border-box;
-  background-color: #e0e0e0;
-}
-
 .commentBox textarea{
   float: left;
   width: 75%;

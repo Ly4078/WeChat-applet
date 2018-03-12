@@ -15,6 +15,7 @@ App({
     wx.login({
       success: res => {
         let _code = res.code;
+        console.log("code:",_code)
         wx.request({
           url: this.data._build_url+'wxpay/getOpenId',
           method:'POST',
