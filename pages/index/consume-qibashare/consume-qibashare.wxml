@@ -17,7 +17,7 @@
         </view>
       </view>
       <view class='powerScroll'>
-        <view class='buy-immediately' catchtap='directPurchase'>立即购买</view>
+        <view class='buy-immediately' id="{{item.id}}" catchtap='directPurchase'>立即购买</view>
         <view class='already'>
           <text class='already_text'>已售{{item.sellNum}}</text>
         </view>

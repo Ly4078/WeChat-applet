@@ -37,11 +37,23 @@ Page({
       url: '../voucher-details/voucher-details?id=' + id + "&sell=" + _sellPrice + "&inp=" + _inPrice + "&rule=" + _ruleDesc
     })
   },
-  directPurchase: function () {
+
+  directPurchase: function (e) {
+    var   a =1;
     let data = this.data.obj
+    let id = e.currentTarget.id
+    let _arr = this.data.information
+    let _sellPrice = '', _inPrice = '', _ruleDesc = ''
+    for (let i = 0; i < _arr.length; i++) {
+      if (id == _arr[i].id) {
+        _sellPrice = _arr[i].sellPrice,
+          _inPrice = _arr[i].inPrice,
+          _ruleDesc = _arr[i].promotionRules[0].ruleDesc
+      }
+    }
     wx.navigateTo({
-      url: '../order-for-goods/order-for-goods?id=' + id + "&sell=" + sell + "&inp=" + _inPrice + "&rule=" + _ruleDesc
+      url: '../order-for-goods/order-for-goods?id=' + id + "&sell=" + _sellPrice + "&inp=" + _inPrice + "&rule=" + _ruleDesc
     })
-  },
+  }
 
 })
