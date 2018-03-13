@@ -302,22 +302,29 @@ Page({
   },
   //发表评论
   sendComment: function(e) {
-    let that = this;
-    let _parms = {};
-    wx.request({
-      url: that.data._build_url + 'cmt/add?refId=' + that.data.shopid + '&cmtType=5&content=' + that.data.commentVal + '&userId=' + that.data.userId + '&userName=' + that.data.userName + '&nickName=' + that.data.nickName,
-      method: "POST",
-      header: {
-        'content-type': 'application/json;Authorization'
-      },
-      success: function (res) {
-        that.setData({
-          isComment: false,
-          commentVal: ""
-        });
-        that.commentList();
-      }
-    });
+    if (this.data.commentVal == "" || this.data.commentVal == undefined) {
+      wx.showToast({
+        title: '请先输入评论',
+        icon: 'none'
+      })
+    } else {
+      let that = this;
+      let _parms = {};
+      wx.request({
+        url: that.data._build_url + 'cmt/add?refId=' + that.data.shopid + '&cmtType=5&content=' + that.data.commentVal + '&userId=' + that.data.userId + '&userName=' + that.data.userName + '&nickName=' + that.data.nickName,
+        method: "POST",
+        header: {
+          'content-type': 'application/json;Authorization'
+        },
+        success: function (res) {
+          that.setData({
+            isComment: false,
+            commentVal: ""
+          });
+          that.commentList();
+        }
+      });
+    }
   }
 }) 
 // 标记

@@ -18,6 +18,7 @@ Page({
       success: function(res) {
         let data = res.data;
         if(data.code == 0) {
+          console.log(data.data)
           that.setData({
             ticketInfo: data.data,
             soId: data.data.soId
@@ -35,6 +36,7 @@ Page({
       success: function (res) {
         let data = res.data;
         if (data.code == 0) {
+          console.log(data.data)
           that.setData({
             orderInfo: data.data
           });
@@ -43,8 +45,9 @@ Page({
     })
   },
   sublevelSum:function(event){
+    let that = this;
     wx.navigateTo({
-      url: '../../index/voucher-details/voucher-details',
+      url: '../../index/voucher-details/voucher-details?id=' + that.data.ticketId + '&sell=' + that.data.orderInfo.soAmount + '&inp=' + that.data.ticketInfo.couponAmount + '&rule=' + that.data.ticketInfo.promotionRules[0].ruleDesc
     })
   }
 })

@@ -129,7 +129,9 @@ page {
 .location-right {
   width: 34rpx;
   height: 44rpx;
-  padding-right: 32rpx;
+  /* padding-right: 32rpx; */
+  position: absolute;
+  right: 50rpx;
 }
 
 .location-text {
@@ -144,6 +146,8 @@ page {
   border: 1px solid #e0e0e0;
   margin: 0rpx 24rpx 0rpx 34rpx;
   background-color: #e0e0e0;
+  position: absolute;
+  right: 110rpx;
 }
 
 .colletionImg{
@@ -190,6 +194,7 @@ page {
 
 .locationWrap {
   margin-bottom: 20rpx;
+  position: relative;
 }
 
 .currentTabImg {
@@ -284,6 +289,7 @@ page {
   justify-content: space-between;
   padding: 0rpx 34rpx;
   align-items: center;
+  /* padding-bottom: 30rpx; */
 }
 
 .initiate-left {
@@ -322,7 +328,7 @@ page {
 .scroll_anchor {
   white-space: nowrap;
   overflow: hidden;
-  height: 420rpx;
+  height: 280rpx;
   width: 100%;
 }
 
