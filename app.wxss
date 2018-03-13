@@ -3,14 +3,6 @@
   display: block;
 }
 
-.search{
-  width: 100%;
-  background: #fc5e2d;
-  height: 100rpx;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
 
 .search_arr {
   width: 92%;
@@ -56,8 +48,12 @@
 }
 
 .search {
-  /* justify-content: space-around; */
+  display: flex;
+  align-items: center;
   flex-direction: row;
+  width: 100%;
+  background: #fc5e2d;
+  height: 100rpx;
 }
 
 .search_arr input{
@@ -259,7 +255,7 @@
 
 .foodDescription{
   position: absolute;
-  bottom: 40rpx;
+  bottom: 5rpx;
   margin: 10rpx 10rpx 10rpx 30rpx;
 }
 
@@ -349,7 +345,7 @@
   font-size: 30rpx;
   color: #FFF;
   width:90%;
-  height: 120rpx;
+  height: 85rpx;
   overflow:hidden; 
   white-space:pre-line;
 }

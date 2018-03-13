@@ -10,6 +10,7 @@ Page({
     obj: []
   },
   onLoad: function (options) {
+    console.log(options)
     this.setData({
       obj: options,
       paymentAmount: options.sell
@@ -81,17 +82,16 @@ Page({
   //微信支付入口
   confirmPayment: function (e) {
     var that = this;
-    var url = 'http://182.254.130.252/wxpay/doUnifiedOrder';
+    var url = 'https://www.hbxq001.cn/wxpay/doUnifiedOrder';
     console.log('每一个ID' + that.data.obj.id)
     wx.request({
       url: url,
       data: {
         soId: that.data.obj.id,
         openId: 'ogDNV457VtL4ucjVYeUOwrHU1-_w',
-        // total_fee: '20'
       },
       header: {
-        "content-type": "application/x-www-form-urlencoded"
+        "content-type": "application/x-www-form-urlencoded",
       },
       method: 'POST',
       success: function (res) {

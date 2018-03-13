@@ -1,0 +1,15 @@
+.search_arr{
+  margin-top:  20rpx;
+}
+
+.user-cancel{
+  margin-top:-62rpx;
+  height:64rpx;
+  background-color: white;
+  color: #808080;
+  line-height: 64rpx;
+}
+
+.searchcion{
+  margin:12rpx 10rpx 10rpx 30rpx;
+}
