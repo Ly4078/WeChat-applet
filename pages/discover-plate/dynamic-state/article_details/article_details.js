@@ -13,7 +13,7 @@ Page({
     commentVal:'',  //评论内容
     isComment: false,
     preview:{},    //预览数据
-    userId:'1234567'  //虚拟ID 暂用
+    userId:'1'  //虚拟ID 暂用
   },
 
   /**
@@ -50,7 +50,7 @@ Page({
   },
   getcmtlist:function(){  //获取文章评论数据
     let _parms = {
-      zanUserId: this.data.userId,
+      zanUserId: app.globalData.userInfo.userId ? app.globalData.userInfo.userId : this.data.userId,
       cmtType:'2',
       refId:this.data._id
     }
@@ -77,7 +77,7 @@ Page({
       refId:this.data._id,
       cmtType:'2',
       content:this.data.commentVal,
-      userId:this.data.userId,
+      userId: app.globalData.userInfo.userId ? app.globalData.userInfo.userId : this.data.userId,
       userName:'测试文章评论内容',
       nickName:'测试文章评论内容'
     }
@@ -107,8 +107,8 @@ Page({
     }
     let _parms = {
       refId: id,
-      type: '2',
-      userId: this.data.userId,
+      type: '4',
+      userId: app.globalData.userInfo.userId ? app.globalData.userInfo.userId : this.data.userId,
     }
     Api.zanadd(_parms).then((res) => {
       if (res.data.code == 0) {
@@ -136,8 +136,8 @@ Page({
     }
     let _parms = {
       refId: id,
-      type: '2',
-      userId: this.data.userId,
+      type: '4',
+      userId: app.globalData.userInfo.userId ? app.globalData.userInfo.userId : this.data.userId,
     }
     Api.zandelete(_parms).then((res) => {
       if (res.data.code == 0) {
@@ -222,6 +222,7 @@ Page({
         // 转发失败
         wx.showToast({
           title: '转发失败成功',
+          icon: 'none',
           duration: 2000
         })
       }

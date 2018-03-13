@@ -35,7 +35,6 @@
   width:60%;
   height: 4rem;
   margin-right:-40%;
-  /* background: pink; */
 }
 .username, .storename{
   height: 2rem;
@@ -45,7 +44,6 @@
   width:20%;
   height: 4rem;
   float:right;
-  /* background: blue; */
 }
 
 /*
@@ -81,8 +79,7 @@
 }
 .scanpraise{
   width: 694rpx;
-  height: 40rpx;
-  color: #FC5E2D;
+  color: #B1B1B1;
   font-size: 28rpx;
 }
 .scan{
@@ -91,23 +88,64 @@
   float: left;
 }
 .praise{
-  height: 40rpx;
-  line-height: 40rpx;
   float: right;
 }
 .hits{
   padding-right:0;
 }
-.iconhits{
-  margin: none;
-  padding:none;
-  height: 40rpx;
+.tuoyuanhits{
+  width: 28rpx;
+  height: 28rpx;
+  margin-right: 10rpx
 }
-.share{
-  width: 100%;
+.homezan{
+  width: 29rpx;
+  height: 29rpx;
+  margin-left: 13rpx;
 }
-button[plain]{
+.sharebox{
+  width: 694rpx;
+  height: 164rpx;
+  padding-top:66rpx; 
+  margin: 102rpx 0 50rpx;
+  border-top:1rpx solid #EBEBEB; 
+  border-bottom:1rpx solid #EBEBEB; 
+}
+.sharebut{
+  background: red;
+  height: 60rpx;
+  margin: 0;
+  padding: 0;
+}
+.shareimgl, .shareimgr{
+  width: 60rpx;
+  height: 60rpx; 
+}
+.shareimgl{
+  margin-right: 206rpx;
+}
+ button[plain]{
   border:0
+} 
+.text_wx, .text_pyq{
+  display: inline;
+  color: #808080;
+  font-size: 20rpx;
+}
+.text_wx{
+  margin-left: 193rpx;
+  margin-right: 220rpx;
+}
+.sharetitle{
+  width: 185rpx;
+  height: 40rpx;
+  color: #B1B1B1;
+  font-size: 30rpx;
+  text-align: left;
+  background: #fff;
+  position: relative;
+  top: 122rpx;
+  left: 254.5rpx;
 }
   /*
   底部评论相关
@@ -119,7 +157,7 @@ button[plain]{
   评论列表样式
   */
   .evaluate-maximum {
-  background-color: white;
+  /* background-color: white; */
   padding: 0rpx 30rpx;
 }
 .evaluate-wrap {

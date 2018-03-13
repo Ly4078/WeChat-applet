@@ -61,6 +61,7 @@ App({
 
     let _parms = {
       id:this.data.openId,
+      userId:this.data.openId,
       userName: this.data.Info.nickName,
       nikcName: this.data.Info.nickName,
       sourceType:'1',
@@ -72,7 +73,7 @@ App({
     _arr.push(_parms)
     this.globalData.userInfo  = _arr[0];
     Api.usersignup(_parms).then((res) => {
-      console.log("usersignup:",res)
+      // console.log("usersignup:",res)
     })
 
   },

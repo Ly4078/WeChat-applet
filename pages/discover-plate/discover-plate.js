@@ -20,7 +20,6 @@ Page({
     wx.request({
       url: that.data._build_url + 'zb/list/',
       success: function (res) {
-        // console.log("hotlive:",res.data.data)
         that.setData({
           hotlive: res.data.data.list
         })
@@ -52,4 +51,5 @@ Page({
       url: 'dynamic-state/dynamic-state',
     })
   }
+  
 })

@@ -249,10 +249,11 @@ Page({
         })
         return false
       }
+
       let _parms = {
         title: _title,
         content: _content,
-        userId: this.data.userId,
+        userId: app.globalData.userInfo.userId?app.globalData.userInfo.userId:this.data.userId,
         summary: sum[0],
         homePic: _coverimg,
         userName: app.globalData.userInfo.nickName,
