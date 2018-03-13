@@ -72,12 +72,11 @@
       </view>
     </view>
   </view>
-
   <view class='myList'>
     <view class='myList-single'>
       <view>
-      <image class='myListImages' src='/images/icon/customer_service.png'></image>
-         <text class='mylistText'>联系客服</text> 
+        <image class='myListImages' src='/images/icon/customer_service.png'></image>
+        <text class='mylistText'>联系客服</text>
       </view>
       <view class='telephone-Wrap'>
         <image catchtap='calling' class='telephone' src='/images/icon/telephone_bd.png'></image>

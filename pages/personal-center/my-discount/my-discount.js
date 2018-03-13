@@ -1,10 +1,11 @@
 import Api from '../../../utils/config/config.js';
 import { GLOBAL_API_DOMAIN } from '../../../utils/config/config.js';
+var app = getApp();
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
     ticket_list: [],
-    userId: 15,
+    userId: app.globalData.userInfo.userId ? app.globalData.userInfo.userId : 15,
     page: 1,
     isUpdate: true
   },

@@ -1,8 +1,9 @@
 import Api from '../../../utils/config/config.js';
 import { GLOBAL_API_DOMAIN } from '../../../utils/config/config.js';
+var app = getApp();
 Page({
   data: {
-    userId: 1,
+    userId: app.globalData.userInfo.userId ? app.globalData.userInfo.userId : 1,     //登录用户的id
     _build_url: GLOBAL_API_DOMAIN
   },
   onLoad: function (options) {

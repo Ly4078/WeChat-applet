@@ -1,4 +1,1 @@
 @import "../comment-template/comment-template.wxss";
-.commentBox {
-  padding-top: 20rpx;
-} 

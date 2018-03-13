@@ -1,9 +1,8 @@
+var app = getApp();
 Page({
-
   data: {
-    
+    userId: app.globalData.userInfo.userId   //登陆人id
   },
-
   onLoad: function (options) {
     
   },
@@ -44,12 +43,22 @@ Page({
     })
   },
   scanAqrCode:function(e){
+    let that = this;
     wx.scanCode({
       onlyFromCamera: true,
+      scanType: "qrCode",
       success: (res) => {
-        console.log(res)
+        let qrCodeArr = res.result.split('/');
+        let qrCode = qrCodeArr[qrCodeArr.length - 1];
+        wx.navigateTo({
+          url: 'cancel-after-verification/cancel-after-verification?qrCode=' + qrCode + '&userId=' + that.data.userId,
+        })
+        console.log(qrCode)
+        console.log(that.data.userId)
+      },
+      fail: (res) => {
+        
       }
-    })
+    });
   }
-
 })

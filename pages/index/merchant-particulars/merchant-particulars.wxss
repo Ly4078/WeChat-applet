@@ -74,7 +74,12 @@ page {
 
 .details-form {
   font-size: 26rpx;
+  display: block;
+  width: 400rpx;
   color: #808080;
+  text-overflow:ellipsis; 
+  white-space:nowrap; 
+  overflow:hidden;
 }
 
 .popularityCollect {

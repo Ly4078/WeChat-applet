@@ -1,5 +1,4 @@
 import Api from '../../../utils/config/api.js';
-var postsData = require('/../../../data/merchant-data.js')
 Page({
 
   /**
@@ -23,12 +22,6 @@ Page({
       });
     })
   },
-  onTouchItem: function (event) {
-    var shopid = event.currentTarget.id
-    wx.navigateTo({
-      url: '../merchant-particulars/merchant-particulars?shopid=' + shopid,
-    })
-  },
   //获取搜索框内的值
   onInputText: function(e) {
     this.setData({
@@ -43,6 +36,12 @@ Page({
       this.setData({
         posts_key: res.data.data.list
       });
+    })
+  },
+  //点击列表跳转详情
+  onTouchItem: function(event) {
+    wx.navigateTo({
+      url: '../merchant-particulars/merchant-particulars?shopid=' + event.currentTarget.id,
     })
   }
 })

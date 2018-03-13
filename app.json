@@ -15,6 +15,7 @@
     "pages/discover-plate/dynamic-state/article_details/article_details",
     "pages/index/order-for-goods/order-for-goods",
     "pages/personal-center/enshrine/enshrine",
+    "pages/personal-center/cancel-after-verification/cancel-after-verification",
     "pages/personal-center/lelectronic-coupons/lectronic-coupons",
     "pages/personal-center/my-discount/my-discount",
     "pages/personal-center/my-discount/expired-ticket/expired-ticket",

@@ -5,6 +5,7 @@ Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
     comment_list: [],
+    userId: app.globalData.userInfo.userId ? app.globalData.userInfo.userId : 1,     //登录用户的id
     page: 1,
     id:'',
     source:'',   //请求来源   查明是谁来调用这个文件
@@ -12,9 +13,10 @@ Page({
     reFresh: true
   },
   onLoad: function (options) {
+    console.log(options)
     this.setData({
       id: options.id,
-      source: options.source,
+      // source: options.source,
       cmtType: options.cmtType
     });
     this.commentList();
@@ -27,11 +29,10 @@ Page({
       data: {
         refId: that.data.id,
         cmtType: that.data.cmtType,
-        zanUserId: 1,
+        zanUserId: that.data.userId,
         page: that.data.page,
         rows: 8
       },
-      
       success: function (res) {
         let data = res.data;
         if (data.code == 0 && data.data.list != null && data.data.list != "" && data.data.list != []) {
@@ -60,7 +61,7 @@ Page({
       }
     }
     wx.request({
-      url: that.data._build_url + 'zan/add?refId=' + id + '&type=5&userId=1',
+      url: that.data._build_url + 'zan/add?refId=' + id + '&type=' + that.data.cmtType +'&userId=' + that.data.userId,
       method: "POST",
       success: function (res) {
         if (res.data.code == 0) {
@@ -89,7 +90,7 @@ Page({
       }
     }
     wx.request({
-      url: that.data._build_url + 'zan/delete?refId=' + id + '&type=5&userId=1',
+      url: that.data._build_url + 'zan/delete?refId=' + id + '&type=' + that.data.cmtType +'&userId=' + that.data.userId,
       method: "POST",
       success: function (res) {
         if (res.data.code == 0) {

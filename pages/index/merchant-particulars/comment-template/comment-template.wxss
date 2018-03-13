@@ -2,6 +2,9 @@
   background-color: white;
   padding: 0rpx 30rpx;
 }
+.evaluate-maximum:first-child {
+  padding-top: 30rpx;
+}
 .evaluate-wrap {
   height: 80rpx;
   display: flex;

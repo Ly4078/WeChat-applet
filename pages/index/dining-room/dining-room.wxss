@@ -149,6 +149,11 @@
 
 .trade_caim{
   display: block;
+  width: 400rpx;
+  padding-left: 13rpx;
+  text-overflow: ellipsis; 
+  white-space: nowrap; 
+  overflow: hidden;
 }
 
 .trade_guangu{

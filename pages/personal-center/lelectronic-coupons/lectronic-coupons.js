@@ -4,11 +4,9 @@ Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN
   },
-
   onLoad: function (options) {
     this.setData({
-      // ticketId: options.id
-      ticketId: 63
+      ticketId: options.id
     });
     this.getTicketInfo();
   },

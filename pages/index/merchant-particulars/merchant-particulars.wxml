@@ -70,10 +70,10 @@
         </view>
         <view class='scroll_box'>
           <scroll-view scroll-x="true" class='scroll_anchor'>
-            <block wx:for="{{posts_key}}" wx:key="{{index}}">
+            <block wx:for="{{recommend_list}}" wx:key="{{index}}">
               <view id="green" class="anchor bc_green">
-                <image class='anchor_img' src='{{item.store_img3}}'></image>
-                <view class='cate_site'>{{item.store_dishname}}</view>
+                <image class='anchor_img' src='{{item.picUrl}}'></image>
+                <view class='cate_site'>{{item.skuName}}</view>
               </view>
             </block>
           </scroll-view>
@@ -100,7 +100,7 @@
         <text class='reviewyan'>写评论</text>
       </view>
       <form class='commentBox {{isComment ? "show" : "hide"}}'>
-        <textarea class="commentArea" placeholder='请输入评论' focus="{{isComment}}" bindinput="getCommentVal" cursor-spacing="50rpx" show-confirm-bar="false"></textarea>
+        <textarea class="commentArea" placeholder='请输入评论' focus="{{isComment}}" bindinput="getCommentVal" cursor-spacing="10px" show-confirm-bar="false" fixed="true"></textarea>
         <button form-type="reset" catchtap="sendComment">发送</button>
       </form>
     </view>
