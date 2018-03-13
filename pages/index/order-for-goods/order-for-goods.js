@@ -16,7 +16,8 @@ Page({
     })
 
     var summation = this.data.obj.sell
-    // console.log('每一个ID:',obj)
+    // var indentId = this.data.obj.id
+    // console.log('每一个ID:', this.data.obj.id)
     function hidtel($phone) {
       $IsWhat = preg_match('/(0[0-9]{2,3}[\-]?[2-9][0-9]{6,7}[\-]?[0-9]?)/i', $phone);
       if ($IsWhat == 1) {
@@ -78,53 +79,63 @@ Page({
     });
   },
   //微信支付入口
-  confirmPayment: function (res) {
-    console.log("微信支付:", res)
-    // let that = this;
-    let paymentGetBack = {
-      soId: '5',
-      openId: '5'
-    }
+  confirmPayment: function (e) {
+    var that = this;
+    var url = 'http://182.254.130.252/wxpay/doUnifiedOrder';
+    console.log('每一个ID' + that.data.obj.id)
+    wx.request({
+      url: url,
+      data: {
+        soId: that.data.obj.id,
+        openId: 'ogDNV457VtL4ucjVYeUOwrHU1-_w',
+        // total_fee: '20'
+      },
+      header: {
+        "content-type": "application/x-www-form-urlencoded"
+      },
+      method: 'POST',
+      success: function (res) {
+        console.log("预支付参数:", res)
+        if (res.data.message == "success") {
+          console.log("paySign:", res.data.data.paySign);
+          console.log("nonceStr:", res.data.data.nonceStr);
+          console.log("package:", res.data.data.package);
+          console.log("timeStamp:", res.data.data.timeStamp);
+          wx.requestPayment({
+            'timeStamp': res.data.data.timeStamp,
+            'nonceStr': res.data.data.nonceStr,
+            'package': res.data.data.package,
+            'paySign': res.data.data.paySign,
+            'signType': 'MD5',
+            'success': function (res) {
+              console.log('支付成功:', res)
+              wx.showToast({
+                title: '支付成功',
+              })
+              // setTimeout(function () {
+              //   wx.switchTab({
+              //     url: '/pages/mine/mine',
+              //   })
+              // })
+            },
+            'fail': function (res) {
+              console.log(res)
+              wx.showToast({
+                title: '支付失败，请重新支付',
+              })
+            }
 
+          })
 
-    Api.paymentPay(paymentGetBack).then((res) => {
-      console.log("支付返回的数据:", res.data.data)
-      this.setData({
-        carousel: res.data.data
-      })
-      const _timeStamp = parseInt(new Date().getTime() / 1000) + ''; //时间戳
-
-      let result = "";  //随机字符串    
-      //暂时使用START   正确使用参考https://pay.weixin.qq.com/wiki/doc/api/wxa/wxa_api.php?chapter=4_3
-      const sjdata = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
-      for (var i = 0; i < 31; i++) {
-        var r = Math.floor(Math.random() * 62);    
-        result += sjdata[r];        
-      }
-      //  暂时使用END
-
-     
-      let stringA = 'appId = wxf91e2a026658e78e & nonceStr=' + result + '& package=prepay_id =' + res.data.prepayId + '& signType=MD5 & timeStamp=' + _timeStamp   // res.data.prepyId?   确定后填入prepay_id相应的值
-      let stringSignTemp = stringA + "&key=192006250b4c09247ec02edce69f6a2d"  //确定key值后填写进去
-      let sign = MD5.hexMD5(stringSignTemp)  //MD5加密  不可逆
-      console.log("sign:",sign)
-      // sign = sign.toUpperCase() = "9A0A8659F005D6984697E2CA0A9CF3B7" //注：MD5签名方式
-
-      // sign = hash_hmac("sha256", stringSignTemp, key).toUpperCase() = "6A9AE1657590FD6257D693A078E1C3E4BB6BA4DC30B23E0EE2496E54170DACD6" 
-      
-      wx.requestPayment({
-        'timeStamp': _timeStamp,
-        'nonceStr': result,
-        'package': 'prepay_id=' + res.data.prepayId,  //  res.data.prepayId错误
-        'signType': 'MD5',
-        'paySign': sign,   //sign值 待确认
-        'success': function (res) {
-          console.log("支付成功");
-        },
-        'fail': function (res) {
-          console.log("支付失败")
+        } else {
+          wx.showToast({
+            title: res.data.message,
+          })
         }
-      })
+      },
+      fail: function (res) {
+        console.log("退出",res)
+      }
     })
-  }
+  },
 })  
