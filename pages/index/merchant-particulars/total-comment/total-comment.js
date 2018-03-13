@@ -61,7 +61,7 @@ Page({
       }
     }
     wx.request({
-      url: that.data._build_url + 'zan/add?refId=' + id + '&type=' + that.data.cmtType +'&userId=' + that.data.userId,
+      url: that.data._build_url + 'zan/add?refId=' + id + '&type=4&userId=' + that.data.userId,
       method: "POST",
       success: function (res) {
         if (res.data.code == 0) {
@@ -90,7 +90,7 @@ Page({
       }
     }
     wx.request({
-      url: that.data._build_url + 'zan/delete?refId=' + id + '&type=' + that.data.cmtType +'&userId=' + that.data.userId,
+      url: that.data._build_url + 'zan/delete?refId=' + id + '&type=4&userId=' + that.data.userId,
       method: "POST",
       success: function (res) {
         if (res.data.code == 0) {
