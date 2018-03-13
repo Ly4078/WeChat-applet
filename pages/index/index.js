@@ -1,5 +1,5 @@
 //index.js 
-import Api from '/../../utils/config/api.js'; 
+import Api from '/../../utils/config/api.js';
 import { GLOBAL_API_DOMAIN } from '/../../utils/config/config.js';
 var postsData = require('/../../data/posts-data.js')
 const app = getApp()
@@ -8,15 +8,15 @@ Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
     city: "",
-    carousel:[],  //轮播图
-    business:[], //商家列表，推荐餐厅
-    actlist:[],  //热门活动
-    hotlive:[],  //热门直播
-    food:[],   //美食墙
+    carousel: [],  //轮播图
+    business: [], //商家列表，推荐餐厅
+    actlist: [],  //热门活动
+    hotlive: [],  //热门直播
+    food: [],   //美食墙
     logs: []
   },
   onLoad: function (options) {
-    let lat= '', lng= '';  //lat纬度   lng经度
+    let lat = '', lng = '';  //lat纬度   lng经度
     wx.getLocation({  //获取当前的地理位置
       type: 'wgs84',
       success: (res) => {
@@ -47,11 +47,11 @@ Page({
       }
     })
     let that = this;
-    setTimeout(function(){
-      if(lat && lng){
+    setTimeout(function () {
+      if (lat && lng) {
         that.requestCityName(lat, lng)
       }
-    },500)
+    }, 500)
   },
   requestCityName(lat, lng) {//获取当前城市
     wx.request({
@@ -76,14 +76,14 @@ Page({
     })
   },
   getdata: function () { // 获取推荐餐厅数据
-    Api.shoptop().then((res) => { 
+    Api.shoptop().then((res) => {
       // console.log("businss:",res.data.data)
-    this.setData({
+      this.setData({
         business: res.data.data
       })
     })
-  }, 
-  gettopic:function(){  // 美食墙
+  },
+  gettopic: function () {  // 美食墙
     Api.topictop().then((res) => {
       // console.log("food:", res.data.data)
       this.setData({
@@ -91,7 +91,7 @@ Page({
       })
     })
   },
-  getactlist(){  //获取热门活动数据
+  getactlist() {  //获取热门活动数据
     Api.actlist().then((res) => {
       // console.log("actlist:",res.data.data.list)
       this.setData({
@@ -99,7 +99,7 @@ Page({
       })
     })
   },
-  gethotlive(){  //获取热门直播数据 
+  gethotlive() {  //获取热门直播数据 
     let that = this;
     wx.request({
       url: that.data._build_url + 'zb/top/',
@@ -142,7 +142,7 @@ Page({
     })
   },
 
-//未开放 酒店 景点 休闲娱乐
+  //未开放 酒店 景点 休闲娱乐
   hotelUnopen: function () {
     wx.showToast({
       title: '该功能更新中...',
@@ -155,8 +155,8 @@ Page({
     })
   },
   entertainment: function () {
-    wx.showToast({
-      title: '该功能更新中...',
+    wx.navigateTo({
+      url: 'webview/webview',
     })
   },
   recommendCt: function (event) {
@@ -177,7 +177,7 @@ Page({
   },
   diningHhall: function (event) {  //跳转到商家（餐厅）内页
     const shopid = event.currentTarget.id
-    console.log("diningHhall:",shopid)
+    console.log("diningHhall:", shopid)
     wx.navigateTo({
       url: 'merchant-particulars/merchant-particulars?shopid=' + shopid
     })
@@ -186,7 +186,7 @@ Page({
     const id = e.currentTarget.id
     wx.navigateTo({
       // url:'../discover-plate/dynamic-state/dynamic-state'
-      url: '../discover-plate/dynamic-state/article_details/article_details?id='+id,
+      url: '../discover-plate/dynamic-state/article_details/article_details?id=' + id,
     })
     // wx.navigateTo({
     //   url: 'test?sfoodid=' + sfoodid
@@ -199,7 +199,7 @@ Page({
       url: '../activityDetails/details-like/details-like?actid=' + actid,
     })
   },
-  tolive:function(ev){ //跳转到直播内页
+  tolive: function (ev) { //跳转到直播内页
     const liveid = ev.currentTarget.id
     // console.log("liveid:",liveid)
     // wx.navigateTo({

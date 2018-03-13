@@ -1,6 +1,7 @@
 {
-  "pages":[
+  "pages": [
     "pages/index/index",
+    "pages/index/webview/webview",
     "pages/index/consume-qibashare/consume-qibashare",
     "pages/index/search/search",
     "pages/personal-center/free-of-charge/free-of-charge",
@@ -27,47 +28,47 @@
     "pages/index/dining-room/dining-room",
     "pages/activityDetails/activity-details"
   ],
-  "window":{
-    "backgroundTextStyle":"light",
+  "window": {
+    "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fc5e2d",
     "navigationBarTitleText": "享7",
-    "navigationBarTextStyle":"white",
-    "navigationStyle":"default",
-    "enablePullDownRefresh":true
+    "navigationBarTextStyle": "white",
+    "navigationStyle": "default",
+    "enablePullDownRefresh": true
   },
-  "tabBar":{
+  "tabBar": {
     "selectedColor": "#FF4411",
-    "backgroundColor":"#FFFFFF",
-    "position":"button",
-    "list":[{
-        "selectedColor":"#FF4411",
-        "pagePath":"pages/index/index",
-        "text":"首页",
-        "iconPath":"images/icon/home_tab_home.png",
-        "selectedIconPath":"images/icon/home_tab_homeed.png"
-    },
-    {
-      "selectedColor": "#FF4411",
-      "pagePath": "pages/activityDetails/activity-details",
-      "text": "活动",
-      "iconPath": "images/icon/home_tab_huodong.png",
-      "selectedIconPath": "images/icon/home_tab_huodonged.png"
-    },
-    {
-      "selectedColor": "#FF4411",
-      "pagePath": "pages/discover-plate/discover-plate",
-      "text": "发现",
-      "iconPath": "images/icon/home_tab_search.png",
-      "selectedIconPath": "images/icon/home_tab_searched.png"
-    },
-    {
-      "selectedColor": "#FF4411",
-      "pagePath": "pages/personal-center/personal-center",
-      "text": "我的",
-      "iconPath": "images/icon/home_tab_mine.png",
-      "selectedIconPath": "images/icon/home_tab_mineed.png"
-    }
-
+    "backgroundColor": "#FFFFFF",
+    "position": "button",
+    "list": [
+      {
+        "selectedColor": "#FF4411",
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "images/icon/home_tab_home.png",
+        "selectedIconPath": "images/icon/home_tab_homeed.png"
+      },
+      {
+        "selectedColor": "#FF4411",
+        "pagePath": "pages/activityDetails/activity-details",
+        "text": "活动",
+        "iconPath": "images/icon/home_tab_huodong.png",
+        "selectedIconPath": "images/icon/home_tab_huodonged.png"
+      },
+      {
+        "selectedColor": "#FF4411",
+        "pagePath": "pages/discover-plate/discover-plate",
+        "text": "发现",
+        "iconPath": "images/icon/home_tab_search.png",
+        "selectedIconPath": "images/icon/home_tab_searched.png"
+      },
+      {
+        "selectedColor": "#FF4411",
+        "pagePath": "pages/personal-center/personal-center",
+        "text": "我的",
+        "iconPath": "images/icon/home_tab_mine.png",
+        "selectedIconPath": "images/icon/home_tab_mineed.png"
+      }
     ]
   }
 }

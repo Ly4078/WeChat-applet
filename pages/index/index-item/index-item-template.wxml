@@ -9,16 +9,16 @@
       <image class='classify_img' src='/images/icon/home_icon_ct.png'></image>
       <view class='classify_text'>餐厅</view>
     </view>
+    <view class='classify' bindtap='entertainment'>
+      <image class='classify_img' src='/images/icon/home_icon_yl.png'></image>
+      <view class='classify_text' >掌上武汉</view>
+    </view>
     <view class='classify' bindtap='hotelUnopen'>
       <image class='classify_img' src='/images/icon/home_icon_jd.png'></image>
       <view class='classify_text'>酒店</view>
     </view>
     <view class='classify' bindtap='scenicSpot'>
       <image class='classify_img' src='/images/icon/home_iocn_jingd.png'></image>
-      <view class='classify_text'>景点</view>
-    </view>
-    <view class='classify' bindtap='entertainment'>
-      <image class='classify_img' src='/images/icon/home_icon_yl.png'></image>
       <view class='classify_text'>休闲娱乐</view>
     </view>
   </view>
