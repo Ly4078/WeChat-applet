@@ -17,15 +17,15 @@
   </view>
   
   <!-- 商家列表 -->
-  <view  wx:if="{{busarr.length>0}}" wx:for="{{busarr}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}" class='record_rwap'>
-     <template is="tpeMerchant" data="{{...item}}" /> 
+   <view  wx:if="{{busarr.length>0}}" wx:for="{{busarr}}"  wx:key="{{index}}" class='record_rwap'> 
+       <template is="tpeMerchant" data="{{item}}" />   
   </view>
 
    <!--历史记录-->
   <view  wx:if="{{busarr.length==0}}" class='record_rwap'>
     <block wx:for="{{historyarr}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
       <view class='record_text'>
-        <text class='record_text_xw'>{{item}}</text>
+        <text class='record_text_xw' id="{{idx}}" bindtap='clickannal'>{{item}}</text>
       </view>
     </block>
   </view>

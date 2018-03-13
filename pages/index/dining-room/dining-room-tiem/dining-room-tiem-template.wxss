@@ -1,12 +1,4 @@
 
-.practical_left {
-  width: 35%;
-  height: 200rpx;
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-}
-
 .practical_right {
   width: 65%;
   height: auto;

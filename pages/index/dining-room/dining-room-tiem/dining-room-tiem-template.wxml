@@ -1,23 +1,23 @@
 <template name="tpeMerchant">
-
-  <view class='shopWrap' id='{{item.id || ""}}' catchtap="onTouchItem">
+  <view class='shopWrap' id="{{item.id}}" catchtap="onTouchItem">
     <view class='navigationPractical'>
       <view class='practical_left'>
-        <image class='practicalImg' src='{{item.logoUrl || ""}}'></image>
+        <image class='practicalImg' src="{{item.logoUrl}}"></image>
       </view>
       <view class='practical_right'>
         <view class='elsk'>
-          <text class='trade_name'>{{item.shopName || ""}}</text>
+          <text class='trade_name'>{{item.shopName}}</text>
           <view>
             <image class='dq_popularity' src='/images/icon/restaurant_hot.png'></image>
-            <text class='trade_rq'>人气<text class='trade_figure'>{{item.popNum || "0"}}</text></text>
+            <text class='trade_rq'>人气<text class='trade_figure'>{{item.popNum}}</text></text>
           </view>
         </view>
         <view class='trade_site_distance'>
-          <text class='trade_caim'>{{item.shopInfo || ""}}</text>
+          <!-- <text class='trade_caim'>{{item.shopInfo}}</text> -->
           <!-- <text class='trade_guangu'>{{item.merchant_location}}</text>| -->
-           <text class='trade_site_lxg'>{{item.remark || ""}}</text> 
-          <text>{{item.address}}</text>
+           <text class='trade_site_lxg'>{{item.remark}}</text> 
+          <text class='trade_site_lxg'>{{item.address}}</text>
+          <text class='trade_site_lxg'>{{item.dis}}</text>
         </view>
       </view>
     </view>

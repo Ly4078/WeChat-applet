@@ -1,5 +1,6 @@
 var postsData = require('/../../../data/posts-data.js');
 import Api from '/../../../utils/config/api.js'; 
+var utils = require('../../../utils/util.js');
 var app = getApp();
 Page({
   data: {
@@ -21,8 +22,9 @@ Page({
         let _arr = [];
         if (_his){
           _arr = _his.split(',');
+          let newarr = Array.from(new Set(_arr))
           that.setData({
-            historyarr:_arr
+            historyarr: newarr
           })
         }
       }
@@ -31,7 +33,14 @@ Page({
   selectAddress(){  //点击搜索按钮
     let that = this;
     let _value = this.data.storename;
-    that.data.historyarr.push(_value);
+    if(!_value){
+      wx.showToast({
+        title: '请输入关键搜索',
+        duration: 2000
+      })
+      return false
+    }
+    that.data.historyarr.unshift(_value);
     let  _str = that.data.historyarr.join(',');
     wx.setStorage({
       key: "his",
@@ -43,9 +52,8 @@ Page({
       }
       Api.shoplist(_parms).then((res) => {
         that.backHomepage();
-        that.setData({
-          busarr: res.data.data.list
-        })
+        let _bus = res.data.data.list
+        this.getDistance(_bus) //计算距离并赋值
       })
     }
   },
@@ -59,11 +67,49 @@ Page({
       storename: ''
     })
   },
+  clickannal:function(ev){  //点击某个历史记录
+    let _ind = ev.currentTarget.id
+    let _data = this.data.historyarr
+    for (let i = 0; i < _data.length;i++){
+      if(_ind == i){
+        this.setData({
+          storename: _data[i]
+        })
+        this.selectAddress()
+      }
+    }
+  },
   onTouchItem: function (event) {
     var shopid = event.currentTarget.id
     wx.navigateTo({
       url: '../merchant-particulars/merchant-particulars?shopid=' + shopid,
     })
+  },
+  
+  getDistance: function (data) { //计算距离
+    let that = this;
+    //获取当前位置
+    wx && wx.getLocation({
+      type: 'gcj02', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+      success: function (res) {
+        //计算距离
+        for(let i=0;i<data.length;i++){
+          if (!data[i].locationX || !data[i].locationY) {
+            return;
+          }
+          let _dis = utils.calcDistance(data[i].locationY, data[i].locationX, res.latitude, res.longitude);
+          //转换显示
+          let mydis = utils.transformLength(_dis);
+          data[i].dis = mydis;
+        }
+        that.setData({
+          busarr: data
+        })
+      },
+      fail: function (res) {
+        utils.toast("error", '定位失败，请刷新页面重试');
+      }
+    });
   },
   diningRoomList(e){
     let shopid = currentTarget.id;
@@ -75,7 +121,6 @@ Page({
     this.setData({
       inputValue: e.detail.value
     })
-    console.log('bindInput' + this.data.inputValue)
   },
   setSearchStorage: function () {
     let data;
@@ -149,8 +194,7 @@ Page({
       }
     })
   },
-  onLoad: function () {
-    // 历史记录更新
+  onLoad: function () {// 历史记录更新
     this.setData({
       Key_data: postsData.postList
     });
@@ -163,10 +207,7 @@ Page({
     })
   },
   onHide: function () {
-    console.log('search is onHide')
-    wx.redirectTo({
-      url: '../search/search'
-    })
+   
   },
   bindchange: function (e) {
     console.log('bindchange')

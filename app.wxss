@@ -129,24 +129,20 @@
   height: 200rpx;
   padding-top: 10rpx;
 }
-
+ 
 .practical_left {
-  width: 35%;
-  height: 200rpx;
-  display: flex;
+  width: 170rpx;
+  height: 170rpx;
+  margin-right: 21rpx;
+  overflow: hidden;
+   display: flex; 
   justify-content: center;
-  align-items: flex-end;
+  align-items: flex-end; 
+} 
+.practicalImg{
+  width: 170rpx;
+  height: 170rpx;
 }
-
-
-.practical_left {
-  width: 35%;
-  height: 200rpx;
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-}
-
 .practical_right {
   width: 65%;
   height: auto;
@@ -204,7 +200,7 @@
 }
 
 .navigationKb_left {
-  width: 35%;
+  width: 170rpx;
 }
 
 .navigationKb_right {

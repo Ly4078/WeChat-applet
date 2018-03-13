@@ -111,13 +111,13 @@ function calcDistance(lat1, lng1, lat2, lng2) {
 //换算长度 低于1000返回米，否则返回公里
 function transformLength(len) {
   if (!len || Math.abs(len) <= 0.000001) {
-    return "0米";
+    return "0m";
   }
   if (len < 1000) {
-    return len.toFixed(0) + "米";
+    return len.toFixed(0) + "m";
   }
   else {
-    return (len / 1000).toFixed(2) + "公里";
+    return (len / 1000).toFixed(2) + "km";
   }
 }
 
