@@ -13,7 +13,8 @@ Page({
     commentVal:'',  //评论内容
     isComment: false,
     preview:{},    //预览数据
-    userId:'1'  //虚拟ID 暂用
+    userId:'1',  //虚拟ID 暂用
+    userName: '测试名称'   //虚拟名称 暂用
   },
 
   /**
@@ -38,9 +39,10 @@ Page({
   },
   gettopiclist:function(id){  //获取文章内容数据
     let _parms = {
-      id: id
+      id:id,
+      zanUserId: app.globalData.userInfo.userId
     }
-    Api.topiclist(_parms).then((res) => {
+    Api.getTopicByZan(_parms).then((res) => {
       let _data = res.data.data.list[0];
       _data.content = JSON.parse(_data.content)
       this.setData({
@@ -73,13 +75,23 @@ Page({
     })
   },
   setcmtadd:function(){  //新增文章评论
+    if (!this.data.commentVal){
+      wx.showToast({
+        title: '请输入评论内容',
+        duration: 2000
+      })
+      this.setData({
+        isComment: false
+      })
+      return false;
+    }
     let _parms = {
       refId:this.data._id,
       cmtType:'2',
       content:this.data.commentVal,
       userId: app.globalData.userInfo.userId ? app.globalData.userInfo.userId : this.data.userId,
-      userName:'测试文章评论内容',
-      nickName:'测试文章评论内容'
+      userName: app.globalData.userInfo.userName ? app.globalData.userInfo.userName : this.data.userName,
+      nickName: app.globalData.userInfo.userName ? app.globalData.userInfo.userName : this.data.userName,
     }
     Api.cmtadd(_parms).then((res) => {
       this.setData({
@@ -93,6 +105,41 @@ Page({
   jumpTotalComment: function () {
     wx.navigateTo({
       url: '../../../index/merchant-particulars/total-comment/total-comment?id=' + this.data._id +'&cmtType=2&source=article'
+    })
+  },
+  dianzanwz:function(e){  //文章点赞
+    let that = this
+    let id = e.currentTarget.id
+    let _parms = {
+      refId: id,
+      type: '2',
+      userId: app.globalData.userInfo.userId ? app.globalData.userInfo.userId : this.data.userId,
+    }
+    Api.zanadd(_parms).then((res) => {
+      var _details = that.data.details
+      if (_details.isZan){
+        if (res.data.code == 0) {
+          wx.showToast({
+            title: '取消成功'
+          })
+          _details.isZan = 0;
+          _details.zan--;
+          that.setData({
+            details: _details
+          });
+        }
+      }else{
+        if (res.data.code == 0) {
+          wx.showToast({
+            title: '点赞成功'
+          })
+          _details.isZan = 1;
+          _details.zan++;
+          that.setData({
+            details: _details
+          });
+        }
+      }
     })
   },
   //评论点赞

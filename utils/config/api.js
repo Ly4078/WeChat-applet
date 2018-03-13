@@ -72,10 +72,38 @@ const ALL_API = {
     method: 'POST',
     url: 'vote/add'
   },
+  topicadd:{  //文章列表
+    method:'POST',
+    url:'topic/add'
+  },
+  getTopicByZan:{ //获取某个文章详情
+    method:'GET',
+    url:'topic/getTopicByZan'
+  },
+  cmtlist: {  //查询文章评论
+    method:'GET',
+    url:'cmt/list'
+  },
+  cmtadd:{   //新增文章评论
+    method:'POST',
+    url:'cmt/add'
+  },
+  zanadd:{   //点赞
+    method:'POST',
+    url:'zan/add'
+  },
+  zandelete:{   //取消点赞
+    method: 'POST',
+    url: 'zan/delete'
+  },
   //支付
   topicadd: {
     method: 'POST',
     url: 'topic/add'
+  },
+  somyorder:{  //我的订单列表
+    method:"GET",
+    url:'so/myorder'
   }
 }
 

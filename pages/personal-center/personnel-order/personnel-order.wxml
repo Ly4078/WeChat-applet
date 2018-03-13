@@ -1,6 +1,6 @@
-<block wx:for="{{posts_key}}" wx:for-item="item" wx:for-index="idx">
+<block wx:for="{{posts_key}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
   <view class='personnelWrap'>
-    <view class='personnelOrder' catchtap='lowerLevel'>
+    <view class='personnelOrder' id="{{item.id}}" catchtap='lowerLevel'>
       <view class='iconLogoWrap'>
         <image class='iconLogo_sj' src='/images/icon/icon_logosj.png'></image>
       </view>

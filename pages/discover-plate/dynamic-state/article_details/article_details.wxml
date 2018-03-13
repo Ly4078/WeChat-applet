@@ -28,11 +28,12 @@
     <view wx:if="{{_id}}" class='scanpraise'>
       <view class='scan'>
         <image src='/images/icon/tuoyuan_w.png' class='tuoyuanhits'></image>
-        {{item.scan}}
+        {{details.scan}}
       </view>
-      <view class='praise'>
-        {{item.zan}}
-        <image src='/images/icon/home_zaned.png' class='homezan'></image>
+      <view class='praise' id="{{details.id}}" catchtap='dianzanwz'>
+        {{details.zan}}
+        <image wx:if="{{details.isZan}}" src='/images/icon/home_zaned.png' class='homezan'></image>
+        <image wx:else src='/images/icon/home_zan.png' class='homezan'></image>
       </view>
     </view>
     <view class='sharetitle'>分享文章</view>
@@ -52,7 +53,7 @@
       <template is="commentItem" data="{{item}}"></template>
     </block>
     <view class='total-comment' hidden='{{totalComment}}' catchtap='jumpTotalComment'>
-      <view class='total-center'>
+      <view class='total-center' wx:if="{{cmtdata.list.length>6}}">
         <text>查看全部<text>{{cmtdata.total}}</text>条评论</text>
       </view>
     </view>

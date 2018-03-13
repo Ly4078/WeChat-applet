@@ -1,6 +1,6 @@
 <import src="../comment-template/comment-template.wxml" />
-  <!-- <view class="commentBox">   -->
+  <!-- <view class="commentBox">    -->
   <block wx:for="{{comment_list}}" wx:key="{{index}}">
     <template is="commentItem" data="{{item}}"></template>
   </block>
- <!-- </view>  -->
+ <!-- </view> -->

@@ -13,6 +13,7 @@ Page({
     });
     let _parms = {}
     Api.acttop(_parms).then((res) => {
+      console.log("actdata:", res.data.data)
       that.setData({
         actdata: res.data.data
       })

@@ -13,7 +13,7 @@
     <scroll-view scroll-x="true" class='scroll_anchor'>
       <block wx:for="{{hotlive}}" wx:key="{{index}}">
         <view id="green" class="anchor bc_green">
-          <image class='anchor_img' src='{{item.mainPicUrl}}'></image>
+          <image class='anchor_img' src='{{item.vedioUrl}}'></image>
           <image class='live-Images' src='/images/icon/dot_mos.png'></image>
           <text class='on-line'>{{item.clickNum}}</text>
           <view class='cate_site'>
@@ -45,7 +45,8 @@
       <view class='otherdata'>
         <view class='browsing'>
           <image src='/images/icon/tuoyuan_w.png' class='tuoyuan'></image>
-           {{item.scan}} 
+          {{index>item.commentNum?index:item.commentNum}}
+           <!-- {{item.scan}}  -->
         </view>
         
         
@@ -60,7 +61,8 @@
 
         <view class='forwarding'>
           <image src='/images/icon/find_share.png' class='findshare'></image>
-           {{item.convey}} 
+          {{index>item.commentNum?index:item.commentNum}}
+           <!-- {{item.convey}}  -->
         </view>
       </view>
     </view>
