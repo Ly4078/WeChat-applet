@@ -33,6 +33,9 @@ page{
   color: #808080;
   font-size: 26rpx;
   display: block;
+  text-overflow:ellipsis; 
+  white-space:nowrap; 
+  overflow:hidden;
 }
 
 .enshrineImages-wrap{

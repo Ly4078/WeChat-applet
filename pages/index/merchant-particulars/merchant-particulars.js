@@ -121,19 +121,19 @@ Page({
   TencentMap:function(event){
     let that = this;
     wx.getLocation({
-      type: 'gcj02', //返回可以用于wx.openLocation的经纬度  
+      type: 'gcj02',   
       success: function (res) {
         var latitude = res.latitude
         var longitude = res.longitude
         var storeDetails = that.data.store_details
         wx.openLocation({
-          latitude: storeDetails.locationX,
-          longitude: storeDetails.locationY,
+          longitude: storeDetails.locationX,
+          latitude: storeDetails.locationY,
           scale: 18,
-          name: storeDetails.address,
+          name: storeDetails.shopName,
           address: storeDetails.address,
           success: function(res) {
-            console.log(res)
+            console.log(res);
           }
         })
       }
