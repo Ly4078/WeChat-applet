@@ -42,12 +42,14 @@
         <text>{{ticketInfo.soId}}</text>
       </view>
       <view class='order-for-colour'>
-        <text>付款时间</text>
-        <text>{{orderInfo.paidTime || ""}}</text>
+        <text wx:if="{{isPay == 1}}">付款时间</text>
+        <text wx:if="{{isPay == 0}}">下单时间</text>
+        <text wx:if="{{isPay == 1}}">{{orderInfo.paidTime || ""}}</text>
+        <text wx:if="{{isPay == 0}}">{{orderInfo.createTime || ""}}</text>
       </view>
       <view class='order-for-colour'>
         <text>手机号</text>
-        <text>{{}}</text>
+        <text>{{mobile}}</text>
       </view>
       <view class='order-for-colour'>
         <text>数量</text>

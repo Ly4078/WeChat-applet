@@ -60,7 +60,7 @@ Page({
   },
   immediateUse: function (event) {
     wx.navigateTo({
-      url: '../lelectronic-coupons/lectronic-coupons?id=' + event.target.id
+      url: '../lelectronic-coupons/lectronic-coupons?id=' + event.target.id + '&isPay=1'
     })
   },
   //对比时间是否过期

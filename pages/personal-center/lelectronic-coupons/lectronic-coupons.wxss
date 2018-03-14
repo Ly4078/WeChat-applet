@@ -1,5 +1,6 @@
 page{
   background-color: #ECECEC;
+  width: 100%;
 }
 
 .lectronic-wrap{
@@ -15,6 +16,7 @@ page{
   display: flex;
   justify-content: space-between;
   border: 1px dotted #E0E0E0;
+  box-sizing: border-box;
 }
 
 .lectronic-left{

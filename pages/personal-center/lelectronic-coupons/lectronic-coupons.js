@@ -1,14 +1,18 @@
 import Api from '../../../utils/config/config.js';
 import { GLOBAL_API_DOMAIN } from '../../../utils/config/config.js';
+var app = getApp();
 Page({
   data: {
-    _build_url: GLOBAL_API_DOMAIN
+    _build_url: GLOBAL_API_DOMAIN,
+    userId: app.globalData.userInfo.userId ? app.globalData.userInfo.userId : 1     //登录用户的id
   },
   onLoad: function (options) {
     this.setData({
-      ticketId: options.id
+      ticketId: options.id,
+      isPay: options.isPay
     });
     this.getTicketInfo();
+    this.getTel();
   },
   //获取票券详情
   getTicketInfo: function() {
@@ -39,6 +43,20 @@ Page({
           console.log(data.data)
           that.setData({
             orderInfo: data.data
+          });
+        }
+      }
+    })
+  },
+  //获取手机号
+  getTel: function() {
+    let that = this;
+    wx.request({
+      url: that.data._build_url + 'user/get/' + that.data.userId,
+      success: function(res) {
+        if(res.data.data) {
+          that.setData({
+            mobile: res.data.data.mobile
           });
         }
       }

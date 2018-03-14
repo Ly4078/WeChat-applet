@@ -8,7 +8,7 @@
         <view class='logo-right-top'>
           <view class='logo-right-condition'>
             <text class='catecondition-top'>{{item.skuName}}</text>
-            <text class='catecondition-xia'>{{}}</text>
+            <text class='catecondition-xia'>{{item.ruleDesc}}</text>
           </view>
           <view class='roll-unused'>
             <!-- <text>未使用</text> -->

@@ -28,9 +28,8 @@ Page({
   },
   lowerLevel:function(ev){
     let id = ev.currentTarget.id
-    // console.log("id:",id)
     wx.navigateTo({
-      url: '../lelectronic-coupons/lectronic-coupons?id='+id,
+      url: '../lelectronic-coupons/lectronic-coupons?id=' + id + '&isPay=0'
     })
   }
 })
