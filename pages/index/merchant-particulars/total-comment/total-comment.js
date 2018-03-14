@@ -114,16 +114,16 @@ Page({
     this.setData({
       page: 1
     });
-    wx.showLoading({
-      title: '',
-      success: function() {
-        that.commentList();
-        setTimeout(function () {
-          wx.hideLoading();
-          wx.stopPullDownRefresh();
-        }, 1000);
-      }
-    });
+    that.commentList();
+    wx.stopPullDownRefresh();
+    // wx.showLoading({
+    //   title: '加载中...',
+    //   success: function() {
+    //     setTimeout(() => {
+    //       wx.hideLoading();
+    //     }, 500);
+    //   }
+    // })
   },
   //用户上拉触底
   onReachBottom: function() {
