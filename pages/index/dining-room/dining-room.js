@@ -22,16 +22,14 @@ Page({
       rows: 8
     }
     Api.shoplist(_parms).then((res) => {
-      let _bus = res.data.data.list
-      this.getDistance(_bus) //计算距离并赋值
       let data = res.data;
       if (data.code == 0 && data.data.list != null && data.data.list != "" && data.data.list != []) {
         let posts_key = this.data.posts_key;
         for (let i = 0; i < data.data.list.length; i++) {
           posts_key.push(data.data.list[i]);
         }
+        this.getDistance(posts_key) //计算距离并赋值
         this.setData({
-          posts_key: posts_key,
           reFresh: true
         });
       } else {
@@ -67,7 +65,7 @@ Page({
     });
   },
   //获取搜索框内的值
-  onInputText: function(e) {
+  onInputText: function (e) {
     this.setData({
       searchValue: e.detail.value
     })
@@ -83,7 +81,7 @@ Page({
     })
   },
   //点击列表跳转详情
-  onTouchItem: function(event) {
+  onTouchItem: function (event) {
     wx.navigateTo({
       url: '../merchant-particulars/merchant-particulars?shopid=' + event.currentTarget.id,
     })
