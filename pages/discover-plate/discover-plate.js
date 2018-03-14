@@ -42,8 +42,15 @@ Page({
   },
   clickarticle:function(e){  //点击某条文章
     const id = e.currentTarget.id
+    let _data = this.data.food
+    let zan = ''
+    for (let i = 0; i < _data.length;i++){
+      if(id == _data[i].id){
+          zan = _data[i].zan
+      }
+    }
     wx.navigateTo({
-      url: 'dynamic-state/article_details/article_details?id='+id
+      url: 'dynamic-state/article_details/article_details?id='+id+'&zan='+zan
     })
   },
   announceState:function(event){ // 跳转到编辑动态页面

@@ -1,5 +1,6 @@
 import Api from '/../../../utils/config/api.js'
 import MD5 from '/../../../utils/tools/md5.js'
+var app = getApp();
 Page({
   data: {
     // input默认是1  
@@ -101,76 +102,38 @@ Page({
 
   //微信支付入口
   confirmPayment: function (e) {
-    // var that = this;
-    // wx.request({
-    //   url: 'https://www.see-source.com/weixinpay/xiadan',
-    //   method: 'POST',
-    //   header: {
-    //     'content-type': 'application/x-www-form-urlencoded'
-    //   },
-    //   data: { 'openId': ogDNV457VtL4ucjVYeUOwrHU1-_w, },
-    //   success: function (res) {
-    //     var prepay_id = res.data.prepay_id;
-    //     console.log("统一下单返回 prepay_id:" + prepay_id);
-    //     that.sign(prepay_id);
-    //   }
-    // })
-    var that = this;
-    var url = 'https://www.hbxq001.cn/wxpay/doUnifiedOrder';
-    console.log('每一个ID' + that.data.obj.id)
-    wx.request({
-      url: url,
-      data: {
-        // total_fee: this.data.obj.sell,
-        soId: that.data.obj.id,
-        openId: 'ogDNV457VtL4ucjVYeUOwrHU1-_w',
-      },
-      header: {
-        'content-type': 'application/json;Authorization',
-      },
-      method: 'POST',
-      success: function (res) {
-        console.log("预支付参数:", res)
-        if (res.data.code == 0) {
-          console.log("paySign:", res.data.data.paySign);
-          console.log("nonceStr:", res.data.data.nonceStr);
-          console.log("package:", res.data.data.package);
-          console.log("timeStamp:", res.data.data.timeStamp);
-          console.log("signType:", res.data.data.signType);
-          wx.requestPayment({
-            'timeStamp': res.data.data.timeStamp,
-            'nonceStr': res.data.data.nonceStr,
-            'package': res.data.data.package,
-            'paySign': res.data.data.paySign,
-            'signType': 'MD5',
-            'success': function (res) {
-              console.log('支付成功:', res)
-              wx.showToast({
-                title: '支付成功',
+    let that = this;
+    let _parms = {
+      // soId: this.data.obj.id,
+      soId: '22',
+      openId: app.globalData.userInfo.openId,
+    }
+    Api.doUnifiedOrder(_parms).then((res) => {
+      if (res.data.code == 0) {
+        wx.requestPayment({
+          'timeStamp': res.data.data.timeStamp,
+          'nonceStr': res.data.data.nonceStr,
+          'package': res.data.data.package,
+          'signType': 'MD5',
+          'paySign': res.data.data.paySign,
+          success: function (res) {
+            console.log('支付成功:', res)
+            wx.showToast({
+              title: '支付成功',
+            })
+            setTimeout(function () {
+              wx.switchTab({
+                url: '/pages/mine/mine',
               })
-              // setTimeout(function () {
-              //   wx.switchTab({
-              //     url: '/pages/mine/mine',
-              //   })
-              // })
-            },
-            'fail': function (res) {
-              console.log(res)
-              wx.showToast({
-                title: '支付失败，请重新支付',
-              })
-            }
-
-          })
-
-        } else {
-          wx.showToast({
-            title: res.data.message,
-          })
-        }
-      },
-      fail: function (res) {
-        console.log("退出",res)
+            }, 1500)
+          },
+          fail: function (res) {
+            console.log(res)
+            wx.showToast({
+              title: '支付失败，请重新支付',
+            })
+          }
+        })
       }
     })
   },

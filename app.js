@@ -10,7 +10,9 @@ App({
     Info:{},
     sessionKey:''
   },
-
+  onPullDownRefresh: function () {
+    wx.stopPullDownRefresh()
+  },
   onLaunch: function () {
     let that = this
     wx.login({

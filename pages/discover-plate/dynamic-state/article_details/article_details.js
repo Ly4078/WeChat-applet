@@ -9,6 +9,7 @@ Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,  //服务器域名
     _id:'',    //文章ID
+    zan:'',   //点赞数
     details:{},   //文章数据 
     cmtdata:[],   //文章评论数据 
     interval:'',  //时间差
@@ -27,7 +28,8 @@ Page({
     if(options.id){
       const id = options.id
       this.setData({
-        _id: id
+        _id: id,
+        zan:options.zan
       })
       this.gettopiclist(id)
       this.getcmtlist()
@@ -146,9 +148,11 @@ Page({
             title: '取消成功'
           })
           _details.isZan = 0;
-          _details.zan--;
+          let Zan = this.data.zan;
+          Zan--;
           that.setData({
-            details: _details
+            details: _details,
+            zan: Zan
           });
         }
       }else{
@@ -157,9 +161,11 @@ Page({
             title: '点赞成功'
           })
           _details.isZan = 1;
-          _details.zan++;
+          let Zan = this.data.zan;
+          Zan++;
           that.setData({
-            details: _details
+            details: _details,
+            zan: Zan
           });
         }
       }

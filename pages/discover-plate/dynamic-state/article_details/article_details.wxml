@@ -12,8 +12,8 @@
       <view class='storename'></view>
     </view>
     <view class='homefollow'>
-      <image src='' class='home'>home</image>
-      <image src='' class='follow'>follow</image>
+      <!-- <image src='' class='home'>home</image>
+      <image src='' class='follow'>follow</image> -->
     </view>
   </view>
 
@@ -31,7 +31,7 @@
         {{details.scan}}
       </view>
       <view class='praise' id="{{details.id}}" catchtap='dianzanwz'>
-        {{details.zan}}
+        {{zan}}
         <image wx:if="{{details.isZan}}" src='/images/icon/home_zaned.png' class='homezan'></image>
         <image wx:else src='/images/icon/home_zan.png' class='homezan'></image>
       </view>

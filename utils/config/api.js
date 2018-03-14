@@ -7,7 +7,7 @@ const ALL_API = {
     method: 'POST',  //请求方式  POST OR GET OR 其他请方式
     url: 'user/list'  //请求地址   完整地址是：http://www.hbxq001.cn/user/list    其中http://www.hbxq001.cn/已经在utils/config/config.js中配置，如果更换了后台地址或服务器，可直接到到config.js中统一更换，此处url只写后面部分
   },
-  getOpenId:{
+  getOpenId:{  //获取openId
     method:'POST',
     url:'wxpay/getOpenId'
   },
@@ -76,6 +76,10 @@ const ALL_API = {
     method: 'POST',
     url: 'vote/add'
   },
+  votedelete: {   //取消投票
+    method: 'POST',
+    url: 'vote/delete'
+  },
   topicadd:{  //文章列表
     method:'POST',
     url:'topic/add'
@@ -100,8 +104,11 @@ const ALL_API = {
     method: 'POST',
     url: 'zan/delete'
   },
-  //支付
-  topicadd: {
+  doUnifiedOrder: { //支付接口
+    method: 'POST',
+    url: 'wxpay/doUnifiedOrder'
+  },
+  topicadd: {  //新增文章主题
     method: 'POST',
     url: 'topic/add'
   },
