@@ -1,8 +1,8 @@
 <view>
   <view class='centreWrap'>
     <view class='centreTopName'>
-      <image class='centreImages' src='/images/head/head_portrait4.jpg'></image>
-      <view class='centreText'>Montage</view>
+      <image class='centreImages' src='{{actUrl}}'></image>
+      <view class='centreText'>{{userName}}</view>
     </view>
     <view class='messageCase'>
       <view class='messageWrap' bindtap='DynamicState'>

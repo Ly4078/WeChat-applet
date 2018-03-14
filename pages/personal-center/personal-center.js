@@ -1,10 +1,15 @@
 var app = getApp();
 Page({
   data: {
+    actUrl: '',
+    userName: '',
     userId: app.globalData.userInfo.userId ? app.globalData.userInfo.userId : 1  //登陆人id
   },
   onLoad: function (options) {
-    
+    this.setData({
+      actUrl: app.globalData.userInfo.avatarUrl,
+      userName: app.globalData.userInfo.userName,
+    })
   },
   calling: function () {
     wx.makePhoneCall({
