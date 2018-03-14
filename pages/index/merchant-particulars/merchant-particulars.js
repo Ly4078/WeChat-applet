@@ -6,7 +6,7 @@ Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
     navbar: ['主页', '动态'],
-    shopid:'',  //商家ID
+    shopid: '',  //商家ID
     store_details: {},  //店铺详情
     currentTab: 0,
     isCollected: false,   //是否收藏，默认false
@@ -18,7 +18,7 @@ Page({
   onLoad: function (options) {
     this.setData({
       posts_key: postsData.postList,
-      shopid: options.shopid  
+      shopid: options.shopid
     });
     this.getstoredata();
     this.recommendation();
@@ -29,8 +29,7 @@ Page({
       withShareTicket: true,
       success: function (res) {
         // 分享成功
-        // console.log('shareMenu share success')
-        // console.log(res)
+        console.log(res)
       },
       fail: function (res) {
         // 分享失败
@@ -38,13 +37,13 @@ Page({
       }
     });
   },
-  getstoredata(){  //获取店铺详情数据   带值传参示例
+  getstoredata() {  //获取店铺详情数据   带值传参示例
     let id = this.data.shopid;
     let that = this;
     wx.request({
-      url: that.data._build_url + 'shop/get/' + id, 
+      url: that.data._build_url + 'shop/get/' + id,
       header: {
-        'content-type': 'application/json;Authorization' 
+        'content-type': 'application/json;Authorization'
       },
       success: function (res) {
         that.setData({
@@ -54,7 +53,7 @@ Page({
     })
   },
   //推荐菜列表
-  recommendation: function() {
+  recommendation: function () {
     let that = this;
     wx.request({
       url: that.data._build_url + 'sku/tsc',
@@ -78,7 +77,7 @@ Page({
       pid: e.currentTarget.dataset.id,
       to_user_id: e.currentTarget.dataset.user
     })
-  },  
+  },
   //分享APP
   onShareAppMessage: function () {
     return {

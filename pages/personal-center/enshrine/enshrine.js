@@ -4,7 +4,10 @@ var app = getApp();
 Page({
   data: {
     userId: app.globalData.userInfo.userId ? app.globalData.userInfo.userId : 1,     //登录用户的id
-    _build_url: GLOBAL_API_DOMAIN
+    _build_url: GLOBAL_API_DOMAIN,
+    posts_key: [],
+    page: 1,
+    reFresh: true
   },
   onLoad: function (options) {
     this.getShareList();
@@ -12,12 +15,21 @@ Page({
   getShareList: function() {
     let that = this;
     wx.request({
-      url: that.data._build_url + 'fvs/list?userId=' + that.data.userId,
+      url: that.data._build_url + 'fvs/list?userId=' + that.data.userId + '&page=' + that.data.page + '&rows=10',
       success: function(res) {
         let data = res.data;
-        if(data.code == 0) {
+        if (data.code == 0 && data.data.list != null && data.data.list != "" && data.data.list != []) {
+          let posts_key = that.data.posts_key;
+          for (let i = 0; i < data.data.list.length; i++) {
+            posts_key.push(data.data.list[i]);
+          }
           that.setData({
-            posts_key: data.data.list
+            posts_key: posts_key,
+            reFresh: true
+          });
+        } else {
+          that.setData({
+            reFresh: false
           });
         }
       }
@@ -27,5 +39,14 @@ Page({
     wx.navigateTo({
       url: '../../index/merchant-particulars/merchant-particulars?shopid=' + event.currentTarget.id,
     })
+  },
+  //用户上拉触底
+  onReachBottom: function () {
+    if (this.data.reFresh) {
+      this.setData({
+        page: this.data.page + 1
+      });
+      this.getShareList();
+    }
   }
 })

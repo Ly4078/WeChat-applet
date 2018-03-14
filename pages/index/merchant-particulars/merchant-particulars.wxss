@@ -132,6 +132,7 @@ page {
   /* padding-right: 32rpx; */
   position: absolute;
   right: 50rpx;
+  top: 29rpx;
 }
 
 .location-text {
@@ -148,6 +149,7 @@ page {
   background-color: #e0e0e0;
   position: absolute;
   right: 110rpx;
+  top: 27rpx;
 }
 
 .colletionImg{

@@ -1,7 +1,7 @@
 var app = getApp();
 Page({
   data: {
-    userId: app.globalData.userInfo.userId   //登陆人id
+    userId: app.globalData.userInfo.userId ? app.globalData.userInfo.userId : 1  //登陆人id
   },
   onLoad: function (options) {
     
