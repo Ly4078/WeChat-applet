@@ -12,7 +12,7 @@ page{
 }
 
 .enshrineLeft{
-  width: 70%;
+  width: 90%;
   height: 162rpx;
   background-color: white;
   display: flex;

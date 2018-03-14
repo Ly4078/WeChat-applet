@@ -5,7 +5,7 @@ Page({
   onLoad: function (options) {
     console.log(options)
     this.setData({
-      qrCodeUrl: 'http://182.254.130.252/m/hx?qrCode=' + options.qrCode + '&userId=' + options.userId
+      qrCodeUrl: 'https://www.hbxq001.cn/m/hx?qrCode=' + options.qrCode + '&userId=' + options.userId
     });
   }
 })

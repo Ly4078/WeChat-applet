@@ -1,11 +1,12 @@
 import Api from '../../../utils/config/api.js';
 Page({
-
   /**
    * 页面的初始数据
    */
   data: {
-    
+    posts_key: [],
+    page: 1,
+    reFresh: true
   },
 
   /**
@@ -15,11 +16,26 @@ Page({
     this.getData();
   },
   getData: function () {
-    let _parms = {}
+    let _parms = {
+      page: this.data.page,
+      rows: 8
+    }
     Api.shoplist(_parms).then((res) => {
-      this.setData({
-        posts_key: res.data.data.list
-      });
+      let data = res.data;
+      if (data.code == 0 && data.data.list != null && data.data.list != "" && data.data.list != []) {
+        let posts_key = this.data.posts_key;
+        for (let i = 0; i < data.data.list.length; i++) {
+          posts_key.push(data.data.list[i]);
+        }
+        this.setData({
+          posts_key: posts_key,
+          reFresh: true
+        });
+      } else {
+        this.setData({
+          reFresh: false
+        });
+      }
     })
   },
   //获取搜索框内的值
@@ -43,5 +59,14 @@ Page({
     wx.navigateTo({
       url: '../merchant-particulars/merchant-particulars?shopid=' + event.currentTarget.id,
     })
+  },
+  //用户上拉触底
+  onReachBottom: function () {
+    if (this.data.reFresh) {
+      this.setData({
+        page: this.data.page + 1
+      });
+      this.getData();
+    }
   }
 })

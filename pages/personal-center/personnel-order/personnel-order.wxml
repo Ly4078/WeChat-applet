@@ -1,4 +1,4 @@
-<block wx:for="{{posts_key}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
+<block wx:for="{{order_list}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
   <view class='personnelWrap'>
     <view class='personnelOrder' id="{{item.id}}" catchtap='lowerLevel'>
       <view class='iconLogoWrap'>
@@ -7,8 +7,8 @@
       <view class='iconLogo-right'>
         <view class='logo-right-top'>
           <view class='logo-right-condition'>
-            <text class='catecondition-top'>{{item.activity_player}}</text>
-            <text class='catecondition-xia'>{{item.sort_name}}</text>
+            <text class='catecondition-top'>{{item.skuName}}</text>
+            <text class='catecondition-xia'>{{}}</text>
           </view>
           <view class='roll-unused'>
             <!-- <text>未使用</text> -->
@@ -17,11 +17,11 @@
         <view class='roll-wrap-button'>
           <view>
             <text>数量:</text>
-            <text>{{item.sort_digit}}</text>
+            <text>{{item.skuNum}}</text>
           </view>
           <view>
             <text>总价:</text>
-            <text class='price-specific'>￥{{item.sort_nameere}}</text>
+            <text class='price-specific'>￥{{item.soAmount}}</text>
           </view>
           <image class='roll-wrap-Images' src='/images/icon/home_arrow.png'></image>
         </view>

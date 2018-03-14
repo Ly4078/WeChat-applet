@@ -1,25 +1,28 @@
-var postsData = require('/../../../data/my-order.js')
 import Api from '../../../utils/config/api.js';
 var app = getApp();
 Page({
 
   data: {
-    datas:[]
+    userId: app.globalData.userInfo.userId ? app.globalData.userInfo.userId : 15,
+    page: 1
   },
-
   onLoad: function (options) {
-    this.setData({
-      posts_key: postsData.postList
-    });
-    let _parms = {
-      userId: app.globalData.userInfo.userId
-    }
+    this.getOrderList();
+  },
+  getOrderList: function() {       //获取订单列表
+    let that = this;
+    let _parms = { 
+      userId: this.data.userId,
+      page: this.data.page,
+      rows: 8
+    };
     Api.somyorder(_parms).then((res) => {
-      // console.log("datas:",res.data.data)
-      if(res.data == '0'){
-        this.setData({
-          datas: res.data.data
-      })
+      var data = res.data;
+      if (data.code == 0) {
+        that.setData({
+          order_list: data.data
+        });
+        console.log(data.data);
       }
     })
   },

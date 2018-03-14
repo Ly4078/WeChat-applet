@@ -6,7 +6,7 @@ Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
     navbar: ['主页', '动态'],
-    shopid:'',  //商家ID
+    shopid: '',  //商家ID
     store_details: {},  //店铺详情
     currentTab: 0,
     isCollected: false,   //是否收藏，默认false
@@ -18,7 +18,7 @@ Page({
   onLoad: function (options) {
     this.setData({
       posts_key: postsData.postList,
-      shopid: options.shopid  
+      shopid: options.shopid
     });
     this.getstoredata();
     this.recommendation();
@@ -38,13 +38,13 @@ Page({
       }
     });
   },
-  getstoredata(){  //获取店铺详情数据   带值传参示例
+  getstoredata() {  //获取店铺详情数据   带值传参示例
     let id = this.data.shopid;
     let that = this;
     wx.request({
-      url: that.data._build_url + 'shop/get/' + id, 
+      url: that.data._build_url + 'shop/get/' + id,
       header: {
-        'content-type': 'application/json;Authorization' 
+        'content-type': 'application/json;Authorization'
       },
       success: function (res) {
         that.setData({
@@ -54,7 +54,7 @@ Page({
     })
   },
   //推荐菜列表
-  recommendation: function() {
+  recommendation: function () {
     let that = this;
     wx.request({
       url: that.data._build_url + 'sku/tsc',
@@ -78,7 +78,7 @@ Page({
       pid: e.currentTarget.dataset.id,
       to_user_id: e.currentTarget.dataset.user
     })
-  },  
+  },
   //分享APP
   onShareAppMessage: function () {
     return {
@@ -112,16 +112,16 @@ Page({
       }
     })
   },
-  moreImages:function(event){  //查看更多图片
-    // wx.navigateTo({
-    //   url: 'preview-picture/preview-picture',
-    // })
+  moreImages: function (event) {
+    wx.navigateTo({
+      url: 'preview-picture/preview-picture',
+    })
   },
   //腾讯地图
-  TencentMap:function(event){
+  TencentMap: function (event) {
     let that = this;
     wx.getLocation({
-      type: 'gcj02',   
+      type: 'gcj02',
       success: function (res) {
         var latitude = res.latitude
         var longitude = res.longitude
@@ -132,12 +132,12 @@ Page({
           scale: 18,
           name: storeDetails.shopName,
           address: storeDetails.address,
-          success: function(res) {
+          success: function (res) {
             console.log(res);
           }
         })
       }
-    })  
+    })
   },
   // tab栏
   navbarTap: function (e) {
@@ -146,7 +146,7 @@ Page({
     })
   },
   //评论列表
-  commentList:function() {
+  commentList: function () {
     let that = this;
     wx.request({
       url: that.data._build_url + 'cmt/list',
@@ -161,7 +161,8 @@ Page({
         let data = res.data;
         if (data.code == 0 && data.data.list != null && data.data.list != "") {
           that.setData({
-            comment_list: res.data.data.list
+            comment_list: res.data.data.list,
+            commentNum: res.data.data.total
           })
         } else {
           that.setData({
@@ -172,18 +173,18 @@ Page({
     })
   },
   //跳转至所有评论
-  jumpTotalComment: function() {
+  jumpTotalComment: function () {
     let that = this;
     wx.navigateTo({
       url: 'total-comment/total-comment?id=' + that.data.shopid + '&cmtType=5'
     })
   },
   //评论点赞
-  toLike: function(event) {
+  toLike: function (event) {
     let that = this,
-        id = event.currentTarget.id,
-        index = "";
-    for(var i = 0; i < this.data.comment_list.length; i++) {
+      id = event.currentTarget.id,
+      index = "";
+    for (var i = 0; i < this.data.comment_list.length; i++) {
       if (this.data.comment_list[i].id == id) {
         index = i;
       }
@@ -191,8 +192,8 @@ Page({
     wx.request({
       url: that.data._build_url + 'zan/add?refId=' + id + '&type=4&userId=' + that.data.userId,
       method: "POST",
-      success: function(res) {
-        if(res.data.code == 0) {
+      success: function (res) {
+        if (res.data.code == 0) {
           wx.showToast({
             title: '点赞成功'
           })
@@ -207,7 +208,7 @@ Page({
     })
   },
   //取消点赞
-  cancelLike: function(event) {
+  cancelLike: function (event) {
     let that = this,
       id = event.currentTarget.id,
       cmtType = "",
@@ -236,7 +237,7 @@ Page({
     })
   },
   //查询是否收藏
-  isCollected: function() {
+  isCollected: function () {
     let that = this;
     wx.request({
       url: that.data._build_url + 'fvs/isCollected?userId=' + that.data.userId + '&shopId=' + that.data.shopid,
@@ -253,13 +254,13 @@ Page({
     })
   },
   //收藏
-  onCollect: function(event) {
+  onCollect: function (event) {
     let that = this;
     wx.request({
       url: that.data._build_url + 'fvs/add?userId=' + that.data.userId + '&shopId=' + that.data.shopid,
       method: "POST",
-      success: function(res) {
-        if(res.data.code == 0) {
+      success: function (res) {
+        if (res.data.code == 0) {
           that.setData({
             isCollected: !that.data.isCollected
           })
@@ -271,7 +272,7 @@ Page({
     })
   },
   //取消收藏
-  cancelCollect: function() {
+  cancelCollect: function () {
     let that = this;
     wx.request({
       url: that.data._build_url + 'fvs/delete?userId=' + that.data.userId + '&shopId=' + that.data.shopid,
@@ -289,19 +290,19 @@ Page({
     })
   },
   //显示发表评论框
-  showAreatext: function() {
+  showAreatext: function () {
     this.setData({
       isComment: true
     })
   },
   //获取评论输入框
-  getCommentVal: function(e) {
+  getCommentVal: function (e) {
     this.setData({
       commentVal: e.detail.value
     })
   },
   //发表评论
-  sendComment: function(e) {
+  sendComment: function (e) {
     if (this.data.commentVal == "" || this.data.commentVal == undefined) {
       wx.showToast({
         title: '请先输入评论',
@@ -326,6 +327,6 @@ Page({
       });
     }
   }
-}) 
+})
 // 标记
 // 获取flag
