@@ -62,7 +62,7 @@
       <text class='reviewyan'>写评论</text>
     </view>
     <form class='commentBox {{isComment ? "show" : "hide"}}'>
-      <textarea class="commentArea" placeholder='请输入评论' focus="{{isComment}}" bindinput="getCommentVal" cursor-spacing="50rpx" show-confirm-bar="false"></textarea>
+      <textarea class="commentArea" placeholder='请输入评论' focus="{{isComment}}" bindinput="getCommentVal" cursor-spacing="50rpx" show-confirm-bar="false" fixed="true"></textarea>
       <button form-type="reset" catchtap="setcmtadd">发送</button>
     </form>
   </view>
