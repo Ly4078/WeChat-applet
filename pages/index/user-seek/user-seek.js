@@ -85,7 +85,6 @@ Page({
       url: '../merchant-particulars/merchant-particulars?shopid=' + shopid,
     })
   },
-  
   getDistance: function (data) { //计算距离
     let that = this;
     //获取当前位置

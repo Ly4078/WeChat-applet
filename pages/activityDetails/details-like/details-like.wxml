@@ -28,7 +28,7 @@
     <view>
       <view class="search">
         <view class="search_arr">
-          <icon class="searchcion" size='20' type='search' bindtap='searchnum'></icon>
+          <icon class="searchcion" size='20' type='search' bindtap='selectnum'></icon>
           <input type='text' class='inputs' placeholder="请输入编号、名称" bindinput="bindInput" bindconfirm="selectnum"/>
         </view>
       </view>
@@ -47,8 +47,8 @@
               <text class='merchant-right-number'>{{item.voteNum}}</text>
               <text class='merchant-right-piao'>票</text>
               <!-- <text class='merchant-right-button'>投票</text> -->
-              <image class='merchant-right-button' wx:if="{{!item.isVote}}" id="{{item.id}}" catchtap='clickVote' src='/images/icon/vote_time.png'></image>
-              <image class='merchant-right-button' id="{{item.id}}" catchtap='clickVote' wx:else src='/images/icon/vote_time2.png'></image>
+              <image class='merchant-right-button' wx:if="{{item.isVote == 0}}" id="{{item.id}}" catchtap='clickVote' src='/images/icon/vote_time.png'></image>
+              <image class='merchant-right-button' wx:else  id="{{item.id}}" catchtap='clickVote' src='/images/icon/vote_time2.png'></image>
             </view>
           </view>
           <view class='brief-introduction'>

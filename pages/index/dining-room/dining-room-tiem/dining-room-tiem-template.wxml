@@ -13,7 +13,7 @@
           </view>
         </view>
         <view class='trade_site_distance'>
-          <!-- <text class='trade_caim'>{{item.shopInfo}}</text> -->
+           <text class='trade_caim'>{{item.skuName}}</text> 
           <!-- <text class='trade_guangu'>{{item.merchant_location}}</text>| -->
            <!-- <text class='trade_site_lxg'>{{item.remark}}</text>  -->
           <text class='trade_site_lxg'>{{item.address}}</text>

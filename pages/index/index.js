@@ -184,13 +184,16 @@ Page({
   },
   fooddetails: function (e) {  //跳转美食墙内页
     const id = e.currentTarget.id
+    let _data = this.data.food
+    let zan = ''
+    for (let i = 0; i < _data.length; i++) {
+      if (id == _data[i].id) {
+        zan = _data[i].zan
+      }
+    }
     wx.navigateTo({
-      // url:'../discover-plate/dynamic-state/dynamic-state'
-      url: '../discover-plate/dynamic-state/article_details/article_details?id=' + id,
+      url: '../discover-plate/dynamic-state/article_details/article_details?id=' + id+'&zan='+zan,
     })
-    // wx.navigateTo({
-    //   url: 'test?sfoodid=' + sfoodid
-    // })
   },
   detailOfTheActivity: function (event) { //跳转到活动内页
     const actid = event.currentTarget.id
