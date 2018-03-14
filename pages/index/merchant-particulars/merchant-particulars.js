@@ -29,8 +29,7 @@ Page({
       withShareTicket: true,
       success: function (res) {
         // 分享成功
-        // console.log('shareMenu share success')
-        // console.log(res)
+        console.log(res)
       },
       fail: function (res) {
         // 分享失败
@@ -126,6 +125,8 @@ Page({
         var latitude = res.latitude
         var longitude = res.longitude
         var storeDetails = that.data.store_details
+        console.log(res.latitude, res.longitude);
+        console.log(storeDetails.locationX, storeDetails.locationY);
         wx.openLocation({
           longitude: storeDetails.locationX,
           latitude: storeDetails.locationY,
