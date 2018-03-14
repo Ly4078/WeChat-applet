@@ -18,7 +18,7 @@ Page({
 
     var summation = this.data.obj.sell
     // var indentId = this.data.obj.id
-    // console.log('每一个ID:', this.data.obj.id)
+    // console.log('每一个总价:', this.data.obj.sell)
     function hidtel($phone) {
       $IsWhat = preg_match('/(0[0-9]{2,3}[\-]?[2-9][0-9]{6,7}[\-]?[0-9]?)/i', $phone);
       if ($IsWhat == 1) {
@@ -27,6 +27,24 @@ Page({
         return preg_replace('/(1[358]{1}[0-9])[0-9]{4}([0-9]{4})/i', '$1****$2', $phone);
       }
     }
+
+    //获取openid
+    // getOpenId: function (code) {
+    //   var that = this;
+    //   wx.request({
+    //     url: 'https://www.hbxq001.cn/wxpay/getOpenId',
+    //     method: 'POST',
+    //     header: {
+    //       'content-type': 'application/x-www-form-urlencoded'
+    //     },
+    //     data: { 'code': code },
+    //     success: function (res) {
+    //       var openId = res.data.openid;
+    //       that.xiadan(openId);
+    //     }
+    //   })
+    //   console.log('获取到的openID:', openId)
+    // },
   },
   /* 点击减号 */
   bindMinus: function () {
@@ -35,7 +53,7 @@ Page({
     if (number > 1) {
       --number;
     }
-    
+
     // 将数值与状态写回  
     this.setData({
       number: number,
@@ -79,28 +97,46 @@ Page({
       number: number
     });
   },
+
+
   //微信支付入口
   confirmPayment: function (e) {
+    // var that = this;
+    // wx.request({
+    //   url: 'https://www.see-source.com/weixinpay/xiadan',
+    //   method: 'POST',
+    //   header: {
+    //     'content-type': 'application/x-www-form-urlencoded'
+    //   },
+    //   data: { 'openId': ogDNV457VtL4ucjVYeUOwrHU1-_w, },
+    //   success: function (res) {
+    //     var prepay_id = res.data.prepay_id;
+    //     console.log("统一下单返回 prepay_id:" + prepay_id);
+    //     that.sign(prepay_id);
+    //   }
+    // })
     var that = this;
     var url = 'https://www.hbxq001.cn/wxpay/doUnifiedOrder';
     console.log('每一个ID' + that.data.obj.id)
     wx.request({
       url: url,
       data: {
+        // total_fee: this.data.obj.sell,
         soId: that.data.obj.id,
         openId: 'ogDNV457VtL4ucjVYeUOwrHU1-_w',
       },
       header: {
-        "content-type": "application/x-www-form-urlencoded",
+        'content-type': 'application/json;Authorization',
       },
       method: 'POST',
       success: function (res) {
         console.log("预支付参数:", res)
-        if (res.data.message == "success") {
+        if (res.data.code == 0) {
           console.log("paySign:", res.data.data.paySign);
           console.log("nonceStr:", res.data.data.nonceStr);
           console.log("package:", res.data.data.package);
           console.log("timeStamp:", res.data.data.timeStamp);
+          console.log("signType:", res.data.data.signType);
           wx.requestPayment({
             'timeStamp': res.data.data.timeStamp,
             'nonceStr': res.data.data.nonceStr,
