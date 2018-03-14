@@ -2,29 +2,88 @@
 import Api from '/../../utils/config/api.js';
 import { GLOBAL_API_DOMAIN } from '/../../utils/config/config.js';
 var postsData = require('/../../data/posts-data.js')
-const app = getApp()
+let app = getApp()
 
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
     city: "",
+    openId:'',
+    sessionKey:'',
     carousel: [],  //轮播图
     business: [], //商家列表，推荐餐厅
     actlist: [],  //热门活动
     hotlive: [],  //热门直播
     food: [],   //美食墙
-    logs: []
+    logs: [],
+    lat: '',
+    lng: ''
   },
   onLoad: function (options) {
-    let lat = '', lng = '';  //lat纬度   lng经度
-    wx.getLocation({  //获取当前的地理位置
-      type: 'wgs84',
-      success: (res) => {
-        var lat = res.latitude
-        var lng = res.longitude
-        this.requestCityName(lat, lng);
+    let that = this
+    wx.login({
+      success: res => {
+        let _code = res.code;
+        if (res.code) {
+          let _parms = {
+            code: res.code
+          }
+          Api.getOpenId(_parms).then((res) => {  //获取openID sessionKey
+            if (res.data.code == 0) {
+              that.setData({
+                openId: res.data.data.openId,
+                sessionKey: res.data.data.sessionKey
+              })
+            }
+          })
+        }
       }
     })
+
+    wx.getSetting({
+        success(res) {
+            if(!res.authSetting['scope.userLocation']) {
+                wx.openSetting({
+                    success: (res) => {
+                        console.log(res)
+                        if(!res.authSetting['scope.userLocation']) {
+                            wx.showModal({
+                                title: '温馨提醒',
+                                content: '需要获取您的地理位置才能使用小程序',
+                                cancelText: '不使用',
+                                confirmText: '获取位置',
+                                success: function(res) {
+                                    if(res.confirm) {
+                                        getAuthor();
+                                    } else if(res.cancel) {
+                                        wx.showToast({
+                                            title: '您可点击左下角 定位按钮 重新获取位置',
+                                            icon: 'success',
+                                            duration: 3000
+                                        })
+                                    }
+                                }
+                            })
+                        }                    
+                    }
+                })
+            }
+        }
+    })
+
+    this.getuserInfo();
+    this.getlocation();
+    // wx.openSetting({
+    //   success: (res) => {
+ 
+    //     if (res.authSetting['scope.userInfo'] || res.authSetting['scope.userLocation']) {  //暂时关闭检验用户授权权限 ，如没有授权则要求用户授权
+          
+    //     }
+    //   }
+    // })
+
+
+
     this.getcarousel();
     this.getdata();
     this.getactlist();
@@ -32,34 +91,58 @@ Page({
     this.gettopic();
 
   },
-  onShow() {
-    let lat = '', lng = '';  //lat纬度   lng经度
-    wx.getStorage({
-      key: 'lat',
+  getlocation: function () {  //获取用户位置
+    let that = this
+    wx.getLocation({
+      type: 'wgs84',
       success: function (res) {
-        lat = res.data;
+        let latitude = res.latitude
+        let longitude = res.longitude
+        let speed = res.speed
+        let accuracy = res.accuracy
+        that.setData({
+          lat:latitude,
+          lng:longitude
+        })
+        that.requestCityName(latitude, longitude);
       }
     })
-    wx.getStorage({
-      key: 'lng',
-      success: function (res) {
-        lng = res.data;
-      }
-    })
+  },
+  getuserInfo: function () {  //获取用户信息
     let that = this;
-    setTimeout(function () {
-      if (lat && lng) {
-        that.requestCityName(lat, lng)
+    wx.getUserInfo({
+      success: res => {
+        if (res.userInfo) {
+          this.data.Info = res.userInfo
+          this.setblouserInfo()
+        }
       }
-    }, 500)
+    })
+  },
+  setblouserInfo: function () {  //将获取到的用户信息赋值给全局变量
+    let _parms = {
+      openId: this.data.openId,
+      // userId: this.data.openId,  //暂时注释 待后台有user表后放开开注释
+      userName: this.data.Info.nickName,
+      nikcName: this.data.Info.nickName,
+      avatarUrl: this.data.Info.avatarUrl,
+      sourceType: '1',
+      iconUrl: this.data.Info.avatarUrl,
+      city: this.data.Info.city,
+      sex: this.data.Info.gender, //gender	用户的性别，值为1时是男性，值为2时是女性，值为0时是未知
+      lat: this.data.lat,
+      lng: this.data.lng
+    }
+    app.globalData.userInfo = _parms  //更新全局变量默认值
   },
   requestCityName(lat, lng) {//获取当前城市
     wx.request({
-      url: 'http://apis.map.qq.com/ws/geocoder/v1/?location=' + lat + "," + lng + "&key=4YFBZ-K7JH6-OYOS4-EIJ27-K473E-EUBV7",
+      url: 'https://apis.map.qq.com/ws/geocoder/v1/?location=' + lat + "," + lng + "&key=4YFBZ-K7JH6-OYOS4-EIJ27-K473E-EUBV7",
       header: {
         'content-type': 'application/json' // 默认值
       },
       success: (res) => {
+        console.log("res:", res)
         this.setData({
           city: res.data.result.address_component.city
         })
@@ -192,7 +275,7 @@ Page({
       }
     }
     wx.navigateTo({
-      url: '../discover-plate/dynamic-state/article_details/article_details?id=' + id+'&zan='+zan,
+      url: '../discover-plate/dynamic-state/article_details/article_details?id=' + id + '&zan=' + zan,
     })
   },
   detailOfTheActivity: function (event) { //跳转到活动内页

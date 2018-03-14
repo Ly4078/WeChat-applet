@@ -319,6 +319,7 @@ Page({
             'userName': 'test'
           },
           success: function (res) {
+            console.log("res:",res)
             var article = getApp().globalData.article;  //获取全局变量
             let _data = res.data;
             _data = JSON.parse(_data);

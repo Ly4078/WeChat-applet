@@ -1,98 +1,113 @@
-.dynamic{
+.dynamic {
   width: 100%;
   padding: 0 28rpx;
-  position: fixed; 
+  position: fixed;
   overflow: auto;
   height: 100%;
-  background: #EBEBEB;
+  background: #ebebeb;
 }
 
-.dynamic_cover{
+.dynamic_cover {
   margin: 20rpx 0;
   width: 694rpx;
   height: 390rpx;
-  border: 1px dashed #EBEBEB;
+  border: 1px dashed #ebebeb;
   border-radius: 8rpx;
 }
 
-.title{
+.title {
   width: 694rpx;
-  height:108rpx;
+  height: 108rpx;
   line-height: 108rpx;
-  margin-bottom:  40rpx;
-  text-align:center;
+  margin-bottom: 40rpx;
+  text-align: center;
   background: #fff;
   border-radius: 8rpx;
   font-size: 40rpx;
   color: #191919;
 }
-.phcolor{  
-    color: #B1B1B1;  
+
+.phcolor {
+  color: #b1b1b1;
 }
 
-.add{
+.add {
   width: 60rpx;
   height: 60rpx;
   border-radius: 50%;
   background: #fff;
   border: 1rpx solid #b1b1b1;
   text-align: center;
-  line-height:  50rpx;
+  line-height: 50rpx;
   color: #ccc;
   font-weight: 300;
   font-size: 80rpx;
   margin: 40rpx 317rpx;
- 
 }
-.img_txt{
+
+.img_txt {
   width: 132rpx;
-  height:34rpx;
+  height: 34rpx;
   background: #fff;
   border-radius: 60rpx;
   margin: 40rpx 249rpx;
   padding: 13rpx 32rpx;
 }
-.addimg{
+
+.addimg {
   float: left;
   width: 44rpx;
   height: 34rpx;
 }
-.addtxt{
+
+.addtxt {
   float: right;
   width: 44rpx;
   height: 34rpx;
 }
 
-.box{
+.box {
   width: 598rpx;
   height: 152rpx;
   background: #fff;
-  margin-top:40rpx;
+  margin-top: 40rpx;
   border-radius: 8rpx;
   padding: 33rpx 48rpx;
 }
 
-
-.childimg{
+.childimg {
   width: 150rpx;
   height: 150rpx;
-  float: left;
+  /* float: left; */
 }
 
-.childimgtext{
+.childimgtext {
   width: 400rpx;
   height: 150rpx;
   float: right;
   overflow: hidden;
 }
 
- .childtext{
-  width: 598rpx;
-  height: 152rpx; 
-  overflow: hidden;
-} 
+.childimgtext:after {
+  content: "";
+  height: 0;
+  line-height: 0;
+  display: block;
+  visibility: hidden;
+  clear: both;
+}
 
-button{
+.clear {
+  clear: both;
+}
+
+.childtext {
+  width: 598rpx;
+  height: 152rpx;
+  overflow: hidden;
+}
+
+button {
   margin: 20rpx 0;
   width: 694rpx;
 }

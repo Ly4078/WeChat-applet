@@ -7,7 +7,8 @@
   <view wx:for="{{content}}" wx:key="{{index}}">
     <view class='box' wx:if="{{item.type == 'img'}}">
       <image class='childimg' id="{{index}}" catchtap='changepicture' src='{{item.value}}'></image>
-      <textarea id="{{index}}" catchtap='illustrate' class='childimgtext'  disabled='true' placeholder='图片简介' value='{{item.txt}}'></textarea>
+      <input id="{{index}}" catchtap='illustrate' class='childimgtext'  disabled='true' placeholder='图片简介' value='{{item.txt}}'></input>
+      <view class='clear'></view>
     </view>
     <view class='box' wx:if="{{item.type == 'text'}}">
       <textarea class='childtext' disabled='true' maxlength="-1" id="{{index}}" catchtap='modify'>{{item.value}}</textarea>
