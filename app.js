@@ -12,73 +12,69 @@ App({
   },
 
   onLaunch: function () {
+    let that = this
     wx.login({
       success: res => {
         let _code = res.code;
         console.log("code:",_code)
-        wx.request({
-          url: this.data._build_url+'wxpay/getOpenId',
-          method:'POST',
-          data: {
+        if(res.code){
+          let _parms = {
             code:res.code
-          },
-          header: {
-            'content-type': 'application/json' // 默认值
-          },
-          success: function (res) {
-            if(res.data.code == 0){
-              this.setData({
-                openId: res.data.data.openId,
-                sessionKey: res.data.data.sessionKey
-              })
-            }
           }
-        })
-      }
-    })
-    
-    wx.getSetting({  // 获取用户信息
-      success: res => {
-        if (res.authSetting['scope.userInfo']) {
-          // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
-          wx.getUserInfo({
-            success: res => {
-              this.setData({
-                Info:res.userInfo
-              }),
-              // 可以将 res 发送给后台解码出 unionId
-              this.globalData.userInfo = res.userInfo
-              // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-              // 所以此处加入 callback 以防止这种情况
-              if(this.userInfoReadyCallback) {
-                this.userInfoReadyCallback(res)
-              }
+          Api.getOpenId(_parms).then((res) => {  //获取openID sessionKey
+            if(res.data.code == 0){
+              this.data.openId= res.data.data.openId,
+              this.data.sessionKey= res.data.data.sessionKey
+
+              wx.getSetting({  // 获取用户已授权权限
+                success: res => {
+                  // if (res.authSetting['scope.userInfo']) {  //暂时关闭检验用户授权权限 ，如没有授权则要求用户授权
+                    this.getuserInfo();
+                  // }
+                }
+              })
+
             }
           })
         }
       }
     })
-
+  },
+  getuserInfo:function(){  //获取用户信息
+    let that = this;
+    wx.getUserInfo({
+      success: res => {
+          if(res.userInfo){
+            this.data.Info = res.userInfo
+            this.setblouserInfo()
+          }
+      }
+    })
+  },
+  setblouserInfo:function(){  //将获取到的用户信息赋值给全局变量
     let _parms = {
-      id:this.data.openId,
-      userId:this.data.openId,
+      openId: this.data.openId,
+      userId: this.data.openId,
       userName: this.data.Info.nickName,
       nikcName: this.data.Info.nickName,
-      sourceType:'1',
+      sourceType: '1',
       iconUrl: this.data.Info.avatarUrl,
       city: this.data.Info.city,
       sex: this.data.Info.gender //gender	用户的性别，值为1时是男性，值为2时是女性，值为0时是未知
     }
-    let  _arr = []
-    _arr.push(_parms)
-    this.globalData.userInfo  = _arr[0];
-    Api.usersignup(_parms).then((res) => {
-      // console.log("usersignup:",res)
-    })
-
+    this.globalData.userInfo = _parms  //更新全局变量默认值
   },
-  globalData: {
-    userInfo: null,
+  globalData: {  //全局变量
+    userInfo: {
+      openId: '',
+      userId: '',
+      userName: '',
+      nikcName: '',
+      sourceType: '1',
+      iconUrl: '',
+      city: '',
+      sex: '' //gender	用户的性别，值为1时是男性，值为2时是女性，值为0时是未知
+    },
     article:[]
   }
 })

@@ -78,7 +78,6 @@ page {
 
 .vote {
   width: 100%;
-  height: 800rpx;
   background-color: white;
   height: 100%;
 }
@@ -90,6 +89,7 @@ page {
 }
 
 .search_arr {
+  margin-left: 78rpx;
   border: 1rpx solid #e0e0e0;
 }
 

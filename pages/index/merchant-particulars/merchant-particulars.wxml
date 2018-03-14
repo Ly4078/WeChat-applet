@@ -2,7 +2,8 @@
 <view>
   <view class='detailsWrap'>
     <image class='cateImages' src='{{posts_key[0].store_img1}}' bindtap='moreImages'></image>
-    <text class='wrapImages'>共<text>{{posts_key[0].store_zong}}</text>张</text>
+     <!-- <text class='wrapImages'>共<text>{{posts_key[0].store_zong}}</text>张</text>    -->
+     <!--与后台沟通后，决定迭代解决  -->
   </view>
   <view>
     <view class='shop-z-Wrap'>

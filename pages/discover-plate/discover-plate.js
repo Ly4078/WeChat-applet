@@ -12,7 +12,7 @@ Page({
   onLoad: function (options) {
     let that = this;
     Api.topiclist().then((res) => {
-      console.log("food:", res.data.data.list)
+      // console.log("food:", res.data.data.list)
       this.setData({
         food: res.data.data.list
       })

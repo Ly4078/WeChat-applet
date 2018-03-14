@@ -48,7 +48,7 @@ Page({
     })
     if(_value){
       let _parms = {
-        shopName: _value
+        searchKey: _value
       }
       Api.shoplist(_parms).then((res) => {
         that.backHomepage();
@@ -99,7 +99,7 @@ Page({
           }
           let _dis = utils.calcDistance(data[i].locationY, data[i].locationX, res.latitude, res.longitude);
           //转换显示
-          let mydis = utils.transformLength(_dis);
+          let mydis = '<'+utils.transformLength(_dis);
           data[i].dis = mydis;
         }
         that.setData({

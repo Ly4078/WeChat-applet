@@ -103,11 +103,11 @@ Page({
   clickVote:function(e){  //投票
     let that = this;
     let stopid = e.currentTarget.id;
-    console.log("stopid:", stopid)
+    // console.log("stopid:", stopid)
     let _parms = {
       actId: this.data.actid,
       shopId: stopid,
-      userId: app.globalData.userInfo.userId ? app.globalData.userInfo.userId : this.data.userId
+      voteUserId: app.globalData.userInfo.userId ? app.globalData.userInfo.userId : this.data.userId
     }
 
     let arr = this.data.actlist

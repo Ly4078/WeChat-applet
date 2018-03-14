@@ -21,8 +21,9 @@ page {
 }
 
 .usingTheVolume {
-  width: 23px;
-  height: 18px;
+  width: 46rpx;
+  height: 36rpx;
+  float: left;
 }
 
 .site_location {
@@ -162,13 +163,13 @@ page {
 }
 
 .search {
-  width: 100%;
+  width: 484rpx;
 }
 
 .search_arr {
-  width: 90%;
+  width: 484rpx;
   background-color: white;
-  border-radius: 10rpx;
+  border-radius: 8rpx;
 }
 
 .search_arr input {

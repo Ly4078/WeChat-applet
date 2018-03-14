@@ -1,4 +1,5 @@
 import Api from '../../../../utils/config/api.js';
+import { GLOBAL_API_DOMAIN } from '../../../../utils/config/config.js';
 var app = getApp();
 Page({
 
@@ -6,11 +7,13 @@ Page({
    * 页面的初始数据
    */
   data: {
+    _build_url: GLOBAL_API_DOMAIN,  //服务器域名
     _id:'',    //文章ID
     details:{},   //文章数据 
     cmtdata:[],   //文章评论数据 
     interval:'',  //时间差
     commentVal:'',  //评论内容
+    userInfo:{},   //用户数据 
     isComment: false,
     preview:{},    //预览数据
     userId:'1',  //虚拟ID 暂用
@@ -33,6 +36,10 @@ Page({
       this.setData({
         details: options        
       })
+      this.setData({
+        userInfo: app.globalData.userInfo
+      })
+      
     }
     
     // this.setcmtadd()
@@ -43,11 +50,27 @@ Page({
       zanUserId: app.globalData.userInfo.userId
     }
     Api.getTopicByZan(_parms).then((res) => {
-      let _data = res.data.data.list[0];
-      _data.content = JSON.parse(_data.content)
-      this.setData({
-        details: res.data.data.list[0]
-      })
+      if(res.data.code == 0){
+        let _data = res.data.data;
+        _data.content = JSON.parse(_data.content)
+        this.setData({
+          details: _data
+        })
+        this.getuser(_data.userId)
+      }
+    })
+  },
+  getuser:function(id){  //获取用户信息
+    let that = this;
+    wx.request({
+      url: this.data._build_url + 'user/get/' + id,
+      success: function (res) {
+        if(res.data.code ==0){
+          that.setData({
+            userInfo:res.data.data        
+          })
+        }
+      }
     })
   },
   getcmtlist:function(){  //获取文章评论数据

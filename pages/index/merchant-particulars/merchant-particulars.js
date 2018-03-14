@@ -112,10 +112,10 @@ Page({
       }
     })
   },
-  moreImages:function(event){
-    wx.navigateTo({
-      url: 'preview-picture/preview-picture',
-    })
+  moreImages:function(event){  //查看更多图片
+    // wx.navigateTo({
+    //   url: 'preview-picture/preview-picture',
+    // })
   },
   //腾讯地图
   TencentMap:function(event){

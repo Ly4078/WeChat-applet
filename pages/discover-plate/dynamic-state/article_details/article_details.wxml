@@ -5,10 +5,10 @@
 
   <view class='top' wx:if="{{_id}}">
     <view class='avatar'>
-      <image src='{{details.iconUrl}}' class='avaterimg'></image>
+      <image src='{{userInfo.iconUrl}}' class='avaterimg'></image>
     </view>
     <view class='name'>
-      <view class='username'>{{details.userName}}</view>
+      <view class='username'>{{userInfo.userName}}</view>
       <view class='storename'></view>
     </view>
     <view class='homefollow'>
