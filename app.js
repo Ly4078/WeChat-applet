@@ -54,7 +54,7 @@ App({
   setblouserInfo:function(){  //将获取到的用户信息赋值给全局变量
     let _parms = {
       openId: this.data.openId,
-      userId: this.data.openId,
+      // userId: this.data.openId,  //暂时注释 待后台有user表后放开开注释
       userName: this.data.Info.nickName,
       nikcName: this.data.Info.nickName,
       sourceType: '1',
@@ -67,7 +67,7 @@ App({
   globalData: {  //全局变量
     userInfo: {
       openId: '',
-      userId: '',
+      // userId: '',  //暂时注释 待后台有user表后放开开注释
       userName: '',
       nikcName: '',
       sourceType: '1',
