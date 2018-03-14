@@ -82,7 +82,7 @@
         <image catchtap='calling' class='telephone' src='/images/icon/telephone_bd.png'></image>
       </view>
       <view class='customer-service'>
-        <contact-button type='default-light' class='wicket' size='20' session-from='weapp'></contact-button>
+        <contact-button type='default-light' class='wicket' size='20' session-from='weapp'  catchtap='contactCustomer'></contact-button>
       </view>
     </view>
   </view>
