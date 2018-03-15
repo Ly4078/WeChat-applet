@@ -33,7 +33,7 @@
         </view>
       </view>
     </view>
-    <!-- posts_key -->
+   
     <block wx:for="{{actlist}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
       <view class='merchant-sub' id="{{item.id}}" bindtap='clickshop'>
         <view class='merchant-img-left'>

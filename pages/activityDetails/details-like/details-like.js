@@ -1,6 +1,5 @@
 import Api from '../../../utils/config/api.js';
 import { GLOBAL_API_DOMAIN } from '../../../utils/config/config.js';
-var postsData = require('/../../../data/activity-data.js')
 var app = getApp();
 Page({
   data: {
@@ -17,7 +16,6 @@ Page({
 
   onLoad: function (options) {
     this.setData({
-      posts_key: postsData.postList,
       actid: options.actid
     });
     this.getactdetails();

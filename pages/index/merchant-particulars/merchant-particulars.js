@@ -1,4 +1,3 @@
-var postsData = require('/../../../data/store-particulars.js')
 import Api from '/../../../utils/config/api.js';  //每个有请求的JS文件都要写这个，注意路径
 import { GLOBAL_API_DOMAIN } from '/../../../utils/config/config.js';
 var app = getApp();
@@ -17,7 +16,6 @@ Page({
   },
   onLoad: function (options) {
     this.setData({
-      posts_key: postsData.postList,
       shopid: options.shopid
     });
     this.getstoredata();
@@ -112,9 +110,9 @@ Page({
     })
   },
   moreImages: function (event) {
-    wx.navigateTo({
-      url: 'preview-picture/preview-picture',
-    })
+    // wx.navigateTo({
+    //   url: 'preview-picture/preview-picture',
+    // })
   },
   //腾讯地图
   TencentMap: function (event) {

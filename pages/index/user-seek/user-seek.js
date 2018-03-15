@@ -1,4 +1,3 @@
-var postsData = require('/../../../data/posts-data.js');
 import Api from '/../../../utils/config/api.js'; 
 var utils = require('../../../utils/util.js');
 var app = getApp();
@@ -192,11 +191,6 @@ Page({
         }
       }
     })
-  },
-  onLoad: function () {// 历史记录更新
-    this.setData({
-      Key_data: postsData.postList
-    });
   },
   onShow: function () {
     var getSearch = wx.getStorageSync('searchData');

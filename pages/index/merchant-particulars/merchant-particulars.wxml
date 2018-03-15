@@ -1,8 +1,8 @@
 <import src="comment-template/comment-template.wxml" />
 <view>
   <view class='detailsWrap'>
-    <image class='cateImages' src='{{posts_key[0].store_img1}}' bindtap='moreImages'></image>
-    <text class='wrapImages'>共<text>{{posts_key[0].store_zong}}</text>张</text>
+    <image class='cateImages' src='{{store_details.logoUrl}}' bindtap='moreImages'></image>
+    <!-- <text class='wrapImages'>共<text>{{posts_key[0].store_zong}}</text>张</text> -->
   </view>
   <view>
     <view class='shop-z-Wrap'>
@@ -34,13 +34,13 @@
     </view>
     <!--主页-->
     <view hidden="{{currentTab!==0}}">
-      <swiper class='lunbotu' indicator-dots="true" autoplay="true" interval="5000" indicator-active-color="rgba(252, 94, 45,0.8)">
+      <!-- <swiper class='lunbotu' indicator-dots="true" autoplay="true" interval="5000" indicator-active-color="rgba(252, 94, 45,0.8)">
         <block wx:for="{{posts_key}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
           <swiper-item>
-            <image class="lbtupian" src='{{item.store_img3}}'></image>
+            <image class="lbtupian" src='{{store_details.logoUrl}}'></image>
           </swiper-item>
         </block>
-      </swiper>
+      </swiper> -->
       <view class='currentTabWrap'>
         <view>
           <image class='currentTabImg' src='/images/icon/quanhuodong.png'></image>
