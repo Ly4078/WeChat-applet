@@ -21,13 +21,13 @@ App({
     wx.login({
       success: res => {
         let _code = res.code;
-        console.log("code:", _code)
+        // console.log("code:", _code)
         if (res.code) {
           let _parms = {
             code: res.code
           }
           Api.getOpenId(_parms).then((res) => {  //获取openID sessionKey
-          console.log("resid:",res)
+          // console.log("resid:",res)
             if (res.data.code == 0) {
               this.data.openId = res.data.data.openId,
               this.data.sessionKey = res.data.data.sessionKey

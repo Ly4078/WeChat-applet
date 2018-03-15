@@ -27,7 +27,6 @@ Page({
             if(!res.authSetting['scope.userLocation']) {
                 wx.openSetting({
                     success: (res) => {
-                        console.log(res)
                         if(!res.authSetting['scope.userLocation']) {
                             wx.showModal({
                                 title: '温馨提醒',
@@ -72,7 +71,6 @@ Page({
             code: res.code
           }
           Api.getOpenId(_parms).then((res) => {  //获取openID sessionKey
-            console.log("openid:", res.data.data.openId)
             if (res.data.code == 0) {
               that.setData({
                 openId: res.data.data.openId,
@@ -115,7 +113,6 @@ Page({
     })
   },
   setblouserInfo: function () {  //将获取到的用户信息赋值给全局变量
-  console.log("openid:",this.data.openId)
     let _parms = {
       openId: this.data.openId,
       // userId: this.data.openId,  //暂时注释 待后台有user表后放开开注释
@@ -256,7 +253,6 @@ Page({
   },
   diningHhall: function (event) {  //跳转到商家（餐厅）内页
     const shopid = event.currentTarget.id
-    console.log("diningHhall:", shopid)
     wx.navigateTo({
       url: 'merchant-particulars/merchant-particulars?shopid=' + shopid
     })
