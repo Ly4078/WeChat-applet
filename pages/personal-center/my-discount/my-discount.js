@@ -10,7 +10,16 @@ Page({
     isUpdate: true
   },
   onLoad: function (options) {
+    // this.getTicketList();
+  },
+  onShow: function () {
+    this.setData({
+      page: 1
+    });
     this.getTicketList();
+  },
+  onHide: function() {
+    console.log(456)
   },
   //获取我的票券
   getTicketList: function() {
