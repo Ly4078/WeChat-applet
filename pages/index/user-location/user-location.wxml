@@ -1,5 +1,5 @@
 <view class="header">
-   <input placeholder="请输入地址" bindconfirm="searchAddress"/>
+   <input placeholder="请输入地址" bindblur="searchAddress" bindconfirm="searchAddress"/>
 </view>
 <view>
   <view class="title">当前地址</view>

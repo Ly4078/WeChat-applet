@@ -61,8 +61,30 @@ Page({
     this.gettopic();
 
   },
+  onShow:function(){
+    let lat = '', lng = '';  //lat纬度   lng经度
+    wx.getStorage({
+      key: 'lat',
+      success: function (res) {
+        lat = res.data;
+      }
+    })
+    wx.getStorage({
+      key: 'lng',
+      success: function (res) {
+        lng = res.data;
+      }
+    })
+    let that = this;
+    setTimeout(function () {
+      if (lat && lng) {
+        that.requestCityName(lat, lng)
+      }
+    }, 500)
+  },
   getopenid:function(){
     let that = this
+    let lat = '',lng = ''
     wx.login({
       success: res => {
         let _code = res.code;
@@ -77,7 +99,9 @@ Page({
                 sessionKey: res.data.data.sessionKey
               })
               this.getuserInfo();
-              this.getlocation();
+              if (!this.data.lat || !this.data.lng) {
+                this.getlocation();
+              }
             }
           })
         }
@@ -86,6 +110,7 @@ Page({
   },
   getlocation: function () {  //获取用户位置
     let that = this
+    let lat = '', lng = ''
     wx.getLocation({
       type: 'wgs84',
       success: function (res) {
@@ -121,7 +146,7 @@ Page({
       avatarUrl: this.data.Info.avatarUrl,
       sourceType: '1',
       iconUrl: this.data.Info.avatarUrl,
-      city: this.data.Info.city,
+      // city: this.data.Info.city,
       sex: this.data.Info.gender, //gender	用户的性别，值为1时是男性，值为2时是女性，值为0时是未知
       lat: this.data.lat,
       lng: this.data.lng

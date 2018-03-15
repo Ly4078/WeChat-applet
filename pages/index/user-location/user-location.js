@@ -47,6 +47,14 @@ Page({
   },
   searchAddress(e) {
     let value = e.detail.value;
+    if(!value){
+      wx.showToast({
+        title: '请输入地址',
+        icon:'none',
+        duration: 1500
+      })
+      return false;
+    }
     let that = this;
     wx.request({
       url: 'http://apis.map.qq.com/ws/place/v1/suggestion?keyword=' + value + "&key=4YFBZ-K7JH6-OYOS4-EIJ27-K473E-EUBV7",
