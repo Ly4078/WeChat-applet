@@ -5,7 +5,7 @@ Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
     ticket_list: [],
-    userId: app.globalData.userInfo.userId ? app.globalData.userInfo.userId : 15,
+    userId: app.globalData.userInfo.userId ? app.globalData.userInfo.userId : 1,
     page: 1,
     isUpdate: true
   },
@@ -73,9 +73,14 @@ Page({
     }
   },
   immediateUse: function (event) {
-    console.log(event)
+    let id = event.target.id, isDue = 0;
+    for (let i = 0; i < this.data.ticket_list.length; i++) {
+      if (id == this.data.ticket_list[i].id) {
+        isDue = this.data.ticket_list[i].isDue;
+      }
+    }
     wx.navigateTo({
-      url: '../lelectronic-coupons/lectronic-coupons?id=' + event.target.id + '&isPay=1'
+      url: '../lelectronic-coupons/lectronic-coupons?id=' + event.target.id + '&isDue=' + isDue
     })
   },
   //对比时间是否过期

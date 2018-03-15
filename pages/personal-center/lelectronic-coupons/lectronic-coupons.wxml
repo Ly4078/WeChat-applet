@@ -11,7 +11,11 @@
         </view>
       </view>
       <view class='lectronic-right'>
-        <text>未使用</text>
+        <text wx:if="{{orderInfo.soStatus == 1}}">待支付</text>
+        <text wx:if="{{orderInfo.soStatus == 2 && isDue == 1}}">已过期</text>
+        <text wx:if="{{orderInfo.soStatus == 2 && isDue == 0}}">待使用</text>
+        <text wx:if="{{orderInfo.soStatus == 3}}">已使用</text>
+        <text wx:if="{{orderInfo.soStatus == 10}}">已取消</text>
       </view>
     </view>
     <view catchtap='sublevelSum'>
@@ -42,10 +46,10 @@
         <text>{{ticketInfo.soId}}</text>
       </view>
       <view class='order-for-colour'>
-        <text wx:if="{{isPay == 1}}">付款时间</text>
-        <text wx:if="{{isPay == 0}}">下单时间</text>
-        <text wx:if="{{isPay == 1}}">{{orderInfo.paidTime || ""}}</text>
-        <text wx:if="{{isPay == 0}}">{{orderInfo.createTime || ""}}</text>
+        <text wx:if="{{orderInfo.soStatus == 2 || orderInfo.soStatus == 3}}">付款时间</text>
+        <text wx:if="{{orderInfo.soStatus == 1 || orderInfo.soStatus == 10}}">下单时间</text>
+        <text wx:if="{{orderInfo.soStatus == 2 || orderInfo.soStatus == 3}}">{{orderInfo.paidTime || ""}}</text>
+        <text wx:if="{{orderInfo.soStatus == 1 || orderInfo.soStatus == 10}}">{{orderInfo.createTime || ""}}</text>
       </view>
       <view class='order-for-colour'>
         <text>手机号</text>

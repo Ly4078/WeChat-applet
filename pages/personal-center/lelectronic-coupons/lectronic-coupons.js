@@ -9,7 +9,7 @@ Page({
   onLoad: function (options) {
     this.setData({
       ticketId: options.id,
-      isPay: options.isPay
+      isDue: options.isDue
     });
     this.getTicketInfo();
     this.getTel();

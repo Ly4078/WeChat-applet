@@ -2,7 +2,7 @@ import Api from '../../../utils/config/api.js';
 var app = getApp();
 Page({
   data: {
-    userId: app.globalData.userInfo.userId ? app.globalData.userInfo.userId : 15,
+    userId: app.globalData.userInfo.userId ? app.globalData.userInfo.userId : 1,
     order_list: [],
     page: 1,
     reFresh: true
