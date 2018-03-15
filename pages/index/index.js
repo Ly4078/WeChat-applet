@@ -1,7 +1,6 @@
 //index.js 
 import Api from '/../../utils/config/api.js';
 import { GLOBAL_API_DOMAIN } from '/../../utils/config/config.js';
-var postsData = require('/../../data/posts-data.js')
 let app = getApp()
 
 Page({
@@ -73,17 +72,6 @@ Page({
 
     this.getuserInfo();
     this.getlocation();
-    // wx.openSetting({
-    //   success: (res) => {
- 
-    //     if (res.authSetting['scope.userInfo'] || res.authSetting['scope.userLocation']) {  //暂时关闭检验用户授权权限 ，如没有授权则要求用户授权
-          
-    //     }
-    //   }
-    // })
-
-
-
     this.getcarousel();
     this.getdata();
     this.getactlist();

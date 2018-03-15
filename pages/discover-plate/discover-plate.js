@@ -1,4 +1,3 @@
-var postsData = require('/../../data/discover-data.js');
 import Api from '../../utils/config/api.js';
 import { GLOBAL_API_DOMAIN } from '/../../utils/config/config.js';
 Page({

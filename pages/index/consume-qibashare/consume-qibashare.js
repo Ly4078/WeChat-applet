@@ -1,4 +1,3 @@
-var postsData = require('/../../../data/merchant-data.js')
 import Api from '/../../../utils/config/api.js'
 Page({
   data: {

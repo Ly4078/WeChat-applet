@@ -3,11 +3,11 @@
   width: 100%;
   display: flex;
   justify-content: center;
+  margin-bottom: 10rpx; 
 }
 
 .articleLittle{
   width: 92%;
-  height: 500rpx;
 }
 
 .articleTop{

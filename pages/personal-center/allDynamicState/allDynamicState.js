@@ -1,13 +1,59 @@
+import Api from '/../../../utils/config/api.js';  //每个有请求的JS文件都要写这个，注意路径
+import { GLOBAL_API_DOMAIN } from '/../../../utils/config/config.js';
+var app = getApp();
 Page({
-
-  /**
-   * 页面的初始数据
-   */
-  data: { 
-
+  data: {
+    _build_url: GLOBAL_API_DOMAIN,
+    userId: app.globalData.userInfo.userId ? app.globalData.userInfo.userId : 1,     //登录用户的id
+    article_list: [],
+    reFresh: true,
+    page: 1
+  },
+  onLoad: function() {
+    this.getList();
+  },
+  getList: function() {
+    let that = this;
+    wx.request({
+      url: that.data._build_url + 'topic/myList',
+      method: 'GET',
+      data: {
+        userId: that.data.userId,
+        page: that.data.page,
+        rows: 5
+      },
+      success: function(res) {
+        var data = res.data; 
+        if (data.code == 0 && data.data.list != null && data.data.list != "" && data.data.list != []) {
+          let article_list = that.data.article_list;
+          for (let i = 0; i < data.data.list.length; i++) {
+            article_list.push(data.data.list[i]);
+          }
+          that.setData({
+            article_list: article_list,
+            reFresh: true
+          });
+        } else {
+          that.setData({
+            reFresh: false
+          });
+        }
+      }
+    })
+  },
+  toArticleInfo: function(event) {
+    const id = event.currentTarget.id;
+    let _data = this.data.article_list, zan = '';
+    for (let i = 0; i < _data.length; i++) {
+      if (id == _data[i].id) {
+        zan = _data[i].zan
+      }
+    }
+    wx.navigateTo({
+      url: '/pages/discover-plate/dynamic-state/article_details/article_details?id=' + id + '&zan=' + zan
+    })
   },
   amplification: function (e) {
-    console.log(e.currentTarget.dataset.index);
     var index = e.currentTarget.dataset.index;
     var imgArr = this.data.imgArr;
     wx.previewImage({
@@ -17,5 +63,14 @@ Page({
       fail: function (res) { },
       complete: function (res) { },
     })
+  },
+  //用户上拉触底
+  onReachBottom: function () {
+    if (this.data.reFresh) {
+      this.setData({
+        page: this.data.page + 1
+      });
+      this.getList();
+    }
   }
 })

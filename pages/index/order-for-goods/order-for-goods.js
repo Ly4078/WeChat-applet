@@ -1,5 +1,4 @@
 import Api from '/../../../utils/config/api.js'
-import MD5 from '/../../../utils/tools/md5.js'
 var app = getApp();
 Page({
   data: {
