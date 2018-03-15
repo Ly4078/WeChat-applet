@@ -50,6 +50,9 @@ Page({
       url: 'enshrine/enshrine',
     })
   },
+  launchAppError: function(e) {
+    console.log(e.detail.errMsg)
+  },
   scanAqrCode:function(e){
     let that = this;
     wx.scanCode({
