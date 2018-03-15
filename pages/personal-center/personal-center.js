@@ -1,9 +1,12 @@
+import { GLOBAL_API_DOMAIN } from '/../../utils/config/config.js';
 var app = getApp();
 Page({
   data: {
+    _build_url: GLOBAL_API_DOMAIN,
     actUrl: '',
     userName: '',
-    userId: app.globalData.userInfo.userId ? app.globalData.userInfo.userId : 1  //登陆人id
+    userId: app.globalData.userInfo.userId ? app.globalData.userInfo.userId : 1,  //登陆人id
+    qrCode: ''
   },
   onLoad: function (options) {
     this.setData({
@@ -53,17 +56,58 @@ Page({
       onlyFromCamera: true,
       scanType: "qrCode",
       success: (res) => {
+        console.log(res)
         let qrCodeArr = res.result.split('/');
         let qrCode = qrCodeArr[qrCodeArr.length - 1];
-        wx.navigateTo({
-          url: 'cancel-after-verification/cancel-after-verification?qrCode=' + qrCode + '&userId=' + that.data.userId,
-        })
-        console.log(qrCode)
-        console.log(that.data.userId)
+        that.setData({
+          qrCode: qrCode
+        });
+        that.getCodeState();
       },
       fail: (res) => {
         
       }
     });
+  },
+  //判断二维码是否可以跳转
+  getCodeState: function() {
+    let that = this;
+    wx.request({
+      url: that.data._build_url + '/cp/getByCode/' + that.data.qrCode,
+      success: function(res) {
+        var data = res.data;
+        let current = res.currentTime;
+        if(data.code == 0) {
+          let isDue = that.isDueFunc(current, data.expiryDate);
+          if (data.data.isUsed == 1) {
+            wx.showToast({
+              title: '您的票券已被使用',
+              icon: 'none'
+            })
+          } else if (isDue == 1) {
+            wx.showToast({
+              title: '您的票券已过期',
+              icon: 'none'
+            })
+          } else {
+            wx.navigateTo({
+              url: 'cancel-after-verification/cancel-after-verification?qrCode=' + that.data.qrCode + '&userId=' + that.data.userId,
+            })
+          }
+        } else {
+          wx.showToast({
+            title: '请扫描有效票券',
+            icon: 'none'
+          })
+        }
+      }
+    })
+  },
+  isDueFunc: function (current, expiryDate) {     //对比时间是否过期
+    let isDue = 0;
+    if (new Date(expiryDate + " 23:59:59").getTime() < current) {
+      isDue = 1;
+    }
+    return isDue;
   }
 })
