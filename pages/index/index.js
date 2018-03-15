@@ -20,24 +20,7 @@ Page({
   },
   onLoad: function (options) {
     let that = this
-    wx.login({
-      success: res => {
-        let _code = res.code;
-        if (res.code) {
-          let _parms = {
-            code: res.code
-          }
-          Api.getOpenId(_parms).then((res) => {  //获取openID sessionKey
-            if (res.data.code == 0) {
-              that.setData({
-                openId: res.data.data.openId,
-                sessionKey: res.data.data.sessionKey
-              })
-            }
-          })
-        }
-      }
-    })
+    
 
     wx.getSetting({
         success(res) {
@@ -70,14 +53,38 @@ Page({
         }
     })
 
-    this.getuserInfo();
-    this.getlocation();
+    this.getopenid();
+    
     this.getcarousel();
     this.getdata();
     this.getactlist();
     this.gethotlive();
     this.gettopic();
 
+  },
+  getopenid:function(){
+    let that = this
+    wx.login({
+      success: res => {
+        let _code = res.code;
+        if (res.code) {
+          let _parms = {
+            code: res.code
+          }
+          Api.getOpenId(_parms).then((res) => {  //获取openID sessionKey
+            console.log("openid:", res.data.data.openId)
+            if (res.data.code == 0) {
+              that.setData({
+                openId: res.data.data.openId,
+                sessionKey: res.data.data.sessionKey
+              })
+              this.getuserInfo();
+              this.getlocation();
+            }
+          })
+        }
+      }
+    })
   },
   getlocation: function () {  //获取用户位置
     let that = this
@@ -108,6 +115,7 @@ Page({
     })
   },
   setblouserInfo: function () {  //将获取到的用户信息赋值给全局变量
+  console.log("openid:",this.data.openId)
     let _parms = {
       openId: this.data.openId,
       // userId: this.data.openId,  //暂时注释 待后台有user表后放开开注释
@@ -130,7 +138,7 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success: (res) => {
-        console.log("res:", res)
+        // console.log("res:", res)
         this.setData({
           city: res.data.result.address_component.city
         })
