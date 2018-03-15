@@ -11,8 +11,6 @@ Page({
       rows: '20'
     }
     Api.terraceRoll(_parms).then((res) => {
-      console.log("res:", res)
-      console.log("成功:", res.data.data)
       this.setData({
         information: res.data.data.list
       })
@@ -31,7 +29,6 @@ Page({
           _ruleDesc = _arr[i].promotionRules[0].ruleDesc
       }
     }
-    console.log("ID", id)
     wx.navigateTo({
       url: '../voucher-details/voucher-details?id=' + id + "&sell=" + _sellPrice + "&inp=" + _inPrice + "&rule=" + _ruleDesc
     })

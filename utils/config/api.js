@@ -115,6 +115,10 @@ const ALL_API = {
   somyorder:{  //我的订单列表
     method:"GET",
     url:'so/myorder'
+  },
+  socreate:{  //创建支付订单
+    method:'POST',
+    url:'so/create'
   }
 }
 

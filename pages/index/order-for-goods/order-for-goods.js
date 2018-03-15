@@ -7,7 +7,8 @@ Page({
     // 使用data数据对象设置样式名  
     minusStatus: 'disabled',
     paymentAmount: '',
-    obj: []
+    obj: [],
+    userId:'1'
   },
   onLoad: function (options) {
     console.log(options)
@@ -83,11 +84,25 @@ Page({
 
   //微信支付入口
   confirmPayment: function (e) {
-    let that = this;
-    console.log("userInfo:",app.globalData.userInfo)
+    let that = this
     let _parms = {
-      // soId: this.data.obj.id,
-      soId: '22',
+      userId: app.globalData.userInfo.userId ? app.globalData.userInfo.userId:this.data.userId,
+      userName: app.globalData.userInfo.userName,
+      payType:'2',
+      skuId:this.data.obj.id,
+      skuNum: this.data.number
+    }
+    Api.socreate(_parms).then((res) => {
+      if(res.data.code == 0){
+        that.payment(res.data.data)
+      }
+    })
+    
+  },
+  payment:function(soid){  //调起微信支付
+    let that = this
+    let _parms = {
+      soId: soid,
       openId: app.globalData.userInfo.openId,
     }
     Api.doUnifiedOrder(_parms).then((res) => {
@@ -118,5 +133,5 @@ Page({
         })
       }
     })
-  },
+  }
 })  
