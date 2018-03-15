@@ -10,16 +10,17 @@ Page({
     isUpdate: true
   },
   onLoad: function (options) {
-    // this.getTicketList();
+    
   },
   onShow: function () {
-    this.setData({
-      page: 1
-    });
     this.getTicketList();
   },
   onHide: function() {
-    console.log(456)
+    this.setData({
+      ticket_list: [],
+      isUpdate: true,
+      page: 1
+    });
   },
   //获取我的票券
   getTicketList: function() {
@@ -44,10 +45,14 @@ Page({
               ticket_list: ticketArr
             })
           } else {
-            that.data.isUpdate = false;
+            that.setData({
+              isUpdate: false
+            })
           }
         } else {
-          that.data.isUpdate = false;
+          that.setData({
+            isUpdate: false
+          })
         }
       }
     })
@@ -68,6 +73,7 @@ Page({
     }
   },
   immediateUse: function (event) {
+    console.log(event)
     wx.navigateTo({
       url: '../lelectronic-coupons/lectronic-coupons?id=' + event.target.id + '&isPay=1'
     })

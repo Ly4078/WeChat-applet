@@ -21,7 +21,6 @@ Page({
     this.getstoredata();
     this.recommendation();
     this.isCollected();
-    this.commentList();
     // 分享功能
     wx.showShareMenu({
       withShareTicket: true,
@@ -35,6 +34,9 @@ Page({
         console.log(res)
       }
     });
+  },
+  onShow: function() {
+    this.commentList();
   },
   getstoredata() {  //获取店铺详情数据   带值传参示例
     let id = this.data.shopid;

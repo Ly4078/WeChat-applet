@@ -10,7 +10,17 @@ Page({
     reFresh: true
   },
   onLoad: function (options) {
+    
+  },
+  onShow: function() {
     this.getShareList();
+  },
+  onHide: function() {
+    this.setData({
+      posts_key: [],
+      page: 1,
+      reFresh: true
+    })
   },
   getShareList: function() {
     let that = this;

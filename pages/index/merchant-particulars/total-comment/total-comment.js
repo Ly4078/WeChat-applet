@@ -36,8 +36,10 @@ Page({
       success: function (res) {
         let data = res.data;
         if (data.code == 0 && data.data.list != null && data.data.list != "" && data.data.list != []) {
-          let comment_list = [];
-          comment_list = that.data.page == 1 ? res.data.data.list : that.data.comment_list.concat(res.data.data.list);
+          let comment_list = that.data.comment_list;
+          for (let i = 0; i < res.data.data.list.length; i++) {
+            comment_list.push(res.data.data.list[i]);
+          }
           that.setData({
             comment_list: comment_list,
             reFresh: true

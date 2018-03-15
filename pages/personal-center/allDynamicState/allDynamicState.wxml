@@ -6,7 +6,7 @@
           <image class='userImg-portrait' src='{{item.iconUrl}}'></image>
           <view class='user-text'>
             <text class='user-name'>{{item.title}}</text>
-            <text class='user-name-time'>暂无</text>
+            <text class='user-name-time'>{{item.timeDiffrence}}</text>
           </view>
         </view>
         <view>

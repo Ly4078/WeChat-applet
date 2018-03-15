@@ -10,7 +10,17 @@ Page({
     isUpdate: true
   },
   onLoad: function (options) {
+    
+  },
+  onShow: function() {
     this.getTicketList();
+  },
+  onHide: function() {
+    this.setData({
+      ticket_list: [],
+      page: 1,
+      isUpdate: true
+    });
   },
   //获取我的票券
   getTicketList: function () {
@@ -35,10 +45,14 @@ Page({
               ticket_list: ticketArr
             })
           } else {
-            that.data.isUpdate = false;
+            that.setData({
+              isUpdate: false
+            })
           }
         } else {
-          that.data.isUpdate = false;
+          that.setData({
+            isUpdate: false
+          })
         }
       }
     })

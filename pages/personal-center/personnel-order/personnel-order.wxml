@@ -11,7 +11,11 @@
             <text class='catecondition-xia'>{{item.ruleDesc}}</text>
           </view>
           <view class='roll-unused'>
-            <!-- <text>未使用</text> -->
+             <text wx:if="{{item.soStatus == 1}}">待支付</text> 
+             <text wx:if="{{item.soStatus == 2}}">已支付</text> 
+             <text wx:if="{{item.soStatus == 3}}">已核销</text> 
+             <text wx:if="{{item.soStatus == 10}}">取消</text> 
+             
           </view>
         </view>
         <view class='roll-wrap-button'>
