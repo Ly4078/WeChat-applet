@@ -87,11 +87,13 @@ Page({
               title: '您的票券已被使用',
               icon: 'none'
             })
+            return false;
           } else if (isDue == 1) {
             wx.showToast({
               title: '您的票券已过期',
               icon: 'none'
             })
+            return false;
           } else {
             wx.navigateTo({
               url: 'cancel-after-verification/cancel-after-verification?qrCode=' + that.data.qrCode + '&userId=' + that.data.userId,
