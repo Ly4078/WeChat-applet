@@ -27,7 +27,6 @@ App({
             code: res.code
           }
           Api.getOpenId(_parms).then((res) => {  //获取openID sessionKey
-          // console.log("resid:",res)
             if (res.data.code == 0) {
               this.data.openId = res.data.data.openId,
               this.data.sessionKey = res.data.data.sessionKey
@@ -36,7 +35,6 @@ App({
         }
       }
     })
-
   },
   
   globalData: {  //全局变量

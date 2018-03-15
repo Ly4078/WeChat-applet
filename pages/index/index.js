@@ -99,9 +99,7 @@ Page({
                 sessionKey: res.data.data.sessionKey
               })
               this.getuserInfo();
-              if (!this.data.lat || !this.data.lng) {
-                this.getlocation();
-              }
+              this.getlocation();
             }
           })
         }
@@ -146,13 +144,13 @@ Page({
       avatarUrl: this.data.Info.avatarUrl,
       sourceType: '1',
       iconUrl: this.data.Info.avatarUrl,
-      // city: this.data.Info.city,
+      city: this.data.Info.city,
       sex: this.data.Info.gender, //gender	用户的性别，值为1时是男性，值为2时是女性，值为0时是未知
       lat: this.data.lat,
       lng: this.data.lng
     }
     app.globalData.userInfo = _parms  //更新全局变量默认值
-  },
+  }, 
   requestCityName(lat, lng) {//获取当前城市
     wx.request({
       url: 'https://apis.map.qq.com/ws/geocoder/v1/?location=' + lat + "," + lng + "&key=4YFBZ-K7JH6-OYOS4-EIJ27-K473E-EUBV7",
@@ -160,10 +158,12 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success: (res) => {
-        // console.log("res:", res)
-        this.setData({
-          city: res.data.result.address_component.city
-        })
+        if(res.data.status == 0){
+          this.setData({
+            city: res.data.result.address_component.city
+          })
+          app.globalData.userInfo.city = this.data.city
+        }
       }
     })
   },
