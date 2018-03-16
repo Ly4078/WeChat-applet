@@ -15,7 +15,6 @@ Page({
         information: res.data.data.list
       })
     })
-
   },
 
   particulars: function (e) {

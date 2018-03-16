@@ -2,17 +2,34 @@ import Api from '/../../utils/config/api.js';  //每个有请求的JS文件都�
 Page({
   data: {
     actdata:[],
+    page:1,
     actid:''  //活动ID
   },
 
   onLoad: function (options) {
+    
+  },
+  onShow:function(){
+    this.data.page = 1
+    this.getcatdata()
+  },
+  getcatdata:function(){  //获取列表数据
     let that = this;
-    let _parms = {}
+    let _parms = {
+      page:this.data.page,
+      row:8
+    }
     Api.acttop(_parms).then((res) => {
-      console.log("actdata:", res.data.data)
-      that.setData({
-        actdata: res.data.data
-      })
+      let _data = this.data.actdata
+      console.log("res:",res)
+      console.log("_data:",_data)
+      if (res.data.code == 0 && res.data.data != null && res.data.data != "" && res.data.data != []) {
+        _data = _data.concat(res.data.data)
+        console.log("_data1:",_data)
+        this.setData({
+          actdata: _data
+        })
+      }
     })
   },
   clickVote:function(event){
@@ -20,5 +37,11 @@ Page({
     wx.navigateTo({
       url: 'details-like/details-like?actid='+actid,
     })
+  },
+  onReachBottom: function () {  //用户上拉触底
+    this.setData({
+      page: this.data.page + 1
+    });
+    this.getcatdata();
   }
 })
