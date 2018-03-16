@@ -24,7 +24,7 @@
           <text>{{ticketInfo.expiryDate}}</text>
         </view>
         <view class='restric-page-down'>
-          <text class='restric-page-text' id="{{ticketInfo.id}}">详情</text>
+          <text class='restric-page-text' id="{{ticketInfo.id}}">使用详情</text>
           <image class='restrict-Images' src='/images/icon/home_arrow.png'></image>
         </view>
       </view>
@@ -32,9 +32,21 @@
   </view>
 
   <view class='qr-code'>
-    <image class='qr-code-images' src='{{ticketInfo.qrcodeUrl}}'></image>
-    <text class='qr-code-text'>劵码:<text class='qr-code-matter'>{{ticketInfo.couponCode}}</text></text>
+    <view class='rollMessage'>享7劵</view>
+    <block wx:for="{{posts_key}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
+      <view class='coding-code'>
+        <text class='codingText'>{{item.aa}}</text>
+        <text>劵码:</text>
+        <text class='numberFeald'>{{item.bb}}</text>
+        <image src='{{item}}' wx:for='{{imgArr}}' wx:key="{{index}}" class='codingImages'  data-index='{{index}}' bindtap='previewImg'></image>
+      </view>
+    </block>
+    <view class='codingeven-more'>
+      <text>更多</text>
+      <image class="veent-more-img" src='/images/icon/xialatupian.png'></image>
+    </view>
   </view>
+
   <view class='order-for-goods'>
     <view class='order-for-nei'>
       <view class='order-for-text'>

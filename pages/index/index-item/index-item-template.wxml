@@ -11,7 +11,7 @@
     </view>
     <view class='classify' bindtap='entertainment'>
       <image class='classify_img' src='/images/icon/home_icon_yl.png'></image>
-      <view class='classify_text' >掌上武汉</view>
+      <view class='classify_text' >景点</view>
     </view>
     <view class='classify' bindtap='hotelUnopen'>
       <image class='classify_img' src='/images/icon/home_icon_jd.png'></image>
