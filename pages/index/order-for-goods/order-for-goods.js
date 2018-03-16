@@ -100,6 +100,7 @@ Page({
     
   },
   payment:function(soid){  //调起微信支付
+  console.log("soid:",soid)
     let that = this
     let _parms = {
       soId: soid,
@@ -114,20 +115,18 @@ Page({
           'signType': 'MD5',
           'paySign': res.data.data.paySign,
           success: function (res) {
-            console.log('支付成功:', res)
-            wx.showToast({
-              title: '支付成功',
-            })
-            setTimeout(function () {
-              wx.switchTab({
-                url: '/pages/mine/mine',
+             // 此处that.data.obj.id是票券id
+            // 此处soid是订单id
+              wx.redirectTo({
+                url: '../../personal-center/lelectronic-coupons/lectronic-coupons?id=' + that.data.obj.id+"&soid="+soid+'&isPay=1'  
               })
-            }, 1500)
           },
           fail: function (res) {
             console.log(res)
             wx.showToast({
-              title: '支付失败，请重新支付',
+              icon: 'loading',
+              title: '支付取消',
+              duration: 1200
             })
           }
         })

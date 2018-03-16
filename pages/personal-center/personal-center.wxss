@@ -102,7 +102,7 @@ page{
 }
 
 .wicket{
-  margin-top: 12rpx;
+  margin-top: 11rpx;
   width: 50rpx;
   height: 100rpx;
 }
