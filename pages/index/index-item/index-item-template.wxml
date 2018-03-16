@@ -110,6 +110,6 @@
 <template name="liveStreamingss">
   <view id="{{item.id}}" bindtap='tolive' class="anchor bc_green">
     <image wx:if="{{item.vedioUrl}}" class='anchor_img' src='{{item.vedioUrl}}'></image>
-    <view class='cate_site'>{{item.streamingName}}</view>
+    <view class='cate_site'>{{item.anchorNickName}}:{{item.title}}</view>
   </view>
 </template>

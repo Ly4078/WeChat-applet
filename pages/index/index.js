@@ -22,35 +22,35 @@ Page({
     let that = this
     
 
-    wx.getSetting({
-        success(res) {
-            if(!res.authSetting['scope.userLocation']) {
-                wx.openSetting({
-                    success: (res) => {
-                        if(!res.authSetting['scope.userLocation']) {
-                            wx.showModal({
-                                title: '温馨提醒',
-                                content: '需要获取您的地理位置才能使用小程序',
-                                cancelText: '不使用',
-                                confirmText: '获取位置',
-                                success: function(res) {
-                                    if(res.confirm) {
-                                        getAuthor();
-                                    } else if(res.cancel) {
-                                        wx.showToast({
-                                            title: '您可点击左下角 定位按钮 重新获取位置',
-                                            icon: 'success',
-                                            duration: 3000
-                                        })
-                                    }
-                                }
-                            })
-                        }                    
-                    }
-                })
-            }
-        }
-    })
+    // wx.getSetting({
+    //     success(res) {
+    //         if(!res.authSetting['scope.userLocation']) {
+    //             wx.openSetting({
+    //                 success: (res) => {
+    //                     if(!res.authSetting['scope.userLocation']) {
+    //                         wx.showModal({
+    //                             title: '温馨提醒',
+    //                             content: '需要获取您的地理位置才能使用小程序',
+    //                             cancelText: '不使用',
+    //                             confirmText: '获取位置',
+    //                             success: function(res) {
+    //                                 if(res.confirm) {
+    //                                     getAuthor();
+    //                                 } else if(res.cancel) {
+    //                                     wx.showToast({
+    //                                         title: '您可点击左下角 定位按钮 重新获取位置',
+    //                                         icon: 'success',
+    //                                         duration: 3000
+    //                                     })
+    //                                 }
+    //                             }
+    //                         })
+    //                     }                    
+    //                 }
+    //             })
+    //         }
+    //     }
+    // })
 
     this.getopenid();
     

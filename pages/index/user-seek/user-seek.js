@@ -33,10 +33,10 @@ Page({
     let that = this;
     let _value = this.data.storename;
     if(!_value){
-      wx.showToast({
-        title: '请输入关键搜索',
-        duration: 2000
-      })
+      // wx.showToast({
+      //   title: '请输入关键搜索',
+      //   duration: 2000
+      // })
       return false
     }
     that.data.historyarr.unshift(_value);
@@ -60,6 +60,7 @@ Page({
     this.setData({
       storename: e.detail.value
     })
+    this.selectAddress()
   },
   backHomepage: function () {  //取消  清空输入框
     this.setData({
