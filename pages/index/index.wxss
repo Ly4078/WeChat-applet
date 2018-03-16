@@ -157,7 +157,7 @@ page {
 }
 
 .anchor {
-  width: 35%;
+  width: 38%;
   display: inline-block;
   padding-right: 10px;
 }
