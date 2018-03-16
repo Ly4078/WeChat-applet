@@ -8,8 +8,7 @@ Page({
   },
   onLoad: function (options) {
     this.setData({
-      ticketId: options.id,
-      isDue: options.isDue
+      ticketId: options.id
     });
     this.getTicketInfo();
     this.getTel();

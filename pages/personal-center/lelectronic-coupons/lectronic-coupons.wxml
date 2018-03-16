@@ -12,8 +12,7 @@
       </view>
       <view class='lectronic-right'>
         <text wx:if="{{orderInfo.soStatus == 1}}">待支付</text>
-        <text wx:if="{{orderInfo.soStatus == 2 && isDue == 1}}">已过期</text>
-        <text wx:if="{{orderInfo.soStatus == 2 && isDue == 0}}">待使用</text>
+        <text wx:if="{{orderInfo.soStatus == 2}}">待使用</text>
         <text wx:if="{{orderInfo.soStatus == 3}}">已使用</text>
         <text wx:if="{{orderInfo.soStatus == 10}}">已取消</text>
       </view>
