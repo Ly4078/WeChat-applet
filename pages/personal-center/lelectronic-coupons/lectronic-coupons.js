@@ -4,26 +4,23 @@ var app = getApp();
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
-    soid: '',
     userId: app.globalData.userInfo.userId ? app.globalData.userInfo.userId : 1     //登录用户的id
   },
   onLoad: function (options) {
     this.setData({
-      ticketId: options.id,
-      isPay: options.isPay,
-      soid: options.soid
+      ticketId: options.id
     });
     this.getTicketInfo();
     this.getTel();
   },
   //获取票券详情
-  getTicketInfo: function () {
+  getTicketInfo: function() {
     let that = this;
     wx.request({
       url: that.data._build_url + 'cp/get/' + that.data.ticketId,
-      success: function (res) {
+      success: function(res) {
         let data = res.data;
-        if (data.code == 0) {
+        if(data.code == 0) {
           console.log(data.data)
           that.setData({
             ticketInfo: data.data,
@@ -35,10 +32,10 @@ Page({
     });
   },
   //获取订单信息
-  getOrderInfo: function () {
+  getOrderInfo: function() {
     let that = this;
     wx.request({
-      url: that.data._build_url + 'so/get/' + that.data.soId,
+      url: that.data._build_url + 'so/get/' + that.data.soId, 
       success: function (res) {
         let data = res.data;
         if (data.code == 0) {
@@ -51,12 +48,12 @@ Page({
     })
   },
   //获取手机号
-  getTel: function () {
+  getTel: function() {
     let that = this;
     wx.request({
       url: that.data._build_url + 'user/get/' + that.data.userId,
-      success: function (res) {
-        if (res.data.data) {
+      success: function(res) {
+        if(res.data.data) {
           that.setData({
             mobile: res.data.data.mobile
           });
@@ -64,7 +61,7 @@ Page({
       }
     })
   },
-  sublevelSum: function (event) {
+  sublevelSum:function(event){
     let that = this;
     wx.navigateTo({
       url: '../../index/voucher-details/voucher-details?id=' + that.data.ticketId + '&sell=' + that.data.orderInfo.soAmount + '&inp=' + that.data.ticketInfo.couponAmount + '&rule=' + that.data.ticketInfo.promotionRules[0].ruleDesc
