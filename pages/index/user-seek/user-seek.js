@@ -39,20 +39,23 @@ Page({
       // })
       return false
     }
-    that.data.historyarr.unshift(_value);
-    let  _str = that.data.historyarr.join(',');
-    wx.setStorage({
-      key: "his",
-      data: _str
-    })
+    
     if(_value){
       let _parms = {
         searchKey: _value
       }
       Api.shoplist(_parms).then((res) => {
-        that.backHomepage();
-        let _bus = res.data.data.list
-        this.getDistance(_bus) //计算距离并赋值
+        if (res.data.code == 0 && res.data.data.list != [] && res.data.data.list != ''){
+          that.data.historyarr.unshift(_value);
+          let _str = that.data.historyarr.join(',');
+          wx.setStorage({
+            key: "his",
+            data: _str
+          })
+          // that.backHomepage();
+          let _bus = res.data.data.list
+          this.getDistance(_bus) //计算距离并赋值
+        }
       })
     }
   },
@@ -65,6 +68,9 @@ Page({
   backHomepage: function () {  //取消  清空输入框
     this.setData({
       storename: ''
+    })
+    wx.switchTab({  //跳转到 tabBar 页面，并关闭其他所有非 tabBar 页面
+      url: '../../index/index'
     })
   },
   clickannal:function(ev){  //点击某个历史记录
@@ -132,9 +138,6 @@ Page({
       wx.navigateTo({
         url: '../result/result'
       })
-      // console.log('马上就要跳转了！')
-    } else {
-      console.log('空白的你搜个jb')
     }
     // this.onLoad();
   },
@@ -202,9 +205,6 @@ Page({
   },
   onHide: function () {
    
-  },
-  bindchange: function (e) {
-    console.log('bindchange')
   },
   clearInput: function () {
     this.setData({
