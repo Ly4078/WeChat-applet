@@ -68,20 +68,30 @@ Page({
   },
   //获取搜索框内的值
   onInputText: function (e) {
-    this.setData({
-      searchValue: e.detail.value
-    })
-  },
-  onSearchInp: function () {
+    // this.setData({
+    //   searchValue: e.detail.value
+    // })
     let _parms = {
-      searchKey: this.data.searchValue
+      searchKey: e.detail.value
     }
     Api.shoplist(_parms).then((res) => {
-      this.setData({
-        posts_key: res.data.data.list
-      });
+      if (res.data.code == 0 && res.data.data.list != [] && res.data.data.list != '') {
+        this.setData({
+          posts_key: res.data.data.list
+        });
+      }
     })
   },
+  // onSearchInp: function () {
+  //   let _parms = {
+  //     searchKey: this.data.searchValue
+  //   }
+  //   Api.shoplist(_parms).then((res) => {
+  //     this.setData({
+  //       posts_key: res.data.data.list
+  //     });
+  //   })
+  // },
   //点击列表跳转详情
   onTouchItem: function (event) {
     wx.navigateTo({

@@ -5,10 +5,11 @@ Page({
     userId: app.globalData.userInfo.userId ? app.globalData.userInfo.userId : 1,
     order_list: [],
     page: 1,
-    reFresh: true
+    reFresh: true,
+    currentTab: 0
   },
   onLoad: function (options) {
-
+   
   },
   onShow: function () {
     this.getOrderList();
