@@ -182,7 +182,7 @@
   color: #808080;
   font-size: 13px;
   word-spacing: 7rpx;
-  font-weight: 600;
+  /* font-weight: 600; */
 }
 
 .trade_caim{

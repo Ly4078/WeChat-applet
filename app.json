@@ -1,7 +1,6 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/index/webview/webview",
     "pages/index/consume-qibashare/consume-qibashare",
     "pages/index/search/search",
     "pages/personal-center/free-of-charge/free-of-charge",
