@@ -7,8 +7,8 @@ Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
     city: "",
-    openId:'',
-    sessionKey:'',
+    openId: '',
+    sessionKey: '',
     carousel: [],  //轮播图
     business: [], //商家列表，推荐餐厅
     actlist: [],  //热门活动
@@ -20,7 +20,7 @@ Page({
   },
   onLoad: function (options) {
     let that = this
-    
+
 
     // wx.getSetting({
     //     success(res) {
@@ -53,15 +53,13 @@ Page({
     // })
 
     this.getopenid();
-    
     this.getcarousel();
     this.getdata();
     this.getactlist();
     this.gethotlive();
     this.gettopic();
-
   },
-  onShow:function(){
+  onShow: function () {
     let lat = '', lng = '';  //lat纬度   lng经度
     wx.getStorage({
       key: 'lat',
@@ -82,9 +80,10 @@ Page({
       }
     }, 500)
   },
-  getopenid:function(){
+  getopenid: function () {  //获取openID sessionKey
+    console.log("getopenid")
     let that = this
-    let lat = '',lng = ''
+    let lat = '', lng = ''
     wx.login({
       success: res => {
         let _code = res.code;
@@ -92,21 +91,36 @@ Page({
           let _parms = {
             code: res.code
           }
-          Api.getOpenId(_parms).then((res) => {  //获取openID sessionKey
+          Api.getOpenId(_parms).then((res) => {
             if (res.data.code == 0) {
               that.setData({
                 openId: res.data.data.openId,
                 sessionKey: res.data.data.sessionKey
               })
-              this.getuserInfo();
-              this.getlocation();
+              this.getuserInfo()
             }
           })
         }
       }
     })
   },
+  getuserInfo: function () {  //获取用户信息
+    console.log("getuserInfo")
+    let that = this;
+    wx.getUserInfo({
+      success: res => {
+        if (res.userInfo) {
+          this.data.Info = res.userInfo
+          // this.setblouserInfo()
+        }
+      },
+      complete: res => {
+        this.getlocation();
+      }
+    })
+  },
   getlocation: function () {  //获取用户位置
+    console.log("getlocation")
     let that = this
     let lat = '', lng = ''
     wx.getLocation({
@@ -117,20 +131,52 @@ Page({
         let speed = res.speed
         let accuracy = res.accuracy
         that.setData({
-          lat:latitude,
-          lng:longitude
+          lat: latitude,
+          lng: longitude
         })
         that.requestCityName(latitude, longitude);
+      },
+      complete: function(res) {
+        that.wxgetsetting();
       }
     })
   },
-  getuserInfo: function () {  //获取用户信息
-    let that = this;
-    wx.getUserInfo({
-      success: res => {
-        if (res.userInfo) {
-          this.data.Info = res.userInfo
-          this.setblouserInfo()
+  wxgetsetting:function(){  //若用户之前没用授权其用户信息和位置信息，则调整此函数请求用户授权
+    console.log("wxgetsetting")
+    wx.getSetting({
+      success: (res) => {
+        console.log("res11:", res)
+        if (res.authSetting['scope.userInfo']) {
+          console.log("用户已授受获取其用户信息")
+          // this.getuserInfo();
+        } else {
+          console.log("用户未授受获取其用户信息")
+        }
+
+        if (res.authSetting['scope.userLocation']) {
+          console.log("用户已授受获取其位置信息")
+          // this.getlocation();
+        } else {
+          console.log("用户未授受获取其位置信息")
+        }
+      },
+      complete:(res) =>{
+        console.log("res22:",res)
+      }
+    })
+  },
+  requestCityName(lat, lng) {//获取当前城市
+    wx.request({
+      url: 'https://apis.map.qq.com/ws/geocoder/v1/?location=' + lat + "," + lng + "&key=4YFBZ-K7JH6-OYOS4-EIJ27-K473E-EUBV7",
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: (res) => {
+        if (res.data.status == 0) {
+          this.setData({
+            city: res.data.result.address_component.city
+          })
+          app.globalData.userInfo.city = this.data.city
         }
       }
     })
@@ -150,22 +196,6 @@ Page({
       lng: this.data.lng
     }
     app.globalData.userInfo = _parms  //更新全局变量默认值
-  }, 
-  requestCityName(lat, lng) {//获取当前城市
-    wx.request({
-      url: 'https://apis.map.qq.com/ws/geocoder/v1/?location=' + lat + "," + lng + "&key=4YFBZ-K7JH6-OYOS4-EIJ27-K473E-EUBV7",
-      header: {
-        'content-type': 'application/json' // 默认值
-      },
-      success: (res) => {
-        if(res.data.status == 0){
-          this.setData({
-            city: res.data.result.address_component.city
-          })
-          app.globalData.userInfo.city = this.data.city
-        }
-      }
-    })
   },
   getcarousel: function () {  //轮播图
     let that = this;
@@ -212,21 +242,17 @@ Page({
       }
     })
   },
-  // 用户定位
-  userLocation: function () {
+  userLocation: function () {   // 用户定位
     wx.navigateTo({
       url: 'user-location/user-location',
     })
   },
-
-  //用户搜索
-  seekTap: function () {
+  seekTap: function () {   //用户搜索
     wx.navigateTo({
       url: 'user-seek/user-seek',
     })
   },
-  //用户优惠券
-  discountCoupon: function () {
+  discountCoupon: function () {  //用户优惠券
     wx.navigateTo({
       url: '../personal-center/my-discount/my-discount',
     })
@@ -236,20 +262,16 @@ Page({
       url: 'consume-qibashare/consume-qibashare',
     })
   },
-  // 餐厅
-  diningRoom: function () {
+  diningRoom: function () {  // 餐厅
     wx.navigateTo({
       url: 'dining-room/dining-room',
     })
   },
-
-  //未开放 酒店 景点 休闲娱乐
-  hotelUnopen: function () {
+  hotelUnopen: function () {  //未开放 酒店 景点 休闲娱乐
     wx.showToast({
       title: '该功能更新中...',
     })
   },
-
   scenicSpot: function () {
     wx.showToast({
       title: '该功能更新中...',
