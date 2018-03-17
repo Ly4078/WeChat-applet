@@ -189,9 +189,9 @@ page {
 }
 
 .searchcion {
-  margin: 10rpx 10rpx 10rpx 10rpx;
+  margin: 8rpx 10rpx 10rpx 10rpx;
   position: absolute;
-  left: 26%;
+  left: 23%;
   z-index: 2;
   width: 20px;
   height: 20px;
