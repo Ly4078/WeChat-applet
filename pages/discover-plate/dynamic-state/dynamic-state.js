@@ -218,7 +218,10 @@ Page({
       })
     } else if (ind == 1) {
       let sum = [];
+      console.log("content11:",this.data.content)
+
       let _content = JSON.stringify(this.data.content);
+      console.log("content222:", _content)
       let _title = this.data.title;
       let _coverimg = this.data.coverimg;
       for (let i = 0; i < this.data.content.length; i++) {
@@ -259,7 +262,9 @@ Page({
         userName: app.globalData.userInfo.nickName,
         nickName: app.globalData.userInfo.nickName
       }
+      console.log("_parms:",_parms)
       Api.topicadd(_parms).then((res) => {
+        console.log("res:",res)
         if (res.data.code == 0) {
           wx.showToast({
             title: '提交成功',

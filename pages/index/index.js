@@ -81,9 +81,9 @@ Page({
     }, 500)
   },
   getPhoneNumber: function (e) { //获取用户电话号码 （加密数据 ，需后台解码）暂不使用
-    console.log(e.detail.errMsg)
-    console.log(e.detail.iv)
-    console.log(e.detail.encryptedData)
+    console.log("errMsg:",e.detail.errMsg)
+    console.log("iv:",e.detail.iv)
+    console.log("encryptedData:",e.detail.encryptedData)
   },
   getopenid: function () {  //获取openID sessionKey
     let that = this
@@ -97,6 +97,7 @@ Page({
           }
           Api.getOpenId(_parms).then((res) => {
             if (res.data.code == 0) {
+              console.log("sessionKey:", res.data.data.sessionKey)
               that.setData({
                 openId: res.data.data.openId,
                 sessionKey: res.data.data.sessionKey
@@ -303,8 +304,8 @@ Page({
     })
   },
   entertainment: function () {
-    wx.navigateTo({
-      url: 'webview/webview',
+    wx.showToast({
+      title: '该功能更新中...',
     })
   },
   recommendCt: function (event) {

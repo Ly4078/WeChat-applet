@@ -8,16 +8,16 @@ Page({
    */
   data: {
     _build_url: GLOBAL_API_DOMAIN,  //服务器域名
-    _id:'',    //文章ID
-    zan:'',   //点赞数
-    details:{},   //文章数据 
-    cmtdata:[],   //文章评论数据 
-    interval:'',  //时间差
-    commentVal:'',  //评论内容
-    userInfo:{},   //用户数据 
+    _id: '',    //文章ID
+    zan: '',   //点赞数
+    details: {},   //文章数据 
+    cmtdata: [],   //文章评论数据 
+    interval: '',  //时间差
+    commentVal: '',  //评论内容
+    userInfo: {},   //用户数据 
     isComment: false,
-    preview:{},    //预览数据
-    userId:'1',  //虚拟ID 暂用
+    preview: {},    //预览数据
+    userId: '1',  //虚拟ID 暂用
     userName: '测试名称'   //虚拟名称 暂用
   },
 
@@ -25,34 +25,34 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    if(options.id){
+    if (options.id) {
       const id = options.id
       this.setData({
         _id: id,
-        zan:options.zan
+        zan: options.zan
       })
       this.gettopiclist(id)
       this.getcmtlist()
-    }else{
+    } else {
       options.content = JSON.parse(options.content)
       this.setData({
-        details: options        
+        details: options
       })
       this.setData({
         userInfo: app.globalData.userInfo
       })
-      
+
     }
-    
+
     // this.setcmtadd()
   },
-  gettopiclist:function(id){  //获取文章内容数据
+  gettopiclist: function (id) {  //获取文章内容数据
     let _parms = {
-      id:id,
+      id: id,
       zanUserId: app.globalData.userInfo.userId
     }
     Api.getTopicByZan(_parms).then((res) => {
-      if(res.data.code == 0){
+      if (res.data.code == 0) {
         let _data = res.data.data;
         _data.content = JSON.parse(_data.content)
         this.setData({
@@ -62,24 +62,24 @@ Page({
       }
     })
   },
-  getuser:function(id){  //获取用户信息
+  getuser: function (id) {  //获取用户信息
     let that = this;
     wx.request({
       url: this.data._build_url + 'user/get/' + id,
       success: function (res) {
-        if(res.data.code ==0){
+        if (res.data.code == 0) {
           that.setData({
-            userInfo:res.data.data        
+            userInfo: res.data.data
           })
         }
       }
     })
   },
-  getcmtlist:function(){  //获取文章评论数据
+  getcmtlist: function () {  //获取文章评论数据
     let _parms = {
       zanUserId: app.globalData.userInfo.userId ? app.globalData.userInfo.userId : this.data.userId,
-      cmtType:'2',
-      refId:this.data._id
+      cmtType: '2',
+      refId: this.data._id
     }
     Api.cmtlist(_parms).then((res) => {
       let _data = res.data.data;
@@ -99,8 +99,8 @@ Page({
       commentVal: e.detail.value
     })
   },
-  setcmtadd:function(){  //新增文章评论
-    if (!this.data.commentVal){
+  setcmtadd: function () {  //新增文章评论
+    if (!this.data.commentVal) {
       wx.showToast({
         title: '请输入评论内容',
         duration: 2000
@@ -111,9 +111,9 @@ Page({
       return false;
     }
     let _parms = {
-      refId:this.data._id,
-      cmtType:'2',
-      content:this.data.commentVal,
+      refId: this.data._id,
+      cmtType: '2',
+      content: this.data.commentVal,
       userId: app.globalData.userInfo.userId ? app.globalData.userInfo.userId : this.data.userId,
       userName: app.globalData.userInfo.userName ? app.globalData.userInfo.userName : this.data.userName,
       nickName: app.globalData.userInfo.userName ? app.globalData.userInfo.userName : this.data.userName,
@@ -125,14 +125,14 @@ Page({
       this.getcmtlist()
     })
   },
- 
+
   //跳转至所有评论
   jumpTotalComment: function () {
     wx.navigateTo({
-      url: '../../../index/merchant-particulars/total-comment/total-comment?id=' + this.data._id +'&cmtType=2&source=article'
+      url: '../../../index/merchant-particulars/total-comment/total-comment?id=' + this.data._id + '&cmtType=2&source=article'
     })
   },
-  dianzanwz:function(e){  //文章点赞
+  dianzanwz: function (e) {  //文章点赞
     let that = this
     let id = e.currentTarget.id
     let _parms = {
@@ -142,7 +142,7 @@ Page({
     }
     Api.zanadd(_parms).then((res) => {
       var _details = that.data.details
-      if (_details.isZan){
+      if (_details.isZan) {
         if (res.data.code == 0) {
           wx.showToast({
             title: '取消成功'
@@ -155,7 +155,7 @@ Page({
             zan: Zan
           });
         }
-      }else{
+      } else {
         if (res.data.code == 0) {
           wx.showToast({
             title: '点赞成功'
@@ -175,7 +175,7 @@ Page({
   toLike: function (event) {
     let that = this
     let id = event.currentTarget.id
-    let ind=''
+    let ind = ''
     for (let i = 0; i < this.data.cmtdata.list.length; i++) {
       if (this.data.cmtdata.list[i].id == id) {
         ind = i;
@@ -233,76 +233,87 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-    
+
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    
+
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
   onHide: function () {
-    
+
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-    
+
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-    
+
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-    
+
   },
 
   /**
    * 用户点击右上角分享
    */
-  
 
 
-  
+
+
   onShareAppMessage: function (res) {
-    if (res.from === 'button') {
-      // 来自页面内转发按钮
-      console.log(res.target)
-    }
-    return {
-      title: '分享文章',
-      path: '/pages/discover-plate/dynamic-state/article_details/article_details',
+    let that = this
+    let shareObj = {
+      title: "分享文章",        // 默认是小程序的名称(可以写slogan等)
+      // path 暂时采用默认  以后优化
+      // path: '/pages/discover-plate/dynamic-state/article_details/article_details',        // 默认是当前页面，必须是以‘/’开头的完整路径
+      // imgUrl: '',     //自定义图片路径，可以是本地文件路径、代码包文件路径或者网络图片路径，支持PNG及JPG，不传入 imageUrl 则使用默认截图。显示图片长宽比是 5:4
       success: function (res) {
-        // 转发成功
-        wx.showToast({
-          title: '转发成功',
-          icon: 'success',
-          duration: 2000
-        })
+        // 转发成功之后的回调
+        if (res.errMsg == 'shareAppMessage:ok') {
+          wx.showToast({
+            title: '转发成功',
+            icon: 'success',
+            duration: 2000
+          })
+        }
       },
-      fail: function (res) {
-        // 转发失败
-        // wx.showToast({
-        //   title: '转发失败',
-        //   icon: 'none',
-        //   duration: 2000
-        // })
+      fail: function () {
+        console.log("fail")
+      },
+      complete: function () {
+        console.log("complete")
+        // 转发结束之后的回调（转发成不成功都会执行）
       }
     }
+    if (res.from === 'button') {
+      // 来自页面内转发按钮
+      console.log("来自页面内转发按钮")
+      console.log(res.target)
+      var eData = res.target.dataset;
+      console.log(eData.name);     // shareBtn
+      // 此处可以修改 shareObj 中的内容
+      // shareObj.path = '/pages/discover-plate/dynamic-state/article_details/article_details?btn_name=' + eData.name;
+    }
+    console.log("shareObj:", shareObj)
+    return shareObj;
   }
 
 })
