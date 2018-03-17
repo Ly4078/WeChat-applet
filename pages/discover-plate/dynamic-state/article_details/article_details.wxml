@@ -43,7 +43,7 @@
       <image class='shareimgr' src='/images/icon/find_article_mine.png'></image>
       </button>
       <view class='text_wx'>微信</view>
-      <view class='text_pyq'>朋友圈</view>
+      <view class='text_pyq' bindtap='share'>朋友圈</view>
     </view>
     
   </view>
