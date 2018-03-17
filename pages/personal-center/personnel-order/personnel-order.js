@@ -21,6 +21,11 @@ Page({
       reFresh: true
     })
   },
+  swichNav: function(event) {
+    this.setData({
+      currentTab: event.currentTarget.dataset.current
+    })
+  },
   getOrderList: function () {       //获取订单列表
     let that = this;
     let _parms = {

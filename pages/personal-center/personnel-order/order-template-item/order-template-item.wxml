@@ -1,0 +1,42 @@
+<template name="order_template">
+  <view class='personnelWrap' id="{{item.id}}">
+    <view class="personnelTime">
+      <view class="personnelTime_left">
+        <text>2018.01.01</text>
+        <text class="personnelTime_minute">14:25</text>
+      </view>
+      <view class="personnelTime_right">
+        <text class="active" wx:if="{{item.soStatus == 1}}">待付款</text>
+        <text wx:if="{{item.soStatus == 2}}">待使用</text>
+        <text wx:if="{{item.soStatus == 3}}">已核销</text>
+        <text wx:if="{{item.soStatus == 10}}">已取消</text>
+
+      </view>
+    </view>
+    <view class='personnelOrder' catchtap='lowerLevel'>
+      <view class='iconLogoWrap'>
+        <image class='iconLogo_sj' src='/images/icon/icon_logosj.png'></image>
+      </view>
+      <view class='iconLogo-right'>
+        <view class='logo-right-top'>
+          <view class='logo-right-condition'>
+            <text>{{item.skuName}}</text>
+            <text>￥10</text>
+          </view>
+          <view class='roll-unused'>
+            <text>{{item.ruleDesc}}</text>
+            <text>*1</text>
+          </view>
+        </view>
+        <view class='roll-wrap-button'>
+          <view>
+            <text>总价</text>
+          </view>
+          <view>
+            <text>￥{{item.soAmount}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</template>
