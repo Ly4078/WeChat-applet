@@ -35,7 +35,7 @@ Page({
       }
     });
   },
-  onShow: function() {
+  onShow: function () {
     this.commentList();
   },
   getstoredata() {  //获取店铺详情数据   带值传参示例
@@ -82,8 +82,9 @@ Page({
   //分享APP
   onShareAppMessage: function () {
     return {
-      title: '哇,看着流口水',
-      path: '/pages/activityDetails/merchant-particulars/merchant-particulars',
+      title: this.data.store_details.shopName,
+      path: '/pages/index/merchant-particulars/merchant-particulars?shopid=' + this.data.shopid,
+      imageUrl: this.data.store_details.logoUrl,
       success: function (res) {
         console.log(res.shareTickets[0])
         wx.getShareInfo({
@@ -311,21 +312,63 @@ Page({
     } else {
       let that = this;
       let _parms = {};
+      let content = that.utf16toEntities(that.data.commentVal);
+      console.log(that.data.commentVal)
+      console.log(content);
       wx.request({
-        url: that.data._build_url + 'cmt/add?refId=' + that.data.shopid + '&cmtType=5&content=' + that.data.commentVal + '&userId=' + that.data.userId + '&userName=' + that.data.userName + '&nickName=' + that.data.nickName,
+        url: that.data._build_url + 'cmt/add?refId=' + that.data.shopid + '&cmtType=5&content=' + content + '&userId=' + that.data.userId + '&userName=' + that.data.userName + '&nickName=' + that.data.nickName,
+        // url: that.data._build_url + 'cmt/add',
+        // data: {
+        //   refId: that.data.shopid,
+        //   cmtType: 5,
+        //   content: content,
+        //   userId: that.data.userId,
+        //   userName: that.data.userName,
+        //   nickName: that.data.nickName
+        // },
         method: "POST",
         header: {
           'content-type': 'application/json;Authorization'
         },
         success: function (res) {
+          console.log(res);
           that.setData({
             isComment: false,
             commentVal: ""
           });
           that.commentList();
+        },
+        fail: function (res) {
+          console.log(res);
         }
       });
     }
+  },
+  UnicodeToUtf8: function (unicode) {
+    var uchar;
+    var utf8str = "";
+    var i;
+    for (i = 0; i < unicode.length; i += 2) {
+      uchar = (unicode[i] << 8) | unicode[i + 1];        //UNICODE为2字节编码，一次读入2个字节 
+      utf8str = utf8str + String.fromCharCode(uchar);  //使用String.fromCharCode强制转换 
+    }
+    return utf8str;
+  },
+  //转换emoji表情为后台可以接收的字符
+  utf16toEntities: function (str) {
+    var patt = /[\ud800-\udbff][\udc00-\udfff]/g; // 检测utf16字符正则
+    str = str.replace(patt, function (char) {
+      var H, L, code;
+      if (char.length === 2) {
+        H = char.charCodeAt(0); // 取出高位
+        L = char.charCodeAt(1); // 取出低位
+        code = (H - 0xD800) * 0x400 + 0x10000 + L - 0xDC00; // 转换算法
+        return "&#" + code + ";";
+      } else {
+        return char;
+      }
+    });
+    return str;
   }
 })
 // 标记
