@@ -3,6 +3,7 @@
 <view class="container">
   <!--顶部 定位 搜索 卷  -->
   <!-- <template is="locationSeek" data="{{...item}}" /> -->
+  
   <view class='headSeek'>
     <view class='site_location' bindtap='userLocation'>
       <text class='site_location_text'>{{city}}</text>
@@ -34,6 +35,7 @@
   <view wx:for="{{logs}}" wx:for-item="value" wx:key="{{index}}">
     {{value.shopName}}
   </view>
+  <!-- <button open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">获取手机号</button> -->
   <!--推荐餐厅 -->
   <template is="postItem" data="{{...item}}" />
   <!--推荐餐厅  -->

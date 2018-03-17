@@ -28,8 +28,8 @@ App({
           }
           Api.getOpenId(_parms).then((res) => {  //获取openID sessionKey
             if (res.data.code == 0) {
-              this.data.openId = res.data.data.openId,
-              this.data.sessionKey = res.data.data.sessionKey
+              this.globalData.openId = res.data.data.openId,
+                this.globalData.sessionKey = res.data.data.sessionKey
             }
           })
         }
@@ -40,12 +40,13 @@ App({
   globalData: {  //全局变量
     userInfo: {
       openId: '',
-      // userId: '',  //暂时注释 待后台有user表后放开开注释
+      sessionKey: '',
+      userId: '',  
       userName: '',
       nikcName: '',
+      phone:'',
       avatarUrl:'',
       sourceType: '1',
-      iconUrl: '',
       city: '',
       sex: '', //gender	用户的性别，值为1时是男性，值为2时是女性，值为0时是未知
       lat: '',

@@ -80,8 +80,12 @@ Page({
       }
     }, 500)
   },
+  getPhoneNumber: function (e) { //获取用户电话号码 （加密数据 ，需后台解码）暂不使用
+    console.log(e.detail.errMsg)
+    console.log(e.detail.iv)
+    console.log(e.detail.encryptedData)
+  },
   getopenid: function () {  //获取openID sessionKey
-    console.log("getopenid")
     let that = this
     let lat = '', lng = ''
     wx.login({
@@ -97,6 +101,8 @@ Page({
                 openId: res.data.data.openId,
                 sessionKey: res.data.data.sessionKey
               })
+              app.globalData.userInfo.openId = res.data.data.openId,
+              app.globalData.userInfo.sessionKey = res.data.data.sessionKey
               this.getuserInfo()
             }
           })
@@ -105,13 +111,12 @@ Page({
     })
   },
   getuserInfo: function () {  //获取用户信息
-    console.log("getuserInfo")
     let that = this;
     wx.getUserInfo({
       success: res => {
         if (res.userInfo) {
           this.data.Info = res.userInfo
-          // this.setblouserInfo()
+          this.setblouserInfo(res.userInfo)
         }
       },
       complete: res => {
@@ -120,7 +125,6 @@ Page({
     })
   },
   getlocation: function () {  //获取用户位置
-    console.log("getlocation")
     let that = this
     let lat = '', lng = ''
     wx.getLocation({
@@ -136,36 +140,66 @@ Page({
         })
         that.requestCityName(latitude, longitude);
       },
-      complete: function(res) {
+      complete: function (res) {
         that.wxgetsetting();
       }
     })
   },
-  wxgetsetting:function(){  //若用户之前没用授权其用户信息和位置信息，则调整此函数请求用户授权
-    console.log("wxgetsetting")
+  wxgetsetting: function () {  //若用户之前没用授权其用户信息和位置信息，则调整此函数请求用户授权
+    let that = this
     wx.getSetting({
       success: (res) => {
-        console.log("res11:", res)
-        if (res.authSetting['scope.userInfo']) {
-          console.log("用户已授受获取其用户信息")
-          // this.getuserInfo();
+        if (res.authSetting['scope.userInfo'] && res.authSetting['scope.userLocation']) {
+          // console.log("用户已授受获取其用户信息和位置信息")
         } else {
-          console.log("用户未授受获取其用户信息")
+          // console.log("用户未授受获取其用户信息或位置信息")
+          wx.showModal({
+            title: '提示',
+            content: '享7要你的用户信息和位置信息，快去授权！',
+            success: function (res) {
+              if (res.confirm) {
+                wx.openSetting({  //打开授权设置界面
+                  success: (res) => {
+                    if (res.authSetting['scope.userInfo']) {
+                      wx.getUserInfo({
+                        success: res => {
+                          if (res.userInfo) {
+                            // this.data.Info = res.userInfo
+                            that.setblouserInfo(res.userInfo)
+                          }
+                        }
+                      })
+                    }
+                    if (res.authSetting['scope.userLocation']) {
+                      wx.getLocation({
+                        type: 'wgs84',
+                        success: function (res) {
+                          let latitude = res.latitude
+                          let longitude = res.longitude
+                          let speed = res.speed
+                          let accuracy = res.accuracy
+                          that.setData({
+                            lat: latitude,
+                            lng: longitude
+                          })
+                          that.requestCityName(latitude, longitude);
+                        }
+                      })
+                    }
+                  }
+                })
+              } else if (res.cancel) {
+                console.log('用户点击取消')
+              }
+            }
+          })
         }
-
-        if (res.authSetting['scope.userLocation']) {
-          console.log("用户已授受获取其位置信息")
-          // this.getlocation();
-        } else {
-          console.log("用户未授受获取其位置信息")
-        }
-      },
-      complete:(res) =>{
-        console.log("res22:",res)
       }
     })
   },
   requestCityName(lat, lng) {//获取当前城市
+    app.globalData.userInfo.lat = lat
+    app.globalData.userInfo.lng = lng
     wx.request({
       url: 'https://apis.map.qq.com/ws/geocoder/v1/?location=' + lat + "," + lng + "&key=4YFBZ-K7JH6-OYOS4-EIJ27-K473E-EUBV7",
       header: {
@@ -176,26 +210,17 @@ Page({
           this.setData({
             city: res.data.result.address_component.city
           })
-          app.globalData.userInfo.city = this.data.city
+          app.globalData.userInfo.city = res.data.result.address_component.city
         }
       }
     })
   },
-  setblouserInfo: function () {  //将获取到的用户信息赋值给全局变量
-    let _parms = {
-      openId: this.data.openId,
-      // userId: this.data.openId,  //暂时注释 待后台有user表后放开开注释
-      userName: this.data.Info.nickName,
-      nikcName: this.data.Info.nickName,
-      avatarUrl: this.data.Info.avatarUrl,
-      sourceType: '1',
-      iconUrl: this.data.Info.avatarUrl,
-      city: this.data.Info.city,
-      sex: this.data.Info.gender, //gender	用户的性别，值为1时是男性，值为2时是女性，值为0时是未知
-      lat: this.data.lat,
-      lng: this.data.lng
-    }
-    app.globalData.userInfo = _parms  //更新全局变量默认值
+  setblouserInfo: function (data) {  //将获取到的用户信息赋值给全局变量
+    app.globalData.userInfo.userName = data.nickName,
+      app.globalData.userInfo.nikcName = data.nickName,
+      app.globalData.userInfo.avatarUrl = data.avatarUrl,
+      app.globalData.userInfo.city = data.city,
+      app.globalData.userInfo.sex = data.gender //gender	用户的性别，值为1时是男性，值为2时是女性，值为0时是未知
   },
   getcarousel: function () {  //轮播图
     let that = this;

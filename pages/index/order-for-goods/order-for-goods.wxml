@@ -30,7 +30,7 @@
       <text class='subtotal'>¥{{paymentAmount}}</text>
     </view>
   </view>
-  <view class='affirm' catchtap='confirmPayment'>
+  <view class='affirm' catchtap='determine'>
     <text>确认支付</text>
     <text class='affirmNumber'>￥{{paymentAmount}}</text>
   </view>

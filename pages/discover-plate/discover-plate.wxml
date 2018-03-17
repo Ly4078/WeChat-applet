@@ -36,7 +36,7 @@
     <view id="{{item.id}}" catchtap="clickarticle" class="scroll_user find">
       <image class='cateWallImg findimg' src='{{item.homePic}}'></image>
       <view class='catewallGroup'>
-        <image class='catewalltou' src='{{item.iconUrl}}'></image>
+        <image class='catewalltou' src='{{item.avatarUrl}}'></image>
         <text class='catewallText'>{{item.title}}</text>
       </view>
       <view class='foodDescription finddes'>
