@@ -134,45 +134,51 @@ Page({
   },
   dianzanwz: function (e) {  //文章点赞
     let that = this
-    let id = e.currentTarget.id
+    let _details = this.data.details
     let _parms = {
-      refId: id,
-      type: '2',
-      userId: app.globalData.userInfo.userId ? app.globalData.userInfo.userId : this.data.userId,
+      refId:_details.id,
+      type:'2',
+      userId: app.globalData.userInfo.userId
     }
-    Api.zanadd(_parms).then((res) => {
-      var _details = that.data.details
-      if (_details.isZan) {
-        if (res.data.code == 0) {
-          wx.showToast({
-            title: '取消成功'
-          })
-          _details.isZan = 0;
-          let Zan = this.data.zan;
-          Zan--;
-          that.setData({
-            details: _details,
-            zan: Zan
-          });
-        }
-      } else {
-        if (res.data.code == 0) {
-          wx.showToast({
-            title: '点赞成功'
-          })
-          _details.isZan = 1;
-          let Zan = this.data.zan;
-          Zan++;
-          that.setData({
-            details: _details,
-            zan: Zan
-          });
-        }
+    Api.zanadd(_parms).then((res)=>{
+      if(res.data.code == 0){
+        wx.showToast({
+          title: '点赞成功'
+        })
+        _details.isZan =1
+        let _zan = this.data.zan
+        _zan++
+        that.setData({
+          details:_details,
+          zan: _zan
+        })
       }
     })
   },
-  //评论点赞
-  toLike: function (event) {
+  quxiaozanwz: function () {  //文章取消点赞
+    let that = this
+    let _details = this.data.details
+    let _parms = {
+      refId:_details.id,
+      type:'2',
+      userId: app.globalData.userInfo.userId
+    }
+    Api.zandelete(_parms).then((res)=>{
+      if(res.data.code ==0){
+        wx.showToast({
+          title: '取消成功',
+        })
+        _details.isZan = 0
+        let _zan = this.data.zan
+        _zan--
+        this.setData({
+          details:_details,
+          zan:_zan
+        })
+      }
+    })
+  },
+  toLike: function (event) {//评论点赞
     let that = this
     let id = event.currentTarget.id
     let ind = ''
@@ -296,24 +302,19 @@ Page({
         }
       },
       fail: function () {
-        console.log("fail")
-      },
-      complete: function () {
-        console.log("complete")
-        // 转发结束之后的回调（转发成不成功都会执行）
+        wx.showToast({
+          title: '转发失败',
+          icon: 'none',
+          duration: 2000
+        })
       }
     }
-    if (res.from === 'button') {
-      // 来自页面内转发按钮
-      console.log("来自页面内转发按钮")
-      console.log(res.target)
-      var eData = res.target.dataset;
-      console.log(eData.name);     // shareBtn
+    if (res.from === 'button') { // 来自页面内转发按钮
+      var eData = res.target.dataset
       // 此处可以修改 shareObj 中的内容
       // shareObj.path = '/pages/discover-plate/dynamic-state/article_details/article_details?btn_name=' + eData.name;
     }
-    console.log("shareObj:", shareObj)
-    return shareObj;
+    return shareObj
   }
 
 })

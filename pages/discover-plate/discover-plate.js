@@ -49,6 +49,7 @@ Page({
       let _data = this.data.food
       if (res.data.code == 0 && res.data.data.list != null && res.data.data.list != "" && res.data.data.list != []) { 
         _data =_data.concat(res.data.data.list)
+        // console.log("_data:",_data)
         this.setData({
           food:_data
         })

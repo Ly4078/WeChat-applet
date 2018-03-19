@@ -13,7 +13,7 @@
     <scroll-view scroll-x="true" class='scroll_anchor'>
       <block wx:for="{{hotlive}}" wx:key="{{index}}">
         <view id="green" class="anchor bc_green">
-          <image class='anchor_img' src='{{item.vedioUrl}}'></image>
+           <image class='anchor_img' src='{{item.vedioUrl}}'></image> 
           <image class='live-Images' src='/images/icon/dot_mos.png'></image>
           <text class='on-line'>{{item.clickNum}}</text>
           <view class='cate_site'>
@@ -36,7 +36,7 @@
     <view id="{{item.id}}" catchtap="clickarticle" class="scroll_user find">
       <image class='cateWallImg findimg' src='{{item.homePic}}'></image>
       <view class='catewallGroup'>
-        <image class='catewalltou' src='{{item.avatarUrl}}'></image>
+         <image class='catewalltou' src='{{item.iconUrl}}'></image> 
         <text class='catewallText'>{{item.title}}</text>
       </view>
       <view class='foodDescription finddes'>

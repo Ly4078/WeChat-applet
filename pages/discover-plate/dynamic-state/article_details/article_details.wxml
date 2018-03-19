@@ -30,10 +30,10 @@
         <image src='/images/icon/tuoyuan_w.png' class='tuoyuanhits'></image>
         {{details.scan}}
       </view>
-      <view class='praise' id="{{details.id}}" catchtap='dianzanwz'>
+      <view class='praise' id="{{details.id}}">
         {{zan}}
-        <image wx:if="{{details.isZan}}" src='/images/icon/home_zaned.png' class='homezan'></image>
-        <image wx:else src='/images/icon/home_zan.png' class='homezan'></image>
+        <image wx:if="{{details.isZan}}" src='/images/icon/home_zaned.png' class='homezan' catchtap='quxiaozanwz'></image>
+        <image wx:else src='/images/icon/home_zan.png' class='homezan' catchtap='dianzanwz'></image>
       </view>
     </view>
     <view class='sharetitle'>分享文章</view>

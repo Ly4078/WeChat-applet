@@ -19,10 +19,10 @@ Page({
       page:this.data.page,
       row:8
     }
-    Api.acttop(_parms).then((res) => {
+    Api.actlist(_parms).then((res) => {
       let _data = this.data.actdata
       if (res.data.code == 0 && res.data.data != null && res.data.data != "" && res.data.data != []) {
-        _data = _data.concat(res.data.data)
+        _data = _data.concat(res.data.data.list)
         this.setData({
           actdata: _data
         })
