@@ -1,5 +1,6 @@
 import Api from '/../../../utils/config/api.js';  //每个有请求的JS文件都要写这个，注意路径
 import { GLOBAL_API_DOMAIN } from '/../../../utils/config/config.js';
+var utils = require('../../../utils/util.js')
 var app = getApp();
 Page({
   data: {
@@ -10,9 +11,9 @@ Page({
     currentTab: 0,
     isCollected: false,   //是否收藏，默认false
     isComment: false,
-    userId: app.globalData.userInfo.userId ? app.globalData.userInfo.userId : 1,     //登录用户的id
-    userName: app.globalData.userInfo.userName ? app.globalData.userInfo.userName : "test",        //登录者名称
-    nickName: app.globalData.userInfo.nickName ? app.globalData.userInfo.nickName : "test"        //登录者昵称
+    userId: app.globalData.userInfo.userId,  
+    userName: app.globalData.userInfo.userName,        //登录者名称
+    nickName: app.globalData.userInfo.nickName         //登录者昵称
   },
   onLoad: function (options) {
     this.setData({
@@ -161,8 +162,16 @@ Page({
       success: function (res) {
         let data = res.data;
         if (data.code == 0 && data.data.list != null && data.data.list != "") {
+          if(res.data.code ==0){
+            let _data = res.data.data.list
+            for(let i=0;i<_data.length;i++){
+              _data[i].content = utils.uncodeUtf16(_data[i].content)
+            }
+            that.setData({
+              comment_list: _data
+            })
+          }
           that.setData({
-            comment_list: res.data.data.list,
             commentNum: res.data.data.total
           })
         } else {
@@ -306,63 +315,35 @@ Page({
   },
   //发表评论
   sendComment: function (e) {
+    let that = this;
     if (this.data.commentVal == "" || this.data.commentVal == undefined) {
       wx.showToast({
         title: '请先输入评论',
         icon: 'none'
       })
     } else {
-      let that = this;
-      let _parms = {};
-      let content = that.utf16toEntities(that.data.commentVal);
-      let data = {
+      let content = utils.utf16toEntities(that.data.commentVal);
+      console.log("content:",content)
+      let _parms = {
         refId: that.data.shopid,
         cmtType: '5',
         content: content,
         userId: '1',
         userName: that.data.userName,
         nickName: that.data.nickName
-      };
-      console.log(data);
-      console.log(that.data.commentVal);
-      console.log(content);
-      wx.request({
-        url: that.data._build_url + 'cmt/add?refId=' + that.data.shopid + '&cmtType=5&content=' + content + '&userId=' + that.data.userId + '&userName=' + that.data.userName + '&nickName=' + that.data.nickName,
-        url: that.data._build_url + 'cmt/add',
-        // data: data,
-        method: "POST",
-        header: {
-          'content-type': 'application/json;Authorization'
-        },
-        success: function (res) {
-          console.log(res);
+      }
+      console.log("_arms:",_parms)
+      Api.cmtadd(_parms).then((res)=>{
+        console.log("res:",res)
+        if(res.data.code == 0){
           that.setData({
             isComment: false,
             commentVal: ""
-          });
-          that.commentList();
-        },
-        fail: function (res) {
-          console.log(res);
+          })
+          that.commentList()
         }
-      });
+      })
     }
-  },
-  //转换emoji表情为后台可以接收的字符
-  utf16toEntities: function (str) {
-    var patt = /[\ud800-\udbff][\udc00-\udfff]/g; // 检测utf16字符正则
-    str = str.replace(patt, function (char) {
-      var H, L, code;
-      if (char.length === 2) {
-        H = char.charCodeAt(0); // 取出高位
-        L = char.charCodeAt(1); // 取出低位
-        code = (H - 0xD800) * 0x400 + 0x10000 + L - 0xDC00; // 转换算法
-        return "&#" + code + ";";
-      } else {
-        return char;
-      }
-    });
-    return str;
   }
 })
 // 标记

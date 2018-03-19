@@ -1,11 +1,12 @@
 import Api from '/../../../../utils/config/api.js';  //每个有请求的JS文件都要写这个，注意路径
 import { GLOBAL_API_DOMAIN } from '/../../../../utils/config/config.js';
+var utils = require('../../../../utils/util.js')
 var app = getApp();
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
     comment_list: [],
-    userId: app.globalData.userInfo.userId ? app.globalData.userInfo.userId : 1,     //登录用户的id
+    userId: app.globalData.userInfo.userId,     //登录用户的id
     page: 1,
     id:'',
     source:'',   //请求来源   查明是谁来调用这个文件
@@ -13,7 +14,6 @@ Page({
     reFresh: true
   },
   onLoad: function (options) {
-    console.log(options)
     this.setData({
       id: options.id,
       // source: options.source,
@@ -37,8 +37,10 @@ Page({
         let data = res.data;
         if (data.code == 0 && data.data.list != null && data.data.list != "" && data.data.list != []) {
           let comment_list = that.data.comment_list;
-          for (let i = 0; i < res.data.data.list.length; i++) {
-            comment_list.push(res.data.data.list[i]);
+          let _data = res.data.data.list
+          for (let i = 0; i < _data.length; i++) {
+            _data[i].content = utils.uncodeUtf16(_data[i].content)
+            comment_list.push(_data[i]);
           }
           that.setData({
             comment_list: comment_list,
