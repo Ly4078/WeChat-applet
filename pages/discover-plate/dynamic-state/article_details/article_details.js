@@ -120,9 +120,9 @@ Page({
       refId: this.data._id,
       cmtType: '2',
       content: this.data.commentVal,
-      userId: app.globalData.userInfo.userId ? app.globalData.userInfo.userId : this.data.userId,
-      userName: app.globalData.userInfo.userName ? app.globalData.userInfo.userName : this.data.userName,
-      nickName: app.globalData.userInfo.userName ? app.globalData.userInfo.userName : this.data.userName,
+      userId: app.globalData.userInfo.userId,
+      userName: app.globalData.userInfo.userName,
+      nickName: app.globalData.userInfo.userName,
     }
     Api.cmtadd(_parms).then((res) => {
       this.setData({

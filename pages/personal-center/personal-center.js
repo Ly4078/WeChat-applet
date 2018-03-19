@@ -9,7 +9,9 @@ Page({
     qrCode: ''
   },
   onLoad: function (options) {
-
+    this.setData({
+      userName: app.globalData.userInfo.userName
+    })
   },
   calling: function () {
     wx.makePhoneCall({

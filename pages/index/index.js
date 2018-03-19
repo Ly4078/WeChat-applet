@@ -195,11 +195,11 @@ Page({
     })
   },
   setblouserInfo: function (data) {  //将获取到的用户信息赋值给全局变量
-    app.globalData.userInfo.userName = data.nickName,
-      app.globalData.userInfo.nikcName = data.nickName,
-      app.globalData.userInfo.avatarUrl = data.avatarUrl,
-      app.globalData.userInfo.city = data.city,
-      app.globalData.userInfo.sex = data.gender //gender	用户的性别，值为1时是男性，值为2时是女性，值为0时是未知
+    // app.globalData.userInfo.userName = data.nickName,
+      // app.globalData.userInfo.nikcName = data.nickName,
+      // app.globalData.userInfo.avatarUrl = data.avatarUrl,
+      // app.globalData.userInfo.city = data.city,
+      // app.globalData.userInfo.sex = data.gender //gender	用户的性别，值为1时是男性，值为2时是女性，值为0时是未知
   },
   getcarousel: function () {  //轮播图
     let that = this;

@@ -259,7 +259,7 @@ Page({
         userId: app.globalData.userInfo.userId,
         summary: _sum,
         homePic: _coverimg,
-        userName: app.globalData.userInfo.nickName,
+        userName: app.globalData.userInfo.userName,
         nickName: app.globalData.userInfo.nickName
       }
       Api.topicadd(_parms).then((res) => {
