@@ -94,6 +94,7 @@ Page({
 
   clickshop: function (e) {  //点击某个商家 跳转到该商家详情页
     let stopid = e.currentTarget.id
+    console.log("stopid:",stopid)
     wx.navigateTo({
       url: '../../index/merchant-particulars/merchant-particulars?shopid=' + stopid
     })

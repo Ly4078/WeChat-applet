@@ -9,7 +9,7 @@
     </view>
     <view class='name'>
       <view class='username'>{{userInfo.userName}}</view>
-      <view class='storename'></view>
+      <view class='storename'>{{details.timeDiffrence}}</view>
     </view>
     <view class='homefollow'>
       <!-- <image src='' class='home'>home</image>

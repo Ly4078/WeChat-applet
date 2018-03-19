@@ -29,7 +29,7 @@ function transformLength(len) {
 }
 
 function utf16toEntities(str) {  //将emoji表情转为字符进行存储 
-  console.log("str:",str)
+  console.log("str:", str)
   var patt = /[\ud800-\udbff][\udc00-\udfff]/g; // 检测utf16字符正则 
   str = str.replace(patt, function (char) {
     var H, L, code;
@@ -61,11 +61,35 @@ function uncodeUtf16(str) {  //反解开EMOJI编码后的字符串   与上对�
   return result;
 }
 
+function timeDiffrence(current, updateTime, createTime) {      //文章发布时间  updateTime
+  let createT = '', timestamp = 0, str = '暂无';
+  updateTime = updateTime ? updateTime : createTime;
+  if (updateTime != null && updateTime != '') {
+    createT = new Date(updateTime).getTime();
+    timestamp = (+current - createT) / 1000;
+    if (timestamp / 31536000 > 1 || timestamp / 31536000 == 1) {
+      str = Math.floor(timestamp / 60 / 60 / 24 / 365) + '年前';
+    } else if (timestamp / 2592000 > 1 || timestamp / 2592000 == 1) {
+      str = Math.floor(timestamp / 60 / 60 / 24 / 30) + '个月前';
+    } else if (timestamp / 86400 > 1 || timestamp / 86400 == 1) {
+      str = Math.floor(timestamp / 60 / 60 / 24) + '天前';
+    } else if (timestamp / 3600 > 1 || timestamp / 3600 == 1) {
+      str = Math.floor(timestamp / 60 / 60) + '小时' + Math.floor((timestamp % 3600) / 60) + '分钟前';
+    } else if (timestamp / 60 > 1 || timestamp / 60 == 1) {
+      str = Math.floor(timestamp / 60) + '分钟前';
+    } else {
+      str = '刚刚发布';
+    }
+  }
+  return str;
+}
+
 module.exports = {
   calcDistance: calcDistance,
   transformLength: transformLength,
   utf16toEntities: utf16toEntities,
   uncodeUtf16: uncodeUtf16,
+  timeDiffrence: timeDiffrence,
   store: myStore,
   tools: tools
 }

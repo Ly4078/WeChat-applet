@@ -59,6 +59,7 @@ Page({
         let _data = res.data.data;
         _data.summary = utils.uncodeUtf16(_data.summary)
         _data.content = utils.uncodeUtf16(_data.content)
+        _data.timeDiffrence = utils.timeDiffrence(_data.currentTime, _data.updateTime, _data.createTime)
         _data.content = JSON.parse(_data.content)
         this.setData({
           details: _data
