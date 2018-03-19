@@ -315,19 +315,21 @@ Page({
       let that = this;
       let _parms = {};
       let content = that.utf16toEntities(that.data.commentVal);
-      console.log(that.data.commentVal)
+      let data = {
+        refId: that.data.shopid,
+        cmtType: '5',
+        content: content,
+        userId: '1',
+        userName: that.data.userName,
+        nickName: that.data.nickName
+      };
+      console.log(data);
+      console.log(that.data.commentVal);
       console.log(content);
       wx.request({
         url: that.data._build_url + 'cmt/add?refId=' + that.data.shopid + '&cmtType=5&content=' + content + '&userId=' + that.data.userId + '&userName=' + that.data.userName + '&nickName=' + that.data.nickName,
-        // url: that.data._build_url + 'cmt/add',
-        // data: {
-        //   refId: that.data.shopid,
-        //   cmtType: 5,
-        //   content: content,
-        //   userId: that.data.userId,
-        //   userName: that.data.userName,
-        //   nickName: that.data.nickName
-        // },
+        url: that.data._build_url + 'cmt/add',
+        // data: data,
         method: "POST",
         header: {
           'content-type': 'application/json;Authorization'
@@ -345,16 +347,6 @@ Page({
         }
       });
     }
-  },
-  UnicodeToUtf8: function (unicode) {
-    var uchar;
-    var utf8str = "";
-    var i;
-    for (i = 0; i < unicode.length; i += 2) {
-      uchar = (unicode[i] << 8) | unicode[i + 1];        //UNICODE为2字节编码，一次读入2个字节 
-      utf8str = utf8str + String.fromCharCode(uchar);  //使用String.fromCharCode强制转换 
-    }
-    return utf8str;
   },
   //转换emoji表情为后台可以接收的字符
   utf16toEntities: function (str) {
