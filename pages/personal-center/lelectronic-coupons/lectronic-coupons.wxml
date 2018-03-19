@@ -33,17 +33,18 @@
 
   <view class='qr-code'>
     <view class='rollMessage'>享7劵</view>
-    <block wx:for="{{posts_key}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
-      <view class='coding-code'>
+    <block wx:for="{{threedata}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
+      <view class='coding-code' >
         <text class='codingText'>{{item.aa}}</text>
         <text>劵码:</text>
         <text class='numberFeald'>{{item.bb}}</text>
         <image src='{{item}}' wx:for='{{imgArr}}' wx:key="{{index}}" class='codingImages'  data-index='{{index}}' bindtap='previewImg'></image>
       </view>
     </block>
-    <view class='codingeven-more'>
-      <text>更多</text>
-      <image class="veent-more-img" src='/images/icon/xialatupian.png'></image>
+    <view class='codingeven-more' wx:if="{{posts_key.length>3}}" bindtap="shouqi">
+      <text>{{threedata.length>3?'收起':'更多'}}</text>
+        <image class="veent-more-img-top" wx:if="{{threedata.length>3}}" src='/images/icon/xialatupian.png'></image>
+      <image class="veent-more-img" wx:else src='/images/icon/xialatupian.png'></image> 
     </view>
   </view>
 

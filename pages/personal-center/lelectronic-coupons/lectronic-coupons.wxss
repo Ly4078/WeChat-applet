@@ -152,11 +152,15 @@ page {
   letter-spacing: 2px;
 }
 
-.veent-more-img {
+.veent-more-img, .veent-more-img-top {
   width: 22rpx;
   height: 12rpx;
   padding-left: 10rpx;
   vertical-align: middle;
+}
+
+.veent-more-img-top{
+  transform:rotate(180deg);
 }
 
 .qr-code-matter {

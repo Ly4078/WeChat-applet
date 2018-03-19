@@ -5,6 +5,7 @@ Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
     userId: app.globalData.userInfo.userId ? app.globalData.userInfo.userId : 1  ,   //登录用户的id
+    threedata:[],
     posts_key:[
       {
       aa: '01',
@@ -16,6 +17,18 @@ Page({
       },
       {
         aa: '03',
+        bb: '12345678',
+      },
+      {
+        aa: '04',
+        bb: '12345678',
+      },
+      {
+        aa: '05',
+        bb: '12345678',
+      },
+      {
+        aa: '06',
         bb: '12345678',
       }
     ],
@@ -32,16 +45,39 @@ Page({
         ncard += _data[i].bb.substring(n, n + 4) + " ";
       }
       _data[i].bb = ncard.replace(/(\s*$)/g, "")
-      console.log('分4位数',ncard.replace(/(\s*$)/g, ""));
     }
+    
     this.setData({
       ticketId: options.id,
       posts_key:_data
     });
+    let _arra = []
+    _arra = this.data.posts_key.slice(0,3)
+    this.setData({
+      threedata:_arra
+    })
     this.getTicketInfo();
-    this.getTel();
+    // this.getTel();
   },
-  
+  shouqi:function(){
+    console.log("是")
+    let _data = this.data.threedata
+    console.log("lenght", _data.length)
+    if (_data.length >3) {  //展开
+      let _arra = []
+      this.data.thressdata = []
+      _arra = this.data.posts_key.slice(0, 3)
+      this.setData({
+        threedata: _arra
+      })
+    } else {  //收起
+      let _post = this.data.posts_key
+      this.data.thressdata = []
+      this.setData({
+        threedata:_post
+      })
+    }
+  },
   //二维码放大
   previewImg: function (e) {
     console.log(e.currentTarget.dataset.index);
@@ -59,7 +95,7 @@ Page({
   getTicketInfo: function () {
     let that = this;
     wx.request({
-      url: that.data._build_url + 'cp/get/' + that.data.ticketId,
+      url: that.data._build_url + '/so/getForOrder/' + that.data.ticketId,
       success: function (res) {
         let data = res.data;
         if (data.code == 0) {
@@ -77,7 +113,7 @@ Page({
   getOrderInfo: function () {
     let that = this;
     wx.request({
-      url: that.data._build_url + 'so/get/' + that.data.soId,
+      url: that.data._build_url + '/so/getForOrder/' + that.data.soId,
       success: function (res) {
         let data = res.data;
         if (data.code == 0) {
@@ -90,23 +126,24 @@ Page({
     })
   },
   //获取手机号
-  getTel: function () {
-    let that = this;
-    wx.request({
-      url: that.data._build_url + 'user/get/' + that.data.userId,
-      success: function (res) {
-        if (res.data.data) {
-          that.setData({
-            mobile: res.data.data.mobile
-          });
-        }
-      }
-    })
-  },
+  // getTel: function () {
+  //   let that = this;
+  //   wx.request({
+  //     url: that.data._build_url + 'user/get/' + that.data.userId,
+  //     success: function (res) {
+  //       if (res.data.data) {
+  //         that.setData({
+  //           mobile: res.data.data.mobile
+  //         });
+  //       }
+  //     }
+  //   })
+  // },
   sublevelSum: function (event) {
     let that = this;
     wx.navigateTo({
-      url: '../../index/voucher-details/voucher-details?id=' + that.data.ticketId + '&sell=' + that.data.orderInfo.soAmount + '&inp=' + that.data.ticketInfo.couponAmount + '&rule=' + that.data.ticketInfo.promotionRules[0].ruleDesc
+      url: '../../index/voucher-details/voucher-details'
+        // ? id = ' + that.data.ticketId + ' & sell=' + that.data.orderInfo.soAmount + ' & inp=' + that.data.ticketInfo.couponAmount + '&rule=' + that.data.ticketInfo.promotionRules[0].ruleDesc
     })
   }
 })
