@@ -41,7 +41,8 @@ Page({
       number: number,
       minusStatus: minusStatus
     });
-    let _paymentAmount = this.data.number * this.data.obj.sell;
+    let _paymentAmount = this.data.number * this.data.obj.sell*1;
+    _paymentAmount = _paymentAmount.toFixed(2)
     this.setData({
       paymentAmount: _paymentAmount
     });
@@ -57,7 +58,8 @@ Page({
       number: number,
       minusStatus: minusStatus
     });
-    let _paymentAmount = this.data.number * this.data.obj.sell;
+    let _paymentAmount = this.data.number * this.data.obj.sell * 1;
+    _paymentAmount = _paymentAmount.toFixed(2)
     this.setData({
       paymentAmount: _paymentAmount
     });
