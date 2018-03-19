@@ -14,6 +14,40 @@ Page({
       userName: app.globalData.userInfo.userName,
     })
   },
+  onShow: function () {
+    let that = this;
+    wx.request({
+      url: that.data._build_url + 'topic/myList',
+      method: 'GET',
+      data: {
+        userId: that.data.userId,
+        page: '1',
+        rows: 1,
+      },
+      success: function (res) {
+        var data = res.data;
+        that.setData({
+          sumTotal: res.data.data.total
+        })
+      }
+    })
+    wx.request({
+      url: that.data._build_url + 'fvs/list?userId=' + that.data.userId + '&page=' + that.data.page + '&rows=10',
+      method: 'GET',
+      data: {
+        userId: that.data.userId,
+        page: '1',
+        rows: 1,
+      },
+      success: function (res) {
+        var data = res.data;
+        var aaa = res.data.data.total
+        that.setData({
+          collectTotal: res.data.data.total
+        })
+      }
+    })
+  },
   calling: function () {
     wx.makePhoneCall({
       phoneNumber: '02787175526', //此号码并非真实电话号码，仅用于测试  
@@ -25,35 +59,35 @@ Page({
       }
     })
   },
-  enterEntrance:function(event){
+  enterEntrance: function (event) {
     wx.navigateTo({
       url: 'free-of-charge/free-of-charge',
     })
   },
-  DynamicState:function(e){
+  DynamicState: function (e) {
     wx.navigateTo({
       url: 'allDynamicState/allDynamicState',
     })
   },
-  myTickets:function(event){
+  myTickets: function (event) {
     wx.navigateTo({
       url: 'my-discount/my-discount',
     })
   },
-  carefulness:function(event){
+  carefulness: function (event) {
     wx.navigateTo({
       url: 'personnel-order/personnel-order',
     })
   },
-  enshrineClick:function(event){
+  enshrineClick: function (event) {
     wx.navigateTo({
       url: 'enshrine/enshrine',
     })
   },
-  launchAppError: function(e) {
+  launchAppError: function (e) {
     console.log(e.detail.errMsg)
   },
-  scanAqrCode:function(e){
+  scanAqrCode: function (e) {
     let that = this;
     wx.scanCode({
       onlyFromCamera: true,
@@ -68,19 +102,19 @@ Page({
         that.getCodeState();
       },
       fail: (res) => {
-        
+
       }
     });
   },
   //判断二维码是否可以跳转
-  getCodeState: function() {
+  getCodeState: function () {
     let that = this;
     wx.request({
       url: that.data._build_url + '/cp/getByCode/' + that.data.qrCode,
-      success: function(res) {
+      success: function (res) {
         var data = res.data;
         let current = res.currentTime;
-        if(data.code == 0) {
+        if (data.code == 0) {
           let isDue = that.isDueFunc(current, data.expiryDate);
           if (data.data.isUsed == 1) {
             wx.showToast({

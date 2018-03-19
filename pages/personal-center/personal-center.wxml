@@ -7,12 +7,12 @@
     <view class='messageCase'>
       <view class='messageWrap' bindtap='DynamicState'>
         <text class='messageTop'>文章</text>
-        <text>12</text>
+        <text>{{sumTotal}}</text>
       </view>
       <image class='halving-line' src='/images/icon/vertical.png'></image>
       <view class='messageWrap' catchtap='enshrineClick'>
         <text class='messageTop'>收藏</text>
-        <text>23</text>
+        <text>{{collectTotal}}</text>
       </view>
       <image class='halving-line' src='/images/icon/vertical.png'></image>
       <view class='messageWrap'>
