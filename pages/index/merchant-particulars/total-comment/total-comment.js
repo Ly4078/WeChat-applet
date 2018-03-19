@@ -68,6 +68,7 @@ Page({
       success: function (res) {
         if (res.data.code == 0) {
           wx.showToast({
+            icon: 'none',
             title: '点赞成功'
           })
           var comment_list = that.data.comment_list
@@ -97,7 +98,8 @@ Page({
       success: function (res) {
         if (res.data.code == 0) {
           wx.showToast({
-            title: '取消成功'
+            icon: 'none',
+            title: '已取消'
           })
           var comment_list = that.data.comment_list
           comment_list[index].isZan = 0;
