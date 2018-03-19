@@ -1,6 +1,7 @@
 //index.js 
 import Api from '/../../utils/config/api.js';
 import { GLOBAL_API_DOMAIN } from '/../../utils/config/config.js';
+var utils = require('../../utils/util.js')
 let app = getApp()
 
 Page({
@@ -210,7 +211,12 @@ Page({
   },
   gettopic: function () {  // 美食墙
     Api.topictop().then((res) => {
-      // console.log("food:", res.data.data)
+      console.log("food:", res.data.data)
+      let _data = res.data.data
+      for(let i=0;i<_data.length;i++){
+        _data[i].summary = utils.uncodeUtf16(_data[i].summary)
+        _data[i].content = utils.uncodeUtf16(_data[i].content)
+      }
       this.setData({
         food: res.data.data
       })
