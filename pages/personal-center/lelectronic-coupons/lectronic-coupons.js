@@ -6,7 +6,8 @@ Page({
     _build_url: GLOBAL_API_DOMAIN,
     userId: app.globalData.userInfo.userId ? app.globalData.userInfo.userId : 1,   //登录用户的id
     qrCodeArr: [],     //二维码数组
-    qrCodeFlag: true   //二维码列表显示隐藏标识
+    qrCodeFlag: true,   //二维码列表显示隐藏标识
+    _skuNum:'',
   },
   onLoad: function (options) {
     this.setData({
@@ -32,6 +33,14 @@ Page({
     wx.request({
       url: that.data._build_url + 'so/getForOrder/' + that.data.id,
       success: function (res) {
+        let _skuNum = res.data.data.coupons
+        for(let i=0;i<_skuNum.length;i++){
+          let ncard = ''
+          for (var n = 0; n < _skuNum[i].couponCode.length; n = n + 4) {
+            ncard += _skuNum[i].couponCode.substring(n, n + 4) + " ";
+          }
+          _skuNum[i].couponCode = ncard.replace(/(\s*$)/g, "")
+        }
         let data = res.data;
         console.log(data);
         if (data.code == 0) {
@@ -41,7 +50,8 @@ Page({
           }
           that.setData({
             ticketInfo: data.data,
-            qrCodeArr: imgsArr
+            qrCodeArr: imgsArr,
+            _skuNum: _skuNum
           });
         }
       }
