@@ -1,5 +1,6 @@
 import { GLOBAL_API_DOMAIN } from '../../../utils/config/config.js'
 import Api from '../../../utils/config/api.js';
+var utils = require('../../../utils/util.js')
 var app = getApp();
 Page({
   data: {
@@ -211,6 +212,7 @@ Page({
     let ind = e.currentTarget.id
     if (ind == 0) {  //  ['预览','提交','退出文章编辑']
       let [..._data] = this.data.content
+      
       _data= JSON.stringify(_data)
       wx.navigateTo({
         content: [],   //文章内容数据
@@ -218,10 +220,8 @@ Page({
       })
     } else if (ind == 1) {
       let sum = [];
-      console.log("content11:",this.data.content)
-
       let _content = JSON.stringify(this.data.content);
-      console.log("content222:", _content)
+      let _con = utils.utf16toEntities(_content)
       let _title = this.data.title;
       let _coverimg = this.data.coverimg;
       for (let i = 0; i < this.data.content.length; i++) {
@@ -235,7 +235,7 @@ Page({
           }
         }
       }
-
+      let _sum = utils.utf16toEntities(sum[0])
       if (!_title) {
         wx.showToast({
           title: '请输入标题',
@@ -255,16 +255,14 @@ Page({
 
       let _parms = {
         title: _title,
-        content: _content,
-        userId: app.globalData.userInfo.userId?app.globalData.userInfo.userId:this.data.userId,
-        summary: sum[0],
+        content: _con,
+        userId: app.globalData.userInfo.userId,
+        summary: _sum,
         homePic: _coverimg,
         userName: app.globalData.userInfo.nickName,
         nickName: app.globalData.userInfo.nickName
       }
-      console.log("_parms:",_parms)
       Api.topicadd(_parms).then((res) => {
-        console.log("res:",res)
         if (res.data.code == 0) {
           wx.showToast({
             title: '提交成功',
@@ -324,7 +322,6 @@ Page({
             'userName': 'test'
           },
           success: function (res) {
-            console.log("res:",res)
             var article = getApp().globalData.article;  //获取全局变量
             let _data = res.data;
             _data = JSON.parse(_data);

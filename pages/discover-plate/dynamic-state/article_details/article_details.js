@@ -1,5 +1,6 @@
 import Api from '../../../../utils/config/api.js';
 import { GLOBAL_API_DOMAIN } from '../../../../utils/config/config.js';
+var utils = require("../../../../utils/util.js")
 var app = getApp();
 Page({
 
@@ -29,7 +30,7 @@ Page({
       const id = options.id
       this.setData({
         _id: id,
-        zan: options.zan
+        zan: options.zan,
       })
       this.gettopiclist(id)
       this.getcmtlist()
@@ -49,11 +50,15 @@ Page({
   gettopiclist: function (id) {  //获取文章内容数据
     let _parms = {
       id: id,
-      zanUserId: app.globalData.userInfo.userId
+      zanUserId: app.globalData.userInfo.userId,
+      zanUserName: app.globalData.userInfo.usrName,
+      zanSourceType: '1'
     }
     Api.getTopicByZan(_parms).then((res) => {
       if (res.data.code == 0) {
         let _data = res.data.data;
+        _data.summary = utils.uncodeUtf16(_data.summary)
+        _data.content = utils.uncodeUtf16(_data.content)
         _data.content = JSON.parse(_data.content)
         this.setData({
           details: _data
@@ -67,6 +72,7 @@ Page({
     wx.request({
       url: this.data._build_url + 'user/get/' + id,
       success: function (res) {
+        console.log("res:",res)
         if (res.data.code == 0) {
           that.setData({
             userInfo: res.data.data
@@ -136,20 +142,20 @@ Page({
     let that = this
     let _details = this.data.details
     let _parms = {
-      refId:_details.id,
-      type:'2',
+      refId: _details.id,
+      type: '2',
       userId: app.globalData.userInfo.userId
     }
-    Api.zanadd(_parms).then((res)=>{
-      if(res.data.code == 0){
+    Api.zanadd(_parms).then((res) => {
+      if (res.data.code == 0) {
         wx.showToast({
           title: '点赞成功'
         })
-        _details.isZan =1
+        _details.isZan = 1
         let _zan = this.data.zan
         _zan++
         that.setData({
-          details:_details,
+          details: _details,
           zan: _zan
         })
       }
@@ -159,12 +165,12 @@ Page({
     let that = this
     let _details = this.data.details
     let _parms = {
-      refId:_details.id,
-      type:'2',
+      refId: _details.id,
+      type: '2',
       userId: app.globalData.userInfo.userId
     }
-    Api.zandelete(_parms).then((res)=>{
-      if(res.data.code ==0){
+    Api.zandelete(_parms).then((res) => {
+      if (res.data.code == 0) {
         wx.showToast({
           title: '取消成功',
         })
@@ -172,8 +178,8 @@ Page({
         let _zan = this.data.zan
         _zan--
         this.setData({
-          details:_details,
-          zan:_zan
+          details: _details,
+          zan: _zan
         })
       }
     })

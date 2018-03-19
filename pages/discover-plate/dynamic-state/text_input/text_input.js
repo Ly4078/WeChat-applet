@@ -1,3 +1,4 @@
+var utils = require('../../../../utils/util.js');
 Page({
 
   /**
@@ -90,19 +91,10 @@ Page({
       key: 'modi',
       data: '',
     })
-    // wx.setStorageSync({
-    //   key: "value",
-    //   data: value
-    // })
+    
     wx.navigateTo({
       url: '../dynamic-state'
     })
 
-
-    // let value = e.detail.value.textarea
-    // console.log("_value:",value)
-    // wx.navigateTo({
-    //   url: '../dynamic-state?value='+value
-    // })
   }
 })

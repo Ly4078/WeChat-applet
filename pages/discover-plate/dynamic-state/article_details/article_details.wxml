@@ -5,7 +5,7 @@
 
   <view class='top' wx:if="{{_id}}">
     <view class='avatar'>
-      <image src='{{userInfo.avatarUrl}}' class='avaterimg'></image>
+      <image src='{{userInfo.iconUrl}}' class='avaterimg'></image>
     </view>
     <view class='name'>
       <view class='username'>{{userInfo.userName}}</view>
