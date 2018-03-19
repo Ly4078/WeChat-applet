@@ -147,6 +147,7 @@ Page({
       userId: app.globalData.userInfo.userId
     }
     Api.zanadd(_parms).then((res) => {
+<<<<<<< HEAD
       if (res.data.code == 0) {
         wx.showToast({
           title: '点赞成功'
@@ -158,6 +159,37 @@ Page({
           details: _details,
           zan: _zan
         })
+=======
+      var _details = that.data.details
+      if (_details.isZan) {
+        if (res.data.code == 0) {
+          wx.showToast({
+            icon: 'none',
+            title: '已取消'
+          })
+          _details.isZan = 0;
+          let Zan = this.data.zan;
+          Zan--;
+          that.setData({
+            details: _details,
+            zan: Zan
+          });
+        }
+      } else {
+        if (res.data.code == 0) {
+          wx.showToast({
+            icon: 'none',
+            title: '点赞成功'
+          })
+          _details.isZan = 1;
+          let Zan = this.data.zan;
+          Zan++;
+          that.setData({
+            details: _details,
+            zan: Zan
+          });
+        }
+>>>>>>> 4721cad32b29197bbee460b55af06617d159c765
       }
     })
   },
@@ -201,6 +233,7 @@ Page({
     Api.zanadd(_parms).then((res) => {
       if (res.data.code == 0) {
         wx.showToast({
+          icon: 'none',
           title: '点赞成功'
         })
         var _cmtdata = that.data.cmtdata
@@ -230,7 +263,8 @@ Page({
     Api.zandelete(_parms).then((res) => {
       if (res.data.code == 0) {
         wx.showToast({
-          title: '取消成功'
+          icon: 'none',
+          title: '已取消'
         })
         let _cmtdata = that.data.cmtdata
         _cmtdata.list[ind].isZan = 0;
