@@ -55,6 +55,7 @@ Page({
   bindPlus: function () {
     var number = this.data.number;
     ++number;
+    console.log(number)
     this.setData({
       number: number,
       minusStatus: minusStatus

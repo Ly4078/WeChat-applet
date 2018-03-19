@@ -3,15 +3,14 @@ var app = getApp();
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
-    actUrl: '',
-    userName: '',
-    userId: app.globalData.userInfo.userId ? app.globalData.userInfo.userId : 1,  //登陆人id
+    iconUrl: app.globalData.userInfo.iconUrl,
+    userName: app.globalData.userInfo.userName,
+    userId: app.globalData.userInfo.userId,
     qrCode: ''
   },
   onLoad: function (options) {
     this.setData({
-      actUrl: app.globalData.userInfo.avatarUrl,
-      userName: app.globalData.userInfo.userName,
+      userName: app.globalData.userInfo.userName
     })
   },
   onShow: function () {

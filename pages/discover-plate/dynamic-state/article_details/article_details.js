@@ -59,6 +59,7 @@ Page({
         let _data = res.data.data;
         _data.summary = utils.uncodeUtf16(_data.summary)
         _data.content = utils.uncodeUtf16(_data.content)
+        _data.timeDiffrence = utils.timeDiffrence(_data.currentTime, _data.updateTime, _data.createTime)
         _data.content = JSON.parse(_data.content)
         this.setData({
           details: _data
@@ -119,9 +120,9 @@ Page({
       refId: this.data._id,
       cmtType: '2',
       content: this.data.commentVal,
-      userId: app.globalData.userInfo.userId ? app.globalData.userInfo.userId : this.data.userId,
-      userName: app.globalData.userInfo.userName ? app.globalData.userInfo.userName : this.data.userName,
-      nickName: app.globalData.userInfo.userName ? app.globalData.userInfo.userName : this.data.userName,
+      userId: app.globalData.userInfo.userId,
+      userName: app.globalData.userInfo.userName,
+      nickName: app.globalData.userInfo.userName,
     }
     Api.cmtadd(_parms).then((res) => {
       this.setData({

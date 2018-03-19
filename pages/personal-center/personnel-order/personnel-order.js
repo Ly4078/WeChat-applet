@@ -10,7 +10,7 @@ Page({
     currentTab: ''
   },
   onLoad: function (options) {
-   
+
   },
   onShow: function () {
     this.getOrderList();
@@ -24,7 +24,7 @@ Page({
       currentTab: ''
     })
   },
-  swichNav: function(event) {
+  swichNav: function (event) {
     this.setData({
       order_list: [],
       page: 1,
@@ -39,7 +39,7 @@ Page({
     let _parms = {
       userId: this.data.userId,
       page: this.data.page,
-      rows: 4,
+      rows: 5,
       soStatus: this.data.currentTab
     };
     Api.somyorder(_parms).then((res) => {
@@ -63,7 +63,7 @@ Page({
       let _parms = {
         userId: this.data.userId,
         page: this.data.page,
-        rows: 4,
+        rows: 5,
         soStatus: 3
       };
       Api.somyorder(_parms).then((res) => {
@@ -85,11 +85,28 @@ Page({
       });
     }
   },
-  lowerLevel: function (ev) {
-    let id = ev.currentTarget.id
-    wx.navigateTo({
-      url: '../lelectronic-coupons/lectronic-coupons?id=' + id + '&isPay=0'
-    })
+  lowerLevel: function (e) {
+    let id = e.currentTarget.id,
+      sostatus = e.currentTarget.dataset.sostatus,
+      listArr = this.data.order_list,
+      sell = "", inp = "", rule = "";
+    if (sostatus == 1) {
+      for (let i = 0; i < listArr.length; i++) {
+        if (id == listArr[i].id) {
+          sell = listArr[i].soAmount;
+          rule = listArr[i].ruleDesc;
+          inp = parseInt(listArr[i].skuName);
+        }
+      }
+      wx.navigateTo({
+        // url: '/pages/index/voucher-details/voucher-details'
+        url: '/pages/index/voucher-details/voucher-details?id=' + id + ' &sell=' + sell + '&inp=' + inp + '&rule=' + rule
+      })
+    } else if (sostatus == 2 || sostatus == 3) {
+      wx.navigateTo({
+        url: '../lelectronic-coupons/lectronic-coupons?id=' + id
+      })
+    }
   },
   //用户上拉触底
   onReachBottom: function () {

@@ -25,8 +25,8 @@ Page({
     let that = this;
     let _parms = {
       id: this.data.actid,
-      userId: app.globalData.userInfo.userId ? app.globalData.userInfo.userId : this.data.userId,
-      userName: app.globalData.userInfo.userName ? app.globalData.userInfo.userName : this.data.userName,
+      userId: app.globalData.userInfo.userId,
+      userName: app.globalData.userInfo.userName,
       sourceType: '1'
     }
     Api.actlist(_parms).then((res) => {
@@ -94,6 +94,7 @@ Page({
 
   clickshop: function (e) {  //点击某个商家 跳转到该商家详情页
     let stopid = e.currentTarget.id
+    console.log("stopid:",stopid)
     wx.navigateTo({
       url: '../../index/merchant-particulars/merchant-particulars?shopid=' + stopid
     })

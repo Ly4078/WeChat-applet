@@ -126,6 +126,14 @@ page {
   position: relative;
 }
 
+.coding-code.show {
+  display: block;
+}
+
+.coding-code.hide {
+  display: none;
+}
+
 .codingText {
   padding-left: 30rpx;
 }

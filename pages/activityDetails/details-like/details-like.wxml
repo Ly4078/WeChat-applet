@@ -38,7 +38,7 @@
       <view class='merchant-sub' id="{{item.id}}" bindtap='clickshop'>
         <view class='merchant-img-left'>
           <image class='merchant-images' src='{{item.logoUrl}}'></image>
-          <view class='serial-number'>{{idx+1}}</view>
+          <view class='serial-number'>{{item.shopCode}}</view>
         </view>
         <view class='merchant-img-right'>
           <view class='merchant-right-wrap'>

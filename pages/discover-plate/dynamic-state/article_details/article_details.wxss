@@ -20,25 +20,34 @@
   margin-bottom: 0.3rem;
 }
 .avatar{
-  width: 20%;
-  height: 4rem;
+  width: 74rpx;
+  height: 74rpx;
   float:left;
 }
 .avaterimg{
-  width: 3rem;
-  height: 3rem;
+  width: 74rpx;
+  height: 74rpx;
   border-radius: 50%;
   margin: 0.5rem;
 }
 .name{
   float:left;
   width:60%;
-  height: 4rem;
-  margin-right:-40%;
+  height: 74rpx;
+  padding-top:15rpx;
+  margin-left:23rpx;
 }
-.username, .storename{
-  height: 2rem;
-  line-height: 2rem
+.username{
+  font-size: 30rpx;
+  color: #191919;
+  height: 34rpx;
+  line-height: 34rpx
+}
+.storename{
+  font-size: 24rpx;
+  color: #B1B1B1;
+  height: 34rpx;
+  line-height: 34rpx;
 }
 .homefollow{
   width:20%;

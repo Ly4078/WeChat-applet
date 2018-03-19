@@ -1,5 +1,6 @@
 import Api from '/../../../utils/config/api.js';  //每个有请求的JS文件都要写这个，注意路径
 import { GLOBAL_API_DOMAIN } from '/../../../utils/config/config.js';
+var utils = require('../../../utils/util.js')
 var app = getApp();
 Page({
   data: {
@@ -35,11 +36,15 @@ Page({
       success: function(res) {
         var data = res.data; 
         if (data.code == 0 && data.data.list != null && data.data.list != "" && data.data.list != []) {
+
           let article_list = that.data.article_list;
           for (let i = 0; i < data.data.list.length; i++) {
-            let list_item = data.data.list[i];
-            list_item.timeDiffrence = that.timeDiffrence(data.currentTime, list_item.updateTime, list_item.createTime);
+            let list_item = data.data.list[i]; 
+            list_item.summary = utils.uncodeUtf16(list_item.summary)
+            list_item.content = utils.uncodeUtf16(list_item.content)
+            list_item.timeDiffrence = utils.timeDiffrence(data.currentTime, list_item.updateTime, list_item.createTime)
             article_list.push(list_item);
+
           }
           that.setData({
             article_list: article_list,
@@ -85,27 +90,6 @@ Page({
       });
       this.getList();
     }
-  },
-  timeDiffrence: function (current, updateTime, createTime) {      //文章发布时间  updateTime
-    let createT = '', timestamp = 0, str = '暂无';
-    updateTime = updateTime ? updateTime : createTime;
-    if (updateTime != null && updateTime != '') {
-      createT = new Date(updateTime).getTime();
-      timestamp = (+current - createT) / 1000;
-      if (timestamp / 31536000 > 1 || timestamp / 31536000 == 1) {
-        str = Math.floor(timestamp / 60 / 60 / 24 / 365) + '年前';
-      } else if (timestamp / 2592000 > 1 || timestamp / 2592000 == 1) {
-        str = Math.floor(timestamp / 60 / 60 / 24 / 30) + '个月前';
-      } else if (timestamp / 86400 > 1 || timestamp / 86400 == 1) {
-        str = Math.floor(timestamp / 60 / 60 / 24) + '天前';
-      } else if (timestamp / 3600 > 1 || timestamp / 3600 == 1) {
-        str = Math.floor(timestamp / 60 / 60) + '小时' + Math.floor((timestamp % 3600) / 60) + '分钟前';
-      } else if (timestamp / 60 > 1 || timestamp / 60 == 1) {
-        str = Math.floor(timestamp / 60) + '分钟前';
-      } else {
-        str = '刚刚发布';
-      }
-    }
-    return str;
   }
+
 })

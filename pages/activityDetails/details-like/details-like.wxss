@@ -171,8 +171,10 @@ page {
 }
 
 .serial-number {
-  width: 44rpx;
+  min-width: 44rpx;
   height: 44rpx;
+  padding: 1rpx 3rpx;
+  border-radius: 8rpx;
   background-color: #fc5e2d;
   position: absolute;
   top: 29rpx;

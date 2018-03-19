@@ -1,7 +1,7 @@
 <view>
   <view class='centreWrap'>
     <view class='centreTopName'>
-      <image class='centreImages' src='{{actUrl}}'></image>
+      <image class='centreImages' src='{{iconUrl}}'></image>
       <view class='centreText'>{{userName}}</view>
     </view>
     <view class='messageCase'>

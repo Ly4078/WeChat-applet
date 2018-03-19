@@ -1,22 +1,19 @@
 //index.js 
 import Api from '/../../utils/config/api.js';
 import { GLOBAL_API_DOMAIN } from '/../../utils/config/config.js';
+var utils = require('../../utils/util.js')
 let app = getApp()
 
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
     city: "",
-    openId: '',
-    sessionKey: '',
     carousel: [],  //轮播图
     business: [], //商家列表，推荐餐厅
     actlist: [],  //热门活动
     hotlive: [],  //热门直播
     food: [],   //美食墙
-    logs: [],
-    lat: '',
-    lng: ''
+    logs: []
   },
   onLoad: function (options) {
     let that = this
@@ -55,25 +52,44 @@ Page({
     wx.login({
       success: res => {
         let _code = res.code;
-        console.log("code:",_code)
+        // console.log("code:",_code)
         // return false  //此处返回，则获取的code是没有用过的，用于测试
         if (res.code) {
           let _parms = {
             code: res.code
           }
-          Api.getOpenId(_parms).then((res) => {
-            console.log("res:", res)
-            if (res.data.code == 0) {
-              that.setData({
-                openId: res.data.data.openId,
-                sessionKey: res.data.data.sessionKey
-              })
-              app.globalData.userInfo.openId = res.data.data.openId,
-              app.globalData.userInfo.sessionKey = res.data.data.sessionKey
-              // this.getuserInfo()
-              this.getlocation()
+          Api.useradd(_parms).then((res) => {
+            if (res.data.data) {
+              app.globalData.userInfo.userId = res.data.data
             }
+            this.getuser()
+            this.getlocation()
+            // this.getuserInfo()
           })
+        }
+      }
+    })
+  },
+  getuser: function () { //从自己的服务器获取用户信息
+    wx.request({
+      url: this.data._build_url + 'user/get/' + app.globalData.userInfo.userId,
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        if (res.data.code == 0) {
+          let data = res.data.data
+          app.globalData.userInfo.openId = data.openId,
+          app.globalData.userInfo.password = data.password,
+          app.globalData.userInfo.userId = data.id,
+          app.globalData.userInfo.userName = data.userName,
+          app.globalData.userInfo.nikcName = data.nickName,
+          app.globalData.userInfo.loginTimes = data.loginTimes,
+          app.globalData.userInfo.iconUrl = data.iconUrl,
+          app.globalData.userInfo.sourceType = data.sourceType,
+          app.globalData.userInfo.sex = data.sex,
+          app.globalData.userInfo.lat = data.locationX,
+          app.globalData.userInfo.lng = data.locationY
         }
       }
     })
@@ -102,10 +118,7 @@ Page({
         let longitude = res.longitude
         let speed = res.speed
         let accuracy = res.accuracy
-        that.setData({
-          lat: latitude,
-          lng: longitude
-        })
+
         that.requestCityName(latitude, longitude);
       },
       complete: function (res) {
@@ -147,10 +160,7 @@ Page({
                           let longitude = res.longitude
                           let speed = res.speed
                           let accuracy = res.accuracy
-                          that.setData({
-                            lat: latitude,
-                            lng: longitude
-                          })
+  
                           that.requestCityName(latitude, longitude);
                         }
                       })
@@ -185,11 +195,11 @@ Page({
     })
   },
   setblouserInfo: function (data) {  //将获取到的用户信息赋值给全局变量
-    app.globalData.userInfo.userName = data.nickName,
-      app.globalData.userInfo.nikcName = data.nickName,
-      app.globalData.userInfo.avatarUrl = data.avatarUrl,
-      app.globalData.userInfo.city = data.city,
-      app.globalData.userInfo.sex = data.gender //gender	用户的性别，值为1时是男性，值为2时是女性，值为0时是未知
+    // app.globalData.userInfo.userName = data.nickName,
+      // app.globalData.userInfo.nikcName = data.nickName,
+      // app.globalData.userInfo.avatarUrl = data.avatarUrl,
+      // app.globalData.userInfo.city = data.city,
+      // app.globalData.userInfo.sex = data.gender //gender	用户的性别，值为1时是男性，值为2时是女性，值为0时是未知
   },
   getcarousel: function () {  //轮播图
     let that = this;
@@ -211,6 +221,11 @@ Page({
   gettopic: function () {  // 美食墙
     Api.topictop().then((res) => {
       // console.log("food:", res.data.data)
+      let _data = res.data.data
+      for (let i = 0; i < _data.length; i++) {
+        _data[i].summary = utils.uncodeUtf16(_data[i].summary)
+        _data[i].content = utils.uncodeUtf16(_data[i].content)
+      }
       this.setData({
         food: res.data.data
       })
@@ -220,7 +235,7 @@ Page({
     Api.actlist().then((res) => {
       // console.log("actlist:",res)
       this.setData({
-        actlist: res.data.data.list.slice(0,10)
+        actlist: res.data.data.list.slice(0, 10)
       })
     })
   },
