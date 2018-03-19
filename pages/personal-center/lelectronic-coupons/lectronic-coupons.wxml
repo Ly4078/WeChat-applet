@@ -32,14 +32,14 @@
   <view class='qr-code'>
     <view class='rollMessage'>享7劵</view>
     <block wx:for="{{ticketInfo.coupons}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
-      <view class='coding-code {{idx > 2 && qrCodeFlag ? "hide" : ""}}'>
+      <view class='coding-code {{idx > 4 && qrCodeFlag ? "hide" : ""}}'>
         <text class='codingText'>{{idx + 1}}</text>
         <text>劵码:</text>
         <text class='numberFeald'>{{item.couponCode}}</text>
         <image src='{{item.qrcodeUrl}}' class='codingImages' data-index='{{idx}}' bindtap='previewImg'></image>
       </view>
     </block>
-    <view class='codingeven-more' wx:if="{{qrCodeArr.length > 3}}" bindtap="onclickMore">
+    <view class='codingeven-more' wx:if="{{qrCodeArr.length > 5}}" bindtap="onclickMore">
       <text>{{qrCodeFlag ? '更多' : '收起'}}</text>
       <image class="veent-more-img" wx:if="{{qrCodeFlag}}" src='/images/icon/xialatupian.png'></image>
       <image class="veent-more-img-top" wx:else src='/images/icon/xialatupian.png'></image>

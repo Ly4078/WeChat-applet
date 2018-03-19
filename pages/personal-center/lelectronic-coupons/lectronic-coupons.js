@@ -17,7 +17,7 @@ Page({
   //二维码放大
   previewImg: function (e) {
     let that = this,
-        idx = e.currentTarget.dataset.index;
+      idx = e.currentTarget.dataset.index;
     wx.previewImage({
       current: that.data.qrCodeArr[idx],     //当前图片地址
       urls: that.data.qrCodeArr,               //所有要预览的图片的地址集合 数组形式
@@ -33,6 +33,7 @@ Page({
       url: that.data._build_url + 'so/getForOrder/' + that.data.id,
       success: function (res) {
         let data = res.data;
+        console.log(data);
         if (data.code == 0) {
           let imgsArr = [];
           for (let i = 0; i < data.data.coupons.length; i++) {
@@ -47,7 +48,7 @@ Page({
     });
   },
   //点击更多收起按钮
-  onclickMore: function() {
+  onclickMore: function () {
     this.setData({
       qrCodeFlag: !this.data.qrCodeFlag
     });
@@ -55,8 +56,7 @@ Page({
   sublevelSum: function (event) {
     let that = this;
     wx.navigateTo({
-      url: '../../index/voucher-details/voucher-details'
-        // ? id = ' + that.data.id + ' & sell=' + that.data.ticketInfo.soAmount + ' & inp=' + that.data.ticketInfo.couponAmount + '&rule=' + that.data.ticketInfo.promotionRules[0].ruleDesc
+      url: '../../index/voucher-details/voucher-details?id=' + that.data.id + ' &sell=' + that.data.ticketInfo.soAmount + '&inp=' + that.data.ticketInfo.coupons[0].couponAmount + '&rule=' + that.data.ticketInfo.coupons[0].promotionRules[0].ruleDesc
     })
   }
 })

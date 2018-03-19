@@ -2,8 +2,8 @@
   <view class='personnelWrap' id="{{item.id}}" catchtap='lowerLevel' data-soStatus="{{item.soStatus}}">
     <view class="personnelTime">
       <view class="personnelTime_left">
-        <text>2018.01.01</text>
-        <text class="personnelTime_minute">14:25</text>
+        <text wx:if="{{item.soStatus == 2 || item.soStatus == 3}}">{{item.paidTime}}</text>
+        <text wx:else>{{item.createTime}}</text>
       </view>
       <view class="personnelTime_right">
         <text class="active" wx:if="{{item.soStatus == 1}}">待付款</text>
