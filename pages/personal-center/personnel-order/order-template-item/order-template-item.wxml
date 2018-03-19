@@ -24,7 +24,7 @@
           </view>
           <view class='roll-unused'>
             <text>{{item.ruleDesc}}</text>
-            <text>*1</text>
+            <text>X {{item.skuNum}}</text>
           </view>
         </view>
         <view class='roll-wrap-button'>
