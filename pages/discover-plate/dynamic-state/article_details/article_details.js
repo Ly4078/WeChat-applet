@@ -72,7 +72,6 @@ Page({
     wx.request({
       url: this.data._build_url + 'user/get/' + id,
       success: function (res) {
-        console.log("res:",res)
         if (res.data.code == 0) {
           that.setData({
             userInfo: res.data.data
@@ -147,7 +146,6 @@ Page({
       userId: app.globalData.userInfo.userId
     }
     Api.zanadd(_parms).then((res) => {
-<<<<<<< HEAD
       if (res.data.code == 0) {
         wx.showToast({
           title: '点赞成功'
@@ -159,37 +157,6 @@ Page({
           details: _details,
           zan: _zan
         })
-=======
-      var _details = that.data.details
-      if (_details.isZan) {
-        if (res.data.code == 0) {
-          wx.showToast({
-            icon: 'none',
-            title: '已取消'
-          })
-          _details.isZan = 0;
-          let Zan = this.data.zan;
-          Zan--;
-          that.setData({
-            details: _details,
-            zan: Zan
-          });
-        }
-      } else {
-        if (res.data.code == 0) {
-          wx.showToast({
-            icon: 'none',
-            title: '点赞成功'
-          })
-          _details.isZan = 1;
-          let Zan = this.data.zan;
-          Zan++;
-          that.setData({
-            details: _details,
-            zan: Zan
-          });
-        }
->>>>>>> 4721cad32b29197bbee460b55af06617d159c765
       }
     })
   },

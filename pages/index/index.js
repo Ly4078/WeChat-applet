@@ -62,7 +62,7 @@ Page({
             code: res.code
           }
           Api.getOpenId(_parms).then((res) => {
-            // console.log("res:", res)
+            console.log("res:", res)
             if (res.data.code == 0) {
               that.setData({
                 openId: res.data.data.openId,
