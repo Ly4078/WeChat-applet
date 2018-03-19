@@ -4,88 +4,23 @@ var app = getApp();
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
-    userId: app.globalData.userInfo.userId ? app.globalData.userInfo.userId : 1  ,   //登录用户的id
-    threedata:[],
-    posts_key:[
-      {
-      aa: '01',
-      bb: '12345678',
-      },
-      {
-        aa: '02',
-        bb: '12345678',
-      },
-      {
-        aa: '03',
-        bb: '12345678',
-      },
-      {
-        aa: '04',
-        bb: '12345678',
-      },
-      {
-        aa: '05',
-        bb: '12345678',
-      },
-      {
-        aa: '06',
-        bb: '12345678',
-      }
-    ],
-    imgArr: [
-      'https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=373481702,2170748029&fm=27&gp=0.jpg'
-    ]
+    userId: app.globalData.userInfo.userId ? app.globalData.userInfo.userId : 1,   //登录用户的id
+    qrCodeArr: [],     //二维码数组
+    qrCodeFlag: true   //二维码列表显示隐藏标识
   },
   onLoad: function (options) {
-    //卷码分格
-    let _data = this.data.posts_key
-    for (let i = 0; i < _data.length;i++){
-      let ncard = ''
-      for (var n = 0; n < _data[i].bb.length; n = n + 4) {
-        ncard += _data[i].bb.substring(n, n + 4) + " ";
-      }
-      _data[i].bb = ncard.replace(/(\s*$)/g, "")
-    }
-    
     this.setData({
-      ticketId: options.id,
-      posts_key:_data
+      id: options.id
     });
-    let _arra = []
-    _arra = this.data.posts_key.slice(0,3)
-    this.setData({
-      threedata:_arra
-    })
     this.getTicketInfo();
-    // this.getTel();
-  },
-  shouqi:function(){
-    console.log("是")
-    let _data = this.data.threedata
-    console.log("lenght", _data.length)
-    if (_data.length >3) {  //展开
-      let _arra = []
-      this.data.thressdata = []
-      _arra = this.data.posts_key.slice(0, 3)
-      this.setData({
-        threedata: _arra
-      })
-    } else {  //收起
-      let _post = this.data.posts_key
-      this.data.thressdata = []
-      this.setData({
-        threedata:_post
-      })
-    }
   },
   //二维码放大
   previewImg: function (e) {
-    console.log(e.currentTarget.dataset.index);
-    var index = e.currentTarget.dataset.index;
-    var imgArr = this.data.imgArr;
+    let that = this,
+        idx = e.currentTarget.dataset.index;
     wx.previewImage({
-      current: imgArr[index],     //当前图片地址
-      urls: imgArr,               //所有要预览的图片的地址集合 数组形式
+      current: that.data.qrCodeArr[idx],     //当前图片地址
+      urls: that.data.qrCodeArr,               //所有要预览的图片的地址集合 数组形式
       success: function (res) { },
       fail: function (res) { },
       complete: function (res) { },
@@ -95,55 +30,33 @@ Page({
   getTicketInfo: function () {
     let that = this;
     wx.request({
-      url: that.data._build_url + '/so/getForOrder/' + that.data.ticketId,
+      url: that.data._build_url + 'so/getForOrder/' + that.data.id,
       success: function (res) {
         let data = res.data;
         if (data.code == 0) {
-          console.log(data.data)
+          let imgsArr = [];
+          for (let i = 0; i < data.data.coupons.length; i++) {
+            imgsArr.push(data.data.coupons[i].qrcodeUrl);
+          }
           that.setData({
             ticketInfo: data.data,
-            soId: data.data.soId
+            qrCodeArr: imgsArr
           });
-          that.getOrderInfo();
         }
       }
     });
   },
-  //获取订单信息
-  getOrderInfo: function () {
-    let that = this;
-    wx.request({
-      url: that.data._build_url + '/so/getForOrder/' + that.data.soId,
-      success: function (res) {
-        let data = res.data;
-        if (data.code == 0) {
-          console.log(data.data)
-          that.setData({
-            orderInfo: data.data
-          });
-        }
-      }
-    })
+  //点击更多收起按钮
+  onclickMore: function() {
+    this.setData({
+      qrCodeFlag: !this.data.qrCodeFlag
+    });
   },
-  //获取手机号
-  // getTel: function () {
-  //   let that = this;
-  //   wx.request({
-  //     url: that.data._build_url + 'user/get/' + that.data.userId,
-  //     success: function (res) {
-  //       if (res.data.data) {
-  //         that.setData({
-  //           mobile: res.data.data.mobile
-  //         });
-  //       }
-  //     }
-  //   })
-  // },
   sublevelSum: function (event) {
     let that = this;
     wx.navigateTo({
       url: '../../index/voucher-details/voucher-details'
-        // ? id = ' + that.data.ticketId + ' & sell=' + that.data.orderInfo.soAmount + ' & inp=' + that.data.ticketInfo.couponAmount + '&rule=' + that.data.ticketInfo.promotionRules[0].ruleDesc
+        // ? id = ' + that.data.id + ' & sell=' + that.data.ticketInfo.soAmount + ' & inp=' + that.data.ticketInfo.couponAmount + '&rule=' + that.data.ticketInfo.promotionRules[0].ruleDesc
     })
   }
 })

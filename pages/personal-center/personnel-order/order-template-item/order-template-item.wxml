@@ -1,5 +1,5 @@
 <template name="order_template">
-  <view class='personnelWrap' id="{{item.id}}">
+  <view class='personnelWrap' id="{{item.id}}" catchtap='lowerLevel' data-soStatus="{{item.soStatus}}">
     <view class="personnelTime">
       <view class="personnelTime_left">
         <text>2018.01.01</text>
@@ -10,10 +10,9 @@
         <text wx:if="{{item.soStatus == 2}}">已完成</text>
         <text wx:if="{{item.soStatus == 3}}">已完成</text>
         <text wx:if="{{item.soStatus == 10}}">已取消</text>
-
       </view>
     </view>
-    <view class='personnelOrder' catchtap='lowerLevel'>
+    <view class='personnelOrder'>
       <view class='iconLogoWrap'>
         <image class='iconLogo_sj' src='/images/icon/icon_logosj.png'></image>
       </view>

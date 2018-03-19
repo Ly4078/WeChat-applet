@@ -7,14 +7,12 @@
         </view>
         <view class='lectronic-text'>
           <text class='lectronic-reel'>{{ticketInfo.skuName}}</text>
-          <text class='lectronic-limit'>{{ticketInfo.promotionRules[0].ruleDesc}}</text>
+          <text class='lectronic-limit'>{{ticketInfo.coupons[0].promotionRules[0].ruleDesc}}</text>
         </view>
       </view>
       <view class='lectronic-right'>
-        <text wx:if="{{orderInfo.soStatus == 1}}">待支付</text>
-        <text wx:if="{{orderInfo.soStatus == 2}}">待使用</text>
-        <text wx:if="{{orderInfo.soStatus == 3}}">已使用</text>
-        <text wx:if="{{orderInfo.soStatus == 10}}">已取消</text>
+        <text wx:if="{{ticketInfo.soStatus == 2}}">待使用</text>
+        <text wx:if="{{ticketInfo.soStatus == 3}}">已使用</text>
       </view>
     </view>
     <view catchtap='sublevelSum'>
@@ -33,18 +31,18 @@
 
   <view class='qr-code'>
     <view class='rollMessage'>享7劵</view>
-    <block wx:for="{{threedata}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
-      <view class='coding-code' >
-        <text class='codingText'>{{item.aa}}</text>
+    <block wx:for="{{ticketInfo.coupons}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
+      <view class='coding-code {{idx > 2 && qrCodeFlag ? "hide" : ""}}'>
+        <text class='codingText'>{{idx + 1}}</text>
         <text>劵码:</text>
-        <text class='numberFeald'>{{item.bb}}</text>
-        <image src='{{item}}' wx:for='{{imgArr}}' wx:key="{{index}}" class='codingImages'  data-index='{{index}}' bindtap='previewImg'></image>
+        <text class='numberFeald'>{{item.couponCode}}</text>
+        <image src='{{item.qrcodeUrl}}' class='codingImages' data-index='{{idx}}' bindtap='previewImg'></image>
       </view>
     </block>
-    <view class='codingeven-more' wx:if="{{posts_key.length>3}}" bindtap="shouqi">
-      <text>{{threedata.length>3?'收起':'更多'}}</text>
-        <image class="veent-more-img-top" wx:if="{{threedata.length>3}}" src='/images/icon/xialatupian.png'></image>
-      <image class="veent-more-img" wx:else src='/images/icon/xialatupian.png'></image> 
+    <view class='codingeven-more' wx:if="{{qrCodeArr.length > 3}}" bindtap="onclickMore">
+      <text>{{qrCodeFlag ? '更多' : '收起'}}</text>
+      <image class="veent-more-img" wx:if="{{qrCodeFlag}}" src='/images/icon/xialatupian.png'></image>
+      <image class="veent-more-img-top" wx:else src='/images/icon/xialatupian.png'></image>
     </view>
   </view>
 
@@ -58,22 +56,16 @@
         <text>{{ticketInfo.soId}}</text>
       </view>
       <view class='order-for-colour'>
-        <text wx:if="{{orderInfo.soStatus == 2 || orderInfo.soStatus == 3}}">付款时间</text>
-        <text wx:if="{{orderInfo.soStatus == 1 || orderInfo.soStatus == 10}}">下单时间</text>
-        <text wx:if="{{orderInfo.soStatus == 2 || orderInfo.soStatus == 3}}">{{orderInfo.paidTime || ""}}</text>
-        <text wx:if="{{orderInfo.soStatus == 1 || orderInfo.soStatus == 10}}">{{orderInfo.createTime || ""}}</text>
-      </view>
-      <view class='order-for-colour'>
-        <text>手机号</text>
-        <text>{{mobile}}</text>
+        <text>付款时间</text>
+        <text>{{ticketInfo.paidTime}}</text>
       </view>
       <view class='order-for-colour'>
         <text>数量</text>
-        <text>{{orderInfo.skuNum}}</text>
+        <text>{{ticketInfo.skuNum}}</text>
       </view>
       <view class='order-for-colour'>
         <text>总价</text>
-        <text>￥<text>{{orderInfo.soAmount}}</text></text>
+        <text>￥<text>{{ticketInfo.soAmount}}</text></text>
       </view>
     </view>
   </view>

@@ -10,7 +10,7 @@ Page({
     currentTab: ''
   },
   onLoad: function (options) {
-   
+
   },
   onShow: function () {
     this.getOrderList();
@@ -24,7 +24,7 @@ Page({
       currentTab: ''
     })
   },
-  swichNav: function(event) {
+  swichNav: function (event) {
     this.setData({
       order_list: [],
       page: 1,
@@ -85,11 +85,18 @@ Page({
       });
     }
   },
-  lowerLevel: function (ev) {
-    let id = ev.currentTarget.id
-    wx.navigateTo({
-      url: '../lelectronic-coupons/lectronic-coupons?id=' + id + '&isPay=0'
-    })
+  lowerLevel: function (e) {
+    let id = e.currentTarget.id,
+      sostatus = e.currentTarget.dataset.sostatus;
+    if (sostatus == 1) {
+      wx.navigateTo({
+        url: '/pages/index/voucher-details/voucher-details'
+      })
+    } else if (sostatus == 2 || sostatus == 3) {
+      wx.navigateTo({
+        url: '../lelectronic-coupons/lectronic-coupons?id=' + id
+      })
+    }
   },
   //用户上拉触底
   onReachBottom: function () {
