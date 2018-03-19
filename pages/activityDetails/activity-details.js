@@ -21,11 +21,8 @@ Page({
     }
     Api.acttop(_parms).then((res) => {
       let _data = this.data.actdata
-      console.log("res:",res)
-      console.log("_data:",_data)
       if (res.data.code == 0 && res.data.data != null && res.data.data != "" && res.data.data != []) {
         _data = _data.concat(res.data.data)
-        console.log("_data1:",_data)
         this.setData({
           actdata: _data
         })

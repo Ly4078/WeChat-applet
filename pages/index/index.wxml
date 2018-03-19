@@ -35,7 +35,7 @@
   <view wx:for="{{logs}}" wx:for-item="value" wx:key="{{index}}">
     {{value.shopName}}
   </view>
-    <!-- <button open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">获取手机号</button>   -->
+     <!-- <button open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">获取手机号</button>    -->
   <!--推荐餐厅 -->
   <template is="postItem" data="{{...item}}" />
   <!--推荐餐厅  -->

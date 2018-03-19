@@ -11,6 +11,10 @@ const ALL_API = {
     method:'POST',
     url:'wxpay/getOpenId'
   },
+  useradd:{
+    method:'POST',
+    url:'user/add'
+  },
   usersignup: {
     method: 'POST',
     url: 'user/signup'

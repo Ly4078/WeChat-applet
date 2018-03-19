@@ -20,38 +20,6 @@ Page({
   },
   onLoad: function (options) {
     let that = this
-
-
-    // wx.getSetting({
-    //     success(res) {
-    //         if(!res.authSetting['scope.userLocation']) {
-    //             wx.openSetting({
-    //                 success: (res) => {
-    //                     if(!res.authSetting['scope.userLocation']) {
-    //                         wx.showModal({
-    //                             title: '温馨提醒',
-    //                             content: '需要获取您的地理位置才能使用小程序',
-    //                             cancelText: '不使用',
-    //                             confirmText: '获取位置',
-    //                             success: function(res) {
-    //                                 if(res.confirm) {
-    //                                     getAuthor();
-    //                                 } else if(res.cancel) {
-    //                                     wx.showToast({
-    //                                         title: '您可点击左下角 定位按钮 重新获取位置',
-    //                                         icon: 'success',
-    //                                         duration: 3000
-    //                                     })
-    //                                 }
-    //                             }
-    //                         })
-    //                     }                    
-    //                 }
-    //             })
-    //         }
-    //     }
-    // })
-
     this.getopenid();
     this.getcarousel();
     this.getdata();
@@ -80,11 +48,7 @@ Page({
       }
     }, 500)
   },
-  getPhoneNumber: function (e) { //获取用户电话号码 （加密数据 ，需后台解码）暂不使用
-    console.log("errMsg:",e.detail.errMsg)
-    console.log("iv:",e.detail.iv)
-    console.log("encryptedData:",e.detail.encryptedData)
-  },
+
   getopenid: function () {  //获取openID sessionKey
     let that = this
     let lat = '', lng = ''
@@ -98,15 +62,16 @@ Page({
             code: res.code
           }
           Api.getOpenId(_parms).then((res) => {
+            // console.log("res:", res)
             if (res.data.code == 0) {
-              console.log("sessionKey:", res.data.data.sessionKey)
               that.setData({
                 openId: res.data.data.openId,
                 sessionKey: res.data.data.sessionKey
               })
               app.globalData.userInfo.openId = res.data.data.openId,
               app.globalData.userInfo.sessionKey = res.data.data.sessionKey
-              this.getuserInfo()
+              // this.getuserInfo()
+              this.getlocation()
             }
           })
         }
@@ -152,7 +117,8 @@ Page({
     let that = this
     wx.getSetting({
       success: (res) => {
-        if (res.authSetting['scope.userInfo'] && res.authSetting['scope.userLocation']) {
+        // if (res.authSetting['scope.userInfo'] && res.authSetting['scope.userLocation']) {
+        if (res.authSetting['scope.userLocation']) {
           // console.log("用户已授受获取其用户信息和位置信息")
         } else {
           // console.log("用户未授受获取其用户信息或位置信息")
@@ -252,9 +218,9 @@ Page({
   },
   getactlist() {  //获取热门活动数据
     Api.actlist().then((res) => {
-      // console.log("actlist:",res.data.data.list)
+      // console.log("actlist:",res)
       this.setData({
-        actlist: res.data.data.list
+        actlist: res.data.data.list.slice(0,10)
       })
     })
   },

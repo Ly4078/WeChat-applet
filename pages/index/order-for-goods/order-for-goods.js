@@ -144,8 +144,6 @@ Page({
               }
             }
           })
-
-
         }
       }
     })
@@ -166,15 +164,12 @@ Page({
     })
   },
   payment: function (soid) {  //调起微信支付
-    console.log("soid:", soid)
-    console.log("globalData.userInfo:", app.globalData.userInfo)
     let that = this
     let _parms = {
       soId: soid,
       openId: app.globalData.userInfo.openId,
     }
     Api.doUnifiedOrder(_parms).then((res) => {
-      console.log("res111",res)
       if (res.data.code == 0) {
         wx.requestPayment({
           'timeStamp': res.data.data.timeStamp,
