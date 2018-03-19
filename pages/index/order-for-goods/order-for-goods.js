@@ -32,7 +32,6 @@ Page({
   /* 点击减号 */
   bindMinus: function () {
     var number = this.data.number;
-    // 如果大于1时，才可以减  
     if (number > 1) {
       --number;
     }
@@ -46,8 +45,6 @@ Page({
     this.setData({
       paymentAmount: _paymentAmount
     });
-    // console.log("paymentAmount:", _paymentAmount)
-    // 只有大于一件的时候，才能normal状态，否则disable状态  
     var minusStatus = number <= 1 ? 'disabled' : 'normal';
 
   },
@@ -65,7 +62,6 @@ Page({
       paymentAmount: _paymentAmount
     });
     console.log("paymentAmount:", _paymentAmount)
-    // 只有大于一件的时候，才能normal状态，否则disable状态  
     var minusStatus = number < 1 ? 'disabled' : 'normal';
     // 将数值与状态写回  
     this.setData({
@@ -87,10 +83,8 @@ Page({
     wx.getSetting({
       success: (res) => {
         if (res.authSetting['scope.userInfo'] && res.authSetting['scope.userLocation']) {
-          // console.log("用户已授权获取其用户信息和位置信息")
           this.confirmPayment()
         } else {
-          // console.log("用户未授权获取其用户信息或位置信息")
           wx.showModal({
             title: '提示',
             content: '为让享7更好为您服务，请授权以下权限给享7',

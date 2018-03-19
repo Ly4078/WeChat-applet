@@ -18,14 +18,14 @@
       </view>
     </view>
   </view>
-  <view class='particulars'>
+  <!-- <view class='particulars'>
     <view class='particulars_details'>
       <text class='particulars_text' bindtap="cellPhone">手机号</text>
       <text>15827245422</text>
     </view>
-  </view>
+  </view> -->
   <view class='particulars'>
-    <view class='particulars_details'>
+    <view class='particulars_details particulars_fuhe'>
       <text class='particulars_text'>小计</text>
       <text class='subtotal'>¥{{paymentAmount}}</text>
     </view>

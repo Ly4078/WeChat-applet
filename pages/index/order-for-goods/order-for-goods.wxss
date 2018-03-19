@@ -23,6 +23,10 @@ page{
   font-size: 32rpx;
 }
 
+.particulars_fuhe{
+  border: none;
+}
+
 .subtotal{
   color: #FC5E2D;
 }
