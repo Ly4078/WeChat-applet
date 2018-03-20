@@ -89,18 +89,19 @@ Page({
     let id = e.currentTarget.id,
       sostatus = e.currentTarget.dataset.sostatus,
       listArr = this.data.order_list,
-      sell = "", inp = "", rule = "";
+      sell = "", inp = "", rule = "", num = "";
     if (sostatus == 1) {
       for (let i = 0; i < listArr.length; i++) {
         if (id == listArr[i].id) {
-          sell = listArr[i].soAmount;
+          sell = listArr[i].unitPrice;
           rule = listArr[i].ruleDesc;
           inp = parseInt(listArr[i].skuName);
+          num = listArr[i].skuNum;
         }
       }
       wx.navigateTo({
         // url: '/pages/index/voucher-details/voucher-details'
-        url: '/pages/index/voucher-details/voucher-details?id=' + id + ' &sell=' + sell + '&inp=' + inp + '&rule=' + rule
+        url: '/pages/index/voucher-details/voucher-details?id=' + id + ' &sell=' + sell + '&inp=' + inp + '&rule=' + rule + '&num=' + num
       })
     } else if (sostatus == 2 || sostatus == 3) {
       wx.navigateTo({

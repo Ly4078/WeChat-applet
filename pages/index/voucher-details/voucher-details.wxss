@@ -1,40 +1,40 @@
-page{
-  background-color: #FC5E2D;
+page {
+  background-color: #fc5e2d;
   width: 100%;
   height: 100%;
 }
 
-.detailsWarp{
+.detailsWarp {
   width: 100%;
   text-align: center;
   position: relative;
 }
 
-.detailsImg{
+.detailsImg {
   width: 694rpx;
   height: 778rpx;
   padding-top: 3rpx;
 }
 
-.speciesText{
+.speciesText {
   color: #191919;
   font-size: 60rpx;
-  letter-spacing:2px;
+  letter-spacing: 2px;
   display: block;
 }
 
-.spaeciescondition{
-  color: #555555;
+.spaeciescondition {
+  color: #555;
   font-size: 26rpx;
 }
 
-.speciesWrap{
+.speciesWrap {
   position: absolute;
-  margin-left: 25%;
+  width: 100%;
   margin-top: -81%;
 }
 
-.countersign{
+.countersign {
   width: 100%;
   height: 58px;
   background-color: white;
@@ -44,60 +44,60 @@ page{
   bottom: 0px;
 }
 
-.countersign_left{
+.countersign_left {
   padding-left: 40rpx;
 }
 
-.amount-number{
-  color: #FC5E2D;
+.amount-number {
+  color: #fc5e2d;
   font-size: 50rpx;
 }
 
-.amount-text{
-  color: #FC5E2D;
+.amount-text {
+  color: #fc5e2d;
   font-size: 26rpx;
   padding-left: 2px;
 }
 
-.past-due{
-  color: #B1B1B1;
+.past-due {
+  color: #b1b1b1;
   font-size: 24rpx;
   padding-left: 7px;
-  text-decoration:line-through;
+  text-decoration: line-through;
 }
 
-.countersign-past-due{
+.countersign-past-due {
   font-size: 24rpx;
-  color: #555555;
+  color: #555;
 }
 
-.discount-number{
-  color: #FC5E2D;
-  border: 0.3px solid #FC5E2D;
+.discount-number {
+  color: #fc5e2d;
+  border: 0.3px solid #fc5e2d;
   width: 100rpx;
   height: 26rpx;
   text-align: center;
   line-height: 26rpx;
   margin-left: 10px;
-  border-top-left-radius:4rpx;
-  border-top-right-radius:4rpx;
-  border-bottom-right-radius:4rpx;
-  border-bottom-left-radius:4rpx;
-  padding: 0px 4px
+  border-top-left-radius: 4rpx;
+  border-top-right-radius: 4rpx;
+  border-bottom-right-radius: 4rpx;
+  border-bottom-left-radius: 4rpx;
+  padding: 0px 4px;
 }
 
-.countersign-right{
+.countersign-right {
   width: 30%;
-  height: 58px; 
+  height: 58px;
   text-align: center;
   line-height: 58px;
   padding-top: 10px;
   padding-right: 20px;
 }
 
-.countersign-right-text{
-  color: #FFFFFF;
+.countersign-right-text {
+  color: #fff;
   font-size: 40rpx;
-  background-color: #FC5E2D;
-  line-height: 40px; 
+  background-color: #fc5e2d;
+  line-height: 40px;
 }

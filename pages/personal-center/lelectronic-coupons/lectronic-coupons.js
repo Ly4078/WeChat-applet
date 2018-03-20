@@ -33,7 +33,6 @@ Page({
     wx.request({
       url: that.data._build_url + 'so/getForOrder/' + that.data.id,
       success: function (res) {
-        console.log("res:",res)
         let _skuNum = res.data.data.coupons
         for(let i=0;i<_skuNum.length;i++){
           let ncard = ''
@@ -43,7 +42,6 @@ Page({
           _skuNum[i].couponCode = ncard.replace(/(\s*$)/g, "")
         }
         let data = res.data;
-        console.log(data);
         if (data.code == 0) {
           let imgsArr = [];
           for (let i = 0; i < data.data.coupons.length; i++) {
@@ -67,7 +65,7 @@ Page({
   sublevelSum: function (event) {
     let that = this;
     wx.navigateTo({
-      url: '../../index/voucher-details/voucher-details?id=' + that.data.id + ' &sell=' + that.data.ticketInfo.soAmount + '&inp=' + that.data.ticketInfo.coupons[0].couponAmount + '&rule=' + that.data.ticketInfo.coupons[0].promotionRules[0].ruleDesc
+      url: '../../index/voucher-details/voucher-details?id=' + that.data.id + ' &sell=' + that.data.ticketInfo.unitPrice + '&inp=' + that.data.ticketInfo.coupons[0].couponAmount + '&rule=' + that.data.ticketInfo.coupons[0].promotionRules[0].ruleDesc + '&num=' + that.data.ticketInfo.skuNum
     })
   }
 })

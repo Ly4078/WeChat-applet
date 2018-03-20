@@ -1,5 +1,6 @@
 import Api from '/../../../utils/config/api.js'
 var app = getApp();
+let minusStatus = '';
 Page({
   data: {
     // input默认是1  
@@ -11,10 +12,10 @@ Page({
     userId: '1'
   },
   onLoad: function (options) {
-    console.log(options)
     this.setData({
       obj: options,
-      paymentAmount: options.sell
+      paymentAmount: options.sell * options.num,
+      number: options.num
     })
 
     var summation = this.data.obj.sell
@@ -46,14 +47,12 @@ Page({
     this.setData({
       paymentAmount: _paymentAmount
     });
-    var minusStatus = number <= 1 ? 'disabled' : 'normal';
-
+    minusStatus = number <= 1 ? 'disabled' : 'normal';
   },
   /* 点击加号 */
   bindPlus: function () {
     var number = this.data.number;
     ++number;
-    console.log(number)
     this.setData({
       number: number,
       minusStatus: minusStatus
@@ -63,8 +62,7 @@ Page({
     this.setData({
       paymentAmount: _paymentAmount
     });
-    console.log("paymentAmount:", _paymentAmount)
-    var minusStatus = number < 1 ? 'disabled' : 'normal';
+    minusStatus = number < 1 ? 'disabled' : 'normal';
     // 将数值与状态写回  
     this.setData({
       number: number,
@@ -92,7 +90,6 @@ Page({
             content: '为让享7更好为您服务，请授权以下权限给享7',
             success: function (res) {
               if (res.confirm) {
-                console.log('用户点击确定')
                 wx.openSetting({
                   success: (res) => {
                     if (res.authSetting['scope.userInfo']) { //得到用户信息授权，获取用户信息
@@ -137,7 +134,6 @@ Page({
                   }
                 })
               } else if (res.cancel) {
-                console.log('用户点击取消')
               }
             }
           })
@@ -182,7 +178,6 @@ Page({
             })
           },
           fail: function (res) {
-            console.log(res)
             wx.showToast({
               icon: 'loading',
               title: '支付取消',
