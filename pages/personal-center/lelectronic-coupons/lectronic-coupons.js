@@ -11,7 +11,7 @@ Page({
   },
   onLoad: function (options) {
     this.setData({
-      id: options.id
+      id: options.soid
     });
     this.getTicketInfo();
   },
@@ -33,6 +33,7 @@ Page({
     wx.request({
       url: that.data._build_url + 'so/getForOrder/' + that.data.id,
       success: function (res) {
+        console.log("res:",res)
         let _skuNum = res.data.data.coupons
         for(let i=0;i<_skuNum.length;i++){
           let ncard = ''
