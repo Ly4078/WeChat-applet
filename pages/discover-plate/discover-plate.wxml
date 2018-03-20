@@ -45,7 +45,8 @@
       <view class='otherdata'>
         <view class='browsing'>
           <image src='/images/icon/tuoyuan_w.png' class='tuoyuan'></image>
-          {{index>item.commentNum?index:item.commentNum}}
+         
+          <text class='text_wz'>{{item.viewNum}}</text>
            <!-- {{item.scan}}  -->
         </view>
         
@@ -56,12 +57,13 @@
 
         <view class='evaluate'>
           <image src='/images/icon/word.png' class='word'></image>
-           {{item.commentNum}} 
+           <text class='text_wz'>{{item.commentNum}}</text>
         </view>
 
         <view class='forwarding'>
           <image src='/images/icon/find_share.png' class='findshare'></image>
-          {{index>item.commentNum?index:item.commentNum}}
+          <text class='text_wz'>{{index>item.commentNum?index:item.commentNum}}</text>
+          
            <!-- {{item.convey}}  -->
         </view>
       </view>

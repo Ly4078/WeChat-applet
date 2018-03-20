@@ -225,7 +225,10 @@ scroll_box.initiate-exhibition {
 .forwarding, .evaluate, .reward{
   float: right;
 }
-
+.text_wz{
+  position: relative;
+  top: -5rpx;
+}
 .findshare{
   width: 30rpx;
   height: 24rpx;
