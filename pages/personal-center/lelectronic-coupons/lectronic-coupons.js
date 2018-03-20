@@ -11,7 +11,7 @@ Page({
   },
   onLoad: function (options) {
     this.setData({
-      id: options.soid
+      id: options.id
     });
     this.getTicketInfo();
   },
