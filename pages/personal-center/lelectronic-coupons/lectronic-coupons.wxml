@@ -39,7 +39,7 @@
         <image src='{{item.qrcodeUrl}}' class='codingImages' data-index='{{idx}}' bindtap='previewImg'></image>
       </view>
     </block>
-    <view class='codingeven-more' wx:if="{{qrCodeArr.length > 5}}" bindtap="onclickMore">
+    <view class='codingeven-more' wx:if="{{qrCodeArr.length > 3}}" bindtap="onclickMore">
       <text>{{qrCodeFlag ? '更多' : '收起'}}</text>
       <image class="veent-more-img" wx:if="{{qrCodeFlag}}" src='/images/icon/xialatupian.png'></image>
       <image class="veent-more-img-top" wx:else src='/images/icon/xialatupian.png'></image>

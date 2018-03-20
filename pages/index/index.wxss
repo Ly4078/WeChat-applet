@@ -20,10 +20,18 @@ page {
   width: 100%;
 }
 
+.usingTheVolumeBox {
+  width: 9%;
+  padding-top: 5rpx;
+}
+
 .usingTheVolume {
   width: 46rpx;
   height: 36rpx;
-  float: left;
+}
+
+.homePage_banner {
+  height: 270rpx !important;
 }
 
 .site_location {
@@ -31,19 +39,20 @@ page {
   height: 60rpx;
   display: flex;
   align-items: center;
+   padding-left: 20rpx; 
 }
 
  .site_location_text{
-  width: 90%;
+  /* width: 85%; */
   height: 60rpx;
   line-height: 60rpx;
-  font-size: 30rpx;
+  font-size: 28rpx;
 } 
 
 .location {
-  width: 8.5px;
-  height: 8.5px;
-  padding-left: 5.5px;
+  width: 18rpx;
+  height: 10rpx;
+  padding-left: 5.5px; 
   text-indent: 50px;
 }
 
@@ -66,9 +75,23 @@ page {
   display: flex;
   flex-direction: row;
   width: 100%;
-  height: 120px;
+  height: 300rpx;
   align-items: center;
   font-size: 14px;
+}
+
+.wrap_recommend {
+  height: 40rpx;
+  margin-bottom: 26rpx;
+}
+
+.recommend_text {
+  font-size: 32rpx;
+  font-weight: 400;
+}
+
+.recommend_more {
+  margin-top: 5rpx;
 }
 
 .classify {
@@ -96,22 +119,22 @@ page {
 
 .scroll {
   overflow: hidden;
-  height: 320rpx;
   width: auto;
   font-size: 12px;
+  margin-bottom: 88rpx;
 }
 
 .scroll-view-item {
-  width: 40%;
+   width: 306rpx; 
   display: inline-block;
-  padding-right: 10px;
+  margin-right: 16rpx;
 }
 
 .scroll-view-item-img {
   width: 100%;
-  height: 100px;
-  /* height: 118px; */
-  border-radius: 3%;
+  height: 306rpx;
+  border-radius: 8rpx;
+  border: 1rpx solid #f8f8f8;
 }
 
 .cate_site {
@@ -119,7 +142,20 @@ page {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-size: 14px;
+  font-size: 24rpx;
+  color: #191919;
+}
+
+.scroll_user {
+  width: 600rpx;
+  height: 338rpx;
+  box-sizing: border-box;
+  border: 1rpx solid #f8f8f8;
+}
+
+.cateWallImg {
+  width: 100%;
+  height: 100%;
 }
 
 
@@ -129,7 +165,7 @@ page {
 
 .preferential_img {
   width: 100%;
-  height: 118px;
+  height: 100%;
   border-top-left-radius: 10rpx;
   border-top-right-radius: 10rpx;
   border-bottom-right-radius: 10rpx;
@@ -137,9 +173,10 @@ page {
 }
 
 .preferential {
-  width: 70%;
+  width: 440rpx;
+  height: 234rpx;
   display: inline-block;
-  border-radius: 3%;
+  border-radius: 8rpx;
   margin-right: 15rpx;
 }
 
@@ -147,17 +184,17 @@ page {
   white-space: nowrap;
   overflow: hidden;
   width: 100%;
-  height: 280rpx;
+  padding-bottom: 88rpx;
 }
 
 .anchor_img {
-  width: 100%;
-  height: 145px;
-  border-radius: 3%;
+  width: 260rpx;
+  height: 260rpx;
+  border-radius: 8rpx;
 }
 
 .anchor {
-  width: 38%;
+  width: 260rpx;
   display: inline-block;
   padding-right: 10px;
 }
@@ -168,14 +205,17 @@ page {
 
 .search_arr {
   width: 484rpx;
+  height: 52rpx;
   background-color: white;
   border-radius: 8rpx;
+  position: relative;
 }
 
 .search_arr input {
-  margin-left: 90rpx;
-  height: 60rpx;
+  margin-left: 78rpx;
+  height: 52rpx;
   border-radius: 5px;
+  font-size: 26rpx;
 }
 
 .bc_text {
@@ -189,20 +229,19 @@ page {
 }
 
 .searchcion {
-  margin: 8rpx 10rpx 10rpx 10rpx;
   position: absolute;
-  left: 23%;
+  left: 20rpx;
   z-index: 2;
-  width: 20px;
-  height: 20px;
+  width: 31rpx;
+  height: 31rpx;
   text-align: center;
 }
 
 .scroll_anchor {
   white-space: nowrap;
   overflow: hidden;
-  height: 420rpx;
   width: 100%;
+  padding-bottom: 48rpx;
 }
 
 
