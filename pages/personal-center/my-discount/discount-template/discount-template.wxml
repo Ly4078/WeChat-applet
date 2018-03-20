@@ -9,7 +9,7 @@
         <view class='security-top-right'>
           <view wx:if="{{item.isDue == 1}}" class='my-immediateUse isGray'>已过期</view>
           <view wx:if="{{item.isUsed == 1 && item.isDue == 0}}" class='my-immediateUse isGray'>已使用</view>
-          <view wx:else class='my-immediateUse' catchtap='immediateUse' id="{{item.id}}">立即使用</view>
+          <view wx:else class='my-immediateUse' catchtap='immediateUse' id="{{item.soId}}">立即使用</view>
         </view>
       </view>
       <view class='deadline-time'>

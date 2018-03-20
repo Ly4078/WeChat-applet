@@ -6,12 +6,14 @@ Page({
     _build_url: GLOBAL_API_DOMAIN,
     userId: app.globalData.userInfo.userId ? app.globalData.userInfo.userId : 1,   //登录用户的id
     qrCodeArr: [],     //二维码数组
+    couponsArr: [],    //票券数组
     qrCodeFlag: true,   //二维码列表显示隐藏标识
-    _skuNum:'',
+    _skuNum: ''
   },
   onLoad: function (options) {
     this.setData({
-      id: options.id
+      id: options.id,
+      myCount: options.myCount ? options.myCount : 0
     });
     this.getTicketInfo();
   },
@@ -34,7 +36,7 @@ Page({
       url: that.data._build_url + 'so/getForOrder/' + that.data.id,
       success: function (res) {
         let _skuNum = res.data.data.coupons
-        for(let i=0;i<_skuNum.length;i++){
+        for (let i = 0; i < _skuNum.length; i++) {
           let ncard = ''
           for (var n = 0; n < _skuNum[i].couponCode.length; n = n + 4) {
             ncard += _skuNum[i].couponCode.substring(n, n + 4) + " ";
@@ -44,8 +46,23 @@ Page({
         let data = res.data;
         if (data.code == 0) {
           let imgsArr = [];
-          for (let i = 0; i < data.data.coupons.length; i++) {
-            imgsArr.push(data.data.coupons[i].qrcodeUrl);
+          if (that.data.myCount == 1) {
+            let couponsArr = [];
+            for (let i = 0; i < data.data.coupons.length; i++) {
+              if (data.data.coupons[i].isUsed == 0) {
+                couponsArr.push(data.data.coupons[i]);
+              }
+            }
+            that.setData({
+              couponsArr: couponsArr
+            });
+          } else {
+            that.setData({
+              couponsArr: data.data.coupons
+            });
+          }
+          for (let i = 0; i < that.data.couponsArr.length; i++) {
+            imgsArr.push(that.data.couponsArr[i].qrcodeUrl);
           }
           that.setData({
             ticketInfo: data.data,

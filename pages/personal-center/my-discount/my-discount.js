@@ -80,7 +80,7 @@ Page({
       }
     }
     wx.navigateTo({
-      url: '../lelectronic-coupons/lectronic-coupons?id=' + event.target.id + '&isDue=' + isDue
+      url: '../lelectronic-coupons/lectronic-coupons?id=' + event.target.id + '&myCount=1'
     })
   },
   //对比时间是否过期

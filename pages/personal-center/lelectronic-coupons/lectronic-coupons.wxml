@@ -31,7 +31,7 @@
 
   <view class='qr-code'>
     <view class='rollMessage'>享7劵</view>
-    <block wx:for="{{ticketInfo.coupons}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
+    <block wx:for="{{couponsArr}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
       <view class='coding-code {{idx > 2 && qrCodeFlag ? "hide" : ""}}'>
         <text class='codingText'>{{idx + 1}}</text>
         <text>劵码:</text>
