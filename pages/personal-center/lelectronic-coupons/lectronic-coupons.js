@@ -63,6 +63,7 @@ Page({
           for (let i = 0; i < that.data.couponsArr.length; i++) {
             imgsArr.push(that.data.couponsArr[i].qrcodeUrl);
           }
+          console.log('ticketInfo:',data.data)
           that.setData({
             ticketInfo: data.data,
             qrCodeArr: imgsArr,

@@ -24,6 +24,7 @@ Page({
   //获取我的票券
   getTicketList: function() {
     let that = this;
+    console.log("app.globalData.userInfo:", app.globalData.userInfo)
     wx.request({
       url: that.data._build_url + 'cp/list',
       data: {

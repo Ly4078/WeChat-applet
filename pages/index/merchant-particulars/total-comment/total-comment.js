@@ -6,7 +6,6 @@ Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
     comment_list: [],
-    userId: app.globalData.userInfo.userId,     //登录用户的id
     page: 1,
     id:'',
     source:'',   //请求来源   查明是谁来调用这个文件
@@ -29,7 +28,7 @@ Page({
       data: {
         refId: that.data.id,
         cmtType: that.data.cmtType,
-        zanUserId: that.data.userId,
+        zanUserId: app.globalData.userInfo.userId,
         page: that.data.page,
         rows: 8
       },
@@ -65,7 +64,7 @@ Page({
       }
     }
     wx.request({
-      url: that.data._build_url + 'zan/add?refId=' + id + '&type=4&userId=' + that.data.userId,
+      url: that.data._build_url + 'zan/add?refId=' + id + '&type=4&userId=' + app.globalData.userInfo.userId,
       method: "POST",
       success: function (res) {
         if (res.data.code == 0) {
@@ -95,7 +94,7 @@ Page({
       }
     }
     wx.request({
-      url: that.data._build_url + 'zan/delete?refId=' + id + '&type=4&userId=' + that.data.userId,
+      url: that.data._build_url + 'zan/delete?refId=' + id + '&type=4&userId=' + app.globalData.userInfo.userId,
       method: "POST",
       success: function (res) {
         if (res.data.code == 0) {
