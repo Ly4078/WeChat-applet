@@ -1,0 +1,21 @@
+<view>
+   <block wx:for="{{carousel.list}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}"> 
+    <view class='recommendation'>
+      <view class='recommendation-each'>
+        <view class='recommendation-nae'>
+          <image class='recommendation-images' src='{{item.picUrl}}'></image>
+          <view class='recommendation-right'>
+            <view class='recommRight-top'>
+              <text class='recommName'>{{item.skuName}}</text>
+              <view>
+                <text class='like-collect'>{{item.zanNum}}</text>
+                <image src='/images/icon/home_zaned.png'></image>
+              </view>
+            </view>
+            <text class='cuisine-introduce'>{{item.cuisineInfo}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+   </block> 
+</view>

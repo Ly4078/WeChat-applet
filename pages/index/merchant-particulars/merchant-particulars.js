@@ -77,6 +77,12 @@ Page({
       to_user_id: e.currentTarget.dataset.user
     })
   },
+  //餐厅推荐菜
+  recommendedRestaurant: function () {
+    wx.navigateTo({
+      url: 'recommendation/recommendation?id=' + this.data.store_details.id,
+    })
+  },
   //分享APP
   onShareAppMessage: function () {
     return {
@@ -111,9 +117,9 @@ Page({
     })
   },
   moreImages: function (event) {
-    // wx.navigateTo({
-    //   url: 'preview-picture/preview-picture',
-    // })
+    wx.navigateTo({
+      url: 'preview-picture/preview-picture?id=' + this.data.store_details.id,
+    })
   },
   //腾讯地图
   TencentMap: function (event) {
@@ -158,9 +164,9 @@ Page({
       success: function (res) {
         let data = res.data;
         if (data.code == 0 && data.data.list != null && data.data.list != "") {
-          if(res.data.code ==0){
+          if (res.data.code == 0) {
             let _data = res.data.data.list
-            for(let i=0;i<_data.length;i++){
+            for (let i = 0; i < _data.length; i++) {
               _data[i].content = utils.uncodeUtf16(_data[i].content)
             }
             that.setData({
@@ -327,8 +333,8 @@ Page({
         userName: app.globalData.userInfo.userName,
         nickName: app.globalData.userInfo.userName
       }
-      Api.cmtadd(_parms).then((res)=>{
-        if(res.data.code == 0){
+      Api.cmtadd(_parms).then((res) => {
+        if (res.data.code == 0) {
           that.setData({
             isComment: false,
             commentVal: ""
