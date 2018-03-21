@@ -13,8 +13,6 @@ Page({
     coverimg: '',  //封面图片
     content: [],   //文章内容数据
     butt: ['预览', '提交', '退出文章编辑'],
-
-    userId: '1'
   },
 
   onLoad: function (options) {  // 生命周期函数--监听页面加载

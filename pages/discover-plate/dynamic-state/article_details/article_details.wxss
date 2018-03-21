@@ -133,7 +133,7 @@
 .shareimgl{
   margin-right: 206rpx;
 }
- button[plain]{
+button[plain]{
   border:0
 } 
 .text_wx, .text_pyq{

@@ -1,0 +1,7 @@
+<view class='catebox'>
+  <checkbox-group bindchange="checkboxChange">
+    <label class="checkbox" wx:for="{{foodatas}}" wx:key="{{index}}">
+     {{item.name}} <checkbox value="{{item.name}}" checked="{{item.checked}}" class='check_item'/>
+    </label>
+  </checkbox-group>
+</view>
