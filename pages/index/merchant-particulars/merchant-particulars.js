@@ -85,7 +85,7 @@ Page({
       url: 'recommendation/recommendation?id=' + this.data.store_details.id,
     })
   },
-  //分享APP
+  //分享给好友
   onShareAppMessage: function () {
     return {
       title: this.data.store_details.shopName,
