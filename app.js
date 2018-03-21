@@ -41,6 +41,7 @@ App({
     userInfo: {
       openId: '',
       password: '',
+      userType:'',
       userId: '1',  
       userName: '',
       nikcName: '',

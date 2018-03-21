@@ -26,7 +26,7 @@
   <swiper class="homePage_banner" indicator-dots="true" autoplay="true" circular="true" interval="5000" indicator-active-color="rgba(252, 94, 45,0.8)">
     <block wx:for="{{carousel}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
       <swiper-item>
-        <image class="lbtupian" src='{{item.imgUrl}}'></image>
+        <image bindtap="toNewExclusive" id="{{item.id}}" class="lbtupian" src='{{item.imgUrl}}'></image>
       </swiper-item>
     </block>
   </swiper>

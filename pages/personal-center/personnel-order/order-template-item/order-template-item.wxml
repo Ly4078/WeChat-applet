@@ -20,7 +20,7 @@
         <view class='logo-right-top'>
           <view class='logo-right-condition'>
             <text>{{item.skuName}}</text>
-            <text>￥10</text>
+            <text>{{item.unitPrice}}</text>
           </view>
           <view class='roll-unused'>
             <text>{{item.ruleDesc}}</text>

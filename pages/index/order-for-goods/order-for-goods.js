@@ -8,17 +8,25 @@ Page({
     // 使用data数据对象设置样式名  
     minusStatus: 'disabled',
     paymentAmount: '',
-    obj: []
+    obj: [],
+    sostatus: 0
   },
   onLoad: function (options) {
     this.setData({
       obj: options,
       paymentAmount: options.sell
     })
-
-    var summation = this.data.obj.sell
-    // var indentId = this.data.obj.id
-    // this.hidtel(phone)
+    if(options.num && options.num != 'undefined' && options.num != '') {
+      this.setData({
+        number: options.num,
+        paymentAmount: (options.sell * options.num).toFixed(2)
+      });
+    }
+    if (options.sostatus && options.sostatus != 'undefined' && options.sostatus != '') {
+      this.setData({
+        sostatus: 1
+      });
+    }
   },
   hidtel: function ($phone) {
     $IsWhat = preg_match('/(0[0-9]{2,3}[\-]?[2-9][0-9]{6,7}[\-]?[0-9]?)/i', $phone);
@@ -133,7 +141,6 @@ Page({
                   }
                 })
               } else if (res.cancel) {
-                console.log('用户点击取消')
               }
             }
           })

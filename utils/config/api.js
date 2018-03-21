@@ -123,7 +123,19 @@ const ALL_API = {
   socreate:{  //创建支付订单
     method:'POST',
     url:'so/create'
-  }
+  },
+  skutsc:{  //推荐餐厅
+    method:'GET',
+    url:'sku/tsc'
+  },
+  photograph: {  //店铺详情图片
+    method: 'GET',
+    url: 'shop/get'
+  },
+  takepartin: {  //商家报名活动
+    method: 'POST',
+    url: 'actshop/add'
+  },
 }
 
 const Api = new MyHttp({}, ALL_API);

@@ -78,7 +78,9 @@ Page({
       },
       success: function (res) {
         if (res.data.code == 0) {
-          let data = res.data.data
+          console.log("res:",res)
+          let data = res.data.data; 
+          app.globalData.userInfo.userType = data.userType,
           app.globalData.userInfo.openId = data.openId,
           app.globalData.userInfo.password = data.password,
           app.globalData.userInfo.userId = data.id,
@@ -339,6 +341,13 @@ Page({
     // wx.navigateTo({
     //   url: 'test?liveid=' + liveid,
     // })
+  },
+  toNewExclusive: function(e) {   //跳转至新人专享页面
+    let id = e.currentTarget.id;
+    if(id == 4) {
+      wx.navigateTo({
+        url: 'new-exclusive/new-exclusive',
+      })
+    }
   }
-
 })
