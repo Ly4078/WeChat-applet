@@ -10,7 +10,8 @@ Page({
     store_details: {},  //店铺详情
     currentTab: 0,
     isCollected: false,   //是否收藏，默认false
-    isComment: false
+    isComment: false,
+    store_images:''
   },
   onLoad: function (options) {
     this.setData({
@@ -46,7 +47,8 @@ Page({
       },
       success: function (res) {
         that.setData({
-          store_details: res.data.data
+          store_details: res.data.data,
+          store_images: res.data.data.shopTopPics.length
         })
       }
     })
