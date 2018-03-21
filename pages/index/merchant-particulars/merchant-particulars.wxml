@@ -1,9 +1,11 @@
 <import src="comment-template/comment-template.wxml" />
 <view>
   <view class='detailsWrap'>
-    <view class="img_shade"></view>
-    <button class="shareIcon" open-type="share">按</button>
-    <image class='cateImages' src='{{store_details.logoUrl}}' bindtap='moreImages'></image>
+     <view class="img_shade" bindtap='moreImages'></view> 
+    <button class="shareIcon" open-type="share">
+      <image class='shareIcon-IMG' src='/images/icon/share.png'></image>
+    </button>
+    <image class='cateImages' src='{{store_details.logoUrl}}'></image>
     <text class='wrapImages'>共<text>{{store_images}}</text>张</text> 
   </view>
   <view>
