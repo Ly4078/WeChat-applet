@@ -102,7 +102,7 @@ Page({
       }
       wx.navigateTo({
         // url: '/pages/index/voucher-details/voucher-details'
-        url: '/pages/index/voucher-details/voucher-details?id=' + id + '&soid=' + soId+ '&sell=' + sell + '&inp=' + inp + '&rule=' + rule + '&num=' + num
+        url: '/pages/index/voucher-details/voucher-details?id=' + id + '&soid=' + soId+ '&sell=' + sell + '&inp=' + inp + '&rule=' + rule + '&num=' + num + '&sostatus=1'
       })
     } else if (sostatus == 2 || sostatus == 3) {
       wx.navigateTo({
