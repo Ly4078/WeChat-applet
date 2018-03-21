@@ -10,10 +10,7 @@ Page({
     store_details: {},  //店铺详情
     currentTab: 0,
     isCollected: false,   //是否收藏，默认false
-    isComment: false,
-    userId: app.globalData.userInfo.userId,  
-    userName: app.globalData.userInfo.userName,        //登录者名称
-    nickName: app.globalData.userInfo.nickName         //登录者昵称
+    isComment: false
   },
   onLoad: function (options) {
     this.setData({
@@ -87,7 +84,6 @@ Page({
       path: '/pages/index/merchant-particulars/merchant-particulars?shopid=' + this.data.shopid,
       imageUrl: this.data.store_details.logoUrl,
       success: function (res) {
-        console.log(res.shareTickets[0])
         wx.getShareInfo({
           shareTicket: res.shareTickets[0],
           success: function (res) { console.log(res) },
@@ -135,7 +131,7 @@ Page({
           name: storeDetails.shopName,
           address: storeDetails.address,
           success: function (res) {
-            console.log(res);
+            console.log(res)
           }
         })
       }
@@ -155,7 +151,7 @@ Page({
       data: {
         refId: that.data.shopid,
         cmtType: 5,
-        zanUserId: that.data.userId,
+        zanUserId: app.globalData.userInfo.userId,
         page: 1,
         rows: 5
       },
@@ -200,7 +196,7 @@ Page({
       }
     }
     wx.request({
-      url: that.data._build_url + 'zan/add?refId=' + id + '&type=4&userId=' + that.data.userId,
+      url: that.data._build_url + 'zan/add?refId=' + id + '&type=4&userId=' + app.globalData.userInfo.userId,
       method: "POST",
       success: function (res) {
         if (res.data.code == 0) {
@@ -230,7 +226,7 @@ Page({
       }
     }
     wx.request({
-      url: that.data._build_url + 'zan/delete?refId=' + id + '&type=4&userId=' + that.data.userId,
+      url: that.data._build_url + 'zan/delete?refId=' + id + '&type=4&userId=' + app.globalData.userInfo.userId,
       method: "POST",
       success: function (res) {
         if (res.data.code == 0) {
@@ -252,7 +248,7 @@ Page({
   isCollected: function () {
     let that = this;
     wx.request({
-      url: that.data._build_url + 'fvs/isCollected?userId=' + that.data.userId + '&shopId=' + that.data.shopid,
+      url: that.data._build_url + 'fvs/isCollected?userId=' + app.globalData.userInfo.userId + '&shopId=' + that.data.shopid,
       method: "POST",
       success: function (res) {
         const data = res.data;
@@ -269,7 +265,7 @@ Page({
   onCollect: function (event) {
     let that = this;
     wx.request({
-      url: that.data._build_url + 'fvs/add?userId=' + that.data.userId + '&shopId=' + that.data.shopid,
+      url: that.data._build_url + 'fvs/add?userId=' + app.globalData.userInfo.userId + '&shopId=' + that.data.shopid,
       method: "POST",
       success: function (res) {
         if (res.data.code == 0) {
@@ -287,7 +283,7 @@ Page({
   cancelCollect: function () {
     let that = this;
     wx.request({
-      url: that.data._build_url + 'fvs/delete?userId=' + that.data.userId + '&shopId=' + that.data.shopid,
+      url: that.data._build_url + 'fvs/delete?userId=' + app.globalData.userInfo.userId + '&shopId=' + that.data.shopid,
       method: "POST",
       success: function (res) {
         if (res.data.code == 0) {
@@ -323,18 +319,15 @@ Page({
       })
     } else {
       let content = utils.utf16toEntities(that.data.commentVal);
-      console.log("content:",content)
       let _parms = {
         refId: that.data.shopid,
         cmtType: '5',
         content: content,
-        userId: '1',
-        userName: that.data.userName,
-        nickName: that.data.nickName
+        userId: app.globalData.userInfo.userId,
+        userName: app.globalData.userInfo.userName,
+        nickName: app.globalData.userInfo.userName
       }
-      console.log("_arms:",_parms)
       Api.cmtadd(_parms).then((res)=>{
-        console.log("res:",res)
         if(res.data.code == 0){
           that.setData({
             isComment: false,

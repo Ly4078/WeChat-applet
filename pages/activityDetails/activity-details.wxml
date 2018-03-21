@@ -13,7 +13,7 @@
         </view>
         <view>
           <image class='hits' src='/images/icon/tuoyuan_w.png'></image>
-           <text class='examine'>{{item.viewNum}}</text> 
+           <text class='examine'>{{item.voteNum}}</text> 
         </view>
       </view>
     </view>

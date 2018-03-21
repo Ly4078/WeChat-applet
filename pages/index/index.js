@@ -118,8 +118,7 @@ Page({
         let longitude = res.longitude
         let speed = res.speed
         let accuracy = res.accuracy
-        console.log("latitude:", latitude)
-        console.log("longitude:", longitude)
+
         that.requestCityName(latitude, longitude);
       },
       complete: function (res) {
@@ -178,8 +177,6 @@ Page({
     })
   },
   requestCityName(lat, lng) {//获取当前城市
-  console.log("lat:",lat)
-  console.log("lng:",lng)
     app.globalData.userInfo.lat = lat
     app.globalData.userInfo.lng = lng
     wx.request({

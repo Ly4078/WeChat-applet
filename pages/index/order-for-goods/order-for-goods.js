@@ -8,14 +8,12 @@ Page({
     // 使用data数据对象设置样式名  
     minusStatus: 'disabled',
     paymentAmount: '',
-    obj: [],
-    userId: '1'
+    obj: []
   },
   onLoad: function (options) {
     this.setData({
       obj: options,
-      paymentAmount: options.sell * options.num,
-      number: options.num
+      paymentAmount: options.sell
     })
 
     var summation = this.data.obj.sell
@@ -42,12 +40,13 @@ Page({
       number: number,
       minusStatus: minusStatus
     });
-    let _paymentAmount = this.data.number * this.data.obj.sell*1;
+    let _paymentAmount = this.data.number * this.data.obj.sell * 1;
     _paymentAmount = _paymentAmount.toFixed(2)
     this.setData({
       paymentAmount: _paymentAmount
     });
     minusStatus = number <= 1 ? 'disabled' : 'normal';
+
   },
   /* 点击加号 */
   bindPlus: function () {
@@ -134,6 +133,7 @@ Page({
                   }
                 })
               } else if (res.cancel) {
+                console.log('用户点击取消')
               }
             }
           })
@@ -141,20 +141,25 @@ Page({
       }
     })
   },
+
   confirmPayment: function (e) {  //生成订单号
     let that = this
-    let _parms = {
-      userId: app.globalData.userInfo.userId ? app.globalData.userInfo.userId : this.data.userId,
-      userName: app.globalData.userInfo.userName,
-      payType: '2',
-      skuId: this.data.obj.id,
-      skuNum: this.data.number
-    }
-    Api.socreate(_parms).then((res) => {
-      if (res.data.code == 0) {
-        that.payment(res.data.data)
+    if (this.data.obj.soid && this.data.obj.soid != 'undefined' && this.data.obj.soid != ''){
+      that.payment(this.data.obj.soid)
+    }else{
+      let _parms = {
+        userId: app.globalData.userInfo.userId,
+        userName: app.globalData.userInfo.userName,
+        payType: '2',
+        skuId: this.data.obj.id,
+        skuNum: this.data.number
       }
-    })
+      Api.socreate(_parms).then((res) => {
+        if (res.data.code == 0) {
+          that.payment(res.data.data)
+        }
+      })
+    }
   },
   payment: function (soid) {  //调起微信支付
     let that = this
@@ -171,10 +176,8 @@ Page({
           'signType': 'MD5',
           'paySign': res.data.data.paySign,
           success: function (res) {
-            // 此处that.data.obj.id是票券id
-            // 此处soid是订单id
             wx.redirectTo({
-              url: '../../personal-center/lelectronic-coupons/lectronic-coupons?id=' + that.data.obj.id + "&soid=" + soid + '&isPay=1'
+              url: '../../personal-center/lelectronic-coupons/lectronic-coupons?id=' + soid + '&isPay=1'
             })
           },
           fail: function (res) {

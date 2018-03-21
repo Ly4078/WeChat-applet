@@ -74,9 +74,6 @@ Page({
     
   },
 
-  bindinput:function(){
-    // console.log("11")
-  },
   bindFormSubmit:function(e){  //点击完成按钮
     let text = e.detail.value.textarea
     this.setData({

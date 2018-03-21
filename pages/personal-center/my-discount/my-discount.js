@@ -5,7 +5,6 @@ Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
     ticket_list: [],
-    userId: app.globalData.userInfo.userId ? app.globalData.userInfo.userId : 1,
     page: 1,
     isUpdate: true
   },
@@ -28,7 +27,7 @@ Page({
     wx.request({
       url: that.data._build_url + 'cp/list',
       data: {
-        userId: that.data.userId,
+        userId: app.globalData.userInfo.userId,
         isUsed: 0,
         page: that.data.page,
         rows: 8

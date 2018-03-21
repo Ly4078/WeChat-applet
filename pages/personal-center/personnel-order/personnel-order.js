@@ -2,7 +2,6 @@ import Api from '../../../utils/config/api.js';
 var app = getApp();
 Page({
   data: {
-    userId: app.globalData.userInfo.userId ? app.globalData.userInfo.userId : 1,
     order_list: [],
     page: 1,
     reFresh: true,
@@ -37,9 +36,9 @@ Page({
   getOrderList: function () {       //获取订单列表
     let that = this;
     let _parms = {
-      userId: this.data.userId,
+      userId: app.globalData.userInfo.userId,
       page: this.data.page,
-      rows: 5,
+      rows: 8,
       soStatus: this.data.currentTab
     };
     Api.somyorder(_parms).then((res) => {
@@ -61,7 +60,7 @@ Page({
     });
     if (this.data.currentTab == 2) {
       let _parms = {
-        userId: this.data.userId,
+        userId: app.globalData.userInfo.userId,
         page: this.data.page,
         rows: 5,
         soStatus: 3
@@ -87,9 +86,10 @@ Page({
   },
   lowerLevel: function (e) {
     let id = e.currentTarget.id,
+      skuid = e.currentTarget.dataset.skuid,
       sostatus = e.currentTarget.dataset.sostatus,
       listArr = this.data.order_list,
-      sell = "", inp = "", rule = "", num = "";
+      sell = "", inp = "", rule = "", num = "", soId = "";
     if (sostatus == 1) {
       for (let i = 0; i < listArr.length; i++) {
         if (id == listArr[i].id) {
@@ -97,11 +97,12 @@ Page({
           rule = listArr[i].ruleDesc;
           inp = parseInt(listArr[i].skuName);
           num = listArr[i].skuNum;
+          soId = listArr[i].soId;
         }
       }
       wx.navigateTo({
         // url: '/pages/index/voucher-details/voucher-details'
-        url: '/pages/index/voucher-details/voucher-details?id=' + id + ' &sell=' + sell + '&inp=' + inp + '&rule=' + rule + '&num=' + num
+        url: '/pages/index/voucher-details/voucher-details?id=' + id + '&soid=' + soId+ '&sell=' + sell + '&inp=' + inp + '&rule=' + rule + '&num=' + num
       })
     } else if (sostatus == 2 || sostatus == 3) {
       wx.navigateTo({

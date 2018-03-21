@@ -50,7 +50,6 @@ Page({
             article_list: article_list,
             reFresh: true
           });
-          console.log(that.data.article_list)
         } else {
           that.setData({
             reFresh: false

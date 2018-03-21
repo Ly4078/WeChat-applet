@@ -106,7 +106,6 @@ Page({
           var comment_list = that.data.comment_list
           comment_list[index].isZan = 0;
           comment_list[index].zan == 0 ? comment_list[index].zan : comment_list[index].zan--;
-          console.log(comment_list[index].zan)
           that.setData({
             comment_list: comment_list
           });

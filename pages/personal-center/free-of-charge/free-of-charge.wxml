@@ -8,7 +8,7 @@
       <view class='message-each'>
         <image class='message-img' src='/images/icon/import.png'></image>
         <text class='message-name'>申请人</text>
-        <input class='message-text-suo' placeholder="输入店铺的全称" bindblur="namebindblur" type='text' name="name" ></input>
+        <input class='message-text-suo' placeholder="输入申请人的名字" bindblur="namebindblur" type='text' name="name" ></input>
       </view>
     </view>
     <view class='commercial-message'>

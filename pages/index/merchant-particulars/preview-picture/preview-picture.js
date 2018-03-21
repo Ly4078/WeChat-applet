@@ -11,7 +11,6 @@ Page({
     ]
   },
   previewImg: function (e) {
-    console.log(e.currentTarget.dataset.index);
     var index = e.currentTarget.dataset.index;
     var imgArr = this.data.imgArr;
     wx.previewImage({

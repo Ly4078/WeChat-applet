@@ -3,7 +3,6 @@ import { GLOBAL_API_DOMAIN } from '../../../utils/config/config.js';
 var app = getApp();
 Page({
   data: {
-    userId: app.globalData.userInfo.userId ? app.globalData.userInfo.userId : 1,     //登录用户的id
     _build_url: GLOBAL_API_DOMAIN,
     posts_key: [],
     page: 1,
@@ -25,7 +24,7 @@ Page({
   getShareList: function() {
     let that = this;
     wx.request({
-      url: that.data._build_url + 'fvs/list?userId=' + that.data.userId + '&page=' + that.data.page + '&rows=10',
+      url: that.data._build_url + 'fvs/list?userId=' + app.globalData.userInfo.userId + '&page=' + that.data.page + '&rows=10',
       success: function(res) {
         let data = res.data;
         if (data.code == 0 && data.data.list != null && data.data.list != "" && data.data.list != []) {

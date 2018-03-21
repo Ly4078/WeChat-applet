@@ -95,7 +95,6 @@ Page({
   },
   formSubmit: function (e) {
     let that = this;
-    console.log('点击提交携带数据为：', e.detail.value)
     let arr = e.detail.value; 
     if (this.data.isname && this.data.incontactInformation && this.data.instoreName && this.data.indetailedAddress && this.data.inperCapita) {
       let _parms = {
@@ -106,7 +105,6 @@ Page({
         mobile: arr.phone, //联系方式
       }
       Api.merchantEnter(_parms).then((res) => {
-        console.log("成功上传:", res)
         wx.showToast({
           title: '提交成功',
           icon: 'loading',

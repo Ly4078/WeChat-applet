@@ -21,7 +21,7 @@
     </view>
     <view class='end-button'>
       <text class='end-activity'>活动详情</text>
-      <text class='end-activity'>我报报名</text>
+      <text class='end-activity'>我要报名</text>
     </view>
   </view>
   <view class='vote'>

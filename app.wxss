@@ -186,7 +186,12 @@
 }
 
 .trade_caim{
-  display: block;
+  display:block;
+  width:400rpx;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  overflow:hidden;
+
 }
 
 .trade_site_lxg {

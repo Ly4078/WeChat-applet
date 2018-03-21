@@ -29,7 +29,6 @@ function transformLength(len) {
 }
 
 function utf16toEntities(str) {  //将emoji表情转为字符进行存储 
-  console.log("str:", str)
   var patt = /[\ud800-\udbff][\udc00-\udfff]/g; // 检测utf16字符正则 
   str = str.replace(patt, function (char) {
     var H, L, code;

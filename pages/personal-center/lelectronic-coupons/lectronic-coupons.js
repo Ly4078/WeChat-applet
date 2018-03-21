@@ -4,7 +4,6 @@ var app = getApp();
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
-    userId: app.globalData.userInfo.userId ? app.globalData.userInfo.userId : 1,   //登录用户的id
     qrCodeArr: [],     //二维码数组
     couponsArr: [],    //票券数组
     qrCodeFlag: true,   //二维码列表显示隐藏标识
@@ -82,7 +81,7 @@ Page({
   sublevelSum: function (event) {
     let that = this;
     wx.navigateTo({
-      url: '../../index/voucher-details/voucher-details?id=' + that.data.id + ' &sell=' + that.data.ticketInfo.unitPrice + '&inp=' + that.data.ticketInfo.coupons[0].couponAmount + '&rule=' + that.data.ticketInfo.coupons[0].promotionRules[0].ruleDesc + '&num=' + that.data.ticketInfo.skuNum
+      url: '../../index/voucher-details/voucher-details?id=' + that.data.ticketInfo.skuId + ' &sell=' + that.data.ticketInfo.unitPrice + '&inp=' + that.data.ticketInfo.coupons[0].couponAmount + '&rule=' + that.data.ticketInfo.coupons[0].promotionRules[0].ruleDesc + '&num=' + that.data.ticketInfo.skuNum
     })
   }
 })
