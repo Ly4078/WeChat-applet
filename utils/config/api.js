@@ -132,6 +132,10 @@ const ALL_API = {
     method: 'GET',
     url: 'shop/get'
   },
+  takepartin: {  //商家报名活动
+    method: 'POST',
+    url: 'actshop/add'
+  },
 }
 
 const Api = new MyHttp({}, ALL_API);

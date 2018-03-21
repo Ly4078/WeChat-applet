@@ -19,7 +19,7 @@
       <view class='restrict-time'>
         <view class='restrict-caution'>
           <text>有限期至:</text>
-          <text>{{ticketInfo.expiryDate}}</text>
+          <text>{{ticketInfo.coupons[0].expiryDate}}</text>
         </view>
         <view class='restric-page-down'>
           <text class='restric-page-text' id="{{ticketInfo.id}}">使用详情</text>

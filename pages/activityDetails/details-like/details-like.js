@@ -8,7 +8,8 @@ Page({
     actdetail: [],  //根据ID查询某一条数据详情
     actlist: [],    //参加活动商家列表
     _value: '',  //搜索查询关键字
-    endtime: ''  //距离活动结束时间
+    endtime: '',  //距离活动结束时间
+    isSign: '0'   //是否报名的标识
   },
 
   onLoad: function (options) {
@@ -40,7 +41,8 @@ Page({
         endtime: iDays
       })
       that.setData({
-        actdetail: res.data.data.list[0]
+        actdetail: res.data.data.list[0],
+        isSign: res.data.data.list[0].isSign ? res.data.data.list[0].isSign : '0'
       })
     })
   },
@@ -91,7 +93,6 @@ Page({
       url: '../../index/merchant-particulars/merchant-particulars?shopid=' + stopid
     })
   },
-
   clickVote: function (e) {  //投票
     let that = this;
     let stopid = e.currentTarget.id;
@@ -128,6 +129,40 @@ Page({
         }
       }
     }
-  }
+  },
+  takePartIn: function() {   //商家报名活动
 
+    //userType  1 普通用户/2 商家用户
+    let that = this,
+        userType = app.globalData.userInfo.userType,
+        userId = app.globalData.userInfo.userId;
+    if (userType == 1) {
+      wx.showToast({
+        title: '抱歉！仅商家用户才可以报名活动',
+        icon: 'none'
+      })
+    } else if (userType == 2) {
+      let _parms = {
+        actId: this.data.actid,
+        shopId: userId
+      }
+      Api.takepartin(_parms).then((res) => {
+        console.log(res)
+        if(res.data.code == 0) {
+          wx.showToast({
+            title: '报名成功!',
+            icon: 'none'
+          })
+          that.setData({
+            isSign: 1
+          });
+        } else {
+          wx.showToast({
+            title: res.data.message,
+            icon: 'none'
+          })
+        }
+      })
+    }
+  }
 })

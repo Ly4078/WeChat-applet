@@ -70,6 +70,11 @@ page {
   margin: 0rpx 26rpx;
 }
 
+.end-activity.active {
+  border: 1px solid #b1b1b1;
+  color: #b1b1b1;
+}
+
 .particulars-ed {
   height: 350rpx;
   background-color: white;

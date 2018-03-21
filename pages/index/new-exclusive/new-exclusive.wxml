@@ -1,0 +1,17 @@
+<view class="new_exclusive">
+  <view class="newE_header">
+    <image src="/images/icon/ticket.png"></image>
+  </view>
+  <view class="newE_rule">
+    <view class="newE_title">————<text>使用规则</text>————</view>
+    <text class="newE_content">
+      1、领取后需到线下商家消费使用领取后领取后需到线下商家消费使用领取后
+      2、领取后需到线下商家消费使用领取后领取后需到线下商家消费使用领取后
+      3、领取后需到线下商家消费使用领取后领取后需到线下商家消费使用领取后
+      4、领取后需到线下商家消费使用领取后领取后需到线下商家消费使用领取后
+      5、领取后需到线下商家消费使用领取后领取后需到线下商家消费使用领取后
+      6、领取后需到线下商家消费使用领取后领取后需到线下商家消费使用领取后
+    </text>
+  </view>
+  <view class="clickto_get" bindtap="toReceive">立即领取</view>
+</view>

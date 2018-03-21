@@ -2,7 +2,6 @@
   "pages": [
     "pages/index/index",
     "pages/index/merchant-particulars/recommendation/recommendation",
-    
     "pages/index/consume-qibashare/consume-qibashare",
     "pages/index/search/search",
     "pages/personal-center/free-of-charge/free-of-charge",
@@ -15,6 +14,7 @@
     "pages/discover-plate/dynamic-state/dynamic-state",
     "pages/discover-plate/dynamic-state/text_input/text_input",
     "pages/discover-plate/dynamic-state/article_details/article_details",
+    "pages/index/new-exclusive/new-exclusive",
     "pages/index/order-for-goods/order-for-goods",
     "pages/personal-center/enshrine/enshrine",
     "pages/personal-center/cancel-after-verification/cancel-after-verification",
