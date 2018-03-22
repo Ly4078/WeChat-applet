@@ -9,6 +9,7 @@ Page({
     shopid: '',  //商家ID
     store_details: {},  //店铺详情
     currentTab: 0,
+    commentNum: 0,    //评论数量
     isCollected: false,   //是否收藏，默认false
     isComment: false,
     store_images:''
@@ -174,15 +175,11 @@ Page({
             that.setData({
               comment_list: _data
             })
-          }
+          } 
           that.setData({
             commentNum: res.data.data.total
           })
-        } else {
-          that.setData({
-            totalComment: true
-          })
-        }
+        } 
       }
     })
   },

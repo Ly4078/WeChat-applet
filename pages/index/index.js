@@ -277,7 +277,7 @@ Page({
       url: 'dining-room/dining-room',
     })
   },
-  hotelUnopen: function () {  //未开放 酒店 景点 休闲娱乐
+  hotelUnopen: function () {  //未开放 酒店 休闲娱乐
     wx.showToast({
       title: '该功能更新中...',
     })
@@ -287,9 +287,9 @@ Page({
       title: '该功能更新中...',
     })
   },
-  entertainment: function () {
-    wx.showToast({
-      title: '该功能更新中...',
+  entertainment: function () {  //掌上生活
+    wx.navigateTo({
+      url: 'webview/webview',
     })
   },
   recommendCt: function (event) {

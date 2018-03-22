@@ -1,9 +1,11 @@
 <import src="comment-template/comment-template.wxml" />
 <view>
   <view class='detailsWrap'>
-    <view class="img_shade"></view>
-    <button class="shareIcon" open-type="share">按</button>
-    <image class='cateImages' src='{{store_details.logoUrl}}' bindtap='moreImages'></image>
+     <view class="img_shade" bindtap='moreImages'></view> 
+    <button class="shareIcon" open-type="share">
+      <image class='shareIcon-IMG' src='/images/icon/share.png'></image>
+    </button>
+    <image class='cateImages' src='{{store_details.logoUrl}}'></image>
     <text class='wrapImages'>共<text>{{store_images}}</text>张</text> 
   </view>
   <view>
@@ -84,7 +86,7 @@
         </view>
       </view>
 
-      <view class='initiate-exhibition the-second' catchtap='jumpTotalComment'>
+      <view class='initiate-exhibition the-second' hidden="{{commentNum == 0}}" catchtap='jumpTotalComment'>
         <view>
           <image class='initiate-left' src='/images/icon/home_sign.png'></image>
           <text class='initiate-text'>精选评价</text>
@@ -94,7 +96,7 @@
       <block wx:for="{{comment_list}}" wx:key="{{index}}">
         <template is="commentItem" data="{{item}}"></template>
       </block>
-      <view class='total-comment' hidden='{{totalComment}}' catchtap='jumpTotalComment'>
+      <view class='total-comment' hidden='{{commentNum < 6}}' catchtap='jumpTotalComment'>
         <view class='total-center'>
           <text>查看全部<text>{{commentNum}}</text>条评论</text>
         </view>

@@ -108,7 +108,12 @@ Page({
       userName: e.detail.value
     })
   },
-  overname:function(){
+  confirmname:function(){
+    this.setData({
+      isname: false
+    })
+  },
+  blurname:function(){
     this.setData({
       isname: false
     })

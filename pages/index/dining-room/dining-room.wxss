@@ -112,6 +112,11 @@
 .trade_name {
   font-size: 16px;
   margin-top: 20rpx;
+  display: inline-block; 
+  width: 260rpx;
+  text-overflow: ellipsis; 
+  white-space: nowrap; 
+  overflow: hidden;
 }
 
 .elsk{
@@ -136,7 +141,16 @@
 }
 
 .trade_site_lxg {
-  padding: 0rpx 30rpx 0rpx 0rpx;
+   display: inline-block; 
+   float: right;
+}
+
+.trade_site_address {
+  display: inline-block;  
+  width: 260rpx;
+  text-overflow: ellipsis; 
+  white-space: nowrap; 
+  overflow: hidden;
 }
 
 .trade_site_distance {
@@ -144,6 +158,15 @@
   color: #808080;
   font-size: 13px;
   word-spacing: 7rpx;
+  zoom: 1;
+}
+.trade_site_distance:after{
+  content:".";
+  clear:both;
+  display:block;
+  height:0;
+  overflow:hidden;
+  visibility:hidden;
 }
 
 .trade_caim{

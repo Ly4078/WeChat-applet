@@ -11,6 +11,7 @@ scroll_box.initiate-exhibition {
   height: 40rpx;
   vertical-align: middle;
   padding-right: 20rpx;
+  padding-left: 30rpx;
 }
 
 .initiate-text {
@@ -48,13 +49,13 @@ scroll_box.initiate-exhibition {
 .scroll_anchor {
   white-space: nowrap;
   overflow: hidden;
-  height: 420rpx;
+  height: 357rpx;
   width: 100%;
 }
 
 .anchor_img {
   width: 94%;
-  height: 390rpx;
+  height: 330rpx;
   border-radius: 8rpx;
 }
 
@@ -69,8 +70,8 @@ scroll_box.initiate-exhibition {
   font-size: 14px;
   color: #fff;
   position: absolute;
-  top: 293rpx;
-  left: 30rpx;
+  top: 235rpx;
+  left: 19rpx;
 }
 
 .live-streaming {
