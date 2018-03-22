@@ -11,6 +11,7 @@ scroll_box.initiate-exhibition {
   height: 40rpx;
   vertical-align: middle;
   padding-right: 20rpx;
+  padding-left: 30rpx;
 }
 
 .initiate-text {
