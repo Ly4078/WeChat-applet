@@ -5,7 +5,6 @@ Page({
     _build_url: GLOBAL_API_DOMAIN,
     iconUrl: app.globalData.userInfo.iconUrl,
     userName: app.globalData.userInfo.userName,
-    userId: app.globalData.userInfo.userId,
     qrCode: ''
   },
   onLoad: function (options) {
@@ -19,7 +18,7 @@ Page({
       url: that.data._build_url + 'topic/myList',
       method: 'GET',
       data: {
-        userId: that.data.userId,
+        userId: app.globalData.userInfo.userId,
         page: '1',
         rows: 1,
       },
@@ -31,10 +30,10 @@ Page({
       }
     })
     wx.request({
-      url: that.data._build_url + 'fvs/list?userId=' + that.data.userId + '&page=' + that.data.page + '&rows=10',
+      url: that.data._build_url + 'fvs/list?userId=' + app.globalData.userInfo.userId + '&page=' + that.data.page + '&rows=10',
       method: 'GET',
       data: {
-        userId: that.data.userId,
+        userId: app.globalData.userInfo.userId,
         page: '1',
         rows: 1,
       },
@@ -125,7 +124,7 @@ Page({
             return false;
           } else {
             wx.navigateTo({
-              url: 'cancel-after-verification/cancel-after-verification?qrCode=' + that.data.qrCode + '&userId=' + that.data.userId,
+              url: 'cancel-after-verification/cancel-after-verification?qrCode=' + that.data.qrCode + '&userId=' + app.globalData.userInfo.userId,
             })
           }
         } else {

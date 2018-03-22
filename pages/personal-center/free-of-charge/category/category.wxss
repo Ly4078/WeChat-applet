@@ -1,0 +1,16 @@
+
+.catebox{
+  width: 6940rpx;
+  background: #fff;
+  padding: 0 28rpx;
+}
+.checkbox{
+  display: block;
+  width: 694rpx;
+  height: 100rpx;
+  line-height: 100rpx;
+  border-bottom: 1rpx solid #E0E0E0;
+}
+.check_item{
+  float:right;
+}

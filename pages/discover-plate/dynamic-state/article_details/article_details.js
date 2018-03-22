@@ -83,7 +83,7 @@ Page({
   },
   getcmtlist: function () {  //获取文章评论数据
     let _parms = {
-      zanUserId: app.globalData.userInfo.userId ? app.globalData.userInfo.userId : this.data.userId,
+      zanUserId: app.globalData.userInfo.userId,
       cmtType: '2',
       refId: this.data._id
     }
@@ -196,7 +196,7 @@ Page({
     let _parms = {
       refId: id,
       type: '4',
-      userId: app.globalData.userInfo.userId ? app.globalData.userInfo.userId : this.data.userId,
+      userId: app.globalData.userInfo.userId,
     }
     Api.zanadd(_parms).then((res) => {
       if (res.data.code == 0) {
@@ -226,7 +226,7 @@ Page({
     let _parms = {
       refId: id,
       type: '4',
-      userId: app.globalData.userInfo.userId ? app.globalData.userInfo.userId : this.data.userId,
+      userId: app.globalData.userInfo.userId,
     }
     Api.zandelete(_parms).then((res) => {
       if (res.data.code == 0) {

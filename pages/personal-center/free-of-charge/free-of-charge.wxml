@@ -1,49 +1,84 @@
-<form bindsubmit="formSubmit" bindreset="formReset">
-  <view>
-    <image class='bannerTop' src='/images/icon/banner1.png'></image>
+
+<view>
+
+  <image class='bannerTop' src='/images/icon/banner1.png'></image>
+  <view class='prompt'>
+    <text class='prompt_text'>{{prompt}}</text>
+  </view>
+  <form bindsubmit="formSubmit" class='commercial-message' >
     <view class='commercial'>
       <text>商户信息</text>
     </view>
-    <view class='commercial-message'>
-      <view class='message-each'>
-        <image class='message-img' src='/images/icon/import.png'></image>
-        <text class='message-name'>申请人</text>
-        <input class='message-text-suo' placeholder="输入申请人的名字" bindblur="namebindblur" type='text' name="name" ></input>
-      </view>
+
+    <view class='message-each'>
+      <text class='message-name'>申请人</text>
+      <input class='message-text-suo' placeholder="输入申请人的名字"  type='text' name="userName" bindblur="blurname"></input>
     </view>
-    <view class='commercial-message'>
-      <view class='message-each'>
-        <image class='message-img' src='/images/icon/import.png'></image>
-        <text class='message-name'>联系方式</text>
-        <input name="phone" maxlength="11" class='message-text' bindblur="information" placeholder="输入座机或电话号码" type="number"></input>
-      </view>
+
+    <view class='message-each'>
+      <text class='message-name'>联系方式</text>
+      <input name="mobeli" maxlength="11" class='message-text' placeholder="输入座机(加区号)或电话号码" type="number" value='{{mobeli}}' bindblur="blurmobile"></input>
     </view>
+
+    <view class='message-each'>
+      <text class='message-name'>店铺名称</text>
+      <input class='message-text' name="shopName" placeholder="输入店铺的全称" bindblur="blurshop"></input>
+    </view>
+
+    <view class='message-each'>
+      <text class='message-name'>详细地址</text>
+      <input class='message-text' name="address" placeholder="输入店铺地址" value="{{address}}"></input>
+      <image class='more' src='/images/icon/home_arrow.png' catchtap='getlocation'></image>
+    </view>
+
+    <view class='message-each' catchtap='opencate'>
+      <text class='message-name'>经营品类</text>
+      <input class='message-text' name="businessCate" bindblur="inperFigure" placeholder="选择经营品类" type="number" value="{{businessCate}}" disabled="true"></input>
+      <image class='more' src='/images/icon/home_arrow.png'></image>
+    </view>
+
     <view class='commercial'>
-      <text>店铺信息</text>
+      <text>提交资质</text>
     </view>
-    <view class='commercial-message'>
-      <view class='message-each'>
-        <image class='message-img' src='/images/icon/import.png'></image>
-        <text class='message-name'>店铺名称</text>
-        <input class='message-text' name="storeName" bindblur="namebindblurDetails" placeholder="输入店铺的全称"></input>
+
+    <view class='message-qual'>
+      <view class='qual_left'>
+        <text class='message-name'>营业执照</text>
+      </view>
+      <view class='qual_right'>
+        <view class='each-caption'>上传营业执照</view>
+        <image wx:if="{{licensePic}}" class='qualimg' catchtap='license' src='{{licensePic}}'></image>
+        <image wx:else class='qualimg' catchtap='license' src='/images/icon/set_cover.png'></image>
       </view>
     </view>
-    <view class='commercial-message'>
-      <view class='message-each'>
-        <image class='message-img' src='/images/icon/import.png'></image>
-        <text class='message-name'>详细地址</text>
-        <input class='message-text' name="location" bindblur="indetailedMinute" placeholder="输入店铺地址"></input>
+
+    <view class='message-qual'>
+      <view class='qual_left'>
+        <text class='message-name'>卫生许可证</text>
+      </view>
+      <view class='qual_right'>
+        <view class='each-caption'>上传卫生许可证</view>
+        <image wx:if="{{healthPic}}" class='qualimg' catchtap='health' src='{{healthPic}}'></image>
+         <image wx:else class='qualimg' catchtap='health' src='/images/icon/set_cover.png'></image>
       </view>
     </view>
-    <view class='commercial-message'>
-      <view class='message-each'>
-        <image class='message-img' src='/images/icon/import.png'></image>
-        <text class='message-name'>人均消费</text>
-        <input class='message-text' name="perCapita" bindblur="inperFigure"  placeholder="输入人均消费金额" type="number"></input>
+
+    <view class='message-qual'>
+      <view class='qual_left'>
+        <text class='message-name'>门头照</text>
+      </view>
+      <view class='qual_right'>
+        <view class='each-caption'>上传门头照</view>
+        <image wx:if="{{doorPic}}" class='qualimg' catchtap='door' src='{{doorPic}}'></image>
+        <image wx:else class='qualimg' catchtap='door' src='/images/icon/set_cover.png'></image>
       </view>
     </view>
-    <view class='sbumitApply-for'>
-      <button class='sbujit-button' formType="submit">提交申请</button>
-    </view>
-  </view>
-</form>
+
+     <view class="btn-area">
+       <text class='agree'>同意</text><text class='pact'>《享7商家服务协议》</text> 
+       <button formType="submit" class='subbut'>提交申请</button> 
+    </view> 
+  </form>
+
+
+</view>

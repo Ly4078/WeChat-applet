@@ -238,7 +238,6 @@
 }
 
 Page {
-  /* background: #1baceb; */
   position: absolute;
   font-size: 36rpx;
   width: 100%;

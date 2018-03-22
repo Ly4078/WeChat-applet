@@ -5,7 +5,6 @@ var app = getApp();
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
-    userId: app.globalData.userInfo.userId ? app.globalData.userInfo.userId : 1,     //登录用户的id
     article_list: [],
     reFresh: true,
     page: 1
@@ -29,7 +28,7 @@ Page({
       url: that.data._build_url + 'topic/myList',
       method: 'GET',
       data: {
-        userId: that.data.userId,
+        userId: app.globalData.userInfo.userId,
         page: that.data.page,
         rows: 5
       },
