@@ -6,16 +6,18 @@ Page({
     _build_url: GLOBAL_API_DOMAIN,
     food:[],
     page:1,
-    hotlive:[]
+    hotlive:[],
+    flag: true
   },
   onLoad:function(){
     
   },
   onShow: function (options) {
     let that = this;
-    this.data.page = 1
     this.setData({
-      food:[]
+      food:[],
+      page: 1,
+      flag: true
     })
     this.getfood();
     wx.request({
@@ -55,6 +57,10 @@ Page({
         this.setData({
           food:_data
         })
+      } else {
+        this.setData({
+          flag: false
+        });
       }
     })
   },
@@ -77,10 +83,12 @@ Page({
     })
   },
   onReachBottom: function () {  //用户上拉触底
-    let that = this
-    this.setData({
-      page: this.data.page + 1
-    });
-    that.getfood();
+    if(this.data.flag) {
+      let that = this
+      this.setData({
+        page: this.data.page + 1
+      });
+      that.getfood();
+    }
   }
 })

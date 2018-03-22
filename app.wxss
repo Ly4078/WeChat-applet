@@ -337,10 +337,15 @@
 }
 
 .catewallText{
+  display: inline-block;
   font-size: 24rpx;
   color: white;
   vertical-align: middle;
   padding-left: 10rpx;
+  text-overflow: clip;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 540rpx;
 }
 .DescriptionText{
   font-size: 30rpx;
