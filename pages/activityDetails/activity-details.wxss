@@ -46,13 +46,23 @@ page {
 .conditions{
   width: 80rpx;
   height: 30rpx;
-  border: 1px solid #35C85F;
+  border: 2rpx solid #35C85F;
   border-radius: 50rpx;
   padding: 0rpx 7rpx;
   color: #35C85F;
   margin-left: 20rpx;
   text-align: center;
   line-height: 30rpx;
+}
+
+.conditions.orange {
+  color: #fc5e2d;
+  border: 2rpx solid #fc5e2d;
+}
+
+.conditions.gray {
+  color: #b1b1b1;
+  border: 2rpx solid #b1b1b1;
 }
 
 .time-condition{
