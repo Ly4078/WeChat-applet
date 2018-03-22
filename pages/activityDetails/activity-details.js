@@ -3,14 +3,19 @@ Page({
   data: {
     actdata:[],
     page:1,
-    actid:''  //活动ID
+    actid:'',  //活动ID
+    flag: true
   },
 
   onLoad: function (options) {
     
   },
-  onShow:function(){
-    this.data.page = 1
+  onShow: function () {
+    this.setData({
+      actdata: [],
+      page: 1,
+      flag: true
+    })
     this.getcatdata()
   },
   getcatdata:function(){  //获取列表数据
@@ -20,12 +25,21 @@ Page({
       row:8
     }
     Api.actlist(_parms).then((res) => {
-      let _data = this.data.actdata
-      if (res.data.code == 0 && res.data.data != null && res.data.data != "" && res.data.data != []) {
-        _data = _data.concat(res.data.data.list)
-        this.setData({
-          actdata: _data
+      let data = res.data;
+      if (data.code == 0 && data.data.list != null && data.data.list != "" && data.data.list != []) {
+        let actList = [];
+        actList = that.data.actdata;
+        for (let i = 0; i < data.data.list.length; i++) {
+          actList.push(data.data.list[i]);
+          actList[i].endTime = actList[i].endTime.substring(0, actList[i].endTime.indexOf(' '));
+        }
+        that.setData({
+          actdata: actList
         })
+      } else {
+        that.setData({
+          flag: false
+        });
       }
     })
   },
@@ -36,9 +50,11 @@ Page({
     })
   },
   onReachBottom: function () {  //用户上拉触底
-    this.setData({
-      page: this.data.page + 1
-    });
-    this.getcatdata();
+    if(this.data.flag) {
+      this.setData({
+        page: this.data.page + 1
+      });
+      this.getcatdata();
+    }
   }
 })
