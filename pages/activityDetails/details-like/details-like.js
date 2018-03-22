@@ -131,11 +131,10 @@ Page({
     }
   },
   takePartIn: function() {   //商家报名活动
-
     //userType  1 普通用户/2 商家用户
     let that = this,
         userType = app.globalData.userInfo.userType,
-        userId = app.globalData.userInfo.userId;
+        shopId = app.globalData.userInfo.shopId;
     if (userType == 1) {
       wx.showToast({
         title: '抱歉！仅商家用户才可以报名活动',
@@ -144,7 +143,7 @@ Page({
     } else if (userType == 2) {
       let _parms = {
         actId: this.data.actid,
-        shopId: userId
+        shopId: shopId
       }
       Api.takepartin(_parms).then((res) => {
         console.log(res)
