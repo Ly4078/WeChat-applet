@@ -83,6 +83,29 @@ Page({
 
   checkboxChange: function (e) {
     // console.log('checkbox发生change事件，携带value值为：', e.detail.value)
+    let _value = e.detail.value
+    if(_value.length>3){
+      wx.showToast({
+        title: '最多选择三个分类',
+        icon: 'none',
+        duration: 1500
+      })
+      // let [...arr] = _value.slice(0,3)
+      // let _data = this.data.foodatas
+      // for(let i=0;i<arr.length;i++){
+      //   for (let j = 0; j < _data.length;j++){
+      //     if (arr[i] == _data[i].name){
+      //       _data[j].checked = true
+      //     }else{
+      //       _data[j].checked = false
+      //     }
+      //   }
+      // }
+      // this.setData({
+      //   foodatas:_data
+      // })
+      return false
+    }
     wx.setStorage({
       key: 'cate',
       data: e.detail.value,

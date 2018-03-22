@@ -42,7 +42,9 @@ Page({
     
     if(_value){
       let _parms = {
-        searchKey: _value
+        searchKey: _value,
+        locationX: app.globalData.userInfo.lng,
+        locationY: app.globalData.userInfo.lat,
       }
       Api.shoplist(_parms).then((res) => {
         if (res.data.code == 0 && res.data.data.list != [] && res.data.data.list != ''){

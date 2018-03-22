@@ -13,7 +13,15 @@ page{
   text-align: center;
   padding-top: 60rpx;
 }
-
+.chname{
+  margin: 0 125rpx;
+  width: 500rpx;
+  height: 50rpx;
+  border: 1rpx solid #b1b1b1;
+}
+.inputname{
+  float: left;
+}
 .centreImages{
   width: 154rpx;
   height: 154rpx;

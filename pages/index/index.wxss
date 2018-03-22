@@ -43,10 +43,13 @@ page {
 }
 
  .site_location_text{
-  /* width: 85%; */
+   width: 120rpx; 
   height: 60rpx;
   line-height: 60rpx;
   font-size: 28rpx;
+  text-overflow:ellipsis; 
+  white-space:nowrap; 
+  overflow:hidden;
 } 
 
 .location {

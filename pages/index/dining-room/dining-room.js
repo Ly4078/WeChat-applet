@@ -14,7 +14,9 @@ Page({
     isnearby: false,
     isfood: false,
     issorting: false,
-    reFresh: true
+    reFresh: true,
+    businessCate:'',
+    browSort:''
   },
   onLoad: function (options) {
     this.getData();
@@ -28,27 +30,30 @@ Page({
     //   reFresh: true
     // })
   },
-  getData: function (num,data) {
+  getData: function () {
     let _parms = {
       locationX: app.globalData.userInfo.lng,
       locationY: app.globalData.userInfo.lat,
       page: this.data.page,
       rows: 8
     }
-    if(num ==1){ //附件
-
-    }else if(num == 2){ //美食类别 
-      _parms.businessCate = data
-    }else if(num ==3){  //综合排序
-      _parms.browSort = '2'
+    if (this.data.businessCate) { //美食类别 
+      _parms.businessCate = this.data.businessCate
+    } else if (this.data.browSort) { //综合排序
+      _parms.browSort = this.data.browSort
     }
+    wx.showLoading({
+      title:'加载中。。。'
+    })
     Api.shoplist(_parms).then((res) => {
       let data = res.data;
+      wx.hideLoading()
       if (data.code == 0 && data.data.list != null && data.data.list != "" && data.data.list != []) {
         let posts_key = this.data.posts_key;
         for (let i = 0; i < data.data.list.length; i++) {
           posts_key.push(data.data.list[i]);
         }
+       
         this.getDistance(posts_key) //计算距离并赋值
         this.setData({
           reFresh: true
@@ -91,7 +96,9 @@ Page({
     //   searchValue: e.detail.value
     // })
     let _parms = {
-      searchKey: e.detail.value
+      searchKey: e.detail.value,
+      locationX: app.globalData.userInfo.lng,
+      locationY: app.globalData.userInfo.lat,
     }
     Api.shoplist(_parms).then((res) => {
       if (res.data.code == 0 && res.data.data.list != [] && res.data.data.list != '') {
@@ -192,7 +199,7 @@ Page({
       }
     }
     this.closemodel()
-    this.getData(1, _value)
+    this.getData()
   },
   clickfood: function (ev) { //美食之一
     let id = ev.currentTarget.id
@@ -203,8 +210,13 @@ Page({
         _value = _data[i]
       }
     }
+    this.setData({
+      businessCate:_value,
+      browSort:'',
+      posts_key:[]
+    })
     this.closemodel()
-    this.getData(2,_value)
+    this.getData()
   },
   clicksorting: function (ev) { //综合排序之一
     let id = ev.currentTarget.id
@@ -216,7 +228,12 @@ Page({
       } 
     }
     this.closemodel()
-    this.getData(3,_value)
+    this.setData({
+      browSort: '2',
+      businessCate:'',
+      posts_key: []
+    })
+    this.getData()
   }
 
 //模态框 end

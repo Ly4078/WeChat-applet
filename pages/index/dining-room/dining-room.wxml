@@ -65,5 +65,8 @@
   <block wx:for="{{posts_key}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
     <template is="tpeMerchant" data="{{item}}" />
   </block>
+  <block wx:if="{{posts_key.length<1}}">
+      暂无此分类商家
+  </block> 
 </view>
 </scroll-view> 
