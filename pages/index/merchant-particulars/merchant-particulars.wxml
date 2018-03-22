@@ -20,7 +20,7 @@
       <view class='popularityCollect'>
         <text class='popularity'>{{store_details.popNum}}人气</text>
         <text wx:if="{{isCollected}}" class='collect active' catchtap="cancelCollect">已收藏</text>
-        <text wx:else class='collect enshrinees' catchtap="onCollect">收藏</text>
+        <text wx:else class='collect' catchtap="onCollect">收藏</text>
       </view>
     </view>
   </view>

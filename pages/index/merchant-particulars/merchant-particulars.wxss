@@ -1,5 +1,4 @@
 @import "./comment-template/comment-template.wxss";
-
 page {
   background-color: #ebebeb;
 }
@@ -134,14 +133,14 @@ page {
 }
 
 .collect {
+  display: inline-block;
   color: white;
   background-color: #fc5e2d;
-  padding: 12rpx 20rpx;
+  padding: 12rpx 0;
+  width: 120rpx;
+  text-align: center;
   font-size: 26rpx;
-  border-top-left-radius: 50rpx;
-  border-top-right-radius: 50rpx;
-  border-bottom-left-radius: 50rpx;
-  border-bottom-right-radius: 50rpx;
+  border-radius: 50rpx;
   letter-spacing: 2px;
 }
 .collect.active {
@@ -201,10 +200,6 @@ page {
   display: flex;
   flex-direction: column;
   height: 100%;
-}
-
-.enshrinees{
-  letter-spacing: 20rpx;
 }
 
 .navbar {
