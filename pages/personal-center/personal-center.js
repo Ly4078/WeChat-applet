@@ -1,10 +1,12 @@
 import { GLOBAL_API_DOMAIN } from '/../../utils/config/config.js';
+import Api from '../../utils/config/api.js'
 var app = getApp();
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
     iconUrl: app.globalData.userInfo.iconUrl,
     userName: app.globalData.userInfo.userName,
+    isname:false,
     qrCode: ''
   },
   onLoad: function (options) {
@@ -14,6 +16,7 @@ Page({
   },
   onShow: function () {
     let that = this;
+    this.getuserInfo()
     wx.request({
       url: that.data._build_url + 'topic/myList',
       method: 'GET',
@@ -43,6 +46,117 @@ Page({
         that.setData({
           collectTotal: res.data.data.total
         })
+      }
+    })
+  },
+  updatauser:function(data){ //更新用户信息
+    let that = this
+    let _parms = {
+      userId:app.globalData.userId
+    }
+    if (data.avatarUrl){
+      _parms.iconUrl = data.avatarUrl
+    }
+    if (data.nickName){
+      _parms.userName = data.nickName
+    }
+    if (data.gender){
+      _parms.gender = data.gender
+    }
+    Api.updateuser(_parms).then((res)=>{
+      console.log("res",res)
+      if(res.data.code == 0){
+        console.log("res.data")
+      }
+    })
+  },
+  changeimg:function(){  //更换头像图片
+    let that = this
+    wx.chooseImage({
+      count: 1,
+      sizeType: ['original', 'compressed'],
+      sourceType: ['album', 'camera'],
+      success: function (res) {
+        var tempFilePaths = res.tempFilePaths
+        wx.uploadFile({
+          url: that.data._build_url + 'img/upload',
+          filePath: tempFilePaths[0],
+          name: 'file',
+          formData: {
+            'userName': 'test'
+          },
+          success: function (res) {
+            let _data = JSON.parse(res.data)
+            that.setData({
+              iconUrl: _data.data.smallPicUrl
+            })
+          },
+          fail: function (res) {
+            console.log("fail:", res)
+          }
+        })
+      }
+    })
+  },
+  changename:function(){  //用户更换名称
+    this.setData({
+      isname:true
+    })
+  },
+  nameok:function(e){
+    this.setData({
+      userName: e.detail.value
+    })
+  },
+  overname:function(){
+    this.setData({
+      isname: false
+    })
+  },
+  getuserInfo: function () {  //获取用户信息
+    let that = this;
+    wx.getUserInfo({
+      success: res => {
+        if (res.userInfo) {
+          console.log("res:",res)
+            this.setData({
+              iconUrl: res.userInfo.avatarUrl,
+              userName: res.userInfo.nickName,
+            })
+            this.updatauser(res.userInfo)
+        }
+      },
+      fail: res => {
+        this.wxgetsetting();
+      }
+    })
+  },
+  wxgetsetting: function () {  //若用户之前没用授权其用户信息，则调整此函数请求用户授权
+    let that = this
+    wx.getSetting({
+      success: (res) => {
+        if (res.authSetting['scope.userInfo']) {
+          // console.log("用户已授受获取其用户信息")
+        } else {
+          // console.log("用户未授受获取其用户信息")
+          wx.showModal({
+            title: '提示',
+            content: '享7要你的用户信息，快去授权！',
+            success: function (res) {
+              if (res.confirm) {
+                wx.openSetting({  //打开授权设置界面
+                  success: (res) => {
+                    if (res.authSetting['scope.userInfo']) {
+                      that.getuserInfo()
+                    }
+                  }
+                })
+              } else if (res.cancel) {
+                console.log('用户点击取消')
+              }
+            }
+          })
+        }
       }
     })
   },

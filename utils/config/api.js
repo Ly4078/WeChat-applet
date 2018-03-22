@@ -11,13 +11,17 @@ const ALL_API = {
     method:'POST',
     url:'wxpay/getOpenId'
   },
-  useradd:{
+  useradd:{ 
     method:'POST',
     url:'user/add'
   },
   usersignup: {
     method: 'POST',
     url: 'user/signup'
+  },
+  updateuser: {  //更新用户信息
+    method:'POST',
+    url:'user/update'
   },
   shoptop: {   //分页查询热门商家列表   推荐餐厅
     method: 'GET',

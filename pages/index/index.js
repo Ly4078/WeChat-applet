@@ -120,7 +120,6 @@ Page({
         let longitude = res.longitude
         let speed = res.speed
         let accuracy = res.accuracy
-
         that.requestCityName(latitude, longitude);
       },
       complete: function (res) {

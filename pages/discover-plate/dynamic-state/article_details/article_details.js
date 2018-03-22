@@ -59,7 +59,7 @@ Page({
         let _data = res.data.data;
         _data.summary = utils.uncodeUtf16(_data.summary)
         _data.content = utils.uncodeUtf16(_data.content)
-        _data.timeDiffrence = utils.timeDiffrence(_data.currentTime, _data.updateTime, _data.createTime)
+        _data.timeDiffrence = utils.timeDiffrence(res.data.currentTime, _data.updateTime, _data.createTime)
         _data.content = JSON.parse(_data.content)
         this.setData({
           details: _data
@@ -89,6 +89,9 @@ Page({
     }
     Api.cmtlist(_parms).then((res) => {
       let _data = res.data.data;
+      for(let i=0;i<_data.list.length;i++){
+        _data.list[i].content = utils.uncodeUtf16(_data.list[i].content)
+      }
       this.setData({
         cmtdata: _data
       })
@@ -115,6 +118,11 @@ Page({
         isComment: false
       })
       return false;
+    }else{
+      let _value = utils.utf16toEntities(this.data.commentVal)
+      this.setData({
+        commentVal:_value
+      })
     }
     let _parms = {
       refId: this.data._id,

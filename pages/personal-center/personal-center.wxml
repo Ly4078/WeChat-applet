@@ -1,8 +1,12 @@
 <view>
   <view class='centreWrap'>
     <view class='centreTopName'>
-      <image class='centreImages' src='{{iconUrl}}'></image>
-      <view class='centreText'>{{userName}}</view>
+      <image class='centreImages' src='{{iconUrl}}' catchtap='changeimg'></image>
+      <view class='chname' wx:if="{{isname}}">
+        <input value='{{userName}}' class='inputname' bindinput="nameok" bindblur="overname" bindconfirm="overname"></input>
+      </view> 
+      <view wx:else class='centreText' catchtap='changename'>{{userName}}</view>
+      
     </view>
     <view class='messageCase'>
       <view class='messageWrap' bindtap='DynamicState'>
