@@ -86,7 +86,7 @@
         </view>
       </view>
 
-      <view class='initiate-exhibition the-second' catchtap='jumpTotalComment'>
+      <view class='initiate-exhibition the-second' hidden="{{commentNum == 0}}" catchtap='jumpTotalComment'>
         <view>
           <image class='initiate-left' src='/images/icon/home_sign.png'></image>
           <text class='initiate-text'>精选评价</text>
@@ -96,7 +96,7 @@
       <block wx:for="{{comment_list}}" wx:key="{{index}}">
         <template is="commentItem" data="{{item}}"></template>
       </block>
-      <view class='total-comment' hidden='{{totalComment}}' catchtap='jumpTotalComment'>
+      <view class='total-comment' hidden='{{commentNum < 5}}' catchtap='jumpTotalComment'>
         <view class='total-center'>
           <text>查看全部<text>{{commentNum}}</text>条评论</text>
         </view>
