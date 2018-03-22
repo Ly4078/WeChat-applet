@@ -109,8 +109,9 @@ Page({
   // 电话号码功能
   calling: function () {
     let that = this;
+    console.log("电话:", that.data.store_details.phone)
     wx.makePhoneCall({
-      phoneNumber: that.data.store_details.mobile, //此号码并非真实电话号码，仅用于测试
+      phoneNumber: that.data.store_details.phone, //此号码并非真实电话号码，仅用于测试
       success: function () {
         console.log("拨打电话成功！")
       },
@@ -278,6 +279,7 @@ Page({
             isCollected: !that.data.isCollected
           })
           wx.showToast({
+            icon: 'none',
             title: "收藏成功"
           })
         }
@@ -296,7 +298,8 @@ Page({
             isCollected: !that.data.isCollected
           })
           wx.showToast({
-            title: "取消成功"
+            icon: 'none',
+            title: "已取消"
           })
         }
       }

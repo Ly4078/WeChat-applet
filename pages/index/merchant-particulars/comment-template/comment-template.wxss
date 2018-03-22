@@ -17,7 +17,7 @@
   border-radius: 50%;
   vertical-align: middle;
   margin-right: 20rpx;
-  border: 1px solid #555555;
+  border: 1px solid #f8f8f8;
 }
 .evaluateText {
   color: #191919;
