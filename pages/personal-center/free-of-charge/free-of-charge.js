@@ -27,6 +27,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    this.searchByUserId()
     wx.setStorage({
       key: 'cate',
       data: '',
@@ -88,6 +89,40 @@ Page({
    */
   onShareAppMessage: function () {
 
+  },
+  searchByUserId:function(){
+    let _parms = {
+      userId:app.globalData.userInfo.userId
+    }
+    Api.searchByUserId(_parms).then((res)=>{
+      if(res.data.code ==0 ){
+        if (res.data.data && res.data.data.id){
+          wx.showModal({
+            title: '提示',
+            content: '你已经提交过申请',
+            success: function (res) {
+              if (res.confirm) {
+                wx.switchTab({
+                  url: '../../personal-center/personal-center'
+                })
+                wx.setStorage({
+                  key: 'cate',
+                  data: '',
+                })
+              } else if (res.cancel) {
+                wx.switchTab({
+                  url: '../../personal-center/personal-center'
+                })
+                wx.setStorage({
+                  key: 'cate',
+                  data: '',
+                })
+              }
+            }
+          })
+        }
+      }
+    })
   },
   opencate: function () {
     wx.navigateTo({
@@ -214,9 +249,6 @@ Page({
                 doorPic: _img
               })
             }
-          },
-          fail: function (res) {
-            console.log("fail:", res)
           }
         })
       }

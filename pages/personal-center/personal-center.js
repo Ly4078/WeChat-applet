@@ -80,7 +80,6 @@ Page({
       sourceType: ['album', 'camera'],
       success: function (res) {
         var tempFilePaths = res.tempFilePaths
-        console.log("tempFilePaths[0]:", tempFilePaths[0])
         wx.uploadFile({
           url: that.data._build_url + 'img/upload',
           filePath: tempFilePaths[0],
@@ -91,7 +90,6 @@ Page({
           success: function (res) {
             let _data = JSON.parse(res.data)
             let _img = _data.data.smallPicUrl
-            console.log("_img:",_img)
             let data = {
               avatarUrl: _img
             }

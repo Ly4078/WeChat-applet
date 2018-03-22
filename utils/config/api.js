@@ -144,6 +144,10 @@ const ALL_API = {
     method: 'POST',
     url: 'actshop/add'
   },
+  searchByUserId:{  //查询当前userId是否已入驻 
+    method:'GET',
+    url:'shopEnter/searchByUserId'
+  }
 }
 
 const Api = new MyHttp({}, ALL_API);
