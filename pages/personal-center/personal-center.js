@@ -150,6 +150,7 @@ Page({
     })
   },
   changeimg() {   // 更换头像图片
+    return false  //暂时如此   待后台调好后删除此行
     let that = this
     wx.chooseImage({
       count: 1,
@@ -179,6 +180,7 @@ Page({
     })
   },
   changename: function () {  //用户开始更换名称
+    return false  //暂时如此   待后台调好后删除此行
     this.setData({
       isname: true
     })
