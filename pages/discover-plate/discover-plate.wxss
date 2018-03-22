@@ -36,14 +36,7 @@ scroll_box.initiate-exhibition {
 
 .anchor {
   width: 50%;
-  display: inline-block;
-}
-
-.scroll_anchor {
-  white-space: nowrap;
-  overflow: hidden;
-  height: 420rpx;
-  width: 100%;
+   display: inline-block; 
 }
 
 .scroll_anchor {
@@ -206,7 +199,7 @@ scroll_box.initiate-exhibition {
 }
 
 .findtext{
-  height: 40rpx;
+  height: 80rpx;
 }
 
 .otherdata{

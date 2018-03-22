@@ -28,6 +28,10 @@
 
 .user-text{
   display: inline-block;
+  width: 453rpx;
+  text-overflow: clip;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .user-text .user-name{
@@ -97,4 +101,6 @@
   color: #FFFFFF;
   font-size: 34rpx;
   letter-spacing: 2rpx;
+  height: 90rpx;
+  overflow: hidden;
 }

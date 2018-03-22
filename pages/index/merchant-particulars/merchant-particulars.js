@@ -5,7 +5,7 @@ var app = getApp();
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
-    navbar: ['主页', '动态'],
+    navbar: ['主页'],
     shopid: '',  //商家ID
     store_details: {},  //店铺详情
     currentTab: 0,
@@ -108,11 +108,9 @@ Page({
   },
   // 电话号码功能
   calling: function () {
-    console.log("phone:", that.data.store_details.mobile)
     let that = this;
-    console.log("电话:", that.data.store_details.phone)
     wx.makePhoneCall({
-      phoneNumber: that.data.store_details.mobile, 
+      phoneNumber: that.data.store_details.phone, 
       success: function () {
         console.log("拨打电话成功！")
       },
@@ -209,7 +207,7 @@ Page({
         if (res.data.code == 0) {
           wx.showToast({
             mask: true,
-            icon: 'success',
+            icon: 'none',
             title: '点赞成功'
           },1500)
           var comment_list = that.data.comment_list
@@ -240,7 +238,7 @@ Page({
         if (res.data.code == 0) {
           wx.showToast({
             mask: true,
-            icon: 'success',
+            icon: 'none',
             title: '已取消'
           },1500)
           var comment_list = that.data.comment_list
@@ -283,7 +281,7 @@ Page({
           })
           wx.showToast({
             mask: true,
-            icon: 'success',
+            icon: 'none',
             title: "收藏成功"
           },1500)
         }
@@ -303,7 +301,7 @@ Page({
           })
           wx.showToast({
             mask: true,
-            icon: 'success',
+            icon: 'none',
             title: "已取消"
           },1500)
         }

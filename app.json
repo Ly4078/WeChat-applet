@@ -60,7 +60,7 @@
       {
         "selectedColor": "#FF4411",
         "pagePath": "pages/discover-plate/discover-plate",
-        "text": "发现",
+        "text": "推荐",
         "iconPath": "images/icon/home_tab_search.png",
         "selectedIconPath": "images/icon/home_tab_searched.png"
       },

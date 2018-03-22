@@ -55,7 +55,7 @@
         </view>
         <image class='currentTabjiantou' src='/images/icon/home_arrow.png'></image>
       </view> -->
-      <view class='currentTabButton'>
+      <!-- <view class='currentTabButton'>
         <image class='voteList' src='/images/icon/votehuodong.png'></image>
         <image class='currentTabjiantou' src='/images/icon/home_arrow.png'></image>
       </view>
@@ -65,7 +65,7 @@
           <text class='cuttentTabxiangq'>正在参数不辣不欢活动</text>
         </view>
         <text class='vote-entrance'>投票</text>
-      </view>
+      </view> -->
       <view class='initiate-wrapp' catchtap='recommendedRestaurant'>
         <view class='initiate-exhibition'>
           <view>
