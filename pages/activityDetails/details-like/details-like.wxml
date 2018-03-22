@@ -1,5 +1,5 @@
 <view>
-  <image class='particulars-images' src='{{actdetail.mainPic}}'></image>
+  <image class='particulars-images' mode="aspectFill" src='{{actdetail.mainPic}}'></image>
   <view class='particulars-ed'>
     <view class='particulars-option'>
       <view class='particulars-warp'>
@@ -38,7 +38,7 @@
     <block wx:for="{{actlist}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
       <view class='merchant-sub' id="{{item.id}}" bindtap='clickshop'>
         <view class='merchant-img-left'>
-          <image class='merchant-images' src='{{item.logoUrl}}'></image>
+          <image class='merchant-images' mode="aspectFill" src='{{item.logoUrl}}'></image>
           <view class='serial-number'>{{item.shopCode}}</view>
         </view>
         <view class='merchant-img-right'>
