@@ -151,7 +151,6 @@ Page({
         shopId: shopId
       }
       Api.takepartin(_parms).then((res) => {
-        console.log(res)
         if(res.data.code == 0) {
           wx.showToast({
             title: '报名成功!',

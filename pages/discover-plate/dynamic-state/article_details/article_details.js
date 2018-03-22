@@ -89,12 +89,14 @@ Page({
     }
     Api.cmtlist(_parms).then((res) => {
       let _data = res.data.data;
-      for(let i=0;i<_data.list.length;i++){
-        _data.list[i].content = utils.uncodeUtf16(_data.list[i].content)
+      if (_data.list) {
+        for (let i = 0; i < _data.list.length; i++) {
+          _data.list[i].content = utils.uncodeUtf16(_data.list[i].content)
+        }
+        this.setData({
+          cmtdata: _data
+        })
       }
-      this.setData({
-        cmtdata: _data
-      })
     })
   },
   showAreatext: function () {  //显示发表输入框
@@ -118,10 +120,10 @@ Page({
         isComment: false
       })
       return false;
-    }else{
+    } else {
       let _value = utils.utf16toEntities(this.data.commentVal)
       this.setData({
-        commentVal:_value
+        commentVal: _value
       })
     }
     let _parms = {
@@ -159,7 +161,7 @@ Page({
         wx.showToast({
           mask: true,
           title: '点赞成功'
-        },1500)
+        }, 1500)
         _details.isZan = 1
         let _zan = this.data.zan
         _zan++
@@ -181,9 +183,9 @@ Page({
     Api.zandelete(_parms).then((res) => {
       if (res.data.code == 0) {
         wx.showToast({
-          mask:true,
+          mask: true,
           title: '取消成功',
-        },1500)
+        }, 1500)
         _details.isZan = 0
         let _zan = this.data.zan
         _zan--
@@ -214,7 +216,7 @@ Page({
           mask: true,
           icon: 'success',
           title: '点赞成功'
-        },1500)
+        }, 1500)
         var _cmtdata = that.data.cmtdata
         _cmtdata.list[ind].isZan = 1;
         _cmtdata.list[ind].zan++;
@@ -245,7 +247,7 @@ Page({
           mask: true,
           icon: 'success',
           title: '已取消'
-        },1500)
+        }, 1500)
         let _cmtdata = that.data.cmtdata
         _cmtdata.list[ind].isZan = 0;
         _cmtdata.list[ind].zan == 0 ? _cmtdata.list[ind].zan : _cmtdata.list[ind].zan--;
