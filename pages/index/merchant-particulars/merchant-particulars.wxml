@@ -5,7 +5,7 @@
     <button class="shareIcon" open-type="share">
       <image class='shareIcon-IMG' src='/images/icon/share.png'></image>
     </button>
-    <image class='cateImages' src='{{store_details.logoUrl}}'></image>
+    <image class='cateImages' mode="aspectFill" src='{{store_details.logoUrl}}'></image>
     <text class='wrapImages'>共<text>{{store_images}}</text>张</text> 
   </view>
   <view>
@@ -19,8 +19,8 @@
       </view>
       <view class='popularityCollect'>
         <text class='popularity'>{{store_details.popNum}}人气</text>
-        <text wx:if="{{isCollected}}" class='collect active' catchtap="cancelCollect">取消收藏</text>
-        <text wx:else class='collect' catchtap="onCollect">收藏</text>
+        <text wx:if="{{isCollected}}" class='collect active' catchtap="cancelCollect">已收藏</text>
+        <text wx:else class='collect enshrinees' catchtap="onCollect">收藏</text>
       </view>
     </view>
   </view>

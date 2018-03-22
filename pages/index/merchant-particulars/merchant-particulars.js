@@ -110,6 +110,7 @@ Page({
   calling: function () {
     console.log("phone:", that.data.store_details.mobile)
     let that = this;
+    console.log("电话:", that.data.store_details.phone)
     wx.makePhoneCall({
       phoneNumber: that.data.store_details.mobile, 
       success: function () {
@@ -279,6 +280,7 @@ Page({
             isCollected: !that.data.isCollected
           })
           wx.showToast({
+            icon: 'none',
             title: "收藏成功"
           })
         }
@@ -297,7 +299,8 @@ Page({
             isCollected: !that.data.isCollected
           })
           wx.showToast({
-            title: "取消成功"
+            icon: 'none',
+            title: "已取消"
           })
         }
       }

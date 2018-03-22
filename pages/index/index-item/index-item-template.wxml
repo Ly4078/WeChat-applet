@@ -39,7 +39,7 @@
 <!--推荐餐厅  -->
 <template name="postItemss">
   <view id="{{item.id}}" class="scroll-view-item bc_green" data-postId="{{item.id}}" catchtap='diningHhall' >
-     <image wx:if="{{item.logoUrl}}" class='scroll-view-item-img' src='{{item.logoUrl}}'></image> 
+     <image wx:if="{{item.logoUrl}}" mode="aspectFill" class='scroll-view-item-img' src='{{item.logoUrl}}'></image> 
      <image wx:else class='scroll-view-item-img' src='https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1975347470,2770072390&fm=27&gp=0.jpg'></image> 
     <view class='cate_site'>{{item.shopName}}</view>
   </view>
@@ -60,9 +60,9 @@
 <!--美食墙  -->
 <template name="classifyss">
   <view id="{{item.id}}" catchtap="fooddetails" class="scroll_user">
-    <image class='cateWallImg' src='{{item.homePic}}'></image>
+    <image class='cateWallImg' mode="aspectFill" src='{{item.homePic}}'></image>
     <view class='catewallGroup'>
-       <image class='catewalltou' src='{{item.iconUrl}}'></image> 
+       <image class='catewalltou' mode="aspectFill" src='{{item.iconUrl}}'></image> 
       <text class='catewallText'>{{item.title}}</text>
     </view>
     <view class='foodDescription'>
@@ -87,7 +87,7 @@
 <!--热门活动  -->
 <template name="hotActivityss">
   <view class="preferential" id="{{item.id}}" catchtap='detailOfTheActivity'>
-  <image wx:if="{{item.mainPic}}" class='preferential_img' src='{{item.mainPic}}'></image> 
+  <image wx:if="{{item.mainPic}}" mode="aspectFill" class='preferential_img' src='{{item.mainPic}}'></image> 
   <image wx:else class='scroll-view-item-img' src='https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1975347470,2770072390&fm=27&gp=0.jpg'></image>
   </view>
 </template>
@@ -109,7 +109,7 @@
 <!--趣享直播  -->
 <template name="liveStreamingss">
   <view id="{{item.id}}" bindtap='tolive' class="anchor bc_green">
-    <image wx:if="{{item.vedioUrl}}" class='anchor_img' src='{{item.vedioUrl}}'></image>
+    <image wx:if="{{item.vedioUrl}}" mode="aspectFill" class='anchor_img' src='{{item.vedioUrl}}'></image>
     <view class='cate_site'>{{item.anchorNickName}}:{{item.title}}</view>
   </view>
 </template>
