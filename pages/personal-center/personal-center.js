@@ -57,11 +57,11 @@ Page({
       success: res => {
         console.log("getuserinfo:", res.userInfo)
         if (res.userInfo) {
-          // that.setData({
-          //   iconUrl: res.userInfo.avatarUrl,
-          //   nickName: res.userInfo.nickName,
-          // })
-          that.updatauser(res.userInfo)
+          that.setData({
+            iconUrl: res.userInfo.avatarUrl,
+            nickName: res.userInfo.nickName,
+          })
+          that.updatauser(res.userInfo,1)
         }
       },
       complete: res => {
@@ -106,7 +106,7 @@ Page({
       }
     })
   },
-  updatauser: function (data) { //更新用户信息
+  updatauser: function (data,num) { //更新用户信息
     let that = this
     let _parms = {
       userId: app.globalData.userInfo.userId,
@@ -123,7 +123,9 @@ Page({
     }
     Api.updateuser(_parms).then((res) => {
       if (res.data.code == 0) {
-        this.getuser()
+        if(num == 1){ //此处还需优化   更换用户信息
+            // this.getuser()
+        }
       }
     })
   },
@@ -137,7 +139,7 @@ Page({
       success: function (res) {
         if (res.data.code == 0) {
           let data = res.data.data
-          this.setData({
+          that.setData({
             iconUrl: data.iconUrl,
             nickName: data.nickName
           })
@@ -165,11 +167,12 @@ Page({
           success: function (res) {
             console.log("res:", res)
             let _data = JSON.parse(res.data)
+            console.log("_data:",_data)
             let _img = _data.data.smallPicUrl
             let data = {
               avatarUrl: _img
             }
-            that.updatauser(data)
+            that.updatauser(data,1)
           }
         })
       }
@@ -192,7 +195,7 @@ Page({
     let data = {
       nickName: this.data.newname
     }
-    that.updatauser(data)
+    that.updatauser(data,1)
   },
   calling: function () { //享7客户电话
     wx.makePhoneCall({

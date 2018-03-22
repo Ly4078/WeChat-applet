@@ -35,7 +35,7 @@ Page({
       success: res => {
         let _code = res.code;
         console.log("code:",_code)
-        return false  //此处返回，则获取的code是没有用过的，用于测试
+        // return false  //此处返回，则获取的code是没有用过的，用于测试
         if (res.code) {
           let _parms = {
             code: res.code
@@ -63,7 +63,7 @@ Page({
           app.globalData.userInfo.openId = data.openId,
           app.globalData.userInfo.password = data.password,
           app.globalData.userInfo.userId = data.id,
-          // app.globalData.userInfo.userName = data.nickName,
+          app.globalData.userInfo.userName = data.nickName,
           app.globalData.userInfo.nikcName = data.nickName,
           app.globalData.userInfo.loginTimes = data.loginTimes,
           app.globalData.userInfo.iconUrl = data.iconUrl,
