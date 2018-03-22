@@ -208,9 +208,10 @@ Page({
       success: function (res) {
         if (res.data.code == 0) {
           wx.showToast({
-            icon: 'none',
+            mask: true,
+            icon: 'success',
             title: '点赞成功'
-          })
+          },1500)
           var comment_list = that.data.comment_list
           comment_list[index].isZan = 1;
           comment_list[index].zan++;
@@ -238,9 +239,10 @@ Page({
       success: function (res) {
         if (res.data.code == 0) {
           wx.showToast({
-            icon: 'none',
+            mask: true,
+            icon: 'success',
             title: '已取消'
-          })
+          },1500)
           var comment_list = that.data.comment_list
           comment_list[index].isZan = 0;
           comment_list[index].zan == 0 ? comment_list[index].zan : comment_list[index].zan--;
@@ -280,9 +282,10 @@ Page({
             isCollected: !that.data.isCollected
           })
           wx.showToast({
-            icon: 'none',
+            mask: true,
+            icon: 'success',
             title: "收藏成功"
-          })
+          },1500)
         }
       }
     })
@@ -299,9 +302,10 @@ Page({
             isCollected: !that.data.isCollected
           })
           wx.showToast({
-            icon: 'none',
+            mask: true,
+            icon: 'success',
             title: "已取消"
-          })
+          },1500)
         }
       }
     })
@@ -323,9 +327,10 @@ Page({
     let that = this;
     if (this.data.commentVal == "" || this.data.commentVal == undefined) {
       wx.showToast({
+        mask: true,
         title: '请先输入评论',
         icon: 'none'
-      })
+      },1500)
     } else {
       let content = utils.utf16toEntities(that.data.commentVal);
       let _parms = {

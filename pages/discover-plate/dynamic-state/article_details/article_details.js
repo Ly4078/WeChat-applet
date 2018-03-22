@@ -157,8 +157,9 @@ Page({
     Api.zanadd(_parms).then((res) => {
       if (res.data.code == 0) {
         wx.showToast({
+          mask: true,
           title: '点赞成功'
-        })
+        },1500)
         _details.isZan = 1
         let _zan = this.data.zan
         _zan++
@@ -180,8 +181,9 @@ Page({
     Api.zandelete(_parms).then((res) => {
       if (res.data.code == 0) {
         wx.showToast({
+          mask:true,
           title: '取消成功',
-        })
+        },1500)
         _details.isZan = 0
         let _zan = this.data.zan
         _zan--
@@ -209,9 +211,10 @@ Page({
     Api.zanadd(_parms).then((res) => {
       if (res.data.code == 0) {
         wx.showToast({
-          icon: 'none',
+          mask: true,
+          icon: 'success',
           title: '点赞成功'
-        })
+        },1500)
         var _cmtdata = that.data.cmtdata
         _cmtdata.list[ind].isZan = 1;
         _cmtdata.list[ind].zan++;
@@ -239,9 +242,10 @@ Page({
     Api.zandelete(_parms).then((res) => {
       if (res.data.code == 0) {
         wx.showToast({
-          icon: 'none',
+          mask: true,
+          icon: 'success',
           title: '已取消'
-        })
+        },1500)
         let _cmtdata = that.data.cmtdata
         _cmtdata.list[ind].isZan = 0;
         _cmtdata.list[ind].zan == 0 ? _cmtdata.list[ind].zan : _cmtdata.list[ind].zan--;

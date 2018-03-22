@@ -114,6 +114,11 @@ Page({
                 that.setData({
                   actlist: arr
                 })
+              wx.showToast({
+                mask: true,
+                icon: 'success',
+                title: '操作成功'
+              }, 1500)
             }
           })
         } else {
