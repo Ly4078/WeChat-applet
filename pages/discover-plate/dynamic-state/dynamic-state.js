@@ -234,8 +234,8 @@ Page({
         }
       }
       let _sum =''
-      if (sum[0]){
-        let _sum = utils.utf16toEntities(sum[0])
+      if (sum[0] != undefined && sum[0] != ''){
+        _sum = utils.utf16toEntities(sum[0])
       }
       if (!_title) {
         wx.showToast({
