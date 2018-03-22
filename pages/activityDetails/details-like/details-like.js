@@ -27,8 +27,8 @@ Page({
       userName: app.globalData.userInfo.userName,
       sourceType: '1'
     }
-    Api.actlist(_parms).then((res) => {
-      let _endtime = res.data.data.list[0].endTime;
+    Api.actdetail(_parms).then((res) => {
+      let _endtime = res.data.data.endTime;
       _endtime = Date.parse(_endtime);
       let today = new Date();
       today = Date.parse(today);
@@ -41,8 +41,8 @@ Page({
         endtime: iDays
       })
       that.setData({
-        actdetail: res.data.data.list[0],
-        isSign: res.data.data.list[0].isSign ? res.data.data.list[0].isSign : '0'
+        actdetail: res.data.data,
+        isSign: res.data.data.isSign ? res.data.data.isSign : '0'
       })
     })
   },

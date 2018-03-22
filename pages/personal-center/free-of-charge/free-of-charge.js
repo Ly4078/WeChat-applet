@@ -196,7 +196,7 @@ Page({
           filePath: tempFilePaths[0],
           name: 'file',
           formData: {
-            'userName': 'test'
+            'userName': app.globalData.userInfo.userName
           },
           success: function (res) {
             let _data = JSON.parse(res.data)

@@ -34,10 +34,14 @@ const ALL_API = {
   shopget: {   //根据id查询商家信息
     method: 'GET',
     url: 'shop/get'
-  },
+  }, 
   actlist: {   //分页查询活动列表
     method: 'GET',
     url: 'act/list'
+  },
+  actdetail: {   //查询单个活动详情
+    method: 'GET',
+    url: 'act/detail'
   },
   acttop: {   //热门活动列表
     method: 'GET',

@@ -233,7 +233,10 @@ Page({
           }
         }
       }
-      let _sum = utils.utf16toEntities(sum[0])
+      let _sum =''
+      if (sum[0]){
+        let _sum = utils.utf16toEntities(sum[0])
+      }
       if (!_title) {
         wx.showToast({
           title: '请输入标题',
@@ -317,7 +320,7 @@ Page({
           filePath: tempFilePaths[0],
           name: 'file',
           formData: {
-            'userName': 'test'
+            'userName': app.globalData.userInfo.userName
           },
           success: function (res) {
             var article = getApp().globalData.article;  //获取全局变量

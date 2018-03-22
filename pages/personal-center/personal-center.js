@@ -7,16 +7,18 @@ Page({
     iconUrl: app.globalData.userInfo.iconUrl,
     userName: app.globalData.userInfo.userName,
     isname:false,
+    newname:'',
     qrCode: ''
   },
   onLoad: function (options) {
+    this.getuserInfo()
     this.setData({
       userName: app.globalData.userInfo.userName
     })
   },
   onShow: function () {
     let that = this;
-    this.getuserInfo()
+    this.wxgetsetting();
     wx.request({
       url: that.data._build_url + 'topic/myList',
       method: 'GET',
@@ -52,7 +54,8 @@ Page({
   updatauser:function(data){ //更新用户信息
     let that = this
     let _parms = {
-      userId:app.globalData.userId
+      userId:app.globalData.userId,
+      openId: app.globalData.openId,
     }
     if (data.avatarUrl){
       _parms.iconUrl = data.avatarUrl
@@ -60,17 +63,16 @@ Page({
     if (data.nickName){
       _parms.userName = data.nickName
     }
-    if (data.gender){
-      _parms.gender = data.gender
+    if (data.sex){
+      _parms.sex= data.gender
     }
     Api.updateuser(_parms).then((res)=>{
-      console.log("res",res)
       if(res.data.code == 0){
-        console.log("res.data")
+        console.log("修改成功")
       }
     })
   },
-  changeimg:function(){  //更换头像图片
+  changeimg() {   // 更换头像图片
     let that = this
     wx.chooseImage({
       count: 1,
@@ -78,18 +80,26 @@ Page({
       sourceType: ['album', 'camera'],
       success: function (res) {
         var tempFilePaths = res.tempFilePaths
+        console.log("tempFilePaths[0]:", tempFilePaths[0])
         wx.uploadFile({
           url: that.data._build_url + 'img/upload',
           filePath: tempFilePaths[0],
           name: 'file',
           formData: {
-            'userName': 'test'
+            'userName': app.globalData.userInfo.userName
           },
           success: function (res) {
             let _data = JSON.parse(res.data)
+            let _img = _data.data.smallPicUrl
+            console.log("_img:",_img)
+            let data = {
+              avatarUrl: _img
+            }
+            that.updatauser(data)
             that.setData({
-              iconUrl: _data.data.smallPicUrl
+              iconUrl: _img
             })
+            app.globalData.userInfo.iconUrl = _img
           },
           fail: function (res) {
             console.log("fail:", res)
@@ -105,30 +115,41 @@ Page({
   },
   nameok:function(e){
     this.setData({
-      userName: e.detail.value
+      newname: e.detail.value
     })
   },
   confirmname:function(){
     this.setData({
-      isname: false
+      isname: false,
+      userName: this.data.newname
     })
+    let data = {
+      userName: this.data.newname
+    }
+    that.updatauser(data)
+    app.globalData.userInfo.userName = this.data.newname
   },
   blurname:function(){
     this.setData({
-      isname: false
+      isname: false,
+      userName: this.data.newname
     })
+    let data = {
+      userName: this.data.newname
+    }
+    that.updatauser(data)
+    app.globalData.userInfo.userName = this.data.newname
   },
   getuserInfo: function () {  //获取用户信息
     let that = this;
     wx.getUserInfo({
       success: res => {
         if (res.userInfo) {
-          console.log("res:",res)
             this.setData({
               iconUrl: res.userInfo.avatarUrl,
               userName: res.userInfo.nickName,
             })
-            this.updatauser(res.userInfo)
+            that.updatauser(res.userInfo)
         }
       },
       fail: res => {
