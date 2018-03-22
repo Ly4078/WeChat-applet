@@ -54,8 +54,8 @@ Page({
   updatauser:function(data){ //更新用户信息
     let that = this
     let _parms = {
-      userId:app.globalData.userId,
-      openId: app.globalData.openId,
+      userId: app.globalData.userInfo.userId,
+      openId: app.globalData.userInfo.openId,
     }
     if (data.avatarUrl){
       _parms.iconUrl = data.avatarUrl
@@ -100,9 +100,6 @@ Page({
               iconUrl: _img
             })
             app.globalData.userInfo.iconUrl = _img
-          },
-          fail: function (res) {
-            console.log("fail:", res)
           }
         })
       }
