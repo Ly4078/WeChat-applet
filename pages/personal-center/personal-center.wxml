@@ -3,9 +3,9 @@
     <view class='centreTopName'>
       <image class='centreImages' src='{{iconUrl}}' catchtap='changeimg'></image>
       <view class='chname' wx:if="{{isname}}">
-        <input value='{{userName}}' class='inputname' bindinput="nameok" bindblur="blurname" bindconfirm="confirmname"></input>
+        <input value='{{userName}}' class='inputname' bindinput="nameok" bindblur="blurname"></input>
       </view> 
-      <view wx:else class='centreText' catchtap='changename'>{{userName}}</view>
+      <view wx:else class='centreText' catchtap='changename'>{{nickName}}</view>
       
     </view>
     <view class='messageCase'>

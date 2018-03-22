@@ -5,20 +5,20 @@ Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
     iconUrl: app.globalData.userInfo.iconUrl,
-    userName: app.globalData.userInfo.userName,
+    nickName: app.globalData.userInfo.nickName ? app.globalData.userInfo.nickName : app.globalData.userInfo.userName,
     isname: false,
     newname: '',
     qrCode: ''
   },
   onLoad: function (options) {
-    this.getuserInfo()
     this.setData({
-      userName: app.globalData.userInfo.userName
+      nickName: app.globalData.userInfo.nickName
     })
   },
   onShow: function () {
     let that = this;
-    this.wxgetsetting();
+    this.getuserInfo()
+    // this.wxgetsetting();
     wx.request({
       url: that.data._build_url + 'topic/myList',
       method: 'GET',
@@ -51,103 +51,20 @@ Page({
       }
     })
   },
-  updatauser: function (data) { //更新用户信息
-    let that = this
-    let _parms = {
-      userId: app.globalData.userInfo.userId,
-      openId: app.globalData.userInfo.openId,
-    }
-    if (data.avatarUrl) {
-      _parms.iconUrl = data.avatarUrl
-    }
-    if (data.nickName) {
-      _parms.userName = data.nickName
-    }
-    if (data.sex) {
-      _parms.sex = data.gender
-    }
-    Api.updateuser(_parms).then((res) => {
-      if (res.data.code == 0) {
-        console.log("修改成功")
-      }
-    })
-  },
-  changeimg() {   // 更换头像图片
-    let that = this
-    wx.chooseImage({
-      count: 1,
-      sizeType: ['original', 'compressed'],
-      sourceType: ['album', 'camera'],
-      success: function (res) {
-        var tempFilePaths = res.tempFilePaths
-        wx.uploadFile({
-          url: that.data._build_url + 'img/upload',
-          filePath: tempFilePaths[0],
-          name: 'file',
-          formData: {
-            'userName': app.globalData.userInfo.userName
-          },
-          success: function (res) {
-            let _data = JSON.parse(res.data)
-            let _img = _data.data.smallPicUrl
-            let data = {
-              avatarUrl: _img
-            }
-            that.updatauser(data)
-            that.setData({
-              iconUrl: _img
-            })
-            app.globalData.userInfo.iconUrl = _img
-          }
-        })
-      }
-    })
-  },
-  changename: function () {  //用户更换名称
-    this.setData({
-      isname: true
-    })
-  },
-  nameok: function (e) {
-    this.setData({
-      newname: e.detail.value
-    })
-  },
-  confirmname: function () {
-    this.setData({
-      isname: false,
-      userName: this.data.newname
-    })
-    let data = {
-      userName: this.data.newname
-    }
-    that.updatauser(data)
-    app.globalData.userInfo.userName = this.data.newname
-  },
-  blurname: function () {
-    this.setData({
-      isname: false,
-      userName: this.data.newname
-    })
-    let data = {
-      userName: this.data.newname
-    }
-    that.updatauser(data)
-    app.globalData.userInfo.userName = this.data.newname
-  },
-  getuserInfo: function () {  //获取用户信息
+  getuserInfo: function () {  //从微信服务器获取用户信息
     let that = this;
     wx.getUserInfo({
       success: res => {
+        console.log("getuserinfo:", res.userInfo)
         if (res.userInfo) {
-          this.setData({
-            iconUrl: res.userInfo.avatarUrl,
-            userName: res.userInfo.nickName,
-          })
+          // that.setData({
+          //   iconUrl: res.userInfo.avatarUrl,
+          //   nickName: res.userInfo.nickName,
+          // })
           that.updatauser(res.userInfo)
         }
       },
-      fail: res => {
+      complete: res => {
         this.wxgetsetting();
       }
     })
@@ -168,18 +85,114 @@ Page({
                 wx.openSetting({  //打开授权设置界面
                   success: (res) => {
                     if (res.authSetting['scope.userInfo']) {
-                      that.getuserInfo()
+                      wx.getUserInfo({
+                        success: res => {
+                          if (res.userInfo) {
+                            that.setData({
+                              iconUrl: res.userInfo.avatarUrl,
+                              nickName: res.userInfo.nickName,
+                            })
+                            that.updatauser(res.userInfo)
+                          }
+                        }
+                      })
                     }
                   }
                 })
-              } else if (res.cancel) {
-                console.log('用户点击取消')
               }
             }
           })
         }
       }
     })
+  },
+  updatauser: function (data) { //更新用户信息
+    let that = this
+    let _parms = {
+      userId: app.globalData.userInfo.userId,
+      openId: app.globalData.userInfo.openId,
+    }
+    if (data.avatarUrl) {
+      _parms.iconUrl = data.avatarUrl
+    }
+    if (data.nickName) {
+      _parms.nickName = data.nickName
+    }
+    if (data.gender) {
+      _parms.sex = data.gender
+    }
+    Api.updateuser(_parms).then((res) => {
+      if (res.data.code == 0) {
+        this.getuser()
+      }
+    })
+  },
+  getuser: function () { //从自己的服务器获取用户信息
+    let that = this
+    wx.request({
+      url: this.data._build_url + 'user/get/' + app.globalData.userInfo.userId,
+      header: {
+        'content-type': 'application/json'
+      },
+      success: function (res) {
+        if (res.data.code == 0) {
+          let data = res.data.data
+          this.setData({
+            iconUrl: data.iconUrl,
+            nickName: data.nickName
+          })
+          app.globalData.userInfo.nickName = data.nickName
+          app.globalData.userInfo.iconUrl = data.iconUrl
+        }
+      }
+    })
+  },
+  changeimg() {   // 更换头像图片
+    let that = this
+    wx.chooseImage({
+      count: 1,
+      sizeType: ['original', 'compressed'],
+      sourceType: ['album', 'camera'],
+      success: function (res) {
+        var tempFilePaths = res.tempFilePaths
+        wx.uploadFile({
+          url: that.data._build_url + 'img/upload',
+          filePath: tempFilePaths[0],
+          name: 'file',
+          formData: {
+            'nickName': app.globalData.userInfo.nickName
+          },
+          success: function (res) {
+            console.log("res:", res)
+            let _data = JSON.parse(res.data)
+            let _img = _data.data.smallPicUrl
+            let data = {
+              avatarUrl: _img
+            }
+            that.updatauser(data)
+          }
+        })
+      }
+    })
+  },
+  changename: function () {  //用户开始更换名称
+    this.setData({
+      isname: true
+    })
+  },
+  nameok: function (e) {  //获取用户新名称
+    this.setData({
+      newname: e.detail.value
+    })
+  },
+  blurname: function () { //用户结束更换名称
+    this.setData({
+      isname: false
+    })
+    let data = {
+      nickName: this.data.newname
+    }
+    that.updatauser(data)
   },
   calling: function () { //享7客户电话
     wx.makePhoneCall({

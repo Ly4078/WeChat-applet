@@ -25,25 +25,7 @@ Page({
     this.gettopic();
   },
   onShow: function () {
-    let lat = '', lng = '';  //lat纬度   lng经度
-    wx.getStorage({
-      key: 'lat',
-      success: function (res) {
-        lat = res.data;
-      }
-    })
-    wx.getStorage({
-      key: 'lng',
-      success: function (res) {
-        lng = res.data;
-      }
-    })
-    let that = this;
-    setTimeout(function () {
-      if (lat && lng) {
-        that.requestCityName(lat, lng)
-      }
-    }, 500)
+    this.getlocation()
   },
 
   getopenid: function () {  //获取openID sessionKey
@@ -52,8 +34,8 @@ Page({
     wx.login({
       success: res => {
         let _code = res.code;
-        // console.log("code:",_code)
-        // return false  //此处返回，则获取的code是没有用过的，用于测试
+        console.log("code:",_code)
+        return false  //此处返回，则获取的code是没有用过的，用于测试
         if (res.code) {
           let _parms = {
             code: res.code
@@ -63,8 +45,6 @@ Page({
               app.globalData.userInfo.userId = res.data.data
             }
             this.getuser()
-            this.getlocation()
-            // this.getuserInfo()
           })
         }
       }
@@ -78,13 +58,12 @@ Page({
       },
       success: function (res) {
         if (res.data.code == 0) {
-          console.log("res:",res)
           let data = res.data.data; 
           app.globalData.userInfo.userType = data.userType,
           app.globalData.userInfo.openId = data.openId,
           app.globalData.userInfo.password = data.password,
           app.globalData.userInfo.userId = data.id,
-          app.globalData.userInfo.userName = data.userName,
+          // app.globalData.userInfo.userName = data.nickName,
           app.globalData.userInfo.nikcName = data.nickName,
           app.globalData.userInfo.loginTimes = data.loginTimes,
           app.globalData.userInfo.iconUrl = data.iconUrl,
@@ -96,20 +75,6 @@ Page({
       }
     })
   },
-  getuserInfo: function () {  //获取用户信息
-    let that = this;
-    wx.getUserInfo({
-      success: res => {
-        if (res.userInfo) {
-          this.data.Info = res.userInfo
-          this.setblouserInfo(res.userInfo)
-        }
-      },
-      complete: res => {
-        this.getlocation();
-      }
-    })
-  },
   getlocation: function () {  //获取用户位置
     let that = this
     let lat = '', lng = ''
@@ -118,8 +83,6 @@ Page({
       success: function (res) {
         let latitude = res.latitude
         let longitude = res.longitude
-        let speed = res.speed
-        let accuracy = res.accuracy
         that.requestCityName(latitude, longitude);
       },
       complete: function (res) {
@@ -127,50 +90,34 @@ Page({
       }
     })
   },
-  wxgetsetting: function () {  //若用户之前没用授权其用户信息和位置信息，则调整此函数请求用户授权
+  wxgetsetting: function () {  //若用户之前没用授权位置信息，则调整此函数请求用户授权
     let that = this
     wx.getSetting({
       success: (res) => {
-        // if (res.authSetting['scope.userInfo'] && res.authSetting['scope.userLocation']) {
         if (res.authSetting['scope.userLocation']) {
           // console.log("用户已授受获取其用户信息和位置信息")
         } else {
           // console.log("用户未授受获取其用户信息或位置信息")
           wx.showModal({
             title: '提示',
-            content: '享7要你的用户信息和位置信息，快去授权！',
+            content: '享7要你的位置信息，快去授权',
             success: function (res) {
               if (res.confirm) {
                 wx.openSetting({  //打开授权设置界面
                   success: (res) => {
-                    if (res.authSetting['scope.userInfo']) {
-                      wx.getUserInfo({
-                        success: res => {
-                          if (res.userInfo) {
-                            // this.data.Info = res.userInfo
-                            that.setblouserInfo(res.userInfo)
-                          }
-                        }
-                      })
-                    }
                     if (res.authSetting['scope.userLocation']) {
                       wx.getLocation({
                         type: 'wgs84',
                         success: function (res) {
                           let latitude = res.latitude
                           let longitude = res.longitude
-                          let speed = res.speed
-                          let accuracy = res.accuracy
-  
-                          that.requestCityName(latitude, longitude);
+                          that.requestCityName(latitude, longitude)
                         }
                       })
                     }
                   }
                 })
-              } else if (res.cancel) {
-                console.log('用户点击取消')
-              }
+              } 
             }
           })
         }
@@ -194,13 +141,6 @@ Page({
         }
       }
     })
-  },
-  setblouserInfo: function (data) {  //将获取到的用户信息赋值给全局变量
-    // app.globalData.userInfo.userName = data.nickName,
-      // app.globalData.userInfo.nikcName = data.nickName,
-      // app.globalData.userInfo.avatarUrl = data.avatarUrl,
-      // app.globalData.userInfo.city = data.city,
-      // app.globalData.userInfo.sex = data.gender //gender	用户的性别，值为1时是男性，值为2时是女性，值为0时是未知
   },
   getcarousel: function () {  //轮播图
     let that = this;
