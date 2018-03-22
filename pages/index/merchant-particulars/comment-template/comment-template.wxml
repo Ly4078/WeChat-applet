@@ -2,7 +2,7 @@
   <view class='evaluate-maximum'>
     <view class='evaluate-wrap'>
       <view>
-        <image class='evaluateImages' src='{{item.userPic}}'></image>
+        <image class='evaluateImages' mode="aspectFill" src='{{item.userPic}}'></image>
         <text class='evaluateText'>{{item.userName}}</text>
       </view>
       <view wx:if="{{item.isZan == 0}}" bindtap="toLike" id="{{item.id}}">

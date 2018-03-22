@@ -6,8 +6,8 @@ Page({
     _build_url: GLOBAL_API_DOMAIN,
     iconUrl: app.globalData.userInfo.iconUrl,
     userName: app.globalData.userInfo.userName,
-    isname:false,
-    newname:'',
+    isname: false,
+    newname: '',
     qrCode: ''
   },
   onLoad: function (options) {
@@ -51,23 +51,23 @@ Page({
       }
     })
   },
-  updatauser:function(data){ //更新用户信息
+  updatauser: function (data) { //更新用户信息
     let that = this
     let _parms = {
       userId: app.globalData.userInfo.userId,
       openId: app.globalData.userInfo.openId,
     }
-    if (data.avatarUrl){
+    if (data.avatarUrl) {
       _parms.iconUrl = data.avatarUrl
     }
-    if (data.nickName){
+    if (data.nickName) {
       _parms.userName = data.nickName
     }
-    if (data.sex){
-      _parms.sex= data.gender
+    if (data.sex) {
+      _parms.sex = data.gender
     }
-    Api.updateuser(_parms).then((res)=>{
-      if(res.data.code == 0){
+    Api.updateuser(_parms).then((res) => {
+      if (res.data.code == 0) {
         console.log("修改成功")
       }
     })
@@ -91,7 +91,7 @@ Page({
           success: function (res) {
             let _data = JSON.parse(res.data)
             let _img = _data.data.smallPicUrl
-            console.log("_img:",_img)
+            console.log("_img:", _img)
             let data = {
               avatarUrl: _img
             }
@@ -105,17 +105,17 @@ Page({
       }
     })
   },
-  changename:function(){  //用户更换名称
+  changename: function () {  //用户更换名称
     this.setData({
-      isname:true
+      isname: true
     })
   },
-  nameok:function(e){
+  nameok: function (e) {
     this.setData({
       newname: e.detail.value
     })
   },
-  confirmname:function(){
+  confirmname: function () {
     this.setData({
       isname: false,
       userName: this.data.newname
@@ -126,7 +126,7 @@ Page({
     that.updatauser(data)
     app.globalData.userInfo.userName = this.data.newname
   },
-  blurname:function(){
+  blurname: function () {
     this.setData({
       isname: false,
       userName: this.data.newname
@@ -142,11 +142,11 @@ Page({
     wx.getUserInfo({
       success: res => {
         if (res.userInfo) {
-            this.setData({
-              iconUrl: res.userInfo.avatarUrl,
-              userName: res.userInfo.nickName,
-            })
-            that.updatauser(res.userInfo)
+          this.setData({
+            iconUrl: res.userInfo.avatarUrl,
+            userName: res.userInfo.nickName,
+          })
+          that.updatauser(res.userInfo)
         }
       },
       fail: res => {
@@ -183,9 +183,9 @@ Page({
       }
     })
   },
-  calling: function () {
+  calling: function () { //享7客户电话
     wx.makePhoneCall({
-      phoneNumber: '02787175526', //此号码并非真实电话号码，仅用于测试  
+      phoneNumber: '02759728176',
       success: function () {
         console.log("拨打电话成功！")
       },

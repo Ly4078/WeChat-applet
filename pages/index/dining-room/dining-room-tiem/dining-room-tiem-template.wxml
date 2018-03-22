@@ -2,7 +2,7 @@
   <view class='shopWrap' id="{{item.id}}" catchtap="onTouchItem">
     <view class='navigationPractical'>
       <view class='practical_left'>
-        <image class='practicalImg' src="{{item.logoUrl}}"></image>
+        <image class='practicalImg' mode="aspectFill" src="{{item.logoUrl}}"></image>
       </view>
       <view class='practical_right'>
         <view class='elsk'>

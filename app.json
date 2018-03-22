@@ -28,7 +28,8 @@
     "pages/index/user-seek/user-seek",
     "pages/index/dining-room/dining-room",
     "pages/activityDetails/activity-details",
-    "pages/personal-center/free-of-charge/category/category"
+    "pages/personal-center/free-of-charge/category/category",
+    "pages/index/webview/webview"
   ],
   "window": {
     "backgroundTextStyle": "light",

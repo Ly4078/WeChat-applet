@@ -5,7 +5,7 @@
 
   <view class='top' wx:if="{{_id}}">
     <view class='avatar'>
-      <image src='{{userInfo.iconUrl}}' class='avaterimg'></image>
+      <image src='{{userInfo.iconUrl}}' mode="aspectFill" class='avaterimg'></image>
     </view>
     <view class='name'>
       <view class='username'>{{userInfo.userName}}</view>
@@ -21,7 +21,7 @@
     <view wx:for="{{details.content}}" wx:key="{{index}}">
       <view wx:if="{{item.type == 'text'}}" class='midtext'>{{item.value}}</view>
       <view wx:if="{{item.type == 'img'}}" class='mindill'>
-        <image src='{{item.value}}' class='midimg'></image>
+        <image src='{{item.value}}' mode="aspectFill" class='midimg'></image>
         <view class='imgnote' wx:if="{{item.txt}}">{{item.txt}}</view>
       </view>
     </view>
