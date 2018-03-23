@@ -1,6 +1,6 @@
 
 .catebox{
-  width: 6940rpx;
+  width: 694rpx;
   background: #fff;
   padding: 0 28rpx;
 }

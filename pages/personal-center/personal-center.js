@@ -4,21 +4,22 @@ var app = getApp();
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
+    
+    nickName: '',
     iconUrl: app.globalData.userInfo.iconUrl,
-    nickName: app.globalData.userInfo.nickName ? app.globalData.userInfo.nickName : app.globalData.userInfo.userName,
     isname: false,
     newname: '',
     qrCode: ''
   },
-  onLoad: function (options) {
+  onLoad:function(){
     this.setData({
-      nickName: app.globalData.userInfo.nickName
+      nickName:app.globalData.userInfo.nickName
     })
+    this.getuserInfo()
   },
   onShow: function () {
     let that = this;
-    this.getuserInfo()
-    // this.wxgetsetting();
+    this.wxgetsetting();
     wx.request({
       url: that.data._build_url + 'topic/myList',
       method: 'GET',
@@ -55,13 +56,12 @@ Page({
     let that = this;
     wx.getUserInfo({
       success: res => {
-        console.log("getuserinfo:", res.userInfo)
         if (res.userInfo) {
           that.setData({
             iconUrl: res.userInfo.avatarUrl,
-            nickName: res.userInfo.nickName,
+            nickName: res.userInfo.nickName
           })
-          that.updatauser(res.userInfo,1)
+          that.updatauser(res.userInfo)
         }
       },
       complete: res => {
@@ -73,10 +73,7 @@ Page({
     let that = this
     wx.getSetting({
       success: (res) => {
-        if (res.authSetting['scope.userInfo']) {
-          // console.log("用户已授受获取其用户信息")
-        } else {
-          // console.log("用户未授受获取其用户信息")
+        if (!res.authSetting['scope.userInfo']) {// 用户未授受获取其用户信息
           wx.showModal({
             title: '提示',
             content: '享7要你的用户信息，快去授权！',
@@ -106,7 +103,7 @@ Page({
       }
     })
   },
-  updatauser: function (data,num) { //更新用户信息
+  updatauser: function (data) { //更新用户信息
     let that = this
     let _parms = {
       userId: app.globalData.userInfo.userId,
@@ -123,81 +120,9 @@ Page({
     }
     Api.updateuser(_parms).then((res) => {
       if (res.data.code == 0) {
-        if(num == 1){ //此处还需优化   更换用户信息
-            // this.getuser()
-        }
+          // console.log("用户信息更换成功")
       }
     })
-  },
-  getuser: function () { //从自己的服务器获取用户信息
-    let that = this
-    wx.request({
-      url: this.data._build_url + 'user/get/' + app.globalData.userInfo.userId,
-      header: {
-        'content-type': 'application/json'
-      },
-      success: function (res) {
-        if (res.data.code == 0) {
-          let data = res.data.data
-          that.setData({
-            iconUrl: data.iconUrl,
-            nickName: data.nickName
-          })
-          app.globalData.userInfo.nickName = data.nickName
-          app.globalData.userInfo.iconUrl = data.iconUrl
-        }
-      }
-    })
-  },
-  changeimg() {   // 更换头像图片
-    return false  //暂时如此   待后台调好后删除此行
-    let that = this
-    wx.chooseImage({
-      count: 1,
-      sizeType: ['original', 'compressed'],
-      sourceType: ['album', 'camera'],
-      success: function (res) {
-        var tempFilePaths = res.tempFilePaths
-        wx.uploadFile({
-          url: that.data._build_url + 'img/upload',
-          filePath: tempFilePaths[0],
-          name: 'file',
-          formData: {
-            'nickName': app.globalData.userInfo.nickName
-          },
-          success: function (res) {
-            console.log("res:", res)
-            let _data = JSON.parse(res.data)
-            console.log("_data:",_data)
-            let _img = _data.data.smallPicUrl
-            let data = {
-              avatarUrl: _img
-            }
-            that.updatauser(data,1)
-          }
-        })
-      }
-    })
-  },
-  changename: function () {  //用户开始更换名称
-    return false  //暂时如此   待后台调好后删除此行
-    this.setData({
-      isname: true
-    })
-  },
-  nameok: function (e) {  //获取用户新名称
-    this.setData({
-      newname: e.detail.value
-    })
-  },
-  blurname: function () { //用户结束更换名称
-    this.setData({
-      isname: false
-    })
-    let data = {
-      nickName: this.data.newname
-    }
-    that.updatauser(data,1)
   },
   calling: function () { //享7客户电话
     wx.makePhoneCall({

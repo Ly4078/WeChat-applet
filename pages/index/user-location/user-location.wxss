@@ -16,7 +16,16 @@ page{
   text-align: center;
   border-radius: 8rpx;
 }
+.loca_content{
+  width: 750rpx;
+  padding:20rpx;
+}
 .title{
+  padding:20rpx 0;
+  font-size: 30rpx;
+  color:#666;
+}
+.dqtitle{
   padding:20rpx;
   font-size: 30rpx;
   color:#666;
@@ -42,4 +51,15 @@ page{
 }
 .addressDetail{
   font-size:30rpx;
+}
+.cityname{
+  height: 50rpx; 
+  line-height: 20rpx;
+  font-size:30rpx;
+  color:#b1b1b1;
+  float:left;
+  margin: 0 25rpx 25rpx 0; 
+}
+.isopen{
+  color: blue
 }

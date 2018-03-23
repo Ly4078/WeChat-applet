@@ -25,7 +25,18 @@ Page({
     this.gettopic();
   },
   onShow: function () {
-    this.getlocation()
+    let that = this;
+    let lat = '30.51597', lng = '114.34035';  //lat纬度   lng经度
+    lat = wx.getStorageSync('lat') ? wx.getStorageSync('lat'):lat
+    lng = wx.getStorageSync('lng') ? wx.getStorageSync('lng'):lng
+    if(lat && lng){
+      setTimeout(function () {
+        that.requestCityName(lat, lng)
+      }, 500)
+      this.wxgetsetting()
+    }else{
+      this.getlocation()
+    }
   },
 
   getopenid: function () {  //获取openID sessionKey
@@ -63,8 +74,8 @@ Page({
           app.globalData.userInfo.openId = data.openId,
           app.globalData.userInfo.password = data.password,
           app.globalData.userInfo.userId = data.id,
-          app.globalData.userInfo.userName = data.nickName,
-          app.globalData.userInfo.nikcName = data.nickName,
+          app.globalData.userInfo.userName = data.userName,
+          app.globalData.userInfo.nickName = data.nickName,
           app.globalData.userInfo.loginTimes = data.loginTimes,
           app.globalData.userInfo.iconUrl = data.iconUrl,
           app.globalData.userInfo.sourceType = data.sourceType,
@@ -94,10 +105,7 @@ Page({
     let that = this
     wx.getSetting({
       success: (res) => {
-        if (res.authSetting['scope.userLocation']) {
-          // console.log("用户已授受获取其用户信息和位置信息")
-        } else {
-          // console.log("用户未授受获取其用户信息或位置信息")
+        if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其用户信息或位置信息
           wx.showModal({
             title: '提示',
             content: '享7要你的位置信息，快去授权',
@@ -193,6 +201,7 @@ Page({
     })
   },
   userLocation: function () {   // 用户定位
+    this.wxgetsetting()
     wx.navigateTo({
       url: 'user-location/user-location',
     })

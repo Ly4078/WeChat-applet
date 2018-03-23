@@ -1,12 +1,8 @@
 <view>
   <view class='centreWrap'>
     <view class='centreTopName'>
-      <image class='centreImages' src='{{iconUrl}}' catchtap='changeimg'></image>
-      <view class='chname' wx:if="{{isname}}">
-        <input value='{{userName}}' class='inputname' bindinput="nameok" bindblur="blurname"></input>
-      </view> 
-      <view wx:else class='centreText' catchtap='changename'>{{nickName}}</view>
-      
+      <image class='centreImages' src='{{iconUrl}}' catchtap='wxgetsetting'></image>
+      <view class='centreText' catchtap='wxgetsetting'>{{nickName}}</view>
     </view>
     <view class='messageCase'>
       <view class='messageWrap' bindtap='DynamicState'>
@@ -86,7 +82,7 @@
         <image catchtap='calling' class='telephone' src='/images/icon/telephone_bd.png'></image>
       </view>
       <view class='customer-service'>
-        <contact-button type='default-light' class='wicket' size='20' session-from='weapp'  catchtap='contactCustomer'></contact-button>
+        <contact-button type='default-light' class='wicket' size='20' session-from='weapp' catchtap='contactCustomer'></contact-button>
       </view>
     </view>
   </view>
