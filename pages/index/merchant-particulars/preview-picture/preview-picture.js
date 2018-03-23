@@ -19,7 +19,6 @@ Page({
     wx.request({
       url: that.data._build_url + 'shop/get/' + this.data._shopid,
       success: function (res) {
-        console.log("返回的总值:",res)
         that.setData({
           carousel: res.data.data.shopTopPics
         })
