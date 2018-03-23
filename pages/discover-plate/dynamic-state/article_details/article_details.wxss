@@ -71,7 +71,8 @@
   font-size: 32rpx;
   line-height: 60rpx;
   margin-bottom: 100rpx;
-   /* text-indent:30px;    首先缩进 */
+  text-indent:28px;
+  text-align: justify;
 }
 .mindill{
   margin-bottom: 100rpx;
@@ -87,6 +88,7 @@
   color: #808080;
   font-size: 28rpx;
   text-align: center;
+  text-align: justify;
 }
 .scanpraise{
   width: 694rpx;
