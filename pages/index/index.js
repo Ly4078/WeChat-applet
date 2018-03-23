@@ -74,6 +74,7 @@ Page({
           app.globalData.userInfo.openId = data.openId,
           app.globalData.userInfo.password = data.password,
           app.globalData.userInfo.userId = data.id,
+          app.globalData.userInfo.shopId = data.shopId ? data.shopId : '',
           app.globalData.userInfo.userName = data.userName,
           app.globalData.userInfo.nickName = data.nickName,
           app.globalData.userInfo.loginTimes = data.loginTimes,

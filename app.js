@@ -43,6 +43,7 @@ App({
       password: '',
       userType:'',
       userId: '1',  
+      shopId: '',
       userName: '',
       nikcName: '',
       phone:'',

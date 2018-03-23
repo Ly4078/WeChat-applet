@@ -7,9 +7,9 @@ Page({
     _build_url: GLOBAL_API_DOMAIN,
     comment_list: [],
     page: 1,
-    id:'',
-    source:'',   //请求来源   查明是谁来调用这个文件
-    cmtType:'',  //评论类别
+    id: '',
+    source: '',   //请求来源   查明是谁来调用这个文件
+    cmtType: '',  //评论类别
     reFresh: true
   },
   onLoad: function (options) {
@@ -49,6 +49,11 @@ Page({
           that.setData({
             reFresh: false
           })
+        }
+        if (that.data.page == 1) {
+          wx.stopPullDownRefresh();
+        } else {
+          wx.hideLoading();
         }
       }
     })
@@ -113,25 +118,20 @@ Page({
     })
   },
   //用户下拉刷新
-  onPullDownRefresh: function() {
-    let that = this;
+  onPullDownRefresh: function () {
     this.setData({
-      page: 1
+      comment_list: [],
+      page: 1,
+      reFresh: true
     });
-    that.commentList();
-    wx.stopPullDownRefresh();
-    // wx.showLoading({
-    //   title: '加载中...',
-    //   success: function() {
-    //     setTimeout(() => {
-    //       wx.hideLoading();
-    //     }, 500);
-    //   }
-    // })
+    this.commentList();
   },
   //用户上拉触底
-  onReachBottom: function() {
+  onReachBottom: function () {
     if (this.data.reFresh) {
+      wx.showLoading({
+        title: '加载中..'
+      })
       this.setData({
         page: this.data.page + 1
       });

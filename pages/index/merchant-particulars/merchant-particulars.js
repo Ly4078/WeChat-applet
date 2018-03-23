@@ -38,6 +38,13 @@ Page({
   onShow: function () {
     this.commentList();
   },
+  //用户下拉刷新
+  onPullDownRefresh: function () {
+    this.getstoredata();
+    this.recommendation();
+    this.isCollected();
+    this.commentList();
+  },
   getstoredata() {  //获取店铺详情数据   带值传参示例
     let id = this.data.shopid;
     let that = this;
@@ -179,6 +186,7 @@ Page({
           that.setData({
             commentNum: res.data.data.total
           })
+          wx.stopPullDownRefresh();
         } 
       }
     })
