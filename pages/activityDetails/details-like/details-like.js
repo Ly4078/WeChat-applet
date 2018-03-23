@@ -110,14 +110,14 @@ Page({
           Api.votedelete(_parms).then((res) => {
             if (res.data.code == 0) {
               arr[ind].isVote = 0,
-                arr[ind].voteNum = arr[i].voteNum - 1,
+                arr[ind].voteNum = arr[i].voteNum + 1,
                 that.setData({
                   actlist: arr
                 })
               wx.showToast({
                 mask: true,
-                icon: 'success',
-                title: '操作成功'
+                icon: 'none',
+                title: '点赞成功'
               }, 1500)
             }
           })
@@ -125,10 +125,15 @@ Page({
           Api.voteadd(_parms).then((res) => {
             if (res.data.code == 0) {
               arr[ind].isVote = 1,
-                arr[ind].voteNum = arr[i].voteNum + 1,
+                arr[ind].voteNum = arr[i].voteNum - 1,
                 that.setData({
                   actlist: arr
                 })
+              wx.showToast({
+                mask: true,
+                icon: 'none',
+                title: '已取消'
+              }, 1500)
             }
           })
         }

@@ -8,7 +8,7 @@
 .title{
   width: 694rpx;
   font-size: 46rpx;
-  margin:58rpx 0;
+  margin:20rpx 0;
 }
 /*
 头部相关
@@ -185,7 +185,7 @@ button[plain]{
   border-radius: 50%;
   vertical-align: middle;
   margin-right: 20rpx;
-  border: 1px solid #555555;
+  border: 1px solid #EBEBEB;
 }
 .evaluateText {
   color: #191919;

@@ -28,13 +28,13 @@ Page({
   onShow: function () {
     let that = this;
     let lat = '30.51597', lng = '114.34035';  //lat纬度   lng经度
-    lat = wx.getStorageSync('lat') ? wx.getStorageSync('lat'):lat
-    lng = wx.getStorageSync('lng') ? wx.getStorageSync('lng'):lng
-    if(lat && lng){
+    lat = wx.getStorageSync('lat') ? wx.getStorageSync('lat') : lat
+    lng = wx.getStorageSync('lng') ? wx.getStorageSync('lng') : lng
+    if (lat && lng) {
       setTimeout(function () {
         that.requestCityName(lat, lng)
       }, 500)
-    }else{
+    } else {
       this.getlocation()
     }
   },
@@ -45,7 +45,7 @@ Page({
     wx.login({
       success: res => {
         let _code = res.code;
-        console.log("code:",_code)
+        console.log("code:", _code)
         // return false  //此处返回，则获取的code是没有用过的，用于测试
         if (res.code) {
           let _parms = {
@@ -69,20 +69,20 @@ Page({
       },
       success: function (res) {
         if (res.data.code == 0) {
-          let data = res.data.data; 
+          let data = res.data.data;
           app.globalData.userInfo.userType = data.userType,
-          app.globalData.userInfo.openId = data.openId,
-          app.globalData.userInfo.password = data.password,
-          app.globalData.userInfo.userId = data.id,
-          app.globalData.userInfo.shopId = data.shopId ? data.shopId : '',
-          app.globalData.userInfo.userName = data.userName,
-          app.globalData.userInfo.nickName = data.nickName,
-          app.globalData.userInfo.loginTimes = data.loginTimes,
-          app.globalData.userInfo.iconUrl = data.iconUrl,
-          app.globalData.userInfo.sourceType = data.sourceType,
-          app.globalData.userInfo.sex = data.sex,
-          app.globalData.userInfo.lat = data.locationX,
-          app.globalData.userInfo.lng = data.locationY
+            app.globalData.userInfo.openId = data.openId,
+            app.globalData.userInfo.password = data.password,
+            app.globalData.userInfo.userId = data.id,
+            app.globalData.userInfo.shopId = data.shopId ? data.shopId : '',
+            app.globalData.userInfo.userName = data.userName,
+            app.globalData.userInfo.nickName = data.nickName,
+            app.globalData.userInfo.loginTimes = data.loginTimes,
+            app.globalData.userInfo.iconUrl = data.iconUrl,
+            app.globalData.userInfo.sourceType = data.sourceType,
+            app.globalData.userInfo.sex = data.sex,
+            app.globalData.userInfo.lat = data.locationX,
+            app.globalData.userInfo.lng = data.locationY
         }
       }
     })
@@ -123,7 +123,7 @@ Page({
                     }
                   }
                 })
-              } 
+              }
             }
           })
         }
@@ -235,8 +235,11 @@ Page({
     })
   },
   entertainment: function () {  //掌上生活
-    wx.navigateTo({
-      url: 'webview/webview',
+    // wx.navigateTo({
+    //   url: 'webview/webview',
+    // })
+    wx.showToast({
+      title: '该功能更新中...',
     })
   },
   recommendCt: function (event) {
@@ -288,9 +291,9 @@ Page({
     //   url: 'test?liveid=' + liveid,
     // })
   },
-  toNewExclusive: function(e) {   //跳转至新人专享页面
+  toNewExclusive: function (e) {   //跳转至新人专享页面
     let id = e.currentTarget.id;
-    if(id == 4) {
+    if (id == 4) {
       wx.navigateTo({
         url: 'new-exclusive/new-exclusive',
       })
