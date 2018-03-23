@@ -35,7 +35,6 @@ Page({
       success: function(res) {
         var data = res.data; 
         if (data.code == 0 && data.data.list != null && data.data.list != "" && data.data.list != []) {
-
           let article_list = that.data.article_list;
           for (let i = 0; i < data.data.list.length; i++) {
             let list_item = data.data.list[i]; 
@@ -53,6 +52,11 @@ Page({
           that.setData({
             reFresh: false
           });
+        }
+        if(that.data.page == 1) {
+          wx.stopPullDownRefresh();
+        } else {
+          wx.hideLoading();
         }
       }
     })
@@ -83,11 +87,22 @@ Page({
   //用户上拉触底
   onReachBottom: function () {
     if (this.data.reFresh) {
+      wx.showLoading({
+        title: '加载中..'
+      })
       this.setData({
         page: this.data.page + 1
       });
       this.getList();
     }
+  },
+  //用户下拉刷新
+  onPullDownRefresh: function() {
+    this.setData({
+      article_list: [],
+      reFresh: true,
+      page: 1
+    });
+    this.getList();
   }
-
 })

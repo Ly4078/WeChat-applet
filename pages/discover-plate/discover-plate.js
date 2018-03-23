@@ -42,6 +42,7 @@ Page({
     })
   },
   getfood:function(){
+    let that = this;
     let _parms = {
       page: this.data.page,
       row: 8
@@ -61,6 +62,11 @@ Page({
         this.setData({
           flag: false
         });
+      }
+      if (that.data.page == 1) {
+        wx.stopPullDownRefresh();
+      } else {
+        wx.hideLoading();
       }
     })
   },
@@ -84,11 +90,32 @@ Page({
   },
   onReachBottom: function () {  //用户上拉触底
     if(this.data.flag) {
+      wx.showLoading({
+        title: '加载中..'
+      })
       let that = this
       this.setData({
         page: this.data.page + 1
       });
       that.getfood();
     }
+  },
+  //用户下拉刷新
+  onPullDownRefresh: function () {
+    let that = this;
+    this.setData({
+      food: [],
+      page: 1,
+      flag: true
+    });
+    this.getfood();
+    wx.request({
+      url: that.data._build_url + 'zb/list/',
+      success: function (res) {
+        that.setData({
+          hotlive: res.data.data.list
+        })
+      }
+    })
   }
 })

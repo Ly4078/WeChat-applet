@@ -36,7 +36,9 @@
     "navigationBarBackgroundColor": "#fc5e2d",
     "navigationBarTitleText": "享7",
     "navigationBarTextStyle": "white",
-    "navigationStyle": "default"
+    "navigationStyle": "default",
+    "enablePullDownRefresh": true,
+    "backgroundColor": "#fc5e2d"
   },
   "tabBar": {
     "selectedColor": "#FF4411",

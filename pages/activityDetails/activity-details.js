@@ -41,6 +41,11 @@ Page({
           flag: false
         });
       }
+      if(that.data.page == 1) {
+        wx.stopPullDownRefresh()
+      } else {
+        wx.hideLoading();
+      }
     })
   },
   clickVote:function(event){
@@ -51,10 +56,21 @@ Page({
   },
   onReachBottom: function () {  //用户上拉触底
     if(this.data.flag) {
+      wx.showLoading({
+        title: '加载中..'
+      })
       this.setData({
         page: this.data.page + 1
       });
       this.getcatdata();
     }
+  },
+  onPullDownRefresh: function () {    //用户下拉刷新
+    this.setData({
+      actdata: [],
+      page: 1,
+      flag: true
+    });
+    this.getcatdata();
   }
 })

@@ -83,6 +83,11 @@ Page({
         }
       });
     }
+    if (that.data.page == 1) {
+      wx.stopPullDownRefresh();
+    } else {
+      wx.hideLoading();
+    }
   },
   lowerLevel: function (e) {
     let id = e.currentTarget.id,
@@ -113,16 +118,31 @@ Page({
   //用户上拉触底
   onReachBottom: function () {
     if (this.data.currentTab != 2 && this.data.reFresh) {
+      wx.showLoading({
+        title: '加载中..'
+      })
       this.setData({
         page: this.data.page + 1
       });
       this.getOrderList();
     }
     if (this.data.currentTab == 2 && (this.data.reFresh || this.data.completed)) {
+      wx.showLoading({
+        title: '加载中..'
+      })
       this.setData({
         page: this.data.page + 1
       });
       this.getOrderList();
     }
+  },
+  //用户下拉刷新
+  onPullDownRefresh: function () {
+    this.setData({
+      order_list: [],
+      page: 1,
+      reFresh: true,
+    });
+    this.getOrderList();
   }
 })

@@ -41,6 +41,11 @@ Page({
             reFresh: false
           });
         }
+        if (that.data.page == 1) {
+          wx.stopPullDownRefresh();
+        } else {
+          wx.hideLoading();
+        }
       }
     });
   },
@@ -52,10 +57,22 @@ Page({
   //用户上拉触底
   onReachBottom: function () {
     if (this.data.reFresh) {
+      wx.showLoading({
+        title: '加载中..'
+      })
       this.setData({
         page: this.data.page + 1
       });
       this.getShareList();
     }
+  },
+  //用户下拉刷新
+  onPullDownRefresh: function() {
+    this.setData({
+      posts_key: [],
+      page: 1,
+      reFresh: true
+    });
+    this.getShareList();
   }
 })

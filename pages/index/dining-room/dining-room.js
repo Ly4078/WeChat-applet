@@ -126,7 +126,6 @@ Page({
   },
   //用户上拉触底
   onReachBottom: function () {
-    console.log("aaa")
     if (this.data.reFresh) {
       this.setData({
         page: this.data.page + 1
@@ -134,8 +133,6 @@ Page({
       this.getData();
     }
   },
-
-
 
 
 
