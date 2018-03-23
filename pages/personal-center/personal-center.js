@@ -18,7 +18,6 @@ Page({
   },
   onShow: function () {
     let that = this;
-    this.wxgetsetting();
     wx.request({
       url: that.data._build_url + 'topic/myList',
       method: 'GET',
@@ -62,9 +61,6 @@ Page({
           })
           that.updatauser(res.userInfo)
         }
-      },
-      complete: res => {
-        this.wxgetsetting();
       }
     })
   },

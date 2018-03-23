@@ -37,7 +37,6 @@ Page({
     }else{
       this.getlocation()
     }
-    this.wxgetsetting()
   },
 
   getopenid: function () {  //获取openID sessionKey
@@ -96,9 +95,6 @@ Page({
         let latitude = res.latitude
         let longitude = res.longitude
         that.requestCityName(latitude, longitude);
-      },
-      fail: function (res) {
-        that.wxgetsetting();
       }
     })
   },

@@ -90,13 +90,13 @@ Page({
   onShareAppMessage: function () {
 
   },
-  searchByUserId:function(){
+  searchByUserId: function () {
     let _parms = {
-      userId:app.globalData.userInfo.userId
+      userId: app.globalData.userInfo.userId
     }
-    Api.searchByUserId(_parms).then((res)=>{
-      if(res.data.code ==0 ){
-        if (res.data.data && res.data.data.id){
+    Api.searchByUserId(_parms).then((res) => {
+      if (res.data.code == 0) {
+        if (res.data.data && res.data.data.id) {
           wx.showModal({
             title: '提示',
             content: '你已经提交过申请',
@@ -255,53 +255,107 @@ Page({
     })
   },
   formSubmit: function (e) {  // 点击提交申请按钮
-    if (!this.data.userName || !this.data.mobile || !this.data.shopName || !this.data.address || !this.data.businessCate || !this.data.licensePic || !this.data.healthPic || !this.data.doorPic || !this.data.locationX || !this.data.locationY || !this.data.city) {
-      wx.showToast({
-        title: '表单输入有误',
-        icon: 'none',
-        duration: 1500
-      })
-      return false
-    }
-    let _parms = {
-      userName: this.data.userName,
-      mobile: this.data.mobile,
-      shopName: this.data.shopName,
-      address: this.data.address,
-      businessCate: this.data.businessCate.toString(),
-      licensePic: this.data.licensePic,
-      healthPic: this.data.healthPic,
-      doorPic: this.data.doorPic,
-      locationX: this.data.locationX,
-      locationY: this.data.locationY,
-      city: this.data.city,
-      userId: app.globalData.userInfo.userId
-    }
-    Api.merchantEnter(_parms).then((res) => {
-      if (res.data.code == 0) {
-        wx.showModal({
-          title: '提示',
-          content: '信息提交成功，等待审核',
-          success: function (res) {
-            if (res.confirm) {
-              wx.switchTab({
-                url: '../../personal-center/personal-center'
-              })
-              wx.setStorage({
-                key: 'cate',
-                data: '',
-              })
-            } else if (res.cancel) {
-              wx.switchTab({
-                url: '../../personal-center/personal-center'
-              })
-              wx.setStorage({
-                key: 'cate',
-                data: '',
+    let that = this
+    wx.getSetting({
+      success: (res) => {
+        if (!res.authSetting['scope.userLocation'] || !res.authSetting['scope.userInfo']) { // 用户未授受获取其用户信息或位置信息
+          wx.showModal({
+            title: '提示',
+            content: '商家入驻必须授权位置信息和用户信息',
+            success: function (res) {
+              if (res.confirm) {
+                wx.openSetting({  //打开授权设置界面
+                  success: (res) => {
+                    if (res.authSetting['scope.userLocation']) {
+                      wx.getLocation({
+                        type: 'wgs84',
+                        success: function (res) {
+                          let latitude = res.latitude
+                          let longitude = res.longitude
+                          app.globalData.userInfo.lat = latitude
+                          app.globalData.userInfo.lng = longitude
+                        }
+                      })
+                    }
+                    if (res.authSetting['scope.userInfo']) {
+                      wx.getLocation({
+                        type: 'wgs84',
+                        success: function (res) {
+                          if (res.userInfo) {
+                            app.globalData.userInfo.iconUrl = res.userInfo.avatarUrl
+                            app.globalData.userInfo.nickName = res.userInfo.nickName
+                            let _parms = {
+                              userId: app.globalData.userInfo.userId,
+                              openId: app.globalData.userInfo.openId,
+                              iconUrl: res.userInfo.avatarUrl,
+                              nickName: res.userInfo.nickName,
+                              sex: res.userInfo.gender
+                            }
+                            Api.updateuser(_parms).then((res) => {
+                              if (res.data.code == 0) {
+                                // console.log("用户信息更换成功")
+                              }
+                            })
+                          }
+                        }
+                      })
+                    }
+                  }
+                })
+              }
+            }
+          })
+        } else {
+          if (!this.data.userName || !this.data.mobile || !this.data.shopName || !this.data.address || !this.data.businessCate || !this.data.licensePic || !this.data.healthPic || !this.data.doorPic || !this.data.locationX || !this.data.locationY || !this.data.city) {
+            wx.showToast({
+              title: '表单输入有误',
+              icon: 'none',
+              duration: 1500
+            })
+            return false
+          }
+          let _parms = {
+            userName: this.data.userName,
+            mobile: this.data.mobile,
+            shopName: this.data.shopName,
+            address: this.data.address,
+            businessCate: this.data.businessCate.toString(),
+            licensePic: this.data.licensePic,
+            healthPic: this.data.healthPic,
+            doorPic: this.data.doorPic,
+            locationX: this.data.locationX,
+            locationY: this.data.locationY,
+            city: this.data.city,
+            userId: app.globalData.userInfo.userId
+          }
+          Api.merchantEnter(_parms).then((res) => {
+            if (res.data.code == 0) {
+              wx.showModal({
+                title: '提示',
+                content: '信息提交成功，等待审核',
+                success: function (res) {
+                  if (res.confirm) {
+                    wx.switchTab({
+                      url: '../../personal-center/personal-center'
+                    })
+                    wx.setStorage({
+                      key: 'cate',
+                      data: '',
+                    })
+                  } else if (res.cancel) {
+                    wx.switchTab({
+                      url: '../../personal-center/personal-center'
+                    })
+                    wx.setStorage({
+                      key: 'cate',
+                      data: '',
+                    })
+                  }
+                }
               })
             }
-          }
-        })
+          })
+        }
       }
     })
   },

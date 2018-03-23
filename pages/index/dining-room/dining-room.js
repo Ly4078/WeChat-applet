@@ -5,9 +5,9 @@ let app = getApp()
 Page({
   data: {
     posts_key: [],
-    nearbydatas:['由近到远'],
-    fooddatas: ["日本菜", "私房菜", "家常菜", "下午茶", "创意菜", "湖北菜", "粉面馆", "川菜", "卤味", "湘菜", "粤菜", "咖啡厅", "小龙虾", "火锅", "海鲜", "烧烤", "小吃快餐", "江浙菜", "韩国料理", "东南亚菜", "西餐", "自助餐", "面包甜点", "其他美食"],    
-    sortingdatas:['人气排序'],
+    nearbydatas: ['由近到远'],
+    fooddatas: ["日本菜", "私房菜", "家常菜", "下午茶", "创意菜", "湖北菜", "粉面馆", "川菜", "卤味", "湘菜", "粤菜", "咖啡厅", "小龙虾", "火锅", "海鲜", "烧烤", "小吃快餐", "江浙菜", "韩国料理", "东南亚菜", "西餐", "自助餐", "面包甜点", "其他美食"],
+    sortingdatas: ['人气排序'],
     page: 1,
     isScroll: true,
     ismodel: false,
@@ -15,8 +15,8 @@ Page({
     isfood: false,
     issorting: false,
     reFresh: true,
-    businessCate:'',
-    browSort:''
+    businessCate: '',
+    browSort: ''
   },
   onLoad: function (options) {
     this.getData();
@@ -43,18 +43,23 @@ Page({
       _parms.browSort = this.data.browSort
     }
     wx.showLoading({
-      title:'加载中。。。'
+      title: '加载中。。。'
     })
     Api.shoplist(_parms).then((res) => {
+      let that = this
       let data = res.data;
       wx.hideLoading()
+      console.log("1111:")
+      console.log("data:11",data)
       if (data.code == 0 && data.data.list != null && data.data.list != "" && data.data.list != []) {
         let posts_key = this.data.posts_key;
         for (let i = 0; i < data.data.list.length; i++) {
           posts_key.push(data.data.list[i]);
         }
-       
-        this.getDistance(posts_key) //计算距离并赋值
+        that.setData({
+          posts_key: posts_key
+        })
+        // this.getDistance(posts_key) //计算距离并赋值
         this.setData({
           reFresh: true
         });
@@ -66,6 +71,7 @@ Page({
     })
   },
   getDistance: function (data) { //计算距离
+  console.log("data:",data)
     let that = this;
     //获取当前位置
     wx && wx.getLocation({
@@ -81,12 +87,13 @@ Page({
           let mydis = '<' + utils.transformLength(_dis);
           data[i].dis = mydis;
         }
+        console.log("data111:",data)
         that.setData({
           posts_key: data
         })
       },
       fail: function (res) {
-        utils.toast("error", '定位失败，请刷新页面重试');
+        // utils.toast("error", '定位失败，请刷新页面重试');
       }
     });
   },
@@ -136,12 +143,14 @@ Page({
 
 
 
-// 模态框 start
+  // 模态框 start
   openmodel: function (e) {  //打开模态框
     let id = e.currentTarget.id
     this.setData({
       ismodel: true,
-      isScroll: false
+      isScroll: false,
+      businessCate:'',
+      browSort:''
     })
     if (id == 1) {
       this.setData({
@@ -163,7 +172,7 @@ Page({
       isnearby: false,
       isfood: false,
       issorting: false,
-      isScroll:true
+      isScroll: true
     })
   },
   nearby: function () {  //附近
@@ -187,31 +196,66 @@ Page({
       issorting: true
     })
   },
-  clicknearby:function(ev){ //附近之一
+  clicknearby: function (ev) { //附近之一
     let id = ev.currentTarget.id
     let _data = this.data.nearbydatas
+    let _value = ''
+    wx.getSetting({
+      success: (res) => {
+        if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其用户信息或位置信息
+        console.log("no")
+          wx.showModal({
+            title: '提示',
+            content: '查询附近餐厅需要你授权位置信息',
+            success: function (res) {
+              if (res.confirm) {
+                wx.openSetting({  //打开授权设置界面
+                  success: (res) => {
+                    if (res.authSetting['scope.userLocation']) {
+                      wx.getLocation({
+                        type: 'wgs84',
+                        success: function (res) {
+                          let latitude = res.latitude
+                          let longitude = res.longitude
+                          app.globalData.userInfo.lat = latitude
+                          app.globalData.userInfo.lng = longitude
+                        }
+                      })
+                    }
+                  }
+                })
+              }
+            }
+          })
+        } else {
+          console.log("yes")
+          for (let i = 0; i < _data.length; i++) {
+            if (id == i) {
+              _value = _data[i]
+            }
+          }
+          this.closemodel()
+          this.getData()
+        }
+      },
+      fail:(res)=>{
+        console.log("fail")
+      }
+    })
+  },
+  clickfood: function (ev) { //美食之一
+    let id = ev.currentTarget.id
+    let _data = this.data.fooddatas
     let _value = ''
     for (let i = 0; i < _data.length; i++) {
       if (id == i) {
         _value = _data[i]
       }
     }
-    this.closemodel()
-    this.getData()
-  },
-  clickfood: function (ev) { //美食之一
-    let id = ev.currentTarget.id
-    let _data = this.data.fooddatas
-    let _value =''
-    for(let i=0;i<_data.length;i++){
-      if(id == i){
-        _value = _data[i]
-      }
-    }
     this.setData({
-      businessCate:_value,
-      browSort:'',
-      posts_key:[]
+      businessCate: _value,
+      browSort: '',
+      posts_key: []
     })
     this.closemodel()
     this.getData()
@@ -220,19 +264,19 @@ Page({
     let id = ev.currentTarget.id
     let _data = this.data.sortingdatas;
     let _value = ''
-    for (let i = 0; i < _data.length;i++){
-      if(id == i){
+    for (let i = 0; i < _data.length; i++) {
+      if (id == i) {
         _value = _data[i]
-      } 
+      }
     }
     this.closemodel()
     this.setData({
       browSort: '2',
-      businessCate:'',
+      businessCate: '',
       posts_key: []
     })
     this.getData()
   }
 
-//模态框 end
+  //模态框 end
 })
