@@ -18,7 +18,6 @@ Page({
     ]
   },
   onShow() {
-    this.getLoaction();
     this.setData({
       resultPosition: []
     })

@@ -17,6 +17,7 @@ Page({
   },
   onLoad: function (options) {
     let that = this
+    this.getlocation()
     this.getopenid();
     this.getcarousel();
     this.getdata();
@@ -33,10 +34,10 @@ Page({
       setTimeout(function () {
         that.requestCityName(lat, lng)
       }, 500)
-      this.wxgetsetting()
     }else{
       this.getlocation()
     }
+    this.wxgetsetting()
   },
 
   getopenid: function () {  //获取openID sessionKey
@@ -96,7 +97,7 @@ Page({
         let longitude = res.longitude
         that.requestCityName(latitude, longitude);
       },
-      complete: function (res) {
+      fail: function (res) {
         that.wxgetsetting();
       }
     })
