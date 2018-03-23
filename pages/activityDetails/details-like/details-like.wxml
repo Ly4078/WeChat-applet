@@ -36,7 +36,7 @@
     </view>
    
     <block wx:for="{{actlist}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
-      <view class='merchant-sub' id="{{item.id}}" bindtap='clickshop'>
+      <view class='merchant-sub' id="{{item.shopId}}" bindtap='clickshop'>
         <view class='merchant-img-left'>
           <image class='merchant-images' mode="aspectFill" src='{{item.logoUrl}}'></image>
           <view class='serial-number'>{{item.shopCode}}</view>

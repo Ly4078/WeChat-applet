@@ -54,6 +54,7 @@ Page({
         'content-type': 'application/json;Authorization'
       },
       success: function (res) {
+        console.log("数据:",res)
         that.setData({
           store_details: res.data.data,
           store_images: res.data.data.shopTopPics.length

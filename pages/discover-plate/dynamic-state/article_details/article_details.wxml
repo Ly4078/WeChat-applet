@@ -31,7 +31,7 @@
         {{details.scan}}
       </view>
       <view class='praise' id="{{details.id}}">
-        {{zan}}
+        {{details.zan}}
         <image wx:if="{{details.isZan}}" src='/images/icon/home_zaned.png' class='homezan' catchtap='quxiaozanwz'></image>
         <image wx:else src='/images/icon/home_zan.png' class='homezan' catchtap='dianzanwz'></image>
       </view>
