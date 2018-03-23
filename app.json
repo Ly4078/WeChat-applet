@@ -3,7 +3,7 @@
     "pages/index/index",
     "pages/index/merchant-particulars/recommendation/recommendation",
     "pages/index/consume-qibashare/consume-qibashare",
-    "pages/index/search/search",
+    "pages/index/call-back/call-back",
     "pages/personal-center/free-of-charge/free-of-charge",
     "pages/activityDetails/details-like/details-like",
     "pages/personal-center/allDynamicState/allDynamicState",
