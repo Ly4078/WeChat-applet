@@ -15,7 +15,7 @@
         </view>
       </view>
       <view class='article-level-wrap'>
-        <image class='cover-images' src='{{item.homePic}}'></image>
+        <image class='cover-images' mode="aspectFill" src='{{item.homePic}}'></image>
         <text class='article-describe'>{{item.summary}}</text>
       </view>
       <view class='article-bottom-xia'>

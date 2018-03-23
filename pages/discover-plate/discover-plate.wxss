@@ -189,7 +189,7 @@ scroll_box.initiate-exhibition {
 }
 
 .finddes{
-  bottom: 100rpx;
+  bottom: 65rpx;
 }
 
 .findimg{

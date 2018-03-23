@@ -351,7 +351,7 @@
   font-size: 30rpx;
   color: #FFF;
   width:90%;
-  height: 85rpx;
+  height: 72rpx;
   overflow:hidden; 
   white-space:pre-line;
 }
