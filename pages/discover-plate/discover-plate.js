@@ -112,6 +112,7 @@ Page({
     wx.request({
       url: that.data._build_url + 'zb/list/',
       success: function (res) {
+        console.log("下拉刷新数据:",res)
         that.setData({
           hotlive: res.data.data.list
         })

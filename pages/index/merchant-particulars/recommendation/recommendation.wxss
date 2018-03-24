@@ -37,9 +37,9 @@ page {
 
 .recommRight-top {
   width: 100%;
-  display: flex;
+  /* display: flex;
   justify-content: space-between;
-  padding: 10rpx 0rpx 30rpx 0rpx;
+  padding: 10rpx 0rpx 30rpx 0rpx; */
 }
 
 .recommRight-top text {
@@ -66,13 +66,27 @@ page {
   width: 29rpx;
   height: 29rpx;
   vertical-align: middle;
-  padding-left: 10rpx;
+}
+
+.recommpingfen{
+  margin: -6rpx 0rpx 5rpx 0rpx;
+}
+
+.popularity{
+  width: 36rpx;
+  height: 36rpx;
+}
+
+.recom-popularity{
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
 }
 
 .cuisine-introduce {
   color: #808080;
   font-size: 24rpx;
-  line-height: 42rpx;
+  line-height: 38rpx;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
