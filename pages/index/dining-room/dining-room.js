@@ -24,6 +24,7 @@ Page({
     this.setData({
       posts_key:[]
     })
+    this.getData()
   },
   getData: function () {
     let lat = '30.51597', lng = '114.34035';  //lat纬度   lng经度
@@ -33,6 +34,7 @@ Page({
       page: this.data.page,
       rows: 8
     }
+    console.log("_parms:",_parms)
     if (this.data.businessCate) { //美食类别 
       _parms.businessCate = this.data.businessCate
     } else if (this.data.browSort) { //综合排序
