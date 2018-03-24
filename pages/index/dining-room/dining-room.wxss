@@ -8,7 +8,7 @@ Page {
   overflow-y: hidden; */
 }
 
-/* .withouttishi{
+ .withouttishi{
   margin-top: 20rpx;
 }
 
@@ -31,7 +31,8 @@ Page {
   justify-content: center;
   font-size: 30rpx;
   color: #808080;
-} */
+  padding-top: 20rpx;
+} 
 
 .page_row {
   display: block;
