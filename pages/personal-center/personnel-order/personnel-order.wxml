@@ -11,4 +11,10 @@
   <block wx:for="{{order_list}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
     <template is="order_template" data="{{item}}"></template>
   </block>
+  <view class='no_order' wx:if="{{order_list.length<1}}">
+    <text wx:if="{{currentTab==''}}">暂无订单</text>
+    <text wx:if="{{currentTab=='1'}}">暂无待付款订单</text>
+    <text wx:if="{{currentTab=='2'}}">暂无已完成订单</text>
+    <text wx:if="{{currentTab=='10'}}">暂无已取消订单</text>
+  </view>
 </view>

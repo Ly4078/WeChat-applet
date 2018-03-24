@@ -147,6 +147,10 @@ const ALL_API = {
   searchByUserId:{  //查询当前userId是否已入驻 
     method:'GET',
     url:'shopEnter/searchByUserId'
+  },
+  hxadd:{  //确认核销
+    method:'POST',
+    url:'hx/add'
   }
 }
 

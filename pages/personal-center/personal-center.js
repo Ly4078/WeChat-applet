@@ -161,16 +161,20 @@ Page({
       onlyFromCamera: true,
       scanType: "qrCode",
       success: (res) => {
+        console.log("res:",res)
         let qrCodeArr = res.result.split('/');
-        let qrCode = qrCodeArr[qrCodeArr.length - 1];
-        that.setData({
-          qrCode: qrCode
-        });
-        that.getCodeState();
+        let code = qrCodeArr[qrCodeArr.length - 1];
+        wx.navigateTo({
+          url: '../personal-center/call-back/call-back?code='+code
+        })
+        // that.setData({
+        //   qrCode: qrCode
+        // });
+        // that.getCodeState();
       },
       fail: (res) => {
-
-      }
+          console.log("扫码失败")
+      } 
     });
   },
   //判断二维码是否可以跳转
