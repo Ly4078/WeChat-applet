@@ -68,6 +68,10 @@
   </block>
   <block wx:if="{{posts_key.length<1}}">
       暂无此分类商家
+      <!-- <view class='withouttishiWrap'>
+        <image class='withouttishi' src='/images/icon/head portrait.png'></image>
+      </view>
+      <view class='withoutText'>*^＠^*暂无此商家</view> -->
   </block> 
 </view>
  </scroll-view>  

@@ -8,6 +8,31 @@ Page {
   overflow-y: hidden; */
 }
 
+/* .withouttishi{
+  margin-top: 20rpx;
+}
+
+.withouttishiWrap{
+  width: 100%;
+  height: 530rpx;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.withouttishi{
+  width: 200rpx;
+  height: 200rpx;
+}
+
+.withoutText{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  font-size: 30rpx;
+  color: #808080;
+} */
+
 .page_row {
   display: block;
   padding-top: 180rpx;

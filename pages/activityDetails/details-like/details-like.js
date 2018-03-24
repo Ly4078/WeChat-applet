@@ -117,7 +117,7 @@ Page({
               wx.showToast({
                 mask: true,
                 icon: 'none',
-                title: '点赞成功'
+                title: '投票成功'
               }, 1500)
             }
           })

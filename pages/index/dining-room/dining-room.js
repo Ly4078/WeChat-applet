@@ -38,9 +38,6 @@ Page({
     } else if (this.data.browSort) { //综合排序
       _parms.browSort = this.data.browSort
     }
-    wx.showLoading({
-      title: '加载中。。。'
-    })
     Api.shoplist(_parms).then((res) => {
       let that = this
       let data = res.data;

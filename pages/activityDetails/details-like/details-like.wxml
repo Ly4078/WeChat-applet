@@ -47,8 +47,8 @@
             <view class='merchant-total'>
               <text class='merchant-right-number'>{{item.voteNum}}</text>
               <text class='merchant-right-piao'>票</text>
-              <image class='merchant-right-button' wx:if="{{item.isVote == 0}}" id="{{item.id}}" catchtap='clickVote' src='/images/icon/vote_time.png'></image>
-              <image class='merchant-right-button' wx:else  id="{{item.id}}" catchtap='clickVote' src='/images/icon/vote_time2.png'></image>
+              <image class='merchant-right-button' wx:if="{{item.isVote == 0}}" id="{{item.id}}" catchtap='clickVote' src='/images/icon/vote_time2.png'></image>
+              <image class='merchant-right-button' wx:else  id="{{item.id}}" catchtap='clickVote' src='/images/icon/vote_time.png'></image>
             </view>
           </view>
           <view class='brief-introduction'>
