@@ -100,7 +100,7 @@ Page({
     let _data = this.data.ticketsinfo
     if (_value != '') {
       let _pay = _value * 1 - _data.couponAmount * 1
-      if (_pay > this.data.price){
+      if (_value > this.data.price || _value == this.data.price){
         this.setData({
           okhx:true
         })

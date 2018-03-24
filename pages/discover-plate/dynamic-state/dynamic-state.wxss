@@ -118,7 +118,8 @@ button {
   text-align: center;
 }
 .addimg{
-  width: 300rpx;
+  width: 340rpx;
   height: 100rpx;
-  margin: 0 23.5rpx;
 }
+._img{margin-right: 7rpx}
+._text{margin-left: 7rpx}

@@ -1,4 +1,4 @@
-import Api from '/../../../utils/config/api.js'; 
+import Api from '/../../../utils/config/api.js';
 var utils = require('../../../utils/util.js');
 var app = getApp();
 Page({
@@ -6,20 +6,20 @@ Page({
     selectHide: false,
     inputValue: '',
     getSearch: [],
-    busarr:[],
-    historyarr:[],
-    storename:'',
-    _is:true,
+    busarr: [],
+    historyarr: [],
+    storename: '',
+    _is: true,
     modalHidden: true
   },
-  onReady: function(){  //页面渲染完成   每次进行都会执行一次
+  onReady: function () {  //页面渲染完成   每次进行都会执行一次
     let that = this;
     wx.getStorage({
       key: 'his',
       success: function (res) {
         let _his = res.data;
         let _arr = [];
-        if (_his){
+        if (_his) {
           _arr = _his.split(',');
           let newarr = Array.from(new Set(_arr))
           that.setData({
@@ -29,25 +29,25 @@ Page({
       }
     })
   },
-  selectAddress(){  //点击搜索按钮
+  selectAddress() {  //点击搜索按钮
     let that = this;
     let _value = this.data.storename;
-    if(!_value){
+    if (!_value) {
       // wx.showToast({
       //   title: '请输入关键搜索',
       //   duration: 2000
       // })
       return false
     }
-    
-    if(_value){
+
+    if (_value) {
       let _parms = {
         searchKey: _value,
         locationX: app.globalData.userInfo.lng,
         locationY: app.globalData.userInfo.lat,
       }
       Api.shoplist(_parms).then((res) => {
-        if(res.data.code ==0){
+        if (res.data.code == 0) {
           if (res.data.data.list != [] && res.data.data.list != '') {
             that.data.historyarr.unshift(_value);
             let _str = that.data.historyarr.join(',');
@@ -65,7 +65,7 @@ Page({
             that.setData({
               busarr: _data
             })
-          }else{
+          } else {
             wx.showToast({
               title: '未搜索到相关信息',
               icon: 'none',
@@ -73,18 +73,18 @@ Page({
               duration: 2000
             })
           }
-        }else{
+        } else {
           wx.showToast({
             title: res.data.message,
             icon: 'none',
-            mask:true,
+            mask: true,
             duration: 2000
           })
         }
       })
     }
   },
-  searchbusiness(e){  //实时获取输入框的值
+  searchbusiness(e) {  //实时获取输入框的值
     this.setData({
       storename: e.detail.value
     })
@@ -98,11 +98,11 @@ Page({
       url: '../../index/index'
     })
   },
-  clickannal:function(ev){  //点击某个历史记录
+  clickannal: function (ev) {  //点击某个历史记录
     let _ind = ev.currentTarget.id
     let _data = this.data.historyarr
-    for (let i = 0; i < _data.length;i++){
-      if(_ind == i){
+    for (let i = 0; i < _data.length; i++) {
+      if (_ind == i) {
         this.setData({
           storename: _data[i]
         })
@@ -116,7 +116,7 @@ Page({
       url: '../merchant-particulars/merchant-particulars?shopid=' + shopid,
     })
   },
-  diningRoomList(e){
+  diningRoomList(e) {
     let shopid = currentTarget.id;
     wx.navigateTo({
       url: '../merchant-particulars/merchant-particulars?shopid=' + shopid,
@@ -165,18 +165,18 @@ Page({
   sweepAway: function (event) {   //点击清除
     let that = this;
     let _len = this.data.busarr.length;
-    let _font ='历史记录';
-    if (_len == 0){
+    let _font = '历史记录';
+    if (_len == 0) {
       _font = '历史记录'
-    }else{
+    } else {
       _font = '商家列表'
     }
     wx.showModal({
       title: '温馨提示',
-      content: '确定要清除'+_font+'?',
+      content: '确定要清除' + _font + '?',
       success: function (res) {
         if (res.confirm) {
-          if(_len ==0){
+          if (_len == 0) {
             let _arr = [];
             that.setData({
               historyarr: _arr
@@ -185,7 +185,7 @@ Page({
               key: "his",
               data: ''
             })
-          }else{
+          } else {
             that.setData({
               busarr: []
             })
@@ -204,7 +204,7 @@ Page({
     })
   },
   onHide: function () {
-   
+
   },
   clearInput: function () {
     this.setData({

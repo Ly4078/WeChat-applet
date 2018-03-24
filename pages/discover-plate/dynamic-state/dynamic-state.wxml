@@ -16,8 +16,8 @@
   </view>
 
   <view class='addit'>
-      <button class='addimg' catchtap='clickimg'>添加图片</button>
-      <button class='addimg' catchtap='clicktxt'>添加文字</button>
+      <button class='addimg _img' catchtap='clickimg'>添加图片</button>
+      <button class='addimg _text' catchtap='clicktxt'>添加文字</button>
   </view>
 
   <!-- <view wx:if="{{isplus}}" id="" catchtap='clickplus' class='add'>+</view>
