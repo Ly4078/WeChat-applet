@@ -64,6 +64,9 @@ page {
 .discountInfo {
   color: #ff4545;
 }
+button[plan]{
+  border: 0;
+}
 
 .okBtn {
     margin-top: 60rpx;
@@ -77,6 +80,11 @@ page {
     font-size: 36rpx;
     text-align: center;
     letter-spacing: 2px;
+}
+
+
+.look{
+  background-color: #fc512d;
 }
 
 

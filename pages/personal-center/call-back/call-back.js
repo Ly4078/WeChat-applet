@@ -13,7 +13,9 @@ Page({
     amount: '',
     pay: '',
     ticketsinfo: [],
-    hxData: {}
+    hxData: {},
+    price:'',
+    okhx:false
   },
 
   /**
@@ -80,9 +82,14 @@ Page({
       url: this.data._build_url + 'cp/getByCode/' + this.data.code,
       success: function (res) {
         if (res.data.code == 0) {
+          let _rele = res.data.data.promotionRules[0].ruleDesc
+          let ind1 = _rele.indexOf("满")+1;
+          let ind2 = _rele.indexOf("元");
+          let _price = _rele.substring(ind1,ind2)
           that.setData({
             ticketsinfo: res.data.data,
-            hxData: res.data.data
+            hxData: res.data.data,
+            price:_price
           })
         }
       }
@@ -93,6 +100,15 @@ Page({
     let _data = this.data.ticketsinfo
     if (_value != '') {
       let _pay = _value * 1 - _data.couponAmount * 1
+      if (_pay > this.data.price){
+        this.setData({
+          okhx:true
+        })
+      }else{
+        this.setData({
+          okhx: false
+        })
+      }
       this.setData({
         amount: _value,
         pay: _pay
@@ -102,6 +118,14 @@ Page({
   confirm: function () {  //确认核销
     let that = this;
     let _hxData = this.data.hxData
+    if (!this.data.okhx){
+      wx.showToast({
+        title: '不符合核销条件，请重新输入',
+        icon: 'none',
+        duration: 2000
+      })
+      return false
+    }
     _hxData.shopAmount = this.data.amount
     let _parms = {
       soId: _hxData.soId,	        //订单id	Long
@@ -118,11 +142,21 @@ Page({
       cashierName: ""	    //收银账号	String
     }
     Api.hxadd(_parms).then((res) => {
-      console.log("res:",res)
       if (res.data.code == 0) {
         wx.showToast({
           title: '核销成功',
           icon: 'success',
+          duration: 2000
+        })
+        setTimeout(function () {
+          wx.switchTab({
+            url: '../personal-center'
+          })
+        }, 2000)
+      }else{
+        wx.showToast({
+          title: res.data.message,
+          icon: 'none',
           duration: 2000
         })
         setTimeout(function () {

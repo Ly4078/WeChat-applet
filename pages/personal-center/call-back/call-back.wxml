@@ -8,7 +8,7 @@
 
     <view>
       <view class="discountInfo">
-        <text class="discountTicket">{{ticketsinfo.skuName}}{{ticketsinfo.promotionRules[0].ruleDesc}}</text>
+        <text class="discountTicket">{{ticketsinfo.skuName}}({{ticketsinfo.promotionRules[0].ruleDesc}})</text>
         <text class="discountMoney discountMoney">-{{ticketsinfo.couponAmount}}</text>
       </view>
     </view>
@@ -17,6 +17,6 @@
       <text>实际需付款（元）</text>
       <text class="actualAmount">{{pay}}</text>
     </view>
-    <span catchtap='confirm' class="okBtn">确认核销</span>
+    <span catchtap='confirm' class="okBtn {{okhx?'look':''}}">确认核销</span>
   </view>
 </view>
