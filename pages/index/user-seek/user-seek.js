@@ -55,8 +55,15 @@ Page({
             data: _str
           })
           // that.backHomepage();
-          let _bus = res.data.data.list
-          this.getDistance(_bus) //计算距离并赋值
+          let busarr = this.data.busarr;
+          let _data = res.data.data.list
+          for (let i = 0; i < _data.length; i++) {
+            _data[i].distance = utils.transformLength(_data[i].distance)
+            busarr.push(_data[i])
+          }
+          that.setData({
+            busarr: _data
+          })
         }
       })
     }
@@ -92,31 +99,6 @@ Page({
     wx.navigateTo({
       url: '../merchant-particulars/merchant-particulars?shopid=' + shopid,
     })
-  },
-  getDistance: function (data) { //计算距离
-    let that = this;
-    //获取当前位置
-    wx && wx.getLocation({
-      type: 'gcj02', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
-      success: function (res) {
-        //计算距离
-        for(let i=0;i<data.length;i++){
-          if (!data[i].locationX || !data[i].locationY) {
-            return;
-          }
-          let _dis = utils.calcDistance(data[i].locationY, data[i].locationX, res.latitude, res.longitude);
-          //转换显示
-          let mydis = '<'+utils.transformLength(_dis);
-          data[i].dis = mydis;
-        }
-        that.setData({
-          busarr: data
-        })
-      },
-      fail: function (res) {
-        utils.toast("error", '定位失败，请刷新页面重试');
-      }
-    });
   },
   diningRoomList(e){
     let shopid = currentTarget.id;

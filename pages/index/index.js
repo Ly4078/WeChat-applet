@@ -17,7 +17,6 @@ Page({
   },
   onLoad: function (options) {
     let that = this
-    this.getlocation()
     this.getopenid();
     this.getcarousel();
     this.getdata();
@@ -58,6 +57,7 @@ Page({
               app.globalData.userInfo.userId = res.data.data
             }
             this.getuser()
+            this.getlocation()
           })
         }
       }
@@ -91,12 +91,14 @@ Page({
   },
   getlocation: function () {  //获取用户位置
     let that = this
+    console.log("aa")
     let lat = '', lng = ''
     wx.getLocation({
       type: 'wgs84',
       success: function (res) {
         let latitude = res.latitude
         let longitude = res.longitude
+        console.log(latitude, longitude)
         that.requestCityName(latitude, longitude);
       }
     })
@@ -135,6 +137,7 @@ Page({
   requestCityName(lat, lng) {//获取当前城市
     app.globalData.userInfo.lat = lat
     app.globalData.userInfo.lng = lng
+    console.log("app:",app.globalData.userInfo)
     wx.request({
       url: 'https://apis.map.qq.com/ws/geocoder/v1/?location=' + lat + "," + lng + "&key=4YFBZ-K7JH6-OYOS4-EIJ27-K473E-EUBV7",
       header: {

@@ -13,3 +13,19 @@
 .searchcion{
   margin:12rpx 10rpx 10rpx 30rpx;
 }
+.trade_site_distance text:nth-child(2) {
+padding-right:32rpx;
+
+}
+.trade_site_address {
+  display:inline-block;
+  width:260rpx;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  overflow:hidden;
+}
+
+.trade_site_lxg {
+  display:inline-block;
+  float: right;
+}

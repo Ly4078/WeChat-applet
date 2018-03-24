@@ -164,13 +164,13 @@ Page({
         console.log("res:",res)
         let qrCodeArr = res.result.split('/');
         let code = qrCodeArr[qrCodeArr.length - 1];
-        wx.navigateTo({
-          url: '../personal-center/call-back/call-back?code='+code
-        })
-        // that.setData({
-        //   qrCode: qrCode
-        // });
-        // that.getCodeState();
+        // wx.navigateTo({
+        //   url: '../personal-center/call-back/call-back?code='+code
+        // })
+        that.setData({
+          qrCode: qrCode
+        });
+        that.getCodeState();
       },
       fail: (res) => {
           console.log("扫码失败")
@@ -181,7 +181,7 @@ Page({
   getCodeState: function () {
     let that = this;
     wx.request({
-      url: that.data._build_url + '/cp/getByCode/' + that.data.qrCode,
+      url: 'http://192.168.0.130/cp/getByCode/' + that.data.qrCode,
       success: function (res) {
         var data = res.data;
         let current = res.currentTime;
