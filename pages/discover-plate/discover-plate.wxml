@@ -39,7 +39,7 @@
       <image class='cateWallImg findimg' mode="aspectFill" src='{{item.homePic}}'></image>
       <view class='catewallGroup'>
          <image class='catewalltou' src='{{item.iconUrl}}'></image> 
-        <text class='catewallText'>{{item.title}}</text>
+        <text class='catewallText'>{{item.userName}}</text>
       </view>
       <view class='foodDescription finddes'>
         <view class='DescriptionText findtext'>{{item.summary}}</view>

@@ -16,7 +16,7 @@
 
     <view class='message-each'>
       <text class='message-name'>联系方式</text>
-      <input name="mobeli" maxlength="11" class='message-text' placeholder="输入座机(加区号)或电话号码" type="number" value='{{mobeli}}' bindblur="blurmobile"></input>
+      <input name="mobeli" maxlength="11" class='message-text' placeholder="输入联系方式" type="number" value='{{mobeli}}' bindblur="blurmobile"></input>
     </view>
 
     <view class='message-each'>
@@ -27,13 +27,19 @@
     <view class='message-each'>
       <text class='message-name' catchtap='getlocation'>详细地址</text>
       <input class='message-text' name="address" placeholder="输入店铺地址" value="{{address}}"></input>
-      <image class='more' src='/images/icon/home_arrow.png' catchtap='getlocation'></image>
+      <view class='gitkuoda' catchtap='getlocation'>
+        <text></text>
+        <image class='more' src='/images/icon/home_arrow.png'></image>
+      </view>
     </view>
 
     <view class='message-each' catchtap='opencate'>
       <text class='message-name'>经营品类</text>
       <input class='message-text' name="businessCate" bindblur="inperFigure" placeholder="选择经营品类" type="number" value="{{businessCate}}" disabled="true"></input>
+      <view class='gitkuoda' catchtap='getlocation'>
+      <text></text>
       <image class='more' src='/images/icon/home_arrow.png'></image>
+      </view>
     </view>
     <view class='message-each'>
       <text class='message-name'>环境分类</text>
