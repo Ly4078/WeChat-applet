@@ -100,7 +100,10 @@ page {
   background: #fff;
   padding: 25rpx 28rpx 17rpx 28rpx;  
 }
-
+.picker{
+  font-size:30rpx;
+  color:#b1b1b1;
+}
 .subbut{
   width:666rpx;
   height:90rpx; 

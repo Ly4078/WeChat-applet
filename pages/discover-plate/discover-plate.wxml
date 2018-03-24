@@ -46,7 +46,7 @@
         <view class='browsing'>
           <image src='/images/icon/tuoyuan_w.png' class='tuoyuan'></image>
          
-          <text class='text_wz'>{{item.viewNum}}</text>
+          <text class='text_wz'>{{item.hitNum}}</text>
            <!-- {{item.scan}}  -->
         </view>
         
@@ -56,7 +56,7 @@
         </view> -->
 
         <view class='evaluate'>
-          <image src='/images/icon/word.png' class='word'></image>
+           <image src='/images/icon/word.png' class='word'></image> 
            <text class='text_wz'>{{item.commentNum}}</text>
         </view>
 

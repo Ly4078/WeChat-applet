@@ -30,6 +30,8 @@ Page({
     let lat = '30.51597', lng = '114.34035';  //lat纬度   lng经度
     lat = wx.getStorageSync('lat') ? wx.getStorageSync('lat') : lat
     lng = wx.getStorageSync('lng') ? wx.getStorageSync('lng') : lng
+    app.globalData.userInfo.lat = lat
+    app.globalData.userInfo.lng = lng
     if (lat && lng) {
       setTimeout(function () {
         that.requestCityName(lat, lng)

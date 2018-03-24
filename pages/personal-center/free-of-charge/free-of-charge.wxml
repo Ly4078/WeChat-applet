@@ -1,18 +1,17 @@
-
 <view>
 
   <image class='bannerTop' src='/images/icon/banner1.png'></image>
   <view class='prompt'>
     <text class='prompt_text'>{{prompt}}</text>
   </view>
-  <form bindsubmit="formSubmit" class='commercial-message' >
+  <form bindsubmit="formSubmit" class='commercial-message'>
     <view class='commercial'>
       <text>商户信息</text>
     </view>
 
     <view class='message-each'>
       <text class='message-name'>申请人</text>
-      <input class='message-text-suo' placeholder="输入申请人的名字"  type='text' name="userName" bindblur="blurname"></input>
+      <input class='message-text-suo' placeholder="输入申请人的名字" type='text' name="userName" bindblur="blurname"></input>
     </view>
 
     <view class='message-each'>
@@ -26,7 +25,7 @@
     </view>
 
     <view class='message-each'>
-      <text class='message-name'>详细地址</text>
+      <text class='message-name' catchtap='getlocation'>详细地址</text>
       <input class='message-text' name="address" placeholder="输入店铺地址" value="{{address}}"></input>
       <image class='more' src='/images/icon/home_arrow.png' catchtap='getlocation'></image>
     </view>
@@ -35,6 +34,14 @@
       <text class='message-name'>经营品类</text>
       <input class='message-text' name="businessCate" bindblur="inperFigure" placeholder="选择经营品类" type="number" value="{{businessCate}}" disabled="true"></input>
       <image class='more' src='/images/icon/home_arrow.png'></image>
+    </view>
+    <view class='message-each'>
+      <text class='message-name'>环境分类</text>
+      <picker bindchange="bindPickerChange" value="{{index}}" range="{{sort}}">
+        <view class="picker">
+          {{sort[index]}}
+        </view>
+      </picker>
     </view>
 
     <view class='commercial'>
@@ -59,7 +66,7 @@
       <view class='qual_right'>
         <view class='each-caption'>上传卫生许可证</view>
         <image wx:if="{{healthPic}}" class='qualimg' catchtap='health' src='{{healthPic}}'></image>
-         <image wx:else class='qualimg' catchtap='health' src='/images/icon/set_cover.png'></image>
+        <image wx:else class='qualimg' catchtap='health' src='/images/icon/set_cover.png'></image>
       </view>
     </view>
 
@@ -74,10 +81,11 @@
       </view>
     </view>
 
-     <view class="btn-area">
-       <text class='agree'>同意</text><text class='pact'>《享7商家服务协议》</text> 
-       <button formType="submit" class='subbut'>提交申请</button> 
-    </view> 
+    <view class="btn-area">
+      <text class='agree'>同意</text>
+      <text class='pact'>《享7商家服务协议》</text>
+      <button formType="submit" class='subbut'>提交申请</button>
+    </view>
   </form>
 
 

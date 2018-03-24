@@ -20,7 +20,10 @@ Page({
     doorPic: '',
     locationX: '',
     locationY: '',
-    city: ''
+    city: '',
+    index: 0,
+    sortype:'',
+    sort:['商务','聚会','约会']
   },
 
   /**
@@ -89,6 +92,18 @@ Page({
    */
   onShareAppMessage: function () {
 
+  },
+  bindPickerChange: function (e) {
+    console.log('picker发送选择改变，携带值为', e.detail.value)
+    let ind = e.detail.value
+    for(let i=0;i<this.data.sort.length;i++){
+      this.setData({
+        sortype:this.data.sort[ind]
+      })
+    }
+    this.setData({
+      index: ind
+    })
   },
   searchByUserId: function () {
     let _parms = {
@@ -180,7 +195,34 @@ Page({
       })
     }
   },
-  getlocation: function () { //获取详细地址   地图选点
+  getlocation: function () { //获取详细地址   
+    let that = this
+    wx.getSetting({
+      success: (res) => {
+        if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其用户信息或位置信息
+          wx.showModal({
+            title: '提示',
+            content: '享7要你的位置信息，快去授权',
+            success: function (res) {
+              if (res.confirm) {
+                wx.openSetting({  //打开授权设置界面
+                  success: (res) => {
+                    if (res.authSetting['scope.userLocation']) {
+                      console.log("11")
+                      that.getchooseLocation()
+                    }
+                  }
+                })
+              }
+            }
+          })
+        }else{
+          that.getchooseLocation()
+        }
+      }
+    })
+  },
+  getchooseLocation() {  //地图选点
     let that = this
     wx.chooseLocation({
       success: function (res) {
@@ -306,7 +348,7 @@ Page({
             }
           })
         } else {
-          if (!this.data.userName || !this.data.mobile || !this.data.shopName || !this.data.address || !this.data.businessCate || !this.data.licensePic || !this.data.healthPic || !this.data.doorPic || !this.data.locationX || !this.data.locationY || !this.data.city) {
+          if (!this.data.userName || !this.data.mobile || !this.data.shopName || !this.data.address || !this.data.businessCate || !this.data.licensePic || !this.data.healthPic || !this.data.doorPic || !this.data.locationX || !this.data.locationY || !this.data.city || !this.data.sortype) {
             wx.showToast({
               title: '表单输入有误',
               icon: 'none',
@@ -314,12 +356,14 @@ Page({
             })
             return false
           }
+          let _bauss = this.data.businessCate.toString()
+          _bauss = _bauss + ',' + this.data.sortype
           let _parms = {
             userName: this.data.userName,
             mobile: this.data.mobile,
             shopName: this.data.shopName,
             address: this.data.address,
-            businessCate: this.data.businessCate.toString(),
+            businessCate: _bauss,
             licensePic: this.data.licensePic,
             healthPic: this.data.healthPic,
             doorPic: this.data.doorPic,
@@ -328,7 +372,9 @@ Page({
             city: this.data.city,
             userId: app.globalData.userInfo.userId
           }
+          console.log("_parms:",_parms)
           Api.merchantEnter(_parms).then((res) => {
+            console.log("res:",res)
             if (res.data.code == 0) {
               wx.showModal({
                 title: '提示',

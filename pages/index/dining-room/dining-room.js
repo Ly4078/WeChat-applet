@@ -14,7 +14,6 @@ Page({
     isnearby: false,
     isfood: false,
     issorting: false,
-    reFresh: true,
     businessCate: '',
     browSort: ''
   },
@@ -22,18 +21,15 @@ Page({
     this.getData();
   },
   onShow: function () {
-  },
-  onHide: function () {
-    // this.setData({
-    //   posts_key: [],
-    //   page: 1,
-    //   reFresh: true
-    // })
+    this.setData({
+      posts_key:[]
+    })
   },
   getData: function () {
+    let lat = '30.51597', lng = '114.34035';  //lat纬度   lng经度
     let _parms = {
-      locationX: app.globalData.userInfo.lng,
-      locationY: app.globalData.userInfo.lat,
+      locationX: app.globalData.userInfo.lng ? app.globalData.userInfo.lng:lng,
+      locationY: app.globalData.userInfo.lat ? app.globalData.userInfo.lat:lat,
       page: this.data.page,
       rows: 8
     }
@@ -49,56 +45,21 @@ Page({
       let that = this
       let data = res.data;
       wx.hideLoading()
-      console.log("1111:")
-      console.log("data:11",data)
       if (data.code == 0 && data.data.list != null && data.data.list != "" && data.data.list != []) {
-        let posts_key = this.data.posts_key;
-        for (let i = 0; i < data.data.list.length; i++) {
-          posts_key.push(data.data.list[i]);
+        wx.stopPullDownRefresh()
+        let posts = this.data.posts_key;
+        let _data = data.data.list
+        for (let i = 0; i < _data.length; i++) {
+          _data[i].distance = utils.transformLength(_data[i].distance)
+          posts.push(_data[i])
         }
         that.setData({
-          posts_key: posts_key
+          posts_key: posts
         })
-        // this.getDistance(posts_key) //计算距离并赋值
-        this.setData({
-          reFresh: true
-        });
-      } else {
-        this.setData({
-          reFresh: false
-        });
       }
     })
   },
-  getDistance: function (data) { //计算距离
-  console.log("data:",data)
-    let that = this;
-    //获取当前位置
-    wx && wx.getLocation({
-      type: 'gcj02', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
-      success: function (res) {
-        //计算距离
-        for (let i = 0; i < data.length; i++) {
-          if (!data[i].locationX || !data[i].locationY) {
-            return;
-          }
-          let _dis = utils.calcDistance(data[i].locationY, data[i].locationX, res.latitude, res.longitude);
-          //转换显示
-          let mydis = '<' + utils.transformLength(_dis);
-          data[i].dis = mydis;
-        }
-        console.log("data111:",data)
-        that.setData({
-          posts_key: data
-        })
-      },
-      fail: function (res) {
-        // utils.toast("error", '定位失败，请刷新页面重试');
-      }
-    });
-  },
-  //获取搜索框内的值
-  onInputText: function (e) {
+  onInputText: function (e) { //获取搜索框内的值
     // this.setData({
     //   searchValue: e.detail.value
     // })
@@ -131,14 +92,20 @@ Page({
       url: '../merchant-particulars/merchant-particulars?shopid=' + event.currentTarget.id,
     })
   },
-  //用户上拉触底
-  onReachBottom: function () {
-    if (this.data.reFresh) {
+  onReachBottom: function () {  //用户上拉触底加载更多
       this.setData({
         page: this.data.page + 1
       });
-      this.getData();
-    }
+      this.getData()
+  },
+  onPullDownRefresh:function(){
+    this.setData({
+      businessCate: '',
+      browSort: '',
+      posts_key: [],
+      page: 1
+    });
+    this.getData()
   },
 
 
@@ -203,7 +170,6 @@ Page({
     wx.getSetting({
       success: (res) => {
         if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其用户信息或位置信息
-        console.log("no")
           wx.showModal({
             title: '提示',
             content: '查询附近餐厅需要你授权位置信息',
@@ -228,7 +194,6 @@ Page({
             }
           })
         } else {
-          console.log("yes")
           for (let i = 0; i < _data.length; i++) {
             if (id == i) {
               _value = _data[i]
@@ -237,9 +202,6 @@ Page({
           this.closemodel()
           this.getData()
         }
-      },
-      fail:(res)=>{
-        console.log("fail")
       }
     })
   },
