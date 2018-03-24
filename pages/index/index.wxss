@@ -31,7 +31,7 @@ page {
 }
 
 .homePage_banner {
-  height: 270rpx !important;
+  height: 360rpx !important;
 }
 
 .site_location {
