@@ -13,15 +13,18 @@
     <view class='box' wx:if="{{item.type == 'text'}}">
       <textarea class='childtext' disabled='true' maxlength="-1" id="{{index}}" catchtap='modify'>{{item.value}}</textarea>
     </view>
-
-
   </view>
 
-  <view wx:if="{{isplus}}" id="" catchtap='clickplus' class='add'>+</view>
+  <view class='addit'>
+      <button class='addimg' catchtap='clickimg'>添加图片</button>
+      <button class='addimg' catchtap='clicktxt'>添加文字</button>
+  </view>
+
+  <!-- <view wx:if="{{isplus}}" id="" catchtap='clickplus' class='add'>+</view>
   <view wx:else class='img_txt'>
     <image catchtap='clickimg' class='addimg' src='/images/icon/send_photo.png'></image>
     <image catchtap='clicktxt' class='addtxt' src='/images/icon/send_txt.png'></image>
-  </view>
+  </view> -->
 
   <view wx:for="{{butt}}" wx:key="{{index}}">
     <button form-type="submit" id="{{index}}" catchtap='FormSubmit' class='submit'> {{item}} </button>
