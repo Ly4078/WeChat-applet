@@ -47,22 +47,38 @@ Page({
         locationY: app.globalData.userInfo.lat,
       }
       Api.shoplist(_parms).then((res) => {
-        if (res.data.code == 0 && res.data.data.list != [] && res.data.data.list != ''){
-          that.data.historyarr.unshift(_value);
-          let _str = that.data.historyarr.join(',');
-          wx.setStorage({
-            key: "his",
-            data: _str
-          })
-          // that.backHomepage();
-          let busarr = this.data.busarr;
-          let _data = res.data.data.list
-          for (let i = 0; i < _data.length; i++) {
-            _data[i].distance = utils.transformLength(_data[i].distance)
-            busarr.push(_data[i])
+        if(res.data.code ==0){
+          if (res.data.data.list != [] && res.data.data.list != '') {
+            that.data.historyarr.unshift(_value);
+            let _str = that.data.historyarr.join(',');
+            wx.setStorage({
+              key: "his",
+              data: _str
+            })
+            // that.backHomepage();
+            let busarr = this.data.busarr;
+            let _data = res.data.data.list
+            for (let i = 0; i < _data.length; i++) {
+              _data[i].distance = utils.transformLength(_data[i].distance)
+              busarr.push(_data[i])
+            }
+            that.setData({
+              busarr: _data
+            })
+          }else{
+            wx.showToast({
+              title: '未搜索到相关信息',
+              icon: 'none',
+              mask: true,
+              duration: 2000
+            })
           }
-          that.setData({
-            busarr: _data
+        }else{
+          wx.showToast({
+            title: res.data.message,
+            icon: 'none',
+            mask:true,
+            duration: 2000
           })
         }
       })
