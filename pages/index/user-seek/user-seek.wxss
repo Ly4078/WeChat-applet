@@ -28,4 +28,5 @@ padding-right:32rpx;
 .trade_site_lxg {
   display:inline-block;
   float: right;
+  padding: 0;
 }
