@@ -160,7 +160,12 @@ Page({
     })
   },
   getdata: function () { // 获取推荐餐厅数据
-    Api.shoptop().then((res) => {
+    let lat = '30.51597', lng = '114.34035';  
+    let _parms = {
+      locationX: app.globalData.userInfo.lng ? app.globalData.userInfo.lng:lng,
+      locationY: app.globalData.userInfo.lat ? app.globalData.userInfo.lat:lat,
+    }
+    Api.shoptop(_parms).then((res) => {
       // console.log("businss:",res.data.data)
       this.setData({
         business: res.data.data
