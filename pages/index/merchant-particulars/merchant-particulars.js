@@ -5,7 +5,7 @@ var app = getApp();
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
-    navbar: ['主页'],
+    navbar: ['主页','动态'],
     shopid: '',  //商家ID
     store_details: {},  //店铺详情
     currentTab: 0,

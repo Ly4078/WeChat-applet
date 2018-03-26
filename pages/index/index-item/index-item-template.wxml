@@ -3,23 +3,9 @@
   <view class='warp_classify'>
     <view class='classify' catchtap='shopping'>
       <image class='classify_img' src='/images/icon/home_icon_xqq.png'></image>
-      <view class='classify_text'>享7劵</view>
-    </view>
-    <view class='classify' bindtap='diningRoom'>
-      <image class='classify_img' src='/images/icon/home_icon_ct.png'></image>
-      <view class='classify_text'>餐厅</view>
     </view>
     <view class='classify' bindtap='entertainment'>
-      <image class='classify_img' src='/images/icon/home_icon_yl.png'></image>
-      <view class='classify_text' >掌上武汉</view>
-    </view>
-    <view class='classify' bindtap='hotelUnopen'>
-      <image class='classify_img' src='/images/icon/home_icon_jd.png'></image>
-      <view class='classify_text'>酒店</view>
-    </view>
-    <view class='classify' bindtap='scenicSpot'>
-      <image class='classify_img' src='/images/icon/home_iocn_jingd.png'></image>
-      <view class='classify_text'>休闲娱乐</view>
+      <image class='classify_img recomm-right' src='/images/icon/home_icon_yl.png'></image>
     </view>
   </view>
 </template>
@@ -38,9 +24,9 @@
 </template>
 <!--推荐餐厅  -->
 <template name="postItemss">
-  <view id="{{item.id}}" class="scroll-view-item bc_green" data-postId="{{item.id}}" catchtap='diningHhall' >
-     <image wx:if="{{item.logoUrl}}" mode="aspectFill" class='scroll-view-item-img' src='{{item.logoUrl}}'></image> 
-     <image wx:else class='scroll-view-item-img' src='https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1975347470,2770072390&fm=27&gp=0.jpg'></image> 
+  <view id="{{item.id}}" class="scroll-view-item bc_green" data-postId="{{item.id}}" catchtap='diningHhall'>
+    <image wx:if="{{item.logoUrl}}" mode="aspectFill" class='scroll-view-item-img' src='{{item.logoUrl}}'></image>
+    <image wx:else class='scroll-view-item-img' src='https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1975347470,2770072390&fm=27&gp=0.jpg'></image>
     <view class='cate_site'>{{item.shopName}}</view>
   </view>
 </template>
@@ -49,7 +35,7 @@
   <view class='wrap_recommend' catchtap='cateWall'>
     <view class='recommend'>
       <image class='recommend_img' src='/images/icon/home_sign.png'></image>
-      <view class='recommend_text'>美食栏</view>
+      <view class='recommend_text'>文化墙</view>
     </view>
     <view class='djevenMore'>
       <view class='recommend_right'>查看更多</view>
@@ -62,7 +48,7 @@
   <view id="{{item.id}}" catchtap="fooddetails" class="scroll_user">
     <image class='cateWallImg' mode="aspectFill" src='{{item.homePic}}'></image>
     <view class='catewallGroup'>
-       <image class='catewalltou' mode="aspectFill" src='{{item.iconUrl}}'></image> 
+      <image class='catewalltou' mode="aspectFill" src='{{item.iconUrl}}'></image>
       <text class='catewallText'>{{item.userName}}</text>
     </view>
     <view class='foodDescription'>
@@ -87,8 +73,8 @@
 <!--热门活动  -->
 <template name="hotActivityss">
   <view class="preferential" id="{{item.id}}" catchtap='detailOfTheActivity'>
-  <image wx:if="{{item.mainPic}}" mode="aspectFill" class='preferential_img' src='{{item.mainPic}}'></image> 
-  <image wx:else class='scroll-view-item-img' src='https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1975347470,2770072390&fm=27&gp=0.jpg'></image>
+    <image wx:if="{{item.mainPic}}" mode="aspectFill" class='preferential_img' src='{{item.mainPic}}'></image>
+    <image wx:else class='scroll-view-item-img' src='https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1975347470,2770072390&fm=27&gp=0.jpg'></image>
   </view>
 </template>
 
@@ -113,3 +99,105 @@
     <view class='cate_site'>{{item.anchorNickName}}:{{item.title}}</view>
   </view>
 </template>
+
+<!-- 专题推荐 菜系推荐 -->
+ <template name="styleOfCookingTm">
+  <view class='classOfService'>
+    <view class='classOfPadding'>
+      <image class='classOfImages' mode="aspectFill" src='/images/icon/home_icon_xqq.png'></image>
+
+      <view class='special-merchant'>
+        <image class='merchant-img' mode="aspectFill" src='/images/icon/xqlogo.png'></image>
+        <view class='merchant-cxName'>
+          <view class='merchant-cxName-cs'>湖景酒楼湖</view>
+          <text>农家小炒肉农家,小炒肉农家小炒农家小,炒肉农家小炒肉</text>
+        </view>
+      </view>
+      
+       <view class='homeCuisine'>
+        <view class='homeCuisine-grid'>
+          <view class='homeRight'>
+            <text>黄师傅私房菜黄师傅私房菜</text>
+            <text>农家小炒肉黄师傅私房菜黄师傅私房菜</text>
+          </view>
+          <image class='homeImages' mode="aspectFill" src='/images/icon/home_icon_xqq.png'></image>
+        </view>
+        <view class='homeCuisine-grid'>
+          <view class='homeRight'>
+            <text>黄师傅私房菜黄师傅私房菜</text>
+            <text>农家小炒肉黄师傅私房菜黄师傅私房菜</text>
+          </view>
+          <image class='homeImages' mode="aspectFill" src='/images/icon/home_icon_xqq.png'></image>
+        </view>
+      </view> 
+
+       <view class='homeCuisine homTwentieth'>
+        <view class='homeCuisine-grid'>
+          <view class='homeRight'>
+            <text>黄师傅私房菜黄师傅私房菜</text>
+            <text>农家小炒肉黄师傅私房菜黄师傅私房菜</text>
+          </view>
+          <image class='homeImages' mode="aspectFill" src='/images/icon/home_icon_xqq.png'></image>
+        </view>
+        <view class='homeCuisine-grid'>
+          <view class='homeRight'>
+            <text>黄师傅私房菜黄师傅私房菜</text>
+            <text>农家小炒肉黄师傅私房菜黄师傅私房菜</text>
+          </view>
+          <image class='homeImages' mode="aspectFill" src='/images/icon/home_icon_xqq.png'></image>
+        </view>
+      </view> 
+    </view>
+  </view>
+</template> 
+
+<!-- 专题推荐 服务专题 -->
+<template name="CreateEmailAlerts">
+  <view class='classOfService'>
+    <view class='classOfPadding'>
+      <image class='classOfImages' mode="aspectFill" src='/images/icon/home_icon_yl.png'></image>
+
+      <view class='special-merchant'>
+        <image class='merchant-img' mode="aspectFill" src='/images/icon/home_icon_xqq.png'></image>
+        <view class='merchant-cxName'>
+          <view class='merchant-cxName-cs'>湖景酒楼湖</view>
+          <text>农家小炒肉农家,小炒肉农家小炒农家小,炒肉农家小炒肉</text>
+        </view>
+      </view>
+      
+       <view class='homeCuisine'>
+        <view class='homeCuisine-grid'>
+          <view class='homeRight'>
+            <text>黄师傅私房菜黄师傅私房菜</text>
+            <text>农家小炒肉黄师傅私房菜黄师傅私房菜</text>
+          </view>
+          <image class='homeImages' mode="aspectFill" src='/images/icon/home_icon_xqq.png'></image>
+        </view>
+        <view class='homeCuisine-grid'>
+          <view class='homeRight'>
+            <text>黄师傅私房菜黄师傅私房菜</text>
+            <text>农家小炒肉黄师傅私房菜黄师傅私房菜</text>
+          </view>
+          <image class='homeImages' mode="aspectFill" src='/images/icon/home_icon_xqq.png'></image>
+        </view>
+      </view> 
+
+       <view class='homeCuisine homTwentieth'>
+        <view class='homeCuisine-grid'>
+          <view class='homeRight'>
+            <text>黄师傅私房菜黄师傅私房菜</text>
+            <text>农家小炒肉黄师傅私房菜黄师傅私房菜</text>
+          </view>
+          <image class='homeImages' mode="aspectFill" src='/images/icon/home_icon_xqq.png'></image>
+        </view>
+        <view class='homeCuisine-grid'>
+          <view class='homeRight'>
+            <text>黄师傅私房菜黄师傅私房菜</text>
+            <text>农家小炒肉黄师傅私房菜黄师傅私房菜</text>
+          </view>
+          <image class='homeImages' mode="aspectFill" src='/images/icon/home_icon_xqq.png'></image>
+        </view>
+      </view> 
+    </view>
+  </view>
+</template> 

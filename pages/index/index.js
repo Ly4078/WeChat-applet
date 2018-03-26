@@ -13,16 +13,36 @@ Page({
     actlist: [],  //热门活动
     hotlive: [],  //热门直播
     food: [],   //美食墙
-    logs: []
+    logs: [],
+    currentTab: 0,
+    navbar: ['菜系专题','服务专题']
   },
   onLoad: function (options) {
     let that = this
+    const updateManager = wx.getUpdateManager()
+    updateManager.onCheckForUpdate(function (res) {
+      // 请求完新版本信息的回调
+      console.log(res.hasUpdate)
+    })
+    updateManager.onUpdateReady(function () {
+      // 新的版本已经下载好，调用 applyUpdate 应用新版本并重启
+      updateManager.applyUpdate()
+    })
+    updateManager.onUpdateFailed(function () {
+      // 新的版本下载失败
+    })
     this.getopenid();
     this.getcarousel();
     this.getdata();
     this.getactlist();
     this.gethotlive();
     this.gettopic();
+  },
+  // 专题推荐栏
+  navbarTap: function (e) {
+    this.setData({
+      currentTab: e.currentTarget.dataset.idx
+    })
   },
   onShow: function () {
     let that = this;
@@ -224,21 +244,6 @@ Page({
   shopping: function () {
     wx.navigateTo({
       url: 'consume-qibashare/consume-qibashare',
-    })
-  },
-  diningRoom: function () {  // 餐厅
-    wx.navigateTo({
-      url: 'dining-room/dining-room',
-    })
-  },
-  hotelUnopen: function () {  //未开放 酒店 休闲娱乐
-    wx.showToast({
-      title: '该功能更新中...',
-    })
-  },
-  scenicSpot: function () {
-    wx.showToast({
-      title: '该功能更新中...',
     })
   },
   entertainment: function () {  //掌上生活

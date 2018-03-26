@@ -327,7 +327,6 @@ Page({
             let _data = res.data;
             _data = JSON.parse(_data);
             let _img = _data.data.smallPicUrl
-
             if (type == 'a') {  //添加内容图片
               let obj = {
                 type: 'img',
