@@ -15,6 +15,9 @@ Page({
    */
   onLoad: function (options) {
     if(options.type ==2){
+      wx.setNavigationBarTitle({
+        title: '商家入驻协议'
+      })
       this.setData({
         ispact:true
       })
