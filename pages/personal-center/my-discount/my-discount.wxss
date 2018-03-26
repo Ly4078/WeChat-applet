@@ -46,11 +46,7 @@ page{
   justify-content: center;
 }
 
-.no_noder{
-  width: 750rpx;
-  margin: 30rpx auto;
-  font-size: 30rpx;
-  color: #b1b1b1;
-  text-align: center;
+page {
+  width: 100%;
+  height: 100%;
 }
-

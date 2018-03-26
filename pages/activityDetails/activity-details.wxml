@@ -1,4 +1,4 @@
-<view>
+<view wx:if="{{actdata.length > 0}}">
   <block wx:for="{{actdata}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
     <view class='activity-particulars' id="{{item.id}}" catchtap='clickVote'>
       <image wx:if="{{item.mainPic}}" mode="aspectFill" class='activity-particularsImg' src='{{item.mainPic}}'></image> 
@@ -18,4 +18,7 @@
       </view>
     </view>
   </block>
+</view>
+<view wx:else class='placeholder'>
+  <image src="/images/icon/zhanweitu.png"></image>
 </view>
