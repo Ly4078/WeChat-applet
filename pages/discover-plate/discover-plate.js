@@ -18,6 +18,7 @@ Page({
   onShow: function (options) {
     let that = this;
     this.setData({
+      ishotnew: false,
       food: [],
       page: 1,
       flag: true
@@ -42,6 +43,11 @@ Page({
     wx.setStorage({
       key: 'text',
       data: '',
+    })
+  },
+  close:function(){
+    this.setData({
+      ishotnew:false
     })
   },
   getfood: function (_type, data) {
@@ -98,11 +104,17 @@ Page({
         zan = _data[i].zan
       }
     }
+    this.setData({
+      ishotnew: false
+    })
     wx.navigateTo({
       url: 'dynamic-state/article_details/article_details?id=' + id + '&zan=' + zan
     })
   },
   announceState: function (event) { // 跳转到编辑动态页面
+    this.setData({
+      ishotnew: false
+    })
     wx.redirectTo({
       url: 'dynamic-state/dynamic-state',
     })
@@ -114,6 +126,7 @@ Page({
       })
       let that = this
       this.setData({
+        ishotnew: false,
         page: this.data.page + 1
       });
       that.getfood();
@@ -122,6 +135,7 @@ Page({
   onPullDownRefresh: function () {  //用户下拉刷新
     let that = this;
     this.setData({
+      ishotnew: false,
       food: [],
       page: 1,
       flag: true
@@ -138,6 +152,7 @@ Page({
   },
   topall: function () {  //选择全部
     this.setData({
+      ishotnew: false,
       isscelect: 1
     })
     let _type = ''
@@ -145,6 +160,7 @@ Page({
   },
   topbus: function () {  //选择商家
     this.setData({
+      ishotnew: false,
       isscelect: 2
     })
     let _type = 'sortType'
@@ -153,6 +169,7 @@ Page({
   },
   topper: function () {  //选择个人
     this.setData({
+      ishotnew: false,
       isscelect: 3
     })
     let _type = 'sortType'
@@ -161,6 +178,7 @@ Page({
   },
   sect: function () {  //点击最新/最热
     this.setData({
+      ishotnew: false,
       ishotnew: true
     })
   },

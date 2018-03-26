@@ -1,4 +1,4 @@
-<view class='discover'>
+<view class='discover' catchtap='close'>
   <!-- 此代码别要删除,以后有用 -->
   <!-- <view class='initiate-exhibition the-second'>
 

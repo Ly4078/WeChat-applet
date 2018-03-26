@@ -8,7 +8,7 @@
       <image src='{{userInfo.iconUrl}}' mode="aspectFill" class='avaterimg'></image>
     </view>
     <view class='name'>
-      <view class='username'>{{userInfo.userName}}</view>
+      <view class='username'>{{userInfo.nickName}}</view>
       <view class='storename'>{{details.timeDiffrence}}</view>
     </view>
     <view class='homefollow'>
