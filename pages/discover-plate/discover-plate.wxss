@@ -1,3 +1,10 @@
+.discover{
+  width: 694rpx;
+  padding: 0 28rpx 0
+}
+button::after{
+border: none;
+}
 scroll_box.initiate-exhibition {
   height: 100rpx;
   display: flex;
@@ -182,9 +189,9 @@ scroll_box.initiate-exhibition {
 }
 
 .find{
-  width: 90%;
-  margin: 5% 5% 0 5%;
-  height: 12rem;
+  width: 694rpx;
+  margin-top: 5% ;
+  height: 390rpx;
   border: none;
 }
 
@@ -237,4 +244,65 @@ scroll_box.initiate-exhibition {
   width: 24rpx;
   height: 24rpx;
   margin: 0 7rpx 0 29rpx;
+}
+.distop2{height: 132rpx;}
+.distop{
+  padding: 41rpx 28rpx;
+  height: 50rpx;
+  width: 638rpx;
+  border-bottom: 1rpx solid #FC5E2D;
+  position: fixed;
+  background: #fff;
+  z-index: 1000;
+}
+
+.topall, .topbus, .topper{
+  border: 1px solid #808080;
+  border-radius: 8rpx;
+  color: #808080;
+  font-size: 30rpx;
+  width: 120rpx;
+  height: 50rpx;
+  line-height: 50rpx;
+  margin-right: 30rpx;
+  float: left;
+  background: #fff;
+}
+.xuanzhong{
+  border: 1rpx solid #FC5E2D;
+  color: #FC5E2D;
+}
+.sect{
+  float: right;
+  color: #808080;
+  font-size: 36rpx;
+}
+.sectxz{
+  transform:rotate(180deg);
+}
+.sectimg{
+  width: 17rpx;
+  height: 9rpx;
+  margin-left: 20rpx;
+  position: relative;
+  top: -5rpx;
+  /* margin-top: -20rpx; */
+}
+.newhot{
+  width: 134rpx;
+  padding: 0 10rpx;
+  height: 185rpx;
+  background:rgba(255,255,255,1);
+  border-radius: 8px ;
+  border:1rpx solid rgb(170,165,165);
+  float: right;
+}
+.mostnew, .mosthot{
+  background: #fff;
+  border-radius: 0;
+  font-size: 36rpx;
+  color: #808080;
+}
+.mostnew{
+  border-bottom: 1rpx solid #808080;
 }

@@ -1,4 +1,4 @@
-<view>
+<view class='discover'>
   <!-- 此代码别要删除,以后有用 -->
   <!-- <view class='initiate-exhibition the-second'>
 
@@ -27,14 +27,27 @@
     </scroll-view>
   </view> -->
 
-  <view class='initiate-exhibition the-second'>
+   <!-- <view class='initiate-exhibition the-second'>
     <view>
       <image class='initiate-left' src='/images/icon/home_sign.png'></image>
       <text class='initiate-text'>美食栏</text>
     </view>
-  </view>
+  </view>  -->
 
-  <view wx:for="{{food}}" wx:key="{{index}}">
+    <view class='distop'>
+    <button class="topall {{isscelect==1?'xuanzhong':''}}" catchtap='topall'>全部</button>
+    <button class="topbus {{isscelect==2?'xuanzhong':''}}" catchtap='topbus'>商家</button>
+    <button class="topper {{isscelect==3?'xuanzhong':''}}" catchtap='topper'>个人</button>
+    <view class='sect' catchtap='sect'>{{tect}}<image class="sectimg {{ishotnew?'sectxz':''}}"
+    src='/images/icon/xialatupian.png' ></image></view>
+    <view class='newhot' wx:if="{{ishotnew}}">
+      <button class='mostnew' catchtap='mostnew'>最新</button>
+      <button class='mosthot' catchtap='mosthot'>最热</button>
+    </view>
+  </view>  
+
+  <view class='distop2'></view>
+  <view wx:for="{{food}}" wx:key="{{index}}" class='datafor'>
     <view id="{{item.id}}" catchtap="clickarticle" class="scroll_user find">
       <image class='cateWallImg findimg' mode="aspectFill" src='{{item.homePic}}'></image>
       <view class='catewallGroup'>

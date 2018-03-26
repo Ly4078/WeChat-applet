@@ -89,7 +89,7 @@
 
     <view class="btn-area">
       <text class='agree'>同意</text>
-      <text class='pact'>《享7商家服务协议》</text>
+      <text class='pact' catchtap='protocol'>《享7商家服务协议》</text>
       <button formType="submit" class='subbut'>提交申请</button>
     </view>
   </form>

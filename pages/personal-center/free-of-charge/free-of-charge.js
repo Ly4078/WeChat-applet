@@ -110,36 +110,36 @@ Page({
       userId: app.globalData.userInfo.userId
     }
     Api.searchByUserId(_parms).then((res) => {
-      if (res.data.code == 0) {
-        if (res.data.data && res.data.data.id) {
-          wx.showModal({
-            title: '提示',
-            content: '你已经提交过申请',
-            success: function (res) {
-              if (res.confirm) {
-                wx.switchTab({
-                  url: '../../personal-center/personal-center'
-                })
-                wx.setStorage({
-                  key: 'cate',
-                  data: '',
-                })
-              } else if (res.cancel) {
-                wx.switchTab({
-                  url: '../../personal-center/personal-center'
-                })
-                wx.setStorage({
-                  key: 'cate',
-                  data: '',
-                })
-              }
-            }
-          })
-        }
-      }
+      // if (res.data.code == 0) {
+      //   if (res.data.data && res.data.data.id) {
+      //     wx.showModal({
+      //       title: '提示',
+      //       content: '你已经提交过申请',
+      //       success: function (res) {
+      //         if (res.confirm) {
+      //           wx.switchTab({
+      //             url: '../../personal-center/personal-center'
+      //           })
+      //           wx.setStorage({
+      //             key: 'cate',
+      //             data: '',
+      //           })
+      //         } else if (res.cancel) {
+      //           wx.switchTab({
+      //             url: '../../personal-center/personal-center'
+      //           })
+      //           wx.setStorage({
+      //             key: 'cate',
+      //             data: '',
+      //           })
+      //         }
+      //       }
+      //     })
+      //   }
+      // }
     })
   },
-  opencate: function () {
+  opencate: function () {  //打开选择分类
     wx.navigateTo({
       url: '../free-of-charge/category/category'
     })
@@ -294,6 +294,12 @@ Page({
           }
         })
       }
+    })
+  },
+  protocol:function(){
+    let type = 2 
+    wx.navigateTo({
+      url: '../free-of-charge/category/category?type='+type
     })
   },
   formSubmit: function (e) {  // 点击提交申请按钮
