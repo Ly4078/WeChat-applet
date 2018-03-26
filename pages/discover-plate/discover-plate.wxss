@@ -5,10 +5,7 @@
 button::after{
 border: none;
 }
-button{
-  margin: 0;
-  padding: 0;
-}
+
 scroll_box.initiate-exhibition {
   height: 100rpx;
   display: flex;
@@ -251,9 +248,9 @@ scroll_box.initiate-exhibition {
 }
 .distop2{height: 132rpx;}
 .distop{
-  padding: 41rpx 28rpx;
+  padding: 41rpx 0;
   height: 50rpx;
-  width: 638rpx;
+  width: 694rpx;
   border-bottom: 1rpx solid #FC5E2D;
   position: fixed;
   background: #fff;
