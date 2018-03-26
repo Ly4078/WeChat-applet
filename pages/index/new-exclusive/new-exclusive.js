@@ -20,6 +20,8 @@ Page({
     
   },
   toReceive: function() {  //点击领取新人专享
-    
+    wx.navigateTo({
+      url: '/pages/index/consume-qibashare/consume-qibashare',
+    })
   }
 })

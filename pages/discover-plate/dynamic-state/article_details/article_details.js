@@ -309,10 +309,7 @@ Page({
   onShareAppMessage: function (res) {
     let that = this
     let shareObj = {
-      title: "分享文章",        // 默认是小程序的名称(可以写slogan等)
-      // path 暂时采用默认  以后优化
-      // path: '/pages/discover-plate/dynamic-state/article_details/article_details',        // 默认是当前页面，必须是以‘/’开头的完整路径
-      // imgUrl: '',     //自定义图片路径，可以是本地文件路径、代码包文件路径或者网络图片路径，支持PNG及JPG，不传入 imageUrl 则使用默认截图。显示图片长宽比是 5:4
+      title: "分享文章",      
       success: function (res) {
         // 转发成功之后的回调
         if (res.errMsg == 'shareAppMessage:ok') {
@@ -320,6 +317,10 @@ Page({
             title: '转发成功',
             icon: 'success',
             duration: 2000
+          })
+          let _parms = {topicId: that.data._id};
+          Api.share(_parms).then((res) => {
+            // console.log(res);
           })
         }
       },

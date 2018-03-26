@@ -151,6 +151,10 @@ const ALL_API = {
   hxadd:{  //确认核销
     method:'POST',
     url:'hx/add'
+  },
+  share:{
+    method: 'GET',
+    url: 'topic/transpond'
   }
 }
 

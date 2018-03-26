@@ -5,13 +5,10 @@
   <view class="newE_rule">
     <view class="newE_title">————<text>使用规则</text>————</view>
     <text class="newE_content">
-      1、领取后需到线下商家消费使用领取后领取后需到线下商家消费使用领取后
-      2、领取后需到线下商家消费使用领取后领取后需到线下商家消费使用领取后
-      3、领取后需到线下商家消费使用领取后领取后需到线下商家消费使用领取后
-      4、领取后需到线下商家消费使用领取后领取后需到线下商家消费使用领取后
-      5、领取后需到线下商家消费使用领取后领取后需到线下商家消费使用领取后
-      6、领取后需到线下商家消费使用领取后领取后需到线下商家消费使用领取后
+      新用户首次可以免费领取任意一款商家折扣券哦，走过路过不要错过哟，快快点击下面按钮领取福利吧！
     </text>
   </view>
-  <view class="clickto_get" bindtap="toReceive">立即领取</view>
+  <view class="clickBox">
+    <view class="clickto_get" bindtap="toReceive">立即领取</view>
+  </view>
 </view>

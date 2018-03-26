@@ -36,14 +36,24 @@ page {
 .newE_content {
   display: block;
   padding: 0 30rpx 0 47rpx;
-  margin-top: -20rpx;
-   line-height: 50rpx; 
+  line-height: 50rpx; 
   letter-spacing: 6rpx;
+  overflow: scroll;
+  height: 620rpx;
+}
+
+.clickBox {
+  height: 90rpx;
+  width: 100%;
+  padding: 0 28rpx;
+  box-sizing: border-box;
+  position: absolute;
+  bottom: 30rpx;
 }
 
 .clickto_get {
-  height: 90rpx;
-  margin: 45rpx 28rpx;
+  height: 100%;
+  width: 100%;
   background-color: #FAD703;
   border-radius: 8rpx;
   color: #fff;

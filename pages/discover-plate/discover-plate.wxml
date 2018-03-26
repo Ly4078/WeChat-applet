@@ -77,7 +77,7 @@
 
         <view class='forwarding'>
           <image src='/images/icon/find_share.png' class='findshare'></image>
-          <text class='text_wz'>{{index>item.commentNum?index:item.commentNum}}</text>
+          <text class='text_wz'>{{item.transNum}}</text>
           
            <!-- {{item.convey}}  -->
         </view>
