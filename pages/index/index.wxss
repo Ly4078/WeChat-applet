@@ -467,7 +467,7 @@ page {
 
 .special-merchant {
   width: 100%;
-  height: 210rpx;
+  max-height: 210rpx;
   background-color: #f8f8f8;
   border-radius: 8rpx;
   margin-top: 14rpx;
@@ -478,7 +478,8 @@ page {
 
 .classOfPadding {
   width: 93%;
-  height: 790rpx;
+  min-height: 10rpx;
+  /* height: 790rpx; */
 }
 
 .merchant-img {
@@ -519,14 +520,14 @@ page {
 
 .homeCuisine {
   width: 100%;
-  height: 150rpx;
+  max-height: 150rpx;
   margin-top: 16rpx;
   display: flex;
   justify-content: space-between;
 }
 
 .homTwentieth{
-  margin: 10rpx 0rpx 60rpx 0rpx;
+  /* margin: 10rpx 0rpx 60rpx 0rpx; */
 }
 
 .homeCuisine-grid{

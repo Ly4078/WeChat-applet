@@ -14,15 +14,20 @@ Page({
     hotlive: [],  //热门直播
     food: [],   //美食墙
     logs: [],
+    topics:[],   //专题
+    restaurant:[], //菜系专题
+    service:[],  //服务专题
+    alltopics: [],
     currentTab: 0,
-    navbar: ['菜系专题','服务专题']
+    navbar: ['菜系专题','服务专题'],
+    sort:['川湘菜','海鲜','火锅','烧烤','西餐','自助餐','聚会','商务','约会']
   },
   onLoad: function (options) {
     let that = this
     const updateManager = wx.getUpdateManager()
     updateManager.onCheckForUpdate(function (res) {
       // 请求完新版本信息的回调
-      console.log(res.hasUpdate)
+      // console.log(res.hasUpdate)
     })
     updateManager.onUpdateReady(function () {
       // 新的版本已经下载好，调用 applyUpdate 应用新版本并重启
@@ -32,11 +37,6 @@ Page({
       // 新的版本下载失败
     })
     this.getopenid();
-    this.getcarousel();
-    this.getdata();
-    this.getactlist();
-    this.gethotlive();
-    this.gettopic();
   },
   // 专题推荐栏
   navbarTap: function (e) {
@@ -44,7 +44,7 @@ Page({
       currentTab: e.currentTarget.dataset.idx
     })
   },
-  onShow: function () {
+  onReady: function () {
     let that = this;
     let lat = '30.51597', lng = '114.34035';  //lat纬度   lng经度
     lat = wx.getStorageSync('lat') ? wx.getStorageSync('lat') : lat
@@ -55,9 +55,7 @@ Page({
       setTimeout(function () {
         that.requestCityName(lat, lng)
       }, 500)
-    } else {
-      this.getlocation()
-    }
+    } 
   },
 
   getopenid: function () {  //获取openID sessionKey
@@ -66,7 +64,7 @@ Page({
     wx.login({
       success: res => {
         let _code = res.code;
-        console.log("code:", _code)
+        // console.log("code:", _code)
         // return false  //此处返回，则获取的code是没有用过的，用于测试
         if (res.code) {
           let _parms = {
@@ -78,10 +76,60 @@ Page({
             }
             this.getuser()
             this.getlocation()
+            this.getmoredata()
           })
         }
       }
     })
+  },
+  getmoredata:function(){  //获取更多数据
+    this.getcarousel();
+    this.getdata();
+    this.getactlist();
+    this.gethotlive();
+    this.gettopic();
+    this.gettopics();
+  },
+  gettopics: function () {
+    let _list = [],_shop = []
+    Api.listForHomePage().then((res) => {
+      if(res.data.code == 0){
+        _list = res.data.data
+      }
+    })
+
+    let _parms = {
+      locationX: app.globalData.userInfo.lng,
+      locationY: app.globalData.userInfo.lat,
+      browSort:2,
+      page:1,
+      rows:5
+    }
+    Api.shoplistForHomePage(_parms).then((res) => {
+      if (res.data.code == 0) {
+        let arr =[]
+        _shop = res.data.data
+        let array = Object.keys(_shop).map(function (el) {
+          return _shop[el];
+        });
+        for(let i=0;i<_list.length;i++){
+          let obj = {
+            img: _list[i],
+            cate: this.data.sort[i],
+            data: array[i]
+          }
+          arr.push(obj)
+        }
+        let [...newarr] = arr
+        this.setData({
+          alltopics:newarr,
+          restaurant: arr.slice(0, 6), //菜系专题
+          service: arr.slice(6, arr.length)
+        })
+      }
+    })
+   
+    
   },
   getuser: function () { //从自己的服务器获取用户信息
     wx.request({
@@ -118,6 +166,9 @@ Page({
         let latitude = res.latitude
         let longitude = res.longitude
         that.requestCityName(latitude, longitude);
+      },
+      fail:function(res){
+
       }
     })
   },
@@ -254,12 +305,11 @@ Page({
       title: '该功能更新中...',
     })
   },
-  recommendCt: function (event) {
+  recommendCt: function (event) {  //跳转到商家列表页面
     wx.navigateTo({
       url: 'dining-room/dining-room',
     })
   },
-
   cateWall: function (event) {  //美食墙 查看更多
     wx.switchTab({
       url: '../discover-plate/discover-plate',
@@ -310,5 +360,23 @@ Page({
         url: 'new-exclusive/new-exclusive',
       })
     }
+  },
+  clickimg:function(e){  //点击专题图片 --某个分类
+    let ind = e.currentTarget.id
+    let arr = this.data.alltopics,cate=''
+    for(let i=0;i<arr.length;i++){
+      if(ind == arr[i].img.id){
+        cate = arr[i].cate
+      }
+    }
+    wx.navigateTo({
+      url: 'dining-room/dining-room?cate='+cate,
+    })
+  },
+  clickcon:function(e){  //點擊某一傢點
+    let shopid = e.currentTarget.id
+    wx.navigateTo({
+      url: 'merchant-particulars/merchant-particulars?shopid=' + shopid
+    })
   }
 })

@@ -88,19 +88,19 @@
     </view>
     <!--菜系专题-->
     <view hidden="{{currentTab!==0}}">
-      <swiper-item>
-        <block>
-          <template is="styleOfCookingTm" />
+      <!-- <swiper-item> -->
+        <block wx:for="{{restaurant}}"  wx:key="{{index}}">
+          <template is="styleOfCookingTm" data="{{item}}" />
         </block>
-      </swiper-item>
+      <!-- </swiper-item> -->
     </view>
     <!--服务专题-->
     <view hidden="{{currentTab!==1}}">
-      <swiper-item>
-        <block>
-          <template is="CreateEmailAlerts" />
+      <!-- <swiper-item> -->
+        <block wx:for="{{service}}" wx:for-item="item" wx:key="{{index}}">
+          <template is="CreateEmailAlerts" data="{{item}}"/>
         </block>
-      </swiper-item>.
+      <!-- </swiper-item>. -->
     </view>
   </view>
 </view>

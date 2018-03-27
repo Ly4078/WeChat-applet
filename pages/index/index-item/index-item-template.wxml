@@ -101,103 +101,104 @@
 </template>
 
 <!-- 专题推荐 菜系推荐 -->
- <template name="styleOfCookingTm">
+<template name="styleOfCookingTm">
   <view class='classOfService'>
     <view class='classOfPadding'>
-      <image class='classOfImages' mode="aspectFill" src='/images/icon/home_icon_xqq.png'></image>
+      <image class='classOfImages' id="{{item.img.id}}" catchtap='clickimg' mode="aspectFill" src='{{item.img.imgUrl}}'></image>
 
-      <view class='special-merchant'>
-        <image class='merchant-img' mode="aspectFill" src='/images/icon/xqlogo.png'></image>
+      <view class='special-merchant' wx:if="{{item.data[0].id}}" id="{{item.data[0].id}}" catchtap='clickcon'>
+        <image class='merchant-img' mode="aspectFill" src='{{item.data[0].logoUrl}}'></image>
         <view class='merchant-cxName'>
-          <view class='merchant-cxName-cs'>湖景酒楼湖</view>
-          <text>农家小炒肉农家,小炒肉农家小炒农家小,炒肉农家小炒肉</text>
+          <view class='merchant-cxName-cs'>{{item.data[0].shopName}}</view>
+          <text>{{item.data[0].shopInfo}}</text>
         </view>
       </view>
-      
-       <view class='homeCuisine'>
-        <view class='homeCuisine-grid'>
+ 
+      <view class='homeCuisine'>
+        <view class='homeCuisine-grid' wx:if="{{item.data[1].id}}" id="{{item.data[1].id}}" catchtap='clickcon'>
           <view class='homeRight'>
-            <text>黄师傅私房菜黄师傅私房菜</text>
-            <text>农家小炒肉黄师傅私房菜黄师傅私房菜</text>
+            <text>{{item.data[1].shopName}}</text>
+            <text>{{item.data[1].shopInfo}}</text>
           </view>
-          <image class='homeImages' mode="aspectFill" src='/images/icon/home_icon_xqq.png'></image>
+          <image class='homeImages' mode="aspectFill" src='{{item.data[1].logoUrl}}'></image>
         </view>
-        <view class='homeCuisine-grid'>
+        <view class='homeCuisine-grid' wx:if="{{item.data[2].id}}" id="{{item.data[2].id}}" catchtap='clickcon'>
           <view class='homeRight'>
-            <text>黄师傅私房菜黄师傅私房菜</text>
-            <text>农家小炒肉黄师傅私房菜黄师傅私房菜</text>
+            <text>{{item.data[2].shopName}}</text>
+            <text>{{item.data[2].shopInfo}}</text>
           </view>
-          <image class='homeImages' mode="aspectFill" src='/images/icon/home_icon_xqq.png'></image>
+          <image class='homeImages' mode="aspectFill" src='{{item.data[2].logoUrl}}'></image>
         </view>
-      </view> 
+      </view>
 
-       <view class='homeCuisine homTwentieth'>
-        <view class='homeCuisine-grid'>
+      <view class='homeCuisine homTwentieth'>
+        <view class='homeCuisine-grid' wx:if="{{item.data[3].id}}" id="{{item.data[3].id}}" catchtap='clickcon'>
           <view class='homeRight'>
-            <text>黄师傅私房菜黄师傅私房菜</text>
-            <text>农家小炒肉黄师傅私房菜黄师傅私房菜</text>
+            <text>{{item.data[3].shopName}}</text>
+            <text>{{item.data[3].shopInfo}}</text>
           </view>
-          <image class='homeImages' mode="aspectFill" src='/images/icon/home_icon_xqq.png'></image>
+          <image class='homeImages' mode="aspectFill" src='{{item.data[3].logoUrl}}'></image>
         </view>
-        <view class='homeCuisine-grid'>
+        <view class='homeCuisine-grid' wx:if="{{item.data[4].id}}" id="{{item.data[4].id}}" catchtap='clickcon'>
           <view class='homeRight'>
-            <text>黄师傅私房菜黄师傅私房菜</text>
-            <text>农家小炒肉黄师傅私房菜黄师傅私房菜</text>
+            <text>{{item.data[4].shopName}}</text>
+            <text>{{item.data[4].shopInfo}}</text>
           </view>
-          <image class='homeImages' mode="aspectFill" src='/images/icon/home_icon_xqq.png'></image>
+          <image class='homeImages' mode="aspectFill" src='{{item.data[4].logoUrl}}'></image>
         </view>
-      </view> 
+      </view>
+       
     </view>
   </view>
-</template> 
+</template>
 
 <!-- 专题推荐 服务专题 -->
 <template name="CreateEmailAlerts">
   <view class='classOfService'>
     <view class='classOfPadding'>
-      <image class='classOfImages' mode="aspectFill" src='/images/icon/home_icon_yl.png'></image>
+      <image class='classOfImages' id="{{item.img.id}}" catchtap='clickimg'  mode="aspectFill" src='{{item.img.imgUrl}}'></image>
 
-      <view class='special-merchant'>
-        <image class='merchant-img' mode="aspectFill" src='/images/icon/home_icon_xqq.png'></image>
+      <view class='special-merchant' wx:if="{{item.data[0].id}}" id="{{item.data[0].id}}" catchtap='clickcon'>
+        <image class='merchant-img' mode="aspectFill" src='{{item.data[0].logoUrl}}'></image>
         <view class='merchant-cxName'>
-          <view class='merchant-cxName-cs'>湖景酒楼湖</view>
-          <text>农家小炒肉农家,小炒肉农家小炒农家小,炒肉农家小炒肉</text>
+          <view class='merchant-cxName-cs'>{{item.data[0].shopName}}</view>
+          <text>{{item.data[0].shopInfo}}</text>
         </view>
       </view>
-      
-       <view class='homeCuisine'>
-        <view class='homeCuisine-grid'>
-          <view class='homeRight'>
-            <text>黄师傅私房菜黄师傅私房菜</text>
-            <text>农家小炒肉黄师傅私房菜黄师傅私房菜</text>
-          </view>
-          <image class='homeImages' mode="aspectFill" src='/images/icon/home_icon_xqq.png'></image>
-        </view>
-        <view class='homeCuisine-grid'>
-          <view class='homeRight'>
-            <text>黄师傅私房菜黄师傅私房菜</text>
-            <text>农家小炒肉黄师傅私房菜黄师傅私房菜</text>
-          </view>
-          <image class='homeImages' mode="aspectFill" src='/images/icon/home_icon_xqq.png'></image>
-        </view>
-      </view> 
 
-       <view class='homeCuisine homTwentieth'>
+      <view class='homeCuisine'>
+        <view class='homeCuisine-grid' wx:if="{{item.data[1].id}}" id="{{item.data[1].id}}" catchtap='clickcon'>
+          <view class='homeRight'>
+            <text>{{item.data[1].shopName}}</text>
+            <text>{{item.data[1].shopInfo}}</text>
+          </view>
+          <image class='homeImages' mode="aspectFill" src='{{item.data[1].logoUrl}}'></image>
+        </view>
+        <view class='homeCuisine-grid' wx:if="{{item.data[2].id}}" id="{{item.data[2].id}}" catchtap='clickcon'>
+          <view class='homeRight'>
+            <text>{{item.data[2].shopName}}</text>
+            <text>{{item.data[2].shopInfo}}</text>
+          </view>
+          <image class='homeImages' mode="aspectFill" src='{{item.data[2].logoUrl}}'></image>
+        </view>
+      </view>
+
+      <view class='homeCuisine homTwentieth' wx:if="{{item.data[3].id}}" id="{{item.data[3].id}}" catchtap='clickcon'>
         <view class='homeCuisine-grid'>
           <view class='homeRight'>
-            <text>黄师傅私房菜黄师傅私房菜</text>
-            <text>农家小炒肉黄师傅私房菜黄师傅私房菜</text>
+            <text>{{item.data[3].shopName}}</text>
+            <text>{{item.data[3].shopInfo}}</text>
           </view>
-          <image class='homeImages' mode="aspectFill" src='/images/icon/home_icon_xqq.png'></image>
+          <image class='homeImages' mode="aspectFill" src='{{item.data[3].logoUrl}}'></image>
         </view>
-        <view class='homeCuisine-grid'>
+        <view class='homeCuisine-grid' wx:if="{{item.data[4].id}}" id="{{item.data[4].id}}" catchtap='clickcon'>
           <view class='homeRight'>
-            <text>黄师傅私房菜黄师傅私房菜</text>
-            <text>农家小炒肉黄师傅私房菜黄师傅私房菜</text>
+            <text>{{item.data[4].shopName}}</text>
+            <text>{{item.data[4].shopInfo}}</text>
           </view>
-          <image class='homeImages' mode="aspectFill" src='/images/icon/home_icon_xqq.png'></image>
+          <image class='homeImages' mode="aspectFill" src='{{item.data[4].logoUrl}}'></image>
         </view>
-      </view> 
+      </view>
     </view>
   </view>
-</template> 
+</template>

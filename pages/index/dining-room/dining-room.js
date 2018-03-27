@@ -6,7 +6,7 @@ Page({
   data: {
     posts_key: [],
     nearbydatas: ['由近到远'],
-    fooddatas: ["日本菜", "私房菜", "家常菜", "下午茶", "创意菜", "湖北菜", "粉面馆", "川菜", "卤味", "湘菜", "粤菜", "咖啡厅", "小龙虾", "火锅", "海鲜", "烧烤", "小吃快餐", "江浙菜", "韩国料理", "东南亚菜", "西餐", "自助餐", "面包甜点", "其他美食"],
+    fooddatas: ["日本菜", "自助餐", "私房菜", "家常菜", "下午茶", "创意菜", "湖北菜", "粉面馆", "川菜", "卤味", "湘菜", "粤菜", "咖啡厅", "小龙虾", "火锅", "海鲜", "烧烤", "小吃快餐", "江浙菜", "韩国料理", "东南亚菜", "西餐", "自助餐", "面包甜点", "其他美食"],
     sortingdatas: ['人气排序'],
     page: 1,
     isScroll: true,
@@ -18,45 +18,70 @@ Page({
     browSort: ''
   },
   onLoad: function (options) {
-    this.getData();
+    if (options.cate) {
+      this.data.businessCate = options.cate
+    }
+    // this.getData();
   },
   onShow: function () {
     this.setData({
-      posts_key:[]
+      posts_key: []
     })
     this.getData()
   },
   getData: function () {
     let lat = '30.51597', lng = '114.34035';  //lat纬度   lng经度
     let _parms = {
-      locationX: app.globalData.userInfo.lng ? app.globalData.userInfo.lng:lng,
-      locationY: app.globalData.userInfo.lat ? app.globalData.userInfo.lat:lat,
+      locationX: app.globalData.userInfo.lng ? app.globalData.userInfo.lng : lng,
+      locationY: app.globalData.userInfo.lat ? app.globalData.userInfo.lat : lat,
       page: this.data.page,
       rows: 8
     }
-    console.log("_parms:",_parms)
     if (this.data.businessCate) { //美食类别 
       _parms.businessCate = this.data.businessCate
     } else if (this.data.browSort) { //综合排序
       _parms.browSort = this.data.browSort
     }
-    Api.shoplist(_parms).then((res) => {
-      let that = this
-      let data = res.data;
-      wx.hideLoading()
-      if (data.code == 0 && data.data.list != null && data.data.list != "" && data.data.list != []) {
-        wx.stopPullDownRefresh()
-        let posts = this.data.posts_key;
-        let _data = data.data.list
-        for (let i = 0; i < _data.length; i++) {
-          _data[i].distance = utils.transformLength(_data[i].distance)
-          posts.push(_data[i])
+    if (this.data.businessCate == '川湘菜') {
+      _parms.browSort = 2
+      Api.listForChuangXiang(_parms).then((res) => {
+        let that = this
+        let data = res.data;
+        wx.hideLoading()
+        if (data.code == 0 && data.data.list != null && data.data.list != "" && data.data.list != []) {
+          wx.stopPullDownRefresh()
+          let posts = this.data.posts_key;
+          let _data = data.data.list
+          for (let i = 0; i < _data.length; i++) {
+            _data[i].distance = utils.transformLength(_data[i].distance)
+            posts.push(_data[i])
+          }
+          that.setData({
+            posts_key: posts
+          })
         }
-        that.setData({
-          posts_key: posts
-        })
-      }
-    })
+      })
+    } else {
+      Api.shoplist(_parms).then((res) => {
+        let that = this
+        let data = res.data;
+        wx.hideLoading()
+        if (data.code == 0 && data.data.list != null && data.data.list != "" && data.data.list != []) {
+          wx.stopPullDownRefresh()
+          let posts = this.data.posts_key;
+          let _data = data.data.list
+          for (let i = 0; i < _data.length; i++) {
+            _data[i].distance = utils.transformLength(_data[i].distance)
+            posts.push(_data[i])
+          }
+          that.setData({
+            posts_key: posts
+          })
+        }
+      })
+    }
+
+
   },
   onInputText: function (e) { //获取搜索框内的值
     // this.setData({
@@ -92,12 +117,12 @@ Page({
     })
   },
   onReachBottom: function () {  //用户上拉触底加载更多
-      this.setData({
-        page: this.data.page + 1
-      });
-      this.getData()
+    this.setData({
+      page: this.data.page + 1
+    });
+    this.getData()
   },
-  onPullDownRefresh:function(){
+  onPullDownRefresh: function () {
     this.setData({
       businessCate: '',
       browSort: '',
@@ -115,8 +140,8 @@ Page({
     this.setData({
       ismodel: true,
       isScroll: false,
-      businessCate:'',
-      browSort:''
+      businessCate: '',
+      browSort: ''
     })
     if (id == 1) {
       this.setData({

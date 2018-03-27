@@ -155,6 +155,18 @@ const ALL_API = {
   share:{
     method: 'GET',
     url: 'topic/transpond'
+  },
+  listForHomePage:{
+    method:'GET',
+    url:'hcl/listForHomePage'
+  },
+  shoplistForHomePage:{
+    method:'GET',
+    url: 'shop/listForHomePage'
+  },
+  listForChuangXiang:{
+    method:'GET',
+    url:'shop/listForChuangXiang'
   }
 }
 
