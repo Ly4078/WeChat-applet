@@ -96,6 +96,7 @@ Page({
       if(res.data.code == 0){
         _list = res.data.data
       }
+      console.log("_list:",_list)
     })
 
     let _parms = {
@@ -109,16 +110,17 @@ Page({
       if (res.data.code == 0) {
         let arr =[]
         _shop = res.data.data
-        let array = Object.keys(_shop).map(function (el) {
-          return _shop[el];
-        });
-        for(let i=0;i<_list.length;i++){
-          let obj = {
-            img: _list[i],
-            cate: this.data.sort[i],
-            data: array[i]
+        for(let i =0;i<_list.length;i++){
+          for(let j in _shop){
+            if(j == _list[i].type){
+              let obj = {
+                img: _list[i],
+                cate: this.data.sort[i],
+                data: _shop[j]
+              }
+              arr.push(obj)
+            }
           }
-          arr.push(obj)
         }
         let [...newarr] = arr
         this.setData({
