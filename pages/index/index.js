@@ -14,13 +14,13 @@ Page({
     hotlive: [],  //热门直播
     food: [],   //美食墙
     logs: [],
-    topics:[],   //专题
-    restaurant:[], //菜系专题
-    service:[],  //服务专题
+    topics: [],   //专题
+    restaurant: [], //菜系专题
+    service: [],  //服务专题
     alltopics: [],
     currentTab: 0,
-    navbar: ['菜系专题','服务专题'],
-    sort:['川湘菜','海鲜','火锅','烧烤','西餐','自助餐','聚会','商务','约会']
+    navbar: ['菜系专题', '服务专题'],
+    sort: ['川湘菜', '海鲜', '火锅', '烧烤', '西餐', '自助餐', '聚会', '商务', '约会']
   },
   onLoad: function (options) {
     let that = this
@@ -55,7 +55,7 @@ Page({
       setTimeout(function () {
         that.requestCityName(lat, lng)
       }, 500)
-    } 
+    }
   },
 
   getopenid: function () {  //获取openID sessionKey
@@ -82,7 +82,7 @@ Page({
       }
     })
   },
-  getmoredata:function(){  //获取更多数据
+  getmoredata: function () {  //获取更多数据
     this.getcarousel();
     this.getdata();
     this.getactlist();
@@ -91,28 +91,28 @@ Page({
     this.gettopics();
   },
   gettopics: function () {
-    let _list = [],_shop = []
+    let _list = [], _shop = []
     Api.listForHomePage().then((res) => {
-      if(res.data.code == 0){
+      if (res.data.code == 0) {
         _list = res.data.data
       }
-      console.log("_list:",_list)
+      console.log("_list:", _list)
     })
 
     let _parms = {
       locationX: app.globalData.userInfo.lng,
       locationY: app.globalData.userInfo.lat,
-      browSort:2,
-      page:1,
-      rows:5
+      browSort: 2,
+      page: 1,
+      rows: 5
     }
     Api.shoplistForHomePage(_parms).then((res) => {
       if (res.data.code == 0) {
-        let arr =[]
+        let arr = []
         _shop = res.data.data
-        for(let i =0;i<_list.length;i++){
-          for(let j in _shop){
-            if(j == _list[i].type){
+        for (let i = 0; i < _list.length; i++) {
+          for (let j in _shop) {
+            if (j == _list[i].type) {
               let obj = {
                 img: _list[i],
                 cate: this.data.sort[i],
@@ -124,14 +124,14 @@ Page({
         }
         let [...newarr] = arr
         this.setData({
-          alltopics:newarr,
+          alltopics: newarr,
           restaurant: arr.slice(0, 6), //菜系专题
           service: arr.slice(6, arr.length)
         })
       }
     })
-   
-    
+
+
   },
   getuser: function () { //从自己的服务器获取用户信息
     wx.request({
@@ -169,7 +169,7 @@ Page({
         let longitude = res.longitude
         that.requestCityName(latitude, longitude);
       },
-      fail:function(res){
+      fail: function (res) {
 
       }
     })
@@ -233,10 +233,10 @@ Page({
     })
   },
   getdata: function () { // 获取推荐餐厅数据
-    let lat = '30.51597', lng = '114.34035';  
+    let lat = '30.51597', lng = '114.34035';
     let _parms = {
-      locationX: app.globalData.userInfo.lng ? app.globalData.userInfo.lng:lng,
-      locationY: app.globalData.userInfo.lat ? app.globalData.userInfo.lat:lat,
+      locationX: app.globalData.userInfo.lng ? app.globalData.userInfo.lng : lng,
+      locationY: app.globalData.userInfo.lat ? app.globalData.userInfo.lat : lat,
     }
     Api.shoptop(_parms).then((res) => {
       // console.log("businss:",res.data.data)
@@ -363,19 +363,19 @@ Page({
       })
     }
   },
-  clickimg:function(e){  //点击专题图片 --某个分类
+  clickimg: function (e) {  //点击专题图片 --某个分类
     let ind = e.currentTarget.id
-    let arr = this.data.alltopics,cate=''
-    for(let i=0;i<arr.length;i++){
-      if(ind == arr[i].img.id){
+    let arr = this.data.alltopics, cate = ''
+    for (let i = 0; i < arr.length; i++) {
+      if (ind == arr[i].img.id) {
         cate = arr[i].cate
       }
     }
     wx.navigateTo({
-      url: 'dining-room/dining-room?cate='+cate,
+      url: 'dining-room/dining-room?cate=' + cate,
     })
   },
-  clickcon:function(e){  //點擊某一傢點
+  clickcon: function (e) {  //點擊某一傢點
     let shopid = e.currentTarget.id
     wx.navigateTo({
       url: 'merchant-particulars/merchant-particulars?shopid=' + shopid

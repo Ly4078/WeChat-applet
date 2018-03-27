@@ -76,14 +76,49 @@
     <view class='myList-single'>
       <view>
         <image class='myListImages' src='/images/icon/customer_service.png'></image>
-        <text class='mylistText'>联系客服</text>
+        <text class='mylistText'>客服电话</text>
       </view>
-      <view class='telephone-Wrap'>
-        <image catchtap='calling' class='telephone' src='/images/icon/telephone_bd.png'></image>
+      <view class='telephone-Wrap' catchtap='calling'>
+        <text>027-59728176（ 时间:09:00-18:00 ）</text>
+        <image class='myListArrows' src='/images/icon/home_arrow.png'></image>
       </view>
-      <view class='customer-service'>
-        <contact-button type='default-light' class='wicket' size='20' session-from='weapp' catchtap='contactCustomer'></contact-button>
+    </view>
+  </view>
+  <view class='myList'>
+    <view class='myList-single'>
+      <view>
+        <image class='myListImages' src='/images/icon/find_article_wechat.png'></image>
+        <text class='mylistText'>在线客服</text>
       </view>
+      <text class='immobilization'>（ 09:00——18:00 ）</text>
+      <view class='customer-service' catchtap='contactCustomer'>
+        <contact-button type='default-light' class='wicket' size='20' session-from='weapp'></contact-button>
+      </view>
+      <view class='customer-service' catchtap='contactCustomer'>
+        <contact-button type='default-light' class='wicket' size='20' session-from='weapp'></contact-button>
+      </view>
+      <view class='customer-service' catchtap='contactCustomer'>
+        <contact-button type='default-light' class='wicket' size='20' session-from='weapp'></contact-button>
+      </view>
+      <view class='customer-service' catchtap='contactCustomer'>
+        <contact-button type='default-light' class='wicket' size='20' session-from='weapp'></contact-button>
+      </view>
+      <view class='customer-service' catchtap='contactCustomer'>
+        <contact-button type='default-light' class='wicket' size='20' session-from='weapp'></contact-button>
+      </view>
+      <view class='customer-service' catchtap='contactCustomer'>
+        <contact-button type='default-light' class='wicket' size='20' session-from='weapp'></contact-button>
+      </view>
+      <image class='myListArrows' src='/images/icon/home_arrow.png'></image>
+    </view>
+  </view>
+  <view class='myList'>
+    <view class='myList-single' catchtap='aboutMe'>
+      <view>
+        <image class='myListImages' src='/images/icon/guanyuwome.png'></image>
+        <text class='mylistText'>关于我们</text>
+      </view>
+      <image class='myListArrows' src='/images/icon/home_arrow.png'></image>
     </view>
   </view>
 </view>

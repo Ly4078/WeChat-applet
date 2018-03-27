@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/personal-center/aboutMe/aboutMe",
     "pages/index/merchant-particulars/recommendation/recommendation",
     "pages/index/consume-qibashare/consume-qibashare",
     "pages/personal-center/call-back/call-back",

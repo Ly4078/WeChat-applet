@@ -219,5 +219,10 @@ Page({
       isDue = 1;
     }
     return isDue;
+  },
+  aboutMe:function(e){   //关于我们
+    wx.navigateTo({
+      url: 'aboutMe/aboutMe',
+    })
   }
 })
