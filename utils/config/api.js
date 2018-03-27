@@ -167,6 +167,10 @@ const ALL_API = {
   listForChuangXiang:{
     method:'GET',
     url:'shop/listForChuangXiang'
+  },
+  myArticleList: {   //我的文章列表
+    method: 'GET',
+    url: 'topic/myList'
   }
 }
 

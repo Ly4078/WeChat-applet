@@ -70,10 +70,12 @@ Page({
       let _data = this.data.food
       if (res.data.code == 0){
         if (res.data.data.list != null && res.data.data.list != "" && res.data.data.list != []) {
-          _data = _data.concat(res.data.data.list)
-          for (let i = 0; i < _data.length; i++) {
-            _data[i].summary = utils.uncodeUtf16(_data[i].summary)
-            _data[i].content = utils.uncodeUtf16(_data[i].content)
+          let footList = res.data.data.list;
+          for (let i = 0; i < footList.length; i++) {
+            footList[i].summary = utils.uncodeUtf16(footList[i].summary);
+            footList[i].content = utils.uncodeUtf16(footList[i].content);
+            footList[i].timeDiffrence = utils.timeDiffrence(res.data.currentTime, footList[i].updateTime, footList[i].createTime)
+            _data.push(footList[i]);
           }
           wx.hideLoading()
           this.setData({
