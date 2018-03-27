@@ -98,12 +98,14 @@ page {
 }
 
 .article-describe{
+  width: 650rpx;   
   position: absolute;
-  bottom: 20rpx;
-  left: 10rpx;
+  bottom: 30rpx;
+  left: 23rpx;
   color: #FFFFFF;
   font-size: 34rpx;
   letter-spacing: 2rpx;
-  height: 90rpx;
   overflow: hidden;
+  white-space: nowrap;  
+  text-overflow:ellipsis; 
 }

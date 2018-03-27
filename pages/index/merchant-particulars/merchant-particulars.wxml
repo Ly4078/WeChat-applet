@@ -1,12 +1,12 @@
 <import src="comment-template/comment-template.wxml" />
 <view>
   <view class='detailsWrap'>
-     <view class="img_shade" bindtap='moreImages'></view> 
+    <view class="img_shade" bindtap='moreImages'></view>
     <button class="shareIcon" open-type="share">
       <image class='shareIcon-IMG' src='/images/icon/share.png'></image>
     </button>
     <image class='cateImages' mode="aspectFill" src='{{store_details.logoUrl}}'></image>
-    <text class='wrapImages'>共<text>{{store_images}}</text>张</text> 
+    <text class='wrapImages'>共<text>{{store_images}}</text>张</text>
   </view>
   <view>
     <view class='shop-z-Wrap'>
@@ -111,8 +111,47 @@
       </form>
     </view>
     <!--动态-->
-    <view hidden="{{currentTab!==1}}">
-      动态页待更新...
+    <view class="merchant_box" hidden="{{currentTab!==1}}">
+      <block wx:for="{{merchantArt}}" wx:key="{{index}}" data-idx="{{index}}">
+        <view class="merchant_art" bindtap="toArticleInfo" id="{{item.id}}">
+          <view class="merchant_data">
+            <image src="{{item.iconUrl}}"></image>
+            <view>
+              <text class="merchant_name">{{item.userName}}</text>
+              <text class="merchant_time">{{item.timeDiffrence}}</text>
+            </view>
+          </view>
+          <view class="article_cont">
+            <text>{{item.title}}</text>
+            <image class="article_img" mode="aspectFill" src="{{item.homePic}}"></image>
+            <view class="article_img_shade"></view>
+          </view>
+          <view class="merchant_contact">
+            <view class="article_icon">
+              <image src="/images/icon/tuoyuan_w.png"></image>
+              <text>{{item.hitNum}}</text>
+            </view>
+            <view>
+              <view class="article_icon article_icon_r">
+                <image src="/images/icon/find_share.png"></image>
+                <text>{{item.transNum}}</text>
+              </view>
+              <view class="article_icon article_icon_r">
+                <image src="/images/icon/word.png"></image>
+                <text>{{item.commentNum}}</text>
+              </view>
+              <!-- 备注这个打赏图标以后可能会用到 -->
+              <!-- <view class="article_icon article_icon_r">
+                <image src="/images/icon/find_gold.png"></image>
+                <text>145</text>
+              </view> -->
+            </view>
+          </view>
+        </view>
+      </block>
+      <view wx:if="{{merchantArt.length < 1}}" class='merchant_none'>
+        <image src="/images/icon/head portrait.png"></image>
+      </view>
     </view>
   </view>
 </view>

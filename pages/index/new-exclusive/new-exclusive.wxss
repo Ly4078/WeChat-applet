@@ -35,7 +35,7 @@ page {
 
 .newE_content {
   display: block;
-  padding: 0 30rpx 0 47rpx;
+  padding: 0 28rpx 0 47rpx;
   line-height: 50rpx; 
   letter-spacing: 6rpx;
   overflow: scroll;

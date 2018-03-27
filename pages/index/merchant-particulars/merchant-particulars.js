@@ -5,14 +5,17 @@ var app = getApp();
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
-    navbar: ['主页','动态'],
+    navbar: ['主页', '动态'],
     shopid: '',  //商家ID
     store_details: {},  //店铺详情
     currentTab: 0,
     commentNum: 0,    //评论数量
     isCollected: false,   //是否收藏，默认false
     isComment: false,
-    store_images:''
+    store_images: '',
+    merchantArt: [],   //商家动态列表
+    article_page: 1,
+    reFresh: true
   },
   onLoad: function (options) {
     this.setData({
@@ -21,6 +24,7 @@ Page({
     this.getstoredata();
     this.recommendation();
     this.isCollected();
+    this.merchantArt();
     // 分享功能
     wx.showShareMenu({
       withShareTicket: true,
@@ -37,6 +41,14 @@ Page({
   },
   onShow: function () {
     this.commentList();
+    if (this.data.currentTab == 1) {
+      this.setData({
+        merchantArt: [],   //商家动态列表
+        article_page: 1,
+        reFresh: true
+      });
+      this.merchantArt();
+    }
   },
   //用户下拉刷新
   onPullDownRefresh: function () {
@@ -54,13 +66,24 @@ Page({
         'content-type': 'application/json;Authorization'
       },
       success: function (res) {
-        console.log("数据:",res)
         that.setData({
           store_details: res.data.data,
           store_images: res.data.data.shopTopPics.length
         })
       }
     })
+  },
+  //商户动态上拉加载
+  onReachBottom: function () {
+    if (this.data.currentTab == 1 && this.data.reFresh) {
+      wx.showLoading({
+        title: '加载中..'
+      })
+      this.setData({
+        article_page: this.data.article_page + 1
+      });
+      this.merchantArt();
+    }
   },
   //推荐菜列表
   recommendation: function () {
@@ -94,6 +117,53 @@ Page({
       url: 'recommendation/recommendation?id=' + this.data.store_details.id,
     })
   },
+  //商家动态
+  merchantArt: function () {
+    let that = this,
+      _parms = {
+        shopId: this.data.shopid,
+        page: this.data.article_page,
+        rows: 5
+      }
+    Api.myArticleList(_parms).then((res) => {
+      let data = res.data;
+      if (data.code == 0 && data.data.list != null && data.data.list != "" && data.data.list != []) {
+        let _data = data.data.list, articleList = this.data.merchantArt;
+        for (let i = 0; i < _data.length; i++) {
+          _data[i].timeDiffrence = utils.timeDiffrence(data.currentTime, _data[i].updateTime, _data[i].createTime)
+          articleList.push(_data[i]);
+        }
+        that.setData({
+          merchantArt: articleList
+        });
+        wx.hideLoading();
+      } else {
+        that.setData({
+          reFresh: false
+        });
+        if (that.data.article_page != 1) {
+          wx.showToast({
+            title: data.message,
+            icon: 'none'
+          })
+        }
+      }
+    })
+  },
+  //跳转至文章详情
+  toArticleInfo: function (e) {
+    const id = e.currentTarget.id
+    let _data = this.data.merchantArt
+    let zan = ''
+    for (let i = 0; i < _data.length; i++) {
+      if (id == _data[i].id) {
+        zan = _data[i].zan
+      }
+    }
+    wx.navigateTo({
+      url: '/pages/discover-plate/dynamic-state/article_details/article_details?id=' + id + '&zan=' + zan
+    })
+  },
   //分享给好友
   onShareAppMessage: function () {
     return {
@@ -118,7 +188,7 @@ Page({
   calling: function () {
     let that = this;
     wx.makePhoneCall({
-      phoneNumber: that.data.store_details.phone, 
+      phoneNumber: that.data.store_details.phone,
       success: function () {
         console.log("拨打电话成功！")
       },
@@ -183,12 +253,12 @@ Page({
             that.setData({
               comment_list: _data
             })
-          } 
+          }
           that.setData({
             commentNum: res.data.data.total
           })
           wx.stopPullDownRefresh();
-        } 
+        }
       }
     })
   },
@@ -218,7 +288,7 @@ Page({
             mask: true,
             icon: 'none',
             title: '点赞成功'
-          },1500)
+          }, 1500)
           var comment_list = that.data.comment_list
           comment_list[index].isZan = 1;
           comment_list[index].zan++;
@@ -249,7 +319,7 @@ Page({
             mask: true,
             icon: 'none',
             title: '已取消'
-          },1500)
+          }, 1500)
           var comment_list = that.data.comment_list
           comment_list[index].isZan = 0;
           comment_list[index].zan == 0 ? comment_list[index].zan : comment_list[index].zan--;
@@ -292,7 +362,7 @@ Page({
             mask: true,
             icon: 'none',
             title: "收藏成功"
-          },1500)
+          }, 1500)
         }
       }
     })
@@ -312,7 +382,7 @@ Page({
             mask: true,
             icon: 'none',
             title: "已取消"
-          },1500)
+          }, 1500)
         }
       }
     })
@@ -337,7 +407,7 @@ Page({
         mask: true,
         title: '请先输入评论',
         icon: 'none'
-      },1500)
+      }, 1500)
     } else {
       let content = utils.utf16toEntities(that.data.commentVal);
       let _parms = {
