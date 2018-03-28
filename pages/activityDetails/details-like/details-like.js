@@ -9,7 +9,8 @@ Page({
     actlist: [],    //参加活动商家列表
     _value: '',  //搜索查询关键字
     endtime: '',  //距离活动结束时间
-    isSign: '0'   //是否报名的标识
+    isSign: '0',   //是否报名的标识
+    isShowImg: true  //是否显示活动介绍
   },
 
   onLoad: function (options) {
@@ -46,7 +47,16 @@ Page({
       })
     })
   },
-
+  lookActImg: function() {   //查看活动详情
+    this.setData({
+      isShowImg: false
+    });
+  },
+  clickActImg: function() {    //点击图片隐藏
+    this.setData({
+      isShowImg: true
+    });
+  },
   getactlist() {  //获取参加某一活动的商家列表
     let that = this;
     this.setData({
