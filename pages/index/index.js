@@ -403,5 +403,23 @@ Page({
     wx.navigateTo({
       url: 'merchant-particulars/merchant-particulars?shopid=' + shopid
     })
+  },
+  onShareAppMessage: function (res) {
+    if (res.from === 'button') {
+      // 来自页面内转发按钮
+      console.log(res.target)
+    }
+    return {
+      title: '享七美食',
+      path: 'pages/index/index',
+      success: function (res) {
+        // 转发成功
+        console.log("res:",res)
+      },
+      fail: function (res) {
+        // 转发失败
+        console.log("res:", res)
+      }
+    }
   }
 })
