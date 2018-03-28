@@ -2,7 +2,7 @@
   <view class='personnelWrap' id="{{item.id}}" data-skuid="{{item.skuId}}" catchtap='lowerLevel' data-soStatus="{{item.soStatus}}">
     <view class="personnelTime">
       <view class="personnelTime_left">
-        <text wx:if="{{item.soStatus == 2 || item.soStatus == 3}}">{{item.paidTime}}</text>
+        <text wx:if="{{item.soStatus == 2 || item.soStatus == 3}}">{{item.paidTime?item.paidTime:item.updateTime}}</text>
         <text wx:else>{{item.createTime}}</text>
       </view>
       <view class="personnelTime_right">
