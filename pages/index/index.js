@@ -2,7 +2,7 @@
 import Api from '/../../utils/config/api.js';
 import { GLOBAL_API_DOMAIN } from '/../../utils/config/config.js';
 var utils = require('../../utils/util.js')
-let app = getApp()
+var app = getApp();
 
 Page({
   data: {
@@ -154,7 +154,8 @@ Page({
       success: function (res) {
         if (res.data.code == 0) {
           let data = res.data.data;
-          app.globalData.userInfo.userType = data.userType,
+          console.log("data:",data)
+            app.globalData.userInfo.userType = data.userType,
             app.globalData.userInfo.openId = data.openId,
             app.globalData.userInfo.password = data.password,
             app.globalData.userInfo.userId = data.id,
@@ -165,8 +166,9 @@ Page({
             app.globalData.userInfo.iconUrl = data.iconUrl,
             app.globalData.userInfo.sourceType = data.sourceType,
             app.globalData.userInfo.sex = data.sex,
-            app.globalData.userInfo.lat = data.locationX,
-            app.globalData.userInfo.lng = data.locationY
+            // app.globalData.userInfo.lat = data.locationX,
+            // app.globalData.userInfo.lng = data.locationY
+            console.log("userinfo:", app.globalData.userInfo)
         }
       }
     })
@@ -218,8 +220,12 @@ Page({
     })
   },
   requestCityName(lat, lng) {//获取当前城市
+    console.log("lat:",lat)
+    console.log("lng:",lng)
     app.globalData.userInfo.lat = lat
     app.globalData.userInfo.lng = lng
+    console.log(app.globalData.userInfo.lng)
+    console.log(app.globalData.userInfo)
     wx.request({
       url: 'https://apis.map.qq.com/ws/geocoder/v1/?location=' + lat + "," + lng + "&key=4YFBZ-K7JH6-OYOS4-EIJ27-K473E-EUBV7",
       header: {
@@ -228,7 +234,10 @@ Page({
       success: (res) => {
         if (res.data.status == 0) {
           this.setData({
-            city: res.data.result.address_component.city
+            city: res.data.result.address_component.city,
+            alltopics: [],
+            restaurant: [],
+            service: []
           })
           app.globalData.userInfo.city = res.data.result.address_component.city
         }
