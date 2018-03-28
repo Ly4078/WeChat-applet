@@ -161,19 +161,18 @@ Page({
       onlyFromCamera: true,
       scanType: "qrCode",
       success: (res) => {
-        console.log("res:",res)
         let qrCodeArr = res.result.split('/');
-        let code = qrCodeArr[qrCodeArr.length - 1];
-        wx.navigateTo({
-          url: '../personal-center/call-back/call-back?code='+code
-        })
-        // that.setData({
-        //   qrCode: qrCode
-        // });
-        // that.getCodeState();
+        let qrCode = qrCodeArr[qrCodeArr.length - 1];
+        that.setData({
+          qrCode: qrCode
+        });
+        that.getCodeState();
       },
       fail: (res) => {
-          console.log("扫码失败")
+        wx.showToast({
+          title: '扫码失败',
+          icon: 'none'
+        })
       } 
     });
   },
@@ -181,7 +180,7 @@ Page({
   getCodeState: function () {
     let that = this;
     wx.request({
-      url: 'http://192.168.0.130/cp/getByCode/' + that.data.qrCode,
+      url: this.data._build_url+'cp/getByCode/' + that.data.qrCode,
       success: function (res) {
         var data = res.data;
         let current = res.currentTime;
@@ -201,14 +200,17 @@ Page({
             return false;
           } else {
             wx.navigateTo({
-              url: 'cancel-after-verification/cancel-after-verification?qrCode=' + that.data.qrCode + '&userId=' + app.globalData.userInfo.userId,
+              url: '../personal-center/call-back/call-back?code=' + that.data.qrCode
             })
+            // wx.navigateTo({
+            //   url: 'cancel-after-verification/cancel-after-verification?qrCode=' + that.data.qrCode + '&userId=' + app.globalData.userInfo.userId,
+            // })
           }
         } else {
           wx.showToast({
             title: '请扫描有效票券',
             icon: 'none'
-          })
+          },2000)
         }
       }
     })

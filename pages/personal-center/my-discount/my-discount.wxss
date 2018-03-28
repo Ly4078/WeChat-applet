@@ -2,7 +2,10 @@
 page{
   background-color: #EBEBEB;
 }
-
+.placeholder {
+  position: none;
+  height: 90%;
+}
 .conceal-dot{
   width: 20rpx;
   height: 20rpx;

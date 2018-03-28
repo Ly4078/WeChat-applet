@@ -1,3 +1,4 @@
 {
-  "navigationBarTitleText": "我的票券"
+  "navigationBarTitleText": "我的票券",
+  "enablePullDownRefresh": false
 }

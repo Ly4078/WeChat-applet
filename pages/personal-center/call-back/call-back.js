@@ -137,10 +137,10 @@ Page({
       couponCode: _hxData.couponCode,	   //电子券code	String
       skuId: _hxData.skuId,	       //商品id	Long
       couponAmount: _hxData.couponAmount,	//电子券面额	BigDecimal
-      userId: app.globalData.userInfo.userId,	//消费人id	Long
-      userName: app.globalData.userInfo.userName,  //消费人账号	String
+      userId: _hxData.userId,	//消费人id	Long
+      userName: _hxData.userName,  //消费人账号	String
       cashierId: app.globalData.userInfo.userId,	    //收银id	Long
-      cashierName: ""	    //收银账号	String
+      cashierName: app.globalData.userInfo.userName	    //收银账号	String
     }
     Api.hxadd(_parms).then((res) => {
       if (res.data.code == 0) {
