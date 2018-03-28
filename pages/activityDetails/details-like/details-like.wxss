@@ -65,16 +65,16 @@ page {
 
 .end-activity {
   color: #fc5e2d;
-  border: 1px solid #fc5e2d;
+    border: 1px solid #fc5e2d;  
   border-radius: 50rpx;
   padding: 10rpx 30rpx;
   font-size: 15px;
   margin: 0rpx 26rpx;
 }
 
-.end-activity.active {
-  border: 1px solid #b1b1b1;
-  color: #b1b1b1;
+.active {
+   border: 1px solid #b1b1b1; 
+    color: #b1b1b1;
 }
 
 .particulars-ed {

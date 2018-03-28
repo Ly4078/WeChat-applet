@@ -95,6 +95,14 @@ Page({
   },
   clickVote: function (e) {  //投票
     let that = this;
+    if (this.data.endtime == 0){
+      wx.showToast({
+        mask: true,
+        icon: 'none',
+        title: '活动已结束，停止投票'
+      }, 1500)
+      return false
+    }
     let stopid = e.currentTarget.id;
     let vote = this.data.actdetail
     let _parms = {
@@ -151,7 +159,12 @@ Page({
     let that = this,
         userType = app.globalData.userInfo.userType,
         shopId = app.globalData.userInfo.shopId;
-    if (userType == 1) {
+    if (this.data.endtime == 0){
+      wx.showToast({
+        title: '抱歉! 活动已结束,不再接受报名',
+        icon: 'none'
+      })
+    }else if (userType == 1) {
       wx.showToast({
         title: '抱歉！仅商家用户才可以报名活动',
         icon: 'none'
