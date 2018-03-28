@@ -10,7 +10,9 @@ Page({
     flag: true,
     tect: '最新',
     isscelect: 1,
-    ishotnew: false
+    ishotnew: false,
+    sortype:'0',
+    choicetype:''
   },
   onLoad: function () {
 
@@ -60,11 +62,11 @@ Page({
       page: this.data.page,
       row: 8
     }
-    if (_type == 'sortType') {
-      _parms.sortType = data
+    if (this.data.choicetype) {
+      _parms.choiceType = this.data.choicetype
     }
-    if (_type == 'choiceType') {
-      _parms.sortType = data
+    if (this.data.sortype) {
+      _parms.sortType = this.data.sortype
     }
     Api.topiclist(_parms).then((res) => {
       let _data = this.data.food
@@ -155,7 +157,9 @@ Page({
   topall: function () {  //选择全部
     this.setData({
       ishotnew: false,
-      isscelect: 1
+      food:[],
+      isscelect: 1,
+      choicetype:''
     })
     let _type = ''
     this.getfood()
@@ -163,20 +167,20 @@ Page({
   topbus: function () {  //选择商家
     this.setData({
       ishotnew: false,
-      isscelect: 2
+      food: [],
+      isscelect: 2,
+      choicetype:'1'
     })
-    let _type = 'sortType'
-    let data = '1'
-    this.getfood(_type,data)
+    this.getfood()
   },
   topper: function () {  //选择个人
     this.setData({
       ishotnew: false,
-      isscelect: 3
+      food: [],
+      isscelect: 3,
+      choicetype: '2'
     })
-    let _type = 'sortType'
-    let data = '2'
-    this.getfood(_type, data)
+    this.getfood()
   },
   sect: function () {  //点击最新/最热
     this.setData({
@@ -187,19 +191,19 @@ Page({
   mostnew: function () { //选择最新
     this.setData({
       ishotnew: false,
+      food: [],
+      sortype:'0',
       tect: '最新'
     })
-    let _type = 'choiceType'
-    let data = '0'
-    this.getfood(_type, data)
+    this.getfood()
   },
   mosthot: function () {  //选择最热
     this.setData({
       ishotnew: false,
+      food: [],
+      sortype: '1',
       tect: '最热'
     })
-    let _type = 'choiceType'
-    let data = '1'
-    this.getfood(_type, data)
+    this.getfood()
   }
 })

@@ -274,7 +274,8 @@ scroll_box.initiate-exhibition {
   border-radius: 8rpx;
   color: #808080;
   font-size: 30rpx;
-  width: 120rpx;
+  min-width: 120rpx;
+  padding: 0 20rpx;
   height: 50rpx;
   line-height: 50rpx;
   margin-right: 30rpx;

@@ -6,8 +6,8 @@ Page({
   data: {
     posts_key: [],
     nearbydatas: ['由近到远'],
-    fooddatas: ["日本菜", "自助餐", "私房菜", "家常菜", "下午茶", "创意菜", "湖北菜", "粉面馆", "川菜", "卤味", "湘菜", "粤菜", "咖啡厅", "小龙虾", "火锅", "海鲜", "烧烤", "小吃快餐", "江浙菜", "韩国料理", "东南亚菜", "西餐", "自助餐", "面包甜点", "其他美食"],
-    sortingdatas: ['人气排序'],
+    fooddatas: ['全部',"日本菜", "自助餐", "私房菜", "家常菜", "下午茶", "创意菜", "湖北菜", "粉面馆", "川菜", "卤味", "湘菜", "粤菜", "咖啡厅", "小龙虾", "火锅", "海鲜", "烧烤", "小吃快餐", "江浙菜", "韩国料理", "东南亚菜", "西餐", "自助餐", "面包甜点", "其他美食"],
+    sortingdatas: ['全部','人气排序'],
     page: 1,
     isScroll: true,
     ismodel: false,
@@ -39,11 +39,11 @@ Page({
     }
     if (this.data.businessCate) { //美食类别 
       _parms.businessCate = this.data.businessCate
-    } else if (this.data.browSort) { //综合排序
+    }
+     if (this.data.browSort) { //综合排序
       _parms.browSort = this.data.browSort
     }
     if (this.data.businessCate == '川湘菜') {
-      _parms.browSort = 2
       Api.listForChuangXiang(_parms).then((res) => {
         let that = this
         let data = res.data;
@@ -124,8 +124,6 @@ Page({
   },
   onPullDownRefresh: function () {
     this.setData({
-      businessCate: '',
-      browSort: '',
       posts_key: [],
       page: 1
     });
@@ -139,9 +137,7 @@ Page({
     let id = e.currentTarget.id
     this.setData({
       ismodel: true,
-      isScroll: false,
-      businessCate: '',
-      browSort: ''
+      isScroll: false
     })
     if (id == 1) {
       this.setData({
@@ -238,9 +234,11 @@ Page({
         _value = _data[i]
       }
     }
+    if (id == 0) {
+      _value = ''
+    }
     this.setData({
       businessCate: _value,
-      browSort: '',
       posts_key: []
     })
     this.closemodel()
@@ -255,12 +253,18 @@ Page({
         _value = _data[i]
       }
     }
+    if (id == 0) {
+      this.setData({
+        browSort: '',
+        posts_key: []
+      })
+    }else{
+      this.setData({
+        browSort: '2',
+        posts_key: []
+      })
+    }
     this.closemodel()
-    this.setData({
-      browSort: '2',
-      businessCate: '',
-      posts_key: []
-    })
     this.getData()
   }
 

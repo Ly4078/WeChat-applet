@@ -36,7 +36,7 @@
     <view class='message-each' catchtap='opencate'>
       <text class='message-name'>经营品类</text>
       <input class='message-text' name="businessCate" bindblur="inperFigure" placeholder="选择经营品类" type="number" value="{{businessCate}}" disabled="true"></input>
-      <view class='gitkuoda' catchtap='getlocation'>
+      <view class='gitkuoda'>
       <text></text>
       <image class='more' src='/images/icon/home_arrow.png'></image>
       </view>

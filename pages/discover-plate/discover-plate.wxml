@@ -36,8 +36,8 @@
 
     <view class='distop'>
     <button class="topall {{isscelect==1?'xuanzhong':''}}" catchtap='topall'>全部</button>
-    <button class="topbus {{isscelect==2?'xuanzhong':''}}" catchtap='topbus'>商家</button>
-    <button class="topper {{isscelect==3?'xuanzhong':''}}" catchtap='topper'>个人</button>
+    <button class="topbus {{isscelect==2?'xuanzhong':''}}" catchtap='topbus'>店家美文</button>
+    <button class="topper {{isscelect==3?'xuanzhong':''}}" catchtap='topper'>美食写手</button>
     <view class='sect' catchtap='sect'>{{tect}}
       <image class="sectimg {{ishotnew?'sectxz':''}}" src='/images/icon/xialatupian.png'></image>
     </view>

@@ -38,26 +38,28 @@ Page({
     })
     this.getopenid();
   },
-  // 专题推荐栏
-  navbarTap: function (e) {
+  
+  onReady:function(){
+    let lat = '30.51597', lng = '114.34035';  //lat纬度lng经度 初始默认定位到武汉
+    this.requestCityName(lat, lng)
+  },
+  onShow: function () {
+    let that = this
+    let lat = wx.getStorageSync('lat')
+    let lng = wx.getStorageSync('lng')
+    if (lat && lng) {
+      setTimeout(function () {
+        that.requestCityName(lat, lng)
+        wx.removeStorageSync('lat')
+        wx.removeStorageSync('lng')
+      }, 500)
+    }
+  },
+  navbarTap: function (e) {// 专题推荐栏
     this.setData({
       currentTab: e.currentTarget.dataset.idx
     })
   },
-  onReady: function () {
-    let that = this;
-    let lat = '30.51597', lng = '114.34035';  //lat纬度   lng经度
-    lat = wx.getStorageSync('lat') ? wx.getStorageSync('lat') : lat
-    lng = wx.getStorageSync('lng') ? wx.getStorageSync('lng') : lng
-    app.globalData.userInfo.lat = lat
-    app.globalData.userInfo.lng = lng
-    if (lat && lng) {
-      setTimeout(function () {
-        that.requestCityName(lat, lng)
-      }, 500)
-    }
-  },
-
   getopenid: function () {  //获取openID sessionKey
     let that = this
     let lat = '', lng = ''
@@ -88,10 +90,19 @@ Page({
     this.getactlist();
     this.gethotlive();
     this.gettopic();
-    this.gettopics();
+    // this.gettopics();
   },
-  gettopics: function () {
+  onReachBottom: function () {  //用户上拉触底加载更多
+    if (this.data.alltopics.length<1){
+      this.gettopics()
+    }
+  },
+  gettopics: function () {  //加载分类数据
     let _list = [], _shop = []
+    wx.showLoading({
+      title: '更多数据加载中。。。',
+      mask: true
+    })
     Api.listForHomePage().then((res) => {
       if (res.data.code == 0) {
         _list = res.data.data
@@ -123,6 +134,7 @@ Page({
           }
         }
         let [...newarr] = arr
+        wx.hideLoading()
         this.setData({
           alltopics: newarr,
           restaurant: arr.slice(0, 6), //菜系专题
