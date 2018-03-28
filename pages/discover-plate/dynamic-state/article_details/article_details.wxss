@@ -241,3 +241,7 @@ button[plain]{
   border: 0;
   box-sizing: border-box;
 }
+
+.botton-comment {
+  border-top: 1rpx solid #e0e0e0;
+}

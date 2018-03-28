@@ -57,13 +57,13 @@
         <text>查看全部<text>{{cmtdata.total}}</text>条评论</text>
       </view>
     </view>
-    <view class='botton-comment' bindtap='showAreatext'>
-      <image class='comment-images' src='/images/icon/write.png'></image>
-      <text class='reviewyan'>写评论</text>
-    </view>
     <form class='commentBox {{isComment ? "show" : "hide"}}'>
       <textarea class="commentArea" placeholder='请输入评论' focus="{{isComment}}" bindinput="getCommentVal" cursor-spacing="50rpx" show-confirm-bar="false" fixed="true"></textarea>
       <button form-type="reset" catchtap="setcmtadd">发送</button>
     </form>
   </view>
+</view>
+<view class='botton-comment' bindtap='showAreatext'>
+  <image class='comment-images' src='/images/icon/write.png'></image>
+  <text class='reviewyan'>写评论</text>
 </view>

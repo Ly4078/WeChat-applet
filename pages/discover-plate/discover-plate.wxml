@@ -48,7 +48,7 @@
   </view>  
 
   <view class='distop2'></view>
-  <view wx:for="{{food}}" wx:key="{{index}}" class='datafor'>
+  <view wx:if="{{food.length > 0}}" wx:for="{{food}}" wx:key="{{index}}" class='datafor'>
     <view id="{{item.id}}" catchtap="clickarticle" class="scroll_user find">
       <view class='merchant_data'>
         <image src='{{item.iconUrl}}'></image>
@@ -88,8 +88,9 @@
       </view>
     </view>
   </view>
-
-
+  <view wx:if="{{food.length < 1}}" class='placeholder'>
+    <image src="/images/icon/zhanweitu.png"></image>
+  </view>
   <image catchtap='announceState' class='publish-dynamic-condition' src='/images/icon/send_dongtai.png'></image>
 
 </view>

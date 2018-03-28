@@ -112,45 +112,47 @@
     </view>
     <!--动态-->
     <view class="merchant_box" hidden="{{currentTab!==1}}">
-      <block wx:for="{{merchantArt}}" wx:key="{{index}}" data-idx="{{index}}">
-        <view class="merchant_art" bindtap="toArticleInfo" id="{{item.id}}">
-          <view class="merchant_data">
-            <image src="{{item.iconUrl}}"></image>
-            <view>
-              <text class="merchant_name">{{item.userName}}</text>
-              <text class="merchant_time">{{item.timeDiffrence}}</text>
-            </view>
-          </view>
-          <view class="article_cont">
-            <text>{{item.title}}</text>
-            <image class="article_img" mode="aspectFill" src="{{item.homePic}}"></image>
-            <view class="article_img_shade"></view>
-          </view>
-          <view class="merchant_contact">
-            <view class="article_icon">
-              <image src="/images/icon/tuoyuan_w.png"></image>
-              <text>{{item.hitNum}}</text>
-            </view>
-            <view>
-              <view class="article_icon article_icon_r">
-                <image src="/images/icon/find_share.png"></image>
-                <text>{{item.transNum}}</text>
+      <view wx:if="{{merchantArt.length > 0}}">
+        <block wx:for="{{merchantArt}}" wx:key="{{index}}" data-idx="{{index}}">
+          <view class="merchant_art" bindtap="toArticleInfo" id="{{item.id}}">
+            <view class="merchant_data">
+              <image src="{{item.iconUrl}}"></image>
+              <view>
+                <text class="merchant_name">{{item.userName}}</text>
+                <text class="merchant_time">{{item.timeDiffrence}}</text>
               </view>
-              <view class="article_icon article_icon_r">
-                <image src="/images/icon/word.png"></image>
-                <text>{{item.commentNum}}</text>
+            </view>
+            <view class="article_cont">
+              <text>{{item.title}}</text>
+              <image class="article_img" mode="aspectFill" src="{{item.homePic}}"></image>
+              <view class="article_img_shade"></view>
+            </view>
+            <view class="merchant_contact">
+              <view class="article_icon">
+                <image src="/images/icon/tuoyuan_w.png"></image>
+                <text>{{item.hitNum}}</text>
               </view>
-              <!-- 备注这个打赏图标以后可能会用到 -->
-              <!-- <view class="article_icon article_icon_r">
+              <view>
+                <view class="article_icon article_icon_r">
+                  <image src="/images/icon/find_share.png"></image>
+                  <text>{{item.transNum}}</text>
+                </view>
+                <view class="article_icon article_icon_r">
+                  <image src="/images/icon/word.png"></image>
+                  <text>{{item.commentNum}}</text>
+                </view>
+                <!-- 备注这个打赏图标以后可能会用到 -->
+                <!-- <view class="article_icon article_icon_r">
                 <image src="/images/icon/find_gold.png"></image>
                 <text>145</text>
               </view> -->
+              </view>
             </view>
           </view>
-        </view>
-      </block>
-      <view wx:if="{{merchantArt.length < 1}}" class='merchant_none'>
-        <image src="/images/icon/head portrait.png"></image>
+        </block>
+      </view>
+      <view wx:else class='merchant_none'>
+        <image src="/images/icon/zhanweigou.png"></image>
       </view>
     </view>
   </view>

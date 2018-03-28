@@ -1,4 +1,7 @@
-<view>
+<view class="act_box">
+  <view class="act_info">
+    <image class="act_info_img" src="/images/icon/big.png"></image>
+  </view>
   <image class='particulars-images' mode="aspectFill" src='{{actdetail.mainPic}}'></image>
   <view class='particulars-ed'>
     <view class='particulars-option'>
@@ -20,7 +23,7 @@
       <text>距离此活动结束还有<text class='timeFate'>{{endtime}}</text>天</text>
     </view>
     <view class='end-button'>
-      <text class='end-activity'>活动详情</text>
+      <text class='end-activity' bindtap='previewImg'>活动简介</text>
       <text wx:if="{{isSign == 1}}" class='end-activity active' >已报名</text>
       <text wx:else class='end-activity' bindtap='takePartIn' >我要报名</text>
     </view>
