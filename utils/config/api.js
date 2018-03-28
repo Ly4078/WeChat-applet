@@ -171,6 +171,10 @@ const ALL_API = {
   myArticleList: {   //我的文章列表
     method: 'GET',
     url: 'topic/myList'
+  },
+  isNewUser: {     //是否新用户
+    method: 'GET',
+    url: 'sku/isNewUser'
   }
 }
 

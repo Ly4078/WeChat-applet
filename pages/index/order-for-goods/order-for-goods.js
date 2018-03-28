@@ -9,14 +9,16 @@ Page({
     minusStatus: 'disabled',
     paymentAmount: '',
     obj: [],
-    sostatus: 0
+    sostatus: 0,
+    isNew: 0   //是否新用户
   },
   onLoad: function (options) {
+    this.isNewUser();
     this.setData({
       obj: options,
       paymentAmount: options.sell
     })
-    if(options.num && options.num != 'undefined' && options.num != '') {
+    if (options.num && options.num != 'undefined' && options.num != '') {
       this.setData({
         number: options.num,
         paymentAmount: (options.sell * options.num).toFixed(2)
@@ -27,6 +29,19 @@ Page({
         sostatus: 1
       });
     }
+  },
+  isNewUser: function () {   //判断是否新用户
+    let that = this;
+    let _parms = {
+      userId: app.globalData.userInfo.userId
+    };
+    Api.isNewUser(_parms).then((res) => {
+      if (res.data.code == 0) {
+        that.setData({
+          isNew: 1
+        });
+      }
+    })
   },
   hidtel: function ($phone) {
     $IsWhat = preg_match('/(0[0-9]{2,3}[\-]?[2-9][0-9]{6,7}[\-]?[0-9]?)/i', $phone);
@@ -151,9 +166,9 @@ Page({
 
   confirmPayment: function (e) {  //生成订单号
     let that = this
-    if (this.data.obj.soid && this.data.obj.soid != 'undefined' && this.data.obj.soid != ''){
+    if (this.data.obj.soid && this.data.obj.soid != 'undefined' && this.data.obj.soid != '') {
       that.payment(this.data.obj.soid)
-    }else{
+    } else {
       let _parms = {
         userId: app.globalData.userInfo.userId,
         userName: app.globalData.userInfo.userName,
