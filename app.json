@@ -7,6 +7,7 @@
     "pages/personal-center/call-back/call-back",
     "pages/personal-center/free-of-charge/free-of-charge",
     "pages/activityDetails/details-like/details-like",
+    "pages/activityDetails/act-info/act-info",
     "pages/personal-center/allDynamicState/allDynamicState",
     "pages/index/merchant-particulars/merchant-particulars",
     "pages/index/merchant-particulars/total-comment/total-comment",

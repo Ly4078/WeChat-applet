@@ -1,8 +1,5 @@
 <view class="act_box">
-  <view class="act_info" hidden="{{isShowImg}}" bindtap='clickActImg'>
-    <image class="act_info_img" mode="widthFix" src="{{actdetail.actUrl}}"></image>
-  </view>
-  <view class="act_content" hidden="{{!isShowImg}}">
+  <view class="act_content">
     <image class='particulars-images' mode="aspectFill" src='{{actdetail.mainPic}}'></image>
     <view class='particulars-ed'>
       <view class='particulars-option'>

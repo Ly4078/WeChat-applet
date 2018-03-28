@@ -176,11 +176,19 @@ Page({
         skuId: this.data.obj.id,
         skuNum: this.data.number
       }
-      Api.socreate(_parms).then((res) => {
-        if (res.data.code == 0) {
-          that.payment(res.data.data)
-        }
-      })
+      if(this.data.isNew == 1) {
+        Api.getFreeTicket(_parms).then((res) => {
+          if (res.data.code == 0) {
+            that.payment(res.data.data)
+          }
+        })
+      } else if (this.data.isNew == 0) {
+        Api.socreate(_parms).then((res) => {
+          if (res.data.code == 0) {
+            that.payment(res.data.data)
+          }
+        })
+      }
     }
   },
   payment: function (soid) {  //调起微信支付
