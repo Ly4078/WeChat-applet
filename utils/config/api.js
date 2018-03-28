@@ -175,6 +175,10 @@ const ALL_API = {
   isNewUser: {     //是否新用户
     method: 'GET',
     url: 'sku/isNewUser'
+  },
+  getFreeTicket: {    //获取免费票券
+    method: 'POST',
+    url: 'so/freeOrder'
   }
 }
 
