@@ -89,18 +89,26 @@
     <!--菜系专题-->
     <view hidden="{{currentTab!==0}}">
       <!-- <swiper-item> -->
-        <block wx:for="{{restaurant}}"  wx:key="{{index}}">
-          <template is="styleOfCookingTm" data="{{item}}" />
-        </block>
+      <block wx:for="{{restaurant}}" wx:key="{{index}}">
+        <template is="styleOfCookingTm" data="{{item}}" />
+      </block>
       <!-- </swiper-item> -->
     </view>
     <!--服务专题-->
     <view hidden="{{currentTab!==1}}">
       <!-- <swiper-item> -->
-        <block wx:for="{{service}}" wx:for-item="item" wx:key="{{index}}">
-          <template is="CreateEmailAlerts" data="{{item}}"/>
-        </block>
+      <block wx:for="{{service}}" wx:for-item="item" wx:key="{{index}}">
+        <template is="CreateEmailAlerts" data="{{item}}" />
+      </block>
       <!-- </swiper-item>. -->
+    </view>
+  </view>
+
+  <!-- 底部动画 -->
+  <view class='bottomAnimation '>
+    <view class='bottomAnimationText'>
+      <image class='bottomAnimationImg' src='/images/icon/dongtaiLgy.png'></image>
+      <text>共享美味新生活</text>
     </view>
   </view>
 </view>

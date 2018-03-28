@@ -2,6 +2,7 @@
   "pages": [
     "pages/index/index",
     "pages/personal-center/aboutMe/aboutMe",
+    "pages/personal-center/aboutMe/officialWebsite/officialWebsite",
     "pages/index/merchant-particulars/recommendation/recommendation",
     "pages/index/consume-qibashare/consume-qibashare",
     "pages/personal-center/call-back/call-back",

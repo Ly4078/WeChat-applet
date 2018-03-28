@@ -7,7 +7,7 @@
       <view class='practical_right'>
         <view class='elsk'>
           <text class='trade_name'>{{item.shopName}}</text>
-          <view>
+          <view class='dq_popularitywrap'>
             <image class='dq_popularity' src='/images/icon/restaurant_hot.png'></image>
             <text class='trade_rq'>人气<text class='trade_figure'>{{item.popNum}}</text></text>
           </view>
@@ -26,7 +26,7 @@
       <view class='navigationKb_right'>
         <view class='navigationKb_Wrapp'>
           <image class='navigationKb_img' src='/images/icon/restaurant_newuser.png'></image>
-          <text class='navigationKb_text'>新用户首次免费领卷</text>
+          <text class='navigationKb_text'>新用户首次免费领劵</text>
         </view>
         <!-- <view class='navigationKb_Wrapp'>
           <image class='navigationKb_img' src='/images/icon/restaurant_huo.png'></image>
@@ -34,7 +34,7 @@
         </view> -->
         <view class='navigationKb_Wrapp'>
           <image class='navigationKb_img' src='/images/icon/restaurant_ticket.png'></image>
-          <text class='navigationKb_text'>购买享7代金卷</text>
+          <text class='navigationKb_text'>购买享7代金劵</text>
         </view>
         <!-- <view class='navigationKb_Wrapp'>
           <image class='navigationKb_img' src='/images/icon/restaurant_detrusion.png'></image>

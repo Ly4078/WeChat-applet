@@ -354,7 +354,7 @@ button{
   font-size: 30rpx;
   color: #FFF;
   width:90%;
-  height: 72rpx;
+  height: 78rpx;
   overflow:hidden; 
   white-space:pre-line;
 }

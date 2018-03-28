@@ -602,3 +602,27 @@ page {
   height: 4rpx;
   background: #FC5E2D;
 }
+
+.bottomAnimation{
+  width: 100%;
+  height: 240rpx;
+  background-color: #EBEBEB;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.bottomAnimationImg{
+  width: 200rpx;
+  height: 100rpx;
+}
+
+.bottomAnimationText{
+  text-align: center;
+}
+
+.bottomAnimationText text{
+  font-size: 26rpx;
+  color: #808080;
+  display: block;
+}

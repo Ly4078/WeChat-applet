@@ -4,7 +4,7 @@
     <view class='centreText'>享7美食</view>
   </view>
   <view class='myList'>
-    <view class='myList-single' catchtap='aboutMe'>
+    <view class='myList-single'>
       <view>
         <image class='myListImages' src='/images/icon/weixinggzh.png'></image>
         <text class='mylistText'>微信公众号</text>
@@ -13,7 +13,7 @@
     </view>
   </view>
   <view class='myList'>
-    <view class='myList-single' catchtap='aboutMe'>
+    <view class='myList-single'>
       <view>
         <image class='myListImages' src='/images/icon/dianziyouxa.png'></image>
         <text class='mylistText'>电子邮箱</text>
@@ -31,9 +31,9 @@
     </view>
   </view>
   <view class='myList'>
-    <view class='myList-single' catchtap='aboutMe'>
+    <view class='myList-single'>
       <view>
-        <image class='myListImages' src='/images/icon/zuobiao.png'></image>
+        <image class='myListImages' src='/images/icon/womendzbq.png'></image>
         <text class='mylistText'>我们坐标</text>
       </view>
     </view>

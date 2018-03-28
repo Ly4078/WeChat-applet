@@ -201,6 +201,8 @@ button[plain]{
 .evaluateright {
   width: 34rpx;
   height: 34rpx;
+  padding-top: 1rpx;
+  vertical-align: middle;
 }
 .introduce-details{
   overflow:hidden; 

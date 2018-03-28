@@ -28,6 +28,11 @@ Page({
       }
     })
   },
+  aboutMe:function(event){
+    wx.navigateTo({
+      url: 'officialWebsite/officialWebsite',
+    })
+  },
   controltap(e) {
     console.log(e.controlId)
   }
