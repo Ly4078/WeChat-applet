@@ -170,7 +170,7 @@ Page({
       ishotnew: false,
       food: [],
       isscelect: 2,
-      choicetype:'1'
+      choicetype:'2'
     })
     this.getfood()
   },
@@ -179,7 +179,7 @@ Page({
       ishotnew: false,
       food: [],
       isscelect: 3,
-      choicetype: '2'
+      choicetype: '1'
     })
     this.getfood()
   },
