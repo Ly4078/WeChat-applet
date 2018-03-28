@@ -165,12 +165,13 @@ page {
 }
 
 .location-right {
-  width: 34rpx;
-  height: 44rpx;
+  width: 60rpx;
+  height: 60rpx;
+  padding: 20rpx 40rpx;
   /* padding-right: 32rpx; */
   position: absolute;
-  right: 50rpx;
-  top: 29rpx;
+  right: 0rpx;
+  top: 0rpx;
 }
 
 .location-text {
@@ -190,6 +191,7 @@ page {
   right: 110rpx;
   top: 27rpx;
 }
+
 
 .colletionImg{
   width: 70rpx;
