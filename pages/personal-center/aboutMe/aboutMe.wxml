@@ -39,7 +39,7 @@
     </view>
   </view>
 
-<map id="map" longitude="114.421820" latitude="30.480270" scale="14" bindcontroltap="controltap" markers="{{markers}}" bindmarkertap="markertap" polyline="{{polyline}}" bindregionchange="regionchange" show-location style="width: 100%; height: 300px;"></map>
+<map id="map" longitude="114.421820" latitude="30.480270" scale="14"  markers="{{markers}}" bindmarkertap="markertap"  bindregionchange="regionchange" show-location style="width: 100%; height: 300px;"></map>
   <view class='official'>
     <view>
       <text>官方电话:027-59728176</text>
