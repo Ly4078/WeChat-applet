@@ -180,7 +180,9 @@ Page({
       if(this.data.isNew == 1) {
         Api.getFreeTicket(_parms).then((res) => {
           if (res.data.code == 0) {
-            that.payment(res.data.data)
+            wx.redirectTo({
+              url: '../../personal-center/lelectronic-coupons/lectronic-coupons?id=' + res.data.data + '&isPay=1'
+            })
           }
         })
       } else if (this.data.isNew == 0) {
