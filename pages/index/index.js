@@ -96,7 +96,7 @@ Page({
       if (res.data.code == 0) {
         _list = res.data.data
       }
-      console.log("_list:", _list)
+      // console.log("_list:", _list)
     })
 
     let _parms = {
