@@ -30,27 +30,30 @@ Page({
       sourceType: '1'
     }
     Api.actdetail(_parms).then((res) => {
-      let _endtime = res.data.data.endTime;
-      let _startTime = res.data.data.startTime;
-      _startTime = Date.parse(_startTime);
-      _endtime = Date.parse(_endtime);
-      let today = new Date();
-      today = Date.parse(today);
-      let dateSpan = _endtime - today;
-      let dateTime = _startTime - today;
-      let overdays = Math.floor(dateTime / (24 * 3600 * 1000));
-      let iDays = Math.floor(dateSpan / (24 * 3600 * 1000));
-      if (iDays < 1) {
-        iDays = 0
+      if(res.data.code == 0){
+        let _endtime = res.data.data.endTime;
+        let _startTime = res.data.data.startTime;
+        _startTime = Date.parse(_startTime);
+        _endtime = Date.parse(_endtime);
+        let today = new Date();
+        today = Date.parse(today);
+        let dateSpan = _endtime - today;
+        let dateTime = _startTime - today;
+        let overdays = Math.floor(dateTime / (24 * 3600 * 1000));
+        let iDays = Math.floor(dateSpan / (24 * 3600 * 1000));
+        if (iDays < 1) {
+          iDays = 0
+        }
+        that.setData({
+          endtime: iDays,
+          starttime: overdays
+        })
+        that.setData({
+          actdetail: res.data.data
+        })
+        wx.stopPullDownRefresh()
+        wx.hideLoading();
       }
-      that.setData({
-        endtime: iDays,
-        starttime: overdays
-      })
-      console.log("res:",res.data.data)
-      that.setData({
-        actdetail: res.data.data
-      })
     })
   },
   lookActImg: function() {   //查看活动详情
@@ -74,12 +77,16 @@ Page({
           let _actlist = this.data.actlist
           let _data = res.data.data.list
           for (var i = 0; i < _data.length; i++) {
-            console.log(i)
             _actlist.push(_data[i]);
           }
           that.setData({
             actlist: _actlist
           })
+        }
+        if (that.data.page == 1) {
+          wx.stopPullDownRefresh()
+        } else {
+          wx.hideLoading();
         }
       }
     })
@@ -238,4 +245,14 @@ Page({
       });
       this.getactlist();
   },
+  onPullDownRefresh: function () {    //用户下拉刷新
+    wx.showLoading({
+      title: '加载中..'
+    })
+    this.setData({
+      actlist: [],
+      page: 1
+    });
+    this.getactlist();
+  }
 })
