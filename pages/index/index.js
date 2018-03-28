@@ -412,6 +412,7 @@ Page({
     return {
       title: '享七美食',
       path: 'pages/index/index',
+      imageUrl:'https://xq-1256079679.file.myqcloud.com/aaa_wxf91e2a026658e78e.o6zAJs-7D9920jC4XTKdzt72lobs.86hwazjh0Vhk732646790661f7af79f59e5d782d6c2f_0.8.jpg',
       success: function (res) {
         // 转发成功
         console.log("res:",res)
