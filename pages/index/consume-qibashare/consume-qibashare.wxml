@@ -1,19 +1,20 @@
 <!--pages/index/consume-qibashare/consume-qibashare.wxml-->
 <view>
+  <image class='popularityImages' src='/images/icon/xiangqijuan1.png'></image>
   <block wx:for="{{information}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
-    <view class='consumeWrap' id="{{item.id}}" catchtap='particulars'>
-      <image class='consumeLogo' src='/images/icon/icon_logosj.png'></image>
+    <view class='consumeWrap consumeone' id="{{item.id}}" catchtap='particulars'>
+      <image class='consumeLogo' src='/images/icon/xiangqisdfe.png'></image>
       <view class='consumeCenter'>
         <view>
           <text class='consumeLimit'>{{item.skuName}}</text>
           <view class='limitConfine'>{{item.promotionRules[0].ruleDesc}}</view>
         </view>
         <view class='sumDiscount'>
-          <view class='figureSum'>{{item.sellPrice}}
-            <text class='discountMomey'>元</text>
+          <view class='figureSum'>￥{{item.sellPrice}}
+            <!-- <text class='discountMomey'>元</text> -->
           </view>
-          <!-- <view class='discount_fels'></view> -->
-          <!-- <text class='discount_fels_zq'>{{item.sellPrice/item.inPrice*10}}折</text> -->
+           <view class='discount_fels'></view> 
+            <text class='discount_fels_zq'>{{item.sellPrice/item.inPrice*10}}折</text>  
         </view>
       </view>
       <view class='powerScroll'>
