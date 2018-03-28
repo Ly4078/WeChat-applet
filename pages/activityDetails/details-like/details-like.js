@@ -96,6 +96,7 @@ Page({
   clickVote: function (e) {  //投票
     let that = this;
     let stopid = e.currentTarget.id;
+    let vote = this.data.actdetail
     let _parms = {
       actId: this.data.actid,
       shopId: stopid,
@@ -111,8 +112,10 @@ Page({
             if (res.data.code == 0) {
               arr[ind].isVote = 0,
                 arr[ind].voteNum = arr[i].voteNum + 1,
+                ++vote.voteNum
                 that.setData({
-                  actlist: arr
+                  actlist: arr,
+                  actdetail:vote
                 })
               wx.showToast({
                 mask: true,
@@ -126,9 +129,12 @@ Page({
             if (res.data.code == 0) {
               arr[ind].isVote = 1,
                 arr[ind].voteNum = arr[i].voteNum - 1,
+                --vote.voteNum
                 that.setData({
-                  actlist: arr
+                  actlist: arr,
+                  actdetail: vote
                 })
+                
               wx.showToast({
                 mask: true,
                 icon: 'none',

@@ -68,7 +68,7 @@
     </block>
     <block wx:if="{{posts_key.length<1}}">
       <view class='withouttishiWrap'>
-        <image class='withouttishi' src='/images/icon/head portrait.png'></image>
+        <image class='withouttishi' src='/images/icon/zhanweitu.png'></image>
       </view>
       <view class='withoutText'>*^＠^* 暂无此商家</view>
     </block>

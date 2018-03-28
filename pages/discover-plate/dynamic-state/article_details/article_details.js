@@ -313,11 +313,11 @@ Page({
       success: function (res) {
         // 转发成功之后的回调
         if (res.errMsg == 'shareAppMessage:ok') {
-          wx.showToast({
-            title: '转发成功',
-            icon: 'success',
-            duration: 2000
-          })
+          // wx.showToast({
+          //   title: '转发成功',
+          //   icon: 'success',
+          //   duration: 2000
+          // })
           let _parms = {topicId: that.data._id};
           Api.share(_parms).then((res) => {
             // console.log(res);
@@ -326,7 +326,7 @@ Page({
       },
       fail: function () {
         wx.showToast({
-          title: '转发失败',
+          title: '分享失败',
           icon: 'none',
           duration: 2000
         })

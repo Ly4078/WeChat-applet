@@ -8,10 +8,6 @@ Page {
   overflow-y: hidden; */
 }
 
- .withouttishi{
-  margin-top: 20rpx;
-}
-
 .withouttishiWrap{
   width: 100%;
   height: 530rpx;
@@ -21,7 +17,8 @@ Page {
 }
 
 .withouttishi{
-  width: 200rpx;
+  margin-top: 20rpx;
+  width:250rpx;
   height: 200rpx;
 }
 

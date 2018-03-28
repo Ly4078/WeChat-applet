@@ -140,10 +140,14 @@ Page({
           restaurant: arr.slice(0, 6), //菜系专题
           service: arr.slice(6, arr.length)
         })
+      }else{
+        wx.hideLoading()
+        wx.showToast({
+          title: res.data.message,
+          icon:'none',
+        })
       }
     })
-
-
   },
   getuser: function () { //从自己的服务器获取用户信息
     wx.request({
@@ -154,7 +158,6 @@ Page({
       success: function (res) {
         if (res.data.code == 0) {
           let data = res.data.data;
-          console.log("data:",data)
             app.globalData.userInfo.userType = data.userType,
             app.globalData.userInfo.openId = data.openId,
             app.globalData.userInfo.password = data.password,
@@ -165,10 +168,7 @@ Page({
             app.globalData.userInfo.loginTimes = data.loginTimes,
             app.globalData.userInfo.iconUrl = data.iconUrl,
             app.globalData.userInfo.sourceType = data.sourceType,
-            app.globalData.userInfo.sex = data.sex,
-            // app.globalData.userInfo.lat = data.locationX,
-            // app.globalData.userInfo.lng = data.locationY
-            console.log("userinfo:", app.globalData.userInfo)
+            app.globalData.userInfo.sex = data.sex
         }
       }
     })
@@ -220,18 +220,15 @@ Page({
     })
   },
   requestCityName(lat, lng) {//获取当前城市
-    console.log("lat:",lat)
-    console.log("lng:",lng)
     app.globalData.userInfo.lat = lat
     app.globalData.userInfo.lng = lng
-    console.log(app.globalData.userInfo.lng)
-    console.log(app.globalData.userInfo)
     wx.request({
       url: 'https://apis.map.qq.com/ws/geocoder/v1/?location=' + lat + "," + lng + "&key=4YFBZ-K7JH6-OYOS4-EIJ27-K473E-EUBV7",
       header: {
         'content-type': 'application/json' // 默认值
       },
       success: (res) => {
+        this.getmoredata()
         if (res.data.status == 0) {
           this.setData({
             city: res.data.result.address_component.city,

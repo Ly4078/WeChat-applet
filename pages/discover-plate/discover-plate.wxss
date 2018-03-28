@@ -307,9 +307,11 @@ scroll_box.initiate-exhibition {
   padding: 0 10rpx;
   height: 185rpx;
   background:rgba(255,255,255,1);
-  border-radius: 8px ;
+  border-radius: 8px;
   border:1rpx solid rgb(170,165,165);
-  float: right;
+  position: absolute;
+  right: 0;
+  top: 100rpx;
 }
 .mostnew, .mosthot{
   background: #fff;
