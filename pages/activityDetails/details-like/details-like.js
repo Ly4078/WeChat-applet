@@ -10,7 +10,8 @@ Page({
     actlist: [],    //参加活动商家列表
     _value: '',  //搜索查询关键字
     starttime: '', //距离活动开始时间
-    endtime: '' //距离活动结束时间
+    endtime: '', //距离活动结束时间
+    page:1
   },
 
   onLoad: function (options) {
@@ -60,17 +61,27 @@ Page({
   },
   getactlist() {  //获取参加某一活动的商家列表
     let that = this;
-    this.setData({
-      actlist: []
-    })
     let _parms = {
+      page:this.data.page,
+      row:8,
       actId: this.data.actid,
       voteUserId: '1'
     }
     Api.actshoplist(_parms).then((res) => {
-      that.setData({
-        actlist: res.data.data.list
-      })
+      wx.hideLoading()
+      if(res.data.code ==0){
+        if (res.data.data.list != '' && res.data.data.list != null){
+          let _actlist = this.data.actlist
+          let _data = res.data.data.list
+          for (var i = 0; i < _data.length; i++) {
+            console.log(i)
+            _actlist.push(_data[i]);
+          }
+          that.setData({
+            actlist: _actlist
+          })
+        }
+      }
     })
   },
 
@@ -217,5 +228,14 @@ Page({
         }
       })
     }
-  }
+  },
+  onReachBottom: function () {  //用户上拉触底
+      wx.showLoading({
+        title: '加载中..'
+      })
+      this.setData({
+        page: this.data.page + 1
+      });
+      this.getactlist();
+  },
 })
