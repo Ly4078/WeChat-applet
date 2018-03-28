@@ -13,6 +13,7 @@
         <text class='amount-text'>元</text>
         <text class='past-due'>{{obj.inp}}元</text>
       </view>
+      
       <view class='countersign-past-due'>
         <text>{{obj.inp}}元代金券</text>
         <!-- <text class='discount-number'>{{sell/obj.inp*10}}折</text> -->
