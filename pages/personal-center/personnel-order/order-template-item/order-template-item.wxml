@@ -14,7 +14,7 @@
     </view>
     <view class='personnelOrder'>
       <view class='iconLogoWrap'>
-        <image class='iconLogo_sj' src='/images/icon/icon_logosj.png'></image>
+        <image class='iconLogo_sj' src='/images/icon/xiangqiLGBL.gif'></image>
       </view>
       <view class='iconLogo-right'>
         <view class='logo-right-top'>

@@ -58,8 +58,8 @@
 }
 
 .iconLogo_sj {
-  width: 112rpx;
-  height: 112rpx;
+  width: 130rpx;
+  height: 130rpx;
   padding-top: 38rpx;
 }
 

@@ -5,7 +5,7 @@ Page({
       id: 0,
       latitude: 30.480270,
       longitude: 114.421820,
-      title:'享七科技',
+      title:'享七科技,点我查看',
       width: 40,
       height: 40
     }]
@@ -24,7 +24,6 @@ Page({
       name: '享七科技',
       address: '武汉光谷大道总部国际二期时代2栋2101A',
       success: function (res) {
-        // console.log(res)
       }
     })
   },
