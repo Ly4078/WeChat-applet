@@ -35,6 +35,7 @@ Page({
       },
       success: function (res) {
         if (res.data.code == 0) {
+          wx.hideLoading();
           if (res.data.data.list != null && res.data.data.list != [] && res.data.data.list != "") {
             let ticketList = res.data.data.list, ticketArr = that.data.ticket_list;
             for (let i = 0; i < ticketList.length; i++) {
@@ -50,6 +51,7 @@ Page({
             })
           }
         } else {
+          wx.hideLoading();
           that.setData({
             isUpdate: false
           })

@@ -34,6 +34,7 @@ Page({
       },
       success: function (res) {
         let data = res.data;
+        wx.hideLoading();
         if (data.code == 0 && data.data.list != null && data.data.list != "" && data.data.list != []) {
           let comment_list = that.data.comment_list;
           let _data = res.data.data.list

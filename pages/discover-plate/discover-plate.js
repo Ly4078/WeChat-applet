@@ -71,6 +71,7 @@ Page({
     Api.topiclist(_parms).then((res) => {
       let _data = this.data.food
       if (res.data.code == 0){
+        wx.hideLoading()
         if (res.data.data.list != null && res.data.data.list != "" && res.data.data.list != []) {
           let footList = res.data.data.list;
           for (let i = 0; i < footList.length; i++) {
@@ -79,7 +80,7 @@ Page({
             footList[i].timeDiffrence = utils.timeDiffrence(res.data.currentTime, footList[i].updateTime, footList[i].createTime)
             _data.push(footList[i]);
           }
-          wx.hideLoading()
+          
           this.setData({
             food: _data
           })

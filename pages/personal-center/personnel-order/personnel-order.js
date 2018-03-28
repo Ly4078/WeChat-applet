@@ -67,6 +67,7 @@ Page({
       };
       Api.somyorder(_parms).then((res) => {
         let data = res.data;
+        wx.hideLoading();
         if (data.code == 0 && data.data != null && data.data != "" && data.data != []) {
           let order_list = that.data.order_list;
           for (let i = 0; i < data.data.length; i++) {

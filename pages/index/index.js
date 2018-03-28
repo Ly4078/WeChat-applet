@@ -119,6 +119,7 @@ Page({
     }
     Api.shoplistForHomePage(_parms).then((res) => {
       if (res.data.code == 0) {
+        wx.hideLoading()
         let arr = []
         _shop = res.data.data
         for (let i = 0; i < _list.length; i++) {
@@ -134,7 +135,7 @@ Page({
           }
         }
         let [...newarr] = arr
-        wx.hideLoading()
+        
         this.setData({
           alltopics: newarr,
           restaurant: arr.slice(0, 6), //菜系专题

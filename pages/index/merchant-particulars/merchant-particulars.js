@@ -127,6 +127,7 @@ Page({
       }
     Api.myArticleList(_parms).then((res) => {
       let data = res.data;
+      wx.hideLoading();
       if (data.code == 0 && data.data.list != null && data.data.list != "" && data.data.list != []) {
         let _data = data.data.list, articleList = this.data.merchantArt;
         for (let i = 0; i < _data.length; i++) {
@@ -136,8 +137,9 @@ Page({
         that.setData({
           merchantArt: articleList
         });
-        wx.hideLoading();
+        
       } else {
+        wx.hideLoading();
         that.setData({
           reFresh: false
         });

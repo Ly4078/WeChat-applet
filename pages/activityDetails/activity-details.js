@@ -30,8 +30,9 @@ Page({
     })
     Api.actlist(_parms).then((res) => {
       let data = res.data;
+      wx.hideLoading()
       if (data.code == 0 && data.data.list != null && data.data.list != "" && data.data.list != []) {
-        wx.hideLoading()
+        
         let actList = [];
         actList = that.data.actdata;
         for (let i = 0; i < data.data.list.length; i++) {
@@ -42,7 +43,6 @@ Page({
           actdata: actList
         })
       } else {
-        wx.hideLoading()
         that.setData({
           flag: false
         });

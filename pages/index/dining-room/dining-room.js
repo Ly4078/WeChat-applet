@@ -46,8 +46,8 @@ Page({
     if (this.data.businessCate == '川湘菜') {
       Api.listForChuangXiang(_parms).then((res) => {
         let that = this
-        let data = res.data;
         wx.hideLoading()
+        let data = res.data;
         if (data.code == 0 && data.data.list != null && data.data.list != "" && data.data.list != []) {
           wx.stopPullDownRefresh()
           let posts = this.data.posts_key;
@@ -64,8 +64,8 @@ Page({
     } else {
       Api.shoplist(_parms).then((res) => {
         let that = this
-        let data = res.data;
         wx.hideLoading()
+        let data = res.data;
         if (data.code == 0 && data.data.list != null && data.data.list != "" && data.data.list != []) {
           wx.stopPullDownRefresh()
           let posts = this.data.posts_key;
