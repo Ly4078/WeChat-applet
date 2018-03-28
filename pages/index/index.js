@@ -379,6 +379,10 @@ Page({
       wx.navigateTo({
         url: 'new-exclusive/new-exclusive',
       })
+    } else if (id == 1) {
+      wx.navigateTo({
+        url: '../personal-center/free-of-charge/free-of-charge',
+      })
     }
   },
   clickimg: function (e) {  //点击专题图片 --某个分类

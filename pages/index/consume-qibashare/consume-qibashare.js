@@ -1,5 +1,4 @@
 import Api from '/../../../utils/config/api.js'
-let app = getApp();
 Page({
   data: {
     information: [],
@@ -9,7 +8,6 @@ Page({
     let that = this;
     //享7劵
     let _parms = {
-      userId: app.globalData.userInfo.userId,
       rows: '20'
     }
     Api.terraceRoll(_parms).then((res) => {
