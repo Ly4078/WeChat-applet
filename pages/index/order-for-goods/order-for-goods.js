@@ -37,7 +37,6 @@ Page({
     };
     Api.isNewUser(_parms).then((res) => {
       if (res.data.code == 0) {
-        console.log("res：",res)
         that.setData({
           isNew: 1
         });
