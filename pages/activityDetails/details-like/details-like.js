@@ -1,4 +1,5 @@
 import Api from '../../../utils/config/api.js';
+// actStatus
 import { GLOBAL_API_DOMAIN } from '../../../utils/config/config.js';
 var app = getApp();
 Page({
@@ -8,8 +9,8 @@ Page({
     actdetail: [],  //根据ID查询某一条数据详情
     actlist: [],    //参加活动商家列表
     _value: '',  //搜索查询关键字
-    endtime: '',  //距离活动结束时间
-    isSign: '0'   //是否报名的标识
+    starttime: '', //距离活动开始时间
+    endtime: '' //距离活动结束时间
   },
 
   onLoad: function (options) {
@@ -29,20 +30,25 @@ Page({
     }
     Api.actdetail(_parms).then((res) => {
       let _endtime = res.data.data.endTime;
+      let _startTime = res.data.data.startTime;
+      _startTime = Date.parse(_startTime);
       _endtime = Date.parse(_endtime);
       let today = new Date();
       today = Date.parse(today);
       let dateSpan = _endtime - today;
+      let dateTime = _startTime - today;
+      let overdays = Math.floor(dateTime / (24 * 3600 * 1000));
       let iDays = Math.floor(dateSpan / (24 * 3600 * 1000));
       if (iDays < 1) {
         iDays = 0
       }
       that.setData({
-        endtime: iDays
+        endtime: iDays,
+        starttime: overdays
       })
+      console.log("res:",res.data.data)
       that.setData({
-        actdetail: res.data.data,
-        isSign: res.data.data.isSign ? res.data.data.isSign : '0'
+        actdetail: res.data.data
       })
     })
   },
@@ -108,6 +114,14 @@ Page({
       }, 1500)
       return false
     }
+    if (this.data.actdetail.actStatus == 0){
+      wx.showToast({
+        mask: true,
+        icon: 'none',
+        title: '活动还未开始，暂不可投票'
+      }, 1500)
+      return false
+    }
     let stopid = e.currentTarget.id;
     let vote = this.data.actdetail
     let _parms = {
@@ -164,7 +178,12 @@ Page({
     let that = this,
         userType = app.globalData.userInfo.userType,
         shopId = app.globalData.userInfo.shopId;
-    if (this.data.endtime == 0){
+    if (this.data.actdetail.actStatus == 0){
+      wx.showToast({
+        title: '抱歉! 活动还未开始，暂不接受报名',
+        icon: 'none'
+      })
+    }else if (this.data.endtime == 0){
       wx.showToast({
         title: '抱歉! 活动已结束,不再接受报名',
         icon: 'none'
@@ -180,13 +199,15 @@ Page({
         shopId: shopId
       }
       Api.takepartin(_parms).then((res) => {
+        let _data = this.data.actdetail
         if(res.data.code == 0) {
           wx.showToast({
             title: '报名成功!',
             icon: 'none'
           })
+          _data.isSign = 1
           that.setData({
-            isSign: 1
+            actdetail: _data
           });
         } else {
           wx.showToast({

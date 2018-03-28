@@ -18,12 +18,17 @@
       </view>
       <view class='end-time'>
         <image class='end-images' src='/images/icon/xingzhuang_w.png'></image>
-        <text>距离此活动结束还有<text class='timeFate'>{{endtime}}</text>天</text>
+        <text wx:if="{{actdetail.actStatus == 0}}">
+          <text >距离此活动开始还有<text class='timeFate'>{{starttime}}</text>天</text>
+        </text>
+        <text wx:else>
+          <text>距离此活动结束还有<text class='timeFate'>{{endtime}}</text>天</text>
+        </text>
       </view>
       <view class='end-button'>
         <text class='end-activity' bindtap='lookActImg'>活动简介</text>
-        <text wx:if="{{isSign == 1}}" class='end-activity active'>已报名</text>
-        <text wx:else class="end-activity {{endtime==0?'active':''}}" bindtap='takePartIn'>我要报名</text>
+        <text wx:if="{{actdetail.isSign == 1}}" class='end-activity active'>已报名</text>
+        <text wx:else class="end-activity {{endtime==0 || actdetail.actStatus == 0?'active':''}}" bindtap='takePartIn'>我要报名</text>
       </view>
     </view>
     <view class='vote'>
@@ -31,11 +36,11 @@
         <view class="search">
           <view class="search_arr">
             <icon class="searchcion" size='20' type='search' bindtap='selectnum'></icon>
-            <input type='text' class='inputs' placeholder="请输入编号、名称" bindinput="bindInput" bindconfirm="selectnum"/>
+            <input type='text' class='inputs' placeholder="请输入编号、名称" bindinput="bindInput" bindconfirm="selectnum" />
           </view>
         </view>
       </view>
-    
+
       <block wx:for="{{actlist}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
         <view class='merchant-sub' id="{{item.shopId}}" bindtap='clickshop'>
           <view class='merchant-img-left'>
