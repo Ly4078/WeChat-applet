@@ -267,7 +267,7 @@ Page({
         if (res.data.code == 0) {
           wx.showToast({
             title: '提交成功',
-            icon: 'success',
+            icon: 'none',
             duration: 1500
           })
         }

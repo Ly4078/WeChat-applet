@@ -204,7 +204,7 @@ Page({
           },
           fail: function (res) {
             wx.showToast({
-              icon: 'loading',
+              icon: 'none',
               title: '支付取消',
               duration: 1200
             })

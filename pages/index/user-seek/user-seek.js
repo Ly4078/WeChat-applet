@@ -35,6 +35,7 @@ Page({
     if (!_value) {
       // wx.showToast({
       //   title: '请输入关键搜索',
+      //   icon: 'none',
       //   duration: 2000
       // })
       return false

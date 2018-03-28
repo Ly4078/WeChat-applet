@@ -146,7 +146,7 @@ Page({
       if (res.data.code == 0) {
         wx.showToast({
           title: '核销成功',
-          icon: 'success',
+          icon: 'none',
           duration: 2000
         })
         setTimeout(function () {

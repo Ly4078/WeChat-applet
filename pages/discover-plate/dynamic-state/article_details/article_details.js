@@ -114,6 +114,7 @@ Page({
     if (!this.data.commentVal) {
       wx.showToast({
         title: '请输入评论内容',
+        icon: 'none',
         duration: 2000
       })
       this.setData({
@@ -160,6 +161,7 @@ Page({
       if (res.data.code == 0) {
         wx.showToast({
           mask: true,
+          icon: 'none',
           title: '点赞成功'
         }, 1500)
         _details.isZan = 1
@@ -184,6 +186,7 @@ Page({
       if (res.data.code == 0) {
         wx.showToast({
           mask: true,
+          icon: 'none',
           title: '取消成功',
         }, 1500)
         _details.isZan = 0
@@ -214,7 +217,7 @@ Page({
       if (res.data.code == 0) {
         wx.showToast({
           mask: true,
-          icon: 'success',
+          icon: 'none',
           title: '点赞成功'
         }, 1500)
         var _cmtdata = that.data.cmtdata
@@ -245,7 +248,7 @@ Page({
       if (res.data.code == 0) {
         wx.showToast({
           mask: true,
-          icon: 'success',
+          icon: 'none',
           title: '已取消'
         }, 1500)
         let _cmtdata = that.data.cmtdata
@@ -315,7 +318,7 @@ Page({
         if (res.errMsg == 'shareAppMessage:ok') {
           // wx.showToast({
           //   title: '转发成功',
-          //   icon: 'success',
+          //   icon: 'none',
           //   duration: 2000
           // })
           let _parms = {topicId: that.data._id};
