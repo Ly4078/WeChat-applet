@@ -628,10 +628,32 @@ page {
 }
 
 .DescriptionText.foodDescri {
-  width: 550rpx;   
+  width: 550rpx; 
   height: 50rpx;
   letter-spacing: 2rpx;
   overflow: hidden;
   white-space: nowrap;  
   text-overflow:ellipsis; 
+  color: #ffffff;
+  position: absolute;
+  top: -71rpx;
+  left: -30rpx;
+  z-index: 9999;
+}
+
+.foodDescription{
+  position: relative;
+}
+
+.gastronomeName{
+  width: 107%;
+  height: 90rpx;
+  background-color: #191919;
+  opacity: 0.6;
+  position: absolute;
+  top: -100rpx;
+  left: -30rpx;
+  border-bottom-left-radius: 8rpx;
+  border-bottom-right-radius: 8rpx;
+  z-index: 999;
 }

@@ -47,14 +47,14 @@
       </swiper> -->
 
       <!-- 活动打折 -->
-      <!-- <view class='currentTabWrap'>
+       <view class='currentTabWrap'>
         <view>
           <image class='currentTabImg' src='/images/icon/quanhuodong.png'></image>
           <text class='currentTabLose'>{{posts_key[0].store_discount}}折</text>
           <text class='currentTabtext'>购买享七劵</text>
         </view>
         <image class='currentTabjiantou' src='/images/icon/home_arrow.png'></image>
-      </view> -->
+      </view> 
       <!-- <view class='currentTabButton'>
         <image class='voteList' src='/images/icon/votehuodong.png'></image>
         <image class='currentTabjiantou' src='/images/icon/home_arrow.png'></image>

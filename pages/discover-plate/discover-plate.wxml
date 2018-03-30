@@ -60,6 +60,7 @@
       <view class='finddes'>
         <image class='cateWallImg findimg' mode="aspectFill" src='{{item.homePic}}'></image>
         <view class='DescriptionText findtext'>{{item.summary}}</view>
+        <view class='gastronomeName'></view>
       </view>
       <view class='otherdata'>
         <view class='browsing'>

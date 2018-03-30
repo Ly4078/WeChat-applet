@@ -52,6 +52,7 @@
       <text class='catewallText'>{{item.userName}}</text>
     </view>
     <view class='foodDescription'>
+      <view class='gastronomeName'></view>
       <view class='DescriptionText foodDescri'>{{item.summary}}</view>
     </view>
   </view>

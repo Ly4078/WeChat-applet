@@ -353,3 +353,15 @@ scroll_box.initiate-exhibition {
   color: #555555;
   font-size: 24rpx;
 }
+
+.gastronomeName{
+  width: 100%;
+  height: 90rpx;
+  background-color: #191919;
+  opacity: 0.6;
+  position: absolute;
+  top: 300rpx;
+  left: 0rpx;
+  border-bottom-left-radius: 8rpx;
+  border-bottom-right-radius: 8rpx;
+}
