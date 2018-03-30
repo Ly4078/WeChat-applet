@@ -313,7 +313,7 @@ Page({
       })
     }
   },
-  getimg: function (type) {   // 获取图片  公用
+  getimg: function (_type) {   // 获取图片  公用
     let that = this;
     wx.chooseImage({  //获取图片
       count: 1, // 默认9
@@ -334,7 +334,7 @@ Page({
             let _data = res.data;
             _data = JSON.parse(_data);
             let _img = _data.data.smallPicUrl
-            if (type == 'a') {  //添加内容图片
+            if (_type == 'a') {  //添加内容图片
               let obj = {
                 type: 'img',
                 value: _img,
@@ -344,7 +344,7 @@ Page({
               that.setData({
                 content: article
               })
-            } else if (type == 'b') {  //添加封面图片
+            } else if (_type == 'b') {  //添加封面图片
               wx.setStorage({
                 key: 'cover',
                 data: _img
@@ -354,7 +354,7 @@ Page({
               })
             } else {
               let data = that.data.content;
-              data[type].value = _img;
+              data[_type].value = _img;
               that.setData({
                 content: data
               })
