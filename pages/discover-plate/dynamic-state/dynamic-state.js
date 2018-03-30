@@ -233,6 +233,14 @@ Page({
       if (sum[0] != undefined && sum[0] != ''){
         _sum = utils.utf16toEntities(sum[0])
       }
+      if (!_coverimg) {
+        wx.showToast({
+          title: '请设置封面图片',
+          icon: 'none',
+          duration: 1500
+        })
+        return false
+      }
       if (!_title) {
         wx.showToast({
           title: '请输入标题',

@@ -133,7 +133,7 @@ Page({
       content: this.data.commentVal,
       userId: app.globalData.userInfo.userId,
       userName: app.globalData.userInfo.userName,
-      nickName: app.globalData.userInfo.userName,
+      nickName: app.globalData.userInfo.nickName,
     }
     Api.cmtadd(_parms).then((res) => {
       this.setData({
@@ -165,6 +165,7 @@ Page({
           title: '点赞成功'
         }, 1500)
         _details.isZan = 1
+        _details.zan = _details.zan+1
         let _zan = this.data.zan
         _zan++
         that.setData({
@@ -190,6 +191,10 @@ Page({
           title: '取消成功',
         }, 1500)
         _details.isZan = 0
+        _details.zan = _details.zan - 1
+        if (_details.zan <0){
+          _details.zan = 0
+        }
         let _zan = this.data.zan
         _zan--
         this.setData({

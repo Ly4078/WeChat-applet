@@ -61,6 +61,9 @@ Page({
           })
           that.updatauser(res.userInfo)
         }
+      },
+      complete:res =>{
+        this.wxgetsetting()
       }
     })
   },
@@ -101,7 +104,7 @@ Page({
   updatauser: function (data) { //更新用户信息
     let that = this
     let _parms = {
-      userId: app.globalData.userInfo.userId,
+      id: app.globalData.userInfo.userId,
       openId: app.globalData.userInfo.openId,
     }
     if (data.avatarUrl) {
@@ -115,7 +118,9 @@ Page({
     }
     Api.updateuser(_parms).then((res) => {
       if (res.data.code == 0) {
-          // console.log("用户信息更换成功")
+        app.globalData.userInfo.nickName = data.nickName
+        app.globalData.userInfo.iconUrl = data.avatarUrl
+          console.log("用户信息更换成功")
       }
     })
   },
