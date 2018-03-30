@@ -101,11 +101,7 @@ Page({
     })
   },
   onUnload: function () { //生命周期函数--监听页面卸载
-    getApp().globalData.article = []
-    wx.setStorage({
-      key: 'text',
-      data: '',
-    })
+  
   },
   onShow: function () {
   },
@@ -147,7 +143,7 @@ Page({
     this.setData({
       isplus: true
     })
-    wx.navigateTo({
+    wx.redirectTo({
       url: 'text_input/text_input'
     })
   },
@@ -258,7 +254,7 @@ Page({
         title: _title,
         content: _con,
         userId: app.globalData.userInfo.userId,
-        summary: _sum,
+        summary: _title,
         homePic: _coverimg,
         userName: app.globalData.userInfo.userName,
         nickName: app.globalData.userInfo.nickName
@@ -271,6 +267,9 @@ Page({
             duration: 1500
           })
         }
+        this.setData({
+          content:[]
+        })
         setTimeout(function () {
           wx.switchTab({
             url: '../../discover-plate/discover-plate'

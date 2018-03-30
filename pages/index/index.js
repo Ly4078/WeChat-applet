@@ -45,6 +45,11 @@ Page({
   },
   onShow: function () {
     let that = this
+    getApp().globalData.article = []
+    wx.setStorage({
+      key: 'text',
+      data: '',
+    })
     let lat = wx.getStorageSync('lat')
     let lng = wx.getStorageSync('lng')
     if (lat && lng) {
