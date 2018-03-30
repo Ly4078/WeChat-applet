@@ -38,18 +38,13 @@ Page({
     })
     this.getopenid();
   },
-  
-  onReady:function(){
+
+  onReady: function () {
     let lat = '30.51597', lng = '114.34035';  //lat纬度lng经度 初始默认定位到武汉
     this.requestCityName(lat, lng)
   },
   onShow: function () {
     let that = this
-    getApp().globalData.article = []
-    wx.setStorage({
-      key: 'text',
-      data: '',
-    })
     let lat = wx.getStorageSync('lat')
     let lng = wx.getStorageSync('lng')
     if (lat && lng) {
@@ -98,7 +93,7 @@ Page({
     // this.gettopics();
   },
   onReachBottom: function () {  //用户上拉触底加载更多
-    if (this.data.alltopics.length<1){
+    if (this.data.alltopics.length < 1) {
       this.gettopics()
     }
   },
@@ -140,17 +135,17 @@ Page({
           }
         }
         let [...newarr] = arr
-        
+
         this.setData({
           alltopics: newarr,
           restaurant: arr.slice(0, 6), //菜系专题
           service: arr.slice(6, arr.length)
         })
-      }else{
+      } else {
         wx.hideLoading()
         wx.showToast({
           title: res.data.message,
-          icon:'none',
+          icon: 'none',
         })
       }
     })
@@ -164,7 +159,7 @@ Page({
       success: function (res) {
         if (res.data.code == 0) {
           let data = res.data.data;
-            app.globalData.userInfo.userType = data.userType,
+          app.globalData.userInfo.userType = data.userType,
             app.globalData.userInfo.openId = data.openId,
             app.globalData.userInfo.password = data.password,
             app.globalData.userInfo.userId = data.id,
@@ -417,10 +412,10 @@ Page({
     return {
       title: '享七美食',
       path: 'pages/index/index',
-      imageUrl:'https://xq-1256079679.file.myqcloud.com/aaa_wxf91e2a026658e78e.o6zAJs-7D9920jC4XTKdzt72lobs.86hwazjh0Vhk732646790661f7af79f59e5d782d6c2f_0.8.jpg',
+      imageUrl: 'https://xq-1256079679.file.myqcloud.com/aaa_wxf91e2a026658e78e.o6zAJs-7D9920jC4XTKdzt72lobs.86hwazjh0Vhk732646790661f7af79f59e5d782d6c2f_0.8.jpg',
       success: function (res) {
         // 转发成功
-        console.log("res:",res)
+        console.log("res:", res)
       },
       fail: function (res) {
         // 转发失败

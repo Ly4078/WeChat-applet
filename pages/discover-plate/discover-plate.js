@@ -19,6 +19,11 @@ Page({
   },
   onShow: function (options) {
     let that = this;
+    getApp().globalData.article = []
+    wx.setStorage({
+      key: 'text',
+      data: '',
+    })
     this.setData({
       ishotnew: false,
       food: [],

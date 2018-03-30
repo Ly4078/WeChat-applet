@@ -226,5 +226,11 @@ Page({
     wx.navigateTo({
       url: 'aboutMe/aboutMe',
     })
-  }
+  },
+  theHostApplication: function (e) {
+    wx.showToast({
+      icon: 'none',
+      title: '该功能即将开放...',
+    })
+  },
 })

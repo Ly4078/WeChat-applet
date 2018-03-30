@@ -54,10 +54,10 @@
       </view>
     </view>
     <view class='myList'>
-      <view class='myList-single'>
+      <view class='myList-single' catchtap='theHostApplication'>
         <view>
           <image class='myListImages' src='/images/icon/anchor_join.png'></image>
-          <text class='mylistText'>主播招募</text>
+          <text class='mylistText'>吃播申请</text>
         </view>
         <image class='myListArrows' src='/images/icon/home_arrow.png'></image>
       </view>
