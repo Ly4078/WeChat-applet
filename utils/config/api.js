@@ -179,6 +179,10 @@ const ALL_API = {
   getFreeTicket: {    //获取免费票券
     method: 'POST',
     url: 'so/freeOrder'
+  },
+  selectByShopId:{  //获取商家活动
+    method:'GET',
+    url:'pnr/selectByShopId'
   }
 }
 

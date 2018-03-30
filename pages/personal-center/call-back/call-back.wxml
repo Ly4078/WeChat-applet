@@ -8,7 +8,7 @@
 
     <view>
       <view class="discountInfo">
-        <text class="discountTicket">{{ticketsinfo.skuName}}({{ticketsinfo.promotionRules[0].ruleDesc}})</text>
+        <text class="discountTicket">{{ticketsinfo.skuName}}</text>
         <text class="discountMoney discountMoney">-{{ticketsinfo.couponAmount}}</text>
       </view>
     </view>

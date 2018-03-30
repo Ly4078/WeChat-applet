@@ -1,7 +1,7 @@
 <view>
   <view class='particulars'>
     <view class='particulars_details'>
-      <text class='particulars_text'>{{obj.inp}}元平台劵</text>
+      <text class='particulars_text'>{{obj.inp}}元现金劵</text>
       <text>￥{{obj.sell}}</text>
     </view>
   </view>

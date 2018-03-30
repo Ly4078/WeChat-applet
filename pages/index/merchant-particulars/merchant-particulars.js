@@ -14,6 +14,7 @@ Page({
     isComment: false,
     store_images: '',
     merchantArt: [],   //商家动态列表
+    activity:[],   //商家活动列表
     article_page: 1,
     reFresh: true
   },
@@ -22,6 +23,7 @@ Page({
       shopid: options.shopid
     });
     this.getstoredata();
+    this.selectByShopId();
     this.recommendation();
     this.isCollected();
     this.merchantArt();
@@ -73,6 +75,21 @@ Page({
       }
     })
   },
+  selectByShopId:function(){  //获取商家活动列表
+     let id = this.data.shopid;
+    let that = this;
+    let _parms = {
+      shopId:id
+    }
+    Api.selectByShopId(_parms).then((res) => {
+      if (res.data.code == 0) {
+        console.log("res:",res)
+        that.setData({
+          activity:res.data.data
+        })
+      }
+    })
+  },
   //商户动态上拉加载
   onReachBottom: function () {
     if (this.data.currentTab == 1 && this.data.reFresh) {
@@ -84,6 +101,20 @@ Page({
       });
       this.merchantArt();
     }
+  },
+  buynow:function(ev){  //点击立即购买
+    let skuid = ev.currentTarget.id
+    let _sell = '',_inp='',_rule=''
+    for (let i = 0; i < this.data.activity.length;i++){
+      if (skuid == this.data.activity[i].skuId){
+        _sell = this.data.activity[i].sellPrice;
+        _inp = this.data.activity[i].inPrice;
+        _rule = this.data.activity[i].ruleDesc;
+      }
+    }
+    wx.navigateTo({
+      url: '../voucher-details/voucher-details?id=' + skuid + "&sell=" + _sell + "&inp=" + _inp + "&rule=" + _rule,
+    })
   },
   //推荐菜列表
   recommendation: function () {

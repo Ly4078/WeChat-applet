@@ -2,8 +2,8 @@
   <view class='detailsWarp'>
     <image class='detailsImg' src='/images/icon/quan.png'></image>
     <view class='speciesWrap'>
-      <text class='speciesText'>{{obj.inp}}元平台劵</text>
-      <text class='spaeciescondition'>{{obj.rule}}</text>
+      <text class='speciesText'>{{obj.inp}}元现金劵</text>
+      <!-- <text class='spaeciescondition'>{{obj.rule}}</text> -->
     </view>
   </view>
   <view class='countersign'>
@@ -15,7 +15,7 @@
       </view>
       
       <view class='countersign-past-due'>
-        <text>{{obj.inp}}元代金券</text>
+        <text>{{obj.inp}}元现金劵</text>
         <!-- <text class='discount-number'>{{sell/obj.inp*10}}折</text> -->
       </view>
     </view>

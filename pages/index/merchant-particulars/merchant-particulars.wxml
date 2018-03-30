@@ -45,16 +45,26 @@
           </swiper-item>
         </block>
       </swiper> -->
-
+      <view class='doing' wx:for="{{activity}}" wx:key="{{index}}">
+        <view class='doinglist'>
+          <image class='doimg' src='/images/icon/quanhuodong.png'></image>
+          <view class='dotext'>
+            <text class='manj'>{{item.ruleDesc}}\n</text>
+            <text class='nowtext'>{{item.sellPrice}}元</text>
+            <text class='original'>{{item.inPrice}}元</text>
+          </view>
+          <button class='buynow' id="{{item.skuId}}" catchtap='buynow'>立即购买</button>
+        </view>
+      </view>
       <!-- 活动打折 -->
-       <view class='currentTabWrap'>
-        <view>
+      <!-- <view class='currentTabWrap'>
+         <view>
           <image class='currentTabImg' src='/images/icon/quanhuodong.png'></image>
           <text class='currentTabLose'>{{posts_key[0].store_discount}}折</text>
           <text class='currentTabtext'>购买享七劵</text>
-        </view>
-        <image class='currentTabjiantou' src='/images/icon/home_arrow.png'></image>
-      </view> 
+        </view> 
+         <image class='currentTabjiantou' src='/images/icon/home_arrow.png'></image> 
+      </view> -->
       <!-- <view class='currentTabButton'>
         <image class='voteList' src='/images/icon/votehuodong.png'></image>
         <image class='currentTabjiantou' src='/images/icon/home_arrow.png'></image>

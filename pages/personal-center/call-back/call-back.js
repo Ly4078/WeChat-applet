@@ -98,16 +98,18 @@ Page({
   bindinput: function (ev) {  //实时获取金额和计算
     let _value = ev.detail.value
     let _data = this.data.ticketsinfo
-    if (_value != '') {
+    if(_value == '' && _value == undefined && _value == null){
+      wx.showToast({
+        title: '请输入消费金额',
+        icon: 'none',
+        duration: 2000
+      })
+        return false
+    }else{
       let _pay = _value * 1 - _data.couponAmount * 1
-      let diff = _value - this.data.price
-      if(diff<0){
+      if(_pay>0){
         this.setData({
-          okhx: false
-        })
-      }else{
-        this.setData({
-          okhx: true
+          okhx:true
         })
       }
       this.setData({
