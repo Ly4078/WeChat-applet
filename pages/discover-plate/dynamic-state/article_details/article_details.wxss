@@ -159,6 +159,7 @@ button[plain]{
   position: relative;
   top: 122rpx;
   left: 254.5rpx;
+  padding-bottom: 60rpx;
 }
   /*
   底部评论相关

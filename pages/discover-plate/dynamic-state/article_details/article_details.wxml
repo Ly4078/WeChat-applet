@@ -36,16 +36,16 @@
         <image wx:else src='/images/icon/home_zan.png' class='homezan' catchtap='dianzanwz'></image>
       </view>
     </view>
-    <!-- <view class='sharetitle'>分享文章</view> -->
+    <view class='sharetitle'>文章评价</view>
     <!-- <view class='sharebox'>
       <button wx:if="{{_id}}" class='sharebut' bindtap='share' plain="true" data-name="shareBtn" open-type="share">
-      <image class='shareimgl' src='/images/icon/find_article_wechat.png'></image>
-      <image class='shareimgr' src='/images/icon/find_article_mine.png'></image>
+        <image class='shareimgl' src='/images/icon/find_article_wechat.png'></image>
+        <image class='shareimgr' src='/images/icon/find_article_mine.png'></image>
       </button>
       <view class='text_wx'>微信</view>
       <view class='text_pyq' bindtap='share'>朋友圈</view>
     </view> -->
-    
+
   </view>
 
   <view wx:if="{{_id}}" class='but'>
