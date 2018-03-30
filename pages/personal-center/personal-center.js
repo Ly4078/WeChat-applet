@@ -120,7 +120,6 @@ Page({
       if (res.data.code == 0) {
         app.globalData.userInfo.nickName = data.nickName
         app.globalData.userInfo.iconUrl = data.avatarUrl
-          console.log("用户信息更换成功")
       }
     })
   },
@@ -135,9 +134,56 @@ Page({
       }
     })
   },
-  enterEntrance: function (event) {
-    wx.navigateTo({
-      url: 'free-of-charge/free-of-charge',
+  enterEntrance: function (event) { //点击免费入驻
+    wx.getSetting({
+      success: (res) => {
+        if (!res.authSetting['scope.userInfo']) { // 用户未授受获取其用户信息或位置信息
+          wx.showModal({
+            title: '提示',
+            content: '商家入驻必须授权用户信息',
+            success: function (res) {
+              if (res.confirm) {
+                wx.openSetting({  //打开授权设置界面
+                  success: (res) => {
+                    if (res.authSetting['scope.userInfo']) {
+                      this.getuserInf()
+                    }
+                  }
+                })
+              }
+            }
+          })
+        } else{
+          wx.navigateTo({
+            url: 'free-of-charge/free-of-charge',
+          })
+        }
+      }
+    })
+  },
+  getuserInf:function(){
+    let that = this
+    wx.getUserInfo({
+      success: function (res) {
+        wx.navigateTo({
+          url: 'free-of-charge/free-of-charge',
+        })
+        app.globalData.userInfo.iconUrl = res.userInfo.avatarUrl
+        app.globalData.userInfo.nickName = res.userInfo.nickName
+        let _parms = {
+          userId: app.globalData.userInfo.userId,
+          openId: app.globalData.userInfo.openId,
+          iconUrl: res.userInfo.avatarUrl,
+          nickName: res.userInfo.nickName,
+          sex: res.userInfo.gender
+        }
+        Api.updateuser(_parms).then((res) => {
+          if (res.data.code == 0) {
+            app.globalData.userInfo.nickName = data.nickName
+            app.globalData.userInfo.iconUrl = data.avatarUrl
+          }
+        })
+      }
     })
   },
   DynamicState: function (e) {
