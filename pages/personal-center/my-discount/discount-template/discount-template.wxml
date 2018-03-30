@@ -4,7 +4,6 @@
       <view class='security-top'>
         <view class='security-top-left'>
           <text class='security-money {{item.isUsed == 1 ? "isGray" : ""}}'>￥<text class='security-money-se'>{{item.couponAmount}}</text></text>
-          <text class='security-available'>{{item.promotionRules[0].ruleDesc}}</text>
         </view>
         <view class='security-top-right'>
           <view wx:if="{{item.isDue == 1}}" class='my-immediateUse isGray'>已过期</view>

@@ -26,6 +26,8 @@
 
 .security-money{
   display: block;
+  height: 162rpx;
+  line-height: 162rpx;
   font-size: 40rpx;
   color: #FC5E2D;
 }

@@ -74,26 +74,29 @@
   height: 152rpx;
   padding-top: 36rpx;
   box-sizing: border-box;
-}
-
-.logo-right-condition, .roll-unused {
   display: flex;
   justify-content: space-between;
-  width: 100%;
 }
 
-.logo-right-condition text:first-child {
-  font-size: 36rpx;
+.logo-right-condition text {
+  display: block;
+  font-size: 40rpx;
   color: #191919;
-}
-
-.logo-right-condition text:last-child, .roll-unused text:last-child {
-  color: #b1b1b1;
-  font-size: 26rpx;
+  padding-top: 20rpx;
 }
 
 .roll-unused {
   margin-top: 16rpx;
+  /* height: 150rpx; */
+}
+
+.roll-unused text {
+  display: block;
+}
+
+.roll-unused text:last-child {
+  color: #b1b1b1;
+  font-size: 26rpx;
 }
 
 .roll-unused text:first-child {

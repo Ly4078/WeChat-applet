@@ -20,10 +20,9 @@
         <view class='logo-right-top'>
           <view class='logo-right-condition'>
             <text>{{item.skuName}}</text>
-            <text>{{item.unitPrice}}</text>
           </view>
           <view class='roll-unused'>
-            <text>{{item.ruleDesc}}</text>
+            <text>{{item.unitPrice}}</text>
             <text>X {{item.skuNum}}</text>
           </view>
         </view>
