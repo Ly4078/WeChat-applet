@@ -75,7 +75,7 @@
   text-align: justify;
 }
 .mindill{
-  margin-bottom: 100rpx;
+  margin-bottom: 30rpx;
 }
 .midimg{
   width: 694rpx;
@@ -150,7 +150,7 @@ button[plain]{
   margin-right: 220rpx;
 }
 .sharetitle{
-  width: 100%;
+  width: 550rpx;
   height: 40rpx;
   color: #B1B1B1;
   font-size: 30rpx;
