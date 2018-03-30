@@ -151,6 +151,7 @@ Page({
     let that = this;
     let ind = e.currentTarget.id;
     if (this.data.content[ind].type == 'img') {
+      console.log(this.data.content[ind])
       this.getimg(ind)
     }
   },
@@ -330,7 +331,7 @@ Page({
             'userName': app.globalData.userInfo.userName
           },
           success: function (res) {
-            var article = getApp().globalData.article;  //获取全局变量
+            let article = getApp().globalData.article;  //获取全局变量
             let _data = res.data;
             _data = JSON.parse(_data);
             let _img = _data.data.smallPicUrl
@@ -355,8 +356,10 @@ Page({
             } else {
               let data = that.data.content;
               data[_type].value = _img;
+              article[_type].value = _img;
               that.setData({
-                content: data
+                content: data,
+                article:data
               })
             }
           },
