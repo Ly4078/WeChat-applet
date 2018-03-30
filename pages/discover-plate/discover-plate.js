@@ -58,11 +58,11 @@ Page({
     })
   },
   getfood: function (_type, data) {
+    let that = this
     wx.showLoading({
       title:'数据加载中。。。',
       mask:true
     })
-    let that = this;
     let _parms = {
       page: this.data.page,
       row: 8
@@ -85,7 +85,7 @@ Page({
             footList[i].timeDiffrence = utils.timeDiffrence(res.data.currentTime, footList[i].updateTime, footList[i].createTime)
             _data.push(footList[i]);
           }
-          
+
           this.setData({
             food: _data
           })
@@ -130,11 +130,11 @@ Page({
     })
   },
   onReachBottom: function () {  //用户上拉触底
+    let that = this
     if (this.data.flag) {
       wx.showLoading({
         title: '加载中..'
       })
-      let that = this
       this.setData({
         ishotnew: false,
         page: this.data.page + 1
@@ -164,6 +164,8 @@ Page({
     this.setData({
       ishotnew: false,
       food:[],
+      page: 1,
+      flag:true,
       isscelect: 1,
       choicetype:''
     })
@@ -174,6 +176,8 @@ Page({
     this.setData({
       ishotnew: false,
       food: [],
+      page: 1,
+      flag: true,
       isscelect: 2,
       choicetype:'2'
     })
@@ -183,6 +187,8 @@ Page({
     this.setData({
       ishotnew: false,
       food: [],
+      page: 1,
+      flag: true,
       isscelect: 3,
       choicetype: '1'
     })

@@ -9,6 +9,7 @@ Page({
     fooddatas: ['全部',"日本菜", "自助餐", "私房菜", "家常菜", "下午茶", "创意菜", "湖北菜", "粉面馆", "川菜", "卤味", "湘菜", "粤菜", "咖啡厅", "小龙虾", "火锅", "海鲜", "烧烤", "小吃快餐", "江浙菜", "韩国料理", "东南亚菜", "西餐", "自助餐", "面包甜点", "其他美食"],
     sortingdatas: ['全部','人气排序'],
     page: 1,
+    isclosure:false,
     isScroll: true,
     ismodel: false,
     isnearby: false,
@@ -25,7 +26,9 @@ Page({
   },
   onShow: function () {
     this.setData({
-      posts_key: []
+      posts_key: [],
+      page:1,
+      isclosure: true
     })
     this.getData()
   },
@@ -66,22 +69,26 @@ Page({
         let that = this
         wx.hideLoading()
         let data = res.data;
-        if (data.code == 0 && data.data.list != null && data.data.list != "" && data.data.list != []) {
-          wx.stopPullDownRefresh()
-          let posts = this.data.posts_key;
-          let _data = data.data.list
-          for (let i = 0; i < _data.length; i++) {
-            _data[i].distance = utils.transformLength(_data[i].distance)
-            posts.push(_data[i])
+        if (data.code == 0){
+          if (data.data.list != null && data.data.list != "" && data.data.list != []) {
+            wx.stopPullDownRefresh()
+            let posts = this.data.posts_key;
+            let _data = data.data.list
+            for (let i = 0; i < _data.length; i++) {
+              _data[i].distance = utils.transformLength(_data[i].distance)
+              posts.push(_data[i])
+            }
+            that.setData({
+              posts_key: posts
+            })
+          }else{
+            this.setData({
+              isclosure:false
+            })
           }
-          that.setData({
-            posts_key: posts
-          })
         }
       })
     }
-
-
   },
   onInputText: function (e) { //获取搜索框内的值
     // this.setData({
@@ -117,9 +124,14 @@ Page({
     })
   },
   onReachBottom: function () {  //用户上拉触底加载更多
+    if (!this.data.isclosure){
+      return false
+    }
+    let oldpage = this.data.page
     this.setData({
       page: this.data.page + 1
     });
+
     this.getData()
   },
   onPullDownRefresh: function () {
