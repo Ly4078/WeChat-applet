@@ -66,6 +66,7 @@ Page({
       })
     } else {
       Api.shoplist(_parms).then((res) => {
+        console.log('返回的数据:',res)
         let that = this
         wx.hideLoading()
         let data = res.data;

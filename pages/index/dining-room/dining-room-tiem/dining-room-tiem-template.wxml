@@ -34,7 +34,7 @@
         </view> -->
         <view class='navigationKb_Wrapp'>
           <image class='navigationKb_img' src='/images/icon/restaurant_ticket.png'></image>
-          <text class='navigationKb_text'>购买享7代金劵</text>
+          <text class='navigationKb_text navigationQdis'>满200减20元,满200减20元,满200减20元,满200减20元,</text>
         </view>
         <!-- <view class='navigationKb_Wrapp'>
           <image class='navigationKb_img' src='/images/icon/restaurant_detrusion.png'></image>

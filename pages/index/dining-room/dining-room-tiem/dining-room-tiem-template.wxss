@@ -84,11 +84,6 @@
   display: block;
 }
 
-.navigationKb_text {
-  font-size: 13px;
-  color: #808080;
-}
-
 .navigationKb_Wrapp {
   display: block;
 }
@@ -100,8 +95,4 @@
   padding-right: 10rpx;
 }
 
-.navigationKb_text {
-  font-size: 13px;
-  color: #808080;
-}
 

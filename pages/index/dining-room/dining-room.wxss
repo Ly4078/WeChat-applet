@@ -227,6 +227,12 @@
 
 .navigationKb_Wrapp {
   display: block;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  word-break: break-all;
+  height: 50rpx;
 }
 
 .navigationKb_img {
