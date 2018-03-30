@@ -233,6 +233,7 @@
   -webkit-box-orient: vertical;
   word-break: break-all;
   height: 50rpx;
+  padding-right: 50rpx;
 }
 
 .navigationKb_img {
