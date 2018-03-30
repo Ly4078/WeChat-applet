@@ -52,7 +52,7 @@
       <text class='catewallText'>{{item.userName}}</text>
     </view>
     <view class='foodDescription'>
-      <view class='DescriptionText'>{{item.summary}}</view>
+      <view class='DescriptionText foodDescri'>{{item.summary}}</view>
     </view>
   </view>
 </template>

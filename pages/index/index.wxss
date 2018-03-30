@@ -626,3 +626,12 @@ page {
   color: #808080;
   display: block;
 }
+
+.DescriptionText.foodDescri {
+  width: 550rpx;   
+  height: 50rpx;
+  letter-spacing: 2rpx;
+  overflow: hidden;
+  white-space: nowrap;  
+  text-overflow:ellipsis; 
+}
