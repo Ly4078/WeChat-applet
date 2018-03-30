@@ -106,7 +106,7 @@ Page({
       })
         return false
     }else{
-      let _pay = _value * 1 - _data.couponAmount * 1
+      let _pay = _value * 1 - _data.couponAmount * 1 > 0 ? _value * 1 - _data.couponAmount * 1:''
       if(_pay>0){
         this.setData({
           okhx:true
