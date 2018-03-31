@@ -181,7 +181,7 @@ Page({
       key: 'isIll',
       data: true,
     })
-    wx.navigateTo({
+    wx.redirectTo({
       url: 'text_input/text_input'
     })
   },

@@ -195,10 +195,15 @@ Page({
     this.getfood()
   },
   sect: function () {  //点击最新/最热
+    let that = this
     this.setData({
-      ishotnew: false,
       ishotnew: true
     })
+    setTimeout(function () {
+      that.setData({
+        ishotnew: false
+      })
+    },2000)
   },
   mostnew: function () { //选择最新
     this.setData({

@@ -234,6 +234,12 @@ Page({
               _value = _data[i]
             }
           }
+          this.setData({
+            businessCate:'',
+            browSort:'',
+            posts_key: [],
+            page: 1
+          })
           this.closemodel()
           this.getData()
         }
@@ -254,7 +260,8 @@ Page({
     }
     this.setData({
       businessCate: _value,
-      posts_key: []
+      posts_key: [],
+      page:1
     })
     this.closemodel()
     this.getData()
@@ -271,7 +278,8 @@ Page({
     if (id == 0) {
       this.setData({
         browSort: '',
-        posts_key: []
+        posts_key: [],
+        page: 1
       })
     }else{
       this.setData({

@@ -184,6 +184,7 @@ scroll_box.initiate-exhibition {
   position: fixed;
   bottom: 63rpx;
   right: 60rpx;
+  z-index: 6666;
 }
 
 .articlelist{

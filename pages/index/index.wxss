@@ -462,7 +462,9 @@ page {
 .classOfImages {
   width: 694rpx;
   height: 180rpx;
-  padding-top: 30rpx;
+  background: red;
+  margin-top: 30rpx; 
+  z-index: 3333;
 }
 
 .special-merchant {

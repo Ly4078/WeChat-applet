@@ -157,7 +157,7 @@
 <template name="CreateEmailAlerts">
   <view class='classOfService'>
     <view class='classOfPadding'>
-      <image class='classOfImages' id="{{item.img.id}}" catchtap='clickimg'  mode="aspectFill" src='{{item.img.imgUrl}}'></image>
+      <image class='classOfImages' id="{{item.img.id}}" catchtap='clickimg'  mode="aspectFit" src='{{item.img.imgUrl}}'></image>
 
       <view class='special-merchant' wx:if="{{item.data[0].id}}" id="{{item.data[0].id}}" catchtap='clickcon'>
         <image class='merchant-img' mode="aspectFill" src='{{item.data[0].logoUrl}}'></image>
