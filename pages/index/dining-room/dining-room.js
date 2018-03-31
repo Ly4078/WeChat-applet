@@ -67,7 +67,6 @@ Page({
       })
     } else {
       Api.shoplist(_parms).then((res) => {
-        console.log('返回的数据:',res)
         let that = this
         wx.hideLoading()
         let data = res.data;
@@ -238,6 +237,7 @@ Page({
             businessCate:'',
             browSort:'',
             posts_key: [],
+            isclosure:true,
             page: 1
           })
           this.closemodel()
@@ -259,6 +259,7 @@ Page({
       _value = ''
     }
     this.setData({
+      isclosure: true,
       businessCate: _value,
       posts_key: [],
       page:1
@@ -278,6 +279,7 @@ Page({
     if (id == 0) {
       this.setData({
         browSort: '',
+        isclosure: true,
         posts_key: [],
         page: 1
       })

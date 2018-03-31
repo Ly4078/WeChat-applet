@@ -271,8 +271,8 @@ scroll_box.initiate-exhibition {
   width: 694rpx;
   border-bottom: 1rpx solid #FC5E2D;
   position: fixed;
-  background: #fff;
-  z-index: 1000;
+   background: #fff; 
+  z-index: 9999;
 }
 
 .topall, .topbus, .topper{

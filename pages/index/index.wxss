@@ -7,6 +7,7 @@ page {
 .container {
   display: flex;
   flex-direction: column;
+  padding-top: 100rpx;
 }
 
 .headSeek {
@@ -18,6 +19,10 @@ page {
   align-items: center;
   height: 100rpx;
   width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 99999;
 }
 
 .usingTheVolumeBox {
@@ -465,6 +470,7 @@ page {
   background: red;
   margin-top: 30rpx; 
   z-index: 3333;
+  border-radius: 15rpx;
 }
 
 .special-merchant {
