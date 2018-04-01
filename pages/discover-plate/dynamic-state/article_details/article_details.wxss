@@ -118,11 +118,10 @@
 }
 .sharebox{
   width: 694rpx;
-  height: 164rpx;
-  padding-top:66rpx; 
-  margin: 102rpx 0 50rpx;
+  height: 2rpx;
+  padding-top:20rpx; 
+  margin: 42rpx 0 0 0;
   border-top:1rpx solid #EBEBEB; 
-  border-bottom:1rpx solid #EBEBEB; 
 }
 .sharebut{
   background: red;
@@ -150,16 +149,15 @@ button[plain]{
   margin-right: 220rpx;
 }
 .sharetitle{
-  width: 550rpx;
-  height: 40rpx;
-  color: #B1B1B1;
-  font-size: 30rpx;
-  text-align: left;
-  background: #fff;
-  position: relative;
-  top: 101rpx;
-  left: 59.5rpx;
-  padding-bottom: 80rpx;
+width: 185rpx;
+height: 40rpx;
+color: #B1B1B1;
+font-size: 30rpx;
+text-align: left;
+background: #fff;
+position: relative;
+top: 62rpx;
+left: 254.5rpx;
 }
   /*
   底部评论相关
@@ -173,6 +171,9 @@ button[plain]{
   .evaluate-maximum {
   /* background-color: white; */
   padding: 0rpx 30rpx;
+}
+.evaluate-maximum::first-child {
+  padding-top: 30rpx;
 }
 .evaluate-wrap {
   height: 80rpx;

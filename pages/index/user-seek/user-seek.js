@@ -61,6 +61,7 @@ Page({
             let _data = res.data.data.list
             for (let i = 0; i < _data.length; i++) {
               _data[i].distance = utils.transformLength(_data[i].distance)
+              _data[i].activity = _data[i].ruleDescs ? _data[i].ruleDescs.join(',') : '';
               busarr.push(_data[i])
             }
             that.setData({

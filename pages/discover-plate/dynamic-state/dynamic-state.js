@@ -204,10 +204,16 @@ Page({
     })
   },
   FormSubmit(e) {  // 点击按钮
+    let that = this
+    wx.showToast({
+      title: '正在提交，请稍后',
+      mask:'true',
+      icon: 'none',
+      duration: 2000
+    })
     let ind = e.currentTarget.id
     if (ind == 0) {  //  ['预览','提交','退出文章编辑']
       let [..._data] = this.data.content
-      
       _data= JSON.stringify(_data)
       wx.navigateTo({
         content: [],   //文章内容数据
@@ -270,33 +276,33 @@ Page({
       }
       Api.topicadd(_parms).then((res) => {
         if (res.data.code == 0) {
-          wx.showToast({
-            title: '提交成功',
-            icon: 'none',
-            duration: 1500
-          })
+          
+          setTimeout(function () {
+            wx.showToast({
+              title: '提交成功',
+              icon: 'none',
+              duration: 1500
+            })
+            that.setData({
+              content: []
+            })
+            wx.switchTab({
+              url: '../../discover-plate/discover-plate'
+            })
+            wx.setStorage({
+              key: 'cover',
+              data: ''
+            })
+            wx.setStorage({
+              key: 'title',
+              data: '',
+            })
+            wx.setStorage({
+              key: 'text',
+              data: '',
+            })
+          }, 1500)
         }
-        this.setData({
-          content:[]
-        })
-        setTimeout(function () {
-          wx.switchTab({
-            url: '../../discover-plate/discover-plate'
-          })
-          wx.setStorage({
-            key: 'cover',
-            data: ''
-          })
-          wx.setStorage({
-            key: 'title',
-            data: '',
-          })
-          wx.setStorage({
-            key: 'text',
-            data: '',
-          })
-        }, 1500)
-
       })
     } else if (ind == 2) {
       wx.showModal({

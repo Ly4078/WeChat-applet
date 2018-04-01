@@ -1,6 +1,6 @@
-<view class="header">
+<!-- <view class="header">
   <input placeholder="请输入地址" bindblur="searchAddress" bindconfirm="searchAddress" />
-</view>
+</view> -->
 <view>
   <view class="dqtitle">当前地址</view>
   <view class="current-site">

@@ -467,7 +467,6 @@ page {
 .classOfImages {
   width: 694rpx;
   height: 180rpx;
-  background: red;
   margin-top: 30rpx; 
   z-index: 3333;
   border-radius: 15rpx;

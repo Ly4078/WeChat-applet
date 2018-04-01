@@ -103,7 +103,6 @@ button{
 }
 
 .record_rwap{
-  width: 86%;
   margin-left: 32rpx;
   overflow: hidden;
 }

@@ -16,7 +16,6 @@ page {
 }
 
 .gitkuoda{
-  display: inline-block;
   width: 20%;
   display: flex;
   justify-content: space-between;
@@ -84,14 +83,14 @@ page {
   margin-left: 18rpx;
   font-size: 30rpx;
   color: #b1b1b1;
-  width: 50%;
+  width: 350rpx;
 }
 
 .message-text-suo {
   margin-left: 18rpx;
   font-size: 30rpx;
   color: #b1b1b1;
-  width: 65%;
+  width: 400rpx;
 }
 
 .message-name {
