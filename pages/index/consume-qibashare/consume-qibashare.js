@@ -44,8 +44,8 @@ Page({
     for (let i = 0; i < _arr.length; i++) {
       if (id == _arr[i].id) {
         _sellPrice = _arr[i].sellPrice,
-          _inPrice = _arr[i].inPrice,
-          _ruleDesc = _arr[i].promotionRules[0].ruleDesc
+        _inPrice = _arr[i].inPrice,
+        _ruleDesc = _arr[i].promotionRules[0].ruleDesc
       }
     }
     wx.navigateTo({

@@ -38,15 +38,20 @@ Page({
     })
     this.getopenid();
   },
-
-  onReady: function () {
-    let lat = '30.51597', lng = '114.34035';  //lat纬度lng经度 初始默认定位到武汉
-    this.requestCityName(lat, lng)
-  },
+  // onReady: function () {
+  //   let lat = '30.51597', lng = '114.34035';  //lat纬度lng经度 初始默认定位到武汉
+  //   this.requestCityName(lat, lng)
+  // },
   onShow: function () {
     let that = this
     let lat = wx.getStorageSync('lat')
     let lng = wx.getStorageSync('lng')
+    if(!app.globalData.userInfo.city){
+      lat = '30.51597', lng = '114.34035';
+    }else{
+      return false
+    }
+
     if (lat && lng) {
       setTimeout(function () {
         that.requestCityName(lat, lng)
@@ -78,7 +83,7 @@ Page({
             }
             this.getuser()
             this.getlocation()
-            this.getmoredata()
+            // this.getmoredata()
           })
         }
       }
@@ -159,7 +164,7 @@ Page({
       success: function (res) {
         if (res.data.code == 0) {
           let data = res.data.data;
-          app.globalData.userInfo.userType = data.userType,
+            app.globalData.userInfo.userType = data.userType,
             app.globalData.userInfo.openId = data.openId,
             app.globalData.userInfo.password = data.password,
             app.globalData.userInfo.userId = data.id,
