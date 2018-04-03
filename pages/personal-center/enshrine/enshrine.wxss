@@ -58,6 +58,10 @@ page{
 .enshrine-name{
   font-size: 32rpx;
   color: #1E1E1E;
+  display:block;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  overflow:hidden;
 }
 
 .enshrine-dynamic{
