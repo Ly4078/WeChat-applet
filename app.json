@@ -1,6 +1,5 @@
 {
   "pages": [
-    "pages/index/registered/registered",
     "pages/index/index",
     "pages/personal-center/aboutMe/aboutMe",
     "pages/personal-center/aboutMe/officialWebsite/officialWebsite",

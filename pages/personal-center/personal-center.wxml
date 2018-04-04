@@ -1,7 +1,10 @@
 <view>
   <view class='centreWrap'>
     <view class='centreTopName'>
-      <image class='centreImages' src='{{iconUrl}}' catchtap='wxgetsetting'></image>
+     <button wx:if="{{ismobile}}" class='wxreg' open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">
+    <image class='centreImages' src='{{iconUrl}}' catchtap='wxgetsetting'></image>
+    </button> 
+      <image wx:else class='centreImages' src='{{iconUrl}}' catchtap='wxgetsetting'></image>
       <view class='centreText' catchtap='wxgetsetting'>{{nickName}}</view>
     </view>
     <view class='messageCase'>

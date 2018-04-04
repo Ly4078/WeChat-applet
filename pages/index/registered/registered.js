@@ -73,6 +73,37 @@ Page({
   },
   getPhoneNumber: function (e) { //获取用户授权的电话号码
     let _detail = e.detail
+    let that = this
+    wx.login({
+      success: res => {
+        if (res.code) {
+          let _parms = {
+            code: res.code
+          }
+          Api.getOpenId(_parms).then((res) => {
+            if (res.data.code == 0) {
+              app.globalData.userInfo.openId = res.data.data.openId,
+                app.globalData.userInfo.sessionKey = res.data.data.sessionKey
+              let _pars = {
+                sessionKey: res.data.data.sessionKey,
+                ivData: msg.iv,
+                encrypData: msg.encryptedData
+              }
+              Api.phoneAES(_pars).then((res) => {
+                if (res.data.code == 0) {
+                  let _data = JSON.parse(res.data.data)
+                  that.setData({
+                    phone: _data.phoneNumber
+                  })
+                }
+              })
+            }
+          })
+        }
+      }
+    })
+
+
     this.getphone(_detail)
   },
   getphone: function (msg) {//获取用户电话号码

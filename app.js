@@ -26,6 +26,7 @@ App({
       userName: '',
       nikcName: '',
       phone:'',
+      mobile:'',
       iconUrl: 'https://xq-1256079679.file.myqcloud.com/test_wxf91e2a026658e78e.o6zAJs-7D9920jC4XTKdzt72lobs.1hRpd2kGdEiOa3b258766fa20678a0bf8984308a16f9_0.3.jpg',
       sourceType: '1',
       city: '',

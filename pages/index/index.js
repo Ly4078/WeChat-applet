@@ -36,7 +36,7 @@ Page({
     updateManager.onUpdateFailed(function () {
       // 新的版本下载失败
     })
-    this.getlocation()
+    this.getuseradd()
   },
   onShow: function () {
     let that = this
@@ -54,6 +54,52 @@ Page({
         wx.removeStorageSync('lng')
       }, 500)
     }
+  },
+  getuseradd: function () {  //获取用户userid
+    wx.login({
+      success: res => {
+        let _code = res.code;
+        // console.log("code:", _code)
+        // return false  //此处返回，获取的code是没有用过的，用于测试
+        if (res.code) {
+          let _parms = {
+            code: res.code
+          }
+          Api.useradd(_parms).then((res) => {
+            if (res.data.data) {
+              app.globalData.userInfo.userId = res.data.data
+              this.getuser()
+              this.getlocation()
+            }
+          })
+        }
+      }
+    })
+  },
+  getuser: function () { //从自己的服务器获取用户信息
+    let that = this
+    wx.request({
+      url: this.data._build_url + 'user/get/' + app.globalData.userInfo.userId,
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        if (res.data.code == 0) {
+          let data = res.data.data;
+          app.globalData.userInfo.userType = data.userType,
+            app.globalData.userInfo.openId = data.openId,
+            app.globalData.userInfo.password = data.password,
+            app.globalData.userInfo.shopId = data.shopId ? data.shopId : '',
+            app.globalData.userInfo.userName = data.userName,
+            app.globalData.userInfo.nickName = data.nickName,
+            app.globalData.userInfo.loginTimes = data.loginTimes,
+            app.globalData.userInfo.iconUrl = data.iconUrl,
+            app.globalData.userInfo.sourceType = data.sourceType,
+            app.globalData.userInfo.sex = data.sex
+            app.globalData.userInfo.mobile = data.mobile
+        }
+      }
+    })
   },
   navbarTap: function (e) {// 专题推荐栏
     this.setData({

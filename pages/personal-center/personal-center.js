@@ -8,12 +8,18 @@ Page({
     iconUrl: app.globalData.userInfo.iconUrl,
     isname: false,
     newname: '',
-    qrCode: ''
+    qrCode: '',
+    ismobile:true
   },
   onLoad:function(){
     this.setData({
       nickName:app.globalData.userInfo.nickName
     })
+    if (app.globalData.userInfo.mobile){
+      this.setData({
+        ismobile:false
+      })
+    }
     this.getuserInfo()
   },
   onShow: function () {
@@ -47,6 +53,52 @@ Page({
         that.setData({
           collectTotal: res.data.data.total
         })
+      }
+    })
+  },
+  getPhoneNumber: function (e) { //获取用户授权的电话号码
+    let that = this
+    let msg = e.detail
+    wx.login({
+      success: res => {
+        if (res.code) {
+          let _parms = {
+            code: res.code
+          }
+          Api.getOpenId(_parms).then((res) => {
+            if (res.data.code == 0) {
+              app.globalData.userInfo.openId = res.data.data.openId,
+              app.globalData.userInfo.sessionKey = res.data.data.sessionKey
+              let _pars = {
+                sessionKey: res.data.data.sessionKey,
+                ivData: msg.iv,
+                encrypData: msg.encryptedData
+              }
+              Api.phoneAES(_pars).then((res) => {
+                if (res.data.code == 0) {
+                  let _data = JSON.parse(res.data.data)
+                  app.globalData.userInfo.mobile = _data.phoneNumber
+                  console.log("获取用户电话号码成功")
+                  let _pars = {
+                    id: app.globalData.userInfo.userId,
+                    openId: app.globalData.userInfo.openId,
+                  }
+                  if (_data.phoneNumber) {
+                    _parms.mobile = _data.phoneNumber
+                  }
+                  Api.updateuser(_pars).then((res) => {
+                    if (res.data.code == 0) {
+                      console.log("保存用户电话号码成功")
+                      that.setData({
+                        ismobile: false
+                      })
+                    }
+                  })
+                }
+              })
+            }
+          })
+        }
       }
     })
   },
