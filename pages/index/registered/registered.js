@@ -25,8 +25,8 @@ Page({
     wx.login({
       success: res => {
         let _code = res.code;
-        // console.log("code:", _code)
-        // return false  //此处返回，则获取的code是没有用过的，用于测试
+        console.log("code:", _code)
+        return false  //此处返回，获取的code是没有用过的，用于测试
         if (res.code) {
           let _parms = {
             code: res.code
@@ -71,7 +71,7 @@ Page({
       }
     })
   },
-  getPhoneNumber: function (e) { //获取用户电话号码
+  getPhoneNumber: function (e) { //获取用户授权的电话号码
     let _detail = e.detail
     this.getphone(_detail)
   },
@@ -193,6 +193,17 @@ Page({
           wx.switchTab({
             url: '../../index/index',
           })
+        }else{
+          wx.showToast({
+            title: '验证码错误，请重新输入!',
+            icon: 'none',
+            mask: true,
+            duration: 2000
+          })
+          that.setData({
+            clock: '',
+            Verify:''
+          })
         }
       })
     }else{
@@ -204,7 +215,7 @@ Page({
       })
     }
   },
- 
+
   /**
    * 生命周期函数--监听页面加载
    */
