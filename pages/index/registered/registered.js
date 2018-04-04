@@ -162,6 +162,7 @@ Page({
     })
   },
   login:function(){  //点击立即注册
+    let that = this
     if(this.data.phone == ''){
       wx.showToast({
         title: '请输入电话号码',
