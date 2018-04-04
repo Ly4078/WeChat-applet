@@ -183,7 +183,7 @@ Page({
         if (res.data.code == 0) {
           wx.showToast({
             title: '注册成功!',
-            icon: 'success',
+            icon: 'none',
             mask:true,
             duration: 2000
           })
