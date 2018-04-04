@@ -123,3 +123,7 @@ button {
 }
 ._img{margin-right: 7rpx}
 ._text{margin-left: 7rpx}
+.bred{
+  background: red;
+  color: #fff;
+}

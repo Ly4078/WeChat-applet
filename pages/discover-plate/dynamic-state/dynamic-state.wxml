@@ -27,7 +27,7 @@
   </view> -->
 
   <view wx:for="{{butt}}" wx:key="{{index}}">
-    <button form-type="submit" id="{{index}}" catchtap='FormSubmit' class='submit'> {{item}} </button>
+    <button form-type="submit" id="{{index}}" catchtap='FormSubmit' class="submit {{index==2?'bred':''}}"> {{item}} </button>
   </view>
 
 </view>
