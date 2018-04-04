@@ -28,15 +28,14 @@ Page({
         // console.log("code:", _code)
         // return false  //此处返回，则获取的code是没有用过的，用于测试
         if (res.code) {
-
           let _parms = {
             code: res.code
           }
           Api.useradd(_parms).then((res) => {
             if (res.data.data) {
               app.globalData.userInfo.userId = res.data.data
+              this.getuser()
             }
-            this.getuser()
           })
         }
       }
@@ -73,15 +72,13 @@ Page({
     })
   },
   getPhoneNumber: function (e) { //获取用户电话号码
-   
     let _detail = e.detail
     this.getphone(_detail)
-    this.setData({
-      isgetnumber:false
-    })
-   
   },
-  getphone:function(data){
+  getphone: function (msg) {//获取用户电话号码
+    this.setData({
+      isgetnumber: false
+    })
     let that = this
     wx.login({
       success: res => {
@@ -91,10 +88,12 @@ Page({
           }
           Api.getOpenId(_parms).then((res) => {
             if (res.data.code == 0) {
+              app.globalData.userInfo.openId = res.data.data.openId,
+                app.globalData.userInfo.sessionKey = res.data.data.sessionKey
               let _pars = {
                 sessionKey: res.data.data.sessionKey,
-                ivData: data.iv,
-                encrypData: data.encryptedData
+                ivData: msg.iv,
+                encrypData: msg.encryptedData
               }
               Api.phoneAES(_pars).then((res) => {
                 if (res.data.code == 0) {
@@ -163,7 +162,15 @@ Page({
     })
   },
   login:function(){  //点击立即注册
-    console.log("login")
+    if(this.data.phone == ''){
+      wx.showToast({
+        title: '请输入电话号码',
+        mask: true,
+        icon: 'none',
+        duration: 1500
+      })
+      return false
+    }
     if (this.data.Verify){
       let _parms = {
         shopMobile: this.data.phone,
@@ -187,12 +194,16 @@ Page({
           })
         }
       })
+    }else{
+      wx.showToast({
+        title: '请输入验证码',
+        mask:true,
+        icon:'none',
+        duration:1500
+      })
     }
   },
-  disembark: function (e) { //点击微信登陆  
-    let _detail = e.detail
-    this.getphone(_detail)
-  },
+ 
   /**
    * 生命周期函数--监听页面加载
    */

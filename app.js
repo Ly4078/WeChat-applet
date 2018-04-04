@@ -15,34 +15,13 @@ App({
   onPullDownRefresh: function () {
     wx.stopPullDownRefresh()
   },
-  onLaunch: function () {
-    let that = this
-
-    wx.login({
-      success: res => {
-        let _code = res.code;
-        // console.log("code:", _code)
-        if (res.code) {
-          let _parms = {
-            code: res.code
-          }
-          Api.getOpenId(_parms).then((res) => {  //获取openID sessionKey
-            if (res.data.code == 0) {
-              this.globalData.openId = res.data.data.openId,
-                this.globalData.sessionKey = res.data.data.sessionKey
-            }
-          })
-        }
-      }
-    })
-  },
-  
   globalData: {  //全局变量
     userInfo: {
       openId: '',
+      sessionKey:'',
       password: '',
       userType:'',
-      userId: '1',  
+      userId: '',  
       shopId: '',
       userName: '',
       nikcName: '',

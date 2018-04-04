@@ -10,5 +10,5 @@
    </view>
   <view class='bankrupt' wx:if="{{clock}}">{{clock}}后重新发送验证码</view>
   <button class='registered' catchtap='login'>立即注册></button>
-  <button class='wxreg' catchtap='disembark' open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">使用微信登陆</button>
+  <button class='wxreg' open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">使用微信登陆</button>
 </view>
