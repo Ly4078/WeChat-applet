@@ -176,11 +176,11 @@ left: 254.5rpx;
   padding-top: 30rpx;
 }
 .evaluate-wrap {
-  height: 80rpx;
+  height: 16rpx;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-top: 100rpx;
+  padding-top: 70rpx;
 }
 .evaluateImages {
   width: 60rpx;
@@ -217,6 +217,7 @@ left: 254.5rpx;
   color: #555555;
   font-size: 28rpx;
   padding-left: 74rpx;
+  padding-top: 30rpx;
 }
 .carry-out-data{
   height: 100rpx;
@@ -224,6 +225,7 @@ left: 254.5rpx;
   line-height: 100rpx;
   color: #B1B1B1;
   font-size: 24rpx;
+  border-bottom: 1px solid #F4F4F4;
 }
 
 .commentBox textarea{

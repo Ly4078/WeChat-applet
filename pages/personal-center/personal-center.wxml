@@ -19,7 +19,7 @@
       </view>
       <image class='halving-line' src='/images/icon/vertical.png'></image>
       <view class='messageWrap'>
-        <text class='messageTop'>系统消息</text>
+        <text class='messageTop'>系统通知</text>
         <text>0</text>
       </view>
     </view>
