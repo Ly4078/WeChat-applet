@@ -17,7 +17,8 @@ Page({
     isfood: false,
     issorting: false,
     businessCate: '',
-    browSort: ''
+    browSort: '',
+    searchValue:''
   },
   onLoad: function (options) {
     if (options.cate) {
@@ -44,8 +45,11 @@ Page({
     if (this.data.businessCate) { //美食类别 
       _parms.businessCate = this.data.businessCate
     }
-     if (this.data.browSort) { //综合排序
+    if (this.data.browSort) { //综合排序
       _parms.browSort = this.data.browSort
+    }
+    if (this.data.searchValue){
+      _parms.searchKey=this.data.searchValue
     }
     if (this.data.businessCate == '川湘菜') {
       Api.listForChuangXiang(_parms).then((res) => {
@@ -94,21 +98,40 @@ Page({
     }
   },
   onInputText: function (e) { //获取搜索框内的值
-    // this.setData({
-    //   searchValue: e.detail.value
-    // })
+    this.setData({
+      searchValue: e.detail.value
+    })
     let _parms = {
-      searchKey: e.detail.value,
+      searchKey: this.data.searchValue,
       locationX: app.globalData.userInfo.lng,
       locationY: app.globalData.userInfo.lat,
     }
     Api.shoplist(_parms).then((res) => {
-      if (res.data.code == 0 && res.data.data.list != [] && res.data.data.list != '') {
-        this.setData({
-          posts_key: res.data.data.list
-        });
+      let that = this
+      wx.hideLoading()
+      let data = res.data;
+      if (data.code == 0) {
+        if (data.data.list != null && data.data.list != "" && data.data.list != []) {
+          let posts = [];
+          let _data = data.data.list
+          for (let i = 0; i < _data.length; i++) {
+            _data[i].distance = utils.transformLength(_data[i].distance);
+            _data[i].activity = _data[i].ruleDescs ? _data[i].ruleDescs.join(',') : '';
+            posts.push(_data[i])
+          }
+          that.setData({
+            posts_key: posts
+          })
+        } 
       }
     })
+    // Api.shoplist(_parms).then((res) => {
+    //   if (res.data.code == 0 && res.data.data.list != [] && res.data.data.list != '') {
+    //     this.setData({
+    //       posts_key: res.data.data.list
+    //     });
+    //   }
+    // })
   },
   // onSearchInp: function () {
   //   let _parms = {
@@ -140,7 +163,8 @@ Page({
   onPullDownRefresh: function () {
     this.setData({
       posts_key: [],
-      page: 1
+      page: 1,
+      searchValue:''
     });
     this.getData()
   },

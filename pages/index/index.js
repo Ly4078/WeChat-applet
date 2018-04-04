@@ -36,22 +36,17 @@ Page({
     updateManager.onUpdateFailed(function () {
       // 新的版本下载失败
     })
-    this.getopenid();
+    this.getlocation()
   },
-  // onReady: function () {
-  //   let lat = '30.51597', lng = '114.34035';  //lat纬度lng经度 初始默认定位到武汉
-  //   this.requestCityName(lat, lng)
-  // },
   onShow: function () {
     let that = this
     let lat = wx.getStorageSync('lat')
     let lng = wx.getStorageSync('lng')
-    if(!app.globalData.userInfo.city){
-      lat = '30.51597', lng = '114.34035';
-    }else{
-      return false
-    }
-
+    // if(!app.globalData.userInfo.city){
+    //   lat = '30.51597', lng = '114.34035';
+    // }else{
+    //   return false
+    // }
     if (lat && lng) {
       setTimeout(function () {
         that.requestCityName(lat, lng)
@@ -63,30 +58,6 @@ Page({
   navbarTap: function (e) {// 专题推荐栏
     this.setData({
       currentTab: e.currentTarget.dataset.idx
-    })
-  },
-  getopenid: function () {  //获取openID sessionKey
-    let that = this
-    let lat = '', lng = ''
-    wx.login({
-      success: res => {
-        let _code = res.code;
-        // console.log("code:", _code)
-        // return false  //此处返回，则获取的code是没有用过的，用于测试
-        if (res.code) {
-          let _parms = {
-            code: res.code
-          }
-          Api.useradd(_parms).then((res) => {
-            if (res.data.data) {
-              app.globalData.userInfo.userId = res.data.data
-            }
-            this.getuser()
-            this.getlocation()
-            // this.getmoredata()
-          })
-        }
-      }
     })
   },
   getmoredata: function () {  //获取更多数据
@@ -155,30 +126,6 @@ Page({
       }
     })
   },
-  getuser: function () { //从自己的服务器获取用户信息
-    wx.request({
-      url: this.data._build_url + 'user/get/' + app.globalData.userInfo.userId,
-      header: {
-        'content-type': 'application/json' // 默认值
-      },
-      success: function (res) {
-        if (res.data.code == 0) {
-          let data = res.data.data;
-            app.globalData.userInfo.userType = data.userType,
-            app.globalData.userInfo.openId = data.openId,
-            app.globalData.userInfo.password = data.password,
-            app.globalData.userInfo.userId = data.id,
-            app.globalData.userInfo.shopId = data.shopId ? data.shopId : '',
-            app.globalData.userInfo.userName = data.userName,
-            app.globalData.userInfo.nickName = data.nickName,
-            app.globalData.userInfo.loginTimes = data.loginTimes,
-            app.globalData.userInfo.iconUrl = data.iconUrl,
-            app.globalData.userInfo.sourceType = data.sourceType,
-            app.globalData.userInfo.sex = data.sex
-        }
-      }
-    })
-  },
   getlocation: function () {  //获取用户位置
     let that = this
     let lat = '', lng = ''
@@ -188,9 +135,6 @@ Page({
         let latitude = res.latitude
         let longitude = res.longitude
         that.requestCityName(latitude, longitude);
-      },
-      fail: function (res) {
-
       }
     })
   },

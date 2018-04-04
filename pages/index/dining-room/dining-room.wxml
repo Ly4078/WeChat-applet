@@ -44,7 +44,7 @@
       <view class="search" bindtap="seekTap">
         <view class="search_arr">
           <icon class="searchcion" size='20' type='search' catchtap="onSearchInp"></icon>
-          <input class='inputs' placeholder="搜索商品" bindinput="onInputText" bindconfirm="onSearchInp" />
+          <input class='inputs' placeholder="搜索商品" bindinput="onInputText" bindconfirm="onSearchInp" value='{{searchValue}}'/>
         </view>
       </view>
       <view class='sonNavigation'>

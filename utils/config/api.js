@@ -183,9 +183,20 @@ const ALL_API = {
   selectByShopId:{  //获取商家活动
     method:'GET',
     url:'pnr/selectByShopId'
+  },
+  phoneAES:{  //解密用户手机号
+    method: 'POST',
+    url: 'wxsign/phoneAES'
+  },
+  sendForRegister: {  //获取手机验证码
+    method: 'POST',
+    url: 'sms/sendForRegister'
+  },
+  isVerify: {  //验证手机验证码
+    method: 'GET',
+    url: 'sms/isVerify'
   }
 }
-
 const Api = new MyHttp({}, ALL_API);
 
 export default Api;
