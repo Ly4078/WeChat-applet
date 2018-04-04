@@ -528,11 +528,11 @@ page {
 }
 
 .merchant_none image {
-  width: 400rpx;
-  height: 400rpx;
+  width: 312rpx;
+  height: 203rpx;
   position: absolute;
-  left: 50%;
-  margin: 50rpx 0 50rpx -200rpx;
+  left: 58%;
+  margin: 140rpx 0 50rpx -200rpx;
 }
 .doing{
   background: #fff;

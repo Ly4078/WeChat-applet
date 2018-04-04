@@ -166,7 +166,7 @@
         </block>
       </view>
       <view wx:else class='merchant_none'>
-        <image src="/images/icon/zhanweigou.png"></image>
+        <image src="/images/icon/zhanweitu.png"></image>
       </view>
     </view>
   </view>
