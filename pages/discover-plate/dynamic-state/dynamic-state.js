@@ -101,7 +101,19 @@ Page({
     })
   },
   onUnload: function () { //生命周期函数--监听页面卸载
-  
+    getApp().globalData.article = []
+    wx.setStorage({
+      key: 'text',
+      data: '',
+    })
+    wx.setStorage({
+      key: 'cover',
+      data: ''
+    })
+    wx.setStorage({
+      key: 'title',
+      data: '',
+    })
   },
   onShow: function () {
   },
@@ -115,7 +127,6 @@ Page({
       key: 'title',
       data: _title
     })
-
   },
   getcover: function () {  //获取封面图片
     this.getimg('b');
@@ -205,12 +216,6 @@ Page({
   },
   FormSubmit(e) {  // 点击按钮
     let that = this
-    wx.showToast({
-      title: '正在提交，请稍后',
-      mask:'true',
-      icon: 'none',
-      duration: 2000
-    })
     let ind = e.currentTarget.id
     if (ind == 0) {  //  ['预览','提交','退出文章编辑']
       let [..._data] = this.data.content
@@ -220,6 +225,12 @@ Page({
         url: 'article_details/article_details?content=' + _data+'&title='+this.data.title
       })
     } else if (ind == 1) {
+      wx.showToast({
+        title: '正在提交，请稍后',
+        mask: 'true',
+        icon: 'none',
+        duration: 2000
+      })
       let sum = [];
       let _content = JSON.stringify(this.data.content);
       let _con = utils.utf16toEntities(_content)
@@ -289,18 +300,7 @@ Page({
             wx.switchTab({
               url: '../../discover-plate/discover-plate'
             })
-            wx.setStorage({
-              key: 'cover',
-              data: ''
-            })
-            wx.setStorage({
-              key: 'title',
-              data: '',
-            })
-            wx.setStorage({
-              key: 'text',
-              data: '',
-            })
+            wx.clearStorage()
           }, 1500)
         }
       })
@@ -310,6 +310,7 @@ Page({
         content: '退出编辑将清空数据',
         success: function (res) {
           if (res.confirm) {
+            wx.clearStorage()
             wx.switchTab({
               url: '../../discover-plate/discover-plate'
             })

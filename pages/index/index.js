@@ -59,7 +59,7 @@ Page({
     wx.login({
       success: res => {
         let _code = res.code;
-        // console.log("code:", _code)
+        console.log("code:", _code)
         // return false  //此处返回，获取的code是没有用过的，用于测试
         if (res.code) {
           let _parms = {

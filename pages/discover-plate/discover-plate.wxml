@@ -92,6 +92,11 @@
   <view wx:if="{{food.length < 1}}" class='placeholder'>
     <image src="/images/icon/zhanweitu.png"></image>
   </view>
-  <image catchtap='announceState' class='publish-dynamic-condition' src='/images/icon/send_dongtai.png'></image>
-
+  <!-- <image catchtap='clickadd' class='publish-dynamic-condition' src='/images/icon/send_dongtai.png'></image> -->
+ 
+  
+  <!-- <view class=' dis_close'></view>
+  <view class='dis_video'></view>
+   <view class='dis_article'></view> -->
+     <image catchtap='announceState' class='publish-dynamic-condition' src='/images/icon/send_dongtai.png'></image> 
 </view>

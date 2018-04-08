@@ -79,14 +79,14 @@ Page({
                   let _data = JSON.parse(res.data.data)
                   app.globalData.userInfo.mobile = _data.phoneNumber
                   console.log("获取用户电话号码成功")
-                  let _pars = {
+                  let _parss = {
                     id: app.globalData.userInfo.userId,
                     openId: app.globalData.userInfo.openId,
                   }
                   if (_data.phoneNumber) {
-                    _parms.mobile = _data.phoneNumber
+                    _parss.mobile = _data.phoneNumber
                   }
-                  Api.updateuser(_pars).then((res) => {
+                  Api.updateuser(_parss).then((res) => {
                     if (res.data.code == 0) {
                       console.log("保存用户电话号码成功")
                       that.setData({

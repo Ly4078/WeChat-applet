@@ -365,7 +365,7 @@ button{
   vertical-align: middle;
 }
 .total-comment{
-  height: 100rpx;
+  min-height: 100rpx;
   background-color: white;
   display: flex;
   justify-content: center;

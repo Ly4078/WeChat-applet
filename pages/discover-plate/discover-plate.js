@@ -11,6 +11,7 @@ Page({
     tect: '最新',
     isscelect: 1,
     ishotnew: false,
+    isadd:false,
     sortype:'0',
     choicetype:''
   },
@@ -20,10 +21,6 @@ Page({
   onShow: function (options) {
     let that = this;
     getApp().globalData.article = []
-    wx.setStorage({
-      key: 'text',
-      data: '',
-    })
     this.setData({
       ishotnew: false,
       food: [],
@@ -38,18 +35,6 @@ Page({
           hotlive: res.data.data.list
         })
       }
-    })
-    wx.setStorage({
-      key: 'cover',
-      data: ''
-    })
-    wx.setStorage({
-      key: 'title',
-      data: '',
-    })
-    wx.setStorage({
-      key: 'text',
-      data: '',
     })
   },
   close:function(){
@@ -119,6 +104,12 @@ Page({
     })
     wx.navigateTo({
       url: 'dynamic-state/article_details/article_details?id=' + id + '&zan=' + zan
+    })
+  },
+  clickadd(){
+    console.log("isadd:",this.data.isadd)
+    this.setData({
+      isadd:!this.data.isadd
     })
   },
   announceState: function (event) { // 跳转到编辑动态页面

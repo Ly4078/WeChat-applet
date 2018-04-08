@@ -120,8 +120,8 @@
   width: 694rpx;
   height: 2rpx;
   padding-top:20rpx; 
-  margin: 42rpx 0 0 0;
-  border-top:1rpx solid #EBEBEB; 
+  margin: 69rpx 0 69rpx 0;
+  /* border-top:1rpx solid #EBEBEB;  */
 }
 .sharebut{
   background: red;
@@ -147,6 +147,12 @@ button[plain]{
 .text_wx{
   margin-left: 193rpx;
   margin-right: 220rpx;
+}
+.sharebg{
+  width: 694rpx;
+  height: 4rpx;
+  background: #EBEBEB;
+  margin-top:40rpx;
 }
 .sharetitle{
 width: 185rpx;
