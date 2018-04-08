@@ -1,7 +1,16 @@
 <view class='dynamic' catchtap='isplusf'>
 
+<view wx:if="{{iswzsp==1}}">
   <image wx:if="{{coverimg}}" catchtap='getcover' class='dynamic_cover' src='{{coverimg}}'></image>
   <image wx:else catchtap='getcover' class='dynamic_cover' src='/images/icon/set_cover.png'></image>
+</view>
+
+<view wx:if="{{iswzsp==2}}">
+  <icon wx:if="{{covervideo}}" type="cancel" size="30" color="red" class='canceldeo' catchtap='delvideo'/>
+  <video wx:if="{{covervideo}}"  src="{{covervideo}}" class='dynamic_cover' controls ></video>
+  <image wx:else catchtap='bindButtonTap' class='dynamic_cover' src='/images/icon/camera.png'></image>
+</view>
+
   <input bindblur="bindblurinput" placeholder-class="phcolor" value='{{title}}' class='title' type='text' placeholder='请输入标题'></input>
 
   <view wx:for="{{content}}" wx:key="{{index}}">
@@ -15,7 +24,7 @@
     </view>
   </view>
 
-  <view class='addit'>
+  <view class='addit' wx:if="{{iswzsp==1}}">
       <button class='addimg _img' catchtap='clickimg'>添加图片</button>
       <button class='addimg _text' catchtap='clicktxt'>添加文字</button>
   </view>
@@ -27,15 +36,6 @@
   </view> -->
 
   <view wx:for="{{butt}}" wx:key="{{index}}">
-    <button form-type="submit" id="{{index}}" catchtap='FormSubmit' class="submit {{index==2?'bred':''}}"> {{item}} </button>
+    <button form-type="submit" id="{{item}}" catchtap='FormSubmit' class="submit {{item=='退出编辑'?'bred':''}}"> {{item}} </button>
   </view>
-
 </view>
-
-
-<!-- 
-    <view wx:if="{{isplus}}" id="{{index}}" catchtap='clickplus' class='add'>+</view>
-    <view wx:else class='img_txt'>
-      <image catchtap='clickimg' class='addimg' src='/images/icon/send_photo.png'></image>
-      <image catchtap='clicktxt' class='addtxt' src='/images/icon/send_txt.png'></image>
-    </view> -->

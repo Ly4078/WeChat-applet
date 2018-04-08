@@ -20,7 +20,15 @@ Page({
   },
   onShow: function (options) {
     let that = this;
+
     getApp().globalData.article = []
+    let _arr = ['idnum', 'text', 'ismodi', 'isIll', 'title', 'cover']
+    for (let i = 0; i < _arr.length; i++) {
+      wx.removeStorage({
+        key: _arr[i]
+      })
+    }
+
     this.setData({
       ishotnew: false,
       food: [],
@@ -68,9 +76,13 @@ Page({
             footList[i].summary = utils.uncodeUtf16(footList[i].summary);
             footList[i].content = utils.uncodeUtf16(footList[i].content);
             footList[i].timeDiffrence = utils.timeDiffrence(res.data.currentTime, footList[i].updateTime, footList[i].createTime)
+            if (footList[i].homePic.endsWith(".jpg")){
+              footList[i].isimg = true
+            }else{
+              footList[i].isimg = false
+            }
             _data.push(footList[i]);
           }
-
           this.setData({
             food: _data
           })
@@ -92,32 +104,57 @@ Page({
   },
   clickarticle: function (e) {  //点击某条文章
     const id = e.currentTarget.id
+    this.setData({
+      ishotnew: false
+    })
     let _data = this.data.food
     let zan = ''
     for (let i = 0; i < _data.length; i++) {
       if (id == _data[i].id) {
         zan = _data[i].zan
+        if (!_data[i].isimg){
+          return false
+        }else{
+          wx.navigateTo({
+            url: 'dynamic-state/article_details/article_details?id=' + id + '&zan=' + zan
+          })
+        }
       }
     }
+  },
+  gotodetail(e){ //点击下边一排
+    const id = e.currentTarget.id
     this.setData({
       ishotnew: false
     })
-    wx.navigateTo({
-      url: 'dynamic-state/article_details/article_details?id=' + id + '&zan=' + zan
-    })
+    let _data = this.data.food
+    let zan = ''
+    for (let i = 0; i < _data.length; i++) {
+      if (id == _data[i].id) {
+        zan = _data[i].zan
+        wx.navigateTo({
+          url: 'dynamic-state/article_details/article_details?id=' + id + '&zan=' + zan
+        })
+      }
+    }
   },
   clickadd(){
-    console.log("isadd:",this.data.isadd)
     this.setData({
-      isadd:!this.data.isadd
+      isadd: !this.data.isadd
+    })
+  },
+  closemodel:function(){
+    this.setData({
+      isadd: false
     })
   },
   announceState: function (event) { // 跳转到编辑动态页面
+    const id = event.currentTarget.id
     this.setData({
       ishotnew: false
     })
     wx.redirectTo({
-      url: 'dynamic-state/dynamic-state',
+      url: 'dynamic-state/dynamic-state?id='+ id,
     })
   },
   onReachBottom: function () {  //用户上拉触底

@@ -11,12 +11,24 @@ Page({
     num: 0,
     title: '',  //标题
     coverimg: '',  //封面图片
+    covervideo:'',  //视频
     content: [],   //文章内容数据
-    butt: ['预览', '提交', '退出文章编辑'],
+    butt: ['预览', '提交', '退出编辑'],
+    iswzsp:1
   },
 
   onLoad: function (options) {  // 生命周期函数--监听页面加载
     let that = this;
+    this.setData({
+      iswzsp: options.id
+    })
+    if (this.data.iswzsp == 2){
+      this.data.butt=[]
+      let _butt= [ '提交', '退出编辑']
+      this.setData({
+        butt: _butt
+      })
+    }
     let _isIll = wx.getStorageSync('isIll')
     let _ismodi = wx.getStorageSync('ismodi')
     let _idnum = wx.getStorageSync('idnum')
@@ -24,8 +36,10 @@ Page({
     let _text = wx.getStorageSync('text') //获取同步缓存数据
 
     if (_isIll) {
-      let data = article;
-      data[_idnum].txt = _text;
+      let data = app.globalData.article;
+      if (data[_idnum].txt != undefined){
+        data[_idnum].txt = _text;
+      }
       that.setData({
         content: data
       })
@@ -43,7 +57,7 @@ Page({
           type: 'text',
           value: _text
         }
-        article[_idnum] = obj;
+        app.globalData.article[_idnum] = obj;
         wx.setStorage({
           key: 'ismodi',
           data: false,
@@ -58,11 +72,10 @@ Page({
             type: 'text',
             value: _text
           }
-          article.push(obj);
+          app.globalData.article.push(obj);
         }
       }
     }
-
 
     wx.getStorage({
       key: 'cover',
@@ -91,29 +104,16 @@ Page({
       success: function (res) {
         if (res.data) {
           let arr2 = res.data;
-          article = article.concat(arr2)
+          app.globalData.article = app.globalData.article.concat(arr2)
         }
       }
     })
 
     this.setData({
-      content: article
+      content: app.globalData.article
     })
   },
   onUnload: function () { //生命周期函数--监听页面卸载
-    getApp().globalData.article = []
-    wx.setStorage({
-      key: 'text',
-      data: '',
-    })
-    wx.setStorage({
-      key: 'cover',
-      data: ''
-    })
-    wx.setStorage({
-      key: 'title',
-      data: '',
-    })
   },
   onShow: function () {
   },
@@ -130,6 +130,54 @@ Page({
   },
   getcover: function () {  //获取封面图片
     this.getimg('b');
+  },
+  bindButtonTap: function () {  //获取视频
+    let that = this
+    wx.chooseVideo({
+      sourceType: ['camera','album'],
+      maxDuration: 60,
+      camera: ['front', 'back'],
+      success: function (res) {
+        console.log("res:", res.tempFilePath)
+        that.setData({
+          src: res.tempFilePath
+        })
+        wx.uploadFile({
+          url: that.data._build_url + 'img/uploadMp4',
+          filePath: res.tempFilePath,
+          name: 'file',
+          formData: {
+            'userName': app.globalData.userInfo.userName
+          },
+          success: function (res) {
+            console.log("res:",res)
+            let article = getApp().globalData.article;  //获取全局变量
+            let _data = res.data;
+            _data = JSON.parse(_data);
+            console.log("_data:",_data)
+            let _video = _data.data.picUrl
+            let obj = {
+              type: 'video',
+              value: _video,
+              txt: ''
+            }
+            app.globalData.article.push(obj);
+            that.setData({
+              content: app.globalData.article,
+              covervideo: _video
+            })
+          },
+          fail: function (res) {
+            console.log("fail:", res)
+          }
+        })
+      }
+    })
+  },
+  delvideo:function(){  //删除视频
+    this.setData({
+      covervideo: ''
+    })
   },
   clickplus: function (e) {  //点击加号
     let ind = e.currentTarget.id;
@@ -217,16 +265,16 @@ Page({
   FormSubmit(e) {  // 点击按钮
     let that = this
     let ind = e.currentTarget.id
-    if (ind == 0) {  //  ['预览','提交','退出文章编辑']
+    if (ind == '预览') {  //  ['预览','提交','退出编辑']
       let [..._data] = this.data.content
       _data= JSON.stringify(_data)
       wx.navigateTo({
         content: [],   //文章内容数据
         url: 'article_details/article_details?content=' + _data+'&title='+this.data.title
       })
-    } else if (ind == 1) {
+    } else if (ind == '提交') {
       wx.showToast({
-        title: '正在提交，请稍后',
+        title: '正在提交，请稍等',
         mask: 'true',
         icon: 'none',
         duration: 2000
@@ -236,6 +284,7 @@ Page({
       let _con = utils.utf16toEntities(_content)
       let _title = this.data.title;
       let _coverimg = this.data.coverimg;
+      let _covervideo = this.data.covervideo
       for (let i = 0; i < this.data.content.length; i++) {
         if (this.data.content[i].type == 'text') {
           if (this.data.content[i].value.length < 200) {
@@ -251,14 +300,34 @@ Page({
       if (sum[0] != undefined && sum[0] != ''){
         _sum = utils.utf16toEntities(sum[0])
       }
-      if (!_coverimg) {
-        wx.showToast({
-          title: '请设置封面图片',
-          icon: 'none',
-          duration: 1500
-        })
-        return false
+      if (this.data.iswzsp ==1){
+        if (!_coverimg) {
+          wx.showToast({
+            title: '请设置封面图片',
+            icon: 'none',
+            duration: 1500
+          })
+          return false
+        }
+        if (_content.length < 3) {
+          wx.showToast({
+            title: '请输入内容',
+            icon: 'none',
+            duration: 1500
+          })
+          return false
+        }
+      } else if (this.data.iswzsp == 2){
+        if (!_covervideo) {
+          wx.showToast({
+            title: '请上传视频',
+            icon: 'none',
+            duration: 1500
+          })
+          return false
+        }
       }
+      
       if (!_title) {
         wx.showToast({
           title: '请输入标题',
@@ -267,27 +336,18 @@ Page({
         })
         return false
       }
-      if (_content.length < 3) {
-        wx.showToast({
-          title: '请输入内容',
-          icon: 'none',
-          duration: 1500
-        })
-        return false
-      }
-
+      
       let _parms = {
         title: _title,
         content: _con,
         userId: app.globalData.userInfo.userId,
         summary: _title,
-        homePic: _coverimg,
+        homePic: _coverimg ? _coverimg : _covervideo,
         userName: app.globalData.userInfo.userName,
         nickName: app.globalData.userInfo.nickName
       }
       Api.topicadd(_parms).then((res) => {
         if (res.data.code == 0) {
-          
           setTimeout(function () {
             wx.showToast({
               title: '提交成功',
@@ -304,7 +364,7 @@ Page({
           }, 1500)
         }
       })
-    } else if (ind == 2) {
+    } else if (ind == '退出编辑') {
       wx.showModal({
         title: '提示',
         content: '退出编辑将清空数据',
@@ -348,9 +408,9 @@ Page({
                 value: _img,
                 txt: ''
               }
-              article.push(obj);
+              app.globalData.article.push(obj);
               that.setData({
-                content: article
+                content: app.globalData.article
               })
             } else if (_type == 'b') {  //添加封面图片
               wx.setStorage({
@@ -363,7 +423,7 @@ Page({
             } else {
               let data = that.data.content;
               data[_type].value = _img;
-              article[_type].value = _img;
+              app.globalData.article[_type].value = _img;
               that.setData({
                 content: data,
                 article:data
@@ -377,5 +437,4 @@ Page({
       }
     })
   }
-
 })

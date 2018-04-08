@@ -6,7 +6,12 @@
   height: 100%;
   background: #ebebeb;
 }
-
+.canceldeo{
+  position: absolute;
+  top:28rpx;
+  right:90rpx;
+  z-index: 999999;
+}
 .dynamic_cover {
   margin: 20rpx 0;
   width: 694rpx;

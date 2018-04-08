@@ -266,6 +266,11 @@ Page({
       for (let i = 0; i < _data.length; i++) {
         _data[i].summary = utils.uncodeUtf16(_data[i].summary)
         _data[i].content = utils.uncodeUtf16(_data[i].content)
+        if (_data[i].homePic.endsWith(".jpg")) {
+          _data[i].isimg = true
+        } else {
+          _data[i].isimg = false
+        }
       }
       this.setData({
         food: res.data.data

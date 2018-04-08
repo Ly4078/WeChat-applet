@@ -24,6 +24,10 @@
         <image src='{{item.value}}' mode="aspectFill" class='midimg'></image>
         <view class='imgnote' wx:if="{{item.txt}}">{{item.txt}}</view>
       </view>
+      <view wx:if="{{item.type == 'video'}}" class='mindill'>         
+        <video class="myVideo" src="{{item.value}}" controls></video>
+        <view class='imgnote' wx:if="{{item.txt}}">{{item.txt}}</view>
+      </view>
     </view>
     <view wx:if="{{_id}}" class='scanpraise'>
       <view class='scan'>
