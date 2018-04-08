@@ -35,7 +35,7 @@
   <view class='wrap_recommend' catchtap='cateWall'>
     <view class='recommend'>
       <image class='recommend_img' src='/images/icon/home_sign.png'></image>
-      <view class='recommend_text'>美食栏</view>
+      <view class='recommend_text'>美食墙</view>
     </view>
     <view class='djevenMore'>
       <view class='recommend_right'>查看更多</view>
@@ -84,7 +84,7 @@
   <view class='wrap_recommend'>
     <view class='recommend'>
       <image class='recommend_img' src='/images/icon/home_sign.png'></image>
-      <view class='recommend_text'>享七吃货</view>
+      <view class='recommend_text'>享七直播</view>
     </view>
     <view class='djevenMore'>
       <view class='recommend_right'>查看更多</view>
