@@ -1,13 +1,10 @@
 Page({
 
   data: {
-    obj:{},
-    skuid:''
+    obj:{}
   },
   onLoad: function (options) {
-    console.log("optons:",options)
     this.setData({
-      skuid:options.skuid,
       obj: options,
       sell: options.sell
     })
