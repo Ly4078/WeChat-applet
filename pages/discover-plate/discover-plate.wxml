@@ -93,11 +93,11 @@
   <view wx:if="{{food.length < 1}}" class='placeholder'>
     <image src="/images/icon/zhanweitu.png"></image>
   </view>
-  <view bindtap='clickadd' class="cladd">
-    <image class="publish-dynamic-condition {{isadd?'addtrue':''}}" src='/images/icon/send_dongtai.png'></image>
+  <view bindtap='clickadd' class="cladd clplus">
+    <image class="publish-dynamic-condition {{isadd?'addtrue':'addfalse'}}" src='/images/icon/send_dongtai.png'></image>
   </view>
-  <view wx:if="{{isadd}}" catchtap='announceState' id='1' class='cladd dis_video'>文章</view>
-  <view wx:if="{{isadd}}" catchtap='announceState' id='2' class='cladd dis_article'>视频</view>
+  <view catchtap='announceState' id='1' class="cladd  {{isadd?'dis_video':'dis_video2'}}">文章</view>
+  <view catchtap='announceState' id='2' class="cladd  {{isadd?'dis_article':'dis_article2'}}">视频</view>
 </view>
 <view class='modal_box' wx:if="{{isadd}}" bindtap='closemodel'>
 </view>

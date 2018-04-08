@@ -182,37 +182,82 @@ scroll_box.initiate-exhibition {
   width: 108rpx;
   height: 108rpx;
 }
+@keyframes Forward
+{
+from {transform:rotate(0deg);}
+to {transform:rotate(135deg);}
+}
+@keyframes Reversal
+{
+from {transform:rotate(135deg);}
+to {transform:rotate(0deg);}
+}
 .addtrue{
-  transform:rotate(45deg);
+  animation: Forward 0.5s forwards;
+  /* transform:rotate(45deg); */
+}
+.addfalse{
+  animation: Reversal 0.5s forwards;
+  /* transform:rotate(45deg); */
 }
 .cladd{
   width: 108rpx;
   height: 108rpx;
-  z-index: 99999;
+  z-index: 3999;
   border-radius: 50%;
   float: right;
   margin-left:49rpx;
   font-size:32rpx;
-font-family:Adobe Heiti Std R;
-color:rgba(255,255,255,1);
+  font-family:Adobe Heiti Std R;
+  color:rgba(255,255,255,1);
   text-align: center;
   line-height: 108rpx;
   position: fixed;
   bottom: 31rpx;
   right: 60rpx;
 }
-.dis_article{
-  background: #2DACFC;
+.clplus{
+  z-index: 4000;
 }
 .dis_article{
   background: #2DACFC;
-  margin-right: 296rpx;
+}
+@keyframes article1
+{
+from {margin-right: 0rpx;opacity: 0;}
+to {margin-right: 296rpx;transform:rotate(360deg);}
+}
+@keyframes article2
+{
+from {margin-right: 296rpx;}
+to {margin-right: 0rpx; opacity: 0;transform:rotate(0deg);}
+}
+.dis_article{
+  background: #2DACFC;
+ animation: article1 0.5s forwards;
+}
+.dis_article2{
+  background: #2DACFC;
+  animation:article2 0.5s forwards;
+}
+@keyframes video1
+{
+from {margin-right: 0rpx;opacity: 0;}
+to {margin-right: 148rpx;transform:rotate(360deg);}
+}
+@keyframes video2
+{
+from {margin-right: 148rpx;}
+to {margin-right: 0rpx;opacity: 0;}
 }
 .dis_video{
   background: #FC2D59;
-  margin-right: 148rpx;
+  animation: video1 0.5s forwards;
 }
-
+.dis_video2{
+  background: #FC2D59;
+  animation: video2 0.5s forwards;
+}
 .articlelist{
   width: 90%;
   height: 30rem;
