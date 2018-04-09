@@ -18,6 +18,15 @@ Page({
   onLoad: function () {
 
   },
+  onHide:function(){
+    let _data = this.data.food
+    for (let i = 0; i < _data.length; i++) {
+      _data[i].clickvideo = false
+      this.setData({
+        food: _data
+      })
+    }
+  },
   onShow: function (options) {
     let that = this;
     this.setData({
@@ -127,6 +136,12 @@ Page({
     })
     let _data = this.data.food
     let zan = ''
+    for (let i = 0; i < _data.length; i++) {
+      _data[i].clickvideo = false
+      this.setData({
+        food: _data
+      })
+    }
     for (let i = 0; i < _data.length; i++) {
       if (id == _data[i].id) {
         zan = _data[i].zan
