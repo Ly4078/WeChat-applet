@@ -49,8 +49,8 @@ page {
 }
 
 .somebody-thumbs{
-  width: 30rpx;
-  height: 30rpx;
+  width: 42rpx;
+  height: 42rpx;
 }
 
 .somebody-text{

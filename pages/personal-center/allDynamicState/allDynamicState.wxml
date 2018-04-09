@@ -1,6 +1,6 @@
 <view wx:if="{{article_list.length > 0}}">
   <block wx:for="{{article_list}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
-    <view class='articleWrap' catchtap='toArticleInfo' id="{{item.id}}" zan="{{item.zan}}">
+    <view class='articleWrap'>
       <view class='articleLittle'>
         <view class='articleTop'>
           <view>
@@ -10,23 +10,24 @@
               <text class='user-name-time'>{{item.timeDiffrence}}</text>
             </view>
           </view>
-          <view>
-            <text class='somebody-text'>{{item.zan}}</text>
-            <image class='somebody-thumbs' src='/images/icon/home_zaned.png'></image>
+          <view bindtap='deleteMode' id="{{item.id}}">
+            <image class='somebody-thumbs' src='/images/icon/more.png'></image>
           </view>
         </view>
-        <view class='article-level-wrap'>
+        <view class='article-level-wrap' catchtap='toArticleInfo' id="{{item.id}}" zan="{{item.zan}}">
           <image class='cover-images' mode="aspectFill" src='{{item.homePic}}'></image>
           <text class='article-describe'>{{item.summary}}</text>
         </view>
         <view class='article-bottom-xia'>
           <view>
             <image class='click-volume' src='/images/icon/tuoyuan_w.png'></image>
-            <text class='click-text-ar'>0</text>
+            <text class='click-text-ar'>{{item.hitNum}}</text>
           </view>
           <view>
+            <image class='click-volume' src='/images/icon/home_zan.png'></image>
+            <text class='click-text-ar click-text-right'>{{item.zan}}</text>
             <image class='click-volume' src='/images/icon/find_share.png'></image>
-            <text class='click-text-ar click-text-right'>{{0}}</text>
+            <text class='click-text-ar click-text-right'>{{item.transNum}}</text>
             <image class='click-volume ' src='/images/icon/find_comment.png'></image>
             <text class='click-text-ar click-text-right'>{{item.commentNum}}</text>
             <!-- 下个版本需要用  不要删除: -->

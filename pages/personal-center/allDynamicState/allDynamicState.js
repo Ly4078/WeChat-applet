@@ -61,6 +61,30 @@ Page({
       }
     })
   },
+  deleteMode: function (e) {    //删除文章
+    let id = e.currentTarget.id, that = this;
+    console.log(id)
+    wx.showModal({
+      title: '是否删除',
+      cancelColor: '#191919',
+      success: function(res) {
+        if (res.confirm) {
+          wx.request({
+            url: that.data._build_url + 'topic/delete/' + id,
+            method: 'GET',
+            success: function (res) {
+              that.setData({
+                article_list: [],
+                reFresh: true,
+                page: 1
+              })
+              that.getList();
+            }
+          })
+        }
+      }
+    })
+  },
   toArticleInfo: function(event) {
     const id = event.currentTarget.id;
     let _data = this.data.article_list, zan = '';

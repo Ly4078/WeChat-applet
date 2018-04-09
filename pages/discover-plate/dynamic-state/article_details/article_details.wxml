@@ -32,7 +32,7 @@
     <view wx:if="{{_id}}" class='scanpraise'>
       <view class='scan'>
         <image src='/images/icon/tuoyuan_w.png' class='tuoyuanhits'></image>
-        {{details.scan}}
+        {{details.hitNum}}
       </view>
       <view class='praise' id="{{details.id}}">
         {{details.zan}}
