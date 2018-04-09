@@ -18,6 +18,12 @@ Page({
   onLoad: function () {
 
   },
+  onPageScroll:function(){
+    this.setData({
+      isadd:false,
+      ishotnew:false      
+    })
+  },
   onHide:function(){
     let _data = this.data.food
     for (let i = 0; i < _data.length; i++) {
