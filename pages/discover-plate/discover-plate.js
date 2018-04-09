@@ -20,7 +20,11 @@ Page({
   },
   onShow: function (options) {
     let that = this;
-
+    this.setData({
+      sortype:'0',
+      choicetype: '',
+      isscelect:1
+    })
     getApp().globalData.article = []
     let _arr = ['idnum', 'text', 'ismodi', 'isIll', 'title', 'cover']
     for (let i = 0; i < _arr.length; i++) {
