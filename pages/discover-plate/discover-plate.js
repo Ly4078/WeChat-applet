@@ -158,6 +158,10 @@ Page({
     for (let i = 0; i < _data.length; i++) {
       if (id == _data[i].id) {
         zan = _data[i].zan
+        _data[i].clickvideo = false
+        this.setData({
+          food: _data
+        })
         wx.navigateTo({
           url: 'dynamic-state/article_details/article_details?id=' + id + '&zan=' + zan
         })
