@@ -133,16 +133,34 @@ Page({
   },
   bindButtonTap: function () {  //获取视频
     let that = this
+    let scale = 0.3;
     wx.chooseVideo({
       sourceType: ['camera','album'],
       maxDuration: 60,
       camera: ['front', 'back'],
       success: function (res) {
-        console.log("res:", res.tempFilePath)
+        let videores = res
         that.setData({
           src: res.tempFilePath
         })
-        wx.uploadFile({
+        wx.uploadFile({ //获取视频截图在线地址
+          url: that.data._build_url + 'img/upload',
+          filePath: res.thumbTempFilePath,
+          name: 'file',
+          formData: {
+            'userName': app.globalData.userInfo.userName
+          },
+          success: function (res) {
+           
+            let _data = res.data;
+           _data = JSON.parse(_data);
+            that.setData({
+              coverimg: _data.data.smallPicUrl
+            })
+            //do something
+          }
+        })
+        wx.uploadFile({//获取视频在线地址
           url: that.data._build_url + 'img/uploadMp4',
           filePath: res.tempFilePath,
           name: 'file',
@@ -150,11 +168,9 @@ Page({
             'userName': app.globalData.userInfo.userName
           },
           success: function (res) {
-            console.log("res:",res)
             let article = getApp().globalData.article;  //获取全局变量
             let _data = res.data;
             _data = JSON.parse(_data);
-            console.log("_data:",_data)
             let _video = _data.data.picUrl
             let obj = {
               type: 'video',
@@ -166,9 +182,6 @@ Page({
               content: app.globalData.article,
               covervideo: _video
             })
-          },
-          fail: function (res) {
-            console.log("fail:", res)
           }
         })
       }
@@ -210,7 +223,6 @@ Page({
     let that = this;
     let ind = e.currentTarget.id;
     if (this.data.content[ind].type == 'img') {
-      console.log(this.data.content[ind])
       this.getimg(ind)
     }
   },
@@ -284,7 +296,7 @@ Page({
       let _con = utils.utf16toEntities(_content)
       let _title = this.data.title;
       let _coverimg = this.data.coverimg;
-      let _covervideo = this.data.covervideo
+      let _covervideo = this.data.covervideo;
       for (let i = 0; i < this.data.content.length; i++) {
         if (this.data.content[i].type == 'text') {
           if (this.data.content[i].value.length < 200) {
@@ -429,9 +441,6 @@ Page({
                 article:data
               })
             }
-          },
-          fail: function (res) {
-            console.log("fail:", res)
           }
         })
       }

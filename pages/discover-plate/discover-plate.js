@@ -13,7 +13,7 @@ Page({
     ishotnew: false,
     isadd:false,
     sortype:'0',
-    choicetype:''
+    choicetype:'',
   },
   onLoad: function () {
 
@@ -76,10 +76,12 @@ Page({
             footList[i].summary = utils.uncodeUtf16(footList[i].summary);
             footList[i].content = utils.uncodeUtf16(footList[i].content);
             footList[i].timeDiffrence = utils.timeDiffrence(res.data.currentTime, footList[i].updateTime, footList[i].createTime)
-            if (footList[i].homePic.endsWith(".jpg")){
+            footList[i].content = JSON.parse(footList[i].content)
+            if (footList[i].content[0].type != 'video'){
               footList[i].isimg = true
             }else{
               footList[i].isimg = false
+              footList[i].clickvideo = false
             }
             _data.push(footList[i]);
           }
@@ -102,6 +104,18 @@ Page({
       }
     })
   },
+  bindended:function(e){  //视频播放完成
+    const id = e.currentTarget.id
+    let _data = this.data.food
+    for (let i = 0; i < _data.length; i++) {
+      if (id == _data[i].id) {
+        _data[i].clickvideo = false
+        this.setData({
+          food: _data
+        })
+      }
+    }
+  },
   clickarticle: function (e) {  //点击某条文章
     const id = e.currentTarget.id
     this.setData({
@@ -113,8 +127,20 @@ Page({
       if (id == _data[i].id) {
         zan = _data[i].zan
         if (!_data[i].isimg){
+          _data[i].clickvideo=true
+          this.setData({
+            food:_data
+          })
           return false
         }else{
+          for (let i = 0; i < _data.length; i++) {
+            if (!_data[i].isimg) {
+              _data[i].clickvideo = false
+              this.setData({
+                food: _data
+              })
+            }
+          }
           wx.navigateTo({
             url: 'dynamic-state/article_details/article_details?id=' + id + '&zan=' + zan
           })

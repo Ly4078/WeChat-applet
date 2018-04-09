@@ -59,7 +59,7 @@ Page({
     wx.login({
       success: res => {
         let _code = res.code;
-        console.log("code:", _code)
+        // console.log("code:", _code)
         // return false  //此处返回，获取的code是没有用过的，用于测试
         if (res.code) {
           let _parms = {
@@ -266,11 +266,6 @@ Page({
       for (let i = 0; i < _data.length; i++) {
         _data[i].summary = utils.uncodeUtf16(_data[i].summary)
         _data[i].content = utils.uncodeUtf16(_data[i].content)
-        if (_data[i].homePic.endsWith(".jpg")) {
-          _data[i].isimg = true
-        } else {
-          _data[i].isimg = false
-        }
       }
       this.setData({
         food: res.data.data

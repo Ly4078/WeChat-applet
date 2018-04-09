@@ -46,8 +46,7 @@
 <!--美食墙  -->
 <template name="classifyss">
   <view id="{{item.id}}" catchtap="fooddetails" class="scroll_user">
-    <image class='cateWallImg' wx:if="{{item.isimg}}" mode="aspectFill" src='{{item.homePic}}'></image>
-    <video class='cateWallImg' wx:if="{{!item.isimg}}" mode="aspectFill" src='{{item.homePic}}'></video>
+    <image class='cateWallImg' mode="aspectFill" src='{{item.homePic}}'></image>
     <view class='catewallGroup'>
       <image class='catewalltou' mode="aspectFill" src='{{item.iconUrl}}'></image>
       <text class='catewallText'>{{item.userName}}</text>

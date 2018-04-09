@@ -283,6 +283,7 @@ to {margin-right: 0rpx;opacity: 0;}
 .findimg{
   width: 100%;
   height: 390rpx;
+  border-radius: 8rpx;
   margin-bottom: 21rpx;
 }
 
@@ -349,13 +350,13 @@ to {margin-right: 0rpx;opacity: 0;}
 
 .topall, .topbus, .topper{
   border: 1px solid #808080;
-  border-radius: 8rpx;
   color: #808080;
   font-size: 30rpx;
   min-width: 120rpx;
   padding: 0 20rpx;
   height: 50rpx;
-  line-height: 50rpx;
+  border-radius: 50rpx;
+  line-height: 44rpx;
   margin-right: 30rpx;
   float: left;
   background: #fff;
@@ -430,15 +431,25 @@ to {margin-right: 0rpx;opacity: 0;}
 .gastronomeName{
   width: 100%;
   height: 90rpx;
-  background-color: #191919;
-  opacity: 0.6;
+  background-color:rgba(25,25,25,0.6);
+  /* opacity: 0.6; */
   position: absolute;
   top: 300rpx;
   left: 0rpx;
   border-bottom-left-radius: 8rpx;
   border-bottom-right-radius: 8rpx;
 }
-
+.gastronomeNamevideo{
+  height: 390rpx;
+  top: 0rpx;
+  border-radius: 8rpx;
+}
+.gasimg{
+  width: 150rpx;
+  height: 150rpx;
+  opacity: 1;
+  margin: 120rpx 272rpx;
+}
 .modal_box{
   width: 100%;
   position: fixed;

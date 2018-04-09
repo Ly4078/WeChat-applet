@@ -7,7 +7,9 @@
 
 <view wx:if="{{iswzsp==2}}">
   <icon wx:if="{{covervideo}}" type="cancel" size="30" color="red" class='canceldeo' catchtap='delvideo'/>
-  <video wx:if="{{covervideo}}"  src="{{covervideo}}" class='dynamic_cover' controls ></video>
+  <video wx:if="{{covervideo}}" id="video" src="{{covervideo}}" class='dynamic_cover' controls >
+    
+  </video>
   <image wx:else catchtap='bindButtonTap' class='dynamic_cover' src='/images/icon/camera.png'></image>
 </view>
 
