@@ -96,7 +96,7 @@ Page({
             app.globalData.userInfo.iconUrl = data.iconUrl,
             app.globalData.userInfo.sourceType = data.sourceType,
             app.globalData.userInfo.sex = data.sex
-            app.globalData.userInfo.mobile = data.mobile
+          app.globalData.userInfo.mobile = data.mobile
         }
       }
     })
@@ -368,6 +368,12 @@ Page({
     // wx.navigateTo({
     //   url: 'test?liveid=' + liveid,
     // })
+  },
+  cctvwebview: function (event) {  //享7直播页面路径
+    wx.showToast({
+      title: "即将开发",
+      icon: 'none',
+    })
   },
   toNewExclusive: function (e) {   //跳转至新人专享页面
     let id = e.currentTarget.id;

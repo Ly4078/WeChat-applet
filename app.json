@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/index/cctvweb-view/cctvweb-view",
     "pages/personal-center/aboutMe/aboutMe",
     "pages/personal-center/aboutMe/officialWebsite/officialWebsite",
     "pages/index/merchant-particulars/recommendation/recommendation",

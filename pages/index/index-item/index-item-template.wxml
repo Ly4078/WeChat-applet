@@ -84,10 +84,10 @@
   <view class='wrap_recommend'>
     <view class='recommend'>
       <image class='recommend_img' src='/images/icon/home_sign.png'></image>
-      <view class='recommend_text'>享七直播</view>
+      <view class='recommend_text'>享七吃货</view>
     </view>
     <view class='djevenMore'>
-      <view class='recommend_right'>查看更多</view>
+      <view class='recommend_right' catchtap='cctvwebview'>查看更多</view>
       <image class='recommend_more' src='/images/icon/home_arrow.png'></image>
     </view>
   </view>
@@ -95,7 +95,7 @@
 
 <!--趣享直播  -->
 <template name="liveStreamingss">
-  <view id="{{item.id}}" bindtap='tolive' class="anchor bc_green">
+  <view id="{{item.id}}" bindtap='tolive' class="anchor bc_green"  catchtap='cctvwebview'>
     <image wx:if="{{item.vedioUrl}}" mode="aspectFill" class='anchor_img' src='{{item.vedioUrl}}'></image>
     <view class='cate_site'>{{item.anchorNickName}}:{{item.title}}</view>
   </view>
