@@ -119,8 +119,7 @@
   width: 694rpx;
   height: 2rpx;
   padding-top:20rpx; 
-  margin: 69rpx 0 69rpx 0;
-  /* border-top:1rpx solid #EBEBEB;  */
+  margin: 69rpx 0 150rpx 0;
 }
 .sharebut{
   background: red;
@@ -151,35 +150,27 @@ button[plain]{
   width: 694rpx;
   height: 4rpx;
   background: #EBEBEB;
-  margin-top:40rpx;
+  margin-top:129rpx;
 }
 .sharetitle{
-width: 185rpx;
-height: 40rpx;
-color: #B1B1B1;
-font-size: 30rpx;
-text-align: left;
-background: #fff;
-position: relative;
-top: 62rpx;
-left: 254.5rpx;
+  position:relative;
+  top:-26rpx;
+  left:242rpx;
+  padding:0 40rpx;
+  background:#fff;
+  display: block;
+  width:130rpx;
 }
+
 .myVideo{
   width:100%;
-height:390rpx;
+  height:390rpx;
 
 }
-  /*
-  底部评论相关
-    */
-
-
-
 /*
   评论列表样式
   */
-  .evaluate-maximum {
-  /* background-color: white; */
+.evaluate-maximum {
   padding: 0rpx 30rpx;
 }
 .evaluate-maximum::first-child {

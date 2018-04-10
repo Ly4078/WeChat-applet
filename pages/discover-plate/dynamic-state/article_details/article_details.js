@@ -314,38 +314,38 @@ Page({
 
 
 
-  onShareAppMessage: function (res) {
-    let that = this
-    let shareObj = {
-      title: "分享文章",      
-      success: function (res) {
-        // 转发成功之后的回调
-        if (res.errMsg == 'shareAppMessage:ok') {
-          // wx.showToast({
-          //   title: '转发成功',
-          //   icon: 'none',
-          //   duration: 2000
-          // })
-          let _parms = {topicId: that.data._id};
-          Api.share(_parms).then((res) => {
-            // console.log(res);
-          })
-        }
-      },
-      fail: function () {
-        wx.showToast({
-          title: '分享失败',
-          icon: 'none',
-          duration: 2000
-        })
-      }
-    }
-    if (res.from === 'button') { // 来自页面内转发按钮
-      var eData = res.target.dataset
-      // 此处可以修改 shareObj 中的内容
-      // shareObj.path = '/pages/discover-plate/dynamic-state/article_details/article_details?btn_name=' + eData.name;
-    }
-    return shareObj
-  }
+  // onShareAppMessage: function (res) {
+  //   let that = this
+  //   let shareObj = {
+  //     title: "分享文章",      
+  //     success: function (res) {
+  //       // 转发成功之后的回调
+  //       if (res.errMsg == 'shareAppMessage:ok') {
+  //         // wx.showToast({
+  //         //   title: '转发成功',
+  //         //   icon: 'none',
+  //         //   duration: 2000
+  //         // })
+  //         let _parms = {topicId: that.data._id};
+  //         Api.share(_parms).then((res) => {
+  //           // console.log(res);
+  //         })
+  //       }
+  //     },
+  //     fail: function () {
+  //       wx.showToast({
+  //         title: '分享失败',
+  //         icon: 'none',
+  //         duration: 2000
+  //       })
+  //     }
+  //   }
+  //   if (res.from === 'button') { // 来自页面内转发按钮
+  //     var eData = res.target.dataset
+  //     // 此处可以修改 shareObj 中的内容
+  //     // shareObj.path = '/pages/discover-plate/dynamic-state/article_details/article_details?btn_name=' + eData.name;
+  //   }
+  //   return shareObj
+  // }
 
 })
