@@ -1,14 +1,14 @@
 //index.js 
-// import Api from '/../../utils/config/api.js';
-// import { GLOBAL_API_DOMAIN } from '/../../utils/config/config.js';
-// var utils = require('../../utils/util.js')
-// let app = getApp()
+import Api from '../../../utils/config/api.js';
+import { GLOBAL_API_DOMAIN } from '../../../utils/config/config.js';
+var utils = require('../../../utils/util.js')
+let app = getApp()
 Page({
   data: {
     isNew: 0
   },
   onLoad: function (options) {
-    
+    this.isNewUser();
   },
   onReady: function () {
     
@@ -25,6 +25,7 @@ Page({
       userId: app.globalData.userInfo.userId
     };
     Api.isNewUser(_parms).then((res) => {
+      console.log(res.data.code)
       if (res.data.code == 0) {
         that.setData({
           isNew: 1
