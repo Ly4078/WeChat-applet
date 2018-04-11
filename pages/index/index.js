@@ -181,6 +181,10 @@ Page({
         let latitude = res.latitude
         let longitude = res.longitude
         that.requestCityName(latitude, longitude);
+      },
+      fail: function (res) {
+        let lat = '30.51597', lng = '114.34035';
+        that.requestCityName(lat, lng);
       }
     })
   },
