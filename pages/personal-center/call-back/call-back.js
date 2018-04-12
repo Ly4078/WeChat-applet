@@ -96,7 +96,7 @@ Page({
     })
   },
   bindinput: function (ev) {  //实时获取金额和计算
-    let _value = ev.detail.value
+    let _value = ev.detail.value*1
     let _data = this.data.ticketsinfo
     if(_value == '' && _value == undefined && _value == null){
       wx.showToast({
@@ -104,12 +104,22 @@ Page({
         icon: 'none',
         duration: 2000
       })
-        return false
+      this.setData({
+        okhx: false,
+        pay: ''
+      })
+      return false
     }else{
-      let _pay = _value * 1 - _data.couponAmount * 1 > 0 ? _value * 1 - _data.couponAmount * 1:''
+      _value = _value.toFixed(2)
+      let _pay = (_value * 1 - _data.couponAmount * 1 > 0 ? _value * 1 - _data.couponAmount * 1:'')*1
+      _pay = _pay.toFixed(2)
       if(_pay>0){
         this.setData({
           okhx:true
+        })
+      }else{
+        this.setData({
+          okhx: false
         })
       }
       this.setData({
