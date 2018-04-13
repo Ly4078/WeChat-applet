@@ -5,7 +5,7 @@
   <!-- <template is="locationSeek" data="{{...item}}" /> -->
 
   <!-- 新用户弹窗 -->
-   <view class="newUserModal" hidden="{{userGiftFlag || !isNew}}">
+   <view class="newUserModal" hidden="{{userGiftFlag || !isNew}}" catchtouchmove='true'>
     <view class="drawer_screen"></view>
     <view class="newUserM_box">
       <image class="user_present" src="/images/icon/newuser.png" bindtap='newUserToGet'></image>
