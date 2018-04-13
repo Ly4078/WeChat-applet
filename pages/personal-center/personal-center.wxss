@@ -148,5 +148,4 @@ button::after{
   height: 154rpx;
   margin-left: 298rpx;
   border-radius: 50%;
-  border: 1px solid #e0e0e0; 
 }

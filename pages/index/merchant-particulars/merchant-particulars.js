@@ -461,7 +461,22 @@ Page({
         }
       })
     }
-  }
+  },
+  onShareAppMessage: function (res) {
+    return {
+      title: this.data.store_details.shopName,
+      path: '',
+      imageUrl: '',
+      success: function (res) {
+        // 转发成功
+        console.log("res:", res)
+      },
+      fail: function (res) {
+        // 转发失败
+        console.log("res:", res)
+      }
+    }
+  },
 })
 // 标记
 // 获取flag
