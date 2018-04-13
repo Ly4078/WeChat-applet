@@ -22,8 +22,8 @@
             <text>{{item.skuName}}</text>
           </view>
           <view class='roll-unused'>
-            <text>{{item.unitPrice}}</text>
-            <text>X {{item.skuNum}}</text>
+            <text>￥{{item.unitPrice}}</text>
+            <text>x {{item.skuNum}}</text>
           </view>
         </view>
         <view class='roll-wrap-button'>

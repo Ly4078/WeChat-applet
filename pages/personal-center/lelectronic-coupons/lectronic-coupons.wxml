@@ -57,7 +57,7 @@
       </view>
       <view class='order-for-colour'>
         <text>付款时间</text>
-        <text>{{ticketInfo.paidTime}}</text>
+        <text>{{ticketInfo.paidTime ? ticketInfo.paidTime : ticketInfo.updateTime}}</text>
       </view>
       <view class='order-for-colour'>
         <text>数量</text>

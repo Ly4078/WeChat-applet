@@ -92,6 +92,7 @@
 
 .roll-unused text {
   display: block;
+  text-align: right;
 }
 
 .roll-unused text:last-child {
