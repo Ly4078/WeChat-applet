@@ -4,7 +4,8 @@ Page({
     actdata:[],
     page:1,
     actid:'',  //活动ID
-    flag: true
+    flag: true,
+    placeholderFlag: true
   },
 
   onLoad: function (options) {
@@ -47,6 +48,7 @@ Page({
           flag: false
         });
       }
+      this.placeholderFlag = this.data.actdata.length < 1 ? false : true;
       if(that.data.page == 1) {
         wx.stopPullDownRefresh()
       } else {

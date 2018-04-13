@@ -19,6 +19,6 @@
     </view>
   </block>
 </view>
-<view wx:else class='placeholder'>
+<view class='placeholder' hidden="{{placeholderFlag}}">
   <image src="/images/icon/zhanweitu.png"></image>
 </view>

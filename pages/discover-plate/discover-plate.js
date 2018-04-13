@@ -14,6 +14,7 @@ Page({
     isadd:false,
     sortype:'0',
     choicetype:'',
+    placeholderFlag: true
   },
   onLoad: function () {
 
@@ -115,7 +116,7 @@ Page({
       }else{
         wx.hideLoading()
       }
-      
+      this.placeholderFlag = this.data.food.length < 1 ? false : true;
       if (that.data.page == 1) {
         wx.stopPullDownRefresh();
       } else {

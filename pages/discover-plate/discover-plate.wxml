@@ -48,7 +48,7 @@
   </view>
 
   <view class='distop2'></view>
-  <view wx:if="{{food.length > 0}}" wx:for="{{food}}" wx:key="{{index}}" class='datafor'>
+  <view wx:for="{{food}}" wx:key="{{index}}" class='datafor'>
     <view class="scroll_user find">
       <view class='merchant_data'>
         <image src='{{item.iconUrl}}'></image>
@@ -92,7 +92,7 @@
       </view>
     </view>
   </view>
-  <view wx:if="{{food.length < 1}}" class='placeholder'>
+  <view class='placeholder' hidden='{{placeholderFlag}}'>
     <image src="/images/icon/zhanweitu.png"></image>
   </view>
   <!-- <view bindtap='clickadd' class="cladd clplus">
