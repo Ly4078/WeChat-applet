@@ -25,6 +25,9 @@ Page({
     sort: ['川湘菜', '海鲜', '火锅', '烧烤', '西餐', '自助餐', '聚会', '商务', '约会']
   },
   onLoad: function (options) {
+    wx.showLoading({
+      title: '加载中..'
+    })
     let that = this
     const updateManager = wx.getUpdateManager()
     updateManager.onCheckForUpdate(function (res) {
@@ -277,6 +280,7 @@ Page({
       this.setData({
         food: res.data.data
       })
+      wx.hideLoading();
     })
   },
   getactlist() {  //获取热门活动数据
