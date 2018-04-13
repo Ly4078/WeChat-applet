@@ -1,3 +1,7 @@
+
+import { GLOBAL_API_DOMAIN } from '../../../utils/config/config.js';
+import Api from '../../../utils/config/api.js'
+var app = getApp();
 Page({
   data: {
     currentSite: "",
@@ -18,8 +22,97 @@ Page({
     ]
   },
   onShow() {
+    this.wxgetsetting()
     this.setData({
       resultPosition: []
+    })
+  },
+  wxgetsetting: function () {  //若用户之前没用授权位置信息，则调整此函数请求用户授权
+    let that = this
+    wx.getSetting({
+      success: (res) => {
+        if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其用户信息或位置信息
+          wx.showModal({
+            title: '提示',
+            content: '享7要你的位置信息，快去授权',
+            success: function (res) {
+              if (res.confirm) {
+                wx.openSetting({  //打开授权设置界面
+                  success: (res) => {
+                    if (res.authSetting['scope.userLocation']) {
+                      wx.getLocation({
+                        type: 'wgs84',
+                        success: function (res) {
+                          let latitude = res.latitude
+                          let longitude = res.longitude
+                          that.requestCityName(latitude, longitude)
+                        }
+                      })
+                    }
+                    if (res.authSetting['scope.userInfo']) {
+                      wx.getUserInfo({
+                        success: res => {
+                          if (res.userInfo) {
+                            that.setData({
+                              iconUrl: res.userInfo.avatarUrl,
+                              nickName: res.userInfo.nickName,
+                            })
+                            that.updatauser(res.userInfo)
+                          }
+                        }
+                      })
+                    }
+                  }
+                })
+              }
+            }
+          })
+        }
+      }
+    })
+  },
+  requestCityName(lat, lng) {//获取当前城市
+    app.globalData.userInfo.lat = lat
+    app.globalData.userInfo.lng = lng
+    wx.request({
+      url: 'https://apis.map.qq.com/ws/geocoder/v1/?location=' + lat + "," + lng + "&key=4YFBZ-K7JH6-OYOS4-EIJ27-K473E-EUBV7",
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: (res) => {
+        this.getmoredata()
+        if (res.data.status == 0) {
+          this.setData({
+            city: res.data.result.address_component.city,
+            alltopics: [],
+            restaurant: [],
+            service: []
+          })
+          app.globalData.userInfo.city = res.data.result.address_component.city
+        }
+      }
+    })
+  },
+  updatauser: function (data) { //更新用户信息
+    let that = this
+    let _parms = {
+      id: app.globalData.userInfo.userId,
+      openId: app.globalData.userInfo.openId,
+    }
+    if (data.avatarUrl) {
+      _parms.iconUrl = data.avatarUrl
+    }
+    if (data.nickName) {
+      _parms.nickName = data.nickName
+    }
+    if (data.gender) {
+      _parms.sex = data.gender
+    }
+    Api.updateuser(_parms).then((res) => {
+      if (res.data.code == 0) {
+        app.globalData.userInfo.nickName = data.nickName
+        app.globalData.userInfo.iconUrl = data.avatarUrl
+      }
     })
   },
   anewPosition() { //重新定位

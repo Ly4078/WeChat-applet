@@ -156,6 +156,7 @@ Page({
     }
   },
   getverification: function () {  //获取验证码
+    return false   //暂时不用手机短信验证，
     let that = this
     if(this.data.phone){
       let _parms = {

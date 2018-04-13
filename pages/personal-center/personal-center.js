@@ -5,16 +5,13 @@ Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
     nickName: '',
-    iconUrl: app.globalData.userInfo.iconUrl,
+    iconUrl: '',
     isname: false,
     newname: '',
     qrCode: '',
     ismobile:true
   },
   onLoad:function(){
-    this.setData({
-      nickName:app.globalData.userInfo.nickName
-    })
     if (app.globalData.userInfo.mobile){
       this.setData({
         ismobile:false
@@ -24,6 +21,11 @@ Page({
   },
   onShow: function () {
     let that = this;
+    this.setData({
+      iconUrl: app.globalData.userInfo.iconUrl,
+      nickName: app.globalData.userInfo.nickName
+    })
+    
     wx.request({
       url: that.data._build_url + 'topic/myList',
       method: 'GET',
@@ -77,8 +79,9 @@ Page({
               Api.phoneAES(_pars).then((res) => {
                 if (res.data.code == 0) {
                   let _data = JSON.parse(res.data.data)
+                  // console.log("获取用户电话号码成功")
                   app.globalData.userInfo.mobile = _data.phoneNumber
-                  console.log("获取用户电话号码成功")
+                  
                   let _parss = {
                     id: app.globalData.userInfo.userId,
                     openId: app.globalData.userInfo.openId,
@@ -144,6 +147,16 @@ Page({
                         }
                       })
                     }
+                    if (res.authSetting['scope.userLocation']) {
+                      wx.getLocation({
+                        type: 'wgs84',
+                        success: function (res) {
+                          let latitude = res.latitude
+                          let longitude = res.longitude
+                          that.requestCityName(latitude, longitude)
+                        }
+                      })
+                    }
                   }
                 })
               }
@@ -172,6 +185,28 @@ Page({
       if (res.data.code == 0) {
         app.globalData.userInfo.nickName = data.nickName
         app.globalData.userInfo.iconUrl = data.avatarUrl
+      }
+    })
+  },
+  requestCityName(lat, lng) {//获取当前城市
+    app.globalData.userInfo.lat = lat
+    app.globalData.userInfo.lng = lng
+    wx.request({
+      url: 'https://apis.map.qq.com/ws/geocoder/v1/?location=' + lat + "," + lng + "&key=4YFBZ-K7JH6-OYOS4-EIJ27-K473E-EUBV7",
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: (res) => {
+        this.getmoredata()
+        if (res.data.status == 0) {
+          this.setData({
+            city: res.data.result.address_component.city,
+            alltopics: [],
+            restaurant: [],
+            service: []
+          })
+          app.globalData.userInfo.city = res.data.result.address_component.city
+        }
       }
     })
   },

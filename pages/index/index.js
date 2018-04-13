@@ -194,37 +194,7 @@ Page({
       }
     })
   },
-  wxgetsetting: function () {  //若用户之前没用授权位置信息，则调整此函数请求用户授权
-    let that = this
-    wx.getSetting({
-      success: (res) => {
-        if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其用户信息或位置信息
-          wx.showModal({
-            title: '提示',
-            content: '享7要你的位置信息，快去授权',
-            success: function (res) {
-              if (res.confirm) {
-                wx.openSetting({  //打开授权设置界面
-                  success: (res) => {
-                    if (res.authSetting['scope.userLocation']) {
-                      wx.getLocation({
-                        type: 'wgs84',
-                        success: function (res) {
-                          let latitude = res.latitude
-                          let longitude = res.longitude
-                          that.requestCityName(latitude, longitude)
-                        }
-                      })
-                    }
-                  }
-                })
-              }
-            }
-          })
-        }
-      }
-    })
-  },
+
   requestCityName(lat, lng) {//获取当前城市
     app.globalData.userInfo.lat = lat
     app.globalData.userInfo.lng = lng
@@ -304,7 +274,7 @@ Page({
     })
   },
   userLocation: function () {   // 用户定位
-    this.wxgetsetting()
+    
     wx.navigateTo({
       url: 'user-location/user-location',
     })
