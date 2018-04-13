@@ -2,7 +2,23 @@ var config = require('./config/config.js');
 import { myStore } from './tools/store';
 import { tools } from './tools/tools';
 
-
+function getNowFormatDate(){  //yyyy-MM-dd HH:MM:SS”
+  var date = new Date();
+  var seperator1 = "/"; 
+  var seperator2 = ":";
+  var month = date.getMonth() + 1;
+  var strDate = date.getDate();
+  if (month >= 1 && month <= 9) {
+    month = "0" + month;
+  }
+  if (strDate >= 0 && strDate <= 9) {
+    strDate = "0" + strDate;
+  }
+  var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
+    + " " + date.getHours() + seperator2 + date.getMinutes()
+    + seperator2 + date.getSeconds();
+  return currentdate;
+}
 
 //计算距离 纬度 经度 返回单位米
 function calcDistance(lat1, lng1, lat2, lng2) {
@@ -62,6 +78,7 @@ function uncodeUtf16(str) {  //反解开EMOJI编码后的字符串   与上对�
 
 function timeDiffrence(current, updateTime, createTime) {      //文章发布时间  updateTime
   let createT = '', timestamp = 0, str = '暂无';
+  updateTime = updateTime?updateTime.replace(/-/g, "/"):''; 
   updateTime = updateTime ? updateTime : createTime;
   if (updateTime != null && updateTime != '') {
     createT = new Date(updateTime).getTime();
@@ -90,5 +107,6 @@ module.exports = {
   uncodeUtf16: uncodeUtf16,
   timeDiffrence: timeDiffrence,
   store: myStore,
-  tools: tools
+  tools: tools,
+  getNowFormatDate: getNowFormatDate
 }

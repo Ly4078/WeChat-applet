@@ -1,6 +1,7 @@
 import Api from '../../../utils/config/api.js';
 // actStatus
 import { GLOBAL_API_DOMAIN } from '../../../utils/config/config.js';
+var utils = require('../../../utils/util.js');
 var app = getApp();
 Page({
   data: {
@@ -33,16 +34,22 @@ Page({
       if(res.data.code == 0){
         let _endtime = res.data.data.endTime;
         let _startTime = res.data.data.startTime;
+        _endtime = _endtime.replace(/-/g, "/");  
+        _startTime = _startTime.replace(/-/g, "/");  
         _startTime = Date.parse(_startTime);
         _endtime = Date.parse(_endtime);
-        let today = new Date();
-        today = Date.parse(today);
+        let today = Date.parse(new Date())
         let dateSpan = _endtime - today;
         let dateTime = _startTime - today;
+        let aaa = dateTime / (24 * 3600 * 1000)
+        let bbb = dateSpan / (24 * 3600 * 1000)
         let overdays = Math.floor(dateTime / (24 * 3600 * 1000));
         let iDays = Math.floor(dateSpan / (24 * 3600 * 1000));
         if (iDays < 1) {
           iDays = 0
+        }
+        if (overdays < 1) {
+          overdays = 0
         }
         that.setData({
           endtime: iDays,
