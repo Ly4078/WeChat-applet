@@ -19,6 +19,8 @@ Page({
     service: [],  //服务专题
     alltopics: [],
     currentTab: 0,
+    isNew: false,   //是否新用户
+    userGiftFlag: false,    //新用户礼包是否隐藏
     navbar: ['菜系专题', '服务专题'],
     sort: ['川湘菜', '海鲜', '火锅', '烧烤', '西餐', '自助餐', '聚会', '商务', '约会']
   },
@@ -68,6 +70,7 @@ Page({
           Api.useradd(_parms).then((res) => {
             if (res.data.data) {
               app.globalData.userInfo.userId = res.data.data
+              this.isNewUser()
               this.getuser()
               this.getlocation()
             }
@@ -427,5 +430,28 @@ Page({
         console.log("res:", res)
       }
     }
+  },
+  isNewUser: function () {   //判断是否新用户
+    let that = this;
+    let _parms = {
+      userId: app.globalData.userInfo.userId
+    };
+    Api.isNewUser(_parms).then((res) => {
+      if (res.data.code == 0) {
+        that.setData({
+          isNew: true
+        });
+      }
+    })
+  },
+  userGiftCancle: function() {    //新用户领取代金券
+    this.setData({
+      userGiftFlag: true
+    });
+  },
+  newUserToGet: function() {    //新用户跳转票券
+    wx.navigateTo({
+      url: 'consume-qibashare/consume-qibashare',
+    })
   }
 })
