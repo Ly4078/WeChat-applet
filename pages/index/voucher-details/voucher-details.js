@@ -1,12 +1,16 @@
 Page({
 
   data: {
-    obj:{}
+    obj:{},
+    orig:''
   },
   onLoad: function (options) {
+    options.inp = Number(options.inp)
+    let _inp = options.inp .toFixed(2)
     this.setData({
       obj: options,
-      sell: options.sell
+      sell: options.sell,
+      orig:_inp
     })
     if (options.num && options.num != 'undefined' && options.num != '') {
       this.setData({

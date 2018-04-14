@@ -45,6 +45,9 @@ Page({
   },
   onShow: function () {
     let that = this
+    if (app.globalData.userInfo.userId) {
+      this.isNewUser()
+    }
     let lat = wx.getStorageSync('lat')
     let lng = wx.getStorageSync('lng')
     // if(!app.globalData.userInfo.city){
@@ -274,7 +277,7 @@ Page({
     })
   },
   userLocation: function () {   // 用户定位
-    
+
     wx.navigateTo({
       url: 'user-location/user-location',
     })
@@ -415,17 +418,37 @@ Page({
         that.setData({
           isNew: true
         });
+      }else{
+        that.setData({
+          isNew: false
+        });
       }
     })
   },
-  userGiftCancle: function() {    //新用户领取代金券
+  userGiftCancle: function () {    //新用户领取代金券
     this.setData({
       userGiftFlag: true
     });
   },
-  newUserToGet: function() {    //新用户跳转票券
-    wx.navigateTo({
-      url: 'consume-qibashare/consume-qibashare',
+  newUserToGet: function () {    //新用户跳转票券
+    let that = this
+    let _parms = {
+      userId: app.globalData.userInfo.userId,
+      userName: app.globalData.userInfo.userName,
+      payType: '2',
+      skuId: '8',
+      skuNum: '1'
+    }
+    Api.getFreeTicket(_parms).then((res) => {
+      if (res.data.code == 0) {
+        wx.navigateTo({
+          url: '../personal-center/lelectronic-coupons/lectronic-coupons?id=' + res.data.data + '&isPay=1'
+        })
+      }
     })
   }
+  // wx.navigateTo({
+  //   url: 'consume-qibashare/consume-qibashare',
+  // })
+
 })

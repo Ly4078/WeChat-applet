@@ -11,7 +11,7 @@
       <view>
         <text class='amount-number'>{{sell}}</text>
         <text class='amount-text'>元</text>
-        <text class='past-due'>{{obj.inp}}元</text>
+        <text class='past-due'>{{orig}}元</text>
       </view>
       
       <view class='countersign-past-due'>

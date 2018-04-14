@@ -13,9 +13,17 @@ Page({
       rows: '20'
     }
     Api.terraceRoll(_parms).then((res) => {
-      this.setData({
-        information: res.data.data.list
-      })
+      if(res.data.code ==0){
+        let lists = res.data.data.list
+        for(let i=0;i<lists.length;i++){
+          lists[i].sellPrice = lists[i].sellPrice.toFixed(2)
+          // lists[i].inPrice = lists[i].inPrice.toFixed(2)
+        }
+        this.setData({
+          information: lists
+        })
+      }
+      
     })
   },
 

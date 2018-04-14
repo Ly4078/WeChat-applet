@@ -8,13 +8,13 @@ Page({
     isNew: 0
   },
   onLoad: function (options) {
-    this.isNewUser();
+   
   },
   onReady: function () {
     
   },
   onShow: function () {
-    
+    this.isNewUser();
   },
   onHide: function () {
     
@@ -35,8 +35,25 @@ Page({
   },
   toReceive: function() {  //点击领取新人专享
     if(this.data.isNew == 1) {
-      wx.navigateTo({
-        url: '/pages/index/consume-qibashare/consume-qibashare',
+      let that = this
+      let _parms = {
+        userId: app.globalData.userInfo.userId,
+        userName: app.globalData.userInfo.userName,
+        payType: '2',
+        skuId: '8',
+        skuNum: '1'
+      }
+      Api.getFreeTicket(_parms).then((res) => {
+        if (res.data.code == 0) {
+          wx.navigateTo({
+            url: '../../personal-center/lelectronic-coupons/lectronic-coupons?id=' + res.data.data + '&isPay=1'
+          })
+        }else{
+          wx.showToast({
+            title: '您已不是新用户！',
+            icon: 'none'
+          })
+        }
       })
     } else if (this.data.isNew == 0) {
       wx.showToast({
