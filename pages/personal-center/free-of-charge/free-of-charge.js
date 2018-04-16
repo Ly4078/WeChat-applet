@@ -12,6 +12,7 @@ Page({
     prompt: '入驻提示：商家需有具体餐饮实体店铺、有营业执照和许可证等方可申请入驻',
     userName: '',
     mobile: '',
+    ztmobile:'',
     shopName: '',
     address: '',
     businessCate: '',
@@ -163,6 +164,24 @@ Page({
   },
   blurmobile: function (e) {  //验证手机号
     let Phone = e.detail.value
+    let RegExp = /^(1[3584]\d{9}))$/;
+    if (RegExp.test(Phone) == false) {
+      wx.showToast({
+        title: '请正确手机号码',
+        icon: 'none',
+        duration: 1500
+      })
+      this.setData({
+        ztmobile: ''
+      })
+    } else {
+      this.setData({
+        ztmobile: Phone
+      })
+    }
+  },
+  blurmobile: function (e) {  //验证手机号
+    let Phone = e.detail.value
     let RegExp = /^((0\d{2,3}\d{7,8})|(1[3584]\d{9}))$/;
     if (RegExp.test(Phone) == false) {
       wx.showToast({
@@ -302,7 +321,7 @@ Page({
   },
   formSubmit: function (e) {  // 点击提交申请按钮
     let that = this
-    if (!this.data.userName || !this.data.mobile || !this.data.shopName || !this.data.address || !this.data.businessCate || !this.data.licensePic || !this.data.healthPic || !this.data.doorPic || !this.data.locationX || !this.data.locationY || !this.data.city || !this.data.sortype) {
+    if (!this.data.userName || !this.data.mobile || !this.data.shopName || !this.data.address || !this.data.businessCate || !this.data.licensePic || !this.data.healthPic || !this.data.doorPic || !this.data.locationX || !this.data.locationY || !this.data.city || !this.data.sortype || !this.data.ztmobile) {
       wx.showToast({
         title: '表单输入有误',
         icon: 'none',
@@ -310,6 +329,16 @@ Page({
       })
       return false
     }
+    let _parss = {
+      id: app.globalData.userInfo.userId,
+      openId: app.globalData.userInfo.openId,
+      mobile:this.data.ztmobile
+    }
+    Api.updateuser(_parss).then((res) => {
+      if (res.data.code == 0) {
+        console.log("保存用户电话号码成功")
+      }
+    })
     let _bauss = this.data.businessCate.toString()
     _bauss = _bauss + ',' + this.data.sortype
     let _parms = {

@@ -52,7 +52,9 @@ page {
   align-items: center;
   background-color: #fff;
 }
-
+.noeach{
+  border: none;
+}
 .message-qual{
   width: 694rpx;
   min-height: 280rpx;
@@ -134,3 +136,13 @@ page {
   height:22px; 
   border-radius: 1px
 }
+.tishi{
+ padding:0 28rpx;
+ font-size:24rpx;
+ color:#b1b1b1;
+ background: #fff;
+ border-bottom: 1px solid #e0e0e0;
+}
+ .bitian{
+  color: red;
+} 
