@@ -100,26 +100,14 @@
         <image class='myListImages' src='/images/icon/find_article_wechat.png'></image>
         <text class='mylistText'>在线客服</text>
       </view>
-      <text class='immobilization'>（09:00--18:00）</text>
-      <view class='customer-service' catchtap='contactCustomer'>
-        <contact-button type='default-light' class='wicket' size='20' session-from='weapp'></contact-button>
-      </view>
-      <view class='customer-service' catchtap='contactCustomer'>
-        <contact-button type='default-light' class='wicket' size='20' session-from='weapp'></contact-button>
-      </view>
-      <view class='customer-service' catchtap='contactCustomer'>
-        <contact-button type='default-light' class='wicket' size='20' session-from='weapp'></contact-button>
-      </view>
-      <view class='customer-service' catchtap='contactCustomer'>
-        <contact-button type='default-light' class='wicket' size='20' session-from='weapp'></contact-button>
-      </view>
-      <view class='customer-service' catchtap='contactCustomer'>
-        <contact-button type='default-light' class='wicket' size='20' session-from='weapp'></contact-button>
-      </view>
-      <view class='customer-service' catchtap='contactCustomer'>
-        <contact-button type='default-light' class='wicket' size='20' session-from='weapp'></contact-button>
-      </view>
+      <button open-type="contact" class='contacta'>（09:00--18:00）</button>
       <image class='myListArrows' src='/images/icon/home_arrow.png'></image>
+
+      <!-- <text class='immobilization'></text>
+      <view class='customer-service' catchtap='contactCustomer'>
+        <contact-button type='default-light' class='wicket' size='20' session-from='weapp'></contact-button>
+      </view>
+      <image class='myListArrows' src='/images/icon/home_arrow.png'></image> -->
     </view>
   </view>
   <view class='myList'>
