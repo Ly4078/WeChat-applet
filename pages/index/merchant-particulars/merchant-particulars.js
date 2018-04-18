@@ -14,9 +14,10 @@ Page({
     isComment: false,
     store_images: '',
     merchantArt: [],   //商家动态列表
-    activity:[],   //商家活动列表
+    activity: [],   //商家活动列表
     article_page: 1,
-    reFresh: true
+    reFresh: true,
+    issnap: false,  //是否是临时用户
   },
   onLoad: function (options) {
     this.setData({
@@ -75,17 +76,17 @@ Page({
       }
     })
   },
-  selectByShopId:function(){  //获取商家活动列表
-     let id = this.data.shopid;
+  selectByShopId: function () {  //获取商家活动列表
+    let id = this.data.shopid;
     let that = this;
     let _parms = {
-      shopId:id
+      shopId: id
     }
     Api.selectByShopId(_parms).then((res) => {
       if (res.data.code == 0) {
-        console.log("res:",res)
+        console.log("res:", res)
         that.setData({
-          activity:res.data.data
+          activity: res.data.data
         })
       }
     })
@@ -102,11 +103,11 @@ Page({
       this.merchantArt();
     }
   },
-  buynow:function(ev){  //点击立即购买
+  buynow: function (ev) {  //点击立即购买
     let skuid = ev.currentTarget.id
-    let _sell = '',_inp='',_rule=''
-    for (let i = 0; i < this.data.activity.length;i++){
-      if (skuid == this.data.activity[i].skuId){
+    let _sell = '', _inp = '', _rule = ''
+    for (let i = 0; i < this.data.activity.length; i++) {
+      if (skuid == this.data.activity[i].skuId) {
         _sell = this.data.activity[i].sellPrice;
         _inp = this.data.activity[i].inPrice;
         _rule = this.data.activity[i].ruleDesc;
@@ -168,7 +169,7 @@ Page({
         that.setData({
           merchantArt: articleList
         });
-        
+
       } else {
         wx.hideLoading();
         that.setData({
@@ -280,9 +281,14 @@ Page({
         if (data.code == 0 && data.data.list != null && data.data.list != "") {
           if (res.data.code == 0) {
             let _data = res.data.data.list
+            let reg = /^1[34578][0-9]{9}$/;
             for (let i = 0; i < _data.length; i++) {
               _data[i].content = utils.uncodeUtf16(_data[i].content)
+              if (reg.test(_data[i].nickName)) {
+                _data[i].nickName = _data[i].nickName.substr(0, 3) + "****" + _data[i].nickName.substr(7);
+              }
             }
+
             that.setData({
               comment_list: _data
             })
@@ -304,9 +310,14 @@ Page({
   },
   //评论点赞
   toLike: function (event) {
-    let that = this,
-      id = event.currentTarget.id,
-      index = "";
+    let that = this
+    if (app.globalData.userInfo.mobile == 'a' || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+      this.setData({
+        issnap: true
+      })
+      return false
+    } 
+    let id = event.currentTarget.id,index = "";
     for (var i = 0; i < this.data.comment_list.length; i++) {
       if (this.data.comment_list[i].id == id) {
         index = i;
@@ -335,9 +346,15 @@ Page({
   //取消点赞
   cancelLike: function (event) {
     let that = this,
-      id = event.currentTarget.id,
-      cmtType = "",
-      index = "";
+    id = event.currentTarget.id,
+    cmtType = "",
+    index = "";
+    if (app.globalData.userInfo.mobile == 'a' || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+      this.setData({
+        issnap: true
+      })
+      return false
+    } 
     for (var i = 0; i < this.data.comment_list.length; i++) {
       if (this.data.comment_list[i].id == id) {
         index = i;
@@ -383,6 +400,12 @@ Page({
   //收藏
   onCollect: function (event) {
     let that = this;
+    if (app.globalData.userInfo.mobile == 'a' || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+      this.setData({
+        issnap: true
+      })
+      return false
+    } 
     wx.request({
       url: that.data._build_url + 'fvs/add?userId=' + app.globalData.userInfo.userId + '&shopId=' + that.data.shopid,
       method: "POST",
@@ -403,6 +426,12 @@ Page({
   //取消收藏
   cancelCollect: function () {
     let that = this;
+    if (app.globalData.userInfo.mobile == 'a' || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+      this.setData({
+        issnap: true
+      })
+      return false
+    } 
     wx.request({
       url: that.data._build_url + 'fvs/delete?userId=' + app.globalData.userInfo.userId + '&shopId=' + that.data.shopid,
       method: "POST",
@@ -422,6 +451,12 @@ Page({
   },
   //显示发表评论框
   showAreatext: function () {
+    if (app.globalData.userInfo.mobile == 'a' || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+      this.setData({
+        issnap: true
+      })
+      return false
+    }
     this.setData({
       isComment: true
     })
@@ -449,7 +484,7 @@ Page({
         content: content,
         userId: app.globalData.userInfo.userId,
         userName: app.globalData.userInfo.userName,
-        nickName: app.globalData.userInfo.userName
+        nickName: app.globalData.userInfo.nickName
       }
       Api.cmtadd(_parms).then((res) => {
         if (res.data.code == 0) {
@@ -477,6 +512,75 @@ Page({
       }
     }
   },
+  getPhoneNumber: function (e) { //获取用户授权的电话号码
+    let that = this
+    let msg = e.detail
+    this.setData({
+      isphoneNumber: false
+    })
+    if (!e.detail.iv) { //拒绝授权
+      return false
+    }
+    wx.login({
+      success: res => {
+        if (res.code) {
+          let _parms = {
+            code: res.code
+          }
+          Api.getOpenId(_parms).then((res) => {
+            app.globalData.userInfo.openId = res.data.data.openId
+            app.globalData.userInfo.sessionKey = res.data.data.sessionKey
+            if (res.data.code == 0) {
+              let _pars = {
+                sessionKey: res.data.data.sessionKey,
+                ivData: msg.iv,
+                encrypData: msg.encryptedData
+              }
+              Api.phoneAES(_pars).then((res) => {
+                if (res.data.code == 0) {
+                  let _data = JSON.parse(res.data.data)
+                  console.log("_data:", _data)
+                  app.globalData.userInfo.mobile = _data.phoneNumber,
+                    this.setData({
+                      isphoneNumber: false,
+                      issnap: false
+                    })
+                  // this.getuseradd()
+                  this.addUserForVersion()
+                }
+              })
+            }
+          })
+        }
+      }
+    })
+  },
+  addUserForVersion: function () {  //创建新用户
+    let _parms = {
+      openId: app.globalData.userInfo.openId,
+      mobile: app.globalData.userInfo.mobile
+    }
+    Api.addUserForVersion(_parms).then((res) => {
+      if (res.data.code == 0) {
+        let _data = res.data.data
+        app.globalData.userInfo.userId = res.data.data
+        this.getuseradd()
+      } else {
+        Api.updateuser(_parms).then((res) => {
+          if (res.data.code == 0) {
+            app.globalData.userInfo.nickName = data.nickName
+            app.globalData.userInfo.iconUrl = data.avatarUrl
+            app.globalData.userInfo.mobile = data.mobile
+          }
+        })
+      }
+    })
+  },
+  closetel: function () {
+    this.setData({
+      issnap: false
+    })
+  }
 })
 // 标记
 // 获取flag

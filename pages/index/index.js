@@ -19,8 +19,11 @@ Page({
     service: [],  //服务专题
     alltopics: [],
     currentTab: 0,
+    issnap:false,  //是否是临时用户
     isNew: false,   //是否新用户
     userGiftFlag: false,    //新用户礼包是否隐藏
+    isphoneNumber: false,  //是否拿到手机号
+    isfirst:false,
     navbar: ['菜系专题', '服务专题'],
     sort: ['川湘菜', '海鲜', '火锅', '烧烤', '西餐', '自助餐', '聚会', '商务', '约会']
   },
@@ -41,7 +44,43 @@ Page({
     updateManager.onUpdateFailed(function () {
       // 新的版本下载失败
     })
-    this.getuseradd()
+    wx.login({
+      success: res => {
+        if (res.code) {
+          // console.log("code:", res.code)
+          // return false
+          let _parms = {
+            code: res.code
+          }
+          Api.findByCode(_parms).then((res) => {
+            let _data = res.data.data
+            app.globalData.userInfo.openId = _data.openId
+            if (res.data.code == 0) {
+              app.globalData.userInfo.userId = _data.id
+              this.setData({
+                isfirst:false
+              })
+              if (_data.mobile){
+                this.getuseradd()
+              }else{
+                this.setData({
+                  isfirst:true
+                })
+                this.getuseradd()
+                // this.requestCityName()
+              }
+            }else{
+              this.setData({
+                isfirst: true
+              })
+              app.globalData.userInfo.userId = '667'  //667是数据库里临时用户，需与数据里保持一致
+              this.getuser()
+              this.getlocation()
+            }
+          })
+        }
+      }
+    })
   },
   onShow: function () {
     let that = this
@@ -63,27 +102,13 @@ Page({
       }, 500)
     }
   },
+  onHide:function(){
+    this.userGiftCancle()
+  },
   getuseradd: function () {  //获取用户userid
-    wx.login({
-      success: res => {
-        let _code = res.code;
-        // console.log("code:", _code)
-        // return false  //此处返回，获取的code是没有用过的，用于测试
-        if (res.code) {
-          let _parms = {
-            code: res.code
-          }
-          Api.useradd(_parms).then((res) => {
-            if (res.data.data) {
-              app.globalData.userInfo.userId = res.data.data
-              this.isNewUser()
-              this.getuser()
-              this.getlocation()
-            }
-          })
-        }
-      }
-    })
+    // this.isNewUser()
+    this.getuser()
+    this.getlocation()
   },
   getuser: function () { //从自己的服务器获取用户信息
     let that = this
@@ -95,7 +120,7 @@ Page({
       success: function (res) {
         if (res.data.code == 0) {
           let data = res.data.data;
-          app.globalData.userInfo.userType = data.userType,
+            app.globalData.userInfo.userType = data.userType,
             app.globalData.userInfo.openId = data.openId,
             app.globalData.userInfo.password = data.password,
             app.globalData.userInfo.shopId = data.shopId ? data.shopId : '',
@@ -105,7 +130,7 @@ Page({
             app.globalData.userInfo.iconUrl = data.iconUrl,
             app.globalData.userInfo.sourceType = data.sourceType,
             app.globalData.userInfo.sex = data.sex
-          app.globalData.userInfo.mobile = data.mobile
+            app.globalData.userInfo.mobile = data.mobile
         }
       }
     })
@@ -124,6 +149,9 @@ Page({
     // this.gettopics();
   },
   onReachBottom: function () {  //用户上拉触底加载更多
+    if (!app.globalData.userInfo.mobile) {
+      return false
+    }
     if (this.data.alltopics.length < 1) {
       this.gettopics()
     }
@@ -361,6 +389,12 @@ Page({
   },
   toNewExclusive: function (e) {   //跳转至新人专享页面
     let id = e.currentTarget.id;
+    if (app.globalData.userInfo.mobile == 'a' || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+      this.setData({
+        issnap:true
+      })
+      return false
+    } 
     if (id == 4) {
       wx.navigateTo({
         url: 'new-exclusive/new-exclusive',
@@ -416,22 +450,38 @@ Page({
     Api.isNewUser(_parms).then((res) => {
       if (res.data.code == 0) {
         that.setData({
-          isNew: true
-        });
-      }else{
-        that.setData({
           isNew: false
-        });
+        })
+      } else {
+        that.setData({
+          isNew: true
+        })
       }
     })
   },
   userGiftCancle: function () {    //新用户领取代金券
     this.setData({
-      userGiftFlag: true
-    });
+      userGiftFlag: false,
+      isfirst: false,
+      isNew:false
+    })
+    
+    if (app.globalData.userInfo.mobile == 'a' || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null){
+      app.globalData.userInfo.userId = '667'
+      this.getuseradd()
+    }
   },
   newUserToGet: function () {    //新用户跳转票券
     let that = this
+    if (!this.data.isphoneNumber && app.globalData.userInfo.mobile == 'a'){
+      this.setData({
+        isphoneNumber: true
+      })
+      return false
+    }
+    this.setData({
+      isfirst: false
+    })
     let _parms = {
       userId: app.globalData.userInfo.userId,
       userName: app.globalData.userInfo.userName,
@@ -440,15 +490,83 @@ Page({
       skuNum: '1'
     }
     Api.getFreeTicket(_parms).then((res) => {
+      this.setData({
+        userGiftFlag: true
+      })
       if (res.data.code == 0) {
+        this.userGiftCancle()
         wx.navigateTo({
           url: '../personal-center/lelectronic-coupons/lectronic-coupons?id=' + res.data.data + '&isPay=1'
         })
       }
     })
+  },
+  getPhoneNumber: function (e) { //获取用户授权的电话号码
+    let that = this
+    let msg = e.detail
+    this.setData({
+      isphoneNumber:false
+    })
+    if (!e.detail.iv){ //拒绝授权
+      return false
+    }
+    wx.login({
+      success: res => {
+        if (res.code) {
+          let _parms = {
+            code: res.code
+          }
+          Api.getOpenId(_parms).then((res) => {
+            app.globalData.userInfo.openId = res.data.data.openId
+            app.globalData.userInfo.sessionKey = res.data.data.sessionKey
+            if (res.data.code == 0) {
+              let _pars = {
+                sessionKey: res.data.data.sessionKey,
+                ivData: msg.iv,
+                encrypData: msg.encryptedData
+              }
+              Api.phoneAES(_pars).then((res) => {
+                if (res.data.code == 0) {
+                  let _data = JSON.parse(res.data.data)
+                  app.globalData.userInfo.mobile = _data.phoneNumber,
+                  this.setData({
+                    isphoneNumber: false,
+                    issnap: false
+                  })
+                  // this.getuseradd()
+                  this.addUserForVersion()
+                }
+              })
+            }
+          })
+        }
+      }
+    })
+  },
+  addUserForVersion:function(){  //创建新用户
+    let _parms = {
+      openId: app.globalData.userInfo.openId,
+      mobile: app.globalData.userInfo.mobile
+    }
+    Api.addUserForVersion(_parms).then((res)=>{
+      if(res.data.code == 0){
+        let _data = res.data.data
+        app.globalData.userInfo.userId = res.data.data
+        this.getuseradd()
+      }else{
+        Api.updateuser(_parms).then((res) => {
+          if (res.data.code == 0) {
+            app.globalData.userInfo.nickName = data.nickName
+            app.globalData.userInfo.iconUrl = data.avatarUrl
+            app.globalData.userInfo.mobile = data.mobile
+          }
+        })
+      }
+    })
+  },
+  closetel:function(){
+    this.setData({
+      issnap:false
+    })
   }
-  // wx.navigateTo({
-  //   url: 'consume-qibashare/consume-qibashare',
-  // })
-
 })

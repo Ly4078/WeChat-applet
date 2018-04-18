@@ -1,4 +1,14 @@
 <import src="comment-template/comment-template.wxml" />
+
+    <view class="newUserModal" wx:if="{{issnap}}">
+      <view class='drawer_screen'>
+        <view class='sqtishi'>提示</view>
+        <view class='drphnumber'>点击‘确定’，获得更多体验</view>
+        <button  class='gettel sqgettel' open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">确定</button> 
+        <button class='gettel colosetel' bindtap='closetel'>取消</button>
+      </view>
+    </view>
+
 <view>
   <view class='detailsWrap'>
     <view class="img_shade" bindtap='moreImages'></view>
@@ -46,20 +56,20 @@
         </block>
       </swiper> -->
       <view class='doing' wx:for="{{activity}}" wx:key="{{index}}">
-        
+
         <view class='doinglist'>
-          
+
           <image class='doimg' src='/images/icon/quanhuodong.png'></image>
-          
+
           <view class='dotext'>
-            
-            <text class='manj'>{{item.ruleDesc}}\n</text> 
-            <text class='nowtext'>{{item.sellPrice}}元</text> 
-            <text class='original'>{{item.inPrice}}元</text>  </view>
-          
+
+            <text class='manj'>{{item.ruleDesc}}\n</text>
+            <text class='nowtext'>{{item.sellPrice}}元</text>
+            <text class='original'>{{item.inPrice}}元</text> </view>
+
           <button class='buynow' id="{{item.skuId}}" catchtap='buynow'>立即购买</button>
-           </view>
-         </view>
+        </view>
+      </view>
       <!-- 活动打折 -->
       <!-- <view class='currentTabWrap'>
         <view>
@@ -132,7 +142,7 @@
             <view class="merchant_data">
               <image src="{{item.iconUrl}}"></image>
               <view>
-                 <text class="merchant_name">{{item.userName}}</text> 
+                <text class="merchant_name">{{item.userName}}</text>
                 <text class="merchant_time">{{item.timeDiffrence}}</text>
               </view>
             </view>

@@ -12,7 +12,8 @@ Page({
     _value: '',  //搜索查询关键字
     starttime: '', //距离活动开始时间
     endtime: '', //距离活动结束时间
-    page:1
+    page:1,
+    issnap: false,  //是否是临时用户
   },
 
   onLoad: function (options) {
@@ -131,6 +132,12 @@ Page({
   },
   clickVote: function (e) {  //投票
     let that = this;
+    if (app.globalData.userInfo.mobile == 'a' || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+      this.setData({
+        issnap: true
+      })
+      return false
+    } 
     if (this.data.endtime == 0){
       wx.showToast({
         mask: true,
@@ -201,8 +208,14 @@ Page({
   takePartIn: function() {   //商家报名活动
     //userType  1 普通用户/2 商家用户
     let that = this,
-        userType = app.globalData.userInfo.userType,
-        shopId = app.globalData.userInfo.shopId;
+    userType = app.globalData.userInfo.userType,
+    shopId = app.globalData.userInfo.shopId
+    if (app.globalData.userInfo.mobile == 'a' || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+      this.setData({
+        issnap: true
+      })
+      return false
+    } 
     if (this.data.actdetail.actStatus == 0){
       wx.showToast({
         title: '抱歉! 活动还未开始，暂不接受报名',
@@ -261,5 +274,74 @@ Page({
       page: 1
     });
     this.getactlist();
+  },
+  getPhoneNumber: function (e) { //获取用户授权的电话号码
+    let that = this
+    let msg = e.detail
+    this.setData({
+      isphoneNumber: false
+    })
+    if (!e.detail.iv) { //拒绝授权
+      return false
+    }
+    wx.login({
+      success: res => {
+        if (res.code) {
+          let _parms = {
+            code: res.code
+          }
+          Api.getOpenId(_parms).then((res) => {
+            app.globalData.userInfo.openId = res.data.data.openId
+            app.globalData.userInfo.sessionKey = res.data.data.sessionKey
+            if (res.data.code == 0) {
+              let _pars = {
+                sessionKey: res.data.data.sessionKey,
+                ivData: msg.iv,
+                encrypData: msg.encryptedData
+              }
+              Api.phoneAES(_pars).then((res) => {
+                if (res.data.code == 0) {
+                  let _data = JSON.parse(res.data.data)
+                  console.log("_data:", _data)
+                  app.globalData.userInfo.mobile = _data.phoneNumber,
+                    this.setData({
+                      isphoneNumber: false,
+                      issnap: false
+                    })
+                  // this.getuseradd()
+                  this.addUserForVersion()
+                }
+              })
+            }
+          })
+        }
+      }
+    })
+  },
+  addUserForVersion: function () {  //创建新用户
+    let _parms = {
+      openId: app.globalData.userInfo.openId,
+      mobile: app.globalData.userInfo.mobile
+    }
+    Api.addUserForVersion(_parms).then((res) => {
+      if (res.data.code == 0) {
+        let _data = res.data.data
+        app.globalData.userInfo.userId = res.data.data
+        this.getuseradd()
+      } else {
+        Api.updateuser(_parms).then((res) => {
+          if (res.data.code == 0) {
+            app.globalData.userInfo.nickName = data.nickName
+            app.globalData.userInfo.iconUrl = data.avatarUrl
+            app.globalData.userInfo.mobile = data.mobile
+          }
+        })
+      }
+    })
+  },
+  closetel: function () {
+    this.setData({
+      issnap: false
+    })
   }
 })

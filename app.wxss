@@ -430,3 +430,71 @@ button{
   margin-top: -130rpx;
   margin-left: -156rpx;
 }
+
+.newUserModal { 
+  width: 100%; 
+  height: 100%; 
+  position: fixed; 
+  top: 0; 
+  left: 0; 
+  z-index: 200; 
+  overflow: hidden; 
+} 
+
+.drawer_screen {
+  width: 100%;
+  height: 100%;
+  background: #000; 
+  background: rgba(0,0,0,0.5);
+}
+.drphnumber{
+   width:580rpx;
+   text-align: center;
+  position:fixed;
+  left:85rpx;
+  top:321rpx;
+  overflow:auto;
+  z-index:201;
+  background: #FFF;
+  font-size:30rpx;
+  font-family:PingFangSC-Regular;
+  color:rgba(128,128,128,1);
+  padding:25rpx 0;
+  border-bottom: 1rpx solid rgba(224,224,224,1);
+}
+.sqtishi{
+  width:580rpx;
+  height:34rpx; 
+  font-size:36rpx;
+  text-align: center;
+  font-family:PingFangSC-Regular;
+  color:rgba(25,25,25,1);
+  padding: 25rpx 0;
+  background: #fff;
+  position:fixed;
+  left:85rpx;
+  top:249rpx;
+}
+.gettel{
+  width: 290rpx;
+  position:fixed;
+  overflow:auto;
+  z-index: 199; 
+  background: #fff;
+  color:rgba(128,128,128,1);
+  text-align: center;
+  border-radius: 0rpx!important;
+}
+.gettel::after{
+  border: none;
+}
+.sqgettel{
+  left:374rpx;
+  top:407rpx;
+  color: #FC5E2D;
+}
+.colosetel{
+  left:85rpx;
+  top:407rpx;
+  border-right: 1rpx solid rgba(224,224,224,1);
+}
