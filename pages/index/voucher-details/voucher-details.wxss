@@ -94,7 +94,11 @@ page {
   padding-top: 10px;
   padding-right: 20px;
 }
-
+.shouquan{
+  font-size: 30rpx;
+  margin-top:30rpx;
+  color:red;
+}
 .countersign-right-text {
   color: #fff;
   font-size: 40rpx;

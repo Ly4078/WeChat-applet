@@ -1,5 +1,4 @@
 <view>
-
   <image class='bannerTop' src='/images/icon/banner1.png'></image>
   <view class='prompt'>
     <text class='prompt_text'>{{prompt}}</text>
@@ -38,7 +37,7 @@
       </view>
     </view>
 
-    <view class='message-each' catchtap='opencate'>
+    <view class='message-each' catchtap='opencate' id='1'>
       <text class='message-name'><text class='bitian'>*</text>经营品类</text>
       <input class='message-text' name="businessCate" bindblur="inperFigure" placeholder="选择经营品类" type="text" value="{{businessCate}}" disabled="true"></input>
       <view class='gitkuoda'>
@@ -46,14 +45,24 @@
       <image class='more' src='/images/icon/home_arrow.png'></image>
       </view>
     </view>
-    <view class='message-each'>
+
+    <view class='message-each' catchtap='opencate' id='2'>
+      <text class='message-name'><text class='bitian'>*</text>环境分类</text>
+      <input class='message-text' name="sortype" bindblur="inperFigure" placeholder="环境分类" type="text" value="{{sortype}}" disabled="true"></input>
+      <view class='gitkuoda'>
+      <text></text>
+      <image class='more' src='/images/icon/home_arrow.png'></image>
+      </view>
+    </view>
+
+    <!-- <view class='message-each'>
       <text class='message-name'><text class='bitian'>*</text>环境分类</text>
       <picker bindchange="bindPickerChange" value="{{index}}" range="{{sort}}">
         <view class="picker">
           {{sort[index]}}
         </view>
       </picker>
-    </view>
+    </view> -->
 
     <view class='commercial'>
       <text>提交资质</text>

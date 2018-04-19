@@ -149,3 +149,9 @@ button::after{
   margin-left: 298rpx;
   border-radius: 50%;
 }
+.contacta{
+  width: 480rpx;
+  background: none;
+  font-size: 30rpx;
+  color: #191919;
+}

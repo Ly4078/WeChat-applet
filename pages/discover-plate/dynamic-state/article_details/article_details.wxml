@@ -1,4 +1,15 @@
 <import src="../../../index/merchant-particulars/comment-template/comment-template.wxml" />
+
+<view class="newUserModal" wx:if="{{issnap}}">
+  <view class='drawer_screen'>
+    <view class='sqtishi'>提示</view>
+    <view class='drphnumber'>点击‘确定’，获得更多体验</view>
+    <button class='gettel sqgettel' open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">确定</button>
+    <button class='gettel colosetel' bindtap='closetel'>取消</button>
+  </view>
+</view>
+
+
 <view class='detail'>
 
   <view class='title'>{{details.title}}</view>
@@ -24,7 +35,7 @@
         <image src='{{item.value}}' mode="aspectFill" class='midimg'></image>
         <view class='imgnote' wx:if="{{item.txt}}">{{item.txt}}</view>
       </view>
-      <view wx:if="{{item.type == 'video'}}" class='mindill'>         
+      <view wx:if="{{item.type == 'video'}}" class='mindill'>
         <video class="myVideo" src="{{item.value}}" controls></video>
         <view class='imgnote' wx:if="{{item.txt}}">{{item.txt}}</view>
       </view>
@@ -40,10 +51,10 @@
         <image wx:else src='/images/icon/home_zan.png' class='homezan' catchtap='dianzanwz'></image>
       </view>
     </view>
-    
-     <view class='sharebg'></view>
-      <text class='sharetitle'>文章评论</text>
-     <!-- <view class='sharebox'>
+
+    <view class='sharebg'></view>
+    <text class='sharetitle'>文章评论</text>
+    <!-- <view class='sharebox'>
        <button wx:if="{{_id}}" class='sharebut' bindtap='share' plain="true" data-name="shareBtn" open-type="share">
         <image class='shareimgl' src='/images/icon/find_article_wechat.png'></image>
         <image class='shareimgr' src='/images/icon/find_article_mine.png'></image>

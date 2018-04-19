@@ -7,6 +7,14 @@ const ALL_API = {
     method: 'POST', 
     url: 'user/list'
   },
+  addUserForVersion: { //新增用户
+    method: 'POST',
+    url: 'user/addUserForVersion'
+  },
+  findByCode: { //通过code查询用户信息
+    method: 'GET',
+    url: 'user/findByCode'
+  },
   getOpenId:{  //获取openId
     method:'POST',
     url:'wxpay/getOpenId'

@@ -24,7 +24,8 @@ Page({
     city: '',
     index: 0,
     sortype:'',
-    sort:['商务','聚会','约会']
+    sort:['商务','聚会','约会'],
+    intype:''
   },
 
   /**
@@ -51,11 +52,17 @@ Page({
   onShow: function () {
     let that = this
     wx.getStorage({
-      key: 'cate',
+      key: 'cate', 
       success: function (res) {
-        that.setData({
-          businessCate: res.data
-        })
+        if (that.data.intype == 2){
+          that.setData({
+            sortype: res.data
+          })
+        } else if (that.data.intype == 1){
+          that.setData({
+            businessCate: res.data
+          })
+        }    
       }
     })
   },
@@ -139,13 +146,23 @@ Page({
       // }
     })
   },
-  opencate: function () {  //打开选择分类
-    wx.navigateTo({
-      url: '../free-of-charge/category/category'
+  opencate: function (e) {  //打开选择分类
+    let _ind = e.currentTarget.id
+    let _data = ''
+    this.setData({
+      intype:_ind
     })
+    wx.navigateTo({
+      url: '../free-of-charge/category/category?ind='+_ind
+    })
+    if(_ind == 1){
+      _data = this.data.businessCate
+    }else{
+      _data = this.data.sortype
+    }
     wx.setStorage({
       key: 'cate',
-      data: this.data.businessCate,
+      data: _data
     })
   },
   blurname: function (e) {  //验证申请人必真
@@ -164,8 +181,9 @@ Page({
   },
   blurmobile: function (e) {  //验证手机号
     let Phone = e.detail.value
-    let RegExp = /^(1[3584]\d{9}))$/;
-    if (RegExp.test(Phone) == false) {
+    // let RegExp = /^(1[3584]\d{9}))$/;
+    // if ((/^1[3|4|5|8][0-9]\d{4,8}$/.test(Phone) == false) {
+      if (!(/^1[3|4|5|8][0-9]\d{4,8}$/.test(Phone))) { 
       wx.showToast({
         title: '请正确手机号码',
         icon: 'none',
@@ -340,7 +358,8 @@ Page({
       }
     })
     let _bauss = this.data.businessCate.toString()
-    _bauss = _bauss + ',' + this.data.sortype
+    let _sortype = this.data.sortype.toString()
+    _bauss = _bauss + ',' + _sortype
     let _parms = {
       userName: this.data.userName,
       mobile: this.data.mobile,

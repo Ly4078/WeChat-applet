@@ -19,7 +19,8 @@ Page({
     isComment: false,
     preview: {},    //预览数据
     userId: '1',  //虚拟ID 暂用
-    userName: '测试名称'   //虚拟名称 暂用
+    userName: '测试名称',   //虚拟名称 暂用
+    issnap: false  //是否是临时用户
   },
 
   /**
@@ -42,7 +43,6 @@ Page({
       this.setData({
         userInfo: app.globalData.userInfo
       })
-
     }
 
     // this.setcmtadd()
@@ -90,8 +90,12 @@ Page({
     Api.cmtlist(_parms).then((res) => {
       let _data = res.data.data;
       if (_data.list) {
+        let reg = /^1[34578][0-9]{9}$/; 
         for (let i = 0; i < _data.list.length; i++) {
           _data.list[i].content = utils.uncodeUtf16(_data.list[i].content)
+          if (reg.test(_data.list[i].nickName)) {
+            _data.list[i].nickName = _data.list[i].nickName.substr(0, 3) + "****" + _data.list[i].nickName.substr(7);
+          }
         }
         this.setData({
           cmtdata: _data
@@ -100,6 +104,12 @@ Page({
     })
   },
   showAreatext: function () {  //显示发表输入框
+    if (app.globalData.userInfo.mobile == 'a' || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+      this.setData({
+        issnap: true
+      })
+      return false
+    }
     this.setData({
       isComment: true
     })
@@ -152,6 +162,12 @@ Page({
   dianzanwz: function (e) {  //文章点赞
     let that = this
     let _details = this.data.details
+    if (app.globalData.userInfo.mobile == 'a' || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+      this.setData({
+        issnap: true
+      })
+      return false
+    }
     let _parms = {
       refId: _details.id,
       type: '2',
@@ -178,6 +194,12 @@ Page({
   quxiaozanwz: function () {  //文章取消点赞
     let that = this
     let _details = this.data.details
+    if (app.globalData.userInfo.mobile == 'a' || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+      this.setData({
+        issnap: true
+      })
+      return false
+    }
     let _parms = {
       refId: _details.id,
       type: '2',
@@ -208,6 +230,12 @@ Page({
     let that = this
     let id = event.currentTarget.id
     let ind = ''
+    if (app.globalData.userInfo.mobile == 'a' || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+      this.setData({
+        issnap: true
+      })
+      return false
+    }
     for (let i = 0; i < this.data.cmtdata.list.length; i++) {
       if (this.data.cmtdata.list[i].id == id) {
         ind = i;
@@ -234,11 +262,16 @@ Page({
       }
     })
   },
-  //取消点赞
-  cancelLike: function (event) {
+  cancelLike: function (event) {  //评论取消点赞
     let that = this
     let id = event.currentTarget.id
     let ind = ''
+    if (app.globalData.userInfo.mobile == 'a' || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+      this.setData({
+        issnap: true
+      })
+      return false
+    }
     for (let i = 0; i < this.data.cmtdata.list.length; i++) {
       if (this.data.cmtdata.list[i].id == id) {
         ind = i;
@@ -263,6 +296,75 @@ Page({
           cmtdata: _cmtdata
         });
       }
+    })
+  },
+  getPhoneNumber: function (e) { //获取用户授权的电话号码
+    let that = this
+    let msg = e.detail
+    this.setData({
+      isphoneNumber: false
+    })
+    if (!e.detail.iv) { //拒绝授权
+      return false
+    }
+    wx.login({
+      success: res => {
+        if (res.code) {
+          let _parms = {
+            code: res.code
+          }
+          Api.getOpenId(_parms).then((res) => {
+            app.globalData.userInfo.openId = res.data.data.openId
+            app.globalData.userInfo.sessionKey = res.data.data.sessionKey
+            if (res.data.code == 0) {
+              let _pars = {
+                sessionKey: res.data.data.sessionKey,
+                ivData: msg.iv,
+                encrypData: msg.encryptedData
+              }
+              Api.phoneAES(_pars).then((res) => {
+                if (res.data.code == 0) {
+                  let _data = JSON.parse(res.data.data)
+                  console.log("_data:", _data)
+                  app.globalData.userInfo.mobile = _data.phoneNumber,
+                    this.setData({
+                      isphoneNumber: false,
+                      issnap: false
+                    })
+                  // this.getuseradd()
+                  this.addUserForVersion()
+                }
+              })
+            }
+          })
+        }
+      }
+    })
+  },
+  addUserForVersion: function () {  //创建新用户
+    let _parms = {
+      openId: app.globalData.userInfo.openId,
+      mobile: app.globalData.userInfo.mobile
+    }
+    Api.addUserForVersion(_parms).then((res) => {
+      if (res.data.code == 0) {
+        let _data = res.data.data
+        app.globalData.userInfo.userId = res.data.data
+        this.getuseradd()
+      } else {
+        Api.updateuser(_parms).then((res) => {
+          if (res.data.code == 0) {
+            app.globalData.userInfo.nickName = data.nickName
+            app.globalData.userInfo.iconUrl = data.avatarUrl
+            app.globalData.userInfo.mobile = data.mobile
+          }
+        })
+      }
+    })
+  },
+  closetel: function () {
+    this.setData({
+      issnap: false
     })
   },
   /**

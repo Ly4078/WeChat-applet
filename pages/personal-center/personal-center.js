@@ -9,7 +9,10 @@ Page({
     isname: false,
     newname: '',
     qrCode: '',
-    ismobile:true
+    sumTotal:0,
+    collectTotal:0,
+    ismobile:true,
+    issnap: false,  //是否是临时用户
   },
   onLoad:function(){
     if (app.globalData.userInfo.mobile){
@@ -21,9 +24,15 @@ Page({
   },
   onShow: function () {
     let that = this;
+    let _nickName = ''
+    _nickName = app.globalData.userInfo.nickName ? app.globalData.userInfo.nickName : app.globalData.userInfo.userName;
+    let reg = /^1[34578][0-9]{9}$/;
+    if (reg.test(_nickName)) {
+      _nickName = _nickName.substr(0, 3) + "****" + _nickName.substr(7);
+    }
     this.setData({
       iconUrl: app.globalData.userInfo.iconUrl,
-      nickName: app.globalData.userInfo.nickName
+      nickName: _nickName
     })
     
     wx.request({
@@ -55,53 +64,6 @@ Page({
         that.setData({
           collectTotal: res.data.data.total
         })
-      }
-    })
-  },
-  getPhoneNumber: function (e) { //获取用户授权的电话号码
-    let that = this
-    let msg = e.detail
-    wx.login({
-      success: res => {
-        if (res.code) {
-          let _parms = {
-            code: res.code
-          }
-          Api.getOpenId(_parms).then((res) => {
-            if (res.data.code == 0) {
-              app.globalData.userInfo.openId = res.data.data.openId,
-              app.globalData.userInfo.sessionKey = res.data.data.sessionKey
-              let _pars = {
-                sessionKey: res.data.data.sessionKey,
-                ivData: msg.iv,
-                encrypData: msg.encryptedData
-              }
-              Api.phoneAES(_pars).then((res) => {
-                if (res.data.code == 0) {
-                  let _data = JSON.parse(res.data.data)
-                  // console.log("获取用户电话号码成功")
-                  app.globalData.userInfo.mobile = _data.phoneNumber
-                  
-                  let _parss = {
-                    id: app.globalData.userInfo.userId,
-                    openId: app.globalData.userInfo.openId,
-                  }
-                  if (_data.phoneNumber) {
-                    _parss.mobile = _data.phoneNumber
-                  }
-                  Api.updateuser(_parss).then((res) => {
-                    if (res.data.code == 0) {
-                      console.log("保存用户电话号码成功")
-                      that.setData({
-                        ismobile: false
-                      })
-                    }
-                  })
-                }
-              })
-            }
-          })
-        }
       }
     })
   },
@@ -222,6 +184,12 @@ Page({
     })
   },
   enterEntrance: function (event) { //点击免费入驻
+    if (app.globalData.userInfo.mobile == 'a' || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+      this.setData({
+        issnap: true
+      })
+      return false
+    }
     wx.getSetting({
       success: (res) => {
         if (!res.authSetting['scope.userInfo']) { // 用户未授受获取其用户信息或位置信息
@@ -371,4 +339,73 @@ Page({
       title: '该功能即将开放...',
     })
   },
+  getPhoneNumber: function (e) { //获取用户授权的电话号码
+    let that = this
+    let msg = e.detail
+    this.setData({
+      isphoneNumber: false
+    })
+    if (!e.detail.iv) { //拒绝授权
+      return false
+    }
+    wx.login({
+      success: res => {
+        if (res.code) {
+          let _parms = {
+            code: res.code
+          }
+          Api.getOpenId(_parms).then((res) => {
+            app.globalData.userInfo.openId = res.data.data.openId
+            app.globalData.userInfo.sessionKey = res.data.data.sessionKey
+            if (res.data.code == 0) {
+              let _pars = {
+                sessionKey: res.data.data.sessionKey,
+                ivData: msg.iv,
+                encrypData: msg.encryptedData
+              }
+              Api.phoneAES(_pars).then((res) => {
+                if (res.data.code == 0) {
+                  let _data = JSON.parse(res.data.data)
+                  console.log("_data:", _data)
+                  app.globalData.userInfo.mobile = _data.phoneNumber,
+                    this.setData({
+                      isphoneNumber: false,
+                      issnap: false
+                    })
+                  // this.getuseradd()
+                  this.addUserForVersion()
+                }
+              })
+            }
+          })
+        }
+      }
+    })
+  },
+  addUserForVersion: function () {  //创建新用户
+    let _parms = {
+      openId: app.globalData.userInfo.openId,
+      mobile: app.globalData.userInfo.mobile
+    }
+    Api.addUserForVersion(_parms).then((res) => {
+      if (res.data.code == 0) {
+        let _data = res.data.data
+        app.globalData.userInfo.userId = res.data.data
+        this.getuseradd()
+      } else {
+        Api.updateuser(_parms).then((res) => {
+          if (res.data.code == 0) {
+            app.globalData.userInfo.nickName = data.nickName
+            app.globalData.userInfo.iconUrl = data.avatarUrl
+            app.globalData.userInfo.mobile = data.mobile
+          }
+        })
+      }
+    })
+  },
+  closetel: function () {
+    this.setData({
+      issnap: false
+    })
+  }
 })

@@ -1,20 +1,33 @@
 <import src="index-item/index-item-template.wxml" />
+
 <!--index.wxml-->
 <view class="container">
   <!--顶部 定位 搜索 卷  -->
   <!-- <template is="locationSeek" data="{{...item}}" /> -->
 
   <!-- 新用户弹窗 -->
-   <view class="newUserModal" hidden="{{userGiftFlag || !isNew}}" catchtouchmove='true'>
-    <view class="drawer_screen"></view>
-    <view class="newUserM_box">
-      <image class="user_present" src="/images/icon/newuser.png" bindtap='newUserToGet'></image>
-      <image class="newUserM_gif" src="/images/icon/xiangqiLGBL.gif"></image>
-      <image class="newuser_cancel" src="/images/icon/cancel.png" bindtap='userGiftCancle'></image>
+      
+  <!--  -->
+    <view class="newUserModal" wx:if="{{issnap}}">
+      <view class='drawer_screen'>
+        <view class='sqtishi'>提示</view>
+        <view class='drphnumber'>点击‘确定’，获得更多体验</view>
+        <button  class='gettel sqgettel' open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">确定</button> 
+        <button class='gettel colosetel' bindtap='closetel'>取消</button>
+      </view>
     </view>
 
-  </view> 
-
+    
+    <view class="newUserModal" wx:if="{{userGiftFlag || isNew || isfirst}}"  catchtouchmove='true'>
+     <!-- <view class="newUserModal" catchtouchmove='true'> -->
+       <view class="drawer_screen"></view> 
+      <view class="newUserM_box">
+         <image class="user_present" src="/images/icon/newuser.png" bindtap='newUserToGet'></image> 
+         <image class="newUserM_gif" src="/images/icon/xiangqiLGBL.gif"></image>
+         <button wx:if="{{isphoneNumber}}" class='gettels' open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">新用户请先授权手机号</button>   
+          <image class="newuser_cancel" src="/images/icon/cancel.png" bindtap='userGiftCancle'></image>  
+      </view> 
+    </view>
   <view class='headSeek'>
     <view class='site_location' bindtap='userLocation'>
       <text class='site_location_text'>{{city}}</text>
@@ -89,10 +102,10 @@
   </view>
 
   <!-- 专题推荐 -->
-  <view class='recommend-topics'>
+  <view class='recommend-topics' wx:if="{{!isphoneNumber}}">
     <text>专题推荐</text>
   </view>
-  <view class='homepage'>
+  <view class='homepage' wx:if="{{!isphoneNumber}}">
     <!--tab导航条-->
     <view class="navbar">
       <text wx:for="{{navbar}}" wx:key="{{index}}" data-idx="{{index}}" class="item {{currentTab==index ? 'active' : ''}}" bindtap="navbarTap">{{item}}</text>
