@@ -91,6 +91,7 @@ Page({
             _data[i].voteNum = utils.million(_data[i].voteNum) 
             _actlist.push(_data[i]);
           }
+          console.log("_actlist:", _actlist)
           that.setData({
             actlist: _actlist
           })
@@ -135,7 +136,7 @@ Page({
     })
   },
   clickVote: function (e) {  //投票
-    let that = this;
+    let that = this
     if (app.globalData.userInfo.mobile == 'a' || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
       this.setData({
         issnap: true
@@ -169,13 +170,18 @@ Page({
     let arr = this.data.actlist
     for (let i = 0; i < arr.length; i++) {
       let ind = i;
-      if (stopid == arr[i].id) {
-        if (arr[i].isVote != 0) {
-          Api.votedelete(_parms).then((res) => {
+      if (stopid == arr[i].shopId) {
+        console.log("arr[i]:",arr[i])
+        let [..._arr] = arr[i]
+        console.log("_arr:",_arr)
+        // return false
+        if (arr[i].isVote == 0) {
+          Api.voteadd(_parms).then((res) => {
+            console.log("add")
             if (res.data.code == 0) {
-              arr[ind].isVote = 0,
+              arr[ind].isVote = 1,
                 arr[ind].voteNum = arr[i].voteNum + 1,
-                ++vote.voteNum
+                --vote.voteNum
                 that.setData({
                   actlist: arr,
                   actdetail:vote
@@ -188,16 +194,16 @@ Page({
             }
           })
         } else {
-          Api.voteadd(_parms).then((res) => {
+          console.log("votedelete")
+          Api.votedelete(_parms).then((res) => {
             if (res.data.code == 0) {
-              arr[ind].isVote = 1,
+              arr[ind].isVote = 0,
                 arr[ind].voteNum = arr[i].voteNum - 1,
-                --vote.voteNum
+                ++vote.voteNum
                 that.setData({
                   actlist: arr,
                   actdetail: vote
                 })
-                
               wx.showToast({
                 mask: true,
                 icon: 'none',
