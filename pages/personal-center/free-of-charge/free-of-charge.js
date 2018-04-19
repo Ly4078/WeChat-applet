@@ -122,6 +122,9 @@ Page({
           key: 'cate',
           data: '',
         })
+        if(res.data.data == null){
+          return false
+        }
         if (res.data.data.status == 0 || res.data.data.status == 1) {
           if (res.data.data && res.data.data.id) {
             let _content=''
@@ -362,6 +365,7 @@ Page({
   },
   formSubmit: function (e) {  // 点击提交申请按钮
     let that = this
+    console.log("e:",e)
     if (!this.data.userName || !this.data.mobile || !this.data.shopName || !this.data.address || !this.data.businessCate || !this.data.licensePic || !this.data.healthPic || !this.data.doorPic || !this.data.locationX || !this.data.locationY || !this.data.city || !this.data.sortype || !this.data.ztmobile) {
       wx.showToast({
         title: '表单输入有误',
@@ -397,7 +401,7 @@ Page({
       city: this.data.city,
       userId: app.globalData.userInfo.userId
     }
-  
+    console.log("_parms:", _parms)
     Api.merchantEnter(_parms).then((res) => {
       if (res.data.code == 0) {
         wx.showModal({
