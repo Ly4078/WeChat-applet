@@ -69,9 +69,11 @@ Page({
         'content-type': 'application/json;Authorization'
       },
       success: function (res) {
+        let _data = res.data.data
+        _data.popNum = utils.million(_data.popNum)
         that.setData({
-          store_details: res.data.data,
-          store_images: res.data.data.shopTopPics.length
+          store_details: _data,
+          store_images: _data.shopTopPics.length
         })
       }
     })
@@ -283,9 +285,11 @@ Page({
             let _data = res.data.data.list
             let reg = /^1[34578][0-9]{9}$/;
             for (let i = 0; i < _data.length; i++) {
+              _data[i].zan = utils.million(_data[i].zan)
               _data[i].content = utils.uncodeUtf16(_data[i].content)
               if (reg.test(_data[i].nickName)) {
                 _data[i].nickName = _data[i].nickName.substr(0, 3) + "****" + _data[i].nickName.substr(7);
+                
               }
             }
 

@@ -1,13 +1,13 @@
 import Api from '/../../../utils/config/api.js'
+var utils = require('../../../utils/util.js');
 var app = getApp();
 Page({
   data: {
     information: [],
     obj: {}
   },
-  onLoad: function (options) {
-    let that = this;
-    //享7劵
+  onLoad: function (options) { //享7劵
+    let that = this
     let _parms = {
       userId: app.globalData.userInfo.userId,
       rows: '20'
@@ -17,13 +17,12 @@ Page({
         let lists = res.data.data.list
         for(let i=0;i<lists.length;i++){
           lists[i].sellPrice = lists[i].sellPrice.toFixed(2)
-          // lists[i].inPrice = lists[i].inPrice.toFixed(2)
+          lists[i].sellNum = utils.million(lists[i].sellNum)
         }
         this.setData({
           information: lists
         })
       }
-      
     })
   },
 

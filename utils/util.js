@@ -99,7 +99,9 @@ function timeDiffrence(current, updateTime, createTime) {      //文章发布时
   }
   return str;
 }
-
+function million(num){    //数字过万处理
+  return num > 9999 ? (Math.floor(num / 1000) / 10) + '万+' : num
+}
 module.exports = {
   calcDistance: calcDistance,
   transformLength: transformLength,
@@ -108,5 +110,6 @@ module.exports = {
   timeDiffrence: timeDiffrence,
   store: myStore,
   tools: tools,
+  million: million,
   getNowFormatDate: getNowFormatDate
 }

@@ -28,7 +28,6 @@ Page({
   onHide:function(){
     let _data = this.data.food
     for (let i = 0; i < _data.length; i++) {
-      _data[i].clickvideo = false
       this.setData({
         food: _data
       })
@@ -97,6 +96,9 @@ Page({
             footList[i].content = utils.uncodeUtf16(footList[i].content);
             footList[i].timeDiffrence = utils.timeDiffrence(res.data.currentTime, footList[i].updateTime, footList[i].createTime)
             footList[i].content = JSON.parse(footList[i].content)
+            footList[i].hitNum = utils.million(footList[i].hitNum)
+            footList[i].commentNum = utils.million(footList[i].commentNum)
+            footList[i].transNum = utils.million(footList[i].transNum)
             if (footList[i].content[0].type != 'video'){
               footList[i].isimg = true
             }else{

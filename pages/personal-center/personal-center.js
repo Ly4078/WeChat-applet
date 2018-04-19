@@ -1,5 +1,6 @@
 import { GLOBAL_API_DOMAIN } from '/../../utils/config/config.js';
 import Api from '../../utils/config/api.js'
+var utils = require('../../utils/util.js')
 var app = getApp();
 Page({
   data: {
@@ -44,9 +45,10 @@ Page({
         rows: 1,
       },
       success: function (res) {
-        var data = res.data;
+        let _total = res.data.data.total
+        _total = utils.million(_total) 
         that.setData({
-          sumTotal: res.data.data.total
+          sumTotal: _total
         })
       }
     })
@@ -59,10 +61,10 @@ Page({
         rows: 1,
       },
       success: function (res) {
-        var data = res.data;
-        var aaa = res.data.data.total
+        let _total = res.data.data.total
+        _total = utils.million(_total) 
         that.setData({
-          collectTotal: res.data.data.total
+          collectTotal: _total
         })
       }
     })
@@ -86,6 +88,10 @@ Page({
   },
   wxgetsetting: function () {  //若用户之前没用授权其用户信息，则调整此函数请求用户授权
     let that = this
+    console.log(app.globalData.userInfo.mobile)
+    if (app.globalData.userInfo.mobile == 'a' || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+      return false
+    }
     wx.getSetting({
       success: (res) => {
         if (!res.authSetting['scope.userInfo']) {// 用户未授受获取其用户信息

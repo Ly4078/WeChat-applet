@@ -37,6 +37,7 @@ Page({
       this.getcmtlist()
     } else {
       options.content = JSON.parse(options.content)
+           
       this.setData({
         details: options
       })
@@ -61,6 +62,8 @@ Page({
         _data.content = utils.uncodeUtf16(_data.content)
         _data.timeDiffrence = utils.timeDiffrence(res.data.currentTime, _data.updateTime, _data.createTime)
         _data.content = JSON.parse(_data.content)
+        _data.hitNum = utils.million(_data.hitNum)
+        _data.zan = utils.million(_data.zan)  
         this.setData({
           details: _data
         })
@@ -89,12 +92,15 @@ Page({
     }
     Api.cmtlist(_parms).then((res) => {
       let _data = res.data.data;
+      _data.total = _data.total*100000
+      _data.total = utils.million(_data.total) 
       if (_data.list) {
         let reg = /^1[34578][0-9]{9}$/; 
         for (let i = 0; i < _data.list.length; i++) {
           _data.list[i].content = utils.uncodeUtf16(_data.list[i].content)
+          _data.list[i].zan = utils.million(_data.list[i].zan) 
           if (reg.test(_data.list[i].nickName)) {
-            _data.list[i].nickName = _data.list[i].nickName.substr(0, 3) + "****" + _data.list[i].nickName.substr(7);
+            _data.list[i].nickName = _data.list[i].nickName.substr(0, 3) + "****" + _data.list[i].nickName.substr(7)
           }
         }
         this.setData({
@@ -114,8 +120,7 @@ Page({
       isComment: true
     })
   },
-  //获取评论输入框
-  getCommentVal: function (e) {
+  getCommentVal: function (e) { //获取评论输入框
     this.setData({
       commentVal: e.detail.value
     })

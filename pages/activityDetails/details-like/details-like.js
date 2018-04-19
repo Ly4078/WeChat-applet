@@ -1,5 +1,4 @@
 import Api from '../../../utils/config/api.js';
-// actStatus
 import { GLOBAL_API_DOMAIN } from '../../../utils/config/config.js';
 var utils = require('../../../utils/util.js');
 var app = getApp();
@@ -56,8 +55,12 @@ Page({
           endtime: iDays,
           starttime: overdays
         })
+        let _datail = res.data.data
+        _datail.shopNum = utils.million(_datail.shopNum) 
+        _datail.viewNum = utils.million(_datail.viewNum) 
+        _datail.voteNum = _datail.voteNum > 99999 ? (Math.floor(_datail.voteNum / 1000) / 10) + '万+' : _datail.voteNum
         that.setData({
-          actdetail: res.data.data
+          actdetail: _datail
         })
         wx.stopPullDownRefresh()
         wx.hideLoading();
@@ -84,7 +87,8 @@ Page({
         if (res.data.data.list != '' && res.data.data.list != null){
           let _actlist = this.data.actlist
           let _data = res.data.data.list
-          for (var i = 0; i < _data.length; i++) {
+          for (let i = 0; i < _data.length; i++) {
+            _data[i].voteNum = utils.million(_data[i].voteNum) 
             _actlist.push(_data[i]);
           }
           that.setData({

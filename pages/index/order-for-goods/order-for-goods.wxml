@@ -1,3 +1,12 @@
+<view class="newUserModal" wx:if="{{issnap}}">
+  <view class='drawer_screen'>
+    <view class='sqtishi'>提示</view>
+    <view class='drphnumber'>点击‘确定’，获得更多体验</view>
+    <button class='gettel sqgettel' open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">确定</button>
+    <button class='gettel colosetel' bindtap='closetel'>取消</button>
+  </view>
+</view>
+
 <view>
   <view class='particulars'>
     <view class='particulars_details'>

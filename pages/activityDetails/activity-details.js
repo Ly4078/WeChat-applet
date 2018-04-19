@@ -1,4 +1,5 @@
-import Api from '/../../utils/config/api.js';  //每个有请求的JS文件都要写这个，注意路径
+import Api from '/../../utils/config/api.js'; 
+var utils = require('/../../utils/util.js');
 Page({
   data: {
     actdata:[],
@@ -37,6 +38,7 @@ Page({
         let actList = [];
         actList = that.data.actdata;
         for (let i = 0; i < data.data.list.length; i++) {
+          data.data.list[i].viewNum = utils.million(data.data.list[i].viewNum) 
           actList.push(data.data.list[i]);
           actList[i].endTime = actList[i].endTime.substring(0, actList[i].endTime.indexOf(' '));
         }

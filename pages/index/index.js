@@ -56,6 +56,7 @@ Page({
             let _data = res.data.data
             app.globalData.userInfo.openId = _data.openId
             if (res.data.code == 0) {
+              console.log("isfirst:", this.data.isfirst)
               app.globalData.userInfo.userId = _data.id
               this.setData({
                 isfirst:false
@@ -448,15 +449,17 @@ Page({
       userId: app.globalData.userInfo.userId
     };
     Api.isNewUser(_parms).then((res) => {
+      console.log("res:",res)
       if (res.data.code == 0) {
         that.setData({
-          isNew: false
+          isNew:true
         })
       } else {
         that.setData({
-          isNew: true
+          isNew: false
         })
       }
+      console.log("isnew:", this.data.isNew)
     })
   },
   userGiftCancle: function () {    //新用户领取代金券
