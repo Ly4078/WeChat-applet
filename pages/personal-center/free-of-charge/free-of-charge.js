@@ -165,7 +165,7 @@ Page({
       data: _data
     })
   },
-  blurname: function (e) {  //验证申请人必真
+  blurname: function (e) {  //验证申请人必填
     let name = e.detail.value
     if (name) {
       this.setData({
@@ -179,10 +179,8 @@ Page({
       })
     }
   },
-  blurmobile: function (e) {  //验证手机号
+  blurmobile2: function (e) {  //验证手机号
     let Phone = e.detail.value
-    // let RegExp = /^(1[3584]\d{9}))$/;
-    // if ((/^1[3|4|5|8][0-9]\d{4,8}$/.test(Phone) == false) {
       if (!(/^1[3|4|5|8][0-9]\d{4,8}$/.test(Phone))) { 
       wx.showToast({
         title: '请正确手机号码',
@@ -255,6 +253,12 @@ Page({
           that.getchooseLocation()
         }
       }
+    })
+  },
+  bindbluradd:function(e){  //修改地址
+    let _address = e.detail.value
+    this.setData({
+      address: _address
     })
   },
   getchooseLocation() {  //地图选点
@@ -339,6 +343,19 @@ Page({
   },
   formSubmit: function (e) {  // 点击提交申请按钮
     let that = this
+    console.log("this.data.userName:", this.data.userName)
+    console.log("this.data.mobile:", this.data.mobile)
+    console.log("this.data.shopName:", this.data.shopName)
+    console.log("this.data.address:", this.data.address)
+    console.log("this.data.businessCate:", this.data.businessCate)
+    console.log("this.data.licensePic:", this.data.licensePic)
+    console.log("this.data.healthPic:", this.data.healthPic)
+    console.log("this.data.doorPic:", this.data.doorPic)
+    console.log("this.data.locationX:", this.data.locationX)
+    console.log("this.data.sortype:", this.data.sortype)
+    console.log("this.data.locationX:", this.data.locationX)
+    console.log("this.data.city:", this.data.city)
+    console.log("this.data.ztmobile:", this.data.ztmobile)
     if (!this.data.userName || !this.data.mobile || !this.data.shopName || !this.data.address || !this.data.businessCate || !this.data.licensePic || !this.data.healthPic || !this.data.doorPic || !this.data.locationX || !this.data.locationY || !this.data.city || !this.data.sortype || !this.data.ztmobile) {
       wx.showToast({
         title: '表单输入有误',
@@ -374,6 +391,8 @@ Page({
       city: this.data.city,
       userId: app.globalData.userInfo.userId
     }
+    console.log("_parms:",_params)
+    return false
     Api.merchantEnter(_parms).then((res) => {
       if (res.data.code == 0) {
         wx.showModal({

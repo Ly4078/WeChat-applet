@@ -300,13 +300,13 @@ Page({
           let isDue = that.isDueFunc(current, data.expiryDate);
           if (data.data.isUsed == 1) {
             wx.showToast({
-              title: '您的票券已被使用',
+              title: '该票券已被使用',
               icon: 'none'
             })
             return false;
           } else if (isDue == 1) {
             wx.showToast({
-              title: '您的票券已过期',
+              title: '该票券已过期',
               icon: 'none'
             })
             return false;

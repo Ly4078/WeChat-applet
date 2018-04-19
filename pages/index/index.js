@@ -56,7 +56,6 @@ Page({
             let _data = res.data.data
             app.globalData.userInfo.openId = _data.openId
             if (res.data.code == 0) {
-              console.log("isfirst:", this.data.isfirst)
               app.globalData.userInfo.userId = _data.id
               this.setData({
                 isfirst:false

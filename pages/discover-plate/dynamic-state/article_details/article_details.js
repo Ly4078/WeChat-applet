@@ -92,7 +92,6 @@ Page({
     }
     Api.cmtlist(_parms).then((res) => {
       let _data = res.data.data;
-      _data.total = _data.total*100000
       _data.total = utils.million(_data.total) 
       if (_data.list) {
         let reg = /^1[34578][0-9]{9}$/; 

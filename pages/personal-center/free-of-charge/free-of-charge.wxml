@@ -20,7 +20,7 @@
 
     <view class='message-each noeach'>
       <text class='message-name'><text class='bitian'>*</text>联系方式2</text>
-      <input name="mobeli" maxlength="11" class='message-text' placeholder="输入联系方式（主体）" type="number" value='{{mobeli}}' bindblur="blurmobile"></input>
+      <input name="mobeli" maxlength="11" class='message-text' placeholder="输入联系方式（主体）" type="number" value='{{mobeli}}' bindblur="blurmobile2"></input>
     </view>
     <view class='tishi'><text class='bitian'>!!!</text>此处请输入主体手机号，此手机号将作为APP登录惟一标识</view>
     <view class='message-each'>
@@ -30,7 +30,7 @@
 
     <view class='message-each'>
       <text class='message-name' catchtap='getlocation'><text class='bitian'>*</text>详细地址</text>
-      <input class='message-text' name="address" placeholder="输入店铺地址" value="{{address}}"></input>
+      <input class='message-text' name="address" bindblur="bindbluradd" placeholder="输入店铺地址" value="{{address}}"></input>
       <view class='gitkuoda' catchtap='getlocation'>
         <text></text>
         <image class='more' src='/images/icon/home_arrow.png'></image>

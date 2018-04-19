@@ -18,7 +18,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log(options)
     this.setData({
       forind: options.ind
     })
@@ -109,7 +108,7 @@ Page({
   },
 
   checkboxChange: function (e) {
-    // console.log('checkbox发生change事件，携带value值为：', e.detail.value)
+    
     let _value = e.detail.value
     let _ind = 0
     if (this.data.forind == 2){
@@ -119,7 +118,7 @@ Page({
     }
     if (_value.length > _ind) {
       wx.showToast({
-        title: '最多选择' + _ind+'个分类',
+        title: '最多选择' + _ind+'个分类,请先取消再重新选择',
         mask:true,
         icon: 'none',
         duration: 2000
