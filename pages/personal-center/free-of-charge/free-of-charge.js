@@ -117,33 +117,52 @@ Page({
       userId: app.globalData.userInfo.userId
     }
     Api.searchByUserId(_parms).then((res) => {
-      // if (res.data.code == 0) {
-      //   if (res.data.data && res.data.data.id) {
-      //     wx.showModal({
-      //       title: '提示',
-      //       content: '你已经提交过申请',
-      //       success: function (res) {
-      //         if (res.confirm) {
-      //           wx.switchTab({
-      //             url: '../../personal-center/personal-center'
-      //           })
-      //           wx.setStorage({
-      //             key: 'cate',
-      //             data: '',
-      //           })
-      //         } else if (res.cancel) {
-      //           wx.switchTab({
-      //             url: '../../personal-center/personal-center'
-      //           })
-      //           wx.setStorage({
-      //             key: 'cate',
-      //             data: '',
-      //           })
-      //         }
-      //       }
-      //     })
-      //   }
-      // }
+      if (res.data.code == 0){
+        wx.setStorage({
+          key: 'cate',
+          data: '',
+        })
+        if (res.data.data.status == 0 || res.data.data.status == 1) {
+          if (res.data.data && res.data.data.id) {
+            let _content=''
+            if (res.data.data.status == 0) {
+              _content = '您已经提交过申请'
+            } else if (res.data.data.status == 1){
+              _content = '您的审批已通过'
+            }
+            wx.showModal({
+              title: '提示',
+              content: _content,
+              success: function (res) {
+                if (res.confirm) {
+                  wx.switchTab({
+                    url: '../../personal-center/personal-center'
+                  })
+                } else if (res.cancel) {
+                  wx.switchTab({
+                    url: '../../personal-center/personal-center'
+                  })
+                }
+              }
+            })
+          }
+        } else if (res.data.data.status == 2) {
+          if (res.data.data && res.data.data.id) {
+            wx.showModal({
+              title: '提示',
+              content: '您的审批已未通过,请重新填写申请',
+              success: function (res) {
+                if (res.confirm) {
+                } else if (res.cancel) {
+                  wx.switchTab({
+                    url: '../../personal-center/personal-center'
+                  })
+                }
+              }
+            })
+          }
+        }
+      }
     })
   },
   opencate: function (e) {  //打开选择分类
@@ -343,19 +362,6 @@ Page({
   },
   formSubmit: function (e) {  // 点击提交申请按钮
     let that = this
-    console.log("this.data.userName:", this.data.userName)
-    console.log("this.data.mobile:", this.data.mobile)
-    console.log("this.data.shopName:", this.data.shopName)
-    console.log("this.data.address:", this.data.address)
-    console.log("this.data.businessCate:", this.data.businessCate)
-    console.log("this.data.licensePic:", this.data.licensePic)
-    console.log("this.data.healthPic:", this.data.healthPic)
-    console.log("this.data.doorPic:", this.data.doorPic)
-    console.log("this.data.locationX:", this.data.locationX)
-    console.log("this.data.sortype:", this.data.sortype)
-    console.log("this.data.locationX:", this.data.locationX)
-    console.log("this.data.city:", this.data.city)
-    console.log("this.data.ztmobile:", this.data.ztmobile)
     if (!this.data.userName || !this.data.mobile || !this.data.shopName || !this.data.address || !this.data.businessCate || !this.data.licensePic || !this.data.healthPic || !this.data.doorPic || !this.data.locationX || !this.data.locationY || !this.data.city || !this.data.sortype || !this.data.ztmobile) {
       wx.showToast({
         title: '表单输入有误',
@@ -391,8 +397,7 @@ Page({
       city: this.data.city,
       userId: app.globalData.userInfo.userId
     }
-    console.log("_parms:",_params)
-    return false
+  
     Api.merchantEnter(_parms).then((res) => {
       if (res.data.code == 0) {
         wx.showModal({
