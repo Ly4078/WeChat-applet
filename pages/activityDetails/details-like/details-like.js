@@ -18,8 +18,8 @@ Page({
   onLoad: function (options) {
     this.setData({
       actid: options.actid
-    });
-    this.getactdetails();
+    })
+    this.getactdetails()
     this.getactlist()
   },
   getactdetails() {  //获取单个活动详情
@@ -79,7 +79,7 @@ Page({
       page:this.data.page,
       row:8,
       actId: this.data.actid,
-      voteUserId: '1'
+      voteUserId: app.globalData.userInfo.userId,
     }
     Api.actshoplist(_parms).then((res) => {
       wx.hideLoading()
