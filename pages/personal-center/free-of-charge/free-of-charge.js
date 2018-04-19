@@ -150,7 +150,7 @@ Page({
           if (res.data.data && res.data.data.id) {
             wx.showModal({
               title: '提示',
-              content: '您的审批已未通过,请重新填写申请',
+              content: '您的审批未通过,请重新填写申请',
               success: function (res) {
                 if (res.confirm) {
                 } else if (res.cancel) {
