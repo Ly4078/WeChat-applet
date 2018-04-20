@@ -88,7 +88,6 @@ Page({
   },
   wxgetsetting: function () {  //若用户之前没用授权其用户信息，则调整此函数请求用户授权
     let that = this
-    console.log(app.globalData.userInfo.mobile)
     if (app.globalData.userInfo.mobile == 'a' || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
       return false
     }

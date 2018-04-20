@@ -86,7 +86,6 @@ Page({
     }
     Api.selectByShopId(_parms).then((res) => {
       if (res.data.code == 0) {
-        console.log("res:", res)
         that.setData({
           activity: res.data.data
         })

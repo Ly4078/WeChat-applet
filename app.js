@@ -16,6 +16,7 @@ App({
     wx.stopPullDownRefresh()
   },
   globalData: {  //全局变量
+    picker:{},
     userInfo: {
       openId: '',
       sessionKey:'',

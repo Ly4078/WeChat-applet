@@ -33,6 +33,7 @@
     "pages/index/dining-room/dining-room",
     "pages/activityDetails/activity-details",
     "pages/personal-center/free-of-charge/category/category",
+    "pages/personal-center/free-of-charge/get-address/get-address",
     "pages/index/webview/webview"
   ],
   "window": {

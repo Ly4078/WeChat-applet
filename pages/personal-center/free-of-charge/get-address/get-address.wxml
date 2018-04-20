@@ -1,0 +1,26 @@
+<view>
+<view class='addresstop'>
+
+  <view class='message-each'>
+    <text class='message-name'>省/县/市</text>
+<picker mode="region" bindchange="bindRegionChange" value="{{region}}" custom-item="{{customItem}}">
+      <view class="picker message-text">{{region[0]}}，{{region[1]}}，{{region[2]}}
+      </view>
+    </picker>
+    <view class='gitkuoda'>
+      <image class='more' src='/images/icon/home_arrow.png'></image>
+    </view>
+  </view>
+
+  <view class='message-each'>
+    <text class='message-name'>详细地址</text>
+    <input class='message-text' bindblur="inperFigure" placeholder="请输入详细地址" type="text" value="{{address}}"></input>
+  </view>
+  <view class='manually'>提示：为了方便顾客准确导航，请在地图标出店铺位置</view>
+</view>
+  <button class='definebut' bindtap='define'>确定</button>
+  <view bindtap="moveToLocation" class="definebut movebut" type="primary">
+    <image class='moveimg' src='/images/icon/origin.png'></image>
+  </view>
+  <map id="maps" class='addmap' longitude="{{currentlng}}" latitude="{{currentlat}}" scale="18" controls="{{controls}}" bindcontroltap="controltap" markers="{{markers}}" bindmarkertap="markertap" bindregionchange="regionchange"  show-location ></map>
+</view>

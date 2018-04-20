@@ -14,24 +14,19 @@
     </view>
 
     <view class='message-each'>
-      <text class='message-name'><text class='bitian'>*</text>联系方式1</text>
-      <input name="mobeli" maxlength="11" class='message-text' placeholder="输入联系方式（店里）" type="number" value='{{mobeli}}' bindblur="blurmobile"></input>
+      <text class='message-name'><text class='bitian'>*</text>联系方式</text>
+      <input name="mobeli" maxlength="11" class='message-text' placeholder="输入联系方式" type="number" value='{{mobeli}}' bindblur="blurmobile"></input>
     </view>
 
-    <view class='message-each noeach'>
-      <text class='message-name'><text class='bitian'>*</text>联系方式2</text>
-      <input name="mobeli" maxlength="11" class='message-text' placeholder="输入联系方式（主体）" type="number" value='{{mobeli}}' bindblur="blurmobile2"></input>
-    </view>
-    <view class='tishi'><text class='bitian'>!!!</text>此处请输入主体手机号，此手机号将作为APP登录惟一标识</view>
     <view class='message-each'>
       <text class='message-name'><text class='bitian'>*</text>店铺名称</text>
-      <input class='message-text' name="shopName" placeholder="输入店铺的全称" bindblur="blurshop"></input>
+      <input class='message-text' name="shopName" placeholder="输入店铺的全称" bindblur="blurshop"  value='{{shopName}}'></input>
     </view>
 
-    <view class='message-each'>
-      <text class='message-name' catchtap='getlocation'><text class='bitian'>*</text>详细地址</text>
-      <input class='message-text' name="address" bindblur="bindbluradd" placeholder="输入店铺地址" value="{{address}}"></input>
-      <view class='gitkuoda' catchtap='getlocation'>
+    <view class='message-each' catchtap='getlocation'>
+      <text class='message-name' ><text class='bitian'>*</text>详细地址</text>
+      <input class='message-text' name="address" bindblur="bindbluradd" placeholder="输入店铺地址" value="{{address}}" disabled="true"></input>
+      <view class='gitkuoda'>
         <text></text>
         <image class='more' src='/images/icon/home_arrow.png'></image>
       </view>
@@ -55,21 +50,12 @@
       </view>
     </view>
 
-    <!-- <view class='message-each'>
-      <text class='message-name'><text class='bitian'>*</text>环境分类</text>
-      <picker bindchange="bindPickerChange" value="{{index}}" range="{{sort}}">
-        <view class="picker">
-          {{sort[index]}}
-        </view>
-      </picker>
-    </view> -->
-
     <view class='commercial'>
       <text>提交资质</text>
     </view>
 
     <view class='message-qual'>
-      <view class='qual_left'>
+      <view class='qual_left zizhi'>
         <text class='message-name'><text class='bitian'>*</text>营业执照</text>
       </view>
       <view class='qual_right'>
@@ -80,7 +66,7 @@
     </view>
 
     <view class='message-qual'>
-      <view class='qual_left'>
+      <view class='qual_left zizhi'>
         <text class='message-name'><text class='bitian'>*</text>卫生许可证</text>
       </view>
       <view class='qual_right'>
@@ -91,7 +77,7 @@
     </view>
 
     <view class='message-qual'>
-      <view class='qual_left'>
+      <view class='qual_left zizhi'>
         <text class='message-name'><text class='bitian'>*</text>门头照</text>
       </view>
       <view class='qual_right'>

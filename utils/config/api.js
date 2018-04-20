@@ -203,6 +203,10 @@ const ALL_API = {
   isVerify: {  //验证手机验证码
     method: 'GET',
     url: 'sms/isVerify'
+  },
+  searchByShopName:{
+    method: 'GET',
+    url:'shopEnter/searchByShopName'
   }
 }
 const Api = new MyHttp({}, ALL_API);

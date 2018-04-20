@@ -12,7 +12,7 @@ Page({
     prompt: '入驻提示：商家需有具体餐饮实体店铺、有营业执照和许可证等方可申请入驻',
     userName: '',
     mobile: '',
-    ztmobile:'',
+    ztmobile: '',
     shopName: '',
     address: '',
     businessCate: '',
@@ -23,9 +23,10 @@ Page({
     locationY: '',
     city: '',
     index: 0,
-    sortype:'',
-    sort:['商务','聚会','约会'],
-    intype:''
+    sortype: '',
+    sort: ['商务', '聚会', '约会'],
+    intype: '',
+    isrepeat: false   //是否是重量店名
   },
 
   /**
@@ -39,12 +40,6 @@ Page({
     })
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
-  },
 
   /**
    * 生命周期函数--监听页面显示
@@ -52,60 +47,53 @@ Page({
   onShow: function () {
     let that = this
     wx.getStorage({
-      key: 'cate', 
+      key: 'cate',
       success: function (res) {
-        if (that.data.intype == 2){
+        if (that.data.intype == 2) {
           that.setData({
             sortype: res.data
           })
-        } else if (that.data.intype == 1){
+        } else if (that.data.intype == 1) {
           that.setData({
             businessCate: res.data
           })
-        }    
+        }
       }
     })
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
+    wx.getStorage({
+      key: 'address',
+      success: function (res) {
+        let _res = res.data
+        if (_res.address) {
+          that.setData({
+            address: _res.address
+          })
+        }
+        if (_res.lat) {
+          that.setData({
+            locationY: _res.lat
+          })
+        }
+        if (_res.lng) {
+          that.setData({
+            locationX: _res.lng
+          })
+        }
+        that.requestCityName(_res.lat, _res.lng)
+        try {
+          wx.removeStorageSync('address')
+        } catch (e) {
+          // Do something when catch error
+        }
+      }
+    })
 
   },
   bindPickerChange: function (e) {
     let ind = e.detail.value
-    for(let i=0;i<this.data.sort.length;i++){
+    for (let i = 0; i < this.data.sort.length; i++) {
       this.setData({
-        sortype:this.data.sort[ind]
+        sortype: this.data.sort[ind]
       })
     }
     this.setData({
@@ -117,20 +105,20 @@ Page({
       userId: app.globalData.userInfo.userId
     }
     Api.searchByUserId(_parms).then((res) => {
-      if (res.data.code == 0){
+      if (res.data.code == 0) {
         wx.setStorage({
           key: 'cate',
           data: '',
         })
-        if(res.data.data == null){
+        if (res.data.data == null) {
           return false
         }
         if (res.data.data.status == 0 || res.data.data.status == 1) {
           if (res.data.data && res.data.data.id) {
-            let _content=''
+            let _content = ''
             if (res.data.data.status == 0) {
               _content = '您已经提交过申请'
-            } else if (res.data.data.status == 1){
+            } else if (res.data.data.status == 1) {
               _content = '您的审批已通过'
             }
             wx.showModal({
@@ -172,14 +160,14 @@ Page({
     let _ind = e.currentTarget.id
     let _data = ''
     this.setData({
-      intype:_ind
+      intype: _ind
     })
     wx.navigateTo({
-      url: '../free-of-charge/category/category?ind='+_ind
+      url: '../free-of-charge/category/category?ind=' + _ind
     })
-    if(_ind == 1){
+    if (_ind == 1) {
       _data = this.data.businessCate
-    }else{
+    } else {
       _data = this.data.sortype
     }
     wx.setStorage({
@@ -198,23 +186,6 @@ Page({
         title: '申请人必填',
         icon: 'none',
         duration: 1500
-      })
-    }
-  },
-  blurmobile2: function (e) {  //验证手机号
-    let Phone = e.detail.value
-      if (!(/^1[3|4|5|8][0-9]\d{4,8}$/.test(Phone))) { 
-      wx.showToast({
-        title: '请正确手机号码',
-        icon: 'none',
-        duration: 1500
-      })
-      this.setData({
-        ztmobile: ''
-      })
-    } else {
-      this.setData({
-        ztmobile: Phone
       })
     }
   },
@@ -240,8 +211,26 @@ Page({
     let shop = e.detail.value
     let that = this
     if (shop) {
-      that.setData({
-        shopName: shop
+      let _parms = {
+        shopName:shop
+      }
+      Api.searchByShopName(_parms).then((res) => {
+        if (res.data.data) {
+          that.setData({
+            shopName: ''
+          })
+          wx.showToast({
+            title: '此店名已存在，请重新输入',
+            icon: 'none',
+            mask: 'true',
+            duration: 3000
+          })
+        } else {
+          that.setData({
+            shopName: shop,
+            isrepeat: true
+          })
+        }
       })
     } else {
       wx.showToast({
@@ -277,7 +266,7 @@ Page({
       }
     })
   },
-  bindbluradd:function(e){  //修改地址
+  bindbluradd: function (e) {  //修改地址
     let _address = e.detail.value
     this.setData({
       address: _address
@@ -285,15 +274,18 @@ Page({
   },
   getchooseLocation() {  //地图选点
     let that = this
-    wx.chooseLocation({
-      success: function (res) {
-        that.requestCityName(res.latitude, res.longitude)
-        that.setData({
-          locationX: res.longitude,
-          locationY: res.latitude
-        })
-      }
+    wx.navigateTo({
+      url: '../free-of-charge/get-address/get-address'
     })
+    // wx.chooseLocation({
+    //   success: function (res) {
+    //     that.requestCityName(res.latitude, res.longitude)
+    //     that.setData({
+    //       locationX: res.longitude,
+    //       locationY: res.latitude
+    //     })
+    //   }
+    // })
   },
   requestCityName: function (lat, lng) {//通过经纬度获取当前城市名称
     let that = this
@@ -305,8 +297,7 @@ Page({
       success: (res) => {
         if (res.data.status == 0) {
           that.setData({
-            city: res.data.result.address_component.city,
-            address: res.data.result.address
+            city: res.data.result.address_component.city
           });
         }
       }
@@ -357,16 +348,26 @@ Page({
       }
     })
   },
-  protocol:function(){
-    let type = 2 
+  protocol: function () {
+    let type = 2
     wx.navigateTo({
-      url: '../free-of-charge/category/category?type='+type
+      url: '../free-of-charge/category/category?type=' + type
     })
   },
   formSubmit: function (e) {  // 点击提交申请按钮
     let that = this
-    console.log("e:",e)
-    if (!this.data.userName || !this.data.mobile || !this.data.shopName || !this.data.address || !this.data.businessCate || !this.data.licensePic || !this.data.healthPic || !this.data.doorPic || !this.data.locationX || !this.data.locationY || !this.data.city || !this.data.sortype || !this.data.ztmobile) {
+    if (!this.data.isrepeat) {
+      that.setData({
+        shopName: ''
+      })
+      wx.showToast({
+        title: '此店名已存在，请重新输入',
+        icon: 'none',
+        mask: 'true',
+        duration: 3000
+      })
+    }
+    if (!this.data.userName || !this.data.mobile || !this.data.shopName || !this.data.address || !this.data.businessCate || !this.data.licensePic || !this.data.healthPic || !this.data.doorPic || !this.data.locationX || !this.data.locationY || !this.data.city || !this.data.sortype) {
       wx.showToast({
         title: '表单输入有误',
         icon: 'none',
@@ -376,12 +377,11 @@ Page({
     }
     let _parss = {
       id: app.globalData.userInfo.userId,
-      openId: app.globalData.userInfo.openId,
-      mobile:this.data.ztmobile
+      openId: app.globalData.userInfo.openId
     }
     Api.updateuser(_parss).then((res) => {
       if (res.data.code == 0) {
-        console.log("保存用户电话号码成功")
+        // console.log("保存用户电话号码成功")
       }
     })
     let _bauss = this.data.businessCate.toString()
@@ -401,33 +401,29 @@ Page({
       city: this.data.city,
       userId: app.globalData.userInfo.userId
     }
-    console.log("_parms:", _parms)
     Api.merchantEnter(_parms).then((res) => {
       if (res.data.code == 0) {
         wx.showModal({
           title: '提示',
           content: '信息提交成功，等待审核',
           success: function (res) {
+            try {
+              wx.removeStorageSync('cate')
+            } catch (e) {
+              // Do something when catch error
+            }
             if (res.confirm) {
               wx.switchTab({
                 url: '../../personal-center/personal-center'
               })
-              wx.setStorage({
-                key: 'cate',
-                data: '',
-              })
             } else if (res.cancel) {
               wx.switchTab({
                 url: '../../personal-center/personal-center'
-              })
-              wx.setStorage({
-                key: 'cate',
-                data: '',
               })
             }
           }
         })
       }
     })
-  },
+  }
 })

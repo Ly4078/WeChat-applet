@@ -1,0 +1,76 @@
+
+.addresstop{
+  position: absolute;
+  top: 0;
+  z-index: 20;
+}
+.message-each {
+  width: 694rpx;
+  height: 100rpx;
+  padding:0 28rpx;
+  border-bottom: 1px solid #e0e0e0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: #fff;
+}
+
+.message-name {
+  font-size: 30rpx;
+  width: 170rpx;
+  color: #191919;
+  padding-left: 4rpx;
+}
+.message-text {
+  margin-left: 18rpx;
+  font-size: 30rpx;
+  color: #b1b1b1;
+  width: 470rpx;
+}
+.gitkuoda{
+  display: flex;
+  justify-content: space-between;
+}
+.more{
+  width:12px;
+  height:22px; 
+  border-radius: 1px
+}
+.manually{
+  height: 65rpx;
+  padding:0 28rpx;
+  background:rgba(72,151,254,1);
+  color: #FFF;
+  font-family:'PingFangSC-Regular';
+  font-size: 24rpx;
+  line-height: 65rpx;
+}
+.definebut{
+   width:694rpx;
+  height: 90rpx;
+  position: absolute;
+  top: 1000rpx;
+  z-index: 1;
+  margin: 0 28rpx;
+  background: rgba(252,94,45,1);
+  color: #fff;
+  font-size: 36rpx;
+}
+.movebut{
+  width:70rpx;
+  height: 70rpx;
+  top: 900rpx;
+  background: none;
+}
+.moveimg{
+  width:100%;
+  height: 100%;
+}
+.addmap{
+  position:fixed;
+  left:0;
+  top:0;
+  width:100%;
+  height:100%;
+  overflow:auto;
+}

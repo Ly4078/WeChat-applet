@@ -244,6 +244,7 @@ Page({
             service: []
           })
           app.globalData.userInfo.city = res.data.result.address_component.city
+          app.globalData.picker = res.data.result.address_component
         }
       }
     })
@@ -448,7 +449,6 @@ Page({
       userId: app.globalData.userInfo.userId
     };
     Api.isNewUser(_parms).then((res) => {
-      console.log("res:",res)
       if (res.data.code == 0) {
         that.setData({
           isNew:true
@@ -458,7 +458,6 @@ Page({
           isNew: false
         })
       }
-      console.log("isnew:", this.data.isNew)
     })
   },
   userGiftCancle: function () {    //新用户领取代金券

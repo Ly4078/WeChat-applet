@@ -108,7 +108,6 @@ Page({
   },
 
   checkboxChange: function (e) {
-    
     let _value = e.detail.value
     let _ind = 0
     if (this.data.forind == 2){
