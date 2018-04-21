@@ -31,6 +31,11 @@ Page({
       clickable: true
     }]
   },
+  onLoad: function (options){
+    this.setData({
+      address: options.deaddress
+    })
+  },
   onReady: function (e) {
     this.mapCtx = wx.createMapContext('maps')
   },
@@ -48,6 +53,23 @@ Page({
       buslat: app.globalData.userInfo.lat,
     })
     // this.requestCityName(app.globalData.userInfo.lat, app.globalData.userInfo.lng)
+  },
+  onUnload(){
+    let _region = this.data.region.join(",")
+    _region = _region.replace(/,/g, '');
+    let _data = {
+      address: this.data.address,
+      reg: _region,
+      lat: this.data.buslat,
+      lng: this.data.buslng
+    }
+    if (this.data.address == '') {
+      _data.address = ''
+    }
+    wx.setStorage({
+      key: 'address',
+      data: _data,
+    })
   },
   regionchange(e) { //拖动地图
     if(e.type == 'end'){
@@ -128,8 +150,18 @@ Page({
   define:function(){
     let _region = this.data.region.join(",")
     _region = _region.replace(/,/g, '');
+    if (this.data.address == ''){
+      wx.showToast({
+        title: '请输入详细地址，以方便顾客能准确到店',
+        mask: true,
+        icon: 'none',
+        duration: 2000
+      })
+      return false
+    }
     let _data = {
-      address: _region + this.data.address,
+      address: this.data.address,
+      reg: _region,
       lat: this.data.buslat,
       lng: this.data.buslng
     }

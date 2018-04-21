@@ -15,6 +15,7 @@ Page({
     ztmobile: '',
     shopName: '',
     address: '',
+    deaddress: '',
     businessCate: '',
     licensePic: '',
     healthPic: '',
@@ -64,9 +65,11 @@ Page({
       key: 'address',
       success: function (res) {
         let _res = res.data
-        if (_res.address) {
+        if (_res.address && _res.reg) {
+          let _address = _res.reg + _res.address
           that.setData({
-            address: _res.address
+            address: _address,
+            deaddress: _res.address,
           })
         }
         if (_res.lat) {
@@ -275,7 +278,7 @@ Page({
   getchooseLocation() {  //地图选点
     let that = this
     wx.navigateTo({
-      url: '../free-of-charge/get-address/get-address'
+      url: '../free-of-charge/get-address/get-address?deaddress=' + that.data.deaddress
     })
     // wx.chooseLocation({
     //   success: function (res) {
