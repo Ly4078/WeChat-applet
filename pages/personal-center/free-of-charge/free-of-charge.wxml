@@ -55,8 +55,8 @@
     </view>
 
     <view class='message-qual'>
-      <view class='qual_left zizhi'>
-        <text class='message-name'><text class='bitian'>*</text>营业执照</text>
+      <view class='qual_left message-name zizhi'>
+        <text class='bitian'>*</text>营业执照
       </view>
       <view class='qual_right'>
         <view class='each-caption'>上传营业执照</view>
@@ -66,8 +66,8 @@
     </view>
 
     <view class='message-qual'>
-      <view class='qual_left zizhi'>
-        <text class='message-name'><text class='bitian'>*</text>卫生许可证</text>
+      <view class='qual_left message-name zizhi'>
+        <text class='bitian'>*</text>卫生许可证
       </view>
       <view class='qual_right'>
         <view class='each-caption'>上传卫生许可证</view>
@@ -77,8 +77,8 @@
     </view>
 
     <view class='message-qual'>
-      <view class='qual_left zizhi'>
-        <text class='message-name'><text class='bitian'>*</text>门头照</text>
+      <view class='qual_left message-name zizhi'>
+        <text class='bitian'>*</text>门头照
       </view>
       <view class='qual_right'>
         <view class='each-caption'>上传门头照</view>
