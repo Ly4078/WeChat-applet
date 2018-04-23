@@ -207,6 +207,10 @@ const ALL_API = {
   searchByShopName:{
     method: 'GET',
     url:'shopEnter/searchByShopName'
+  },
+  getTscForZan:{  //查询特色菜详情
+    method:'GET',
+    url:'sku/getTscForZan'
   }
 }
 const Api = new MyHttp({}, ALL_API);

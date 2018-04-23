@@ -14,6 +14,7 @@
     "pages/index/merchant-particulars/merchant-particulars",
     "pages/index/merchant-particulars/total-comment/total-comment",
     "pages/index/merchant-particulars/preview-picture/preview-picture",
+    "pages/index/merchant-particulars/food-details/food-details",
     "pages/personal-center/personal-center",
     "pages/discover-plate/dynamic-state/dynamic-state",
     "pages/discover-plate/dynamic-state/text_input/text_input",

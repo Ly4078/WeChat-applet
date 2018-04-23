@@ -1,5 +1,5 @@
 <view>
-  <image class='bannerTop' src='/images/icon/banner1.png'></image>
+   <image class='bannerTop' src='/images/icon/banner1.png'></image> 
   <view class='prompt'>
     <text class='prompt_text'>{{prompt}}</text>
   </view>

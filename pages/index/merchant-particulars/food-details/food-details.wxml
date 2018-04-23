@@ -1,0 +1,42 @@
+<import src="../comment-template/comment-template.wxml" />
+
+
+<image class="foodpic" src="{{foodData.picUrl}}"></image>
+
+<view class='skun'>
+  <text class='skuname'>{{foodData.skuName}}</text>
+  <view class='praise' id="{{foodData.id}}">
+    {{foodData.zan}}
+    <image wx:if="{{foodData.isZan}}" src='/images/icon/home_zaned.png' class='homezan' catchtap='quxiaozanwz'></image>
+    <image wx:else src='/images/icon/home_zan.png' class='homezan' catchtap='dianzanwz'></image>
+  </view>
+</view>
+<view class='skuinfo'>
+  {{foodData.skuInfo}}
+</view>
+<view class='geduan'></view>
+
+<view class='initiate-exhibition' catchtap='jumpTotalComment'>
+  <view>
+    <image class='initiate-left' src='/images/icon/home_sign.png'></image>
+    <text class='initiate-text'>精选评价</text>
+  </view>
+  <image class='initiate-right' src='/images/icon/home_arrow.png'></image>
+</view>
+ <block wx:for="{{comment_list}}" wx:key="{{index}}">
+  <template is="commentItem" data="{{item}}"></template>
+</block>
+<view class='total-comment' hidden='{{commentNum < 6}}' catchtap='jumpTotalComment'>
+  <view class='total-center'>
+    <text>查看全部<text>{{commentNum}}</text>条评论</text>
+  </view>
+</view> 
+ <view class='botton-comment' bindtap='showAreatext'>
+  <image class='comment-images' src='/images/icon/write.png'></image>
+  <text class='reviewyan'>写评论</text>
+</view>
+ <form class='commentBox {{isComment ? "show" : "hide"}}'>
+  <textarea class="commentArea" placeholder='请输入评论' focus="{{isComment}}" bindinput="getCommentVal" cursor-spacing="10px" show-confirm-bar="false" fixed="true"></textarea>
+  <button form-type="reset" catchtap="sendComment">发送</button>
+</form> 
+<!-- </view>  -->

@@ -1,0 +1,78 @@
+
+.foodpic{
+  width: 100%;
+  height: 420rpx;
+}
+.skun{
+  padding: 40rpx 28rpx;
+}
+.praise{
+  float: right;
+  font-size: 28rpx;
+  color: #808080;
+}
+.homezan{
+  width: 29rpx;
+  height: 29rpx;
+  margin-left: 13rpx;
+}
+.skuname{
+  color: #191919;
+  font-size: 36rpx;
+}
+.skuinfo{
+  color: #808080;
+  font-size: 24rpx;
+  padding: 14rpx 43rpx 43rpx 28rpx;
+}
+.geduan{
+  width: 100%;
+  height: 20rpx;
+  background: #ebebeb;
+}
+.initiate-exhibition {
+  height: 80rpx;
+  display: flex;
+  justify-content: space-between;
+  padding: 0rpx 34rpx;
+  align-items: center;
+  background-color: white;
+  /* padding-bottom: 30rpx; */
+}
+.initiate-left {
+  width: 10rpx;
+  height: 40rpx;
+  vertical-align: middle;
+  padding-right: 20rpx;
+}
+.initiate-text {
+  vertical-align: middle;
+  color: #191919;
+  font-size: 16px;
+  letter-spacing: 2px;
+}
+.initiate-right {
+  width: 14rpx;
+  height: 24rpx;
+}
+.commentBox textarea{
+  float: left;
+  width: 75%;
+  height: 100rpx;
+  padding: 10rpx;
+  box-sizing: border-box;
+  border: 1px solid #e0e0e0;
+  border-radius: 20rpx;
+  background-color: #fff;
+}
+
+.commentBox button{
+  float: right;
+  width: 22%;
+  height: 100rpx;
+  line-height: 100rpx;
+  background-color: #fc5e2d;
+  color: #fff;
+  border: 0;
+  box-sizing: border-box;
+}

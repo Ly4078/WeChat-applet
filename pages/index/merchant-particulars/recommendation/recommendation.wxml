@@ -2,7 +2,7 @@
   <block wx:for="{{carousel.list}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
     <view class='recommendation'>
       <view class='recommendation-each'>
-        <view class='recommendation-nae'>
+        <view class='recommendation-nae' id='{{item.id}}' bindtap='fooddetails'>
           <image class='recommendation-images' mode="aspectFill" src='{{item.picUrl}}'></image>
           <view class='recommendation-right'>
             <view class='recom-popularity'>
