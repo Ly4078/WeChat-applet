@@ -23,7 +23,7 @@
          <image class="user_present" src="/images/icon/newuser.png" bindtap='newUserToGet'></image> 
          <image class="newUserM_gif" src="/images/icon/xiangqiLGBL.gif"></image>
          <button wx:if="{{isphoneNumber}}" class='gettels' open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">新用户请先授权手机号</button>   
-          <image class="newuser_cancel" src="/images/icon/cancel.png" bindtap='userGiftCancle'></image>  
+            <image class="newuser_cancel" src="/images/icon/cancel.png" bindtap='userGiftCancle'></image>    
       </view> 
     </view>
   <view class='headSeek'>

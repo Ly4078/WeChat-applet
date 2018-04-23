@@ -25,9 +25,9 @@ page {
   z-index: 10;
 }
 .gettels{
-  position:fixed;
-  left:185rpx;
-  top:651rpx;
+  position:absolute;
+  left:115rpx;
+  top:62.5%;
   overflow:auto;
   z-index: 199; 
   background: #fff;
@@ -712,5 +712,5 @@ page {
 .newUserM_box .newuser_cancel {
   width: 80rpx;
   height: 80rpx;
-   margin: 30rpx 0 0 275rpx; 
+  margin: 30rpx 0 0 275rpx; 
 }

@@ -57,18 +57,7 @@ Page({
             app.globalData.userInfo.openId = _data.openId
             if (res.data.code == 0) {
               app.globalData.userInfo.userId = _data.id
-              this.setData({
-                isfirst:false
-              })
-              if (_data.mobile){
-                this.getuseradd()
-              }else{
-                this.setData({
-                  isfirst:true
-                })
-                this.getuseradd()
-                // this.requestCityName()
-              }
+              this.getuseradd()
             }else{
               this.setData({
                 isfirst: true
@@ -119,7 +108,7 @@ Page({
       },
       success: function (res) {
         if (res.data.code == 0) {
-          let data = res.data.data;
+            let data = res.data.data;
             app.globalData.userInfo.userType = data.userType,
             app.globalData.userInfo.openId = data.openId,
             app.globalData.userInfo.password = data.password,
@@ -131,6 +120,15 @@ Page({
             app.globalData.userInfo.sourceType = data.sourceType,
             app.globalData.userInfo.sex = data.sex
             app.globalData.userInfo.mobile = data.mobile
+            if(data.mobile){
+              that.setData({
+                isfirst: false
+              })
+            }else{
+              that.setData({
+                isfirst: true
+              })
+            }
         }
       }
     })
@@ -469,12 +467,15 @@ Page({
     
     if (app.globalData.userInfo.mobile == 'a' || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null){
       app.globalData.userInfo.userId = '667'
+      this.setData({
+        getPhoneNumber:true
+      })
       this.getuseradd()
     }
   },
   newUserToGet: function () {    //新用户跳转票券
     let that = this
-    if (!this.data.isphoneNumber && app.globalData.userInfo.mobile == 'a'){
+    if (!this.data.isphoneNumber && app.globalData.userInfo.mobile == 'a' || !app.globalData.userInfo.mobile){
       this.setData({
         isphoneNumber: true
       })
@@ -491,9 +492,9 @@ Page({
       skuNum: '1'
     }
     Api.getFreeTicket(_parms).then((res) => {
-      this.setData({
-        userGiftFlag: true
-      })
+      // this.setData({
+      //   userGiftFlag: true
+      // })
       if (res.data.code == 0) {
         this.userGiftCancle()
         wx.navigateTo({
