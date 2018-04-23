@@ -59,6 +59,10 @@ const ALL_API = {
     method: 'GET',
     url: 'hcl/list'
   },
+  activityImg: {   //首页活动banner图
+    method: 'GET',
+    url: 'hcl/listForHomePage'
+  },
   topictop: { //首页美食墙
     method: 'GET',
     url: 'topic/top'

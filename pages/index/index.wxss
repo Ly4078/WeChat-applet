@@ -94,7 +94,7 @@ page {
 .warp_classify {
   display: flex;
   justify-content: center;
-  height: 305rpx;
+  height: 265rpx;
   align-items: center;
   width: 100%;
 }
@@ -713,4 +713,16 @@ page {
   width: 80rpx;
   height: 80rpx;
   margin: 30rpx 0 0 275rpx; 
+}
+
+.activity {
+  margin-bottom: 60rpx;
+  padding: 0 28rpx;
+  height: 140rpx;
+}
+
+.activity image {
+  width: 100%;
+  height: 140rpx;
+  border-radius: 10rpx;
 }

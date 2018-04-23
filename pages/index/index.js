@@ -25,7 +25,8 @@ Page({
     isphoneNumber: false,  //是否拿到手机号
     isfirst:false,
     navbar: ['菜系专题', '服务专题'],
-    sort: ['川湘菜', '海鲜', '火锅', '烧烤', '西餐', '自助餐', '聚会', '商务', '约会']
+    sort: ['川湘菜', '海鲜', '火锅', '烧烤', '西餐', '自助餐', '聚会', '商务', '约会'],
+    activityImg: ''   //活动图
   },
   onLoad: function (options) {
     wx.showLoading({
@@ -70,6 +71,7 @@ Page({
         }
       }
     })
+    this.activityBanner();
   },
   onShow: function () {
     let that = this
@@ -330,6 +332,17 @@ Page({
     // })
     wx.showToast({
       title: '该功能更新中...',
+    })
+  },
+  activityBanner: function() {      //获取活动banner图
+    let that = this;
+    Api.activityImg().then((res) => {
+      let imgUrl = res.data.data[9].imgUrl;
+      if (imgUrl != '' && imgUrl != null && imgUrl != undefined) {
+        that.setData({
+          activityImg: imgUrl
+        })
+      }
     })
   },
   recommendCt: function (event) {  //跳转到商家列表页面

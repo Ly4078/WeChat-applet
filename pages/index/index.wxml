@@ -58,6 +58,10 @@
     {{value.shopName}}
   </view>
   <!-- <button open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">获取手机号</button>    -->
+  <!-- 活动banner图 -->
+  <view class="activity" hidden="{{activityImg == '' || activityImg == null || activityImg == undefined}}">
+    <image src="{{activityImg}}"></image>
+  </view>
   <!--推荐餐厅 -->
   <template is="postItem" data="{{...item}}" />
   <!--推荐餐厅  -->
