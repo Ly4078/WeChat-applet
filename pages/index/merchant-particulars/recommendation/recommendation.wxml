@@ -5,6 +5,7 @@
         <view class='recommendation-nae' id='{{item.id}}' bindtap='fooddetails'>
           <image class='recommendation-images' mode="aspectFill" src='{{item.picUrl}}'></image>
           <view class='recommendation-right'>
+           <text class='recomzan'>{{item.zan}}</text>
             <view class='recom-popularity'>
               <text class='recommName'>{{item.skuName}}</text>
               <image class='popularity' src='/images/icon/restaurant_hot.png'></image>

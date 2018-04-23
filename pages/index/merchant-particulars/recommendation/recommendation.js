@@ -13,6 +13,9 @@ Page({
     });
     this.recommendation();
   },
+  onShow:function(){
+    this.recommendation();
+  },
   onclickMore: function () {
     this.setData({
       qrCodeFlag: !that.data.qrCodeFlag
@@ -24,7 +27,6 @@ Page({
       shopId: this.data.shopid
     }
     Api.skutsc(_data).then((res) => {
-      console.log("返回值:", res)
       this.setData({
         carousel: res.data.data
       })
@@ -34,11 +36,8 @@ Page({
     let ind = e.currentTarget.id
     let _data = this.data.carousel.list
     let shopId = this.data.shopid
-    console.log("ind:",ind)
-    console.log("_data:", _data)
     for (let i = 0; i < _data.length;i++){
       if(ind == _data[i].id){
-        console.log(_data[i].skuName)
         wx.navigateTo({
           url: '../food-details/food-details?id=' + ind + '&shopid=' + shopId
         })

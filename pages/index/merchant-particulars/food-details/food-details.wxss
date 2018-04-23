@@ -76,3 +76,10 @@
   border: 0;
   box-sizing: border-box;
 }
+.houttishi{
+   width:250rpx;
+  height: 200rpx;
+  margin-left:242.5rpx; 
+  margin-top: 100rpx;
+  margin-bottom: 100rpx;
+}

@@ -93,3 +93,10 @@ page {
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
 }
+.recomzan{
+  position: absolute;
+  right: 103rpx;
+  color:#808080;
+  font-size:24rpx;
+  margin-top: 15rpx;
+}

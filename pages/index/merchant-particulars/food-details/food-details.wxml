@@ -16,7 +16,9 @@
 </view>
 <view class='geduan'></view>
 
-<view class='initiate-exhibition' catchtap='jumpTotalComment'>
+ <image class='houttishi' wx:if="{{commentNum==0}}" src='/images/icon/zhanweitu.png'></image>
+
+<view class='initiate-exhibition' catchtap='jumpTotalComment' hidden='{{commentNum < 6}}'>
   <view>
     <image class='initiate-left' src='/images/icon/home_sign.png'></image>
     <text class='initiate-text'>精选评价</text>

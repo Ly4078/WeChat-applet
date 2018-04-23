@@ -1,3 +1,4 @@
 {
-  "navigationBarTitleText": "推荐菜详情"
+  "navigationBarTitleText": "推荐菜详情",
+  "enablePullDownRefresh": false
 }
