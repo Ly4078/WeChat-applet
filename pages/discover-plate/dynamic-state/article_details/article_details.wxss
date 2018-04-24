@@ -118,8 +118,8 @@
 .sharebox{
   width: 694rpx;
   height: 2rpx;
-  padding-top:20rpx; 
-  margin: 69rpx 0 150rpx 0;
+  padding-top:0rpx; 
+  margin: 69rpx 0 180rpx 0;
 }
 .sharebut{
   background: red;
