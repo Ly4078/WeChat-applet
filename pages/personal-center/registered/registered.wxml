@@ -1,0 +1,16 @@
+
+       <view class="newUserM_box getphone gettels">
+       <view class='regtitle'>请输入电话号码或点击微信授权电话进行用户注册</view>
+         
+          <view class='shuru'>
+            <input type="number" value='{{phone}}' maxlength="11" placeholder="请输入11位有效手机号" bindblur="srbindblur" />
+            <button bindtap='submitphone'>获取验证码</button>
+          </view>
+          <view class='wxnumber'>
+            <button open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">授权绑定微信的手机号</button> 
+          </view>
+          <view class='yzm'>
+            <input  type="number" maxlength="4" placeholder="请输入4位手机短信验证码" bindblur="yzmbindblur"/>
+            <button bindtap='submitverify'>提交验证码</button>
+          </view>
+      </view> 

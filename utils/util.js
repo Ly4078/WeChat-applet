@@ -99,9 +99,36 @@ function timeDiffrence(current, updateTime, createTime) {      //文章发布时
   }
   return str;
 }
+
+function reciprocal(cleartime){  //倒计时
+  if (!cleartime){
+    return 'no'
+    return false
+  }
+  cleartime = new Date(cleartime);
+  // cleartime = cleartime ? cleartime.replace(/-/g, "/") : '';
+  let start = cleartime.getTime(); 
+  start = start+ 10*60*1000
+ 
+  let date = new Date();
+  let now = date.getTime(); 
+  let leftTime = start - now; 
+  let  d, h, m, s;
+  if (leftTime >= 0) {
+    d = Math.floor(leftTime / 1000 / 60 / 60 / 24);  //天
+    h = Math.floor(leftTime / 1000 / 60 / 60 % 24);  //时
+    m = Math.floor(leftTime / 1000 / 60 % 60);  //分
+    s = Math.floor(leftTime / 1000 % 60);  //秒
+    return m + '分' + s + '秒'
+  } else{
+    return 'yes'
+  }
+}
+
 function million(num){    //数字过万处理
   return num > 9999 ? (Math.floor(num / 1000) / 10) + '万+' : num
 }
+
 module.exports = {
   calcDistance: calcDistance,
   transformLength: transformLength,
@@ -111,5 +138,6 @@ module.exports = {
   store: myStore,
   tools: tools,
   million: million,
-  getNowFormatDate: getNowFormatDate
+  getNowFormatDate: getNowFormatDate,
+  reciprocal: reciprocal
 }

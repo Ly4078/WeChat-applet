@@ -103,6 +103,7 @@ Page({
 
   determine: function (e) {  //点击确认支付按钮
     let that = this
+    
     wx.getSetting({
       success: (res) => {
         if (res.authSetting['scope.userInfo'] && res.authSetting['scope.userLocation']) {
@@ -224,69 +225,6 @@ Page({
               title: '支付取消',
               duration: 1200
             })
-          }
-        })
-      }
-    })
-  },
-  getPhoneNumber: function (e) { //获取用户授权的电话号码
-    let that = this
-    let msg = e.detail
-    this.setData({
-      isphoneNumber: false
-    })
-    if (!e.detail.iv) { //拒绝授权
-      return false
-    }
-    wx.login({
-      success: res => {
-        if (res.code) {
-          let _parms = {
-            code: res.code
-          }
-          Api.getOpenId(_parms).then((res) => {
-            app.globalData.userInfo.openId = res.data.data.openId
-            app.globalData.userInfo.sessionKey = res.data.data.sessionKey
-            if (res.data.code == 0) {
-              let _pars = {
-                sessionKey: res.data.data.sessionKey,
-                ivData: msg.iv,
-                encrypData: msg.encryptedData
-              }
-              Api.phoneAES(_pars).then((res) => {
-                if (res.data.code == 0) {
-                  let _data = JSON.parse(res.data.data)
-                  app.globalData.userInfo.mobile = _data.phoneNumber,
-                    this.setData({
-                      isphoneNumber: false,
-                      issnap: false
-                    })
-                  // this.getuseradd()
-                  this.addUserForVersion()
-                }
-              })
-            }
-          })
-        }
-      }
-    })
-  },
-  addUserForVersion: function () {  //创建新用户
-    let _parms = {
-      openId: app.globalData.userInfo.openId,
-      mobile: app.globalData.userInfo.mobile
-    }
-    Api.addUserForVersion(_parms).then((res) => {
-      if (res.data.code == 0) {
-        let _data = res.data.data
-        app.globalData.userInfo.userId = res.data.data
-        this.getuseradd()
-      } else {
-        Api.updateuser(_parms).then((res) => {
-          if (res.data.code == 0) {
-            app.globalData.userInfo.nickName = data.nickName
-            app.globalData.userInfo.iconUrl = data.avatarUrl
-            app.globalData.userInfo.mobile = data.mobile
           }
         })
       }

@@ -28,14 +28,14 @@ App({
       nikcName: '',
       phone:'',
       mobile:'',
-      iconUrl: 'https://xq-1256079679.file.myqcloud.com/test_wxf91e2a026658e78e.o6zAJs-7D9920jC4XTKdzt72lobs.1hRpd2kGdEiOa3b258766fa20678a0bf8984308a16f9_0.3.jpg',
-      sourceType: '1',
+      iconUrl: '',
+      sourceType: '',
       city: '',
       loginTimes:'',
       sex: '', //gender	用户的性别，值为1时是男性，值为2时是女性，值为0时是未知
       lat: '',
       lng: '',
-      actInfoImg: ''   //活动详情图片
+      actInfoImg: ''  //活动详情图片
     },
     article: []
   }

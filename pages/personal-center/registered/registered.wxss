@@ -1,0 +1,31 @@
+
+.regtitle{
+  margin-top: 28px;
+  padding: 0 28rpx;
+  text-align: center;
+}
+.shuru{
+  margin-top: 50rpx;
+}
+.getphone{
+  position:absolute;
+  padding: 0 28rpx;
+  height: 558rpx;
+  z-index: 199; 
+}
+.getphone input{
+  border: 1rpx solid #EBEBEB;
+  width:480rpx;
+  margin-right: 20rpx;
+  height: 78rpx;
+  line-height: 78rpx;
+  padding: 0;
+  float: left;
+}
+
+.wxnumber{
+  margin: 50rpx 0; 
+}
+.shuru button,.yzm button{
+  font-size: 32rpx;
+}

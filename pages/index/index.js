@@ -8,6 +8,10 @@ Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
     city: "",
+    phone:'',
+    verify:'', //输入的验证码
+    verifyId:'',//后台返回的短信验证码
+    veridyTime:'',//短信发送时间
     carousel: [],  //轮播图
     business: [], //商家列表，推荐餐厅
     actlist: [],  //热门活动
@@ -53,20 +57,42 @@ Page({
           let _parms = {
             code: res.code
           }
-          Api.findByCode(_parms).then((res) => {
-            let _data = res.data.data
-            app.globalData.userInfo.openId = _data.openId
-            if (res.data.code == 0) {
-              app.globalData.userInfo.userId = _data.id
-              this.getuseradd()
-            }else{
-              this.setData({
-                isfirst: true
-              })
-              app.globalData.userInfo.userId = '667'  //667是数据库里临时用户，需与数据里保持一致
-              this.getuser()
-              this.getlocation()
-            }
+
+          // Api.findByCode(_parms).then((res) => {
+          Api.useradd(_parms).then((res) => {
+              if (res.data.data) {
+                app.globalData.userInfo.userId = res.data.data
+                this.getlocation()
+                wx.request({  //从自己的服务器获取用户信息
+                  url: this.data._build_url + 'user/get/' + res.data.data,
+                  header: {
+                    'content-type': 'application/json' // 默认值
+                  },
+                  success: function (res) {
+                    if (res.data.code == 0) {
+                      let data = res.data.data;
+                      let users = app.globalData.userInfo
+
+                      for(let key in data){
+                        for(let ind in users){
+                          if(key == ind){
+                            users[ind] = data[key]
+                          }
+                        }
+                      }
+                      if (data.mobile) {
+                        that.setData({
+                          isfirst: false
+                        })
+                      } else {
+                        that.setData({
+                          isfirst: true
+                        })
+                      }
+                    }
+                  }
+                })
+              }
           })
         }
       }
@@ -98,43 +124,10 @@ Page({
   },
   getuseradd: function () {  //获取用户userid
     // this.isNewUser()
-    this.getuser()
+    // this.getuser()
     this.getlocation()
   },
-  getuser: function () { //从自己的服务器获取用户信息
-    let that = this
-    wx.request({
-      url: this.data._build_url + 'user/get/' + app.globalData.userInfo.userId,
-      header: {
-        'content-type': 'application/json' // 默认值
-      },
-      success: function (res) {
-        if (res.data.code == 0) {
-            let data = res.data.data;
-            app.globalData.userInfo.userType = data.userType,
-            app.globalData.userInfo.openId = data.openId,
-            app.globalData.userInfo.password = data.password,
-            app.globalData.userInfo.shopId = data.shopId ? data.shopId : '',
-            app.globalData.userInfo.userName = data.userName,
-            app.globalData.userInfo.nickName = data.nickName,
-            app.globalData.userInfo.loginTimes = data.loginTimes,
-            app.globalData.userInfo.iconUrl = data.iconUrl,
-            app.globalData.userInfo.sourceType = data.sourceType,
-            app.globalData.userInfo.sex = data.sex
-            app.globalData.userInfo.mobile = data.mobile
-            if(data.mobile){
-              that.setData({
-                isfirst: false
-              })
-            }else{
-              that.setData({
-                isfirst: true
-              })
-            }
-        }
-      }
-    })
-  },
+
   navbarTap: function (e) {// 专题推荐栏
     this.setData({
       currentTab: e.currentTarget.dataset.idx
@@ -225,7 +218,6 @@ Page({
       }
     })
   },
-
   requestCityName(lat, lng) {//获取当前城市
     app.globalData.userInfo.lat = lat
     app.globalData.userInfo.lng = lng
@@ -306,7 +298,6 @@ Page({
     })
   },
   userLocation: function () {   // 用户定位
-
     wx.navigateTo({
       url: 'user-location/user-location',
     })
@@ -483,7 +474,6 @@ Page({
     })
     
     if (app.globalData.userInfo.mobile == 'a' || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null){
-      app.globalData.userInfo.userId = '667'
       this.setData({
         getPhoneNumber:true
       })
@@ -491,8 +481,12 @@ Page({
     }
   },
   newUserToGet: function () {    //新用户跳转票券
+   
+     console.log("userGiftFlag:", this.data.userGiftFlag)
+     console.log("isNew:", this.data.isNew)
+     console.log("isfirst:", this.data.isfirst)
     let that = this
-    if (!this.data.isphoneNumber && app.globalData.userInfo.mobile == 'a' || !app.globalData.userInfo.mobile){
+    if (!this.data.isphoneNumber && app.globalData.userInfo.mobile == '' || !app.globalData.userInfo.mobile){
       this.setData({
         isphoneNumber: true
       })
@@ -520,12 +514,116 @@ Page({
       }
     })
   },
+  srbindblur:function(e){ //输入电话框失焦时获取输入的电话号码 
+    let _value = e.detail.value
+    console.log("value:",_value)
+    let RegExp = /^[1][3,4,5,7,8][0-9]{9}$/; 
+    if (RegExp.test(_value)) {
+      this.setData({
+        phone: _value
+      })
+    }else{
+      wx.showToast({
+        title: '电话号码输入有误，请重新输入',
+        icon: 'none',
+        mask: 'true',
+        duration: 2000
+      })
+      this.setData({
+        phone: ''
+      })
+      return false
+    }
+  },
+  submitphone:function(){  //提交手机号码
+    let that = this
+    if (!this.data.phone){
+      wx.showToast({
+        title: '请先输入或授权手机号',
+        icon: 'none',
+        mask: 'true',
+        duration: 2000
+      })
+      return false
+    }
+    let _parms = {
+      shopMobile:this.data.phone,
+      userId: app.globalData.userInfo.userId,
+      userName:app.globalData.userInfo.userName
+    }
+    Api.sendForRegister(_parms).then((res)=>{
+      if(res.data.code == 0){
+        console.log("sendForRegister:",res)
+        that.setData({
+          verifyId: res.data.data.verifyId,
+          veridyTime: res.data.data.veridyTime
+        })
+      }
+    })
+  },
+  yzmbindblur: function (e) {  //输入验证码框失焦时获取输入的验证码
+    let _value = e.detail.value
+    console.log("yzm:",_value)
+    this.setData({
+      verify:_value
+    })
+  },
+  submitverify:function(){  //提交验证码
+    let that = this
+    let _time = utils.reciprocal(this.data.veridyTime)
+    console.log("_time:", _time)
+    if (_time == 'no'){
+      wx.showToast({
+        title: '请先提交电话号码，获取验证码',
+        icon: 'none',
+        mask: 'true',
+        duration: 2000
+      })
+      return false
+    } else {
+      if (this.data.verify == this.data.verifyId) {
+        let _parms = {
+          shopMobile: this.data.phone,
+          SmsContent: this.data.verify,
+          userId: app.globalData.userInfo.userId,
+          userName: app.globalData.userInfo.userName
+        }
+        Api.isVerify(_parms).then((res) => {
+          console.log("isVerify:", res)
+          if (res.data.code == 0) {
+            app.globalData.userInfo.userId = res.data.data,
+            app.globalData.userInfo.mobile = this.data.phone,
+            console.log("phone:",this.data.phone)
+            that.setData({
+              isphoneNumber: false
+            })
+          }
+        })
+      } else {
+        wx.showToast({
+          title: '验证码输入有误，请重新输入',
+          icon: 'none',
+          mask: 'true',
+          duration: 2000
+        })
+      }
+    } 
+    // else {
+    //   wx.showToast({
+    //     title: _time+'后再试',
+    //     icon: 'none',
+    //     mask: 'true',
+    //     duration: 2000
+    //   })
+    //   return false
+    // }
+  },
   getPhoneNumber: function (e) { //获取用户授权的电话号码
     let that = this
     let msg = e.detail
-    this.setData({
-      isphoneNumber:false
-    })
+    // this.setData({
+    //   isphoneNumber:false
+    // })
     if (!e.detail.iv){ //拒绝授权
       return false
     }
@@ -547,39 +645,15 @@ Page({
               Api.phoneAES(_pars).then((res) => {
                 if (res.data.code == 0) {
                   let _data = JSON.parse(res.data.data)
-                  app.globalData.userInfo.mobile = _data.phoneNumber,
-                  this.setData({
-                    isphoneNumber: false,
-                    issnap: false
-                  })
-                  // this.getuseradd()
-                  this.addUserForVersion()
+                    this.setData({
+                      phone: _data.phoneNumber
+                    })
+                  // this.submitphone();
                 }
               })
             }
           })
         }
-      }
-    })
-  },
-  addUserForVersion:function(){  //创建新用户
-    let _parms = {
-      openId: app.globalData.userInfo.openId,
-      mobile: app.globalData.userInfo.mobile
-    }
-    Api.addUserForVersion(_parms).then((res)=>{
-      if(res.data.code == 0){
-        let _data = res.data.data
-        app.globalData.userInfo.userId = res.data.data
-        this.getuseradd()
-      }else{
-        Api.updateuser(_parms).then((res) => {
-          if (res.data.code == 0) {
-            app.globalData.userInfo.nickName = data.nickName
-            app.globalData.userInfo.iconUrl = data.avatarUrl
-            app.globalData.userInfo.mobile = data.mobile
-          }
-        })
       }
     })
   },
