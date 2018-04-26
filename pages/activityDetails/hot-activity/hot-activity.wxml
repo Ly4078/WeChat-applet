@@ -1,0 +1,109 @@
+<view class="hot_activity">
+  <view class="hot_banner">
+    <image class="hot_banner_img" src="/images/icon/hot_banner.png"></image>
+  </view>
+  <view class="hot_main">
+    <view class="hot_Sponsor">
+      <view class="hot_Sponsor_tit">主办方</view>
+      <view class="hot_Sponsor_guys">
+        <view class="hot_Sponsor_margin">享7美食</view>
+        <view class="hot_Sponsor_margin">湖北餐饮协会</view>
+        <view>十堰旅游委</view>
+      </view>
+    </view>
+    <view class="hot_description">
+      <view class="hot_desc_time">
+        活动时间:
+        <text>4月1日 — 4月30日</text>
+      </view>
+      <view class="hot_desc_info">
+        寻找[享7美食形象代言人]投票评选开始啦，无论是你，还是你身边的女神，都可以参与报名，最终由用户投票选出享7美食形象代言人，代言费10万人民币，前20参赛选手均有礼品相送，投票就3折购买享7券，吃着火锅唱着歌、快来报名吧
+      </view>
+      <view class="hot_desc_champion">第一名：享7美食形象代言人费10万元</view>
+      <view>第二名：奖金2万（2名）</view>
+      <view class="hot_desc_btn">
+        <button>活动详情</button>
+        <button>我要报名</button>
+      </view>
+    </view>
+    <view class="hot_ticket">
+      <view class="hot_ticket_l">
+        <image src="/images/icon/ticket_txt.png"></image>
+        <view class="hot_ticket_l_txt">
+          <view class="hot_ticket_txt_f">20元代金券</view>
+          <view class="hot_ticket_txt_s">满200元减20元</view>
+        </view>
+      </view>
+      <button class="hot_ticket_r">领取</button>
+    </view>
+    <view class="hot_list_box">
+      <view class="hot_list_tab">
+        <view>商家</view>
+        <view>选手</view>
+      </view>
+      <view class="hot_list_search">
+        <input id="" placeholder="请输入编号、名称"></input>
+        <image src="/images/icon/hot_search.png"></image>
+      </view>
+      <view class="hot_list">
+        <view class="hot_list_item">
+          <view class="hot_list_item_t">
+            <view class="list_item_info">
+              <view class="list_item_name clearfix">
+                <text class="list_item_name_f">01号</text>
+                <text class="list_item_name_s">非凡</text>
+              </view>
+              <image src="/images/icon/touxiang.jpg"></image>
+            </view>
+            <view class="list_item_vote">
+              <view>12312票</view>
+              <button>投票</button>
+            </view>
+          </view>
+          <view class="hot_list_item_b">
+            <image src="/images/icon/xiangqisdfe.png"></image>
+            <text>穿越重庆火锅(光谷店)</text>
+          </view>
+        </view>
+        <view class="hot_list_item">
+          <view class="hot_list_item_t">
+            <view class="list_item_info">
+              <view class="list_item_name clearfix">
+                <text class="list_item_name_f">01号</text>
+                <text class="list_item_name_s">非凡</text>
+              </view>
+              <image src="/images/icon/touxiang.jpg"></image>
+            </view>
+            <view class="list_item_vote">
+              <view>12312票</view>
+              <button>投票</button>
+            </view>
+          </view>
+          <view class="hot_list_item_b">
+            <image src="/images/icon/xiangqisdfe.png"></image>
+            <text>穿越重庆火锅(光谷店)</text>
+          </view>
+        </view>
+        <view class="hot_list_item">
+          <view class="hot_list_item_t">
+            <view class="list_item_info">
+              <view class="list_item_name clearfix">
+                <text class="list_item_name_f">01号</text>
+                <text class="list_item_name_s">非凡</text>
+              </view>
+              <image src="/images/icon/touxiang.jpg"></image>
+            </view>
+            <view class="list_item_vote">
+              <view>12312票</view>
+              <button>投票</button>
+            </view>
+          </view>
+          <view class="hot_list_item_b">
+            <image src="/images/icon/xiangqisdfe.png"></image>
+            <text>穿越重庆火锅(光谷店)</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
