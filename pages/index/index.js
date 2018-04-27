@@ -28,9 +28,13 @@ Page({
     userGiftFlag: false,    //新用户礼包是否隐藏
     isphoneNumber: false,  //是否拿到手机号
     isfirst:false,
+    isclose:false,
     navbar: ['菜系专题', '服务专题'],
     sort: ['川湘菜', '海鲜', '火锅', '烧烤', '西餐', '自助餐', '聚会', '商务', '约会'],
-    activityImg: ''   //活动图
+    activityImg: '',   //活动图
+    settime: '',
+    rematime: '获取验证码',
+    isclick: true
   },
   onLoad: function (options) {
     wx.showLoading({
@@ -407,6 +411,7 @@ Page({
         url: '../personal-center/free-of-charge/free-of-charge',
       })
     } else if(id == 2) {
+      return false
       wx.navigateTo({
         url: '../activityDetails/hot-activity/hot-activity',
       })
@@ -481,10 +486,6 @@ Page({
     }
   },
   newUserToGet: function () {    //新用户跳转票券
-   
-     console.log("userGiftFlag:", this.data.userGiftFlag)
-     console.log("isNew:", this.data.isNew)
-     console.log("isfirst:", this.data.isfirst)
     let that = this
     if (!this.data.isphoneNumber && app.globalData.userInfo.mobile == '' || !app.globalData.userInfo.mobile){
       this.setData({
@@ -514,15 +515,258 @@ Page({
       }
     })
   },
-  srbindblur:function(e){ //输入电话框失焦时获取输入的电话号码 
+
+
+  // numbindinput:function(e){
+  //   let _value = e.detail.value
+  //   if (_value){
+  //     this.setData({
+  //       isclose:true,
+  //       phone: _value
+  //     })
+  //   }else{
+  //     this.setData({
+  //       isclose: false,
+  //       phone: _value
+  //     })
+  //   }
+  // },
+  // closephone:function(){  //手机号置空
+  //   console.log("closephone")
+  //   this.setData({
+  //     phone: ''
+  //   })
+  // },
+  // submitphone:function(){  //提交手机号码
+  //   let that = this
+  //   if (!this.data.phone){
+  //     wx.showToast({
+  //       title: '请先输入手机号',
+  //       icon: 'none',
+  //       mask: 'true',
+  //       duration: 2000
+  //     })
+  //     return false
+  //   }
+  //   let RegExp = /^[1][3,4,5,7,8][0-9]{9}$/;
+  //   if (RegExp.test(this.data.phone)) {
+  //     let _parms = {
+  //       shopMobile: this.data.phone,
+  //       userId: app.globalData.userInfo.userId,
+  //       userName: app.globalData.userInfo.userName
+  //     }
+  //     Api.sendForRegister(_parms).then((res) => {
+  //       if (res.data.code == 0) {
+  //         console.log("sendForRegister:", res)
+  //         that.setData({
+  //           verifyId: res.data.data.verifyId,
+  //           veridyTime: res.data.data.veridyTime
+  //         })
+  //       }
+  //     })
+  //   } else {
+  //     wx.showToast({
+  //       title: '电话号码输入有误，请重新输入',
+  //       icon: 'none',
+  //       mask: 'true',
+  //       duration: 2000
+  //     })
+  //     this.setData({
+  //       isclose: false,
+  //       phone: ''
+  //     })
+  //   }
+    
+  // },
+  // yzmbindblur: function (e) {  //输入验证码框失焦时获取输入的验证码
+  //   let _value = e.detail.value
+  //   this.setData({
+  //     verify:_value
+  //   })
+  // },
+  // submitverify:function(){  //提交验证码
+  //   let that = this
+  //   let _time = utils.reciprocal(this.data.veridyTime)
+  //   if (_time == 'no'){
+  //     wx.showToast({
+  //       title: '请先提交电话号码，获取验证码',
+  //       icon: 'none',
+  //       mask: 'true',
+  //       duration: 2000
+  //     })
+  //     return false
+  //   } else {
+  //     if (this.data.verify == this.data.verifyId) {
+  //       let _parms = {
+  //         shopMobile: this.data.phone,
+  //         SmsContent: this.data.verify,
+  //         userId: app.globalData.userInfo.userId,
+  //         userName: app.globalData.userInfo.userName
+  //       }
+  //       Api.isVerify(_parms).then((res) => {
+  //         if (res.data.code == 0) {
+  //           app.globalData.userInfo.userId = res.data.data,
+  //           app.globalData.userInfo.mobile = this.data.phone,
+  //           that.setData({
+  //             isphoneNumber: false
+  //           })
+  //         }
+  //       })
+  //     } else {
+  //       wx.showToast({
+  //         title: '验证码输入有误，请重新输入',
+  //         icon: 'none',
+  //         mask: 'true',
+  //         duration: 2000
+  //       })
+  //     }
+  //   } 
+  //   // else {
+  //   //   wx.showToast({
+  //   //     title: _time+'后再试',
+  //   //     icon: 'none',
+  //   //     mask: 'true',
+  //   //     duration: 2000
+  //   //   })
+  //   //   return false
+  //   // }
+  // },
+  // getPhoneNumber: function (e) { //获取用户授权的电话号码
+  //   let that = this
+  //   let msg = e.detail
+  //   // this.setData({
+  //   //   isphoneNumber:false
+  //   // })
+  //   if (!e.detail.iv){ //拒绝授权
+  //     return false
+  //   }
+  //   wx.login({
+  //     success: res => {
+  //       if (res.code) {
+  //         let _parms = {
+  //           code: res.code
+  //         }
+  //         Api.getOpenId(_parms).then((res) => {
+  //           app.globalData.userInfo.openId = res.data.data.openId
+  //           app.globalData.userInfo.sessionKey = res.data.data.sessionKey
+  //           if (res.data.code == 0) {
+  //             let _pars = {
+  //               sessionKey: res.data.data.sessionKey,
+  //               ivData: msg.iv,
+  //               encrypData: msg.encryptedData
+  //             }
+  //             Api.phoneAES(_pars).then((res) => {
+  //               if (res.data.code == 0) {
+  //                 let _data = JSON.parse(res.data.data)
+  //                   this.setData({
+  //                     phone: _data.phoneNumber
+  //                   })
+  //                 // this.submitphone();
+  //               }
+  //             })
+  //           }
+  //         })
+  //       }
+  //     }
+  //   })
+  // },
+
+
+  closebut:function(){
+    this.setData({
+      isphoneNumber: false
+    })
+  },
+  closetel:function(){
+    this.setData({
+      issnap:false
+    })
+  },
+
+
+
+  numbindinput: function (e) {  //监听号码输入框
     let _value = e.detail.value
-    console.log("value:",_value)
-    let RegExp = /^[1][3,4,5,7,8][0-9]{9}$/; 
-    if (RegExp.test(_value)) {
+    if (_value) {
       this.setData({
+        isclose: true,
         phone: _value
       })
-    }else{
+    } else {
+      this.setData({
+        isclose: false,
+        phone: _value
+      })
+    }
+  },
+  closephone: function () {  //手机号置空
+    clearTimeout(this.data.settime)
+    this.setData({
+      phone: '',
+      rematime: '获取验证码',
+      isclick: true
+    })
+  },
+  submitphone: function () {  //获取验证码
+    let that = this
+    if (!this.data.phone) {
+      wx.showToast({
+        title: '请先输入手机号',
+        icon: 'none',
+        mask: 'true',
+        duration: 2000
+      })
+      return false
+    }
+    if (!this.data.isclick) {
+      return false
+    }
+    let RegExp = /^[1][3,4,5,7,8][0-9]{9}$/;
+    if (RegExp.test(this.data.phone)) {
+      console.log("settime:", this.data.settime)
+      if (this.data.settime) {
+        clearTimeout(that.data.settime)
+      }
+      let _parms = {
+        shopMobile: that.data.phone,
+        userId: app.globalData.userInfo.userId,
+        userName: app.globalData.userInfo.userName
+      }
+      Api.sendForRegister(_parms).then((res) => {
+        if (res.data.code == 0) {
+          that.setData({
+            verifyId: res.data.data.verifyId,
+            veridyTime: res.data.data.veridyTime
+          })
+          wx.getStorage({
+            key: 'phone',
+            complete: function (res) {
+              if (RegExp.test(res.data)) {
+                if (res.data == that.data.phone) {
+                  let sett = setInterval(function () {
+                    that.remaining();
+                  }, 1000)
+                  that.setData({
+                    settime: sett,
+                    isclick: false
+                  })
+                } else {
+                  wx.setStorage({
+                    key: "phone",
+                    data: that.data.phone
+                  })
+                }
+              } else {
+                wx.setStorage({
+                  key: "phone",
+                  data: that.data.phone
+                })
+              }
+            }
+          })
+        }
+      })
+    } else {
       wx.showToast({
         title: '电话号码输入有误，请重新输入',
         icon: 'none',
@@ -530,51 +774,50 @@ Page({
         duration: 2000
       })
       this.setData({
+        isclose: false,
         phone: ''
       })
-      return false
     }
   },
-  submitphone:function(){  //提交手机号码
+  yzmbindblur: function (e) {  //输入验证码框失焦时获取输入的验证码
+    let _value = e.detail.value
+    this.setData({
+      verify: _value
+    })
+  },
+  remaining: function () {  //倒计时
+    let rema = utils.reciprocal(this.data.veridyTime)
+    if (rema == 'no' || rema == 'yes') {
+      clearTimeout(this.data.settime)
+      wx.removeStorage({
+        key: 'phone',
+        complete: function (res) {
+          console.log(res)
+        }
+      })
+      this.setData({
+        rematime: '获取验证码',
+        isclick: true
+      })
+    } else {
+      this.setData({
+        rematime: rema
+      })
+    }
+  },
+  submitverify: function () {  //确定
     let that = this
-    if (!this.data.phone){
+    if (!this.data.phone) {
       wx.showToast({
-        title: '请先输入或授权手机号',
+        title: '请输入电话号码，获取验证码',
         icon: 'none',
         mask: 'true',
         duration: 2000
       })
       return false
-    }
-    let _parms = {
-      shopMobile:this.data.phone,
-      userId: app.globalData.userInfo.userId,
-      userName:app.globalData.userInfo.userName
-    }
-    Api.sendForRegister(_parms).then((res)=>{
-      if(res.data.code == 0){
-        console.log("sendForRegister:",res)
-        that.setData({
-          verifyId: res.data.data.verifyId,
-          veridyTime: res.data.data.veridyTime
-        })
-      }
-    })
-  },
-  yzmbindblur: function (e) {  //输入验证码框失焦时获取输入的验证码
-    let _value = e.detail.value
-    console.log("yzm:",_value)
-    this.setData({
-      verify:_value
-    })
-  },
-  submitverify:function(){  //提交验证码
-    let that = this
-    let _time = utils.reciprocal(this.data.veridyTime)
-    console.log("_time:", _time)
-    if (_time == 'no'){
+    } else if (!this.data.verify) {
       wx.showToast({
-        title: '请先提交电话号码，获取验证码',
+        title: '请输入验证码',
         icon: 'none',
         mask: 'true',
         duration: 2000
@@ -592,11 +835,10 @@ Page({
           console.log("isVerify:", res)
           if (res.data.code == 0) {
             app.globalData.userInfo.userId = res.data.data,
-            app.globalData.userInfo.mobile = this.data.phone,
-            console.log("phone:",this.data.phone)
-            that.setData({
-              isphoneNumber: false
-            })
+              app.globalData.userInfo.mobile = this.data.phone,
+              wx.switchTab({
+                url: '../personal-center'
+              })
           }
         })
       } else {
@@ -607,59 +849,6 @@ Page({
           duration: 2000
         })
       }
-    } 
-    // else {
-    //   wx.showToast({
-    //     title: _time+'后再试',
-    //     icon: 'none',
-    //     mask: 'true',
-    //     duration: 2000
-    //   })
-    //   return false
-    // }
-  },
-  getPhoneNumber: function (e) { //获取用户授权的电话号码
-    let that = this
-    let msg = e.detail
-    // this.setData({
-    //   isphoneNumber:false
-    // })
-    if (!e.detail.iv){ //拒绝授权
-      return false
     }
-    wx.login({
-      success: res => {
-        if (res.code) {
-          let _parms = {
-            code: res.code
-          }
-          Api.getOpenId(_parms).then((res) => {
-            app.globalData.userInfo.openId = res.data.data.openId
-            app.globalData.userInfo.sessionKey = res.data.data.sessionKey
-            if (res.data.code == 0) {
-              let _pars = {
-                sessionKey: res.data.data.sessionKey,
-                ivData: msg.iv,
-                encrypData: msg.encryptedData
-              }
-              Api.phoneAES(_pars).then((res) => {
-                if (res.data.code == 0) {
-                  let _data = JSON.parse(res.data.data)
-                    this.setData({
-                      phone: _data.phoneNumber
-                    })
-                  // this.submitphone();
-                }
-              })
-            }
-          })
-        }
-      }
-    })
   },
-  closetel:function(){
-    this.setData({
-      issnap:false
-    })
-  }
 })

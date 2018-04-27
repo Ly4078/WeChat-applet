@@ -21,8 +21,22 @@
 
      <!-- <view class="newUserModal" catchtouchmove='true'> -->
       <view class="drawer_screen"></view> 
-
        <view wx:if="{{isphoneNumber}}" class="newUserM_box getphone gettels">
+        <view class='nubtitle'>快速注册</view>
+        <view class='setphone'>
+          <input type="number" value='{{phone}}' maxlength="11" placeholder="输入手机号"  bindinput="numbindinput"></input>
+          <image class="closephone" bindtap='closephone' wx:if="{{isclose}}"  src="/images/icon/sloce.png"></image>
+        </view>
+        <view class='setcode'>
+          <input type="number" maxlength="4" placeholder="输入验证码" bindblur="yzmbindblur" ></input>
+          <button bindtap='submitphone'>{{rematime}}</button>
+        </view>
+        <view class='twobut'>
+          <view class='closebut' bindtap='closebut'>取消</view>
+          <view class='cfimbut' bindtap='submitverify'>确定</view>
+        </view>
+       </view>
+       <!-- <view wx:if="{{isphoneNumber}}" class="newUserM_box getphone gettels">
          请输入电话号码或点击微信授权电话进行用户注册
           <view class='shuru'>
             <input type="number" value='{{phone}}' maxlength="11" placeholder="请输入11位有效手机号" bindblur="srbindblur" />
@@ -35,7 +49,7 @@
             <input  type="number" maxlength="4" placeholder="请输入4位手机短信验证码" bindblur="yzmbindblur"/>
             <button bindtap='submitverify'>提交验证码</button>
           </view>
-      </view>  
+      </view>   -->
 
         <view wx:else class="newUserM_box">
          <image class="user_present" src="/images/icon/newuser.png" bindtap='newUserToGet'></image> 

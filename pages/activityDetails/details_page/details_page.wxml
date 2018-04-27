@@ -1,0 +1,65 @@
+<view class='detail_top'>
+  <image src="{{topsrc}}" class='topback'></image>
+  <view class='motai'></view>
+  <view class='toptop'>
+    <image src="{{topsrc}}" class='topimg'></image>
+    <view class='u_name'>{{user.name}}</view>
+    <view class='u_yearh'>
+      <text class='textyear'> <image class='sexicon' src='/images/icon/girl.png'></image>{{user.year}}岁</text>
+      <text class='texthei'>{{user.height}}cm</text>
+       <image wx:if="{{user.sex == '2'}}" class='sexicon' src='/images/icon/girl.png'></image>
+       <image wx:if="{{user.sex == '1'}}" class='sexicon' src='/images/icon/male.png'></image>
+    </view>
+    <view class='topbut ones'>
+      <view class='xsnum'>{{user.num}}</view>
+      <view class='xstype'>编号</view>
+    </view>
+    <view class='topbut'>
+      <view class='xsnum'>{{user.ticket}}</view>
+      <view class='xstype'>票数</view>
+    </view>
+    <view class='topbut'>
+      <view class='xsnum'>{{user.match}}</view>
+      <view class='xstype'>匹配</view>
+    </view>
+    <button class="toupiao {{isvote?'':'actvote'}}" bindtap='castvote'>{{poll}}</button>
+  </view>
+</view>
+<video class="myVideo" src="{{video}}" controls></video>
+
+<image class='deimg' wx:for="{{imgs}}" wx:key="{{index}}" src='{{item}}'></image>
+
+<button class="toupiao butvote actvote" bindtap='castvote'>{{poll}}</button>
+
+  <view class='sharebg'></view>  
+    <text class='sharetitlea'>分享</text>
+    <view class='sharebox'>
+      <button class='sharebut' bindtap='share' plain="true" data-name="shareBtn" open-type="share">
+        <image class='shareimgl' src='/images/icon/find_article_wechat.png'></image>
+        <image class='shareimgr' src='/images/icon/find_article_mine.png'></image>
+      </button> 
+    <view class='text_wx'>微信</view>
+    <view class='text_pyq' bindtap='share'>朋友圈</view>
+
+  </view>  
+ <view class='sharebg'></view> 
+
+   <view  class='but'>
+    <block wx:for="{{cmtdata.list}}" wx:key="{{index}}">
+      <template is="commentItem" data="{{item}}"></template>
+    </block>
+    <view class='total-comment' hidden='{{totalComment}}' catchtap='jumpTotalComment'>
+      <view class='total-center' wx:if="{{cmtdata.list.length>6}}">
+        <text>查看全部<text>{{cmtdata.total}}</text>条评论</text>
+      </view>
+    </view>
+    <form class='commentBox {{isComment ? "show" : "hide"}}'>
+      <textarea class="commentArea" placeholder='请输入评论' focus="{{isComment}}" bindinput="getCommentVal" cursor-spacing="50rpx" show-confirm-bar="false" fixed="true"></textarea>
+      <button class='fasong' form-type="reset" catchtap="setcmtadd">发送</button>
+    </form>
+  </view>
+
+<view class='botton-comment' bindtap='showAreatext'>
+  <image class='comment-images' src='/images/icon/write.png'></image>
+  <text class='reviewyan'>写评论</text>
+</view>

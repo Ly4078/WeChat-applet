@@ -38,71 +38,61 @@
     </view>
     <view class="hot_list_box">
       <view class="hot_list_tab">
-        <view>商家</view>
-        <view>选手</view>
+        <view bindtap='switching' class="{{!isayers?'selected':'noselect'}}">商家</view>
+        <view bindtap='switching' class="{{isayers?'selected':'noselect'}}">选手</view>
       </view>
       <view class="hot_list_search">
         <input id="" placeholder="请输入编号、名称"></input>
         <image src="/images/icon/hot_search.png"></image>
       </view>
+
       <view class="hot_list">
-        <view class="hot_list_item" style="padding-right: 10rpx;">
+
+
+        <view class="hot_list_item" wx:if="{{isayers}}" wx:for="{{players}}" wx:key="{{index}}" id="{{index}}" bindtap='clickli'>
           <view class="hot_list_item_t">
             <view class="list_item_info">
               <view class="list_item_name clearfix">
-                <text class="list_item_name_f">01号</text>
-                <text class="list_item_name_s">非凡</text>
+                <text class="list_item_name_f">{{item.num}}号</text>
+                <text class="list_item_name_s">{{item.name}}</text>
               </view>
-              <image src="/images/icon/touxiang.jpg"></image>
+              <image src="{{item.src}}"></image>
             </view>
             <view class="list_item_vote">
-              <view>12312票</view>
+
+              <view>{{item.ticket}}票</view>
+              <button class="{{item.isvote=='1'?'vote_button':''}}">投票</button>
+
+            </view>
+          </view>
+          <view class="hot_list_item_b">
+            <image src="{{item.relsrc}}"></image>
+            <text>{{item.related}}</text>
+          </view>
+        </view>
+
+
+        <view class="hot_list_item" wx:if="{{!isayers}}" wx:for="{{business}}" wx:key="{{index}}" id="{{index}}" bindtap='clickli'>
+
+          <view class="hot_list_item_t">
+            <view class="list_item_info">
+              <view class="list_item_name clearfix">
+                <text class="list_item_name_f">{{item.group}}号</text>
+                <text class="list_item_name_s">{{item.shop}}</text>
+              </view>
+              <image src="{{item.src}}"></image>
+            </view>
+            <view class="list_item_vote">
+              <view>{{item.ticket}}票</view>
               <button>投票</button>
             </view>
           </view>
           <view class="hot_list_item_b">
-            <image src="/images/icon/xiangqisdfe.png"></image>
-            <text>穿越重庆火锅(光谷店)</text>
+            <image src="{{item.relsrc}}"></image>
+            <text>{{item.dish}})</text>
           </view>
         </view>
-        <view class="hot_list_item" style="padding-left: 10rpx;">
-          <view class="hot_list_item_t">
-            <view class="list_item_info">
-              <view class="list_item_name clearfix">
-                <text class="list_item_name_f">01号</text>
-                <text class="list_item_name_s">非凡</text>
-              </view>
-              <image src="/images/icon/touxiang.jpg"></image>
-            </view>
-            <view class="list_item_vote">
-              <view>12312票</view>
-              <button>投票</button>
-            </view>
-          </view>
-          <view class="hot_list_item_b">
-            <image src="/images/icon/xiangqisdfe.png"></image>
-            <text>穿越重庆火锅(光谷店)</text>
-          </view>
-        </view>
-        <view class="hot_list_item" style="padding-right: 10rpx;">
-          <view class="hot_list_item_t">
-            <view class="list_item_info">
-              <view class="list_item_name clearfix">
-                <text class="list_item_name_f">01号</text>
-                <text class="list_item_name_s">非凡</text>
-              </view>
-              <image src="/images/icon/touxiang.jpg"></image>
-            </view>
-            <view class="list_item_vote">
-              <view>12312票</view>
-              <button>投票</button>
-            </view>
-          </view>
-          <view class="hot_list_item_b">
-            <image src="/images/icon/xiangqisdfe.png"></image>
-            <text>穿越重庆火锅(光谷店)</text>
-          </view>
-        </view>
+
       </view>
     </view>
   </view>

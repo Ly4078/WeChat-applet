@@ -12,14 +12,89 @@ Page({
     verify: '', //输入的验证码
     verifyId: '',//后台返回的短信验证码
     veridyTime: '',//短信发送时间
+    settime: '',
+    rematime: '获取验证码',
+    isclick:true
   },
-  srbindblur: function (e) { //输入电话框失焦时获取输入的电话号码 
+  numbindinput: function (e) {  //监听号码输入框
     let _value = e.detail.value
-    console.log("value:", _value)
-    let RegExp = /^[1][3,4,5,7,8][0-9]{9}$/;
-    if (RegExp.test(_value)) {
+    if (_value) {
       this.setData({
+        isclose: true,
         phone: _value
+      })
+    } else {
+      this.setData({
+        isclose: false,
+        phone: _value
+      })
+    }
+  },
+  closephone: function () {  //手机号置空
+    clearTimeout(this.data.settime)
+    this.setData({
+      phone: '',
+      rematime: '获取验证码',
+      isclick: true
+    })
+  },
+  submitphone: function () {  
+    let that = this
+    if (!this.data.phone) {
+      wx.showToast({
+        title: '请先输入手机号',
+        icon: 'none',
+        mask: 'true',
+        duration: 2000
+      })
+      return false
+    }
+    if (!this.data.isclick){
+      return false
+    }
+    let RegExp = /^[1][3,4,5,7,8][0-9]{9}$/;
+    if (RegExp.test(this.data.phone)) {
+      if (this.data.settime){
+        clearTimeout(that.data.settime)
+      }
+      let _parms = {
+        shopMobile: that.data.phone,
+        userId: app.globalData.userInfo.userId,
+        userName: app.globalData.userInfo.userName
+      }
+      Api.sendForRegister(_parms).then((res) => {
+        if (res.data.code == 0) {
+          that.setData({
+            verifyId: res.data.data.verifyId,
+            veridyTime: res.data.data.veridyTime
+          })
+          wx.getStorage({
+            key: 'phone',
+            complete: function (res) {
+              if (RegExp.test(res.data)) {
+                if (res.data == that.data.phone) {
+                  let sett = setInterval(function () {
+                    that.remaining();
+                  }, 1000)
+                  that.setData({
+                    settime: sett,
+                    isclick:false
+                  })
+                } else {
+                  wx.setStorage({
+                    key: "phone",
+                    data: that.data.phone
+                  })
+                }
+              } else {
+                wx.setStorage({
+                  key: "phone",
+                  data: that.data.phone
+                })
+              }
+            }
+          })  
+        }
       })
     } else {
       wx.showToast({
@@ -29,51 +104,56 @@ Page({
         duration: 2000
       })
       this.setData({
+        isclose: false,
         phone: ''
       })
-      return false
     }
   },
-  submitphone: function () {  //提交手机号码
+
+  yzmbindblur: function (e) {  //输入验证码框失焦时获取输入的验证码
+    let _value = e.detail.value
+    this.setData({
+      verify: _value
+    })
+  },
+  remaining: function () {  //倒计时
+    let rema = utils.reciprocal(this.data.veridyTime)
+    if (rema == 'no' || rema == 'yes') {
+      clearTimeout(this.data.settime)
+      wx.removeStorage({
+        key: 'phone',
+        complete: function (res) {
+          console.log(res)
+        }
+      })
+      this.setData({
+        rematime: '获取验证码',
+        isclick:true
+      })
+    } else {
+      this.setData({
+        rematime: rema
+      })
+    }
+  },
+  closebut: function () {  //取消
+    wx.switchTab({
+      url: '../personal-center'
+    })
+  },
+  submitverify: function () {  //确定
     let that = this
     if (!this.data.phone) {
       wx.showToast({
-        title: '请先输入或授权手机号',
+        title: '请输入电话号码，获取验证码',
         icon: 'none',
         mask: 'true',
         duration: 2000
       })
       return false
-    }
-    let _parms = {
-      shopMobile: this.data.phone,
-      userId: app.globalData.userInfo.userId,
-      userName: app.globalData.userInfo.userName
-    }
-    Api.sendForRegister(_parms).then((res) => {
-      if (res.data.code == 0) {
-        console.log("sendForRegister:", res)
-        that.setData({
-          verifyId: res.data.data.verifyId,
-          veridyTime: res.data.data.veridyTime
-        })
-      }
-    })
-  },
-  yzmbindblur: function (e) {  //输入验证码框失焦时获取输入的验证码
-    let _value = e.detail.value
-    console.log("yzm:", _value)
-    this.setData({
-      verify: _value
-    })
-  },
-  submitverify: function () {  //提交验证码
-    let that = this
-    let _time = utils.reciprocal(this.data.veridyTime)
-    console.log("_time:", _time)
-    if (_time == 'no') {
+    } else if (!this.data.verify){
       wx.showToast({
-        title: '请先提交电话号码，获取验证码',
+        title: '请输入验证码',
         icon: 'none',
         mask: 'true',
         duration: 2000
@@ -88,10 +168,9 @@ Page({
           userName: app.globalData.userInfo.userName
         }
         Api.isVerify(_parms).then((res) => {
-          console.log("isVerify:", res)
           if (res.data.code == 0) {
             app.globalData.userInfo.userId = res.data.data,
-            app.globalData.userInfo.mobile = this.data.phone,
+              app.globalData.userInfo.mobile = this.data.phone,
               wx.switchTab({
                 url: '../personal-center'
               })
@@ -147,55 +226,55 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    
+
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-    
+
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    
+
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
   onHide: function () {
-    
+
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-    
+
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-    
+
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-    
+
   },
 
   /**
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-    
+
   }
 })

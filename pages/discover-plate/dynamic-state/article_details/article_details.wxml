@@ -78,7 +78,7 @@
     </view>
     <form class='commentBox {{isComment ? "show" : "hide"}}'>
       <textarea class="commentArea" placeholder='请输入评论' focus="{{isComment}}" bindinput="getCommentVal" cursor-spacing="50rpx" show-confirm-bar="false" fixed="true"></textarea>
-      <button form-type="reset" catchtap="setcmtadd">发送</button>
+      <button class='fasong' form-type="reset" catchtap="setcmtadd">发送</button>
     </form>
   </view>
 </view>

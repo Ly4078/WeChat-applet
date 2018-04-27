@@ -37,6 +37,7 @@
     "pages/activityDetails/hot-activity/hot-activity",
     "pages/activityDetails/hot-activity/apply-shop/apply-shop",
     "pages/activityDetails/hot-activity/apply-player/apply-player",
+    "pages/activityDetails/details_page/details_page",
     "pages/personal-center/free-of-charge/category/category",
     "pages/personal-center/free-of-charge/get-address/get-address",
     "pages/index/webview/webview"

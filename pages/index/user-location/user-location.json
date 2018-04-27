@@ -1,5 +1,6 @@
 {
   "component": true,
   "usingComponents": {},
-  "navigationBarTitleText": "选择当前位置"
+  "navigationBarTitleText": "选择当前位置",
+  "enablePullDownRefresh": false
 }
