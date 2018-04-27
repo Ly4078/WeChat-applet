@@ -1,0 +1,88 @@
+.apply {
+  background-color: #EBEBEB;
+  font-size: 30rpx;
+  color: #191919;
+  letter-spacing: 4rpx;
+}
+.apply_tit, .apply_video_tit {
+  height: 67rpx;
+  line-height: 67rpx;
+  color: #808080;
+  padding-left: 27rpx;
+  font-size: 28rpx;
+}
+
+.apply_video_tit {
+  background-color: #EBEBEB;
+}
+
+.apply_form {
+  background-color: #fff;
+}
+
+.section {
+  height: 102rpx;
+  line-height: 102rpx;
+  display: flex;
+  flex-direction: row;
+  border-bottom: 1rpx solid #E0E0E0;
+  margin: 0 28rpx;
+}
+
+.section view {
+  width: 25%;
+  height: 100%;
+}
+
+.section input {
+  width: 75%;
+  height: 100%;
+  line-height: 102rpx;
+  color:#B1B1B1;
+}
+
+.section .radio-group-man {
+  margin-right: 100rpx;
+}
+
+.submit_img, .submit_video {
+  margin: 31rpx 28rpx;
+}
+
+.submit_img view, .submit_video view {
+  margin-bottom: 35rpx;
+}
+
+.submit_img text, .submit_video text {
+  margin-left: 20rpx;
+  color: #B1B1B1;
+}
+
+.submit_img image, .submit_video image {
+  width: 216rpx;
+  height: 216rpx;
+}
+
+.btn_area {
+  padding: 30rpx 60rpx 0 60rpx;
+  background-color: #EBEBEB;
+  width: 100%;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.btn_area view {
+  color: #808080;
+  font-size: 24rpx;
+  padding: 16rpx 0;
+}
+
+.btn_area button {
+  border: 0;
+  height: 94rpx;
+  width: 100%;
+  line-height: 94rpx;
+  box-shadow: 0 6rpx 10rpx #808080;
+  color: #fff;
+  background-color: #FC5E2D;
+}

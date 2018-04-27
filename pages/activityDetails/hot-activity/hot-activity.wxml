@@ -23,7 +23,7 @@
       <view>第二名：奖金2万（2名）</view>
       <view class="hot_desc_btn">
         <button>活动详情</button>
-        <button>我要报名</button>
+        <button bindtap="toApply">我要报名</button>
       </view>
     </view>
     <view class="hot_ticket">
@@ -46,7 +46,7 @@
         <image src="/images/icon/hot_search.png"></image>
       </view>
       <view class="hot_list">
-        <view class="hot_list_item">
+        <view class="hot_list_item" style="padding-right: 10rpx;">
           <view class="hot_list_item_t">
             <view class="list_item_info">
               <view class="list_item_name clearfix">
@@ -65,7 +65,7 @@
             <text>穿越重庆火锅(光谷店)</text>
           </view>
         </view>
-        <view class="hot_list_item">
+        <view class="hot_list_item" style="padding-left: 10rpx;">
           <view class="hot_list_item_t">
             <view class="list_item_info">
               <view class="list_item_name clearfix">
@@ -84,7 +84,7 @@
             <text>穿越重庆火锅(光谷店)</text>
           </view>
         </view>
-        <view class="hot_list_item">
+        <view class="hot_list_item" style="padding-right: 10rpx;">
           <view class="hot_list_item_t">
             <view class="list_item_info">
               <view class="list_item_name clearfix">

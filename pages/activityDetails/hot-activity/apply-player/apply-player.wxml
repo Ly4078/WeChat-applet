@@ -1,0 +1,50 @@
+<view class="apply">
+  <view class="apply_tit">基本信息</view>
+  <view class="apply_form">
+    <form bindsubmit="formSubmit" bindreset="formReset">
+      <view class="section">
+        <view class="section__title">姓名</view>
+        <input name="name" placeholder="输入姓名" />
+      </view>
+      <view class="section section_gap">
+        <view class="section__title">性别</view>
+        <radio-group name="sex">
+          <label class="radio-group-man">
+            <radio value="radio1" />男</label>
+          <label>
+            <radio value="radio2" />女</label>
+        </radio-group>
+      </view>
+      <view class="section">
+        <view class="section__title">年龄</view>
+        <input name="age" placeholder="输入年龄" />
+      </view>
+      <view class="section">
+        <view class="section__title">身高</view>
+        <input name="height" placeholder="输入身高(cm)" />
+      </view>
+      <view class="section">
+        <view class="section__title">联系方式</view>
+        <input name="tele" placeholder="输入联系方式" />
+      </view>
+      <view class="apply_video_tit">参赛照片</view>
+      <view class="submit_img">
+        <view>上传参赛照片
+          <text>(2-6张、第一张默认为封面)</text>
+        </view>
+        <image src="/images/icon/add.png"></image>
+      </view>
+      <view class="apply_video_tit">参赛短视频</view>
+      <view class="submit_video">
+        <view>上传参赛短视频
+          <text>(15秒以内,关于美食）</text>
+        </view>
+        <image src="/images/icon/add.png"></image>
+      </view>
+      <view class="btn_area">
+        <button formType="submit">提交报名</button>
+        <view>预计1个工作日内审核完毕</view>
+      </view>
+    </form>
+  </view>
+</view>
