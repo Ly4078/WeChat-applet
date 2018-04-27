@@ -1,6 +1,7 @@
 import Api from '../../utils/config/api.js';
 import { GLOBAL_API_DOMAIN } from '/../../utils/config/config.js';
-var utils = require('../../utils/util.js')
+var utils = require('../../utils/util.js');
+var app = getApp();
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
@@ -14,7 +15,8 @@ Page({
     isadd:false,
     sortype:'0',
     choicetype:'',
-    placeholderFlag: true
+    placeholderFlag: true,
+    issnap: false,  
   },
   onLoad: function () {
 
@@ -197,9 +199,15 @@ Page({
     }
   },
   clickadd(){
-    this.setData({
-      isadd: !this.data.isadd
-    })
+    if (app.globalData.userInfo.mobile == 'a' || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+      this.setData({
+        issnap: true
+      })
+    } else{
+      this.setData({
+        isadd: !this.data.isadd
+      })
+    }
   },
   closemodel:function(){
     this.setData({
@@ -308,5 +316,10 @@ Page({
       tect: '最热'
     })
     this.getfood()
+  },
+  closetel: function () {
+    this.setData({
+      issnap: false
+    })
   }
 })

@@ -14,7 +14,8 @@ Page({
     covervideo:'',  //视频
     content: [],   //文章内容数据
     butt: ['预览', '提交', '退出编辑'],
-    iswzsp:1
+    iswzsp:1,
+    defaimg:'https://xq-1256079679.file.myqcloud.com/13971489895_wxf91e2a026658e78e.o6zAJs-7D9920jC4XTKdzt72lobs.8c2bHTeMhUqPe9b72c354166593f5a9afe09a27afe74_0.3.jpg'  //默认视频图片
   },
 
   onLoad: function (options) {  // 生命周期函数--监听页面加载
@@ -140,26 +141,25 @@ Page({
       camera: ['front', 'back'],
       success: function (res) {
         let videores = res
-        that.setData({
-          src: res.tempFilePath
-        })
-        wx.uploadFile({ //获取视频截图在线地址
-          url: that.data._build_url + 'img/upload',
-          filePath: res.thumbTempFilePath,
-          name: 'file',
-          formData: {
-            'userName': app.globalData.userInfo.userName
-          },
-          success: function (res) {
-           
-            let _data = res.data;
-           _data = JSON.parse(_data);
-            that.setData({
-              coverimg: _data.data.smallPicUrl
-            })
-            //do something
-          }
-        })
+        // wx.uploadFile({ //获取视频截图在线地址
+        //   url: that.data._build_url + 'img/upload',
+        //   filePath: res.tempFilePath,
+        //   name: 'file',
+        //   formData: {
+        //     'userName': app.globalData.userInfo.userName
+        //   },
+        //   success: function (res) {
+        //     let _data = res.data;
+        //     console.log("_data:",_data)
+        //    _data = JSON.parse(_data);
+        //     that.setData({
+        //       coverimg: _data.data.smallPicUrl
+        //     })
+        //     console.log("coverimg1:", _data.data.smallPicUrl)
+        //     console.log("coverimg2:",that.data.coverimg)
+        //     //do something
+        //   }
+        // })
         wx.uploadFile({//获取视频在线地址
           url: that.data._build_url + 'img/uploadMp4',
           filePath: res.tempFilePath,
@@ -182,6 +182,11 @@ Page({
               content: app.globalData.article,
               covervideo: _video
             })
+            if (_data.data.videoimg){
+              that.setData({
+                coverimg: _data.data.videoimg,
+              })
+            }
           }
         })
       }
@@ -348,16 +353,16 @@ Page({
         })
         return false
       }
-      
       let _parms = {
         title: _title,
         content: _con,
         userId: app.globalData.userInfo.userId,
         summary: _title,
-        homePic: _coverimg ? _coverimg : _covervideo,
+        homePic: _coverimg ? _coverimg : this.data.defaimg,
         userName: app.globalData.userInfo.userName,
         nickName: app.globalData.userInfo.nickName
       }
+      console.log("_parms:",_parms)
       Api.topicadd(_parms).then((res) => {
         if (res.data.code == 0) {
           setTimeout(function () {

@@ -1,3 +1,13 @@
+<view class="newUserModal" wx:if="{{issnap}}">
+  <view class='drawer_screen'>
+    <view class='sqtishi'>提示</view>
+    <view class='drphnumber'>获得更多体验,请移步[我的]-[新用户注册]</view>
+    <!-- <button  class='gettel sqgettel' open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">确定</button>  -->
+    <button class='gettel sqgettel' bindtap='closetel'>确定</button>
+    <button class='gettel colosetel' bindtap='closetel'>取消</button>
+  </view>
+</view>
+
 <view class='discover' catchtap='close'>
   <!-- 此代码别要删除,以后有用 -->
   <!-- <view class='initiate-exhibition the-second'>
@@ -95,11 +105,11 @@
   <view class='placeholder' hidden='{{placeholderFlag}}'>
     <image src="/images/icon/zhanweitu.png"></image>
   </view>
-   <view bindtap='clickadd' class="cladd clplus">
+  <view bindtap='clickadd' class="cladd clplus">
     <image class="publish-dynamic-condition {{isadd?'addtrue':'addfalse'}}" src='/images/icon/send_dongtai.png'></image>
   </view>
   <view catchtap='announceState' id='1' class="cladd  {{isadd?'dis_video':'dis_video2'}}">文章</view>
   <view catchtap='announceState' id='2' class="cladd  {{isadd?'dis_article':'dis_article2'}}">视频</view>
 </view>
-<view class='modal_box' wx:if="{{isadd}}" bindtap='closemodel'> 
-</view>                                                 
+<view class='modal_box' wx:if="{{isadd}}" bindtap='closemodel'>
+</view>

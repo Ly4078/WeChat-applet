@@ -345,7 +345,7 @@ to {margin-right: 0rpx;opacity: 0;}
   border-bottom: 1rpx solid #FC5E2D;
   position: fixed;
   background: #fff; 
-  z-index: 1005;
+  z-index: 2;
 }
 
 .topall, .topbus, .topper{
