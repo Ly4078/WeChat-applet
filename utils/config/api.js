@@ -215,6 +215,10 @@ const ALL_API = {
   getTscForZan:{  //查询特色菜详情
     method:'GET',
     url:'sku/getTscForZan'
+  },
+  apply: {    //报名接口
+    method: 'POST',
+    url: 'actSign/add'
   }
 }
 const Api = new MyHttp({}, ALL_API);

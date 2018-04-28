@@ -17,7 +17,7 @@
       </view>
       <view class="section">
         <view class="section__title">年龄</view>
-        <input name="age" placeholder="输入年龄" />
+        <input name="age" type="number" placeholder="输入年龄" />
       </view>
       <view class="section">
         <view class="section__title">身高</view>
@@ -42,7 +42,7 @@
         <view>上传参赛短视频
           <text>(15秒以内,关于美食）</text>
         </view>
-        <video wx:if="{{videoUrl}}" poster="{{posterImg}}" ></video>
+        <video wx:if="{{videoUrl}}" src="{{videoUrl}}" poster="{{posterImg}}" ></video>
         <image wx:else src="/images/icon/add.png" bindtap="chooseVideo"></image>
       </view>
       <view class="btn_area">

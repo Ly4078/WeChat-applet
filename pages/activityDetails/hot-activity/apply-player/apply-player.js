@@ -8,6 +8,7 @@ Page({
     imgsArr: [],     //上传的图片数组
     imgsIdArr: [],    //上传图片的Id
     videoUrl: "",   //视频地址
+    videoId: "",    //视频id
     posterImg: 'https://xq-1256079679.file.myqcloud.com/13971489895_wxf91e2a026658e78e.o6zAJs-7D9920jC4XTKdzt72lobs.8c2bHTeMhUqPe9b72c354166593f5a9afe09a27afe74_0.3.jpg'  //默认视频图片
   },
   onLoad: function (options) {
@@ -17,7 +18,94 @@ Page({
 
   },
   formSubmit: function (e) {    //form表单提交
-    console.log(e);
+    console.log(e.detail.value);
+    let inpVal = e.detail.value;
+    if (this.isNull(inpVal.name)) {
+      wx.showToast({
+        title: '请填写姓名',
+        icon: 'none'
+      })
+      return false;
+    }
+    if (this.isNull(inpVal.sex)) {
+      wx.showToast({
+        title: '请填写性别',
+        icon: 'none'
+      })
+      return false;
+    }
+    if (this.isNull(inpVal.age)) {
+      wx.showToast({
+        title: '请填写年龄',
+        icon: 'none'
+      })
+      return false;
+    }
+    if (this.isNull(inpVal.height)) {
+      wx.showToast({
+        title: '请填写身高',
+        icon: 'none'
+      })
+      return false;
+    }
+    if (this.isNull(inpVal.tele)) {
+      wx.showToast({
+        title: '请填写联系方式',
+        icon: 'none'
+      })
+      return false;
+    }
+    if (!this.blurmobile(inpVal.tele)) {
+      wx.showToast({
+        title: '请填写正确的联系方式',
+        icon: 'none'
+      })
+      return false;
+    }
+    if (this.isNull(this.data.imgsArr)) {
+      wx.showToast({
+        title: '请上传照片',
+        icon: 'none'
+      })
+      return false;
+    }
+    if (this.isNull(this.data.videoUrl)) {
+      wx.showToast({
+        title: '请上传短视频',
+        icon: 'none'
+      })
+      return false;
+    }
+    let fileIds = this.data.imgsIdArr
+    fileIds.push(this.data.videoId);
+    this.setData({
+      imgsIdArr: fileIds
+    });
+    let _parms = {
+      actId: 34,     //活动id
+      refId: app.globalData.userInfo.userId,
+      type: 1,
+      playerVideo: this.data.videoUrl,
+      age: inpVal.age,
+      height: inpVal.height,
+      picIds: this.data.imgsIdArr,
+      actUserName: inpVal.name
+    }
+    Api.apply(_parms).then((res) => {
+      console.log(res);
+      let data = res.data;
+      if(data.code == 0) {
+        wx.showToast({
+          title: '报名成功，等待审核',
+          icon: 'none'
+        })
+      } else {
+        wx.showToast({
+          title: '系统繁忙',
+          icon: 'none'
+        })
+      }
+    });
   },
   chooseImg: function () {     //本地选择图片
     let _this = this;
@@ -109,13 +197,16 @@ Page({
               duration: 2000
             })
             let data = JSON.parse(res.data);
+            console.log(data);
             if (data.code == 0) {
               wx.showToast({
                 title: '上传成功',
                 icon: 'success'
               })
+              console.log(data.data.picUrl)
               _this.setData({
-                videoUrl: data.data.picUrl
+                videoUrl: data.data.picUrl,
+                videoId: data.data.id
               });
             } else {
               wx.showToast({
@@ -139,5 +230,16 @@ Page({
 
       }
     });
+  },
+  blurmobile: function (phone) {     //验证手机号
+    let RegExp = /^((0\d{2,3}\d{7,8})|(1[3584]\d{9}))$/;
+    return RegExp.test(phone);
+  },
+  isNull: function(val) {      //判断是否为空
+    let flag = false;
+    if (val == null || val == undefined || val == "" || val == "null" || val == []) {
+      flag = true;
+    }
+    return flag;
   }
 })
