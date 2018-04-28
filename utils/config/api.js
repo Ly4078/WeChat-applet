@@ -219,6 +219,10 @@ const ALL_API = {
   apply: {    //报名接口
     method: 'POST',
     url: 'actSign/add'
+  },
+  actisSign:{  //查询是否已经报名
+    method:'GET',
+    url:'actSign/isSign'
   }
 }
 const Api = new MyHttp({}, ALL_API);

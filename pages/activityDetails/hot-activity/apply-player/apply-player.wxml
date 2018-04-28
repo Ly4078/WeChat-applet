@@ -21,11 +21,11 @@
       </view>
       <view class="section">
         <view class="section__title">身高</view>
-        <input name="height" placeholder="输入身高(cm)" />
+        <input name="height"  type="number" placeholder="输入身高(cm)" />
       </view>
       <view class="section">
         <view class="section__title">联系方式</view>
-        <input name="tele" placeholder="输入联系方式" />
+        <input name="tele"  type="number" maxlength="11" placeholder="输入联系方式" />
       </view>
       <view class="apply_video_tit">参赛照片</view>
       <view class="submit_img">

@@ -86,14 +86,49 @@ Page({
   },
 
   toApply: function() {    //跳转至报名页面
+    
     if (app.globalData.userInfo.userType == '2' && app.globalData.userInfo.shopId != '') {
-        wx.navigateTo({
-          url: 'apply-shop/apply-shop',
-        })
+        
+      let _parms = {
+        refId: app.globalData.userInfo.shopId,
+        actId: 34,
+        type: 2
+      }
+      Api.actisSign(_parms).then((res) => {
+        let data = res.data;
+        if (data.code == 0) {
+          wx.navigateTo({
+            url: 'apply-shop/apply-shop',
+          })
+        }else{
+          wx.showToast({
+            title: data.message,
+            icon: 'none'
+          })
+        }
+      });
+        
       }else{
-        wx.navigateTo({
-          url: 'apply-player/apply-player',
-        })
+
+      let _parms = {
+        refId: app.globalData.userInfo.userId,
+        actId: 34,
+        type: 1
+      }
+      Api.actisSign(_parms).then((res) => {
+        let data = res.data;
+        if (data.code == 0) {
+          wx.navigateTo({
+            url: 'apply-player/apply-player',
+          })
+        } else {
+          wx.showToast({
+            title: data.message,
+            icon: 'none'
+          })
+        }
+      });
+        
     }
   },
 

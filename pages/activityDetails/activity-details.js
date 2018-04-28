@@ -60,9 +60,15 @@ Page({
   },
   clickVote:function(event){
     const actid = event.currentTarget.id
-    wx.navigateTo({
-      url: 'details-like/details-like?actid='+actid,
-    })
+    if(actid == 34){
+        wx.navigateTo({
+          url: './hot-activity/hot-activity',
+        })
+    }else{
+      wx.navigateTo({
+        url: 'details-like/details-like?actid=' + actid,
+      })
+    }
   },
   onReachBottom: function () {  //用户上拉触底
     if(this.data.flag) {

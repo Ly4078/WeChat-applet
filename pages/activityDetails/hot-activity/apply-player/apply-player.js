@@ -92,12 +92,14 @@ Page({
       actUserName: inpVal.name
     }
     Api.apply(_parms).then((res) => {
-      console.log(res);
       let data = res.data;
       if(data.code == 0) {
         wx.showToast({
           title: '报名成功，等待审核',
           icon: 'none'
+        })
+        wx.navigateTo({
+          url: '../hot-activity',
         })
       } else {
         wx.showToast({
@@ -187,8 +189,7 @@ Page({
           filePath: res.tempFilePath,
           name: 'file',
           formData: {
-            // 'userName': app.globalData.userInfo.userName
-            'userName': '15072329516'
+            'userName': app.globalData.userInfo.userName
           },
           success: (res) => {
             wx.showToast({
