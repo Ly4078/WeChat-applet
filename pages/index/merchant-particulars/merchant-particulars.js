@@ -223,7 +223,7 @@ Page({
   calling: function () {
     let that = this;
     wx.makePhoneCall({
-      phoneNumber: that.data.store_details.phone,
+      phoneNumber: that.data.store_details.phone ? that.data.store_details.phone : that.data.store_details.mobile,
       success: function () {
         console.log("拨打电话成功！")
       },

@@ -8,6 +8,7 @@
     <view bindtap="anewPosition">重新定位</view>
   </view>
 </view>
+
 <view wx:if="{{resultPosition.length>0}}">
   <view class="dqtitle">搜索地址</view>
   <block wx:for="{{resultPosition}}" wx:key="key">
@@ -17,11 +18,12 @@
     </view>
   </block>
 </view>
-<view wx:if="{{resultPosition.length<1}}" class='loca_content'>
+
+ <view wx:if="{{resultPosition.length<1}}" class='loca_content'>
   <view class="title">热门城市</view>
   <view wx:for="{{hotcity}}" wx:key="{{indes}}">
     <text id="{{index}}" class="cityname {{item.open==1?'isopen':''}}" catchtap='clickcity'>
     {{item.name}}
   </text>
   </view>
-</view>
+</view> 

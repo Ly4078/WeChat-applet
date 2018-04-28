@@ -17,7 +17,6 @@ page{
   border-radius: 8rpx;
 }
 .loca_content{
-  width: 750rpx;
   padding:20rpx;
 }
 .title{

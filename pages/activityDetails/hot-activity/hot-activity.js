@@ -1,5 +1,6 @@
 import Api from '../../../utils/config/api.js';
 var utils = require('../../../utils/util.js');
+var app = getApp();
 Page({
   data: {
     isayers:false,
@@ -85,9 +86,15 @@ Page({
   },
 
   toApply: function() {    //跳转至报名页面
-    wx.navigateTo({
-      url: 'apply-player/apply-player',
-    })
+    if (app.globalData.userInfo.userType == '2' && app.globalData.userInfo.shopId != '') {
+        wx.navigateTo({
+          url: 'apply-shop/apply-shop',
+        })
+      }else{
+        wx.navigateTo({
+          url: 'apply-player/apply-player',
+        })
+    }
   },
 
   /**
