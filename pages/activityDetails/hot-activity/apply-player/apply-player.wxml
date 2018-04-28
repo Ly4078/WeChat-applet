@@ -32,7 +32,10 @@
         <view>上传参赛照片
           <text>(2-6张、第一张默认为封面)</text>
         </view>
-        <image src="/images/icon/add.png"></image>
+        <!-- <view class="uploadImgs">
+          <image src=""></image>
+        </view> -->
+        <image src="/images/icon/add.png" bindtap='chooseImg'></image>
       </view>
       <view class="apply_video_tit">参赛短视频</view>
       <view class="submit_video">

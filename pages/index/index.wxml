@@ -119,7 +119,7 @@
   <!--热门活动  -->
   <view class='scroll_box'>
     <scroll-view scroll-x="true" class='scroll_activity'>
-      <block wx:for="{{actlist}}" wx:key="{{index}}">
+      <block wx:for="{{actlist}}" wx:key="{{index}}" wx:for-index="idx">
         <template is="hotActivityss" data="{{item}}" />
       </block>
     </scroll-view>

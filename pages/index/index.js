@@ -410,12 +410,12 @@ Page({
       wx.navigateTo({
         url: '../personal-center/free-of-charge/free-of-charge',
       })
-    } else if(id == 2) {
-      return false
-      wx.navigateTo({
-        url: '../activityDetails/hot-activity/hot-activity',
-      })
     }
+  },
+  hotactivityHref: function() {     //热门活动跳转
+    wx.navigateTo({
+      url: '../activityDetails/hot-activity/hot-activity',
+    })
   },
   clickimg: function (e) {  //点击专题图片 --某个分类
     let ind = e.currentTarget.id
