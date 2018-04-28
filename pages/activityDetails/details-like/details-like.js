@@ -242,28 +242,34 @@ Page({
         icon: 'none'
       })
     } else if (userType == 2) {
-      let _parms = {
-        actId: this.data.actid,
-        shopId: shopId
-      }
-      Api.takepartin(_parms).then((res) => {
-        let _data = this.data.actdetail
-        if(res.data.code == 0) {
-          wx.showToast({
-            title: '报名成功!',
-            icon: 'none'
-          })
-          _data.isSign = 1
-          that.setData({
-            actdetail: _data
-          });
-        } else {
-          wx.showToast({
-            title: res.data.message,
-            icon: 'none'
-          })
+      if (this.data.actdetail.id == 34){
+        wx.navigateTo({
+          url: '../hot-activity/apply-shop/apply-shop',
+        })
+      }else{
+        let _parms = {
+          actId: this.data.actid,
+          shopId: shopId
         }
-      })
+        Api.takepartin(_parms).then((res) => {
+          let _data = this.data.actdetail
+          if (res.data.code == 0) {
+            wx.showToast({
+              title: '报名成功!',
+              icon: 'none'
+            })
+            _data.isSign = 1
+            that.setData({
+              actdetail: _data
+            });
+          } else {
+            wx.showToast({
+              title: res.data.message,
+              icon: 'none'
+            })
+          }
+        })
+      }
     }
   },
   onReachBottom: function () {  //用户上拉触底

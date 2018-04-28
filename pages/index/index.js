@@ -283,7 +283,7 @@ Page({
   },
   getactlist() {  //获取热门活动数据
     Api.actlist().then((res) => {
-      // console.log("actlist:",res)
+      console.log("actlist:",res)
       this.setData({
         actlist: res.data.data.list.slice(0, 10)
       })
@@ -412,10 +412,20 @@ Page({
       })
     }
   },
-  hotactivityHref: function() {     //热门活动跳转
-    wx.navigateTo({
-      url: '../activityDetails/hot-activity/hot-activity',
-    })
+  hotactivityHref: function(e) {     //热门活动跳转
+    let _id = e.currentTarget.id
+
+    console.log("_id:",_id)
+    if(_id == 34){
+      wx.navigateTo({
+        url: '../activityDetails/hot-activity/hot-activity',
+      })
+    }else{
+      wx.navigateTo({
+          url: '../activityDetails/details-like/details-like?actid='+_id,
+      })
+    }
+    
   },
   clickimg: function (e) {  //点击专题图片 --某个分类
     let ind = e.currentTarget.id
