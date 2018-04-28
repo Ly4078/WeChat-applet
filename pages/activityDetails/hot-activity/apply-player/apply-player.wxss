@@ -45,6 +45,14 @@
   margin-right: 100rpx;
 }
 
+.uploadImgs {
+  display: inline-block;
+}
+
+.uploadImgs image {
+  margin-right: 15rpx;
+}
+
 .submit_img, .submit_video {
   margin: 31rpx 28rpx;
 }
@@ -61,6 +69,10 @@
 .submit_img image, .submit_video image {
   width: 216rpx;
   height: 216rpx;
+}
+
+.submit_video video {
+  width: 100%;
 }
 
 .btn_area {
