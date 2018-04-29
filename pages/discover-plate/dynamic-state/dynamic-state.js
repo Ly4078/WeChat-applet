@@ -290,6 +290,7 @@ Page({
         url: 'article_details/article_details?content=' + _data+'&title='+this.data.title
       })
     } else if (ind == '提交') {
+      console.log("app.globalData.userInfo:", app.globalData.userInfo)
       wx.showToast({
         title: '正在提交，请稍等',
         mask: 'true',

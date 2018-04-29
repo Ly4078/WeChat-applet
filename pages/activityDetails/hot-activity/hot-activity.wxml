@@ -4,12 +4,13 @@
   </view>
   <view class="hot_main">
     <view class="hot_Sponsor">
-      <view class="hot_Sponsor_tit">主办方</view>
-      <view class="hot_Sponsor_guys">
-        <view class="hot_Sponsor_margin">享7美食</view>
+      <!-- <view class="hot_Sponsor_tit">主办方</view> -->
+      <!-- <view class="hot_Sponsor_guys">
+       <view  class="hot_Sponsor_margin">十堰旅游委</view>
+       
         <view class="hot_Sponsor_margin">湖北餐饮协会</view>
-        <view>十堰旅游委</view>
-      </view>
+        <view>享7美食</view>
+      </view> -->
     </view>
     <view class="hot_description">
       <view class="hot_desc_time">

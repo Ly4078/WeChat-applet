@@ -25,7 +25,7 @@ App({
       userId: '',  
       shopId: '',
       userName: '',
-      nikcName: '',
+      nickName: '',
       phone:'',
       mobile:'',
       iconUrl: '',
@@ -40,3 +40,5 @@ App({
     article: []
   }
 })
+
+

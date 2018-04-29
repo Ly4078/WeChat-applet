@@ -76,7 +76,7 @@ Page({
                     if (res.data.code == 0) {
                       let data = res.data.data;
                       let users = app.globalData.userInfo
-
+                      console.log("data:",data)
                       for(let key in data){
                         for(let ind in users){
                           if(key == ind){
@@ -84,6 +84,7 @@ Page({
                           }
                         }
                       }
+
                       if (data.mobile) {
                         that.setData({
                           isfirst: false
@@ -136,6 +137,9 @@ Page({
     this.setData({
       currentTab: e.currentTarget.dataset.idx
     })
+  },
+  onPullDownRefresh:function(){
+    this.getmoredata();
   },
   getmoredata: function () {  //获取更多数据
     this.getcarousel();
@@ -269,7 +273,7 @@ Page({
   },
   gettopic: function () {  // 美食墙
     Api.topictop().then((res) => {
-      // console.log("food:", res.data.data)
+      console.log("food:", res.data.data)
       let _data = res.data.data
       for (let i = 0; i < _data.length; i++) {
         _data[i].summary = utils.uncodeUtf16(_data[i].summary)
