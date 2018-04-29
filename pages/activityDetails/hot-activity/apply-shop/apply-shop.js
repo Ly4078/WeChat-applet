@@ -134,9 +134,12 @@ Page({
             title: '报名成功，等待审核',
             icon: 'none'
           })
-          wx.navigateTo({
-            url: '../hot-activity',
-          })
+          setTimeout(function () {
+            wx.redirectTo({
+              url: '../hot-activity',
+            })
+          }, 2000)
+          
         } else {
           wx.showToast({
             title: '系统繁忙',

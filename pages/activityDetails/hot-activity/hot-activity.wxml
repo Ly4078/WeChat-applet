@@ -14,19 +14,19 @@
     <view class="hot_description">
       <view class="hot_desc_time">
         活动时间:
-        <text>4月1日 — 4月30日</text>
+        <text>5月1日 — 6月30日</text>
       </view>
       <view class="hot_desc_info">
-        寻找[享7美食形象代言人]投票评选开始啦，无论是你，还是你身边的女神，都可以参与报名，最终由用户投票选出享7美食形象代言人，代言费10万人民币，前20参赛选手均有礼品相送，投票就3折购买享7券，吃着火锅唱着歌、快来报名吧
+        寻找【享7美食形象代言人】投票评选开始啦，无论是你，还是你身边的女神，都可以参与报名，最终由用户投票选出享7美食形象代言人，代言费10万人民币，前20参赛选手均有礼品相送，投票就3折购买享7券，吃着火锅唱着歌、快来报名吧
       </view>
       <view class="hot_desc_champion">第一名：享7美食形象代言人费10万元</view>
       <view>第二名：奖金2万（2名）</view>
       <view class="hot_desc_btn">
-        <button>活动详情</button>
+        <!-- <button>活动详情</button> -->
         <button bindtap="toApply">我要报名</button>
       </view>
     </view>
-    <view class="hot_ticket">
+    <!-- <view class="hot_ticket">
       <view class="hot_ticket_l">
         <image src="/images/icon/ticket_txt.png"></image>
         <view class="hot_ticket_l_txt">
@@ -35,8 +35,8 @@
         </view>
       </view>
       <button class="hot_ticket_r">领取</button>
-    </view>
-    <view class="hot_list_box">
+    </view> -->
+    <!-- <view class="hot_list_box">
       <view class="hot_list_tab">
         <view bindtap='switching' class="{{!isayers?'selected':'noselect'}}">商家</view>
         <view bindtap='switching' class="{{isayers?'selected':'noselect'}}">选手</view>
@@ -94,6 +94,6 @@
         </view>
 
       </view>
-    </view>
+    </view> -->
   </view>
 </view>

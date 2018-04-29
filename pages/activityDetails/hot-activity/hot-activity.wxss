@@ -16,6 +16,7 @@
 .hot_main {
   padding: 0 28rpx;
   box-sizing: border-box;
+  padding-bottom: 40rpx;
 }
 /* 主办方 */
 .hot_Sponsor {
@@ -63,6 +64,7 @@
   color: #555;
   border-radius: 10rpx;
   /* box-shadow: 0 6rpx 10rpx #242424; */
+  margin-bottom: 40rpx;
 }
 
 .hot_desc_time {

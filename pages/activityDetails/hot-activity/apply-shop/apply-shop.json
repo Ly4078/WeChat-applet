@@ -1,3 +1,4 @@
 {
-  "navigationBarTitleText": "商家报名"
+  "navigationBarTitleText": "商家报名",
+  "enablePullDownRefresh": false
 }

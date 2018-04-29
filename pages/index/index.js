@@ -283,7 +283,7 @@ Page({
   },
   getactlist() {  //获取热门活动数据
     Api.actlist().then((res) => {
-      console.log("actlist:",res)
+      // console.log("actlist:",res)
       this.setData({
         actlist: res.data.data.list.slice(0, 10)
       })
@@ -414,8 +414,6 @@ Page({
   },
   hotactivityHref: function(e) {     //热门活动跳转
     let _id = e.currentTarget.id
-
-    console.log("_id:",_id)
     if(_id == 34){
       wx.navigateTo({
         url: '../activityDetails/hot-activity/hot-activity',
