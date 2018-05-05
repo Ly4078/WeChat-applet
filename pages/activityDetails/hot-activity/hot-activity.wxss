@@ -1,2 +1,2 @@
-@import "../activity-template/activity-template.wxss";
+@import "activity-template/activity-template.wxss";
 

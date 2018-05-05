@@ -430,7 +430,7 @@ Page({
       })
     } else if (_id == 35) {
       wx.navigateTo({
-        url: '../activityDetails/wuhan-activity/wuhan-activity',
+        url: '../activityDetails/hot-activity/hot-activity',
       })
     } else {
       wx.navigateTo({

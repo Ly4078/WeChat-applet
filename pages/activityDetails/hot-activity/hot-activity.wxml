@@ -1,4 +1,4 @@
-<import src="../activity-template/activity-template.wxml" />
+<import src="activity-template/activity-template.wxml" />
 
 <view class="hot_activity">
   <view class="hot_banner">
