@@ -223,6 +223,10 @@ const ALL_API = {
   actisSign:{  //查询是否已经报名
     method:'GET',
     url:'actSign/isSign'
+  },
+  playerDetails: {  //活动选手详情页
+    method: 'GET',
+    url: 'actUser/findByInVo'
   }
 }
 const Api = new MyHttp({}, ALL_API);

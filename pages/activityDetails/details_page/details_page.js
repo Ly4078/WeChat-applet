@@ -1,4 +1,3 @@
-
 import Api from '../../../utils/config/api.js';
 import { GLOBAL_API_DOMAIN } from '../../../utils/config/config.js';
 var utils = require("../../../utils/util.js")
@@ -9,17 +8,10 @@ Page({
    * 页面的初始数据
    */
   data: {
-    topsrc:'https://xq-1256079679.file.myqcloud.com/test_timg (1)_0.8.jpg',
-    video:'https://xqmp4-1256079679.file.myqcloud.com/xq_20180426192623_wxf91e2a026658e78e.o6zAJs-7D9920jC4XTKdzt72lobs.qoerV5BJT0lc5165f156f44736d9ed650723d5d21649.mp4',
-    imgs: [
-      'https://xq-1256079679.file.myqcloud.com/test_timg (2)_0.8.jpg',
-      'https://xq-1256079679.file.myqcloud.com/test_timg (3)_0.8.jpg',
-      'https://xq-1256079679.file.myqcloud.com/test_timg (4)_0.8.jpg',
-      'https://xq-1256079679.file.myqcloud.com/test_timg (5)_0.8.jpg'
-    ],
     cmtdata:[],
     commentVal:'',
     isComment: false,
+    imges:[],
     user:{
       name:'Montage',
       year:'20',
@@ -33,11 +25,26 @@ Page({
     isvote:false
   },
 
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function (options) {
-    
+  onLoad: function (options) { //享7劵
+    let that = this
+    let _parms = {
+      // userId: app.globalData.userInfo.userId,
+      userId:46,
+      voteUserId: "27",
+      type: 2,
+      actId: 35,
+      beginTime: "2018/5/1",
+      endTime: "2018/5/31"
+    }
+    Api.playerDetails(_parms).then((res) => {
+      let _data = res.data.data;
+      let _dataSe = res.data.data.picUrls;
+      console.log(_dataSe)
+        this.setData({
+          information: _data,
+          imges: _dataSe
+        })
+    })
   },
 
   /**

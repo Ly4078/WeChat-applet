@@ -383,7 +383,7 @@ button{
   letter-spacing: 0.5px;
 }
 .botton-comment{
-  border-top: 0.1px solid #808080;
+  border-top: 0.1px solid #e0e0e0;
   height: 100rpx;
   background-color: white;
   display: flex;

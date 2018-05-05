@@ -36,9 +36,9 @@
       </view>
 
       <view class="hot_list">
-        <view class="hot_list_item" wx:if="{{isayers}}" wx:for="{{players}}" wx:key="{{index}}" id="{{index}}" bindtap='clickli'>
+        <view class="hot_list_item" wx:if="{{isayers}}" wx:for="{{players}}" wx:key="{{index}}" id="{{index}}">
           <view class="hot_list_item_t">
-            <view class="list_item_info">
+            <view class="list_item_info"  bindtap='clickli'>
               <view class="list_item_name clearfix">
                 <text class="list_item_name_f">{{item.num}}号</text>
                 <text class="list_item_name_s">{{item.name}}</text>

@@ -1,7 +1,7 @@
 
 .detail_top{
   width: 100%;
-  height: 676rpx;
+  height: 700rpx;
 }
 .topback{
   width: 100%;
@@ -11,7 +11,7 @@
 .motai{
   position: absolute;
   width: 100%;
-  height: 676rpx;
+  height: 700rpx;
   top: 0;
   background:rgba(25,25,25,1);
   opacity:0.4;
@@ -30,7 +30,8 @@
   width: 156rpx;
   height: 156rpx;
   border-radius: 50%;
-  margin-left: 289.5rpx;
+  margin-left: 313.5rpx;
+  border: 1px solid #e0e0e0;
 }
 .u_name,.u_yearh{
   margin-left: 30rpx;
@@ -42,6 +43,8 @@
 .u_name{
   margin-top: 28rpx;
   margin-bottom: 36rpx;
+  display: flex;
+  justify-content: center;
 }
 
 .u_yearh text{
@@ -63,7 +66,7 @@
   height: 23rpx;      
   position: relative; 
   left:-374rpx;
-  top:-14rpx;
+  top:-15rpx;
 }
 .u_yearh text:nth-child(2){
   background: #A22DFC;
@@ -98,8 +101,8 @@
   margin-left: 290.5rpx;
 }
 .actvote{
-  border: 1rpx solid #FC5E2D;
-  color: #FC5E2D;
+  border: 1rpx solid #fff;
+  color: #fff;
 }
 .butvote{
   margin-top: 48rpx;
@@ -127,7 +130,7 @@
 .sharetitlea{
   position:relative;
   top:-26rpx;
-  left:283rpx;
+  left:310rpx;
   padding:0 40rpx;
   background:#fff;
   display: block;
@@ -149,7 +152,7 @@ button[plain]{
   height: 60rpx;
   margin: 0;
   padding: 0;
-  margin-left: 28rpx;
+  margin-left: 270rpx;
 }
 .shareimgl, .shareimgr{
   width: 60rpx;
@@ -164,7 +167,7 @@ button[plain]{
   font-size: 20rpx;
 }
 .text_wx{
-  margin-left: 204rpx;
+  margin-left: 360rpx;
   margin-right: 220rpx;
 }
 .sharebg{
