@@ -45,7 +45,8 @@
 .setphone input{
   background: #EBEBEB;
   height: 80rpx;
-   padding-left:20rpx; 
+  width: 92%;
+  padding-left:20rpx; 
   line-height: 80rpx;
   font-size: 30rpx;
   color: #808080;

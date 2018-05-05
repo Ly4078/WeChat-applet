@@ -850,9 +850,6 @@ Page({
               that.setData({
                 isphoneNumber:false
               })
-              wx.switchTab({
-                url: '../personal-center'
-              })
           }
         })
       } else {
