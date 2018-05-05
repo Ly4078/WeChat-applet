@@ -844,10 +844,12 @@ Page({
           userName: app.globalData.userInfo.userName
         }
         Api.isVerify(_parms).then((res) => {
-          console.log("isVerify:", res)
           if (res.data.code == 0) {
-            app.globalData.userInfo.userId = res.data.data,
+              app.globalData.userInfo.userId = res.data.data,
               app.globalData.userInfo.mobile = this.data.phone,
+              that.setData({
+                isphoneNumber:false
+              })
               wx.switchTab({
                 url: '../personal-center'
               })
