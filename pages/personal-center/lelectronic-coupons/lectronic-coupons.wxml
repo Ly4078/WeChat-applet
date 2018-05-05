@@ -7,7 +7,7 @@
         </view>
         <view class='lectronic-text'>
           <text class='lectronic-reel'>{{ticketInfo.skuName}}</text>
-          <text class='lectronic-limit'>{{ticketInfo.coupons[0].promotionRules[0].ruleDesc}}</text>
+          <!-- <text class='lectronic-limit'>{{ticketInfo.coupons[0].promotionRules[1].ruleDesc}}</text> -->
         </view>
       </view>
       <view class='lectronic-right'>

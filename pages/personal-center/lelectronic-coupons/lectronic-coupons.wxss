@@ -53,7 +53,7 @@ page {
 
 .lectronic-text {
   width: 74%;
-  height: 168rpx;
+  height: 120rpx;
   letter-spacing: 2rpx;
 }
 

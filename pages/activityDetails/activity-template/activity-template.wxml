@@ -1,0 +1,27 @@
+<!-- 主办方 -->
+<template name="sponsor">
+  <view class="hot_Sponsor">
+    <view class="hot_Sponsor_tit">主办方</view>
+    <view class="hot_Sponsor_guys">
+      <view class="hot_Sponsor_margin">十堰旅游委</view>
+      <view class="hot_Sponsor_margin">湖北餐饮协会</view>
+      <view>掌上武汉</view>
+    </view>
+  </view>
+</template>
+<!-- 活动劵 -->
+<template name="ledEcurities">
+  <view class="hot_ticket">
+    <view class="hot_ticket_l">
+      <image src="/images/icon/ticket_txt.png"></image>
+      <view class="hot_ticket_l_txt">
+        <view class="hot_ticket_txt_f">20元代金券</view>
+        <view class="hot_ticket_txt_s">满200元减20元</view>
+      </view>
+    </view>
+    <button class="hot_ticket_r">领取</button>
+  </view>
+  <view class='labelDiskette'>
+    <text>(同时投票商家和选手可领取代金券，活动劵仅限参赛餐厅使用)</text>
+  </view>
+</template>

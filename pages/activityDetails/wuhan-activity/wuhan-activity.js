@@ -3,16 +3,16 @@ var utils = require('../../../utils/util.js');
 var app = getApp();
 Page({
   data: {
-    isayers:false,
-    players:[
+    isayers: false,
+    players: [
       {
-        id:'1',
-        num:'01',
-        name:'非凡',
-        src:'/images/icon/touxiang.jpg',
-        ticket:'123',
-        related:'穿越重庆火锅(光谷店)',
-        relsrc:'/images/icon/xiangqisdfe.png',
+        id: '1',
+        num: '01',
+        name: '非凡',
+        src: '/images/icon/touxiang.jpg',
+        ticket: '123',
+        related: '穿越重庆火锅(光谷店)',
+        relsrc: '/images/icon/xiangqisdfe.png',
         isvote: '1'
       },
       {
@@ -36,12 +36,12 @@ Page({
         isvote: '2'
       }
     ],
-    business:[
+    business: [
       {
         id: '11',
         group: '12',
         shop: '穿越重庆火锅(光谷店)',
-        dish:'农家小炒肉',
+        dish: '农家小炒肉',
         src: '/images/imgs/timg(7).jpg',
         ticket: '123',
         relsrc: '/images/icon/xiangqisdfe.png',
@@ -65,30 +65,30 @@ Page({
         src: '/images/imgs//timg(8).jpg',
         ticket: '78',
         relsrc: '/images/icon/xiangqisdfe.png',
-        isvote:'1'
+        isvote: '1'
       }
     ]
   },
   onLoad: function (options) {
-    
+
   },
   onReady: function () {
-    
+
   },
   onShow: function () {
-    
+
   },
   onPullDownRefresh: function () {
-    
+
   },
   onReachBottom: function () {
-    
+
   },
 
-  toApply: function() {    //跳转至报名页面
-    
+  toApply: function () {    //跳转至报名页面
+
     if (app.globalData.userInfo.userType == '2' && app.globalData.userInfo.shopId != '') {
-        
+
       let _parms = {
         refId: app.globalData.userInfo.shopId,
         actId: 34,
@@ -100,15 +100,15 @@ Page({
           wx.navigateTo({
             url: 'apply-shop/apply-shop',
           })
-        }else{
+        } else {
           wx.showToast({
             title: data.message,
             icon: 'none'
           })
         }
       });
-        
-      }else{
+
+    } else {
 
       let _parms = {
         refId: app.globalData.userInfo.userId,
@@ -128,7 +128,7 @@ Page({
           })
         }
       });
-        
+
     }
   },
 
@@ -136,32 +136,30 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-    
+
   },
-  switching:function(){ //切换商家/选手
+  switching: function () { //切换商家/选手
     this.setData({
       isayers: !this.data.isayers
     })
   },
   eventDetailss: function () {  //活动详情
     wx.navigateTo({
-      url: 'eventDetails/eventDetails',
+      url: '../hot-activity/eventDetails/eventDetails',
     })
   },
-  clickli:function(e){//跳转到详情页面
+  clickli: function (e) {//跳转到详情页面
     let id = e.currentTarget.id
     console.log(id)
     console.log("isayers:", this.data.isayers)
-    if (this.data.isayers){ //选手
+    if (this.data.isayers) { //选手
       wx.navigateTo({
         url: '../details_page/details_page'
       })
-    }else{  //商家
+    } else {  //商家
       // wx.navigateTo({
-        // url:'../../index/merchant-particulars/merchant-particulars?shopid='+id
+      // url:'../../index/merchant-particulars/merchant-particulars?shopid='+id
       // })
     }
-   
-
   }
 })

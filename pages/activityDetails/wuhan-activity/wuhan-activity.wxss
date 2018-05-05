@@ -1,0 +1,11 @@
+@import "../activity-template/activity-template.wxss";
+
+/* 自定义样式 */
+/* 活动介绍说明 */
+.hot_description {
+  height: 900rpx;
+}
+
+.hot_dier_text{
+  padding-top:  30rpx;
+}

@@ -8,10 +8,10 @@ Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
     city: "",
-    phone:'',
-    verify:'', //输入的验证码
-    verifyId:'',//后台返回的短信验证码
-    veridyTime:'',//短信发送时间
+    phone: '',
+    verify: '', //输入的验证码
+    verifyId: '',//后台返回的短信验证码
+    veridyTime: '',//短信发送时间
     carousel: [],  //轮播图
     business: [], //商家列表，推荐餐厅
     actlist: [],  //热门活动
@@ -23,18 +23,19 @@ Page({
     service: [],  //服务专题
     alltopics: [],
     currentTab: 0,
-    issnap:false,  //是否是临时用户
+    issnap: false,  //是否是临时用户
     isNew: false,   //是否新用户
     userGiftFlag: false,    //新用户礼包是否隐藏
     isphoneNumber: false,  //是否拿到手机号
-    isfirst:false,
-    isclose:false,
+    isfirst: false,
+    isclose: false,
     navbar: ['菜系专题', '服务专题'],
     sort: ['川湘菜', '海鲜', '火锅', '烧烤', '西餐', '自助餐', '聚会', '商务', '约会'],
     activityImg: '',   //活动图
     settime: '',
     rematime: '获取验证码',
-    isclick: true
+    isclick: true,
+    activityIMg: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1975347470,2770072390&fm=27&gp=0.jpg'
   },
   onLoad: function (options) {
     wx.showLoading({
@@ -64,40 +65,40 @@ Page({
 
           // Api.findByCode(_parms).then((res) => {
           Api.useradd(_parms).then((res) => {
-              if (res.data.data) {
-                app.globalData.userInfo.userId = res.data.data
-                this.getlocation()
-                wx.request({  //从自己的服务器获取用户信息
-                  url: this.data._build_url + 'user/get/' + res.data.data,
-                  header: {
-                    'content-type': 'application/json' // 默认值
-                  },
-                  success: function (res) {
-                    if (res.data.code == 0) {
-                      let data = res.data.data;
-                      let users = app.globalData.userInfo
-                      console.log("data:",data)
-                      for(let key in data){
-                        for(let ind in users){
-                          if(key == ind){
-                            users[ind] = data[key]
-                          }
+            if (res.data.data) {
+              app.globalData.userInfo.userId = res.data.data
+              this.getlocation()
+              wx.request({  //从自己的服务器获取用户信息
+                url: this.data._build_url + 'user/get/' + res.data.data,
+                header: {
+                  'content-type': 'application/json' // 默认值
+                },
+                success: function (res) {
+                  if (res.data.code == 0) {
+                    let data = res.data.data;
+                    let users = app.globalData.userInfo
+                    console.log("data:", data)
+                    for (let key in data) {
+                      for (let ind in users) {
+                        if (key == ind) {
+                          users[ind] = data[key]
                         }
                       }
+                    }
 
-                      if (data.mobile) {
-                        that.setData({
-                          isfirst: false
-                        })
-                      } else {
-                        that.setData({
-                          isfirst: true
-                        })
-                      }
+                    if (data.mobile) {
+                      that.setData({
+                        isfirst: false
+                      })
+                    } else {
+                      that.setData({
+                        isfirst: true
+                      })
                     }
                   }
-                })
-              }
+                }
+              })
+            }
           })
         }
       }
@@ -124,7 +125,7 @@ Page({
       }, 500)
     }
   },
-  onHide:function(){
+  onHide: function () {
     this.userGiftCancle()
   },
   getuseradd: function () {  //获取用户userid
@@ -138,7 +139,7 @@ Page({
       currentTab: e.currentTarget.dataset.idx
     })
   },
-  onPullDownRefresh:function(){
+  onPullDownRefresh: function () {
     this.getmoredata();
   },
   getmoredata: function () {  //获取更多数据
@@ -326,14 +327,11 @@ Page({
     })
   },
   entertainment: function () {  //掌上生活
-    // wx.navigateTo({
-    //   url: 'webview/webview',
-    // })
-    wx.showToast({
-      title: '该功能更新中...',
+    wx.navigateTo({
+      url: 'webview/webview',
     })
   },
-  activityBanner: function() {      //获取活动banner图
+  activityBanner: function () {      //获取活动banner图
     let that = this;
     Api.activityImg().then((res) => {
       let imgUrl = res.data.data[9].imgUrl;
@@ -402,10 +400,10 @@ Page({
     let id = e.currentTarget.id;
     if (app.globalData.userInfo.mobile == 'a' || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
       this.setData({
-        issnap:true
+        issnap: true
       })
       return false
-    } 
+    }
     if (id == 4) {
       wx.navigateTo({
         url: 'new-exclusive/new-exclusive',
@@ -414,20 +412,32 @@ Page({
       wx.navigateTo({
         url: '../personal-center/free-of-charge/free-of-charge',
       })
-    }
-  },
-  hotactivityHref: function(e) {     //热门活动跳转
-    let _id = e.currentTarget.id
-    if(_id == 34){
+    } else if (id == 2) {
+      wx.navigateTo({
+        url: '../activityDetails/wuhan-activity/wuhan-activity',
+      })
+    } else if (id == 3) {
       wx.navigateTo({
         url: '../activityDetails/hot-activity/hot-activity',
       })
-    }else{
+    }
+  },
+  hotactivityHref: function (e) {     //热门活动跳转
+    let _id = e.currentTarget.id
+    if (_id == 34) {
       wx.navigateTo({
-          url: '../activityDetails/details-like/details-like?actid='+_id,
+        url: '../activityDetails/hot-activity/hot-activity',
+      })
+    } else if (_id == 35) {
+      wx.navigateTo({
+        url: '../activityDetails/wuhan-activity/wuhan-activity',
+      })
+    } else {
+      wx.navigateTo({
+        url: '../activityDetails/details-like/details-like?actid=' + _id,
       })
     }
-    
+
   },
   clickimg: function (e) {  //点击专题图片 --某个分类
     let ind = e.currentTarget.id
@@ -474,7 +484,7 @@ Page({
     Api.isNewUser(_parms).then((res) => {
       if (res.data.code == 0) {
         that.setData({
-          isNew:true
+          isNew: true
         })
       } else {
         that.setData({
@@ -487,19 +497,19 @@ Page({
     this.setData({
       userGiftFlag: false,
       isfirst: false,
-      isNew:false
+      isNew: false
     })
-    
-    if (app.globalData.userInfo.mobile == 'a' || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null){
+
+    if (app.globalData.userInfo.mobile == 'a' || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
       this.setData({
-        getPhoneNumber:true
+        getPhoneNumber: true
       })
       this.getuseradd()
     }
   },
   newUserToGet: function () {    //新用户跳转票券
     let that = this
-    if (!this.data.isphoneNumber && app.globalData.userInfo.mobile == '' || !app.globalData.userInfo.mobile){
+    if (!this.data.isphoneNumber && app.globalData.userInfo.mobile == '' || !app.globalData.userInfo.mobile) {
       this.setData({
         isphoneNumber: true
       })
@@ -588,7 +598,7 @@ Page({
   //       phone: ''
   //     })
   //   }
-    
+
   // },
   // yzmbindblur: function (e) {  //输入验证码框失焦时获取输入的验证码
   //   let _value = e.detail.value
@@ -684,14 +694,14 @@ Page({
   // },
 
 
-  closebut:function(){
+  closebut: function () {
     this.setData({
       isphoneNumber: false
     })
   },
-  closetel:function(){
+  closetel: function () {
     this.setData({
-      issnap:false
+      issnap: false
     })
   },
 
@@ -845,10 +855,10 @@ Page({
         }
         Api.isVerify(_parms).then((res) => {
           if (res.data.code == 0) {
-              app.globalData.userInfo.userId = res.data.data,
+            app.globalData.userInfo.userId = res.data.data,
               app.globalData.userInfo.mobile = this.data.phone,
               that.setData({
-                isphoneNumber:false
+                isphoneNumber: false
               })
           }
         })

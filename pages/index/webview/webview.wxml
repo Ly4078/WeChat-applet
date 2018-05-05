@@ -1,3 +1,5 @@
 <view class='webview'>
-  <text>掌上武汉待更新...</text>
+  <view class='webviewWrap'>
+  <image class='webviewImg' src='https://xq-1256079679.file.myqcloud.com/test_724106096214931499_0.8.jpg' mode="widthFix"></image>
+  </view>
 </view>
