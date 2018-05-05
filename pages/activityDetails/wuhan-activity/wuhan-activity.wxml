@@ -6,7 +6,7 @@
   </view>
   <view class="hot_main">
     <!-- 主办方 -->
-     <!-- <template is="sponsor" data="{{item}}" />  -->
+      <template is="sponsor" data="{{item}}" />  
     <view class="hot_description">
       <view class="hot_desc_time">
         活动时间:
@@ -24,8 +24,8 @@
       </view>
     </view>
     <!-- 活动劵 -->
-    <!-- <template is="ledEcurities" data="{{item}}" /> -->
-    <!-- <view class="hot_list_box">
+     <template is="ledEcurities" data="{{item}}" /> 
+     <view class="hot_list_box">
       <view class="hot_list_tab">
         <view bindtap='switching' class="{{!isayers?'selected':'noselect'}}">商家</view>
         <view bindtap='switching' class="{{isayers?'selected':'noselect'}}">选手</view>
@@ -79,6 +79,6 @@
           </view>
         </view>
       </view>
-    </view> -->
+    </view> 
   </view>
 </view>

@@ -22,6 +22,6 @@
     <button class="hot_ticket_r">领取</button>
   </view>
   <view class='labelDiskette'>
-    <text>(同时投票商家和选手可领取代金券，活动劵仅限参赛餐厅使用)</text>
+    <text>(同时投票商家和选手可领取代金券,该劵仅限参赛餐厅使用)</text>
   </view>
 </template>
