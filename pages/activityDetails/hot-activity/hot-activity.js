@@ -5,7 +5,7 @@ var app = getApp();
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
-    actId: 34,     //活动id
+    actId: 35,     //活动id
     type: "",
     isayers: true,
     business: [],    //商家数组  
@@ -60,6 +60,7 @@ Page({
       beginTime: this.data.today,
       endTime: this.data.tomorrow
     }
+   
     Api.actPlayerList(_parms).then((res) => {
       this.setData({
         players: res.data.data.list
@@ -136,18 +137,19 @@ Page({
       url: 'eventDetails/eventDetails',
     })
   },
-  clickli: function (e) {//跳转到详情页面
-    let id = e.currentTarget.id
-    console.log(id)
+  clickli: function (e) {//跳转到店铺\选手页面
+    let _id = e.currentTarget.id
+    console.log("id:",_id)
+    let _actId = this.data.actId
     console.log("isayers:", this.data.isayers)
-    if (this.data.isayers) { //选手
+    if (this.data.isayers) { //商家
       wx.navigateTo({
-        url: '../details_page/details_page'
+        url: '../../index/merchant-particulars/merchant-particulars?shopid=' + _id
       })
-    } else {  //商家
-      // wx.navigateTo({
-      // url:'../../index/merchant-particulars/merchant-particulars?shopid='+id
-      // })
+    } else {  //选手
+      wx.navigateTo({
+        url: '../details_page/details_page?actId=' + _actId+'&id='+_id
+      })
     }
   },
   onPullDownRefresh: function () {

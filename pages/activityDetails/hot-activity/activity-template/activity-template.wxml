@@ -27,9 +27,9 @@
 </template>
 <!-- 投票列表 -->
 <template name="shopList">
-  <view class="hot_list_item" bindtap='clickli'>
+  <view class="hot_list_item">
     <view class="hot_list_item_t">
-      <view class="list_item_info">
+      <view class="list_item_info" id="{{item.shopId}}" bindtap='clickli'>
         <view class="list_item_name clearfix">
           <text class="list_item_name_f">{{item.shopCode}}号</text>
           <text class="list_item_name_s">{{item.shopName}}</text>
@@ -50,7 +50,7 @@
 </template>
 <!-- 投票列表 -->
 <template name="playerList">
-  <view class="hot_list_item" bindtap='clickli'>
+  <view class="hot_list_item"  id="{{item.userId}}" bindtap='clickli'>
     <view class="hot_list_item_t">
       <view class="list_item_info">
         <view class="list_item_name clearfix">

@@ -9,7 +9,10 @@ Page({
    */
   data: {
     cmtdata:[],
+    userid:'',
     information:{},
+    imgs:[],
+    video:{},
     commentVal:'',
     isComment: false,
     imges:[],
@@ -22,22 +25,35 @@ Page({
   },
 
   onLoad: function (options) { //享7劵
+    let _activity = options.actId;
+    this.setData({
+      userid:options.id
+    })
     this.getcmtlist();
     let that = this;
     let _parms = {
-      // userId: app.globalData.userInfo.userId,
-      userId:46,
-      voteUserId: "27",
-      type: 2,
-      actId: 35,
+      userId: this.data.userid,
+      voteUserId: app.globalData.userInfo.userId,
+      actId: _activity,
       beginTime: "2018/5/1",
       endTime: "2018/5/31"
     }
     Api.playerDetails(_parms).then((res) => {
       let _data = res.data.data;
       let _dataSe = res.data.data.picUrls;
-      console.log(_dataSe)
       console.log("_data:",_data)
+      console.log("_dataSe:", _dataSe)
+      if (_dataSe){
+        let _imgs = _dataSe.slice(0, _dataSe.length - 1);
+        let _vides = _dataSe.slice(_dataSe.length - 1, _dataSe.length);
+        console.log('_imgs:', _imgs)
+        console.log('_vides:', _vides)
+        this.setData({
+          imgs: _imgs,
+          video: _vides
+        })
+      }
+     
       if (_data.isVote == 0){
         this.setData({
           poll:'投票'

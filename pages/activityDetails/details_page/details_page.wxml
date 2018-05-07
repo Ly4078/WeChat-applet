@@ -36,9 +36,9 @@
     <button class="toupiao {{isvote?'':'actvote'}}" bindtap='castvote'>{{poll}}</button>
   </view>
 </view>
-<video class="myVideo" src="{{information.picUrls[1].picUrl}}" controls></video>
+<video class="myVideo"  wx:if="{{video[0]}}" src="{{video[0].picUrl}}" controls></video>
 
-<image class='deimg' wx:for="{{imges}}" wx:key="{{index}}" mode="aspectFill" src='{{information.picUrls[0].smallPicUrl}}'></image>
+<image class='deimg' wx:for="{{imgs}}" wx:key="{{index}}" mode="aspectFill" src='{{item.picUrl}}'></image>
 
 <!-- <button class="toupiao butvote actvote" bindtap='castvote'>{{poll}}</button> -->
 
