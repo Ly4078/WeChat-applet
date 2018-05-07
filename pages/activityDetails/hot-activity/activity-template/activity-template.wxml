@@ -13,7 +13,7 @@
 <template name="ledEcurities">
   <view class="hot_ticket">
     <view class="hot_ticket_l">
-      <image src="/images/icon/ticket_txt.png"></image>
+      <image src="/images/icon/ticket_txt.png" mode="aspectFill"></image>
       <view class="hot_ticket_l_txt">
         <view class="hot_ticket_txt_f">20元代金券</view>
         <view class="hot_ticket_txt_s">满200元减20元</view>
@@ -23,5 +23,51 @@
   </view>
   <view class='labelDiskette'>
     <text>(同时投票商家和选手可领取代金券,该劵仅限参赛餐厅使用)</text>
+  </view>
+</template>
+<!-- 投票列表 -->
+<template name="shopList">
+  <view class="hot_list_item">
+    <view class="hot_list_item_t">
+      <view class="list_item_info" id="{{item.shopId}}" bindtap='clickli'>
+        <view class="list_item_name clearfix">
+          <text class="list_item_name_f">{{item.shopCode}}号</text>
+          <text class="list_item_name_s">{{item.shopName}}</text>
+        </view>
+        <image src="{{item.logoUrl}}" mode="aspectFill"></image>
+      </view>
+      <view class="list_item_vote">
+        <view>{{item.voteNum}}票</view>
+        <button wx:if="{{item.isVote == 0}}">投票</button>
+        <button wx:else class="vote_button">已投票</button>
+      </view>
+    </view>
+    <!-- <view class="hot_list_item_b">
+      <image src="{{item.relsrc}}"></image>
+      <text>{{item.related}}</text>
+    </view> -->
+  </view>
+</template>
+<!-- 投票列表 -->
+<template name="playerList">
+  <view class="hot_list_item"  id="{{item.userId}}" bindtap='clickli'>
+    <view class="hot_list_item_t">
+      <view class="list_item_info">
+        <view class="list_item_name clearfix">
+          <text class="list_item_name_f">{{item.userCode}}号</text>
+          <text class="list_item_name_s">{{item.actUserName}}</text>
+        </view>
+        <image src="{{item.iconUrl}}" mode="aspectFill"></image>
+      </view>
+      <view class="list_item_vote">
+        <view>{{item.voteNum}}票</view>
+        <button wx:if="{{item.isVote == 0}}">投票</button>
+        <button wx:else class="vote_button">已投票</button>
+      </view>
+    </view>
+    <!-- <view class="hot_list_item_b">
+      <image src="{{item.relsrc}}"></image>
+      <text>{{item.related}}</text>
+    </view> -->
   </view>
 </template>
