@@ -91,6 +91,41 @@
         </view>
         <text class='vote-entrance'>投票</text>
       </view>  -->
+      <view class='initiate-wrapp'>
+        <view class='initiate-exhibition'>
+          <view>
+            <image class='initiate-left' src='/images/icon/home_sign.png'></image>
+            <text class='initiate-text'>享7套餐</text>
+          </view>
+          <text>领套餐券，享套餐价</text>
+          <!-- <image  src='/images/icon/home_arrow.png'></image> -->
+        </view>
+        <view class='scroll_box pack_box' wx:for="{{newpackage}}" wx:key="{{index}}">
+          <image class='pack_img' mode="aspectFill" src='{{item.imgurl}}'></image>
+          <view class='pack_con'  >
+            <view class='pack_left' id="{{item.id}}" bindtap='moreinfo'>
+              <view class='pack_title'>{{item.dish}}</view>
+              <view class='pack_mid'>
+                <view class='xinagqi'>享7专享</view>{{item.full}}
+              </view>
+              <view class='pack_fod'>
+                <text class='fold'>折后价 ¥{{item.fold}}</text>
+                <text class='fold'>门市价 ¥{{item.oldfold}}</text>
+              </view>
+            </view>
+            <view class='pack_right' id="{{item.id}}" bindtap='receive'>
+                <button >免费领</button>
+                <text>已领{{item.num}}</text>
+            </view>
+          </view>
+        </view>
+        <view class='more' bindtap='clickmore'>
+          更多套餐券
+          <image wx:if="{{ismore}}" class='initiate-left more_img' src='/images/icon/home_arrow.png'></image>
+          <image wx:else class='initiate-left more_img2' src='/images/icon/home_arrow.png'></image>
+        </view>
+      </view>
+
       <view class='initiate-wrapp' catchtap='recommendedRestaurant'>
         <view class='initiate-exhibition'>
           <view>
@@ -102,7 +137,7 @@
         <view class='scroll_box'>
           <scroll-view scroll-x="true" class='scroll_anchor'>
             <block wx:for="{{recommend_list}}" wx:key="{{index}}">
-              <view id="green" class="anchor bc_green">
+              <view class="anchor bc_green">
                 <image class='anchor_img' mode="aspectFill" src='{{item.picUrl}}'></image>
                 <view class='cate_site'>{{item.skuName}}</view>
               </view>

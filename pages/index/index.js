@@ -743,6 +743,10 @@ Page({
     if (!this.data.isclick) {
       return false
     }
+   
+    if (this.data.verifyId){
+      return false
+    }
     let RegExp = /^[1][3,4,5,7,8][0-9]{9}$/;
     if (RegExp.test(this.data.phone)) {
       console.log("settime:", this.data.settime)
@@ -847,6 +851,9 @@ Page({
       return false
     } else {
       if (this.data.verify == this.data.verifyId) {
+        that.setData({
+          isphoneNumber: false
+        })
         let _parms = {
           shopMobile: this.data.phone,
           SmsContent: this.data.verify,
@@ -858,7 +865,8 @@ Page({
             app.globalData.userInfo.userId = res.data.data,
               app.globalData.userInfo.mobile = this.data.phone,
               that.setData({
-                isphoneNumber: false
+                isphoneNumber: false,
+                verifyId:''
               })
           }
         })

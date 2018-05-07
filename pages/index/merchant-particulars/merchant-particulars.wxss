@@ -334,7 +334,10 @@ page {
   align-items: center;
   /* padding-bottom: 30rpx; */
 }
-
+.initiate-exhibition text{
+  color: #B1B1B1;
+  font-size: 26rpx;
+}
 .initiate-left {
   width: 10rpx;
   height: 40rpx;
@@ -355,7 +358,6 @@ page {
 }
 
 .initiate-wrapp {
-  height: 380rpx;
   background-color: white;
   margin-bottom: 20rpx;
 }
@@ -588,4 +590,110 @@ button::after{
   color:rgba(252,94,45,1);
   margin: 41rpx 28rpx 33rpx 0rpx;
   background:#fff;
+}
+
+/*  */
+
+.pack_box{
+  height: 130rpx;
+  padding-top: 30rpx;
+  padding-bottom: 30rpx;
+}
+.pack_img{
+  float: left;
+  width: 130rpx;
+  height: 130rpx;
+  margin-right: 30rpx;
+}
+.pack_con{
+  float: left;
+  height: 130rpx;
+  width: 540rpx;
+  padding-bottom: 29rpx;
+  border-bottom:1rpx solid #E0E0E0;
+}
+.pack_left{
+  width: 380rpx;
+  float: left;
+  border-right: 1rpx solid #E0E0E0;
+}
+.pack_right{
+  width: 60rpx;
+  padding-left: 30rpx;
+  float: left;
+}
+.pack_right button{
+  padding: 0 3rpx;
+  margin: 0;
+  margin-top: 20rpx;
+  width: 120rpx;
+  height: 54rpx;
+  line-height: 54rpx;
+  border-radius: 27rpx;
+  border: 1rpx solid #DB9C34;
+  color: #DB9C34;
+  font-size: 28rpx;
+ }
+ .pack_right text{
+   text-align: center;
+  color: #B1B1B1;
+  font-size: 22rpx;
+  margin-left:20rpx;
+ }
+.pack_title{
+  font-size: 30rpx;
+  color: #191919;
+  height: 31rpx;
+  line-height: 31rpx;
+}
+.pack_mid{
+  margin-top: 16rpx;
+  width: 300rpx;
+  margin-bottom: 19rpx;
+  border: 1rpx solid #DB9C34;
+  font-size: 24rpx;
+  color: #DCA03E;
+}
+.xinagqi{
+   float: left; 
+  height: 110%;
+  width: 86rpx;
+  font-size: 24rpx;
+  color: #FFFFFF;
+  background: #DB9C34;
+}
+.pack_fod{
+  height: 31rpx;
+  line-height: 31rpx;
+  color: #B1B1B1;
+  width: 400rpx;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+  font-size: 24rpx;
+}
+.pack_fod text:nth-child(1){
+  color: #FF5252;
+  margin-right: 22rpx;
+}
+.pack_fod text:nth-child(2){
+  color:#B1B1B1;
+}
+.more{
+  width: 100%;
+  height: 66rpx;
+  line-height: 66rpx;
+  text-align: center;
+  color: #B1B1B1;
+  font-size: 28rpx;
+}
+.more_img{
+  width: 25rpx;
+  margin-top: 25rpx;
+  transform:rotate(90deg);
+}
+.more_img2{
+  width: 25rpx;
+  margin-bottom: 25rpx;
+  transform:rotate(-90deg);
 }

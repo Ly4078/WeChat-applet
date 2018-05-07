@@ -17,7 +17,42 @@ Page({
     activity: [],   //商家活动列表
     article_page: 1,
     reFresh: true,
-    issnap: false,  //是否是临时用户
+    issnap: false,  
+    ismore:false,
+    newpackage:[],
+    package:[{
+      id:'1',
+      imgurl:'https://xq-1256079679.file.myqcloud.com/test_虾蟹拼粥_0.8.jpg',
+      dish:'葱酥鲫鱼套餐券',
+      introduction:'葱、酥、鲫、鱼、套、餐葱、酥.葱、酥、鲫、鱼、套、餐葱、酥...',
+      full:'160元减30元券',
+      num:'346',
+      isreceive:'1',
+      fold:'213',
+      oldfold:'255'
+    },
+    {
+      id: '2',
+      imgurl: 'https://xq-1256079679.file.myqcloud.com/test_虾蟹拼粥_0.8.jpg',
+      dish: '葱酥鲫鱼套餐券',
+      introduction: '葱、酥、鲫、鱼、套、餐葱、酥.葱、酥、鲫、鱼、套、餐葱、酥...',
+      full: '190元减30元券',
+      num: '346',
+      isreceive: '0',
+      fold: '213',
+      oldfold: '255'
+      },
+      {
+        id: '3',
+        imgurl: 'https://xq-1256079679.file.myqcloud.com/test_虾蟹拼粥_0.8.jpg',
+        dish: '葱酥鲫鱼套餐券',
+        introduction: '葱、酥、鲫、鱼、套、餐葱、酥.葱、酥、鲫、鱼、套、餐葱、酥...',
+        full: '190元减30元券',
+        num: '346',
+        isreceive: '0',
+        fold: '213',
+        oldfold: '255'
+      }]
   },
   onLoad: function (options) {
     this.setData({
@@ -28,6 +63,15 @@ Page({
     this.recommendation();
     this.isCollected();
     this.merchantArt();
+    if (this.data.package.length>2){
+      this.setData({
+        ismore:true
+      })
+      let _arr = this.data.package.slice(0,1);
+      this.setData({
+        newpackage:_arr
+      })
+    }
     // 分享功能
     wx.showShareMenu({
       withShareTicket: true,
@@ -519,6 +563,31 @@ Page({
     this.setData({
       issnap: false
     })
+  },
+  receive:function(e){
+    let _id = e.currentTarget.id;
+    console.log("id:",_id)
+  },
+  moreinfo:function(e){
+    let _id = e.currentTarget.id;
+    console.log("id:", _id)
+  },
+  clickmore:function(){
+    this.setData({
+      ismore:!this.data.ismore,
+      newpackage:[]
+    })
+    let arr= this.data.package
+    if(this.data.ismore){
+      arr = arr.slice(0, 1);
+      this.setData({
+        newpackage: arr
+      })
+    }else{
+      this.setData({
+        newpackage: arr
+      })
+    }
   }
 })
 // 标记
