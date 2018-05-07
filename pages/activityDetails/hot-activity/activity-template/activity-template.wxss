@@ -282,6 +282,11 @@
 .list_item_name_s {
   font-size: 26rpx;
   float: right;
+  width: 180rpx;
+  text-align: right;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
 }
 
 .list_item_info image {
@@ -307,15 +312,16 @@
   height: 56rpx;
   line-height: 50rpx;
   width: 100%;
-  color: #b1b1b1;
-  border: 2rpx solid #b1b1b1;
+  border: 2rpx solid #FD7814;
+  color: #FD7814;
   box-sizing: border-box;
   border-radius: 50rpx;
   font-size: 30rpx;
+  background-color: #fff;
 }
 .vote_button{
-  border: 1rpx solid #FD7814;
-  color: #FD7814;
+  color: #b1b1b1 !important;
+  border: 2rpx solid #b1b1b1 !important; 
 }
 .hot_list_item_b {
   height: 70rpx;

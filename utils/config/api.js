@@ -227,6 +227,18 @@ const ALL_API = {
   playerDetails: {  //活动选手详情页
     method: 'GET',
     url: 'actUser/findByInVo'
+  },
+  isGroung:{    //查询活动是否分组
+    method:'GET',
+    url:'actGroup/selectOutAll'
+  },
+  actShopList:{    //活动商家列表
+    method:'GET',
+    url:'actshop/listNewAct'
+  },
+  actPlayerList: {    //活动选手列表
+    method: 'GET',
+    url: 'actUser/listNewAct'
   }
 }
 const Api = new MyHttp({}, ALL_API);
