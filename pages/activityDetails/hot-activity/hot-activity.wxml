@@ -27,8 +27,8 @@
 
      <view class="hot_list_box">
       <view class="hot_list_tab">
-        <view bindtap='switching' class="{{!isayers?'selected':'noselect'}}">商家</view>
-        <view bindtap='switching' class="{{isayers?'selected':'noselect'}}">选手</view>
+        <view bindtap='switching' class="{{isayers?'selected':'noselect'}}" id="1">商家</view>
+        <view bindtap='switching' class="{{!isayers?'selected':'noselect'}}" id="2">选手</view>
       </view>
       <view class="hot_list_search">
         <input id="" placeholder="请输入编号、名称"></input>
