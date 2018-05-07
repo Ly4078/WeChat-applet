@@ -72,15 +72,15 @@
         </view>
       </view>
       <!-- 活动打折 -->
-      <!-- <view class='currentTabWrap'>
+       <!-- <view class='currentTabWrap'>
         <view>
           <image class='currentTabImg' src='/images/icon/quanhuodong.png'></image>
           <text class='currentTabLose'>{{posts_key[0].store_discount}}折</text>
           <text class='currentTabtext'>购买享七劵</text>
         </view>
         <image class='currentTabjiantou' src='/images/icon/home_arrow.png'></image>
-      </view>  -->
-      <!--<view class='currentTabButton'>
+      </view>   -->
+      <view class='currentTabButton'>
         <image class='voteList' src='/images/icon/votehuodong.png'></image>
         <image class='currentTabjiantou' src='/images/icon/home_arrow.png'></image>
       </view>
@@ -90,7 +90,7 @@
           <text class='cuttentTabxiangq'>正在参数不辣不欢活动</text>
         </view>
         <text class='vote-entrance'>投票</text>
-      </view>  -->
+      </view>  
       <view class='initiate-wrapp' catchtap='recommendedRestaurant'>
         <view class='initiate-exhibition'>
           <view>
@@ -146,7 +146,7 @@
             <view class="merchant_data">
               <image src="{{item.iconUrl}}"></image>
               <view>
-                <text class="merchant_name">{{item.userName}}</text>
+                <text class="merchant_name">{{item.nickName}}</text>
                 <text class="merchant_time">{{item.timeDiffrence}}</text>
               </view>
             </view>

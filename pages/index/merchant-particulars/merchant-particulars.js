@@ -507,7 +507,7 @@ Page({
       imageUrl: '',
       success: function (res) {
         // 转发成功
-        console.log("res:", res)
+        // console.log("res:", res)
       },
       fail: function (res) {
         // 转发失败

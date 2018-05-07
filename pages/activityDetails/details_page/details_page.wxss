@@ -210,5 +210,11 @@ button[plain]{
   box-sizing: border-box;
 }
 
-/*  */
+.total-comment{
+  display: none;
+}
+
+.but{
+  padding-top: 60rpx;
+}
 
