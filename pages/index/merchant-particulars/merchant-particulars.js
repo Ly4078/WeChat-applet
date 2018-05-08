@@ -56,7 +56,8 @@ Page({
   },
   onLoad: function (options) {
     this.setData({
-      shopid: options.shopid
+      shopid: options.shopid,
+      package:[]
     });
     this.getstoredata();
     this.selectByShopId();

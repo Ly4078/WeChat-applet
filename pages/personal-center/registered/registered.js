@@ -14,7 +14,7 @@ Page({
     veridyTime: '',//短信发送时间
     settime: '',
     rematime: '获取验证码',
-    isclick:true
+    isclick: true
   },
   numbindinput: function (e) {  //监听号码输入框
     let _value = e.detail.value
@@ -38,7 +38,7 @@ Page({
       isclick: true
     })
   },
-  submitphone: function () {  
+  submitphone: function () {
     let that = this
     if (!this.data.phone) {
       wx.showToast({
@@ -49,51 +49,55 @@ Page({
       })
       return false
     }
-    if (!this.data.isclick){
+    if (!this.data.isclick) {
       return false
     }
     let RegExp = /^[1][3,4,5,7,8][0-9]{9}$/;
     if (RegExp.test(this.data.phone)) {
-      if (this.data.settime){
+      if (this.data.settime) {
         clearTimeout(that.data.settime)
       }
-      let _parms = {
-        shopMobile: that.data.phone,
-        userId: app.globalData.userInfo.userId,
-        userName: app.globalData.userInfo.userName
-      }
-      Api.sendForRegister(_parms).then((res) => {
-        if (res.data.code == 0) {
-          that.setData({
-            verifyId: res.data.data.verifyId,
-            veridyTime: res.data.data.veridyTime
-          })
-          wx.getStorage({
-            key: 'phone',
-            complete: function (res) {
-              if (RegExp.test(res.data)) {
-                if (res.data == that.data.phone) {
-                  let sett = setInterval(function () {
-                    that.remaining();
-                  }, 1000)
-                  that.setData({
-                    settime: sett,
-                    isclick:false
-                  })
-                } else {
-                  wx.setStorage({
-                    key: "phone",
-                    data: that.data.phone
-                  })
-                }
-              } else {
-                wx.setStorage({
-                  key: "phone",
-                  data: that.data.phone
+      wx.getStorage({
+        key: 'phone',
+        complete: function (res) {
+          if (res.data == that.data.phone) {
+            wx.getStorage({
+              key: 'veridyTime',
+              complete: function (res) {
+                this.setData({
+                  veridyTime: res.data
+                })
+                let sett = setInterval(function () {
+                  that.remaining();
+                }, 1000)
+                that.setData({
+                  settime: sett,
+                  isclick: false
                 })
               }
+            })
+          } else {
+            let _parms = {
+              shopMobile: that.data.phone,
+              userId: app.globalData.userInfo.userId,
+              userName: app.globalData.userInfo.userName
             }
-          })  
+            Api.sendForRegister(_parms).then((res) => {
+              if (res.data.code == 0) {
+                that.setData({
+                  verifyId: res.data.data.verifyId,
+                  veridyTime: res.data.data.veridyTime
+                })
+                let sett = setInterval(function () {
+                  that.remaining();
+                }, 1000)
+                that.setData({
+                  settime: sett,
+                  isclick: false
+                })
+              }
+            })
+          }
         }
       })
     } else {
@@ -120,15 +124,21 @@ Page({
     let rema = utils.reciprocal(this.data.veridyTime)
     if (rema == 'no' || rema == 'yes') {
       clearTimeout(this.data.settime)
-      wx.removeStorage({
-        key: 'phone',
-        complete: function (res) {
-          console.log(res)
-        }
-      })
       this.setData({
         rematime: '获取验证码',
-        isclick:true
+        isclick: true
+      })
+      wx.removeStorage({
+        key: 'phone',
+        success: function (res) {
+          console.log(res.data)
+        }
+      })
+      wx.removeStorage({
+        key: 'veridyTime',
+        success: function (res) {
+          console.log(res.data)
+        }
       })
     } else {
       this.setData({
@@ -151,7 +161,7 @@ Page({
         duration: 2000
       })
       return false
-    } else if (!this.data.verify){
+    } else if (!this.data.verify) {
       wx.showToast({
         title: '请输入验证码',
         icon: 'none',
@@ -161,6 +171,9 @@ Page({
       return false
     } else {
       if (this.data.verify == this.data.verifyId) {
+        wx.switchTab({
+          url: '../personal-center'
+        })
         let _parms = {
           shopMobile: this.data.phone,
           SmsContent: this.data.verify,
@@ -170,10 +183,26 @@ Page({
         Api.isVerify(_parms).then((res) => {
           if (res.data.code == 0) {
             app.globalData.userInfo.userId = res.data.data,
-              app.globalData.userInfo.mobile = this.data.phone,
-              wx.switchTab({
-                url: '../personal-center'
-              })
+            // app.globalData.userInfo.mobile = this.data.phone,
+            wx.request({  //从自己的服务器获取用户信息
+              url: this.data._build_url + 'user/get/' + res.data.data,
+              header: {
+                'content-type': 'application/json' // 默认值
+              },
+              success: function (res) {
+                if (res.data.code == 0) {
+                  let data = res.data.data;
+                  let users = app.globalData.userInfo
+                  for (let key in data) {
+                    for (let ind in users) {
+                      if (key == ind) {
+                        users[ind] = data[key]
+                      }
+                    }
+                  }
+                }
+              }
+            })
           }
         })
       } else {
@@ -221,60 +250,5 @@ Page({
         }
       }
     })
-  },
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function (options) {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
   }
 })

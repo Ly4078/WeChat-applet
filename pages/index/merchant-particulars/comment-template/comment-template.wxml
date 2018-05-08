@@ -3,7 +3,7 @@
      <view class='evaluate-wrap'> 
       <view>
         <image class='evaluateImages' mode="aspectFill" src='{{item.userPic}}'></image>
-        <text class='evaluateText'>{{item.nickName}}</text>
+        <text class='evaluateText'>{{item.nickName == 'null'?item.userName:item.nickName}}</text>
       </view>
       <view wx:if="{{item.isZan == 0}}" bindtap="toLike" id="{{item.id}}">
         <text class='evaluaterightTx'>{{item.zan}}</text>

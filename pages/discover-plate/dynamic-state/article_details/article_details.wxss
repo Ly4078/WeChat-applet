@@ -93,6 +93,8 @@
   width: 694rpx;
   color: #B1B1B1;
   font-size: 28rpx;
+  margin: 20rpx 0;
+  height:40rpx;
 }
 .scan{
   height: 40rpx;
@@ -150,7 +152,7 @@ button[plain]{
   width: 694rpx;
   height: 4rpx;
   background: #EBEBEB;
-  margin-top:129rpx;
+  margin-top:50rpx;
 }
 .sharetitle{
   position:relative;

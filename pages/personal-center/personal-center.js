@@ -20,7 +20,11 @@ Page({
     this.setData({
       userType: app.globalData.userInfo.userType
     })
-    
+    if (app.globalData.userInfo.mobile) {
+      this.setData({
+        ismobile: false
+      })
+    }
     this.getuserInfo()
   },
   onShow: function () {
