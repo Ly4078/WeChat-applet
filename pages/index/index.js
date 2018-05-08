@@ -823,6 +823,8 @@ Page({
   submitverify: function () {  //确定
     let that = this
     if (this.data.phone && this.data.verify) {
+      console.log('verify:', this.data.verify)
+      console.log('verifyId:', this.data.verifyId)
       if (this.data.verify == this.data.verifyId) {
         that.setData({
           isphoneNumber: false
@@ -836,29 +838,27 @@ Page({
         }
         Api.isVerify(_parms).then((res) => {
           if (res.data.code == 0) {
-            app.globalData.userInfo.userId = res.data.data,
-              // app.globalData.userInfo.mobile = this.data.phone,
-              wx.request({  //从自己的服务器获取用户信息
-                url: this.data._build_url + 'user/get/' + res.data.data,
-                header: {
-                  'content-type': 'application/json' // 默认值
-                },
-                success: function (res) {
-                  if (res.data.code == 0) {
-                    let data = res.data.data;
-                    let users = app.globalData.userInfo
-                    for (let key in data) {
-                      for (let ind in users) {
-                        if (key == ind) {
-                          users[ind] = data[key]
-                        }
+            app.globalData.userInfo.userId = res.data.data
+            wx.request({  //从自己的服务器获取用户信息
+              url: this.data._build_url + 'user/get/' + res.data.data,
+              header: {
+                'content-type': 'application/json' // 默认值
+              },
+              success: function (res) {
+                if (res.data.code == 0) {
+                  let data = res.data.data;
+                  let users = app.globalData.userInfo
+                  for (let key in data) {
+                    for (let ind in users) {
+                      if (key == ind) {
+                        users[ind] = data[key]
                       }
                     }
                   }
                 }
-              })
+              }
+            })
             that.setData({
-              isphoneNumber: false,
               verifyId: ''
             })
           }

@@ -182,8 +182,7 @@ Page({
         }
         Api.isVerify(_parms).then((res) => {
           if (res.data.code == 0) {
-            app.globalData.userInfo.userId = res.data.data,
-            // app.globalData.userInfo.mobile = this.data.phone,
+            app.globalData.userInfo.userId = res.data.data
             wx.request({  //从自己的服务器获取用户信息
               url: this.data._build_url + 'user/get/' + res.data.data,
               header: {
