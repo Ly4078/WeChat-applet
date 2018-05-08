@@ -4,13 +4,13 @@
 }
 /* 顶部banner */
 .hot_banner {
-  height: 481rpx;
+  height: 481rpx; 
   width: 100%;
   margin-bottom: 36rpx;
 }
 
 .hot_banner_img {
-  height: 481rpx;
+  height: 481rpx; 
   width: 100%;
 }
 
@@ -60,11 +60,10 @@
   background-color: #fff;
   margin-right: 10rpx;
   width: 100%;
-  height: 638rpx;
+  /* height: 638rpx; */
   font-size: 30rpx;
   color: #555;
   border-radius: 10rpx;
-  /* box-shadow: 0 6rpx 10rpx #242424; */
   margin-bottom: 40rpx;
 }
 
@@ -79,12 +78,13 @@
 
 .hot_desc_time {
   display: inline-block;
-  text-align: center;
   background-color: #FD7814;
   color: #fff;
-  padding: 5rpx 57rpx;
-  margin: 30rpx 0 40rpx 65rpx;
+  width: 100%;
+  padding: 10rpx 0;
+  margin: 30rpx 0 40rpx 0rpx;
   border-radius: 50rpx;
+  text-align: center;
 }
 
 .hot_desc_info {
@@ -100,6 +100,7 @@
 .hot_desc_btn {
   display: flex;
   justify-content: center;
+  padding-bottom: 53rpx;
 }
 
 .hot_desc_btn button {
@@ -136,19 +137,17 @@
 }
 
 .hot_ticket_l_txt {
-  /* display: inline-block; */
   float: left;
-}
-
-.hot_ticket_l_txt {
   width: 220rpx;  
   height: 92rpx;
+  line-height: 92rpx;
 }
 
 .hot_ticket_txt_f {
   font-size: 32rpx;
   text-align: top;
   margin-top: 6rpx;
+  height: 92rpx;
 }
 
 .hot_ticket_txt_s {
@@ -337,11 +336,18 @@
   width: 36rpx;
   height: 36rpx;
   border-radius: 50%;
-  vertical-align: middle;
+  margin-bottom:18rpx;
   margin-right: 10rpx;
 }
 
 .hot_list_item_b text {
+  display: inline-block;
   color: #fff;
   font-size: 24rpx;
+  max-width: 240rpx;
+  height: 70rpx;
+  line-height: 70rpx;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
 }

@@ -414,11 +414,11 @@ Page({
       })
     } else if (id == 2) {
       wx.navigateTo({
-        url: '../activityDetails/wuhan-activity/wuhan-activity',
+        url: '../activityDetails/hot-activity/hot-activity?id=35',
       })
     } else if (id == 3) {
       wx.navigateTo({
-        url: '../activityDetails/hot-activity/hot-activity',
+        url: '../activityDetails/hot-activity/hot-activity?id=34',
       })
     }
   },

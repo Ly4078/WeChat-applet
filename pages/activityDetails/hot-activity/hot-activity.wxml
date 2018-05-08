@@ -2,48 +2,52 @@
 
 <view class="hot_activity">
   <view class="hot_banner">
-    <image class="hot_banner_img" src="/images/icon/hot_banner.png"></image>
+    <!-- <image class="hot_banner_img" src="/images/icon/hot_banner.png"></image> -->
+    <image class="hot_banner_img" src="{{mainPic}}"></image>
   </view>
   <view class="hot_main">
     <!-- 主办方 -->
-     <template is="sponsor" data="{{item}}" /> 
+    <template is="sponsor" data="{{item}}" />
     <view class="hot_description">
       <view class="hot_desc_time">
         活动时间:
-        <text>5月10日-7月15日</text>
+        <text>{{startTime}} 至 {{endTime}}</text>
       </view>
       <view class="hot_desc_info">
         水秀山青人俏美，美丽的山城十堰，正在举办十大美食评选活动，活动以美食+文化+才艺的形式，商家和选手同步参与，全方面展示十堰市的城市文化及美食文化，从而评选出十堰十大美食，快来报名吧~
       </view>
-      <view class="hot_desc_champion">第一名：享7美食形象代言人费10万元</view>
-      <view>第二名：奖金2万（2名）</view>
+      <!-- <view class="hot_desc_champion">第一名：享7美食形象代言人费10万元</view>
+      <view>第二名：奖金2万（2名）</view> -->
       <view class="hot_desc_btn">
         <button catchtap='eventDetailss'>活动详情</button>
         <button bindtap="toApply">我要报名</button>
       </view>
     </view>
     <!-- 活动劵 -->
-     <template is="ledEcurities" data="{{item}}" /> 
-
-     <view class="hot_list_box">
+    <view>
+      <block wx:for="{{ticketArr}}" wx:key="{{index}}">
+        <template is="ledEcurities" data="{{item}}"></template>
+      </block>
+    </view>
+    <view class="hot_list_box">
       <view class="hot_list_tab">
         <view bindtap='switching' class="{{isayers?'selected':'noselect'}}" id="1">商家</view>
         <view bindtap='switching' class="{{!isayers?'selected':'noselect'}}" id="2">选手</view>
       </view>
       <view class="hot_list_search">
-        <input id="" placeholder="请输入编号、名称"></input>
-        <image src="/images/icon/hot_search.png"></image>
+        <input id="" placeholder="请输入编号、名称" bindconfirm="searchList" bindinput="getInputVal" value="{{searchValue}}"></input>
+        <image src="/images/icon/hot_search.png" bindtap="searchList"></image>
       </view>
       <view wx:if="{{isayers}}" class="hot_list">
         <block wx:for="{{business}}" wx:key="{{index}}" id="{{index}}">
-          <template is="shopList" data="{{item}}"></template> 
+          <template is="shopList" data="{{item}}"></template>
         </block>
       </view>
       <view wx:else class="hot_list">
         <block wx:for="{{players}}" wx:key="{{index}}" id="{{index}}">
-          <template is="playerList" data="{{item}}"></template> 
-        </block> 
+          <template is="playerList" data="{{item}}"></template>
+        </block>
       </view>
-    </view> 
+    </view>
   </view>
 </view>

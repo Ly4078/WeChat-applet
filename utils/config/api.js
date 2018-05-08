@@ -239,6 +239,30 @@ const ALL_API = {
   actPlayerList: {    //活动选手列表
     method: 'GET',
     url: 'actUser/listNewAct'
+  },
+  searchShop: {      //搜索活动中的商家
+    method: 'GET',
+    url: 'actshop/listNewAct'
+  },
+  searchUser: {      //搜索活动中的选手
+    method: 'GET',
+    url: 'actUser/listNewAct'
+  },
+  actTicket: {      //活动券
+    method: 'GET',
+    url: 'sku/listForAct'
+  },
+  isGetActCoupons: {    //是否可以领取活动券
+    method: 'GET',
+    url: 'vote/canGetSku'
+  },
+  getActCoupons: {     //领取活动券
+    method: 'POST',
+    url: 'so/freeOrderForAct'
+  },
+  voteAdd: {     //活动投票
+    method: 'POST',
+    url: 'vote/add'
   }
 }
 const Api = new MyHttp({}, ALL_API);
