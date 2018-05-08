@@ -29,6 +29,7 @@ Page({
     isphoneNumber: false,  //是否拿到手机号
     isfirst: false,
     isclose: false,
+    goto: false,
     navbar: ['菜系专题', '服务专题'],
     sort: ['川湘菜', '海鲜', '火锅', '烧烤', '西餐', '自助餐', '聚会', '商务', '约会'],
     activityImg: '',   //活动图
@@ -76,8 +77,7 @@ Page({
                 success: function (res) {
                   if (res.data.code == 0) {
                     let data = res.data.data;
-                    let users = app.globalData.userInfo
-                    console.log("data:", data)
+                    let users = app.globalData.userInfo;
                     for (let key in data) {
                       for (let ind in users) {
                         if (key == ind) {
@@ -85,8 +85,8 @@ Page({
                         }
                       }
                     }
-
-                    if (data.mobile) {
+                    app.globalData.userInfo = users;
+                    if (data && data.mobile) {
                       that.setData({
                         isfirst: false
                       })
@@ -133,7 +133,6 @@ Page({
     // this.getuser()
     this.getlocation()
   },
-
   navbarTap: function (e) {// 专题推荐栏
     this.setData({
       currentTab: e.currentTarget.dataset.idx
@@ -274,7 +273,7 @@ Page({
   },
   gettopic: function () {  // 美食墙
     Api.topictop().then((res) => {
-      console.log("food:", res.data.data)
+      // console.log("food:", res.data.data)
       let _data = res.data.data
       for (let i = 0; i < _data.length; i++) {
         _data[i].summary = utils.uncodeUtf16(_data[i].summary)
@@ -398,7 +397,7 @@ Page({
   },
   toNewExclusive: function (e) {   //跳转至新人专享页面
     let id = e.currentTarget.id;
-    if (app.globalData.userInfo.mobile == 'a' || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+    if (app.globalData.userInfo.mobile == undefined || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
       this.setData({
         issnap: true
       })
@@ -743,12 +742,17 @@ Page({
     if (!this.data.isclick) {
       return false
     }
+    if (this.data.verifyId) {
+      return false
+    }
+    if (this.data.goto) {
+      return false
+    }
     let RegExp = /^[1][3,4,5,7,8][0-9]{9}$/;
     if (RegExp.test(this.data.phone)) {
-      console.log("settime:", this.data.settime)
-      if (this.data.settime) {
-        clearTimeout(that.data.settime)
-      }
+      this.setData({
+        goto: true
+      })
       let _parms = {
         shopMobile: that.data.phone,
         userId: app.globalData.userInfo.userId,
@@ -758,33 +762,22 @@ Page({
         if (res.data.code == 0) {
           that.setData({
             verifyId: res.data.data.verifyId,
-            veridyTime: res.data.data.veridyTime
+            veridyTime: res.data.data.veridyTime,
+            goto: false
           })
-          wx.getStorage({
-            key: 'phone',
-            complete: function (res) {
-              if (RegExp.test(res.data)) {
-                if (res.data == that.data.phone) {
-                  let sett = setInterval(function () {
-                    that.remaining();
-                  }, 1000)
-                  that.setData({
-                    settime: sett,
-                    isclick: false
-                  })
-                } else {
-                  wx.setStorage({
-                    key: "phone",
-                    data: that.data.phone
-                  })
-                }
-              } else {
-                wx.setStorage({
-                  key: "phone",
-                  data: that.data.phone
-                })
-              }
-            }
+          if (this.data.settime) {
+            clearTimeout(that.data.settime)
+          }
+          let sett = setInterval(function () {
+            that.remaining();
+          }, 1000)
+          wx.setStorage({
+            key: "phone",
+            data: that.data.phone
+          })
+          wx.setStorage({
+            key: "veridyTime",
+            data: that.data.veridyTime
           })
         }
       })
@@ -807,19 +800,26 @@ Page({
       verify: _value
     })
   },
-  remaining: function () {  //倒计时
+  remaining: function (val) {  //倒计时
     let rema = utils.reciprocal(this.data.veridyTime)
     if (rema == 'no' || rema == 'yes') {
       clearTimeout(this.data.settime)
-      wx.removeStorage({
-        key: 'phone',
-        complete: function (res) {
-          console.log(res)
-        }
-      })
       this.setData({
         rematime: '获取验证码',
-        isclick: true
+        isclick: true,
+        phone: ''
+      })
+      wx.removeStorage({
+        key: 'phone',
+        success: function (res) {
+          console.log(res.data)
+        }
+      })
+      wx.removeStorage({
+        key: 'veridyTime',
+        success: function (res) {
+          console.log(res.data)
+        }
       })
     } else {
       this.setData({
@@ -829,24 +829,11 @@ Page({
   },
   submitverify: function () {  //确定
     let that = this
-    if (!this.data.phone) {
-      wx.showToast({
-        title: '请输入电话号码，获取验证码',
-        icon: 'none',
-        mask: 'true',
-        duration: 2000
-      })
-      return false
-    } else if (!this.data.verify) {
-      wx.showToast({
-        title: '请输入验证码',
-        icon: 'none',
-        mask: 'true',
-        duration: 2000
-      })
-      return false
-    } else {
+    if (this.data.phone && this.data.verify) {
       if (this.data.verify == this.data.verifyId) {
+        that.setData({
+          isphoneNumber: false
+        })
         let _parms = {
           shopMobile: this.data.phone,
           SmsContent: this.data.verify,
@@ -855,11 +842,29 @@ Page({
         }
         Api.isVerify(_parms).then((res) => {
           if (res.data.code == 0) {
-            app.globalData.userInfo.userId = res.data.data,
-              app.globalData.userInfo.mobile = this.data.phone,
-              that.setData({
-                isphoneNumber: false
-              })
+            app.globalData.userInfo.userId = res.data.data
+            wx.request({  //从自己的服务器获取用户信息
+              url: this.data._build_url + 'user/get/' + res.data.data,
+              header: {
+                'content-type': 'application/json' // 默认值
+              },
+              success: function (res) {
+                if (res.data.code == 0) {
+                  let data = res.data.data;
+                  let users = app.globalData.userInfo
+                  for (let key in data) {
+                    for (let ind in users) {
+                      if (key == ind) {
+                        users[ind] = data[key]
+                      }
+                    }
+                  }
+                }
+              }
+            })
+            that.setData({
+              verifyId: ''
+            })
           }
         })
       } else {
@@ -870,6 +875,20 @@ Page({
           duration: 2000
         })
       }
+    } else if (!this.data.phone) {
+      wx.showToast({
+        title: '请输入电话号码，获取验证码',
+        icon: 'none',
+        mask: 'true',
+        duration: 2000
+      });
+    } else if (!this.data.verify) {
+      wx.showToast({
+        title: '请输入验证码',
+        icon: 'none',
+        mask: 'true',
+        duration: 2000
+      });
     }
-  },
+  }
 })

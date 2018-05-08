@@ -5,7 +5,7 @@ var app = getApp();
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
-    actId: 34,     //活动id
+    actId: 35,     //活动id
     type: "",
     mainPic: "",    //banner图
     infoPic: "",    //活动详情图
@@ -156,6 +156,7 @@ Page({
     if (this.data.type == 2) {   //判断是否分组
       _parms['type'] = 2;
     }
+   
     Api.actPlayerList(_parms).then((res) => {
       let data = res.data;
       wx.hideLoading();
@@ -359,16 +360,25 @@ Page({
       url: 'eventDetails/eventDetails?url=' + this.data.infoPic
     })
   },
+<<<<<<< HEAD
   clickli: function (e) {//跳转到详情页面
     let id = e.currentTarget.id
     if (this.data.isayers) { //选手
+=======
+  clickli: function (e) {//跳转到店铺\选手页面
+    let _id = e.currentTarget.id
+    console.log("id:",_id)
+    let _actId = this.data.actId
+    console.log("isayers:", this.data.isayers)
+    if (this.data.isayers) { //商家
+>>>>>>> 8524405f14d320a054bcbf396c865b48d6e22fb4
       wx.navigateTo({
-        url: '../details_page/details_page'
+        url: '../../index/merchant-particulars/merchant-particulars?shopid=' + _id
       })
-    } else {  //商家
-      // wx.navigateTo({
-      // url:'../../index/merchant-particulars/merchant-particulars?shopid='+id
-      // })
+    } else {  //选手
+      wx.navigateTo({
+        url: '../details_page/details_page?actId=' + _actId+'&id='+_id
+      })
     }
   },
   onReachBottom: function () {  //用户上拉触底

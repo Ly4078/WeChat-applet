@@ -1,0 +1,53 @@
+<view class="coupon">
+  <image class='topimg' src="{{data.imgurl}}"></image>
+
+  <view class='dishdetail'>
+    <view class='dish'>{{data.dish}}</view>
+    <view class='price'> <text class='fold'>券后价 ¥ {{data.fold}}</text><text class='oldflod'>门市价 ¥ {{data.oldfold}}</text></view>
+    <image class='bjimg' src='/images/icon/discount.png'></image>
+    <view class='discount'>
+      <view class='dis_left'>
+          <view>套餐折扣券</view>
+          <view><text>享7专享</text> | <text>全平台通用</text> | <text>免预约</text></view>
+      </view>
+      <view class='dis_right'>
+        <button class='receive'>免费领</button>
+        <view>已领{{data.num}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view class='conponbox'>
+    <view class='blocks'><text></text>套餐内容</view>
+    <view class='all'>全部</view>
+     <view class='lists' wx:for="{{dish}}" wx:key="index">
+      <text></text> <text>{{item.dishname}}</text> <text>¥ {{item.price}}</text>
+    </view> 
+    <view class='all'>主食</view>
+     <view class='lists' wx:for="{{dish}}" wx:key="index">
+      <text></text> <text>{{item.dishname}}</text> <text>¥ {{item.price}}</text>
+    </view> 
+  </view>
+
+  <view class='conponbox'>
+    <view class='blocks'><text></text>温馨提示</view>
+    <view class='all'>有效期</view>
+    <view class='lists'>
+      <text></text> <text>自购买之日起三个月内，过期作废</text> 
+    </view> 
+     <view class='all'>使用规则</view>
+
+    <view class='lists' wx:for="{{txt}}" wx:key="index">
+      <text></text> <text>{{item}}</text> 
+    </view> 
+  </view>
+
+  <view class='conponbox'>
+    <view class='blocks'><text></text>德银大酒楼</view>
+  </view>
+</view>
+
+
+
+
+

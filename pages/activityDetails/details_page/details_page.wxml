@@ -1,3 +1,14 @@
+<import src="../../index/merchant-particulars/comment-template/comment-template.wxml" />
+<view class="newUserModal" wx:if="{{issnap}}">
+  <view class='drawer_screen'>
+    <view class='sqtishi'>提示</view>
+    <view class='drphnumber'>获得更多体验,请移步[我的]-[新用户注册]</view>
+    <!-- <button  class='gettel sqgettel' open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">确定</button>  -->
+    <button class='gettel sqgettel' bindtap='closetel'>确定</button>
+    <button class='gettel colosetel' bindtap='closetel'>取消</button>
+  </view>
+</view>
+
 <view class='detail_top'>
   <image src="{{information.iconUrl}}" class='topback' mode="aspectFill"></image>
   <view class='motai'></view>
@@ -7,8 +18,8 @@
     <view class='u_yearh'>
       <text class='textyear'> <image class='sexicon' src='/images/icon/girl.png'></image>{{information.age}}岁</text>
       <text class='texthei'>{{information.height}}cm</text>
-       <image wx:if="{{user.sex == '2'}}" class='sexicon' mode="aspectFill" src='/images/icon/girl.png'></image>
-       <image wx:if="{{user.sex == '1'}}" class='sexicon' mode="aspectFill" src='/images/icon/male.png'></image>
+      <image wx:if="{{user.sex == '2'}}" class='sexicon' mode="aspectFill" src='/images/icon/girl.png'></image>
+      <image wx:if="{{user.sex == '1'}}" class='sexicon' mode="aspectFill" src='/images/icon/male.png'></image>
     </view>
     <view class='topbut ones'>
       <view class='xsnum'>{{information.userCode}}</view>
@@ -25,41 +36,55 @@
     <button class="toupiao {{isvote?'':'actvote'}}" bindtap='castvote'>{{poll}}</button>
   </view>
 </view>
-<video class="myVideo" src="{{information.picUrls[1].picUrl}}" controls></video>
+<video class="myVideo"  wx:if="{{video[0]}}" src="{{video[0].picUrl}}" controls></video>
 
-<image class='deimg'  wx:for="{{imges}}" wx:key="{{index}}" mode="aspectFill" src='{{information.picUrls[0].smallPicUrl}}'></image>
+<image class='deimg' wx:for="{{imgs}}" wx:key="{{index}}" mode="aspectFill" src='{{item.picUrl}}'></image>
 
 <!-- <button class="toupiao butvote actvote" bindtap='castvote'>{{poll}}</button> -->
 
-  <view class='sharebg'></view>  
-    <text class='sharetitlea'>分享</text>
-    <view class='sharebox'>
-      <button class='sharebut' bindtap='share' plain="true" data-name="shareBtn" open-type="share">
-        <image class='shareimgl' mode="aspectFill" src='/images/icon/find_article_wechat.png'></image>
-        <!-- <image class='shareimgr' mode="aspectFill" src='/images/icon/find_article_mine.png'></image> -->
-      </button>
-    <view class='text_wx'>微信</view>
-    <!-- <view class='text_pyq' bindtap='share'>朋友圈</view> -->
+<view class='sharebg'></view>
+<text class='sharetitlea'>分享</text>
+<view class='sharebox'>
+  <button class='sharebut' bindtap='share' plain="true" data-name="shareBtn" open-type="share">
+    <image class='shareimgl' mode="aspectFill" src='/images/icon/find_article_wechat.png'></image>
+    <!-- <image class='shareimgr' mode="aspectFill" src='/images/icon/find_article_mine.png'></image> -->
+  </button>
+  <view class='text_wx'>微信</view>
+  <!-- <view class='text_pyq' bindtap='share'>朋友圈</view> -->
 
-  </view>  
- <view class='sharebg'></view> 
-
-   <view  class='but'>
-    <block wx:for="{{cmtdata.list}}" wx:key="{{index}}">
-      <template is="commentItem" data="{{item}}"></template>
-    </block>
-    <view class='total-comment' hidden='{{totalComment}}' catchtap='jumpTotalComment'>
-      <view class='total-center' wx:if="{{cmtdata.list.length>6}}">
-        <text>查看全部<text>{{cmtdata.total}}</text>条评论</text>
-      </view>
+</view>
+<view class='sharebg'></view>
+<view class='but'>
+  <block wx:for="{{cmtdata.list}}" wx:key="{{index}}">
+    <template is="commentItem" data="{{item}}"></template>
+  </block>
+  <view class='total-comment' hidden='{{totalComment}}' catchtap='jumpTotalComment'>
+    <view class='total-center' wx:if="{{cmtdata.list.length>6}}">
+      <text>查看全部<text>{{cmtdata.total}}</text>条评论</text>
     </view>
-    <form class='commentBox {{isComment ? "show" : "hide"}}'>
-      <textarea class="commentArea" placeholder='请输入评论' focus="{{isComment}}" bindinput="getCommentVal" cursor-spacing="50rpx" show-confirm-bar="false" fixed="true"></textarea>
-      <button class='fasong' form-type="reset" catchtap="setcmtadd">发送</button>
-    </form>
   </view>
+  <form class='commentBox {{isComment ? "show" : "hide"}}'>
+    <textarea class="commentArea" placeholder='请输入评论' focus="{{isComment}}" bindinput="getCommentVal" cursor-spacing="50rpx" show-confirm-bar="false" fixed="true"></textarea>
+    <button class='fasong' form-type="reset" catchtap="setcmtadd">发送</button>
+  </form>
+</view>
 
 <view class='botton-comment' bindtap='showAreatext'>
   <image class='comment-images' mode="aspectFill" src='/images/icon/write.png'></image>
   <text class='reviewyan'>写评论</text>
+</view>
+
+<view wx:if="{{_id}}" class='but'>
+  <block wx:for="{{cmtdata.list}}" wx:key="{{index}}">
+    <template is="commentItem" data="{{item}}"></template>
+  </block>
+   <view class='total-comment' hidden='{{totalComment}}' catchtap='jumpTotalComment'>
+    <view class='total-center' wx:if="{{cmtdata.list.length>6}}">
+      <text>查看全部<text>{{cmtdata.total}}</text>条评论</text>
+    </view>
+  </view> 
+  <form class='commentBox {{isComment ? "show" : "hide"}}'>
+    <textarea class="commentArea" placeholder='请输入评论' focus="{{isComment}}" bindinput="getCommentVal" cursor-spacing="50rpx" show-confirm-bar="false" fixed="true"></textarea>
+    <button class='fasong' form-type="reset" catchtap="setcmtadd">发送</button>
+  </form>
 </view>
