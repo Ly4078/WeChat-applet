@@ -14,7 +14,8 @@ Page({
     veridyTime: '',//短信发送时间
     settime: '',
     rematime: '获取验证码',
-    isclick: true
+    isclick: true,
+    goto: false
   },
   numbindinput: function (e) {  //监听号码输入框
     let _value = e.detail.value
@@ -38,7 +39,7 @@ Page({
       isclick: true
     })
   },
-  submitphone: function () {
+  submitphone: function () {  //获取验证码
     let that = this
     if (!this.data.phone) {
       wx.showToast({
@@ -52,6 +53,12 @@ Page({
     if (!this.data.isclick) {
       return false
     }
+    if(this.data.goto){
+      return false
+    }
+    this.setData({
+      goto:true
+    })
     let RegExp = /^[1][3,4,5,7,8][0-9]{9}$/;
     if (RegExp.test(this.data.phone)) {
       if (this.data.settime) {
@@ -65,8 +72,10 @@ Page({
               key: 'veridyTime',
               complete: function (res) {
                 this.setData({
-                  veridyTime: res.data
+                  veridyTime: res.data,
+                  goto:false
                 })
+
                 let sett = setInterval(function () {
                   that.remaining();
                 }, 1000)
@@ -160,7 +169,6 @@ Page({
         mask: 'true',
         duration: 2000
       })
-      return false
     } else if (!this.data.verify) {
       wx.showToast({
         title: '请输入验证码',
@@ -168,11 +176,16 @@ Page({
         mask: 'true',
         duration: 2000
       })
-      return false
     } else {
+      if (this.data.goto){
+        return false
+      }
+      
       if (this.data.verify == this.data.verifyId) {
-        wx.switchTab({
-          url: '../personal-center'
+        wx.showToast({
+          title: '验证中',
+          icon: 'loading',
+          duration: 2000
         })
         let _parms = {
           shopMobile: this.data.phone,
@@ -182,7 +195,8 @@ Page({
         }
         Api.isVerify(_parms).then((res) => {
           if (res.data.code == 0) {
-            app.globalData.userInfo.userId = res.data.data
+            app.globalData.userInfo.userId = res.data.data;
+            
             wx.request({  //从自己的服务器获取用户信息
               url: this.data._build_url + 'user/get/' + res.data.data,
               header: {
@@ -199,6 +213,11 @@ Page({
                       }
                     }
                   }
+                  app.globalData.userInfo = users;
+                  wx.hideToast()
+                  wx.switchTab({
+                    url: '../personal-center'
+                  })
                 }
               }
             })

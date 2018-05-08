@@ -56,8 +56,7 @@ Page({
   },
   onLoad: function (options) {
     this.setData({
-      shopid: options.shopid,
-      package:[]
+      shopid: options.shopid
     });
     this.getstoredata();
     this.selectByShopId();
@@ -93,7 +92,8 @@ Page({
       this.setData({
         merchantArt: [],   //商家动态列表
         article_page: 1,
-        reFresh: true
+        reFresh: true,
+        package:[]
       });
       this.merchantArt();
     }
@@ -306,6 +306,7 @@ Page({
   },
   // tab栏
   navbarTap: function (e) {
+    console.log(e.currentTarget.dataset.idx)
     this.setData({
       currentTab: e.currentTarget.dataset.idx
     })
@@ -499,7 +500,7 @@ Page({
   },
   //显示发表评论框
   showAreatext: function () {
-    if (app.globalData.userInfo.mobile == 'a' || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+    if (app.globalData.userInfo.mobile == undefined || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
       this.setData({
         issnap: true
       })
@@ -571,6 +572,10 @@ Page({
   },
   moreinfo:function(e){
     let _id = e.currentTarget.id;
+    // coupon_details
+    wx.navigateTo({
+      url: './coupon_details/coupon_details',
+    })
     console.log("id:", _id)
   },
   clickmore:function(){

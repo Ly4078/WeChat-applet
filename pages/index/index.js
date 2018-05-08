@@ -29,6 +29,7 @@ Page({
     isphoneNumber: false,  //是否拿到手机号
     isfirst: false,
     isclose: false,
+    goto: false,
     navbar: ['菜系专题', '服务专题'],
     sort: ['川湘菜', '海鲜', '火锅', '烧烤', '西餐', '自助餐', '聚会', '商务', '约会'],
     activityImg: '',   //活动图
@@ -76,8 +77,7 @@ Page({
                 success: function (res) {
                   if (res.data.code == 0) {
                     let data = res.data.data;
-                    let users = app.globalData.userInfo
-                    console.log("data11:", data)
+                    let users = app.globalData.userInfo;
                     for (let key in data) {
                       for (let ind in users) {
                         if (key == ind) {
@@ -85,6 +85,7 @@ Page({
                         }
                       }
                     }
+                    app.globalData.userInfo = users;
                     if (data && data.mobile) {
                       that.setData({
                         isfirst: false
@@ -741,15 +742,17 @@ Page({
     if (!this.data.isclick) {
       return false
     }
-
     if (this.data.verifyId) {
+      return false
+    }
+    if (this.data.goto) {
       return false
     }
     let RegExp = /^[1][3,4,5,7,8][0-9]{9}$/;
     if (RegExp.test(this.data.phone)) {
-      if (this.data.settime) {
-        clearTimeout(that.data.settime)
-      }
+      this.setData({
+        goto: true
+      })
       let _parms = {
         shopMobile: that.data.phone,
         userId: app.globalData.userInfo.userId,
@@ -759,8 +762,12 @@ Page({
         if (res.data.code == 0) {
           that.setData({
             verifyId: res.data.data.verifyId,
-            veridyTime: res.data.data.veridyTime
+            veridyTime: res.data.data.veridyTime,
+            goto: false
           })
+          if (this.data.settime) {
+            clearTimeout(that.data.settime)
+          }
           let sett = setInterval(function () {
             that.remaining();
           }, 1000)
@@ -793,7 +800,7 @@ Page({
       verify: _value
     })
   },
-  remaining: function () {  //倒计时
+  remaining: function (val) {  //倒计时
     let rema = utils.reciprocal(this.data.veridyTime)
     if (rema == 'no' || rema == 'yes') {
       clearTimeout(this.data.settime)
@@ -823,13 +830,10 @@ Page({
   submitverify: function () {  //确定
     let that = this
     if (this.data.phone && this.data.verify) {
-      console.log('verify:', this.data.verify)
-      console.log('verifyId:', this.data.verifyId)
       if (this.data.verify == this.data.verifyId) {
         that.setData({
           isphoneNumber: false
         })
-        console.log(app.globalData.userInfo)
         let _parms = {
           shopMobile: this.data.phone,
           SmsContent: this.data.verify,
