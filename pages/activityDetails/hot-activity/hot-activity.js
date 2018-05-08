@@ -360,18 +360,12 @@ Page({
       url: 'eventDetails/eventDetails?url=' + this.data.infoPic
     })
   },
-<<<<<<< HEAD
-  clickli: function (e) {//跳转到详情页面
-    let id = e.currentTarget.id
-    if (this.data.isayers) { //选手
-=======
   clickli: function (e) {//跳转到店铺\选手页面
     let _id = e.currentTarget.id
     console.log("id:",_id)
     let _actId = this.data.actId
     console.log("isayers:", this.data.isayers)
     if (this.data.isayers) { //商家
->>>>>>> 8524405f14d320a054bcbf396c865b48d6e22fb4
       wx.navigateTo({
         url: '../../index/merchant-particulars/merchant-particulars?shopid=' + _id
       })
