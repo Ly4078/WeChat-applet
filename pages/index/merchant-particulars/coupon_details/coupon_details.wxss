@@ -124,6 +124,7 @@
 .lists text:nth-child(3){
   float: right;
 }
+
 .but_left{
   float: left;
   width: 580rpx;
@@ -135,14 +136,26 @@
   height: 100%;
   border-left: 1rpx solid #E0E0E0;
 }
-.location-left {
-  width: 26rpx;
-  height: 30rpx;
-  padding: 0px 16rpx 0px 28rpx;
+
+.location-text {
+  display: inline-block;
+  color: #555555;
+  font-size: 24rpx;
+  width: 500rpx;
+  text-overflow: ellipsis; 
+  white-space: nowrap; 
+  overflow: hidden;
+  
+}
+.tel{
+  width: 68rpx;
+  height: 50rpx;
+  line-height: 50rpx;
+  float: right;
+  padding-left: 32rpx;
+  border-left: 3rpx solid #e0e0e0;
 }
 .location-right {
-  margin-left: 42rpx;
-  margin-top: 20rpx;
-  width: 33rpx;
-  height: 40rpx;
+  width:33rpx;
+  height: 44rpx;
 }

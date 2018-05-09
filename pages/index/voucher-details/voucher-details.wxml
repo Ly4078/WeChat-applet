@@ -1,12 +1,21 @@
 <view>
   <view class='detailsWarp'>
-    <image class='detailsImg' src='/images/icon/quan.png'></image>
-    <view class='speciesWrap'>
+    <image class='detailsImg'  wx:if="{{!cfrom}}" src='/images/icon/quan.png'></image>
+    <image class='detailsImg' wx:else src='/images/icon/package.png'></image>
+    
+    <view class='speciesWrap'  wx:if="{{!cfrom}}">
       <text class='speciesText'>{{obj.inp}}元现金劵</text>
       <!-- <text class='spaeciescondition'>{{obj.rule}}</text> -->
     </view>
+    <view wx:else class='orders'>
+        <view>
+          <button bindtap='useticket'>{{condeta.qrcodeUrl?'立即使用':'立即领取'}}</button>
+          <image wx:if="{{condeta.qrcodeUrl}}" src='{{condeta.qrcodeUrl}}' data-src="{{condeta.qrcodeUrl}}" bindtap="previewImage"></image>
+        </view>
+        <view>{{num}}人已领</view>
+    </view>
   </view>
-  <view class='countersign'>
+  <view class='countersign' wx:if="{{!cfrom}}">
     <view class='countersign_left'>
       <view>
         <text class='amount-number'>{{sell}}</text>
@@ -19,7 +28,7 @@
         <!-- <text class='discount-number'>{{sell/obj.inp*10}}折</text> -->
       </view>
     </view>
-    <view class='countersign-right' catchtap='immediatelyBuy'>
+    <view class='countersign-right' catchtap='immediatelyBuy' >
       <button class='countersign-right-text'>立即购买</button>
     </view>
   </view>

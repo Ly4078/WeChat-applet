@@ -621,9 +621,9 @@ button::after{
   border-bottom:1rpx solid #E0E0E0;
 }
 .pack_left{
-  width: 380rpx;
+  width: 100%;
   float: left;
-  border-right: 1rpx solid #E0E0E0;
+  /* border-right: 1rpx solid #E0E0E0; */
 }
 .pack_right{
   width: 60rpx;
@@ -656,19 +656,20 @@ button::after{
 }
 .pack_mid{
   margin-top: 16rpx;
-  width: 300rpx;
+  width: 170rpx;
   margin-bottom: 19rpx;
   border: 1rpx solid #DB9C34;
   font-size: 24rpx;
   color: #DCA03E;
 }
 .xinagqi{
-   float: left; 
+  float: left; 
   height: 110%;
   width: 86rpx;
   font-size: 24rpx;
   color: #FFFFFF;
   background: #DB9C34;
+  margin-right: 10rpx;
 }
 .pack_fod{
   height: 31rpx;
@@ -704,4 +705,57 @@ button::after{
   width: 25rpx;
   margin-bottom: 25rpx;
   transform:rotate(-90deg);
+}
+.distop{
+  position:relative;
+  width: 92.4%;
+  margin: 3.8%;
+  height: 152rpx;
+}
+.bjimg{
+  width: 100%;
+  height: 152rpx;
+}
+.discount{
+  position:absolute;
+  top: 0rpx;
+  left: 0;
+  width: 85%;
+  height: 87rpx;
+  padding: 30rpx 50rpx 32rpx 56rpx;
+}
+.dis_left{
+  float: left;
+  height: 87rpx;
+  width: 450rpx;
+}
+.dis_left view:nth-child(1){
+  color: #DB9C34;
+  font-size: 38rpx;
+}
+.dis_left view:nth-child(2){
+  margin-top: 13rpx;
+  color: #808080;
+  font-size: 24rpx;
+}
+.dis_right{
+  float: right;
+  height: 87rpx;
+  width: 136rpx;
+}
+.dis_right button{
+  width: 136rpx;
+  height: 55rpx;
+  line-height: 55rpx;
+  background: none;
+  border:1rpx solid #DB9C34;
+  border-radius: 55rpx;
+  color: #DB9C34;
+  font-size: 30rpx;
+}
+.dis_right view{
+  color: #B1B1B1;
+  font-size: 24rpx;
+  text-align: center;
+  margin-top: 9rpx;
 }

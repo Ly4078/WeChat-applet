@@ -66,7 +66,10 @@
   text-align: center;
   line-height: 56rpx;
 }
-
+.istick{
+  color: #DB9C34;
+  border:1rpx solid #DB9C34;
+}
 .deadline-time{
   color: #B1B1B1;
   font-size: 24rpx;
@@ -81,4 +84,19 @@
 .isGray {
   color: #B1B1B1;
   border-color: #B1B1B1;
+}
+.contick view{
+  padding-left: 30rpx;
+  width: 70%; 
+  height: 81rpx;
+  line-height: 81rpx;
+}
+.contick view:nth-child(1){
+  color: #DB9C34;
+  font-size: 46rpx;
+  line-height:100rpx;
+}
+.contick view:nth-child(2){
+  color: #808080;
+  font-size: 24rpx;
 }

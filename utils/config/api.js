@@ -263,6 +263,22 @@ const ALL_API = {
   voteAdd: {     //活动投票
     method: 'POST',
     url: 'vote/add'
+  },
+  agioList:{ //查询商家套餐
+    method:'GET',
+    url:'sku/agioList'
+  },
+  listForAgio: {  //套餐详情
+    method:'GET',
+    url:'sku/listForAgio'
+  },
+  freeOrderForAgio:{
+    method:'POST',
+    url:'so/freeOrderForAgio'
+  },
+  getAgio:{
+    method:'GET',
+    url:'sku/getAgio'
   }
 }
 const Api = new MyHttp({}, ALL_API);

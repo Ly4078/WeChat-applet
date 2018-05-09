@@ -2,13 +2,17 @@
   <view class='securityWrap'>
     <view class='security-use'>
       <view class='security-top'>
-        <view class='security-top-left'>
+        <view class='security-top-left' wx:if="{{item.type == 1}}">
           <text class='security-money {{item.isUsed == 1 ? "isGray" : ""}}'>￥<text class='security-money-se'>{{item.couponAmount}}</text></text>
         </view>
+        <view class='security-top-left contick' wx:if="{{item.type == 4}}">
+          <view>套餐折扣券</view>
+          <view><text>享7专享</text> | <text>全平台通用</text> | <text>免预约</text></view>
+        </view>
         <view class='security-top-right'>
-          <view wx:if="{{item.isDue == 1}}" class='my-immediateUse isGray'>已过期</view>
+          <view wx:if="{{item.isDue == 1}}" hidden='{{item.type == 4}}' class='my-immediateUse isGray'>已过期</view>
           <view wx:if="{{item.isUsed == 1 && item.isDue == 0}}" class='my-immediateUse isGray'>已使用</view>
-          <view wx:else class='my-immediateUse' catchtap='immediateUse' id="{{item.soId}}">立即使用</view>
+          <view wx:else class='my-immediateUse {{item.type == 4 ? "istick" : ""}}' catchtap='immediateUse' id="{{item.soId}}">立即使用</view>
         </view>
       </view>
       <view class='deadline-time'>

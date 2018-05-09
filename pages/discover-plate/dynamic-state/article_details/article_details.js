@@ -61,7 +61,9 @@ Page({
         _data.summary = utils.uncodeUtf16(_data.summary)
         _data.content = utils.uncodeUtf16(_data.content)
         _data.timeDiffrence = utils.timeDiffrence(res.data.currentTime, _data.updateTime, _data.createTime)
+        console.log("aa:", _data.content)
         _data.content = JSON.parse(_data.content)
+        console.log("bb:", _data.content)
         _data.hitNum = utils.million(_data.hitNum)
         _data.zan = utils.million(_data.zan)  
         this.setData({

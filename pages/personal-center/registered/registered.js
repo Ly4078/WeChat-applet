@@ -17,6 +17,9 @@ Page({
     isclick: true,
     goto: false
   },
+  onShow:function(){
+    console.log(app.globalData.userInfo)
+  },
   numbindinput: function (e) {  //监听号码输入框
     let _value = e.detail.value
     if (_value) {
@@ -56,7 +59,7 @@ Page({
     if(this.data.goto){
       return false
     }
-    this.setData({
+    that.setData({
       goto:true
     })
     let RegExp = /^[1][3,4,5,7,8][0-9]{9}$/;
@@ -71,7 +74,7 @@ Page({
             wx.getStorage({
               key: 'veridyTime',
               complete: function (res) {
-                this.setData({
+                that.setData({
                   veridyTime: res.data,
                   goto:false
                 })
@@ -140,13 +143,13 @@ Page({
       wx.removeStorage({
         key: 'phone',
         success: function (res) {
-          console.log(res.data)
+          // console.log(res.data)
         }
       })
       wx.removeStorage({
         key: 'veridyTime',
         success: function (res) {
-          console.log(res.data)
+          // console.log(res.data)
         }
       })
     } else {
@@ -177,16 +180,14 @@ Page({
         duration: 2000
       })
     } else {
-      if (this.data.goto){
-        return false
-      }
-      
+    
       if (this.data.verify == this.data.verifyId) {
         wx.showToast({
           title: '验证中',
           icon: 'loading',
           duration: 2000
         })
+        console.log(app.globalData.userInfo)
         let _parms = {
           shopMobile: this.data.phone,
           SmsContent: this.data.verify,

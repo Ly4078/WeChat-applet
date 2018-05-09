@@ -1,3 +1,4 @@
 {
-  "navigationBarTitleText": "发布文章"
+  "navigationBarTitleText": "我的文章",
+  "enablePullDownRefresh": false
 }

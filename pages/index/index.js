@@ -58,6 +58,20 @@ Page({
     wx.login({
       success: res => {
         if (res.code) {
+          let _parms = {
+            code: res.code
+          }
+          Api.getOpenId(_parms).then((res) => {
+            // app.globalData.userInfo.openId = res.data.data.openId
+            // app.globalData.userInfo.sessionKey = res.data.data.sessionKey
+            // console.log(res.data.data)
+          })
+        }
+      }
+    })
+    wx.login({
+      success: res => {
+        if (res.code) {
           // console.log("code:", res.code)
           // return false
           let _parms = {
@@ -76,16 +90,14 @@ Page({
                 },
                 success: function (res) {
                   if (res.data.code == 0) {
-                    let data = res.data.data;
-                    let users = app.globalData.userInfo;
+                    let data = res.data.data
                     for (let key in data) {
-                      for (let ind in users) {
+                      for (let ind in app.globalData.userInfo) {
                         if (key == ind) {
-                          users[ind] = data[key]
+                          app.globalData.userInfo[ind] = data[key]
                         }
                       }
-                    }
-                    app.globalData.userInfo = users;
+                    };
                     if (data && data.mobile) {
                       that.setData({
                         isfirst: false
@@ -662,35 +674,35 @@ Page({
   //   if (!e.detail.iv){ //拒绝授权
   //     return false
   //   }
-  //   wx.login({
-  //     success: res => {
-  //       if (res.code) {
-  //         let _parms = {
-  //           code: res.code
-  //         }
-  //         Api.getOpenId(_parms).then((res) => {
-  //           app.globalData.userInfo.openId = res.data.data.openId
-  //           app.globalData.userInfo.sessionKey = res.data.data.sessionKey
-  //           if (res.data.code == 0) {
-  //             let _pars = {
-  //               sessionKey: res.data.data.sessionKey,
-  //               ivData: msg.iv,
-  //               encrypData: msg.encryptedData
-  //             }
-  //             Api.phoneAES(_pars).then((res) => {
-  //               if (res.data.code == 0) {
-  //                 let _data = JSON.parse(res.data.data)
-  //                   this.setData({
-  //                     phone: _data.phoneNumber
-  //                   })
-  //                 // this.submitphone();
-  //               }
-  //             })
-  //           }
-  //         })
-  //       }
-  //     }
-  //   })
+    // wx.login({
+    //   success: res => {
+    //     if (res.code) {
+    //       let _parms = {
+    //         code: res.code
+    //       }
+    //       Api.getOpenId(_parms).then((res) => {
+    //         app.globalData.userInfo.openId = res.data.data.openId
+    //         app.globalData.userInfo.sessionKey = res.data.data.sessionKey
+    //         if (res.data.code == 0) {
+    //           let _pars = {
+    //             sessionKey: res.data.data.sessionKey,
+    //             ivData: msg.iv,
+    //             encrypData: msg.encryptedData
+    //           }
+    //           Api.phoneAES(_pars).then((res) => {
+    //             if (res.data.code == 0) {
+    //               let _data = JSON.parse(res.data.data)
+    //                 this.setData({
+    //                   phone: _data.phoneNumber
+    //                 })
+    //               // this.submitphone();
+    //             }
+    //           })
+    //         }
+    //       })
+    //     }
+    //   }
+    // })
   // },
 
 

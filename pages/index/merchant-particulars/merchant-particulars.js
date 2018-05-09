@@ -1,4 +1,4 @@
-import Api from '/../../../utils/config/api.js';  //每个有请求的JS文件都要写这个，注意路径
+import Api from '/../../../utils/config/api.js'; 
 import { GLOBAL_API_DOMAIN } from '/../../../utils/config/config.js';
 var utils = require('../../../utils/util.js')
 var app = getApp();
@@ -13,49 +13,18 @@ Page({
     isCollected: false,   //是否收藏，默认false
     isComment: false,
     store_images: '',
+    orderid:'',
     merchantArt: [],   //商家动态列表
     activity: [],   //商家活动列表
     article_page: 1,
     reFresh: true,
     issnap: false,  
     ismore:false,
+    listagio:[],
     newpackage:[],
-    package:[{
-      id:'1',
-      imgurl:'https://xq-1256079679.file.myqcloud.com/test_虾蟹拼粥_0.8.jpg',
-      dish:'葱酥鲫鱼套餐券',
-      introduction:'葱、酥、鲫、鱼、套、餐葱、酥.葱、酥、鲫、鱼、套、餐葱、酥...',
-      full:'160元减30元券',
-      num:'346',
-      isreceive:'1',
-      fold:'213',
-      oldfold:'255'
-    },
-    {
-      id: '2',
-      imgurl: 'https://xq-1256079679.file.myqcloud.com/test_虾蟹拼粥_0.8.jpg',
-      dish: '葱酥鲫鱼套餐券',
-      introduction: '葱、酥、鲫、鱼、套、餐葱、酥.葱、酥、鲫、鱼、套、餐葱、酥...',
-      full: '190元减30元券',
-      num: '346',
-      isreceive: '0',
-      fold: '213',
-      oldfold: '255'
-      },
-      {
-        id: '3',
-        imgurl: 'https://xq-1256079679.file.myqcloud.com/test_虾蟹拼粥_0.8.jpg',
-        dish: '葱酥鲫鱼套餐券',
-        introduction: '葱、酥、鲫、鱼、套、餐葱、酥.葱、酥、鲫、鱼、套、餐葱、酥...',
-        full: '190元减30元券',
-        num: '346',
-        isreceive: '0',
-        fold: '213',
-        oldfold: '255'
-      }]
+    oldpackage: []
   },
   onLoad: function (options) {
-    console.log('options:',options)
     this.setData({
       shopid: options.shopid
     });
@@ -64,15 +33,8 @@ Page({
     this.recommendation();
     this.isCollected();
     this.merchantArt();
-    if (this.data.package.length>2){
-      this.setData({
-        ismore:true
-      })
-      let _arr = this.data.package.slice(0,1);
-      this.setData({
-        newpackage:_arr
-      })
-    }
+    this.getpackage();
+    
     // 分享功能
     wx.showShareMenu({
       withShareTicket: true,
@@ -105,7 +67,7 @@ Page({
     this.isCollected();
     this.commentList();
   },
-  getstoredata() {  //获取店铺详情数据   带值传参示例
+  getstoredata() {  //获取店铺详情数据   
     let id = this.data.shopid;
     let that = this;
     wx.request({
@@ -180,6 +142,50 @@ Page({
         }
       }
     })
+  },
+  getpackage:function(){  //套餐数据
+    let that = this;
+    wx.request({
+      url: that.data._build_url + 'sku/agioList',
+      data: {
+        shopId:'101'
+      },
+      success: function (res) {
+        let data = res.data;
+        if (data.code == 0) {
+          that.setData({
+            oldpackage: data.data.list
+          });
+          if (that.data.oldpackage.length > 2) {
+            that.setData({
+              ismore: true
+            })
+            let _arr = that.data.oldpackage.slice(0, 1);
+            that.setData({
+              newpackage: _arr
+            })
+          }else{
+            that.setData({
+              newpackage: that.data.oldpackage
+            })
+          }
+        }
+      }
+    })
+
+    wx.request({
+      url: that.data._build_url + 'sku/listForAgio',
+      data: {},
+      success: function (res) {
+        let data = res.data;
+        if (data.code == 0) {
+          that.setData({
+            listagio: data.data.list[0]
+          });
+        }
+      }
+    })
+    // listForAgio
   },
   liuynChange: function (e) {
     var that = this;
@@ -566,24 +572,46 @@ Page({
       issnap: false
     })
   },
-  receive:function(e){
-    let _id = e.currentTarget.id;
-    console.log("id:",_id)
+  receive:function(){
+    let that = this;
+    let _parms = {
+      userId: app.globalData.userInfo.userId,
+      userName: app.globalData.userInfo.userName,
+      payType:'1',
+      skuId: this.data.listagio.id,
+      skuNum: '1'
+    }
+    Api.freeOrderForAgio(_parms).then((res) => {
+      if (res.data.code == 0) {
+        that.setData({
+          orderid: res.data.data
+        })
+        wx.showToast({
+          title: '领取成功！',
+          mask:'true',
+          icon: 'none',
+        },1500)
+      }else{
+        wx.showToast({
+          title: '你已领取过，请使用后再领取',
+          mask: 'true',
+          icon: 'none',
+        }, 1500)
+      }
+    })
   },
   moreinfo:function(e){
     let _id = e.currentTarget.id;
-    // coupon_details
     wx.navigateTo({
-      url: './coupon_details/coupon_details',
+      url: './coupon_details/coupon_details?id=' + _id + '&shopid='+this.data.shopid,
     })
-    console.log("id:", _id)
   },
   clickmore:function(){
     this.setData({
       ismore:!this.data.ismore,
       newpackage:[]
     })
-    let arr= this.data.package
+    let arr= this.data.oldpackage
     if(this.data.ismore){
       arr = arr.slice(0, 1);
       this.setData({
@@ -594,7 +622,10 @@ Page({
         newpackage: arr
       })
     }
+  },
+  gotouse:function(){
+    wx.navigateTo({
+      url: '../voucher-details/voucher-details?orderid=' + this.data.orderid + '&num=' + this.data.listagio.sellNum + '&cfrom=pack',
+    })
   }
 })
-// 标记
-// 获取flag

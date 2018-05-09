@@ -307,7 +307,7 @@ Page({
     wx.request({
       url: this.data._build_url+'cp/getByCode/' + that.data.qrCode,
       success: function (res) {
-        var data = res.data;
+        let data = res.data;
         let current = res.currentTime;
         if (data.code == 0) {
           let isDue = that.isDueFunc(current, data.expiryDate);
@@ -325,7 +325,7 @@ Page({
             return false;
           } else {
             wx.navigateTo({
-              url: '../personal-center/call-back/call-back?code=' + that.data.qrCode
+              url: '../personal-center/call-back/call-back?code=' + that.data.qrCode+'&type='+data.data.type
             })
             // wx.navigateTo({
             //   url: 'cancel-after-verification/cancel-after-verification?qrCode=' + that.data.qrCode + '&userId=' + app.globalData.userInfo.userId,
