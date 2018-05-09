@@ -197,9 +197,6 @@ Page({
       _parms['type'] = 2;
     }
     if (this.data.isayers == true) {
-      this.setData({
-        business: []
-      });
       Api.searchShop(_parms).then((res) => {
         let data = res.data;
         wx.hideLoading();
@@ -261,17 +258,25 @@ Page({
           icon: 'none'
         })
         if (_this.data.isayers == true) {
-          for (let i = 0; i < _this.data.business.length; i++) {
-            if (_this.data.business[i].shopId == shopId) {
-              _this.data.business[i].isVote = 1;
+          let business = _this.data.business;
+          for (let i = 0; i < business.length; i++) {
+            if (business[i].shopId == shopId) {
+              business[i].isVote = 1;
             }
           }  
+          _this.setData({
+            business: business
+          });
         } else {
-          for (let i = 0; i < _this.data.players.length; i++) {
-            if (_this.data.players[i].userId == playerUserId) {
-              _this.data.players[i].isVote = 1;
+          let players = _this.data.players
+          for (let i = 0; i < players.length; i++) {
+            if (players[i].userId == playerUserId) {
+              players[i].isVote = 1;
             }
           }
+          _this.setData({
+            players: players
+          });
         }
       }
     })
