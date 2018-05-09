@@ -13,9 +13,8 @@ Page({
     endTime: "",
     page: 1,
     flag: true,
-    // searchPage: 1,    //搜索分页
-    // searchFlag: true, //搜索flag
-    // searchBool: false,
+    searchPage: 1,    //搜索分页
+    searchBool: false,
     ticketArr: [],   //券数组
     isayers: true,
     business: [],    //商家数组  
@@ -88,7 +87,7 @@ Page({
     let _parms = {
       userId: app.globalData.userInfo.userId,
       userName: app.globalData.userInfo.userName,
-      payType: 2,     //1、微信支付 2、享7支付 3、支付宝支付
+      payType: 1,     //1、享7支付 2、微信支付 3、支付宝支付
       skuId: e.target.id,
       skuNum: 1
     }
@@ -183,22 +182,25 @@ Page({
   },
   getInputVal: function (e) {   //获取input的值
     this.setData({
-      searchValue: e.detail.value,
-      // searchPage: 1,
-      // searchBool: true
+      searchValue: e.detail.value
     });
   },
   searchList: function (e) {    //搜索
+    this.setData({
+      searchPage: 1,
+      searchBool: true,
+      flag: true
+    });
     let _parms = {
       voteUserId: app.globalData.userInfo.userId,
       actId: this.data.actId,
       beginTime: this.data.today,
       endTime: this.data.tomorrow,
-      searchKey: this.data.searchValue
-      // page: this.data.searchPage,
-      // rows: 2
+      searchKey: this.data.searchValue,
+      page: this.data.searchPage,
+      rows: 2
     },
-      _this = this;
+    _this = this;
     if (this.data.type == 2) {   //判断是否分组
       _parms['type'] = 2;
     }
@@ -207,8 +209,55 @@ Page({
         business: []
       });
       Api.searchShop(_parms).then((res) => {
-        let data = res.data;
         wx.hideLoading();
+        if (res.data.code == 0) {
+          _this.setData({
+            business: res.data.data.list
+          })
+        } else {
+          wx.showToast({
+            title: '系统繁忙，稍后再试',
+            icon: 'none'
+          })
+        }
+      });
+    } else {
+      this.setData({
+        players: []
+      });
+      Api.searchUser(_parms).then((res) => {
+        wx.hideLoading();
+        if (res.data.code == 0) {
+          _this.setData({
+            players: res.data.data.list 
+          })
+        } else {
+          wx.showToast({
+            title: '系统繁忙，稍后再试',
+            icon: 'none'
+          })
+        }
+      });
+    }
+  },
+  searchPage: function() {      //搜索分页
+    let _parms = {
+      voteUserId: app.globalData.userInfo.userId,
+      actId: this.data.actId,
+      beginTime: this.data.today,
+      endTime: this.data.tomorrow,
+      searchKey: this.data.searchValue,
+      page: this.data.searchPage,
+      rows: 2
+    },
+    _this = this;
+    if (this.data.type == 2) {   //判断是否分组
+      _parms['type'] = 2;
+    }
+    if (this.data.isayers == true) {
+      Api.searchShop(_parms).then((res) => {
+        wx.hideLoading();
+        let data = res.data;
         if (data.code == 0 && data.data.list != null && data.data.list != "" && data.data.list != []) {
           let list = _this.data.business, actList = res.data.data.list;
           for (let i = 0; i < actList.length; i++) {
@@ -218,15 +267,13 @@ Page({
             business: list
           })
         } else {
-          // _this.setData({
-          //   searchFlag: false
-          // });
+          _this.setData({
+            flag: false
+          });
         }
+
       });
     } else {
-      this.setData({
-        players: []
-      });
       Api.searchUser(_parms).then((res) => {
         let data = res.data;
         wx.hideLoading();
@@ -239,9 +286,9 @@ Page({
             players: list
           })
         } else {
-          // _this.setData({
-          //   searchFlag: false
-          // });
+          _this.setData({
+            flag: false
+          });
         }
       });
     }
@@ -349,10 +396,9 @@ Page({
     let id = e.target.id;
     this.setData({
       searchValue: "",
-      // searchPage: 1,
       page: 1,
-      flag: true
-      // searchBool: false
+      flag: true,
+      searchBool: false
     })
     if (id == 1) {
       this.setData({
@@ -394,18 +440,21 @@ Page({
       this.setData({
         page: this.data.page + 1
       });
-      // if (this.data.searchBool) {
-      // this.setData({
-      //   searchPage: this.data.searchPage + 1
-      // });
-      // this.searchList();
-      // } else {
-      if (this.data.isayers == true) {
-        this.shopList();
+      if (this.data.searchBool) {
+        this.setData({
+          searchPage: this.data.searchPage + 1
+        });
+        this.searchPage();
+        console.log('search');
       } else {
-        this.playerList();
+        if (this.data.isayers == true) {
+          this.shopList();
+          console.log('shop');
+        } else {
+          this.playerList();
+          console.log('player');
+        }
       }
-      // }
     }
   },
   onPullDownRefresh: function () {    //用户下拉刷新
@@ -414,6 +463,7 @@ Page({
     })
     this.setData({
       page: 1,
+      searchPage: 1,
       flag: true,
       searchValue: ""
     });
