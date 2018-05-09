@@ -35,7 +35,7 @@
           <text class="list_item_name_f">{{item.groupCode ? item.groupCode : item.shopCode}}号</text>
           <text class="list_item_name_s">{{item.shopName}}</text>
         </view>
-        <image src="{{item.logoUrl}}" mode="aspectFill" bindtap='clickli'></image>
+        <image src="{{item.logoUrl}}" mode="aspectFill" ></image>
       </view>
       <view class="list_item_vote">
         <view>{{item.groupVoteNum ? item.groupVoteNum : item.voteNum}}票</view>
@@ -58,7 +58,7 @@
           <text class="list_item_name_f">{{item.groupCode ? item.groupCode : item.shopCode}}号</text>
           <text class="list_item_name_s">{{item.actUserName}}</text>
         </view>
-        <image src="{{item.iconUrl}}" mode="aspectFill" bindtap='clickli'></image>
+        <image src="{{item.iconUrl}}" mode="aspectFill" id="{{item.id}}" bindtap='clickli'></image>
       </view>
       <view class="list_item_vote">
         <view>{{item.groupVoteNum ? item.groupVoteNum : item.voteNum}}票</view>

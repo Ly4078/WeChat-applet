@@ -55,6 +55,7 @@ Page({
       }]
   },
   onLoad: function (options) {
+    console.log('options:',options)
     this.setData({
       shopid: options.shopid
     });

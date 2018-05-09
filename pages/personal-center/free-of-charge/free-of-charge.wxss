@@ -22,12 +22,11 @@ page {
 }
 
 .prompt_text{
-  /* width:750rpx; */
   height:20rpx;  
   font-size:20rpx;
   text-align: center;
   color:rgba(255,255,255,1);
-  line-height:20rpx; 
+  line-height:60rpx; 
 }
 .commercial {
   height: 52rpx;
@@ -74,7 +73,6 @@ page {
   width: 210rpx;
   height: 210rpx;
   margin-top: 28rpx;
-  border: 1rpx solid #191919;
 }
 .each-caption{
   font-size: 30rpx;
@@ -115,6 +113,13 @@ page {
   font-size:30rpx;
   color:#b1b1b1;
 }
+
+.submitWrap{
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
 .subbut{
   width:666rpx;
   height:90rpx; 
@@ -140,8 +145,8 @@ page {
   border-radius: 1px
 }
 .more{
-  width:12px;
-  height:22px; 
+  width:12rpx;
+  height:22rpx; 
   border-radius: 1px
 }
 .tishi{

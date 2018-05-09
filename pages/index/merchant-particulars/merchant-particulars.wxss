@@ -292,6 +292,14 @@ page {
   font-size: 32rpx;
 }
 
+.cuttentwesa{
+  width: 79%;
+  height: 60rpx;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+}
+
 .vote-entrance {
   color: white;
   font-size: 30rpx;

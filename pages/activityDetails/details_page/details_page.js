@@ -39,34 +39,39 @@ Page({
       endTime: "2018/5/31"
     }
     Api.playerDetails(_parms).then((res) => {
+      console.log('res:',res)
       let _data = res.data.data;
-      let _dataSe = res.data.data.picUrls;
-      console.log("_data:",_data)
-      console.log("_dataSe:", _dataSe)
-      if (_dataSe){
-        let _imgs = _dataSe.slice(0, _dataSe.length - 1);
-        let _vides = _dataSe.slice(_dataSe.length - 1, _dataSe.length);
-        console.log('_imgs:', _imgs)
-        console.log('_vides:', _vides)
-        this.setData({
-          imgs: _imgs,
-          video: _vides
-        })
-      }
-     
-      if (_data.isVote == 0){
-        this.setData({
-          poll:'投票'
-        })
-      }else{
-        this.setData({
-          poll: '已投票'
-        })
-      }
+      if (_data){
+
+
+        if (res.data.data && res.data.data.picUrls) {
+          let _dataSe = res.data.data.picUrls;
+          if (_dataSe) {
+            let _imgs = _dataSe.slice(0, _dataSe.length - 1);
+            let _vides = _dataSe.slice(_dataSe.length - 1, _dataSe.length);
+            console.log('_imgs:', _imgs)
+            console.log('_vides:', _vides)
+            this.setData({
+              imgs: _imgs,
+              video: _vides
+            })
+          }
+        }
+
+        if (_data.isVote == 0) {
+          this.setData({
+            poll: '投票'
+          })
+        } else {
+          this.setData({
+            poll: '已投票'
+          })
+        }
         this.setData({
           information: _data,
           imges: _dataSe
         })
+      }
     })
   },
   showAreatext: function () {  //显示发表输入框
@@ -119,7 +124,6 @@ Page({
       userName: app.globalData.userInfo.userName,
       nickName: app.globalData.userInfo.nickName,
     }
-    console.log("Parms:",_parms)
     Api.cmtadd(_parms).then((res) => {
       this.setData({
         isComment: false
@@ -135,7 +139,6 @@ Page({
       refId:"35",
     }
     Api.cmtlist(_parms).then((res) => {
-      console.log("res:",res)
       let _data = res.data.data;
       console.log("返回值:", _data)
       _data.total = utils.million(_data.total)

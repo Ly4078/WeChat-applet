@@ -40,8 +40,6 @@ Page({
       data: '',
     })
   },
-
-
   /**
    * 生命周期函数--监听页面显示
    */
@@ -372,7 +370,7 @@ Page({
     }
     if (!this.data.userName || !this.data.mobile || !this.data.shopName || !this.data.address || !this.data.businessCate || !this.data.licensePic || !this.data.healthPic || !this.data.doorPic || !this.data.locationX || !this.data.locationY || !this.data.city || !this.data.sortype) {
       wx.showToast({
-        title: '表单输入有误',
+        title: '请正确填写完入住信息后提交',
         icon: 'none',
         duration: 1500
       })

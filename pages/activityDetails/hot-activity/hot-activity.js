@@ -193,7 +193,6 @@ Page({
       rows: 2
     },
       _this = this;
-    console.log(_parms);
     if (this.data.type == 2) {   //判断是否分组
       _parms['type'] = 2;
     }
@@ -362,9 +361,7 @@ Page({
   },
   clickli: function (e) {//跳转到店铺\选手页面
     let _id = e.currentTarget.id
-    console.log("id:",_id)
     let _actId = this.data.actId
-    console.log("isayers:", this.data.isayers)
     if (this.data.isayers) { //商家
       wx.navigateTo({
         url: '../../index/merchant-particulars/merchant-particulars?shopid=' + _id

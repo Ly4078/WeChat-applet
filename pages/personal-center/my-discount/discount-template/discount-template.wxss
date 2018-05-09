@@ -11,12 +11,16 @@
   margin-top: 24rpx;
 }
 
+.daishiyong{
+  color: #808080
+}
+
 .security-top{
   width: 98%;
   height: 162rpx;
   display: flex;
   border-bottom: 1px dashed #E0E0E0;
-  margin: 0rpx 40rpx;
+  margin: -3rpx 10rpx;
 }
 
 .security-top-left{
@@ -30,6 +34,7 @@
   line-height: 162rpx;
   font-size: 40rpx;
   color: #FC5E2D;
+  text-indent: 28rpx;
 }
 
 .security-money-se{
@@ -42,7 +47,7 @@
 }
 
 .security-top-right{
-  width: 37%;
+  width: 29%;
   height: 110rpx;
   text-align: right;
   padding-top: 50rpx;

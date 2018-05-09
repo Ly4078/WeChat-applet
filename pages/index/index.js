@@ -423,13 +423,14 @@ Page({
   },
   hotactivityHref: function (e) {     //热门活动跳转
     let _id = e.currentTarget.id
+    
     if (_id == 34) {
       wx.navigateTo({
-        url: '../activityDetails/hot-activity/hot-activity',
+        url: '../activityDetails/hot-activity/hot-activity?id='+_id,
       })
     } else if (_id == 35) {
       wx.navigateTo({
-        url: '../activityDetails/hot-activity/hot-activity',
+        url: '../activityDetails/hot-activity/hot-activity?id=' + _id,
       })
     } else {
       wx.navigateTo({
