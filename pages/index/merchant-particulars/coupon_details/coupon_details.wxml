@@ -44,6 +44,12 @@
 
   <view class='conponbox'>
     <view class='blocks'><text></text>德银大酒楼</view>
+    <view class='but_left'>
+      <image class='location-left' src='/images/icon/location.png'></image>
+    </view>
+    <view class='but_right'>
+       <image class='location-right' bindtap="calling" src='/images/icon/telephone.png'></image>
+    </view>
   </view>
 </view>
 

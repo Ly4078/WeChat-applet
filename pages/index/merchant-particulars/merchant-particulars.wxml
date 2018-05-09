@@ -85,7 +85,7 @@
         </view>
         <text class='vote-entrance'>投票</text>
       </view>
-      <view class='initiate-wrapp'  wx:if="{{newpackage.length>1}}">
+      <view class='initiate-wrapp'  wx:if="{{package.length>1}}">
         <view class='initiate-exhibition'>
           <view>
             <image class='initiate-left' src='/images/icon/home_sign.png'></image>

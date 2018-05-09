@@ -1,6 +1,5 @@
 {
   "pages": [
-   
     "pages/index/index",
     "pages/index/cctvweb-view/cctvweb-view",
     "pages/personal-center/aboutMe/aboutMe",
@@ -16,7 +15,7 @@
     "pages/index/merchant-particulars/total-comment/total-comment",
     "pages/index/merchant-particulars/preview-picture/preview-picture",
     "pages/index/merchant-particulars/food-details/food-details",
-    "pages/index/merchant-particulars/coupon_details/coupon_details",
+   "pages/index/merchant-particulars/coupon_details/coupon_details",
     "pages/personal-center/personal-center",
     "pages/discover-plate/dynamic-state/dynamic-state",
     "pages/discover-plate/dynamic-state/text_input/text_input",

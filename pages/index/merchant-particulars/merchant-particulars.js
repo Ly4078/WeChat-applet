@@ -93,8 +93,7 @@ Page({
       this.setData({
         merchantArt: [],   //商家动态列表
         article_page: 1,
-        reFresh: true,
-        package:[]
+        reFresh: true
       });
       this.merchantArt();
     }

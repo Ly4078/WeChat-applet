@@ -77,7 +77,7 @@
 }
 .conponbox{
   width: 92.4%;
-  min-height: 200rpx;
+  min-height: 100rpx;
   background: #fff;
   margin-top: 20rpx; 
   padding:25rpx 3.8%;
@@ -104,7 +104,7 @@
 }
 .lists{
   width: 99%;
-  height: 36rpx;
+  min-height: 36rpx;
   line-height: 36rpx;
   color: #B1B1B1;
   font-size: 26rpx;
@@ -123,4 +123,26 @@
 }
 .lists text:nth-child(3){
   float: right;
+}
+.but_left{
+  float: left;
+  width: 580rpx;
+  height: 100%;
+}
+.but_right{
+  float: right;
+  width: 100rpx;
+  height: 100%;
+  border-left: 1rpx solid #E0E0E0;
+}
+.location-left {
+  width: 26rpx;
+  height: 30rpx;
+  padding: 0px 16rpx 0px 28rpx;
+}
+.location-right {
+  margin-left: 42rpx;
+  margin-top: 20rpx;
+  width: 33rpx;
+  height: 40rpx;
 }
