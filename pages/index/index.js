@@ -813,13 +813,13 @@ Page({
       wx.removeStorage({
         key: 'phone',
         success: function (res) {
-          console.log(res.data)
+          // console.log(res.data)
         }
       })
       wx.removeStorage({
         key: 'veridyTime',
         success: function (res) {
-          console.log(res.data)
+          // console.log(res.data)
         }
       })
     } else {
