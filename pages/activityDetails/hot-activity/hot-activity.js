@@ -10,12 +10,12 @@ Page({
     mainPic: "",    //banner图
     infoPic: "",    //活动详情图
     startTime: "",
-    endTime: "",   
+    endTime: "",
     page: 1,
     flag: true,
-    searchPage: 1,    //搜索分页
-    searchFlag: true, //搜索flag
-    searchBool: false,
+    // searchPage: 1,    //搜索分页
+    // searchFlag: true, //搜索flag
+    // searchBool: false,
     ticketArr: [],   //券数组
     isayers: true,
     business: [],    //商家数组  
@@ -38,7 +38,7 @@ Page({
     this.isGroup();
   },
   onShow: function () { },
-  actInfo: function() {   //活动简介
+  actInfo: function () {   //活动简介
     let _parms = {
       id: this.data.actId,
       userId: app.globalData.userInfo.userId,
@@ -58,14 +58,14 @@ Page({
       });
     });
   },
-  actTicket: function() {  //活动券
+  actTicket: function () {  //活动券
     Api.actTicket({}).then((res) => {
       this.setData({
         ticketArr: res.data.data.list
       });
     });
   },
-  isGetActCoupons: function() {    //是否可以领取活动券
+  isGetActCoupons: function (e) {    //是否可以领取活动券
     let _parms = {
       userId: app.globalData.userInfo.userId,
       actId: this.data.actId,
@@ -73,18 +73,18 @@ Page({
       endTime: this.data.tomorrow
     }
     Api.isGetActCoupons(_parms).then((res) => {
-      if(res.data.code != 0) {
+      if (res.data.code != 0) {
         wx.showToast({
           title: res.data.message,
           icon: 'none'
         })
         return false;
       }
-      this.getActCoupons();
+      this.getActCoupons(e);
     });
   },
-  getActCoupons: function(e) {     //领取活动券
-    this.isGetActCoupons();
+  getActCoupons: function (e) {     //领取活动券
+    console.log(e.target.id)
     let _parms = {
       userId: app.globalData.userInfo.userId,
       userName: app.globalData.userInfo.userName,
@@ -92,10 +92,16 @@ Page({
       skuId: e.target.id,
       skuNum: 1
     }
+
     Api.getActCoupons(_parms).then((res) => {
-      if(res.data.code == 0) {
+      if (res.data.code == 0) {
         wx.showToast({
           title: '领取成功',
+          icon: 'none'
+        })
+      } else {
+        wx.showToast({
+          title: res.data.message,
           icon: 'none'
         })
       }
@@ -114,14 +120,14 @@ Page({
   },
   shopList: function () {    //商家列表
     let _parms = {
-      voteUserId: app.globalData.userInfo.userId, 
+      voteUserId: app.globalData.userInfo.userId,
       actId: this.data.actId,
       beginTime: this.data.today,
       endTime: this.data.tomorrow,
       page: this.data.page,
       rows: 2
     },
-    _this = this;
+      _this = this;
     if (this.data.type == 2) {   //判断是否分组
       _parms['type'] = 2;
     }
@@ -152,11 +158,11 @@ Page({
       page: this.data.page,
       rows: 2
     },
-    _this = this;
+      _this = this;
     if (this.data.type == 2) {   //判断是否分组
       _parms['type'] = 2;
     }
-   
+
     Api.actPlayerList(_parms).then((res) => {
       let data = res.data;
       wx.hideLoading();
@@ -175,28 +181,31 @@ Page({
       }
     });
   },
-  getInputVal: function(e) {   //获取input的值
-      this.setData({
-        searchValue: e.detail.value,
-      searchPage: 1,
-      searchBool: true
+  getInputVal: function (e) {   //获取input的值
+    this.setData({
+      searchValue: e.detail.value,
+      // searchPage: 1,
+      // searchBool: true
     });
   },
-  searchList: function(e) {    //搜索
+  searchList: function (e) {    //搜索
     let _parms = {
       voteUserId: app.globalData.userInfo.userId,
       actId: this.data.actId,
       beginTime: this.data.today,
       endTime: this.data.tomorrow,
-      searchKey: this.data.searchValue,
-      page: this.data.searchPage,
-      rows: 2
+      searchKey: this.data.searchValue
+      // page: this.data.searchPage,
+      // rows: 2
     },
       _this = this;
     if (this.data.type == 2) {   //判断是否分组
       _parms['type'] = 2;
     }
     if (this.data.isayers == true) {
+      this.setData({
+        business: []
+      });
       Api.searchShop(_parms).then((res) => {
         let data = res.data;
         wx.hideLoading();
@@ -209,9 +218,9 @@ Page({
             business: list
           })
         } else {
-          _this.setData({
-            searchFlag: false
-          });
+          // _this.setData({
+          //   searchFlag: false
+          // });
         }
       });
     } else {
@@ -230,14 +239,14 @@ Page({
             players: list
           })
         } else {
-          _this.setData({
-            searchFlag: false
-          });
+          // _this.setData({
+          //   searchFlag: false
+          // });
         }
       });
     }
   },
-  voteAdd: function(e) {     //投票
+  voteAdd: function (e) {     //投票
     let _this = this,
       playerUserId = e.currentTarget.dataset.index,     //userId 
       shopId = e.currentTarget.id;                        //shopId
@@ -263,7 +272,7 @@ Page({
             if (business[i].shopId == shopId) {
               business[i].isVote = 1;
             }
-          }  
+          }
           _this.setData({
             business: business
           });
@@ -281,7 +290,7 @@ Page({
       }
     })
   },
-  isvoted: function() {    //已投票的提示
+  isvoted: function () {    //已投票的提示
     wx.showToast({
       title: '您已投过票了',
       icon: 'none'
@@ -340,20 +349,20 @@ Page({
     let id = e.target.id;
     this.setData({
       searchValue: "",
-      searchPage: 1,
+      // searchPage: 1,
       page: 1,
-      flag: true,
-      searchBool: false
+      flag: true
+      // searchBool: false
     })
     if (id == 1) {
       this.setData({
-        business: [],  
+        business: [],
         isayers: true
       });
       this.shopList();
     } else {
       this.setData({
-        players: [], 
+        players: [],
         isayers: false
       });
       this.playerList();
@@ -373,7 +382,7 @@ Page({
       })
     } else {  //选手
       wx.navigateTo({
-        url: '../details_page/details_page?actId=' + _actId+'&id='+_id
+        url: '../details_page/details_page?actId=' + _actId + '&id=' + _id
       })
     }
   },
@@ -385,18 +394,18 @@ Page({
       this.setData({
         page: this.data.page + 1
       });
-      if (this.data.searchBool) {
-        this.setData({
-          searchPage: this.data.searchPage + 1
-        });
-        this.searchList();
+      // if (this.data.searchBool) {
+      // this.setData({
+      //   searchPage: this.data.searchPage + 1
+      // });
+      // this.searchList();
+      // } else {
+      if (this.data.isayers == true) {
+        this.shopList();
       } else {
-        if (this.data.isayers == true) {
-          this.shopList();
-        } else {
-          this.playerList();
-        }
+        this.playerList();
       }
+      // }
     }
   },
   onPullDownRefresh: function () {    //用户下拉刷新
