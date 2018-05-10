@@ -89,6 +89,9 @@
 .xstype{
   font-size: 28rpx;
 }
+.xstype.none {
+  opacity: 0;
+}
 .toupiao{
   width: 154rpx;
   height: 56rpx;

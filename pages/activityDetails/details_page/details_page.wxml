@@ -31,7 +31,7 @@
     </view>
     <view class='topbut'>
       <view class='xsnum'>{{groupCode?shopName:'暂未匹配'}}</view>
-      <view class='xstype'>匹配</view>
+      <view class='xstype {{groupCode? "" : "none"}}'>匹配</view>
     </view>
     <button class="toupiao {{isvote?'':'actvote'}}"  bindtap='castvote'>{{poll}}</button>
   </view>
