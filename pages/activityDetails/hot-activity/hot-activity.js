@@ -60,7 +60,7 @@ Page({
     }
     Api.actdetail(_parms).then((res) => {
       let startTime = res.data.data.startTime,
-        endTime = res.data.data.startTime;
+        endTime = res.data.data.endTime;
       startTime = startTime.substring(0, startTime.indexOf(" "));
       endTime = endTime.substring(0, endTime.indexOf(" "));
       this.setData({
@@ -337,24 +337,32 @@ Page({
               icon: 'none'
             })
             if (_this.data.isayers == true) {
-              console.log('business');
               let business = _this.data.business;
               for (let i = 0; i < business.length; i++) {
                 if (business[i].shopId == shopId) {
                   console.log('商家投票成功');
                   business[i].isVote = 1;
+                  if(business[i].groupVoteNum){
+                    business[i].groupVoteNum++;
+                  } else if (business[i].voteNum) {
+                    business[i].voteNum++;
+                  }
                 }
               }
               _this.setData({
                 business: business
               });
             } else {
-              console.log('players');
               let players = _this.data.players
               for (let i = 0; i < players.length; i++) {
                 if (players[i].userId == playerUserId) {
                   console.log('用户投票成功');
                   players[i].isVote = 1;
+                  if (players[i].groupVoteNum) {
+                    players[i].groupVoteNum++;
+                  } else if (players[i].voteNum) {
+                    players[i].voteNum++;
+                  }
                 }
               }
               _this.setData({
