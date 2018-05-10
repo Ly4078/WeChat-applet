@@ -6,6 +6,7 @@ Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
     actId: 35,     //活动id
+    area: "武汉",
     type: "",
     mainPic: "",    //banner图
     infoPic: "",    //活动详情图
@@ -25,13 +26,10 @@ Page({
     _shopCode: '',
     _shopName: '',
     searchValue: "",     //搜索内容
-    actName: '',
+    actName: ''     //活动名称
+    
   },
   onLoad: function (options) {
-    console.log('options:', options)
-    this.setData({
-      actName: options._actName
-    })
     let dateStr = new Date();
     let milisecond = new Date(this.dateConv(dateStr)).getTime() + 86400000;
     this.setData({
@@ -39,6 +37,15 @@ Page({
       today: this.dateConv(dateStr),
       tomorrow: this.dateConv(new Date(milisecond))
     });
+    if (this.data.actId == 35) {
+      this.setData({
+        area: "武汉"
+      });
+    } else if (this.data.actId == 34) {
+      this.setData({
+        area: "十堰"
+      });
+    }
     this.actInfo();
     this.actTicket();
     this.isGroup();
@@ -59,6 +66,7 @@ Page({
       this.setData({
         mainPic: res.data.data.mainPic,
         infoPic: res.data.data.actUrl,
+        actName: res.data.data.actName,
         startTime: startTime,
         endTime: endTime
       });
@@ -131,7 +139,7 @@ Page({
       beginTime: this.data.today,
       endTime: this.data.tomorrow,
       page: this.data.page,
-      rows: 2
+      rows: 6
     },
       _this = this;
     if (this.data.type == 2) {   //判断是否分组
@@ -162,7 +170,7 @@ Page({
       beginTime: this.data.today,
       endTime: this.data.tomorrow,
       page: this.data.page,
-      rows: 2
+      rows: 6
     },
       _this = this;
     if (this.data.type == 2) {   //判断是否分组
@@ -205,7 +213,7 @@ Page({
       endTime: this.data.tomorrow,
       searchKey: this.data.searchValue,
       page: this.data.searchPage,
-      rows: 2
+      rows: 6
     },
       _this = this;
     if (this.data.type == 2) {   //判断是否分组
@@ -247,7 +255,7 @@ Page({
       });
     }
   },
-  searchPage: function () {      //搜索分页
+  searchFlipover: function () {      //搜索分页
     let _parms = {
       voteUserId: app.globalData.userInfo.userId,
       actId: this.data.actId,
@@ -255,7 +263,7 @@ Page({
       endTime: this.data.tomorrow,
       searchKey: this.data.searchValue,
       page: this.data.searchPage,
-      rows: 2
+      rows: 6
     },
       _this = this;
     if (this.data.type == 2) {   //判断是否分组
@@ -299,13 +307,15 @@ Page({
       });
     }
   },
-  voteAdd: function (e) {     //投票
+  voteAdd: function (e) {  //商家投票
     let _this = this,
       playerUserId = e.currentTarget.dataset.index,     //userId 
       shopId = e.currentTarget.id;                        //shopId
     let _parms = {
       actId: this.data.actId,
-      userId: app.globalData.userInfo.userId
+      userId: app.globalData.userInfo.userId,
+      beginTime: this.data.today,
+      endTime: this.data.tomorrow,
     };
     if (this.data.type == "2") {
       _parms['playerUserId'] = playerUserId;
@@ -313,33 +323,43 @@ Page({
     } else {
       this.data.isayers == true ? _parms['shopId'] = shopId : _parms['playerUserId'] = playerUserId;
     }
-    Api.voteAdd(_parms).then((res) => {
+    Api.judgment(_parms).then((res) => {
       if (res.data.code == 0) {
-        wx.showToast({
-          title: '投票成功',
-          icon: 'none'
+        Api.voteAdd(_parms).then((res) => {
+          if (res.data.code == 0) {
+            wx.showToast({
+              title: '投票成功',
+              icon: 'none'
+            })
+            if (_this.data.isayers == true) {
+              let business = _this.data.business;
+              for (let i = 0; i < business.length; i++) {
+                if (business[i].shopId == shopId) {
+                  business[i].isVote = 1;
+                }
+              }
+              _this.setData({
+                business: business
+              });
+            } else {
+              let players = _this.data.players
+              for (let i = 0; i < players.length; i++) {
+                if (players[i].userId == playerUserId) {
+                  players[i].isVote = 1;
+                }
+              }
+              _this.setData({
+                players: players
+              });
+            }
+          }
         })
-        if (_this.data.isayers == true) {
-          let business = _this.data.business;
-          for (let i = 0; i < business.length; i++) {
-            if (business[i].shopId == shopId) {
-              business[i].isVote = 1;
-            }
-          }
-          _this.setData({
-            business: business
-          });
-        } else {
-          let players = _this.data.players
-          for (let i = 0; i < players.length; i++) {
-            if (players[i].userId == playerUserId) {
-              players[i].isVote = 1;
-            }
-          }
-          _this.setData({
-            players: players
-          });
-        }
+      } else {
+        wx.showToast({
+          title: res.data.message,
+          mask: 'true',
+          icon: 'none'
+        }, 1500)
       }
     })
   },
@@ -347,98 +367,6 @@ Page({
     wx.showToast({
       title: '您已投过票了',
       icon: 'none'
-    })
-  },
-  voteshop: function (e) {  //商家投票
-    let that = that;
-    let _groupCode = e.currentTarget.id;
-    let _players = this.data.players;
-    let _shopid = '', _playUserId = '';
-    for (let i = 0; i < _players.length; i++) {
-      if (_groupCode == _players[i].groupCode) {
-        _shopid = _players[i].shopId,
-          _playUserId = _players[i].userId
-      }
-    }
-    let date = new Date;
-    let year = date.getFullYear();
-    let month = date.getMonth() + 1;
-    let today = date.getDate();
-    let day = today * 1 + 1;
-    let _parms = {
-      actId: this.data.actId,
-      beginTime: year + '-' + month + '-' + today,
-      endTime: year + '-' + month + '-' + day,
-      userId: app.globalData.userInfo.userId,
-      shopId: _shopid
-    }
-    if (_groupCode) {
-      _parms.playerUserId = _playUserId
-    }
-    Api.judgment(_parms).then((res) => {
-      if (res.data.code == 0) {
-        Api.voteAdd(_parms).then((res) => {
-          if (res.data.code == 0) {
-            wx.showToast({
-              title: '投票成功',
-              mask: 'true',
-              icon: 'none'
-            }, 1500)
-          }
-        })
-      } else {
-        wx.showToast({
-          title: res.data.message,
-          mask: 'true',
-          icon: 'none'
-        }, 1500)
-      }
-    })
-  },
-  isvotedgr: function (e) {  //選手投票
-    let that = that;
-    let _groupCode = e.currentTarget.id;
-    let _players = this.data.players;
-    let _shopid = '', _playUserId = '';
-    for (let i = 0; i < _players.length; i++) {
-      if (_groupCode == _players[i].groupCode) {
-        _shopid = _players[i].shopId,
-          _playUserId = _players[i].userId
-      }
-    }
-    let date = new Date;
-    let year = date.getFullYear();
-    let month = date.getMonth() + 1;
-    let today = date.getDate();
-    let day = today * 1 + 1;
-    let _parms = {
-      actId: this.data.actId,
-      beginTime: year + '-' + month + '-' + today,
-      endTime: year + '-' + month + '-' + day,
-      userId: app.globalData.userInfo.userId,
-      playerUserId: _playUserId
-    }
-    if (_groupCode) {
-      _parms.shopId = _shopid
-    }
-    Api.judgment(_parms).then((res) => {
-      if (res.data.code == 0) {
-        Api.voteAdd(_parms).then((res) => {
-          if (res.data.code == 0) {
-            wx.showToast({
-              title: '投票成功',
-              mask: 'true',
-              icon: 'none'
-            }, 1500)
-          }
-        })
-      } else {
-        wx.showToast({
-          title: res.data.message,
-          mask: 'true',
-          icon: 'none'
-        }, 1500)
-      }
     })
   },
   toApply: function () {    //跳转至报名页面
@@ -573,7 +501,7 @@ Page({
         this.setData({
           searchPage: this.data.searchPage + 1
         });
-        this.searchPage();
+        this.searchFlipover();
         console.log('search');
       } else {
         if (this.data.isayers == true) {
@@ -594,7 +522,8 @@ Page({
       page: 1,
       searchPage: 1,
       flag: true,
-      searchValue: ""
+      searchValue: "",
+      searchBool: false
     });
     if (this.data.isayers == true) {
       this.setData({

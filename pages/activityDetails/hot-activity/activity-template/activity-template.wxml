@@ -30,17 +30,17 @@
 <template name="shopList">
   <view class="hot_list_item">
     <view class="hot_list_item_t">
-      <view class="list_item_info" id="{{item.shopId}}" bindtap='clickli'>
+      <view class="list_item_info">
         <view class="list_item_name clearfix">
           <text class="list_item_name_f">{{item.groupCode ? item.groupCode : item.shopCode}}号</text>
           <text class="list_item_name_s">{{item.shopName}}</text>
         </view>
-        <image src="{{item.logoUrl}}" mode="aspectFill" ></image>
+        <image src="{{item.logoUrl}}" mode="aspectFill" id="{{item.shopId}}" bindtap='clickli'></image>
       </view>
       <view class="list_item_vote">
         <view>{{item.groupVoteNum ? item.groupVoteNum : item.voteNum}}票</view>
-        <button wx:if="{{item.isVote == 1}}" id="{{item.groupCode}}" class="vote_button" bindtap='voteshop'>已投票</button>
-        <button wx:else id="{{item.shopId}}" id="{{item.groupCode}}" data-index="{{item.userId}}" bindtap='voteshop'>投票</button>
+        <button wx:if="{{item.isVote == 1}}" class="vote_button" bindtap='isvoted'>已投票</button>
+        <button wx:else id="{{item.shopId}}" data-index="{{item.userId}}" bindtap='voteAdd'>投票</button>
       </view>
     </view>
      <view class="hot_list_item_b" hidden="{{item.groupCode == ''}}">
@@ -62,8 +62,8 @@
       </view>
       <view class="list_item_vote">
         <view>{{item.groupVoteNum ? item.groupVoteNum : item.voteNum}}票</view>
-        <button wx:if="{{item.isVote == 1}}" class="vote_button" id="{{item.groupCode}}" bindtap='isvotedgr'>已投票</button>
-        <button wx:else id="{{item.shopId}}" data-index="{{item.userId}}" id="{{item.groupCode}}" bindtap='isvotedgr'>投票</button>
+        <button wx:if="{{item.isVote == 1}}" class="vote_button" bindtap='isvoted'>已投票</button>
+        <button wx:else id="{{item.shopId}}" data-index="{{item.userId}}" bindtap='voteAdd'>投票</button>
       </view>
     </view>
     <view class="hot_list_item_b" hidden="{{item.groupCode == ''}}">
