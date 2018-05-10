@@ -55,7 +55,7 @@
     <view class="hot_list_item_t">
       <view class="list_item_info">
         <view class="list_item_name clearfix">
-          <text class="list_item_name_f">{{item.groupCode ? item.groupCode : item.shopCode}}号</text>
+          <text class="list_item_name_f">{{item.groupCode ? item.groupCode : item.userCode}}号</text>
           <text class="list_item_name_s">{{item.actUserName}}</text>
         </view>
         <image src="{{item.iconUrl}}" mode="aspectFill" id="{{item.userId}}" bindtap='clickligr'></image>
