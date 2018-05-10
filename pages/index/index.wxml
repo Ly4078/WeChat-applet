@@ -28,7 +28,7 @@
           <image class="closephone" bindtap='closephone' src="/images/icon/sloce.png"></image>
         </view>
         <view class='setcode'>
-          <input type="number" maxlength="4" placeholder="输入验证码" bindblur="yzmbindblur" ></input>
+          <input type="number" maxlength="4" placeholder="输入验证码" bindinput="yzmbindblur" ></input>
           <button bindtap='submitphone'>{{rematime}}</button>
         </view>
         <view class='twobut'>

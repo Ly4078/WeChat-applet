@@ -129,7 +129,7 @@ Page({
     }
   },
 
-  yzmbindblur: function (e) {  //输入验证码框失焦时获取输入的验证码
+  yzmbindblur: function (e) {  //实时监听获取输入的验证码
     let _value = e.detail.value
     this.setData({
       verify: _value
