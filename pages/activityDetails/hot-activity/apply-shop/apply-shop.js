@@ -3,17 +3,21 @@ import { GLOBAL_API_DOMAIN } from '../../../../utils/config/config.js';
 var utils = require('../../../../utils/util.js');
 var app = getApp();
 Page({
-
-  /**
-   * 页面的初始数据
-   */
   data: {
     _build_url: GLOBAL_API_DOMAIN,   //域名
+    actId: '',
+    actName: '',
     dish:'',
     Introduce:'',
     dishimg:'',
     videoUrl:'',
     posterImg: 'https://xq-1256079679.file.myqcloud.com/13971489895_wxf91e2a026658e78e.o6zAJs-7D9920jC4XTKdzt72lobs.8c2bHTeMhUqPe9b72c354166593f5a9afe09a27afe74_0.3.jpg'  //默认视频图片
+  },
+  onLoad: function (options) {
+    this.setData({
+      actId: options.id,
+      actName: options._actName
+    });
   },
   dishbindblur:function(e){
     let _value = e.detail.value
@@ -119,9 +123,9 @@ Page({
       })
     }else{
       let _parms = {
-        actId: '34',
+        actId: this.data.actId,
         refId: app.globalData.userInfo.shopId,
-        type: '2',
+        type: 2,
         shopVideo: this.data.videoUrl,
         skuName: this.data.dish,
         skuInfo: this.data.Introduce,
@@ -136,7 +140,7 @@ Page({
           })
           setTimeout(function () {
             wx.redirectTo({
-              url: '../hot-activity',
+              url: '../hot-activity?id=' + actId + '&_actName=' + actName
             })
           }, 2000)
           

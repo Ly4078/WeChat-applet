@@ -12,7 +12,10 @@ Page({
     posterImg: 'https://xq-1256079679.file.myqcloud.com/13971489895_wxf91e2a026658e78e.o6zAJs-7D9920jC4XTKdzt72lobs.8c2bHTeMhUqPe9b72c354166593f5a9afe09a27afe74_0.3.jpg'  //默认视频图片
   },
   onLoad: function (options) {
-
+    this.setData({
+      actId: options.id,
+      actName: options._actName
+    });
   },
   onShow: function () {
 
@@ -82,7 +85,7 @@ Page({
       imgsIdArr: fileIds
     });
     let _parms = {
-      actId: 34,     //活动id
+      actId: this.data.actId,     //活动id
       refId: app.globalData.userInfo.userId,
       type: 1,
       playerVideo: this.data.videoUrl,
@@ -100,12 +103,12 @@ Page({
         })
         setTimeout(function(){
           wx.redirectTo({
-            url: '../hot-activity',
+            url: '../hot-activity?id=' + actId + '&_actName=' + actName
           })
         },2000)
       } else {
         wx.showToast({
-          title: '系统繁忙',
+          title: data.message,
           icon: 'none'
         })
       }
@@ -157,7 +160,7 @@ Page({
           });
         } else {
           wx.showToast({
-            title: '网络慢稍后再试',
+            title: data.message,
             icon: 'none'
           })
         }
@@ -200,20 +203,18 @@ Page({
               duration: 2000
             })
             let data = JSON.parse(res.data);
-            console.log(data);
             if (data.code == 0) {
               wx.showToast({
                 title: '上传成功',
                 icon: 'success'
               })
-              console.log(data.data.picUrl)
               _this.setData({
                 videoUrl: data.data.picUrl,
                 videoId: data.data.id
               });
             } else {
               wx.showToast({
-                title: '网络慢稍后再试',
+                title: data.message,
                 icon: 'none'
               })
             }

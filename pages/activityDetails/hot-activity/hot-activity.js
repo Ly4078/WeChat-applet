@@ -380,7 +380,7 @@ Page({
         let data = res.data;
         if (data.code == 0) {
           wx.navigateTo({
-            url: 'apply-shop/apply-shop',
+            url: 'apply-shop/apply-shop?id=' + this.data.actId + '&_actName=' + this.data.actName
           })
         } else {
           wx.showToast({
@@ -399,7 +399,7 @@ Page({
         let data = res.data;
         if (data.code == 0) {
           wx.navigateTo({
-            url: 'apply-player/apply-player',
+            url: 'apply-player/apply-player?id=' + this.data.actId + '&_actName=' + this.data.actName
           })
         } else {
           wx.showToast({
@@ -500,12 +500,12 @@ Page({
         this.setData({
           searchPage: this.data.searchPage + 1
         });
-        this.searchFlipover()
+        this.searchFlipover();
       } else {
         if (this.data.isayers == true) {
-          this.shopList()
+          this.shopList();
         } else {
-          this.playerList()
+          this.playerList();
         }
       }
     }
