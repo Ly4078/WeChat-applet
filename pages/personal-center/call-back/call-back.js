@@ -17,15 +17,16 @@ Page({
     price: '',
     okhx: false,
     _type: '',
-    place: '',
-    tils: ''
+    place: '输入消费金额',
+    tils: '消费金额(元)'
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    if (options.type == 4) {
+    console.log('options:',options)
+   if (options.type == 4) {
       this.setData({
         _type: options.type,
         place: '输入折后金额',

@@ -10,13 +10,13 @@ Page({
     isname: false,
     newname: '',
     qrCode: '',
-    sumTotal:0,
-    collectTotal:0,
-    ismobile:true,
+    sumTotal: 0,
+    collectTotal: 0,
+    ismobile: true,
     issnap: false,  //是否是临时用户
-    userType:'',
+    userType: '',
   },
-  onLoad:function(){
+  onLoad: function () {
     this.setData({
       userType: app.globalData.userInfo.userType
     })
@@ -44,7 +44,7 @@ Page({
       iconUrl: app.globalData.userInfo.iconUrl,
       nickName: _nickName
     })
-    
+
     wx.request({
       url: that.data._build_url + 'topic/myList',
       method: 'GET',
@@ -55,7 +55,7 @@ Page({
       },
       success: function (res) {
         let _total = res.data.data.total
-        _total = utils.million(_total) 
+        _total = utils.million(_total)
         that.setData({
           sumTotal: _total
         })
@@ -71,7 +71,7 @@ Page({
       },
       success: function (res) {
         let _total = res.data.data.total
-        _total = utils.million(_total) 
+        _total = utils.million(_total)
         that.setData({
           collectTotal: _total
         })
@@ -90,7 +90,7 @@ Page({
           that.updatauser(res.userInfo)
         }
       },
-      complete:res =>{
+      complete: res => {
         this.wxgetsetting()
       }
     })
@@ -222,7 +222,7 @@ Page({
               }
             }
           })
-        } else{
+        } else {
           wx.navigateTo({
             url: 'free-of-charge/free-of-charge',
           })
@@ -230,7 +230,10 @@ Page({
       }
     })
   },
-  getuserInf:function(){
+
+
+
+  getuserInf: function () {
     let that = this
     wx.getUserInfo({
       success: function (res) {
@@ -275,12 +278,35 @@ Page({
       url: 'enshrine/enshrine',
     })
   },
+
+
+  // if(options.type == 3) {
+  //   let _parms = {
+  //     shopId: app.globalData.userInfo.shopId
+  //   }
+  //   Api.searchForShopId(_parms).then((res) => {
+  //     if (res.data.code == -1) {
+  //       wx.showToast({
+  //         title: res.data.message,
+  //         mask: 'true',
+  //         icon: 'none'
+  //       }, 3000)
+  //       setTimeout(function () {
+  //         wx.switchTab({
+  //           url: '../personal-center'
+  //         })
+  //       }, 3000)
+  //     }
+  //   })
+  // }
+
   scanAqrCode: function (e) {
     let that = this;
     wx.scanCode({
       onlyFromCamera: true,
       scanType: "qrCode",
       success: (res) => {
+
         let qrCodeArr = res.result.split('/');
         let qrCode = qrCodeArr[qrCodeArr.length - 1];
         that.setData({
@@ -293,10 +319,10 @@ Page({
           title: '扫码失败',
           icon: 'none'
         })
-      } 
+      }
     });
   },
-  registered:function(){ //用户注册
+  registered: function () { //用户注册
     wx.navigateTo({
       url: '../personal-center/registered/registered'
     })
@@ -305,8 +331,10 @@ Page({
   getCodeState: function () {
     let that = this;
     wx.request({
-      url: this.data._build_url+'cp/getByCode/' + that.data.qrCode,
+      url: this.data._build_url + 'cp/getByCode/' + that.data.qrCode,
       success: function (res) {
+        console.log('res:', res)
+
         let data = res.data;
         let current = res.currentTime;
         if (data.code == 0) {
@@ -314,18 +342,32 @@ Page({
           if (data.data.isUsed == 1) {
             wx.showToast({
               title: '该票券已被使用',
-              icon: 'none'
+              icon: 'none',
+              mask:'true'
             })
-            return false;
           } else if (isDue == 1) {
             wx.showToast({
               title: '该票券已过期',
-              icon: 'none'
+              icon: 'none',
+              mask: 'true'
             })
-            return false;
+          } else if (data.data.type == 3) {
+            let _parms = {
+              shopId: app.globalData.userInfo.shopId
+            }
+            Api.searchForShopId(_parms).then((res) => {
+              if (res.data.code == -1) {
+                wx.showToast({
+                  title: res.data.message+',不能核销此活动券',
+                  mask: 'true',
+                  icon: 'none',
+                  duration: 3000
+                })
+              }
+            })
           } else {
             wx.navigateTo({
-              url: '../personal-center/call-back/call-back?code=' + that.data.qrCode+'&type='+data.data.type
+              url: '../personal-center/call-back/call-back?code=' + that.data.qrCode + '&type=' + data.data.type
             })
             // wx.navigateTo({
             //   url: 'cancel-after-verification/cancel-after-verification?qrCode=' + that.data.qrCode + '&userId=' + app.globalData.userInfo.userId,
@@ -335,7 +377,7 @@ Page({
           wx.showToast({
             title: '请扫描有效票券',
             icon: 'none'
-          },2000)
+          }, 2000)
         }
       }
     })
@@ -347,7 +389,7 @@ Page({
     }
     return isDue;
   },
-  aboutMe:function(e){   //关于我们
+  aboutMe: function (e) {   //关于我们
     wx.navigateTo({
       url: 'aboutMe/aboutMe',
     })

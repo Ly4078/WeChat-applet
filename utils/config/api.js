@@ -283,6 +283,10 @@ const ALL_API = {
   judgment: {     //判斷是否投票
     method: 'GET',
     url: 'vote/canVote'
+  },
+  searchForShopId:{
+    method:'GET',
+    url:'actshop/searchForShopId'
   }
 }
 const Api = new MyHttp({}, ALL_API);

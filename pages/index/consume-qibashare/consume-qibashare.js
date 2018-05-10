@@ -14,13 +14,23 @@ Page({
     }
     Api.terraceRoll(_parms).then((res) => {
       if(res.data.code ==0){
-        let lists = res.data.data.list
+        let lists = res.data.data.list;
+        let obj = {
+          sellPrice:0
+        }
+        lists.push(obj)
+        let price = [],zero=[];
         for(let i=0;i<lists.length;i++){
-          lists[i].sellPrice = lists[i].sellPrice.toFixed(2)
-          lists[i].sellNum = utils.million(lists[i].sellNum)
+          if (lists[i].sellPrice == 0){
+            zero.push(lists[i])
+          }else{
+            lists[i].sellPrice = lists[i].sellPrice.toFixed(2);
+            lists[i].sellNum = utils.million(lists[i].sellNum);
+            price.push(lists[i])
+          }
         }
         this.setData({
-          information: lists
+          information: price
         })
       }
     })

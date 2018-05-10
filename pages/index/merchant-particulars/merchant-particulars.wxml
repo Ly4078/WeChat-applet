@@ -109,7 +109,7 @@
               </view>
             </view>
             <view class='dis_right' bindtap='receive'>
-              <button class='receive'>免费领</button>
+              <button class='receive'>{{isAgio?'免费领':'去使用'}}</button>
               <view>已领 {{listagio.sellNum}}</view>
             </view>
           </view>

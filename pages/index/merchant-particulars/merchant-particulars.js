@@ -13,19 +13,18 @@ Page({
     isCollected: false,   //是否收藏，默认false
     isComment: false,
     store_images: '',
-    orderid: '',
     merchantArt: [],   //商家动态列表
     activity: [],   //商家活动列表
     article_page: 1,
     reFresh: true,
-    issnap: false,
-    ismore: false,
-    listagio: [],
-    newpackage: [],
+    issnap: false,  
+    ismore:false,
+    isAgio:false,
+    listagio:[],
+    newpackage:[],
     oldpackage: []
   },
   onLoad: function (options) {
-    console.log("DDDD", options)
     if (options.shopName && options.shopCode) {
       let _Name = options.shopName;
       if (options.groupCode) {
@@ -51,15 +50,7 @@ Page({
     this.isCollected();
     this.merchantArt();
     this.getpackage();
-    if (this.data.oldpackage.length > 2) {
-      this.setData({
-        ismore: true
-      })
-      let _arr = this.data.package.slice(0, 1);
-      this.setData({
-        newpackage: _arr
-      })
-    }
+    
     // 分享功能
     wx.showShareMenu({
       withShareTicket: true,
@@ -173,7 +164,7 @@ Page({
     wx.request({
       url: that.data._build_url + 'sku/agioList',
       data: {
-        shopId: '101'
+        shopId: this.data.shopid
       },
       success: function (res) {
         let data = res.data;
@@ -181,18 +172,20 @@ Page({
           that.setData({
             oldpackage: data.data.list
           });
-          if (that.data.oldpackage.length > 2) {
-            that.setData({
-              ismore: true
-            })
-            let _arr = that.data.oldpackage.slice(0, 1);
-            that.setData({
-              newpackage: _arr
-            })
-          } else {
-            that.setData({
-              newpackage: that.data.oldpackage
-            })
+          if (that.data.oldpackage){
+            if (that.data.oldpackage.length > 2) {
+              that.setData({
+                ismore: true
+              })
+              let _arr = that.data.oldpackage.slice(0, 1);
+              that.setData({
+                newpackage: _arr
+              })
+            } else {
+              that.setData({
+                newpackage: that.data.oldpackage
+              })
+            }
           }
         }
       }
@@ -200,12 +193,24 @@ Page({
 
     wx.request({
       url: that.data._build_url + 'sku/listForAgio',
-      data: {},
+      data: {
+        userId: app.globalData.userInfo.userId
+      },
       success: function (res) {
         let data = res.data;
         if (data.code == 0) {
+          let _data = data.data.list[0]
+          if (_data.isAgio){  //已领取
+            that.setData({
+              isAgio: false
+            })
+          }else{   //未领取
+            that.setData({
+              isAgio:true
+            })
+          }
           that.setData({
-            listagio: data.data.list[0]
+            listagio: _data
           });
         }
       }
@@ -605,31 +610,36 @@ Page({
   },
   receive: function () {
     let that = this;
-    let _parms = {
-      userId: app.globalData.userInfo.userId,
-      userName: app.globalData.userInfo.userName,
-      payType: '1',
-      skuId: this.data.listagio.id,
-      skuNum: '1'
-    }
-    Api.freeOrderForAgio(_parms).then((res) => {
-      if (res.data.code == 0) {
-        that.setData({
-          orderid: res.data.data
-        })
-        wx.showToast({
-          title: '领取成功！',
-          mask: 'true',
-          icon: 'none',
-        }, 1500)
-      } else {
-        wx.showToast({
-          title: '你已领取过，请使用后再领取',
-          mask: 'true',
-          icon: 'none',
-        }, 1500)
+
+    if (!this.data.isAgio){
+      wx.navigateTo({
+        url: '../../personal-center/my-discount/my-discount',
+      })
+    }else{
+      let _parms = {
+        userId: app.globalData.userInfo.userId,
+        userName: app.globalData.userInfo.userName,
+        payType: '1',
+        skuId: this.data.listagio.id,
+        skuNum: '1'
       }
-    })
+      Api.freeOrderForAgio(_parms).then((res) => {
+        if (res.data.code == 0) {
+          wx.showToast({
+            title: '领取成功！',
+            mask: 'true',
+            icon: 'none',
+          }, 1500)
+        } else {
+          wx.showToast({
+            title: res.data.message,
+            mask: 'true',
+            icon: 'none',
+          }, 1500)
+        }
+      })
+    }
+    
   },
   moreinfo: function (e) {
     let _id = e.currentTarget.id;
@@ -656,7 +666,7 @@ Page({
   },
   gotouse: function () {
     wx.navigateTo({
-      url: '../voucher-details/voucher-details?orderid=' + this.data.orderid + '&num=' + this.data.listagio.sellNum + '&cfrom=pack',
+      url: '../voucher-details/voucher-details?cfrom=pack',
     })
   }
 })

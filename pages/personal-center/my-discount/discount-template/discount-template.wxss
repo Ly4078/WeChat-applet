@@ -100,3 +100,6 @@
   color: #808080;
   font-size: 24rpx;
 }
+.actsku view:nth-child(1){
+  color:#FC5E2D;
+}

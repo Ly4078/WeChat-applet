@@ -9,18 +9,18 @@ Page({
    * 页面的初始数据
    */
   data: {
-    listagio:[],
+    listagio: [],
     _build_url: GLOBAL_API_DOMAIN,
-    packdata:[],
-    arr:[],
-    store:[],
-    orderid:'',
-    txt:[
+    packdata: [],
+    arr: [],
+    store: [],
+    isAgio: false,
+    txt: [
       '本券全平台通用',
       '本券不可叠加使用，每桌消费仅限使用一张',
       '用户每次可领取一张，核销使用后，可继续领取',
       '酒水饮料等问题，请致电商家咨询，以商家反馈为准 ',
-      '仅限堂食，外带，打包以商家反馈为准',
+      '仅限堂食，外带、打包以商家反馈为准',
       '本券活动不与其他店内活动同享',
       '本券最终解释权归享7美食平台所有'
     ]
@@ -31,32 +31,31 @@ Page({
    */
   onLoad: function (options) {
     this.getstoredata(options.shopid);
-    
+
     let _parms = {
       id: options.id,
       zanUserId: app.globalData.userInfo.userId,
-      // shopId: options.shopid
-      shopId: '101'
-    } 
+      shopId: options.shopid
+      // shopId: '101'
+    }
     Api.getAgio(_parms).then((res) => {
       if (res.data.code == 0) {
         let _data = res.data.data;
-        if (_data.skuInfo){
+        if (_data.skuInfo) {
           let boxarr = [];
           let arr = _data.skuInfo.split('/');
           var _arr = JSON.parse(arr[0]);
-          for(let i =0 ;i<arr.length;i++){
+          for (let i = 0; i < arr.length; i++) {
             let newarr = JSON.parse(arr[i]);
             boxarr.push(newarr)
           }
           this.setData({
-            arr:boxarr
+            arr: boxarr
           })
         }
         this.setData({
-          packdata:_data
+          packdata: _data
         })
-        
       }
     })
   },
@@ -68,12 +67,24 @@ Page({
     let that = this;
     wx.request({
       url: that.data._build_url + 'sku/listForAgio',
-      data: {},
+      data: {
+        userId: app.globalData.userInfo.userId
+      },
       success: function (res) {
         let data = res.data;
         if (data.code == 0) {
+          let _data = data.data.list[0]
+          if (_data.isAgio) {  //已领取
+            that.setData({
+              isAgio: false
+            })
+          } else {   //未领取
+            that.setData({
+              isAgio: true
+            })
+          }
           that.setData({
-            listagio: data.data.list[0]
+            listagio: _data
           });
         }
       }
@@ -82,36 +93,40 @@ Page({
 
   receive: function () {  //领取券
     let that = this
-    let _parms = {
-      userId: app.globalData.userInfo.userId,
-      userName: app.globalData.userInfo.userName,
-      payType: '1',
-      skuId: this.data.listagio.id,
-      skuNum: '1'
-    }
-    Api.freeOrderForAgio(_parms).then((res) => {
-      if (res.data.code == 0) {
-        that.setData({
-          orderid:res.data.data
-        })
-        wx.showToast({
-          title: '领取成功！',
-          mask: 'true',
-          icon: 'none',
-        }, 1500)
-      } else {
-        wx.showToast({
-          title: '你已领取过，请使用后再领取',
-          mask: 'true',
-          icon: 'none',
-        }, 1500)
+    if (!this.data.isAgio) {
+      wx.navigateTo({
+        url: '../../personal-center/my-discount/my-discount',
+      })
+    } else {
+      let _parms = {
+        userId: app.globalData.userInfo.userId,
+        userName: app.globalData.userInfo.userName,
+        payType: '1',
+        skuId: this.data.listagio.id,
+        skuNum: '1'
       }
-    })
+      Api.freeOrderForAgio(_parms).then((res) => {
+        if (res.data.code == 0) {
+          wx.showToast({
+            title: '领取成功！',
+            mask: 'true',
+            icon: 'none',
+          }, 1500)
+        } else {
+          wx.showToast({
+            title: '你已领取过，请使用后再领取',
+            mask: 'true',
+            icon: 'none',
+          }, 1500)
+        }
+      })
+    }
+
   },
   getstoredata(val) {  //获取店铺详情数据   
     let that = this
     wx.request({
-      url: that.data._build_url + 'shop/get/'+val,
+      url: that.data._build_url + 'shop/get/' + val,
       header: {
         'content-type': 'application/json;Authorization'
       },
@@ -123,9 +138,9 @@ Page({
       }
     })
   },
-  receiveuse:function(){  //去使用
+  receiveuse: function () {  //去使用
     wx.navigateTo({
-      url: '../../voucher-details/voucher-details?orderid=' + this.data.orderid + '&num=' + this.data.listagio.sellNum + '&cfrom=pack',
+      url: '../../voucher-details/voucher-details?cfrom=pack',
     })
   },
   calling: function () {  //拨打电话
@@ -139,7 +154,7 @@ Page({
       }
     })
   },
-  
+
   TencentMap: function (event) {// 打开腾讯地图
     let that = this;
     wx.getLocation({
@@ -167,8 +182,8 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-    
-  }, 
+
+  },
   calling: function () {  //拨打电话
     let that = this;
     return false;

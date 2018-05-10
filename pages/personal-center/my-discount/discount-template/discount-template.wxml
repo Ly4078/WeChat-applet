@@ -6,8 +6,12 @@
           <text class='security-money {{item.isUsed == 1 ? "isGray" : ""}}'>￥<text class='security-money-se'>{{item.couponAmount}}</text></text>
         </view>
         <view class='security-top-left contick' wx:if="{{item.type == 4}}">
-          <view>套餐折扣券</view>
+          <view>{{item.skuName}}</view>
           <view><text>享7专享</text> | <text>全平台通用</text> | <text>免预约</text></view>
+        </view>
+        <view class='security-top-left contick actsku' wx:if="{{item.type == 3}}">
+          <view>{{item.skuName}}</view>
+          <view>仅限在参与活动的商家中使用</view>
         </view>
         <view class='security-top-right'>
           <view wx:if="{{item.isDue == 1}}" hidden='{{item.type == 4}}' class='my-immediateUse isGray'>已过期</view>

@@ -124,7 +124,11 @@
 .lists text:nth-child(3){
   float: right;
 }
-
+.location-left {
+  width: 26rpx;
+  height: 30rpx;
+  padding: 0px 16rpx 0px 28rpx;
+}
 .but_left{
   float: left;
   width: 580rpx;

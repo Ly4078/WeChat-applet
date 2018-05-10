@@ -15,6 +15,11 @@ page {
   height: 778rpx;
   padding-top: 3rpx;
 }
+.detailscf {
+  width: 694rpx;
+  height:867rpx;
+  padding-top: 3rpx;
+}
 
 .speciesText {
   color: #191919;
