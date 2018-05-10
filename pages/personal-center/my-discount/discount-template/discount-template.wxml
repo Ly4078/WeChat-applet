@@ -9,6 +9,14 @@
           <view>{{item.skuName}}</view>
           <view><text>享7专享</text> | <text>全平台通用</text> | <text>免预约</text></view>
         </view>
+        <view class='security-top-left contick actsku' wx:if="{{item.type == 1}}">
+          <view>{{item.skuName}}</view>
+          <view>平台券</view>
+        </view>
+        <view class='security-top-left contick actsku' wx:if="{{item.type == 2}}">
+          <view>{{item.skuName}}</view>
+          <view>商家券</view>
+        </view>
         <view class='security-top-left contick actsku' wx:if="{{item.type == 3}}">
           <view>{{item.skuName}}</view>
           <view>仅限在参与活动的商家中使用</view>
