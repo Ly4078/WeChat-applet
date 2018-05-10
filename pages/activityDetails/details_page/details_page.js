@@ -16,24 +16,34 @@ Page({
     commentVal: '',
     isComment: false,
     imges: [],
+    _refId:'',
     issnap: false,
     user: {
       match: '麻辣小龙虾'
     },
     poll: '投票',
     isvote: false,
-    shopName:'',
-    groupCode:'',
-    activity:'',
-    _voteUserIdSuc:'',
-    shopId:''
+    shopName: '',
+    groupCode: '',
+    activity: '',
+    _voteUserIdSuc: '',
+    shopId: ''
   },
 
   onLoad: function (options) {
+    let that = this;
     let _activity = options.actId;
-    let groupCode = options.groupCode
     let _voteUserId = app.globalData.userInfo.userId
-    console.log("groupCode", groupCode)
+    // console.log("groupCode22", options.groupCode)
+    // if (groupCode == undefined || groupCode == null || groupCode == '') {
+    //   this.setData({
+    //     userCode: options.groupCode
+    //   })
+    // } else {
+    //   this.setData({
+    //     userCode: options.shopCode
+    //   })
+    // }
     this.setData({
       userid: options.id,
       shopId: options.shopid,
@@ -42,32 +52,33 @@ Page({
       activity: options.actId,
       _voteUserIdSuc: _voteUserId
     })
-    this.getcmtlist();
-    let that = this;
+    
+   
     let _parms = {
       userId: this.data.userid,
-      voteUserId: app.globalData.userInfo.userId, 
+      voteUserId: app.globalData.userInfo.userId,
       actId: _activity,
       beginTime: "2018-5-1",
       endTime: "2018-5-31"
     }
-    Api.playerDetails(_parms).then((res) => {
+    Api.playerDetails(_parms).then((res) => { //数据请求
       let _data = res.data.data;
       let _dataSe = res.data.data.picUrls;
-      console.log("_data:", _data)
-      console.log("_dataSe:", _dataSe)
+      let refId = res.data.data.id;
+      this.setData({
+        _refId:refId
+      })
+      this.getcmtlist();
       if (_dataSe) {
         let _imgs = _dataSe.slice(0, _dataSe.length - 1);
         let _vides = _dataSe.slice(_dataSe.length - 1, _dataSe.length);
-        console.log('_imgs:', _imgs)
-        console.log('_vides:', _vides)
         this.setData({
           imgs: _imgs,
           video: _vides
         })
       }
 
-      if (_data.isVote == 0) {
+      if (_data.isVote == 1) {
         this.setData({
           poll: '投票'
         })
@@ -100,8 +111,6 @@ Page({
     if (this.data.groupCode) {
       _parms.shopId = this.data.shopId
     }
-    console.log('_parms:',_parms)
-    // return false
     Api.judgment(_parms).then((res) => {
       if (res.data.code == 0) {
         Api.voteAdd(_parms).then((res) => {
@@ -139,7 +148,6 @@ Page({
     })
   },
   getCommentVal: function (e) { //获取评论输入框
-    console.log("内容:", e.detail.value)
     this.setData({
       commentVal: e.detail.value
     })
@@ -154,7 +162,6 @@ Page({
       this.setData({
         isComment: false
       })
-      // return false;
     } else {
       let _value = utils.utf16toEntities(this.data.commentVal)
       this.setData({
@@ -162,17 +169,14 @@ Page({
         isComment: false
       })
     }
-    // return false
     let _parms = {
-      // refId: this.data._id,
-      refId: '35',
-      cmtType: '2',
+      refId: this.data._refId,
+      cmtType: '7',
       content: this.data.commentVal,
       userId: app.globalData.userInfo.userId,
       userName: app.globalData.userInfo.userName,
       nickName: app.globalData.userInfo.nickName,
     }
-    console.log("Parms:", _parms)
     Api.cmtadd(_parms).then((res) => {
       this.setData({
         isComment: false
@@ -183,9 +187,8 @@ Page({
   getcmtlist: function () {  //获取评论数据
     let _parms = {
       zanUserId: app.globalData.userInfo.userId,
-      cmtType: '2',
-      // refId: this.data._id
-      refId: "35",
+      cmtType: '7',
+      refId: this.data._refId,   //选手ID
     }
     Api.cmtlist(_parms).then((res) => {
       let _data = res.data.data;

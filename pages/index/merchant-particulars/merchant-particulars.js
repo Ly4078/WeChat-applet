@@ -17,11 +17,11 @@ Page({
     activity: [],   //商家活动列表
     article_page: 1,
     reFresh: true,
-    issnap: false,  
-    ismore:false,
-    isAgio:false,
-    listagio:[],
-    newpackage:[],
+    issnap: false,
+    ismore: false,
+    isAgio: false,
+    listagio: [],
+    newpackage: [],
     oldpackage: []
   },
   onLoad: function (options) {
@@ -50,7 +50,7 @@ Page({
     this.isCollected();
     this.merchantArt();
     this.getpackage();
-    
+
     // 分享功能
     wx.showShareMenu({
       withShareTicket: true,
@@ -172,7 +172,7 @@ Page({
           that.setData({
             oldpackage: data.data.list
           });
-          if (that.data.oldpackage){
+          if (that.data.oldpackage) {
             if (that.data.oldpackage.length > 2) {
               that.setData({
                 ismore: true
@@ -200,13 +200,13 @@ Page({
         let data = res.data;
         if (data.code == 0) {
           let _data = data.data.list[0]
-          if (_data.isAgio){  //已领取
+          if (_data.isAgio) {  //已领取
             that.setData({
               isAgio: false
             })
-          }else{   //未领取
+          } else {   //未领取
             that.setData({
-              isAgio:true
+              isAgio: true
             })
           }
           that.setData({
@@ -611,11 +611,11 @@ Page({
   receive: function () {
     let that = this;
 
-    if (!this.data.isAgio){
+    if (!this.data.isAgio) {
       wx.navigateTo({
         url: '../../personal-center/my-discount/my-discount',
       })
-    }else{
+    } else {
       let _parms = {
         userId: app.globalData.userInfo.userId,
         userName: app.globalData.userInfo.userName,
@@ -639,7 +639,7 @@ Page({
         }
       })
     }
-    
+
   },
   moreinfo: function (e) {
     let _id = e.currentTarget.id;
