@@ -34,16 +34,6 @@ Page({
     let that = this;
     let _activity = options.actId;
     let _voteUserId = app.globalData.userInfo.userId
-    // console.log("groupCode22", options.groupCode)
-    // if (groupCode == undefined || groupCode == null || groupCode == '') {
-    //   this.setData({
-    //     userCode: options.groupCode
-    //   })
-    // } else {
-    //   this.setData({
-    //     userCode: options.shopCode
-    //   })
-    // }
     this.setData({
       userid: options.id,
       shopId: options.shopid,
@@ -59,7 +49,7 @@ Page({
       voteUserId: app.globalData.userInfo.userId,
       actId: _activity,
       beginTime: "2018-5-1",
-      endTime: "2018-5-31"
+      endTime: "2018-6-30"
     }
     Api.playerDetails(_parms).then((res) => { //数据请求
       let _data = res.data.data;
