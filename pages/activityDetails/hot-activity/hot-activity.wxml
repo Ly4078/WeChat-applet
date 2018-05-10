@@ -7,7 +7,7 @@
   </view>
   <view class="hot_main">
     <!-- 主办方 -->
-    <template is="sponsor" data="{{item}}" />
+    <!-- <template is="sponsor" data="{{item}}" /> -->
     <view class="hot_description">
       <view class="hot_desc_time">
         活动时间:

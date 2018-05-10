@@ -1,5 +1,5 @@
 <!-- 主办方 -->
-<template name="sponsor">
+<!-- <template name="sponsor">
   <view class="hot_Sponsor">
     <view class="hot_Sponsor_tit">主办方</view>
     <view class="hot_Sponsor_guys">
@@ -8,7 +8,7 @@
       <view>掌上武汉</view>
     </view>
   </view>
-</template>
+</template> -->
 <!-- 活动劵 -->
 <template name="ledEcurities">
   <view class="hot_ticket" catchtap='toMyTicket'>
