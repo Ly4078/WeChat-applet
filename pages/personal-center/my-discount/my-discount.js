@@ -38,6 +38,12 @@ Page({
           if (res.data.data.list != null && res.data.data.list != [] && res.data.data.list != "") {
             let ticketList = res.data.data.list, ticketArr = that.data.ticket_list;
             for (let i = 0; i < ticketList.length; i++) {
+              // 现金券
+              let Cts = "现金券";
+              if (Cts.indexOf(ticketList[i].skuName) > 0) {
+                ticketList[i].cash= true
+              }
+              ticketList[i].skuName
               ticketList[i]["isDue"] = that.isDueFunc(ticketList[0].expiryDate);
               ticketArr.push(ticketList[i]);
             }

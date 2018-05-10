@@ -2,10 +2,10 @@
   <view class='securityWrap'>
     <view class='security-use'>
       <view class='security-top'>
-        <view class='security-top-left' wx:if="{{item.type == 1}}">
+        <view class='security-top-left' wx:if="{{item.cash}}">
           <text class='security-money {{item.isUsed == 1 ? "isGray" : ""}}'>￥<text class='security-money-se'>{{item.couponAmount}}</text></text>
         </view>
-        <view class='security-top-left contick' wx:if="{{item.type == 4}}">
+        <view class='security-top-left contick' wx:if="{{item.skuName == '套餐折扣券'}}">
           <view>{{item.skuName}}</view>
           <view><text>享7专享</text> | <text>全平台通用</text> | <text>免预约</text></view>
         </view>
