@@ -333,8 +333,6 @@ Page({
     wx.request({
       url: this.data._build_url + 'cp/getByCode/' + that.data.qrCode,
       success: function (res) {
-        console.log('res:', res)
-
         let data = res.data;
         let current = res.currentTime;
         if (data.code == 0) {
@@ -362,6 +360,10 @@ Page({
                   mask: 'true',
                   icon: 'none',
                   duration: 3000
+                })
+              }else{
+                wx.navigateTo({
+                  url: '../personal-center/call-back/call-back?code=' + that.data.qrCode + '&type=' + data.data.type
                 })
               }
             })

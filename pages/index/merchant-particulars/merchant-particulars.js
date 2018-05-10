@@ -72,6 +72,7 @@ Page({
     });
   },
   onShow: function () {
+    let that = this;
     this.commentList();
     if (this.data.currentTab == 1) {
       this.setData({
@@ -81,6 +82,30 @@ Page({
       });
       this.merchantArt();
     }
+    wx.request({
+      url: that.data._build_url + 'sku/listForAgio',
+      data: {
+        userId: app.globalData.userInfo.userId
+      },
+      success: function (res) {
+        let data = res.data;
+        if (data.code == 0) {
+          let _data = data.data.list[0]
+          if (_data.isAgio) {  //已领取
+            that.setData({
+              isAgio: false
+            })
+          } else {   //未领取
+            that.setData({
+              isAgio: true
+            })
+          }
+          that.setData({
+            listagio: _data
+          });
+        }
+      }
+    })
   },
   //用户下拉刷新
   onPullDownRefresh: function () {
@@ -197,31 +222,8 @@ Page({
       }
     })
 
-    wx.request({
-      url: that.data._build_url + 'sku/listForAgio',
-      data: {
-        userId: app.globalData.userInfo.userId
-      },
-      success: function (res) {
-        let data = res.data;
-        if (data.code == 0) {
-          let _data = data.data.list[0]
-          if (_data.isAgio) {  //已领取
-            that.setData({
-              isAgio: false
-            })
-          } else {   //未领取
-            that.setData({
-              isAgio: true
-            })
-          }
-          that.setData({
-            listagio: _data
-          });
-        }
-      }
-    })
-    // listForAgio
+    
+   
   },
   liuynChange: function (e) {
     var that = this;

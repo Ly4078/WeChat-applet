@@ -91,11 +91,11 @@ Page({
     })
   },
 
-  receive: function () {  //领取券
+  receive: function () {  //去使用
     let that = this
     if (!this.data.isAgio) {
       wx.navigateTo({
-        url: '../../personal-center/my-discount/my-discount',
+        url: '../../../personal-center/my-discount/my-discount',
       })
     } else {
       let _parms = {
