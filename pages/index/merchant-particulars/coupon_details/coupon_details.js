@@ -175,27 +175,6 @@ Page({
         })
       }
     })
-  },
-
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
-  },
-  calling: function () {  //拨打电话
-    let that = this;
-    return false;
-    wx.makePhoneCall({
-      phoneNumber: that.data.store_details.phone ? that.data.store_details.phone : that.data.store_details.mobile,
-      success: function () {
-        console.log("拨打电话成功！")
-      },
-      fail: function () {
-        console.log("拨打电话失败！")
-      }
-    })
   }
 
 })

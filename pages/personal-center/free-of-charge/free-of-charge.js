@@ -27,13 +27,22 @@ Page({
     sortype: '',
     sort: ['商务', '聚会', '约会'],
     intype: '',
-    isrepeat: false   //是否是重量店名
+    isrepeat: false,
+    img:'',
+    totable:false
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    console.log(options)
+    if(options.img){
+      this.setData({
+        img:options.img,
+        totable:true
+      })
+    }
     this.searchByUserId()
     wx.setStorage({
       key: 'cate',
@@ -89,6 +98,11 @@ Page({
       }
     })
 
+  },
+  signtable:function(){
+    this.setData({
+      totable:false
+    })
   },
   bindPickerChange: function (e) {
     let ind = e.detail.value

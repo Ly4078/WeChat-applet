@@ -420,8 +420,15 @@ Page({
         url: 'new-exclusive/new-exclusive',
       })
     } else if (id == 1) {
+      let img = '';
+      let _arr = this.data.carousel;
+      for (let i = 0; i< _arr.length;i++){
+        if (id == _arr[i].id){
+          img = _arr[i].linkUrl
+        }
+      }
       wx.navigateTo({
-        url: '../personal-center/free-of-charge/free-of-charge',
+        url: '../personal-center/free-of-charge/free-of-charge?img=' + img,
       })
     } else if (id == 2) {
       wx.navigateTo({

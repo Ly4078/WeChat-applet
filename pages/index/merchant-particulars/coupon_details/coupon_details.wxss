@@ -14,7 +14,7 @@
 }
 .dish{
   font-size: 36rpx;
-  color: #191919
+  color: #191919;
 }
 .price{
   margin: 10rpx 0;
@@ -157,6 +157,7 @@
   line-height: 50rpx;
   float: right;
   padding-left: 32rpx;
+  margin-top: -5rpx;
   border-left: 3rpx solid #e0e0e0;
 }
 .location-right {

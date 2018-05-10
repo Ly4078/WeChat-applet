@@ -1,4 +1,9 @@
-<view>
+
+<view class='ruzhuimg' wx:if="{{totable}}">
+  <image src='{{img}}'></image>
+  <button class='sign' bindtap='signtable'>去入驻</button>
+</view>
+<view wx:else>
    <image class='bannerTop' src='/images/icon/banner1.png'></image> 
   <view class='prompt'>
     <text class='prompt_text'>{{prompt}}</text>

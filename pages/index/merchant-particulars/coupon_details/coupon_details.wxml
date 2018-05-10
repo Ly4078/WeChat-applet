@@ -69,8 +69,8 @@
     <view class='blo'>
       <image class='location-left' src='/images/icon/location.png'></image>
       <text class='location-text' catchtap='TencentMap'>{{store.address}}</text>
-      <view class='tel'>
-        <image class='location-right' bindtap="calling" src='/images/icon/telephone.png'></image>
+      <view class='tel'  bindtap="calling">
+        <image class='location-right'src='/images/icon/telephone.png'></image>
       </view>
     </view>
   </view>

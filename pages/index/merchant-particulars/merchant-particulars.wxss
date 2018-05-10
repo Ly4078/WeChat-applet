@@ -361,8 +361,8 @@ page {
   font-size: 26rpx;
 }
 .initiate-left {
-  width: 10rpx;
-  height: 40rpx;
+  width: 7rpx;
+  height: 30rpx;
   vertical-align: middle;
   padding-right: 20rpx;
 }
@@ -711,13 +711,13 @@ button::after{
   font-size: 28rpx;
 }
 .more_img{
-  width: 25rpx;
-  margin-top: 25rpx;
+  width:19rpx;
+  margin-top:19rpx;
   transform:rotate(90deg);
 }
 .more_img2{
-  width: 25rpx;
-  margin-bottom: 25rpx;
+  width:20rpx;
+  margin-bottom:22rpx;
   transform:rotate(-90deg);
 }
 .distop{
