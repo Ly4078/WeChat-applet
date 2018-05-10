@@ -232,11 +232,11 @@ const ALL_API = {
     method: 'GET',
     url: 'actGroup/selectOutAll'
   },
-  actShopList: {    //活动商家列表
+  hotActShopList: {    //活动商家列表
     method: 'GET',
     url: 'actshop/listNewAct'
   },
-  actPlayerList: {    //活动选手列表
+  hotActPlayerList: {    //活动选手列表
     method: 'GET',
     url: 'actUser/listNewAct'
   },

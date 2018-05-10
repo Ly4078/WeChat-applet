@@ -21,7 +21,7 @@ Page({
 
   },
   formSubmit: function (e) {    //form表单提交
-    console.log(e.detail.value);
+    let _this = this;
     let inpVal = e.detail.value;
     if (this.isNull(inpVal.name)) {
       wx.showToast({
@@ -103,7 +103,7 @@ Page({
         })
         setTimeout(function(){
           wx.redirectTo({
-            url: '../hot-activity?id=' + actId + '&_actName=' + actName
+            url: '../hot-activity?id=' + _this.data.actId + '&_actName=' + _this.data.actName
           })
         },2000)
       } else {

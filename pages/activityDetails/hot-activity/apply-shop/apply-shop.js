@@ -140,7 +140,7 @@ Page({
           })
           setTimeout(function () {
             wx.redirectTo({
-              url: '../hot-activity?id=' + actId + '&_actName=' + actName
+              url: '../hot-activity?id=' + that.data.actId + '&_actName=' + that.data.actName
             })
           }, 2000)
           

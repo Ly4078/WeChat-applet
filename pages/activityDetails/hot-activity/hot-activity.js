@@ -80,6 +80,11 @@ Page({
       });
     });
   },
+  toMyTicket: function() {    //跳转至我的票券
+    wx.navigateTo({
+      url: '../../personal-center/my-discount/my-discount'
+    })
+  },
   isGetActCoupons: function (e) {    //是否可以领取活动券
     let _parms = {
       userId: app.globalData.userInfo.userId,
@@ -126,7 +131,7 @@ Page({
     Api.isGroung(_parms).then((res) => {
       if (res.data.code == 0) {
         this.setData({
-          type: res.data.data == [] ? "" : 2
+          type: res.data.data.length == 0 ? "" : 2
         });
       }
       this.shopList();
@@ -145,7 +150,7 @@ Page({
     if (this.data.type == 2) {   //判断是否分组
       _parms['type'] = 2;
     }
-    Api.actShopList(_parms).then((res) => {
+    Api.hotActShopList(_parms).then((res) => {
       let data = res.data;
       wx.hideLoading();
       if (data.code == 0 && data.data.list != null && data.data.list != "" && data.data.list != []) {
@@ -177,7 +182,7 @@ Page({
       _parms['type'] = 2;
     }
 
-    Api.actPlayerList(_parms).then((res) => {
+    Api.hotActPlayerList(_parms).then((res) => {
       let data = res.data;
       wx.hideLoading();
       if (data.code == 0 && data.data.list != null && data.data.list != "" && data.data.list != []) {

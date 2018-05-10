@@ -11,7 +11,7 @@
 </template>
 <!-- 活动劵 -->
 <template name="ledEcurities">
-  <view class="hot_ticket">
+  <view class="hot_ticket" catchtap='toMyTicket'>
     <view class="hot_ticket_l">
       <image src="/images/icon/ticket_txt.png" mode="aspectFill"></image>
       <view class="hot_ticket_l_txt">
@@ -20,7 +20,7 @@
         <!-- <view class="hot_ticket_txt_s">满200元减20元</view> -->
       </view>
     </view>
-    <button class="hot_ticket_r" id="{{item.id}}" bindtap='isGetActCoupons'>领取</button>
+    <button class="hot_ticket_r" id="{{item.id}}" catchtap='isGetActCoupons'>领取</button>
   </view>
   <view class='labelDiskette'>
     <text>(同时投票商家和选手可领取代金券,该劵仅限参赛餐厅使用)</text>
@@ -43,7 +43,7 @@
         <button wx:else id="{{item.shopId}}" data-index="{{item.userId}}" bindtap='voteAdd'>投票</button>
       </view>
     </view>
-     <view class="hot_list_item_b" hidden="{{item.groupCode == ''}}">
+     <view class="hot_list_item_b" hidden="{{!item.groupCode}}">
       <image src="{{item.iconUrl}}"></image>
       <text>{{item.actUserName}}</text>
   </view>
@@ -66,7 +66,7 @@
         <button wx:else id="{{item.shopId}}" data-index="{{item.userId}}" bindtap='voteAdd'>投票</button>
       </view>
     </view>
-    <view class="hot_list_item_b" hidden="{{item.groupCode == ''}}">
+    <view class="hot_list_item_b" hidden="{{!item.groupCode}}">
       <image src="{{item.logoUrl}}"></image>
       <text>{{item.shopName}}</text>
     </view> 
