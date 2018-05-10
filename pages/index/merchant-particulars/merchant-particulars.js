@@ -618,7 +618,6 @@ Page({
   },
   receive: function () {
     let that = this;
-
     if (!this.data.isAgio) {
       wx.navigateTo({
         url: '../../personal-center/my-discount/my-discount',
@@ -638,6 +637,9 @@ Page({
             mask: 'true',
             icon: 'none',
           }, 1500)
+          that.setData({
+            isAgio:false
+          })
         } else {
           wx.showToast({
             title: res.data.message,

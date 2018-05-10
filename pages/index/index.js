@@ -35,6 +35,7 @@ Page({
     activityImg: '',   //活动图
     settime: '',
     rematime: '获取验证码',
+    afirst:false,
     isclick: true,
     activityIMg: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1975347470,2770072390&fm=27&gp=0.jpg'
   },
@@ -81,6 +82,7 @@ Page({
           // Api.findByCode(_parms).then((res) => {
           Api.useradd(_parms).then((res) => {
             if (res.data.data) {
+              console.log('res.data.data:',res.data.data)
               app.globalData.userInfo.userId = res.data.data
               this.getlocation()
               wx.request({  //从自己的服务器获取用户信息
@@ -89,8 +91,10 @@ Page({
                   'content-type': 'application/json' // 默认值
                 },
                 success: function (res) {
+                  console.log('reslogin:',res)
                   if (res.data.code == 0) {
                     let data = res.data.data
+                    console.log('data:',data)
                     for (let key in data) {
                       for (let ind in app.globalData.userInfo) {
                         if (key == ind) {
@@ -98,6 +102,7 @@ Page({
                         }
                       }
                     };
+                    console.log('app.globalData.userInfo:', app.globalData.userInfo)
                     if (data && data.mobile) {
                       that.setData({
                         isfirst: false
@@ -860,11 +865,19 @@ Page({
         that.setData({
           isphoneNumber: false
         })
+        if (this.data.afirst){
+          return false
+        }
         let _parms = {
           shopMobile: this.data.phone,
           SmsContent: this.data.verify,
           userId: app.globalData.userInfo.userId,
           userName: app.globalData.userInfo.userName
+        }
+        if (!this.data.afirst) {
+          that.setData({
+            afirst: true
+          })
         }
         Api.isVerify(_parms).then((res) => {
           if (res.data.code == 0) {

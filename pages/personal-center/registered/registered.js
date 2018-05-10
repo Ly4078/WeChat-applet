@@ -9,16 +9,19 @@ Page({
    */
   data: {
     phone: '',
+    _build_url: GLOBAL_API_DOMAIN,
     verify: '', //输入的验证码
     verifyId: '',//后台返回的短信验证码
     veridyTime: '',//短信发送时间
     settime: '',
     rematime: '获取验证码',
     isclick: true,
-    goto: false
+    goto: false,
+    isyaz:false,
+    fist:1
   },
   onShow:function(){
-    console.log(app.globalData.userInfo)
+    // console.log(app.globalData.userInfo)
   },
   numbindinput: function (e) {  //监听号码输入框
     let _value = e.detail.value
@@ -164,7 +167,11 @@ Page({
     })
   },
   submitverify: function () {  //确定
+  
     let that = this
+    if (this.data.isyaz){
+      return false
+    }
     if (!this.data.phone) {
       wx.showToast({
         title: '请输入电话号码，获取验证码',
@@ -180,14 +187,17 @@ Page({
         duration: 2000
       })
     } else {
-    
+      if (!this.data.isyaz) {
+        that.setData({
+          isyaz:true
+        })
+      }
       if (this.data.verify == this.data.verifyId) {
         wx.showToast({
           title: '验证中',
           icon: 'loading',
           duration: 2000
         })
-        console.log(app.globalData.userInfo)
         let _parms = {
           shopMobile: this.data.phone,
           SmsContent: this.data.verify,
@@ -215,7 +225,6 @@ Page({
                     }
                   }
                   app.globalData.userInfo = users;
-                  wx.hideToast()
                   wx.switchTab({
                     url: '../personal-center'
                   })
