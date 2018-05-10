@@ -292,6 +292,20 @@ page {
   font-size: 32rpx;
 }
 
+.cuttentWrap{
+  width: 74%;
+  height: 50rpx;
+  display: inline-block;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+}
+
+.cuttenSerial{
+  display: flex;
+  align-items: center;
+}
+
 .cuttentwesa{
   width: 79%;
   height: 60rpx;

@@ -8,69 +8,116 @@ Page({
    * 页面的初始数据
    */
   data: {
-    cmtdata:[],
-    userid:'',
-    information:{},
-    imgs:[],
-    video:{},
-    commentVal:'',
+    cmtdata: [],
+    userid: '',
+    information: {},
+    imgs: [],
+    video: {},
+    commentVal: '',
     isComment: false,
-    imges:[],
+    imges: [],
     issnap: false,
-    user:{
-      match:'麻辣小龙虾'
+    user: {
+      match: '麻辣小龙虾'
     },
-    poll:'投票',
-    isvote:false
+    poll: '投票',
+    isvote: false,
+    shopName:'',
+    groupCode:'',
+    activity:'',
+    _voteUserIdSuc:'',
+    shopId:''
   },
 
-  onLoad: function (options) { //享7劵
+  onLoad: function (options) {
     let _activity = options.actId;
+    let groupCode = options.groupCode
+    let _voteUserId = app.globalData.userInfo.userId
     this.setData({
-      userid:options.id
+      userid: options.id,
+      shopId: options.shopid,
+      shopName: options._shopName,
+      groupCode: options.groupCode,
+      activity: options.actId,
+      _voteUserIdSuc: _voteUserId
     })
     this.getcmtlist();
     let that = this;
     let _parms = {
       userId: this.data.userid,
-      voteUserId: app.globalData.userInfo.userId,
+      voteUserId: app.globalData.userInfo.userId, 
       actId: _activity,
-      beginTime: "2018/5/1",
-      endTime: "2018/5/31"
+      beginTime: "2018-5-1",
+      endTime: "2018-5-31"
     }
     Api.playerDetails(_parms).then((res) => {
-      console.log('res:',res)
       let _data = res.data.data;
-      if (_data){
-
-
-        if (res.data.data && res.data.data.picUrls) {
-          let _dataSe = res.data.data.picUrls;
-          if (_dataSe) {
-            let _imgs = _dataSe.slice(0, _dataSe.length - 1);
-            let _vides = _dataSe.slice(_dataSe.length - 1, _dataSe.length);
-            console.log('_imgs:', _imgs)
-            console.log('_vides:', _vides)
-            this.setData({
-              imgs: _imgs,
-              video: _vides
-            })
-          }
-        }
-
-        if (_data.isVote == 0) {
-          this.setData({
-            poll: '投票'
-          })
-        } else {
-          this.setData({
-            poll: '已投票'
-          })
-        }
+      let _dataSe = res.data.data.picUrls;
+      console.log("_data:", _data)
+      console.log("_dataSe:", _dataSe)
+      if (_dataSe) {
+        let _imgs = _dataSe.slice(0, _dataSe.length - 1);
+        let _vides = _dataSe.slice(_dataSe.length - 1, _dataSe.length);
+        console.log('_imgs:', _imgs)
+        console.log('_vides:', _vides)
         this.setData({
-          information: _data,
-          imges: _dataSe
+          imgs: _imgs,
+          video: _vides
         })
+      }
+
+      if (_data.isVote == 0) {
+        this.setData({
+          poll: '投票'
+        })
+      } else {
+        this.setData({
+          poll: '已投票'
+        })
+      }
+      this.setData({
+        information: _data,
+        imges: _dataSe
+      })
+    })
+  },
+  castvote: function () {  //選手投票
+    let that = that;
+    let _playUserId = this.data.information.userId;
+    let date = new Date;
+    let year = date.getFullYear();
+    let month = date.getMonth() + 1;
+    let today = date.getDate();
+    let day = today * 1 + 1;
+    let _parms = {
+      actId: this.data.activity,
+      beginTime: year + '-' + month + '-' + today,
+      endTime: year + '-' + month + '-' + day,
+      userId: app.globalData.userInfo.userId,
+      playerUserId: _playUserId
+    }
+    if (this.data.groupCode) {
+      _parms.shopId = this.data.shopId
+    }
+    console.log('_parms:',_parms)
+    // return false
+    Api.judgment(_parms).then((res) => {
+      if (res.data.code == 0) {
+        Api.voteAdd(_parms).then((res) => {
+          if (res.data.code == 0) {
+            wx.showToast({
+              title: '投票成功',
+              mask: 'true',
+              icon: 'none'
+            }, 1500)
+          }
+        })
+      } else {
+        wx.showToast({
+          title: res.data.message,
+          mask: 'true',
+          icon: 'none'
+        }, 1500)
       }
     })
   },
@@ -117,13 +164,14 @@ Page({
     // return false
     let _parms = {
       // refId: this.data._id,
-      refId:'35',
+      refId: '35',
       cmtType: '2',
       content: this.data.commentVal,
       userId: app.globalData.userInfo.userId,
       userName: app.globalData.userInfo.userName,
       nickName: app.globalData.userInfo.nickName,
     }
+    console.log("Parms:", _parms)
     Api.cmtadd(_parms).then((res) => {
       this.setData({
         isComment: false
@@ -136,11 +184,10 @@ Page({
       zanUserId: app.globalData.userInfo.userId,
       cmtType: '2',
       // refId: this.data._id
-      refId:"35",
+      refId: "35",
     }
     Api.cmtlist(_parms).then((res) => {
       let _data = res.data.data;
-      console.log("返回值:", _data)
       _data.total = utils.million(_data.total)
       if (_data.list) {
         let reg = /^1[34578][0-9]{9}$/;
@@ -190,50 +237,6 @@ Page({
         that.setData({
           cmtdata: _cmtdata
         });
-      }
-    })
-  },
-  castvote: function (e) {  //投票
-    let that = this
-    if (app.globalData.userInfo.mobile == 'a' || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
-      this.setData({
-        issnap: true
-      })
-      return false
-    }
-    console.log("information:", this.data.information)
-    if (this.data.information.isVote == 1){
-      wx.showToast({
-        mask: true,
-        icon: 'none',
-        title: '已经投过票,不能重复投票!'
-      }, 1500)
-      return false;
-    }
-    let stopid = e.currentTarget.id;
-    let vote = this.data.actdetail
-    let _parms = {
-      // actId: this.data.actid,
-      actId:"35",
-      // shopId: stopid,
-      voteUserId: "27",
-      userId: app.globalData.userInfo.userId,
-      voteUserId: app.globalData.userInfo.userId
-    }
-    Api.voteadd(_parms).then((res) => {
-      console.log('res:',res)
-      if (res.data.code == 0) {
-        let _information = this.data.information;
-        _information.isVote = 1
-        that.setData({
-          information: _information,
-          poll: '已投票'
-        })
-        wx.showToast({
-          mask: true,
-          icon: 'none',
-          title: '投票成功'
-        }, 1500)
       }
     })
   },

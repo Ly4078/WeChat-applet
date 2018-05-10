@@ -49,7 +49,6 @@
     </view>
     <!--主页-->
     <view hidden="{{currentTab!=0}}">
-
       <view class='doing' wx:for="{{activity}}" wx:key="{{index}}">
 
         <view class='doinglist'>
@@ -74,16 +73,18 @@
         </view>
         <image class='currentTabjiantou' src='/images/icon/home_arrow.png'></image>
       </view>   -->
-      <view class='currentTabButton'>
-        <image class='voteList' src='/images/icon/votehuodong.png'></image>
-        <image class='currentTabjiantou' src='/images/icon/home_arrow.png'></image>
-      </view>
-      <view class='currentTabButton distance-es'>
-        <view>
-          <text class='serial_number'>{{posts_key[0].time_signature}}号</text>
-          <text class='cuttentTabxiangq'>正在参数不辣不欢活动</text>
+      <view catchtap='storeActivity' wx:if="{{_shopCode}}">
+        <view class='currentTabButton'>
+          <image class='voteList' src='/images/icon/votehuodong.png'></image>
+          <image class='currentTabjiantou' src='/images/icon/home_arrow.png'></image>
         </view>
-        <text class='vote-entrance'>投票</text>
+        <view class='currentTabButton distance-es'>
+          <view class='cuttenSerial'>
+            <text class='serial_number'>{{_shopCode}}号</text>
+            <view class='cuttentWrap'><text class='cuttentTabxiangq'>正在参加{{_actName}}</text></view>
+          </view>
+          <text class='vote-entrance'>投票</text>
+        </view>
       </view>
 
 
@@ -134,9 +135,6 @@
           <image wx:else class='initiate-left more_img2' src='/images/icon/home_arrow.png'></image>
         </view>
       </view>
-
-
-
     </view>
     <view class='initiate-wrapp' catchtap='recommendedRestaurant' hidden="{{currentTab !=0}}">
       <view class='initiate-exhibition'>

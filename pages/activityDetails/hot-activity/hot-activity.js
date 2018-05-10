@@ -22,9 +22,16 @@ Page({
     userId: app.globalData.userInfo.userId,
     today: "",
     tomorrow: "",
-    searchValue: ""     //搜索内容
+    _shopCode: '',
+    _shopName: '',
+    searchValue: "",     //搜索内容
+    actName: '',
   },
   onLoad: function (options) {
+    console.log('options:', options)
+    this.setData({
+      actName: options._actName
+    })
     let dateStr = new Date();
     let milisecond = new Date(this.dateConv(dateStr)).getTime() + 86400000;
     this.setData({
@@ -200,7 +207,7 @@ Page({
       page: this.data.searchPage,
       rows: 2
     },
-    _this = this;
+      _this = this;
     if (this.data.type == 2) {   //判断是否分组
       _parms['type'] = 2;
     }
@@ -229,7 +236,7 @@ Page({
         wx.hideLoading();
         if (res.data.code == 0) {
           _this.setData({
-            players: res.data.data.list 
+            players: res.data.data.list
           })
         } else {
           wx.showToast({
@@ -240,7 +247,7 @@ Page({
       });
     }
   },
-  searchPage: function() {      //搜索分页
+  searchPage: function () {      //搜索分页
     let _parms = {
       voteUserId: app.globalData.userInfo.userId,
       actId: this.data.actId,
@@ -250,7 +257,7 @@ Page({
       page: this.data.searchPage,
       rows: 2
     },
-    _this = this;
+      _this = this;
     if (this.data.type == 2) {   //判断是否分组
       _parms['type'] = 2;
     }
@@ -271,7 +278,6 @@ Page({
             flag: false
           });
         }
-
       });
     } else {
       Api.searchUser(_parms).then((res) => {
@@ -341,6 +347,98 @@ Page({
     wx.showToast({
       title: '您已投过票了',
       icon: 'none'
+    })
+  },
+  voteshop: function (e) {  //商家投票
+    let that = that;
+    let _groupCode = e.currentTarget.id;
+    let _players = this.data.players;
+    let _shopid = '', _playUserId = '';
+    for (let i = 0; i < _players.length; i++) {
+      if (_groupCode == _players[i].groupCode) {
+        _shopid = _players[i].shopId,
+          _playUserId = _players[i].userId
+      }
+    }
+    let date = new Date;
+    let year = date.getFullYear();
+    let month = date.getMonth() + 1;
+    let today = date.getDate();
+    let day = today * 1 + 1;
+    let _parms = {
+      actId: this.data.actId,
+      beginTime: year + '-' + month + '-' + today,
+      endTime: year + '-' + month + '-' + day,
+      userId: app.globalData.userInfo.userId,
+      shopId: _shopid
+    }
+    if (_groupCode) {
+      _parms.playerUserId = _playUserId
+    }
+    Api.judgment(_parms).then((res) => {
+      if (res.data.code == 0) {
+        Api.voteAdd(_parms).then((res) => {
+          if (res.data.code == 0) {
+            wx.showToast({
+              title: '投票成功',
+              mask: 'true',
+              icon: 'none'
+            }, 1500)
+          }
+        })
+      } else {
+        wx.showToast({
+          title: res.data.message,
+          mask: 'true',
+          icon: 'none'
+        }, 1500)
+      }
+    })
+  },
+  isvotedgr: function (e) {  //選手投票
+    let that = that;
+    let _groupCode = e.currentTarget.id;
+    let _players = this.data.players;
+    let _shopid = '', _playUserId = '';
+    for (let i = 0; i < _players.length; i++) {
+      if (_groupCode == _players[i].groupCode) {
+        _shopid = _players[i].shopId,
+          _playUserId = _players[i].userId
+      }
+    }
+    let date = new Date;
+    let year = date.getFullYear();
+    let month = date.getMonth() + 1;
+    let today = date.getDate();
+    let day = today * 1 + 1;
+    let _parms = {
+      actId: this.data.actId,
+      beginTime: year + '-' + month + '-' + today,
+      endTime: year + '-' + month + '-' + day,
+      userId: app.globalData.userInfo.userId,
+      playerUserId: _playUserId
+    }
+    if (_groupCode) {
+      _parms.shopId = _shopid
+    }
+    Api.judgment(_parms).then((res) => {
+      if (res.data.code == 0) {
+        Api.voteAdd(_parms).then((res) => {
+          if (res.data.code == 0) {
+            wx.showToast({
+              title: '投票成功',
+              mask: 'true',
+              icon: 'none'
+            }, 1500)
+          }
+        })
+      } else {
+        wx.showToast({
+          title: res.data.message,
+          mask: 'true',
+          icon: 'none'
+        }, 1500)
+      }
     })
   },
   toApply: function () {    //跳转至报名页面
@@ -419,17 +517,48 @@ Page({
       url: 'eventDetails/eventDetails?url=' + this.data.infoPic
     })
   },
-  clickli: function (e) {//跳转到店铺\选手页面
+  clickligr: function (e) {  //选手页面
+    let _id = e.currentTarget.id;
+    let _players = this.data.players;
+    for (let i = 0; i < _players.length; i++) {
+      if (_id == _players[i].userId) {
+        let groupCode = _players[i].groupCode
+        let _shopName = _players[i].shopName
+        let _shopid = _players[i].shopId
+        let _actName = this.data.actName
+        let _actId = _players[i].actId
+        if (groupCode == undefined || groupCode == null || groupCode == '') {
+          wx.navigateTo({
+            url: '../details_page/details_page?actId=' + _actId + '&id=' + _id
+          })
+        } else {
+          wx.navigateTo({
+            url: '../details_page/details_page?actId=' + _actId + '&id=' + _id + '&_shopName=' + _shopName + '&groupCode=' + groupCode + '&shopid=' + _shopid
+          })
+        }
+      }
+    }
+  },
+  clickli: function (e) {//跳转到店铺
     let _id = e.currentTarget.id
-    let _actId = this.data.actId
-    if (this.data.isayers) { //商家
-      wx.navigateTo({
-        url: '../../index/merchant-particulars/merchant-particulars?shopid=' + _id
-      })
-    } else {  //选手
-      wx.navigateTo({
-        url: '../details_page/details_page?actId=' + _actId + '&id=' + _id
-      })
+    let _business = this.data.business;
+    for (let i = 0; i < _business.length; i++) {
+      if (_id == _business[i].shopId) {
+        let groupCode = _business[i].groupCode
+        let _shopCode = _business[i].shopCode
+        let _shopName = _business[i].shopName
+        let _actName = this.data.actName
+        console.log("_actName", _actName)
+        if (groupCode == undefined || groupCode == null || groupCode == '') {
+          wx.navigateTo({
+            url: '../../index/merchant-particulars/merchant-particulars?shopid=' + _id + '&shopCode=' + _shopCode + '&shopName=' + _shopName + '&actName=' + _actName
+          })
+        } else {
+          wx.navigateTo({
+            url: '../../index/merchant-particulars/merchant-particulars?shopid=' + _id + '&groupCode' + groupCode + '&shopCode=' + _shopCode + '&shopName=' + _shopName + '&actName=' + _actName
+          })
+        }
+      }
     }
   },
   onReachBottom: function () {  //用户上拉触底

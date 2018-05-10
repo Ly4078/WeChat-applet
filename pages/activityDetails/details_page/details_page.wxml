@@ -30,10 +30,10 @@
       <view class='xstype'>票数</view>
     </view>
     <view class='topbut'>
-      <view class='xsnum'>{{user.match}}</view>
+      <view class='xsnum'>{{shopName}}</view>
       <view class='xstype'>匹配</view>
     </view>
-    <button class="toupiao {{isvote?'':'actvote'}}" bindtap='castvote'>{{poll}}</button>
+    <button class="toupiao {{isvote?'':'actvote'}}"  bindtap='castvote'>{{poll}}</button>
   </view>
 </view>
 <video class="myVideo"  wx:if="{{video[0]}}" src="{{video[0].picUrl}}" controls></video>

@@ -4,7 +4,7 @@ import { myStore } from '../tools/store';
 //所有的请求
 const ALL_API = {
   userlist: { //openId登录
-    method: 'POST', 
+    method: 'POST',
     url: 'user/list'
   },
   addUserForVersion: { //新增用户
@@ -15,21 +15,21 @@ const ALL_API = {
     method: 'GET',
     url: 'user/findByCode'
   },
-  getOpenId:{  //获取openId
-    method:'POST',
-    url:'wxpay/getOpenId'
+  getOpenId: {  //获取openId
+    method: 'POST',
+    url: 'wxpay/getOpenId'
   },
-  useradd:{ 
-    method:'POST',
-    url:'user/add'
+  useradd: {
+    method: 'POST',
+    url: 'user/add'
   },
   usersignup: {
     method: 'POST',
     url: 'user/signup'
   },
   updateuser: {  //更新用户信息
-    method:'POST',
-    url:'user/update'
+    method: 'POST',
+    url: 'user/update'
   },
   shoptop: {   //分页查询热门商家列表   推荐餐厅
     method: 'GET',
@@ -42,7 +42,7 @@ const ALL_API = {
   shopget: {   //根据id查询商家信息
     method: 'GET',
     url: 'shop/get'
-  }, 
+  },
   actlist: {   //分页查询活动列表
     method: 'GET',
     url: 'act/list'
@@ -104,27 +104,27 @@ const ALL_API = {
     method: 'POST',
     url: 'vote/delete'
   },
-  topicadd:{  //文章列表
-    method:'POST',
-    url:'topic/add'
+  topicadd: {  //文章列表
+    method: 'POST',
+    url: 'topic/add'
   },
-  getTopicByZan:{ //获取某个文章详情
-    method:'GET',
-    url:'topic/getTopicByZan'
+  getTopicByZan: { //获取某个文章详情
+    method: 'GET',
+    url: 'topic/getTopicByZan'
   },
   cmtlist: {  //查询文章评论
-    method:'GET',
-    url:'cmt/list'
+    method: 'GET',
+    url: 'cmt/list'
   },
-  cmtadd:{   //新增文章评论
-    method:'POST',
-    url:'cmt/add'
+  cmtadd: {   //新增文章评论
+    method: 'POST',
+    url: 'cmt/add'
   },
-  zanadd:{   //点赞
-    method:'POST',
-    url:'zan/add'
+  zanadd: {   //点赞
+    method: 'POST',
+    url: 'zan/add'
   },
-  zandelete:{   //取消点赞
+  zandelete: {   //取消点赞
     method: 'POST',
     url: 'zan/delete'
   },
@@ -136,17 +136,17 @@ const ALL_API = {
     method: 'POST',
     url: 'topic/add'
   },
-  somyorder:{  //我的订单列表
-    method:"GET",
-    url:'so/myorder'
+  somyorder: {  //我的订单列表
+    method: "GET",
+    url: 'so/myorder'
   },
-  socreate:{  //创建支付订单
-    method:'POST',
-    url:'so/create'
+  socreate: {  //创建支付订单
+    method: 'POST',
+    url: 'so/create'
   },
-  skutsc:{  //推荐餐厅
-    method:'GET',
-    url:'sku/tsc'
+  skutsc: {  //推荐餐厅
+    method: 'GET',
+    url: 'sku/tsc'
   },
   photograph: {  //店铺详情图片
     method: 'GET',
@@ -156,29 +156,29 @@ const ALL_API = {
     method: 'POST',
     url: 'actshop/add'
   },
-  searchByUserId:{  //查询当前userId是否已入驻 
-    method:'GET',
-    url:'shopEnter/searchByUserId'
+  searchByUserId: {  //查询当前userId是否已入驻 
+    method: 'GET',
+    url: 'shopEnter/searchByUserId'
   },
-  hxadd:{  //确认核销
-    method:'POST',
-    url:'hx/add'
+  hxadd: {  //确认核销
+    method: 'POST',
+    url: 'hx/add'
   },
-  share:{
+  share: {
     method: 'GET',
     url: 'topic/transpond'
   },
-  listForHomePage:{
-    method:'GET',
-    url:'hcl/listForHomePage'
+  listForHomePage: {
+    method: 'GET',
+    url: 'hcl/listForHomePage'
   },
-  shoplistForHomePage:{
-    method:'GET',
+  shoplistForHomePage: {
+    method: 'GET',
     url: 'shop/listForHomePage'
   },
-  listForChuangXiang:{
-    method:'GET',
-    url:'shop/listForChuangXiang'
+  listForChuangXiang: {
+    method: 'GET',
+    url: 'shop/listForChuangXiang'
   },
   myArticleList: {   //我的文章列表
     method: 'GET',
@@ -192,11 +192,11 @@ const ALL_API = {
     method: 'POST',
     url: 'so/freeOrder'
   },
-  selectByShopId:{  //获取商家活动
-    method:'GET',
-    url:'pnr/selectByShopId'
+  selectByShopId: {  //获取商家活动
+    method: 'GET',
+    url: 'pnr/selectByShopId'
   },
-  phoneAES:{  //解密用户手机号
+  phoneAES: {  //解密用户手机号
     method: 'POST',
     url: 'wxsign/phoneAES'
   },
@@ -208,33 +208,33 @@ const ALL_API = {
     method: 'GET',
     url: 'sms/isVerify'
   },
-  searchByShopName:{
+  searchByShopName: {
     method: 'GET',
-    url:'shopEnter/searchByShopName'
+    url: 'shopEnter/searchByShopName'
   },
-  getTscForZan:{  //查询特色菜详情
-    method:'GET',
-    url:'sku/getTscForZan'
+  getTscForZan: {  //查询特色菜详情
+    method: 'GET',
+    url: 'sku/getTscForZan'
   },
   apply: {    //报名接口
     method: 'POST',
     url: 'actSign/add'
   },
-  actisSign:{  //查询是否已经报名
-    method:'GET',
-    url:'actSign/isSign'
+  actisSign: {  //查询是否已经报名
+    method: 'GET',
+    url: 'actSign/isSign'
   },
   playerDetails: {  //活动选手详情页
     method: 'GET',
     url: 'actUser/findByInVo'
   },
-  isGroung:{    //查询活动是否分组
-    method:'GET',
-    url:'actGroup/selectOutAll'
+  isGroung: {    //查询活动是否分组
+    method: 'GET',
+    url: 'actGroup/selectOutAll'
   },
-  actShopList:{    //活动商家列表
-    method:'GET',
-    url:'actshop/listNewAct'
+  actShopList: {    //活动商家列表
+    method: 'GET',
+    url: 'actshop/listNewAct'
   },
   actPlayerList: {    //活动选手列表
     method: 'GET',
@@ -264,21 +264,25 @@ const ALL_API = {
     method: 'POST',
     url: 'vote/add'
   },
-  agioList:{ //查询商家套餐
-    method:'GET',
-    url:'sku/agioList'
+  agioList: { //查询商家套餐
+    method: 'GET',
+    url: 'sku/agioList'
   },
   listForAgio: {  //套餐详情
-    method:'GET',
-    url:'sku/listForAgio'
+    method: 'GET',
+    url: 'sku/listForAgio'
   },
-  freeOrderForAgio:{
-    method:'POST',
-    url:'so/freeOrderForAgio'
+  freeOrderForAgio: {
+    method: 'POST',
+    url: 'so/freeOrderForAgio'
   },
-  getAgio:{
-    method:'GET',
-    url:'sku/getAgio'
+  getAgio: {
+    method: 'GET',
+    url: 'sku/getAgio'
+  },
+  judgment: {     //判斷是否投票
+    method: 'GET',
+    url: 'vote/canVote'
   }
 }
 const Api = new MyHttp({}, ALL_API);

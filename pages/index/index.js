@@ -435,14 +435,20 @@ Page({
   },
   hotactivityHref: function (e) {     //热门活动跳转
     let _id = e.currentTarget.id
-    
+    let _actlist = this.data.actlist;
+    let _actName ='';
+    for (let i = 0; i < _actlist.length;i++){
+      if (_id == _actlist[i].id){
+        _actName = _actlist[i].actName
+      }
+    }
     if (_id == 34) {
       wx.navigateTo({
-        url: '../activityDetails/hot-activity/hot-activity?id='+_id,
+        url: '../activityDetails/hot-activity/hot-activity?id=' + _id + '&_actName=' + _actName
       })
     } else if (_id == 35) {
       wx.navigateTo({
-        url: '../activityDetails/hot-activity/hot-activity?id=' + _id,
+        url: '../activityDetails/hot-activity/hot-activity?id=' + _id + '&_actName=' + _actName
       })
     } else {
       wx.navigateTo({
