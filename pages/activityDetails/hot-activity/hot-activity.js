@@ -99,7 +99,6 @@ Page({
     });
   },
   getActCoupons: function (e) {     //领取活动券
-    console.log(e.target.id)
     let _parms = {
       userId: app.globalData.userInfo.userId,
       userName: app.globalData.userInfo.userName,
@@ -479,11 +478,11 @@ Page({
         let _actName = this.data.actName
         if (groupCode == undefined || groupCode == null || groupCode == '') {
           wx.navigateTo({
-            url: '../../index/merchant-particulars/merchant-particulars?shopid=' + _id + '&shopCode=' + _shopCode + '&shopName=' + _shopName + '&actName=' + _actName
+            url: '../../index/merchant-particulars/merchant-particulars?shopid=' + _id + '&shopCode=' + _shopCode + '&shopName=' + _shopName + '&actName=' + _actName + '&actId=' + this.data.actId
           })
         } else {
           wx.navigateTo({
-            url: '../../index/merchant-particulars/merchant-particulars?shopid=' + _id + '&groupCode=' + groupCode + '&shopCode=' + _shopCode + '&shopName=' + _shopName + '&actName=' + _actName
+            url: '../../index/merchant-particulars/merchant-particulars?shopid=' + _id + '&groupCode=' + groupCode + '&shopCode=' + _shopCode + '&shopName=' + _shopName + '&actName=' + _actName + '&actId=' + this.data.actId
           })
         }
       }
@@ -501,15 +500,12 @@ Page({
         this.setData({
           searchPage: this.data.searchPage + 1
         });
-        this.searchFlipover();
-        console.log('search');
+        this.searchFlipover()
       } else {
         if (this.data.isayers == true) {
-          this.shopList();
-          console.log('shop');
+          this.shopList()
         } else {
-          this.playerList();
-          console.log('player');
+          this.playerList()
         }
       }
     }

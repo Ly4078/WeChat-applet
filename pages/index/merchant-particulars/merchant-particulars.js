@@ -22,9 +22,15 @@ Page({
     isAgio: false,
     listagio: [],
     newpackage: [],
-    oldpackage: []
+    oldpackage: [],
+    actId:''
   },
   onLoad: function (options) {
+    if (options.actId){
+      this.setData({
+        actId: options.actId
+      })
+    }
     if (options.shopName && options.shopCode) {
       let _Name = options.shopName;
       if (options.groupCode) {
@@ -234,7 +240,7 @@ Page({
   //活动点赞
   storeActivity: function () {
     wx.navigateTo({
-      url: '../../activityDetails/hot-activity/hot-activity'
+      url: '../../activityDetails/hot-activity/hot-activity?id='+this.data.actId
     })
   },
   //商家动态
