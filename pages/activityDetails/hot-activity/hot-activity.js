@@ -312,7 +312,7 @@ Page({
       });
     }
   },
-  voteAdd: function (e) {  //商家投票
+  voteAdd: function (e) {  //投票
     let _this = this,
       playerUserId = e.currentTarget.dataset.index,     //userId 
       shopId = e.currentTarget.id;                        //shopId
@@ -337,9 +337,11 @@ Page({
               icon: 'none'
             })
             if (_this.data.isayers == true) {
+              console.log('business');
               let business = _this.data.business;
               for (let i = 0; i < business.length; i++) {
                 if (business[i].shopId == shopId) {
+                  console.log('商家投票成功');
                   business[i].isVote = 1;
                 }
               }
@@ -347,9 +349,11 @@ Page({
                 business: business
               });
             } else {
+              console.log('players');
               let players = _this.data.players
               for (let i = 0; i < players.length; i++) {
                 if (players[i].userId == playerUserId) {
+                  console.log('用户投票成功');
                   players[i].isVote = 1;
                 }
               }
