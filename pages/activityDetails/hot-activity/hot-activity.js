@@ -27,7 +27,6 @@ Page({
     _shopName: '',
     searchValue: "",     //搜索内容
     actName: ''     //活动名称
-    
   },
   onLoad: function (options) {
     let dateStr = new Date();
@@ -476,7 +475,6 @@ Page({
         let _shopCode = _business[i].shopCode
         let _shopName = _business[i].shopName
         let _actName = this.data.actName
-        console.log("_actName", _actName)
         if (groupCode == undefined || groupCode == null || groupCode == '') {
           wx.navigateTo({
             url: '../../index/merchant-particulars/merchant-particulars?shopid=' + _id + '&shopCode=' + _shopCode + '&shopName=' + _shopName + '&actName=' + _actName
