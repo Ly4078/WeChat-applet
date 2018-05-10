@@ -33,6 +33,7 @@ Page({
     let _activity = options.actId;
     let groupCode = options.groupCode
     let _voteUserId = app.globalData.userInfo.userId
+    console.log("groupCode", groupCode)
     this.setData({
       userid: options.id,
       shopId: options.shopid,

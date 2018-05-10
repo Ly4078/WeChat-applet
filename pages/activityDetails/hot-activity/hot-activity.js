@@ -555,7 +555,7 @@ Page({
           })
         } else {
           wx.navigateTo({
-            url: '../../index/merchant-particulars/merchant-particulars?shopid=' + _id + '&groupCode' + groupCode + '&shopCode=' + _shopCode + '&shopName=' + _shopName + '&actName=' + _actName
+            url: '../../index/merchant-particulars/merchant-particulars?shopid=' + _id + '&groupCode=' + groupCode + '&shopCode=' + _shopCode + '&shopName=' + _shopName + '&actName=' + _actName
           })
         }
       }

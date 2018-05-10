@@ -25,15 +25,16 @@ Page({
     oldpackage: []
   },
   onLoad: function (options) {
+    console.log("DDDD", options)
     if (options.shopName && options.shopCode) {
       let _Name = options.shopName;
-      if (options.shopCode) {
+      if (options.groupCode) {
         this.setData({
-          _shopCode: options.shopCode
+          _shopCode: options.groupCode
         })
       } else {
         this.setData({
-          _shopCode: options.groupCode
+          _shopCode: options.shopCode
         })
       }
       this.setData({
