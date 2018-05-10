@@ -26,7 +26,8 @@ Page({
     _shopCode: '',
     _shopName: '',
     searchValue: "",     //搜索内容
-    actName: ''     //活动名称
+    actName: '',     //活动名称
+    actDesc: ''      //活动描述
   },
   onLoad: function (options) {
     let dateStr = new Date();
@@ -66,6 +67,7 @@ Page({
         mainPic: res.data.data.mainPic,
         infoPic: res.data.data.actUrl,
         actName: res.data.data.actName,
+        actDesc: res.data.data.actDesc,
         startTime: startTime,
         endTime: endTime
       });
