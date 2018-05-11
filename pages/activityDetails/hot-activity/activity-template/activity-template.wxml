@@ -35,10 +35,13 @@
           <text class="list_item_name_f">{{item.groupCode ? item.groupCode : item.shopCode}}号</text>
           <text class="list_item_name_s">{{item.shopName}}</text>
         </view>
-        <image src="{{item.logoUrl}}" mode="aspectFill" id="{{item.shopId}}" bindtap='clickli'></image>
+        <image src="{{item.picUrl}}" mode="aspectFill" id="{{item.shopId}}" bindtap='clickli'></image>
       </view>
       <view class="list_item_vote">
-        <view>{{item.groupVoteNum ? item.groupVoteNum : item.voteNum}}票</view>
+        <view class="list_item_menu">
+          <text class="list_item_menu_l">{{item.skuName}}</text>
+          <text class="list_item_menu_r">{{item.groupVoteNum ? item.groupVoteNum : item.voteNum}}票</text>
+        </view>
         <button wx:if="{{item.isVote == 1}}" class="vote_button" bindtap='isvoted'>已投票</button>
         <button wx:else id="{{item.shopId}}" data-index="{{item.userId}}" bindtap='voteAdd'>投票</button>
       </view>
@@ -58,7 +61,7 @@
           <text class="list_item_name_f">{{item.groupCode ? item.groupCode : item.userCode}}号</text>
           <text class="list_item_name_s">{{item.actUserName}}</text>
         </view>
-        <image src="{{item.iconUrl}}" mode="aspectFill" id="{{item.userId}}" bindtap='clickligr'></image>
+        <image src="{{item.picUrls[0].smallPicUrl}}" mode="aspectFill" id="{{item.userId}}" bindtap='clickligr'></image>
       </view>
       <view class="list_item_vote">
         <view>{{item.groupVoteNum ? item.groupVoteNum : item.voteNum}}票</view>
