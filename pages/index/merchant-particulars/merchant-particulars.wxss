@@ -293,7 +293,7 @@ page {
 }
 
 .cuttentWrap{
-  width: 74%;
+  width: 82%;
   height: 50rpx;
   display: inline-block;
   overflow: hidden;
@@ -304,6 +304,7 @@ page {
 .cuttenSerial{
   display: flex;
   align-items: center;
+  width: 88%;
 }
 
 .cuttentwesa{
@@ -315,10 +316,11 @@ page {
 }
 
 .vote-entrance {
+  width: 12%;
   color: white;
   font-size: 30rpx;
   background-color: #fc5e2d;
-  padding: 8rpx 26rpx;
+  padding: 6rpx 26rpx;
   border-top-left-radius: 50rpx;
   border-top-right-radius: 50rpx;
   border-bottom-left-radius: 50rpx;
@@ -328,6 +330,8 @@ page {
 }
 
 .serial_number {
+  display: inline-block;
+  width: 18%;
   font-size: 32rpx;
   color: #ff5252;
   padding-right: 30rpx;
