@@ -611,10 +611,16 @@ Page({
       }
     }
   },
-  closetel: function () {
+  closetel: function (e) {
+    let id = e.target.id;
     this.setData({
       issnap: false
     })
+    if (id == 1) {
+      wx.redirectTo({
+        url: '/pages/personal-center/registered/registered'
+      })
+    }
   },
   receive: function () {
     let that = this;

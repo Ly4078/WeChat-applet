@@ -330,10 +330,16 @@ Page({
       }
     })
   },
-  closetel: function () {
+  closetel: function (e) {
+    let id = e.target.id;
     this.setData({
       issnap: false
     })
+    if (id == 1) {
+      wx.redirectTo({
+        url: '/pages/personal-center/registered/registered'
+      })
+    }
   },
   /**
    * 生命周期函数--监听页面初次渲染完成
