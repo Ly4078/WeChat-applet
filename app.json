@@ -15,7 +15,7 @@
     "pages/index/merchant-particulars/total-comment/total-comment",
     "pages/index/merchant-particulars/preview-picture/preview-picture",
     "pages/index/merchant-particulars/food-details/food-details",
-   "pages/index/merchant-particulars/coupon_details/coupon_details",
+    "pages/index/merchant-particulars/coupon_details/coupon_details",
     "pages/personal-center/personal-center",
     "pages/discover-plate/dynamic-state/dynamic-state",
     "pages/discover-plate/dynamic-state/text_input/text_input",
@@ -42,7 +42,9 @@
     "pages/personal-center/free-of-charge/category/category",
     "pages/personal-center/free-of-charge/get-address/get-address",
     "pages/index/webview/webview",
-    "pages/activityDetails/hot-activity/eventDetails/eventDetails"
+    "pages/activityDetails/hot-activity/eventDetails/eventDetails",
+    "pages/personal-center/myWallet/moneyDetail/moneyDetail",
+    "pages/personal-center/myWallet/myWallet"
   ],
   "window": {
     "backgroundTextStyle": "light",

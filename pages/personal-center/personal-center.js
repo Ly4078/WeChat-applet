@@ -15,6 +15,7 @@ Page({
     ismobile: true,
     issnap: false,  //是否是临时用户
     userType: '',
+    accountBalance:'',
   },
   onLoad: function () {
     this.setData({
@@ -26,6 +27,16 @@ Page({
       })
     }
     this.getuserInfo()
+
+    let _account = {
+      userId: app.globalData.userInfo.userId
+    }
+    Api.accountBalance(_account).then((res) => { //查询余额
+      let _data = res.data;
+      this.setData({
+        accountBalance: _data
+      })
+    })
   },
   onShow: function () {
     let that = this;
@@ -276,6 +287,11 @@ Page({
   enshrineClick: function (event) {
     wx.navigateTo({
       url: 'enshrine/enshrine',
+    })
+  },
+  myMineMoney:function(){
+    wx.navigateTo({
+      url: 'myWallet/myWallet?sumTotal=' + this.data.accountBalance.data
     })
   },
 

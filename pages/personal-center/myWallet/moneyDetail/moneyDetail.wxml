@@ -1,0 +1,12 @@
+<view>
+  <view class='particulars'>
+    <view class='particulars_left'>
+      <text>收入</text>
+      <text>2018-05-04 19:30:33</text>
+    </view>
+    <view class='particulars_right'>
+      <text>+</text>
+      <text>{{money[0].afterAmount}}</text>
+    </view>
+  </view>
+</view>

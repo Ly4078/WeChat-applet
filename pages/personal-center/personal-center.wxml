@@ -26,9 +26,9 @@
         <text>{{collectTotal}}</text>
       </view>
       <image class='halving-line' src='/images/icon/vertical.png'></image>
-      <view class='messageWrap'>
-        <text class='messageTop'>系统消息</text>
-        <text>0</text>
+      <view class='messageWrap' catchtap='myMineMoney'>
+        <text class='messageTop'>钱包</text>
+        <text>{{accountBalance.data}}</text>
       </view>
     </view>
   </view>
