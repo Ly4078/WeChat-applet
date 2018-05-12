@@ -27,7 +27,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log('options:', options)
     if (options.ent) {
       this.setData({
         isent: true
@@ -73,19 +72,29 @@ Page({
             })
 
           }else{
+            let _rele = _data.data.promotionRules[0].ruleDesc
+            let ind1 = _rele.indexOf("满") + 1;
+            let ind2 = _rele.indexOf("元");
+            let _price = _rele.substring(ind1, ind2)
+            that.setData({
+              ticketsinfo: _data.data,
+              hxData: _data.data,
+              price: _price
+            })
+
             let Cts = "现金", Dis = '折扣';
             if (_data.data.skuName.indexOf(Cts) > 0) {
-              _data.data.discount = false
+              // _data.data.discount = false
             }
             if (_data.data.skuName.indexOf(Dis) > 0) {
+              _data.data.discount = true;
               that.setData({
                 _type: true,
+                discount:true,
                 place: '输入折后金额',
                 tils: '折后金额(元)'
               })
             }
-            console.log("_data:",_data)
-            console.log("_type:",that.data._type)
             if (that.data._type) {
               let _parms = {
                 shopId: app.globalData.userInfo.shopId
@@ -104,17 +113,7 @@ Page({
                   })
                 } 
               })
-            } else {
-              let _rele = _data.data.promotionRules[0].ruleDesc
-              let ind1 = _rele.indexOf("满") + 1;
-              let ind2 = _rele.indexOf("元");
-              let _price = _rele.substring(ind1, ind2)
-              that.setData({
-                ticketsinfo: _data.data,
-                hxData: _data.data,
-                price: _price
-              })
-            }
+            } 
           }
           
         } else {
@@ -144,7 +143,6 @@ Page({
         okhx: false,
         pay: ''
       })
-      return false
     } else if (this.data.discount) {
       this.setData({
         okhx: true,
