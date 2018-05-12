@@ -9,7 +9,6 @@
 </view>
 
 <view>
-
   <view class='centreWrap'>
     <view class='centreTopName'>
     <button wx:if="{{canIUse}}" class='suerinfo' open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">

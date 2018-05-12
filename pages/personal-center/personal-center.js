@@ -14,7 +14,7 @@ Page({
     sumTotal: 0,
     collectTotal: 0,
     ismobile: true,
-    issnap: false, 
+    issnap: false,  //是否是临时用户
     userType: '',
     accountBalance:'',
   },
@@ -134,7 +134,6 @@ Page({
                               iconUrl: res.userInfo.avatarUrl,
                               nickName: res.userInfo.nickName,
                             })
-                            console.log('res:',res)
                             that.updatauser(res.userInfo)
                           }
                         }
