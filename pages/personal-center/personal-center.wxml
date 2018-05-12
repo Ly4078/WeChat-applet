@@ -32,7 +32,7 @@
       <image class='halving-line' src='/images/icon/vertical.png'></image>
       <view class='messageWrap' catchtap='myMineMoney'>
         <text class='messageTop'>钱包</text>
-        <text>{{accountBalance.data}}</text>
+        <text>0</text><!-- {{accountBalance.data}} -->
       </view>
     </view>
   </view>

@@ -16,6 +16,7 @@ Page({
     ismobile: true,
     issnap: false, 
     userType: '',
+    accountBalance:'',
   },
   onLoad: function () {
     this.setData({
@@ -27,6 +28,16 @@ Page({
       })
     }
     this.getuserInfo()
+
+    let _account = {
+      userId: app.globalData.userInfo.userId
+    }
+    Api.accountBalance(_account).then((res) => { //查询余额
+      let _data = res.data;
+      this.setData({
+        accountBalance: _data
+      })
+    })
   },
   onShow: function () {
     let that = this;
@@ -122,7 +133,6 @@ Page({
                               iconUrl: res.userInfo.avatarUrl,
                               nickName: res.userInfo.nickName,
                             })
-                            console.log('res:',res)
                             that.updatauser(res.userInfo)
                           }
                         }
@@ -283,6 +293,11 @@ Page({
       url: 'enshrine/enshrine',
     })
   },
+  // myMineMoney:function(){ //钱包明细
+  //   wx.navigateTo({
+  //     url: 'myWallet/myWallet?sumTotal=' + this.data.accountBalance.data
+  //   })
+  // },
 
   VoucherCode:function(){ //输入券码核销
     wx.navigateTo({
