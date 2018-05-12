@@ -339,7 +339,7 @@ Page({
             wx.showToast({
               title: '该票券已被使用',
               icon: 'none',
-              mask:'true'
+              mask: 'true'
             })
           } else if (isDue == 1) {
             wx.showToast({
@@ -354,12 +354,12 @@ Page({
             Api.searchForShopId(_parms).then((res) => {
               if (res.data.code == -1) {
                 wx.showToast({
-                  title: res.data.message+',不能核销此活动券',
+                  title: res.data.message + ',不能核销此活动券',
                   mask: 'true',
                   icon: 'none',
                   duration: 3000
                 })
-              }else{
+              } else {
                 wx.navigateTo({
                   url: '../personal-center/call-back/call-back?code=' + that.data.qrCode + '&type=' + data.data.type
                 })
@@ -401,9 +401,15 @@ Page({
       title: '该功能即将开放...',
     })
   },
-  closetel: function () {
+  closetel: function (e) {
+    let id = e.target.id;
     this.setData({
       issnap: false
     })
+    if (id == 1) {
+      wx.redirectTo({
+        url: '/pages/personal-center/registered/registered'
+      })
+    }
   }
 })

@@ -299,12 +299,29 @@
   box-sizing: border-box;
 }
 
-.list_item_vote view {
+.list_item_menu {
   width: 100%;
   margin: 10rpx 0;
   font-size: 32rpx;
   text-align: center;
   color: #555;
+}
+
+.list_item_menu text {
+  display: inline-block;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+}
+
+.list_item_menu_l {
+  text-align: left;
+  width: 70%;
+}
+
+.list_item_menu_r {
+  text-align: right;
+  width: 30%;
 }
 
 .list_item_vote button {

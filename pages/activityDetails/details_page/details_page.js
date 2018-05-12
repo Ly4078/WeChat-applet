@@ -22,7 +22,7 @@ Page({
       match: '麻辣小龙虾'
     },
     poll: '投票',
-    isvote: false,
+    isVote: 0,
     shopName: '',
     groupCode: '',
     activity: '',
@@ -36,9 +36,9 @@ Page({
     let _voteUserId = app.globalData.userInfo.userId
     this.setData({
       userid: options.id,
-      shopId: options.shopid,
-      shopName: options._shopName,
-      groupCode: options.groupCode,
+      shopId: options.shopid ? options.shopid : '',
+      shopName: options._shopName ? options._shopName : '',
+      groupCode: options.groupCode ? options.groupCode : '',
       activity: options.actId,
       _voteUserIdSuc: _voteUserId
     })
@@ -70,11 +70,13 @@ Page({
 
       if (_data.isVote == 1) {
         this.setData({
-          poll: '投票'
+          poll: '已投票',
+          isVote: 1
         })
       } else {
         this.setData({
-          poll: '已投票'
+          poll: '投票',
+          isVote: 0
         })
       }
       this.setData({
@@ -234,9 +236,15 @@ Page({
       }
     })
   },
-  closetel: function () {
+  closetel: function (e) {
+    let id = e.target.id;
     this.setData({
       issnap: false
     })
+    if (id == 1) {
+      wx.redirectTo({
+        url: '/pages/personal-center/registered/registered'
+      })
+    }
   }
 })

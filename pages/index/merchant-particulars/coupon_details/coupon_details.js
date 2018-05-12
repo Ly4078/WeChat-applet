@@ -74,13 +74,13 @@ Page({
         let data = res.data;
         if (data.code == 0) {
           let _data = data.data.list[0]
-          if (_data.isAgio) {  //已领取
-            that.setData({
-              isAgio: false
-            })
-          } else {   //未领取
+          if (_data.isAgio == 0 || _data.isAgio == null) {  //未领取
             that.setData({
               isAgio: true
+            })
+          } else {   //已领取
+            that.setData({
+              isAgio: false
             })
           }
           that.setData({
@@ -112,6 +112,12 @@ Page({
             mask: 'true',
             icon: 'none',
           }, 1500)
+          let listagio = that.data.listagio;
+          listagio.sellNum++;
+          that.setData({
+            isAgio: false,
+            listagio: listagio
+          });
         } else {
           wx.showToast({
             title: '你已领取过，请使用后再领取',

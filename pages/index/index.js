@@ -36,8 +36,7 @@ Page({
     settime: '',
     rematime: '获取验证码',
     afirst:false,
-    isclick: true,
-    activityIMg: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1975347470,2770072390&fm=27&gp=0.jpg'
+    isclick: true
   },
   onLoad: function (options) {
     wx.showLoading({
@@ -265,7 +264,7 @@ Page({
   getcarousel: function () {  //轮播图
     let that = this;
     Api.hcllist().then((res) => {
-      // console.log("carousel:",res.data.data)
+      console.log("carousel:",res.data.data)
       this.setData({
         carousel: res.data.data
       })
@@ -573,10 +572,16 @@ Page({
       isphoneNumber: false
     })
   },
-  closetel: function () {
+  closetel: function (e) {
+    let id = e.target.id;
     this.setData({
       issnap: false
     })
+    if (id == 1) {
+      wx.redirectTo({
+        url: '/pages/personal-center/registered/registered'
+      })
+    }
   },
 
 
@@ -676,7 +681,6 @@ Page({
     })
   },
   remaining: function (val) {  //倒计时
-    console.log("fdasfd")
     let rema = utils.reciprocal(this.data.veridyTime)
     if (rema == 'no' || rema == 'yes') {
       clearTimeout(this.data.settime)

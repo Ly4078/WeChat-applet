@@ -4,13 +4,13 @@
     <view class='sqtishi'>提示</view>
     <view class='drphnumber'>获得更多体验,请移步[我的]-[新用户注册]</view>
     <!-- <button  class='gettel sqgettel' open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">确定</button>  -->
-    <button class='gettel sqgettel' bindtap='closetel'>确定</button>
-    <button class='gettel colosetel' bindtap='closetel'>取消</button>
+    <button class='gettel sqgettel' bindtap='closetel' id='1'>确定</button>
+    <button class='gettel colosetel' bindtap='closetel' id='2'>取消</button>
   </view>
 </view>
 
 <view class='detail_top'>
-  <image src="{{information.iconUrl}}" class='topback' mode="aspectFill"></image>
+  <image src="{{information.picUrls[0].smallPicUrl}}" class='topback' mode="aspectFill"></image>
   <view class='motai'></view>
   <view class='toptop'>
     <image src="{{information.iconUrl}}" mode="aspectFill" class='topimg'></image>
@@ -33,7 +33,7 @@
       <view class='xsnum'>{{groupCode?shopName:'暂未匹配'}}</view>
       <view class='xstype {{groupCode? "" : "none"}}'>匹配</view>
     </view>
-    <button class="toupiao {{isvote?'':'actvote'}}"  bindtap='castvote'>{{poll}}</button>
+    <button class="toupiao {{isVote == 0 ? '' : 'actvote'}}"  bindtap='castvote'>{{poll}}</button>
   </view>
 </view>
 <video class="myVideo"  wx:if="{{video[0]}}" src="{{video[0].picUrl}}" controls></video>
