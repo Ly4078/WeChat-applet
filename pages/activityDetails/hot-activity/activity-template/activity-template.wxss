@@ -14,6 +14,11 @@
   width: 100%;
 }
 
+.list_item_vote_center{
+  text-align: center;
+  padding: 10rpx 0rpx;
+}
+
 .hot_main {
   padding: 0 28rpx;
   box-sizing: border-box;

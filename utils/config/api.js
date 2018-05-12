@@ -287,6 +287,14 @@ const ALL_API = {
   searchForShopId:{
     method:'GET',
     url:'actshop/searchForShopId'
+  },
+  accountBalance: { //查询账户余额
+    method: 'GET',
+    url: 'account/balance'
+  },
+  detailList: { //余额明细列表
+    method: 'GET',
+    url: 'account/listTrading'
   }
 }
 const Api = new MyHttp({}, ALL_API);

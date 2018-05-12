@@ -12,6 +12,16 @@ Page({
     sostatus: 0,
     isNew: 0,   //是否新用户
     issnap: false,  //是否是临时用户
+    items: [
+      { name: '微信支付', img: '/images/icon/weixinzhifu.png'},
+      { name: '余额支付', img: '/images/icon/yuezhifu.png', checked: 'true'},
+    ]
+  },
+  formSubmit: function (e) {
+    console.log('form发生了submit事件，携带数据为：', e.detail.value)
+  },
+  formReset: function () {
+    console.log('form发生了reset事件')
   },
   onLoad: function (options) {
     this.isNewUser()
