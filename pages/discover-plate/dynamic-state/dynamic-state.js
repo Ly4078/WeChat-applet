@@ -171,7 +171,10 @@ Page({
             let article = getApp().globalData.article;  //获取全局变量
             let _data = res.data;
             _data = JSON.parse(_data);
-            let _video = _data.data.picUrl
+            let _video = _data.data.picUrl;
+            that.setData({
+              defaimg: _data.data.smallPicUrl
+            })
             let obj = {
               type: 'video',
               value: _video,
@@ -363,7 +366,6 @@ Page({
         userName: app.globalData.userInfo.userName,
         nickName: app.globalData.userInfo.nickName
       }
-      console.log("_parms:",_parms)
       Api.topicadd(_parms).then((res) => {
         if (res.data.code == 0) {
           setTimeout(function () {

@@ -36,8 +36,7 @@ Page({
     settime: '',
     rematime: '获取验证码',
     afirst:false,
-    isclick: true,
-    activityIMg: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1975347470,2770072390&fm=27&gp=0.jpg'
+    isclick: true
   },
   onLoad: function (options) {
     wx.showLoading({
@@ -265,7 +264,7 @@ Page({
   getcarousel: function () {  //轮播图
     let that = this;
     Api.hcllist().then((res) => {
-      // console.log("carousel:",res.data.data)
+      console.log("carousel:",res.data.data)
       this.setData({
         carousel: res.data.data
       })
@@ -530,7 +529,8 @@ Page({
       this.setData({
         getPhoneNumber: true
       })
-      this.getuseradd()
+      // this.getuseradd()
+      this.getlocation();
     }
   },
   newUserToGet: function () {    //新用户跳转票券

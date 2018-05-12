@@ -4,6 +4,7 @@ var utils = require('../../utils/util.js')
 var app = getApp();
 Page({
   data: {
+    canIUse: wx.canIUse('button.open-type.getUserInfo'),
     _build_url: GLOBAL_API_DOMAIN,
     nickName: '',
     iconUrl: '',
@@ -13,7 +14,7 @@ Page({
     sumTotal: 0,
     collectTotal: 0,
     ismobile: true,
-    issnap: false,  //是否是临时用户
+    issnap: false, 
     userType: '',
     accountBalance:'',
   },
@@ -89,6 +90,10 @@ Page({
       }
     })
   },
+  bindGetUserInfo: function (e) {
+    console.log(e.detail.userInfo)
+    that.updatauser(e.detail.userInfo)
+  },
   getuserInfo: function () {  //从微信服务器获取用户信息
     let that = this;
     wx.getUserInfo({
@@ -113,7 +118,7 @@ Page({
     }
     wx.getSetting({
       success: (res) => {
-        if (!res.authSetting['scope.userInfo']) {// 用户未授受获取其用户信息
+        if (!res.authSetting['scope.userLocation']) {// 用户未授受获取其用户信息
           wx.showModal({
             title: '提示',
             content: '享7要你的用户信息，快去授权！',
@@ -129,6 +134,7 @@ Page({
                               iconUrl: res.userInfo.avatarUrl,
                               nickName: res.userInfo.nickName,
                             })
+                            console.log('res:',res)
                             that.updatauser(res.userInfo)
                           }
                         }
@@ -295,28 +301,12 @@ Page({
     })
   },
 
-
-  // if(options.type == 3) {
-  //   let _parms = {
-  //     shopId: app.globalData.userInfo.shopId
-  //   }
-  //   Api.searchForShopId(_parms).then((res) => {
-  //     if (res.data.code == -1) {
-  //       wx.showToast({
-  //         title: res.data.message,
-  //         mask: 'true',
-  //         icon: 'none'
-  //       }, 3000)
-  //       setTimeout(function () {
-  //         wx.switchTab({
-  //           url: '../personal-center'
-  //         })
-  //       }, 3000)
-  //     }
-  //   })
-  // }
-
-  scanAqrCode: function (e) {
+  VoucherCode:function(){ //输入券码核销
+    wx.navigateTo({
+      url: '../personal-center/call-back/call-back?ent=ent'
+    })
+  },
+  scanAqrCode: function (e) {  //扫一扫核销
     let that = this;
     wx.scanCode({
       onlyFromCamera: true,
@@ -350,6 +340,14 @@ Page({
       url: this.data._build_url + 'cp/getByCode/' + that.data.qrCode,
       success: function (res) {
         let data = res.data;
+        let Cts = "现金", Dis = '折扣';
+        if (data.data.skuName.indexOf(Cts) > 0) {
+          data.data.discount = false
+        }
+        if (data.data.skuName.indexOf(Dis) > 0) {
+          data.data.discount = true
+        }
+        console.log('data:',data.data)
         let current = res.currentTime;
         if (data.code == 0) {
           let isDue = that.isDueFunc(current, data.expiryDate);
@@ -365,7 +363,7 @@ Page({
               icon: 'none',
               mask: 'true'
             })
-          } else if (data.data.type == 3) {
+          } else if (data.data.discount) {
             let _parms = {
               shopId: app.globalData.userInfo.shopId
             }
@@ -385,7 +383,7 @@ Page({
             })
           } else {
             wx.navigateTo({
-              url: '../personal-center/call-back/call-back?code=' + that.data.qrCode + '&type=' + data.data.type
+              url: '../personal-center/call-back/call-back?code=' + that.data.qrCode + '&discount=' + data.data.discount
             })
             // wx.navigateTo({
             //   url: 'cancel-after-verification/cancel-after-verification?qrCode=' + that.data.qrCode + '&userId=' + app.globalData.userInfo.userId,
@@ -393,7 +391,8 @@ Page({
           }
         } else {
           wx.showToast({
-            title: '请扫描有效票券',
+            title: data.message,
+            mask: 'true',
             icon: 'none'
           }, 2000)
         }

@@ -16,7 +16,9 @@ Page({
     hxData: {},
     price: '',
     okhx: false,
-    _type: '',
+    _type: false,
+    _code: '',
+    isent: false,
     place: '输入消费金额',
     tils: '消费金额(元)'
   },
@@ -25,38 +27,104 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log('options:',options)
-   if (options.type == 4) {
+    console.log('options:', options)
+    if (options.ent) {
       this.setData({
-        _type: options.type,
-        place: '输入折后金额',
-        tils: '折后金额(元)'
-      })
-    } else {
-      this.setData({
-        place: '输入消费金额',
-        tils: '消费金额(元)'
+        isent: true
       })
     }
-    this.setData({
-      code: options.code
-    })
-    this.gettickets()
+
+    if (options.code) {
+      this.gettickets(options.code)
+    }
   },
-  gettickets: function () {  //获取票券信息
+
+  bindinputent: function (e) {  //实时获取输入的券码
+    let _value = e.detail.value;
+    let actual = e.detail.value;
+    if (_value.length == 4 || _value.length == 9){
+      _value+=' '
+    }
+    if (actual.length == 12) {
+      let code = actual.replace(/\s+/g, "");
+      this.gettickets(code)
+    }this.setData({
+      _code: _value
+    })
+  },
+
+  gettickets: function (val) {  //获取票券信息
     let that = this
     wx.request({
-      url: this.data._build_url + 'cp/getByCode/' + this.data.code,
+      url: this.data._build_url + 'cp/getByCode/' + val,
       success: function (res) {
-        if (res.data.code == 0) {
-          let _rele = res.data.data.promotionRules[0].ruleDesc
-          let ind1 = _rele.indexOf("满") + 1;
-          let ind2 = _rele.indexOf("元");
-          let _price = _rele.substring(ind1, ind2)
+        let _data = res.data
+        if (_data.code == 0) {
+          if(!_data.data){
+            wx.showToast({
+              title:'券码错误，请重新输入！',
+              mask: 'true',
+              icon: 'none',
+              duration: 3000
+            })
+            that.setData({
+              _code: '',
+              ticketsinfo:[]
+            })
+
+          }else{
+            let Cts = "现金", Dis = '折扣';
+            if (_data.data.skuName.indexOf(Cts) > 0) {
+              _data.data.discount = false
+            }
+            if (_data.data.skuName.indexOf(Dis) > 0) {
+              that.setData({
+                _type: true,
+                place: '输入折后金额',
+                tils: '折后金额(元)'
+              })
+            }
+            console.log("_data:",_data)
+            console.log("_type:",that.data._type)
+            if (that.data._type) {
+              let _parms = {
+                shopId: app.globalData.userInfo.shopId
+              }
+              Api.searchForShopId(_parms).then((res) => {
+                if (res.data.code == -1) {
+                  that.setData({
+                    _code: '',
+                    ticketsinfo: []
+                  })
+                  wx.showToast({
+                    title: res.data.message + ',不能核销此活动券工 ',
+                    mask: 'true',
+                    icon: 'none',
+                    duration: 3000
+                  })
+                } 
+              })
+            } else {
+              let _rele = _data.data.promotionRules[0].ruleDesc
+              let ind1 = _rele.indexOf("满") + 1;
+              let ind2 = _rele.indexOf("元");
+              let _price = _rele.substring(ind1, ind2)
+              that.setData({
+                ticketsinfo: _data.data,
+                hxData: _data.data,
+                price: _price
+              })
+            }
+          }
+          
+        } else {
+          wx.showToast({
+            title: _data.message,
+            icon: 'none',
+            mask: 'true',
+          }, 2000)
           that.setData({
-            ticketsinfo: res.data.data,
-            hxData: res.data.data,
-            price: _price
+            ticketsinfo:[]
           })
         }
       }
@@ -66,43 +134,42 @@ Page({
     let _value = ev.detail.value * 1;
     _value = _value.toFixed(2);
     let _data = this.data.ticketsinfo;
-      if (_value == '' && _value == undefined && _value == null) {
-        wx.showToast({
-          title: '请输入消费金额',
-          icon: 'none',
-          duration: 2000
-        })
+    if (_value == '' && _value == undefined && _value == null) {
+      wx.showToast({
+        title: '请输入消费金额',
+        icon: 'none',
+        duration: 2000
+      })
+      this.setData({
+        okhx: false,
+        pay: ''
+      })
+      return false
+    } else if (this.data.discount) {
+      this.setData({
+        okhx: true,
+        pay: _value,
+        amount: _value
+      })
+    } else {
+      let _pay = (_value * 1 - _data.couponAmount * 1 > 0 ? _value * 1 - _data.couponAmount * 1 : '') * 1
+      _pay = _pay.toFixed(2)
+      if (_pay > 0) {
         this.setData({
-          okhx: false,
-          pay: ''
+          okhx: true
         })
-        return false
-      } else if (this.data._type == 4){
+      } else {
         this.setData({
-          okhx: true,
-          pay: _value,
-          amount: _value
-        })
-      }else {
-        let _pay = (_value * 1 - _data.couponAmount * 1 > 0 ? _value * 1 - _data.couponAmount * 1 : '') * 1
-        _pay = _pay.toFixed(2)
-        if (_pay > 0) {
-          this.setData({
-            okhx: true
-          })
-        } else {
-          this.setData({
-            okhx: false
-          })
-        }
-        this.setData({
-          amount: _value,
-          pay: _pay
+          okhx: false
         })
       }
-    
-
+      this.setData({
+        amount: _value,
+        pay: _pay
+      })
+    }
   },
+
   confirm: function () {  //确认核销
     let that = this;
     let _hxData = this.data.hxData

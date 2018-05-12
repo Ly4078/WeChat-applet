@@ -4,16 +4,39 @@ page {
   background-color: #ebebeb;
 }
 
-.verification {
+/* .verification {
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-}
+} */
 
+.setcode{
+  width: 694rpx;
+  height: 112rpx;
+  background: #fff;
+  margin: 28rpx;
+}
+.setcode input{
+  width:100%;
+  height: 112rpx;
+  line-height: 112rpx;
+  font-size: 36rpx;
+  background: #fff;
+  color: #191919;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
+.setcode inpu::after{
+  border: none;
+}
 .verification-inside {
-  width: 92%;
-  margin-top: 34rpx;
+  width: 694rpx;
+  height: 112rpx;
+  background: #fff;
+  margin: 28rpx;
+  background: #fff;
 }
 
 .inputBox {
@@ -45,13 +68,13 @@ page {
   border-radius: 5px;
   text-align: right;
 }
-
+ 
 .discountInfo,.paymentBox{
   font-size: 30rpx;
   display: flex;
   justify-content: space-between;
   padding-top: 34rpx;
-}
+} 
 
 .paymentBox{
   color: #555555;
@@ -87,4 +110,18 @@ button[plan]{
   background-color: #fc512d;
 }
 
+
+.define{
+   margin-top: 174rpx; 
+ width: 160rpx;
+ height: 160rpx;
+ line-height: 160rpx;
+ color: #fff;
+ font-size: 46rpx;
+ text-align: center;
+ background: #FC5E2D;
+ border-radius: 50%;
+ border: 1rpx solid #FC5E2D;
+ margin-left: 295rpx;
+}
 

@@ -1,5 +1,14 @@
 <!-- <text>pages/index/search/search.wxml</text> -->
+<!-- 
+<view  class='ent'>
+  <input class='fill'  type='number' bindinput="bindinputent" focus="{{true}}" value='{{_code}}' maxlength="10"  placeholder="请输入10位券码"></input>
+  <button class='define' bindtap='define'>验码</button>
+</view> -->
 <view class='verification'>
+  <view class='setcode' wx:if="{{isent}}">
+    <input  class='fill'  type='number' bindinput="bindinputent" focus="{{true}}" value='{{_code}}' maxlength="12"  placeholder="请输入券码"></input>
+  </view>
+
   <view class='verification-inside'>
     <view class='inputBox'>
       <text>{{tils}}:</text>
@@ -9,7 +18,7 @@
     <view>
       <view class="discountInfo">
         <text class="discountTicket">{{ticketsinfo.skuName}}</text>
-         <text class="discountMoney discountMoney" wx:if="{{_type == 4}}">-1</text>
+         <text class="discountMoney discountMoney" wx:if="{{_type}}">-1</text>
         <text class="discountMoney discountMoney" wx:else>-{{ticketsinfo.couponAmount}}</text>
       </view>
     </view>
