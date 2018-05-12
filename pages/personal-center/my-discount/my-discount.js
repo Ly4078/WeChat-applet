@@ -41,13 +41,10 @@ Page({
               let Cts = "现金", Dis='折扣';
               if (ticketList[i].skuName.indexOf(Cts) > 0) {
                 ticketList[i].cash = true
-               
               }
               if (ticketList[i].skuName.indexOf(Dis) > 0) {
                 ticketList[i].discount = true
-                
               }
-             
               ticketList[i]["isDue"] = that.isDueFunc(ticketList[0].expiryDate);
               ticketArr.push(ticketList[i]);
             }

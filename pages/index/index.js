@@ -530,7 +530,8 @@ Page({
       this.setData({
         getPhoneNumber: true
       })
-      this.getuseradd()
+      // this.getuseradd()
+      this.getlocation();
     }
   },
   newUserToGet: function () {    //新用户跳转票券

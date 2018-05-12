@@ -9,11 +9,16 @@
 </view>
 
 <view>
+
   <view class='centreWrap'>
     <view class='centreTopName'>
-      <image class='centreImages' wx:if="{{ismobile}}" src='{{iconUrl}}' catchtap='wxgetsetting'></image>
-      <image wx:else class='centreImages' src='{{iconUrl}}' catchtap='wxgetsetting'></image>
-      <view class='centreText' catchtap='wxgetsetting'>{{nickName}}</view>
+    <button wx:if="{{canIUse}}" class='suerinfo' open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">
+      <image class='centreImages' wx:if="{{ismobile}}" src='{{iconUrl}}'></image>
+      <image wx:else class='centreImages' src='{{iconUrl}}'></image>
+    </button>
+    <view wx:else>请升级微信版本</view>
+    <view class='centreText' catchtap='wxgetsetting'>{{nickName}}</view>
+
     </view>
     <view class='messageCase'>
       <view class='messageWrap' bindtap='DynamicState'>
@@ -77,7 +82,16 @@
       <view class='myList-single' catchtap='scanAqrCode'>
         <view>
           <image class='myListImages' src='/images/icon/richScan.png'></image>
-          <text class='mylistText'>扫一扫</text>
+          <text class='mylistText'>扫码核销</text>
+        </view>
+        <image class='myListArrows' src='/images/icon/home_arrow.png'></image>
+      </view>
+    </view>
+    <view class='myList'>
+      <view class='myList-single' catchtap='VoucherCode'>
+        <view>
+          <image class='myListImages' src='/images/icon/enter.png'></image>
+          <text class='mylistText'>券码核销</text>
         </view>
         <image class='myListArrows' src='/images/icon/home_arrow.png'></image>
       </view>
