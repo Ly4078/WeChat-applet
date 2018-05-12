@@ -85,6 +85,9 @@
   color: #B1B1B1;
   border-color: #B1B1B1;
 }
+.isnoGray{
+  color: #DB9C34;
+}
 .contick view{
   padding-left: 30rpx;
   width: 70%; 
@@ -92,7 +95,7 @@
   line-height: 81rpx;
 }
 .contick view:nth-child(1){
-  color: #DB9C34;
+  
   font-size: 46rpx;
   line-height:100rpx;
 }
@@ -100,6 +103,6 @@
   color: #808080;
   font-size: 24rpx;
 }
-.actsku view:nth-child(1){
+.actsku{
   color:#FC5E2D;
 }

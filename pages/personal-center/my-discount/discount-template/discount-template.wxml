@@ -5,7 +5,7 @@
         <view class='security-top-left' wx:if="{{item.cash}}">
           <text class='security-money {{item.isUsed == 1 ? "isGray" : ""}}'>￥<text class='security-money-se'>{{item.couponAmount}}</text></text>
         </view>
-        <view class='security-top-left contick' wx:if="{{item.discount}}">
+        <view class='security-top-left contick {{item.isUsed == 1?"isGray":"isnoGray"}} ' wx:if="{{item.discount}}">
           <view>{{item.skuName}}</view>
           <view><text>享7专享</text> | <text>全平台通用</text> | <text>免预约</text></view>
         </view>
@@ -19,8 +19,8 @@
           <view>商家券</view>
         </view>   -->
 
-        <view class='security-top-left contick actsku' wx:if="{{item.type == 3}}">
-          <view>{{item.skuName}}</view>
+        <view class='security-top-left contick' wx:if="{{item.type == 3}}">
+          <view class='{{item.isUsed == 1?"isGray":"actsku"}}'>{{item.skuName}}</view>
           <view>仅限在参与活动的商家中使用</view>
         </view>
         <view class='security-top-right'>
