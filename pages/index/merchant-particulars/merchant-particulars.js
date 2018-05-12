@@ -219,11 +219,11 @@ Page({
             oldpackage: data.data.list
           });
           if (that.data.oldpackage) {
-            if (that.data.oldpackage.length > 2) {
+            if (that.data.oldpackage.length > 3) {
               that.setData({
                 ismore: true
               })
-              let _arr = that.data.oldpackage.slice(0, 1);
+              let _arr = that.data.oldpackage.slice(0, 2);
               that.setData({
                 newpackage: _arr
               })
@@ -702,7 +702,7 @@ Page({
     })
     let arr = this.data.oldpackage
     if (this.data.ismore) {
-      arr = arr.slice(0, 1);
+      arr = arr.slice(0, 2);
       this.setData({
         newpackage: arr
       })

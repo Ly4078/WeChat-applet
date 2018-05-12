@@ -366,7 +366,7 @@ page {
 }
 .initiate-left {
   width: 7rpx;
-  height: 30rpx;
+  height: 24rpx;
   vertical-align: middle;
   padding-right: 20rpx;
 }
@@ -384,6 +384,7 @@ page {
 }
 
 .initiate-wrapp {
+  margin-top: 20rpx;
   background-color: white;
   margin-bottom: 20rpx;
 }
@@ -713,14 +714,18 @@ button::after{
   text-align: center;
   color: #B1B1B1;
   font-size: 28rpx;
+  background: #fff;
+}
+.horizontal{
+  border-top: 1rpx solid #e0e0e0;
 }
 .more_img{
-  width:19rpx;
+  width:14rpx;
   margin-top:19rpx;
   transform:rotate(90deg);
 }
 .more_img2{
-  width:20rpx;
+  width:14rpx;
   margin-bottom:22rpx;
   transform:rotate(-90deg);
 }
