@@ -80,8 +80,7 @@ Page({
     })
   },
   bindGetUserInfo: function (e) {
-    console.log(e.detail.userInfo)
-    that.updatauser(e.detail.userInfo)
+    this.updatauser(e.detail.userInfo)
   },
   getuserInfo: function () {  //从微信服务器获取用户信息
     let that = this;
@@ -179,7 +178,7 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success: (res) => {
-        this.getmoredata()
+      //   this.getmoredata()
         if (res.data.status == 0) {
           this.setData({
             city: res.data.result.address_component.city,
