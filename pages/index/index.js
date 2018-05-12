@@ -264,7 +264,7 @@ Page({
   getcarousel: function () {  //轮播图
     let that = this;
     Api.hcllist().then((res) => {
-      console.log("carousel:",res.data.data)
+      // console.log("carousel:",res.data.data)
       this.setData({
         carousel: res.data.data
       })

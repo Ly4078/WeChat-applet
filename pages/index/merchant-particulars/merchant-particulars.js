@@ -15,10 +15,12 @@ Page({
     store_images: '',
     merchantArt: [],   //商家动态列表
     activity: [],   //商家活动列表
+    allactivity:[],
     article_page: 1,
     reFresh: true,
     issnap: false,
     ismore: false,
+    isactmore:false,
     isAgio: false,
     listagio: [],
     newpackage: [],
@@ -141,8 +143,21 @@ Page({
     Api.selectByShopId(_parms).then((res) => {
       if (res.data.code == 0) {
         that.setData({
-          activity: res.data.data
+          allactivity: res.data.data
         })
+        if (that.data.allactivity.length > 3) {
+          that.setData({
+            isactmore: true
+          })
+          let _arr = that.data.allactivity.slice(0, 2);
+          that.setData({
+            activity: _arr
+          })
+        } else {
+          that.setData({
+            activity: that.data.allactivity
+          })
+        }
       }
     })
   },
@@ -662,6 +677,23 @@ Page({
     wx.navigateTo({
       url: './coupon_details/coupon_details?id=' + _id + '&shopid=' + this.data.shopid,
     })
+  },
+  clickactmore: function () {
+    this.setData({
+      isactmore: !this.data.isactmore,
+      activity: []
+    })
+    let arr = this.data.allactivity
+    if (this.data.isactmore) {
+      arr = arr.slice(0, 2);
+      this.setData({
+        activity: arr
+      })
+    } else {
+      this.setData({
+        activity: arr
+      })
+    }
   },
   clickmore: function () {
     this.setData({

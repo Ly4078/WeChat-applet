@@ -86,6 +86,11 @@
           <text class='vote-entrance'>投票</text>
         </view>
       </view>
+      <view class='more' bindtap='clickactmore'>
+          更多套餐券
+          <image wx:if="{{isactmore}}" class='initiate-left more_img' src='/images/icon/home_arrow.png'></image>
+          <image wx:else class='initiate-left more_img2' src='/images/icon/home_arrow.png'></image>
+        </view>
 
 
       <view class='initiate-wrapp' wx:if="{{oldpackage.length>0}}">
