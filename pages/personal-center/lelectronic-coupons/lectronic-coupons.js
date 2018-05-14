@@ -1,4 +1,5 @@
-import Api from '../../../utils/config/config.js';
+// import Api from '../../../utils/config/config.js';
+import Api from '../../../utils/config/api.js'
 import { GLOBAL_API_DOMAIN } from '../../../utils/config/config.js';
 var app = getApp();
 Page({
@@ -6,20 +7,41 @@ Page({
     _build_url: GLOBAL_API_DOMAIN,
     qrCodeArr: [],     //二维码数组
     couponsArr: [],    //票券数组
+    ticket:[],  //票券
     qrCodeFlag: true,   //二维码列表显示隐藏标识
-    _skuNum: ''
+    _skuNum: '',
+    soid:'',  //点击的订单ID
+    id:'',  //票券ID
+    ismoldel:false,
+    redfirst:'1',
+    timer:'',
+    amount:'金额随机'
   },
   onLoad: function (options) {
     this.setData({
-      id: options.id,
+      id:options.id,
+      soid: options.soid,
       myCount: options.myCount ? options.myCount : 0
     });
     this.getTicketInfo();
+    this.getcodedetail();
+  },
+  onShow:function(){
+    let that = this;
+    let int = setInterval(function(){
+      that.getcodedetail();
+    }, 3000);
+    that.setData({
+      timer:int
+    })
+  },
+  onHide:function(){
+    clearInterval(this.data.timer)
   },
   //二维码放大
   previewImg: function (e) {
     let that = this,
-      idx = e.currentTarget.dataset.index;
+    idx = e.currentTarget.dataset.index;
     wx.previewImage({
       current: that.data.qrCodeArr[idx],     //当前图片地址
       urls: that.data.qrCodeArr,               //所有要预览的图片的地址集合 数组形式
@@ -28,11 +50,47 @@ Page({
       complete: function (res) { },
     })
   },
-  //获取票券详情
-  getTicketInfo: function () {
+ 
+  getcodedetail: function () { //获取票券详情
     let that = this;
     wx.request({
-      url: that.data._build_url + 'so/getForOrder/' + that.data.id,
+      url: this.data._build_url + 'cp/get/' + this.data.id,
+      success: function (res) {
+        let data = res.data;
+        if(res.data.code == 0){
+          let arr = [];
+          arr.push(res.data.data)
+          that.setData({
+            ticket: arr
+          })
+          if (res.data.data.isUsed != 0){
+            clearInterval(that.data.timer)
+            that.setData({
+              ismoldel:true
+            })
+          }
+        }
+      }
+    });
+  },
+  getredpacket:function () {//获取可领取的随机红包金额
+    let that = this;
+    let _parms = {
+      userId: app.globalData.userInfo.userId,
+      id: that.data.id
+    }
+    Api.redpacket(_parms).then((res) => {
+      if (res.data.code == 0) {
+        that.setData({
+          amount:res.data.data
+        })
+      }
+    })
+  },
+  getTicketInfo: function () { //获取订单详情
+    let that = this;
+    wx.request({
+      url: that.data._build_url + 'so/getForOrder/' + that.data.soid,
       success: function (res) {
         let _skuNum = res.data.data.coupons
         for (let i = 0; i < _skuNum.length; i++) {
@@ -83,5 +141,32 @@ Page({
     wx.navigateTo({
       url: '../../index/voucher-details/voucher-details?id=' + that.data.ticketInfo.skuId + ' &sell=' + that.data.ticketInfo.unitPrice + '&inp=' + that.data.ticketInfo.coupons[0].couponAmount + '&rule=' + that.data.ticketInfo.coupons[0].promotionRules[0].ruleDesc + '&num=' + that.data.ticketInfo.skuNum
     })
+  },
+  
+  clickmolbox:function(){  //关闭弹框
+    if (this.data.redfirst == 2) {
+      this.closemob();
+    }
+  },
+  closemob: function () { //关闭弹框
+    this.setData({
+      ismoldel: false
+    })
+  },
+  gowallet:function(){  //去钱包页面
+    this.closemob();
+    wx.navigateTo({
+      url: '../myWallet/myWallet',
+    })
+  },
+  clickcur:function(){ //点击货币图片，折包获取奖励
+    let that = this;
+    if (this.data.redfirst == 2){
+      return false
+    }
+    this.setData({
+      redfirst:2
+    })
+    that.getredpacket();
   }
 })

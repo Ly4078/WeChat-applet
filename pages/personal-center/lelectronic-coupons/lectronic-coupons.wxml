@@ -6,20 +6,20 @@
           <image class='lectronic-images' src='/images/icon/xiangqiLGBL.gif'></image>
         </view>
         <view class='lectronic-text'>
-          <text class='lectronic-reel'>{{ticketInfo.skuName}}</text>
+          <text class='lectronic-reel'>{{ticket[0].skuName}}</text>
           <!-- <text class='lectronic-limit'>{{ticketInfo.coupons[0].promotionRules[1].ruleDesc}}</text> -->
         </view>
       </view>
       <view class='lectronic-right'>
-        <text wx:if="{{ticketInfo.soStatus == 2}}">待使用</text>
-        <text wx:if="{{ticketInfo.soStatus == 3}}">已使用</text>
+        <text wx:if="{{ticket[0].isUsed == 0}}">待使用</text>
+        <text wx:else>已使用</text>
       </view>
     </view>
     <view catchtap='sublevelSum'>
       <view class='restrict-time'>
         <view class='restrict-caution'>
           <text>有限期至:</text>
-          <text>{{ticketInfo.coupons[0].expiryDate}}</text>
+          <text>{{ticket[0].expiryDate}}</text>
         </view>
         <view class='restric-page-down'>
           <text class='restric-page-text' id="{{ticketInfo.id}}">使用详情</text>
@@ -31,7 +31,7 @@
 
   <view class='qr-code'>
     <view class='rollMessage'>享7劵</view>
-    <block wx:for="{{couponsArr}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
+    <block wx:for="{{ticket}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
       <view class='coding-code {{idx > 2 && qrCodeFlag ? "hide" : ""}}'>
         <text class='codingText'>{{idx + 1}}</text>
         <text>劵码:</text>
@@ -39,7 +39,7 @@
         <image src='{{item.qrcodeUrl}}' class='codingImages' data-index='{{idx}}' bindtap='previewImg'></image>
       </view>
     </block>
-    <view class='codingeven-more' wx:if="{{qrCodeArr.length > 3}}" bindtap="onclickMore">
+    <view class='codingeven-more' wx:if="{{ticket.length > 3}}" bindtap="onclickMore">
       <text>{{qrCodeFlag ? '更多' : '收起'}}</text>
       <image class="veent-more-img" wx:if="{{qrCodeFlag}}" src='/images/icon/xialatupian.png'></image>
       <image class="veent-more-img-top" wx:else src='/images/icon/xialatupian.png'></image>
@@ -72,4 +72,19 @@
   <view class='warm-prompt'>
     <text>^_^温馨提示:到店向商家出示劵码</text>
   </view>
+</view>
+
+
+<view class='modal_box' wx:if="{{ismoldel}}" bindtap='clickmolbox'>
+    <view class='envelope'>
+      <image bindtap='closemob' class='close' src='/images/icon/sloce.png'></image>
+      <view class='motitle'>恭喜获得</view>
+      <view class='money {{redfirst == 2?"received":""}}'><text wx:if="{{redfirst == 2}}">￥</text><text class='{{redfirst == 2?"big":""}}'>{{amount}}</text></view>
+      <image catchtap='clickcur' class='currency {{redfirst == 2?"xuanz":""}}' src='/images/icon/currency.png'></image>
+      <view  class='flod'  wx:if="{{redfirst == 1}}">
+        <image src='/images/icon/top2.png'></image>
+      </view>
+      <view class='caikai' wx:if="{{redfirst == 1}}" catchtap='clickcur'>拆开</view>
+      <view class='wallet' wx:else catchtap='gowallet'>已放入钱包<image src='/images/icon/right.png'></image></view>
+    </view>
 </view>

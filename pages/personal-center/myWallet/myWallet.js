@@ -6,10 +6,23 @@ Page({
   data: {
     balance: '',
   },
-  onLoad: function (options) {
-    let _sumTotal = options.sumTotal
-    this.setData({
-      balance: _sumTotal
+  onLoad: function () { 
+    let _account = {//查询余额
+      userId: app.globalData.userInfo.userId
+    }
+    Api.accountBalance(_account).then((res) => { 
+      if (res.data.code == 0) {
+        let _data = res.data;
+        if (_data.data == 0){
+          this.setData({
+            balance:0
+          })
+        }else{
+          this.setData({
+            balance: _data.data
+          })
+        }
+      }
     })
   },
   detailParticulars: function () { //钱包明细
@@ -28,5 +41,5 @@ Page({
       icon: 'none',
       duration: 2000
     })
-  },
+  }
 })

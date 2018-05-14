@@ -98,14 +98,15 @@ Page({
     this.getTicketList();
   },
   immediateUse: function (event) {
-    let id = event.target.id, isDue = 0;
+    let soid = event.target.id, isDue = 0,id = '';
     for (let i = 0; i < this.data.ticket_list.length; i++) {
-      if (id == this.data.ticket_list[i].id) {
+      if (soid == this.data.ticket_list[i].soId) {
+        id = this.data.ticket_list[i].id;
         isDue = this.data.ticket_list[i].isDue;
       }
     }
     wx.navigateTo({
-      url: '../lelectronic-coupons/lectronic-coupons?id=' + event.target.id + '&myCount=1'
+      url: '../lelectronic-coupons/lectronic-coupons?soid=' + event.target.id + '&id='+ id +'&myCount=1'
     })
   },
   //对比时间是否过期

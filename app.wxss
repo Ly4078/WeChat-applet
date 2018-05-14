@@ -557,3 +557,13 @@ button{
   color: #B1B1B1;
   font-size: 24rpx;
 }
+.modal_box{
+  width: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 5;
+  overflow: auto;
+  height: 100%;
+  background:rgba(0,0,0,0.44)!important;background-color: #000;filter:Alpha(opacity=50);
+}

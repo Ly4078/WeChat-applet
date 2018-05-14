@@ -130,3 +130,15 @@ page{
 .paymentPayRight{
   width: 12%;
 }
+
+
+/*
+  */
+  .radio-group{
+    width: 694rpx;
+    padding: 0 28rpx;
+  }
+  .riradio{
+    position: relative;
+    left: 403rpx;
+   }

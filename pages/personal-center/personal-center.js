@@ -14,6 +14,7 @@ Page({
     sumTotal: 0,
     collectTotal: 0,
     ismobile: true,
+    isshop:false,
     issnap: false, 
     userType: '',
     accountBalance:'',
@@ -25,6 +26,12 @@ Page({
     if (app.globalData.userInfo.mobile) {
       this.setData({
         ismobile: false
+      })
+    }
+    if (app.globalData.userInfo.shopId){
+      console.log("shopId:", app.globalData.userInfo.shopId)
+      this.setData({
+        isshop:true
       })
     }
     this.getuserInfo()

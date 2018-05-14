@@ -48,29 +48,15 @@
   </view>
 
   <!-- 微信支付 -->
-   <view>
-    <view class='paymentPayWay'>
-      <view class='paymentPaynam'>
-        <view class='paymentPayTop' wx:for-items="{{items}}" wx:key='index'>
-          <view class='paymentPayLeft'>
-            <image class='paymentPayImg' src='{{item.img}}'></image>
-            <text>{{item.name}}</text>
-          </view>
-          <view class='paymentPayRight'>
-            <view class="section section_gap">
-              <form bindsubmit="formSubmit" bindreset="formReset">
-                <radio-group name="radio-group">
-                  <label>
-                    <radio value="radio1" />
-                  </label>
-                </radio-group>
-              </form>
-            </view>
-          </view>
-        </view>
-      </view>
-    </view>
-  </view> 
+  <view class='paymentPayWay'>
+    <radio-group class="radio-group" bindchange="radioChange">
+      <label class="radio" wx:for="{{items}}"  wx:key='index'  class='paymentPayTop'>
+        <image class='paymentPayImg' src='{{item.img}}'></image>{{item.name}} <radio class='riradio' value="{{item.id}}" disabled="{{item.disabled}}" checked="{{item.checked}}" />
+      </label>
+    </radio-group>
+  </view>
+
+ 
 
   <form report-submit="true">
     <view class='affirm' catchtap='confirmPayment'>

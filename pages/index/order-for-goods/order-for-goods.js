@@ -4,31 +4,29 @@ let minusStatus = '';
 Page({
   data: {
     // input默认是1  
-    number: 1,
-    // 使用data数据对象设置样式名  
+    number: 1, 
     minusStatus: 'disabled',
     paymentAmount: '',
     obj: [],
     sostatus: 0,
     isNew: 0,   //是否新用户
-    issnap: false,  //是否是临时用户
+    issnap: false,
+    issecond: false,
+    paytype: '', //支付方式， 1微信支付  2余额支付
+    balance: 0,  //余额
     items: [
-      { name: '微信支付', img: '/images/icon/weixinzhifu.png'},
-      { name: '余额支付', img: '/images/icon/yuezhifu.png', checked: 'true'},
+      { name: '微信支付', id: '1', disabled: false, img: '/images/icon/weixinzhifu.png', checked: false },
+      { name: '余额支付', id: '2', disabled: false, img: '/images/icon/yuezhifu.png', checked: true },
     ]
   },
-  formSubmit: function (e) {
-    console.log('form发生了submit事件，携带数据为：', e.detail.value)
-  },
-  formReset: function () {
-    console.log('form发生了reset事件')
-  },
+
   onLoad: function (options) {
     this.isNewUser()
     this.setData({
       obj: options,
       paymentAmount: options.sell
     })
+    this.getbalance();
     if (options.num && options.num != 'undefined' && options.num != '') {
       this.setData({
         number: options.num,
@@ -39,6 +37,39 @@ Page({
       this.setData({
         sostatus: 1
       });
+    }
+  },
+
+  getbalance: function () {//查询余额
+    let _account = {
+      userId: app.globalData.userInfo.userId
+    }
+    Api.accountBalance(_account).then((res) => {
+      if (res.data.code == 0) {
+        if (res.data.data == 0) {
+          this.setData({
+            balance: 0,
+            paytype: 1
+          })
+        } else {
+          this.setData({
+            balance: res.data.data
+          })
+          this.calculate(this.data.paymentAmount)
+        }
+      }
+    })
+  },
+  radioChange: function (e) {  //选框
+    let num = e.detail.value;
+    if (num == 1) { //1微信支付
+      this.setData({
+        paytype: 1
+      })
+    } else if (num == 2) {  //2余额支付
+      this.setData({
+        paytype: 2
+      })
     }
   },
   isNewUser: function () {   //判断是否新用户
@@ -68,17 +99,17 @@ Page({
     if (number > 1) {
       --number;
     }
-
-    // 将数值与状态写回  
     this.setData({
       number: number,
       minusStatus: minusStatus
     });
     let _paymentAmount = this.data.number * this.data.obj.sell * 1;
     _paymentAmount = _paymentAmount.toFixed(2)
+    this.calculate(_paymentAmount)
     this.setData({
       paymentAmount: _paymentAmount
     });
+
     minusStatus = number <= 1 ? 'disabled' : 'normal';
 
   },
@@ -86,7 +117,7 @@ Page({
   bindPlus: function () {
     let number = this.data.number;
     ++number;
-    if (number>10){
+    if (number > 10) {
       wx.showToast({
         title: '单次最多购买10张',
         icon: 'none',
@@ -108,11 +139,32 @@ Page({
       paymentAmount: _paymentAmount
     });
     minusStatus = number < 1 ? 'disabled' : 'normal';
-    // 将数值与状态写回  
+    this.calculate(_paymentAmount)
     this.setData({
       number: number,
       minusStatus: minusStatus
     });
+  },
+  calculate: function (val) {  //判断支付方式
+    let arr = this.data.items;
+    let diff = (this.data.balance * 1) - (val * 1);
+    if (diff < 0) {
+      arr[0].checked = true;
+      arr[1].checked = false;
+      arr[1].disabled = true;
+      this.setData({
+        paytype: 1,
+        items: arr
+      })
+    } else {
+      arr[0].checked = false;
+      arr[1].checked = true;
+      arr[1].disabled = false;
+      this.setData({
+        paytype: 2,
+        items: arr
+      })
+    }
   },
   /* 输入框事件 */
   bindManual: function (e) {
@@ -125,7 +177,6 @@ Page({
 
   determine: function (e) {  //点击确认支付按钮
     let that = this
-    
     wx.getSetting({
       success: (res) => {
         if (res.authSetting['scope.userInfo'] && res.authSetting['scope.userLocation']) {
@@ -179,7 +230,7 @@ Page({
                     }
                   }
                 })
-              } 
+              }
             }
           })
         }
@@ -189,37 +240,45 @@ Page({
 
   confirmPayment: function (e) {  //生成订单号
     let that = this
-    if (app.globalData.userInfo.mobile == 'a' || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+    if (app.globalData.userInfo.mobile == 'undefined' || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
       this.setData({
         issnap: true
       })
       return false
-    } 
+    }
+    if (that.data.issecond) {
+      return false
+    }
+    that.setData({
+      issecond: true
+    })
     if (this.data.obj.soid && this.data.obj.soid != 'undefined' && this.data.obj.soid != '') {
       that.payment(this.data.obj.soid)
     } else {
       let _parms = {
         userId: app.globalData.userInfo.userId,
         userName: app.globalData.userInfo.userName,
-        payType: '2',
+
         skuId: this.data.obj.id,
         skuNum: this.data.number
       }
-      // if(this.data.isNew == 1) {
-        // Api.getFreeTicket(_parms).then((res) => {
-        //   if (res.data.code == 0) {
-        //     wx.redirectTo({
-        //       url: '../../personal-center/lelectronic-coupons/lectronic-coupons?id=' + res.data.data + '&isPay=1'
-        //     })
-        //   }
-        // })
-      // } else if (this.data.isNew == 0) {
-        Api.socreate(_parms).then((res) => {
-          if (res.data.code == 0) {
+      if (that.data.paytype == 1) {  //微信支付
+        _parms.payType = '2';
+      } else if (that.data.paytype == 2) {  //余额支付
+        _parms.payType = '1';
+      }
+
+      Api.socreate(_parms).then((res) => {
+        if (res.data.code == 0) {
+          if (that.data.paytype == 1) {
             that.payment(res.data.data)
+          } else if (that.data.paytype == 2) {
+            wx.redirectTo({
+              url: '../../personal-center/my-discount/my-discount'
+            })
           }
-        })
-      // }
+        }
+      })
     }
   },
   payment: function (soid) {  //调起微信支付
@@ -238,7 +297,7 @@ Page({
           'paySign': res.data.data.paySign,
           success: function (res) {
             wx.redirectTo({
-              url: '../../personal-center/lelectronic-coupons/lectronic-coupons?id=' + soid + '&isPay=1'
+              url: '../../personal-center/my-discount/my-discount'
             })
           },
           fail: function (res) {

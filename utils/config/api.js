@@ -295,6 +295,10 @@ const ALL_API = {
   detailList: { //余额明细列表
     method: 'GET',
     url: 'account/listTrading'
+  },
+  redpacket: {  //获取可领取的随机红包金额
+    method:'POST',
+    url:'account/redPacket'
   }
 }
 const Api = new MyHttp({}, ALL_API);
