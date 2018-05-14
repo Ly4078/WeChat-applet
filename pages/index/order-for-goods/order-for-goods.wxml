@@ -48,7 +48,7 @@
   </view>
 
   <!-- 微信支付 -->
-  <!-- <view>
+   <view>
     <view class='paymentPayWay'>
       <view class='paymentPaynam'>
         <view class='paymentPayTop' wx:for-items="{{items}}" wx:key='index'>
@@ -70,7 +70,7 @@
         </view>
       </view>
     </view>
-  </view> -->
+  </view> 
 
   <form report-submit="true">
     <view class='affirm' catchtap='confirmPayment'>

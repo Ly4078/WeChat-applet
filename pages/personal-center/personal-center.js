@@ -293,11 +293,11 @@ Page({
       url: 'enshrine/enshrine',
     })
   },
-  // myMineMoney:function(){ //钱包明细
-  //   wx.navigateTo({
-  //     url: 'myWallet/myWallet?sumTotal=' + this.data.accountBalance.data
-  //   })
-  // },
+  myMineMoney:function(){ //钱包明细
+    wx.navigateTo({
+      url: 'myWallet/myWallet?sumTotal=' + this.data.accountBalance.data
+    })
+  },
 
   VoucherCode:function(){ //输入券码核销
     wx.navigateTo({
