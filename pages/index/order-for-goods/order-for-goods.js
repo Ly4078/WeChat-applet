@@ -64,7 +64,7 @@ Page({
   },
   /* 点击减号 */
   bindMinus: function () {
-    var number = this.data.number;
+    let number = this.data.number;
     if (number > 1) {
       --number;
     }
@@ -84,8 +84,20 @@ Page({
   },
   /* 点击加号 */
   bindPlus: function () {
-    var number = this.data.number;
+    let number = this.data.number;
     ++number;
+    if (number>10){
+      wx.showToast({
+        title: '单次最多购买10张',
+        icon: 'none',
+        duration: 1500,
+        mask: true
+      })
+      number = 10;
+      this.setData({
+        number: number
+      })
+    }
     this.setData({
       number: number,
       minusStatus: minusStatus

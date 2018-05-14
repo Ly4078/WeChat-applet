@@ -36,14 +36,13 @@ Page({
       id: options.id,
       zanUserId: app.globalData.userInfo.userId,
       shopId: options.shopid
-      // shopId: '101'
     }
     Api.getAgio(_parms).then((res) => {
       if (res.data.code == 0) {
         let _data = res.data.data;
         if (_data.skuInfo) {
           let boxarr = [];
-          let arr = _data.skuInfo.split('/');
+          let arr = _data.skuInfo.split('@');
           var _arr = JSON.parse(arr[0]);
           for (let i = 0; i < arr.length; i++) {
             let newarr = JSON.parse(arr[i]);
