@@ -103,6 +103,7 @@ Page({
                   verifyId: res.data.data.verifyId,
                   veridyTime: res.data.data.veridyTime
                 })
+                console.log("abcd:",res.data.data)
                 let sett = setInterval(function () {
                   that.remaining();
                 }, 1000)

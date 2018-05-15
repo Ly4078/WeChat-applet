@@ -6,7 +6,7 @@
   </view>
   <view class='setcode'>
     <input type="number" maxlength="4" placeholder="输入验证码" bindinput="yzmbindblur" v-model="{{verify}}"></input>
-    <button bindtap='submitphone'>{{rematime}}</button>
+    <button bindtap='submitphone' class='{{rematime == "获取验证码"?"nobut":"actbut"}}'>{{rematime}}</button>
   </view>
   <view class='twobut'>
     <view class='closebut' bindtap='closebut'>取消</view>

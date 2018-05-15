@@ -24,7 +24,7 @@ Page({
     alltopics: [],
     currentTab: 0,
     issnap: false,  //是否是临时用户
-    isNew: false,   //是否新用户
+    isNew: true,   //是否新用户
     userGiftFlag: false,    //新用户礼包是否隐藏
     isphoneNumber: false,  //是否拿到手机号
     isfirst: false,
@@ -78,7 +78,6 @@ Page({
             code: res.code
           }
 
-          // Api.findByCode(_parms).then((res) => {
           Api.useradd(_parms).then((res) => {
             if (res.data.data) {
               app.globalData.userInfo.userId = res.data.data
@@ -120,7 +119,7 @@ Page({
   onShow: function () {
     let that = this
     if (app.globalData.userInfo.userId) {
-      this.isNewUser()
+      // this.isNewUser()
     }
     let lat = wx.getStorageSync('lat')
     let lng = wx.getStorageSync('lng')
@@ -137,11 +136,20 @@ Page({
       }, 500)
     }
   },
+ 
   onHide: function () {
-    this.userGiftCancle()
+    let that = this;
+    clearInterval(that.data.settime)
+    that.setData({
+      userGiftFlag: false,
+      isfirst: false,
+      isNew: false
+    })
+
+    // this.userGiftCancle()
   },
   getuseradd: function () {  //获取用户userid
-    // this.isNewUser()
+    this.isNewUser()
     // this.getuser()
     this.getlocation()
   },
@@ -552,13 +560,11 @@ Page({
       skuNum: '1'
     }
     Api.getFreeTicket(_parms).then((res) => {
-      // this.setData({
-      //   userGiftFlag: true
-      // })
+      
       if (res.data.code == 0) {
         this.userGiftCancle()
         wx.navigateTo({
-          url: '../personal-center/lelectronic-coupons/lectronic-coupons?id=' + res.data.data + '&isPay=1'
+          url: '../personal-center/my-discount/my-discount'
         })
       }
     })
@@ -578,7 +584,7 @@ Page({
       issnap: false
     })
     if (id == 1) {
-      wx.redirectTo({
+      wx.navigateTo({
         url: '/pages/personal-center/registered/registered'
       })
     }
@@ -601,7 +607,7 @@ Page({
     }
   },
   closephone: function () {  //手机号置空
-    clearTimeout(this.data.settime)
+    clearInterval(this.data.settime)
     this.setData({
       phone: '',
       rematime: '获取验证码',
@@ -646,7 +652,7 @@ Page({
             goto: false
           })
           if (this.data.settime) {
-            clearTimeout(that.data.settime)
+            clearInterval(that.data.settime)
           }
           let sett = setInterval(function () {
             that.remaining();
@@ -683,7 +689,7 @@ Page({
   remaining: function (val) {  //倒计时
     let rema = utils.reciprocal(this.data.veridyTime)
     if (rema == 'no' || rema == 'yes') {
-      clearTimeout(this.data.settime)
+      clearInterval(this.data.settime)
       this.setData({
         rematime: '获取验证码',
         isclick: true

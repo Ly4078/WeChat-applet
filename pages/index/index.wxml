@@ -10,7 +10,6 @@
       <view class='drawer_screen'>
         <view class='sqtishi'>提示</view>
         <view class='drphnumber'>获得更多体验,请移步[我的]-[新用户注册]</view>
-        <!-- <button  class='gettel sqgettel' open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">确定</button>  -->
          <button class='gettel sqgettel' bindtap='closetel' id='1'>确定</button>
         <button class='gettel colosetel' bindtap='closetel' id='2'>取消</button>
       </view>
@@ -19,7 +18,6 @@
       <!-- 新用户弹窗 -->
     <view class="newUserModal" wx:if="{{userGiftFlag || isNew || isfirst}}"  catchtouchmove='true'>
 
-     <!-- <view class="newUserModal" catchtouchmove='true'> -->
       <view class="drawer_screen"></view> 
        <view wx:if="{{isphoneNumber}}" class="newUserM_box getphone gettels">
         <view class='nubtitle'>快速注册</view>
@@ -29,35 +27,22 @@
         </view>
         <view class='setcode'>
           <input type="number" maxlength="4" placeholder="输入验证码" bindinput="yzmbindblur" ></input>
-          <button bindtap='submitphone'>{{rematime}}</button>
+          <button bindtap='submitphone' class='{{rematime == "获取验证码"?"nobut":"actbut"}}'>{{rematime}}</button>
         </view>
         <view class='twobut'>
           <view class='closebut' bindtap='closebut'>取消</view>
           <view class='cfimbut' bindtap='submitverify'>确定</view>
         </view>
        </view>
-       <!-- <view wx:if="{{isphoneNumber}}" class="newUserM_box getphone gettels">
-         请输入电话号码或点击微信授权电话进行用户注册
-          <view class='shuru'>
-            <input type="number" value='{{phone}}' maxlength="11" placeholder="请输入11位有效手机号" bindblur="srbindblur" />
-            <button bindtap='submitphone'>获取验证码</button>
-          </view>
-          <view class='wxnumber'>
-            <button open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">授权绑定微信的手机号</button> 
-          </view>
-          <view class='yzm'>
-            <input  type="number" maxlength="4" placeholder="请输入4位手机短信验证码" bindblur="yzmbindblur"/>
-            <button bindtap='submitverify'>提交验证码</button>
-          </view>
-      </view>   -->
-
         <view wx:else class="newUserM_box">
          <image class="user_present" src="/images/icon/newuser.png" bindtap='newUserToGet'></image> 
-         <image class="newUserM_gif" src="/images/icon/xiangqiLGBL.gif"></image> 
-          <!-- <button wx:if="{{isphoneNumber}}" class='gettels' open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">新用户请先授权手机号</button>       -->
+        <image class="newUserM_gif" src="/images/icon/xiangqiLGBL.gif"></image> 
        </view>   
+
       <image class="newuser_cancel" src="/images/icon/cancel.png" bindtap='userGiftCancle'></image>
     </view>
+
+
   <view class='headSeek'>
     <view class='site_location' bindtap='userLocation'>
       <text class='site_location_text'>{{city}}</text>

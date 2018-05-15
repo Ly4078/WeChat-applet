@@ -25,6 +25,7 @@ Page({
     tomorrow: "",
     _shopCode: '',
     _shopName: '',
+    issnap: false, 
     searchValue: "",     //搜索内容
     actName: '',     //活动名称
     actDesc: ''      //活动描述
@@ -86,6 +87,12 @@ Page({
     })
   },
   isGetActCoupons: function (e) {    //是否可以领取活动券
+    if (app.globalData.userInfo.mobile == undefined || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+      this.setData({
+        issnap: true
+      })
+      return false
+    }
     let _parms = {
       userId: app.globalData.userInfo.userId,
       actId: this.data.actId,
@@ -313,9 +320,16 @@ Page({
     }
   },
   voteAdd: function (e) {  //投票
+    if (app.globalData.userInfo.mobile == undefined || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+      this.setData({
+        issnap: true
+      })
+      return false
+    }
     let _this = this,
-      playerUserId = e.currentTarget.dataset.index,     //userId 
-      shopId = e.currentTarget.id;                        //shopId
+   
+    playerUserId = e.currentTarget.dataset.index,    
+    shopId = e.currentTarget.id;                       
     let _parms = {
       actId: this.data.actId,
       userId: app.globalData.userInfo.userId,
@@ -387,6 +401,12 @@ Page({
     })
   },
   toApply: function () {    //跳转至报名页面
+    if (app.globalData.userInfo.mobile == undefined || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+      this.setData({
+        issnap: true
+      })
+      return false
+    }
     if (app.globalData.userInfo.userType == '2' && app.globalData.userInfo.shopId != '') {
       let _parms = {
         refId: app.globalData.userInfo.shopId,
@@ -557,5 +577,11 @@ Page({
     month = month > 9 ? month : "0" + month;
     today = today > 9 ? today : "0" + today;
     return year + "-" + month + "-" + today;
+  },
+  closetel: function (e) {
+    let id = e.target.id;
+    this.setData({
+      issnap: false
+    })
   }
 })

@@ -86,6 +86,12 @@ Page({
     })
   },
   castvote: function () {  //選手投票
+    if (app.globalData.userInfo.mobile == undefined || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+      this.setData({
+        issnap: true
+      })
+      return false
+    }
     let that = that;
     let _playUserId = this.data.information.userId;
     let date = new Date;
@@ -124,21 +130,18 @@ Page({
     })
   },
   showAreatext: function () {  //显示发表输入框
-    if (app.globalData.userInfo.mobile == 'a' || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+    if (app.globalData.userInfo.mobile == 'undefined' || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
       this.setData({
         issnap: true
       })
-      return false
+    }else{
+      this.setData({
+        isComment: true
+      })
     }
-    this.setData({
-      isComment: true
-    })
+    
   },
-  showAreatext: function () {  //显示发表输入框
-    this.setData({
-      isComment: true
-    })
-  },
+
   getCommentVal: function (e) { //获取评论输入框
     this.setData({
       commentVal: e.detail.value

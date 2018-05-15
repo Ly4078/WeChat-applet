@@ -794,12 +794,18 @@ page {
   width: 171rpx;
   height: 80rpx;
   float: right;
-  border: 1rpx solid #FC5E2D;
-  color: #FC5E2D;
   line-height: 80rpx;
   font-size: 28rpx;
   margin: 0;
   padding: 0;
+}
+.actbut{
+ border: 1rpx solid #808080;
+  color: #808080;
+}
+.nobut{
+   border: 1rpx solid #FC5E2D;
+  color: #FC5E2D;
 }
 .twobut{
   width: 100%;
