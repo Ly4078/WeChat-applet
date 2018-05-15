@@ -164,7 +164,7 @@ Page({
   },
   gowallet:function(){  //去钱包页面
     this.closemob();
-    wx.navigateTo({
+    wx.redirectTo({
       url: '../myWallet/myWallet',
     })
   },

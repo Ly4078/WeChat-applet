@@ -41,12 +41,12 @@ Page({
   bindinputent: function (e) {  //实时获取输入的券码
     let _value = e.detail.value;
     let actual = e.detail.value;
-    if (_value.length == 4 || _value.length == 9){
-      _value+=' '
-    }
-    if (actual.length == 12) {
-      let code = actual.replace(/\s+/g, "");
-      this.gettickets(code)
+    // if (_value.length == 4 || _value.length == 9){
+    //   _value+=' '
+    // }
+    if (actual.length == 10) {
+      // let code = actual.replace(/\s+/g, "");
+      this.gettickets(actual)
     }this.setData({
       _code: _value
     })
