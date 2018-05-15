@@ -133,7 +133,7 @@ Page({
           title: '领取成功',
           icon: 'none'
         })
-        _this.setData({
+        this.setData({
           isReceive: 1
         });
       } else {
