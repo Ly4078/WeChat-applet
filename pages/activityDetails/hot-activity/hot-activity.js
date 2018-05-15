@@ -51,26 +51,9 @@ Page({
     }
     this.actInfo();
     this.actTicket();
-    this.isGroup();
   },
   onShow: function () {
-    let id = this.data.switchId;
-    this.setData({
-      page: 1
-    });
-    if (id == 1) {
-      this.setData({
-        business: [],
-        isayers: true
-      });
-      this.shopList();
-    } else {
-      this.setData({
-        players: [],
-        isayers: false
-      });
-      this.playerList();
-    }
+    this.isGroup();
   },
   actInfo: function () {   //活动简介
     let _parms = {
@@ -162,14 +145,29 @@ Page({
     });
   },
   isGroup: function () {   //查询是否分组
-    let _parms = { actId: this.data.actId };
+    let _parms = { actId: this.data.actId },
+      id = this.data.switchId;
     Api.isGroung(_parms).then((res) => {
       if (res.data.code == 0) {
         this.setData({
           type: res.data.data.length == 0 ? "" : 2
         });
       }
-      this.shopList();
+      if (id == 1) {
+        this.setData({
+          business: [],
+          isayers: true,
+          page: 1
+        });
+        this.shopList();
+      } else {
+        this.setData({
+          players: [],
+          isayers: false,
+          page: 1
+        });
+        this.playerList();
+      }
     })
   },
   shopList: function () {    //商家列表
