@@ -33,7 +33,8 @@ Page({
   onLoad: function (options) {
     let that = this;
     let _activity = options.actId;
-    let _voteUserId = app.globalData.userInfo.userId
+    let _voteUserId = app.globalData.userInfo.userId;
+    console.log("options:", options)
     this.setData({
       userid: options.id,
       shopId: options.shopid ? options.shopid : '',
@@ -52,6 +53,7 @@ Page({
       endTime: "2018-6-30"
     }
     Api.playerDetails(_parms).then((res) => { //数据请求
+      console.log('res:',res)
       let _data = res.data.data;
       let _dataSe = res.data.data.picUrls;
       let refId = res.data.data.id;
@@ -68,15 +70,16 @@ Page({
         })
       }
 
-      if (_data.isVote == 1) {
-        this.setData({
-          poll: '已投票',
-          isVote: 1
-        })
-      } else {
+      if (_data.isVote == 0) {
         this.setData({
           poll: '投票',
           isVote: 0
+        })
+      } else {
+        
+        this.setData({
+          poll: '已投票',
+          isVote: 1
         })
       }
       this.setData({
@@ -249,5 +252,11 @@ Page({
         url: '/pages/personal-center/registered/registered'
       })
     }
+  },
+  
+  onPageScroll:function(){  //监听页面滑动
+    this.setData({
+      isComment:false
+    })
   }
 })

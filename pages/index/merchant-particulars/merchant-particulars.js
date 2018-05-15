@@ -161,6 +161,11 @@ Page({
       }
     })
   },
+  onPageScroll: function () {  //监听页面滑动
+    this.setData({
+      isComment: false
+    })
+  },
   //商户动态上拉加载
   onReachBottom: function () {
     if (this.data.currentTab == 1 && this.data.reFresh) {

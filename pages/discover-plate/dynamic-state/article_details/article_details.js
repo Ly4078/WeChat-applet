@@ -321,6 +321,11 @@ Page({
       })
     }
   },
+  onPageScroll: function () {  //监听页面滑动
+    this.setData({
+      isComment: false
+    })
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
