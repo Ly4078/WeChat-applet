@@ -169,7 +169,6 @@ Page({
   /* 输入框事件 */
   bindManual: function (e) {
     var number = e.detail.value;
-    // 将数值与状态写回  
     this.setData({
       number: number
     });
@@ -267,7 +266,6 @@ Page({
       } else if (that.data.paytype == 2) {  //余额支付
         _parms.payType = '1';
       }
-
       Api.socreate(_parms).then((res) => {
         if (res.data.code == 0) {
           if (that.data.paytype == 1) {
@@ -282,7 +280,7 @@ Page({
     }
   },
   payment: function (soid) {  //调起微信支付
-    let that = this
+    let that = this;
     let _parms = {
       soId: soid,
       openId: app.globalData.userInfo.openId,
