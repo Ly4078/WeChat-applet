@@ -7,6 +7,7 @@ Page({
     _build_url: GLOBAL_API_DOMAIN,
     actId: 35,     //活动id
     area: "武汉",
+    switchId: 1,    //切换的id
     type: "",
     mainPic: "",    //banner图
     infoPic: "",    //活动详情图
@@ -17,6 +18,7 @@ Page({
     searchPage: 1,    //搜索分页
     searchBool: false,
     ticketArr: [],   //券数组
+    isReceive: 0,  //是否领取活动券
     isayers: true,
     business: [],    //商家数组  
     players: [],     //选手数组 
@@ -25,7 +27,7 @@ Page({
     tomorrow: "",
     _shopCode: '',
     _shopName: '',
-    issnap: false, 
+    issnap: false,
     searchValue: "",     //搜索内容
     actName: '',     //活动名称
     actDesc: ''      //活动描述
@@ -51,7 +53,25 @@ Page({
     this.actTicket();
     this.isGroup();
   },
-  onShow: function () { },
+  onShow: function () {
+    let id = this.data.switchId;
+    this.setData({
+      page: 1
+    });
+    if (id == 1) {
+      this.setData({
+        business: [],
+        isayers: true
+      });
+      this.shopList();
+    } else {
+      this.setData({
+        players: [],
+        isayers: false
+      });
+      this.playerList();
+    }
+  },
   actInfo: function () {   //活动简介
     let _parms = {
       id: this.data.actId,
@@ -75,16 +95,22 @@ Page({
     });
   },
   actTicket: function () {  //活动券
-    Api.actTicket({}).then((res) => {
+    let _parms = {
+      userId: app.globalData.userInfo.userId
+    }
+    Api.actTicket(_parms).then((res) => {
       this.setData({
-        ticketArr: res.data.data.list
+        ticketArr: res.data.data.list,
+        isReceive: res.data.data.list[0].isAct
       });
     });
   },
-  toMyTicket: function() {    //跳转至我的票券
-    wx.navigateTo({
-      url: '../../personal-center/my-discount/my-discount'
-    })
+  toMyTicket: function () {    //跳转至我的票券
+    if (this.data.isReceive == 1) {
+      wx.navigateTo({
+        url: '../../personal-center/my-discount/my-discount'
+      })
+    }
   },
   isGetActCoupons: function (e) {    //是否可以领取活动券
     if (app.globalData.userInfo.mobile == undefined || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
@@ -118,13 +144,15 @@ Page({
       skuId: e.target.id,
       skuNum: 1
     }
-
     Api.getActCoupons(_parms).then((res) => {
       if (res.data.code == 0) {
         wx.showToast({
           title: '领取成功',
           icon: 'none'
         })
+        _this.setData({
+          isReceive: 1
+        });
       } else {
         wx.showToast({
           title: res.data.message,
@@ -327,9 +355,9 @@ Page({
       return false
     }
     let _this = this,
-   
-    playerUserId = e.currentTarget.dataset.index,    
-    shopId = e.currentTarget.id;                       
+
+      playerUserId = e.currentTarget.dataset.index,
+      shopId = e.currentTarget.id;
     let _parms = {
       actId: this.data.actId,
       userId: app.globalData.userInfo.userId,
@@ -356,7 +384,7 @@ Page({
                 if (business[i].shopId == shopId) {
                   console.log('商家投票成功');
                   business[i].isVote = 1;
-                  if(business[i].groupVoteNum){
+                  if (business[i].groupVoteNum) {
                     business[i].groupVoteNum++;
                   } else if (business[i].voteNum) {
                     business[i].voteNum++;
@@ -461,7 +489,8 @@ Page({
       searchValue: "",
       page: 1,
       flag: true,
-      searchBool: false
+      searchBool: false,
+      switchId: id
     })
     if (id == 1) {
       this.setData({
