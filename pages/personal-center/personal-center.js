@@ -29,14 +29,11 @@ Page({
       })
     }
     if (app.globalData.userInfo.shopId){
-      console.log("shopId:", app.globalData.userInfo.shopId)
       this.setData({
         isshop:true
       })
     }
-    this.getuserInfo();
-   
-    
+    this.getuserInfo()
   },
   
   onShow: function () {
@@ -261,31 +258,7 @@ Page({
 
 
 
-  getuserInf: function () {
-    let that = this
-    wx.getUserInfo({
-      success: function (res) {
-        wx.navigateTo({
-          url: 'free-of-charge/free-of-charge',
-        })
-        app.globalData.userInfo.iconUrl = res.userInfo.avatarUrl
-        app.globalData.userInfo.nickName = res.userInfo.nickName
-        let _parms = {
-          userId: app.globalData.userInfo.userId,
-          openId: app.globalData.userInfo.openId,
-          iconUrl: res.userInfo.avatarUrl,
-          nickName: res.userInfo.nickName,
-          sex: res.userInfo.gender
-        }
-        Api.updateuser(_parms).then((res) => {
-          if (res.data.code == 0) {
-            app.globalData.userInfo.nickName = data.nickName
-            app.globalData.userInfo.iconUrl = data.avatarUrl
-          }
-        })
-      }
-    })
-  },
+
   DynamicState: function (e) {
     wx.navigateTo({
       url: 'allDynamicState/allDynamicState',
