@@ -542,7 +542,9 @@ Page({
     }
   },
   newUserToGet: function () {    //新用户跳转票券
-    let that = this
+    let that = this;
+    console.log(this.data.isphoneNumber)
+    console.log(app.globalData.userInfo.mobile)
     if (!this.data.isphoneNumber && app.globalData.userInfo.mobile == '' || !app.globalData.userInfo.mobile) {
       this.setData({
         isphoneNumber: true
@@ -565,6 +567,18 @@ Page({
         this.userGiftCancle()
         wx.navigateTo({
           url: '../personal-center/my-discount/my-discount'
+        })
+      }else{
+        that.setData({
+          userGiftFlag: false,
+          isfirst: false,
+          isNew: false
+        })
+        wx.showToast({
+          title: res.data.message,
+          mask:'true',
+          icon:'none',
+          duration:2000
         })
       }
     })
