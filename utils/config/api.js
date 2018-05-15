@@ -284,7 +284,7 @@ const ALL_API = {
     method: 'GET',
     url: 'vote/canVote'
   },
-  searchForShopId:{
+  searchForShopId:{  //查询商家是否参加某一活动
     method:'GET',
     url:'actshop/searchForShopId'
   },

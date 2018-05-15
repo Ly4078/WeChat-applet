@@ -114,7 +114,7 @@ Page({
             iconUrl: res.userInfo.avatarUrl,
             nickName: res.userInfo.nickName
           })
-          that.updatauser(res.userInfo)
+          // that.updatauser(res.userInfo)
         }
       },
       complete: res => {
@@ -186,8 +186,9 @@ Page({
     }
     Api.updateuser(_parms).then((res) => {
       if (res.data.code == 0) {
-        app.globalData.userInfo.nickName = data.nickName
-        app.globalData.userInfo.iconUrl = data.avatarUrl
+        app.globalData.userInfo.nickName = data.nickName;
+        app.globalData.userInfo.iconUrl = data.avatarUrl;
+        that.getuserInfo();
       }
     })
   },
