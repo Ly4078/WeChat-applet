@@ -70,50 +70,24 @@ Page({
       if (this.data.settime) {
         clearTimeout(that.data.settime)
       }
-      wx.getStorage({
-        key: 'phone',
-        complete: function (res) {
-          if (res.data == that.data.phone) {
-            wx.getStorage({
-              key: 'veridyTime',
-              complete: function (res) {
-                that.setData({
-                  veridyTime: res.data,
-                  goto:false
-                })
-
-                let sett = setInterval(function () {
-                  that.remaining();
-                }, 1000)
-                that.setData({
-                  settime: sett,
-                  isclick: false
-                })
-              }
-            })
-          } else {
-            let _parms = {
-              shopMobile: that.data.phone,
-              userId: app.globalData.userInfo.userId,
-              userName: app.globalData.userInfo.userName
-            }
-            Api.sendForRegister(_parms).then((res) => {
-              if (res.data.code == 0) {
-                that.setData({
-                  verifyId: res.data.data.verifyId,
-                  veridyTime: res.data.data.veridyTime
-                })
-                console.log("abcd:",res.data.data)
-                let sett = setInterval(function () {
-                  that.remaining();
-                }, 1000)
-                that.setData({
-                  settime: sett,
-                  isclick: false
-                })
-              }
-            })
-          }
+      let _parms = {
+        shopMobile: that.data.phone,
+        userId: app.globalData.userInfo.userId,
+        userName: app.globalData.userInfo.userName
+      }
+      Api.sendForRegister(_parms).then((res) => {
+        if (res.data.code == 0) {
+          that.setData({
+            verifyId: res.data.data.verifyId,
+            veridyTime: res.data.data.veridyTime
+          })
+          let sett = setInterval(function () {
+            that.remaining();
+          }, 1000)
+          that.setData({
+            settime: sett,
+            isclick: false
+          })
         }
       })
     } else {
