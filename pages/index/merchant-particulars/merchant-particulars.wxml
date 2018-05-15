@@ -178,6 +178,7 @@
         <text>查看全部<text>{{commentNum}}</text>条评论</text>
       </view>
     </view>
+    <view class='gallery'></view>
     <!-- <view class='botton-comment' bindtap='showAreatext' hidden="{{currentTab !=0}}">
       <image class='comment-images' src='/images/icon/write.png'></image>
       <text class='reviewyan'>写评论</text>
@@ -251,5 +252,4 @@
       <image src="/images/icon/zhanweitu.png"></image>
     </view>
   </view>
-
 </view>

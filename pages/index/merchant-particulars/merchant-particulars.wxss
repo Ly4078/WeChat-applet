@@ -799,4 +799,9 @@ button::after{
 
 .evaluateSon {
   width: 50%;
+
+}
+.gallery{
+  width: 100%;
+  height: 86rpx;
 }
