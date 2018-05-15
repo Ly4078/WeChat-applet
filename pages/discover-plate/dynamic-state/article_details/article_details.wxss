@@ -4,6 +4,14 @@
   width: 694rpx;
   padding: 0 28rpx;
 }
+
+.evaluateSon{
+  color: #B1B1B1;
+}
+
+.evaluatExtea{
+  color: #B1B1B1;
+}
 /*
   标题
   */

@@ -1,4 +1,6 @@
 @import "./comment-template/comment-template.wxss";
+@import "../../commentsOnUp/commentsOnUp.wxss";
+
 page {
   background-color: #ebebeb;
 }
@@ -432,12 +434,11 @@ page {
 
 .commentBox textarea{
   float: left;
-  width: 75%;
+  width: 78%;
   height: 100rpx;
   padding: 10rpx;
   box-sizing: border-box;
   border: 1px solid #e0e0e0;
-  border-radius: 20rpx;
   background-color: #fff;
 }
 
@@ -450,11 +451,16 @@ page {
   color: #fff;
   border: 0;
   box-sizing: border-box;
+  border-radius: 0rpx;
 }
 
 .merchant_box {
   background-color: #fff;
   width: 100%;
+}
+
+.evaluatExtea{
+  color: #B1B1B1;
 }
 
 .merchant_art {
@@ -781,4 +787,16 @@ button::after{
   font-size: 24rpx;
   text-align: center;
   margin-top: 9rpx;
+}
+
+.sonButton[plain]{
+  border:0
+}
+
+.evaluateSonsed{
+  border-right: none;
+}
+
+.evaluateSon {
+  width: 50%;
 }

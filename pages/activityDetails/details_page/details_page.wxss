@@ -1,3 +1,4 @@
+@import "../../commentsOnUp/commentsOnUp.wxss";
 
 .detail_top{
   width: 100%;
@@ -104,9 +105,17 @@
   margin-left: 290.5rpx;
 }
 .actvote{
-  border: 1rpx solid #b1b1b1;
-  color: #b1b1b1;
+  color: #FC5E2D;
 }
+
+.evaluateSon{
+  color: #B1B1B1;
+}
+
+.evaluatExtea{
+  color: #B1B1B1;
+}
+
 .butvote{
   margin-top: 48rpx;
   margin-bottom: 59rpx;
@@ -191,14 +200,18 @@ button[plain]{
 .fasong{
   border:none;
 } 
+
+.evaluate{
+  z-index: 9999;
+}
+
 .commentBox textarea{
   float: left;
-  width: 75%;
+  width: 78%;
   height: 100rpx;
   padding: 10rpx;
   box-sizing: border-box;
   border: 1px solid #e0e0e0;
-  border-radius: 20rpx;
   background-color: #fff;
 }
 
@@ -211,6 +224,7 @@ button[plain]{
   color: #fff;
   border: 0;
   box-sizing: border-box;
+  border-radius:0rpx; 
 }
 
 .total-comment{

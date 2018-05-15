@@ -69,10 +69,29 @@
   </form>
 </view>
 
-<view class='botton-comment' bindtap='showAreatext'>
+<!-- <view class='botton-comment' bindtap='showAreatext'>
   <image class='comment-images' mode="aspectFill" src='/images/icon/write.png'></image>
   <text class='reviewyan'>写评论</text>
-</view>
+</view> -->
+<view class='evaluate'>
+    <view class='evaluateWrap'>
+      <button class='evaluateSon sonButton' bindtap='share'  plain="true" data-name="shareBtn" open-type="share">
+        <image class='evaluateImg' src='/images/icon/find_share.png'></image>
+        <text class='evaluatExtea'>分享</text>
+      </button>
+      <view class='evaluateSon'  bindtap='showAreatext'>
+        <view class='evaluateSonsed'>
+          <image class='evaluateImg' src='/images/icon/find_comment.png'></image>
+          <text class='evaluatExtea'>评价</text>
+        </view>
+      </view>
+      <view class='evaluateSon' id="{{details.id}}"  bindtap='castvote'>
+        <image class='evaluateImg'  wx:if="{{isVote == 1}}" src='/images/icon/wenreview.png'></image>
+        <image class='evaluateImg'  wx:else src='/images/icon/wenreviewed.png'></image>
+        <text class='{{isVote ==0?"":"actvote"}}'>{{poll}}</text>
+      </view>
+    </view>
+  </view>
 
 <view wx:if="{{_id}}" class='but'>
   <block wx:for="{{cmtdata.list}}" wx:key="{{index}}">

@@ -507,7 +507,7 @@ button{
 }
 .evaluate-maximum {
   background-color: white;
-  padding: 0rpx 30rpx;
+  padding: 0rpx 0rpx 100rpx 30rpx;
 }
 .evaluate-maximum::first-child {
   padding-top: 30rpx;

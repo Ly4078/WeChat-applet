@@ -81,16 +81,18 @@
         <view class='currentTabButton distance-es'>
           <view class='cuttenSerial'>
             <text class='serial_number'>{{_shopCode}}号</text>
-            <view class='cuttentWrap'><text class='cuttentTabxiangq'>正在参加{{_actName}}</text></view>
+            <view class='cuttentWrap'>
+              <text class='cuttentTabxiangq'>正在参加{{_actName}}</text>
+            </view>
           </view>
           <text class='vote-entrance'>投票</text>
         </view>
       </view>
       <view class='more' bindtap='clickactmore' wx:if="{{activity.length>2}}">
-          更多套餐券
-          <image wx:if="{{isactmore}}" class='initiate-left more_img' src='/images/icon/home_arrow.png'></image>
-          <image wx:else class='initiate-left more_img2' src='/images/icon/home_arrow.png'></image>
-        </view>
+        更多套餐券
+        <image wx:if="{{isactmore}}" class='initiate-left more_img' src='/images/icon/home_arrow.png'></image>
+        <image wx:else class='initiate-left more_img2' src='/images/icon/home_arrow.png'></image>
+      </view>
 
 
       <view class='initiate-wrapp' wx:if="{{oldpackage.length>0}}">
@@ -102,10 +104,10 @@
           <text>领套餐券，享套餐价</text>
           <!-- <image  src='/images/icon/home_arrow.png'></image> -->
         </view>
-        <view  class='distop'>
+        <view class='distop'>
           <image class='bjimg' src='/images/icon/discount.png'></image>
           <view class='discount'>
-            <view class='dis_left'  bindtap='gotouse'>
+            <view class='dis_left' bindtap='gotouse'>
               <view>{{listagio.skuName}}</view>
               <view>
                 <text>享7专享</text> |
@@ -119,7 +121,7 @@
             </view>
           </view>
         </view>
-        <view class='scroll_box pack_box' wx:for="{{newpackage}}" wx:key="{{index}}" >
+        <view class='scroll_box pack_box' wx:for="{{newpackage}}" wx:key="{{index}}">
           <image class='pack_img' mode="aspectFill" src='{{item.picUrl}}'></image>
           <view class='pack_con'>
             <view class='pack_left' id="{{item.id}}" bindtap='moreinfo'>
@@ -134,7 +136,7 @@
             </view>
           </view>
         </view>
-        <view class='more horizontal' bindtap='clickmore'  wx:if="{{oldpackage.length>2}}">
+        <view class='more horizontal' bindtap='clickmore' wx:if="{{oldpackage.length>2}}">
           更多套餐券
           <image wx:if="{{ismore}}" class='initiate-left more_img' src='/images/icon/home_arrow.png'></image>
           <image wx:else class='initiate-left more_img2' src='/images/icon/home_arrow.png'></image>
@@ -176,10 +178,26 @@
         <text>查看全部<text>{{commentNum}}</text>条评论</text>
       </view>
     </view>
-    <view class='botton-comment' bindtap='showAreatext' hidden="{{currentTab !=0}}">
+    <!-- <view class='botton-comment' bindtap='showAreatext' hidden="{{currentTab !=0}}">
       <image class='comment-images' src='/images/icon/write.png'></image>
       <text class='reviewyan'>写评论</text>
+    </view> -->
+    <view class='evaluate'>
+      <view class='evaluateWrap'>
+        <button class='evaluateSon sonButton' bindtap='share' plain="true" data-name="shareBtn" open-type="share">
+          <image class='evaluateImg' src='/images/icon/find_share.png'></image>
+          <text class='evaluatExtea'>分享</text>
+        </button>
+        <view class='evaluateSon' bindtap='showAreatext'>
+          <view class='evaluateSonsed'>
+            <image class='evaluateImg' src='/images/icon/find_comment.png'></image>
+            <text class='evaluatExtea'>评价</text>
+          </view>
+        </view>
+      </view>
     </view>
+
+
     <form class='commentBox {{isComment ? "show" : "hide"}}'>
       <textarea class="commentArea" placeholder='请输入评论' focus="{{isComment}}" bindinput="getCommentVal" cursor-spacing="10px" show-confirm-bar="false" fixed="true"></textarea>
       <button form-type="reset" catchtap="sendComment">发送</button>
