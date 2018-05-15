@@ -24,7 +24,7 @@ Page({
     alltopics: [],
     currentTab: 0,
     issnap: false,  //是否是临时用户
-    isNew: true,   //是否新用户
+    isNew: false,   //是否新用户
     userGiftFlag: false,    //新用户礼包是否隐藏
     isphoneNumber: false,  //是否拿到手机号
     isfirst: false,
@@ -97,13 +97,16 @@ Page({
                         }
                       }
                     };
+             
                     if (data && data.mobile) {
                       that.setData({
-                        isfirst: false
+                        isfirst: false,
+                        isNew: false
                       })
                     } else {
                       that.setData({
-                        isfirst: true
+                        isfirst: true,
+                        isNew: true
                       })
                     }
                   }
@@ -562,7 +565,6 @@ Page({
       skuNum: '1'
     }
     Api.getFreeTicket(_parms).then((res) => {
-      
       if (res.data.code == 0) {
         this.userGiftCancle()
         wx.navigateTo({
@@ -578,7 +580,7 @@ Page({
           title: res.data.message,
           mask:'true',
           icon:'none',
-          duration:2000
+          duration
         })
       }
     })
