@@ -77,7 +77,7 @@
 
 <view class='modal_box' wx:if="{{ismoldel}}" bindtap='clickmolbox'>
     <view class='envelope'>
-      <image bindtap='closemob' class='close' src='/images/icon/sloce.png'></image>
+      <image bindtap='closemob' class='close' src='/images/icon/close.png'></image>
       <view class='motitle'>恭喜获得</view>
       <view class='money {{redfirst == 2?"received":""}}'><text wx:if="{{redfirst == 2}}">￥</text><text class='{{redfirst == 2?"big":""}}'>{{amount}}</text></view>
       <image catchtap='clickcur' class='currency {{redfirst == 2?"xuanz":""}}' src='/images/icon/currency.png'></image>

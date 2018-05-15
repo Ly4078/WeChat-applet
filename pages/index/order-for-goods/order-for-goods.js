@@ -46,17 +46,10 @@ Page({
     }
     Api.accountBalance(_account).then((res) => {
       if (res.data.code == 0) {
-        if (res.data.data == 0) {
-          this.setData({
-            balance: 0,
-            paytype: 1
-          })
-        } else {
-          this.setData({
-            balance: res.data.data
-          })
-          this.calculate(this.data.paymentAmount)
-        }
+        this.setData({
+          balance: res.data.data
+        })
+        this.calculate(this.data.paymentAmount)
       }
     })
   },
@@ -93,8 +86,8 @@ Page({
       return preg_replace('/(1[358]{1}[0-9])[0-9]{4}([0-9]{4})/i', '$1****$2', $phone);
     }
   },
-  /* 点击减号 */
-  bindMinus: function () {
+
+  bindMinus: function () {  //点击减号
     let number = this.data.number;
     if (number > 1) {
       --number;
@@ -113,8 +106,8 @@ Page({
     minusStatus = number <= 1 ? 'disabled' : 'normal';
 
   },
-  /* 点击加号 */
-  bindPlus: function () {
+
+  bindPlus: function () {  //点击加号
     let number = this.data.number;
     ++number;
     if (number > 10) {
@@ -166,7 +159,7 @@ Page({
       })
     }
   },
-  /* 输入框事件 */
+
   bindManual: function (e) {
     var number = e.detail.value;
     this.setData({
@@ -271,9 +264,16 @@ Page({
           if (that.data.paytype == 1) {
             that.payment(res.data.data)
           } else if (that.data.paytype == 2) {
-            wx.redirectTo({
-              url: '../../personal-center/my-discount/my-discount'
+            wx.showToast({
+              title: '余额支付成功',
+              icon: 'none',
+              mask: true
             })
+            setTimeout(function(){
+              wx.redirectTo({
+                url: '../../personal-center/my-discount/my-discount'
+              })
+            }, 2000)
           }
         }
       })

@@ -15,7 +15,8 @@ Page({
     ismoldel:false,
     redfirst:'1',
     timer:'',
-    amount:'金额随机'
+    amount:'金额随机',
+    frequency:0
   },
   onLoad: function (options) {
     this.setData({
@@ -30,7 +31,7 @@ Page({
     let that = this;
     let int = setInterval(function(){
       that.getcodedetail();
-    }, 3000);
+    }, 1000);
     that.setData({
       timer:int
     })
@@ -53,6 +54,14 @@ Page({
  
   getcodedetail: function () { //获取票券详情
     let that = this;
+    let freq = this.data.frequency;
+    ++freq
+    this.setData({
+      frequency: freq
+    })
+    if (freq == 10){
+      clearInterval(that.data.timer)
+    }
     wx.request({
       url: this.data._build_url + 'cp/get/' + this.data.id,
       success: function (res) {
