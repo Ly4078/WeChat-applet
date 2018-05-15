@@ -1,3 +1,5 @@
+@import "../../../commentsOnUp/commentsOnUp.wxss";
+
 .detail{
   width: 694rpx;
   padding: 0 28rpx;
@@ -233,26 +235,28 @@ button[plain]{
 
 .commentBox textarea{
   float: left;
-  width: 75%;
+  width: 78%;
   height: 100rpx;
   padding: 10rpx;
   box-sizing: border-box;
   border: 1px solid #e0e0e0;
-  border-radius: 20rpx;
+  /* border-radius: 0rpx; */
   background-color: #fff;
 }
 
 .commentBox button{
   float: right;
   width: 22%;
-  height: 100rpx;
+  height: 98rpx;
   line-height: 100rpx;
   background-color: #fc5e2d;
   color: #fff;
   border: 0;
   box-sizing: border-box;
+  border-radius: 0rpx;
 }
 
 .botton-comment {
   border-top: 1rpx solid #e0e0e0;
 }
+

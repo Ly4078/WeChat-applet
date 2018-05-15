@@ -89,7 +89,7 @@
         </view> -->
 
         <view class='evaluate'>
-          <image src='/images/icon/word.png' class='word'></image>
+          <image src='/images/icon/find_comment.png' class='word'></image>
           <text class='text_wz'>{{item.commentNum}}</text>
         </view>
 

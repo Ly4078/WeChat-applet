@@ -164,10 +164,17 @@ Page({
       url: '../../../index/merchant-particulars/total-comment/total-comment?id=' + this.data._id + '&cmtType=2&source=article'
     })
   },
-  dianzanwz: function (e) {  //文章点赞
+  clickzan:function(){  //  点赞/取消点赞
+    if (this.data.details.isZan){
+      this.quxiaozanwz();
+    }else{
+      this.dianzanwz();
+    }
+  },
+  dianzanwz: function () {  //文章点赞
     let that = this
     let _details = this.data.details
-    if (app.globalData.userInfo.mobile == 'a' || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+    if (app.globalData.userInfo.mobile == 'undefined' || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
       this.setData({
         issnap: true
       })

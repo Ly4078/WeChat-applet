@@ -56,8 +56,6 @@
     </radio-group>
   </view>
 
- 
-
   <form report-submit="true">
     <view class='affirm' catchtap='confirmPayment'>
       <text>确认支付</text>

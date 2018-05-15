@@ -1,0 +1,63 @@
+.evaluate{
+  width: 100%;
+  height: 86rpx;
+  border-top: 1px solid #E0E0E0;
+  position:fixed;
+  left:0px;
+  bottom:0px;
+  background-color: #FCFCFC;
+}
+
+.evaluateSon{
+  width: 33.9%;
+  height: 86rpx;
+  text-align: center;
+  line-height: 86rpx;
+}
+
+.evaluateImg{
+  width: 28rpx;
+  height: 28rpx;
+  padding-right: 14rpx;
+  vertical-align: middle;
+}
+
+.evaluateSon text{
+  font-size: 28rpx;
+  vertical-align: middle;
+}
+
+.evaluateSonsed{
+  border-left: 1px solid #E0E0E0;
+  border-right: 1px solid #E0E0E0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 30rpx;
+  height: 34rpx;
+}
+
+.evaluateWrap{
+  display: flex;
+  position: relative;
+  justify-content: space-around;
+}
+
+.sonButton::after{
+  border: none;
+}
+
+.aaaa{
+  /* width: 100%;
+  height: 200rpx; */
+  position: absolute;
+  bottom: 100rpx;
+  background: #FCFCFC;
+}
+
+.actzan{
+  color:#FC5E2D;
+}
+.nozan{
+  color: #B1B1B1;
+}

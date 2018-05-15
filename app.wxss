@@ -365,7 +365,7 @@ button{
   vertical-align: middle;
 }
 .total-comment{
-  min-height: 100rpx;
+  min-height: 84rpx;
   background-color: white;
   display: flex;
   justify-content: center;
@@ -381,6 +381,7 @@ button{
   align-items: center;
   border-radius: 10rpx;
   letter-spacing: 0.5px;
+  margin-bottom: 100rpx;
 }
 .botton-comment{
   border-top: 0.1px solid #e0e0e0;
@@ -394,11 +395,11 @@ button{
 .commentBox {
   width: 100%;
   position: fixed;
-  bottom: 0;
+  bottom: 74rpx;
   left: 0;
-  padding: 10rpx;
+  /* padding: 10rpx; */
   box-sizing: border-box;
-  background-color: #e0e0e0;
+  background-color: #fff;
 }
 .show {
   display: block;

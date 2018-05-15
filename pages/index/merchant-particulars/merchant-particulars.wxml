@@ -216,7 +216,7 @@
                 <text>{{item.transNum}}</text>
               </view>
               <view class="article_icon article_icon_r">
-                <image src="/images/icon/word.png"></image>
+                <image src="/images/icon/find_comment.png"></image>
                 <text>{{item.commentNum}}</text>
               </view>
               <!-- 备注这个打赏图标以后可能会用到 -->

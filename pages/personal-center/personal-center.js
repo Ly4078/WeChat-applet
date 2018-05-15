@@ -34,20 +34,14 @@ Page({
         isshop:true
       })
     }
-    this.getuserInfo()
-
-    let _account = {
-      userId: app.globalData.userInfo.userId
-    }
-    Api.accountBalance(_account).then((res) => { //查询余额
-      let _data = res.data;
-      this.setData({
-        accountBalance: _data
-      })
-    })
+    this.getuserInfo();
+   
+    
   },
+  
   onShow: function () {
     let that = this;
+    this.getbalance();
     if (app.globalData.userInfo.mobile) {
       this.setData({
         ismobile: false
@@ -95,6 +89,17 @@ Page({
           collectTotal: _total
         })
       }
+    })
+  },
+  getbalance: function () {   //查询余额
+    let _account = {
+      userId: app.globalData.userInfo.userId
+    }
+    Api.accountBalance(_account).then((res) => {
+      let _data = res.data;
+      this.setData({
+        accountBalance: _data
+      })
     })
   },
   bindGetUserInfo: function (e) {
