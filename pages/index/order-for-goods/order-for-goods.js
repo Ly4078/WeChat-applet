@@ -169,11 +169,27 @@ Page({
 
   determine: function (e) {  //点击确认支付按钮
     let that = this
+    if (app.globalData.userInfo.mobile == 'undefined' || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+      this.setData({
+        issnap: true
+      })
+      return false
+    }
     wx.getSetting({
       success: (res) => {
         if (res.authSetting['scope.userInfo'] && res.authSetting['scope.userLocation']) {
           this.confirmPayment()
-        } else {
+        } else if (!res.authSetting['scope.userInfo']) { // 用户未授受获取其用户信息或位置信息
+          wx.showModal({
+            title: '提示',
+            content: '请先至[我的]页面点击头像授权用户信息,方可购买券票',
+            success: (res) => {
+              wx.switchTab({
+                url: '../../personal-center/personal-center'
+              })
+            }
+          })
+        } else{
           wx.showModal({
             title: '提示',
             content: '为让享7更好为您服务，请授权以下权限给享7',
@@ -181,19 +197,6 @@ Page({
               if (res.confirm) {
                 wx.openSetting({
                   success: (res) => {
-                    if (res.authSetting['scope.userInfo']) { //得到用户信息授权，获取用户信息
-                      wx.getUserInfo({
-                        success: res => {
-                          if (res.userInfo) {  //设置全局变量
-                            app.globalData.userInfo.userName = res.userInfo.nickName,
-                              app.globalData.userInfo.nikcName = res.userInfo.nickName,
-                              app.globalData.userInfo.avatarUrl = res.userInfo.avatarUrl,
-                              app.globalData.userInfo.city = res.userInfo.city,
-                              app.globalData.userInfo.sex = res.userInfo.gender //gender	用户的性别，值为1时是男性，值为2时是女性，值为0时是未知
-                          }
-                        }
-                      })
-                    }
                     if (res.authSetting['scope.userLocation']) {  //得到用户位置授权，获取用户位置
                       wx.getLocation({
                         type: 'wgs84',
@@ -232,12 +235,6 @@ Page({
 
   confirmPayment: function (e) {  //生成订单号
     let that = this
-    if (app.globalData.userInfo.mobile == 'undefined' || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
-      this.setData({
-        issnap: true
-      })
-      return false
-    }
     if (that.data.issecond) {
       return false
     }

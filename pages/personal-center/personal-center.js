@@ -234,18 +234,7 @@ Page({
         if (!res.authSetting['scope.userInfo']) { // 用户未授受获取其用户信息或位置信息
           wx.showModal({
             title: '提示',
-            content: '商家入驻必须授权用户信息',
-            success: function (res) {
-              if (res.confirm) {
-                wx.openSetting({  //打开授权设置界面
-                  success: (res) => {
-                    if (res.authSetting['scope.userInfo']) {
-                      this.getuserInf()
-                    }
-                  }
-                })
-              }
-            }
+            content: '请先点击头像授权用户信息,方可进行免费入驻',
           })
         } else {
           wx.navigateTo({
