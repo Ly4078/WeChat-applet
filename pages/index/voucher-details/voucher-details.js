@@ -37,6 +37,17 @@ Page({
   },
   immediatelyBuy:function(){
     let data = this.data.obj, parameter = '';
+    console.log('obj:',data)
+    parameter = '?id=' + data.id + "&sell=" + data.sell + "&inp=" + data.inp + "&rule=" + data.rule + '&num=' + data.num + '&soid=' + data.soid;
+    if (this.data.sostatus == 1) {
+      parameter += '&sostatus=1'
+    }
+    wx.navigateTo({
+      url: '../order-for-goods/order-for-goods' + parameter
+    })
+  },
+  auto: function () {
+    let data = this.data.obj, parameter = '';
     parameter = '?id=' + data.id + "&sell=" + data.sell + "&inp=" + data.inp + "&rule=" + data.rule + '&num=' + data.num + '&soid=' + data.soid;
     if (this.data.sostatus == 1) {
       parameter += '&sostatus=1'

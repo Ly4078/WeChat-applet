@@ -29,6 +29,7 @@ Page({
             price.push(lists[i])
           }
         }
+        console.log('price:',price)
         this.setData({
           information: price
         })
@@ -43,10 +44,11 @@ Page({
     for (let i = 0; i < _arr.length; i++) {
       if (id == _arr[i].id) {
         _sellPrice = _arr[i].sellPrice,
-          _inPrice = _arr[i].inPrice,
-          _ruleDesc = _arr[i].promotionRules[0].ruleDesc
+        _inPrice = _arr[i].inPrice,
+        _ruleDesc = _arr[i].promotionRules[0].ruleDesc
       }
     }
+    
     wx.navigateTo({
       url: '../voucher-details/voucher-details?id=' + id + "&sell=" + _sellPrice + "&inp=" + _inPrice + "&rule=" + _ruleDesc
     })

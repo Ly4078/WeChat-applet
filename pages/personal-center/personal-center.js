@@ -190,6 +190,7 @@ Page({
     })
   },
   requestCityName(lat, lng) {//获取当前城市
+    let that = this;
     app.globalData.userInfo.lat = lat
     app.globalData.userInfo.lng = lng
     wx.request({
@@ -198,7 +199,7 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success: (res) => {
-      //   this.getmoredata()
+        
         if (res.data.status == 0) {
           this.setData({
             city: res.data.result.address_component.city,
@@ -312,17 +313,17 @@ Page({
     wx.request({
       url: this.data._build_url + 'cp/getByCode/' + that.data.qrCode,
       success: function (res) {
-        let data = res.data;
-        let Cts = "现金", Dis = '折扣';
-        if (data.data.skuName.indexOf(Cts) > 0) {
-          data.data.discount = false
-        }
-        if (data.data.skuName.indexOf(Dis) > 0) {
-          data.data.discount = true
-        }
-        console.log('data:',data.data)
-        let current = res.currentTime;
-        if (data.code == 0) {
+        if (res.data.code == 0) {
+          let data = res.data;
+          let Cts = "现金", Dis = '折扣';
+          if (data.data.skuName.indexOf(Cts) > 0) {
+            data.data.discount = false
+          }
+          if (data.data.skuName.indexOf(Dis) > 0) {
+            data.data.discount = true
+          }
+          let current = res.currentTime;
+        
           let isDue = that.isDueFunc(current, data.expiryDate);
           if (data.data.isUsed == 1) {
             wx.showToast({
@@ -363,10 +364,12 @@ Page({
             // })
           }
         } else {
+         
           wx.showToast({
-            title: data.message,
+            title: res.data.message,
             mask: 'true',
-            icon: 'none'
+            icon: 'none',
+            duration:3000
           }, 2000)
         }
       }
