@@ -27,7 +27,7 @@
   <view class='conponbox'>
     <view class='blocks'>
       <text></text>套餐内容</view>
-    <view class='all' wx:if="{{arr[0].length>0}}">主食</view>
+    <view class='all' wx:if="{{arr[0].length>0}}">主菜</view>
     <view class='lists' wx:for="{{arr[0]}}" wx:key="index">
       <text></text>
       <text>{{item.dish}}</text>

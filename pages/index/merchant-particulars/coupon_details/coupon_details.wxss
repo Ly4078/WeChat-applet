@@ -22,6 +22,7 @@
 .price text:nth-child(1){
   font-size: 28rpx; 
   color:#FF5252;
+  font-weight: 600;
   margin-right: 22rpx;
 }
 .price text:nth-child(2){
@@ -92,7 +93,7 @@
 .blocks text{
   display:  block;
   float: left;
-   width: 8rpx;
+  width: 8rpx;
   height: 28rpx;
   background: #FC5E2D;
   margin-right: 20rpx;
@@ -100,13 +101,14 @@
 .all{
   color: #242424;
   font-size: 28rpx;
+  font-weight: 600;
   margin: 30rpx 0;
 }
 .lists{
   width: 99%;
   min-height: 36rpx;
   line-height: 36rpx;
-  color: #B1B1B1;
+  color: #555;
   font-size: 26rpx;
   margin: 11rpx 0;
   padding-left: 1%;
@@ -121,8 +123,12 @@
   margin-top: 14rpx;
   margin-right: 20rpx;
 }
+.lists text:nth-child(2){
+  font-size: 26rpx;
+}
 .lists text:nth-child(3){
   float: right;
+  font-size: 26rpx;
 }
 .location-left {
   width: 26rpx;
