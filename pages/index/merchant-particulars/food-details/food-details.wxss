@@ -1,4 +1,4 @@
-
+@import "../../../commentsOnUp/commentsOnUp.wxss";
 .foodpic{
   width: 100%;
   height: 420rpx;
@@ -57,12 +57,11 @@
 }
 .commentBox textarea{
   float: left;
-  width: 75%;
+  width: 78%;
   height: 100rpx;
   padding: 10rpx;
   box-sizing: border-box;
   border: 1px solid #e0e0e0;
-  border-radius: 20rpx;
   background-color: #fff;
 }
 
@@ -75,6 +74,7 @@
   color: #fff;
   border: 0;
   box-sizing: border-box;
+  border-radius: 0rpx;
 }
 .houttishi{
    width:250rpx;
@@ -82,4 +82,20 @@
   margin-left:242.5rpx; 
   margin-top: 100rpx;
   margin-bottom: 100rpx;
+}
+
+button[plain]{
+  border: 0rpx;
+}
+
+.evaluatExtea{
+  color: #B1B1B1;
+}
+
+.actzan{
+  color:#FC5E2D;
+}
+
+.nozan{
+  color: #B1B1B1;
 }

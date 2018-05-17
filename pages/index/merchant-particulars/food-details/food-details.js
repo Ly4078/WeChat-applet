@@ -16,7 +16,8 @@ Page({
     issnap: false,  //是否是临时用户
     isComment:false,
     commentVal:'',
-    commentNum:0
+    commentNum:0,
+    _details:''
   },
 
   /**
@@ -41,6 +42,19 @@ Page({
       })
       this.commentList()
     })
+  },
+  onPageScroll: function () {  //监听页面滑动
+    this.setData({
+      isComment: false
+    })
+  },
+  clickzan:function(){
+    let _details = this.data.foodData.isZan
+    if (_details == 0){
+      this.dianzanwz();
+    }else{
+      this.quxiaozanwz();
+    }
   },
   dianzanwz: function (e) {  //推荐菜点赞
     let that = this

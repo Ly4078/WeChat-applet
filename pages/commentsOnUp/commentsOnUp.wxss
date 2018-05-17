@@ -41,6 +41,7 @@
   display: flex;
   position: relative;
   justify-content: space-around;
+  z-index: 9999;
 }
 
 .sonButton::after{

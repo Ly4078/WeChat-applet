@@ -96,23 +96,23 @@ Page({
       sostatus = e.currentTarget.dataset.sostatus,
       listArr = this.data.order_list,
       sell = "", inp = "", rule = "", num = "", soId = "";
-    if (sostatus == 1) {
-      for (let i = 0; i < listArr.length; i++) {
-        if (id == listArr[i].id) {
-          sell = listArr[i].unitPrice;
-          rule = listArr[i].ruleDesc;
-          inp = parseInt(listArr[i].skuName);
-          num = listArr[i].skuNum;
-          soId = listArr[i].soId;
-        }
+    for (let i = 0; i < listArr.length; i++) {
+      if (id == listArr[i].id) {
+        sell = listArr[i].unitPrice;
+        rule = listArr[i].ruleDesc;
+        inp = parseInt(listArr[i].skuName);
+        num = listArr[i].skuNum;
+        soId = listArr[i].soId;
       }
+    }
+    if (sostatus == 1) {
       wx.navigateTo({
         // url: '/pages/index/voucher-details/voucher-details'
         url: '/pages/index/voucher-details/voucher-details?id=' + id + '&soid=' + soId+ '&sell=' + sell + '&inp=' + inp + '&rule=' + rule + '&num=' + num + '&sostatus=1'
       })
     } else if (sostatus == 2 || sostatus == 3) {
       wx.navigateTo({
-        url: '../lelectronic-coupons/lectronic-coupons?id=' + id
+        url: '../lelectronic-coupons/lectronic-coupons?id=' + id + '&soid=' + soId
       })
     }
   },
