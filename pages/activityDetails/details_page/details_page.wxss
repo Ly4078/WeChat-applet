@@ -105,7 +105,11 @@
   margin-left: 290.5rpx;
 }
 .actvote{
-  color: #FC5E2D;
+  color: #fff;
+}
+
+.actvotees{
+  color: #fc5e2d;
 }
 
 .evaluateSon{
@@ -191,5 +195,9 @@ button[plain]{
 
 .but{
   padding-top: 60rpx;
+}
+
+.but-pingjia{
+  padding-bottom: 80rpx;
 }
 

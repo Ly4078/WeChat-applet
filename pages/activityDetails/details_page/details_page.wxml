@@ -43,9 +43,11 @@
 
 <view class='sharebg'></view>
 <view class='but'>
-  <block wx:for="{{cmtdata.list}}" wx:key="{{index}}">
-    <template is="commentItem" data="{{item}}"></template>
-  </block>
+  <view class='but-pingjia'>
+    <block wx:for="{{cmtdata.list}}" wx:key="{{index}}">
+      <template is="commentItem" data="{{item}}"></template>
+    </block>
+  </view>
   <view class='total-comment' hidden='{{totalComment}}' catchtap='jumpTotalComment'>
     <view class='total-center' wx:if="{{cmtdata.list.length>6}}">
       <text>查看全部<text>{{cmtdata.total}}</text>条评论</text>
@@ -76,7 +78,7 @@
       <view class='evaluateSon' id="{{details.id}}"  bindtap='castvote'>
         <image class='evaluateImg'  wx:if="{{isVote == 1}}" src='/images/icon/wenreview.png'></image>
         <image class='evaluateImg'  wx:else src='/images/icon/wenreviewed.png'></image>
-        <text class='{{isVote ==0?"":"actvote"}}'>{{poll}}</text>
+        <text class='{{isVote ==0?"":"actvotees"}}'>{{poll}}</text>
       </view>
     </view>
   </view>

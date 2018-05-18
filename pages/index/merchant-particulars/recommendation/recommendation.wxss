@@ -69,7 +69,7 @@ page {
 }
 
 .recommpingfen{
-  margin: -6rpx 0rpx 5rpx 0rpx;
+  margin: -2rpx 0rpx 6rpx 0rpx;
 }
 
 .popularity{

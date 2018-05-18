@@ -99,3 +99,7 @@ button[plain]{
 .nozan{
   color: #B1B1B1;
 }
+
+.initiate-pingjia{
+  padding-bottom: 80rpx;
+}

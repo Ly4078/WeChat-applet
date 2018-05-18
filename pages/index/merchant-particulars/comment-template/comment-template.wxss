@@ -45,9 +45,9 @@
   padding-left: 74rpx;
 }
 .carry-out-data{
-  height: 100rpx;
+  height: 50rpx;
   text-align: right;
-  line-height: 100rpx;
+  line-height: 50rpx;
   color: #B1B1B1;
   font-size: 24rpx;
 }

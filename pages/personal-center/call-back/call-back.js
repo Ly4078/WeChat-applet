@@ -106,7 +106,7 @@ Page({
                     ticketsinfo: []
                   })
                   wx.showToast({
-                    title: res.data.message + ',不能核销此活动券工 ',
+                    title: res.data.message + ',不能核销此活动券 ',
                     mask: 'true',
                     icon: 'none',
                     duration: 3000

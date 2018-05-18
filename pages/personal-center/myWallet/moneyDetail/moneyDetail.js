@@ -6,18 +6,42 @@ Page({
   data: {
     detailList:'',
     data:[],
+    page:1,
+  },
+  onReachBottom: function () {  //用户上拉触底加载更多
+    let oldpage = this.data.page
+    this.setData({
+      page: this.data.page + 1
+    });
+    this.searchValues()
   },
   onLoad: function (options) {
-    let _account = {
-      userId: app.globalData.userInfo.userId
-    }
-    Api.detailList(_account).then((res) => { //查询余额
-      let _data = res.data.data.list;
-      console.log("明细:", _data)
-      this.setData({
-        data: _data,
-      })
-    })
+    this.searchValues()
   },
 
+  searchValues:function(){
+    wx.showLoading({
+      title: '数据加载中。。。',
+      mask: true
+    })
+   
+    let _account = {
+      userId: app.globalData.userInfo.userId,
+      page: this.data.page,
+      rows: 15
+    }
+    Api.detailList(_account).then((res) => { //查询余额
+      wx.hideLoading();
+      if(res.data.code == 0){
+        let _data = res.data.data.list;
+        let posts = this.data.data;
+        for (let i = 0; i < _data.length; i++) {
+          posts.push(_data[i])
+        }
+        this.setData({
+          data: posts,
+        })
+      }
+    })
+  }
 })

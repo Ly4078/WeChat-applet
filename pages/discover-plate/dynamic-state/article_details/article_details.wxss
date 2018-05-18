@@ -193,7 +193,7 @@ button[plain]{
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-top: 70rpx;
+  padding-top: 50rpx;
 }
 .evaluateImages {
   width: 60rpx;
@@ -233,12 +233,11 @@ button[plain]{
   padding-top: 30rpx;
 }
 .carry-out-data{
-  height: 100rpx;
+  height: 70rpx;
   text-align: right;
-  line-height: 100rpx;
+  line-height: 70rpx;
   color: #B1B1B1;
   font-size: 24rpx;
-  border-bottom: 1px solid #F4F4F4;
 }
 
 .commentBox textarea{
@@ -248,7 +247,6 @@ button[plain]{
   padding: 10rpx;
   box-sizing: border-box;
   border: 1px solid #e0e0e0;
-  /* border-radius: 0rpx; */
   background-color: #fff;
 }
 

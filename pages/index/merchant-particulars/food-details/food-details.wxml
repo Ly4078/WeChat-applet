@@ -1,7 +1,7 @@
 <import src="../comment-template/comment-template.wxml" />
 
 
-<image class="foodpic" src="{{foodData.picUrl}}"></image>
+<image class="foodpic" mode="aspectFill" src="{{foodData.picUrl}}"></image>
 
 <view class='skun'>
   <text class='skuname'>{{foodData.skuName}}</text>
@@ -25,9 +25,11 @@
   </view>
   <image class='initiate-right' src='/images/icon/home_arrow.png'></image>
 </view>
-<block wx:for="{{comment_list}}" wx:key="{{index}}">
-  <template is="commentItem" data="{{item}}"></template>
-</block>
+<view class='initiate-pingjia'>
+  <block wx:for="{{comment_list}}" wx:key="{{index}}">
+    <template is="commentItem" data="{{item}}"></template>
+  </block>
+</view>
 <view class='total-comment' hidden='{{commentNum < 6}}' catchtap='jumpTotalComment'>
   <view class='total-center'>
     <text>查看全部<text>{{commentNum}}</text>条评论</text>
