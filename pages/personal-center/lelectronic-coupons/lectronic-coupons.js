@@ -16,26 +16,35 @@ Page({
     redfirst:'1',
     timer:'',
     amount:'金额随机',
+    isticket:false,
     frequency:0
   },
   onLoad: function (options) {
+    let that = this;
     this.setData({
       id:options.id,
       soid: options.soid,
       myCount: options.myCount ? options.myCount : 0
     });
+    if (options.cfrom){
+      this.setData({
+        isticket: false
+      })
+      wx.setNavigationBarTitle({
+        title: '订单详情'
+      })
+    }else{
+      let int = setInterval(function () {
+        that.getcodedetail();
+      }, 1000);
+      this.setData({
+        isticket:true,
+        timer: int
+      })
+    }
     this.getTicketInfo();
-    this.getcodedetail();
   },
-  onShow:function(){
-    let that = this;
-    let int = setInterval(function(){
-      that.getcodedetail();
-    }, 1000);
-    that.setData({
-      timer:int
-    })
-  },
+
   onHide:function(){
     clearInterval(this.data.timer)
   },
@@ -130,6 +139,7 @@ Page({
           for (let i = 0; i < that.data.couponsArr.length; i++) {
             imgsArr.push(that.data.couponsArr[i].qrcodeUrl);
           }
+           data.data.userName =  data.data.userName.substr(0, 3) + "****" +  data.data.userName.substr(7)
           that.setData({
             ticketInfo: data.data,
             qrCodeArr: imgsArr,

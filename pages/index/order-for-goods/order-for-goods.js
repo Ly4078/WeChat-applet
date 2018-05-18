@@ -9,7 +9,6 @@ Page({
     paymentAmount: '',
     obj: [],
     sostatus: 0,
-    isNew: 0,   //是否新用户
     issnap: false,
     issecond: false,
     paytype: '', //支付方式， 1微信支付  2余额支付
@@ -21,7 +20,7 @@ Page({
   },
 
   onLoad: function (options) {
-    this.isNewUser()
+    // this.isNewUser()
     this.setData({
       obj: options,
       paymentAmount: options.sell
@@ -55,6 +54,9 @@ Page({
   },
   radioChange: function (e) {  //选框
     let num = e.detail.value;
+    this.setData({
+      issecond: false
+    })
     if (num == 1) { //1微信支付
       this.setData({
         paytype: 1
@@ -65,19 +67,19 @@ Page({
       })
     }
   },
-  isNewUser: function () {   //判断是否新用户
-    let that = this;
-    let _parms = {
-      userId: app.globalData.userInfo.userId
-    };
-    Api.isNewUser(_parms).then((res) => {
-      if (res.data.code == 0) {
-        that.setData({
-          isNew: 1
-        });
-      }
-    })
-  },
+  // isNewUser: function () {   //判断是否新用户
+  //   let that = this;
+  //   let _parms = {
+  //     userId: app.globalData.userInfo.userId
+  //   };
+  //   Api.isNewUser(_parms).then((res) => {
+  //     if (res.data.code == 0) {
+  //       that.setData({
+  //         isNew: 1
+  //       });
+  //     }
+  //   })
+  // },
   hidtel: function ($phone) {
     $IsWhat = preg_match('/(0[0-9]{2,3}[\-]?[2-9][0-9]{6,7}[\-]?[0-9]?)/i', $phone);
     if ($IsWhat == 1) {
@@ -242,12 +244,25 @@ Page({
       issecond: true
     })
     if (this.data.obj.soid && this.data.obj.soid != 'undefined' && this.data.obj.soid != '') {
-      that.payment(this.data.obj.soid)
+      
+      if (that.data.paytype == 1) {
+        that.payment(this.data.obj.soid)
+      } else if (that.data.paytype == 2) {
+        wx.showToast({
+          title: '余额支付成功',
+          icon: 'none',
+          mask: true
+        })
+        setTimeout(function () {
+          wx.redirectTo({
+            url: '../../personal-center/my-discount/my-discount'
+          })
+        }, 2000)
+      }
     } else {
       let _parms = {
         userId: app.globalData.userInfo.userId,
         userName: app.globalData.userInfo.userName,
-
         skuId: this.data.obj.id,
         skuNum: this.data.number
       }

@@ -8,11 +8,8 @@ Page({
     completed: true,
     currentTab: ''
   },
-  onLoad: function (options) {
-
-  },
   onShow: function () {
-    this.getOrderList();
+    this.getOrderList()
   },
   onHide: function () {
     this.setData({
@@ -108,11 +105,11 @@ Page({
     if (sostatus == 1) {
       wx.navigateTo({
         // url: '/pages/index/voucher-details/voucher-details'
-        url: '/pages/index/voucher-details/voucher-details?id=' + id + '&soid=' + soId+ '&sell=' + sell + '&inp=' + inp + '&rule=' + rule + '&num=' + num + '&sostatus=1'
+        url: '/pages/index/order-for-goods/order-for-goods?id=' + id + '&soid=' + soId+ '&sell=' + sell + '&inp=' + inp + '&rule=' + rule + '&num=' + num + '&sostatus=1'
       })
     } else if (sostatus == 2 || sostatus == 3) {
       wx.navigateTo({
-        url: '../lelectronic-coupons/lectronic-coupons?id=' + id + '&soid=' + soId
+        url: '../lelectronic-coupons/lectronic-coupons?id=' + id + '&soid=' + soId+'&cfrom=ticket'
       })
     }
   },

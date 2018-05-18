@@ -401,7 +401,7 @@ Page({
     })
     let _bauss = this.data.businessCate.toString()
     let _sortype = this.data.sortype.toString()
-    _bauss = _bauss + ',' + _sortype
+    _bauss = _bauss + '/' + _sortype
     let _parms = {
       userName: this.data.userName,
       mobile: this.data.mobile,

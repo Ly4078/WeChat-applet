@@ -6,20 +6,23 @@
           <image class='lectronic-images' src='/images/icon/xiangqiLGBL.gif'></image>
         </view>
         <view class='lectronic-text'>
-          <text class='lectronic-reel'>{{ticket[0].skuName}}</text>
+          <text class='lectronic-reel'>{{ticket[0].skuName?ticket[0].skuName:ticketInfo.skuName}}</text>
           <!-- <text class='lectronic-limit'>{{ticketInfo.coupons[0].promotionRules[1].ruleDesc}}</text> -->
         </view>
       </view>
-      <view class='lectronic-right'>
+      <view class='lectronic-right' wx:if="{{isticket}}">
         <text wx:if="{{ticket[0].isUsed == 0}}">待使用</text>
         <text wx:else>已使用</text>
+      </view>
+      <view class='lectronic-right' wx:else>
+        <text>已完成</text>
       </view>
     </view>
     <view catchtap='sublevelSum'>
       <view class='restrict-time'>
         <view class='restrict-caution'>
-          <text>有限期至:</text>
-          <text>{{ticket[0].expiryDate}}</text>
+          <text wx:if="{{isticket}}">有限期至:</text>
+          <text wx:if="{{isticket}}">{{ticket[0].expiryDate}}</text>
         </view>
         <view class='restric-page-down'>
           <text class='restric-page-text' id="{{ticketInfo.id}}">使用详情</text>
@@ -29,14 +32,15 @@
     </view>
   </view>
 
-  <view class='qr-code'>
+  <view class='qr-code' wx:if="{{isticket}}"> 
     <view class='rollMessage'>享7劵</view>
     <block wx:for="{{ticket}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
+    <image src='{{item.qrcodeUrl}}' class='codingImages' data-index='{{idx}}' bindtap='previewImg'></image>
       <view class='coding-code {{idx > 2 && qrCodeFlag ? "hide" : ""}}'>
-        <text class='codingText'>{{idx + 1}}</text>
-        <text>劵码:</text>
-        <text class='numberFeald'>{{item.couponCode}}</text>
-        <image src='{{item.qrcodeUrl}}' class='codingImages' data-index='{{idx}}' bindtap='previewImg'></image>
+        劵码:{{item.couponCode}}
+        <!-- <text></text>
+        <text class='numberFeald'</text> -->
+        
       </view>
     </block>
     <view class='codingeven-more' wx:if="{{ticket.length > 3}}" bindtap="onclickMore">
@@ -54,6 +58,14 @@
       <view class='order-for-colour'>
         <text>订单号</text>
         <text>{{ticketInfo.soId}}</text>
+      </view>
+      <view class='order-for-colour'>
+        <text>联系电话</text>
+        <text>{{ticketInfo.userName}}</text>
+      </view>
+      <view class='order-for-colour'>
+        <text>下单时间</text>
+        <text>{{ticketInfo.createTime}}</text>
       </view>
       <view class='order-for-colour'>
         <text>付款时间</text>

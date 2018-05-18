@@ -119,11 +119,12 @@ page {
   height: 90rpx;
   border-bottom: 1px solid #e0e0e0;
   font-size: 32rpx;
-  color: #191919;
-  display: flex;
+  color: #555;
+  text-align: center;
   align-items: center;
   letter-spacing: 2px;
   position: relative;
+  top: 18rpx;
 }
 
 .coding-code.show {
@@ -143,10 +144,10 @@ page {
 }
 
 .codingImages {
-  width: 50rpx;
-  height: 50rpx;
-  position: absolute;
-  right: 30rpx;
+  width:400rpx;
+height:400rpx;
+margin:10rpx 167.5rpx;
+
 }
 
 .codingeven-more {
@@ -157,7 +158,7 @@ page {
   align-items: center;
   font-size: 24rpx;
   color: #b1b1b1;
-  letter-spacing: 2px;
+  /* letter-spacing: 3px; */
 }
 
 .veent-more-img, .veent-more-img-top {
@@ -178,7 +179,7 @@ page {
 
 .order-for-goods {
   width: 100%;
-  height: 380rpx;
+  height: 440rpx;
   background-color: white;
   display: flex;
   justify-content: center;
