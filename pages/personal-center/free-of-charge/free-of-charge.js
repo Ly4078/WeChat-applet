@@ -43,7 +43,25 @@ Page({
         totable:true
       })
     }
-    this.searchByUserId()
+    if (app.globalData.userInfo.userType == 2 && app.globalData.userInfo.shopId){
+      wx.showModal({
+        title: '提示',
+        content: '您已经入驻到享七美食了ฅ( ̳• ◡ • ̳)ฅ',
+        success: function (res) {
+          if (res.confirm) {
+            wx.switchTab({
+              url: '../../personal-center/personal-center'
+            })
+          } else if (res.cancel) {
+            wx.switchTab({
+              url: '../../personal-center/personal-center'
+            })
+          }
+        }
+      })
+    }else{
+      this.searchByUserId()
+    }
     wx.setStorage({
       key: 'cate',
       data: '',
