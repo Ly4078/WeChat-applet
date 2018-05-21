@@ -1,7 +1,7 @@
 
 <view class='ruzhuimg' wx:if="{{totable}}">
   <image src='{{img}}'></image>
-  <button class='sign' bindtap='signtable'>去入驻</button>
+  <button class='sign' bindtap='signtable' wx:if="{{_shopid}}">去入驻</button>
 </view>
 <view wx:else>
    <image class='bannerTop' src='/images/icon/banner1.png'></image> 

@@ -28,8 +28,10 @@ Page({
     sort: ['商务', '聚会', '约会'],
     intype: '',
     isrepeat: false,
+    isorder:true,
     img:'',
-    totable:false
+    totable:false,
+    _shopid: app.globalData.userInfo.shopId
   },
 
   /**
@@ -42,24 +44,28 @@ Page({
         img:options.img,
         totable:true
       })
-    }
-    if (app.globalData.userInfo.userType == 2 && app.globalData.userInfo.shopId){
-      wx.showModal({
-        title: '提示',
-        content: '您已经入驻到享七美食了ฅ( ̳• ◡ • ̳)ฅ',
-        success: function (res) {
-          if (res.confirm) {
-            wx.switchTab({
-              url: '../../personal-center/personal-center'
-            })
-          } else if (res.cancel) {
-            wx.switchTab({
-              url: '../../personal-center/personal-center'
-            })
-          }
-        }
+      wx.setNavigationBarTitle({
+        title: '补贴说明'
       })
+    }else if (app.globalData.userInfo.userType == 2 && app.globalData.userInfo.shopId){
+      wx.setNavigationBarTitle({
+        title: '商家入驻'
+      })
+      wx.showToast({
+        title: '您已经入驻到享七美食了ฅ( ̳• ◡ • ̳)ฅ',
+        mask:'true',
+        icon:'none',
+        duration:3000
+      })
+      setTimeout(function(){
+        wx.switchTab({
+          url: '../../personal-center/personal-center'
+        })
+      },3000)
     }else{
+      wx.setNavigationBarTitle({
+        title: '商家入驻'
+      })
       this.searchByUserId()
     }
     wx.setStorage({
@@ -154,21 +160,17 @@ Page({
             } else if (res.data.data.status == 1) {
               _content = '您的审批已通过'
             }
-            wx.showModal({
-              title: '提示',
-              content: _content,
-              success: function (res) {
-                if (res.confirm) {
-                  wx.switchTab({
-                    url: '../../personal-center/personal-center'
-                  })
-                } else if (res.cancel) {
-                  wx.switchTab({
-                    url: '../../personal-center/personal-center'
-                  })
-                }
-              }
+            wx.showToast({
+              title: _content,
+              mask: 'true',
+              icon: 'none',
+              duration: 3000
             })
+            setTimeout(function () {
+              wx.switchTab({
+                url: '../../personal-center/personal-center'
+              })
+            }, 3000)
           }
         } else if (res.data.data.status == 2) {
           if (res.data.data && res.data.data.id) {
