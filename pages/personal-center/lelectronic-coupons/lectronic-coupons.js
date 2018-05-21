@@ -36,7 +36,7 @@ Page({
     }else{
       let int = setInterval(function () {
         that.getcodedetail();
-      }, 1000);
+      }, 2000);
       this.setData({
         isticket:true,
         timer: int
@@ -68,7 +68,7 @@ Page({
     this.setData({
       frequency: freq
     })
-    if (freq == 10){
+    if (freq == 20){
       clearInterval(that.data.timer)
     }
     wx.request({
