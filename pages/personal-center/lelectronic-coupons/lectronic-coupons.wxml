@@ -72,6 +72,10 @@
         <text>{{ticketInfo.paidTime ? ticketInfo.paidTime : ticketInfo.updateTime}}</text>
       </view>
       <view class='order-for-colour'>
+        <text>付款方式</text>
+        <text>{{ticketInfo.payType=='2' ? '微信支付' :'余额支付'}}</text>
+      </view>
+      <view class='order-for-colour'>
         <text>数量</text>
         <text>{{ticketInfo.skuNum}}</text>
       </view>
