@@ -11,8 +11,10 @@
         </view>
       </view>
       <view class='lectronic-right' wx:if="{{isticket}}">
-        <text wx:if="{{ticket[0].isUsed == 0}}">待使用</text>
-        <text wx:else>已使用</text>
+        <text wx:if="{{ticket[0]}}">
+          <text wx:if="{{ticket[0].isUsed == 0}}">待使用</text>
+          <text wx:else>已使用</text>
+        </text>
       </view>
       <view class='lectronic-right' wx:else>
         <text>已完成</text>
