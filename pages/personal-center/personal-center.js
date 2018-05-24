@@ -28,7 +28,8 @@ Page({
         ismobile: false
       })
     }
-    if (app.globalData.userInfo.shopId){
+    console.log(app.globalData.userInfo)
+    if (app.globalData.userInfo.shopId && app.globalData.userInfo.userType == 2){
       this.setData({
         isshop:true
       })

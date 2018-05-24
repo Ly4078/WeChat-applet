@@ -15,12 +15,15 @@ Page({
     ismoldel:false,
     redfirst:'1',
     timer:'',
-    amount:'金额随机',
+    amount:'',
     isticket:false,
     frequency:0
   },
   onLoad: function (options) {
     let that = this;
+    wx.showLoading({
+      title: '加载中',
+    })
     this.setData({
       id:options.id,
       soid: options.soid,
@@ -78,6 +81,7 @@ Page({
         if(res.data.code == 0){
           let arr = [];
           arr.push(res.data.data)
+          wx.hideLoading();
           that.setData({
             ticket: arr
           })
