@@ -1,0 +1,77 @@
+page {
+  background-color: #ebebeb;
+}
+
+.paymentWary {
+  background-color: #fff;
+  margin-top: 30rpx;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.paymentTop {
+  width: 92%;
+  height: auto;
+}
+
+.consumption {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 34rpx;
+  letter-spacing: 2rpx;
+  height: 100rpx;
+  border-bottom: 1rpx solid #e5e5e5;
+}
+
+.arrow {
+  width: 22rpx;
+  height: 12rpx;
+  position: absolute;
+  right: 30px;
+  transform: rotate(270deg);
+  vertical-align: middle;
+  padding-top: 44rpx;
+}
+
+.arrowText {
+  padding-right: 32rpx;
+  color: #fc5e2d;
+  font-size: 34rpx;
+  vertical-align: middle;
+}
+
+.practical {
+  color: #fc5e2d;
+}
+
+consumptionNone {
+  border: 0px;
+}
+
+.consumTextes {
+  width: 64%;
+}
+
+.consumhuise{
+  color: #B1B1B1;
+  font-size: 34rpx;
+}
+
+.inputtext {
+  height: 100rpx;
+  text-align: right;
+}
+
+.countersign {
+  padding: 50rpx 40rpx 0rpx 40rpx;
+  font-size: 36rpx;
+}
+
+.btn {
+  color: #fff;
+  background-color: #fc5e2d;
+  height: 88rpx;
+  line-height: 88rpx;
+}

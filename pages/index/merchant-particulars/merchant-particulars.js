@@ -721,5 +721,11 @@ Page({
     wx.navigateTo({
       url: '../voucher-details/voucher-details?cfrom=pack',
     })
+  },
+
+  paymentPay: function () {   //买单
+    wx.navigateTo({
+      url: 'paymentPay-page/paymentPay-page',
+    })
   }
 })

@@ -805,3 +805,11 @@ button::after{
   width: 100%;
   height: 86rpx;
 }
+
+.evaluatText{
+  color: #fc5e2d;
+}
+
+.evaluateSonsed{
+  border-right:1px solid #E0E0E0;
+}
