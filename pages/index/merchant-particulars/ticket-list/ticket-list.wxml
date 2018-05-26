@@ -1,0 +1,17 @@
+<view class="ticket-list">
+  <block wx:for="{{ticketList}}" wx:key="{{index}}" data-idx="{{index}}">
+    <view class="ticket-item">
+      <view class="t-moeny"><text>￥</text>{{item.realPrice}}</view>
+      <view class="t-info">
+        <view class="t-info-name">{{item.tickName}}</view>
+        <view class="t-info-date">{{item.createTime}}至{{item.endTime}}</view>
+      </view>
+      <view class="t-operate">
+        <radio checked="true" id="{{item.id}}" bindtap='radioOperate'/>
+      </view>
+    </view>
+  </block>
+  <view>
+    
+  </view>
+</view>

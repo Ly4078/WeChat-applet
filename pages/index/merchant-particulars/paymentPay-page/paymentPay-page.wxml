@@ -3,20 +3,20 @@
     <view class='paymentTop'>
       <view class='consumption'>
         <text class='consumTextes'>消费总额</text>
-        <input type="digit" class='inputtext' placeholder="请询问服务员后输入"></input>
+        <input type="digit" class='inputtext' placeholder="请询问服务员后输入" maxlength="10"></input>
       </view>
 
       <view class='consumption'>
-        <text class='consumhuise'>不参与优惠金额</text>
+        <text class='consumhuise'>{{isChecked?'':'不'}}参与优惠金额</text>
         <switch class="tui-fr" checked="{{isChecked}}" bindchange="changeSwitch1"/>
       </view>
 
-      <view class='consumption'>
-        <text class='consumTextes'>不参与优惠金额</text>
+      <view class='consumption' wx:if="{{isChecked}}">
+        <text class='consumTextes'>参与优惠金额</text>
         <input type="digit" class='inputtext' placeholder="请询问服务员后输入"></input>
       </view>
 
-      <view class='consumption'>
+      <view class='consumption' bindtap='toTickets'>
         <text class='consumTextes'>代金券</text>
         <view>
           <text class='arrowText'>1张可用</text>

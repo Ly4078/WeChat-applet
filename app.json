@@ -45,7 +45,8 @@
     "pages/activityDetails/hot-activity/eventDetails/eventDetails",
     "pages/personal-center/myWallet/moneyDetail/moneyDetail",
     "pages/personal-center/myWallet/myWallet",
-    "pages/index/merchant-particulars/paymentPay-page/paymentPay-page"
+    "pages/index/merchant-particulars/paymentPay-page/paymentPay-page",
+    "pages/index/merchant-particulars/ticket-list/ticket-list"
   ],
   "window": {
     "backgroundTextStyle": "light",
