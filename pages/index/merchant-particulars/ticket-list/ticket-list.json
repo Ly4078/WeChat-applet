@@ -1,3 +1,4 @@
 {
-  "navigationBarTitleText": "使用现金券"
+  "navigationBarTitleText": "使用现金券",
+  "enablePullDownRefresh": false
 }

@@ -35,7 +35,7 @@ Page({
     activityImg: '',   //活动图
     settime: '',
     rematime: '获取验证码',
-    afirst:false,
+    afirst: false,
     isclick: true
   },
   onLoad: function (options) {
@@ -55,20 +55,7 @@ Page({
     updateManager.onUpdateFailed(function () {
       // 新的版本下载失败
     })
-    wx.login({
-      success: res => {
-        if (res.code) {
-          let _parms = {
-            code: res.code
-          }
-          Api.getOpenId(_parms).then((res) => {
-            // app.globalData.userInfo.openId = res.data.data.openId
-            // app.globalData.userInfo.sessionKey = res.data.data.sessionKey
-            // console.log(res.data.data)
-          })
-        }
-      }
-    })
+
     wx.login({
       success: res => {
         if (res.code) {
@@ -77,39 +64,29 @@ Page({
           let _parms = {
             code: res.code
           }
-
-          Api.useradd(_parms).then((res) => {
-            if (res.data.data) {
-              app.globalData.userInfo.userId = res.data.data
-              this.getlocation()
-              wx.request({  //从自己的服务器获取用户信息
-                url: this.data._build_url + 'user/get/' + res.data.data,
-                header: {
-                  'content-type': 'application/json' // 默认值
-                },
+          let that = this;
+          Api.getOpenId(_parms).then((res) => {
+            app.globalData.userInfo.openId = res.data.data.openId;
+            app.globalData.userInfo.sessionKey = res.data.data.sessionKey;
+            if (res.data.data.unionId) {
+              app.globalData.userInfo.unionId = res.data.data.unionId;
+              that.getmyuserinfo();
+            } else {
+              wx.getUserInfo({
+                withCredentials: true,
                 success: function (res) {
-                  if (res.data.code == 0) {
-                    let data = res.data.data
-                    for (let key in data) {
-                      for (let ind in app.globalData.userInfo) {
-                        if (key == ind) {
-                          app.globalData.userInfo[ind] = data[key]
-                        }
-                      }
-                    };
-             
-                    if (data && data.mobile) {
-                      that.setData({
-                        isfirst: false,
-                        isNew: false
-                      })
-                    } else {
-                      that.setData({
-                        isfirst: true,
-                        isNew: true
-                      })
-                    }
+                  let _pars = {
+                    sessionKey: app.globalData.userInfo.sessionKey,
+                    ivData: res.iv,
+                    encrypData: res.encryptedData
                   }
+                  Api.phoneAES(_pars).then((res) => {
+                    if (res.data.code == 0) {
+                      let _data = JSON.parse(res.data.data);
+                      app.globalData.userInfo.unionId = _data.unionId;
+                      that.getmyuserinfo();
+                    }
+                  })
                 }
               })
             }
@@ -119,27 +96,60 @@ Page({
     })
     this.activityBanner();
   },
+  getmyuserinfo: function () {
+    let _parms = {
+      openId: app.globalData.userInfo.openId,
+      unionId: app.globalData.userInfo.unionId
+    }, that = this;
+    Api.addUserUnionId(_parms).then((res) => {
+      if (res.data.data) {
+        app.globalData.userInfo.userId = res.data.data;
+        that.getlocation();
+        wx.request({  //从自己的服务器获取用户信息
+          url: this.data._build_url + 'user/get/' + res.data.data,
+          header: {
+            'content-type': 'application/json' // 默认值
+          },
+          success: function (res) {
+            if (res.data.code == 0) {
+              let data = res.data.data;
+              for (let key in data) {
+                for (let ind in app.globalData.userInfo) {
+                  if (key == ind) {
+                    app.globalData.userInfo[ind] = data[key]
+                  }
+                }
+              };
+              if (data && data.mobile) {
+                that.setData({
+                  isfirst: false,
+                  isNew: false
+                })
+              } else {
+                that.setData({
+                  isfirst: true,
+                  isNew: true
+                })
+              }
+            }
+          }
+        })
+      }
+    })
+  },
   onShow: function () {
-    let that = this
-    if (app.globalData.userInfo.userId) {
-      // this.isNewUser()
-    }
-    let lat = wx.getStorageSync('lat')
-    let lng = wx.getStorageSync('lng')
-    // if(!app.globalData.userInfo.city){
-    //   lat = '30.51597', lng = '114.34035';
-    // }else{
-    //   return false
-    // }
+    let that = this;
+    let lat = wx.getStorageSync('lat');
+    let lng = wx.getStorageSync('lng');
     if (lat && lng) {
       setTimeout(function () {
-        that.requestCityName(lat, lng)
-        wx.removeStorageSync('lat')
-        wx.removeStorageSync('lng')
+        that.requestCityName(lat, lng);
+        wx.removeStorageSync('lat');
+        wx.removeStorageSync('lng');
       }, 500)
     }
   },
- 
+
   onHide: function () {
     let that = this;
     clearInterval(that.data.settime)
@@ -147,14 +157,11 @@ Page({
       userGiftFlag: false,
       isfirst: false,
       isNew: false
-    })
-
-    // this.userGiftCancle()
+    });
   },
   getuseradd: function () {  //获取用户userid
-    this.isNewUser()
-    // this.getuser()
-    this.getlocation()
+    this.isNewUser();
+    this.getlocation();
   },
   navbarTap: function (e) {// 专题推荐栏
     this.setData({
@@ -170,68 +177,67 @@ Page({
     this.getactlist();
     this.gethotlive();
     this.gettopic();
-    // this.gettopics();
+    this.gettoplistFor();
   },
   onReachBottom: function () {  //用户上拉触底加载更多
     if (!app.globalData.userInfo.mobile) {
       return false
     }
     if (this.data.alltopics.length < 1) {
-      this.gettopics()
+      this.gettoplistFor()
     }
   },
-  gettopics: function () {  //加载分类数据
-    let _list = [], _shop = []
+  gettoplistFor: function () {  //加载分类数据
+    let _list = [], _shop = [], that = this;
     wx.showLoading({
       title: '更多数据加载中。。。',
       mask: true
     })
     Api.listForHomePage().then((res) => {
       if (res.data.code == 0) {
-        _list = res.data.data
-      }
-      // console.log("_list:", _list)
-    })
-
-    let _parms = {
-      locationX: app.globalData.userInfo.lng,
-      locationY: app.globalData.userInfo.lat,
-      browSort: 2,
-      page: 1,
-      rows: 5
-    }
-    Api.shoplistForHomePage(_parms).then((res) => {
-      if (res.data.code == 0) {
-        wx.hideLoading()
-        let arr = []
-        _shop = res.data.data
-        for (let i = 0; i < _list.length; i++) {
-          for (let j in _shop) {
-            if (j == _list[i].type) {
-              let obj = {
-                img: _list[i],
-                cate: this.data.sort[i],
-                data: _shop[j]
-              }
-              arr.push(obj)
-            }
-          }
+        _list = res.data.data;
+        let _parms = {
+          locationX: app.globalData.userInfo.lng,
+          locationY: app.globalData.userInfo.lat,
+          browSort: 2,
+          page: 1,
+          rows: 5
         }
-        let [...newarr] = arr
-
-        this.setData({
-          alltopics: newarr,
-          restaurant: arr.slice(0, 6), //菜系专题
-          service: arr.slice(6, arr.length)
-        })
-      } else {
-        wx.hideLoading()
-        wx.showToast({
-          title: res.data.message,
-          icon: 'none',
-        })
+        Api.shoplistForHomePage(_parms).then((res) => {
+          if (res.data.code == 0) {
+            wx.hideLoading()
+            let arr = []
+            _shop = res.data.data
+            for (let i = 0; i < _list.length; i++) {
+              for (let j in _shop) {
+                if (j == _list[i].type) {
+                  let obj = {
+                    img: _list[i],
+                    cate: that.data.sort[i],
+                    data: _shop[j]
+                  }
+                  arr.push(obj)
+                }
+              }
+            };
+            let [...newarr] = arr
+            that.setData({
+              alltopics: newarr,
+              restaurant: arr.slice(0, 6), //菜系专题
+              service: arr.slice(6, arr.length)
+            })
+          } else {
+            wx.hideLoading()
+            wx.showToast({
+              title: res.data.message,
+              icon: 'none',
+            })
+          }
+        });
       }
     })
+
+
   },
   getlocation: function () {  //获取用户位置
     let that = this
@@ -276,9 +282,13 @@ Page({
     let that = this;
     Api.hcllist().then((res) => {
       // console.log("carousel:",res.data.data)
-      this.setData({
-        carousel: res.data.data
-      })
+      if (res.data.data) {
+        this.setData({
+          carousel: res.data.data
+        })
+      } else {
+        this.getcarousel();
+      }
     })
   },
   getdata: function () { // 获取推荐餐厅数据
@@ -289,31 +299,41 @@ Page({
     }
     Api.shoptop(_parms).then((res) => {
       // console.log("businss:",res.data.data)
-      this.setData({
-        business: res.data.data
-      })
+      if (res.data.data) {
+        this.setData({
+          business: res.data.data
+        })
+      } else {
+        this.getdata();
+      }
     })
   },
   gettopic: function () {  // 美食墙
     Api.topictop().then((res) => {
       // console.log("food:", res.data.data)
-      let _data = res.data.data
-      for (let i = 0; i < _data.length; i++) {
-        _data[i].summary = utils.uncodeUtf16(_data[i].summary)
-        _data[i].content = utils.uncodeUtf16(_data[i].content)
-      }
-      this.setData({
-        food: res.data.data
-      })
-      wx.hideLoading();
+      if (res.data.data) {
+        let _data = res.data.data
+        for (let i = 0; i < _data.length; i++) {
+          _data[i].summary = utils.uncodeUtf16(_data[i].summary)
+          _data[i].content = utils.uncodeUtf16(_data[i].content)
+        }
+        this.setData({
+          food: res.data.data
+        })
+        wx.hideLoading();
+      } else {
+        this.gettopic();
+      };
     })
   },
   getactlist() {  //获取热门活动数据
     Api.actlist().then((res) => {
       // console.log("actlist:",res)
-      this.setData({
-        actlist: res.data.data.list.slice(0, 10)
-      })
+      if (res.data.data.list) {
+        this.setData({
+          actlist: res.data.data.list.slice(0, 10)
+        })
+      }
     })
   },
   gethotlive() {  //获取热门直播数据 
@@ -322,9 +342,13 @@ Page({
       url: that.data._build_url + 'zb/top/',
       success: function (res) {
         // console.log("hotlive:",res.data.data)
-        that.setData({
-          hotlive: res.data.data
-        })
+        if (res.data.data) {
+          that.setData({
+            hotlive: res.data.data
+          })
+        } else {
+          this.gethotlive();
+        }
       }
     })
   },
@@ -433,8 +457,8 @@ Page({
     } else if (id == 1) {
       let img = '';
       let _arr = this.data.carousel;
-      for (let i = 0; i< _arr.length;i++){
-        if (id == _arr[i].id){
+      for (let i = 0; i < _arr.length; i++) {
+        if (id == _arr[i].id) {
           img = _arr[i].linkUrl
         }
       }
@@ -454,9 +478,9 @@ Page({
   hotactivityHref: function (e) {     //热门活动跳转
     let _id = e.currentTarget.id
     let _actlist = this.data.actlist;
-    let _actName ='';
-    for (let i = 0; i < _actlist.length;i++){
-      if (_id == _actlist[i].id){
+    let _actName = '';
+    for (let i = 0; i < _actlist.length; i++) {
+      if (_id == _actlist[i].id) {
         _actName = _actlist[i].actName
       }
     }
@@ -518,6 +542,7 @@ Page({
       userId: app.globalData.userInfo.userId
     };
     Api.isNewUser(_parms).then((res) => {
+      // console.log("isNewUser:", res.data.code)
       if (res.data.code == 0) {
         that.setData({
           isNew: true
@@ -535,8 +560,7 @@ Page({
       isfirst: false,
       isNew: false
     })
-
-    if (app.globalData.userInfo.mobile == 'a' || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+    if (app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
       this.setData({
         getPhoneNumber: true
       })
@@ -546,9 +570,7 @@ Page({
   },
   newUserToGet: function () {    //新用户跳转票券
     let that = this;
-    console.log(this.data.isphoneNumber)
-    console.log(app.globalData.userInfo.mobile)
-    if (!this.data.isphoneNumber && app.globalData.userInfo.mobile == '' || !app.globalData.userInfo.mobile) {
+    if (!app.globalData.userInfo.mobile) {
       this.setData({
         isphoneNumber: true
       })
@@ -570,7 +592,7 @@ Page({
         wx.navigateTo({
           url: '../personal-center/my-discount/my-discount'
         })
-      }else{
+      } else {
         that.setData({
           userGiftFlag: false,
           isfirst: false,
@@ -578,8 +600,8 @@ Page({
         })
         wx.showToast({
           title: res.data.message,
-          mask:'true',
-          icon:'none',
+          mask: 'true',
+          icon: 'none',
           duration
         })
       }
@@ -596,6 +618,7 @@ Page({
   },
   closetel: function (e) {
     let id = e.target.id;
+    clearInterval(that.data.settime)
     this.setData({
       issnap: false
     })
@@ -662,6 +685,7 @@ Page({
       }
       Api.sendForRegister(_parms).then((res) => {
         if (res.data.code == 0) {
+          // console.log('res.data.data:', res.data.data)
           that.setData({
             verifyId: res.data.data.verifyId,
             veridyTime: res.data.data.veridyTime,
@@ -703,7 +727,9 @@ Page({
     })
   },
   remaining: function (val) {  //倒计时
-    let rema = utils.reciprocal(this.data.veridyTime)
+    let _vertime = this.data.veridyTime
+    _vertime = _vertime.replace(/\-/ig, "\/");
+    let rema = utils.reciprocal(_vertime)
     if (rema == 'no' || rema == 'yes') {
       clearInterval(this.data.settime)
       this.setData({
@@ -729,13 +755,13 @@ Page({
     }
   },
   submitverify: function () {  //确定
-    let that = this
+    let that = this;
     if (this.data.phone && this.data.verify) {
       if (this.data.verify == this.data.verifyId) {
         that.setData({
           isphoneNumber: false
         })
-        if (this.data.afirst){
+        if (this.data.afirst) {
           return false
         }
         let _parms = {
@@ -751,7 +777,12 @@ Page({
         }
         Api.isVerify(_parms).then((res) => {
           if (res.data.code == 0) {
-            app.globalData.userInfo.userId = res.data.data
+            app.globalData.userInfo.userId = res.data.data;
+            that.setData({
+              isNew: false,
+              isfirst: false,
+              userGiftFlag: false,
+            })
             wx.request({  //从自己的服务器获取用户信息
               url: this.data._build_url + 'user/get/' + res.data.data,
               header: {
@@ -768,6 +799,7 @@ Page({
                       }
                     }
                   }
+                  that.isNewUser();
                 }
               }
             })

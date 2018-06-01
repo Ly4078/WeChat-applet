@@ -7,6 +7,10 @@ const ALL_API = {
     method: 'POST',
     url: 'user/list'
   },
+  addUserUnionId:{ 
+    method:'POST',
+    url:'user/addUserUnionId'
+  },
   addUserForVersion: { //新增用户
     method: 'POST',
     url: 'user/addUserForVersion'
@@ -299,6 +303,22 @@ const ALL_API = {
   redpacket: {  //获取可领取的随机红包金额
     method:'POST',
     url:'account/redPacket'
+  },
+  listShopUser:{  //在商家内获取当前商家票券
+    method:'GET',
+    url:'cp/listShopUser'
+  },
+  createForShop:{  //商家内购买生成订单
+    method:'POST',
+    url:'so/createForShop'
+  },
+  doUnifiedOrderForShop:{  //商家订单支付
+    method:'POST',
+    url:'wxpay/doUnifiedOrderForShop'
+  },
+  myorderForShop:{  //查询我的商家订单
+    method:"GET",
+    url:'so/myorderForShop'
   }
 }
 const Api = new MyHttp({}, ALL_API);

@@ -3,7 +3,10 @@ page {
   height: 100%;
   width: 100%; 
 }
-
+.msg{
+  text-align: center;
+  line-height: 80rpx;
+}
 .ticket-list {
   padding: 20rpx 28rpx 0 28rpx;
   width: 100%;
@@ -57,4 +60,19 @@ page {
   padding-top: 54rpx;
   box-sizing: border-box;
   text-align: right;
+}
+.buynow {
+  margin:41rpx 43rpx 33rpx 0rpx;
+}
+.buttom{
+  width: 100%;
+  height: 45px;
+  background: #fff;
+  text-align: center;
+  line-height: 45px;
+  color: #808080;
+  font-size: 15px;
+  position: fixed;
+  bottom: 0;
+  left:0;
 }

@@ -569,61 +569,6 @@ page {
   left: 58%;
   margin: 140rpx 0 50rpx -200rpx;
 }
-.doing{
-  background: #fff;
-}
-.doinglist{
-  height: 132rpx;
-  width: 694rpx;
-  margin-left: 28rpx;
-  border-bottom: 1rpx solid #E0E0E0;
-}
-.doimg{
-  margin: 42rpx 28rpx 41rpx 0rpx;
-  width: 50rpx;
-  height: 50rpx;
-  float: left;
-}
-.manj{
-  font-size: 30rpx;
-  color: #191919;
-}
-
-.dotext{
-  width: 60%;
-  float: left;
-  height:90%;
-  padding-top:12rpx;
-}
-.nowtext, .original{
-  height: 66rpx;
-  line-height: 66rpx;
-  font-size: 32rpx;
-}
-.nowtext{
-  color: #FF5252;
-  margin-right: 19rpx;
-}
-.original{
-  color: #555555;
-  text-decoration:line-through;
-}
-button::after{
-  border: none;
-}
-.buynow{
-  width: 156rpx;
-  height: 58rpx;
-  border-radius: 29rpx;
-  font-size:30rpx;
-  border: 1rpx solid #FC5E2D;
-  float: right;
-  line-height: 58rpx;
-  font-family:Adobe Heiti Std R;
-  color:rgba(252,94,45,1);
-  margin: 41rpx 28rpx 33rpx 0rpx;
-  background:#fff;
-}
 
 /*  */
 

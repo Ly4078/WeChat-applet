@@ -61,6 +61,7 @@
   width: 130rpx;
   height: 130rpx;
   padding-top: 38rpx;
+  border-radius: 8rpx;
 }
 
 .iconLogo-right {

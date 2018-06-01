@@ -17,35 +17,44 @@ Page({
     timer:'',
     amount:'',
     isticket:false,
-    frequency:0
+    frequency:0,
+    shopodrder:{}
   },
   onLoad: function (options) {
+    console.log(options)
     let that = this;
-    wx.showLoading({
-      title: '加载中',
-    })
-    this.setData({
-      id:options.id,
-      soid: options.soid,
-      myCount: options.myCount ? options.myCount : 0
-    });
-    if (options.cfrom){
-      this.setData({
-        isticket: false
-      })
-      wx.setNavigationBarTitle({
-        title: '订单详情'
-      })
+    if(options.pay== 'pay'){  //从商家订单支付跳转过来的
+      console.log("pay")
+      this.getshopOrderList(options.soid);
     }else{
-      let int = setInterval(function () {
-        that.getcodedetail();
-      }, 2000);
+      if (options.myCount && options.myCount == 1) {
+        wx.showLoading({
+          title: '加载中',
+        })
+      }
       this.setData({
-        isticket:true,
-        timer: int
-      })
+        id: options.id,
+        soid: options.soid,
+        myCount: options.myCount ? options.myCount : 0
+      });
+      if (options.cfrom) {
+        this.setData({
+          isticket: false
+        })
+        wx.setNavigationBarTitle({
+          title: '订单详情'
+        })
+      } else {
+        let int = setInterval(function () {
+          that.getcodedetail();
+        }, 2000);
+        this.setData({
+          isticket: true,
+          timer: int
+        })
+      }
+      this.getTicketInfo();
     }
-    this.getTicketInfo();
   },
 
   onHide:function(){
@@ -63,7 +72,6 @@ Page({
       complete: function (res) { },
     })
   },
- 
   getcodedetail: function () { //获取票券详情
     let that = this;
     let freq = this.data.frequency;
@@ -109,7 +117,7 @@ Page({
       }
     })
   },
-  getTicketInfo: function () { //获取订单详情
+  getTicketInfo: function () { //获取平台订单详情
     let that = this;
     wx.request({
       url: that.data._build_url + 'so/getForOrder/' + that.data.soid,
@@ -191,5 +199,22 @@ Page({
       redfirst:2
     })
     that.getredpacket();
+  },
+   //获取商家订单信息
+  getshopOrderList: function (soid) {      
+    let that = this;
+    let _parms = {
+      userId: app.globalData.userInfo.userId,
+      id:soid,
+      soStatus:'2'
+    };
+    Api.myorderForShop(_parms).then((res) => {
+      if(res.data.code == 0){
+        this.setData({
+          ticketInfo:res.data.data[0],
+          isticket: false
+        })
+      }
+    })
   }
 })

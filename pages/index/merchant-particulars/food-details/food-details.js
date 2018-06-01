@@ -314,33 +314,11 @@ Page({
                       issnap: false
                     })
                   // this.getuseradd()
-                  this.addUserForVersion()
                 }
               })
             }
           })
         }
-      }
-    })
-  },
-  addUserForVersion: function () {  //创建新用户
-    let _parms = {
-      openId: app.globalData.userInfo.openId,
-      mobile: app.globalData.userInfo.mobile
-    }
-    Api.addUserForVersion(_parms).then((res) => {
-      if (res.data.code == 0) {
-        let _data = res.data.data
-        app.globalData.userInfo.userId = res.data.data
-        this.getuseradd()
-      } else {
-        Api.updateuser(_parms).then((res) => {
-          if (res.data.code == 0) {
-            app.globalData.userInfo.nickName = data.nickName
-            app.globalData.userInfo.iconUrl = data.avatarUrl
-            app.globalData.userInfo.mobile = data.mobile
-          }
-        })
       }
     })
   },

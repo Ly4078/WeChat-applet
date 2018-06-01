@@ -14,10 +14,10 @@ Page({
     sumTotal: 0,
     collectTotal: 0,
     ismobile: true,
-    isshop:false,
-    issnap: false, 
+    isshop: false,
+    issnap: false,
     userType: '',
-    accountBalance:'',
+    accountBalance: '',
   },
   onLoad: function () {
     this.setData({
@@ -27,16 +27,15 @@ Page({
       this.setData({
         ismobile: false
       })
-    }
-    console.log(app.globalData.userInfo)
-    if (app.globalData.userInfo.shopId && app.globalData.userInfo.userType == 2){
+    };
+    if (app.globalData.userInfo.shopId && app.globalData.userInfo.userType == 2) {
       this.setData({
-        isshop:true
+        isshop: true
       })
     }
     this.getuserInfo()
   },
-  
+
   onShow: function () {
     let that = this;
     this.getbalance();
@@ -101,7 +100,31 @@ Page({
     })
   },
   bindGetUserInfo: function (e) {
+    console.log(e.detail)
     this.updatauser(e.detail.userInfo)
+  },
+  updatauser: function (data) { //更新用户信息
+    let that = this
+    let _parms = {
+      id: app.globalData.userInfo.userId,
+      openId: app.globalData.userInfo.openId,
+    }
+    if (data.avatarUrl) {
+      _parms.iconUrl = data.avatarUrl
+    }
+    if (data.nickName) {
+      _parms.nickName = data.nickName
+    }
+    if (data.gender) {
+      _parms.sex = data.gender
+    }
+    Api.updateuser(_parms).then((res) => {
+      if (res.data.code == 0) {
+        app.globalData.userInfo.nickName = data.nickName;
+        app.globalData.userInfo.iconUrl = data.avatarUrl;
+        that.getuserInfo();
+      }
+    })
   },
   getuserInfo: function () {  //从微信服务器获取用户信息
     let that = this;
@@ -135,19 +158,6 @@ Page({
               if (res.confirm) {
                 wx.openSetting({  //打开授权设置界面
                   success: (res) => {
-                    if (res.authSetting['scope.userInfo']) {
-                      wx.getUserInfo({
-                        success: res => {
-                          if (res.userInfo) {
-                            that.setData({
-                              iconUrl: res.userInfo.avatarUrl,
-                              nickName: res.userInfo.nickName,
-                            })
-                            that.updatauser(res.userInfo)
-                          }
-                        }
-                      })
-                    }
                     if (res.authSetting['scope.userLocation']) {
                       wx.getLocation({
                         type: 'wgs84',
@@ -167,29 +177,6 @@ Page({
       }
     })
   },
-  updatauser: function (data) { //更新用户信息
-    let that = this
-    let _parms = {
-      id: app.globalData.userInfo.userId,
-      openId: app.globalData.userInfo.openId,
-    }
-    if (data.avatarUrl) {
-      _parms.iconUrl = data.avatarUrl
-    }
-    if (data.nickName) {
-      _parms.nickName = data.nickName
-    }
-    if (data.gender) {
-      _parms.sex = data.gender
-    }
-    Api.updateuser(_parms).then((res) => {
-      if (res.data.code == 0) {
-        app.globalData.userInfo.nickName = data.nickName;
-        app.globalData.userInfo.iconUrl = data.avatarUrl;
-        that.getuserInfo();
-      }
-    })
-  },
   requestCityName(lat, lng) {//获取当前城市
     let that = this;
     app.globalData.userInfo.lat = lat
@@ -200,7 +187,7 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success: (res) => {
-        
+
         if (res.data.status == 0) {
           this.setData({
             city: res.data.result.address_component.city,
@@ -270,13 +257,13 @@ Page({
       url: 'enshrine/enshrine',
     })
   },
-  myMineMoney:function(){ //钱包明细
+  myMineMoney: function () { //钱包明细
     wx.navigateTo({
       url: 'myWallet/myWallet?sumTotal=' + this.data.accountBalance.data
     })
   },
 
-  VoucherCode:function(){ //输入券码核销
+  VoucherCode: function () { //输入券码核销
     wx.navigateTo({
       url: '../personal-center/call-back/call-back?ent=ent'
     })
@@ -287,7 +274,6 @@ Page({
       onlyFromCamera: true,
       scanType: "qrCode",
       success: (res) => {
-
         let qrCodeArr = res.result.split('/');
         let qrCode = qrCodeArr[qrCodeArr.length - 1];
         that.setData({
@@ -324,7 +310,7 @@ Page({
             data.data.discount = true
           }
           let current = res.currentTime;
-        
+
           let isDue = that.isDueFunc(current, data.expiryDate);
           if (data.data.isUsed == 1) {
             wx.showToast({
@@ -365,12 +351,12 @@ Page({
             // })
           }
         } else {
-         
+
           wx.showToast({
             title: res.data.message,
             mask: 'true',
             icon: 'none',
-            duration:3000
+            duration: 3000
           }, 2000)
         }
       }

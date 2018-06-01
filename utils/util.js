@@ -129,6 +129,33 @@ function million(num){    //数字过万处理
   return num > 9999 ? (Math.floor(num / 1000) / 10) + '万+' : num
 }
 
+function dateConv(dateStr,type) {  //   yyyy/mm/dd
+  let year = dateStr.getFullYear(),
+    month = dateStr.getMonth() + 1,
+    today = dateStr.getDate();
+  month = month > 9 ? month : "0" + month;
+  today = today > 9 ? today : "0" + today;
+  if(type == '-'){
+    return year + "-" + month + "-" + today;
+  }else{
+    return year + "/" + month + "/" + today;
+  }
+}
+
+let getQueryString = function (url, name) {  //识别普通二维码，跳转到指定商家页面
+  console.log("url = " + url)
+  console.log("name = " + name)
+  var reg = new RegExp('(^|&|/?)' + name + '=([^&|/?]*)(&|/?|$)', 'i')
+  var r = url.substr(1).match(reg)
+  if (r != null) {
+    console.log("r = " + r)
+    console.log("r[2] = " + r[2])
+    return r[2]
+  }
+  return null;
+}
+
+
 module.exports = {
   calcDistance: calcDistance,
   transformLength: transformLength,
@@ -139,5 +166,7 @@ module.exports = {
   tools: tools,
   million: million,
   getNowFormatDate: getNowFormatDate,
-  reciprocal: reciprocal
+  reciprocal: reciprocal,
+  getQueryString: getQueryString,
+  dateConv: dateConv
 }

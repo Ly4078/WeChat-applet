@@ -409,16 +409,7 @@ Page({
         duration: 1500
       })
       return false
-    }
-    let _parss = {
-      id: app.globalData.userInfo.userId,
-      openId: app.globalData.userInfo.openId
-    }
-    Api.updateuser(_parss).then((res) => {
-      if (res.data.code == 0) {
-        // console.log("保存用户电话号码成功")
-      }
-    })
+    };
     let _bauss = this.data.businessCate.toString()
     let _sortype = this.data.sortype.toString()
     _bauss = _bauss + '/' + _sortype

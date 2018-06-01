@@ -20,9 +20,17 @@ Page({
     browSort: '',
     searchValue:''
   },
+
   onLoad: function (options) {
     if (options.cate) {
       this.data.businessCate = options.cate
+    }
+    //在此函数中获取扫描普通链接二维码参数
+    let q = decodeURIComponent(options.q)
+    if (q) {
+      wx.navigateTo({
+        url: '../merchant-particulars/merchant-particulars?shopid=' + utils.getQueryString(q, 'shopid')
+      })
     }
     // this.getData();
   },

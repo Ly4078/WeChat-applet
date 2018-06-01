@@ -3,32 +3,47 @@
     <view class='paymentTop'>
       <view class='consumption'>
         <text class='consumTextes'>消费总额</text>
-        <input type="digit" class='inputtext' placeholder="请询问服务员后输入" maxlength="10"></input>
+        <input type="digit" class='inputtext'  bindinput="bindKeyInput" placeholder="请询问服务员后输入" maxlength="10" value='{{inputValue}}'></input>
       </view>
 
       <view class='consumption'>
-        <text class='consumhuise'>{{isChecked?'':'不'}}参与优惠金额</text>
+        <text class='consumhuise'>不参与优惠金额</text>
         <switch class="tui-fr" checked="{{isChecked}}" bindchange="changeSwitch1"/>
       </view>
 
       <view class='consumption' wx:if="{{isChecked}}">
-        <text class='consumTextes'>参与优惠金额</text>
-        <input type="digit" class='inputtext' placeholder="请询问服务员后输入"></input>
+        <text class='consumTextes'>不参与优惠金额</text>
+        <input type="digit" class='inputtext' bindinput="preferential" placeholder="请询问服务员后输入" value='{{offer}}'></input>
       </view>
 
       <view class='consumption' bindtap='toTickets'>
         <text class='consumTextes'>代金券</text>
         <view>
-          <text class='arrowText'>1张可用</text>
+          <text class='arrowText' wx:if="{{seleced.couponAmount}}">-{{seleced.couponAmount}}元</text>
+          <text class='arrowText' wx:else><text>{{num}}</text>张可用</text>
           <image class='arrow' src='/images/icon/xialatupian.png'></image>
         </view>
       </view>
 
+      <!-- <view class='consumption consumptionNone' wx:if="{{seleced.id}}">
+        <text class='consumTextes'>{{seleced.skuName}}</text>
+        <text class='practical'>-{{seleced.couponAmount}}</text>
+      </view> -->
+
       <view class='consumption consumptionNone'>
         <text class='consumTextes'>实际付款 (元)</text>
-        <text class='practical'>￥0</text>
+        <text class='practical'>￥{{payment}}</text>
       </view>
     </view>
   </view>
-  <view class='countersign'><button class='btn'>确认支付￥560</button></view>
+  <view class='countersign'><button  class="{{ispay?'btn':'nobtn'}}" bindtap='surepay'>确认支付￥{{payment}}</button></view>
+</view>
+
+<view class="newUserModal" wx:if="{{issnap}}">
+  <view class='drawer_screen'>
+    <view class='sqtishi'>提示</view>
+    <view class='drphnumber'>用户首次使用,请先注册</view>
+    <button class='gettel sqgettel' bindtap='closetel' id='1'>确定</button>
+    <button class='gettel colosetel' bindtap='closetel' id='2'>取消</button>
+  </view>
 </view>

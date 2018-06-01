@@ -1,5 +1,5 @@
 //app.js
-var http = require('utils/util.js')
+var utils = require('utils/util.js')
 import Api from 'utils/config/api.js';
 import { GLOBAL_API_DOMAIN } from '/utils/config/config.js';
 
@@ -11,6 +11,9 @@ App({
     lat: '',
     lng: '',
     sessionKey: ''
+  },
+  onLaunch: function (options) {
+    let q = decodeURIComponent(options.query.q)
   },
   onPullDownRefresh: function () {
     wx.stopPullDownRefresh()

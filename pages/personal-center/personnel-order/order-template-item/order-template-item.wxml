@@ -1,5 +1,5 @@
 <template name="order_template">
-  <view class='personnelWrap' id="{{item.id}}" data-skuid="{{item.skuId}}" catchtap='lowerLevel' data-soStatus="{{item.soStatus}}">
+  <view class='personnelWrap' id="{{item.id}}" data-skuid="{{item.skuId}}" catchtap='lowerLevel' data-shopName="{{item.shopName}}" data-soStatus="{{item.soStatus}}">
     <view class="personnelTime">
       <view class="personnelTime_left">
         <text wx:if="{{item.soStatus == 2 || item.soStatus == 3}}">{{item.paidTime?item.paidTime:item.updateTime}}</text>
@@ -14,21 +14,22 @@
     </view>
     <view class='personnelOrder'>
       <view class='iconLogoWrap'>
-        <image class='iconLogo_sj' src='/images/icon/xiangqiLGBL.gif'></image>
+        <image class='iconLogo_sj' wx:if="{{item.logoUrl}}" src='{{item.logoUrl}}'></image>
+        <image class='iconLogo_sj' wx:else src='/images/icon/xiangqiLGBL.gif'></image>
       </view>
       <view class='iconLogo-right'>
         <view class='logo-right-top'>
           <view class='logo-right-condition'>
-            <text>{{item.skuName}}</text>
+            <text>{{item.shopName?item.shopName:item.skuName}}</text>
           </view>
-          <view class='roll-unused'>
+          <view class='roll-unused' wx:if="{{!item.shopName}}">
             <text>￥{{item.unitPrice}}</text>
             <text>x {{item.skuNum}}</text>
           </view>
         </view>
         <view class='roll-wrap-button'>
           <view>
-            <text>总价</text>
+            <text>{{shopName?'实付':'总价'}}</text>
           </view>
           <view>
             <text>￥{{item.soAmount}}</text>

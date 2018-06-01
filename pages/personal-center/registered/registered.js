@@ -111,7 +111,9 @@ Page({
     })
   },
   remaining: function () {  //倒计时
-    let rema = utils.reciprocal(this.data.veridyTime)
+    let _vertime = this.data.veridyTime;
+    _vertime = _vertime.replace(/\-/ig, "\/");
+    let rema = utils.reciprocal(_vertime)
     if (rema == 'no' || rema == 'yes') {
       clearTimeout(this.data.settime)
       this.setData({
@@ -190,16 +192,14 @@ Page({
               },
               success: function (res) {
                 if (res.data.code == 0) {
-                  let data = res.data.data;
-                  let users = app.globalData.userInfo
+                  let data = res.data.data
                   for (let key in data) {
-                    for (let ind in users) {
+                    for (let ind in app.globalData.userInfo) {
                       if (key == ind) {
-                        users[ind] = data[key]
+                        app.globalData.userInfo[ind] = data[key]
                       }
                     }
-                  }
-                  app.globalData.userInfo = users;
+                  };
                   wx.switchTab({
                     url: '../personal-center'
                   })
@@ -239,6 +239,7 @@ Page({
                 ivData: msg.iv,
                 encrypData: msg.encryptedData
               }
+              console.log("_pars:", _pars)
               Api.phoneAES(_pars).then((res) => {
                 if (res.data.code == 0) {
                   let _data = JSON.parse(res.data.data)

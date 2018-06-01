@@ -430,7 +430,7 @@ Page({
   //评论点赞
   toLike: function (event) {
     let that = this
-    if (app.globalData.userInfo.mobile == 'a' || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+    if (app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
       this.setData({
         issnap: true
       })
@@ -724,8 +724,14 @@ Page({
   },
 
   paymentPay: function () {   //买单
-    wx.navigateTo({
-      url: 'paymentPay-page/paymentPay-page',
-    })
+    if (app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+      this.setData({
+        issnap: true
+      })
+    }else{
+      wx.navigateTo({
+        url: 'paymentPay-page/paymentPay-page?shopid=' + this.data.shopid,
+      })
+    }
   }
 })

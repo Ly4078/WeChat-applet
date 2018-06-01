@@ -120,7 +120,7 @@ Page({
           Api.getOpenId(_parms).then((res) => {
             if (res.data.code == 0) {
               app.globalData.userInfo.openId = res.data.data.openId,
-                app.globalData.userInfo.sessionKey = res.data.data.sessionKey
+              app.globalData.userInfo.sessionKey = res.data.data.sessionKey
               let _pars = {
                 sessionKey: res.data.data.sessionKey,
                 ivData: msg.iv,

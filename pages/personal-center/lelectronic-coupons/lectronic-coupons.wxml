@@ -1,5 +1,6 @@
 <view>
-  <view class='lectronic-wrap'>
+
+   <view class='lectronic-wrap'  wx:if="{{!ticketInfo.shopName}}">
     <view class='lectronic-top'>
       <view class='lectronic-left'>
         <view class='lectronic-wrap-im'>
@@ -7,7 +8,6 @@
         </view>
         <view class='lectronic-text'>
           <text class='lectronic-reel'>{{ticket[0].skuName?ticket[0].skuName:ticketInfo.skuName}}</text>
-          <!-- <text class='lectronic-limit'>{{ticketInfo.coupons[0].promotionRules[1].ruleDesc}}</text> -->
         </view>
       </view>
       <view class='lectronic-right' wx:if="{{isticket}}">
@@ -32,7 +32,12 @@
         </view>
       </view>
     </view>
-  </view>
+  </view> 
+
+
+   <view class='lectronic-wrap' wx:if="{{ticketInfo.shopName}}">
+    <view class='success'><radio checked="true" bindtap='radioOperate'/>支付成功</view>
+  </view> 
 
   <view class='qr-code' wx:if="{{isticket}}"> 
     <view class='rollMessage'>享7劵</view>
@@ -40,15 +45,23 @@
     <image src='{{item.qrcodeUrl}}' class='codingImages' data-index='{{idx}}' bindtap='previewImg'></image>
       <view class='coding-code {{idx > 2 && qrCodeFlag ? "hide" : ""}}'>
         劵码:{{item.couponCode}}
-        <!-- <text></text>
-        <text class='numberFeald'</text> -->
-        
       </view>
     </block>
     <view class='codingeven-more' wx:if="{{ticket.length > 3}}" bindtap="onclickMore">
       <text>{{qrCodeFlag ? '更多' : '收起'}}</text>
       <image class="veent-more-img" wx:if="{{qrCodeFlag}}" src='/images/icon/xialatupian.png'></image>
       <image class="veent-more-img-top" wx:else src='/images/icon/xialatupian.png'></image>
+    </view>
+  </view>
+
+  <view class='order-for-shop' wx:if="{{ticketInfo.shopName}}">
+    <view class='order-for-nei'>
+      <view class='order-for-text'>
+        <text>商家信息</text>
+      </view>
+      <view class='order-for-colour'>
+        <text>{{ticketInfo.shopName}}</text>
+      </view>
     </view>
   </view>
 
@@ -59,7 +72,7 @@
       </view>
       <view class='order-for-colour'>
         <text>订单号</text>
-        <text>{{ticketInfo.soId}}</text>
+        <text>{{ticketInfo.soId?ticketInfo.soId:ticketInfo.id}}</text>
       </view>
       <view class='order-for-colour'>
         <text>联系电话</text>
@@ -79,7 +92,7 @@
       </view>
       <view class='order-for-colour'>
         <text>数量</text>
-        <text>{{ticketInfo.skuNum}}</text>
+        <text>{{ticketInfo.skuNum?ticketInfo.skuNum:1}}</text>
       </view>
       <view class='order-for-colour'>
         <text>总价</text>
@@ -87,6 +100,7 @@
       </view>
     </view>
   </view>
+  
   <view class='warm-prompt'>
     <text>^_^温馨提示:到店向商家出示劵码</text>
   </view>
