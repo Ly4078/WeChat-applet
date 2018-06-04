@@ -301,7 +301,9 @@ Page({
         duration: 2000
       })
       let sum = [];
+      console.log("content:", this.data.content)
       let _content = JSON.stringify(this.data.content);
+      console.log("_content:", _content)
       let _con = utils.utf16toEntities(_content)
       let _title = this.data.title;
       let _coverimg = this.data.coverimg;

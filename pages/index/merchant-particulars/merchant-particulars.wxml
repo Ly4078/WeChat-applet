@@ -190,7 +190,7 @@
             <text class='evaluatExtea'>评价</text>
           </view>
         </view>
-        <view class='evaluateSon' id="{{details.id}}" bindtap='paymentPay'>
+        <view class='evaluateSon' id="{{details.id}}" bindtap='paymentPay' wx:if="{{isoter}}">
           <image class='evaluateImg' src='/images/icon/jinqianqepng.png'></image>
           <text class='evaluatText'>买单</text>
         </view>

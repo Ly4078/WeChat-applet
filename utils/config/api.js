@@ -319,6 +319,14 @@ const ALL_API = {
   myorderForShop:{  //查询我的商家订单
     method:"GET",
     url:'so/myorderForShop'
+  },
+  selectForOne:{  //查询商家是否参加商家订单
+    method:'GET',
+    url:'shopAllocation/selectForOne'
+  },
+  getByCode:{ //通过shopcode查询商家信息
+    method:'GET',
+    url:'shop/getByCode'
   }
 }
 const Api = new MyHttp({}, ALL_API);

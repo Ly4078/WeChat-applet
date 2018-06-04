@@ -339,9 +339,9 @@ to {margin-right: 0rpx;opacity: 0;}
 }
 .distop2{height: 132rpx;}
 .distop{
-  padding: 41rpx 0;
+   padding: 41rpx 28rpx; 
   height: 50rpx;
-  width: 694rpx;
+  width: 100%;
   border-bottom: 1rpx solid #FC5E2D;
   position: fixed;
   background: #fff; 

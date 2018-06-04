@@ -246,7 +246,8 @@ Page({
     if (this.data.obj.soid && this.data.obj.soid != 'undefined' && this.data.obj.soid != '') {
 
       if (that.data.paytype == 1) {
-        that.payment(this.data.obj.soid)
+        that.payment(this.data.obj.soid);
+        that.updateuser();
       } else if (that.data.paytype == 2) {
         wx.showToast({
           title: '余额支付成功',
@@ -274,7 +275,8 @@ Page({
       Api.socreate(_parms).then((res) => {
         if (res.data.code == 0) {
           if (that.data.paytype == 1) {
-            that.payment(res.data.data)
+            that.payment(res.data.data);
+            that.updateuser();
           } else if (that.data.paytype == 2) {
             wx.showToast({
               title: '余额支付成功',
@@ -291,38 +293,38 @@ Page({
       })
     }
   },
-  payment: function (soid) {  //调起微信支付
+  updateuser: function () {  //更新用户信息
     let that = this;
     let _parms = {
       id: app.globalData.userInfo.userId,
       openId: app.globalData.userInfo.openId
     }
     Api.updateuser(_parms).then((res) => {
+    })
+  },
+  payment: function (soid) {//调起微信支付
+    let _pars = {
+      soId: soid,
+      openId: app.globalData.userInfo.openId
+    }
+    Api.doUnifiedOrder(_pars).then((res) => {
       if (res.data.code == 0) {
-        let _pars = {
-          soId: soid,
-          openId: app.globalData.userInfo.openId
-        }
-        Api.doUnifiedOrder(_pars).then((res) => {
-          if (res.data.code == 0) {
-            wx.requestPayment({
-              'timeStamp': res.data.data.timeStamp,
-              'nonceStr': res.data.data.nonceStr,
-              'package': res.data.data.package,
-              'signType': 'MD5',
-              'paySign': res.data.data.paySign,
-              success: function (res) {
-                wx.redirectTo({
-                  url: '../../personal-center/my-discount/my-discount'
-                })
-              },
-              fail: function (res) {
-                wx.showToast({
-                  icon: 'none',
-                  title: '支付取消',
-                  duration: 1200
-                })
-              }
+        wx.requestPayment({
+          'timeStamp': res.data.data.timeStamp,
+          'nonceStr': res.data.data.nonceStr,
+          'package': res.data.data.package,
+          'signType': 'MD5',
+          'paySign': res.data.data.paySign,
+          success: function (res) {
+            wx.redirectTo({
+              url: '../../personal-center/my-discount/my-discount'
+            })
+          },
+          fail: function (res) {
+            wx.showToast({
+              icon: 'none',
+              title: '支付取消',
+              duration: 1200
             })
           }
         })

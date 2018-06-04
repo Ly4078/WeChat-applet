@@ -28,9 +28,9 @@ Page({
     //在此函数中获取扫描普通链接二维码参数
     let q = decodeURIComponent(options.q)
     if (q) {
-      wx.navigateTo({
-        url: '../merchant-particulars/merchant-particulars?shopid=' + utils.getQueryString(q, 'shopid')
-      })
+      if (utils.getQueryString(q, 'flag') == 1){
+        this.getshopInfo(utils.getQueryString(q, 'shopCode'));
+      }
     }
     // this.getData();
   },
@@ -41,6 +41,20 @@ Page({
       isclosure: true
     })
     this.getData()
+  },
+  //通过shopcode查询商家信息
+  getshopInfo: function (val) {
+    let _parms = {
+      code: val
+    }
+    Api.getByCode(_parms).then((res) => {
+      if (res.data.code == 0) {
+        wx.navigateTo({
+          url: '../merchant-particulars/merchant-particulars?shopid=' + res.data.data.id + '&flag=1'
+        })
+   
+      }
+    })
   },
   getData: function () {
     let lat = '30.51597', lng = '114.34035';  //lat纬度   lng经度

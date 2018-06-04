@@ -14,23 +14,25 @@ Page({
     isuse: true,
     issnap: false,
     shopId: '',
+    shopCode:'',
     ticklist: [],
     seleced: [],
-    soid:'',
-    act:0
+    soid: '',
+    act: 0,
+    timer: null
   },
   onLoad: function (options) {
-    console.log("fdasfasdsa")
-    let q = decodeURIComponent(options.q);
+    let q = decodeURIComponent(options.q)
     if (q) {
-      console.log("123213213")
-      console.log("q1234567:", utils.getQueryString(q, 'shopid'));
-      this.setData({
-        shopId: utils.getQueryString(q, 'shopid')
-      })
-      this.getuserInfo();
+      if (utils.getQueryString(q, 'flag') == 2) {
+        this.setData({
+          shopCode: utils.getQueryString(q, 'shopCode')
+        })
+        this.getshopInfo();
+        this.getuserInfo();
+      }
     }
-    if(options.shopid){
+    if (options.shopid) {
       this.setData({
         shopId: options.shopid
       })
@@ -52,7 +54,7 @@ Page({
       }
       this.getvoucher()
     }
-    if (options.soid){
+    if (options.soid) {
       this.setData({
         soid: options.soid
       })
@@ -63,8 +65,21 @@ Page({
       soid: ''
     })
   },
-  getuserInfo(){//如果是扫码直接进入到这里，则查询其用户信息，若查询到的用户信息中没有电话号码，要求用户注册
-   let that = this;
+  //通过shopcode查询商家信息
+  getshopInfo:function(){
+    let _parms = {
+      code: this.data.shopCode
+    }
+    Api.getByCode(_parms).then((res) => {
+      if(res.data.code == 0){
+        this.setData({
+          shopId:res.data.data.id
+        })
+      }
+    })
+  },
+  getuserInfo() {//如果是扫码直接进入到这里，则查询其用户信息，若查询到的用户信息中没有电话号码，要求用户注册
+    let that = this;
     wx.login({
       success: res => {
         if (res.code) {
@@ -89,9 +104,9 @@ Page({
                         }
                       }
                     }
-                    if (!data.mobile) {  
+                    if (!data.mobile) {
                       that.setData({
-                        issnap:true
+                        issnap: true
                       })
                     }
                   }
@@ -109,9 +124,9 @@ Page({
       issnap: false
     })
     if (id == 1) {
-     wx.navigateTo({
-       url: '/pages/personal-center/registered/registered'
-     })
+      wx.navigateTo({
+        url: '/pages/personal-center/registered/registered'
+      })
     }
   },
   changeSwitch1() {
@@ -129,69 +144,118 @@ Page({
       this.setData({
         offer: ''
       })
-      this.getvoucher(this.data.inputValue)
+      this.getvoucher()
     }
   },
   //查看可用票券
   toTickets() {
-    let _deff='';
+    let _deff = '';
     if (this.data.offer) {
       _deff = this.data.inputValue * 1 - this.data.offer * 1;
     } else {
       _deff = this.data.inputValue * 1;
     }
     wx.navigateTo({
-      url: '../ticket-list/ticket-list?shopid=' + this.data.shopId + "&val=" + _deff + '&inputValue=' + this.data.inputValue + '&offer=' + this.data.offer + '&isChecked=' + this.data.isChecked+'&act='+this.data.act
+      url: '../ticket-list/ticket-list?shopid=' + this.data.shopId + "&val=" + _deff + '&inputValue=' + this.data.inputValue + '&offer=' + this.data.offer + '&isChecked=' + this.data.isChecked + '&act=' + this.data.act
     })
   },
   //获取输入框的消费总额
-  bindKeyInput: function (e) {
-    let _value = e.detail.value;
+  bindinputvalue: function (e) {
+    let _value = e.detail.value, _this = this, ms = 0, _timer = null;
+    clearTimeout(this.data.timer);
     if (_value) {
-      this.setData({
-        inputValue: e.detail.value,
-        ispay: true
-      })
-      this.getvoucher(_value)
+      _timer = setInterval(function () {
+        ms += 50;
+        if (ms == 100) {
+          wx.showLoading({
+            title: '计算中...',
+          })
+          _this.setData({
+            inputValue: e.detail.value,
+            ispay: true
+          })
+          _this.getvoucher();
+          clearInterval(_timer)
+        }
+      }, 500)
+      _this.setData({
+        timer: _timer
+      });
     } else {
       this.setData({
+        offer: '',
+        isChecked: false,
+        ispay: false,
+        payment: 0,
+        num: 0,
         seleced: []
       })
     }
   },
   //获取输入框的优惠金额
   preferential: function (e) {
-    let _value = e.detail.value;
+    let _value = e.detail.value, _this = this, ms = 0, _timer = null;;
     if (_value) {
-      let cha = _value * 1 - this.data.inputValue*1;
-      if (cha>0){
+      let cha = _value * 1 - this.data.inputValue * 1;
+      if (cha > 0) {
         wx.showToast({
           title: '不参与优惠金额不应大于消费总额',
           icon: 'none',
-          mask:'true',
+          mask: 'true',
           duration: 1500
         })
         this.setData({
-          offer:''
-        })
-        return false
-      }
-      this.setData({
-        offer: e.detail.value
-      })
-      this.getvoucher()
+          offer: '',
+          payment: 0,
+          num: 0,
+          seleced: []
+        });
+        this.getvoucher()
+      } else {
+        _timer = setInterval(function () {
+          ms += 50;
+          if (ms == 100) {
+            wx.showLoading({
+              title: '计算中...',
+            })
+            _this.setData({
+              offer: e.detail.value
+            })
+            _this.getvoucher()
+            clearInterval(_timer)
+          }
+        }, 500)
+        _this.setData({
+          timer: _timer
+        });
+      };
     } else {
-      this.setData({
-        seleced: []
-      })
-    }
-  },
-  //获取票券
+      _timer = setInterval(function () {
+        ms += 50;
+        if (ms == 100) {
+          wx.showLoading({
+            title: '计算中...',
+          })
+          _this.setData({
+            offer: e.detail.value,
+            seleced: []
+          })
+          _this.getvoucher()
+          clearInterval(_timer)
+        }
+      }, 500)
+      _this.setData({
+        timer: _timer
+      });
+    };
+  
+},
+  //获取票券 计算金额
   getvoucher: function () {
-    let that = this, _act = this.data.act, _payment = '', _deff='';
-    if (this.data.offer){
+    let that = this, _act = this.data.act, _payment = '', _deff = '';
+    if (this.data.offer) {
       _deff = this.data.inputValue * 1 - this.data.offer * 1;
-    }else{
+    } else {
       _deff = this.data.inputValue * 1;
     }
     let _parms = {
@@ -203,27 +267,24 @@ Page({
       rows: 100
     }
     Api.listShopUser(_parms).then((res) => {
-      if (res.data.code == 200045){
+      if (res.data.code == 200045) {
         _payment = this.data.inputValue * 1;
+        _payment = _payment.toFixed(2);
         that.setData({
           payment: _payment,
-          ispay:true
+          ispay: true
         })
-      }else if (res.data.code == 0) {
+      } else if (res.data.code == 0) {
         if (res.data.data.list && res.data.data.list.length > 0) {
           that.setData({
             ispay: false
           })
           if (_act > -1) {
-            _payment = _deff * 1 - res.data.data.list[_act].couponAmount * 1;
-          }else{
-            _payment = _deff * 1;
+            _payment = this.data.inputValue * 1 - res.data.data.list[_act].couponAmount * 1;
+          } else {
+            _payment = this.data.inputValue * 1;
           }
-          if (this.data.offer){
-            _payment = _payment.toFixed(2) *1 + this.data.offer * 1;
-          }else{
-            _payment = _payment.toFixed(2);
-          }
+          _payment = _payment.toFixed(2);
           if (_payment > 0) {
             that.setData({
               ispay: true
@@ -231,23 +292,25 @@ Page({
           } else {
             _payment = 0;
           }
+          wx.hideLoading();
           that.setData({
             num: res.data.data.total,
             ticklist: res.data.data.list,
             payment: _payment
           })
-          if (_act>-1){
+          if (_act > -1) {
             that.setData({
               seleced: res.data.data.list[_act]
             })
           }
         } else {
+          wx.hideLoading();
           that.setData({
             payment: this.data.inputValue,
             ispay: true,
-            num:0,
-            ticklist:[],
-            seleced:[]
+            num: 0,
+            ticklist: [],
+            seleced: []
           })
         }
       }
@@ -255,44 +318,58 @@ Page({
   },
   //确认支付
   surepay: function () {
-    if (this.data.ispay){
+    let that = this;
+    if (that.data.ispay) {
       if (!app.globalData.userInfo.mobile) {
-        this.setData({
+        that.setData({
           issnap: true
         })
-      }else{
-        if (this.data.soid) {
-          this.payment(this.data.soid)
+      } else {
+        if (that.data.soid) {
+          that.payment(that.data.soid)
         } else {
           let _parms = {
             userId: app.globalData.userInfo.userId,
             userName: app.globalData.userInfo.userName,
             payType: '2',
-            soAmount: this.data.payment,
-            shopId: this.data.shopId
+            soAmount: that.data.payment,
+            shopId: that.data.shopId
           }
-          if (this.data.seleced.skuId) {
-            _parms.skuId = this.data.seleced.skuId;
+          if (that.data.seleced.skuId) {
+            _parms.skuId = that.data.seleced.skuId;
             _parms.skuNum = '1';
+            let _coupon = that.data.seleced.couponAmount / 10;
+            if (that.data.payment < _coupon) {
+              wx.showToast({
+                title: '系统错误，请联系管理员',
+                icon: 'none',
+                mask: 'true',
+                duration: 1000
+              })
+              that.setData({
+                ispay: false
+              })
+              return false
+            }
           }
           Api.createForShop(_parms).then((res) => {
             if (res.data.code == 0) {
-              this.payment(res.data.data)
-              this.updetauserinfo(res.data.data)
+              that.payment(res.data.data)
+              that.updetauserinfo(res.data.data)
             }
           })
         }
       }
     }
   },
-  updetauserinfo:function(val){  //更新用户信息
+  updetauserinfo:function (val) {  //更新用户信息
     let _parms = {
       id: app.globalData.userInfo.userId,
       openId: app.globalData.userInfo.openId
     }
     Api.updateuser(_parms).then((res) => {
       if (res.data.code == 0) {
-        this.payment(val)
+
       }
     })
   },
@@ -303,7 +380,7 @@ Page({
       openId: app.globalData.userInfo.openId,
       shopId: this.data.shopId
     }
-    if (this.data.seleced.id){
+    if (this.data.seleced.id) {
       _parms.couponId = this.data.seleced.id
     }
     Api.doUnifiedOrderForShop(_parms).then((res) => {
@@ -316,7 +393,7 @@ Page({
           'paySign': res.data.data.paySign,
           success: function (res) {
             that.setData({
-              soid:''
+              soid: ''
             })
             wx.redirectTo({
               url: '../../../personal-center/lelectronic-coupons/lectronic-coupons?pay=pay' + '&soid=' + soid

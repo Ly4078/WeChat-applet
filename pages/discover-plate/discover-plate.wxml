@@ -8,6 +8,19 @@
   </view>
 </view>
 
+  <view class='distop'>
+    <button class="topall {{isscelect==1?'xuanzhong':''}}" catchtap='topall'>全部</button>
+    <button class="topbus {{isscelect==2?'xuanzhong':''}}" catchtap='topbus'>店家美文</button>
+    <button class="topper {{isscelect==3?'xuanzhong':''}}" catchtap='topper'>美食写手</button>
+    <view class='sect' catchtap='sect'>{{tect}}
+      <image class="sectimg {{ishotnew?'sectxz':''}}" src='/images/icon/xialatupian.png'></image>
+    </view>
+    <view class='newhot' wx:if="{{ishotnew}}">
+      <button class='mostnew' catchtap='mostnew'>最新</button>
+      <button class='mosthot' catchtap='mosthot'>最热</button>
+    </view>
+  </view>
+  
 <view class='discover' catchtap='close'>
   <!-- 此代码别要删除,以后有用 -->
   <!-- <view class='initiate-exhibition the-second'>
@@ -44,18 +57,7 @@
     </view>
   </view>  -->
 
-  <view class='distop'>
-    <button class="topall {{isscelect==1?'xuanzhong':''}}" catchtap='topall'>全部</button>
-    <button class="topbus {{isscelect==2?'xuanzhong':''}}" catchtap='topbus'>店家美文</button>
-    <button class="topper {{isscelect==3?'xuanzhong':''}}" catchtap='topper'>美食写手</button>
-    <view class='sect' catchtap='sect'>{{tect}}
-      <image class="sectimg {{ishotnew?'sectxz':''}}" src='/images/icon/xialatupian.png'></image>
-    </view>
-    <view class='newhot' wx:if="{{ishotnew}}">
-      <button class='mostnew' catchtap='mostnew'>最新</button>
-      <button class='mosthot' catchtap='mosthot'>最热</button>
-    </view>
-  </view>
+
 
   <view class='distop2'></view>
   <view wx:for="{{food}}" wx:key="{{index}}" class='datafor'>

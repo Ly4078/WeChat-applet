@@ -25,9 +25,18 @@ Page({
     listagio: [],
     newpackage: [],
     oldpackage: [],
-    actId:''
+    actId:'',
+    isoter:false
   },
   onLoad: function (options) {
+    console.log("merchant-particulars")
+    this.setData({
+      shopid: options.shopid
+    });
+    this.selectForOne(options.shopid)
+    if (options.flag == 1){
+      this.getuserInfo();
+    }
     if (options.actId){
       this.setData({
         actId: options.actId
@@ -49,22 +58,12 @@ Page({
         _actName: options.actName
       })
     }
-    this.setData({
-      shopid: options.shopid
-    });
-    this.getstoredata();
-    this.selectByShopId();
-    this.recommendation();
-    this.isCollected();
-    this.merchantArt();
-    this.getpackage();
-
+    this.getmoredata();
     // 分享功能
     wx.showShareMenu({
       withShareTicket: true,
       success: function (res) {
         // 分享成功
-        // console.log('shareMenu share success')
         // console.log(res)
       },
       fail: function (res) {
@@ -109,12 +108,78 @@ Page({
       }
     })
   },
+  selectForOne: function (val){
+    let _parms={
+      shopId: val
+    }
+    Api.selectForOne(_parms).then((res) => {
+      if (res.data.code == 0) {
+        if(res.data.data){
+          this.setData({
+            isoter:true
+          })
+        }else{
+          this.setData({
+            isoter: false
+          })
+        }
+      }
+    })
+  },
   //用户下拉刷新
   onPullDownRefresh: function () {
     this.getstoredata();
     this.recommendation();
     this.isCollected();
     this.commentList();
+  },
+  getuserInfo() {//如果是扫码直接进入到这里，则查询其用户信息，若查询到的用户信息中没有电话号码，要求用户注册
+    let that = this;
+    wx.login({
+      success: res => {
+        if (res.code) {
+          let _parms = {
+            code: res.code
+          }
+          Api.useradd(_parms).then((res) => {
+            if (res.data.data) {
+              app.globalData.userInfo.userId = res.data.data;
+              wx.request({  //从自己的服务器获取用户信息
+                url: this.data._build_url + 'user/get/' + res.data.data,
+                header: {
+                  'content-type': 'application/json' // 默认值
+                },
+                success: function (res) {
+                  if (res.data.code == 0) {
+                    let data = res.data.data;
+                    for (let key in data) {
+                      for (let ind in app.globalData.userInfo) {
+                        if (key == ind) {
+                          app.globalData.userInfo[ind] = data[key]
+                        }
+                      }
+                    }
+                    if (!data.mobile) {
+                      that.setData({
+                        issnap: true
+                      })
+                    }
+                  }
+                }
+              })
+            }
+          })
+        }
+      }
+    })
+  },
+  getmoredata:function(){
+    this.getstoredata();
+    this.selectByShopId();
+    this.recommendation();
+    this.isCollected();
+    this.merchantArt();
+    this.getpackage();
   },
   getstoredata() {  //获取店铺详情数据   
     let id = this.data.shopid;

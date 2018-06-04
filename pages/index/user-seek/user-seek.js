@@ -10,9 +10,10 @@ Page({
     historyarr: [],
     storename: '',
     _is: true,
-    modalHidden: true
+    modalHidden: true,
+    timer:null
   },
-  onReady: function () {  //页面渲染完成   每次进行都会执行一次
+  onReady: function () {  
     let that = this;
     wx.getStorage({
       key: 'his',
@@ -31,16 +32,7 @@ Page({
   },
   selectAddress() {  //点击搜索按钮
     let that = this;
-    let _value = this.data.storename;
-    if (!_value) {
-      // wx.showToast({
-      //   title: '请输入关键搜索',
-      //   icon: 'none',
-      //   duration: 2000
-      // })
-      return false
-    }
-
+    let _value = this.data.storename
     if (_value) {
       let _parms = {
         searchKey: _value,
@@ -87,10 +79,20 @@ Page({
     }
   },
   searchbusiness(e) {  //实时获取输入框的值
-    this.setData({
-      storename: e.detail.value
-    })
-    this.selectAddress()
+    let _value = e.detail.value, _this = this, ms = 0, _timer = null;
+    _timer = setInterval(function () {
+      ms += 50;
+      if (ms == 100) {
+        _this.setData({
+          storename: e.detail.value
+        })
+        _this.selectAddress();
+        clearInterval(_timer);
+      }
+    }, 500)
+    _this.setData({
+      timer: _timer
+    });
   },
   backHomepage: function () {  //取消  清空输入框
     this.setData({
