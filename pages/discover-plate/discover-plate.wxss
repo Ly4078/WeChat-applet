@@ -212,9 +212,9 @@ to {transform:rotate(0deg);}
   color:rgba(255,255,255,1);
   text-align: center;
   line-height: 108rpx;
+  right: 60rpx;
   position: fixed;
   bottom: 31rpx;
-  right: 60rpx;
 }
 .clplus{
   z-index: 4000;
