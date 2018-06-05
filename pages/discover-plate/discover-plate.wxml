@@ -71,7 +71,7 @@
       </view>
       <view class='finddes' id="{{item.id}}" catchtap="clickarticle">
         <image class='cateWallImg findimg' wx:if="{{!item.clickvideo}}" mode="aspectFill" src='{{item.homePic}}'></image>
-        <video class='cateWallImg findimg' wx:if="{{!item.isimg && item.clickvideo}}" mode="aspectFill" src='{{item.content[0].value}}' autoplay="true" bindended="bindended" id="{{item.id}}"></video>
+        <video class='cateWallImg findimg' wx:if="{{!item.isimg && item.clickvideo}}" mode="aspectFill" src='{{item.content[0].value}}' autoplay="true" muted="true" bindended="bindended" id="{{item.id}}" objectFit="fill" direction="0"></video>
         <view class='DescriptionText findtext' wx:if="{{!item.clickvideo}}">{{item.summary}}</view>
         <view class="gastronomeName {{!item.isimg?'gastronomeNamevideo':''}}" wx:if="{{!item.clickvideo}}">
           <image class='gasimg' src='/images/icon/paly.png' wx:if="{{!item.isimg}}"></image>

@@ -108,7 +108,7 @@ function reciprocal(cleartime){  //倒计时
   cleartime = new Date(cleartime);
   // cleartime = cleartime ? cleartime.replace(/-/g, "/") : '';
   let start = cleartime.getTime(); 
-  start = start+ 10*60*1000
+  start = start+ 1*60*1000
  
   let date = new Date();
   let now = date.getTime(); 

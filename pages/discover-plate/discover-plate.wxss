@@ -428,28 +428,8 @@ to {margin-right: 0rpx;opacity: 0;}
   font-size: 24rpx;
 }
 
-.gastronomeName{
-  width: 100%;
-  height: 90rpx;
-  background-color:rgba(25,25,25,0.6);
-  /* opacity: 0.6; */
-  position: absolute;
-  top: 300rpx;
-  left: 0rpx;
-  border-bottom-left-radius: 8rpx;
-  border-bottom-right-radius: 8rpx;
-}
-.gastronomeNamevideo{
-  height: 390rpx;
-  top: 0rpx;
-  border-radius: 8rpx;
-}
-.gasimg{
-  width: 150rpx;
-  height: 150rpx;
-  opacity: 1;
-  margin: 120rpx 272rpx;
-}
+
+
 .modal_box{
   width: 100%;
   position: fixed;
