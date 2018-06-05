@@ -33,7 +33,7 @@ Page({
     navbar: ['菜系专题', '服务专题'],
     sort: ['川湘菜', '海鲜', '火锅', '烧烤', '西餐', '自助餐', '聚会', '商务', '约会'],
     activityImg: '',   //活动图
-    settime: '',
+    settime: null,
     rematime: '获取验证码',
     afirst: false,
     isclick: true
@@ -633,43 +633,47 @@ Page({
 
   numbindinput: function (e) {  //监听号码输入框
     let _value = e.detail.value
-    if (_value) {
+    let RegExp = /^[1][3,4,5,7,8][0-9]{9}$/;
+    if (RegExp.test(_value)) {
+      console.log('123123')
       this.setData({
         isclose: true,
         phone: _value
       })
     } else {
       this.setData({
-        isclose: false,
-        phone: _value
+        isclose: false
       })
     }
   },
+
   closephone: function () {  //手机号置空
     clearInterval(this.data.settime)
     this.setData({
       phone: '',
       rematime: '获取验证码',
-      isclick: true
+      isclick: true,
+      goto: false,
+      settime: null
     })
   },
   submitphone: function () {  //获取验证码
-    let that = this
+    let that = this, sett=null;
     if (!this.data.phone) {
       wx.showToast({
-        title: '请先输入手机号',
+        title: '请正确输入手机号',
         icon: 'none',
         mask: 'true',
         duration: 2000
       })
       return false
     }
-    if (!this.data.isclick) {
-      return false
-    }
-    if (this.data.verifyId) {
-      return false
-    }
+    // if (!this.data.isclick) {
+    //   return false
+    // }
+    // if (this.data.verifyId) {
+    //   return false
+    // }
     if (this.data.goto) {
       return false
     }
@@ -678,6 +682,9 @@ Page({
       this.setData({
         goto: true
       })
+      if (this.data.settime) {
+        clearInterval(that.data.settime)
+      }
       let _parms = {
         shopMobile: that.data.phone,
         userId: app.globalData.userInfo.userId,
@@ -691,12 +698,13 @@ Page({
             veridyTime: res.data.data.veridyTime,
             goto: false
           })
-          if (this.data.settime) {
-            clearInterval(that.data.settime)
-          }
-          let sett = setInterval(function () {
+          
+          sett = setInterval(function () {
             that.remaining();
           }, 1000)
+          that.setData({
+            settime: sett
+          })
           wx.setStorage({
             key: "phone",
             data: that.data.phone

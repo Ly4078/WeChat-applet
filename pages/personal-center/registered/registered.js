@@ -13,7 +13,7 @@ Page({
     verify: '', //输入的验证码
     verifyId: '',//后台返回的短信验证码
     veridyTime: '',//短信发送时间
-    settime: '',
+    settime: null,
     rematime: '获取验证码',
     isclick: true,
     goto: false,
@@ -25,31 +25,36 @@ Page({
   },
   numbindinput: function (e) {  //监听号码输入框
     let _value = e.detail.value
-    if (_value) {
+    console.log('_value:',_value)
+    console.log('_value:',_value.length)
+    let RegExp = /^[1][3,4,5,7,8][0-9]{9}$/;
+    if (RegExp.test(_value)) {
       this.setData({
         isclose: true,
         phone: _value
       })
-    } else {
+    }else{
       this.setData({
-        isclose: false,
-        phone: _value
+        isclose: false
       })
     }
   },
   closephone: function () {  //手机号置空
-    clearTimeout(this.data.settime)
+    clearInterval(this.data.settime)
     this.setData({
       phone: '',
       rematime: '获取验证码',
-      isclick: true
+      isclick: true,
+      goto: false,
+      settime:null,
+      isclose: false
     })
   },
   submitphone: function () {  //获取验证码
-    let that = this
+    let that = this, sett=null;
     if (!this.data.phone) {
       wx.showToast({
-        title: '请先输入手机号',
+        title: '请正确输入手机号',
         icon: 'none',
         mask: 'true',
         duration: 2000
@@ -62,13 +67,14 @@ Page({
     if(this.data.goto){
       return false
     }
-    that.setData({
-      goto:true
-    })
+    
     let RegExp = /^[1][3,4,5,7,8][0-9]{9}$/;
     if (RegExp.test(this.data.phone)) {
+      that.setData({
+        goto: true
+      })
       if (this.data.settime) {
-        clearTimeout(that.data.settime)
+        clearInterval(that.data.settime)
       }
       let _parms = {
         shopMobile: that.data.phone,
@@ -81,7 +87,7 @@ Page({
             verifyId: res.data.data.verifyId,
             veridyTime: res.data.data.veridyTime
           })
-          let sett = setInterval(function () {
+          sett = setInterval(function () {
             that.remaining();
           }, 1000)
           that.setData({
@@ -111,14 +117,16 @@ Page({
     })
   },
   remaining: function () {  //倒计时
+  console.log('fdsafd')
     let _vertime = this.data.veridyTime;
     _vertime = _vertime.replace(/\-/ig, "\/");
-    let rema = utils.reciprocal(_vertime)
+    let rema = utils.reciprocal(_vertime);
     if (rema == 'no' || rema == 'yes') {
-      clearTimeout(this.data.settime)
+      clearInterval(this.data.settime)
       this.setData({
         rematime: '获取验证码',
-        isclick: true
+        isclick: true,
+        goto: false
       })
       wx.removeStorage({
         key: 'phone',
@@ -183,8 +191,7 @@ Page({
         }
         Api.isVerify(_parms).then((res) => {
           if (res.data.code == 0) {
-            app.globalData.userInfo.userId = res.data.data;
-            
+            app.globalData.userInfo.userId = res.data.data
             wx.request({  //从自己的服务器获取用户信息
               url: this.data._build_url + 'user/get/' + res.data.data,
               header: {
@@ -239,7 +246,6 @@ Page({
                 ivData: msg.iv,
                 encrypData: msg.encryptedData
               }
-              console.log("_pars:", _pars)
               Api.phoneAES(_pars).then((res) => {
                 if (res.data.code == 0) {
                   let _data = JSON.parse(res.data.data)

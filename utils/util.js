@@ -119,7 +119,7 @@ function reciprocal(cleartime){  //倒计时
     h = Math.floor(leftTime / 1000 / 60 / 60 % 24);  //时
     m = Math.floor(leftTime / 1000 / 60 % 60);  //分
     s = Math.floor(leftTime / 1000 % 60);  //秒
-    return m + '分' + s + '秒'
+    return s + '秒后重发'
   } else{
     return 'yes'
   }

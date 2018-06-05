@@ -653,3 +653,13 @@ button::after{
   opacity: 1;
   margin: 120rpx 272rpx;
 }
+.closephone{
+  position: relative;
+  width:40rpx;
+  height:40rpx;
+  top:-60rpx;
+  float:right;
+  right:50rpx;
+  z-index: 3;
+  /* border: 2rpx solid red; */
+}

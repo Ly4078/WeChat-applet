@@ -765,15 +765,7 @@ page {
   color: #808080;
   border-radius: 20rpx;
 }
-.closephone{
-  position: relative;
-  width:40rpx;
-  height:40rpx;
-  top:-60rpx;
-  float:right;
-  right:50rpx;
-  z-index: 1;
-}
+
 
 .setcode{
   margin-top: 31rpx;
