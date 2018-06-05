@@ -3,6 +3,7 @@ page {
   width: 100%;
 }
 .discover{
+  border-top: 1rpx solid red;
   width: 694rpx;
   height: 100%;
   padding: 0 28rpx 0
@@ -338,8 +339,9 @@ to {margin-right: 0rpx;opacity: 0;}
   margin: 0 7rpx 0 29rpx;
 }
 .distop2{height: 132rpx;}
+
 .distop{
-   padding: 41rpx 28rpx; 
+  padding: 41rpx 38rpx; 
   height: 50rpx;
   width: 100%;
   border-bottom: 1rpx solid #FC5E2D;
@@ -357,7 +359,7 @@ to {margin-right: 0rpx;opacity: 0;}
   height: 50rpx;
   border-radius: 50rpx;
   line-height: 44rpx;
-  margin-right: 30rpx;
+  margin-right: 20rpx;
   float: left;
   background: #fff;
 }
@@ -368,17 +370,19 @@ to {margin-right: 0rpx;opacity: 0;}
 .sect{
   float: right;
   color: #808080;
+  margin-right: 75rpx;
   font-size: 36rpx;
 }
 .sectxz{
-  transform:rotate(180deg) 2s;
+  transform:rotate(180deg);
 }
 .sectimg{
   width: 17rpx;
   height: 9rpx;
-  margin-left: 20rpx;
+  /* margin-left: 20rpx; */
   position: relative;
   top: -5rpx;
+
   /* margin-top: -20rpx; */
 }
 .newhot{
@@ -389,7 +393,7 @@ to {margin-right: 0rpx;opacity: 0;}
   border-radius: 8px;
   border:1rpx solid rgb(170,165,165);
   position: absolute;
-  right: 0;
+  right:90rpx;
   top: 100rpx;
 }
 .mostnew, .mosthot{

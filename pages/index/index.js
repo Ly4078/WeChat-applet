@@ -618,7 +618,7 @@ Page({
   },
   closetel: function (e) {
     let id = e.target.id;
-    clearInterval(that.data.settime)
+    clearInterval(this.data.settime)
     this.setData({
       issnap: false
     })

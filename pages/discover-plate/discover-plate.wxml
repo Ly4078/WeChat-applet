@@ -21,7 +21,7 @@
     </view>
   </view>
   
-<view class='discover' catchtap='close'>
+<!-- <view class='discover' catchtap='close'> -->
   <!-- 此代码别要删除,以后有用 -->
   <!-- <view class='initiate-exhibition the-second'>
 
@@ -58,8 +58,8 @@
   </view>  -->
 
 
-
-  <view class='distop2'></view>
+<view class='discover' catchtap='close'>
+  <!-- <view class='distop2'></view> -->
   <view wx:for="{{food}}" wx:key="{{index}}" class='datafor'>
     <view class="scroll_user find">
       <view class='merchant_data'>

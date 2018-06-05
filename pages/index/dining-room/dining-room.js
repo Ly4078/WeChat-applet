@@ -18,7 +18,8 @@ Page({
     issorting: false,
     businessCate: '',
     browSort: '',
-    searchValue:''
+    searchValue:'',
+    timer:null
   },
 
   onLoad: function (options) {
@@ -124,33 +125,53 @@ Page({
     }
   },
   onInputText: function (e) { //获取搜索框内的值
-    this.setData({
-      searchValue: e.detail.value
-    })
-    let _parms = {
-      searchKey: this.data.searchValue,
-      locationX: app.globalData.userInfo.lng,
-      locationY: app.globalData.userInfo.lat,
-    }
-    Api.shoplist(_parms).then((res) => {
-      let that = this
-      wx.hideLoading()
-      let data = res.data;
-      if (data.code == 0) {
-        if (data.data.list != null && data.data.list != "" && data.data.list != []) {
-          let posts = [];
-          let _data = data.data.list
-          for (let i = 0; i < _data.length; i++) {
-            _data[i].distance = utils.transformLength(_data[i].distance);
-            _data[i].activity = _data[i].ruleDescs ? _data[i].ruleDescs.join(',') : '';
-            posts.push(_data[i])
+    let _value = e.detail.value, _this = this, ms = 0, _timer = null;
+    clearTimeout(this.data.timer);;
+    _timer = setInterval(function () {
+      ms += 50;
+      if (ms == 100) {
+        _this.setData({
+          searchValue: _value
+        })
+        let _parms = {
+          searchKey: _this.data.searchValue,
+          locationX: app.globalData.userInfo.lng,
+          locationY: app.globalData.userInfo.lat,
+        }
+        Api.shoplist(_parms).then((res) => {
+          wx.hideLoading()
+          let data = res.data;
+          if (data.code == 0) {
+            if (data.data.list != null && data.data.list != "" && data.data.list != []) {
+              let posts = [];
+              let _data = data.data.list
+              for (let i = 0; i < _data.length; i++) {
+                _data[i].distance = utils.transformLength(_data[i].distance);
+                _data[i].activity = _data[i].ruleDescs ? _data[i].ruleDescs.join(',') : '';
+                posts.push(_data[i])
+              }
+              _this.setData({
+                posts_key: posts
+              })
+            }else{
+              _this.setData({
+                searchValue: ''
+              })
+              wx.showToast({
+                title: '未搜索到相关信息',
+                icon: 'none',
+                mask: true,
+                duration: 2000
+              })
+            }
           }
-          that.setData({
-            posts_key: posts
-          })
-        } 
+        })
       }
-    })
+    }, 500)
+    _this.setData({
+      timer: _timer
+    });
+   
     // Api.shoplist(_parms).then((res) => {
     //   if (res.data.code == 0 && res.data.data.list != [] && res.data.data.list != '') {
     //     this.setData({

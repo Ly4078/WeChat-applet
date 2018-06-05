@@ -3,7 +3,7 @@
     <view class='paymentTop'>
       <view class='consumption'>
         <text class='consumTextes'>消费总额</text>
-        <input type="digit" class='inputtext' bindinput="bindinputvalue" placeholder="请询问服务员后输入" maxlength="10" value='{{inputValue}}'></input>
+        <input type="digit" class='inputtext' bindinput="bindinputvalue" placeholder="请询问服务员后输入" maxlength="10" ></input>
       </view>
 
       <view class='consumption'>

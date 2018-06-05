@@ -194,7 +194,8 @@ Page({
   },
   //获取输入框的优惠金额
   preferential: function (e) {
-    let _value = e.detail.value, _this = this, ms = 0, _timer = null;;
+    let _value = e.detail.value, _this = this, ms = 0, _timer = null;
+    clearTimeout(this.data.timer);
     if (_value) {
       let cha = _value * 1 - this.data.inputValue * 1;
       if (cha > 0) {
