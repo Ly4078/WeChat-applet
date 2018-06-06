@@ -271,6 +271,7 @@ Page({
       if (res.data.code == 200045) {
         _payment = this.data.inputValue * 1;
         _payment = _payment.toFixed(2);
+        wx.hideLoading();
         that.setData({
           payment: _payment,
           ispay: true
@@ -359,7 +360,7 @@ Page({
           }
           Api.createForShop(_parms).then((res) => {
             if (res.data.code == 0) {
-              that.payment(res.data.data)
+              
               that.updetauserinfo(res.data.data)
             }
           })
@@ -371,11 +372,9 @@ Page({
     let _parms = {
       id: app.globalData.userInfo.userId,
       openId: app.globalData.userInfo.openId
-    }
+      }, that = this;
     Api.updateuser(_parms).then((res) => {
-      if (res.data.code == 0) {
-
-      }
+      that.payment(val)
     })
   },
   payment: function (soid) {  //调起支付

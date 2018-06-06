@@ -6,7 +6,8 @@ page {
   border-top: 1rpx solid red;
   width: 694rpx;
   height: 100%;
-  padding: 0 28rpx 0
+  padding: 0 28rpx 0;
+  padding-top:120rpx;
 }
 button::after{
 border: none;

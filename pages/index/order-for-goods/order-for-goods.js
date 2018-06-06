@@ -275,7 +275,7 @@ Page({
       Api.socreate(_parms).then((res) => {
         if (res.data.code == 0) {
           if (that.data.paytype == 1) {
-            that.payment(res.data.data);
+            
             that.updateuser();
           } else if (that.data.paytype == 2) {
             wx.showToast({
@@ -300,6 +300,7 @@ Page({
       openId: app.globalData.userInfo.openId
     }
     Api.updateuser(_parms).then((res) => {
+      that.payment(res.data.data);
     })
   },
   payment: function (soid) {//调起微信支付

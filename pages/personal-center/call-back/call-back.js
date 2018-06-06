@@ -176,27 +176,37 @@ Page({
   
     Api.hxadd(_parms).then((res) => {
       if (res.data.code == 0) {
-        wx.showToast({
-          title: '核销成功',
-          icon: 'none',
-          duration: 2000
+        wx.showModal({
+          title: '提示',
+          content: '核销成功',
+          success: function (res) {
+            if (res.confirm) {
+              wx.switchTab({
+                url: '../personal-center'
+              })
+            } else if (res.cancel) {
+              wx.switchTab({
+                url: '../personal-center'
+              })
+            }
+          }
         })
-        setTimeout(function () {
-          wx.switchTab({
-            url: '../personal-center'
-          })
-        }, 2000)
       } else {
-        wx.showToast({
-          title: res.data.message,
-          icon: 'none',
-          duration: 2000
+        wx.showModal({
+          title: '提示',
+          content: res.data.message,
+          success: function (res) {
+            if (res.confirm) {
+              wx.switchTab({
+                url: '../personal-center'
+              })
+            } else if (res.cancel) {
+              wx.switchTab({
+                url: '../personal-center'
+              })
+            }
+          }
         })
-        setTimeout(function () {
-          wx.switchTab({
-            url: '../personal-center'
-          })
-        }, 2000)
       }
     })
   }
