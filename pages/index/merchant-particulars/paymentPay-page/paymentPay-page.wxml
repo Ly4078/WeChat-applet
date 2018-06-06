@@ -3,7 +3,7 @@
     <view class='paymentTop'>
       <view class='consumption'>
         <text class='consumTextes'>消费总额</text>
-        <input type="digit" class='inputtext' bindinput="bindinputvalue" placeholder="请询问服务员后输入" maxlength="10" ></input>
+        <input type="digit" class='inputtext' bindinput="bindinputvalue" placeholder="请询问服务员后输入" maxlength="10" value='{{inputValue}}'></input>
       </view>
 
       <view class='consumption'>
@@ -20,7 +20,7 @@
         <text class='consumTextes'>代金券</text>
         <view>
           <text class='arrowText' wx:if="{{seleced.couponAmount}}">-{{seleced.couponAmount}}元</text>
-          <text class='arrowText' wx:else><text>{{num}}</text>张可用</text>
+          <text class='arrowText' wx:else>{{num==0?'':'有券可用'}}</text>
           <image class='arrow' src='/images/icon/xialatupian.png'></image>
         </view>
       </view>

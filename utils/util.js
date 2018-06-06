@@ -108,10 +108,9 @@ function reciprocal(cleartime){  //倒计时
   cleartime = new Date(cleartime);
   // cleartime = cleartime ? cleartime.replace(/-/g, "/") : '';
   let start = cleartime.getTime(); 
-  start = start+ 1*60*1000
- 
+  start = start+ 1*60*1000;
   let date = new Date();
-  let now = date.getTime(); 
+  let now = date.getTime();
   let leftTime = start - now; 
   let  d, h, m, s;
   if (leftTime >= 0) {
@@ -119,7 +118,9 @@ function reciprocal(cleartime){  //倒计时
     h = Math.floor(leftTime / 1000 / 60 / 60 % 24);  //时
     m = Math.floor(leftTime / 1000 / 60 % 60);  //分
     s = Math.floor(leftTime / 1000 % 60);  //秒
-    return s + '秒后重发'
+    if(s!=0){
+      return s + '秒后重发'
+    }
   } else{
     return 'yes'
   }

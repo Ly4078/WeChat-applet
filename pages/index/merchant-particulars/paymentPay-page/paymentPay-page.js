@@ -284,6 +284,10 @@ Page({
             _payment = this.data.inputValue * 1 - res.data.data.list[_act].couponAmount * 1;
           } else {
             _payment = this.data.inputValue * 1;
+            that.setData({
+              offer:'',
+              isChecked:false
+            })
           }
           _payment = _payment.toFixed(2);
           if (_payment > 0) {

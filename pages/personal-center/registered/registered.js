@@ -25,8 +25,9 @@ Page({
   },
   numbindinput: function (e) {  //监听号码输入框
     let _value = e.detail.value
-    console.log('_value:',_value)
-    console.log('_value:',_value.length)
+    if(!_value){
+      this.closephone();
+    }
     let RegExp = /^[1][3,4,5,7,8][0-9]{9}$/;
     if (RegExp.test(_value)) {
       this.setData({
@@ -53,6 +54,7 @@ Page({
   submitphone: function () {  //获取验证码
     let that = this, sett=null;
     if (!this.data.phone) {
+      that.closephone();
       wx.showToast({
         title: '请正确输入手机号',
         icon: 'none',
@@ -117,10 +119,8 @@ Page({
     })
   },
   remaining: function () {  //倒计时
-  console.log('fdsafd')
-    let _vertime = this.data.veridyTime;
-    _vertime = _vertime.replace(/\-/ig, "\/");
-    let rema = utils.reciprocal(_vertime);
+    let _vertime = this.data.veridyTime.replace(/\-/ig, "\/"), rema=60;
+    rema = utils.reciprocal(_vertime);
     if (rema == 'no' || rema == 'yes') {
       clearInterval(this.data.settime)
       this.setData({

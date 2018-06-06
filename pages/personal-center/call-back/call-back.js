@@ -55,6 +55,7 @@ Page({
       url: this.data._build_url + 'cp/getByCode/' + val,
       success: function (res) {
         let _data = res.data;
+        console.log('_data:', _data)
         if (_data.code == 0) {
           if(!_data.data){
             wx.showToast({
@@ -67,8 +68,7 @@ Page({
               _code: ''
             })
           }else{
-            let _rele = _data.data.promotionRules[0].ruleDesc
-            let userphone = res.data.data.userName;
+            let _rele = _data.data.promotionRules[0].ruleDesc,userphone = res.data.data.userName;
             userphone = userphone.substr(0, 3) + "****" + userphone.substr(7);
             that.setData({
               ticketsinfo: _data.data,
@@ -83,11 +83,11 @@ Page({
               // _data.data.discount = false
             }
             if (_data.data.skuName.indexOf(Act) > 0) {
-             
                 let _parms = {
-                  shopId: app.globalData.userInfo.shopId
+                  shopId: app.globalData.userInfo.shopId,
+                  skuId:_data.data.skuId
                 }
-                Api.searchForShopId(_parms).then((res) => {
+                Api.searchForShopIdNew(_parms).then((res) => {
                   if (res.data.code == -1) {
                     that.setData({
                       _code: '',

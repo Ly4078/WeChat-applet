@@ -16,7 +16,7 @@
 .getphone input{
   border: 1rpx solid #EBEBEB;
   width:480rpx;
-  margin-right: 20rpx;
+  margin-right: 8rpx;
   height: 78rpx;
   line-height: 78rpx;
   padding: 0;
@@ -50,7 +50,7 @@
   line-height: 80rpx;
   font-size: 30rpx;
   color: #808080;
-  border-radius: 20rpx;
+  border-radius: 8rpx;
 }
 
 
@@ -62,12 +62,12 @@
 .setcode input{
   width: 389rpx;
   height: 80rpx;
-   padding-left:20rpx; 
+  padding-left:20rpx; 
   line-height: 80rpx;
   font-size: 30rpx;
   color: #808080;
   background: #EBEBEB;
-  border-radius: 20rpx;
+  border-radius: 8rpx;
   float: left;
 }
 .setcode button{

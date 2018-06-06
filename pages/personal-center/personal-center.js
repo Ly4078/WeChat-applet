@@ -310,7 +310,6 @@ Page({
             data.data.discount = true
           }
           let current = res.currentTime;
-
           let isDue = that.isDueFunc(current, data.expiryDate);
           if (data.data.isUsed == 1) {
             wx.showToast({
@@ -326,9 +325,10 @@ Page({
             })
           } else if (data.data.discount) {
             let _parms = {
-              shopId: app.globalData.userInfo.shopId
+              shopId: app.globalData.userInfo.shopId,
+              skuId:data.data.skuId
             }
-            Api.searchForShopId(_parms).then((res) => {
+            Api.searchForShopIdNew(_parms).then((res) => {
               if (res.data.code == -1) {
                 wx.showToast({
                   title: res.data.message + ',不能核销此活动券',

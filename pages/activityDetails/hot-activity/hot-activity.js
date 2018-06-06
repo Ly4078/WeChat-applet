@@ -79,9 +79,11 @@ Page({
   },
   actTicket: function () {  //活动券
     let _parms = {
-      userId: app.globalData.userInfo.userId
+      userId: app.globalData.userInfo.userId,
+      id:'383'
     }
     Api.actTicket(_parms).then((res) => {
+      console.log('res:',res)
       this.setData({
         ticketArr: res.data.data.list,
         isReceive: res.data.data.list[0].isAct

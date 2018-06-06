@@ -292,6 +292,10 @@ const ALL_API = {
     method:'GET',
     url:'actshop/searchForShopId'
   },
+  searchForShopIdNew: {  //查询商家是否参加某一活动(后来的)
+    method: 'GET',
+    url: 'actshop/searchForShopIdNew'
+  },
   accountBalance: { //查询账户余额
     method: 'GET',
     url: 'account/balance'

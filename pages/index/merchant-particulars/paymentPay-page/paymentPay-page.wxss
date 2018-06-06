@@ -38,7 +38,7 @@ page {
 .arrowText {
   padding-right: 32rpx;
   color: #fc5e2d;
-  font-size: 34rpx;
+  font-size: 28rpx;
   vertical-align: middle;
 }
 

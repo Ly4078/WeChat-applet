@@ -22,7 +22,7 @@
     <view wx:if="{{isphoneNumber}}" class="newUserM_box getphone gettels">
       <view class='nubtitle'>快速注册</view>
       <view class='setphone'>
-        <input type="number" value='{{phone}}' maxlength="11" placeholder="输入手机号" bindinput="numbindinput"></input>
+        <input type="number" value='{{phone}}' maxlength="11" focus='true' placeholder="输入手机号" bindinput="numbindinput"></input>
         <image class="closephone" bindtap='closephone' src="/images/icon/sloce.png"></image>
       </view>
       <view class='setcode'>
