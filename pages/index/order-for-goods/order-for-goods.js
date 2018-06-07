@@ -276,7 +276,7 @@ Page({
         if (res.data.code == 0) {
           if (that.data.paytype == 1) {
             
-            that.updateuser();
+            that.updateuser(res.data.data);
           } else if (that.data.paytype == 2) {
             wx.showToast({
               title: '余额支付成功',
@@ -293,14 +293,14 @@ Page({
       })
     }
   },
-  updateuser: function () {  //更新用户信息
+  updateuser: function (val) {  //更新用户信息
     let that = this;
     let _parms = {
       id: app.globalData.userInfo.userId,
       openId: app.globalData.userInfo.openId
     }
     Api.updateuser(_parms).then((res) => {
-      that.payment(res.data.data);
+      that.payment(val);
     })
   },
   payment: function (soid) {//调起微信支付
