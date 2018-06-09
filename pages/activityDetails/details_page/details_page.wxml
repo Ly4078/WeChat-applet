@@ -1,4 +1,5 @@
 <import src="../../index/merchant-particulars/comment-template/comment-template.wxml" />
+<view bindtap='shareIsShow'>
 <view class="newUserModal" wx:if="{{issnap}}">
   <view class='drawer_screen'>
     <view class='sqtishi'>提示</view>
@@ -65,14 +66,28 @@
     <button class='fasong' form-type="reset" catchtap="setcmtadd">发送</button>
   </form>
 </view>
-
 <!-- <view class='botton-comment' bindtap='showAreatext'>
   <image class='comment-images' mode="aspectFill" src='/images/icon/write.png'></image>
   <text class='reviewyan'>写评论</text>
 </view> -->
+  <view wx:if="{{_id}}" class='but'>
+    <block wx:for="{{cmtdata.list}}" wx:key="{{index}}">
+      <template is="commentItem" data="{{item}}"></template>
+    </block>
+    <view class='total-comment' hidden='{{totalComment}}' catchtap='jumpTotalComment'>
+      <view class='total-center' wx:if="{{cmtdata.list.length>6}}">
+        <text>查看全部<text>{{cmtdata.total}}</text>条评论</text>
+      </view>
+    </view>
+    <form class='commentBox {{isComment ? "show" : "hide"}}'>
+      <textarea class="commentArea" placeholder='请输入评论' focus="{{isComment}}" bindinput="getCommentVal" cursor-spacing="50rpx" show-confirm-bar="false" fixed="true"></textarea>
+      <button class='fasong' form-type="reset" catchtap="setcmtadd">发送</button>
+    </form>
+  </view>
+</view>
 <view class='evaluate'>
   <view class='evaluateWrap'>
-    <button class='evaluateSon sonButton' bindtap='share' plain="true" data-name="shareBtn" open-type="share">
+    <button class='evaluateSon sonButton' bindtap='sharePlayer'>
       <image class='evaluateImg' src='/images/icon/find_share.png'></image>
       <text class='evaluatExtea'>分享</text>
     </button>
@@ -89,7 +104,6 @@
     </view>
   </view>
 </view>
-
 <view wx:if="{{_id}}" class='but'>
   <block wx:for="{{cmtdata.list}}" wx:key="{{index}}">
     <template is="commentItem" data="{{item}}"></template>
@@ -103,4 +117,16 @@
     <textarea class="commentArea" placeholder='请输入评论' focus="{{isComment}}" bindinput="getCommentVal" cursor-spacing="50rpx" show-confirm-bar="false" fixed="true"></textarea>
     <button class='fasong' form-type="reset" catchtap="setcmtadd">发送</button>
   </form>
+<view wx:if="{{activity == 36}}" class="toActHref" bindtap='toActHref'>
+  <image src="/images/icon/actIcon.png"></image>
+</view>
+<view wx:if="{{shareFlag}}" class="shareBox">
+  <button class="shareBox_item" plain="true" data-name="shareBtn" open-type="share">
+    <image src="/images/icon/weixin.png"></image>
+    <text>微信好友</text>
+  </button>
+  <button class="shareBox_item">
+    <image src="/images/icon/friend.png"></image>
+    <text>朋友圈</text>
+  </button>
 </view>

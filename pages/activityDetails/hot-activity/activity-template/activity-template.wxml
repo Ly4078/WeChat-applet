@@ -11,25 +11,39 @@
 </template> -->
 <!-- 活动劵 -->
 <template name="ledEcurities">
-  <view class="hot_ticket" catchtap='toMyTicket'>
-    <view class="hot_ticket_l">
-      <image src="/images/icon/ticket_txt.png" mode="aspectFill"></image>
-      <view class="hot_ticket_l_txt">
-      {{item.skuName}}
-        <!-- <view class="hot_ticket_txt_f">{{item.skuName}}</view> -->
-        <!-- <view class="hot_ticket_txt_s">满200元减20元</view> -->
+  <block wx:if="{{item.actType == 36}}">
+    <view class="hot_ticket" catchtap='toMyTicket'>
+      <view class="hot_ticket_l">
+        <image src="/images/icon/blue_ticket.png" mode="aspectFill"></image>
+        <view class="hot_ticket_l_txt blue_txt">
+        {{item.skuName}}
+        </view>
       </view>
+      <button wx:if="{{item.isAgio == 0}}" class="hot_ticket_r blue_txt blue_border" id="{{item.id}}" catchtap='isGetActCoupons'>购买</button>
+      <button wx:else class="hot_ticket_r blue_txt blue_border" id="{{item.id}}" catchtap='gotoUse'>去使用</button>
     </view>
-    <button class="hot_ticket_r" id="{{item.id}}" catchtap='isGetActCoupons'>领取</button>
-  </view>
-  <view class='labelDiskette'>
-    <text>(同时投票商家和选手可领取代金券,该劵仅限参赛餐厅使用)</text>
-  </view>
+  </block>
+  <block wx:else>
+    <view class="hot_ticket" catchtap='toMyTicket'>
+      <view class="hot_ticket_l">
+        <image src="/images/icon/ticket_txt.png" mode="aspectFill"></image>
+        <view class="hot_ticket_l_txt">
+        {{item.skuName}}
+          <!-- <view class="hot_ticket_txt_f">{{item.skuName}}</view> -->
+          <!-- <view class="hot_ticket_txt_s">满200元减20元</view> -->
+        </view>
+      </view>
+      <button class="hot_ticket_r" id="{{item.id}}" catchtap='isGetActCoupons'>领取</button>
+    </view>
+    <view class='labelDiskette'>
+      <text>(同时投票商家和选手可领取代金券,该劵仅限参赛餐厅使用)</text>
+    </view>
+  </block>
 </template>
 <!-- 商家投票列表 -->
 <template name="shopList">
   <view class="hot_list_item">
-    <view class="hot_list_item_t">
+    <view class="hot_list_item_t {{item.actType == 36 ? 'meal' : ''}}">
       <view class="list_item_info">
         <view class="list_item_name clearfix">
           <text class="list_item_name_f">{{item.groupCode ? item.groupCode : item.shopCode}}号</text>
@@ -37,13 +51,19 @@
         </view>
         <image src="{{item.picUrl}}" mode="aspectFill" id="{{item.shopId}}" bindtap='clickli'></image>
       </view>
-      <view class="list_item_vote">
+      <view wx:if="{{item.actType == 36}}" class="list_item_vote meal">
+        <view class="list_item_menu">
+          <text class="list_item_menu_l">{{item.skuName}}</text>
+          <text class="list_item_menu_r">￥{{item.sellPrice ? item.sellPrice : '7.7'}}</text>
+        </view>
+      </view>
+      <view wx:else class="list_item_vote">
         <view class="list_item_menu">
           <text class="list_item_menu_l">{{item.skuName}}</text>
           <text class="list_item_menu_r">{{item.groupVoteNum ? item.groupVoteNum : item.voteNum}}票</text>
         </view>
         <button wx:if="{{item.isVote == 1}}" class="vote_button" bindtap='isvoted'>已投票</button>
-        <button wx:else id="{{item.shopId}}" data-index="{{item.userId}}" bindtap='voteAdd'>投票</button>
+        <button wx:else id="{{item.shopId}}" class="blue_txt blue_border" data-index="{{item.userId}}" bindtap='voteAdd'>投票</button>
       </view>
     </view>
      <view class="hot_list_item_b" hidden="{{!item.groupCode}}">
@@ -65,8 +85,8 @@
       </view>
       <view class="list_item_vote">
         <view class='list_item_vote_center'>{{item.groupVoteNum ? item.groupVoteNum : item.voteNum}}票</view>
-        <button wx:if="{{item.isVote == 1}}" class="vote_button" bindtap='isvoted'>已投票</button>
-        <button wx:else id="{{item.shopId}}" data-index="{{item.userId}}" bindtap='voteAdd'>投票</button>
+        <button wx:if="{{item.isVote == 1 && item.actType != 36}}" class="vote_button" bindtap='isvoted'>已投票</button>
+        <button wx:else id="{{item.shopId}}" class="blue_txt blue_border" data-index="{{item.userId}}" bindtap='voteAdd'>投票</button>
       </view>
     </view>
     <view class="hot_list_item_b" hidden="{{!item.groupCode}}">

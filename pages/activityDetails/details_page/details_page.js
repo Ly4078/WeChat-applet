@@ -3,10 +3,6 @@ import { GLOBAL_API_DOMAIN } from '../../../utils/config/config.js';
 var utils = require("../../../utils/util.js")
 var app = getApp();
 Page({
-
-  /**
-   * 页面的初始数据
-   */
   data: {
     cmtdata: [],
     userid: '',
@@ -28,7 +24,8 @@ Page({
     groupCode: '',
     activity: '',
     _voteUserIdSuc: '',
-    shopId: ''
+    shopId: '',
+    shareFlag: false
   },
 
   onLoad: function (options) {
@@ -86,6 +83,11 @@ Page({
         imges: _dataSe
       })
     })
+  },
+  onShow() {
+    this.setData({
+      shareFlag: false
+    });
   },
   palyvideo:function(){
     this.setData({
@@ -257,10 +259,25 @@ Page({
       })
     }
   },
-  
   onPageScroll:function(){  //监听页面滑动
     this.setData({
       isComment:false
     })
+  },
+  toActHref() {
+    wx.switchTab({
+      url: '/pages/activityDetails/activity-details'
+    })
+    console.log(123)
+  },
+  shareIsShow() {
+    this.setData({
+      shareFlag: false
+    });
+  },
+  sharePlayer() {    //点击打开分享弹窗
+    this.setData({
+      shareFlag: true
+    });
   }
 })

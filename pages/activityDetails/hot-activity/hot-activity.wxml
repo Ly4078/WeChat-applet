@@ -11,7 +11,7 @@
 </view>
 
 
-<view class="hot_activity">
+<view class="hot_activity {{actId == 36 ? 'blue' : ''}}">
   <view class="hot_banner">
     <!-- <image class="hot_banner_img" src="/images/icon/hot_banner.png"></image> -->
     <image class="hot_banner_img" src="{{mainPic}}"></image>
@@ -20,7 +20,7 @@
     <!-- 主办方 -->
     <!-- <template is="sponsor" data="{{item}}" /> -->
     <view class="hot_description">
-      <view class="hot_desc_time">
+      <view class="hot_desc_time {{actId == 36 ? 'blue' : ''}}">
         活动时间:
         <text>{{startTime}} 至 {{endTime}}</text>
       </view>
@@ -39,24 +39,53 @@
       </block>
     </view>
     <view class="hot_list_box">
-      <view class="hot_list_tab">
-        <view bindtap='switching' class="{{isayers?'selected':'noselect'}}" id="1">商家</view>
-        <view bindtap='switching' class="{{!isayers?'selected':'noselect'}}" id="2">选手</view>
-      </view>
+      <block wx:if="{{actId == 36}}">
+        <view class="hot_list_tab">
+          <view bindtap='switching' class="{{isayers?'selected blue_txt':'noselect'}}" id="1">推荐菜</view>
+          <view bindtap='switching' class="{{!isayers?'selected blue_txt':'noselect'}}" id="2">选手</view>
+        </view>
+      </block>
+      <block wx:else>
+        <view class="hot_list_tab">
+          <view bindtap='switching' class="{{isayers?'selected':'noselect'}}" id="1">商家</view>
+          <view bindtap='switching' class="{{!isayers?'selected':'noselect'}}" id="2">选手</view>
+        </view>
+      </block>
       <view class="hot_list_search">
         <input id="" placeholder="请输入编号、名称" bindconfirm="searchList" bindinput="getInputVal" value="{{searchValue}}"></input>
         <image src="/images/icon/hot_search.png" bindtap="searchList"></image>
       </view>
-      <view wx:if="{{isayers}}" class="hot_list">
-        <block wx:for="{{business}}" wx:key="{{index}}" id="{{index}}">
-          <template is="shopList" data="{{item}}"></template>
-        </block>
-      </view>
-      <view wx:else class="hot_list">
-        <block wx:for="{{players}}" wx:key="{{index}}" id="{{index}}">
-          <template is="playerList" data="{{item}}"></template>
-        </block>
-      </view>
+      <block wx:if="{{actId == 36}}">
+        <view class="user_banner">
+          <text class="user_availVote">{{!isayers ? '可用票数：' + availableNum : ''}}</text>
+          <view class="user_switch">
+            <text class="news {{arrangeType == 1 ? 'active' : ''}}" id="1" bindtap='arrange'>{{!isayers ? '最热' : '武汉'}}</text>
+            <text class="{{arrangeType == 2 ? 'active' : ''}}" id="2" bindtap='arrange'>{{!isayers ? '最新' : '十堰'}}</text>
+          </view>
+        </view>
+        <view wx:if="{{isayers}}" class="hot_list">
+          <block wx:for="{{business}}" wx:key="{{index}}" id="{{index}}">
+            <template is="shopList" data="{{item}}"></template>
+          </block>
+        </view>
+        <view wx:else class="hot_list">
+          <block wx:for="{{players}}" wx:key="{{index}}" id="{{index}}">
+            <template is="playerList" data="{{item}}"></template>
+          </block>
+        </view>
+      </block>
+      <block wx:else>
+        <view wx:if="{{isayers}}" class="hot_list">
+          <block wx:for="{{business}}" wx:key="{{index}}" id="{{index}}">
+            <template is="shopList" data="{{item}}"></template>
+          </block>
+        </view>
+        <view wx:else class="hot_list">
+          <block wx:for="{{players}}" wx:key="{{index}}" id="{{index}}">
+            <template is="playerList" data="{{item}}"></template>
+          </block>
+        </view>
+      </block>
     </view>
   </view>
 </view>

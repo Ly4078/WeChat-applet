@@ -331,6 +331,10 @@ const ALL_API = {
   getByCode:{ //通过shopcode查询商家信息
     method:'GET',
     url:'shop/getByCode'
+  },
+  availableVote:{//可投票数
+    method: 'GET',
+    url: 'act/actVoteNums'
   }
 }
 const Api = new MyHttp({}, ALL_API);

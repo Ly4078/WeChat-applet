@@ -57,7 +57,6 @@ Page({
       // 新的版本下载失败
     })
     this.activityBanner();
-    
   },
   onShow: function () {
     let that = this, userInfo = app.globalData.userInfo;
@@ -82,6 +81,7 @@ Page({
             let _parms = {
               code: res.code
             }
+            let that = this;
             Api.getOpenId(_parms).then((res) => {
               app.globalData.userInfo.openId = res.data.data.openId;
               app.globalData.userInfo.sessionKey = res.data.data.sessionKey;
@@ -178,7 +178,7 @@ Page({
     Api.addUserUnionId(_parms).then((res) => {
       if (res.data.data) {
         app.globalData.userInfo.userId = res.data.data;
-        
+        that.getlocation();
         wx.request({  //从自己的服务器获取用户信息
           url: this.data._build_url + 'user/get/' + res.data.data,
           header: {
@@ -288,7 +288,7 @@ Page({
               icon: 'none',
             })
           }
-        })
+        });
       }else{
         this.gettoplistFor();
       }
@@ -549,12 +549,15 @@ Page({
       wx.navigateTo({
         url: '../activityDetails/hot-activity/hot-activity?id=' + _id + '&_actName=' + _actName
       })
+    } else if (_id == 36) {
+      wx.navigateTo({
+        url: '../activityDetails/hot-activity/hot-activity?id=' + _id
+      })
     } else {
       wx.navigateTo({
         url: '../activityDetails/details-like/details-like?actid=' + _id,
       })
     }
-
   },
   clickimg: function (e) {  //点击专题图片 --某个分类
     let ind = e.currentTarget.id
@@ -664,7 +667,6 @@ Page({
       }
     })
   },
-
   closebut: function () {
     this.setData({
       isphoneNumber: false
@@ -711,10 +713,6 @@ Page({
     })
   },
   submitphone: function () {  //获取验证码
-    console.log("userGiftFlag:", this.data.userGiftFlag)
-    console.log("isNew:", this.data.isNew)
-    console.log("isfirst:", this.data.isfirst)
-    console.log("isphoneNumber:", this.data.isphoneNumber)
     let that = this, sett=null;
     if (!this.data.phone) {
       that.closephone();
@@ -750,10 +748,6 @@ Page({
             veridyTime: res.data.data.veridyTime,
             goto: false
           })
-          console.log('123123')
-          // sett = setInterval(function () {
-          //   that.remaining();
-          // }, 1000)
           sett = setInterval(function () {
             that.remaining();
           }, 1000)
@@ -782,10 +776,8 @@ Page({
     })
   },
   remaining: function (val) {  //倒计时
-    console.log('remaining')
     let _vertime = this.data.veridyTime.replace(/\-/ig, "\/"), rema=60;
     rema = utils.reciprocal(_vertime);
-    console.log("rema:", rema)
     if (rema == 'no' || rema == 'yes' || !rema) {
       clearInterval(this.data.settime)
       this.setData({

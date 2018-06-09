@@ -120,11 +120,7 @@ Page({
         _actName = this.data.actdata[i].actName;
       }
     }
-    if (actid == 34) {
-      wx.navigateTo({
-        url: './hot-activity/hot-activity?id=' + actid + '&_actName=' + _actName,
-      })
-    } else if (actid == 35) {
+    if (actid == 34 || actid == 35 || actid == 36) {
       wx.navigateTo({
         url: './hot-activity/hot-activity?id=' + actid + '&_actName=' + _actName,
       })
