@@ -15,14 +15,22 @@ Page({
     content: [],   //文章内容数据
     butt: ['预览', '提交', '退出编辑'],
     iswzsp:1,
-    defaimg:'https://xq-1256079679.file.myqcloud.com/13971489895_wxf91e2a026658e78e.o6zAJs-7D9920jC4XTKdzt72lobs.8c2bHTeMhUqPe9b72c354166593f5a9afe09a27afe74_0.3.jpg'  //默认视频图片
+    percent:0,
+    isplay:false,
+    isprogress:false,
+    defaimg:''  //默认视频图片
   },
 
   onLoad: function (options) {  // 生命周期函数--监听页面加载
     let that = this;
-    this.setData({
-      iswzsp: options.id
-    })
+    console.log('options:',options)
+    console.log('iswzsp:', this.data.iswzsp)
+    if (options.id){
+      this.setData({
+        iswzsp: options.id
+      })
+    }
+    console.log('iswzsp:', this.data.iswzsp)
     if (this.data.iswzsp == 2){
       this.data.butt=[]
       let _butt= [ '提交', '退出编辑']
@@ -118,6 +126,18 @@ Page({
   },
   onShow: function () {
   },
+  // 开始播放视频 
+  playvideo:function(){
+    this.setData({
+      isplay:true
+    })
+  },
+  //暂停播放视频
+  pausevideo:function(){
+    this.setData({
+      isplay: false
+    })
+  },
   bindblurinput: function (e) { //焦点离开标题框  获取框中value
     let that = this;
     let _title = e.detail.value;
@@ -133,14 +153,16 @@ Page({
     this.getimg('b');
   },
   bindButtonTap: function () {  //获取视频
-    let that = this
-    let scale = 0.3;
+    let that = this, timer=null,scale = 0.3;
     wx.chooseVideo({
       sourceType: ['camera','album'],
       maxDuration: 60,
       camera: ['front', 'back'],
       success: function (res) {
-        let videores = res
+        that.setData({
+          isprogress: true
+        })
+        let videores = res;
         // wx.uploadFile({ //获取视频截图在线地址
         //   url: that.data._build_url + 'img/upload',
         //   filePath: res.tempFilePath,
@@ -160,6 +182,37 @@ Page({
         //     //do something
         //   }
         // })
+        timer = setInterval(()=>{
+          let _per = that.data.percent;
+          if (_per == 99){
+            if (!that.data.defaimg && !that.data.covervideo){
+              clearInterval(timer);
+              setTimeout(()=>{
+                if (that.data.defaimg && that.data.covervideo) {
+                  that.setData({
+                    percent: 100
+                  })
+                }else{
+                  that.setData({
+                    percent: 0,
+                    isprogress: false
+                  })
+                  wx.showToast({
+                    title: '上传失败，请重新上传',
+                    duration: 2000,
+                    mask: true,
+                    icon: 'none'
+                  })
+                }
+              },5000)
+              return false
+            }
+          }
+          _per+=1;
+          that.setData({
+            percent: _per
+          })
+        },100)
         wx.uploadFile({//获取视频在线地址
           url: that.data._build_url + 'img/uploadMp4',
           filePath: res.tempFilePath,
@@ -168,6 +221,11 @@ Page({
             'userName': app.globalData.userInfo.userName
           },
           success: function (res) {
+            that.setData({
+              percent: 100,
+              isprogress: false
+            })
+            clearInterval(timer);
             let article = getApp().globalData.article;  //获取全局变量
             let _data = res.data;
             _data = JSON.parse(_data);
@@ -190,6 +248,20 @@ Page({
                 coverimg: _data.data.videoimg,
               })
             }
+          },
+          fail:function(res){
+            console.log('fail')
+            that.setData({
+              percent: 0,
+              isprogress: false
+            })
+            clearInterval(timer)
+            wx.showToast({
+              title: '上传失败，请重新上传',
+              duration:2000,
+              mask:true,
+              icon:'none'
+            })
           }
         })
       }
@@ -197,7 +269,9 @@ Page({
   },
   delvideo:function(){  //删除视频
     this.setData({
-      covervideo: ''
+      covervideo: '',
+      defaimg:'',
+      percent:0
     })
   },
   clickplus: function (e) {  //点击加号
@@ -293,7 +367,7 @@ Page({
         url: 'article_details/article_details?content=' + _data+'&title='+this.data.title
       })
     } else if (ind == '提交') {
-      console.log("app.globalData.userInfo:", app.globalData.userInfo)
+      // console.log("app.globalData.userInfo:", app.globalData.userInfo)
       wx.showToast({
         title: '正在提交，请稍等',
         mask: 'true',
@@ -301,9 +375,9 @@ Page({
         duration: 2000
       })
       let sum = [];
-      console.log("content:", this.data.content)
+      // console.log("content:", this.data.content)
       let _content = JSON.stringify(this.data.content);
-      console.log("_content:", _content)
+      // console.log("_content:", _content)
       let _con = utils.utf16toEntities(_content)
       let _title = this.data.title;
       let _coverimg = this.data.coverimg;

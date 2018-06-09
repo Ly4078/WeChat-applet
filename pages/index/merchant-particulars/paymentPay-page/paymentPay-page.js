@@ -155,7 +155,7 @@ Page({
     } else {
       _deff = this.data.inputValue * 1;
     }
-    wx.navigateTo({
+    wx.redirectTo({
       url: '../ticket-list/ticket-list?shopid=' + this.data.shopId + "&val=" + _deff + '&inputValue=' + this.data.inputValue + '&offer=' + this.data.offer + '&isChecked=' + this.data.isChecked + '&act=' + this.data.act
     })
   },
@@ -203,7 +203,7 @@ Page({
           title: '不参与优惠金额不应大于消费总额',
           icon: 'none',
           mask: 'true',
-          duration: 1500
+          duration: 3000
         })
         this.setData({
           offer: '',

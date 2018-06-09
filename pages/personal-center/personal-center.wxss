@@ -30,6 +30,8 @@ page {
   height: 154rpx;
   border-radius: 50%;
   border: 1px solid #e0e0e0;
+  margin-top: -2rpx;
+  margin-left: -1rpx;
   z-index: 3;
 }
 .suerinfo{

@@ -6,7 +6,29 @@ button{
   margin: 0;
   padding: 0;
 }
-
+.newUserModal { 
+  width: 100%; 
+  height: 100%; 
+  position: fixed; 
+  top: 0; 
+  left: 0; 
+  z-index: 200; 
+  overflow: hidden; 
+} 
+.newUserM_box {
+  width: 626rpx; 
+  /* height: 700rpx; */
+  position: fixed; 
+  top: 20%; 
+  left: 50%; 
+  z-index: 1001; 
+  margin-left: -313rpx; 
+  border-radius: 3px; 
+}
+.loginimg{
+  width:500rpx;
+  height:606rpx;
+}
 .search_arr {
   width: 92%;
   background: white;
@@ -448,6 +470,12 @@ button{
   background: #000; 
   background: rgba(0,0,0,0.5);
 }
+.loginuser button{
+  /* padding: 0;margin: 0; */
+   background: rgba(0,0,0,0);filter:Alpha(opacity=50);
+  /* opacity: 0;
+  background-color: !important; */
+}
 .drphnumber{
    width:580rpx;
    text-align: center;
@@ -653,6 +681,8 @@ button::after{
   opacity: 1;
   margin: 120rpx 272rpx;
 }
+
+
 .closephone{
   position: relative;
   width:40rpx;

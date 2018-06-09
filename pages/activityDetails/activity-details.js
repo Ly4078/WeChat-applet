@@ -1,24 +1,78 @@
 import Api from '/../../utils/config/api.js';
 var utils = require('/../../utils/util.js');
+var app = getApp();
 Page({
   data: {
     actdata: [],
     page: 1,
     actid: '',  //活动ID
     flag: true,
+    istouqu: false,
     placeholderFlag: true
   },
 
   onLoad: function (options) {
-
+    
   },
   onShow: function () {
+    let that = this;
     this.setData({
       actdata: [],
       page: 1,
       flag: true
     })
-    this.getcatdata()
+    this.getcatdata();
+    if (!app.globalData.userInfo.unionId){
+      wx.login({
+        success: res => {
+          if (res.code) {
+            let _parms = {
+              code: res.code
+            }
+            Api.getOpenId(_parms).then((res) => {
+              app.globalData.userInfo.openId = res.data.data.openId;
+              app.globalData.userInfo.sessionKey = res.data.data.sessionKey;
+              if (res.data.data.unionId) {
+                app.globalData.userInfo.unionId = res.data.data.unionId;
+                that.setData({
+                  istouqu: false
+                })
+              } else {
+                that.setData({
+                  istouqu: true
+                })
+              }
+            })
+          }
+        }
+      })
+    }else{
+      that.setData({
+        istouqu: false
+      })
+    }
+  },
+  againgetinfo: function () {
+    let that = this;
+    wx.getUserInfo({
+      withCredentials: true,
+      success: function (res) {
+        let _pars = {
+          sessionKey: app.globalData.userInfo.sessionKey,
+          ivData: res.iv,
+          encrypData: res.encryptedData
+        }
+        Api.phoneAES(_pars).then((resv) => {
+          if (resv.data.code == 0) {
+            that.setData({
+              istouqu: false
+            })
+            let _data = JSON.parse(resv.data.data);
+            app.globalData.userInfo.unionId = _data.unionId;
+          }
+        })
+      }
+    })
   },
   getcatdata: function () {  //获取列表数据
     let that = this;

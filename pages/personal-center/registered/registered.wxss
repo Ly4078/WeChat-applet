@@ -53,7 +53,6 @@
   border-radius: 8rpx;
 }
 
-
 .setcode{
   margin-top: 31rpx;
   margin-bottom: 34rpx;
@@ -104,4 +103,7 @@
 }
 .twobut view:nth-child(1){
   border-right:none;
+}
+.closephoneindex{
+  right:15rpx;
 }

@@ -18,6 +18,7 @@ Page({
     imges: [],
     _refId:'',
     issnap: false,
+    clickvideo:false,
     user: {
       match: '麻辣小龙虾'
     },
@@ -34,7 +35,6 @@ Page({
     let that = this;
     let _activity = options.actId;
     let _voteUserId = app.globalData.userInfo.userId;
-    console.log("options:", options)
     this.setData({
       userid: options.id,
       shopId: options.shopid ? options.shopid : '',
@@ -53,7 +53,6 @@ Page({
       endTime: "2018-6-30"
     }
     Api.playerDetails(_parms).then((res) => { //数据请求
-      console.log('res:',res)
       let _data = res.data.data;
       let _dataSe = res.data.data.picUrls;
       let refId = res.data.data.id;
@@ -86,6 +85,11 @@ Page({
         information: _data,
         imges: _dataSe
       })
+    })
+  },
+  palyvideo:function(){
+    this.setData({
+      clickvideo:true
     })
   },
   castvote: function () {  //選手投票

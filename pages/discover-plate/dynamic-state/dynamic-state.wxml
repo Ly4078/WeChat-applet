@@ -1,16 +1,19 @@
 <view class='dynamic' catchtap='isplusf'>
-
+<!-- iswzsp==1  文章 -->
 <view wx:if="{{iswzsp==1}}">
   <image wx:if="{{coverimg}}" catchtap='getcover' class='dynamic_cover' src='{{coverimg}}'></image>
   <image wx:else catchtap='getcover' class='dynamic_cover' src='/images/icon/set_cover.png'></image>
 </view>
-
-<view wx:if="{{iswzsp==2}}">
-  <icon wx:if="{{covervideo}}" type="cancel" size="30" color="red" class='canceldeo' catchtap='delvideo'/>
-  <video wx:if="{{covervideo}}" id="video" src="{{covervideo}}" class='dynamic_cover' controls >
-    
-  </video>
-  <image wx:else catchtap='bindButtonTap' class='dynamic_cover' src='/images/icon/camera.png'></image>
+<!-- iswzsp==2  视频 -->
+<view wx:if="{{iswzsp==2}}" class='iswzsptwo'> 
+  <icon wx:if="{{!isplay && defaimg}}" type="cancel" size="30" color="#fff" class='canceldeo' catchtap='delvideo'/>
+  <image wx:if="{{!isplay && defaimg}}" src='{{defaimg}}' bindtap='playvideo' class='dynamic_cover'></image>
+  <video wx:if="{{isplay}}" id="video" autoplay='true' src="{{covervideo}}" class='dynamic_cover' objectFit="cover" bindpause="pausevideo" bindended="pausevideo" controls></video> 
+  <image wx:if="{{!defaimg}}" catchtap='bindButtonTap' class='dynamic_cover' src='/images/icon/camera.png'></image>
+  <view class="dynamicmotai" wx:if="{{!isplay && defaimg}}" bindtap='playvideo'>
+    <image class='gasimg' src='/images/icon/paly.png'></image>
+  </view>
+  <progress class='progress' wx:if="{{isprogress}}" percent="{{percent}}" show-info />
 </view>
 
   <input bindblur="bindblurinput" placeholder-class="phcolor" value='{{title}}' class='title' type='text' placeholder='请输入标题'></input>

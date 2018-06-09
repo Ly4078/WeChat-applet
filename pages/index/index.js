@@ -28,6 +28,7 @@ Page({
     userGiftFlag: false,    //新用户礼包是否隐藏
     isphoneNumber: false,  //是否拿到手机号
     isfirst: false,
+    istouqu:false,
     isclose: false,
     goto: false,
     navbar: ['菜系专题', '服务专题'],
@@ -55,46 +56,119 @@ Page({
     updateManager.onUpdateFailed(function () {
       // 新的版本下载失败
     })
-
-    wx.login({
-      success: res => {
-        if (res.code) {
-          // console.log("code:", res.code)
-          // return false
-          let _parms = {
-            code: res.code
+    this.activityBanner();
+    
+  },
+  onShow: function () {
+    let that = this, userInfo = app.globalData.userInfo;
+    if (this.data.phone && this.data.veridyTime) {
+      console.log('dfsafda')
+      this.setData({
+        userGiftFlag: false,
+        isNew: true,
+        isfirst: true,
+        isphoneNumber: true
+      })
+    }
+    if (userInfo.openId && userInfo.sessionKey && userInfo.unionId){
+      that.setData({
+        istouqu: false
+      })
+      that.getmyuserinfo();
+    }else{
+      wx.login({
+        success: res => {
+          if (res.code) {
+            let _parms = {
+              code: res.code
+            }
+            Api.getOpenId(_parms).then((res) => {
+              app.globalData.userInfo.openId = res.data.data.openId;
+              app.globalData.userInfo.sessionKey = res.data.data.sessionKey;
+              if (res.data.data.unionId) {
+                app.globalData.userInfo.unionId = res.data.data.unionId;
+                that.getmyuserinfo();
+              } else {
+                that.findByCode();
+                wx.hideLoading();
+              }
+            })
           }
-          let that = this;
-          Api.getOpenId(_parms).then((res) => {
-            app.globalData.userInfo.openId = res.data.data.openId;
-            app.globalData.userInfo.sessionKey = res.data.data.sessionKey;
-            if (res.data.data.unionId) {
+        }
+      })
+    }
+    
+    let lat = wx.getStorageSync('lat');
+    let lng = wx.getStorageSync('lng');
+    if (lat && lng) {
+      setTimeout(function () {
+        that.requestCityName(lat, lng);
+        wx.removeStorageSync('lat');
+        wx.removeStorageSync('lng');
+      }, 500)
+    } else {
+      that.getlocation();
+    }
+  },
+  onHide: function () {
+    let that = this;
+    clearInterval(that.data.settime)
+    that.setData({
+      userGiftFlag: false,
+      isfirst: false,
+      isNew: false,
+      phone:'',
+      veridyTime:''
+    });
+  },
+  findByCode:function(){
+    let that = this;
+    wx.login({
+      success: res => { 
+        Api.findByCode({ code: res.code }).then((res) => {
+          if (res.data.code == 0) {
+            if (res.data.data.unionId){
               app.globalData.userInfo.unionId = res.data.data.unionId;
               that.getmyuserinfo();
-            } else {
-              wx.getUserInfo({
-                withCredentials: true,
-                success: function (res) {
-                  let _pars = {
-                    sessionKey: app.globalData.userInfo.sessionKey,
-                    ivData: res.iv,
-                    encrypData: res.encryptedData
-                  }
-                  Api.phoneAES(_pars).then((res) => {
-                    if (res.data.code == 0) {
-                      let _data = JSON.parse(res.data.data);
-                      app.globalData.userInfo.unionId = _data.unionId;
-                      that.getmyuserinfo();
-                    }
-                  })
-                }
+            }else{
+              wx.hideLoading();
+              that.setData({
+                istouqu: true
               })
             }
-          })
-        }
+          } else {
+            that.findByCode();
+            wx.hideLoading();
+            that.setData({
+              istouqu: true
+            })
+          }
+        })
       }
     })
-    this.activityBanner();
+  },
+  againgetinfo:function(){
+    let that = this;
+    wx.getUserInfo({
+      withCredentials: true,
+      success: function (res) {
+        let _pars = {
+          sessionKey: app.globalData.userInfo.sessionKey,
+          ivData: res.iv,
+          encrypData: res.encryptedData
+        }
+        Api.phoneAES(_pars).then((resv) => {
+          if (resv.data.code == 0) {
+            that.setData({
+              istouqu: false
+            })
+            let _data = JSON.parse(resv.data.data);
+            app.globalData.userInfo.unionId = _data.unionId;
+            that.getmyuserinfo();
+          }
+        })
+      }
+    })
   },
   getmyuserinfo: function () {
     let _parms = {
@@ -104,7 +178,7 @@ Page({
     Api.addUserUnionId(_parms).then((res) => {
       if (res.data.data) {
         app.globalData.userInfo.userId = res.data.data;
-        that.getlocation();
+        
         wx.request({  //从自己的服务器获取用户信息
           url: this.data._build_url + 'user/get/' + res.data.data,
           header: {
@@ -136,28 +210,6 @@ Page({
         })
       }
     })
-  },
-  onShow: function () {
-    let that = this;
-    let lat = wx.getStorageSync('lat');
-    let lng = wx.getStorageSync('lng');
-    if (lat && lng) {
-      setTimeout(function () {
-        that.requestCityName(lat, lng);
-        wx.removeStorageSync('lat');
-        wx.removeStorageSync('lng');
-      }, 500)
-    }
-  },
-
-  onHide: function () {
-    let that = this;
-    clearInterval(that.data.settime)
-    that.setData({
-      userGiftFlag: false,
-      isfirst: false,
-      isNew: false
-    });
   },
   getuseradd: function () {  //获取用户userid
     this.isNewUser();
@@ -196,6 +248,9 @@ Page({
     Api.listForHomePage().then((res) => {
       if (res.data.code == 0) {
         _list = res.data.data;
+        if (!_list){
+          this.gettoplistFor();
+        }
         let _parms = {
           locationX: app.globalData.userInfo.lng,
           locationY: app.globalData.userInfo.lat,
@@ -233,11 +288,11 @@ Page({
               icon: 'none',
             })
           }
-        });
+        })
+      }else{
+        this.gettoplistFor();
       }
     })
-
-
   },
   getlocation: function () {  //获取用户位置
     let that = this
@@ -333,6 +388,8 @@ Page({
         this.setData({
           actlist: res.data.data.list.slice(0, 10)
         })
+      }else{
+        this.getactlist();
       }
     })
   },
@@ -347,7 +404,7 @@ Page({
             hotlive: res.data.data
           })
         } else {
-          this.gethotlive();
+          that.gethotlive();
         }
       }
     })
@@ -374,7 +431,7 @@ Page({
   },
   entertainment: function () {  //掌上生活
     wx.navigateTo({
-      url: 'webview/webview',
+      url: '../../pages/personal-center/free-of-charge/free-of-charge?cfrom=index',
     })
   },
   activityBanner: function () {      //获取活动banner图
@@ -608,9 +665,6 @@ Page({
     })
   },
 
-
-
-
   closebut: function () {
     this.setData({
       isphoneNumber: false
@@ -628,9 +682,6 @@ Page({
       })
     }
   },
-
-
-
   numbindinput: function (e) {  //监听号码输入框
     let _value = e.detail.value
     if(!_value){
@@ -638,7 +689,6 @@ Page({
     }
     let RegExp = /^[1][3,4,5,7,8][0-9]{9}$/;
     if (RegExp.test(_value)) {
-      console.log('123123')
       this.setData({
         isclose: true,
         phone: _value
@@ -661,6 +711,10 @@ Page({
     })
   },
   submitphone: function () {  //获取验证码
+    console.log("userGiftFlag:", this.data.userGiftFlag)
+    console.log("isNew:", this.data.isNew)
+    console.log("isfirst:", this.data.isfirst)
+    console.log("isphoneNumber:", this.data.isphoneNumber)
     let that = this, sett=null;
     if (!this.data.phone) {
       that.closephone();
@@ -672,12 +726,6 @@ Page({
       })
       return false
     }
-    // if (!this.data.isclick) {
-    //   return false
-    // }
-    // if (this.data.verifyId) {
-    //   return false
-    // }
     if (this.data.goto) {
       return false
     }
@@ -702,20 +750,15 @@ Page({
             veridyTime: res.data.data.veridyTime,
             goto: false
           })
-          
+          console.log('123123')
+          // sett = setInterval(function () {
+          //   that.remaining();
+          // }, 1000)
           sett = setInterval(function () {
             that.remaining();
           }, 1000)
           that.setData({
             settime: sett
-          })
-          wx.setStorage({
-            key: "phone",
-            data: that.data.phone
-          })
-          wx.setStorage({
-            key: "veridyTime",
-            data: that.data.veridyTime
           })
         }
       })
@@ -739,25 +782,15 @@ Page({
     })
   },
   remaining: function (val) {  //倒计时
+    console.log('remaining')
     let _vertime = this.data.veridyTime.replace(/\-/ig, "\/"), rema=60;
     rema = utils.reciprocal(_vertime);
-    if (rema == 'no' || rema == 'yes') {
+    console.log("rema:", rema)
+    if (rema == 'no' || rema == 'yes' || !rema) {
       clearInterval(this.data.settime)
       this.setData({
         rematime: '获取验证码',
         isclick: true
-      })
-      wx.removeStorage({
-        key: 'phone',
-        success: function (res) {
-          // console.log(res.data)
-        }
-      })
-      wx.removeStorage({
-        key: 'veridyTime',
-        success: function (res) {
-          // console.log(res.data)
-        }
       })
     } else {
       this.setData({
@@ -793,6 +826,8 @@ Page({
               isNew: false,
               isfirst: false,
               userGiftFlag: false,
+              phone:'',
+              veridyTime:''
             })
             wx.request({  //从自己的服务器获取用户信息
               url: this.data._build_url + 'user/get/' + res.data.data,

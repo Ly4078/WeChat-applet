@@ -4,7 +4,7 @@ var utils = require('../../../utils/util.js')
 var app = getApp()
 Page({
 
-  /**
+  /**  free-of-charge
    * 页面的初始数据
    */
   data: {
@@ -31,6 +31,7 @@ Page({
     isorder:true,
     img:'',
     totable:false,
+    isindex:false,
     _shopid: app.globalData.userInfo.shopId
   },
 
@@ -38,7 +39,12 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log(options)
+    let that = this;
+    if (options.cfrom){
+      this.setData({
+        isindex:true
+      })
+    }
     if(options.img){
       this.setData({
         img:options.img,
@@ -57,10 +63,16 @@ Page({
         icon:'none',
         duration:3000
       })
-      setTimeout(function(){
+      setTimeout(function () {
+        if (that.data.isindex){
+          wx.switchTab({
+            url: '../../../pages/index/index'
+          })
+        }else{
         wx.switchTab({
-          url: '../../personal-center/personal-center'
-        })
+            url: '../../personal-center/personal-center'
+          })
+        }
       },3000)
     }else{
       wx.setNavigationBarTitle({

@@ -15,15 +15,24 @@
     </view>
   </view>
 
+  <!-- <view  catchtouchmove='true'> -->
+  <view class="newUserModal loginuser" wx:if="{{istouqu}}" catchtouchmove='true'>
+   <view class="drawer_screen"></view>
+    <button class="newUserM_box" open-type="getUserInfo" bindgetuserinfo="againgetinfo">
+      <image class='loginimg' src='/images/icon/login.png'></image>
+    </button>
+  </view>
+   
+
   <!-- 新用户弹窗 -->
   <view class="newUserModal" wx:if="{{userGiftFlag || isNew || isfirst}}" catchtouchmove='true'>
-
+    
     <view class="drawer_screen"></view>
     <view wx:if="{{isphoneNumber}}" class="newUserM_box getphone gettels">
       <view class='nubtitle'>快速注册</view>
       <view class='setphone'>
         <input type="number" value='{{phone}}' maxlength="11" focus='true' placeholder="输入手机号" bindinput="numbindinput"></input>
-        <image class="closephone" bindtap='closephone' src="/images/icon/sloce.png"></image>
+        <image class="clphone" bindtap='closephone' src="/images/icon/sloce.png"></image>
       </view>
       <view class='setcode'>
         <input type="number" maxlength="4" placeholder="输入验证码" bindinput="yzmbindblur"></input>
@@ -34,6 +43,7 @@
         <view class='cfimbut' bindtap='submitverify'>确定</view>
       </view>
     </view>
+
     <view wx:else class="newUserM_box">
       <image class="user_present" src="/images/icon/newuser.png" bindtap='newUserToGet'></image>
       <image class="newUserM_gif" src="/images/icon/xiangqiLGBL.gif"></image>

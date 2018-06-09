@@ -13,6 +13,7 @@ Page({
     isscelect: 1,
     ishotnew: false,
     isadd:false,
+    istouqu: false,
     sortype:'0',
     choicetype:'',
     placeholderFlag: true,
@@ -37,6 +38,38 @@ Page({
   },
   onShow: function (options) {
     let that = this;
+    if (!app.globalData.userInfo.unionId){
+      wx.login({
+        success: res => {
+          if (res.code) {
+            let _parms = {
+              code: res.code
+            }
+            Api.getOpenId(_parms).then((res) => {
+              app.globalData.userInfo.openId = res.data.data.openId;
+              app.globalData.userInfo.sessionKey = res.data.data.sessionKey;
+              if (res.data.data.unionId) {
+                app.globalData.userInfo.unionId = res.data.data.unionId;
+                that.setData({
+                  istouqu: false
+                })
+              } else {
+                that.setData({
+                  istouqu: true
+                })
+              }
+            })
+          }
+        }
+      })
+    } else {
+      that.setData({
+        istouqu: false
+      })
+    }
+
+
+
     this.setData({
       sortype:'0',
       choicetype: '',
@@ -62,6 +95,28 @@ Page({
       success: function (res) {
         that.setData({
           hotlive: res.data.data.list
+        })
+      }
+    })
+  },
+  againgetinfo: function () {
+    let that = this;
+    wx.getUserInfo({
+      withCredentials: true,
+      success: function (res) {
+        let _pars = {
+          sessionKey: app.globalData.userInfo.sessionKey,
+          ivData: res.iv,
+          encrypData: res.encryptedData
+        }
+        Api.phoneAES(_pars).then((resv) => {
+          if (resv.data.code == 0) {
+            that.setData({
+              istouqu: false
+            })
+            let _data = JSON.parse(resv.data.data);
+            app.globalData.userInfo.unionId = _data.unionId;
+          }
         })
       }
     })
@@ -199,7 +254,7 @@ Page({
     }
   },
   clickadd(){
-    if (app.globalData.userInfo.mobile == 'a' || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+    if (app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
       this.setData({
         issnap: true
       })
@@ -215,7 +270,8 @@ Page({
     })
   },
   announceState: function (event) { // 跳转到编辑动态页面
-    const id = event.currentTarget.id
+  
+    const id = event.currentTarget.id;
     this.setData({
       ishotnew: false
     })

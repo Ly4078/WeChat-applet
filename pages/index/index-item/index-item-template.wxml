@@ -2,11 +2,14 @@
 <template name="allClassify">
   <view class='warp_classify'>
     <view class='classify' catchtap='shopping'>
-      <image class='classify_img' src='/images/icon/home_icon_xqq.png'></image>
+    <image class='classify_img recomm-right' src='/images/icon/home_icon_yl.png'></image>
+     
     </view>
     <view class='classify' bindtap='entertainment'>
-      <image class='classify_img recomm-right' src='/images/icon/home_icon_yl.png'></image>
+        <image class='classify_img' src='/images/icon/home_icon_xqq.png'></image>
+      <!-- <image class='classify_img recomm-right' src='https://xq-1256079679.file.myqcloud.com/test_81465759675973884_0.8.jpg'></image> -->
     </view>
+    
   </view>
 </template>
 <!--推荐餐厅-->

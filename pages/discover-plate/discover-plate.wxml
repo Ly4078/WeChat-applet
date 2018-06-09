@@ -1,3 +1,12 @@
+  <view class="newUserModal loginuser" wx:if="{{istouqu}}" catchtouchmove='true'>
+   <view class="drawer_screen"></view>
+    <button class="newUserM_box" open-type="getUserInfo" bindgetuserinfo="againgetinfo">
+      <image class='loginimg' src='/images/icon/login.png'></image>
+    </button>
+  </view>
+
+
+  
 <view class="newUserModal" wx:if="{{issnap}}">
   <view class='drawer_screen'>
     <view class='sqtishi'>提示</view>
@@ -113,5 +122,5 @@
   <view catchtap='announceState' id='1' class="cladd  {{isadd?'dis_video':'dis_video2'}}">文章</view>
   <view catchtap='announceState' id='2' class="cladd  {{isadd?'dis_article':'dis_article2'}}">视频</view>
 </view>
-<view class='modal_box' wx:if="{{isadd}}" bindtap='closemodel'>
-</view>
+<!-- <view class='modal_box' wx:if="{{isadd}}" bindtap='closemodel'>
+</view> -->

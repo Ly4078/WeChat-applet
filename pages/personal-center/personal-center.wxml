@@ -1,3 +1,10 @@
+  <view class="newUserModal loginuser" wx:if="{{istouqu}}" catchtouchmove='true'>
+   <view class="drawer_screen"></view>
+    <button class="newUserM_box" open-type="getUserInfo" bindgetuserinfo="againgetinfo">
+      <image class='loginimg' src='/images/icon/login.png'></image>
+    </button>
+  </view>
+
 <view class="newUserModal" wx:if="{{issnap}}">
   <view class='drawer_screen'>
     <view class='sqtishi'>提示</view>
@@ -11,12 +18,12 @@
 <view>
   <view class='centreWrap'>
     <view class='centreTopName'>
-    <button wx:if="{{canIUse}}" class='suerinfo' open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">
-      <image class='centreImages' wx:if="{{ismobile}}" src='{{iconUrl}}'></image>
-      <image wx:else class='centreImages' src='{{iconUrl}}'></image>
-    </button>
-    <view wx:else>请升级微信版本</view>
-    <view class='centreText' catchtap='wxgetsetting'>{{nickName}}</view>
+      <button wx:if="{{canIUse}}" class='suerinfo' open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">
+        <image class='centreImages' wx:if="{{ismobile}}" src='{{iconUrl}}'></image>
+        <image wx:else class='centreImages' src='{{iconUrl}}'></image>
+      </button>
+      <view wx:else>请升级微信版本</view>
+      <view class='centreText' catchtap='wxgetsetting'>{{nickName}}</view>
 
     </view>
     <view class='messageCase'>
@@ -32,7 +39,7 @@
       <image class='halving-line' src='/images/icon/vertical.png'></image>
       <view class='messageWrap' catchtap='myMineMoney'>
         <text class='messageTop'>钱包</text>
-        <text>{{accountBalance.data}}</text>  
+        <text><text wx:if="{{accountBalance.data !=0}}">¥</text>{{accountBalance.data}}</text>
       </view>
     </view>
   </view>
@@ -68,7 +75,7 @@
         <image class='myListArrows' src='/images/icon/home_arrow.png'></image>
       </view>
     </view>
-    <view class='myList'>
+    <!-- <view class='myList'>
       <view class='myList-single' catchtap='theHostApplication'>
         <view>
           <image class='myListImages' src='/images/icon/apply.png'></image>
@@ -76,7 +83,7 @@
         </view>
         <image class='myListArrows' src='/images/icon/home_arrow.png'></image>
       </view>
-    </view>
+    </view> -->
     <view class='myList' wx:if="{{isshop}}">
       <view class='myList-single' catchtap='scanAqrCode'>
         <view>
@@ -106,7 +113,7 @@
       </view>
     </view>
   </view>
-  
+
   <view class='myList'>
     <view class='myList-single'>
       <view>

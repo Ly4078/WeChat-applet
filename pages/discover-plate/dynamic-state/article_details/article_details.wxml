@@ -91,6 +91,6 @@
   <image class='comment-images' src='/images/icon/write.png'></image>
   <text class='reviewyan'>写评论</text>
 </view> -->
-<view>
+<view wx:if="{{_id}}">
     <template is="evaluationCriterion" data="{{details}}"></template>  
 </view>

@@ -1,3 +1,4 @@
 {
-  "navigationBarTitleText": "选手报名"
+  "navigationBarTitleText": "选手报名",
+  "enablePullDownRefresh": false
 }

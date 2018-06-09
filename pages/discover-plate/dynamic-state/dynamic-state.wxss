@@ -9,7 +9,7 @@
 .canceldeo{
   position: absolute;
   top:28rpx;
-  right:90rpx;
+  right:60rpx;
   z-index: 999999;
 }
 .dynamic_cover {
@@ -131,4 +131,22 @@ button {
 .bred{
   background: red;
   color: #fff;
+}
+.iswzsptwo{
+  position: relative;
+}
+.dynamicmotai {
+  width:694rpx;
+  height:390rpx;
+  background-color:rgba(25,25,25,0.6);
+  position:absolute;
+  top:20rpx;
+  left:0rpx;
+  border-radius:8rpx;
+}
+.progress{
+  width:554rpx;
+  position:relative;
+  top:-239rpx;
+  left:70rpx;
 }

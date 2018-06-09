@@ -14,6 +14,7 @@ Page({
     sumTotal: 0,
     collectTotal: 0,
     ismobile: true,
+    istouqu: false,
     isshop: false,
     issnap: false,
     userType: '',
@@ -38,6 +39,36 @@ Page({
 
   onShow: function () {
     let that = this;
+    if (!app.globalData.userInfo.unionId) {
+      wx.login({
+        success: res => {
+          if (res.code) {
+            let _parms = {
+              code: res.code
+            }
+            Api.getOpenId(_parms).then((res) => {
+              app.globalData.userInfo.openId = res.data.data.openId;
+              app.globalData.userInfo.sessionKey = res.data.data.sessionKey;
+              if (res.data.data.unionId) {
+                app.globalData.userInfo.unionId = res.data.data.unionId;
+                that.setData({
+                  istouqu: false
+                })
+              } else {
+                that.setData({
+                  istouqu: true
+                })
+              }
+            })
+          }
+        }
+      })
+    } else {
+      that.setData({
+        istouqu: false
+      })
+    }
+
     this.getbalance();
     if (app.globalData.userInfo.mobile) {
       this.setData({
@@ -88,19 +119,42 @@ Page({
       }
     })
   },
+  againgetinfo: function () {
+    let that = this;
+    wx.getUserInfo({
+      withCredentials: true,
+      success: function (res) {
+        let _pars = {
+          sessionKey: app.globalData.userInfo.sessionKey,
+          ivData: res.iv,
+          encrypData: res.encryptedData
+        }
+        Api.phoneAES(_pars).then((resv) => {
+          if (resv.data.code == 0) {
+            that.setData({
+              istouqu: false
+            })
+            let _data = JSON.parse(resv.data.data);
+            app.globalData.userInfo.unionId = _data.unionId;
+          }
+        })
+      }
+    })
+  },
   getbalance: function () {   //查询余额
     let _account = {
       userId: app.globalData.userInfo.userId
     }
     Api.accountBalance(_account).then((res) => {
       let _data = res.data;
+      _data = _data==null?0:_data;
       this.setData({
         accountBalance: _data
       })
     })
   },
   bindGetUserInfo: function (e) {
-    console.log(e.detail)
+    // console.log(e.detail)
     this.updatauser(e.detail.userInfo)
   },
   updatauser: function (data) { //更新用户信息
@@ -153,7 +207,7 @@ Page({
         if (!res.authSetting['scope.userLocation']) {// 用户未授受获取其用户信息
           wx.showModal({
             title: '提示',
-            content: '享7要你的用户信息，快去授权！',
+            content: '授权获得更多功能和体验',
             success: function (res) {
               if (res.confirm) {
                 wx.openSetting({  //打开授权设置界面

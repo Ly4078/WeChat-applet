@@ -117,7 +117,7 @@ Page({
   chooseImg: function () {     //本地选择图片
     let _this = this;
     wx.chooseImage({
-      count: 6,
+      count: 1,
       success: (res) => {
         console.log(res.tempFilePaths);
         _this.uploadImgs({
@@ -203,6 +203,7 @@ Page({
               duration: 2000
             })
             let data = JSON.parse(res.data);
+            console.log('res:',data)
             if (data.code == 0) {
               wx.showToast({
                 title: '上传成功',

@@ -21,7 +21,7 @@ Page({
     userId: '1',  //虚拟ID 暂用
     userName: '测试名称',   //虚拟名称 暂用
     clickvideo:false,
-    issnap: false  //是否是临时用户
+    issnap: false
   },
 
   /**
