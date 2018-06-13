@@ -61,7 +61,6 @@ Page({
   onShow: function () {
     let that = this, userInfo = app.globalData.userInfo;
     if (this.data.phone && this.data.veridyTime) {
-      console.log('dfsafda')
       this.setData({
         userGiftFlag: false,
         isNew: true,
@@ -116,9 +115,7 @@ Page({
     that.setData({
       userGiftFlag: false,
       isfirst: false,
-      isNew: false,
-      phone:'',
-      veridyTime:''
+      isNew: false
     });
   },
   findByCode:function(){
@@ -437,11 +434,15 @@ Page({
   activityBanner: function () {      //获取活动banner图
     let that = this;
     Api.activityImg().then((res) => {
-      let imgUrl = res.data.data[9].imgUrl;
-      if (imgUrl != '' && imgUrl != null && imgUrl != undefined) {
-        that.setData({
-          activityImg: imgUrl
-        })
+      if(res.data.code == 0){
+        if (res.data.data && res.data.data[9] && res.data.data[9].imgUrl) {
+          let imgUrl = res.data.data[9].imgUrl;
+          if (imgUrl != '' && imgUrl != null && imgUrl != undefined) {
+            that.setData({
+              activityImg: imgUrl
+            })
+          }
+        }
       }
     })
   },
@@ -618,7 +619,9 @@ Page({
     this.setData({
       userGiftFlag: false,
       isfirst: false,
-      isNew: false
+      isNew: false,
+      phone: '',
+      veridyTime: ''
     })
     if (app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
       this.setData({

@@ -21,7 +21,11 @@ Page({
     fist:1
   },
   onShow:function(){
-    // console.log(app.globalData.userInfo)
+    if (!app.globalData.userInfo.userId){
+      wx.switchTab({
+        url: '../../../pages/index/index',
+      })
+    }
   },
   numbindinput: function (e) {  //监听号码输入框
     let _value = e.detail.value

@@ -55,8 +55,18 @@ Page({
       url: this.data._build_url + 'cp/getByCode/' + val,
       success: function (res) {
         let _data = res.data;
-        console.log('_data:', _data)
-        if (_data.code == 0) {
+        // console.log('_data:', _data)
+        if (_data.code == 500){
+          that.setData({
+            _code: ''
+          })
+          wx.showToast({
+            title: '券码错误，请重新输入！',
+            mask: 'true',
+            icon: 'none',
+            duration: 3000
+          })
+        }else if (_data.code == 0) {
           if(!_data.data){
             wx.showToast({
               title:'券码错误，请重新输入！',

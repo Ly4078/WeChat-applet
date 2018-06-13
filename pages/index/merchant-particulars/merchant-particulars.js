@@ -28,8 +28,8 @@ Page({
     actId:'',
     isoter:false
   },
+  // _data.list[i].nickName = _data.list[i].nickName.substr(0, 3) + "****" + _data.list[i].nickName.substr(7)
   onLoad: function (options) {
-    console.log("merchant-particulars")
     this.setData({
       shopid: options.shopid
     });
@@ -113,6 +113,7 @@ Page({
       shopId: val
     }
     Api.selectForOne(_parms).then((res) => {
+      // console.log('res:', res)
       if (res.data.code == 0) {
         if(res.data.data){
           this.setData({
@@ -206,11 +207,13 @@ Page({
       shopId: id
     }
     Api.selectByShopId(_parms).then((res) => {
+      console.log('res:',res)
       if (res.data.code == 0) {
         that.setData({
           allactivity: res.data.data
         })
-        if (that.data.allactivity.length > 3) {
+        console.log('allactivity:', this.data.allactivity)
+        if (that.data.allactivity.length >= 2 ) {
           that.setData({
             isactmore: true
           })
@@ -441,7 +444,7 @@ Page({
   },
   // tab栏
   navbarTap: function (e) {
-    console.log(e.currentTarget.dataset.idx)
+    // console.log(e.currentTarget.dataset.idx)
     this.setData({
       currentTab: e.currentTarget.dataset.idx
     })
@@ -467,12 +470,13 @@ Page({
             for (let i = 0; i < _data.length; i++) {
               _data[i].zan = utils.million(_data[i].zan)
               _data[i].content = utils.uncodeUtf16(_data[i].content)
+              if (!isNaN(_data[i].userName)){
+                _data[i].userName = _data[i].userName.substr(0, 3) + "****" + _data[i].userName.substr(7);
+              }
               if (reg.test(_data[i].nickName)) {
                 _data[i].nickName = _data[i].nickName.substr(0, 3) + "****" + _data[i].nickName.substr(7);
-
               }
             }
-
             that.setData({
               comment_list: _data
             })

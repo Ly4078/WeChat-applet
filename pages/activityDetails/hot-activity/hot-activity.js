@@ -104,15 +104,17 @@ Page({
       id: id
     }
     Api.actTicket(_parms).then((res) => {
-      let list = res.data.data.list;
-      for (let i = 0; i < list.length; i++) {
-        list[i].actType = this.data.actId;
+      if (res.data.code == 0) {
+        let list = res.data.data.list;
+        for (let i = 0; i < list.length; i++) {
+          list[i].actType = this.data.actId;
+        }
+        this.setData({
+          ticketArr: list,
+          isReceive: res.data.data.list[0].isAct
+        })
       }
-      this.setData({
-        ticketArr: list,
-        isReceive: res.data.data.list[0].isAct
-      });
-    });
+    })
   },
   toMyTicket: function () {    //跳转至我的票券
     if (this.data.isReceive == 1) {
@@ -245,8 +247,7 @@ Page({
     }
     //this.data.switchId --- 1推荐菜   --- 2选手
     //this.data.arrangeType --- 1最热/武汉  --- 2最新/十堰
-    console.log(this.data.switchId)
-    console.log(this.data.arrangeType)
+
     if (this.data.switchId == 1 && this.data.arrangeType == 1) {     //武汉的推荐菜
       _parms['city'] = "武汉";
     } else if (this.data.switchId == 1 && this.data.arrangeType == 2) {     //十堰的推荐菜
@@ -256,7 +257,7 @@ Page({
     } else if (this.data.switchId == 2 && this.data.arrangeType == 2) {    //最新选手
       _parms['sortType'] = 1;
     }
-    console.log(_parms)
+
     Api.hotActShopList(_parms).then((res) => {
       let data = res.data;
       wx.hideLoading();
@@ -298,8 +299,7 @@ Page({
     }
     //this.data.switchId --- 1推荐菜   --- 2选手
     //this.data.arrangeType --- 1最热/武汉  --- 2最新/十堰
-    console.log(this.data.switchId)
-    console.log(this.data.arrangeType)
+
     if (this.data.switchId == 1 && this.data.arrangeType == 1) {     //武汉的推荐菜
       _parms['city'] = "武汉";
     } else if (this.data.switchId == 1 && this.data.arrangeType == 2) {     //十堰的推荐菜
@@ -309,7 +309,7 @@ Page({
     } else if (this.data.switchId == 2 && this.data.arrangeType == 2) {    //最新选手
       _parms['sortType'] = 1;
     }
-    console.log(_parms)
+
     Api.hotActPlayerList(_parms).then((res) => {
       let data = res.data;
       wx.hideLoading();

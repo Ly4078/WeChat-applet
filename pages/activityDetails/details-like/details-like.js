@@ -91,7 +91,7 @@ Page({
             _data[i].voteNum = utils.million(_data[i].voteNum) 
             _actlist.push(_data[i]);
           }
-          console.log("_actlist:", _actlist)
+          // console.log("_actlist:", _actlist)
           that.setData({
             actlist: _actlist
           })

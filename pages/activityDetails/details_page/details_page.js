@@ -44,10 +44,12 @@ Page({
    
     let _parms = {
       userId: this.data.userid,
-      voteUserId: app.globalData.userInfo.userId,
       actId: _activity,
       beginTime: "2018-5-1",
       endTime: "2018-6-30"
+    }
+    if (app.globalData.userInfo.userId){
+      _parms.voteUserId=app.globalData.userInfo.userId
     }
     Api.playerDetails(_parms).then((res) => { //数据请求
       let _data = res.data.data;

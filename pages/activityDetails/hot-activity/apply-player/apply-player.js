@@ -117,7 +117,7 @@ Page({
   chooseImg: function () {     //本地选择图片
     let _this = this;
     wx.chooseImage({
-      count: 1,
+      count: 6,
       success: (res) => {
         console.log(res.tempFilePaths);
         _this.uploadImgs({

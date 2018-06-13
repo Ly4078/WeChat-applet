@@ -39,7 +39,7 @@
       </view>
       <view wx:if="{{item.type == 'video'}}" class='mindill'>
         <image src='{{details.homePic}}' mode="aspectFill" class='myVideo' wx:if="{{!clickvideo}}"></image>
-         <video class="myVideo" src="{{item.value}}" controls objectFit="cover" wx:if="{{clickvideo}}" bindended="bindended" autoplay="true" direction="0"></video> 
+         <video class="myVideo" src="{{item.value}}" controls objectFit="cover" wx:if="{{clickvideo}}" bindended="bindended" bindpause="bindended"  autoplay="true" direction="0"></video> 
         <view class='imgnote' wx:if="{{item.txt}}">{{item.txt}}</view>
         <view class="gastronomeName {{!item.isimg?'gastronomeNamevideo':''}}"  wx:if="{{!clickvideo}}" bindtap='videoclick'>
           <image class='gasimg' src='/images/icon/paly.png' wx:if="{{!item.isimg}}"></image>

@@ -185,9 +185,10 @@ Page({
   dianzanwz: function () {  //文章点赞
     let that = this
     let _details = this.data.details
-    if (app.globalData.userInfo.mobile == 'undefined' || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+    if ( app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
       this.setData({
-        issnap: true
+        issnap: true,
+        clickvideo: false
       })
       return false
     }
@@ -217,9 +218,10 @@ Page({
   quxiaozanwz: function () {  //文章取消点赞
     let that = this
     let _details = this.data.details
-    if (app.globalData.userInfo.mobile == 'a' || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+    if (app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
       this.setData({
-        issnap: true
+        issnap: true,
+        clickvideo: false
       })
       return false
     }

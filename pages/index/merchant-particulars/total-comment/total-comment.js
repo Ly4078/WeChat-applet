@@ -38,8 +38,15 @@ Page({
         if (data.code == 0 && data.data.list != null && data.data.list != "" && data.data.list != []) {
           let comment_list = that.data.comment_list;
           let _data = res.data.data.list
+          let reg = /^1[34578][0-9]{9}$/;
           for (let i = 0; i < _data.length; i++) {
             _data[i].content = utils.uncodeUtf16(_data[i].content)
+            if (!isNaN(_data[i].userName)) {
+              _data[i].userName = _data[i].userName.substr(0, 3) + "****" + _data[i].userName.substr(7);
+            }
+            if (reg.test(_data[i].nickName)) {
+              _data[i].nickName = _data[i].nickName.substr(0, 3) + "****" + _data[i].nickName.substr(7);
+            }
             comment_list.push(_data[i]);
           }
           that.setData({

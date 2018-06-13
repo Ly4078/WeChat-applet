@@ -23,14 +23,11 @@ Page({
 
   onLoad: function (options) {  // 生命周期函数--监听页面加载
     let that = this;
-    console.log('options:',options)
-    console.log('iswzsp:', this.data.iswzsp)
     if (options.id){
       this.setData({
         iswzsp: options.id
       })
-    }
-    console.log('iswzsp:', this.data.iswzsp)
+    };
     if (this.data.iswzsp == 2){
       this.data.butt=[]
       let _butt= [ '提交', '退出编辑']
@@ -204,7 +201,7 @@ Page({
                     icon: 'none'
                   })
                 }
-              },5000)
+              },10000)
               return false
             }
           }
@@ -231,7 +228,8 @@ Page({
             _data = JSON.parse(_data);
             let _video = _data.data.picUrl;
             that.setData({
-              defaimg: _data.data.smallPicUrl
+              defaimg: _data.data.smallPicUrl,
+              covervideo: _video
             })
             let obj = {
               type: 'video',
@@ -250,7 +248,6 @@ Page({
             }
           },
           fail:function(res){
-            console.log('fail')
             that.setData({
               percent: 0,
               isprogress: false
@@ -268,6 +265,7 @@ Page({
     })
   },
   delvideo:function(){  //删除视频
+    app.globalData.article=[];
     this.setData({
       covervideo: '',
       defaimg:'',
@@ -375,9 +373,7 @@ Page({
         duration: 2000
       })
       let sum = [];
-      // console.log("content:", this.data.content)
       let _content = JSON.stringify(this.data.content);
-      // console.log("_content:", _content)
       let _con = utils.utf16toEntities(_content)
       let _title = this.data.title;
       let _coverimg = this.data.coverimg;

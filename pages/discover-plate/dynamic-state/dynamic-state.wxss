@@ -136,8 +136,8 @@ button {
   position: relative;
 }
 .dynamicmotai {
-  width:694rpx;
-  height:390rpx;
+  width:698rpx;
+  height:391rpx;
   background-color:rgba(25,25,25,0.6);
   position:absolute;
   top:20rpx;
@@ -147,6 +147,6 @@ button {
 .progress{
   width:554rpx;
   position:relative;
-  top:-239rpx;
+  top:-140rpx;
   left:70rpx;
 }

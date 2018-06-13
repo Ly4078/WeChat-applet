@@ -108,6 +108,7 @@ Page({
           if(_act>-1){
             _data[_act].ischecked = true;
           }
+          console.log('_data:',_data)
           that.setData({
             ticketList: _data
           })
@@ -118,6 +119,7 @@ Page({
   //选择要用的票券  单选
   radioOperate(e) {
     let id = e.target.id, _this = this,act ='';
+    console.log('id:',id)
     let _arr = this.data.ticketList;
     for (var i = 0; i < _arr.length; i++) {
       if (id == _arr[i].id) {
@@ -130,6 +132,7 @@ Page({
     this.setData({
       ticketList: _arr
     });
+    // return false
     setTimeout(function () {
       wx.redirectTo({
         url: '../paymentPay-page/paymentPay-page?shopid=' + _this.data.obj.shopid + '&inputValue=' + _this.data.obj.inputValue + '&offer=' + _this.data.obj.offer + '&isChecked=' + _this.data.obj.isChecked + '&act=' + act
