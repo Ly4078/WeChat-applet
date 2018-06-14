@@ -22,6 +22,7 @@ Page({
     tils: '顾客信息',
     customer:'',
     bond: '',
+    isconfirm:true
   },
 
   /**
@@ -157,9 +158,10 @@ Page({
 
 
   confirm: function () {  //确认核销
-
-    let that = this;
-    let _hxData = this.data.hxData;
+    let that = this,_hxData = this.data.hxData;
+    if (!this.data.isconfirm){
+      return false
+    }
     if (!this.data.okhx) {
       wx.showToast({
         title: '不符合核销条件，请重新输入',
@@ -168,6 +170,9 @@ Page({
       })
       return false
     }
+    this.setData({
+      isconfirm:false
+    })
     _hxData.shopAmount = this.data.amount;
     let _parms = {
       soId: _hxData.soId,	        //订单id	Long

@@ -156,6 +156,11 @@ Page({
             footList[i].hitNum = utils.million(footList[i].hitNum)
             footList[i].commentNum = utils.million(footList[i].commentNum)
             footList[i].transNum = utils.million(footList[i].transNum)
+            if (!footList[i].nickName || footList[i].nickName =='null'){
+              footList[i].nickName='';
+              footList[i].userName = footList[i].userName.substr(0, 3) + "****" + footList[i].userName.substr(7);
+            }
+            
             if (footList[i].content[0].type != 'video'){
               footList[i].isimg = true
             }else{

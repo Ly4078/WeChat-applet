@@ -74,7 +74,7 @@
       <view class='merchant_data'>
         <image src='{{item.iconUrl}}'></image>
         <view>
-          <text class="merchant_name">{{item.nickName}}</text>
+          <text class="merchant_name">{{item.nickName?item.nickName:item.userName}}</text>
           <text class="merchant_time">{{item.timeDiffrence}}</text>
         </view>
       </view>
