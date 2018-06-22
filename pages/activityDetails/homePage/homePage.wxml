@@ -1,0 +1,75 @@
+<view class="homePage">
+  <view class="playerInfo">
+    <view class="playerInfoBack"></view>
+    <image class="playerInfoImg" src="{{bgUrl}}" mode="aspectFill"></image>
+    <view class="info_inner">
+      <view class="info_inner_l">
+        <image src="{{iconUrl}}"></image>
+      </view>
+      <view class="info_inner_r">
+        <view class="info_name">{{nickName}}</view>
+        <view>
+          <view class="info_age">
+            <image wx:if="{{sex == 0}}" src="/images/icon/male.png"></image>
+            <image wx:if="{{sex == 1}}" src="/images/icon/girl.png"></image>
+            {{age}}岁
+          </view>
+          <view class="info_address">{{height}}cm</view>
+        </view>
+        <view class="info_data">
+          <text class="info_data_num">{{articleNum}}</text><text class="info_data_txt">动态</text>
+          <text class="info_data_num">{{voteNum}}</text><text class="info_data_txt">赞</text>
+        </view>
+      </view> 
+    </view>
+  </view>
+  <view class="articles_published">
+    <!-- <view class="homePage_tab">
+      <view class="homePage_tab_l">
+        <text class="active">全部</text>
+        <text>视频</text>
+        <text>文章</text>
+      </view> 
+      <view class="homePage_tab_r">
+        <text>最新</text>
+        <image src="/images/icon/arrow.png"></image>
+      </view>
+    </view> -->
+    <view class="homePage_list">
+      <block wx:for="{{articleList}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
+        <view class="homePage_list_item">
+          <view class="list_item_top">
+            <view class="list_item_top_l">
+              <image src="{{iconUrl}}"></image>
+              <view>
+                <view class="list_item_name">{{item.nickName}}</view>
+                <view class="list_item_time">15分钟前</view>
+              </view>
+            </view>
+            <view class="list_item_top_r">
+              <text>{{item.zan}}</text>
+              <image src="/images/icon/wenreviewed.png"></image>
+            </view>
+          </view>
+          <view class="list_item_middle" id="{{item.id}}" bindtap='toDetail'>
+            <image wx:if="{{item.isImg}}" src="{{item.homePic}}" mode="aspectFill"></image>
+            <video wx:else mode="aspectFill" src='{{item.content[0].value}}' objectFit="fill" direction="0"></video>
+            <view>{{item.summary}}</view>
+          </view>
+          <view class="list_item_bottom">
+            <view class="item_bottom_l">
+              <image src="/images/icon/find_see.png"></image>
+              <text>{{item.hitNum}}</text>
+            </view>
+            <view class="item_bottom_r">
+              <image class="item_shareImg" src="/images/icon/find_share.png"></image>
+              <text>{{item.transNum}}</text>
+              <image class="item_commentImg"src="/images/icon/find_comment.png"></image>
+              <text>{{item.commentNum}}</text>
+            </view>
+          </view>
+        </view>
+      </block>
+    </view>
+  </view>
+</view>

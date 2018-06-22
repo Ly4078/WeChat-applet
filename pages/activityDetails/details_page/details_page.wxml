@@ -25,7 +25,7 @@
         <view class='xstype'>编号</view>
       </view>
       <view class='topbut'>
-        <view class='xsnum'>{{information.voteNum}}</view>
+        <view class='xsnum'>{{voteNum}}</view>
         <view class='xstype'>票数</view>
       </view>
       <view class='topbut'>
@@ -84,7 +84,11 @@
 </view>
 <view class='evaluate'>
   <view class='evaluateWrap'>
-    <button class='evaluateSon sonButton' bindtap='sharePlayer'>
+    <button wx:if="{{activity == 36}}" class='evaluateSon sonButton' bindtap='sharePlayer'>
+      <image class='evaluateImg' src='/images/icon/find_share.png'></image>
+      <text class='evaluatExtea'>分享</text>
+    </button>
+    <button wx:else class='evaluateSon sonButton' plain="true" data-name="shareBtn" open-type="share">
       <image class='evaluateImg' src='/images/icon/find_share.png'></image>
       <text class='evaluatExtea'>分享</text>
     </button>
@@ -118,12 +122,12 @@
 <view wx:if="{{activity == 36}}" class="toActHref" bindtap='toActHref'>
   <image src="/images/icon/actIcon.png"></image>
 </view>
-<view wx:if="{{shareFlag}}" class="shareBox">
+<view wx:if="{{shareFlag && activity == 36}}" class="shareBox">
   <button class="shareBox_item" plain="true" data-name="shareBtn" open-type="share">
     <image src="/images/icon/weixin.png"></image>
     <text>微信好友</text>
   </button>
-  <button class="shareBox_item">
+  <button class="shareBox_item" bindtap='shareFriend'>
     <image src="/images/icon/friend.png"></image>
     <text>朋友圈</text>
   </button>

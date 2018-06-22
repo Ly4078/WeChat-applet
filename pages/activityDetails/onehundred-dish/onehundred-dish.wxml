@@ -1,0 +1,98 @@
+<import src="dish-template/dish-template.wxml" />
+
+<view class="newUserModal" wx:if="{{issnap}}">
+  <view class='drawer_screen'>
+    <view class='sqtishi'>提示</view>
+    <view class='drphnumber'>获得更多体验,请移步[我的]-[新用户注册]</view>
+    <button class='gettel sqgettel' bindtap='closetel' id='1'>确定</button>
+    <button class='gettel colosetel' bindtap='closetel' id='2'>取消</button>
+  </view>
+</view>
+<view class="hot_activity">
+  <view class="hot_banner">
+     <image class="hot_banner_img" src="{{mainPic}}" mode="aspectFill"></image> 
+  </view>
+  <view class="hot_main">
+    <!-- 时间阶段和描述 -->
+    <view class="hot_stage">
+      <view class="stage_box {{stage == 1 ? 'active' : ''}}">
+        <view class="stage_txt">
+          <text class="stage_txt_top">第一阶段</text>
+          <text>海选</text>
+        </view>
+        <view class="stage_dot"></view>
+        <view class="stage_line"></view>
+        <view class="stage_date">6月26日-7月30日</view>
+      </view>
+      <view class="stage_box {{stage == 2 ? 'active' : ''}}">
+        <view class="stage_txt">
+          <text class="stage_txt_top">第二阶段</text>
+          <text>晋级赛</text>
+        </view>
+        <view class="stage_dot"></view>
+        <view class="stage_line"></view>
+        <view class="stage_date">8月1日-8月25日</view>
+      </view>
+      <view class="stage_box {{stage == 3 ? 'active' : ''}}">
+        <view class="stage_txt">
+          <text class="stage_txt_top">第三阶段</text>
+          <text>决赛</text>
+        </view>
+        <view class="stage_dot"></view>
+        <view class="stage_line"></view>
+        <view class="stage_date">8月26日-9月25日</view>
+      </view>
+    </view>
+    <view class="hot_description">
+      <view class="hot_desc">
+        <text>{{actDesc}}</text>
+        <view class="awards_setting"><text class="icon"></text> 美食天使奖项设置</view>
+        <text>一等奖1名：奖3万元 (现金+奖品)\n二等奖1名：奖3万元 (现金+奖品)\n三等奖1名：奖3万元 (现金+奖品)\n优秀奖7名：平分4万元 (现金+奖品)\n前三名获奖选手可以成为享7美食平台下半年拍摄广告片女主角\n前10名获奖选手可以成为享7美食平台签约美食主播
+        </text>
+      </view>
+      <view class="hot_desc_btn">
+        <button bindtap='eventDetailss'>活动详情</button>
+        <button bindtap='toApply'>我要报名</button>
+      </view>
+    </view>
+    <!-- 时间阶段和描述 -->
+    <!-- 主办单位 -->
+    <view class="sponsor">
+      <view class="sponsor_tit">- 主办单位 -</view>
+      <text class="sponsor_cont">主办单位：十堰市旅游委\n行业指导：十堰市食药局、十堰市餐饮协会\n承办单位：中国《汽车之旅》杂志社、湖北三木广告有限公司\n执行单位：湖北享七网络科技有限公司\n活动网络平台：享7美食</text>
+      <view class="sponsor_tit sponsor_media">- 媒体支持 -</view>
+      <text class="sponsor_cont">汽车之旅 今日头条 搜狐新闻端 新浪新闻端 一点资讯\n网易新闻端 武汉电视台掌上武汉 花椒视频直播 腾讯朋友圈\n享7美食平台公众号 十堰日报 十堰晚报 东风汽车报 十堰周刊\n十堰电视台 十堰广播电台 秦楚网 东风热线等
+      </text>
+    </view>
+    <!-- 主办单位 -->
+    <view class="hot_list_box">
+      <!-- tab栏和搜索框 -->
+      <view class="hot_list_tab">
+        <view class="{{switchTab?'active':''}}" bindtap='dishTab' id="1">招牌菜</view>
+        <view class="{{!switchTab?'active':''}}" bindtap='dishTab' id="2">选手</view>
+      </view>
+      <view class="hot_list_search">
+        <input id="" placeholder="请输入编号、名称" bindconfirm="searchList" bindinput="getInputVal" value="{{searchValue}}"></input>
+        <image src="/images/icon/hot_search.png"></image>
+      </view>
+      <!-- 可用票数 -->
+      <view class="user_banner">
+        <view class="user_switch">
+          <text class="{{sortType == 1 ? 'active' : ''}}" id="1" bindtap="bestSwitch">最热</text>
+          <text class="{{sortType == 2 ? 'active' : ''}}" id="2" bindtap="bestSwitch">最新</text>
+        </view>
+        <text class="user_availVote">可用票数：1</text>
+      </view>
+      <!-- 可用票数 -->
+      <!-- 活动列表 -->
+      <view class="dish_list">
+        <block wx:if="{{switchTab}}" wx:for="{{dishLish}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
+          <template is="dishList" data="{{item}}"></template>
+        </block>
+         <block wx:if="{{!switchTab}}" wx:for="{{playerList}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
+          <template is="playerList" data="{{item}}"></template>
+        </block> 
+      </view>
+    </view>
+  </view>
+</view>

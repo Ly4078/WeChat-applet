@@ -1,0 +1,100 @@
+<import src="../../index/merchant-particulars/comment-template/comment-template.wxml" />
+<view class="playerDetail">
+  <view class="playerInfo">
+    <view class="playerInfoBack"></view>
+    <image class="playerInfoImg" src="{{bgUrl}}" mode='aspectFill'></image>
+    <view class="info_inner">
+      <view class="info_inner_l">
+        <image src="{{iconUrl}}" bindtap="homePage"></image>
+      </view>
+      <view class="info_inner_r">
+        <view class="info_name">{{nickName}}</view>
+        <view>
+          <view class="info_age">
+            <image wx:if="{{sex == 0}}" src="/images/icon/male.png"></image>
+            <image wx:if="{{sex == 1}}" src="/images/icon/girl.png"></image>
+            {{age}}岁
+          </view>
+          <view class="info_address">{{height}}cm</view>
+        </view>
+        <!-- <view class="info_cont">简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介</view> -->
+        <view class="info_data">
+          <text class="info_data_num">{{userCode}}</text><text class="info_data_txt">号</text>
+          <text class="info_data_num">{{voteNum}}</text><text class="info_data_txt">人气</text>
+          <text class="info_data_num">{{articleNum}}</text><text class="">活动动态</text>
+        </view>
+      </view> 
+    </view>
+  </view>
+  <view class="playerResource">
+    <block wx:for="{{picUrls}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
+      <image wx:if="{{item.smallPicUrl}}" src="{{item.picUrl}}" mode='aspectFill'></image>
+      <video wx:else src="{{item.picUrl}}"></video>
+    </block>
+  </view>
+  <view class="activity">
+    <view class="activity_tit">
+      <view class="activity_tit_l">
+        <text class="activity_line"></text>
+        <text>活动动态</text>
+        <text class="activity_explain">(点赞增加人气)</text>
+      </view>
+      <view class="activity_tit_r">
+        <text>查看更多</text>
+        <image src="/images/icon/home_arrow.png"></image>
+      </view>
+    </view>
+    <view class="activity_list">
+      <scroll-view scroll-x="true">
+        <block wx:for="{{article}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
+          <view class="activity_item">
+            <image class="act_item_bg" src="{{item.homePic}}" mode='aspectFill'></image>
+            <view class="act_item_info">
+              <image src="{{item.iconUrl}}"></image>
+              <text>{{item.nickName ? item.nickName : item.userName}}</text>
+            </view>
+            <view class="act_item_cont">{{item.summary}}</view>
+          </view>
+        </block>
+      </scroll-view>
+    </view>
+  </view>
+  <view class="comment">
+    <view class="comment_tit">
+      <text class="activity_line"></text>
+      <text>精选评价</text>
+    </view>
+    <view class="comment_list">
+      <block wx:for="{{comment_list}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
+        <template is="commentItem" data="{{item}}"></template>
+      </block>
+      <view class='total-comment' wx:if="{{totalComment > 8}}" catchtap='jumpTotalComment'>
+        <view class='total-center'>
+          <text>查看全部<text>{{totalComment}}</text>条评论</text>
+        </view>
+      </view>
+    </view>
+    <form class='commentBox {{isComment ? "show" : "hide"}}'>
+      <textarea class="commentArea" placeholder='请输入评论' focus="{{isComment}}" bindinput="getCommentVal" cursor-spacing="50rpx" show-confirm-bar="false" fixed="true"></textarea>
+      <button class='fasong' form-type="reset" catchtap="setcmtadd">发送</button>
+    </form>
+  </view>
+  <view class='evaluate'>
+    <button class='evaluateSon sonButton' plain="true" data-name="shareBtn" open-type="share">
+      <image class='evaluateImg' src='/images/icon/find_share.png'></image>
+      <text class='evaluatExtea'>分享</text>
+      <view class="evaluate_line"></view>
+    </button>
+    <view class='evaluateSon' bindtap="showArea">
+      <image class='evaluateImg' src='/images/icon/find_comment.png'></image>
+      <text class='evaluatExtea'>评价</text>
+      <view class="evaluate_line"></view>
+    </view>
+    <view class='evaluateSon' id="{{details.id}}" bindtap='castvote'>
+      <image class='evaluateImg' wx:if="{{isVote == 1}}" src='/images/icon/wenreview.png'></image>
+      <image class='evaluateImg' wx:else src='/images/icon/wenreviewed.png'></image>
+      <!-- <text class='evaluatExtea actvotees'>999</text> -->
+      <text class='evaluatExtea {{isVote == 1 ? "actvotees" : ""}}'>{{voteNum}}</text>
+    </view>
+  </view>
+</view>

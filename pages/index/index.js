@@ -542,18 +542,18 @@ Page({
         _actName = _actlist[i].actName
       }
     }
-    if (_id == 34) {
+    if (_id == 37) {
       wx.navigateTo({
-        url: '../activityDetails/hot-activity/hot-activity?id=' + _id + '&_actName=' + _actName
+        url: '../activityDetails/onehundred-dish/onehundred-dish'
       })
-    } else if (_id == 35) {
-      wx.navigateTo({
-        url: '../activityDetails/hot-activity/hot-activity?id=' + _id + '&_actName=' + _actName
-      })
-    } else if (_id == 36) {
-      wx.navigateTo({
-        url: '../activityDetails/hot-activity/hot-activity?id=' + _id
-      })
+    // } else if (_id == 35) {
+    //   wx.navigateTo({
+    //     url: '../activityDetails/hot-activity/hot-activity?id=' + _id + '&_actName=' + _actName
+    //   })
+    // } else if (_id == 36) {
+    //   wx.navigateTo({
+    //     url: '../activityDetails/hot-activity/hot-activity?id=' + _id
+    //   })
     } else {
       wx.navigateTo({
         url: '../activityDetails/details-like/details-like?actid=' + _id,

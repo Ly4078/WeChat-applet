@@ -1,0 +1,144 @@
+@import "../../index/merchant-particulars/food-details/food-details.wxss"; 
+
+.topBanner {
+  width: 100%;
+  height: 420rpx;
+  position: relative;
+}
+
+.topBanner view {
+  position: absolute;
+  left: 28rpx;
+  top: 20rpx;
+  font-size: 28rpx;
+  color: #fff;
+  width: 112rpx;
+  height: 42rpx;
+  text-align: center;
+  line-height: 42rpx;
+  border-radius: 50rpx;
+  background-color: #191919;
+  opacity: 0.6;
+}
+.skupriceBox {
+  margin: 0 24rpx 26rpx 30rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  font-size: 30rpx;
+}
+
+.praise {
+  color: #FC5E2D;
+  margin-top: 6rpx;
+}
+
+.skuprice {
+  margin-top: 6rpx;
+}
+
+.price_real {
+  color: #FC5E2D;
+  margin-right: 66rpx;
+}
+
+.price_origin {
+  color: #B1B1B1;
+  text-decoration: line-through;
+}
+
+.skupriceBtn {
+  color: #FC5E2D;
+  border: 2rpx solid #FC5E2D;
+  border-radius: 50rpx;
+  width: 120rpx;
+  height: 50rpx;
+  text-align: center;
+  line-height: 46rpx;
+}
+
+.shopInfoBox {
+  display: flex;
+  /* flex-direction: row; */
+  justify-content: space-between;
+  padding: 26rpx 0 24rpx 28rpx;
+}
+
+.shopInfo {
+  width: 83%;
+}
+
+.shopPhone {
+  width: 17%;
+}
+
+.shopName {
+  font-size: 28rpx;
+  margin-bottom: 24rpx;
+  position: relative;
+  padding-left: 20rpx;
+}
+
+.shopNameIcon {
+  width: 8rpx;
+  height: 28rpx;
+  background-color: #FC5E2D;
+  position: absolute;
+  top: 5rpx;
+  left: 0;
+}
+
+.shopAddress {
+  width: 550rpx;
+  font-size: 24rpx;
+  vertical-align: center; 
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  position: relative;
+  padding-left: 30rpx;
+}
+
+.shopAddress image {
+  width: 26rpx;
+  height: 30rpx;
+  vertical-align: center; 
+  position: absolute;
+  left: 0;
+  top: 2rpx;
+}
+
+.shopPhone {
+  padding-top: 26rpx;
+  padding-left: 46rpx;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.shopPhone image {
+  height: 44rpx;
+  width: 34rpx; 
+}
+
+.shopPhoneLine {
+  width: 2rpx;
+  height: 80rpx;
+  background-color: #E0E0E0;
+  position: absolute;
+  left: 0;
+  top: 8rpx;
+}
+
+.carry-out-data {
+  text-align: left;
+  padding-left: 74rpx;
+}
+
+.evaluate-maximum {
+  padding-top: 20rpx; 
+  padding-bottom: 10rpx;
+}
+
+.carry-out-data {
+  padding-top: 6rpx;
+}

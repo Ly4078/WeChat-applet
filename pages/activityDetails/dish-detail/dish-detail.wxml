@@ -1,0 +1,78 @@
+<import src="../../index/merchant-particulars/comment-template/comment-template.wxml" /> 
+<view class="topBanner">
+  <image class="foodpic" mode="aspectFill" src="/images/icon/hot_banner.png"></image>
+  <view>023号</view>
+</view>
+<view class='skun'>
+  <text class='skuname'>农家小炒肉</text>
+  <view class='praise'>424票</view>
+</view>
+<view class='skuinfo'>
+  精致新鲜的武昌鱼精致新鲜的武昌鱼精致新鲜的武昌鱼精致新鲜的武昌鱼精致新鲜的武昌鱼精致新鲜的武昌鱼精致新鲜的武昌鱼精致新鲜的武昌鱼精致新鲜的武昌鱼精致新鲜的武昌鱼
+</view>
+<view class="skupriceBox">
+  <view class="skuprice">
+    <text class="price_real">现价：￥26</text>
+    <text class="price_origin">原价：￥88</text>
+  </view>
+  <view class="skupriceBtn">购买</view>
+</view>
+<view class='geduan'></view>
+<!-- <image class='houttishi' src='/images/icon/zhanweitu.png'></image> -->
+<view class="shopInfoBox">
+  <view class="shopInfo">
+    <view class="shopName"><text class="shopNameIcon"></text>德银大酒楼</view>
+    <view class="shopAddress"><image src="/images/icon/location.png"></image>民院路88号建龙小岛1楼(湖北高新技术湖北高新技术湖北高新技术)</view>
+  </view>
+  <view class="shopPhone">
+  <view class="shopPhoneLine"></view>
+    <image src="/images/icon/telephone.png"></image>
+  </view>
+</view>
+<view class='geduan'></view>
+<view class='initiate-exhibition'>
+  <view>
+    <image class='initiate-left' src='/images/icon/home_sign.png'></image>
+    <text class='initiate-text'>精选评价</text>
+  </view>
+  <image class='initiate-right' src='/images/icon/home_arrow.png'></image>
+</view>
+<view class='initiate-pingjia'>
+   <block wx:for="{{comment_list}}" wx:key="{{index}}">
+    <template is="commentItem" data="{{item}}"></template>
+  </block> 
+</view>
+<view class='total-comment'>
+  <view class='total-center'>
+    <text>查看全部<text>12</text>条评论</text>
+  </view>
+</view>
+<!-- <view class='botton-comment' bindtap='showAreatext'>
+  <image class='comment-images' src='/images/icon/write.png'></image>
+  <text class='reviewyan'>写评论</text>
+</view> -->
+<view class='evaluate'>
+  <view class='evaluateWrap'>
+    <button class='evaluateSon sonButton' bindtap='share' plain="true" data-name="shareBtn" open-type="share">
+      <image class='evaluateImg' src='/images/icon/find_share.png'></image>
+      <text class='evaluatExtea'>分享</text>
+    </button>
+    <view class='evaluateSon' bindtap='showAreatext'>
+      <view class='evaluateSonsed'>
+        <image class='evaluateImg' src='/images/icon/find_comment.png'></image>
+        <text class='evaluatExtea'>评价</text>
+      </view>
+    </view>
+    <view class='evaluateSon' catchtap='clickzan'>
+      <image class='evaluateImg' src='/images/icon/wenreview.png'></image>
+      <!-- <image class='evaluateImg' wx:else src='/images/icon/wenreviewed.png'></image> -->
+      <text class='actzan'>点赞</text>
+    </view>
+  </view>
+</view>
+
+<form class='commentBox hide'>
+  <textarea class="commentArea" placeholder='请输入评论' focus="true" bindinput="getCommentVal" cursor-spacing="10px" show-confirm-bar="false" fixed="true"></textarea>
+  <button form-type="reset" catchtap="sendComment">发送</button>
+</form>
+<!-- </view>  -->

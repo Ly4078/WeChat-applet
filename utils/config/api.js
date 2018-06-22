@@ -228,6 +228,10 @@ const ALL_API = {
     method: 'GET',
     url: 'actSign/isSign'
   },
+  dishDetails: {  //活动推荐菜详情页
+    method: 'GET',
+    url: 'actSku/findByInVo'
+  },
   playerDetails: {  //活动选手详情页
     method: 'GET',
     url: 'actUser/findByInVo'
@@ -251,6 +255,10 @@ const ALL_API = {
   searchUser: {      //搜索活动中的选手
     method: 'GET',
     url: 'actUser/listNewAct'
+  },
+  dishList: {      //十堰百菜活动中的招牌菜
+    method: 'GET',
+    url: 'actSku/listNewAct'
   },
   actTicket: {      //活动券
     method: 'GET',
@@ -335,6 +343,10 @@ const ALL_API = {
   availableVote:{//可投票数
     method: 'GET',
     url: 'act/actVoteNums'
+  },
+  sharePic: {//分享到朋友圈的截图
+    method: 'GET',
+    url: 'act/CreateCode'
   }
 }
 const Api = new MyHttp({}, ALL_API);
