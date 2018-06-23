@@ -9,6 +9,7 @@ Page({
     userId: 0,
     voteUserId: 0,
     refId: 0,
+    issnap: false,
     nickName: '',
     bgUrl: '',
     iconUrl: '',
@@ -39,6 +40,12 @@ Page({
     });
   },
   onShow: function () {
+    if (app.globalData.userInfo.mobile == undefined || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+      this.setData({
+        issnap: true
+      })
+      return false
+    }
     this.playerDetail();
     this.articleList();
   },
@@ -61,18 +68,26 @@ Page({
           age: data.age,
           height: data.height,
           userCode: data.userCode,
-          voteNum: data.voteNum,
-          picUrls: data.picUrls
+          voteNum: data.voteNum
         });
         this.comment();
-        for (let i = 0; i < data.picUrls.length; i++) {
+        let picUrls = data.picUrls;
+        for (let i = 0; i < picUrls.length; i++) {
+          let str = picUrls[i].picUrl;
+          if (str.substring(str.length - 4, str.length) == '.mp4') {
+            picUrls[i].isVideo = true;
+          } else {
+            picUrls[i].isVideo = false;
+          }
           if (data.picUrls[i].smallPicUrl) {
             this.setData({
               bgUrl: data.picUrls[i].picUrl
             });
-            return false;
           }
         }
+        this.setData({
+          picUrls: picUrls
+        });
       } else {
         wx.showToast({
           title: '系统繁忙',
@@ -107,13 +122,11 @@ Page({
     };
     Api.cmtlist(_parms).then((res) => {
       let data = res.data;
-      console.log(res.data);
       if (data.code == 0) {
         this.setData({
           comment_list: data.data.list,
           totalComment: data.data.total
         });
-        console.log(this.data.comment_list);
       }
     });
   },
@@ -133,6 +146,12 @@ Page({
     })
   },
   setcmtadd: function () {  //新增评论
+    if (app.globalData.userInfo.mobile == undefined || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+      this.setData({
+        issnap: true
+      })
+      return false
+    }
     if (!this.data.commentVal) {
       wx.showToast({
         title: '请输入评论内容',
@@ -167,6 +186,12 @@ Page({
     })
   },
   castvote: function () {  //選手投票
+    if (app.globalData.userInfo.mobile == undefined || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+      this.setData({
+        issnap: true
+      })
+      return false
+    }
     let _this = this;
     let _parms = {
       actId: this.data.actId,
@@ -200,6 +225,12 @@ Page({
     });
   },
   toLike: function (e) {//评论点赞
+    if (app.globalData.userInfo.mobile == undefined || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+      this.setData({
+        issnap: true
+      })
+      return false
+    }
     let id = e.currentTarget.id;
     let ind = '';
     for (let i = 0; i < this.data.comment_list.length; i++) {
@@ -229,6 +260,12 @@ Page({
     })
   },
   cancelLike() {
+    if (app.globalData.userInfo.mobile == undefined || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+      this.setData({
+        issnap: true
+      })
+      return false
+    }
     wx.showToast({
       title: '您已经点过赞了',
       icon: 'none'
@@ -239,15 +276,6 @@ Page({
       url: '../homePage/homePage?actId=' + this.data.actId + '&userId=' + this.data.userId,
     })
   },
-  onPullDownRefresh: function () {
-
-  },
-  onReachBottom: function () {
-
-  },
-  onShareAppMessage: function () {
-
-  },
   dateConv: function (dateStr) {
     let year = dateStr.getFullYear(),
       month = dateStr.getMonth() + 1,
@@ -255,5 +283,16 @@ Page({
     month = month > 9 ? month : "0" + month;
     today = today > 9 ? today : "0" + today;
     return year + "-" + month + "-" + today;
+  },
+  closetel: function (e) {
+    let id = e.target.id;
+    this.setData({
+      issnap: false
+    })
+    if (id == 1) {
+      wx.redirectTo({
+        url: '/pages/personal-center/registered/registered'
+      })
+    }
   }
 })

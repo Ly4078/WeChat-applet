@@ -101,11 +101,19 @@ Page({
           title: '报名成功，等待审核',
           icon: 'none'
         })
-        setTimeout(function(){
-          wx.redirectTo({
-            url: '../hot-activity?id=' + _this.data.actId + '&_actName=' + _this.data.actName
-          })
-        },2000)
+        if (_this.data.actId == 37) {
+          setTimeout(function () {
+            wx.redirectTo({
+              url: '../../onehundred-dish/onehundred-dish?actid=' + _this.data.actId + '&_actName=' + _this.data.actName + "&sortType=1" + "&switchTab=false"
+            })
+          }, 2000)
+        } else {
+          setTimeout(function () {
+            wx.redirectTo({
+              url: '../hot-activity?id=' + _this.data.actId + '&_actName=' + _this.data.actName
+            })
+          }, 2000)
+        }
       } else {
         wx.showToast({
           title: data.message,

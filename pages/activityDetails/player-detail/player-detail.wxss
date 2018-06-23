@@ -101,8 +101,8 @@
 
 .playerResource {
   background-color: #fff;
-  padding-bottom: 20rpx;
-  margin-bottom: 20rpx;
+  padding-bottom: 76rpx;
+  /* margin-bottom: 20rpx; */
 }
 
 .playerResource video, .playerResource image {
@@ -231,6 +231,7 @@
   color: #191919;
   position: relative;
   padding-left: 22rpx;
+  border-bottom: 1rpx solid #E0E0E0;
 }
 
 .comment_list {

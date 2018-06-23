@@ -1,4 +1,13 @@
 <import src="../../index/merchant-particulars/comment-template/comment-template.wxml" />
+
+<view class="newUserModal" wx:if="{{issnap}}">
+  <view class='drawer_screen'>
+    <view class='sqtishi'>提示</view>
+    <view class='drphnumber'>获得更多体验,请移步[我的]-[新用户注册]</view>
+    <button class='gettel sqgettel' bindtap='closetel' id='1'>确定</button>
+    <button class='gettel colosetel' bindtap='closetel' id='2'>取消</button>
+  </view>
+</view>
 <view class="playerDetail">
   <view class="playerInfo">
     <view class="playerInfoBack"></view>
@@ -28,11 +37,11 @@
   </view>
   <view class="playerResource">
     <block wx:for="{{picUrls}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
-      <image wx:if="{{item.smallPicUrl}}" src="{{item.picUrl}}" mode='aspectFill'></image>
-      <video wx:else src="{{item.picUrl}}"></video>
+      <video wx:if="{{item.isVideo}}" src="{{item.picUrl}}" poster="{{item.smallPicUrl ? item.smallPicUrl : ''}}"></video>
+      <image wx:else src="{{item.picUrl}}" mode='aspectFill'></image>
     </block>
   </view>
-  <view class="activity">
+  <view class="activity" wx:if="{{article.length > 0}}">
     <view class="activity_tit" bindtap="homePage">
       <view class="activity_tit_l">
         <text class="activity_line"></text>
@@ -59,8 +68,8 @@
       </scroll-view>
     </view>
   </view>
-  <view class="comment">
-    <view class="comment_tit">
+  <view class="comment" wx:if="{{totalComment > 0}}">
+    <view class="comment_tit" bindtap="toMoreComment">
       <text class="activity_line"></text>
       <text>精选评价</text>
     </view>
@@ -74,10 +83,6 @@
         </view>
       </view>
     </view>
-    <form class='commentBox {{isComment ? "show" : "hide"}}'>
-      <textarea class="commentArea" placeholder='请输入评论' focus="{{isComment}}" bindinput="getCommentVal" cursor-spacing="50rpx" show-confirm-bar="false" fixed="true"></textarea>
-      <button class='fasong' form-type="reset" catchtap="setcmtadd">发送</button>
-    </form>
   </view>
   <view class='evaluate'>
     <button class='evaluateSon sonButton' plain="true" data-name="shareBtn" open-type="share">
@@ -96,3 +101,7 @@
     </view>
   </view>
 </view>
+<form class='commentBox {{isComment ? "show" : "hide"}}'>
+  <textarea class="commentArea" placeholder='请输入评论' focus="{{isComment}}" bindinput="getCommentVal" cursor-spacing="50rpx" show-confirm-bar="false" fixed="true"></textarea>
+  <button class='fasong' form-type="reset" catchtap="setcmtadd">发送</button>
+</form>

@@ -1,4 +1,13 @@
 <import src="../../index/merchant-particulars/comment-template/comment-template.wxml" /> 
+
+<view class="newUserModal" wx:if="{{issnap}}">
+  <view class='drawer_screen'>
+    <view class='sqtishi'>提示</view>
+    <view class='drphnumber'>获得更多体验,请移步[我的]-[新用户注册]</view>
+    <button class='gettel sqgettel' bindtap='closetel' id='1'>确定</button>
+    <button class='gettel colosetel' bindtap='closetel' id='2'>取消</button>
+  </view>
+</view>
 <view class="topBanner">
   <image class="foodpic" mode="aspectFill" src="{{picUrl}}"></image>
   <view>{{skuCode}}号</view>
@@ -20,22 +29,22 @@
 <view class="shopInfoBox">
   <view class="shopInfo">
     <view class="shopName"><text class="shopNameIcon"></text>{{shopName}}</view>
-    <view class="shopAddress"><image src="/images/icon/location.png"></image>{{address}}</view>
+    <view class="shopAddress" catchtap='TencentMap'><image src="/images/icon/location.png"></image>{{address}}</view>
   </view>
-  <view class="shopPhone">
+  <view class="shopPhone" bindtap="calling">
   <view class="shopPhoneLine"></view>
     <image src="/images/icon/telephone.png"></image>
   </view>
 </view>
 <view class='geduan'></view>
-<view class='initiate-exhibition'>
+<view class='initiate-exhibition' bindtap="toMoreComment" wx:if="{{commentTotal > 0}}">
   <view>
     <image class='initiate-left' src='/images/icon/home_sign.png'></image>
     <text class='initiate-text'>精选评价</text>
   </view>
   <image class='initiate-right' src='/images/icon/home_arrow.png'></image>
 </view>
-<view class='initiate-pingjia'>
+<view class='initiate-pingjia' wx:if="{{commentTotal > 0}}">
    <block wx:for="{{comment_list}}" wx:key="{{index}}">
     <template is="commentItem" data="{{item}}"></template>
   </block> 
@@ -55,7 +64,7 @@
 </view> -->
 <view class='evaluate'>
   <view class='evaluateWrap'>
-    <button class='evaluateSon sonButton' bindtap='share' plain="true" data-name="shareBtn" open-type="share">
+    <button class='evaluateSon sonButton' plain="true" data-name="shareBtn" open-type="share">
       <image class='evaluateImg' src='/images/icon/find_share.png'></image>
       <text class='evaluatExtea'>分享</text>
     </button>

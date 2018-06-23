@@ -130,7 +130,7 @@
 }
 
 .carry-out-data {
-  text-align: left;
+  text-align: right;
   padding-left: 74rpx;
 }
 

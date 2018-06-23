@@ -17,7 +17,7 @@ Page({
     stage: 1,
     dishLish: [],
     playerList: [],
-    sortType: 1,
+    sortType: 2,
     isOption: false
   },
   onLoad: function (options) {
@@ -30,26 +30,50 @@ Page({
       today: this.dateConv(dateStr),
       tomorrow: this.dateConv(new Date(milisecond))
     });
+    if (options.sortType == 1) {
+      this.setData({
+        sortType: 1
+      });
+    }
+    if (options.switchTab == false) {
+      this.setData({
+        switchTab: false
+      });
+    }
   },
   onShow: function () {
+    if (app.globalData.userInfo.mobile == undefined || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+      this.setData({
+        issnap: true
+      })
+      return false
+    }
     this.setData({
       flag: true,
       page: 1,
-      switchTab: true,
       isOption: false,
-      searchValue: '',
       dishLish: [],
       playerList: []
     });
     this.actInfo();
-    this.getDishList();
     this.availableVote();
+    if (this.data.switchTab) {
+      this.getDishList();
+    } else {
+      this.getPlayerList();
+    }
   },
   actInfo: function () {   //活动简介
+    if (app.globalData.userInfo.mobile == undefined || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+      this.setData({
+        issnap: true
+      })
+      return false
+    }
     let _parms = {
       id: this.data.actId,
       userId: this.data.voteUserId,
-      userName: '15072329516',
+      userName: app.globalData.userInfo.mobile,
       sourceType: '1'
     }
     Api.actdetail(_parms).then((res) => {
@@ -134,7 +158,7 @@ Page({
       sortType: this.data.sortType,
       city: this.data.selected,
       page: this.data.page,
-      rows: 2
+      rows: 6
     };
     if (this.data.searchValue) {
       _parms['searchKey'] = this.data.searchValue;
@@ -178,7 +202,7 @@ Page({
       voteUserId: this.data.voteUserId,
       sortType: this.data.sortType,
       page: this.data.page,
-      rows: 2
+      rows: 6
     };
     if (this.data.searchValue) {
       _parms['searchKey'] = this.data.searchValue;
@@ -301,6 +325,12 @@ Page({
     });
   },
   castvote: function (e) {  //選手投票
+    if (app.globalData.userInfo.mobile == undefined || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+      this.setData({
+        issnap: true
+      })
+      return false
+    }
     let id = e.currentTarget.id;
     let _parms = {
       actId: this.data.actId,
@@ -354,6 +384,12 @@ Page({
     });
   },
   payDish(e) {    //购买推荐菜
+    if (app.globalData.userInfo.mobile == undefined || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+      this.setData({
+        issnap: true
+      })
+      return false
+    }
     let dishLish = this.data.dishLish, id = e.target.dataset.index, prSkuId = e.target.id, skuId = 0, manAmount = 0, jianAmount = 0, shopId = 0;
     for (let i = 0; i < dishLish.length; i++) {
       if (id == dishLish[i].id) {
@@ -408,5 +444,17 @@ Page({
     this.setData({
       issnap: false
     })
+    if (id == 1) {
+      wx.redirectTo({
+        url: '/pages/personal-center/registered/registered'
+      })
+    }
+  },
+  onShareAppMessage() {
+    return {
+      title: '十堰百菜评选暨《十堰食典》',
+      desc: '享7美食',
+      path: '/pages/activityDetails/onehundred-dish/onehundred-dish?actid=' + this.data.actId
+    }
   }
 })

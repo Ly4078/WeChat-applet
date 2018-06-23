@@ -9,7 +9,7 @@ Page({
     userId: 0,
     voteUserId: 0,
     articleNum: 0,
-    sortType: 0,    //最新0最热1
+    issnap: false,
     nickName: '',
     articleList: [],
     flag: true,
@@ -27,6 +27,12 @@ Page({
     });
   },
   onShow: function () {
+    if (app.globalData.userInfo.mobile == undefined || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+      this.setData({
+        issnap: true
+      })
+      return false
+    }
     this.playerDetail();
     this.article();
   },
@@ -103,6 +109,12 @@ Page({
     });
   },
   dianzanwz: function (e) {  //文章点赞
+    if (app.globalData.userInfo.mobile == undefined || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+      this.setData({
+        issnap: true
+      })
+      return false
+    }
     let articleList = this.data.articleList, id = e.currentTarget.id
     let _parms = {
       actId: this.data.actId,
@@ -132,6 +144,12 @@ Page({
     })
   },
   quxiaozanwz: function (e) {  //文章取消点赞
+    if (app.globalData.userInfo.mobile == undefined || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+      this.setData({
+        issnap: true
+      })
+      return false
+    }
     let articleList = this.data.articleList, id = e.currentTarget.id;
     let _parms = {
       actId: this.data.actId,
@@ -161,6 +179,12 @@ Page({
     })
   },
   toDetail(e) {
+    if (app.globalData.userInfo.mobile == undefined || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+      this.setData({
+        issnap: true
+      })
+      return false
+    }
     const id = e.currentTarget.id
     let _data = this.data.articleList
     let zan = '';
@@ -201,5 +225,16 @@ Page({
     month = month > 9 ? month : "0" + month;
     today = today > 9 ? today : "0" + today;
     return year + "-" + month + "-" + today;
+  },
+  closetel: function (e) {
+    let id = e.target.id;
+    this.setData({
+      issnap: false
+    })
+    if (id == 1) {
+      wx.redirectTo({
+        url: '/pages/personal-center/registered/registered'
+      })
+    }
   }
 })

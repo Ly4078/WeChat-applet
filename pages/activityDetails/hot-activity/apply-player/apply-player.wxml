@@ -47,7 +47,7 @@
       </view>
       <view class="btn_area">
         <button formType="submit">提交报名</button>
-        <view>预计1个工作日内审核完毕</view>
+        <view wx:if="{{actId != 37}}">预计1个工作日内审核完毕</view>
       </view>
     </form>
   </view>

@@ -8,6 +8,7 @@ Page({
     voteUserId: 0,
     actId: 0,
     skuId: 0,
+    issnap: false,
     picUrl: '',
     actSkuName: '',
     skuCode: '',
@@ -19,6 +20,9 @@ Page({
     shopName: '',
     address: '',
     phone: '',
+    locationX: '',
+    locationY: '',
+    mobile: '',
     comment_list: [],
     commentTotal: 0,
     commentVal: '',
@@ -36,6 +40,12 @@ Page({
     });
   },
   onShow: function () {
+    if (app.globalData.userInfo.mobile == undefined || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+      this.setData({
+        issnap: true
+      })
+      return false
+    }
     this.getDish();
     this.comment();
   },
@@ -80,13 +90,55 @@ Page({
           _this.setData({
             shopName: data.data.shopName,
             address: data.data.address,
-            phone: data.data.phone
+            phone: data.data.phone,
+            locationX: data.data.locationX,
+            locationY: data.data.locationY,
+            mobile: data.data.mobile
           });
         }
       }
     })
   },
+  TencentMap: function (event) {    //腾讯地图
+    let that = this;
+    wx.getLocation({
+      type: 'gcj02',
+      success: function (res) {
+        var latitude = res.latitude
+        var longitude = res.longitude
+        var storeDetails = that.data.store_details
+        wx.openLocation({
+          longitude: that.data.locationX,
+          latitude: that.data.locationY,
+          scale: 18,
+          name: that.data.shopName,
+          address: that.data.address,
+          success: function (res) {
+            console.log(res)
+          }
+        })
+      }
+    })
+  },
+  calling: function () {     // 电话号码功能
+    let that = this;
+    wx.makePhoneCall({
+      phoneNumber: that.data.phone ? that.data.phone : that.data.mobile,
+      success: function () {
+        console.log("拨打电话成功！")
+      },
+      fail: function () {
+        console.log("拨打电话失败！")
+      }
+    })
+  },
   payDish() {    //购买推荐菜
+    if (app.globalData.userInfo.mobile == undefined || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+      this.setData({
+        issnap: true
+      })
+      return false
+    }
     wx.navigateTo({
       url: '../../index/voucher-details/voucher-details?id=' + this.data.prSkuId + "&skuId=" + this.data.skuId + "&sell=" + this.data.jianAmount + "&inp=" + this.data.manAmount + "&actId=" + this.data.actId + "&shopId=" + this.data.shopId
     })
@@ -122,6 +174,12 @@ Page({
     })
   },
   setcmtadd: function () {  //新增评论
+    if (app.globalData.userInfo.mobile == undefined || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+      this.setData({
+        issnap: true
+      })
+      return false
+    }
     if (!this.data.commentVal) {
       wx.showToast({
         title: '请输入评论内容',
@@ -161,6 +219,12 @@ Page({
     })
   },
   castvote: function () {  //推荐菜投票
+    if (app.globalData.userInfo.mobile == undefined || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+      this.setData({
+        issnap: true
+      })
+      return false
+    }
     let _this = this;
     let _parms = {
       actId: this.data.actId,
@@ -194,6 +258,12 @@ Page({
     });
   },
   toLike: function (e) {//评论点赞
+    if (app.globalData.userInfo.mobile == undefined || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+      this.setData({
+        issnap: true
+      })
+      return false
+    }
     let id = e.currentTarget.id;
     let ind = '';
     for (let i = 0; i < this.data.comment_list.length; i++) {
@@ -223,6 +293,12 @@ Page({
     })
   },
   cancelLike() {
+    if (app.globalData.userInfo.mobile == undefined || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+      this.setData({
+        issnap: true
+      })
+      return false
+    }
     wx.showToast({
       title: '您已经点过赞了',
       icon: 'none'
@@ -236,13 +312,15 @@ Page({
     today = today > 9 ? today : "0" + today;
     return year + "-" + month + "-" + today;
   },
-  onPullDownRefresh: function () {
-    
-  },
-  onReachBottom: function () {
-    
-  },
-  onShareAppMessage: function () {
-    
+  closetel: function (e) {
+    let id = e.target.id;
+    this.setData({
+      issnap: false
+    })
+    if (id == 1) {
+      wx.redirectTo({
+        url: '/pages/personal-center/registered/registered'
+      })
+    }
   }
 })
