@@ -72,8 +72,4 @@
   </view>
 </view>
 
-<form class='commentBox hide'>
-  <textarea class="commentArea" placeholder='请输入评论' focus="true" bindinput="getCommentVal" cursor-spacing="10px" show-confirm-bar="false" fixed="true"></textarea>
-  <button form-type="reset" catchtap="sendComment">发送</button>
-</form>
 <!-- </view>  -->

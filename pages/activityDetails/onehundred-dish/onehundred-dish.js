@@ -35,6 +35,9 @@ Page({
     this.setData({
       flag: true,
       page: 1,
+      switchTab: true,
+      isOption: false,
+      searchValue: '',
       dishLish: [],
       playerList: []
     });

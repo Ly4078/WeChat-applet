@@ -7,7 +7,7 @@ Page({
     _build_url: GLOBAL_API_DOMAIN,
     actId: 0,
     userId: 0,
-    voteUserId: app.globalData.userInfo.userId,
+    voteUserId: 0,
     articleNum: 0,
     sortType: 0,    //最新0最热1
     nickName: '',
@@ -19,6 +19,7 @@ Page({
     let dateStr = new Date();
     let milisecond = new Date(this.dateConv(dateStr)).getTime() + 86400000;
     this.setData({
+      voteUserId: app.globalData.userInfo.userId,
       today: this.dateConv(dateStr),
       tomorrow: this.dateConv(new Date(milisecond)),
       actId: options.actId,

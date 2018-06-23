@@ -5,7 +5,7 @@ var app = getApp();
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
-    voteUserId: app.globalData.userInfo.userId,
+    voteUserId: 0,
     actId: 0,
     skuId: 0,
     picUrl: '',
@@ -28,6 +28,7 @@ Page({
     let dateStr = new Date();
     let milisecond = new Date(this.dateConv(dateStr)).getTime() + 86400000;
     this.setData({
+      voteUserId: app.globalData.userInfo.userId,
       actId: options.actId,
       skuId: options.skuId,
       today: this.dateConv(dateStr),

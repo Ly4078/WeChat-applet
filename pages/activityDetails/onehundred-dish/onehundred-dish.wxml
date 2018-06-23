@@ -84,13 +84,13 @@
           </view>
         </view>
         <input placeholder="请输入编号、名称" bindconfirm="searchList" bindinput="getInputVal" value="{{searchValue}}"></input>
-        <image src="/images/icon/hot_search.png"></image>
+        <image src="/images/icon/hot_search.png" bindtap="searchList"></image>
       </view>
       <!-- 可用票数 -->
       <view class="user_banner">
         <view class="user_switch">
-          <text class="{{sortType == 1 ? 'active' : ''}}" id="1" bindtap="bestSwitch">最热</text>
-          <text class="{{sortType == 2 ? 'active' : ''}}" id="2" bindtap="bestSwitch">最新</text>
+          <text class="{{sortType == 2 ? 'active' : ''}}" id="2" bindtap="bestSwitch">最热</text>
+          <text class="{{sortType == 1 ? 'active' : ''}}" id="1" bindtap="bestSwitch">最新</text>
         </view>
         <text class="user_availVote">可用票数：{{switchTab ? sku : user}}</text>
       </view>
