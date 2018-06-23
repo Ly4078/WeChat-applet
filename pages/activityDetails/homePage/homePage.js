@@ -8,7 +8,6 @@ Page({
     actId: 0,
     userId: 0,
     voteUserId: app.globalData.userInfo.userId,
-    voteUserId: 32879,
     articleNum: 0,
     sortType: 0,    //最新0最热1
     nickName: '',
@@ -22,10 +21,8 @@ Page({
     this.setData({
       today: this.dateConv(dateStr),
       tomorrow: this.dateConv(new Date(milisecond)),
-      // actId: options.actId,
-      // userId: options.userId
-      actId: 37,
-      userId: 57
+      actId: options.actId,
+      userId: options.userId
     });
   },
   onShow: function () {
@@ -104,13 +101,13 @@ Page({
       }
     });
   },
-  dianzanwz: function () {  //文章点赞
-    let that = this
-    let _details = this.data.details
+  dianzanwz: function (e) {  //文章点赞
+    let articleList = this.data.articleList, id = e.currentTarget.id
     let _parms = {
-      refId: _details.id,
+      actId: this.data.actId,
+      refId: id,
       type: '2',
-      userId: app.globalData.userInfo.userId
+      userId: this.data.voteUserId
     }
     Api.zanadd(_parms).then((res) => {
       if (res.data.code == 0) {
@@ -118,50 +115,47 @@ Page({
           mask: true,
           icon: 'none',
           title: '点赞成功'
-        }, 1500)
-        _details.isZan = 1
-        _details.zan = _details.zan + 1
-        let _zan = this.data.zan
-        _zan++
-        that.setData({
-          details: _details,
-          zan: _zan
-        })
+        }, 1500);
+        for (let i = 0; i < articleList.length; i++) {
+          if (articleList[i].id == id) {
+            articleList[i].isZan = 1
+            articleList[i].zan = articleList[i].zan + 1;
+            this.setData({
+              articleList: articleList,
+              voteNum: this.data.voteNum + 1
+            })
+            return false;
+          }
+        }
       }
     })
   },
-  quxiaozanwz: function () {  //文章取消点赞
-    let that = this
-    let _details = this.data.details
-    if (app.globalData.userInfo.mobile == 'a' || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
-      this.setData({
-        issnap: true
-      })
-      return false
-    }
+  quxiaozanwz: function (e) {  //文章取消点赞
+    let articleList = this.data.articleList, id = e.currentTarget.id;
     let _parms = {
-      refId: _details.id,
+      actId: this.data.actId,
+      refId: id,
       type: '2',
-      userId: app.globalData.userInfo.userId
+      userId: this.data.voteUserId
     }
     Api.zandelete(_parms).then((res) => {
       if (res.data.code == 0) {
         wx.showToast({
           mask: true,
           icon: 'none',
-          title: '取消成功',
-        }, 1500)
-        _details.isZan = 0
-        _details.zan = _details.zan - 1
-        if (_details.zan < 0) {
-          _details.zan = 0
+          title: '取消成功'
+        }, 1500);
+        for (let i = 0; i < articleList.length; i++) {
+          if (articleList[i].id == id) {
+            articleList[i].isZan = 0;
+            articleList[i].zan = articleList[i].zan > 0 ? articleList[i].zan - 1 : 0;
+            this.setData({
+              articleList: articleList,
+              voteNum: this.data.voteNum > 0 ? this.data.voteNum - 1 : 0
+            })
+            return false;
+          }
         }
-        let _zan = this.data.zan
-        _zan--
-        this.setData({
-          details: _details,
-          zan: _zan
-        })
       }
     })
   },

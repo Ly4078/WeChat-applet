@@ -18,7 +18,8 @@ Page({
     amount:'',
     isticket:false,
     frequency:0,
-    shopodrder:{}
+    shopodrder:{},
+    isDish: false
   },
   onLoad: function (options) {
     console.log(options)
@@ -157,6 +158,12 @@ Page({
             qrCodeArr: imgsArr,
             _skuNum: _skuNum
           });
+          let dish = '食典';
+          if (that.data.ticketInfo.skuName.indexOf(dish) > 0) {
+            that.setData({
+              isDish: true
+            });
+          }
         }
       }
     });
@@ -216,5 +223,11 @@ Page({
         })
       }
     })
+    let dish = '食典';
+    if (that.data.ticketInfo.skuName.indexOf(dish) > 0) {
+      that.setData({
+        isDish: true
+      });
+    }
   }
 })

@@ -11,6 +11,14 @@ Page({
     cfrom:''
   },
   onLoad: function (options) {
+    console.log(options)
+    if (options.actId) {
+      this.setData({
+        actId: options.actId,
+        shopId: options.shopId,
+        skuId: options.skuId
+      });
+    }
     if (options.cfrom){
       this.setData({
         cfrom: options.cfrom
@@ -41,6 +49,11 @@ Page({
     parameter = '?id=' + data.id + "&sell=" + data.sell + "&inp=" + data.inp + "&rule=" + data.rule + '&num=' + data.num + '&soid=' + data.soid;
     if (this.data.sostatus == 1) {
       parameter += '&sostatus=1'
+    }
+    if(this.data.actId == '37') {
+      parameter += '&actId=37';
+      parameter += '&shopId=' + this.data.shopId;
+      parameter += '&skuId=' + this.data.skuId;
     }
     wx.navigateTo({
       url: '../order-for-goods/order-for-goods' + parameter

@@ -20,7 +20,7 @@
         <text>已完成</text>
       </view>
     </view>
-    <view catchtap='sublevelSum'>
+    <view catchtap='sublevelSum' wx:if="{{!isDish}}">
       <view class='restrict-time'>
         <view class='restrict-caution'>
           <text wx:if="{{isticket}}">有限期至:</text>

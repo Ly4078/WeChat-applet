@@ -93,7 +93,7 @@ page{
 
 .paymentPayWay{   /* 选择支付方式 */
   width: 100%;
-  height: 241rpx;
+  /* height: 241rpx; */
   background-color: #fff;
   display: flex;
   flex-direction: row-reverse;

@@ -136,6 +136,10 @@ const ALL_API = {
     method: 'POST',
     url: 'wxpay/doUnifiedOrder'
   },
+  doUnifiedOrderAct: { //活动支付接口
+    method: 'POST',
+    url: 'wxpay/doUnifiedOrderForAct'
+  },
   topicadd: {  //新增文章主题
     method: 'POST',
     url: 'topic/add'

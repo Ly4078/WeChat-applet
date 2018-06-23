@@ -72,7 +72,18 @@
         <view class="{{!switchTab?'active':''}}" bindtap='dishTab' id="2">选手</view>
       </view>
       <view class="hot_list_search">
-        <input id="" placeholder="请输入编号、名称" bindconfirm="searchList" bindinput="getInputVal" value="{{searchValue}}"></input>
+        <view class='select' wx:if="{{switchTab}}">
+          <view class="select_text" bindtap='isShowOption'>
+            <text>{{selected}}</text>
+            <image src="/images/icon/restaurant_arrow.png"></image>
+          </view>
+          <view class="options_box {{isOption ? 'show' : 'hide'}}">
+            <block wx:for="{{city}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
+              <view class='option' id="{{item.id}}" bindtap='selectCity'>{{item.name}}</view>
+            </block>
+          </view>
+        </view>
+        <input placeholder="请输入编号、名称" bindconfirm="searchList" bindinput="getInputVal" value="{{searchValue}}"></input>
         <image src="/images/icon/hot_search.png"></image>
       </view>
       <!-- 可用票数 -->
@@ -81,7 +92,7 @@
           <text class="{{sortType == 1 ? 'active' : ''}}" id="1" bindtap="bestSwitch">最热</text>
           <text class="{{sortType == 2 ? 'active' : ''}}" id="2" bindtap="bestSwitch">最新</text>
         </view>
-        <text class="user_availVote">可用票数：1</text>
+        <text class="user_availVote">可用票数：{{switchTab ? sku : user}}</text>
       </view>
       <!-- 可用票数 -->
       <!-- 活动列表 -->

@@ -544,7 +544,7 @@ Page({
     }
     if (_id == 37) {
       wx.navigateTo({
-        url: '../activityDetails/onehundred-dish/onehundred-dish'
+        url: '../activityDetails/onehundred-dish/onehundred-dish?actid=' + _id
       })
     // } else if (_id == 35) {
     //   wx.navigateTo({

@@ -1,28 +1,26 @@
 <import src="../../index/merchant-particulars/comment-template/comment-template.wxml" /> 
 <view class="topBanner">
-  <image class="foodpic" mode="aspectFill" src="/images/icon/hot_banner.png"></image>
-  <view>023号</view>
+  <image class="foodpic" mode="aspectFill" src="{{picUrl}}"></image>
+  <view>{{skuCode}}号</view>
 </view>
 <view class='skun'>
-  <text class='skuname'>农家小炒肉</text>
-  <view class='praise'>424票</view>
+  <text class='skuname'>{{actSkuName}}</text>
+  <view class='praise'>{{voteNum}}票</view>
 </view>
-<view class='skuinfo'>
-  精致新鲜的武昌鱼精致新鲜的武昌鱼精致新鲜的武昌鱼精致新鲜的武昌鱼精致新鲜的武昌鱼精致新鲜的武昌鱼精致新鲜的武昌鱼精致新鲜的武昌鱼精致新鲜的武昌鱼精致新鲜的武昌鱼
-</view>
+<view class='skuinfo'>{{skuInfo}}</view>
 <view class="skupriceBox">
   <view class="skuprice">
-    <text class="price_real">现价：￥26</text>
-    <text class="price_origin">原价：￥88</text>
+    <text class="price_real">现价：￥{{jianAmount}}</text>
+    <text class="price_origin">原价：￥{{manAmount}}</text>
   </view>
-  <view class="skupriceBtn">购买</view>
+  <view class="skupriceBtn" bindtap='payDish'>购买</view>
 </view>
 <view class='geduan'></view>
 <!-- <image class='houttishi' src='/images/icon/zhanweitu.png'></image> -->
 <view class="shopInfoBox">
   <view class="shopInfo">
-    <view class="shopName"><text class="shopNameIcon"></text>德银大酒楼</view>
-    <view class="shopAddress"><image src="/images/icon/location.png"></image>民院路88号建龙小岛1楼(湖北高新技术湖北高新技术湖北高新技术)</view>
+    <view class="shopName"><text class="shopNameIcon"></text>{{shopName}}</view>
+    <view class="shopAddress"><image src="/images/icon/location.png"></image>{{address}}</view>
   </view>
   <view class="shopPhone">
   <view class="shopPhoneLine"></view>
@@ -42,11 +40,15 @@
     <template is="commentItem" data="{{item}}"></template>
   </block> 
 </view>
-<view class='total-comment'>
+<view class='total-comment' wx:if="{{commentTotal > 5}}" bindtap="toMoreComment">
   <view class='total-center'>
-    <text>查看全部<text>12</text>条评论</text>
+    <text>查看全部<text>{{commentTotal}}</text>条评论</text>
   </view>
 </view>
+<form class='commentBox {{isComment ? "show" : "hide"}}'>
+  <textarea class="commentArea" placeholder='请输入评论' focus="{{isComment}}" bindinput="getCommentVal" cursor-spacing="50rpx" show-confirm-bar="false" fixed="true"></textarea>
+  <button class='fasong' form-type="reset" catchtap="setcmtadd">发送</button>
+</form>
 <!-- <view class='botton-comment' bindtap='showAreatext'>
   <image class='comment-images' src='/images/icon/write.png'></image>
   <text class='reviewyan'>写评论</text>
@@ -63,10 +65,9 @@
         <text class='evaluatExtea'>评价</text>
       </view>
     </view>
-    <view class='evaluateSon' catchtap='clickzan'>
-      <image class='evaluateImg' src='/images/icon/wenreview.png'></image>
-      <!-- <image class='evaluateImg' wx:else src='/images/icon/wenreviewed.png'></image> -->
-      <text class='actzan'>点赞</text>
+    <view class='evaluateSon' catchtap='castvote'>
+      <image class='evaluateImg' src='/images/icon/wenreviewed.png'></image>
+      <text class='actzan'>{{voteNum}}</text>
     </view>
   </view>
 </view>

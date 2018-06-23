@@ -5,6 +5,12 @@
         <view class='security-top-left' wx:if="{{item.cash}}">
           <text class='security-money {{item.isUsed == 1 ? "isGray" : ""}}'>￥<text class='security-money-se'>{{item.couponAmount}}</text></text>
         </view>
+         <view class='security-top-left' wx:if="{{item.dish}}">
+          <text class='security-money {{item.isUsed == 1 ? "isGray" : ""}}'>￥<text class='activity-money'>{{item.skuName}}</text></text>
+        </view> 
+        <!-- <view class='security-top-left' wx:else>
+          <text class='security-money {{item.isUsed == 1 ? "isGray" : ""}}'>￥<text class='activity-money'>{{item.skuName}}</text></text>
+        </view> -->
         <view class='security-top-left contick {{item.isUsed == 1?"isGray":"isnoGray"}} ' wx:if="{{item.discount}}">
           <view>{{item.skuName}}</view>
           <view><text>享7专享</text> | <text>全平台通用</text> | <text>免预约</text></view>

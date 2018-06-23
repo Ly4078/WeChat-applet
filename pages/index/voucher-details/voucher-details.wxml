@@ -4,7 +4,8 @@
     <image class='detailscf' wx:else src='/images/icon/package.png'></image>
     
     <view class='speciesWrap'  wx:if="{{!cfrom}}">
-      <text class='speciesText'>{{obj.inp}}元现金劵</text>
+      <text class='speciesText' wx:if="{{actId == 37}}">{{obj.sell}}元食典劵</text>
+      <text class='speciesText' wx:else>{{obj.inp}}元现金劵</text>
       <!-- <text class='spaeciescondition'>{{obj.rule}}</text> -->
     </view>
     
@@ -14,11 +15,12 @@
       <view>
         <text class='amount-number'>{{sell}}</text>
         <text class='amount-text'>元</text>
-        <text class='past-due'>{{orig}}元</text>
+        <text class='past-due' wx:if="{{actId != 37}}">{{orig}}元</text>
       </view>
       
       <view class='countersign-past-due'>
-        <text>{{obj.inp}}元现金劵</text>
+        <text wx:if="{{actId == 37}}">{{sell}}元食典劵</text>
+        <text wx:else>{{obj.inp}}元现金劵</text>
         <!-- <text class='discount-number'>{{sell/obj.inp*10}}折</text> -->
       </view>
     </view>

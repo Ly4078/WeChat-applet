@@ -46,9 +46,13 @@
                 <view class="list_item_time">15分钟前</view>
               </view>
             </view>
-            <view class="list_item_top_r">
+            <view wx:if="{{item.isZan == 0}}" class="list_item_top_r" id="{{item.id}}" bindtap='dianzanwz'>
               <text>{{item.zan}}</text>
               <image src="/images/icon/wenreviewed.png"></image>
+            </view>
+            <view wx:else class="list_item_top_r" id="{{item.id}}" bindtap='quxiaozanwz'>
+              <text class="active">{{item.zan}}</text>
+              <image src="/images/icon/wenreview.png"></image>
             </view>
           </view>
           <view class="list_item_middle" id="{{item.id}}" bindtap='toDetail'>
@@ -70,6 +74,9 @@
           </view>
         </view>
       </block>
+      <view wx:if="{{articleList.length == 0}}" class='merchant_none'>
+        <image src="/images/icon/zhanweitu.png"></image>
+      </view>
     </view>
   </view>
 </view>

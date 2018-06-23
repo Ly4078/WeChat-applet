@@ -193,6 +193,7 @@
 .list_item_middle image, .list_item_middle video {
   width: 100%;
   height: 100%;
+  border-radius:10rpx;
 }
 
 .list_item_middle view {
@@ -238,4 +239,20 @@
 
 .list_item_bottom text {
   margin-left: 10rpx;
+}
+
+.merchant_none {
+  width:100%;
+  height:500rpx;
+  /* background-color:#ebebeb; */
+  position:relative;
+}
+
+.merchant_none image{
+  width:312rpx;
+  height:203rpx;
+  position:absolute;
+  left:58%;
+  margin:260rpx 0 50rpx -200rpx;
+
 }

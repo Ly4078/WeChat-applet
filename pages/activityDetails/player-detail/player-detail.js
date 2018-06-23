@@ -7,8 +7,7 @@ Page({
     _build_url: GLOBAL_API_DOMAIN,
     actId: 0,
     userId: 0,
-    // voteUserId: app.globalData.userInfo.userId,
-    voteUserId: 32879,
+    voteUserId: app.globalData.userInfo.userId,
     refId: 0,
     nickName: '',
     bgUrl: '',
@@ -18,7 +17,6 @@ Page({
     height: 0,
     userCode: 0,
     voteNum: 0,
-    isVote: 0,    //是否投票1是0否
     picUrls: [],
     article: [],
     articleNum: 0,
@@ -38,11 +36,10 @@ Page({
       today: this.dateConv(dateStr),
       tomorrow: this.dateConv(new Date(milisecond))
     });
-    this.playerDetail();
-    this.articleList();
   },
   onShow: function () {
-
+    this.playerDetail();
+    this.articleList();
   },
   playerDetail() {
     let _parms = {
@@ -64,8 +61,7 @@ Page({
           height: data.height,
           userCode: data.userCode,
           voteNum: data.voteNum,
-          picUrls: data.picUrls,
-          isVote: data.isVote
+          picUrls: data.picUrls
         });
         this.comment();
         for (let i = 0; i < data.picUrls.length; i++) {
@@ -106,7 +102,7 @@ Page({
       cmtType: 7,
       zanUserId: this.data.voteUserId,
       page: 1,
-      rows: 8
+      rows: 5
     };
     Api.cmtlist(_parms).then((res) => {
       let data = res.data;
@@ -119,6 +115,11 @@ Page({
         console.log(this.data.comment_list);
       }
     });
+  },
+  toMoreComment() {
+    wx.navigateTo({
+      url: '../../index/merchant-particulars/total-comment/total-comment?id=' + this.data.refId + '&cmtType=7'
+    })
   },
   showArea() {
     this.setData({
@@ -191,8 +192,7 @@ Page({
           })
           _this.setData({
             availableNum: _this.data.availableNum - 1,
-            voteNum: _this.data.voteNum + 1,
-            isVote: 1
+            voteNum: _this.data.voteNum + 1
           });
         }
       });

@@ -20,6 +20,13 @@ Page({
   },
 
   onLoad: function (options) {
+    if(options.actId == '37') {
+      this.setData({
+        actId: 37,
+        shopId: options.shopId,
+        skuId: options.skuId
+      });
+    }
     // this.isNewUser()
     this.setData({
       obj: options,
@@ -110,37 +117,44 @@ Page({
   },
 
   bindPlus: function () {  //点击加号
-    let number = this.data.number;
-    ++number;
-    if (number > 10) {
-      wx.showToast({
-        title: '单次最多购买10张',
-        icon: 'none',
-        duration: 1500,
-        mask: true
-      })
-      number = 10;
+    if(this.data.actId != 37) {
+      let number = this.data.number;
+      ++number;
+      if (number > 10) {
+        wx.showToast({
+          title: '单次最多购买10张',
+          icon: 'none',
+          duration: 1500,
+          mask: true
+        })
+        number = 10;
+        this.setData({
+          number: number
+        })
+      }
       this.setData({
-        number: number
-      })
+        number: number,
+        minusStatus: minusStatus
+      });
+      let _paymentAmount = this.data.number * this.data.obj.sell * 1;
+      _paymentAmount = _paymentAmount.toFixed(2)
+      this.setData({
+        paymentAmount: _paymentAmount
+      });
+      minusStatus = number < 1 ? 'disabled' : 'normal';
+      this.calculate(_paymentAmount)
+      this.setData({
+        number: number,
+        minusStatus: minusStatus
+      });
     }
-    this.setData({
-      number: number,
-      minusStatus: minusStatus
-    });
-    let _paymentAmount = this.data.number * this.data.obj.sell * 1;
-    _paymentAmount = _paymentAmount.toFixed(2)
-    this.setData({
-      paymentAmount: _paymentAmount
-    });
-    minusStatus = number < 1 ? 'disabled' : 'normal';
-    this.calculate(_paymentAmount)
-    this.setData({
-      number: number,
-      minusStatus: minusStatus
-    });
   },
   calculate: function (val) {  //判断支付方式
+    if(this.data.actId == 37) {
+      this.setData({
+        balance: 0
+      });
+    }
     let arr = this.data.items;
     let diff = (this.data.balance * 1) - (val * 1);
     if (diff < 0) {
@@ -313,29 +327,58 @@ Page({
       soId: soid,
       openId: app.globalData.userInfo.openId
     }
-    Api.doUnifiedOrder(_pars).then((res) => {
-      if (res.data.code == 0) {
-        wx.requestPayment({
-          'timeStamp': res.data.data.timeStamp,
-          'nonceStr': res.data.data.nonceStr,
-          'package': res.data.data.package,
-          'signType': 'MD5',
-          'paySign': res.data.data.paySign,
-          success: function (res) {
-            wx.redirectTo({
-              url: '../../personal-center/my-discount/my-discount'
-            })
-          },
-          fail: function (res) {
-            wx.showToast({
-              icon: 'none',
-              title: '支付取消',
-              duration: 1200
-            })
-          }
-        })
-      }
-    })
+    if(this.data.actId == 37) {
+      _pars['actId'] = '37';
+      _pars['skuId'] = this.data.skuId;
+      _pars['shopId'] = this.data.obj.shopId;
+      Api.doUnifiedOrderAct(_pars).then((res) => {
+        if (res.data.code == 0) {
+          wx.requestPayment({
+            'timeStamp': res.data.data.timeStamp,
+            'nonceStr': res.data.data.nonceStr,
+            'package': res.data.data.package,
+            'signType': 'MD5',
+            'paySign': res.data.data.paySign,
+            success: function (res) {
+              wx.redirectTo({
+                url: '../../personal-center/my-discount/my-discount'
+              })
+            },
+            fail: function (res) {
+              wx.showToast({
+                icon: 'none',
+                title: '支付取消',
+                duration: 1200
+              })
+            }
+          })
+        }
+      })
+    } else {
+      Api.doUnifiedOrder(_pars).then((res) => {
+        if (res.data.code == 0) {
+          wx.requestPayment({
+            'timeStamp': res.data.data.timeStamp,
+            'nonceStr': res.data.data.nonceStr,
+            'package': res.data.data.package,
+            'signType': 'MD5',
+            'paySign': res.data.data.paySign,
+            success: function (res) {
+              wx.redirectTo({
+                url: '../../personal-center/my-discount/my-discount'
+              })
+            },
+            fail: function (res) {
+              wx.showToast({
+                icon: 'none',
+                title: '支付取消',
+                duration: 1200
+              })
+            }
+          })
+        }
+      })
+    }
   },
   closetel: function (e) {
     let id = e.target.id;

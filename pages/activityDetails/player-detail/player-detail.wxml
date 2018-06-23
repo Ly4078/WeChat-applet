@@ -33,7 +33,7 @@
     </block>
   </view>
   <view class="activity">
-    <view class="activity_tit">
+    <view class="activity_tit" bindtap="homePage">
       <view class="activity_tit_l">
         <text class="activity_line"></text>
         <text>活动动态</text>
@@ -68,7 +68,7 @@
       <block wx:for="{{comment_list}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
         <template is="commentItem" data="{{item}}"></template>
       </block>
-      <view class='total-comment' wx:if="{{totalComment > 8}}" catchtap='jumpTotalComment'>
+      <view class='total-comment' wx:if="{{totalComment > 5}}" catchtap='toMoreComment'>
         <view class='total-center'>
           <text>查看全部<text>{{totalComment}}</text>条评论</text>
         </view>
@@ -91,10 +91,8 @@
       <view class="evaluate_line"></view>
     </view>
     <view class='evaluateSon' id="{{details.id}}" bindtap='castvote'>
-      <image class='evaluateImg' wx:if="{{isVote == 1}}" src='/images/icon/wenreview.png'></image>
-      <image class='evaluateImg' wx:else src='/images/icon/wenreviewed.png'></image>
-      <!-- <text class='evaluatExtea actvotees'>999</text> -->
-      <text class='evaluatExtea {{isVote == 1 ? "actvotees" : ""}}'>{{voteNum}}</text>
+      <image class='evaluateImg' src='/images/icon/wenreviewed.png'></image>
+      <text class='evaluatExtea'>{{voteNum}}</text>
     </view>
   </view>
 </view>

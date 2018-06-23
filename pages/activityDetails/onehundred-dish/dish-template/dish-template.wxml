@@ -7,18 +7,18 @@
           <text class="list_item_num_l">{{item.skuCode}}号</text>
           <text class="list_item_num_r">{{item.voteNum}}票</text>
         </view>
-        <view class="list_item_vote">投票</view>
+        <view class="list_item_vote" id="{{item.skuId}}" bindtap='castvote'>投票</view>
         <image src="{{item.picUrl}}" mode="aspectFill" id="{{item.skuId}}" bindtap='toDishDetail'></image>
       </view>
       <view class="list_item_bottom">
         <view class="list_item_info">
           <view class="list_item_name">{{item.actSkuName}}</view>
           <view>
-            <text class="price_icon">￥</text><text class="price_real">{{item.agioPrice}}</text>
-            <text class="price_original">原价￥{{item.sellPrice}}</text>
+            <text class="price_icon">￥</text><text class="price_real">{{item.jianAmount}}</text>
+            <text class="price_original">原价￥{{item.manAmount}}</text>
           </view>
         </view>
-        <button id="{{item.id}}">购买</button>
+        <button id="{{item.prSkuId}}" data-index="{{item.id}}" bindtap='payDish'>购买</button>
       </view>
     </view>
   </view>
@@ -38,7 +38,7 @@
       </view>
       <view class="player_bottom">
         <view class="player_name">{{item.nickName}}</view>
-        <view class="click_tolike">为他点赞</view>
+        <view class="click_tolike" bindtap="castvote" id="{{item.userId}}">为他点赞</view>
       </view>
     </view>
   </view>
