@@ -166,8 +166,6 @@ Page({
       lat: this.data.buslat,
       lng: this.data.buslng
     }
-    console.log('_data:', _data)
-    return false
     wx.setStorage({
       key: 'address',
       data: _data,
