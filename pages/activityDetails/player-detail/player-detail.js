@@ -259,6 +259,11 @@ Page({
       }
     })
   },
+  onPageScroll: function () {  //监听页面滑动
+    this.setData({
+      isComment: false
+    })
+  },
   cancelLike() {
     if (app.globalData.userInfo.mobile == undefined || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
       this.setData({

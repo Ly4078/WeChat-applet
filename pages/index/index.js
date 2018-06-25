@@ -393,7 +393,7 @@ Page({
       }
     })
   },
-  gethotlive() {  //获取热门直播数据 
+  gethotlive() {  //获取热门直播数据
     let that = this;
     wx.request({
       url: that.data._build_url + 'zb/top/',
@@ -431,7 +431,8 @@ Page({
   },
   entertainment: function () {  //掌上生活
     wx.navigateTo({
-      url: '../../pages/personal-center/free-of-charge/free-of-charge?cfrom=index',
+      // url: '../../pages/personal-center/free-of-charge/free-of-charge?cfrom=index',
+      url: '../../pages/index/download-app/download',
     })
   },
   activityBanner: function () {      //获取活动banner图
@@ -508,6 +509,7 @@ Page({
   },
   toNewExclusive: function (e) {   //跳转至新人专享页面
     let id = e.currentTarget.id, _linkUrl='';
+    let _idd = e.currentTarget.id
     if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
@@ -534,9 +536,9 @@ Page({
       wx.navigateTo({
         url: '../personal-center/free-of-charge/free-of-charge?img=' + img,
       })
-    } else if (id == 2 && _linkUrl == '35') {
+    } else if (id == 2 && _linkUrl == '37') {
       wx.navigateTo({
-        url: '../activityDetails/hot-activity/hot-activity?id=35',
+        url: '../activityDetails/onehundred-dish/onehundred-dish?actid=37',
       })
     } else if (id == 3 && _linkUrl == '35') {
       wx.navigateTo({

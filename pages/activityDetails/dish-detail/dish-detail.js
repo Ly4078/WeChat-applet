@@ -163,6 +163,11 @@ Page({
       }
     })
   },
+  onPageScroll: function () {  //监听页面滑动
+    this.setData({
+      isComment: false
+    })
+  },
   showAreatext() {
     this.setData({
       isComment: !this.data.isComment

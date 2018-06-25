@@ -135,7 +135,7 @@
 .activity_line {
   position: absolute;
   left: 0;
-  top: 4rpx;
+  top: 8rpx;
   background-color: #FC5E2D;
   height: 28rpx;
   width: 8rpx;
@@ -227,6 +227,7 @@
 }
 
 .comment_tit {
+  height: 60rpx;
   font-size: 28rpx;
   color: #191919;
   position: relative;
@@ -253,7 +254,7 @@
 
 .commentBox {
   bottom: 87rpx;
-  z-index: 9999;
+  z-index: 9;
   font-size: 28rpx;
 }
 
@@ -283,7 +284,7 @@
 .evaluate{
   display: flex;
   flex-direction: row;
-  border-top: 1rpx solid #E0E0E0;
+  border-top: 1rpx solid #B1B1B1;
   height: 86rpx;
   width: 100%;
   position: fixed;

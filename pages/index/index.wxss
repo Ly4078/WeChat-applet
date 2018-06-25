@@ -100,7 +100,7 @@ page {
 }
 
 .recomm-right {
-  margin-left: 16rpx;
+  margin: 0 16rpx 0rpx 0rpx;
 }
 
 .wrap_recommend {
