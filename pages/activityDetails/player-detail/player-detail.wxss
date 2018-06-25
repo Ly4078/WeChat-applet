@@ -1,5 +1,6 @@
+
 .playerDetail {
-  background-color: #EBEBEB;
+  background-color: #fff;
 }
 
 .playerInfo {

@@ -365,12 +365,19 @@ Page({
   },
   gettopic: function () {  // 美食墙
     Api.topictop().then((res) => {
-      // console.log("food:", res.data.data)
+      console.log("food:", res.data.data)
       if (res.data.data) {
-        let _data = res.data.data
+        let _data = res.data.data;
+        let reg = /^1[34578][0-9]{9}$/; 
         for (let i = 0; i < _data.length; i++) {
-          _data[i].summary = utils.uncodeUtf16(_data[i].summary)
-          _data[i].content = utils.uncodeUtf16(_data[i].content)
+          _data[i].summary = utils.uncodeUtf16(_data[i].summary);
+          _data[i].content = utils.uncodeUtf16(_data[i].content);
+          if (reg.test(_data[i].userName)) {
+            _data[i].userName = _data[i].userName.substr(0, 3) + "****" + _data[i].userName.substr(7);
+          }
+          if (reg.test(_data[i].nickName)) {
+            _data[i].nickName = _data[i].nickName.substr(0, 3) + "****" + _data[i].nickName.substr(7);
+          }
         }
         this.setData({
           food: res.data.data
