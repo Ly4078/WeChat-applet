@@ -139,6 +139,9 @@ Page({
   },
   uploadImgs: function (obj) {       //上传图片
     let _this = this, i = obj.idx ? obj.idx : 0;
+    wx.showLoading({
+      title: '图片上传中。。。',
+    })
     wx.uploadFile({
       url: _this.data._build_url + 'img/upload/multi',
       filePath: obj.tempFilePaths[i],
@@ -148,11 +151,7 @@ Page({
         'userName': '15072329516'
       },
       success: (res) => {
-        wx.showToast({
-          title: '上传中..',
-          icon: 'loading',
-          duration: 2000
-        })
+        wx.hideLoading();
         let data = JSON.parse(res.data);
         if (data.code == 0) {
           wx.showToast({
@@ -177,6 +176,7 @@ Page({
         console.log('上传失败');
       },
       complete: (res) => {
+        wx.hideLoading();
         i++;
         if (i == obj.tempFilePaths.length) {
           console.log('上传完毕');
@@ -194,6 +194,9 @@ Page({
   },
   chooseVideo: function () {     //本地选择视频
     let _this = this;
+    wx.showLoading({
+      title: '视频上传中。。。',
+    })
     wx.chooseVideo({
       maxDuration: 15,
       success: function (res) {
@@ -205,11 +208,7 @@ Page({
             'userName': app.globalData.userInfo.userName
           },
           success: (res) => {
-            wx.showToast({
-              title: '上传中..',
-              icon: 'loading',
-              duration: 2000
-            })
+            wx.hideLoading();
             let data = JSON.parse(res.data);
             console.log('res:',data)
             if (data.code == 0) {
@@ -232,7 +231,7 @@ Page({
             console.log(res);
           },
           complete: (res) => {
-
+            wx.hideLoading();
           }
         });
       },

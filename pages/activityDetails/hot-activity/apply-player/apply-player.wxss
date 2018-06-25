@@ -54,11 +54,15 @@
 }
 
 .submit_img, .submit_video {
+  position: relative;
   margin: 31rpx 28rpx;
 }
 
 .submit_img view, .submit_video view {
   margin-bottom: 35rpx;
+}
+.baomin{
+  top:75rpx;
 }
 
 .submit_img text, .submit_video text {

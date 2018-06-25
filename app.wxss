@@ -680,6 +680,7 @@ button::after{
   height: 150rpx;
   opacity: 1;
   margin: 120rpx 272rpx;
+  z-index: 1;
 }
 
 
