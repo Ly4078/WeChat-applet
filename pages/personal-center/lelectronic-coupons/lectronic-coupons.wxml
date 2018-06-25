@@ -31,7 +31,7 @@
         </view>
       </view>
     </view> 
-  </view> 
+  </view>
 
    <view class='lectronic-wrap' wx:if="{{ticketInfo.shopName}}">
     <view class='success'><radio checked="true" bindtap='radioOperate'/>支付成功</view>

@@ -191,8 +191,13 @@ Page({
         'content-type': 'application/json;Authorization'
       },
       success: function (res) {
-        let _data = res.data.data
-        _data.popNum = utils.million(_data.popNum)
+        let _data = res.data.data;
+        console.log('_data:',_data);
+        _data.popNum = utils.million(_data.popNum);
+        
+        if (_data.address.indexOf('-') > 0) {
+          _data.address = _data.address.replace(/-/g, "");
+        }
         that.setData({
           store_details: _data,
           store_images: _data.shopTopPics.length

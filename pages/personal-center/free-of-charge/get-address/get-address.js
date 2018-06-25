@@ -148,8 +148,6 @@ Page({
     })
   },
   define:function(){
-    let _region = this.data.region.join(",")
-    _region = _region.replace(/,/g, '');
     if (this.data.address == ''){
       wx.showToast({
         title: '请输入详细地址，以方便顾客能准确到店',
@@ -159,12 +157,17 @@ Page({
       })
       return false
     }
+    let _region = this.data.region.join(",")
+    _region = _region.replace(/,/g, '-');
+    _region = _region + '-' + this.data.address;
     let _data = {
       address: this.data.address,
       reg: _region,
       lat: this.data.buslat,
       lng: this.data.buslng
     }
+    console.log('_data:', _data)
+    return false
     wx.setStorage({
       key: 'address',
       data: _data,
