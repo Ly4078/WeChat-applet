@@ -102,7 +102,7 @@
 .playerResource {
   background-color: #fff;
   padding-bottom: 76rpx;
-  /* margin-bottom: 20rpx; */
+  margin-bottom: 100rpx; 
 }
 
 .playerResource video, .playerResource image {

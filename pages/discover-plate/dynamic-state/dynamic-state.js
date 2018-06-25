@@ -18,6 +18,7 @@ Page({
     percent:0,
     isplay:false,
     isprogress:false,
+    isfirst:true,
     defaimg:''  //默认视频图片
   },
 
@@ -132,7 +133,8 @@ Page({
   //暂停播放视频
   pausevideo:function(){
     this.setData({
-      isplay: false
+      isplay: false,
+      isfirst: true
     })
   },
   bindblurinput: function (e) { //焦点离开标题框  获取框中value
@@ -148,9 +150,15 @@ Page({
   },
   getcover: function () {  //获取封面图片
     this.getimg('b');
+    this.setData({
+      isfirst:true
+    })
   },
   bindButtonTap: function () {  //获取视频
     let that = this, timer=null,scale = 0.3;
+    this.setData({
+      isfirst: true
+    })
     wx.chooseVideo({
       sourceType: ['camera','album'],
       maxDuration: 60,
@@ -284,33 +292,41 @@ Page({
       isplus: true
     })
   },
-  clickimg: function () {  //添加内容图片
-    let that = this;
+  bindfocus:function(){
     this.setData({
-      isplus: true
+      isfirst: true
+    })
+  },
+  clickimg: function () {  //添加内容图片
+    this.setData({
+      isplus: true,
+      isfirst: true
     })
     this.getimg('a')
   },
   clicktxt: function () {  //添加文字
     this.setData({
-      isplus: true
+      isplus: true,
+      isfirst: true
     })
     wx.redirectTo({
       url: 'text_input/text_input'
     })
   },
   changepicture: function (e) {  //更换内容中的图片
-    let that = this;
-    let ind = e.currentTarget.id;
+    let that = this, ind = e.currentTarget.id;
+    this.setData({
+      isfirst: true
+    })
     if (this.data.content[ind].type == 'img') {
       this.getimg(ind)
     }
   },
   bindblurnote: function (e) {  //图片简介输入
-    let that = this;
-    let ind = e.currentTarget.id;
-    let _value = e.detail.value;
-    let data = that.data.content;
+    let that = this,ind = e.currentTarget.id,_value = e.detail.value, data = that.data.content;
+    this.setData({
+      isfirst: true
+    })
     if (data[ind].type == 'img') {
       data[ind].txt = _value;
       that.setData({
@@ -355,8 +371,8 @@ Page({
     })
   },
   FormSubmit(e) {  // 点击按钮
-    let that = this
-    let ind = e.currentTarget.id
+    console.log("isfirst:", this.data.isfirst)
+    let that = this,ind = e.currentTarget.id;
     if (ind == '预览') {  //  ['预览','提交','退出编辑']
       let [..._data] = this.data.content
       _data= JSON.stringify(_data)
@@ -366,12 +382,6 @@ Page({
       })
     } else if (ind == '提交') {
       // console.log("app.globalData.userInfo:", app.globalData.userInfo)
-      wx.showToast({
-        title: '正在提交，请稍等',
-        mask: 'true',
-        icon: 'none',
-        duration: 2000
-      })
       let sum = [];
       let _content = JSON.stringify(this.data.content);
       let _con = utils.utf16toEntities(_content)
@@ -420,7 +430,6 @@ Page({
           return false
         }
       }
-      
       if (!_title) {
         wx.showToast({
           title: '请输入标题',
@@ -429,6 +438,12 @@ Page({
         })
         return false
       }
+      if (!this.data.isfirst) {
+        return false
+      }
+      this.setData({
+        isfirst: false
+      })
       let _parms = {
         title: _title,
         content: _con,
@@ -438,7 +453,11 @@ Page({
         userName: app.globalData.userInfo.userName,
         nickName: app.globalData.userInfo.nickName
       }
+      wx.showLoading({
+        title: '正在提交...',
+      })
       Api.topicadd(_parms).then((res) => {
+        wx.hideLoading()
         if (res.data.code == 0) {
           setTimeout(function () {
             wx.showToast({

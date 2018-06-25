@@ -20,13 +20,13 @@ Page({
     isticket:false,
     frequency:0,
     shopodrder:{},
+    istickts:false,
     isDish: false
   },
   onLoad: function (options) {
-    // console.log(options)
+    console.log(options)
     let that = this;
     if(options.pay== 'pay'){  //从商家订单支付跳转过来的
-      console.log("pay")
       this.getshopOrderList(options.soid);
     }else{
       if (options.myCount && options.myCount == 1) {
@@ -55,6 +55,7 @@ Page({
           timer: int
         })
       }
+      
       this.getTicketInfo();
     }
   },

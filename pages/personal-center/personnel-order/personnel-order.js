@@ -171,7 +171,7 @@ Page({
         let shoplist = this.data.shoporderlist,actdata={};
         for (let i = 0; i < shoplist.length;i++){
           if (id = shoplist[i].id){
-            actdata = shoplist[i];
+            actdata = shoplist[i]
           }
         }
         wx.navigateTo({
@@ -181,6 +181,7 @@ Page({
     } else {  //平台订单
       for (let i = 0; i < listArr.length; i++) {
         if (id == listArr[i].id) {
+          console.log("listArr:", listArr[i])
           sell = listArr[i].unitPrice;
           rule = listArr[i].ruleDesc;
           inp = parseInt(listArr[i].skuName);
@@ -188,11 +189,14 @@ Page({
           soId = listArr[i].soId;
         }
       }
+      
       if (sostatus == 1) {
+        console.log("11111")
         wx.navigateTo({
           url: '/pages/index/order-for-goods/order-for-goods?id=' + id + '&soid=' + soId + '&sell=' + sell + '&inp=' + inp + '&rule=' + rule + '&num=' + num + '&sostatus=1'
         })
       } else if (sostatus == 2 || sostatus == 3) {
+        console.log("2222")
         wx.navigateTo({
           url: '../lelectronic-coupons/lectronic-coupons?id=' + id + '&soid=' + soId + '&cfrom=ticket'
         })

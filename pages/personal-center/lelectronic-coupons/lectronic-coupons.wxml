@@ -20,12 +20,12 @@
       </view>
     </view>
      <view catchtap='sublevelSum' wx:if="{{ticket[0].type != 3}}">
-      <view class='restrict-time'>
+      <view class='restrict-time' wx:if="{{isticket}}">
         <view class='restrict-caution'>
           <text wx:if="{{isticket}}">有限期至:</text>
           <text wx:if="{{isticket}}">{{ticket[0].expiryDate}}</text>
         </view>
-        <view class='restric-page-down'>
+        <view class='restric-page-down' wx:if="{{isticket}}">
           <text class='restric-page-text' id="{{ticketInfo.id}}">使用详情</text>
           <image class='restrict-Images' src='/images/icon/home_arrow.png'></image>
         </view>

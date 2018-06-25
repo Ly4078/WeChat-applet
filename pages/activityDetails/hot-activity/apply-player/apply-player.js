@@ -94,6 +94,7 @@ Page({
       picIds: this.data.imgsIdArr,
       actUserName: inpVal.name
     }
+ 
     Api.apply(_parms).then((res) => {
       let data = res.data;
       if(data.code == 0) {

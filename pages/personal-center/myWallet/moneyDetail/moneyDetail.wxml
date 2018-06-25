@@ -1,5 +1,5 @@
 <view>
-  <view class='particulars' wx:for="{{data}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
+  <view class='particulars' wx:if="{{isdata}}"  wx:for="{{data}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
     <view class='particulars_left'>
       <text wx:if="{{item.operateType==2}}">收入</text>
       <text wx:if="{{item.operateType==1}}">支出</text>
@@ -10,5 +10,8 @@
       <text wx:else>-</text>
       <text>{{item.operateAmount}}</text>
     </view>
+  </view>
+  <view wx:if="{{!isdata}}" class='kongkong'>
+     <image src="/images/icon/zhanweitu.png"></image> 
   </view>
 </view>

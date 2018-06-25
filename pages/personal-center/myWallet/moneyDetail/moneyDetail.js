@@ -7,6 +7,7 @@ Page({
     detailList:'',
     data:[],
     page:1,
+    isdata:false
   },
   onReachBottom: function () {  //用户上拉触底加载更多
     let oldpage = this.data.page
@@ -38,8 +39,13 @@ Page({
         for (let i = 0; i < _data.length; i++) {
           posts.push(_data[i])
         }
+        if(posts.length>0){
+          this.setData({
+            isdata:true
+          })
+        }
         this.setData({
-          data: posts,
+          data: posts
         })
       }
     })

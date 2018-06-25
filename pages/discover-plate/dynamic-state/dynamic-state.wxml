@@ -16,7 +16,7 @@
   <progress class='progress' wx:if="{{isprogress}}" percent="{{percent}}" show-info />
 </view>
 
-  <input bindblur="bindblurinput" placeholder-class="phcolor" value='{{title}}' class='title' type='text' placeholder='请输入标题'></input>
+  <input bindblur="bindblurinput" placeholder-class="phcolor" value='{{title}}' class='title' type='text' placeholder='请输入标题' bindfocus="bindfocus"></input>
 
   <view wx:for="{{content}}" wx:key="{{index}}">
     <view class='box' wx:if="{{item.type == 'img'}}">
