@@ -348,10 +348,12 @@ const ALL_API = {
     method: 'GET',
     url: 'act/actVoteNums'
   },
+
   sharePic: {//分享到朋友圈的截图
     method: 'GET',
     url: 'act/CreateCode'
   },
+
   pushSoByShop:{
     method:'GET',
     url:'shop/pushSoByShop'

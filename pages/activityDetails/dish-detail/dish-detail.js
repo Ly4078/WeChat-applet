@@ -152,11 +152,17 @@ Page({
       rows: 5
     };
     Api.cmtlist(_parms).then((res) => {
-      let data = res.data;
       if (data.code == 0) {
+        let _data = res.data.data;
+        let reg = /^1[34578][0-9]{9}$/;
+        for (let i in _data.list) {
+          if (reg.test(_data.list[i].userName)) {
+            _data.list[i].userName = _data.list[i].userName.substr(0, 3) + "****" + _data.list[i].userName.substr(7);
+          }
+        }
         this.setData({
-          comment_list: data.data.list,
-          commentTotal: data.data.total
+          comment_list: _data.list,
+          commentTotal: _data.total
         });
       } else {
 

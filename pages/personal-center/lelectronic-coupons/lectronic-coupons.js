@@ -88,6 +88,7 @@ Page({
       url: this.data._build_url + 'cp/get/' + this.data.id,
       success: function (res) {
         let data = res.data;
+        console.log('data:',data)
         if(res.data.code == 0){
           let arr = [],ticketArr=[];
           arr.push(res.data.data);
@@ -140,8 +141,7 @@ Page({
     wx.request({
       url: that.data._build_url + 'so/getForOrder/' + that.data.soid,
       success: function (res) {
-        // console.log('resres:',res)
-        let _skuNum = res.data.data.coupons
+        let _skuNum = res.data.data.coupons;
         for (let i = 0; i < _skuNum.length; i++) {
           let ncard = ''
           for (var n = 0; n < _skuNum[i].couponCode.length; n = n + 4) {

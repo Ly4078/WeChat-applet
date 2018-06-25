@@ -18,6 +18,7 @@ Page({
     dishLish: [],
     playerList: [],
     sortType: 2,
+    isflag:0,
     isOption: false
   },
   onLoad: function (options) {
@@ -42,7 +43,19 @@ Page({
     }
   },
   onShow: function () {
-    if (app.globalData.userInfo.mobile == undefined || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+    let that = this;
+    wx.request({
+      url: this.data._build_url + 'act/flag',
+      success: function (res) {
+        console.log('res:', res)
+        that.setData({
+          isflag: res.data.data
+        });
+        console.log(that.data.isflag)
+      }
+    })
+   
+    if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
       })
@@ -64,7 +77,7 @@ Page({
     }
   },
   actInfo: function () {   //活动简介
-    if (app.globalData.userInfo.mobile == undefined || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+    if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
       })
@@ -102,7 +115,7 @@ Page({
     })
   },
   toApply: function () {    //跳转至报名页面
-    if (app.globalData.userInfo.mobile == undefined || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+    if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
       })

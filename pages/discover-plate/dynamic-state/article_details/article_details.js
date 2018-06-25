@@ -42,6 +42,7 @@ Page({
       this.setData({
         details: options
       })
+      
       this.setData({
         userInfo: app.globalData.userInfo
       })
@@ -58,14 +59,17 @@ Page({
     }
     Api.getTopicByZan(_parms).then((res) => {
       if (res.data.code == 0) {
-        console.log('res:',res)
         let _data = res.data.data;
         _data.summary = utils.uncodeUtf16(_data.summary)
         _data.content = utils.uncodeUtf16(_data.content)
         _data.timeDiffrence = utils.timeDiffrence(res.data.currentTime, _data.updateTime, _data.createTime)
         _data.content = JSON.parse(_data.content);
         _data.hitNum = utils.million(_data.hitNum)
-        _data.zan = utils.million(_data.zan)  
+        _data.zan = utils.million(_data.zan) 
+        let reg = /^1[34578][0-9]{9}$/; 
+        if (reg.test(_data.userName)) {
+          _data.userName = _data.userName.substr(0, 3) + "****" + _data.userName.substr(7);
+        }
         this.setData({
           details: _data
         })
@@ -102,8 +106,11 @@ Page({
           _data.list[i].zan = utils.million(_data.list[i].zan) 
           if (reg.test(_data.list[i].nickName)) {
             _data.list[i].nickName = _data.list[i].nickName.substr(0, 3) + "****" + _data.list[i].nickName.substr(7)
+          } 
+          if (reg.test(_data.list[i].userName)) {
+            _data.list[i].userName = _data.list[i].userName.substr(0, 3) + "****" + _data.list[i].userName.substr(7)
           }
-        }
+        } 
         this.setData({
           cmtdata: _data
         })
@@ -111,7 +118,7 @@ Page({
     })
   },
   showAreatext: function () {  //显示发表输入框
-    if (app.globalData.userInfo.mobile == 'a' || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+    if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
       })

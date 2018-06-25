@@ -57,7 +57,7 @@
     </view>
     <!-- 时间阶段和描述 -->
     <!-- 主办单位 -->
-    <view class="sponsor">
+    <view class="sponsor" wx:if="{{isflag == 0}}">
       <view class="sponsor_tit">- 主办单位 -</view>
       <text class="sponsor_cont">主办单位：十堰市旅游委\n行业指导：十堰市食药局、十堰市餐饮协会\n承办单位：中国《汽车之旅》杂志社、湖北三木广告有限公司\n执行单位：湖北享七网络科技有限公司\n活动网络平台：享7美食</text>
       <view class="sponsor_tit sponsor_media">- 媒体支持 -</view>

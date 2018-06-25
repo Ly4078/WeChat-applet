@@ -37,7 +37,7 @@
   </view>
   <view class="playerResource">
     <block wx:for="{{picUrls}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
-      <video wx:if="{{item.isVideo}}" src="{{item.picUrl}}" poster="{{item.smallPicUrl ? item.smallPicUrl : ''}}"></video>
+      <video wx:if="{{item.isVideo}}" src="{{item.picUrl}}" objectFit="fill" poster="{{item.smallPicUrl ? item.smallPicUrl : ''}}"></video>
       <image wx:else src="{{item.picUrl}}" mode='aspectFill'></image>
     </block>
   </view>
