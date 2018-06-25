@@ -11,7 +11,7 @@ Page({
     cfrom:''
   },
   onLoad: function (options) {
-    console.log(options)
+    console.log("options:", options)
     if (options.actId) {
       this.setData({
         actId: options.actId,

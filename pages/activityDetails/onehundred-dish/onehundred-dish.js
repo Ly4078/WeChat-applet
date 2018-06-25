@@ -384,7 +384,7 @@ Page({
     });
   },
   payDish(e) {    //购买推荐菜
-    if (app.globalData.userInfo.mobile == undefined || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+    if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
       })

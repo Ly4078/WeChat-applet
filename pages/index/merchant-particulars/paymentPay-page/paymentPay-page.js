@@ -360,7 +360,6 @@ Page({
           }
           Api.createForShop(_parms).then((res) => {
             if (res.data.code == 0) {
-              
               that.updetauserinfo(res.data.data)
             }
           })
@@ -402,6 +401,7 @@ Page({
             wx.redirectTo({
               url: '../../../personal-center/lelectronic-coupons/lectronic-coupons?pay=pay' + '&soid=' + soid
             })
+            that.messagepush();
           },
           fail: function (res) {
             wx.showToast({
@@ -411,6 +411,23 @@ Page({
             })
           }
         })
+      }
+    })
+  },
+  messagepush:function(){
+    let that = this;
+    let _parms = {
+      alias:app.globalData.userInfo.userId,
+      type:'android',
+      title:'收款通知',
+      messageInfo:'享七收款' + that.data.payment+'元',
+      badge:1,
+      ios:'1',
+      shopId:app.globalData.userInfo.shopId
+    }
+    Api.pushSoByShop(_parms).then((res) => {
+      if(res.data.code == 0){
+        console.log('推送成功')
       }
     })
   }

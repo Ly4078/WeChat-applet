@@ -1,5 +1,4 @@
 <view>
-
    <view class='lectronic-wrap'  wx:if="{{!ticketInfo.shopName}}">
     <view class='lectronic-top'>
       <view class='lectronic-left'>
@@ -20,7 +19,7 @@
         <text>已完成</text>
       </view>
     </view>
-    <view catchtap='sublevelSum' wx:if="{{!isDish}}">
+     <view catchtap='sublevelSum' wx:if="{{ticket[0].type != 3}}">
       <view class='restrict-time'>
         <view class='restrict-caution'>
           <text wx:if="{{isticket}}">有限期至:</text>
@@ -31,9 +30,8 @@
           <image class='restrict-Images' src='/images/icon/home_arrow.png'></image>
         </view>
       </view>
-    </view>
+    </view> 
   </view> 
-
 
    <view class='lectronic-wrap' wx:if="{{ticketInfo.shopName}}">
     <view class='success'><radio checked="true" bindtap='radioOperate'/>支付成功</view>

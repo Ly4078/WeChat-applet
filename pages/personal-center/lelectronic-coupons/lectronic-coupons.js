@@ -1,7 +1,8 @@
 // import Api from '../../../utils/config/config.js';
-import Api from '../../../utils/config/api.js'
+import Api from '../../../utils/config/api.js';
 import { GLOBAL_API_DOMAIN } from '../../../utils/config/config.js';
 var app = getApp();
+
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
@@ -22,7 +23,7 @@ Page({
     isDish: false
   },
   onLoad: function (options) {
-    console.log(options)
+    // console.log(options)
     let that = this;
     if(options.pay== 'pay'){  //从商家订单支付跳转过来的
       console.log("pay")
@@ -88,17 +89,33 @@ Page({
       success: function (res) {
         let data = res.data;
         if(res.data.code == 0){
-          let arr = [];
-          arr.push(res.data.data)
+          let arr = [],ticketArr=[];
+          arr.push(res.data.data);
+
+          for (let i = 0; i < arr.length; i++) {
+            let Cts = "现金", Dis = '折扣';
+            if (arr[i].skuName.indexOf(Cts) > 0) {
+              arr[i].cash = true
+            }
+            if (arr[i].skuName.indexOf(Dis) > 0) {
+              arr[i].discount = true
+            }
+            ticketArr.push(arr[i]);
+          }
+
           wx.hideLoading();
           that.setData({
-            ticket: arr
+            ticket: ticketArr
           })
+          console.log(that.data.ticket)
           if (res.data.data.isUsed != 0){
             clearInterval(that.data.timer)
             that.setData({
               ismoldel:true
             })
+          }
+          if (res.data.data.type == 3) {
+            clearInterval(that.data.timer);
           }
         }
       }
@@ -123,6 +140,7 @@ Page({
     wx.request({
       url: that.data._build_url + 'so/getForOrder/' + that.data.soid,
       success: function (res) {
+        // console.log('resres:',res)
         let _skuNum = res.data.data.coupons
         for (let i = 0; i < _skuNum.length; i++) {
           let ncard = ''
@@ -158,12 +176,12 @@ Page({
             qrCodeArr: imgsArr,
             _skuNum: _skuNum
           });
-          let dish = '食典';
-          if (that.data.ticketInfo.skuName.indexOf(dish) > 0) {
-            that.setData({
-              isDish: true
-            });
-          }
+          // let dish = '食典';
+          // if (that.data.ticketInfo.skuName.indexOf(dish) > 0) {
+          //   that.setData({
+          //     isDish: true
+          //   });
+          // }
         }
       }
     });
@@ -175,10 +193,18 @@ Page({
     });
   },
   sublevelSum: function (event) {
-    let that = this;
-    wx.navigateTo({
-      url: '../../index/voucher-details/voucher-details?id=' + that.data.ticketInfo.skuId + ' &sell=' + that.data.ticketInfo.unitPrice + '&inp=' + that.data.ticketInfo.coupons[0].couponAmount + '&rule=' + that.data.ticketInfo.coupons[0].promotionRules[0].ruleDesc + '&num=' + that.data.ticketInfo.skuNum
-    })
+    let that = this, _ind = this.data.ticket[0].type;
+    if (this.data.ticket[0].cash) {  //现金
+      wx.navigateTo({
+        url: '../../index/voucher-details/voucher-details?id=' + that.data.ticketInfo.skuId + ' &sell=' + that.data.ticketInfo.unitPrice + '&inp=' + that.data.ticketInfo.coupons[0].couponAmount + '&rule=' + that.data.ticketInfo.coupons[0].promotionRules[0].ruleDesc + '&num=' + that.data.ticketInfo.skuNum
+      })
+    } else if (this.data.ticket[0].discount){  //折扣
+      wx.navigateTo({
+        url: '../../index/voucher-details/voucher-details?cfrom=pack',
+      })
+    } else if (this.data.ticket[0].type == 3){
+      console.log("食典券详情")
+    }
   },
   
   clickmolbox:function(){  //关闭弹框
@@ -215,19 +241,26 @@ Page({
       id:soid,
       soStatus:'2'
     };
+    console.log("_parms:", _parms)
     Api.myorderForShop(_parms).then((res) => {
-      if(res.data.code == 0){
+      console.log('res:',res)
+      if (res.data.code == 0 || res.data.code == 200){
         this.setData({
-          ticketInfo:res.data.data[0],
+          ticketInfo:res.data.data.list[0],
           isticket: false
         })
       }
     })
-    let dish = '食典';
-    if (that.data.ticketInfo.skuName.indexOf(dish) > 0) {
-      that.setData({
-        isDish: true
-      });
-    }
+    console.log(res.data.data.list[0])
+    // let dish = '食典';
+    // if (that.data.ticketInfo.skuName.indexOf(dish) > 0) {
+    //   that.setData({
+    //     isDish: true
+    //   });
+    // }
   }
 })
+
+
+
+

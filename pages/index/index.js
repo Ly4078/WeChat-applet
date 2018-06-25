@@ -332,6 +332,9 @@ Page({
   },
   getcarousel: function () {  //轮播图
     let that = this;
+    if (this.data.carousel.length){
+      return false
+    }
     Api.hcllist().then((res) => {
       // console.log("carousel:",res.data.data)
       if (res.data.data) {
@@ -499,14 +502,22 @@ Page({
       title: "即将开发",
       icon: 'none',
     })
+    // wx.navigateTo({
+    //   url: './livepage/livepage'
+    // })
   },
   toNewExclusive: function (e) {   //跳转至新人专享页面
-    let id = e.currentTarget.id;
-    if (app.globalData.userInfo.mobile == undefined || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+    let id = e.currentTarget.id, _linkUrl='';
+    if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
       })
       return false
+    }
+    for (let k in this.data.carousel){
+      if (id == this.data.carousel[k].id){
+        _linkUrl= this.data.carousel[k].linkUrl
+      }
     }
     if (id == 4) {
       wx.navigateTo({
@@ -523,11 +534,11 @@ Page({
       wx.navigateTo({
         url: '../personal-center/free-of-charge/free-of-charge?img=' + img,
       })
-    } else if (id == 2) {
+    } else if (id == 2 && _linkUrl == '35') {
       wx.navigateTo({
         url: '../activityDetails/hot-activity/hot-activity?id=35',
       })
-    } else if (id == 3) {
+    } else if (id == 3 && _linkUrl == '35') {
       wx.navigateTo({
         url: '../activityDetails/hot-activity/hot-activity?id=34',
       })

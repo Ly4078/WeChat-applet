@@ -5,7 +5,6 @@
   <!--顶部 定位 搜索 卷  -->
   <!-- <template is="locationSeek" data="{{...item}}" /> -->
 
-
   <view class="newUserModal" wx:if="{{issnap}}">
     <view class='drawer_screen'>
       <view class='sqtishi'>提示</view>
