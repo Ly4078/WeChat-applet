@@ -80,7 +80,7 @@
 }
 
 .btn_area {
-  padding: 30rpx 60rpx 0 60rpx;
+  padding: 30rpx 60rpx 30rpx 60rpx;
   background-color: #EBEBEB;
   width: 100%;
   text-align: center;
