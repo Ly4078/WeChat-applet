@@ -58,6 +58,13 @@ Page({
       })
       return false;
     }
+    if (this.isNull(inpVal.signText)) {
+      wx.showToast({
+        title: '请填写个性签名',
+        icon: 'none'
+      })
+      return false;
+    }
     if (!this.blurmobile(inpVal.tele)) {
       wx.showToast({
         title: '请填写正确的联系方式',
@@ -92,14 +99,15 @@ Page({
       age: inpVal.age,
       height: inpVal.height,
       picIds: this.data.imgsIdArr,
-      actUserName: inpVal.name
+      actUserName: inpVal.name,
+      userInfo: inpVal.signText
     }
  
     Api.apply(_parms).then((res) => {
       let data = res.data;
       if(data.code == 0) {
         wx.showToast({
-          title: '报名成功，等待审核',
+          title: '报名成功，返回活动首页查看',
           icon: 'none'
         })
         if (_this.data.actId == 37) {
@@ -141,7 +149,7 @@ Page({
   uploadImgs: function (obj) {       //上传图片
     let _this = this, i = obj.idx ? obj.idx : 0;
     wx.showLoading({
-      title: '图片上传中。。。',
+      title: '图片上传中...',
     })
     wx.uploadFile({
       url: _this.data._build_url + 'img/upload/multi',
@@ -157,7 +165,7 @@ Page({
         if (data.code == 0) {
           wx.showToast({
             title: '上传成功',
-            icon: 'success'
+            icon: 'none'
           })
           let imgs = _this.data.imgsArr, imgsId = _this.data.imgsIdArr;
           imgs.push(data.data[0].smallPicUrl);
@@ -196,9 +204,7 @@ Page({
   },
   chooseVideo: function () {     //本地选择视频
     let _this = this;
-    wx.showLoading({
-      title: '视频上传中。。。',
-    })
+    
     wx.chooseVideo({
       maxDuration: 15,
       success: function (res) {
@@ -215,7 +221,7 @@ Page({
             if (data.code == 0) {
               wx.showToast({
                 title: '上传成功',
-                icon: 'success'
+                icon: 'none'
               })
               _this.setData({
                 videoUrl: data.data.picUrl,

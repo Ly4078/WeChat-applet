@@ -41,6 +41,15 @@
   color:#B1B1B1;
 }
 
+.sectionText{
+  height: 200rpx;
+  margin:0 20rpx;
+}
+
+.sectionText textarea{
+  height: 180rpx;
+}
+
 .section .radio-group-man {
   margin-right: 100rpx;
 }

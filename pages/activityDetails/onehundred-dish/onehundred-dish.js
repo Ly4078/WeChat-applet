@@ -123,7 +123,7 @@ Page({
     }
     if (app.globalData.userInfo.userType == '2' && app.globalData.userInfo.shopId != '') {
       wx.showToast({
-        title: '您是商家，请移步至商家端App报名',
+        title: '商家请移步至商家端App报名',
         icon: 'none'
       })
     } else {

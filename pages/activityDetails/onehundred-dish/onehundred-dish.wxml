@@ -56,6 +56,7 @@
         <button bindtap='eventDetailss'>活动详情</button>
         <button bindtap='toApply'>我要报名</button>
       </view>
+      <view class='warm'><text>温馨提示:如您是商家用户请移步至商家APP报名参加活动</text></view>
     </view>
     <!-- 时间阶段和描述 -->
     <!-- 主办单位 -->

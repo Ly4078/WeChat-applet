@@ -442,4 +442,11 @@
   font-size: 24rpx;
   margin-top: 10rpx;
 }
+
+.warm{
+  width: 100%;
+  text-align: center;
+  color: red;
+  letter-spacing: 2rpx;
+}
 /* 活动列表 */
