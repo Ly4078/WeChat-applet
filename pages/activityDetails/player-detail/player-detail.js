@@ -18,7 +18,8 @@ Page({
     height: 0,
     userCode: 0,
     voteNum: 0,
-    picUrls: [],
+    videoArr: [],
+    imgArr: [],
     article: [],
     articleNum: 0,
     comment_list: [],
@@ -71,22 +72,19 @@ Page({
           voteNum: data.voteNum
         });
         this.comment();
-        let picUrls = data.picUrls, sourceArr = [], videoArr = [];
+        let picUrls = data.picUrls, imgArr = [], videoArr = [];
         for (let i = 0; i < picUrls.length; i++) {
           let str = picUrls[i].picUrl;
           if (str.substring(str.length - 4, str.length) == '.mp4') {
-            picUrls[i].isVideo = true;
             videoArr.push(picUrls[i]);
           } else {
-            picUrls[i].isVideo = false;
-            sourceArr.push(picUrls[i]);
+            imgArr.push(picUrls[i]);
           }
-          this.setData({
-            bgUrl: sourceArr[0].picUrl
-          });
         }
         this.setData({
-          picUrls: videoArr.concat(sourceArr)
+          videoArr: videoArr,
+          imgArr: imgArr,
+          bgUrl: imgArr[0].picUrl
         });
       } else {
         wx.showToast({

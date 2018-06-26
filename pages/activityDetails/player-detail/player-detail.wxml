@@ -36,10 +36,22 @@
     </view>
   </view>
   <view class="playerResource" style="{{article.length > 0 ? '' : 'padding-bottom: 76rpx;'}}">
-    <block wx:for="{{picUrls}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
-      <video wx:if="{{item.isVideo}}" src="{{item.picUrl}}" objectFit="fill" poster="{{item.smallPicUrl ? item.smallPicUrl : ''}}"></video>
-      <image wx:else src="{{item.picUrl}}" mode='widthFix'></image>
-    </block>
+    <view class="playerVideo">
+      <block wx:for="{{videoArr}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
+        <video src="{{item.picUrl}}" objectFit="fill" poster="{{item.smallPicUrl ? item.smallPicUrl : ''}}"></video>
+      </block>
+      <view class="videoLikeNum">
+        <text>2356</text>
+        <image src="/images/icon/heart.png"></image>
+      </view>
+    </view>
+    <view class="playerImgs">
+      <scroll-view scroll-x="true">
+        <block wx:for="{{imgArr}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
+          <image src="{{item.picUrl}}" mode='aspectFill'></image>
+        </block>
+      </scroll-view>
+    </view>
   </view>
   <view class="activity" wx:if="{{article.length > 0}}" style="{{totalComment > 0 ? '' : 'padding-bottom: 76rpx;'}}">
     <view class="activity_tit" bindtap="homePage">
@@ -59,20 +71,32 @@
           <view class="activity_item" id="{{item.id}}" data-index="{{item.zan}}" bindtap="toDetails">
             <image class="act_item_bg" src="{{item.homePic}}" mode='aspectFill'></image>
             <view class="act_item_info">
-              <image src="{{item.iconUrl}}"></image>
-              <text>{{item.nickName ? item.nickName : item.userName}}</text>
+              <text class="act_info_text">深夜食堂深夜食堂深夜食堂深夜食堂深夜食堂深夜食堂深夜食堂深夜食堂深夜食堂深夜食堂</text>
+              <view class="act_info_like">
+                <text class="act_likeNum">1662</text>
+                <image src="/images/icon/smallHeart.png"></image>
+              </view>
             </view>
-            <view class="act_item_cont">{{item.summary}}</view>
           </view>
         </block>
       </scroll-view>
     </view>
   </view>
+  <view class="uploadVideo">
+    <view>
+      <view class="uploadVideo_t">
+        <text class="activity_line"></text>
+        <text>上传视频</text>
+      </view>
+      <text class="uploadVideo_b">可上传抖音、快手等关于美食的原创小视频</text>
+    </view>
+    <view class="uploadBtn">添加</view>
+  </view>
   <view class="comment" wx:if="{{totalComment > 0}}">
     <view class="comment_tit" bindtap="toMoreComment">
       <view>
         <text class="activity_line"></text>
-        <text>精选评价</text>
+        <text>精选评价</text><text class="activity_num">({{totalComment}})</text>
       </view>
       <image class='initiate-right' src='/images/icon/home_arrow.png'></image>
     </view>
