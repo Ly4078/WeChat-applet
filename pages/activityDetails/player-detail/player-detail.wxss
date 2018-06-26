@@ -1,16 +1,15 @@
-
 .playerDetail {
   background-color: #fff;
 }
 
 .playerInfo {
-  height: 250rpx; 
+  height: 250rpx;
   width: 100%;
   position: relative;
 }
 
 .playerInfoBack {
-   height: 100%; 
+  height: 100%;
   width: 100%;
   background-color: #191919;
   opacity: 0.8;
@@ -49,7 +48,7 @@
 }
 
 .info_inner_r {
-  margin-left: 46rpx; 
+  margin-left: 46rpx;
   color: #fff;
   font-size: 20rpx;
 }
@@ -73,12 +72,12 @@
 }
 
 .info_age {
-  background-color: #48A9DE;
+  background-color: #48a9de;
   margin-right: 18rpx;
 }
 
 .info_address {
-  background-color: #DE8848;
+  background-color: #de8848;
 }
 
 /* .info_cont {
@@ -102,20 +101,23 @@
 
 .playerResource {
   background-color: #fff;
-  padding-bottom: 76rpx;
-  margin-bottom: 100rpx; 
 }
 
-.playerResource video, .playerResource image {
+.playerResource image {
+  width: 100%;
+}
+
+.playerResource video {
   height: 544rpx;
   width: 100%;
+  display: block;
+  margin-bottom: 10rpx;
 }
 
 .activity {
   background-color: #fff;
-  padding: 26rpx 0 26rpx 28rpx;
+  padding: 26rpx 0 0rpx 28rpx;
   box-sizing: border-box;
-  margin-bottom: 20rpx;
 }
 
 .activity_tit {
@@ -136,14 +138,14 @@
 .activity_line {
   position: absolute;
   left: 0;
-  top: 8rpx;
-  background-color: #FC5E2D;
+  top: 6rpx;
+  background-color: #fc5e2d;
   height: 28rpx;
   width: 8rpx;
 }
 
 .activity_explain, .activity_tit_r {
-  color: #B1B1B1;
+  color: #b1b1b1;
   font-size: 24rpx;
 }
 
@@ -172,8 +174,8 @@
   height: 338rpx;
   border-radius: 12rpx;
   overflow: hidden;
-   display: inline-block; 
-  margin-right: 16rpx; 
+  display: inline-block;
+  margin-right: 16rpx;
 }
 
 .activity_item:last-child {
@@ -191,7 +193,7 @@
   top: 0;
   left: 0;
   padding: 12rpx 0 0 20rpx;
-  box-sizing: border-box; 
+  box-sizing: border-box;
 }
 
 .act_item_info image {
@@ -224,7 +226,7 @@
 
 .comment {
   background-color: #fff;
-  padding: 26rpx 26rpx 220rpx 28rpx;
+  padding: 26rpx 26rpx 76rpx 28rpx;
 }
 
 .comment_tit {
@@ -233,7 +235,19 @@
   color: #191919;
   position: relative;
   padding-left: 22rpx;
-  border-bottom: 1rpx solid #E0E0E0;
+  border-bottom: 1rpx solid #e0e0e0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.initiate-exhibition {
+  border-bottom:1rpx solid #e0e0e0;
+}
+
+.initiate-right {
+  width:14rpx;
+  height:24rpx;
+  padding-top: 8rpx;
 }
 
 .comment_list {
@@ -246,8 +260,8 @@
 
 .total-center {
   display: inline-block;
-  border: 1rpx solid #FC5E2D;
-  color: #FC5E2D;
+  border: 1rpx solid #fc5e2d;
+  color: #fc5e2d;
   font-size: 28rpx;
   text-align: center;
   line-height: 76rpx;
@@ -259,7 +273,7 @@
   font-size: 28rpx;
 }
 
-.commentBox textarea{
+.commentBox textarea {
   float: left;
   width: 78%;
   height: 100rpx;
@@ -270,7 +284,7 @@
   background-color: #fff;
 }
 
-.commentBox button{
+.commentBox button {
   float: right;
   width: 22%;
   height: 100rpx;
@@ -278,14 +292,15 @@
   background-color: #fc5e2d;
   color: #fff;
   border: 0;
-  border-radius:0rpx; 
+  border-radius: 0rpx;
 }
 
 /* 浮窗 */
-.evaluate{
+
+.evaluate {
   display: flex;
   flex-direction: row;
-  border-top: 1rpx solid #B1B1B1;
+  border-top: 1rpx solid #b1b1b1;
   height: 86rpx;
   width: 100%;
   position: fixed;
@@ -295,8 +310,8 @@
   background-color: #fff;
 }
 
-.evaluateSon{
-  color: #B1B1B1;
+.evaluateSon {
+  color: #b1b1b1;
   flex-grow: 1;
   text-align: center;
   height: 100%;
@@ -322,20 +337,20 @@
 .evaluate_line {
   height: 26rpx;
   width: 2rpx;
-  background-color: #E0E0E0;
+  background-color: #e0e0e0;
   position: absolute;
   top: 36rpx;
   right: 0;
 }
 
-.evaluatExtea{
-  color: #B1B1B1;
+.evaluatExtea {
+  color: #b1b1b1;
   font-size: 28rpx;
 }
 
-.actvotees{
+.actvotees {
   color: #fc5e2d;
-} 
+}
 
 .evaluate-maximum {
   padding-top: 10rpx;

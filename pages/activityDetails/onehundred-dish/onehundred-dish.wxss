@@ -359,7 +359,7 @@
   position: absolute;
   right: 20rpx;
   bottom: 30rpx;
-  background-color: #347BB7;
+  background-color: #FF4343;
 }
 
 .list_item_top image {
@@ -418,7 +418,7 @@
   height: 48rpx;
   line-height: 48rpx;
   text-align: center;
-  background-color: #FF4343;
+  background-color: #347BB7;
   color: #fff;
   border-radius: 50rpx;
   font-size: 24rpx;

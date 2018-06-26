@@ -71,22 +71,22 @@ Page({
           voteNum: data.voteNum
         });
         this.comment();
-        let picUrls = data.picUrls;
+        let picUrls = data.picUrls, sourceArr = [], videoArr = [];
         for (let i = 0; i < picUrls.length; i++) {
           let str = picUrls[i].picUrl;
           if (str.substring(str.length - 4, str.length) == '.mp4') {
             picUrls[i].isVideo = true;
+            videoArr.push(picUrls[i]);
           } else {
             picUrls[i].isVideo = false;
+            sourceArr.push(picUrls[i]);
           }
-          if (data.picUrls[i].smallPicUrl) {
-            this.setData({
-              bgUrl: data.picUrls[i].picUrl
-            });
-          }
+          this.setData({
+            bgUrl: sourceArr[0].picUrl
+          });
         }
         this.setData({
-          picUrls: picUrls
+          picUrls: videoArr.concat(sourceArr)
         });
       } else {
         wx.showToast({
@@ -111,6 +111,12 @@ Page({
         });
       } 
     });
+  },
+  toDetails(e) {
+    let str = e.currentTarget;
+    wx.navigateTo({
+      url: '../../discover-plate/dynamic-state/article_details/article_details?id=' + str.id + '&zan=' + str.dataset.index
+    })
   },
   comment() {
     let _parms = {

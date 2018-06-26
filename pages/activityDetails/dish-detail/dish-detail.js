@@ -152,6 +152,7 @@ Page({
       rows: 5
     };
     Api.cmtlist(_parms).then((res) => {
+      let data = res.data;
       if (data.code == 0) {
         let _data = res.data.data;
         let reg = /^1[34578][0-9]{9}$/;

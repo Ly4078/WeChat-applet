@@ -128,13 +128,13 @@ Page({
     wx.chooseImage({
       count: 6,
       success: (res) => {
-        console.log(res.tempFilePaths);
+        console.log(res);
         _this.uploadImgs({
           tempFilePaths: res.tempFilePaths
         });
       },
       fail: function (res) {
-        console.log(res)
+        
       }
     });
   },
@@ -148,10 +148,10 @@ Page({
       filePath: obj.tempFilePaths[i],
       name: 'file',
       formData: {
-        // 'userName': app.globalData.userInfo.userName
-        'userName': '15072329516'
+        'userName': app.globalData.userInfo.userName
       },
       success: (res) => {
+        console.log(res);
         wx.hideLoading();
         let data = JSON.parse(res.data);
         if (data.code == 0) {
@@ -174,15 +174,16 @@ Page({
         }
       },
       fail: (res) => {
-        console.log('上传失败');
+        wx.showToast({
+          title: '上传失败',
+          icon: 'none',
+          duration: 2000
+        })
       },
       complete: (res) => {
-        wx.hideLoading();
         i++;
         if (i == obj.tempFilePaths.length) {
           console.log('上传完毕');
-          console.log(_this.data.imgsArr);
-          console.log(_this.data.imgsIdArr);
         } else {
           console.log('正在上传第' + i + '张');
           _this.uploadImgs({
@@ -211,7 +212,6 @@ Page({
           success: (res) => {
             wx.hideLoading();
             let data = JSON.parse(res.data);
-            console.log('res:',data)
             if (data.code == 0) {
               wx.showToast({
                 title: '上传成功',
@@ -229,18 +229,22 @@ Page({
             }
           },
           fail: (res) => {
-            console.log(res);
+            wx.showToast({
+              title: '上传失败',
+              icon: 'none',
+              duration: 2000
+            })
           },
           complete: (res) => {
-            wx.hideLoading();
+            
           }
         });
       },
       fail: function () {
-
+        
       },
       conplete: function () {
-
+        
       }
     });
   },

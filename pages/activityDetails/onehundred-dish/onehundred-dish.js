@@ -226,6 +226,7 @@ Page({
         wx.hideLoading();
         if (list != null && list != "" && list != []) {
           for (let i = 0; i < list.length; i++) {
+            list[i].imgStr = list[i].picUrls[0].picUrl;
             playerList.push(list[i]);
           }
           this.setData({

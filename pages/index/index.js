@@ -542,11 +542,11 @@ Page({
       wx.navigateTo({
         url: '../personal-center/free-of-charge/free-of-charge?img=' + img,
       })
-    } else if (id == 2 && _linkUrl == '37') {
+    } else if (id == 2 && _linkUrl == '35') {
       wx.navigateTo({
         url: '../activityDetails/onehundred-dish/onehundred-dish?actid=37',
       })
-    } else if (id == 3 && _linkUrl == '35') {
+    } else if (id == 3 && _linkUrl == '34') {
       wx.navigateTo({
         url: '../activityDetails/hot-activity/hot-activity?id=34',
       })

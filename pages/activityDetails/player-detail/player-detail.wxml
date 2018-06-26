@@ -35,13 +35,13 @@
       </view> 
     </view>
   </view>
-  <view class="playerResource">
+  <view class="playerResource" style="{{article.length > 0 ? '' : 'padding-bottom: 76rpx;'}}">
     <block wx:for="{{picUrls}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
       <video wx:if="{{item.isVideo}}" src="{{item.picUrl}}" objectFit="fill" poster="{{item.smallPicUrl ? item.smallPicUrl : ''}}"></video>
-      <image wx:else src="{{item.picUrl}}" mode='aspectFill'></image>
+      <image wx:else src="{{item.picUrl}}" mode='widthFix'></image>
     </block>
   </view>
-  <view class="activity" wx:if="{{article.length > 0}}">
+  <view class="activity" wx:if="{{article.length > 0}}" style="{{totalComment > 0 ? '' : 'padding-bottom: 76rpx;'}}">
     <view class="activity_tit" bindtap="homePage">
       <view class="activity_tit_l">
         <text class="activity_line"></text>
@@ -56,7 +56,7 @@
     <view class="activity_list">
       <scroll-view scroll-x="true">
         <block wx:for="{{article}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
-          <view class="activity_item">
+          <view class="activity_item" id="{{item.id}}" data-index="{{item.zan}}" bindtap="toDetails">
             <image class="act_item_bg" src="{{item.homePic}}" mode='aspectFill'></image>
             <view class="act_item_info">
               <image src="{{item.iconUrl}}"></image>
@@ -70,8 +70,11 @@
   </view>
   <view class="comment" wx:if="{{totalComment > 0}}">
     <view class="comment_tit" bindtap="toMoreComment">
-      <text class="activity_line"></text>
-      <text>精选评价</text>
+      <view>
+        <text class="activity_line"></text>
+        <text>精选评价</text>
+      </view>
+      <image class='initiate-right' src='/images/icon/home_arrow.png'></image>
     </view>
     <view class="comment_list">
       <block wx:for="{{comment_list}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">

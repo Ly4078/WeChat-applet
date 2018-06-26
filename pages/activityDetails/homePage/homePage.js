@@ -58,7 +58,8 @@ Page({
           picUrls: data.picUrls,
         });
         for (let i = 0; i < data.picUrls.length; i++) {
-          if (data.picUrls[i].smallPicUrl) {
+          let str = data.picUrls[i].picUrl.substring(data.picUrls[i].picUrl.length - 4, data.picUrls[i].picUrl.length);
+          if (str == '.png' || str == '.jpg') {
             this.setData({
               bgUrl: data.picUrls[i].picUrl
             });
@@ -107,6 +108,12 @@ Page({
         })
       }
     });
+  },
+  toDetails(e) {
+    let str = e.currentTarget;
+    wx.navigateTo({
+      url: '../../discover-plate/dynamic-state/article_details/article_details?id=' + str.id + '&zan=' + str.dataset.index
+    })
   },
   dianzanwz: function (e) {  //文章点赞
     if (app.globalData.userInfo.mobile == undefined || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
