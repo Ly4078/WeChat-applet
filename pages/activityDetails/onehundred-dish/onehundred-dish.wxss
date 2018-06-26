@@ -5,7 +5,7 @@
 
 /* 顶部banner */
 .hot_banner {
-  height: 470rpx; 
+  height: 420rpx; 
   width: 100%;
   margin-bottom: 36rpx;
 }
