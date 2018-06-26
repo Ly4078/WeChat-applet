@@ -23,7 +23,7 @@
         <image wx:else class='centreImages' src='{{iconUrl}}'></image>
       </button>
       <view wx:else>请升级微信版本</view>
-      <view class='centreText' catchtap='wxgetsetting'>{{nickName}}</view>
+       <view class='centreText' catchtap='wxgetsetting'>{{nickName}}</view> 
 
     </view>
     <view class='messageCase'>

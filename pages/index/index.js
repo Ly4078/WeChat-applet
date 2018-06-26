@@ -42,8 +42,7 @@ Page({
   onLoad: function (options) {
     wx.showLoading({
       title: '加载中..'
-    })
-    let that = this
+    });
     const updateManager = wx.getUpdateManager()
     updateManager.onCheckForUpdate(function (res) {
       // 请求完新版本信息的回调
@@ -365,7 +364,7 @@ Page({
   },
   gettopic: function () {  // 美食墙
     Api.topictop().then((res) => {
-      console.log("food:", res.data.data)
+      // console.log("food:", res.data.data)
       if (res.data.data) {
         let _data = res.data.data;
         let reg = /^1[34578][0-9]{9}$/; 
@@ -643,7 +642,7 @@ Page({
       phone: '',
       veridyTime: ''
     })
-    if (app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+    if (!app.globalData.userInfo.mobile) {
       this.setData({
         getPhoneNumber: true
       })
@@ -826,8 +825,10 @@ Page({
         let _parms = {
           shopMobile: this.data.phone,
           SmsContent: this.data.verify,
-          userId: app.globalData.userInfo.userId,
-          userName: app.globalData.userInfo.userName
+          userId: app.globalData.userInfo.userId
+        }
+        if (app.globalData.userInfo.userName){
+          _parms.userName= app.globalData.userInfo.userName
         }
         if (!this.data.afirst) {
           that.setData({
@@ -860,7 +861,11 @@ Page({
                       }
                     }
                   }
-                  that.isNewUser();
+                  if (data.mobile){
+                    that.newUserToGet();
+                  }
+                  
+                  // that.isNewUser();
                 }
               }
             })

@@ -369,7 +369,8 @@ button{
   text-overflow: clip;
   overflow: hidden;
   white-space: nowrap;
-  width: 540rpx;
+  /* width: 540rpx; */
+  background: rgba(25,25,25,0.6)
 }
 .DescriptionText{
   font-size: 30rpx;

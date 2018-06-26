@@ -16,16 +16,16 @@
 
   <!-- <view  catchtouchmove='true'> -->
   <view class="newUserModal loginuser" wx:if="{{istouqu}}" catchtouchmove='true'>
-   <view class="drawer_screen"></view>
+    <view class="drawer_screen"></view>
     <button class="newUserM_box" open-type="getUserInfo" bindgetuserinfo="againgetinfo">
       <image class='loginimg' src='/images/icon/login.png'></image>
     </button>
   </view>
-   
+
 
   <!-- 新用户弹窗 -->
   <view class="newUserModal" wx:if="{{userGiftFlag || isNew || isfirst}}" catchtouchmove='true'>
-    
+
     <view class="drawer_screen"></view>
     <view wx:if="{{isphoneNumber}}" class="newUserM_box getphone gettels">
       <view class='nubtitle'>快速注册</view>
@@ -51,7 +51,7 @@
     <image class="newuser_cancel" src="/images/icon/cancel.png" bindtap='userGiftCancle'></image>
   </view>
 
-
+  <!--头部搜索  -->
   <view class='headSeek'>
     <view class='site_location' bindtap='userLocation'>
       <text class='site_location_text'>{{city}}</text>
@@ -69,6 +69,8 @@
       <image class='usingTheVolume' src='/images/icon/home_bar_quan.png'></image>
     </view>
   </view>
+
+
   <!-- 轮播组件 -->
   <!-- <template is="Allslideshow" data="{{...item}}" />  -->
   <swiper class="homePage_banner" indicator-dots="true" autoplay="true" circular="true" interval="5000" indicator-active-color="rgba(252, 94, 45,0.8)">

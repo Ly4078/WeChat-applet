@@ -39,6 +39,7 @@ Page({
 
   onShow: function () {
     let that = this;
+    
     if (!app.globalData.userInfo.unionId) {
       wx.login({
         success: res => {
@@ -68,7 +69,11 @@ Page({
         istouqu: false
       })
     }
-
+    if (!app.globalData.userInfo.nickName && app.globalData.userInfo.mobile){
+     this.setData({
+       istouqu:true
+     })
+   }
     this.getbalance();
     if (app.globalData.userInfo.mobile) {
       this.setData({
@@ -124,6 +129,8 @@ Page({
     wx.getUserInfo({
       withCredentials: true,
       success: function (res) {
+        // console.log('res111:',res)
+        that.updatauser(res.userInfo);
         let _pars = {
           sessionKey: app.globalData.userInfo.sessionKey,
           ivData: res.iv,
@@ -131,6 +138,7 @@ Page({
         }
         Api.phoneAES(_pars).then((resv) => {
           if (resv.data.code == 0) {
+            // console.log('resv:', resv)
             that.setData({
               istouqu: false
             })
@@ -158,7 +166,7 @@ Page({
     this.updatauser(e.detail.userInfo)
   },
   updatauser: function (data) { //更新用户信息
-    let that = this
+    let that = this;
     let _parms = {
       id: app.globalData.userInfo.userId,
       openId: app.globalData.userInfo.openId,
@@ -189,6 +197,14 @@ Page({
             iconUrl: res.userInfo.avatarUrl,
             nickName: res.userInfo.nickName
           })
+          let data = res.userInfo;
+          for (let key in data) {
+            for (let ind in app.globalData.userInfo) {
+              if (key == ind) {
+                app.globalData.userInfo[ind] = data[key]
+              }
+            }
+          };
           // that.updatauser(res.userInfo)
         }
       },

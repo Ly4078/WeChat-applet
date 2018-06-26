@@ -156,8 +156,7 @@ Page({
     })
   },
   submitverify: function () {  //确定
-  
-    let that = this
+    let that = this;
     if (this.data.isyaz){
       return false
     }
@@ -211,9 +210,12 @@ Page({
                       }
                     }
                   };
-                  wx.switchTab({
-                    url: '../personal-center'
-                  })
+                  if (data.mobile) {
+                    that.newUserToGet();
+                  }
+                  // wx.switchTab({
+                  //   url: '../personal-center'
+                  // })
                 }
               }
             })
@@ -228,6 +230,22 @@ Page({
         })
       }
     }
+  },
+  newUserToGet: function () {    //新用户跳转票券
+    let _parms = {
+      userId: app.globalData.userInfo.userId,
+      userName: app.globalData.userInfo.userName,
+      payType: '2',
+      skuId: '8',
+      skuNum: '1'
+    }
+    Api.getFreeTicket(_parms).then((res) => {
+      if (res.data.code == 0) {
+        wx.redirectTo({
+          url: '../my-discount/my-discount'
+        });
+      }
+    })
   },
   getPhoneNumber: function (e) { //获取用户授权的电话号码
     let that = this
