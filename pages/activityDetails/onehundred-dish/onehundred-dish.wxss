@@ -1,5 +1,5 @@
 .hot_activity {
-  background-color: #F97423;
+  background-color: #347BB7;
   height: 100%;
 }
 
@@ -63,7 +63,7 @@
 
 .stage_box.active .stage_txt {
   background-color: #fff;
-  color: #FB6227;
+  color: #347BB7;
 }
 
 .stage_box.active .stage_dot {
@@ -71,7 +71,7 @@
   height: 12rpx;
   top: 80rpx;
   left: 96rpx;
-  background-color: #FB6227;
+  background-color: #347BB7;
   border: 2px solid #fff;
 }
 
@@ -108,7 +108,7 @@
 
 .awards_setting {
   font-size: 26rpx;
-  color: #F97423;
+  color: #347BB7;
   margin: 30rpx 0 20rpx 0;
   padding-left: 16rpx;
   position: relative;
@@ -118,7 +118,7 @@
   position: absolute;
   width: 6rpx;
   height: 26rpx;
-  background-color: #F97423;
+  background-color: #347BB7;
   left: 0;
   top: 8rpx;
 }
@@ -153,7 +153,7 @@
 }
 
 .sponsor_tit {
-  color: #F97423;
+  color: #347BB7;
   font-size: 24rpx;
   text-align: center;
   margin-bottom: 10rpx;  
@@ -189,7 +189,7 @@
 }
 .hot_list_tab view.active{
   background: #fff;
-  color: #FF8E39;
+  color: #347BB7;
 }
 .hot_list_search {
   width: 100%;
@@ -258,7 +258,7 @@
   line-height: 68rpx;
   padding: 0 29rpx;
   box-sizing: border-box;
-  color: #FD7814;
+  color: #347BB7;
 }
 
 .hot_list_search image {
@@ -359,7 +359,7 @@
   position: absolute;
   right: 20rpx;
   bottom: 30rpx;
-  background-color: #F97423;
+  background-color: #347BB7;
 }
 
 .list_item_top image {
@@ -436,9 +436,9 @@
   height: 56rpx;
   line-height: 52rpx;
   background-color: #fff;
-  border: 2rpx solid #F97423;
+  border: 2rpx solid #347BB7;
   border-radius: 50rpx;
-  color: #F97423;
+  color: #347BB7;
   font-size: 24rpx;
   margin-top: 10rpx;
 }

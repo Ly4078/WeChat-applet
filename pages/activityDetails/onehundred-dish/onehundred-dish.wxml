@@ -10,7 +10,7 @@
 </view>
 <view class="hot_activity">
   <view class="hot_banner">
-     <image class="hot_banner_img" src="{{mainPic}}" mode="aspectFill"></image> 
+     <image class="hot_banner_img" src="{{mainPic}}"></image> 
   </view>
   <view class="hot_main">
     <!-- 时间阶段和描述 -->
