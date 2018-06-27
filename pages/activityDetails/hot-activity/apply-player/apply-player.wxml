@@ -45,7 +45,7 @@
       <view class="apply_video_tit">参赛短视频</view>
       <view class="submit_video">
         <view>上传参赛短视频
-          <text>(15秒以内,关于美食）</text>
+          <text>(上传抖音、快手等原创美食视频）</text>
         </view>
         <video wx:if="{{videoUrl}}" src="{{videoUrl}}" poster="{{posterImg}}" ></video>
         <image wx:else src="/images/icon/add.png" bindtap="chooseVideo"></image>
