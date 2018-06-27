@@ -116,11 +116,29 @@
   position: relative;
 }
 
-.playerVideo video {
+.vodeoimg {
   height: 100%;
   width: 100%;
   /* display: block; */
   border-radius: 10rpx;
+  position: relative;
+}
+.motai{
+  height: 100%;
+  width: 100%;
+  border-radius: 10rpx;
+  position: relative;
+  top: -102%;
+  background-color:#191919;
+  opacity:0.5;
+}
+.palyicon{
+  width:150rpx;
+  height:150rpx;
+  position: relative;
+  left: 40%;
+  top: -660rpx;
+  z-index: 1;
 }
 
 .videoLikeNum {
@@ -361,33 +379,7 @@
   line-height: 76rpx;
 }
 
-.commentBox {
-  bottom: 87rpx;
-  z-index: 9;
-  font-size: 28rpx;
-}
 
-.commentBox textarea {
-  float: left;
-  width: 78%;
-  height: 100rpx;
-  border: 0;
-  border-top: 1px solid #e0e0e0;
-  padding: 10rpx;
-  box-sizing: border-box;
-  background-color: #fff;
-}
-
-.commentBox button {
-  float: right;
-  width: 22%;
-  height: 100rpx;
-  line-height: 100rpx;
-  background-color: #fc5e2d;
-  color: #fff;
-  border: 0;
-  border-radius: 0rpx;
-}
 
 /* 浮窗 */
 

@@ -365,12 +365,12 @@ button{
   font-size: 24rpx;
   color: white;
   vertical-align: middle;
-  padding-left: 10rpx;
+  padding:0 10rpx;
   text-overflow: clip;
   overflow: hidden;
   white-space: nowrap;
   /* width: 540rpx; */
-  background: rgba(25,25,25,0.6)
+  background: rgba(25,25,25,0.6);
 }
 .DescriptionText{
   font-size: 30rpx;
@@ -694,4 +694,80 @@ button::after{
   right:50rpx;
   z-index: 3;
   /* border: 2rpx solid red; */
+}
+
+.commentBox {
+  bottom: 87rpx;
+  z-index: 9;
+  font-size: 28rpx;
+}
+
+.commentBox textarea {
+  float: left;
+  width: 78%;
+  height: 100rpx;
+  border: 0;
+  border-top: 1px solid #e0e0e0;
+  padding: 10rpx;
+  box-sizing: border-box;
+  background-color: #fff;
+}
+
+.commentBox button {
+  float: right;
+  width: 22%;
+  height: 100rpx;
+  line-height: 100rpx;
+  background-color: #fc5e2d;
+  color: #fff;
+  border: 0;
+  border-radius: 0rpx;
+}
+
+/*
+
+  */
+
+  .comment {
+  background-color: #fff;
+  padding: 26rpx 26rpx 76rpx 28rpx;
+  margin-top: 20rpx;
+}
+
+.comment_tit {
+  height: 60rpx;
+  font-size: 28rpx;
+  color: #191919;
+  position: relative;
+  padding-left: 22rpx;
+  border-bottom: 1rpx solid #e0e0e0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.initiate-exhibition {
+  border-bottom:1rpx solid #e0e0e0;
+}
+
+.initiate-right {
+  width:14rpx;
+  height:24rpx;
+  padding-top: 8rpx;
+}
+
+.comment_list {
+  margin-top: 20rpx;
+}
+
+.total-comment {
+  height: 72rpx;
+}
+
+.total-center {
+  display: inline-block;
+  border: 1rpx solid #fc5e2d;
+  color: #fc5e2d;
+  font-size: 28rpx;
+  text-align: center;
+  line-height: 76rpx;
 }
