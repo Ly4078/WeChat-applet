@@ -80,14 +80,19 @@
   background-color: #de8848;
 }
 
-/* .info_cont {
-  margin: 18rpx 0 24rpx 0;
+ .info_cont {
+  margin-top: 18rpx;
   width: 380rpx;
-} */
+  overflow:hidden; 
+  text-overflow:ellipsis;
+  display:-webkit-box; 
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:2; 
+} 
 
 .info_data {
   font-size: 24rpx;
-  margin-top: 16rpx;
+  margin-top: 14rpx;
 }
 
 .info_data_num {
@@ -187,12 +192,18 @@
   width: 8rpx;
 }
 
+.uploadVideo_sign {
+  color: #FC512D;
+  font-size: 20rpx;
+}
+
 .activity_num {
   color: #347BB7;
 }
 
 .activity_explain {
-  color: #347BB7;
+  /* color: #347BB7; */
+  color: #FC512D;
   font-size: 24rpx;
 }
 
@@ -253,13 +264,12 @@
 }
 
 .act_info_like {
-  width: 152rpx;
   height: 62rpx;
   border-radius: 50rpx;
   color: #fff;
-  text-align: center;
   line-height: 62rpx;
   background-color: #FC5E2D;
+  padding: 0 20rpx;
 }
 
 .act_info_like image {
@@ -284,11 +294,16 @@
   color: #191919;
   position: relative;
   padding-left: 22rpx;
+  margin-bottom: 14rpx;
 }
 
 .uploadVideo_b {
   font-size: 24rpx;
   color: #555;
+}
+
+.uploadVideo_b.first {
+  margin-bottom: 14rpx;
 }
 
 .uploadBtn {
@@ -299,7 +314,7 @@
   color: #fff;
   background-color: #FC5E2D;
   border-radius: 50rpx;
-  margin-top:10rpx;
+  margin-top:36rpx;
 }
 
 .comment {

@@ -17,6 +17,7 @@ Page({
     age: 0,
     height: 0,
     userCode: 0,
+    userInfo: '',
     voteNum: 0,
     videoArr: [],
     imgArr: [],
@@ -69,7 +70,8 @@ Page({
           age: data.age,
           height: data.height,
           userCode: data.userCode,
-          voteNum: data.voteNum
+          voteNum: data.voteNum,
+          userInfo: data.userInfo ? data.userInfo : ''
         });
         this.comment();
         let picUrls = data.picUrls, imgArr = [], videoArr = [];
@@ -109,6 +111,81 @@ Page({
         });
       } 
     });
+  },
+  dianzanwz: function (e) {  //文章点赞
+    let id = e.currentTarget.id, article = this.data.article;
+    if (app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+      this.setData({
+        issnap: true,
+        clickvideo: false
+      })
+      return false
+    }
+    let _parms = {
+      refId: id,
+      type: 2,
+      userId: app.globalData.userInfo.userId
+    }
+    Api.zanadd(_parms).then((res) => {
+      if (res.data.code == 0) {
+        wx.showToast({
+          mask: true,
+          icon: 'none',
+          title: '点赞成功'
+        }, 1500)
+        for (let i = 0; i < article.length; i++) {
+          if (id == article[i].id) {
+            article[i].isZan++;
+            article[i].zan++;
+            this.setData({
+              article: article
+            })
+            return false;
+          }
+        }
+      }
+    })
+  },
+  quxiaozanwz: function (e) {  //文章取消点赞
+    let id = e.currentTarget.id, article = this.data.article;
+    if (app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+      this.setData({
+        issnap: true,
+        clickvideo: false
+      })
+      return false
+    }
+    let _parms = {
+      refId: id,
+      type: 2,
+      userId: app.globalData.userInfo.userId
+    }
+    Api.zandelete(_parms).then((res) => {
+      if (res.data.code == 0) {
+        wx.showToast({
+          mask: true,
+          icon: 'none',
+          title: '取消成功',
+        }, 1500)
+        for (let i = 0; i < article.length; i++) {
+          if (id == article[i].id) {
+            article[i].isZan--;
+            article[i].zan--;
+            console.log(article)
+            if (article[i].isZan <= 0) {
+              article[i].isZan = 0;
+            }
+            if (article[i].zan <= 0) {
+              article[i].zan = 0;
+            }
+            this.setData({
+              article: article
+            })
+            return false;
+          }
+        }
+      }
+    })
   },
   toDetails(e) {
     let str = e.currentTarget;
@@ -269,11 +346,6 @@ Page({
       }
     })
   },
-  onPageScroll: function () {  //监听页面滑动
-    this.setData({
-      isComment: false
-    })
-  },
   cancelLike() {
     if (app.globalData.userInfo.mobile == undefined || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
       this.setData({
@@ -284,6 +356,11 @@ Page({
     wx.showToast({
       title: '您已经点过赞了',
       icon: 'none'
+    })
+  },
+  onPageScroll: function () {  //监听页面滑动
+    this.setData({
+      isComment: false
     })
   },
   homePage() {

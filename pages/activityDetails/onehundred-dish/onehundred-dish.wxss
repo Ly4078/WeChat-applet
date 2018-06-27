@@ -253,7 +253,7 @@
 }
 
 .hot_list_search input {
-  width: 65%;
+  width: 80%;
   height: 68rpx;
   line-height: 68rpx;
   padding: 0 29rpx;

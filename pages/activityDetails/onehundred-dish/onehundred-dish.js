@@ -7,7 +7,7 @@ Page({
     _build_url: GLOBAL_API_DOMAIN,
     actId: 37,     //活动id
     voteUserId: 0,
-    city: [{ name: '十堰', id: 1 }, { name: '武汉', id: 2 }],
+    // city: [{ name: '十堰', id: 1 }, { name: '武汉', id: 2 }],
     selected: '十堰',
     issnap: false,
     switchTab: true,
@@ -123,7 +123,7 @@ Page({
     }
     if (app.globalData.userInfo.userType == '2' && app.globalData.userInfo.shopId != '') {
       wx.showToast({
-        title: '商家请移步至商家端App报名',
+        title: '您是商家，请移步至商家端App报名',
         icon: 'none'
       })
     } else {
@@ -290,7 +290,7 @@ Page({
       isOption: !this.data.isOption
     });
   },
-  selectCity(e) {
+  selectCity(e) {     //下拉菜单调取接口
     let city = this.data.city, id = e.target.id;
     for (let i = 0; i < city.length; i++) {
       if (id == city[i].id) {
