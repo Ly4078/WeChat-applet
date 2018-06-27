@@ -21,29 +21,34 @@ Page({
     fist:1
   },
   onShow:function(){
-    if (!app.globalData.userInfo.userId){
-      wx.login({
-        success: res => {
-          if (res.code) {
-            let _parms = {
-              code: res.code
-            }
-            let that = this;
-            Api.getOpenId(_parms).then((res) => {
-              app.globalData.userInfo.openId = res.data.data.openId;
-              app.globalData.userInfo.sessionKey = res.data.data.sessionKey;
-              if (res.data.data.unionId) {
-                app.globalData.userInfo.unionId = res.data.data.unionId;
-                that.getmyuserinfo();
-              } else {
-                that.findByCode();
-                wx.hideLoading();
-              }
-            })
-          }
-        }
+    if (!app.globalData.userInfo.userId) {
+      wx.switchTab({
+        url: '../../index/index'
       })
     }
+    // if (!app.globalData.userInfo.userId){
+    //   wx.login({
+    //     success: res => {
+    //       if (res.code) {
+    //         let _parms = {
+    //           code: res.code
+    //         }
+    //         let that = this;
+    //         Api.getOpenId(_parms).then((res) => {
+    //           app.globalData.userInfo.openId = res.data.data.openId;
+    //           app.globalData.userInfo.sessionKey = res.data.data.sessionKey;
+    //           if (res.data.data.unionId) {
+    //             app.globalData.userInfo.unionId = res.data.data.unionId;
+    //             that.getmyuserinfo();
+    //           } else {
+    //             that.findByCode();
+    //             wx.hideLoading();
+    //           }
+    //         })
+    //       }
+    //     }
+    //   })
+    // }
   },
   findByCode: function () {
     let that = this;
