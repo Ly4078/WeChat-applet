@@ -28,28 +28,73 @@ Page({
     isComment: false,
     commentVal: '',
     availableNum: 0,    //可用票数
-    cmtdata: []
+    cmtdata: [],
+    isApply: false,
+    shareFlag: false
   },
   onLoad: function (options) {
     let dateStr = new Date();
     let milisecond = new Date(this.dateConv(dateStr)).getTime() + 86400000;
     this.setData({
-      voteUserId: app.globalData.userInfo.userId,
       actId: options.actId,
       userId: options.id,
       today: this.dateConv(dateStr),
-      tomorrow: this.dateConv(new Date(milisecond))
+      tomorrow: this.dateConv(new Date(milisecond)),
+      actName: options.actName
     });
+    if (options.voteUserId) {
+      this.setData({
+        voteUserId: options.voteUserId,
+        shareFlag: true
+      });
+    } else {
+      this.setData({
+        voteUserId: app.globalData.userInfo.userId
+      });
+    }
+    if (this.data.userId != this.data.voteUserId) {
+      this.isSign();
+    }
   },
   onShow: function () {
-    if (app.globalData.userInfo.mobile == undefined || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+    this.playerDetail();
+    this.articleList();
+  },
+  isSign() {
+    let _parms = {
+      refId: this.data.voteUserId,
+      actId: this.data.actId,
+      type: 1
+    }
+    Api.actisSign(_parms).then((res) => {
+      if (res.data.code == 0) {
+        this.setData({
+          isApply: true
+        });
+      }
+    });
+  },
+  toApply() {
+    if (app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
       this.setData({
         issnap: true
       })
       return false
     }
-    this.playerDetail();
-    this.articleList();
+    wx.navigateTo({
+      url: '../hot-activity/apply-player/apply-player?id=' + this.data.actId + '&_actName=' + this.data.actName
+    })
+  },
+  toArtList() {
+    if (app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+      this.setData({
+        issnap: true
+      })
+      return false
+    }
+    wx.redirectTo({
+      url: '../onehundred-dish/onehundred-dish?actid=' + this.data.actId
+    })
   },
   playerDetail() {
     let _parms = {
@@ -98,6 +143,7 @@ Page({
   },
   articleList() {
     let _parms = {
+      zanUserId: this.data.voteUserId,
       userId: this.data.userId,
       page: 1,
       rows: 10
@@ -112,12 +158,35 @@ Page({
       } 
     });
   },
+  previewImg(e) {
+    let id = e.target.id, imgArr = this.data.imgArr, imgUrls = [], idx = 0;
+    for (let i = 0; i < imgArr.length; i++) {
+      imgUrls.push(imgArr[i].picUrl);
+      if (id == imgArr[i].id) {
+        idx = i;
+      }
+    }
+    wx.previewImage({
+      current: imgArr[idx].picUrl, 
+      urls: imgUrls
+    })
+  },
+  toUploadVideo() {
+    if (app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+      this.setData({
+        issnap: true
+      })
+      return false
+    }
+    wx.navigateTo({
+      url: '../../discover-plate/dynamic-state/dynamic-state?id=2&actId=37'
+    })
+  },
   dianzanwz: function (e) {  //文章点赞
     let id = e.currentTarget.id, article = this.data.article;
     if (app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
       this.setData({
-        issnap: true,
-        clickvideo: false
+        issnap: true
       })
       return false
     }
@@ -138,7 +207,8 @@ Page({
             article[i].isZan++;
             article[i].zan++;
             this.setData({
-              article: article
+              article: article,
+              voteNum: this.data.voteNum + 1
             })
             return false;
           }
@@ -150,8 +220,7 @@ Page({
     let id = e.currentTarget.id, article = this.data.article;
     if (app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
       this.setData({
-        issnap: true,
-        clickvideo: false
+        issnap: true
       })
       return false
     }
@@ -179,8 +248,14 @@ Page({
               article[i].zan = 0;
             }
             this.setData({
-              article: article
+              article: article,
+              voteNum: this.data.voteNum - 1
             })
+            if(this.data.voteNum <= 0) {
+              this.setData({
+                voteNum: 0
+              })
+            }
             return false;
           }
         }
@@ -188,6 +263,12 @@ Page({
     })
   },
   toDetails(e) {
+    if (app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+      this.setData({
+        issnap: true
+      })
+      return false
+    }
     let str = e.currentTarget;
     wx.navigateTo({
       url: '../../discover-plate/dynamic-state/article_details/article_details?id=' + str.id + '&zan=' + str.dataset.index
@@ -218,11 +299,23 @@ Page({
     });
   },
   toMoreComment() {
+    if (app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+      this.setData({
+        issnap: true
+      })
+      return false
+    }
     wx.navigateTo({
       url: '../../index/merchant-particulars/total-comment/total-comment?id=' + this.data.refId + '&cmtType=7'
     })
   },
   showArea() {
+    if (app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+      this.setData({
+        issnap: true
+      })
+      return false
+    }
     this.setData({
       isComment: !this.data.isComment
     });
@@ -245,17 +338,15 @@ Page({
         icon: 'none',
         duration: 2000
       })
-    } else {
-      let _value = utils.utf16toEntities(this.data.commentVal)
-      this.setData({
-        commentVal: _value,
-        isComment: false
-      })
+      return false;
     }
+    this.setData({
+      isComment: false
+    })
     let _parms = {
       refId: this.data.refId,
       cmtType: 7,
-      content: this.data.commentVal,
+      content: utils.utf16toEntities(this.data.commentVal),
       userId: this.data.voteUserId,
       userName: app.globalData.userInfo.userName,
       nickName: app.globalData.userInfo.nickName,
@@ -364,9 +455,28 @@ Page({
     })
   },
   homePage() {
+    if (app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+      this.setData({
+        issnap: true
+      })
+      return false
+    }
     wx.navigateTo({
       url: '../homePage/homePage?actId=' + this.data.actId + '&userId=' + this.data.userId,
     })
+  },
+  onShareAppMessage() {
+    return {
+      title: '选手详情',
+      desc: '享7美食',
+      path: '/pages/activityDetails/player-detail/player-detail?actId=' + this.data.actId + '&id=' + this.data.userId + '&voteUserId=' + this.data.voteUserId,
+      success() {
+        console.log('转发成功');
+      }
+    }
+  },
+  transpond() {
+    this.onShareAppMessage();
   },
   dateConv: function (dateStr) {
     let year = dateStr.getFullYear(),

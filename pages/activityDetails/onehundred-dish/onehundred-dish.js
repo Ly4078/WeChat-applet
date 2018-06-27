@@ -22,11 +22,9 @@ Page({
     isOption: false
   },
   onLoad: function (options) {
-    console.log(app.globalData.userInfo);
     let dateStr = new Date();
     let milisecond = new Date(this.dateConv(dateStr)).getTime() + 86400000;
     this.setData({
-      voteUserId: app.globalData.userInfo.userId,
       actId: options.actid,
       today: this.dateConv(dateStr),
       tomorrow: this.dateConv(new Date(milisecond))
@@ -41,26 +39,28 @@ Page({
         switchTab: false
       });
     }
+    if (options.voteUserId) {
+      this.setData({
+        voteUserId: options.voteUserId,
+        userName: options.userName
+      });
+    }else {
+      this.setData({
+        voteUserId: app.globalData.userInfo.userId,
+        userName: app.globalData.userInfo.mobile
+      });
+    }
   },
   onShow: function () {
     let that = this;
     wx.request({
       url: this.data._build_url + 'act/flag',
       success: function (res) {
-        console.log('res:', res)
         that.setData({
           isflag: res.data.data
         });
-        console.log(that.data.isflag)
       }
     })
-   
-    if (!app.globalData.userInfo.mobile) {
-      this.setData({
-        issnap: true
-      })
-      return false
-    }
     this.setData({
       flag: true,
       page: 1,
@@ -77,16 +77,10 @@ Page({
     }
   },
   actInfo: function () {   //活动简介
-    if (!app.globalData.userInfo.mobile) {
-      this.setData({
-        issnap: true
-      })
-      return false
-    }
     let _parms = {
       id: this.data.actId,
       userId: this.data.voteUserId,
-      userName: app.globalData.userInfo.mobile,
+      userName: this.data.userName,
       sourceType: '1'
     }
     Api.actdetail(_parms).then((res) => {
@@ -115,7 +109,7 @@ Page({
     })
   },
   toApply: function () {    //跳转至报名页面
-    if (!app.globalData.userInfo.mobile) {
+    if (app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
       this.setData({
         issnap: true
       })
@@ -312,13 +306,25 @@ Page({
     }
   },
   toDishDetail(e) {
+    if (app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+      this.setData({
+        issnap: true
+      })
+      return false
+    }
     wx.navigateTo({
       url: '../dish-detail/dish-detail?actId=' + this.data.actId + '&skuId=' + e.target.id
     })
   },
   playerDetail(e) {
+    if (app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+      this.setData({
+        issnap: true
+      })
+      return false
+    }
     wx.navigateTo({
-      url: '../player-detail/player-detail?actId=' + this.data.actId + '&id=' + e.currentTarget.id
+      url: '../player-detail/player-detail?actId=' + this.data.actId + '&id=' + e.currentTarget.id + '&actName=' + this.data.actName
     })
   },
   availableVote() {
@@ -337,6 +343,12 @@ Page({
         user: user
       });
     });
+    if (app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+      this.setData({
+        sku: 0,
+        user: 0
+      });
+    }
   },
   castvote: function (e) {  //選手投票
     if (app.globalData.userInfo.mobile == undefined || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
@@ -398,7 +410,7 @@ Page({
     });
   },
   payDish(e) {    //购买推荐菜
-    if (!app.globalData.userInfo.mobile) {
+    if (app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
       this.setData({
         issnap: true
       })
@@ -468,7 +480,7 @@ Page({
     return {
       title: '十堰百菜评选暨《十堰食典》',
       desc: '享7美食',
-      path: '/pages/activityDetails/onehundred-dish/onehundred-dish?actid=' + this.data.actId
+      path: '/pages/activityDetails/onehundred-dish/onehundred-dish?actid=' + this.data.actId + '&voteUserId=' + this.data.voteUserId + '&userName=' + this.data.userName
     }
   }
 })

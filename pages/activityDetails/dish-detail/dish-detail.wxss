@@ -146,3 +146,17 @@
 .actzan {
   color: #B1B1B1;
 }
+
+.floatBall {
+  width: 120rpx;
+  height: 120rpx;
+  position: fixed;
+  right: 30rpx;
+  bottom: 250rpx;
+  z-index: 100;
+}
+
+.floatBall image {
+  width: 100%;
+  height: 100%;
+}

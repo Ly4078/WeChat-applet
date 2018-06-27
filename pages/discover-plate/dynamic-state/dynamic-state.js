@@ -19,7 +19,8 @@ Page({
     isplay:false,
     isprogress:false,
     isfirst:true,
-    defaimg:''  //默认视频图片
+    defaimg:'',  //默认视频图片
+    actId: 0
   },
 
   onLoad: function (options) {  // 生命周期函数--监听页面加载
@@ -29,6 +30,11 @@ Page({
         iswzsp: options.id
       })
     };
+    if(options.actId) {
+      this.setData({
+        actId: options.actId
+      })
+    }
     if (this.data.iswzsp == 2){
       this.data.butt=[]
       let _butt= [ '提交', '退出编辑']
@@ -468,9 +474,15 @@ Page({
             that.setData({
               content: []
             })
-            wx.switchTab({
-              url: '../../discover-plate/discover-plate'
-            })
+            if (that.data.actId == 37) {
+              wx.navigateBack({
+                delta: 1
+              })
+            } else {
+              wx.switchTab({
+                url: '../../discover-plate/discover-plate'
+              })
+            }
             wx.clearStorage()
           }, 1500)
         }
@@ -482,9 +494,15 @@ Page({
         success: function (res) {
           if (res.confirm) {
             wx.clearStorage()
-            wx.switchTab({
-              url: '../../discover-plate/discover-plate'
-            })
+            if (that.data.actId == 37) {
+              wx.navigateBack({
+                delta: 1
+              })
+            } else {
+              wx.switchTab({
+                url: '../../discover-plate/discover-plate'
+              })
+            }
           } else if (res.cancel) {
             // console.log('用户点击取消')
           }

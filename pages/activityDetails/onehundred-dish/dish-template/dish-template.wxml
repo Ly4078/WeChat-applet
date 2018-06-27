@@ -38,7 +38,7 @@
       </view>
       <view class="player_bottom">
         <view class="player_name">{{item.actUserName}}</view>
-        <view class="click_tolike" bindtap="castvote" id="{{item.userId}}">为他点赞</view>
+        <view class="click_tolike" bindtap="castvote" id="{{item.userId}}">为TA点赞</view>
       </view>
     </view>
   </view>

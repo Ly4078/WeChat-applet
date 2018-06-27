@@ -670,6 +670,8 @@ Page({
         icon: 'none'
       }, 1500)
     } else {
+      console.log(that.data.commentVal)
+      console.log(utils.utf16toEntities(that.data.commentVal))
       let content = utils.utf16toEntities(that.data.commentVal);
       let _parms = {
         refId: that.data.shopid,

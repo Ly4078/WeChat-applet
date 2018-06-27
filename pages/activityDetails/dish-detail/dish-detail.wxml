@@ -64,7 +64,7 @@
 </view> -->
 <view class='evaluate'>
   <view class='evaluateWrap'>
-    <button class='evaluateSon sonButton' plain="true" data-name="shareBtn" open-type="share">
+    <button class='evaluateSon sonButton' plain="true" data-name="shareBtn" open-type="share" bindtap='transpond'>
       <image class='evaluateImg' src='/images/icon/find_share.png'></image>
       <text class='evaluatExtea'>分享</text>
     </button>
@@ -79,6 +79,9 @@
       <text class='actzan'>{{voteNum}}</text>
     </view>
   </view>
+</view>
+<view class="floatBall" wx:if="{{shareFlag}}" bindtap='toArtList'>
+  <image src="/images/icon/actIcon.png"></image>
 </view>
 
 <!-- </view>  -->

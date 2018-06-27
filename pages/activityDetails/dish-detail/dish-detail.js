@@ -26,26 +26,30 @@ Page({
     comment_list: [],
     commentTotal: 0,
     commentVal: '',
-    availableNum: 0
+    availableNum: 0,
+    shareFlag: false
   },
   onLoad: function (options) {
     let dateStr = new Date();
     let milisecond = new Date(this.dateConv(dateStr)).getTime() + 86400000;
     this.setData({
-      voteUserId: app.globalData.userInfo.userId,
       actId: options.actId,
       skuId: options.skuId,
       today: this.dateConv(dateStr),
       tomorrow: this.dateConv(new Date(milisecond))
     });
+    if (options.voteUserId) {
+      this.setData({
+        voteUserId: options.voteUserId,
+        shareFlag: true
+      });
+    } else {
+      this.setData({
+        voteUserId: app.globalData.userInfo.userId
+      });
+    }
   },
   onShow: function () {
-    if (app.globalData.userInfo.mobile == undefined || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
-      this.setData({
-        issnap: true
-      })
-      return false
-    }
     this.getDish();
     this.comment();
   },
@@ -97,6 +101,17 @@ Page({
           });
         }
       }
+    })
+  },
+  toArtList() {
+    if (app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+      this.setData({
+        issnap: true
+      })
+      return false
+    }
+    wx.redirectTo({
+      url: '../onehundred-dish/onehundred-dish?actid=' + this.data.actId
     })
   },
   TencentMap: function (event) {    //腾讯地图
@@ -176,6 +191,12 @@ Page({
     })
   },
   showAreatext() {
+    if (app.globalData.userInfo.mobile == undefined || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+      this.setData({
+        issnap: true
+      })
+      return false
+    }
     this.setData({
       isComment: !this.data.isComment
     });
@@ -226,6 +247,12 @@ Page({
     })
   },
   toMoreComment() {
+    if (app.globalData.userInfo.mobile == undefined || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+      this.setData({
+        issnap: true
+      })
+      return false
+    }
     wx.navigateTo({
       url: '../../index/merchant-particulars/total-comment/total-comment?id=' + this.data.skuId + '&cmtType=6'
     })
@@ -315,6 +342,19 @@ Page({
       title: '您已经点过赞了',
       icon: 'none'
     })
+  },
+  onShareAppMessage() {
+    return {
+      title: '推荐菜详情',
+      desc: '享7美食',
+      path: '/pages/activityDetails/dish-detail/dish-detail?actId=' + this.data.actId + '&skuId=' + this.data.skuId + '&voteUserId=' + this.data.voteUserId,
+      success() {
+        console.log('转发成功');
+      }
+    }
+  },
+  transpond() {
+    this.onShareAppMessage();
   },
   dateConv: function (dateStr) {
     let year = dateStr.getFullYear(),
