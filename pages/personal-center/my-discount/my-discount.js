@@ -10,7 +10,7 @@ Page({
     isUpdate: true
   },
   onLoad: function (options) {
-
+   
   },
   onShow: function () {
     this.getTicketList();
@@ -21,6 +21,11 @@ Page({
       isUpdate: true,
       page: 1
     });
+  },
+  toactlist(){
+    wx.switchTab({
+      url: '../../activityDetails/activity-details',
+    })
   },
   //获取我的票券
   getTicketList: function () {

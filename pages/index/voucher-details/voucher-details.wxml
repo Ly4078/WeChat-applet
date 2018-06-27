@@ -1,7 +1,8 @@
 <view>
   <view class='detailsWarp'>
-    <image class='detailsImg'  wx:if="{{!cfrom}}" src='/images/icon/quan.png'></image>
-    <image class='detailscf' wx:else src='/images/icon/package.png'></image>
+    <image class='detailsImg'  wx:if="{{!cfrom && actId != 37}}" src='/images/icon/xianjin.png'></image>
+    <image class='detailscf' wx:if="{{cfrom}}" src='/images/icon/package.png'></image>
+    <image class='detailscf' wx:if="{{!cfrom && actId == 37}}" src='/images/icon/shidian.png'></image>
     
     <view class='speciesWrap'  wx:if="{{!cfrom}}">
       <text class='speciesText' wx:if="{{actId == 37}}">{{obj.sell}}元食典劵</text>

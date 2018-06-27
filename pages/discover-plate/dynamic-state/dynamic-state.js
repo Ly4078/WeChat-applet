@@ -129,6 +129,10 @@ Page({
   onUnload: function () { //生命周期函数--监听页面卸载
   },
   onShow: function () {
+    getApp().globalData.article = [];
+    this.data.title = '';
+    this.covervideo = '';
+    this.data.coverimg = '';
   },
   // 开始播放视频 
   playvideo:function(){
@@ -474,6 +478,10 @@ Page({
             that.setData({
               content: []
             })
+            getApp().globalData.article = [];
+            that.data.title = '';
+            that.covervideo = '';
+            that.data.coverimg = '';
             if (that.data.actId == 37) {
               wx.navigateBack({
                 delta: 1
@@ -493,7 +501,11 @@ Page({
         content: '退出编辑将清空数据',
         success: function (res) {
           if (res.confirm) {
-            wx.clearStorage()
+            wx.clearStorage();
+            getApp().globalData.article=[];
+            that.data.title='';
+            that.covervideo='';
+            that.data.coverimg='';
             if (that.data.actId == 37) {
               wx.navigateBack({
                 delta: 1

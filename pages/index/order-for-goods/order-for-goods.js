@@ -279,9 +279,10 @@ Page({
         userId: app.globalData.userInfo.userId,
         userName: app.globalData.userInfo.userName,
         skuId: this.data.obj.id,
-        skuNum: this.data.number,
-        shopId: this.data.shopId
-
+        skuNum: this.data.number
+      }
+      if (this.data.shopId){
+        _parms.shopId = this.data.shopId;
       }
       if (that.data.paytype == 1) {  //微信支付
         _parms.payType = '2';

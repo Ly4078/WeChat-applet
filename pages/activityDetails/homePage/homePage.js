@@ -15,6 +15,7 @@ Page({
     page: 1
   },
   onLoad: function (options) {
+    console.log('options:',options)
     let dateStr = new Date();
     let milisecond = new Date(this.dateConv(dateStr)).getTime() + 86400000;
     this.setData({
@@ -90,8 +91,10 @@ Page({
             if (list[i].content[0].type == 'video') {
               list[i].isImg = false;
             }
+            list[i].isplay=false;
             articleList.push(list[i]);
           }
+          console.log('articleList:', articleList)
           this.setData({
             articleList: articleList
           });
@@ -107,6 +110,19 @@ Page({
         })
       }
     });
+  },
+  videoplay(e){
+    let id = e.currentTarget.id, _data = this.data.articleList;
+    for (let i in _data){
+      if (id == _data[i].id){
+        _data[i].isplay=true
+      }else{
+        _data[i].isplay = false
+      }
+    }
+    this.setData({
+      articleList: _data
+    })
   },
   toDetails(e) {
     let str = e.currentTarget;

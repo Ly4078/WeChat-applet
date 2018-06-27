@@ -91,6 +91,11 @@ Page({
                   }
                 }
               }
+              if(data.mobile){
+                wx.switchTab({
+                  url: '../../index/index'
+                })
+              }
             }
           }
         })

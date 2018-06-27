@@ -19,6 +19,7 @@ Page({
         skuId: options.skuId
       });
     }
+    console.log("cfrom:", options.cfrom)
     if (options.cfrom){
       this.setData({
         cfrom: options.cfrom

@@ -11,3 +11,5 @@
   <image src="/images/icon/zhanweitu.png"></image>
 </view>
 
+<image class='ball' bindtap='toactlist' src='/images/icon/actIcon.png'></image>
+

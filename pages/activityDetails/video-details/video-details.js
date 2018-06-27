@@ -13,6 +13,8 @@ Page({
     comment_list: [],
     refId: 0,
     assNum:'',
+    _actId:'',
+    _userId:'',
     isdtzan:false,
     videodata:[]
   },
@@ -21,7 +23,13 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    // console.log('options:',options)
+    console.log('options:',options)
+    if (options.actId){
+      this.setData({
+        _actId: options.actId,
+        _userId: options.userId
+      })
+    }
     if(options.id){
       this.setData({
         refId: options.id
@@ -29,8 +37,10 @@ Page({
       this.gettopiclist(options.id);
       this.getcmtlist(options.id);
     } else if (options.url){
+      console.log(options)
       this.setData({
-        videoUrl:options.url
+        videoUrl:options.url,
+        
       })
     }
     
@@ -89,9 +99,9 @@ Page({
       }
     })
   },
-  toplayer:function(){  //返回个人主页
-    wx.navigateBack({
-      delta: 1
+  toplayer:function(){  //to个人主页
+    wx.redirectTo({
+      url: '../../activityDetails/homePage/homePage?actId=' + this.data._actId + '&userId=' + this.data._userId,
     })
   },
   showArea() {

@@ -190,6 +190,14 @@
   text-align: center;
   line-height: 76rpx;
 }
+.activity_line {
+  position: absolute;
+  left: 0;
+  top: 6rpx;
+  background-color: #347BB7;
+  height: 28rpx;
+  width: 8rpx;
+}
 
 /*
   */

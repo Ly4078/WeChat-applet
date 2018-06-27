@@ -1,6 +1,6 @@
 <import src="dish-template/dish-template.wxml" />
 
-<view class="newUserModal" wx:if="{{issnap}}">
+<view class="newUserModal" wx:if="{{issnap && isnew}}">
   <view class='drawer_screen'>
     <view class='sqtishi'>提示</view>
     <view class='drphnumber'>获得更多体验,请移步[我的]-[新用户注册]</view>
@@ -111,3 +111,4 @@
     </view>
   </view>
 </view>
+<image class='ball' bindtap='toactlist' src='/images/icon/actIcon.png'></image>

@@ -1,6 +1,6 @@
 <import src="../../index/merchant-particulars/comment-template/comment-template.wxml" /> 
 
-<view class="newUserModal" wx:if="{{issnap}}">
+<view class="newUserModal" wx:if="{{issnap && isnew}}">
   <view class='drawer_screen'>
     <view class='sqtishi'>提示</view>
     <view class='drphnumber'>获得更多体验,请移步[我的]-[新用户注册]</view>
@@ -92,8 +92,8 @@
     </view>
   </view>
 </view>
-<view class="floatBall" wx:if="{{shareFlag}}" bindtap='toArtList'>
+<!-- <view class="floatBall" wx:if="{{shareFlag}}" bindtap='toArtList'>
   <image src="/images/icon/actIcon.png"></image>
-</view>
-
+</view> -->
+<image class='ball' bindtap='toactlist' src='/images/icon/actIcon.png'></image>
 <!-- </view>  -->

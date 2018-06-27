@@ -19,6 +19,7 @@ Page({
     playerList: [],
     sortType: 2,
     isflag:0,
+    isnew:false,
     isOption: false
   },
   onLoad: function (options) {
@@ -53,6 +54,9 @@ Page({
   },
   onShow: function () {
     let that = this;
+    if (!app.globalData.userInfo.mobile) {
+      this.getuserinfo();
+    }
     wx.request({
       url: this.data._build_url + 'act/flag',
       success: function (res) {
@@ -109,7 +113,7 @@ Page({
     })
   },
   toApply: function () {    //跳转至报名页面
-    if (app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+    if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
       })
@@ -306,7 +310,7 @@ Page({
     }
   },
   toDishDetail(e) {
-    if (app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+    if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
       })
@@ -317,7 +321,7 @@ Page({
     })
   },
   playerDetail(e) {
-    if (app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+    if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
       })
@@ -351,7 +355,7 @@ Page({
     }
   },
   castvote: function (e) {  //選手投票
-    if (app.globalData.userInfo.mobile == undefined || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+    if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
       })
@@ -410,9 +414,9 @@ Page({
     });
   },
   payDish(e) {    //购买推荐菜
-    if (app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+    if (!app.globalData.userInfo.mobile) {
       this.setData({
-        issnap: true
+        issnap:true
       })
       return false
     }
@@ -482,5 +486,96 @@ Page({
       desc: '享7美食',
       path: '/pages/activityDetails/onehundred-dish/onehundred-dish?actid=' + this.data.actId + '&voteUserId=' + this.data.voteUserId + '&userName=' + this.data.userName
     }
+  },
+  toactlist() {
+    wx.switchTab({
+      url: '../../activityDetails/activity-details',
+    })
+  },
+  getuserinfo(){
+    wx.login({
+      success: res => {
+        if (res.code) {
+          let _parms = {
+            code: res.code
+          }
+          let that = this;
+          Api.getOpenId(_parms).then((res) => {
+            app.globalData.userInfo.openId = res.data.data.openId;
+            app.globalData.userInfo.sessionKey = res.data.data.sessionKey;
+            if (res.data.data.unionId) {
+              app.globalData.userInfo.unionId = res.data.data.unionId;
+              that.getmyuserinfo();
+            } else {
+              that.findByCode();
+              wx.hideLoading();
+            }
+          })
+        }
+      }
+    })
+  },
+  getmyuserinfo: function () {
+    let _parms = {
+      openId: app.globalData.userInfo.openId,
+      unionId: app.globalData.userInfo.unionId
+    }, that = this;
+    Api.addUserUnionId(_parms).then((res) => {
+      if (res.data.data) {
+        app.globalData.userInfo.userId = res.data.data;
+        wx.request({  //从自己的服务器获取用户信息
+          url: this.data._build_url + 'user/get/' + res.data.data,
+          header: {
+            'content-type': 'application/json' // 默认值
+          },
+          success: function (res) {
+            if (res.data.code == 0) {
+              let data = res.data.data;
+              for (let key in data) {
+                for (let ind in app.globalData.userInfo) {
+                  if (key == ind) {
+                    app.globalData.userInfo[ind] = data[key]
+                  }
+                }
+              };
+              that.playerDetail();
+              that.articleList();
+              if (!data.mobile) {
+                that.setData({
+                  isnew: true
+                })
+              }
+            }
+          }
+        })
+      }
+    })
+  },
+  findByCode: function () {
+    let that = this;
+    wx.login({
+      success: res => {
+        Api.findByCode({ code: res.code }).then((res) => {
+          if (res.data.code == 0) {
+            if (res.data.data.unionId) {
+              app.globalData.userInfo.unionId = res.data.data.unionId;
+              that.getmyuserinfo();
+            } else {
+              wx.hideLoading();
+              that.setData({
+                istouqu: true
+              })
+            }
+          } else {
+            that.findByCode();
+            wx.hideLoading();
+            that.setData({
+              istouqu: true
+            })
+          }
+        })
+      }
+    })
   }
+
 })

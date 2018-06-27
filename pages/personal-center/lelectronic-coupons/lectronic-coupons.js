@@ -242,9 +242,7 @@ Page({
       id:soid,
       soStatus:'2'
     };
-    console.log("_parms:", _parms)
     Api.myorderForShop(_parms).then((res) => {
-      console.log('res:',res)
       if (res.data.code == 0 || res.data.code == 200){
         this.setData({
           ticketInfo:res.data.data.list[0],

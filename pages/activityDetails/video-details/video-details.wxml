@@ -21,7 +21,7 @@
         <text class='righticon'>></text>
     </view>
     <view class='introduction' wx:if="{{refId}}">
-      {{videodata.content[0].txt}}
+      {{videodata.title}}
     </view>
     <view class='other' wx:if="{{refId}}">
       <text class='time'>{{videodata.updateTime}}</text>

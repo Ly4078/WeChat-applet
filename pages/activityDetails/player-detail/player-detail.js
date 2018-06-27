@@ -30,6 +30,7 @@ Page({
     availableNum: 0,    //可用票数
     cmtdata: [],
     isApply: false,
+    isnew:false,
     shareFlag: false
   },
   onLoad: function (options) {
@@ -57,13 +58,19 @@ Page({
     }
   },
   onShow: function () {
+    if (!app.globalData.userInfo.mobile) {
+      this.setData({
+        isApply:false
+      })
+      this.getuserinfo();
+    }
     this.playerDetail();
     this.articleList();
   },
   isSign() {
     let _parms = {
-      refId: this.data.voteUserId,
-      actId: this.data.actId,
+      refId: app.globalData.userInfo.userId,
+      actId: this.data.actId ? this.data.actId:37,
       type: 1
     }
     Api.actisSign(_parms).then((res) => {
@@ -71,22 +78,49 @@ Page({
         this.setData({
           isApply: true
         });
+      }else{
+        this.setData({
+          isApply: false
+        });
       }
     });
   },
   toApply() {
-    if (app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+    if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
       })
       return false
     }
-    wx.navigateTo({
-      url: '../hot-activity/apply-player/apply-player?id=' + this.data.actId + '&_actName=' + this.data.actName
-    })
+    if (app.globalData.userInfo.userType == '2' && app.globalData.userInfo.shopId != '') {
+      wx.showToast({
+        title: '您是商家，请移步至商家端App报名',
+        icon: 'none'
+      })
+    } else {
+      let _parms = {
+        refId: this.data.voteUserId,
+        actId: this.data.actId,
+        type: 1
+      }
+      Api.actisSign(_parms).then((res) => {
+        let data = res.data;
+        if (data.code == 0) {
+          wx.navigateTo({
+            url: '../hot-activity/apply-player/apply-player?id=' + this.data.actId + '&_actName=' + this.data.actName
+          })
+        } else {
+          wx.showToast({
+            title: data.message,
+            icon: 'none'
+          })
+        }
+      });
+    }
+    
   },
   toArtList() {
-    if (app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+    if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
       })
@@ -94,58 +128,6 @@ Page({
     }
     wx.redirectTo({
       url: '../onehundred-dish/onehundred-dish?actid=' + this.data.actId
-    })
-  },
-  getmyuserinfo: function () {
-    let _parms = {
-      openId: app.globalData.userInfo.openId,
-      unionId: app.globalData.userInfo.unionId
-    }, that = this;
-    Api.addUserUnionId(_parms).then((res) => {
-      if (res.data.data) {
-        app.globalData.userInfo.userId = res.data.data;
-        wx.request({  //从自己的服务器获取用户信息
-          url: this.data._build_url + 'user/get/' + res.data.data,
-          header: {
-            'content-type': 'application/json' // 默认值
-          },
-          success: function (res) {
-            if (res.data.code == 0) {
-              let data = res.data.data;
-              for (let key in data) {
-                for (let ind in app.globalData.userInfo) {
-                  if (key == ind) {
-                    app.globalData.userInfo[ind] = data[key]
-                  }
-                }
-              }
-              if(!data.mobile){ //如果从外部进入的新用户，
-                that.setData({
-                  issnap: true
-                })
-              }
-            }
-          }
-        })
-      }
-    })
-  },
-  findByCode: function () {
-    let that = this;
-    wx.login({
-      success: res => {
-        Api.findByCode({ code: res.code }).then((res) => {
-          if (res.data.code == 0) {
-            if (res.data.data.unionId) {
-              app.globalData.userInfo.unionId = res.data.data.unionId;
-              wx.hideLoading();
-              that.getmyuserinfo();
-            }
-          } else {
-            that.findByCode();
-          }
-        })
-      }
     })
   },
   playerDetail() {
@@ -203,6 +185,7 @@ Page({
     Api.myArticleList(_parms).then((res) => {
       let data = res.data;
       if(res.data.code == 0) {
+        console.log('article:', res.data.data.list)
         this.setData({
           article: res.data.data.list,
           articleNum: res.data.data.total
@@ -224,7 +207,7 @@ Page({
     })
   },
   toUploadVideo() {
-    if (app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+    if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
       })
@@ -236,7 +219,7 @@ Page({
   },
   dianzanwz: function (e) {  //文章点赞
     let id = e.currentTarget.id, article = this.data.article;
-    if (app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+    if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
       })
@@ -270,7 +253,7 @@ Page({
   },
   quxiaozanwz: function (e) {  //文章取消点赞
     let id = e.currentTarget.id, article = this.data.article;
-    if (app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+    if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
       })
@@ -314,7 +297,7 @@ Page({
     })
   },
   toDetails(e) {
-    if (!app.globalData.userInfo.mobile ) {
+    if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
       })
@@ -351,7 +334,7 @@ Page({
     });
   },
   toMoreComment() {
-    if (app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+    if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
       })
@@ -362,7 +345,7 @@ Page({
     })
   },
   showArea() {
-    if (app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+    if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
       })
@@ -528,7 +511,7 @@ Page({
   handvideo:function(){
     let Url = this.data.videoArr[0].picUrl;
     wx.navigateTo({
-      url: '../video-details/video-details?url=' + Url,
+      url: '../video-details/video-details?url=' + Url + '&actId=' + this.data.actId + '&userId=' + this.data.userId,
     })
   },
   clickvidoe:function(e){
@@ -539,10 +522,11 @@ Page({
       return false
     }
     let id = e.currentTarget.id,ind = '';
+    let _actId = this.data.actId;
     for (let i = 0; i < this.data.article.length; i++) {
       if (this.data.article[i].id == id) {
         wx.navigateTo({
-          url: '../video-details/video-details?&id=' + id,
+          url: '../video-details/video-details?&id=' + id + '&actId=' + _actId + '&userId=' + this.data.userId,
         })
       }
     }
@@ -553,7 +537,7 @@ Page({
     })
   },
   homePage() {
-    if (app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+    if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
       })
@@ -594,5 +578,98 @@ Page({
         url: '/pages/personal-center/registered/registered'
       })
     }
+  },
+  getuserinfo() {
+    wx.login({
+      success: res => {
+        if (res.code) {
+          let _parms = {
+            code: res.code
+          }
+          let that = this;
+          Api.getOpenId(_parms).then((res) => {
+            app.globalData.userInfo.openId = res.data.data.openId;
+            app.globalData.userInfo.sessionKey = res.data.data.sessionKey;
+            if (res.data.data.unionId) {
+              app.globalData.userInfo.unionId = res.data.data.unionId;
+              that.getmyuserinfo();
+            } else {
+              that.findByCode();
+              wx.hideLoading();
+            }
+          })
+        }
+      }
+    })
+  },
+  getmyuserinfo: function () {
+    let _parms = {
+      openId: app.globalData.userInfo.openId,
+      unionId: app.globalData.userInfo.unionId
+    }, that = this;
+    Api.addUserUnionId(_parms).then((res) => {
+      if (res.data.data) {
+        app.globalData.userInfo.userId = res.data.data;
+        that.setData({
+          voteUserId: res.data.data
+        })
+        that.isSign();
+        wx.request({  //从自己的服务器获取用户信息
+          url: this.data._build_url + 'user/get/' + res.data.data,
+          header: {
+            'content-type': 'application/json' // 默认值
+          },
+          success: function (res) {
+            if (res.data.code == 0) {
+              let data = res.data.data;
+              for (let key in data) {
+                for (let ind in app.globalData.userInfo) {
+                  if (key == ind) {
+                    app.globalData.userInfo[ind] = data[key]
+                  }
+                }
+              };
+              
+              if (!data.mobile) {
+                that.setData({
+                  isnew: true
+                })
+              }
+            }
+          }
+        })
+      }
+    })
+  },
+  findByCode: function () {
+    let that = this;
+    wx.login({
+      success: res => {
+        Api.findByCode({ code: res.code }).then((res) => {
+          if (res.data.code == 0) {
+            if (res.data.data.unionId) {
+              app.globalData.userInfo.unionId = res.data.data.unionId;
+              that.getmyuserinfo();
+            } else {
+              wx.hideLoading();
+              that.setData({
+                istouqu: true
+              })
+            }
+          } else {
+            that.findByCode();
+            wx.hideLoading();
+            that.setData({
+              istouqu: true
+            })
+          }
+        })
+      }
+    })
+  },
+  toactlist(){
+    wx.switchTab({
+      url: '../../activityDetails/activity-details',
+    })
   }
 })

@@ -771,3 +771,11 @@ button::after{
   text-align: center;
   line-height: 76rpx;
 }
+.ball{
+  position: fixed;
+  width: 83rpx;
+  height: 83rpx;
+  right: 100rpx;
+  bottom: 50px;
+  z-index: 10;
+}

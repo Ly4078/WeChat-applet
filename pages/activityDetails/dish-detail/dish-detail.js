@@ -27,6 +27,7 @@ Page({
     commentTotal: 0,
     commentVal: '',
     availableNum: 0,
+    isnew:false,
     shareFlag: false
   },
   onLoad: function (options) {
@@ -50,6 +51,9 @@ Page({
     }
   },
   onShow: function () {
+    if (!app.globalData.userInfo.mobile) {
+      this.getuserinfo();
+    }
     this.getDish();
     this.comment();
   },
@@ -104,7 +108,7 @@ Page({
     })
   },
   toShopPage() {
-    if (app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+    if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
       })
@@ -115,7 +119,7 @@ Page({
     })
   },
   toArtList() {
-    if (app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+    if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
       })
@@ -159,7 +163,7 @@ Page({
     })
   },
   payDish() {    //购买推荐菜
-    if (app.globalData.userInfo.mobile == undefined || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+    if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
       })
@@ -203,7 +207,7 @@ Page({
     })
   },
   showAreatext() {
-    if (app.globalData.userInfo.mobile == undefined || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+    if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
       })
@@ -219,7 +223,7 @@ Page({
     })
   },
   setcmtadd: function () {  //新增评论
-    if (app.globalData.userInfo.mobile == undefined || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+    if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
       })
@@ -259,7 +263,7 @@ Page({
     })
   },
   toMoreComment() {
-    if (app.globalData.userInfo.mobile == undefined || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+    if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
       })
@@ -270,7 +274,7 @@ Page({
     })
   },
   castvote: function () {  //推荐菜投票
-    if (app.globalData.userInfo.mobile == undefined || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+    if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
       })
@@ -309,7 +313,7 @@ Page({
     });
   },
   toLike: function (e) {//评论点赞
-    if (app.globalData.userInfo.mobile == undefined || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+    if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
       })
@@ -344,7 +348,7 @@ Page({
     })
   },
   cancelLike(e) {
-    if (app.globalData.userInfo.mobile == undefined || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+    if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
       })
@@ -412,5 +416,95 @@ Page({
         url: '/pages/personal-center/registered/registered'
       })
     }
+  },
+  toactlist() {
+    wx.switchTab({
+      url: '../../activityDetails/activity-details',
+    })
+  },
+  getuserinfo() {
+    wx.login({
+      success: res => {
+        if (res.code) {
+          let _parms = {
+            code: res.code
+          }
+          let that = this;
+          Api.getOpenId(_parms).then((res) => {
+            app.globalData.userInfo.openId = res.data.data.openId;
+            app.globalData.userInfo.sessionKey = res.data.data.sessionKey;
+            if (res.data.data.unionId) {
+              app.globalData.userInfo.unionId = res.data.data.unionId;
+              that.getmyuserinfo();
+            } else {
+              that.findByCode();
+              wx.hideLoading();
+            }
+          })
+        }
+      }
+    })
+  },
+  getmyuserinfo: function () {
+    let _parms = {
+      openId: app.globalData.userInfo.openId,
+      unionId: app.globalData.userInfo.unionId
+    }, that = this;
+    Api.addUserUnionId(_parms).then((res) => {
+      if (res.data.data) {
+        app.globalData.userInfo.userId = res.data.data;
+        wx.request({  //从自己的服务器获取用户信息
+          url: this.data._build_url + 'user/get/' + res.data.data,
+          header: {
+            'content-type': 'application/json' // 默认值
+          },
+          success: function (res) {
+            if (res.data.code == 0) {
+              let data = res.data.data;
+              for (let key in data) {
+                for (let ind in app.globalData.userInfo) {
+                  if (key == ind) {
+                    app.globalData.userInfo[ind] = data[key]
+                  }
+                }
+              };
+              that.playerDetail();
+              that.articleList();
+              if (!data.mobile) {
+                that.setData({
+                  isnew: true
+                })
+              }
+            }
+          }
+        })
+      }
+    })
+  },
+  findByCode: function () {
+    let that = this;
+    wx.login({
+      success: res => {
+        Api.findByCode({ code: res.code }).then((res) => {
+          if (res.data.code == 0) {
+            if (res.data.data.unionId) {
+              app.globalData.userInfo.unionId = res.data.data.unionId;
+              that.getmyuserinfo();
+            } else {
+              wx.hideLoading();
+              that.setData({
+                istouqu: true
+              })
+            }
+          } else {
+            that.findByCode();
+            wx.hideLoading();
+            that.setData({
+              istouqu: true
+            })
+          }
+        })
+      }
+    })
   }
 })

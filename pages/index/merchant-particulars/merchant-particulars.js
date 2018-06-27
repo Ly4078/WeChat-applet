@@ -192,7 +192,6 @@ Page({
       },
       success: function (res) {
         let _data = res.data.data;
-        console.log('_data:',_data);
         _data.popNum = utils.million(_data.popNum);
         
         if (_data.address.indexOf('-') > 0) {
@@ -212,12 +211,10 @@ Page({
       shopId: id
     }
     Api.selectByShopId(_parms).then((res) => {
-      console.log('res:',res)
       if (res.data.code == 0) {
         that.setData({
           allactivity: res.data.data
         })
-        console.log('allactivity:', this.data.allactivity)
         if (that.data.allactivity.length >= 2 ) {
           that.setData({
             isactmore: true
