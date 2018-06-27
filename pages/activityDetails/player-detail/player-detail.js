@@ -57,7 +57,6 @@ Page({
     }
   },
   onShow: function () {
-
     this.playerDetail();
     this.articleList();
   },
@@ -76,42 +75,15 @@ Page({
     });
   },
   toApply() {
-    // if (app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
-
-    if (!app.globalData.userInfo.userId && !app.globalData.userInfo.mobile) { //针对从外部进来的，无论新老用户
-      wx.login({
-        success: res => {
-          if (res.code) {
-            let _parms = {
-              code: res.code
-            }
-            let that = this; 
-            Api.getOpenId(_parms).then((res) => {
-              app.globalData.userInfo.openId = res.data.data.openId;
-              app.globalData.userInfo.sessionKey = res.data.data.sessionKey;
-              if (res.data.data.unionId) {
-                app.globalData.userInfo.unionId = res.data.data.unionId;
-                that.getmyuserinfo();
-              } else {
-                that.findByCode();
-                wx.hideLoading();
-              }
-            })
-          }
-        }
-      })
-    } else if (!app.globalData.userInfo.mobile) {//针对新用户
+    if (app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
       this.setData({
         issnap: true
       })
-    } else {//老用户正常进入
-      this.playerDetail();
-      this.articleList();
+      return false
     }
-
-    // wx.navigateTo({
-    //   url: '../hot-activity/apply-player/apply-player?id=' + this.data.actId + '&_actName=' + this.data.actName
-    // })
+    wx.navigateTo({
+      url: '../hot-activity/apply-player/apply-player?id=' + this.data.actId + '&_actName=' + this.data.actName
+    })
   },
   toArtList() {
     if (app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
@@ -238,7 +210,6 @@ Page({
       } 
     });
   },
-
   previewImg(e) {
     let id = e.target.id, imgArr = this.data.imgArr, imgUrls = [], idx = 0;
     for (let i = 0; i < imgArr.length; i++) {
@@ -263,7 +234,6 @@ Page({
       url: '../../discover-plate/dynamic-state/dynamic-state?id=2&actId=37'
     })
   },
-
   dianzanwz: function (e) {  //文章点赞
     let id = e.currentTarget.id, article = this.data.article;
     if (app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
@@ -599,4 +569,3 @@ Page({
     }
   }
 })
-

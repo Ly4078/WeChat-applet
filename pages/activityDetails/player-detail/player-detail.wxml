@@ -8,10 +8,7 @@
     <button class='gettel colosetel' bindtap='closetel' id='2'>取消</button>
   </view>
 </view>
-
-
 <view class="playerDetail">
-
   <view class="playerInfo" style="{{userInfo == '' ? '' : 'height: 300rpx;'}}">
     <view class="playerInfoBack"></view>
     <image class="playerInfoImg" src="{{bgUrl}}" mode='aspectFill'></image>
@@ -38,7 +35,6 @@
       </view> 
     </view>
   </view>
-
   <view class="playerResource" style="{{article.length > 0 ? '' : 'padding-bottom: 76rpx;'}}">
     <view class="playerVideo" bindtap='handvideo'>
       <image class='vodeoimg' src='{{videoArr[0].smallPicUrl}}'></image>
@@ -53,7 +49,6 @@
       </scroll-view>
     </view>
   </view>
-
   <view class="activity" wx:if="{{article.length > 0}}" style="{{totalComment > 0 ? '' : 'padding-bottom: 76rpx;'}}">
     <view class="activity_tit" bindtap="homePage">
       <view class="activity_tit_l">
@@ -66,13 +61,11 @@
         <image src="/images/icon/home_arrow.png"></image>
       </view>
     </view>
-
     <view class="activity_list">
       <scroll-view scroll-x="true">
         <block wx:for="{{article}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
-          <view class="activity_item" >
+          <view class="activity_item">
             <image class="act_item_bg" src="{{item.homePic}}" mode='aspectFill' id="{{item.id}}"  bindtap='clickvidoe'></image>
-
             <view class="act_item_info">
               <text class="act_info_text">{{item.title}}</text>
               <view class="act_info_like" wx:if="{{item.isZan == 0}}" id="{{item.id}}" bindtap='dianzanwz'>
@@ -89,9 +82,7 @@
       </scroll-view>
     </view>
   </view>
-
   <view class="uploadVideo" wx:if="{{userId == voteUserId}}" style="{{totalComment > 0 ? '' : 'padding-bottom: 100rpx;'}}">
-
     <view>
       <view class="uploadVideo_t">
         <text class="activity_line"></text>
@@ -105,7 +96,6 @@
   <view class="applyBox" wx:if="{{isApply}}" style="{{totalComment > 0 ? '' : 'padding-bottom: 110rpx;'}}">
     <view class="applyBtn" bindtap='toApply'>我要报名</view>
   </view>
-
   <view class="comment" wx:if="{{totalComment > 0}}">
     <view class="comment_tit" bindtap="toMoreComment">
       <view>
@@ -125,8 +115,6 @@
       </view>
     </view>
   </view>
-
-
   <view class='evaluate'>
     <button class='evaluateSon sonButton' plain="true" data-name="shareBtn" open-type="share" bindtap='transpond'>
       <image class='evaluateImg' src='/images/icon/find_share.png'></image>
@@ -143,9 +131,7 @@
       <text class='evaluatExtea'>{{voteNum}}</text>
     </view>
   </view>
-
 </view>
-
 <form class='commentBox {{isComment ? "show" : "hide"}}'>
   <textarea class="commentArea" placeholder='请输入评论' focus="{{isComment}}" bindinput="getCommentVal" cursor-spacing="50rpx" show-confirm-bar="false" fixed="true"></textarea>
   <button class='fasong' form-type="reset" catchtap="setcmtadd">发送</button>
