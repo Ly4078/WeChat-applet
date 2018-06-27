@@ -57,6 +57,7 @@ Page({
     }
   },
   onShow: function () {
+
     this.playerDetail();
     this.articleList();
   },
@@ -75,15 +76,42 @@ Page({
     });
   },
   toApply() {
-    if (app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+    // if (app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+
+    if (!app.globalData.userInfo.userId && !app.globalData.userInfo.mobile) { //针对从外部进来的，无论新老用户
+      wx.login({
+        success: res => {
+          if (res.code) {
+            let _parms = {
+              code: res.code
+            }
+            let that = this; 
+            Api.getOpenId(_parms).then((res) => {
+              app.globalData.userInfo.openId = res.data.data.openId;
+              app.globalData.userInfo.sessionKey = res.data.data.sessionKey;
+              if (res.data.data.unionId) {
+                app.globalData.userInfo.unionId = res.data.data.unionId;
+                that.getmyuserinfo();
+              } else {
+                that.findByCode();
+                wx.hideLoading();
+              }
+            })
+          }
+        }
+      })
+    } else if (!app.globalData.userInfo.mobile) {//针对新用户
       this.setData({
         issnap: true
       })
-      return false
+    } else {//老用户正常进入
+      this.playerDetail();
+      this.articleList();
     }
-    wx.navigateTo({
-      url: '../hot-activity/apply-player/apply-player?id=' + this.data.actId + '&_actName=' + this.data.actName
-    })
+
+    // wx.navigateTo({
+    //   url: '../hot-activity/apply-player/apply-player?id=' + this.data.actId + '&_actName=' + this.data.actName
+    // })
   },
   toArtList() {
     if (app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
@@ -94,6 +122,58 @@ Page({
     }
     wx.redirectTo({
       url: '../onehundred-dish/onehundred-dish?actid=' + this.data.actId
+    })
+  },
+  getmyuserinfo: function () {
+    let _parms = {
+      openId: app.globalData.userInfo.openId,
+      unionId: app.globalData.userInfo.unionId
+    }, that = this;
+    Api.addUserUnionId(_parms).then((res) => {
+      if (res.data.data) {
+        app.globalData.userInfo.userId = res.data.data;
+        wx.request({  //从自己的服务器获取用户信息
+          url: this.data._build_url + 'user/get/' + res.data.data,
+          header: {
+            'content-type': 'application/json' // 默认值
+          },
+          success: function (res) {
+            if (res.data.code == 0) {
+              let data = res.data.data;
+              for (let key in data) {
+                for (let ind in app.globalData.userInfo) {
+                  if (key == ind) {
+                    app.globalData.userInfo[ind] = data[key]
+                  }
+                }
+              }
+              if(!data.mobile){ //如果从外部进入的新用户，
+                that.setData({
+                  issnap: true
+                })
+              }
+            }
+          }
+        })
+      }
+    })
+  },
+  findByCode: function () {
+    let that = this;
+    wx.login({
+      success: res => {
+        Api.findByCode({ code: res.code }).then((res) => {
+          if (res.data.code == 0) {
+            if (res.data.data.unionId) {
+              app.globalData.userInfo.unionId = res.data.data.unionId;
+              wx.hideLoading();
+              that.getmyuserinfo();
+            }
+          } else {
+            that.findByCode();
+          }
+        })
+      }
     })
   },
   playerDetail() {
@@ -158,6 +238,7 @@ Page({
       } 
     });
   },
+
   previewImg(e) {
     let id = e.target.id, imgArr = this.data.imgArr, imgUrls = [], idx = 0;
     for (let i = 0; i < imgArr.length; i++) {
@@ -182,6 +263,7 @@ Page({
       url: '../../discover-plate/dynamic-state/dynamic-state?id=2&actId=37'
     })
   },
+
   dianzanwz: function (e) {  //文章点赞
     let id = e.currentTarget.id, article = this.data.article;
     if (app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
@@ -240,7 +322,6 @@ Page({
           if (id == article[i].id) {
             article[i].isZan--;
             article[i].zan--;
-            console.log(article)
             if (article[i].isZan <= 0) {
               article[i].isZan = 0;
             }
@@ -263,7 +344,7 @@ Page({
     })
   },
   toDetails(e) {
-    if (app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+    if (!app.globalData.userInfo.mobile ) {
       this.setData({
         issnap: true
       })
@@ -326,7 +407,7 @@ Page({
     })
   },
   setcmtadd: function () {  //新增评论
-    if (app.globalData.userInfo.mobile == undefined || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+    if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
       })
@@ -352,7 +433,6 @@ Page({
       nickName: app.globalData.userInfo.nickName,
     }
     Api.cmtadd(_parms).then((res) => {
-      console.log(res);
       if(res.data.code == 0) {
         this.comment();
       } else {
@@ -364,7 +444,7 @@ Page({
     })
   },
   castvote: function () {  //選手投票
-    if (app.globalData.userInfo.mobile == undefined || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+    if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
       })
@@ -381,7 +461,6 @@ Page({
         availableNum: res.data.data.user
       });
       if (this.data.availableNum <= 0) {
-        console.log(this.data.availableNum)
         wx.showToast({
           title: '今天票数已用完,请明天再来',
           icon: 'none'
@@ -403,7 +482,7 @@ Page({
     });
   },
   toLike: function (e) {//评论点赞
-    if (app.globalData.userInfo.mobile == undefined || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+    if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
       })
@@ -437,8 +516,30 @@ Page({
       }
     })
   },
+  handvideo:function(){
+    let Url = this.data.videoArr[0].picUrl;
+    wx.navigateTo({
+      url: '../video-details/video-details?url=' + Url,
+    })
+  },
+  clickvidoe:function(e){
+    if (!app.globalData.userInfo.mobile) {
+      this.setData({
+        issnap: true
+      })
+      return false
+    }
+    let id = e.currentTarget.id,ind = '';
+    for (let i = 0; i < this.data.article.length; i++) {
+      if (this.data.article[i].id == id) {
+        wx.navigateTo({
+          url: '../video-details/video-details?&id=' + id,
+        })
+      }
+    }
+  },
   cancelLike() {
-    if (app.globalData.userInfo.mobile == undefined || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+    if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
       })
@@ -498,3 +599,4 @@ Page({
     }
   }
 })
+

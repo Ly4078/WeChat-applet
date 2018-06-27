@@ -22,10 +22,75 @@ Page({
   },
   onShow:function(){
     if (!app.globalData.userInfo.userId){
-      wx.switchTab({
-        url: '../../../pages/index/index',
+      wx.login({
+        success: res => {
+          if (res.code) {
+            let _parms = {
+              code: res.code
+            }
+            let that = this;
+            Api.getOpenId(_parms).then((res) => {
+              app.globalData.userInfo.openId = res.data.data.openId;
+              app.globalData.userInfo.sessionKey = res.data.data.sessionKey;
+              if (res.data.data.unionId) {
+                app.globalData.userInfo.unionId = res.data.data.unionId;
+                that.getmyuserinfo();
+              } else {
+                that.findByCode();
+                wx.hideLoading();
+              }
+            })
+          }
+        }
       })
     }
+  },
+  findByCode: function () {
+    let that = this;
+    wx.login({
+      success: res => {
+        Api.findByCode({ code: res.code }).then((res) => {
+          if (res.data.code == 0) {
+            if (res.data.data.unionId) {
+              app.globalData.userInfo.unionId = res.data.data.unionId;
+              wx.hideLoading();
+              that.getmyuserinfo();
+            }
+          } else {
+            that.findByCode();
+          }
+        })
+      }
+    })
+  },
+  getmyuserinfo: function () {
+    let _parms = {
+      openId: app.globalData.userInfo.openId,
+      unionId: app.globalData.userInfo.unionId
+    }, that = this;
+    Api.addUserUnionId(_parms).then((res) => {
+      if (res.data.data) {
+        app.globalData.userInfo.userId = res.data.data;
+        wx.request({  //从自己的服务器获取用户信息
+          url: this.data._build_url + 'user/get/' + res.data.data,
+          header: {
+            'content-type': 'application/json' // 默认值
+          },
+          success: function (res) {
+            if (res.data.code == 0) {
+              let data = res.data.data;
+              for (let key in data) {
+                for (let ind in app.globalData.userInfo) {
+                  if (key == ind) {
+                    app.globalData.userInfo[ind] = data[key]
+                  }
+                }
+              }
+            }
+          }
+        })
+      }
+    })
   },
   numbindinput: function (e) {  //监听号码输入框
     let _value = e.detail.value
