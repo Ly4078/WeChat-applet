@@ -42,14 +42,14 @@ Page({
       tomorrow: this.dateConv(new Date(milisecond)),
       actName: options.actName
     });
-    if (options.voteUserId) {
+    if (app.globalData.userInfo.userId) {
+      this.setData({
+        voteUserId: app.globalData.userInfo.userId
+      });
+    } else if (options.voteUserId) {
       this.setData({
         voteUserId: options.voteUserId,
         shareFlag: true
-      });
-    } else {
-      this.setData({
-        voteUserId: app.globalData.userInfo.userId
       });
     }
     if (this.data.userId != this.data.voteUserId) {
@@ -338,6 +338,7 @@ Page({
         let _data = res.data.data;
         let reg = /^1[34578][0-9]{9}$/;
         for (let i in _data.list) {
+          _data.list[i].content = utils.uncodeUtf16(_data.list[i].content)
           if (reg.test(_data.list[i].userName)) {
             _data.list[i].userName = _data.list[i].userName.substr(0, 3) + "****" + _data.list[i].userName.substr(7);
           }
@@ -486,6 +487,44 @@ Page({
       }
     })
   },
+  cancelLike(e) {
+    if (!app.globalData.userInfo.mobile) {
+      this.setData({
+        issnap: true
+      })
+      return false
+    }
+    let id = e.currentTarget.id;
+    let ind = '';
+    for (let i = 0; i < this.data.comment_list.length; i++) {
+      if (this.data.comment_list[i].id == id) {
+        ind = i;
+      }
+    }
+    let _parms = {
+      refId: id,
+      type: 4,
+      userId: this.data.voteUserId,
+    }
+    Api.zandelete(_parms).then((res) => {
+      if (res.data.code == 0) {
+        wx.showToast({
+          mask: true,
+          icon: 'none',
+          title: '点赞取消'
+        }, 1500)
+        var comment_list = this.data.comment_list;
+        comment_list[ind].isZan = 0;
+        comment_list[ind].zan--;
+        if (comment_list[ind].zan <= 0) {
+          comment_list[ind].zan = 0;
+        }
+        this.setData({
+          comment_list: comment_list
+        });
+      }
+    })
+  },
   handvideo:function(){
     let Url = this.data.videoArr[0].picUrl;
     wx.navigateTo({
@@ -507,18 +546,6 @@ Page({
         })
       }
     }
-  },
-  cancelLike() {
-    if (!app.globalData.userInfo.mobile) {
-      this.setData({
-        issnap: true
-      })
-      return false
-    }
-    wx.showToast({
-      title: '您已经点过赞了',
-      icon: 'none'
-    })
   },
   onPageScroll: function () {  //监听页面滑动
     this.setData({

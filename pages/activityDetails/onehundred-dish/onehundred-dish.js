@@ -39,15 +39,15 @@ Page({
         switchTab: false
       });
     }
-    if (options.voteUserId) {
-      this.setData({
-        voteUserId: options.voteUserId,
-        userName: options.userName
-      });
-    }else {
+    if (app.globalData.userInfo.userId && app.globalData.userInfo.mobile){
       this.setData({
         voteUserId: app.globalData.userInfo.userId,
         userName: app.globalData.userInfo.mobile
+      });
+    } else if (options.voteUserId) {
+      this.setData({
+        voteUserId: options.voteUserId,
+        userName: options.userName
       });
     }
   },
