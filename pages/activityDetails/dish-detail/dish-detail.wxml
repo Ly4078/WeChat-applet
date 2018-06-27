@@ -10,19 +10,31 @@
 </view>
 <view class="topBanner">
   <image class="foodpic" mode="aspectFill" src="{{picUrl}}"></image>
-  <view>{{skuCode}}号</view>
-</view>
-<view class='skun'>
-  <text class='skuname'>{{actSkuName}}</text>
-  <view class='praise'>{{voteNum}}票</view>
-</view>
-<view class='skuinfo'>{{skuInfo}}</view>
-<view class="skupriceBox">
-  <view class="skuprice">
-    <text class="price_real">现价：￥{{jianAmount}}</text>
-    <text class="price_origin">原价：￥{{manAmount}}</text>
+  <view class="dishBox">
+    <view class="dishBox_inner">
+      <view class='skun dishBox_skun'>
+        <view class='actSkuName'>{{actSkuName}}</view>
+        <view class="dishBox_Data">
+          <view>
+            <view class='voteNum'>{{voteNum}}票</view>
+            <view class="skuCode">{{skuCode}}号</view>
+          </view>
+          <view class="toShopDetail" bindtap="toShopPage">
+            <text>商家主页</text>
+            <image src="/images/icon/home_arrow.png"></image>
+          </view>
+        </view>
+      </view>
+      <view class='skuInfo'>{{skuInfo}}</view>
+      <view class="skupriceBox">
+        <view class="skuprice">
+          <text class="price_real">现价：￥{{jianAmount}}</text>
+          <text class="price_origin">原价：￥{{manAmount}}</text>
+        </view>
+        <view class="skupriceBtn" bindtap='payDish'>购买</view>
+      </view>
+    </view>
   </view>
-  <view class="skupriceBtn" bindtap='payDish'>购买</view>
 </view>
 <view class='geduan'></view>
 <!-- <image class='houttishi' src='/images/icon/zhanweitu.png'></image> -->

@@ -24,6 +24,7 @@
         <text class="minusStatus normal" bindtap="bindMinus">-</text>
         <!-- 数值 -->
         <input wx:if="{{sostatus == 1}}" type="number" disabled='true' value="{{number}}" />
+        <input wx:if="{{actId == 37}}" type="number" disabled='true' value="{{number}}" />
         <input wx:else type="number" bindchange="bindManual" value="{{number}}" />
         <!-- 加号 -->
         <text  class="normal" bindtap="bindPlus">+</text>

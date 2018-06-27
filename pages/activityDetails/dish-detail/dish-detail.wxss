@@ -2,35 +2,89 @@
 
 .topBanner {
   width: 100%;
-  height: 420rpx;
+  height: 820rpx;
   position: relative;
 }
 
-.topBanner view {
-  position: absolute;
-  left: 28rpx;
-  top: 20rpx;
-  font-size: 28rpx;
-  color: #fff;
-  width: 112rpx;
-  height: 42rpx;
-  text-align: center;
-  line-height: 42rpx;
-  border-radius: 50rpx;
-  background-color: #191919;
-  opacity: 0.6;
+.topBanner .foodpic {
+  width: 100%;
+  height: 100%;
 }
+
+.dishBox {
+  width: 100%;
+  position: absolute;
+  bottom: 32rpx;
+  left: 0;
+  padding: 0 52rpx;
+  box-sizing: border-box;
+}
+
+.dishBox_inner {
+  background-color: #fff;
+  width: 100%;
+  padding: 24rpx 20rpx 26rpx 24rpx;
+  box-sizing: border-box;
+  border-radius: 16rpx;
+}
+
+.dishBox_skun {
+  padding: 0;
+}
+
+.dishBox_Data {
+  display: flex;
+  justify-content: space-between;
+}
+
+.toShopDetail {
+  color: #b1b1b1;
+  font-size: 26rpx;
+  padding-top: 10rpx;
+}
+
+.toShopDetail image {
+  width: 12rpx;
+  height: 22rpx;
+  margin-left: 4rpx
+}
+
+.skuInfo {
+  font-size: 24rpx;
+  color: #808080;
+  padding: 20rpx 0;
+}
+
+.actSkuName {
+  font-size: 32rpx;
+  color: #191919;
+  padding-bottom: 6rpx;
+}
+
 .skupriceBox {
-  margin: 0 24rpx 26rpx 30rpx;
+  padding-top: 28rpx;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  font-size: 30rpx;
+  font-size: 26rpx;
+  border-top: 1rpx solid #E0E0E0;
 }
 
-.praise {
-  color: #FC5E2D;
-  margin-top: 6rpx;
+.voteNum, .skuCode {
+  display: inline-block;
+  color: #fff;
+  font-size: 22rpx;
+  border-radius: 50rpx;
+  padding: 6rpx 16rpx;
+}
+
+.voteNum {
+  background-color: #34B759;
+  margin-right: 20rpx;
+}
+
+.skuCode {
+  background-color: #347BB7;
 }
 
 .skuprice {

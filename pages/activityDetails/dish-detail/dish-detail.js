@@ -103,6 +103,12 @@ Page({
       }
     })
   },
+  toShopPage() {
+    console.log(this.data.shopId)
+    wx.navigateTo({
+      url: '../../index/merchant-particulars/merchant-particulars?shopid=' + this.data.shopId
+    })
+  },
   toArtList() {
     if (app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
       this.setData({
