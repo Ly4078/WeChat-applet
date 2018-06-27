@@ -8,7 +8,6 @@ Page({
     actId: 0,
     userId: 0,
     voteUserId: 0,
-    articleNum: 0,
     issnap: false,
     nickName: '',
     articleList: [],

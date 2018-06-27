@@ -26,7 +26,7 @@
           <view class="info_address">{{height}}cm</view>
         </view>
         <view class="info_data">
-          <text class="info_data_num">{{articleNum}}</text><text class="info_data_txt">动态</text>
+          <text class="info_data_num">{{articleList.length}}</text><text class="info_data_txt">动态</text>
           <text class="info_data_num">{{voteNum}}</text><text class="info_data_txt">赞</text>
         </view>
       </view> 

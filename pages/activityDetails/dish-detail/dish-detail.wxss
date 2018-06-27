@@ -214,3 +214,17 @@
   width: 100%;
   height: 100%;
 }
+.initiate-pingjia {
+  padding-bottom: 20rpx;
+}
+.total-comment {
+  height: auto;
+}
+.total-center {
+  margin-bottom: 150rpx;
+}
+
+.commentTotal {
+  color:#347BB7;
+  font-size: 30rpx;
+}
