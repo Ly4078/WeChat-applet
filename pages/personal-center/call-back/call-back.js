@@ -166,6 +166,7 @@ Page({
       wx.showToast({
         title: '不符合核销条件，请重新输入',
         icon: 'none',
+        mask: 'true',
         duration: 2000
       })
       return false

@@ -139,4 +139,4 @@
 <!-- <view class="floatBall" wx:if="{{shareFlag}}" bindtap='toArtList'>
   <image src="/images/icon/actIcon.png"></image>
 </view> -->
-<image class='ball' bindtap='toactlist' src='/images/icon/actIcon.png'></image>
+<image class='ball' wx:if="{{isball}}" bindtap='toactlist' src='/images/icon/shouye.png'></image>

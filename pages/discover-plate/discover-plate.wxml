@@ -119,8 +119,8 @@
   <view bindtap='clickadd' class="cladd clplus">
     <image class="publish-dynamic-condition {{isadd?'addtrue':'addfalse'}}" src='/images/icon/send_dongtai.png'></image>
   </view>
-  <view catchtap='announceState' id='1' class="cladd  {{isadd?'dis_video':'dis_video2'}}">文章</view>
-  <view catchtap='announceState' id='2' class="cladd  {{isadd?'dis_article':'dis_article2'}}">视频</view>
+    <view catchtap='announceState' id='2' class="cladd  {{isadd?'dis_video':'dis_video2'}}">视频</view>  
+  <!-- <view catchtap='announceState' id='1' class="cladd  {{isadd?'dis_article':'dis_article2'}}">文章</view> -->
 </view>
 <!-- <view class='modal_box' wx:if="{{isadd}}" bindtap='closemodel'>
 </view> -->

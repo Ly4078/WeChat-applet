@@ -354,6 +354,8 @@ Page({
       fail: (res) => {
         wx.showToast({
           title: '扫码失败',
+          mask: 'true',
+          duration: 2000,
           icon: 'none'
         })
       }
@@ -385,13 +387,15 @@ Page({
             wx.showToast({
               title: '该票券已被使用',
               icon: 'none',
-              mask: 'true'
+              mask: 'true',
+              duration: 2000,
             })
           } else if (isDue == 1) {
             wx.showToast({
               title: '该票券已过期',
               icon: 'none',
-              mask: 'true'
+              mmask: 'true',
+              duration: 2000,
             })
           } else if (data.data.discount) {
             let _parms = {
@@ -427,7 +431,7 @@ Page({
             mask: 'true',
             icon: 'none',
             duration: 3000
-          }, 2000)
+          })
         }
       }
     })

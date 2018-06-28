@@ -48,6 +48,7 @@
         </view>
         <video wx:if="{{videoUrl}}" src="{{videoUrl}}" poster="{{posterImg}}" ></video>
         <image wx:else src="/images/icon/add.png" bindtap="chooseVideo"></image>
+        <progress class='progress' wx:if="{{isprogress}}" percent="{{percent}}" show-info />
       </view>
       <view class="btn_area">
         <button formType="submit">提交报名</button>

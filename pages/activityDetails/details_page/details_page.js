@@ -127,16 +127,18 @@ Page({
             wx.showToast({
               title: '投票成功',
               mask: 'true',
-              icon: 'none'
-            }, 1500)
+              icon: 'none',
+              duration: 2000
+            })
           }
         })
       } else {
         wx.showToast({
           title: res.data.message,
           mask: 'true',
-          icon: 'none'
-        }, 1500)
+          icon: 'none',
+          duration: 2000
+        })
       }
     })
   },

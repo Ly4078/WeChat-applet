@@ -31,6 +31,12 @@ Page({
       })
     };
     if(options.actId) {
+      if (options.actId == 37){
+        getApp().globalData.article = [];
+        that.data.title = '';
+        that.covervideo = '';
+        that.data.coverimg = '';
+      }
       this.setData({
         actId: options.actId
       })
@@ -129,10 +135,6 @@ Page({
   onUnload: function () { //生命周期函数--监听页面卸载
   },
   onShow: function () {
-    getApp().globalData.article = [];
-    this.data.title = '';
-    this.covervideo = '';
-    this.data.coverimg = '';
   },
   // 开始播放视频 
   playvideo:function(){
@@ -178,25 +180,6 @@ Page({
           isprogress: true
         })
         let videores = res;
-        // wx.uploadFile({ //获取视频截图在线地址
-        //   url: that.data._build_url + 'img/upload',
-        //   filePath: res.tempFilePath,
-        //   name: 'file',
-        //   formData: {
-        //     'userName': app.globalData.userInfo.userName
-        //   },
-        //   success: function (res) {
-        //     let _data = res.data;
-        //     console.log("_data:",_data)
-        //    _data = JSON.parse(_data);
-        //     that.setData({
-        //       coverimg: _data.data.smallPicUrl
-        //     })
-        //     console.log("coverimg1:", _data.data.smallPicUrl)
-        //     console.log("coverimg2:",that.data.coverimg)
-        //     //do something
-        //   }
-        // })
         timer = setInterval(()=>{
           let _per = that.data.percent;
           if (_per == 99){
@@ -388,7 +371,7 @@ Page({
       _data= JSON.stringify(_data)
       wx.navigateTo({
         content: [],   //文章内容数据
-        url: 'article_details/article_details?content=' + _data+'&title='+this.data.title
+        url: 'article_details/article_details?content=' + _data+'&title='+this.data.title+'&cfrom=dy'
       })
     } else if (ind == '提交') {
       // console.log("app.globalData.userInfo:", app.globalData.userInfo)
@@ -457,6 +440,7 @@ Page({
       let _parms = {
         title: _title,
         content: _con,
+        topicType: that.data.iswzsp,
         userId: app.globalData.userInfo.userId,
         summary: _title,
         homePic: _coverimg ? _coverimg : this.data.defaimg,
@@ -478,11 +462,12 @@ Page({
             that.setData({
               content: []
             })
-            getApp().globalData.article = [];
-            that.data.title = '';
-            that.covervideo = '';
-            that.data.coverimg = '';
+            
             if (that.data.actId == 37) {
+              getApp().globalData.article = [];
+              that.data.title = '';
+              that.covervideo = '';
+              that.data.coverimg = '';
               wx.navigateBack({
                 delta: 1
               })

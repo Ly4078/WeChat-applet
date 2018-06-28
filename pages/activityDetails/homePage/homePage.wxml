@@ -16,14 +16,14 @@
         <image src="{{iconUrl}}"></image>
       </view>
       <view class="info_inner_r">
-        <view class="info_name">{{nickName}}</view>
+        <view class="info_name">{{nickName?nickName:userName}}</view>
         <view>
-          <view class="info_age">
+          <view class="info_age" wx:if="{{age}}">
             <image wx:if="{{sex == 0}}" src="/images/icon/male.png"></image>
             <image wx:if="{{sex == 1}}" src="/images/icon/girl.png"></image>
             {{age}}岁
           </view>
-          <view class="info_address">{{height}}cm</view>
+          <view class="info_address" wx:if="{{height}}">{{height}}cm</view>
         </view>
         <view class="info_data">
           <text class="info_data_num">{{articleList.length}}</text><text class="info_data_txt">动态</text>
@@ -51,7 +51,7 @@
             <view class="list_item_top_l">
               <image src="{{iconUrl}}"></image>
               <view>
-                <view class="list_item_name">{{item.nickName}}</view>
+                <view class="list_item_name">{{nickName?nickName:userName}}</view>
                 <view class="list_item_time">15分钟前</view>
               </view>
             </view>

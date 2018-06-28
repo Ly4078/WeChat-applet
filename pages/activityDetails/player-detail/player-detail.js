@@ -10,6 +10,7 @@ Page({
     voteUserId: 0,
     refId: 0,
     issnap: false,
+    isball:false,
     nickName: '',
     bgUrl: '',
     iconUrl: '',
@@ -60,7 +61,8 @@ Page({
   onShow: function () {
     if (!app.globalData.userInfo.mobile) {
       this.setData({
-        isApply:false
+        isApply:false,
+        isball:true
       })
       this.getuserinfo();
     }
@@ -93,9 +95,20 @@ Page({
       return false
     }
     if (app.globalData.userInfo.userType == '2' && app.globalData.userInfo.shopId != '') {
-      wx.showToast({
-        title: '您是商家，请移步至商家端App报名',
-        icon: 'none'
+      // wx.showToast({
+      //   title: '您是商家，请移步至商家端App报名',
+      //   icon: 'none'
+      // })
+      wx.showModal({
+        title: '提示',
+        content: '您是商家哦，请到各大应用市场搜索下载“享7商家”APP，再进行商家报名~',
+        success: function (res) {
+          if (res.confirm) {
+            console.log('用户点击确定')
+          } else if (res.cancel) {
+            console.log('用户点击取消')
+          }
+        }
       })
     } else {
       let _parms = {
@@ -112,6 +125,8 @@ Page({
         } else {
           wx.showToast({
             title: data.message,
+            mask: 'true',
+            duration: 2000,
             icon: 'none'
           })
         }
@@ -170,6 +185,8 @@ Page({
       } else {
         wx.showToast({
           title: '系统繁忙',
+          mask: 'true',
+          duration: 2000,
           icon: 'none'
         })
       }
@@ -183,12 +200,22 @@ Page({
       rows: 10
     };
     Api.myArticleList(_parms).then((res) => {
-      let data = res.data;
+      
       if(res.data.code == 0) {
-        console.log('article:', res.data.data.list)
+        let _data = res.data.data, videoarr = [], articlearr=[];
+        for (let i in _data.list){
+
+          _data.list[i].content = JSON.parse(_data.list[i].content);
+          if (_data.list[i].content[0].type == 'video' || _data.list[i].topicType == 2) { //视频
+            videoarr.push(_data.list[i])
+          } else if (_data.list[i].content[0].type == 'img' || _data.list[i].topicType == 1) { //文章
+            articlearr.push(_data.list[i])
+          }
+        }
+        
         this.setData({
-          article: res.data.data.list,
-          articleNum: res.data.data.total
+          article: videoarr,
+          articleNum: _data.total
         });
       } 
     });
@@ -233,9 +260,10 @@ Page({
     Api.zanadd(_parms).then((res) => {
       if (res.data.code == 0) {
         wx.showToast({
-          mask: true,
+          mask: 'true',
           icon: 'none',
-          title: '点赞成功'
+          title: '点赞成功',
+          duration: 2000
         }, 1500)
         for (let i = 0; i < article.length; i++) {
           if (id == article[i].id) {
@@ -267,10 +295,11 @@ Page({
     Api.zandelete(_parms).then((res) => {
       if (res.data.code == 0) {
         wx.showToast({
-          mask: true,
+          mask: 'true',
           icon: 'none',
           title: '取消成功',
-        }, 1500)
+          duration: 2000
+        })
         for (let i = 0; i < article.length; i++) {
           if (id == article[i].id) {
             article[i].isZan--;
@@ -321,7 +350,7 @@ Page({
         let _data = res.data.data;
         let reg = /^1[34578][0-9]{9}$/;
         for (let i in _data.list) {
-          _data.list[i].content = utils.uncodeUtf16(_data.list[i].content)
+          _data.list[i].content = utils.uncodeUtf16(_data.list[i].content);
           if (reg.test(_data.list[i].userName)) {
             _data.list[i].userName = _data.list[i].userName.substr(0, 3) + "****" + _data.list[i].userName.substr(7);
           }
@@ -371,6 +400,7 @@ Page({
       wx.showToast({
         title: '请输入评论内容',
         icon: 'none',
+        mask:'true',
         duration: 2000
       })
       return false;
@@ -392,6 +422,8 @@ Page({
       } else {
         wx.showToast({
           title: '系统繁忙,请稍后再试',
+          mask: 'true',
+          duration: 2000,
           icon:'none'
         })
       }
@@ -417,6 +449,7 @@ Page({
       if (this.data.availableNum <= 0) {
         wx.showToast({
           title: '今天票数已用完,请明天再来',
+          mask: 'true',
           icon: 'none'
         })
         return false;
@@ -425,6 +458,7 @@ Page({
         if (res.data.code == 0) {
           wx.showToast({
             title: '投票成功',
+            mask:'true',
             icon: 'none'
           })
           _this.setData({
@@ -457,10 +491,11 @@ Page({
     Api.zanadd(_parms).then((res) => {
       if (res.data.code == 0) {
         wx.showToast({
-          mask: true,
+          mask: 'true',
+          duration: 2000,
           icon: 'none',
           title: '点赞成功'
-        }, 1500)
+        })
         var comment_list = this.data.comment_list;
         comment_list[ind].isZan = 1;
         comment_list[ind].zan++;
@@ -492,10 +527,11 @@ Page({
     Api.zandelete(_parms).then((res) => {
       if (res.data.code == 0) {
         wx.showToast({
-          mask: true,
+          mask: 'true',
+          duration: 2000,
           icon: 'none',
           title: '点赞取消'
-        }, 1500)
+        })
         var comment_list = this.data.comment_list;
         comment_list[ind].isZan = 0;
         comment_list[ind].zan--;
@@ -521,13 +557,19 @@ Page({
       })
       return false
     }
-    let id = e.currentTarget.id,ind = '';
-    let _actId = this.data.actId;
+    let id = e.currentTarget.id, ind = '', str = e.currentTarget;;
+    let _actId = this.data.actId,isvideo=false;
     for (let i = 0; i < this.data.article.length; i++) {
       if (this.data.article[i].id == id) {
-        wx.navigateTo({
-          url: '../video-details/video-details?&id=' + id + '&actId=' + _actId + '&userId=' + this.data.userId,
-        })
+        if (this.data.article[i].content[0].type == 'video' || this.data.article[i].topicType==2) {
+          wx.navigateTo({
+            url: '../video-details/video-details?&id=' + id + '&actId=' + _actId + '&userId=' + this.data.userId,
+          })
+        } else if (this.data.article[i].content[0].type == 'img' || this.data.article[i].topicType == 1){
+          wx.navigateTo({
+            url: '../../discover-plate/dynamic-state/article_details/article_details?id=' + str.id + '&zan=' + str.dataset.index
+          })
+        }
       }
     }
   },
@@ -669,7 +711,7 @@ Page({
   },
   toactlist(){
     wx.switchTab({
-      url: '../../activityDetails/activity-details',
+      url: '../../index/index',
     })
   }
 })

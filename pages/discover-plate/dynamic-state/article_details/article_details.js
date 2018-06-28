@@ -21,13 +21,20 @@ Page({
     userId: '1',  //虚拟ID 暂用
     userName: '测试名称',   //虚拟名称 暂用
     clickvideo:false,
-    issnap: false
+    issnap: false,
+    cfrom:''
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    console.log('options:',options)
+    if (options.cfrom == 'dy'){
+      this.setData({
+        cfrom: options.cfrom
+      })
+    }
     if (options.id) {
       const id = options.id
       this.setData({

@@ -283,6 +283,7 @@ Page({
       wx.showToast({
         title: '店铺名称必填',
         icon: 'none',
+        mask:'true',
         duration: 1500
       })
     }
@@ -418,7 +419,8 @@ Page({
       wx.showToast({
         title: '请正确填写完入住信息后提交',
         icon: 'none',
-        duration: 1500
+        mask: 'true',
+        duration: 2000
       })
       return false
     };

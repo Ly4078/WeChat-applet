@@ -414,6 +414,7 @@ Page({
       }
     })
   },
+  //消息推送
   messagepush:function(){
     let that = this;
     let _parms = {

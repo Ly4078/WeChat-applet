@@ -11,5 +11,5 @@
   <image src="/images/icon/zhanweitu.png"></image>
 </view>
 
-<image class='ball' bindtap='toactlist' src='/images/icon/actIcon.png'></image>
+<image class='ball' wx:if="{{isball}}" bindtap='toactlist' src='/images/icon/shouye.png'></image>
 

@@ -111,6 +111,7 @@ Page({
     if (RegExp.test(_value)) {
       this.setData({
         isclose: true,
+        isyaz: false,
         phone: _value
       })
     }else{
@@ -127,7 +128,8 @@ Page({
       isclick: true,
       goto: false,
       settime:null,
-      isclose: false
+      isclose: false,
+      isyaz: false
     })
   },
   submitphone: function () {  //获取验证码
@@ -194,7 +196,8 @@ Page({
   yzmbindblur: function (e) {  //实时监听获取输入的验证码
     let _value = e.detail.value
     this.setData({
-      verify: _value
+      verify: _value,
+      isyaz:false
     })
   },
   remaining: function () {  //倒计时
@@ -259,6 +262,7 @@ Page({
         wx.showToast({
           title: '验证中',
           icon: 'loading',
+          mask: 'true',
           duration: 2000
         })
         let _parms = {
@@ -317,7 +321,7 @@ Page({
     Api.getFreeTicket(_parms).then((res) => {
       if (res.data.code == 0) {
         wx.redirectTo({
-          url: '../my-discount/my-discount'
+          url: '../my-discount/my-discount?cfrom=reg'
         });
       }
     })

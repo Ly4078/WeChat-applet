@@ -9,6 +9,8 @@ Page({
     imgsIdArr: [],    //上传图片的Id
     videoUrl: "",   //视频地址
     videoId: "",    //视频id
+    percent: 0,
+    isprogress:false,
     posterImg: 'https://xq-1256079679.file.myqcloud.com/13971489895_wxf91e2a026658e78e.o6zAJs-7D9920jC4XTKdzt72lobs.8c2bHTeMhUqPe9b72c354166593f5a9afe09a27afe74_0.3.jpg'  //默认视频图片
   },
   onLoad: function (options) {
@@ -26,6 +28,8 @@ Page({
     if (this.isNull(inpVal.name)) {
       wx.showToast({
         title: '请填写姓名',
+        mask: 'true',
+        duration: 2000,
         icon: 'none'
       })
       return false;
@@ -33,6 +37,8 @@ Page({
     if (this.isNull(inpVal.sex)) {
       wx.showToast({
         title: '请填写性别',
+        mask: 'true',
+        duration: 2000,
         icon: 'none'
       })
       return false;
@@ -40,6 +46,8 @@ Page({
     if (this.isNull(inpVal.age)) {
       wx.showToast({
         title: '请填写年龄',
+        mask: 'true',
+        duration: 2000,
         icon: 'none'
       })
       return false;
@@ -47,6 +55,8 @@ Page({
     if (this.isNull(inpVal.height)) {
       wx.showToast({
         title: '请填写身高',
+        mask: 'true',
+        duration: 2000,
         icon: 'none'
       })
       return false;
@@ -61,6 +71,8 @@ Page({
     if (this.isNull(inpVal.signText)) {
       wx.showToast({
         title: '请填写个性签名',
+        mask: 'true',
+        duration: 2000,
         icon: 'none'
       })
       return false;
@@ -68,6 +80,8 @@ Page({
     if (!this.blurmobile(inpVal.tele)) {
       wx.showToast({
         title: '请填写正确的联系方式',
+        mask: 'true',
+        duration: 2000,
         icon: 'none'
       })
       return false;
@@ -75,6 +89,8 @@ Page({
     if (this.isNull(this.data.imgsArr)) {
       wx.showToast({
         title: '请上传照片',
+        mask: 'true',
+        duration: 2000,
         icon: 'none'
       })
       return false;
@@ -82,6 +98,8 @@ Page({
     if (this.isNull(this.data.videoUrl)) {
       wx.showToast({
         title: '请上传短视频',
+        mask: 'true',
+        duration: 2000,
         icon: 'none'
       })
       return false;
@@ -108,6 +126,8 @@ Page({
       if(data.code == 0) {
         wx.showToast({
           title: '报名成功，返回活动首页查看',
+          mask: 'true',
+          duration: 2000,
           icon: 'none'
         })
         if (_this.data.actId == 37) {
@@ -126,6 +146,8 @@ Page({
       } else {
         wx.showToast({
           title: data.message,
+          mask: 'true',
+          duration: 2000,
           icon: 'none'
         })
       }
@@ -140,6 +162,7 @@ Page({
         _this.uploadImgs({
           tempFilePaths: res.tempFilePaths
         });
+        
       },
       fail: function (res) {
         
@@ -165,6 +188,8 @@ Page({
         if (data.code == 0) {
           wx.showToast({
             title: '上传成功',
+            mask: 'true',
+            duration: 2000,
             icon: 'none'
           })
           let imgs = _this.data.imgsArr, imgsId = _this.data.imgsIdArr;
@@ -177,6 +202,8 @@ Page({
         } else {
           wx.showToast({
             title: data.message,
+            mask: 'true',
+            duration: 2000,
             icon: 'none'
           })
         }
@@ -184,8 +211,9 @@ Page({
       fail: (res) => {
         wx.showToast({
           title: '上传失败',
-          icon: 'none',
-          duration: 2000
+          mask: 'true',
+          duration: 2000,
+          icon: 'none'
         })
       },
       complete: (res) => {
@@ -203,11 +231,50 @@ Page({
     })
   },
   chooseVideo: function () {     //本地选择视频
-    let _this = this;
+    let _this = this, timer = null;
     
     wx.chooseVideo({
       maxDuration: 15,
       success: function (res) {
+        
+        _this.setData({
+          isprogress: true
+        })
+        let videores = res;
+        timer = setInterval(() => {
+          let _per = _this.data.percent;
+          if (_per == 99) {
+            if (!_this.data.videoUrl && !_this.data.defaimg) {
+              clearInterval(timer);
+              setTimeout(() => {
+                if (_this.data.videoUrl && _this.data.defaimg) {
+                  _this.setData({
+                    percent: 100
+                  })
+                } else {
+                  _this.setData({
+                    percent: 0,
+                    isprogress: false
+                  })
+                  wx.showToast({
+                    title: '上传失败，请重新上传',
+                    duration: 2000,
+                    mask: 'true',
+                    icon: 'none'
+                  })
+                }
+              }, 10000)
+              return false
+            }
+          }
+          _per += 1;
+          _this.setData({
+            percent: _per
+          })
+        }, 100)
+
+
+
         wx.uploadFile({
           url: _this.data._build_url + 'img/uploadMp4',
           filePath: res.tempFilePath,
@@ -218,25 +285,42 @@ Page({
           success: (res) => {
             wx.hideLoading();
             let data = JSON.parse(res.data);
+            console.log('data:',data)
             if (data.code == 0) {
+              _this.setData({
+                percent: 100,
+                isprogress: false
+              })
               wx.showToast({
                 title: '上传成功',
+                mask: 'true',
+                duration: 2000,
                 icon: 'none'
               })
               _this.setData({
                 videoUrl: data.data.picUrl,
+                defaimg: data.datasmallPicUrl,
                 videoId: data.data.id
               });
             } else {
               wx.showToast({
                 title: data.message,
+                mask: 'true',
+                duration: 2000,
                 icon: 'none'
               })
             }
           },
           fail: (res) => {
+            _this.setData({
+              percent: 0,
+              isprogress: false
+            })
+            clearInterval(timer)
             wx.showToast({
               title: '上传失败',
+              mask: 'true',
+              duration: 2000,
               icon: 'none',
               duration: 2000
             })

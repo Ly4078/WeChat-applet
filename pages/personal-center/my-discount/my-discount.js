@@ -7,10 +7,15 @@ Page({
     _build_url: GLOBAL_API_DOMAIN,
     ticket_list: [],
     page: 1,
-    isUpdate: true
+    isUpdate: true,
+    isball:false
   },
   onLoad: function (options) {
-   
+    if (options.cfrom == 'reg'){
+      this.setData({
+        isball:true
+      })
+    }
   },
   onShow: function () {
     this.getTicketList();
@@ -24,7 +29,7 @@ Page({
   },
   toactlist(){
     wx.switchTab({
-      url: '../../activityDetails/activity-details',
+      url: '../../index/index',
     })
   },
   //获取我的票券

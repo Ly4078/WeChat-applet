@@ -145,18 +145,20 @@ Page({
     } 
     if (this.data.endtime == 0){
       wx.showToast({
-        mask: true,
+        mask: 'true',
         icon: 'none',
-        title: '活动已结束，停止投票'
-      }, 1500)
+        title: '活动已结束，停止投票',
+        duration: 2000
+      })
       return false
     }
     if (this.data.actdetail.actStatus == 0){
       wx.showToast({
-        mask: true,
+        mask: 'true',
+        duration: 2000,
         icon: 'none',
-        title: '活动还未开始，暂不可投票'
-      }, 1500)
+        title: '活动还未开始，暂不可投票',
+      })
       return false
     }
     let stopid = e.currentTarget.id;
@@ -187,10 +189,11 @@ Page({
                   actdetail:vote
                 })
               wx.showToast({
-                mask: true,
+                mask: 'true',
+                duration: 2000,
                 icon: 'none',
                 title: '投票成功'
-              }, 1500)
+              })
             }
           })
         } else {
@@ -205,10 +208,11 @@ Page({
                   actdetail: vote
                 })
               wx.showToast({
-                mask: true,
+                mask: 'true',
+                duration: 2000,
                 icon: 'none',
                 title: '已取消'
-              }, 1500)
+              })
             }
           })
         }
@@ -229,16 +233,22 @@ Page({
     if (this.data.actdetail.actStatus == 0){
       wx.showToast({
         title: '抱歉! 活动还未开始，暂不接受报名',
+        mask: 'true',
+        duration: 2000,
         icon: 'none'
       })
     }else if (this.data.endtime == 0){
       wx.showToast({
         title: '抱歉! 活动已结束,不再接受报名',
+        mask: 'true',
+        duration: 2000,
         icon: 'none'
       })
     }else if (userType == 1) {
       wx.showToast({
         title: '抱歉！仅商家用户才可以报名活动',
+        mask: 'true',
+        duration: 2000,
         icon: 'none'
       })
     } else if (userType == 2) {
@@ -251,6 +261,8 @@ Page({
       if (res.data.code == 0) {
         wx.showToast({
           title: '报名成功!',
+          mask: 'true',
+          duration: 2000,
           icon: 'none'
         })
         _data.isSign = 1
@@ -260,6 +272,8 @@ Page({
       } else {
         wx.showToast({
           title: res.data.message,
+          mask: 'true',
+          duration: 2000,
           icon: 'none'
         })
       }

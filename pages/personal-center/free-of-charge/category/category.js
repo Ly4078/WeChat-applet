@@ -147,7 +147,7 @@ Page({
       if (_value.length > _ind) {
         wx.showToast({
           title: '最多选择' + _ind + '个分类,请先取消再选择',
-          mask: true,
+          mask: 'true',
           icon: 'none',
           duration: 2000
         })

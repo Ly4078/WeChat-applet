@@ -228,3 +228,14 @@
   color:#347BB7;
   font-size: 30rpx;
 }
+.bjbox{
+  width: 100%;
+  height: 100rpx;
+}
+.evaluateWrap {
+  background: #387cb5;
+  color: #fff;
+}
+.evaluatExtea,.actzan{
+  color: #fff;
+}

@@ -83,8 +83,9 @@ Page({
         if (res.data.code == 0) {
           wx.showToast({
             icon: 'none',
+            mask:'true',
             title: '点赞成功'
-          })
+          }, 1500)
           var comment_list = that.data.comment_list
           comment_list[index].isZan = 1;
           comment_list[index].zan++;
@@ -113,8 +114,9 @@ Page({
         if (res.data.code == 0) {
           wx.showToast({
             icon: 'none',
+            mask: 'true',
             title: '已取消'
-          })
+          },1500)
           var comment_list = that.data.comment_list
           comment_list[index].isZan = 0;
           comment_list[index].zan == 0 ? comment_list[index].zan : comment_list[index].zan--;

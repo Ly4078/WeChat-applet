@@ -16,9 +16,9 @@
   <view class='video_details'>
     <video src='{{videodata.content[0].value?videodata.content[0].value:videoUrl}}' autoplay='true' contain='cover'></video>
     <view class='Players' bindtap='toplayer' wx:if="{{refId}}">
-        <image src='{{videodata.homePic}}'></image>
-        <text>{{videodata.nickName?videodata.nickName:videodata.userName}}</text>
-        <text class='righticon'>></text>
+        <image class='homePic' src='{{videodata.homePic}}'></image>
+        <text>{{videodata.nickName!='null'?videodata.nickName:videodata.userName}}</text>
+        <image class='righticon' src='/images/icon/home_arrow.png'></image>
     </view>
     <view class='introduction' wx:if="{{refId}}">
       {{videodata.title}}

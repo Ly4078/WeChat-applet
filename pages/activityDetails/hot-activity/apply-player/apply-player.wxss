@@ -69,6 +69,7 @@
 .submit_img, .submit_video {
   position: relative;
   margin: 31rpx 28rpx;
+  
 }
 
 .submit_img view, .submit_video view {
@@ -90,6 +91,11 @@
 
 .submit_video video {
   width: 100%;
+}
+.submit_video progress{
+  width:44%;
+  position:relative;
+  top:-140rpx;
 }
 
 .btn_area {

@@ -775,7 +775,7 @@ button::after{
   position: fixed;
   width: 83rpx;
   height: 83rpx;
-  right: 100rpx;
-  bottom: 50px;
+  right: 0rpx;
+  bottom: 300rpx;
   z-index: 10;
 }

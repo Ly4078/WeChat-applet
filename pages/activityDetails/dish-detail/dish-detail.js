@@ -9,6 +9,7 @@ Page({
     actId: 0,
     skuId: 0,
     issnap: false,
+    isball:false,
     picUrl: '',
     actSkuName: '',
     skuCode: '',
@@ -52,6 +53,9 @@ Page({
   },
   onShow: function () {
     if (!app.globalData.userInfo.mobile) {
+      this.setData({
+        isball:true
+      })
       this.getuserinfo();
     }
     this.getDish();
@@ -233,6 +237,7 @@ Page({
       wx.showToast({
         title: '请输入评论内容',
         icon: 'none',
+        mask: 'true',
         duration: 2000
       })
     } else {
@@ -257,6 +262,8 @@ Page({
       } else {
         wx.showToast({
           title: '系统繁忙,请稍后再试',
+          mask: 'true',
+          duration: 2000,
           icon: 'none'
         })
       }
@@ -294,6 +301,8 @@ Page({
         console.log(this.data.availableNum)
         wx.showToast({
           title: '今天票数已用完,请明天再来',
+          mask: 'true',
+          duration: 2000,
           icon: 'none'
         })
         return false;
@@ -302,6 +311,8 @@ Page({
         if (res.data.code == 0) {
           wx.showToast({
             title: '投票成功',
+            mask: 'true',
+            duration: 2000,
             icon: 'none'
           })
           _this.setData({
@@ -334,10 +345,11 @@ Page({
     Api.zanadd(_parms).then((res) => {
       if (res.data.code == 0) {
         wx.showToast({
-          mask: true,
+          mask: 'true',
+          duration: 2000,
           icon: 'none',
           title: '点赞成功'
-        }, 1500)
+        })
         var comment_list = this.data.comment_list;
         comment_list[ind].isZan = 1;
         comment_list[ind].zan++;
@@ -369,10 +381,11 @@ Page({
     Api.zandelete(_parms).then((res) => {
       if (res.data.code == 0) {
         wx.showToast({
-          mask: true,
+          mask: 'true',
+          duration: 2000,
           icon: 'none',
           title: '点赞取消'
-        }, 1500)
+        })
         var comment_list = this.data.comment_list;
         comment_list[ind].isZan = 0;
         comment_list[ind].zan--;
@@ -419,7 +432,7 @@ Page({
   },
   toactlist() {
     wx.switchTab({
-      url: '../../activityDetails/activity-details',
+      url: '../../index/index',
     })
   },
   getuserinfo() {
@@ -461,6 +474,7 @@ Page({
           success: function (res) {
             if (res.data.code == 0) {
               let data = res.data.data;
+              console.log('data:',data)
               for (let key in data) {
                 for (let ind in app.globalData.userInfo) {
                   if (key == ind) {
@@ -468,13 +482,14 @@ Page({
                   }
                 }
               };
-              that.playerDetail();
-              that.articleList();
               if (!data.mobile) {
                 that.setData({
                   isnew: true
                 })
               }
+              that.playerDetail();
+              that.articleList();
+              
             }
           }
         })

@@ -77,12 +77,15 @@ Page({
             wx.showToast({
               title: '上传中..',
               icon: 'loading',
-              duration: 2000
+              mask: 'true',
+              duration: 2000,
             })
             let data = JSON.parse(res.data);
             if (data.code == 0) {
               wx.showToast({
                 title: '上传成功',
+                mask: 'true',
+                duration: 2000,
                 icon: 'success'
               })
               _this.setData({
@@ -91,6 +94,8 @@ Page({
             } else {
               wx.showToast({
                 title: '网络慢稍后再试',
+                mask: 'true',
+                duration: 2000,
                 icon: 'none'
               })
             }
@@ -104,21 +109,29 @@ Page({
     if (!this.data.dish){
       wx.showToast({
         title: '请输入菜名',
+        mask: 'true',
+        duration: 2000,
         icon: 'none'
       })
     } else if (!this.data.Introduce){
       wx.showToast({
         title: '请输入菜品介绍',
+        mask: 'true',
+        duration: 2000,
         icon: 'none'
       })
     } else if (!this.data.videoUrl){
       wx.showToast({
         title: '请上传视频',
+        mask: 'true',
+        duration: 2000,
         icon: 'none'
       })
     } else if (!this.data.dishimg){
       wx.showToast({
         title: '请上传图片',
+        mask: 'true',
+        duration: 2000,
         icon: 'none'
       })
     }else{
@@ -136,6 +149,8 @@ Page({
         if (data.code == 0) {
           wx.showToast({
             title: '报名成功，等待审核',
+            mask: 'true',
+            duration: 2000,
             icon: 'none'
           })
           setTimeout(function () {
@@ -147,6 +162,8 @@ Page({
         } else {
           wx.showToast({
             title: '系统繁忙',
+            mask: 'true',
+            duration: 2000,
             icon: 'none'
           })
         }

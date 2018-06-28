@@ -150,6 +150,8 @@ Page({
         if (res.data.code != 0) {
           wx.showToast({
             title: res.data.message,
+            mask: 'true',
+            duration: 2000,
             icon: 'none'
           })
           return false;
@@ -175,6 +177,8 @@ Page({
       if (res.data.code == 0) {
         wx.showToast({
           title: '领取成功',
+          mask: 'true',
+          duration: 2000,
           icon: 'none'
         })
         this.setData({
@@ -183,6 +187,8 @@ Page({
       } else {
         wx.showToast({
           title: res.data.message,
+          mask: 'true',
+          duration: 2000,
           icon: 'none'
         })
       }
@@ -382,6 +388,8 @@ Page({
         } else {
           wx.showToast({
             title: '系统繁忙，稍后再试',
+            mask: 'true',
+            duration: 2000,
             icon: 'none'
           })
         }
@@ -399,6 +407,8 @@ Page({
         } else {
           wx.showToast({
             title: '系统繁忙，稍后再试',
+            mask: 'true',
+            duration: 2000,
             icon: 'none'
           })
         }
@@ -490,6 +500,8 @@ Page({
         if (this.data.availableNum == 0) {
           wx.showToast({
             title: '今天票数已用完了',
+            mask: 'true',
+            duration: 2000,
             icon: 'none'
           })
           return false;
@@ -498,6 +510,8 @@ Page({
             if (res.data.code == 0) {
               wx.showToast({
                 title: '投票成功',
+                mask: 'true',
+                duration: 2000,
                 icon: 'none'
               })
               let playerArr = _this.data.players;
@@ -536,6 +550,8 @@ Page({
             if (res.data.code == 0) {
               wx.showToast({
                 title: '投票成功',
+                mask: 'true',
+                duration: 2000,
                 icon: 'none'
               })
               if (_this.data.isayers == true) {
@@ -577,8 +593,9 @@ Page({
           wx.showToast({
             title: res.data.message,
             mask: 'true',
+            duration: 2000,
             icon: 'none'
-          }, 1500)
+          })
         }
       })
     }
@@ -586,6 +603,8 @@ Page({
   isvoted: function () {    //已投票的提示
     wx.showToast({
       title: '您已投过票了',
+      mask: 'true',
+      duration: 2000,
       icon: 'none'
     })
   },
@@ -611,6 +630,8 @@ Page({
         } else {
           wx.showToast({
             title: data.message,
+            mask: 'true',
+            duration: 2000,
             icon: 'none'
           })
         }
@@ -630,6 +651,8 @@ Page({
         } else {
           wx.showToast({
             title: data.message,
+            mask: 'true',
+            duration: 2000,
             icon: 'none'
           })
         }

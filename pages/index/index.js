@@ -483,12 +483,21 @@ Page({
     let zan = ''
     for (let i = 0; i < _data.length; i++) {
       if (id == _data[i].id) {
-        zan = _data[i].zan
+        zan = _data[i].zan;
+        _data[i].content = JSON.parse(_data[i].content);
+        if (_data[i].content[0].type == 'video' || _data[i].topicType == 2) { //视频
+          wx.navigateTo({
+            url: '../activityDetails/video-details/video-details?id=' + id + '&zan=' + zan,
+          })
+        } else if (_data[i].content[0].type == 'img' || _data[i].content[0].type == 'text' || _data[i].topicType == 1) { //文章
+          wx.navigateTo({
+            url: '../discover-plate/dynamic-state/article_details/article_details?id=' + id + '&zan=' + zan,
+          })
+        }
       }
     }
-    wx.navigateTo({
-      url: '../discover-plate/dynamic-state/article_details/article_details?id=' + id + '&zan=' + zan,
-    })
+    
+    
   },
   detailOfTheActivity: function (event) { //跳转到活动内页
     const actid = event.currentTarget.id

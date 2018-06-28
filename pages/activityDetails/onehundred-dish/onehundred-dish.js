@@ -11,6 +11,7 @@ Page({
     selected: '十堰',
     issnap: false,
     switchTab: true,
+    isball:false,
     flag: true,
     searchValue: '',
     page: 1,
@@ -55,6 +56,9 @@ Page({
   onShow: function () {
     let that = this;
     if (!app.globalData.userInfo.mobile) {
+      this.setData({
+        isball:true
+      })
       this.getuserinfo();
     }
     wx.request({
@@ -120,9 +124,16 @@ Page({
       return false
     }
     if (app.globalData.userInfo.userType == '2' && app.globalData.userInfo.shopId != '') {
-      wx.showToast({
-        title: '您是商家，请移步至商家端App报名',
-        icon: 'none'
+      wx.showModal({
+        title: '提示',
+        content: '您是商家哦，请到各大应用市场搜索下载“享7商家”APP，再进行商家报名~',
+        success: function (res) {
+          if (res.confirm) {
+            console.log('用户点击确定')
+          } else if (res.cancel) {
+            console.log('用户点击取消')
+          }
+        }
       })
     } else {
       let _parms = {
@@ -139,6 +150,8 @@ Page({
         } else {
           wx.showToast({
             title: data.message,
+            mask: 'true',
+            duration: 2000,
             icon: 'none'
           })
         }
@@ -200,6 +213,8 @@ Page({
       } else {
         wx.showToast({
           title: '系统繁忙',
+          mask: 'true',
+          duration: 2000,
           icon: 'none'
         })
       }
@@ -238,7 +253,9 @@ Page({
       } else {
         wx.showToast({
           title: '系统繁忙',
-          icon: 'none'
+          icon: 'none',
+          mask: 'true',
+          duration: 2000,
         })
       }
     });
@@ -377,6 +394,8 @@ Page({
     if (availableNum <= 0) {
       wx.showToast({
         title: '今天票数已用完,请明天再来',
+        mask: 'true',
+        duration: 2000,
         icon: 'none'
       })
       return false;
@@ -385,6 +404,8 @@ Page({
       if (res.data.code == 0) {
         wx.showToast({
           title: '投票成功',
+          mask: 'true',
+          duration: 2000,
           icon: 'none'
         })
         if (this.data.switchTab) {
@@ -489,7 +510,7 @@ Page({
   },
   toactlist() {
     wx.switchTab({
-      url: '../../activityDetails/activity-details',
+      url: '../../index/index',
     })
   },
   getuserinfo(){
@@ -538,13 +559,13 @@ Page({
                   }
                 }
               };
-              that.playerDetail();
-              that.articleList();
               if (!data.mobile) {
                 that.setData({
                   isnew: true
                 })
               }
+              that.playerDetail();
+              that.articleList();
             }
           }
         })

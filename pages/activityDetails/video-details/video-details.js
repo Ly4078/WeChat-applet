@@ -16,18 +16,23 @@ Page({
     _actId:'',
     _userId:'',
     isdtzan:false,
-    videodata:[]
+    videodata:[],
+    voteNum:0
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log('options:',options)
+    // console.log('options:',options)
+    if (options.userId){
+      this.setData({
+        _userId: options.userId
+      })
+    }
     if (options.actId){
       this.setData({
-        _actId: options.actId,
-        _userId: options.userId
+        _actId: options.actId
       })
     }
     if(options.id){
@@ -37,7 +42,6 @@ Page({
       this.gettopiclist(options.id);
       this.getcmtlist(options.id);
     } else if (options.url){
-      console.log(options)
       this.setData({
         videoUrl:options.url,
         
@@ -69,8 +73,8 @@ Page({
     Api.getTopicByZan(_parms).then((res) => {
       if (res.data.code == 0) {
         let _data = res.data.data;
-        _data.summary = utils.uncodeUtf16(_data.summary)
-        _data.content = utils.uncodeUtf16(_data.content)
+        _data.summary = utils.uncodeUtf16(_data.summary);
+        _data.content = utils.uncodeUtf16(_data.content);
         _data.timeDiffrence = utils.timeDiffrence(res.data.currentTime, _data.updateTime, _data.createTime)
         _data.content = JSON.parse(_data.content);
         _data.hitNum = utils.million(_data.hitNum);

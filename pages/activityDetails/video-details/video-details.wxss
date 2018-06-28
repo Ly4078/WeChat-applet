@@ -20,7 +20,7 @@
   box-shadow:12px 0px 48px rgba(120,120,120,0.38);
   position: relative;
 }
-.Players image{
+.homePic{
   width:66rpx;
   height:66rpx; 
   margin: 20rpx;
@@ -33,11 +33,12 @@
   top: -38rpx;
 }
 .righticon{
-  font-size:60rpx;
-  color:rgba(25,25,25,1);
-  position: relative;
-  top: -23rpx;
-  right:-430rpx;
+  width:30rpx;
+  height:47rpx;
+  position:relative;
+  top:27rpx;
+  right:32rpx;
+  float:right;
 }
 .introduction{
   width:690rpx;

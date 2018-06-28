@@ -18,8 +18,9 @@ Page({
       { name: '余额支付', id: '2', disabled: false, img: '/images/icon/yuezhifu.png', checked: true },
     ]
   },
-
+  
   onLoad: function (options) {
+    console.log("options:",options)
     if(options.actId == '37') {
       this.setData({
         actId: 37,
@@ -328,7 +329,7 @@ Page({
     let _pars = {
       soId: soid,
       openId: app.globalData.userInfo.openId
-    }
+    },that = this;
     if(this.data.actId == 37) {
       _pars['actId'] = '37';
       _pars['skuId'] = this.data.skuId;
@@ -342,6 +343,7 @@ Page({
             'signType': 'MD5',
             'paySign': res.data.data.paySign,
             success: function (res) {
+              that.messagepush();
               wx.redirectTo({
                 url: '../../personal-center/my-discount/my-discount'
               })
@@ -381,6 +383,22 @@ Page({
         }
       })
     }
+  },
+  messagepush: function () {//消息推送
+    let that = this;
+    let _parms = {
+      type: 'android',
+      title: '收款通知',
+      messageInfo: '享七收款' + that.data.paymentAmount + '元',
+      badge: 1,
+      ios: '1',
+      shopId: that.data.shopId
+    }
+    Api.pushSoByShop(_parms).then((res) => {
+      if (res.data.code == 0) {
+        console.log('推送成功')
+      }
+    })
   },
   closetel: function (e) {
     let id = e.target.id;

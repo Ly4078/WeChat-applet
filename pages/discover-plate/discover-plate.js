@@ -161,9 +161,9 @@ Page({
               footList[i].userName = footList[i].userName.substr(0, 3) + "****" + footList[i].userName.substr(7);
             }
             
-            if (footList[i].content[0].type != 'video'){
+            if (footList[i].content[0].type != 'video' || footList[i].topicType ==1){ //文章
               footList[i].isimg = true
-            }else{
+            }else{  //视频
               footList[i].isimg = false
               footList[i].clickvideo = false
             }
@@ -215,13 +215,16 @@ Page({
     }
     for (let i = 0; i < _data.length; i++) {
       if (id == _data[i].id) {
-        zan = _data[i].zan
+        zan = _data[i].zan;
+        console.log('_data[i]:', _data[i])
         if (!_data[i].isimg){
-          _data[i].clickvideo=true
-          this.setData({
-            food:_data
+          // _data[i].clickvideo=true
+          // this.setData({
+          //   food:_data
+          // })
+          wx.navigateTo({
+            url: '../activityDetails/video-details/video-details?id=' + id + '&zan=' + zan + '&userId=' + _data[i].userId
           })
-          return false
         }else{
           for (let i = 0; i < _data.length; i++) {
             if (!_data[i].isimg) {
@@ -243,18 +246,28 @@ Page({
     this.setData({
       ishotnew: false
     })
-    let _data = this.data.food
-    let zan = ''
+    let _data = this.data.food, video=false, zan = '';
     for (let i = 0; i < _data.length; i++) {
       if (id == _data[i].id) {
-        zan = _data[i].zan
-        _data[i].clickvideo = false
+        zan = _data[i].zan;
+        _data[i].clickvideo = false;
+        if (_data[i].content[0].type == 'video') {
+          video = true;
+        }else{
+          video = false;
+        }
         this.setData({
           food: _data
         })
-        wx.navigateTo({
-          url: 'dynamic-state/article_details/article_details?id=' + id + '&zan=' + zan
-        })
+        if(video){  //视频
+          wx.navigateTo({
+            url: '../activityDetails/video-details/video-details?id=' + id + '&zan=' + zan
+          })
+        }else{ //文章
+          wx.navigateTo({
+            url: 'dynamic-state/article_details/article_details?id=' + id + '&zan=' + zan
+          })
+        }
       }
     }
   },
