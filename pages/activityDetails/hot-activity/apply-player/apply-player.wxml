@@ -27,10 +27,9 @@
         <view class="section__title">联系方式</view>
         <input name="tele"  type="number" maxlength="11" placeholder="输入联系方式" />
       </view>
-      <view>
-        <view class="section sectionText">
-          <textarea name="signText" placeholder="个性签名" focus="{{focus}}" />
-        </view>
+      <view class="section sectionText">
+        <view class="section__title">个性签名</view>
+        <textarea name="signText" maxlength="20" focus="{{focus}}" placeholder="请输入个性签名" />
       </view>
       <view class="apply_video_tit">参赛照片</view>
       <view class="submit_img">

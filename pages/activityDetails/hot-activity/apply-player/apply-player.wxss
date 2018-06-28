@@ -42,12 +42,16 @@
 }
 
 .sectionText{
-  height: 200rpx;
-  margin:0 20rpx;
+  height: 150rpx;
 }
 
-.sectionText textarea{
-  height: 180rpx;
+.section textarea{
+  height: 100%;
+  width: 75%;
+  line-height: 40rpx;
+  padding-top: 32rpx; 
+  box-sizing: border-box;
+  color: #b1b1b1;
 }
 
 .section .radio-group-man {
