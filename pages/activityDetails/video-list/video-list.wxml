@@ -1,0 +1,84 @@
+<view class="videoList">
+  <view class="videoList_top">
+    <image class="top_banner" src="{{mainPic}}"></image>
+    <view class="top_Info">
+      <view class="top_instruction">{{actDesc}}</view>
+      <view class="top_date">
+        <text>活动时间：</text>
+        <text>{{startTime}}-{{endTime}}</text>
+      </view>
+      <view class="top_regular">
+        <text>评委规则：</text>
+        <text>参与视频按照点赞数排名。取前10名</text>
+      </view>
+      <view class="top_awards">
+        <view class="awards_item">
+          <view class="awards_item_tit">第一名</view>
+          <view class="awards_item_money">1000元现金</view>
+        </view>
+        <view class="awards_item">
+          <view class="awards_item_tit">第二名</view>
+          <view class="awards_item_money">800元现金</view>
+        </view>
+        <view class="awards_item">
+          <view class="awards_item_tit">第三名</view>
+          <view class="awards_item_money">500元现金</view>
+        </view>
+        <view class="awards_item">
+          <view class="awards_item_tit">第四-第十名</view>
+          <view class="awards_item_money">300元现金</view>
+        </view>
+      </view>
+      <view class="top_data">
+        <view class="data_item">
+          <image src="/images/icon/play.png"></image>
+          <text>{{videoList.length}}</text>
+        </view>
+        <view class="data_item">
+          <image src="/images/icon/smallHeart2.png"></image>
+          <text>{{zanTotal}}</text>
+        </view>
+        <view class="data_item">
+          <image src="/images/icon/eye.png"></image>
+          <text>{{actHitNum}}</text>
+        </view>
+      </view>
+      <view class="addPlayBtn">
+        <view class="addPlayBtn_inner" bindtap='addVideo'>
+          <image src="/images/icon/camera2.png"></image>
+          <text>参与活动</text>
+        </view>
+      </view>
+      <view class="top_remarks">建议上传5秒以内的视频(上传抖音、微视等原创视频)</view>
+    </view>
+  </view>
+  <view class="videoList_bottom">
+    <view class="b_tab">
+      <view class="b_tab_item b_tab_l {{switchFlag ? 'active' : ''}}" id="1" bindtap='switchTab'>
+        <text>热门</text>
+        <view class="b_tab_line"></view>
+      </view>
+      <view class="b_tab_item {{!switchFlag ? 'active' : ''}}" id="2" bindtap='switchTab'>
+        <text>最新</text>
+      </view>
+    </view>
+    <view class="b_list">
+      <block wx:for="{{videoList}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
+        <view class="list_item">
+          <view class="list_item_t">
+            <image class="list_item_bg" src="{{item.homePic}}"></image>
+            <view class="item_t_shadow"></view>
+            <view class="item_t_likeData">
+              <image src="/images/icon/smallHeart2.png"></image>
+              <text>{{item.zan}}</text>
+            </view>
+          </view>
+          <view class="list_item_b">
+            <text class="item_b_dot"></text>
+            <text>{{item.title}}</text>
+          </view>
+        </view>
+      </block>
+    </view>
+  </view>
+</view>

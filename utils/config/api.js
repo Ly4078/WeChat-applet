@@ -359,6 +359,18 @@ const ALL_API = {
   actzanTotal:{
     method:'GET',
     url:'act/zanTotal'
+  },
+  addVideo: {
+    method: 'POST',
+    url: 'actTopic/add'
+  },
+  videoList: {
+    method: 'GET',
+    url: 'actTopic/listNewAct'
+  },
+  videoData: {
+    method: 'GET',
+    url: 'actTopic/zanAndHitTotal'
   }
 }
 const Api = new MyHttp({}, ALL_API);

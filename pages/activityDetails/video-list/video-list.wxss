@@ -1,0 +1,227 @@
+.videoList {
+  background-color: #121526;
+  letter-spacing: 4rpx;
+}
+
+.top_banner {
+  width: 100%;
+  height: 420rpx;
+}
+
+.top_Info { 
+  padding: 28rpx 10rpx 34rpx 28rpx;
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 24rpx;
+  color: #D1E7FF;
+}
+
+.top_instruction {
+  line-height: 44rpx;
+  padding-right: 30rpx;
+  box-sizing: border-box;
+}
+
+.top_date {
+  margin: 32rpx 0 30rpx 0;
+}
+
+.top_awards {
+  display: flex;
+  flex-direction: row;
+  padding: 34rpx 0 50rpx 0;
+}
+
+.awards_item {
+  flex: 1;
+  margin-right: 18rpx;
+  box-sizing: border-box;
+  text-align: center;
+  border-radius: 16rpx;
+  overflow: hidden;
+}
+
+.awards_item_tit {
+  background-color: #D1E7FF;
+  color: #121526;
+  height: 42rpx;
+  line-height: 42rpx;
+  font-size: 22rpx;
+}
+
+.awards_item_money {
+  height: 50rpx;
+  line-height: 50rpx;
+  color: #D1E7FF;
+  border: 2rpx dotted #D1E7FF;
+  border-top: 0;
+  border-bottom-left-radius:  16rpx;
+  border-bottom-right-radius:  16rpx;
+  font-size: 26rpx;
+}
+
+.top_data {
+  display: flex;
+  justify-content: center;
+  color: #fff;
+}
+
+.data_item {
+  padding: 0 15rpx;
+}
+
+.data_item image {
+  width: 28rpx;
+  height: 22rpx;
+  margin-right: 6rpx;
+}
+
+.addPlayBtn {
+  text-align: center;
+  margin: 50rpx 0 32rpx 0;
+}
+
+.addPlayBtn_inner {
+  display: inline-block;
+  width: 240rpx;
+  height: 66rpx;
+  line-height: 60rpx;
+  text-align: center;
+  background: linear-gradient(to right, #FC2D7B, #FC372D);
+  border-radius: 34rpx;
+}
+
+.addPlayBtn_inner image {
+  width: 52rpx;
+  height: 34rpx;
+  margin-right: 10rpx;
+  vertical-align: middle; 
+
+}
+
+.addPlayBtn_inner text {
+  display: inline-block;
+  font-size: 28rpx;
+  vertical-align: middle; 
+}
+
+.top_remarks {
+  font-size: 20rpx;
+  color: #51566E;
+  text-align: center;
+}
+
+.b_tab {
+  background-color: #0C0F1D;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 88rpx;
+}
+
+.b_tab_item {
+  flex: 1;
+  color: #51566E;
+  height: 100%;
+  box-sizing: border-box;
+  text-align: center;
+  line-height: 88rpx;
+}
+
+.b_tab_l {
+  position: relative;
+}
+
+.b_tab_line {
+  width: 2rpx;
+  height: 32rpx;
+  background-color: #333851;
+  position: absolute;
+  right: 0;
+  top: 26rpx;
+}
+
+.b_tab_item text {
+  display: inline-block;
+  box-sizing: border-box;
+  font-size: 30rpx;
+}
+
+.b_tab_item.active text {
+  color: #fff;
+  border-bottom: 2rpx solid #fff;
+}
+
+.b_list {
+  width: 100%;
+  padding: 20rpx 21rpx 0 21rpx;
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.list_item {
+  width: 33%;
+  font-size: 20rpx;
+  margin-bottom: 32rpx;
+  padding: 0 7rpx;
+  box-sizing: border-box;
+}
+
+.list_item_t {
+  height: 310rpx;
+  width: 100%;
+  position: relative;
+  color: #fff;
+}
+
+.list_item_bg {
+  height: 100%;
+  width: 100%;
+}
+
+.item_t_shadow {
+  width: 100%;
+  height: 60rpx;
+  background: linear-gradient(RGBA(12, 15, 29, 1), transparent);
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.item_t_likeData {
+  position: absolute;
+  top: 12rpx;
+  left: 14rpx;
+
+}
+
+.item_t_likeData image {
+  width: 18rpx;
+  height: 16rpx;
+  vertical-align: middle;
+  margin-right: 6rpx;
+}
+
+.item_t_likeData text {
+  vertical-align: middle;
+}
+
+.list_item_b {
+  color: #D1E7FF;
+  text-align: center;
+  margin-top: 4rpx;
+}
+
+.list_item_b text {
+  vertical-align: middle;
+}
+
+.item_b_dot {
+  display: inline-block;
+  height: 22rpx;
+  width: 22rpx;
+  border-radius: 50%;
+  background-color: #D1E7FF;
+  margin-right: 8rpx;
+}

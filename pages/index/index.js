@@ -555,9 +555,9 @@ Page({
       wx.navigateTo({
         url: '../activityDetails/onehundred-dish/onehundred-dish?actid=37',
       })
-    } else if (id == 3 && _linkUrl == '34') {
+    } else if (id == 3 && _linkUrl == '38') {
       wx.navigateTo({
-        url: '../activityDetails/hot-activity/hot-activity?id=34',
+        url: '../activityDetails/video-list/video-list?id=38',
       })
     }
   },

@@ -53,7 +53,8 @@
     "pages/activityDetails/video-details/video-details",
     "pages/activityDetails/homePage/homePage",
     "pages/activityDetails/dish-detail/dish-detail",
-    "pages/activityDetails/onehundred-dish/onehundred-dish"
+    "pages/activityDetails/onehundred-dish/onehundred-dish",
+    "pages/activityDetails/video-list/video-list"
   ],
   "window": {
     "backgroundTextStyle": "light",

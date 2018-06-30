@@ -471,6 +471,12 @@ Page({
               wx.navigateBack({
                 delta: 1
               })
+            } else if (that.data.actId == 38) {
+              that.addVideo({
+                actId: that.data.actId,
+                topicId: res.data.data,
+                userId: app.globalData.userInfo.userId
+              });
             } else {
               wx.switchTab({
                 url: '../../discover-plate/discover-plate'
@@ -506,6 +512,15 @@ Page({
         }
       })
     }
+  },
+  addVideo(_parms) {
+    Api.addVideo(_parms).then((res) => {
+      if (res.data.code == 0) {
+        wx.navigateTo({
+          url: '../../activityDetails/video-list/video-list?actId=38&id=' + _parms.topicId
+        })
+      }
+    });
   },
   getimg: function (_type) {   // 获取图片  公用
     let that = this;
