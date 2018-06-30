@@ -206,3 +206,19 @@
     </view>
   </view>
 </template>
+
+
+<!-- 精选餐厅/短视频 -->
+<template name="veoRes">
+  <view class='wrap_recommend veoRes_recommend' id='{{item.id}}' catchtap='handVeoRes'>
+    <view class='recommend'>
+      <image class='veoRes_img' src='{{item.img}}'></image>
+      <view class='recommend_text'>{{item.name}}</view>
+    </view>
+    <view class='djevenMore'>
+      <view class='recommend_right'>更多</view>
+      <image class='recommend_more' src='/images/icon/home_arrow.png'></image>
+    </view>
+  </view>
+</template>
+

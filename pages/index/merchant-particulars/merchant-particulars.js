@@ -192,15 +192,17 @@ Page({
       },
       success: function (res) {
         let _data = res.data.data;
-        _data.popNum = utils.million(_data.popNum);
-        
-        if (_data.address.indexOf('-') > 0) {
-          _data.address = _data.address.replace(/-/g, "");
+        if (_data){
+          _data.popNum = utils.million(_data.popNum);
+
+          if (_data.address.indexOf('-') > 0) {
+            _data.address = _data.address.replace(/-/g, "");
+          }
+          that.setData({
+            store_details: _data,
+            store_images: _data.shopTopPics.length
+          })
         }
-        that.setData({
-          store_details: _data,
-          store_images: _data.shopTopPics.length
-        })
       }
     })
   },
@@ -797,7 +799,7 @@ Page({
   },
 
   paymentPay: function () {   //买单
-    if (app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+    if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
       })

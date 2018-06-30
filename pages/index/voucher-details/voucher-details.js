@@ -11,7 +11,7 @@ Page({
     cfrom:''
   },
   onLoad: function (options) {
-    console.log("options:", options)
+    // console.log("options:", options)
     if (options.actId) {
       this.setData({
         actId: options.actId,
@@ -19,7 +19,6 @@ Page({
         skuId: options.skuId
       });
     }
-    console.log("cfrom:", options.cfrom)
     if (options.cfrom){
       this.setData({
         cfrom: options.cfrom
@@ -46,7 +45,6 @@ Page({
   },
   immediatelyBuy:function(){
     let data = this.data.obj, parameter = '';
-    console.log('obj:',data)
     parameter = '?id=' + data.id + "&sell=" + data.sell + "&inp=" + data.inp + "&rule=" + data.rule + '&num=' + data.num + '&soid=' + data.soid;
     if (this.data.sostatus == 1) {
       parameter += '&sostatus=1'

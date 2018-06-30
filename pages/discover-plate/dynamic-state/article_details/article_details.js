@@ -57,7 +57,7 @@ Page({
 
     // this.setcmtadd()
   },
-  gettopiclist: function (id) {  //获取文章内容数据
+  gettopiclist: function (id) {  //获取单个文章内容数据
     let _parms = {
       id: id,
       zanUserId: app.globalData.userInfo.userId,

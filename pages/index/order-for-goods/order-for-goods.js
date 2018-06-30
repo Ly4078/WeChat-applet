@@ -20,7 +20,7 @@ Page({
   },
   
   onLoad: function (options) {
-    console.log("options:",options)
+    // console.log("options:",options)
     if(options.actId == '37') {
       this.setData({
         actId: 37,
@@ -385,15 +385,17 @@ Page({
     }
   },
   messagepush: function () {//消息推送
-    let that = this;
+    console.log('messagepush')
+    let that = this, pannum = this.data.paymentAmount ? this.data.paymentAmount:0;
     let _parms = {
       type: 'android',
       title: '收款通知',
-      messageInfo: '享七收款' + that.data.paymentAmount + '元',
+      messageInfo: '享七收款' + pannum + '元',
       badge: 1,
       ios: '1',
       shopId: that.data.shopId
     }
+    console.log('_parms:', _parms)
     Api.pushSoByShop(_parms).then((res) => {
       if (res.data.code == 0) {
         console.log('推送成功')

@@ -29,7 +29,6 @@ Page({
             price.push(lists[i])
           }
         }
-        console.log('price:',price)
         this.setData({
           information: price
         })

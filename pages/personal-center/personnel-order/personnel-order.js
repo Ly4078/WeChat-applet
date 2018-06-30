@@ -191,7 +191,6 @@ Page({
       }
       
       if (sostatus == 1) {
-        console.log("11111")
         wx.navigateTo({
           url: '/pages/index/order-for-goods/order-for-goods?id=' + id + '&soid=' + soId + '&sell=' + sell + '&inp=' + inp + '&rule=' + rule + '&num=' + num + '&sostatus=1'
         })

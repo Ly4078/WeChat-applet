@@ -1,0 +1,11 @@
+
+.veoRes_img{
+  width: 37rpx;
+  height: 37rpx;
+  margin-left: 28rpx;
+}
+.veoRes_recommend{
+  padding: 20rpx 0;
+  background: #fff;
+  margin-top: 20rpx;
+}

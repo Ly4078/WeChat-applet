@@ -28,14 +28,16 @@ Page({
   previewImg: function (e) {
     var index = e.currentTarget.id;
     var carousel = this.data.carousel;
+    console.log('carousel:', carousel);
+    let arr = [];
     let obj ={}
     for (let i = 0; i < carousel.length;i++){
+      arr.push(carousel[i].value0)
       if(i==index){
         obj=carousel[i]
       }
     }
-    let arr = []
-    arr.push(obj.value1)
+   
     wx.previewImage({
       current: carousel[index].value0,     //当前图片地址
       urls: arr,           //所有要预览的图片的地址集合 数组形式

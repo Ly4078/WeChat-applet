@@ -9,6 +9,7 @@ Page({
     qrCodeArr: [],     //二维码数组
     couponsArr: [],    //票券数组
     ticket:[],  //票券
+    store:[],
     qrCodeFlag: true,   //二维码列表显示隐藏标识
     _skuNum: '',
     soid:'',  //点击的订单ID
@@ -89,7 +90,6 @@ Page({
       url: this.data._build_url + 'cp/get/' + this.data.id,
       success: function (res) {
         let data = res.data;
-        console.log('data:',data)
         if(res.data.code == 0){
           let arr = [],ticketArr=[];
           arr.push(res.data.data);
@@ -152,6 +152,7 @@ Page({
         }
         let data = res.data;
         if (data.code == 0) {
+          that.getshopInfo(data.data.shopId);
           let imgsArr = [];
           if (that.data.myCount == 1) {
             let couponsArr = [];
@@ -186,6 +187,23 @@ Page({
         }
       }
     });
+  },
+  //根据ID查询商家信息
+  getshopInfo(val){
+    let that = this;
+    wx.request({
+      url: this.data._build_url + 'shop/get/' + val,
+      header: {
+        'content-type': 'application/json;Authorization'
+      },
+      success: function (res) {
+        let _data = res.data.data;
+        console.log('_data:',_data.shopName)
+        that.setData({
+          store: _data
+        })
+      }
+    })
   },
   //点击更多收起按钮
   onclickMore: function () {
@@ -242,12 +260,17 @@ Page({
       id:soid,
       soStatus:'2'
     };
+    console.log('getshopOrderList ')
     Api.myorderForShop(_parms).then((res) => {
-      if (res.data.code == 0 || res.data.code == 200){
-        this.setData({
-          ticketInfo:res.data.data.list[0],
-          isticket: false
-        })
+      console.log('res:',res)
+      if(res){
+        
+        if (res.data.code == 0 || res.data.code == 200) {
+          this.setData({
+            ticketInfo: res.data.data.list[0],
+            isticket: false
+          })
+        }
       }
     })
     console.log(res.data.data.list[0])

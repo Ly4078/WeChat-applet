@@ -58,9 +58,9 @@
   ],
   "window": {
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#fc5e2d",
+    "navigationBarBackgroundColor": "#fff",
     "navigationBarTitleText": "享7",
-    "navigationBarTextStyle": "white",
+    "navigationBarTextStyle": "black",
     "navigationStyle": "default",
     "enablePullDownRefresh": true,
     "backgroundColor": "#fc5e2d"

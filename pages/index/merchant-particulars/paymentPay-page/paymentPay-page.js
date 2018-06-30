@@ -398,10 +398,10 @@ Page({
             that.setData({
               soid: ''
             })
+            that.messagepush();
             wx.redirectTo({
               url: '../../../personal-center/lelectronic-coupons/lectronic-coupons?pay=pay' + '&soid=' + soid
             })
-            that.messagepush();
           },
           fail: function (res) {
             wx.showToast({
@@ -416,16 +416,17 @@ Page({
   },
   //消息推送
   messagepush:function(){
-    let that = this;
+    let that = this, paynum = that.data.payment ? that.data.payment:0;
     let _parms = {
-      alias:app.globalData.userInfo.userId,
+      // alias:app.globalData.userInfo.userId,
       type:'android',
       title:'收款通知',
-      messageInfo:'享七收款' + that.data.payment+'元',
+      messageInfo: '享七收款' + paynum +'元',
       badge:1,
       ios:'1',
-      shopId:app.globalData.userInfo.shopId
+      shopId: that.data.shopId
     }
+    console.log('_parms:', _parms)
     Api.pushSoByShop(_parms).then((res) => {
       if(res.data.code == 0){
         console.log('推送成功')
