@@ -64,7 +64,7 @@
     </view>
     <view class="b_list">
       <block wx:for="{{videoList}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
-        <view class="list_item">
+        <view class="list_item" bindtap='videoDetail' id="{{item.topicId}}">
           <view class="list_item_t">
             <image class="list_item_bg" src="{{item.homePic}}"></image>
             <view class="item_t_shadow"></view>

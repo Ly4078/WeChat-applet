@@ -111,6 +111,11 @@ Page({
       }
     });
   },
+  videoDetail(e) {
+    wx.navigateTo({
+      url: '../video-details/video-details?actId=' + this.data.actId + '&id=' + e.currentTarget.id
+    })
+  },
   switchTab(e) {
     let id = e.currentTarget.id, switchFlag = true;
     if(id == 2) {
