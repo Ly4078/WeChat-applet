@@ -132,6 +132,7 @@ Page({
   onPullDownRefresh: function () {
     this.setData({
       page: 1,
+      flag: true,
       videoList: []
     });
     this.videoList();
