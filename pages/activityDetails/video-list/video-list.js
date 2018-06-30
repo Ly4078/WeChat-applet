@@ -24,15 +24,18 @@ Page({
     let dateStr = new Date();
     let milisecond = new Date(this.dateConv(dateStr)).getTime() + 86400000;
     this.setData({
-      // userId: app.globalData.userInfo.userId,
-      // userName: app.globalData.userInfo.mobile,
-      userId: 32879,
-      userName: '15072329516',
+      userId: app.globalData.userInfo.userId,
+      userName: app.globalData.userInfo.mobile,
       today: this.dateConv(dateStr),
       tomorrow: this.dateConv(new Date(milisecond))
     });
   },
   onShow: function () {
+    this.setData({
+      page: 1,
+      videoList: [],
+      flag: true
+    });
     this.videoInfo();
     this.videoData();
     this.videoList();
