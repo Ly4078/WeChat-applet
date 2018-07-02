@@ -11,7 +11,7 @@ Page({
     videoId: "",    //视频id
     percent: 0,
     isprogress:false,
-    posterImg: 'https://xq-1256079679.file.myqcloud.com/13971489895_wxf91e2a026658e78e.o6zAJs-7D9920jC4XTKdzt72lobs.8c2bHTeMhUqPe9b72c354166593f5a9afe09a27afe74_0.3.jpg'  //默认视频图片
+    defaimg: ''
   },
   onLoad: function (options) {
     this.setData({
@@ -120,7 +120,6 @@ Page({
       actUserName: inpVal.name,
       userInfo: inpVal.signText
     }
- 
     Api.apply(_parms).then((res) => {
       let data = res.data;
       if(data.code == 0) {

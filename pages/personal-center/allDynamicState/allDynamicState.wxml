@@ -17,6 +17,10 @@
         <view class='article-level-wrap' catchtap='toArticleInfo' id="{{item.id}}" zan="{{item.zan}}">
           <image class='cover-images' mode="aspectFill" src='{{item.homePic}}'></image>
           <text class='article-describe'>{{item.summary}}</text>
+
+          <view class='motai' wx:if='{{!item.isplay}}'></view>
+            <image class='palyicon' wx:if='{{!item.isplay}}' src="/images/icon/paly.png"></image>
+            
         </view>
         <view class='article-bottom-xia'>
           <view>

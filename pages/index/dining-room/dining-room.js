@@ -60,6 +60,7 @@ Page({
   },
   getData: function () {
     let lat = '30.51597', lng = '114.34035';  //lat纬度   lng经度
+    console.log(app.globalData.userInfo)
     wx.showLoading({
       title: '数据加载中。。。',
       mask: true
@@ -67,7 +68,8 @@ Page({
     let _parms = {
       locationX: app.globalData.userInfo.lng ? app.globalData.userInfo.lng : lng,
       locationY: app.globalData.userInfo.lat ? app.globalData.userInfo.lat : lat,
-      page: this.data.page,
+      city: app.globalData.userInfo.city,
+      page: this.data.page ? this.data.page:1,
       rows: 8
     }
     if (this.data.businessCate) { //美食类别 
@@ -82,7 +84,8 @@ Page({
     if (this.data.businessCate == '川湘菜') {
       Api.listForChuangXiang(_parms).then((res) => {
         let that = this
-        wx.hideLoading()
+        wx.hideLoading();
+        wx.stopPullDownRefresh();
         let data = res.data;
         if (data.code == 0 && data.data.list != null && data.data.list != "" && data.data.list != []) {
           wx.stopPullDownRefresh()
@@ -104,6 +107,7 @@ Page({
         wx.hideLoading()
         let data = res.data;
         if (data.code == 0){
+          wx.stopPullDownRefresh();
           if (data.data.list != null && data.data.list != "" && data.data.list != []) {
             wx.stopPullDownRefresh()
             let posts = this.data.posts_key;
@@ -138,6 +142,9 @@ Page({
           searchKey: _this.data.searchValue,
           locationX: app.globalData.userInfo.lng,
           locationY: app.globalData.userInfo.lat,
+          city: app.globalData.userInfo.city,
+          page: _this.data.page,
+          rows: 8
         }
         Api.shoplist(_parms).then((res) => {
           wx.hideLoading()

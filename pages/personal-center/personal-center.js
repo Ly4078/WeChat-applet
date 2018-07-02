@@ -282,11 +282,15 @@ Page({
     })
   },
   enterEntrance: function (event) { //点击免费入驻
-    if (app.globalData.userInfo.mobile == 'a' || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+    if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
       })
       return false
+    }else{
+      wx.navigateTo({
+        url: '../index/download-app/download',
+      })
     }
     wx.getSetting({
       success: (res) => {

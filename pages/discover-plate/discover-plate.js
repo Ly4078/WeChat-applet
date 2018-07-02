@@ -201,7 +201,7 @@ Page({
     }
   },
   clickarticle: function (e) {  //点击某条文章
-    const id = e.currentTarget.id
+    const id = e.currentTarget.id;
     this.setData({
       ishotnew: false
     })

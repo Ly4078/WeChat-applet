@@ -26,7 +26,6 @@
 
   <!-- 新用户弹窗 -->
   <view class="newUserModal" wx:if="{{userGiftFlag || isNew || isfirst}}" catchtouchmove='true'>
-
     <view class="drawer_screen"></view>
     <view wx:if="{{isphoneNumber}}" class="newUserM_box getphone gettels">
       <view class='nubtitle'>快速注册</view>
@@ -53,12 +52,12 @@
   </view>
 
   <!-- 头部搜索   -->
-   <view class='headSeek'>
+  <view class='headSeek'>
     <view class='site_location' bindtap='userLocation'>
       <text class='site_location_text'>{{city}}</text>
       <image class='location' src='/images/icon/home_bar_arrow.png'></image>
     </view>
-    <view class='page_row' >
+    <view class='page_row'>
       <!-- <view class="search">
         <view class="df search_arr">
           <image class="searchcion" src="/images/icon/home_bar_search.png"></image>
@@ -67,11 +66,11 @@
       </view> -->
     </view>
     <!-- catchtap='discountCoupon' -->
-    <view class="usingTheVolumeBox"  bindtap="seekTap">
-     <image class="usingTheVolume" src="/images/icon/home_bar_search.png"></image>
+    <view class="usingTheVolumeBox" bindtap="seekTap">
+      <image class="usingTheVolume" src="/images/icon/home_bar_search.png"></image>
       <!-- <image class='usingTheVolume' src='/images/icon/home_bar_quan.png'></image> -->
     </view>
-  </view> 
+  </view>
 
 
   <!-- 轮播组件 -->
@@ -95,79 +94,78 @@
   </view> -->
 
   <!-- 导航nav_one -->
-  <view class='indexNavOne'>
+   <view class='indexNavOne'>
     <view wx:for="{{navs}}" wx:key="index">
       <view class='navitem' id="{{item.id}}" bindtap='handnavOne'>
-        <image src='{{item.img}}'></image>
+        <image class="img{{index+1}}" src='{{item.img}}'></image>
         <text>{{item.name}}</text>
       </view>
     </view>
-  </view>
+  </view> 
 
   <!-- 导航nav_two -->
-  <view class='indexNavTwo'>
+    <view class='indexNavTwo'>
     <view wx:for="{{navtwo}}" wx:key="index">
       <view class='TwoItem' id="{{item.id}}" bindtap='handnavTwo'>
-         <image src="{{item.img}}"></image> 
+        <image src="{{item.img}}"></image>
       </view>
     </view>
-  </view>
+  </view>  
 
-<!-- 热门活动 -->
+  <!-- 热门活动 -->
   <block wx:for="{{Act}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
     <template is="veoRes" data="{{item}}" />
   </block>
-  <view class='scroll_box'>
-    <scroll-view scroll-x="true" class='scroll_activity'>
+   <view class='scroll_box'>
+     <scroll-view scroll-x="true" class='scroll_activity'>
       <block wx:for="{{actlist}}" wx:key="{{index}}" id="{{index}}" wx:for-index="idx">
         <template is="hotActivityss" data="{{item}}" />
       </block>
-    </scroll-view>
-  </view> 
+    </scroll-view> 
+  </view>   
 
 
-<!--精选餐厅  -->
- <block wx:for="{{Res}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
+  <!--精选餐厅  -->
+   <block wx:for="{{Res}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
     <template is="veoRes" data="{{item}}" />
-  </block>
-  <view class='Resbanner'>
-     <image class='Resbimg' id='1' data-ind="1" bindtap='handbaoming' src="{{bannthree[0].imgUrl}}"></image> 
+  </block> 
+   <view class='Resbanner'>
+    <image class='Resbimg' id='1' data-ind="1" bindtap='handbaoming' src="{{bannthree[0].imgUrl}}"></image>
     <view class='resthree'>
       <view wx:for="{{hotshop}}" wx:key="index">
-        <view class='RthreeItem' id='{{item.id}}'  bindtap='handResitem'>
-          <image class='Resimg' src="{{item.logoUrl}}"></image> 
-           <text>{{item.shopName}}\n</text>
-          <text>人气餐厅</text> 
-          </view>
+        <view class='RthreeItem' id='{{item.id}}' bindtap='handResitem'>
+          <image class='Resimg' src="{{item.logoUrl}}"></image>
+          <text>{{item.shopName}}\n</text>
+          <text>人气餐厅</text>
+        </view>
       </view>
     </view>
-  </view> 
+  </view>   
 
   <!--短视频  -->
    <block wx:for="{{Vid}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
     <template is="veoRes" data="{{item}}" />
   </block>
   <view class='Resbanner Vidbanner'>
-     <image class='Resbimg' id='2' data-ind="2" bindtap='handbaoming' src="{{bannthree[1].imgUrl}}"></image> 
+    <image class='Resbimg' id='2' data-ind="2" bindtap='handbaoming' src="{{bannthree[1].imgUrl}}"></image>
     <view class='resthree'>
       <view wx:for="{{videolist}}" wx:key="index">
         <view class='VthreeItem' id='{{item.id}}' bindtap='handViditem'>
-          <image class='vidimg' src="{{item.homePic}}"></image> 
-           <text>{{item.title}}\n</text>
-          </view>
+          <image class='vidimg' src="{{item.homePic}}"></image>
+          <text>{{item.title}}\n</text>
+        </view>
       </view>
     </view>
-  </view>
+  </view>  
 
   <!--商家广告位  -->
-  <image class='Advertising' id="3" data-ind="3" bindtap="handbaoming" src="{{bannthree[2].imgUrl}}"></image>
+    <image class='Advertising' id="3" data-ind="3" bindtap="handbaoming" src="{{bannthree[2].imgUrl}}"></image>  
 
   <!--分类搜索商家菜品  -->
-
-  <view class='scroll_box'>
+    <view class='scroll_box'>
     <scroll-view scroll-x="true" class='scroll_activity'>
-      <block wx:for="{{fooddatas}}" wx:key="{{index}}" >
-       <text class='sortscrch {{actitem == item? "actsort" : ""}}' id='{{item}}' bindtap='handfood'>{{item}}</text>
+      <block wx:for="{{fooddatas}}" wx:key="{{index}}">
+        <text class='sortscrch {{actitem == item? "actsort" : ""}}' id='{{item}}' bindtap='handfood'>{{item}}</text>
       </block>
     </scroll-view>
   </view>
@@ -176,22 +174,21 @@
       <image class='shopimg' src='{{item.logoUrl}}'></image>
       <view class='jubox'>
         <text class='namebox'>{{item.shopName}}</text>
-        <!-- <text></text> -->
         <text>{{item.inessCate}} | {{item.distance}}</text>
       </view>
       <view class='shopquan' wx:if="{{item.ruleDescs.length>0}}">
         <image src='/images/icon/quanhuodong.png'></image>
-         <text wx:for="{{item.ruleDescs}}" wx:key="index">{{item}}；</text> 
+        <text wx:for="{{item.ruleDescs}}" wx:key="index">{{item}}；</text>
       </view>
     </view>
-  </view>
+  </view>  
 
-  <view class='toTop' wx:if="{{_page>1}}" bindtap='toTop'>
+    <view class='toTop' wx:if="{{_page>1}}" bindtap='toTop'>
     <image src='/images/icon/toTop.png'></image>
-  </view>
+  </view>  
 
 
-<!--新版修改结束  -->
+  <!--新版修改结束  -->
 
 
 
@@ -219,7 +216,7 @@
     </scroll-view>
   </view> -->
   <!--热门活动 -->
-   <!-- <template is="hotActivity" data="{{...item}}" />  -->
+  <!-- <template is="hotActivity" data="{{...item}}" />  -->
   <!--热门活动  -->
   <!-- <view class='scroll_box'>
     <scroll-view scroll-x="true" class='scroll_activity'>
@@ -266,12 +263,12 @@
     </view>
   </view>
 
-   <!-- 底部动画 --> 
-    <view class='bottomAnimation '>
-      <view class='bottomAnimationText'>
-        <image class='bottomAnimationImg' src='/images/icon/dongtaiLgy.png'></image>
-        <text>共享美味新生活</text>
-      </view>
-    </view>  
-    <view class='botbox'></view>
+  <!-- 底部动画 -->
+  <view class='bottomAnimation '>
+    <view class='bottomAnimationText'>
+      <image class='bottomAnimationImg' src='/images/icon/dongtaiLgy.png'></image>
+      <text>共享美味新生活</text>
+    </view>
+  </view>
+  <view class='botbox'></view>
 </view>

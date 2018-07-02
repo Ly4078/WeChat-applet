@@ -4,6 +4,7 @@ var utils = require('../../../utils/util.js');
 var app = getApp();
 Page({
   data: {
+    _build_url: GLOBAL_API_DOMAIN,
     actId: 38,
     userId: '',
     userName: '',
@@ -18,6 +19,9 @@ Page({
     flag: true,
     page: 1,
     videoList: [],
+    isball:true,
+    issnap: false,
+    isnew: false,
     switchFlag: true
   },
   onLoad: function (options) {
@@ -36,9 +40,17 @@ Page({
       videoList: [],
       flag: true
     });
+    if (!app.globalData.userInfo.mobile) {
+      this.getuserinfo();
+    }
     this.videoInfo();
     this.videoData();
     this.videoList();
+  },
+  toactlist() {
+    wx.switchTab({
+      url: '../../index/index',
+    })
   },
   videoInfo() {     //视频详情
     let _parms = {
@@ -70,7 +82,6 @@ Page({
       actId: this.data.actId
     }
     Api.videoData(_parms).then((res) => {
-      console.log(res);
       let data = res.data;
       if (data.code == 0) {
         this.setData({
@@ -81,9 +92,15 @@ Page({
     });
   },
   addVideo() {
-    wx.navigateTo({
-      url: '../../discover-plate/dynamic-state/dynamic-state?actId=' + this.data.actId + '&id=2'
-    })
+    if (!app.globalData.userInfo.mobile) {
+      this.setData({
+        issnap: true
+      })
+    }else{
+      wx.redirectTo({
+        url: '../../discover-plate/dynamic-state/dynamic-state?actId=' + this.data.actId + '&id=2'
+      })
+    }
   },
   videoList() {
     let _parms = {
@@ -115,8 +132,14 @@ Page({
     });
   },
   videoDetail(e) {
+    let id = e.currentTarget.id, _videoList = this.data.videoList,userid='';
+    for (let i in _videoList){
+      if (id == _videoList[i].topicId){
+        userid = _videoList[i].userId
+      }
+    }
     wx.navigateTo({
-      url: '../video-details/video-details?actId=' + this.data.actId + '&id=' + e.currentTarget.id
+      url: '../video-details/video-details?actId=' + this.data.actId + '&id=' + id + '&userId=' + userid
     })
   },
   switchTab(e) {
@@ -161,5 +184,99 @@ Page({
     month = month > 9 ? month : "0" + month;
     today = today > 9 ? today : "0" + today;
     return year + "-" + month + "-" + today;
+  },
+  closetel: function (e) {
+    let id = e.target.id;
+    this.setData({
+      issnap: false
+    })
+    if (id == 1) {
+      wx.redirectTo({
+        url: '/pages/personal-center/registered/registered'
+      })
+    }
+  },
+  getuserinfo() {
+    wx.login({
+      success: res => {
+        if (res.code) {
+          let _parms = {
+            code: res.code
+          }
+          let that = this;
+          Api.getOpenId(_parms).then((res) => {
+            app.globalData.userInfo.openId = res.data.data.openId;
+            app.globalData.userInfo.sessionKey = res.data.data.sessionKey;
+            if (res.data.data.unionId) {
+              app.globalData.userInfo.unionId = res.data.data.unionId;
+              that.getmyuserinfo();
+            } else {
+              that.findByCode();
+              wx.hideLoading();
+            }
+          })
+        }
+      }
+    })
+  },
+  getmyuserinfo: function () {
+    let _parms = {
+      openId: app.globalData.userInfo.openId,
+      unionId: app.globalData.userInfo.unionId
+    }, that = this;
+    Api.addUserUnionId(_parms).then((res) => {
+      if (res.data.data) {
+        app.globalData.userInfo.userId = res.data.data;
+        wx.request({  //从自己的服务器获取用户信息
+          url: this.data._build_url + 'user/get/' + res.data.data,
+          header: {
+            'content-type': 'application/json' // 默认值
+          },
+          success: function (res) {
+            if (res.data.code == 0) {
+              let data = res.data.data;
+              for (let key in data) {
+                for (let ind in app.globalData.userInfo) {
+                  if (key == ind) {
+                    app.globalData.userInfo[ind] = data[key]
+                  }
+                }
+              };
+              if (!data.mobile) {
+                that.setData({
+                  isnew: true
+                })
+              }
+            }
+          }
+        })
+      }
+    })
+  },
+  findByCode: function () {
+    let that = this;
+    wx.login({
+      success: res => {
+        Api.findByCode({ code: res.code }).then((res) => {
+          if (res.data.code == 0) {
+            if (res.data.data.unionId) {
+              app.globalData.userInfo.unionId = res.data.data.unionId;
+              that.getmyuserinfo();
+            } else {
+              wx.hideLoading();
+              that.setData({
+                istouqu: true
+              })
+            }
+          } else {
+            that.findByCode();
+            wx.hideLoading();
+            that.setData({
+              istouqu: true
+            })
+          }
+        })
+      }
+    })
   }
 })

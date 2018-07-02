@@ -86,7 +86,7 @@
           <image class='gasimg' src='/images/icon/paly.png' wx:if="{{!item.isimg}}"></image>
         </view>
       </view>
-      <view class='otherdata' id="{{item.id}}" catchtap="gotodetail">
+      <view class='otherdata' id="{{item.id}}">
         <view class='browsing'>
           <image src='/images/icon/tuoyuan_w.png' class='tuoyuan'></image>
 

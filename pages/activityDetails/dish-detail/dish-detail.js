@@ -9,7 +9,7 @@ Page({
     actId: 0,
     skuId: 0,
     issnap: false,
-    isball:false,
+    isball:true,
     picUrl: '',
     actSkuName: '',
     skuCode: '',
@@ -53,9 +53,6 @@ Page({
   },
   onShow: function () {
     if (!app.globalData.userInfo.mobile) {
-      this.setData({
-        isball:true
-      })
       this.getuserinfo();
     }
     this.getDish();

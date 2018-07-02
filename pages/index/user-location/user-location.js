@@ -126,8 +126,10 @@ Page({
     wx.getLocation({
       type: 'wgs84',
       success: (res) => {
-        let lat = res.latitude
-        let lng = res.longitude
+        let lat = res.latitude;
+        let lng = res.longitude;
+        app.globalData.userInfo.lat = lat;
+        app.globalData.userInfo.lng = lng;
         this.requestCityName(lat, lng)
         that.setData({
           latlng: res
@@ -143,6 +145,8 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success: (res) => {
+        console.log('res:',res);
+        app.globalData.userInfo.city = res.data.result.address_component.city;
         that.setData({
           currentSite: res.data.result.address
         })
@@ -150,9 +154,12 @@ Page({
     })
   },
   dangqian: function () {  //点击当前位置
-    let _data = this.data.latlng
-    wx.setStorageSync('lat', _data.latitude)
-    wx.setStorageSync('lng', _data.longitude)
+    let _data = this.data.latlng;
+    wx.setStorageSync('lat', _data.latitude);
+    wx.setStorageSync('lng', _data.longitude);
+    app.globalData.userInfo.lat = _data.latitude;
+    app.globalData.userInfo.lng = _data.longitude;
+    // app.globalData.userInfo.city = city;
     wx.switchTab({  //跳转到 tabBar 页面，并关闭其他所有非 tabBar 页面
       url: '../../index/index'
     })
@@ -183,15 +190,22 @@ Page({
   selectAddress: function (event) { //选择地点
     const id = event.currentTarget.id;
     const _data = this.data.resultPosition;
-    let lat = '', lng = '';
+    let lat = '', lng = '',city='';
     for (let i = 0; i < _data.length; i++) {
       if (id == _data[i].id) {
+        console.log(_data[i])
         lat = _data[i].location.lat;
         lng = _data[i].location.lng;
+        city = _data[i].city;
       }
     }
-    wx.setStorageSync('lat', lat)
-    wx.setStorageSync('lng', lng)
+    wx.setStorageSync('lat', lat);
+    wx.setStorageSync('lng', lng);
+    app.globalData.userInfo.lat = lat;
+    app.globalData.userInfo.lng = lng;
+    app.globalData.userInfo.city = city;
+    console.log('go index')
+    console.log(app.globalData.userInfo)
     wx.switchTab({  //跳转到 tabBar 页面，并关闭其他所有非 tabBar 页面
       url: '../../index/index'
     })

@@ -114,19 +114,20 @@ Page({
   },
   clickVote: function (event) {
     const actid = event.currentTarget.id;
-    let _actName = "";
+    let _actName = "",_type = '';
     for (let i = 0; i < this.data.actdata.length; i++) {
       if (this.data.actdata[i].id == actid) {
         _actName = this.data.actdata[i].actName;
+        _type = this.data.actdata[i].type;
       }
     }
-    if (actid == 37) {
+    if (_type == 1) {
       wx.navigateTo({
         url: 'onehundred-dish/onehundred-dish?actid=' + actid + '&_actName=' + _actName,
       })
-    } else {
+    } else  if(_type == 2){
       wx.navigateTo({
-        url: 'details-like/details-like?actid=' + actid,
+        url: 'video-list/video-list?id=' + actid,
       })
     }
   },

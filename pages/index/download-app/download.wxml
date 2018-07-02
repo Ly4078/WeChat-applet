@@ -1,27 +1,15 @@
-<view class='download'>
-  <view class='headTop'>
-    <view class='headline'>应用介绍</view>
-    <text>“享7商家”是享7美食推出的移动端商家后台，可以帮助商家更便捷地在手机上进行扫码验证、管理店铺、查看订单、缴费服务、活动报名，更高效、轻松的管理店铺。
-【扫码验证】支持验证核销享7券，统一验证入口，更便捷。
-【营业数据】随时随地查看店铺营业数据，各项资金一目了然。
-【店铺管理】店铺信息上传修改，收银核销员增减，方便快捷。
-【优化推广】推广方式、代金券门槛自定义，我的店铺我做主。
-【活动报名】第一时间了解活动、活动报名，查看活动数据。
-【软件下载】请到各大应用市场搜索下载“享7商家”APP。
-    </text>
-  </view>
-  <view class='versions'>根据机型下载最新版本</view>
-  <view class='choice'>
-    <view class='consumer'>
-      <image class='consumerIng' src='/images/icon/andicon.png'></image>
-      <text>Android当前最新版本</text>
-      <view class='downloadBtn' bindtap="downloadandroid"><button>下载</button></view>
-      
-    </view>
-     <view class='consumer'>
-      <image class='consumerIng' src='/images/icon/iOSicon.png'></image>
-      <text>IOS当前最新版本</text>
-      <view class='downloadBtn' bindtap="downloadBtn"><button>下载</button></view>
-    </view>
-  </view>
-</view>
+
+  <view class='downbox'> 
+
+  <image wx:if="{{isdown}}" class='deimg' src='{{deimg}}'></image>
+  <image wx:else class='deimgid1' src='{{deimgid1}}'></image>
+
+  <view class='handxz' wx:if="{{isdown}}" bindtap='handxz'></view>
+
+  <view class='copycon'>
+     <input id='copy' value="{{_value}}" disabled="true"></input>
+      <button bindtap='copy'>复制连接</button>
+  </view> 
+  </view> 
+
+  

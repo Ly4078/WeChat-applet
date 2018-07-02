@@ -11,7 +11,7 @@ Page({
     selected: '十堰',
     issnap: false,
     switchTab: true,
-    isball:false,
+    isball:true,
     flag: true,
     searchValue: '',
     page: 1,
@@ -21,16 +21,34 @@ Page({
     sortType: 2,
     isflag:0,
     isnew:false,
+    issgin:false,
     isOption: false
   },
   onLoad: function (options) {
-    let dateStr = new Date();
+    // console.log("options:", options)
+    //在此函数中获取扫描普通链接二维码参数
+
+    let dateStr = new Date(),that = this;
     let milisecond = new Date(this.dateConv(dateStr)).getTime() + 86400000;
     this.setData({
-      actId: options.actid,
       today: this.dateConv(dateStr),
       tomorrow: this.dateConv(new Date(milisecond))
     });
+    let q = decodeURIComponent(options.q);
+    if (q) {
+      if (utils.getQueryString(q, 'flag') == 4) {
+        console.log(utils.getQueryString(q, 'actId'))
+        this.setData({
+          actId: utils.getQueryString(q, 'actId')
+        });
+      }
+    }else{
+      this.setData({
+        actId: options.actid
+      });
+    }
+    
+    
     if (options.sortType == 1) {
       this.setData({
         sortType: 1
@@ -56,9 +74,6 @@ Page({
   onShow: function () {
     let that = this;
     if (!app.globalData.userInfo.mobile) {
-      this.setData({
-        isball:true
-      })
       this.getuserinfo();
     }
     wx.request({
@@ -117,6 +132,7 @@ Page({
     })
   },
   toApply: function () {    //跳转至报名页面
+    let that = this;
     if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
@@ -124,38 +140,45 @@ Page({
       return false
     }
     if (app.globalData.userInfo.userType == '2' && app.globalData.userInfo.shopId != '') {
+      wx.navigateTo({
+        url: '../../index/download-app/download??isshop=yes',
+      })
+    } else {
       wx.showModal({
-        title: '提示',
-        content: '您是商家哦，请到各大应用市场搜索下载“享7商家”APP，再进行商家报名~',
+        title: '',
+        content: '立即报名',
+        cancelText:'商家报名',
+        cancelColor:'#3CC51F',
+        confirmText:'选手报名',
         success: function (res) {
-          if (res.confirm) {
-            console.log('用户点击确定')
-          } else if (res.cancel) {
-            console.log('用户点击取消')
+          if (res.cancel) { //商家用户
+            wx.navigateTo({
+              url: '../../index/download-app/download',
+            })
+          } else if (res.confirm) { //普通用户
+            let _parms = {
+              refId: that.data.voteUserId,
+              actId: that.data.actId,
+              type: 1
+            }
+            Api.actisSign(_parms).then((res) => {
+              let data = res.data;
+              if (data.code == 0) {
+                wx.navigateTo({
+                  url: '../hot-activity/apply-player/apply-player?id=' + that.data.actId + '&_actName=' + that.data.actName
+                })
+              } else {
+                wx.showToast({
+                  title: data.message,
+                  mask: 'true',
+                  duration: 2000,
+                  icon: 'none'
+                })
+              }
+            });
           }
         }
       })
-    } else {
-      let _parms = {
-        refId: this.data.voteUserId,
-        actId: this.data.actId,
-        type: 1
-      }
-      Api.actisSign(_parms).then((res) => {
-        let data = res.data;
-        if (data.code == 0) {
-          wx.navigateTo({
-            url: '../hot-activity/apply-player/apply-player?id=' + this.data.actId + '&_actName=' + this.data.actName
-          })
-        } else {
-          wx.showToast({
-            title: data.message,
-            mask: 'true',
-            duration: 2000,
-            icon: 'none'
-          })
-        }
-      });
     }
   },
   bestSwitch(e) {   //最热最新切换
@@ -211,6 +234,7 @@ Page({
           });
         }
       } else {
+        console.log('12111111111')
         wx.showToast({
           title: '系统繁忙',
           mask: 'true',
@@ -509,6 +533,9 @@ Page({
     }
   },
   toactlist() {
+    this.setData({
+      isball: false
+    })
     wx.switchTab({
       url: '../../index/index',
     })
@@ -564,8 +591,6 @@ Page({
                   isnew: true
                 })
               }
-              that.playerDetail();
-              that.articleList();
             }
           }
         })

@@ -4,14 +4,19 @@ Page({
    * 页面的初始数据
    */
   data: {
-    
+    deimg:"https://xq-1256079679.file.myqcloud.com/test_560830311326322848_0.8.jpg",
+    isdown:false
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    
+    if (options.isshop){
+      this.setData({
+        isdown:true
+      })
+    }
   },
 
   /**
@@ -20,7 +25,24 @@ Page({
   onReady: function () {
     
   },
-
+  //点击下载按钮
+  handxz:function(){
+    this.setData({
+      isdown:false
+    })
+  },
+  copy:function(){
+    wx.setClipboardData({
+      data: '11111111111111111',
+      success: function (res) {
+        wx.getClipboardData({
+          success: function (res) {
+            console.log(res.data) // data
+          }
+        })
+      }
+    })
+  },
   /**
    * 生命周期函数--监听页面显示
    */

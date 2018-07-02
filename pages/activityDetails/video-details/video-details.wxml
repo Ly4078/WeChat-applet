@@ -2,7 +2,7 @@
 
 
 
-<view class="newUserModal" wx:if="{{issnap}}">
+<view class="newUserModal" wx:if="{{issnap && isnew}}">
   <view class='drawer_screen'>
     <view class='sqtishi'>提示</view>
     <view class='drphnumber'>获得更多体验,请移步[我的]-[新用户注册]</view>
@@ -74,3 +74,4 @@
   <textarea class="commentArea" placeholder='请输入评论' focus="{{isComment}}" bindinput="getCommentVal" cursor-spacing="50rpx" show-confirm-bar="false" fixed="true"></textarea>
   <button class='fasong' form-type="reset" catchtap="setcmtadd">发送</button>
 </form>
+<image class='ball' wx:if="{{isball}}"  bindtap='toactlist' src='/images/icon/shouye.png'></image>

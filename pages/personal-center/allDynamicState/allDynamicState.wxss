@@ -95,6 +95,7 @@ page {
 
 .article-level-wrap{
   position: relative;
+  height: 420rpx;
 }
 
 .article-describe{
@@ -108,4 +109,21 @@ page {
   overflow: hidden;
   white-space: nowrap;  
   text-overflow:ellipsis; 
+}
+.motai{
+  border-radius:10rpx;
+  position:relative;
+  top:-402rpx;
+  height:390rpx;
+  width:100%;
+  background-color:#191919;
+  opacity:0.5;
+}
+.palyicon{
+  width:150rpx;
+  height:150rpx;
+  position: relative;
+  left: 40%;
+  top: -654rpx;
+  z-index: 1;
 }

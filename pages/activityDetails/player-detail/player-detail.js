@@ -10,7 +10,7 @@ Page({
     voteUserId: 0,
     refId: 0,
     issnap: false,
-    isball:false,
+    isball:true,
     nickName: '',
     bgUrl: '',
     iconUrl: '',
@@ -60,10 +60,6 @@ Page({
   },
   onShow: function () {
     if (!app.globalData.userInfo.mobile) {
-      this.setData({
-        isApply:false,
-        isball:true
-      })
       this.getuserinfo();
     }
     this.playerDetail();
@@ -88,6 +84,7 @@ Page({
     });
   },
   toApply() {
+    let that = this;
     if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
@@ -95,44 +92,47 @@ Page({
       return false
     }
     if (app.globalData.userInfo.userType == '2' && app.globalData.userInfo.shopId != '') {
-      // wx.showToast({
-      //   title: '您是商家，请移步至商家端App报名',
-      //   icon: 'none'
-      // })
+      wx.navigateTo({
+        url: '../../index/download-app/download?isshop=yes',
+      })
+    } else {
+
       wx.showModal({
-        title: '提示',
-        content: '您是商家哦，请到各大应用市场搜索下载“享7商家”APP，再进行商家报名~',
+        title: '',
+        content: '立即报名',
+        cancelText: '商家报名',
+        cancelColor: '#3CC51F',
+        confirmText: '选手报名',
         success: function (res) {
-          if (res.confirm) {
-            console.log('用户点击确定')
-          } else if (res.cancel) {
-            console.log('用户点击取消')
+          if (res.cancel) { //商家用户
+            wx.navigateTo({
+              url: '../../index/download-app/download',
+            })
+          } else if (res.confirm) { //普通用户
+            let _parms = {
+              refId: that.data.voteUserId,
+              actId: that.data.actId,
+              type: 1
+            }
+            Api.actisSign(_parms).then((res) => {
+              let data = res.data;
+              if (data.code == 0) {
+                wx.navigateTo({
+                  url: '../hot-activity/apply-player/apply-player?id=' + that.data.actId + '&_actName=' + that.data.actName
+                })
+              } else {
+                wx.showToast({
+                  title: data.message,
+                  mask: 'true',
+                  duration: 2000,
+                  icon: 'none'
+                })
+              }
+            });
           }
         }
       })
-    } else {
-      let _parms = {
-        refId: this.data.voteUserId,
-        actId: this.data.actId,
-        type: 1
-      }
-      Api.actisSign(_parms).then((res) => {
-        let data = res.data;
-        if (data.code == 0) {
-          wx.navigateTo({
-            url: '../hot-activity/apply-player/apply-player?id=' + this.data.actId + '&_actName=' + this.data.actName
-          })
-        } else {
-          wx.showToast({
-            title: data.message,
-            mask: 'true',
-            duration: 2000,
-            icon: 'none'
-          })
-        }
-      });
     }
-    
   },
   toArtList() {
     if (!app.globalData.userInfo.mobile) {

@@ -74,7 +74,7 @@
              <video mode="aspectFill" wx:if='{{item.isplay}}' autoplay='true' src='{{item.content[0].value}}' objectFit="fill" direction="0"></video> 
             <view class='summary'>{{item.summary}}</view>
           </view>
-          <view class="list_item_bottom" id="{{item.id}}" data-index="{{item.zan}}" bindtap='toDetails'>
+          <view class="list_item_bottom" id="{{item.id}}" data-index="{{item.zan}}">
             <view class="item_bottom_l">
               <image src="/images/icon/find_see.png"></image>
               <text>{{item.hitNum}}</text>

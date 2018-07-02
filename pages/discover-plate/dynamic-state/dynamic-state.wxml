@@ -17,7 +17,7 @@
   <view class='progress protishi' wx:if="{{!isprogress && !defaimg}}" >(上传抖音、快手、微视拍摄的视频效果更好)</view>
 </view>
 
-  <input bindblur="bindblurinput" maxlength='20' placeholder-class="phcolor" value='{{title}}' class='title' type='text' placeholder='请输入标题' bindfocus="bindfocus"></input>
+  <input bindinput="bindblurinput" maxlength='20' placeholder-class="phcolor" value='{{title}}' class='title' type='text' placeholder='请输入标题' bindfocus="bindfocus"></input>
 
   <view wx:for="{{content}}" wx:key="{{index}}">
     <view class='box' wx:if="{{item.type == 'img'}}">

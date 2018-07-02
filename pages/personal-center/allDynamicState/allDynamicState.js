@@ -40,7 +40,8 @@ Page({
             let list_item = data.data.list[i]; 
             list_item.summary = utils.uncodeUtf16(list_item.summary)
             list_item.content = utils.uncodeUtf16(list_item.content)
-            list_item.timeDiffrence = utils.timeDiffrence(data.currentTime, list_item.updateTime, list_item.createTime)
+            list_item.timeDiffrence = utils.timeDiffrence(data.currentTime, list_item.updateTime, list_item.createTime);
+            list_item.isplay=false;
             article_list.push(list_item);
 
           }
@@ -87,14 +88,16 @@ Page({
   },
   toArticleInfo: function(event) {
     const id = event.currentTarget.id;
-    let _data = this.data.article_list, zan = '';
+    let _data = this.data.article_list, zan = '',userid='';
     for (let i = 0; i < _data.length; i++) {
       if (id == _data[i].id) {
+        console.log(_data[i])
         zan = _data[i].zan;
+        userid = _data[i].userId;
       }
     }
     wx.navigateTo({
-      url: '/pages/discover-plate/dynamic-state/article_details/article_details?id=' + id + '&zan=' + zan
+      url: '../../activityDetails/video-details/video-details?id=' + id + '&zan=' + zan + '&userId=' + userid
     })
   },
   amplification: function (e) {

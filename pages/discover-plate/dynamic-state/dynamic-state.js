@@ -20,11 +20,13 @@ Page({
     isprogress:false,
     isfirst:true,
     defaimg:'',  //默认视频图片
-    actId: 0
+    actId: 0,
+    cfrom:''
   },
 
   onLoad: function (options) {  // 生命周期函数--监听页面加载
     let that = this;
+    console.log(options)
     if (options.id){
       this.setData({
         iswzsp: options.id
@@ -454,6 +456,7 @@ Page({
         wx.hideLoading()
         if (res.data.code == 0) {
           setTimeout(function () {
+            console.log("cfrom:", that.data.cfrom)
             wx.showToast({
               title: '提交成功',
               icon: 'none',
@@ -472,12 +475,21 @@ Page({
                 delta: 1
               })
             } else if (that.data.actId == 38) {
+              getApp().globalData.article = [];
+              that.data.title = '';
+              that.covervideo = '';
+              that.data.coverimg = '';
               that.addVideo({
                 actId: that.data.actId,
                 topicId: res.data.data,
                 userId: app.globalData.userInfo.userId
               });
+            } else if (that.data.cfrom){
+              wx.redirectTo({
+                url: '../../activityDetails/video-list/video-list'
+              })
             } else {
+              console.lo
               wx.switchTab({
                 url: '../../discover-plate/discover-plate'
               })
@@ -501,7 +513,7 @@ Page({
               wx.navigateBack({
                 delta: 1
               })
-            } else {
+            } else{
               wx.switchTab({
                 url: '../../discover-plate/discover-plate'
               })
@@ -516,7 +528,7 @@ Page({
   addVideo(_parms) {
     Api.addVideo(_parms).then((res) => {
       if (res.data.code == 0) {
-        wx.navigateTo({
+        wx.redirectTo({
           url: '../../activityDetails/video-list/video-list?actId=38&id=' + _parms.topicId
         })
       }

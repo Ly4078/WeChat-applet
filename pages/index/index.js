@@ -34,7 +34,7 @@ Page({
     isclose: false,
     goto: false,
     navbar: ['菜系专题', '服务专题'],
-    sort: ['川湘菜', '海鲜', '火锅', '烧烤', '西餐', '自助餐', '聚会', '商务', '约会'],
+    sort: ['川湘菜','海鲜','火锅', '烧烤', '西餐', '自助餐', '聚会', '商务', '约会'],
     activityImg: '',   //活动图
     settime: null,
     rematime: '获取验证码',
@@ -46,7 +46,7 @@ Page({
     hotshop:[],
     videolist:[],
     bannthree:[],
-    actitem:'全部',
+    actitem:'附近',
     navs: [
       {
         img: '/images/icon/navquan.png',
@@ -86,12 +86,12 @@ Page({
       }
     ],
     Res: [{
-      img: '/images/icon/navquan.png',
+      img: '/images/icon/jxcanting.png',
       name: '精选餐厅',
       id: 1
     }],
     Vid: [{
-      img: '/images/icon/navquan.png',
+      img: '/images/icon/duansp.png',
       name: '短视频',
       id: 2
     }],
@@ -100,7 +100,7 @@ Page({
       name: '热门活动',
       id: 3
     }],
-    fooddatas: ['全部', "日本菜", "自助餐", "湖北菜", "川菜", "湘菜", "粤菜", "咖啡厅", "小龙虾", "火锅", "海鲜", "烧烤", "江浙菜", "西餐", "自助餐", "其它美食"],
+    fooddatas: ['附近', '人气', "日本菜", "自助餐", "湖北菜", "川菜", "湘菜", "粤菜", "咖啡厅", "小龙虾", "火锅", "海鲜", "烧烤", "江浙菜", "西餐", "自助餐", "其它美食"],
     ResThree: [
       {
         img: 'https://xq-1256079679.file.myqcloud.com/test_798888529104573275_0.8.jpg',
@@ -144,7 +144,7 @@ Page({
     this.activityBanner();
   },
   onShow: function () {
-    this.getshoplist('全部',2);
+    this.getshoplist('附近',2);
     let that = this, userInfo = app.globalData.userInfo;
     if (this.data.phone && this.data.veridyTime) {
       this.setData({
@@ -183,17 +183,27 @@ Page({
       })
     }
 
-    let lat = wx.getStorageSync('lat');
-    let lng = wx.getStorageSync('lng');
-    if (lat && lng) {
+    let lat = app.globalData.userInfo.lat;
+    let lng = app.globalData.userInfo.lng;
+    let city = app.globalData.userInfo.city;
+    if (city){
+      this.setData({
+        city: city
+      })
+    }
+    if (lat && lng && !city) {
       setTimeout(function () {
         that.requestCityName(lat, lng);
         wx.removeStorageSync('lat');
         wx.removeStorageSync('lng');
       }, 500)
     } else {
-      that.getlocation();
+      if (!app.globalData.userInfo.lat && !app.globalData.userInfo.lng && !app.globalData.userInfo.city) {
+        that.getlocation();
+      }
     }
+    this.getmoredata();
+    
   },
   onHide: function () {
     let that = this;
@@ -225,7 +235,7 @@ Page({
       })
     } else if (id == 5) {  //商家入驻  APP下载
       wx.navigateTo({
-        url: '../../pages/index/download-app/downloadH5/downloadH5',
+        url: '../../pages/index/download-app/download?isshop=ind',
       })
     }
   },
@@ -407,7 +417,6 @@ Page({
     Api.addUserUnionId(_parms).then((res) => {
       if (res.data.data) {
         app.globalData.userInfo.userId = res.data.data;
-        // that.getlocation();
         wx.request({  //从自己的服务器获取用户信息
           url: this.data._build_url + 'user/get/' + res.data.data,
           header: {
@@ -439,10 +448,6 @@ Page({
         })
       }
     })
-  },
-  getuseradd: function () {  //获取用户userid
-    this.isNewUser();
-    this.getlocation();
   },
   navbarTap: function (e) {// 专题推荐栏
     this.setData({
@@ -570,15 +575,20 @@ Page({
     let _parms = {
       locationX: app.globalData.userInfo.lng ? app.globalData.userInfo.lng : lng,
       locationY: app.globalData.userInfo.lat ? app.globalData.userInfo.lat : lat,
+      city: app.globalData.userInfo.city,
       page: this.data._page,
       rows: 8
     }
     if (val && val !='全部') { //美食类别 
-      _parms.businessCate = val;
-      wx.pageScrollTo({
-        scrollTop: 1500,
-        duration: 300
-      })
+      
+      if(val == '人气'){
+        _parms.browSort = 2
+      }else if(val == '附近'){
+        
+      }else{
+        _parms.businessCate = val;
+      }
+      
       this.setData({
         posts_key: []
       })
@@ -718,8 +728,8 @@ Page({
     wx.getLocation({
       type: 'wgs84',
       success: function (res) {
-        let latitude = res.latitude
-        let longitude = res.longitude
+        let latitude = res.latitude;
+        let longitude = res.longitude;
         that.requestCityName(latitude, longitude);
       },
       fail: function (res) {
@@ -729,31 +739,37 @@ Page({
     })
   },
   requestCityName(lat, lng) {//获取当前城市
-    app.globalData.userInfo.lat = lat
-    app.globalData.userInfo.lng = lng
+    if (app.globalData.userInfo.lat && app.globalData.userInfo.lng && app.globalData.userInfo.city){
+      return false
+    }
+    app.globalData.userInfo.lat = lat;
+    app.globalData.userInfo.lng = lng;
     wx.request({
       url: 'https://apis.map.qq.com/ws/geocoder/v1/?location=' + lat + "," + lng + "&key=4YFBZ-K7JH6-OYOS4-EIJ27-K473E-EUBV7",
       header: {
         'content-type': 'application/json' // 默认值
       },
       success: (res) => {
-        this.getmoredata()
         if (res.data.status == 0) {
+          let _city = res.data.result.address_component.city,reg = /[0-9a-z]/i;;
+          if (reg.test(_city)){
+            _city= '武汉'
+          }
           this.setData({
-            city: res.data.result.address_component.city,
+            city: _city,
             alltopics: [],
             restaurant: [],
             service: []
           })
-          app.globalData.userInfo.city = res.data.result.address_component.city
-          app.globalData.picker = res.data.result.address_component
+          app.globalData.userInfo.city = _city;
+          app.globalData.picker = res.data.result.address_component;
         }
       }
     })
   },
   getcarousel: function () {  //轮播图
     let that = this;
-    if (this.data.carousel.length) {
+    if (this.data.carousel.length>0) {
       return false
     }
     Api.hcllist().then((res) => {
@@ -981,7 +997,7 @@ Page({
       wx.navigateTo({
         url: '../personal-center/free-of-charge/free-of-charge?img=' + img,
       })
-    } else if (id == 2 && _linkUrl == '35') {
+    } else if (id == 2 && _linkUrl == '37') {
       wx.navigateTo({
         url: '../activityDetails/onehundred-dish/onehundred-dish?actid=37',
       })
@@ -1101,8 +1117,6 @@ Page({
       this.setData({
         getPhoneNumber: true
       })
-      // this.getuseradd()
-      this.getlocation();
     }
   },
   newUserToGet: function () {    //新用户跳转票券
