@@ -43,8 +43,8 @@ page {
 }
 
 .usingTheVolume {
-  width: 46rpx;
-  height: 36rpx;
+  width: 40rpx;
+  height: 40rpx;
 }
 
 .homePage_banner {
@@ -111,7 +111,7 @@ page {
 
 .recommend_text {
   font-size: 32rpx;
-  font-weight: 400;
+  font-weight: 600;
 }
 
 .recommend_more {
@@ -177,10 +177,7 @@ page {
 .preferential_img {
   width: 100%;
   height: 100%;
-  border-top-left-radius: 10rpx;
-  border-top-right-radius: 10rpx;
-  border-bottom-right-radius: 10rpx;
-  border-bottom-left-radius: 10rpx;
+  border-radius: 16rpx;
 }
 
 .preferential {
@@ -894,7 +891,7 @@ page {
   width: 694rpx;
   height: 254rpx;
   display: block;
-  border-radius: 20rpx;
+  border-radius: 16rpx;
 }
 .resthree{
   width: 694rpx;
@@ -912,12 +909,12 @@ page {
 .Resimg{
   width: 218rpx;
   height: 218rpx;
-  border-radius: 10rpx;
+  border-radius: 16rpx;
 }
 .vidimg{
   width: 218rpx;
   height: 318rpx;
-  border-radius: 10rpx;
+  border-radius: 16rpx;
   
 }
 .RthreeItem text{
@@ -930,10 +927,11 @@ page {
   width: 230rpx;
   text-overflow:ellipsis;
   white-space:nowrap;
+  font-weight: 600;
 }
 .RthreeItem text:nth-child(3){
   border:1rpx solid #FC5E2D;
-  border-radius: 8rpx;
+  border-radius: 4rpx; 
   padding: 2rpx 5rpx;
   color: #FC5E2D;
   font-size: 20rpx;
@@ -955,10 +953,13 @@ page {
   color: #191919;
   font-size: 30rpx;
   margin: 0 20rpx; 
+  display: inline-block;
+  padding-bottom: 10rpx;
 }
 .actsort{
   font-size: 40rpx;
-  border-bottom: 30rpx solid #F99635;
+  border-bottom: 6rpx solid #F99635; 
+  font-weight: 600;
 }
 .shopboxs{
   width: 100%;
@@ -973,12 +974,17 @@ page {
   height: 535rpx;
   margin-bottom: 25rpx;
   box-shadow:6px 0px 24px rgba(120,120,120,0.38);
+  border-radius: 16rpx;
+}
+.shopbox.none {
+  height: 480rpx;
 }
 .shopimg{
   display: block;
   width: 694rpx;
-  border-radius: 10rpx;
   height: 390rpx;
+  border-top-left-radius: 16rpx;
+  border-top-right-radius: 16rpx;
 }
 .jubox,.shopquan{
   width: 694rpx;
@@ -996,6 +1002,7 @@ page {
   text-overflow:ellipsis;
   white-space:nowrap;
   margin-left: 20rpx;
+  font-weight: 600;
 }
 .jubox text:nth-child(2),.jubox text:nth-child(3){
   color: #191919;

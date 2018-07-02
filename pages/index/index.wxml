@@ -172,7 +172,7 @@
     </scroll-view>
   </view>
   <view class='shopboxs' wx:for="{{posts_key}}" wx:key="index">
-    <view class='shopbox' id="{{item.id}}" bindtap='handdish'>
+    <view class='shopbox {{item.ruleDescs.length < 1 ? "none" : ""}}' id="{{item.id}}" bindtap='handdish'>
       <image class='shopimg' src='{{item.logoUrl}}'></image>
       <view class='jubox'>
         <text class='namebox'>{{item.shopName}}</text>

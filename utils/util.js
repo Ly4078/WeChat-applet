@@ -37,10 +37,10 @@ function transformLength(len) {
     return "0m";
   }
   if (len < 1000) {
-    return '< ' + len.toFixed(0) + "m";
+    return len.toFixed(0) + "m";
   }
   else {
-    return '< ' + (len / 1000).toFixed(2) + "km";
+    return (len / 1000).toFixed(2) + "km";
   }
 }
 
