@@ -13,10 +13,43 @@ Page({
   onLoad: function (options) {
   },
 
+  downloadandroid:function(e){
+    wx.navigateTo({
+      url: './downloadH5/downloadH5',
+    })
+  },
   downloadBtn: function (e) {
     wx.showToast({
       title: '抱歉!待更新后可下载',
       icon: 'none',
+    })
+  },
+  cleardownload(){
+    const downloadTask = wx.downloadFile({
+      url: 'https://xq-1256079679.file.myqcloud.com/test_247008125620330980_1.0.jpg',
+      success: function (res) {
+        wx.saveFile({
+          tempFilePath: res.tempFilePath,
+          success: function (res) {
+            var savedFilePath = res.savedFilePath;
+            wx.showToast({
+              title: '保存成功',
+            })
+            console.log('savedFilePath:', savedFilePath)
+            wx.getSavedFileList({
+              success: function (res) {
+                console.log('getSavedFileList')
+                console.log(res.fileList)
+              }
+            })
+          }
+        })
+      }
+    })
+    downloadTask.onProgressUpdate((res) => {
+      console.log('下载进度', res.progress)
+      console.log('已经下载的数据长度', res.totalBytesWritten)
+      console.log('预期需要下载的数据总长度', res.totalBytesExpectedToWrite)
     })
   },
   /**

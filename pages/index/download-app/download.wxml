@@ -15,7 +15,8 @@
     <view class='consumer'>
       <image class='consumerIng' src='/images/icon/andicon.png'></image>
       <text>Android当前最新版本</text>
-      <view class='downloadBtn' bindtap="downloadBtn"><button>下载</button></view>
+      <view class='downloadBtn' bindtap="downloadandroid"><button>下载</button></view>
+      
     </view>
      <view class='consumer'>
       <image class='consumerIng' src='/images/icon/iOSicon.png'></image>

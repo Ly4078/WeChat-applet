@@ -14,6 +14,7 @@
     <image class='gasimg' src='/images/icon/paly.png'></image>
   </view>
   <progress class='progress' wx:if="{{isprogress}}" percent="{{percent}}" show-info />
+  <view class='progress protishi' wx:if="{{!isprogress && !defaimg}}" >(上传抖音、快手、微视拍摄的视频效果更好)</view>
 </view>
 
   <input bindblur="bindblurinput" maxlength='20' placeholder-class="phcolor" value='{{title}}' class='title' type='text' placeholder='请输入标题' bindfocus="bindfocus"></input>

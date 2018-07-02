@@ -150,3 +150,8 @@ button {
   top:-140rpx;
   left:70rpx;
 }
+.protishi{
+  font-size: 28rpx;
+  color: #808080;
+  text-align: center;
+}

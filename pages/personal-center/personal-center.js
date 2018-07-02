@@ -444,6 +444,31 @@ Page({
     return isDue;
   },
   aboutMe: function (e) {   //关于我们
+
+    // wx.downloadFile({
+    //   url: 'https://xqmp4-1256079679.file.myqcloud.com/test_H567B9652_0621172354.apk', 
+    //   success: function (res) {
+    //     // 只要服务器有响应数据，就会把响应内容写入文件并进入 success 回调，业务需要自行判断是否下载到了想要的内容
+    //     if (res.statusCode === 200) {
+    //       console.log('downloadFile_res:',res)
+    //       wx.saveFile({
+    //         tempFilePath: res.tempFilePath ,
+    //         success: function (resAA) {
+    //           var savedFilePath = resAA.savedFilePath;
+    //           console.log("savedFilePath:", savedFilePath);
+    //           wx.showToast({
+    //             title: '保存成功',
+    //           })
+    //           wx.getSavedFileList({
+    //             success: function (resBB) {
+    //               console.log("resBB.fileList", resBB.fileList)
+    //             }
+    //           })
+    //         }
+    //       })
+    //     }
+    //   }
+    // })
     wx.navigateTo({
       url: 'aboutMe/aboutMe',
     })

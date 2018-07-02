@@ -28,6 +28,8 @@ Page({
     userGiftFlag: false,    //新用户礼包是否隐藏
     isphoneNumber: false,  //是否拿到手机号
     isfirst: false,
+    item:'',
+    selAddress:'',
     istouqu: false,
     isclose: false,
     goto: false,
@@ -223,7 +225,7 @@ Page({
       })
     } else if (id == 5) {  //商家入驻  APP下载
       wx.navigateTo({
-        url: '../../pages/index/download-app/download',
+        url: '../../pages/index/download-app/downloadH5/downloadH5',
       })
     }
   },

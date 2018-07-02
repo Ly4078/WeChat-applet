@@ -172,7 +172,7 @@ Page({
       isfirst: true
     })
     wx.chooseVideo({
-      sourceType: ['camera','album'],
+      sourceType: ['album'],
       maxDuration: 60,
       camera: ['front', 'back'],
       success: function (res) {
