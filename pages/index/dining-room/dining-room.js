@@ -88,7 +88,6 @@ Page({
         wx.stopPullDownRefresh();
         let data = res.data;
         if (data.code == 0 && data.data.list != null && data.data.list != "" && data.data.list != []) {
-          wx.stopPullDownRefresh()
           let posts = this.data.posts_key;
           let _data = data.data.list
           for (let i = 0; i < _data.length; i++) {

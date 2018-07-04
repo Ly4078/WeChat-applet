@@ -124,6 +124,21 @@
     </scroll-view> 
   </view>   
 
+  <!--短视频  -->
+   <block wx:for="{{Vid}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
+    <template is="veoRes" data="{{item}}" />
+  </block>
+  <view class='Resbanner Vidbanner'>
+    <image class='Resbimg' id='2' data-ind="2" bindtap='handbaoming' src="{{bannthree[1].imgUrl}}"></image>
+    <view class='resthree'>
+      <view wx:for="{{videolist}}" wx:key="index">
+        <view class='VthreeItem' id='{{item.id}}' bindtap='handViditem'>
+          <image class='vidimg' src="{{item.homePic}}"></image>
+          <text>{{item.title}}\n</text>
+        </view>
+      </view>
+    </view>
+  </view> 
 
   <!--精选餐厅  -->
    <block wx:for="{{Res}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
@@ -141,22 +156,7 @@
       </view>
     </view>
   </view>   
-
-  <!--短视频  -->
-   <block wx:for="{{Vid}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
-    <template is="veoRes" data="{{item}}" />
-  </block>
-  <view class='Resbanner Vidbanner'>
-    <image class='Resbimg' id='2' data-ind="2" bindtap='handbaoming' src="{{bannthree[1].imgUrl}}"></image>
-    <view class='resthree'>
-      <view wx:for="{{videolist}}" wx:key="index">
-        <view class='VthreeItem' id='{{item.id}}' bindtap='handViditem'>
-          <image class='vidimg' src="{{item.homePic}}"></image>
-          <text>{{item.title}}\n</text>
-        </view>
-      </view>
-    </view>
-  </view>  
+ 
 
   <!--商家广告位  -->
     <image class='Advertising' id="3" data-ind="3" bindtap="handbaoming" src="{{bannthree[2].imgUrl}}"></image>  

@@ -368,7 +368,8 @@ page {
 }
 .initiate-left {
   width: 7rpx;
-  height: 24rpx;
+  height: 20rpx;
+  background: #fc5e2d;
   vertical-align: middle;
   padding-right: 20rpx;
 }
@@ -383,6 +384,7 @@ page {
   color: #191919;
   font-size: 16px;
   letter-spacing: 2px;
+  margin-left: 10rpx;
 }
 
 .initiate-wrapp {

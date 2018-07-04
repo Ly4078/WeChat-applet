@@ -4,8 +4,8 @@
 <view>
   <view class="dqtitle">当前地址</view>
   <view class="current-site">
-    <view catchtap='dangqian'>{{currentSite}}</view>
-    <view bindtap="anewPosition">重新定位</view>
+    <view>{{currentSite}}</view>
+    <view bindtap="anewPosition">我的位置</view>
   </view>
 </view>
 

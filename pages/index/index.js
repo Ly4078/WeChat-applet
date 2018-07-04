@@ -202,7 +202,7 @@ Page({
         that.getlocation();
       }
     }
-    this.getmoredata();
+    
     
   },
   onHide: function () {
@@ -330,14 +330,15 @@ Page({
   },
   //点击推荐短视频之一
   handViditem(e) {
-    let id = e.currentTarget.id, _videolist = this.data.videolist,zan='';
+    let id = e.currentTarget.id, _videolist = this.data.videolist,zan='',userid='';
     for (let i in _videolist){
       if (id == _videolist[i].id){
         zan = _videolist[i].zan;
+        userid = _videolist[i].userId;
       }
     }
     wx.navigateTo({
-      url: '../activityDetails/video-details/video-details?id=' + id + '&zan=' + zan,
+      url: '../activityDetails/video-details/video-details?id=' + id + '&zan=' + zan + '&userId=' + userid,
     })
   },
   //选择某个分类
@@ -432,6 +433,8 @@ Page({
                   }
                 }
               };
+              
+              that.getmoredata();
               if (data && data.mobile) {
                 that.setData({
                   isfirst: false,
@@ -463,6 +466,8 @@ Page({
     this.getshoplist();
     this.gettopiclist();
     this.gettoplistFor();
+    this.getlocation();
+
     return false;
 
 
@@ -513,6 +518,11 @@ Page({
             // _data.push(footList[i]);
           }
           vodeoarr = vodeoarr.slice(0, 3);
+          for (let i in vodeoarr) {
+            let _str = vodeoarr[i].title;
+            _str = _str.slice(0, 4);
+            vodeoarr[i].title = _str + '...';
+          }
           this.setData({
             videolist: vodeoarr
           })
@@ -575,7 +585,7 @@ Page({
     let _parms = {
       locationX: app.globalData.userInfo.lng ? app.globalData.userInfo.lng : lng,
       locationY: app.globalData.userInfo.lat ? app.globalData.userInfo.lat : lat,
-      city: app.globalData.userInfo.city,
+      city: app.globalData.userInfo.city ? app.globalData.userInfo.city:'十堰',
       page: this.data._page,
       rows: 8
     }
@@ -611,23 +621,18 @@ Page({
             _data[i].activity = _data[i].ruleDescs ? _data[i].ruleDescs.join(',') : '';
             posts.push(_data[i])
           }
-          
-          if (keys) {
-            let newarr = posts.slice(0, 3);
-            for(let i in newarr){
-              if (newarr[i].shopName.length - 7 > 0) {
-                newarr[i].shopName.slice(7);
-                // newarr[i].shopName += '...';
-              }
-            }
-            that.setData({
-              hotshop: newarr
-            })
-          }else{
-            that.setData({
-              posts_key: posts
-            })
+       
+          let newarr = posts.slice(0, 3);
+          for (let i in newarr) {
+            let _str = newarr[i].shopName;
+            _str = _str.slice(0,4);
+            newarr[i].shopName = _str+'...';
           }
+          that.setData({
+            posts_key: posts,
+            hotshop: newarr
+          })
+          
           
         } else {
           this.setData({
@@ -739,9 +744,6 @@ Page({
     })
   },
   requestCityName(lat, lng) {//获取当前城市
-    if (app.globalData.userInfo.lat && app.globalData.userInfo.lng && app.globalData.userInfo.city){
-      return false
-    }
     app.globalData.userInfo.lat = lat;
     app.globalData.userInfo.lng = lng;
     wx.request({
@@ -751,10 +753,7 @@ Page({
       },
       success: (res) => {
         if (res.data.status == 0) {
-          let _city = res.data.result.address_component.city,reg = /[0-9a-z]/i;;
-          if (reg.test(_city)){
-            _city= '武汉'
-          }
+          let _city = res.data.result.address_component.city;
           this.setData({
             city: _city,
             alltopics: [],
@@ -769,7 +768,7 @@ Page({
   },
   getcarousel: function () {  //轮播图
     let that = this;
-    if (this.data.carousel.length>0) {
+    if (!this.data.carousel) {
       return false
     }
     Api.hcllist().then((res) => {
@@ -983,9 +982,10 @@ Page({
       }
     }
     if (id == 4) {
-      wx.navigateTo({
-        url: 'new-exclusive/new-exclusive',
-      })
+      // wx.navigateTo({
+      //   url: 'new-exclusive/new-exclusive',
+      // })
+      
     } else if (id == 1) {
       let img = '';
       let _arr = this.data.carousel;

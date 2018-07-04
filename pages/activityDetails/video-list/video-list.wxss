@@ -9,7 +9,7 @@
 }
 
 .top_Info { 
-  padding: 28rpx 10rpx 34rpx 28rpx;
+  padding: 28rpx 28rpx 34rpx 28rpx;
   width: 100%;
   box-sizing: border-box;
   font-size: 24rpx;
@@ -18,7 +18,6 @@
 
 .top_instruction {
   line-height: 44rpx;
-  padding-right: 30rpx;
   box-sizing: border-box;
 }
 

@@ -84,10 +84,12 @@ Page({
     Api.videoData(_parms).then((res) => {
       let data = res.data;
       if (data.code == 0) {
-        this.setData({
-          zanTotal: data.data.zanTotal,
-          actHitNum: data.data.actHitNum
-        });
+        if(data.data){
+          this.setData({
+            zanTotal: data.data.zanTotal,
+            actHitNum: data.data.actHitNum
+          });
+        }
       }
     });
   },
@@ -117,16 +119,18 @@ Page({
       if (data.code == 0) {
         wx.hideLoading();
         let videoList = this.data.videoList, listData = data.data.list;
-        for (let i = 0; i < listData.length; i++) {
-          videoList.push(listData[i]);
-        }
-        this.setData({
-          videoList: videoList
-        });
-        if (listData.length < 6) {
+        if (listData && listData.length){
+          for (let i = 0; i < listData.length; i++) {
+            videoList.push(listData[i]);
+          }
           this.setData({
-            flag: false
+            videoList: videoList
           });
+          if (listData.length < 6) {
+            this.setData({
+              flag: false
+            });
+          }
         }
       }
     });

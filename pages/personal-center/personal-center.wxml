@@ -28,7 +28,7 @@
     </view>
     <view class='messageCase'>
       <view class='messageWrap' bindtap='DynamicState'>
-        <text class='messageTop'>文章</text>
+        <text class='messageTop'>动态</text>
         <text>{{sumTotal}}</text>
       </view>
       <image class='halving-line' src='/images/icon/vertical.png'></image>

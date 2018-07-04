@@ -59,7 +59,7 @@
           <text>参与活动</text>
         </view>
       </view>
-      <view class="top_remarks">建议上传5秒以内的视频(上传抖音、微视等原创视频)</view>
+      <view class="top_remarks">建议上传15秒以内的视频(上传抖音、微视等原创视频)</view>
     </view>
   </view>
   <view class="videoList_bottom">

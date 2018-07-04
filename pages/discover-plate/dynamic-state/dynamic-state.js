@@ -195,7 +195,8 @@ Page({
                 }else{
                   that.setData({
                     percent: 0,
-                    isprogress: false
+                    isprogress: false,
+                    title:''
                   })
                   wx.showToast({
                     title: '上传失败，请重新上传',
@@ -204,7 +205,7 @@ Page({
                     icon: 'none'
                   })
                 }
-              },10000)
+              },30000)
               return false
             }
           }
@@ -212,7 +213,7 @@ Page({
           that.setData({
             percent: _per
           })
-        },100)
+        },200)
         wx.uploadFile({//获取视频在线地址
           url: that.data._build_url + 'img/uploadMp4',
           filePath: res.tempFilePath,
@@ -453,10 +454,11 @@ Page({
         title: '正在提交...',
       })
       Api.topicadd(_parms).then((res) => {
-        wx.hideLoading()
+        
         if (res.data.code == 0) {
           setTimeout(function () {
-            console.log("cfrom:", that.data.cfrom)
+            console.log("cfrom:", that.data.cfrom);
+            wx.hideLoading();
             wx.showToast({
               title: '提交成功',
               icon: 'none',

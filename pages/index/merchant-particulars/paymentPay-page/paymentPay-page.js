@@ -163,7 +163,7 @@ Page({
   bindinputvalue: function (e) {
     let _value = e.detail.value, _this = this, ms = 0, _timer = null;
     clearTimeout(this.data.timer);
-    if (_value) {
+    if (_value>0) {
       _timer = setInterval(function () {
         ms += 50;
         if (ms == 100) {
@@ -174,6 +174,7 @@ Page({
             inputValue: e.detail.value,
             ispay: true
           })
+
           _this.getvoucher();
           clearInterval(_timer)
         }

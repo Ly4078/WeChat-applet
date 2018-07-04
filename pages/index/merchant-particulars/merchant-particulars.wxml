@@ -141,7 +141,8 @@
     <view class='initiate-wrapp' catchtap='recommendedRestaurant' hidden="{{currentTab !=0}}">
       <view class='initiate-exhibition'>
         <view>
-          <image class='initiate-left' src='/images/icon/home_sign.png'></image>
+          <!-- <image class='initiate-left' src='/images/icon/home_sign.png'></image> -->
+          <text class='initiate-left'></text>
           <text class='initiate-text'>推荐菜</text>
         </view>
         <image class='initiate-right' src='/images/icon/home_arrow.png'></image>
@@ -160,7 +161,8 @@
 
     <view class='initiate-exhibition the-second' hidden="{{currentTab !=0}}" catchtap='jumpTotalComment'>
       <view>
-        <image class='initiate-left' src='/images/icon/home_sign.png'></image>
+        <!-- <image class='initiate-left' src='/images/icon/home_sign.png'></image> -->
+        <text class='initiate-left'></text>
         <text class='initiate-text'>精选评价</text>
       </view>
       <image class='initiate-right' src='/images/icon/home_arrow.png'></image>

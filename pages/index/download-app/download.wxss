@@ -39,8 +39,8 @@
 .copycon button{
   float: left;
   height: 50rpx;
-  line-height: 50rpx;
-  font-size: 40rpx;
+  line-height: 40rpx;
+  font-size: 30rpx;
   padding: 5rpx 10rpx;
   background: #fc5e2d;
   color: #fff;

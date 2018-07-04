@@ -126,6 +126,7 @@ Page({
     wx.getLocation({
       type: 'wgs84',
       success: (res) => {
+        console.log('res:',res)
         let lat = res.latitude;
         let lng = res.longitude;
         app.globalData.userInfo.lat = lat;
@@ -147,6 +148,7 @@ Page({
       success: (res) => {
         console.log('res:',res);
         app.globalData.userInfo.city = res.data.result.address_component.city;
+        
         that.setData({
           currentSite: res.data.result.address
         })
