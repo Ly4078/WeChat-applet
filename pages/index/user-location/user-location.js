@@ -195,19 +195,14 @@ Page({
     let lat = '', lng = '',city='';
     for (let i = 0; i < _data.length; i++) {
       if (id == _data[i].id) {
-        console.log(_data[i])
         lat = _data[i].location.lat;
         lng = _data[i].location.lng;
         city = _data[i].city;
       }
     }
-    wx.setStorageSync('lat', lat);
-    wx.setStorageSync('lng', lng);
     app.globalData.userInfo.lat = lat;
     app.globalData.userInfo.lng = lng;
     app.globalData.userInfo.city = city;
-    console.log('go index')
-    console.log(app.globalData.userInfo)
     wx.switchTab({  //跳转到 tabBar 页面，并关闭其他所有非 tabBar 页面
       url: '../../index/index'
     })

@@ -184,8 +184,8 @@
   </view>  
 
     <view class='toTop' wx:if="{{_page>1}}" bindtap='toTop'>
-    <image src='/images/icon/toTop.png'></image>
-  </view>  
+      <image src='/images/icon/toTop.png'></image>
+    </view>  
 
 
   <!--新版修改结束  -->

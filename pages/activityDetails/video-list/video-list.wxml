@@ -42,7 +42,7 @@
       <view class="top_data">
         <view class="data_item">
           <image src="/images/icon/play.png"></image>
-          <text>{{videoList.length}}</text>
+          <text>{{vitotal}}</text>
         </view>
         <view class="data_item">
           <image src="/images/icon/smallHeart2.png"></image>
@@ -80,12 +80,12 @@
             <view class="item_t_shadow"></view>
             <view class="item_t_likeData">
               <image src="/images/icon/smallHeart2.png"></image>
-              <text>{{item.zan}}</text>
+              <text>{{item.voteNum}}</text>
             </view>
           </view>
           <view class="list_item_b">
             <text class="item_b_dot"></text>
-            <text>{{item.title}}</text>
+            <text>{{item.nickName}}</text>
           </view>
         </view>
       </block>
@@ -93,3 +93,8 @@
   </view>
 </view>
 <image class='ball' wx:if="{{isball}}"  bindtap='toactlist' src='/images/icon/shouye.png'></image>
+
+
+    <view class='toTop' wx:if="{{videoList.length>21}}" bindtap='toTop'>
+      <image src='/images/icon/toTop.png'></image>
+    </view> 

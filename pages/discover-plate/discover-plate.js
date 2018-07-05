@@ -216,7 +216,6 @@ Page({
     for (let i = 0; i < _data.length; i++) {
       if (id == _data[i].id) {
         zan = _data[i].zan;
-        console.log('_data[i]:', _data[i])
         if (!_data[i].isimg){
           // _data[i].clickvideo=true
           // this.setData({

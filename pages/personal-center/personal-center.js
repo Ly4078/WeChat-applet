@@ -39,7 +39,6 @@ Page({
 
   onShow: function () {
     let that = this;
-    
     if (!app.globalData.userInfo.unionId) {
       wx.login({
         success: res => {
@@ -138,7 +137,7 @@ Page({
         }
         Api.phoneAES(_pars).then((resv) => {
           if (resv.data.code == 0) {
-            // console.log('resv:', resv)
+            console.log('resv:', resv)
             that.setData({
               istouqu: false
             })
@@ -162,7 +161,7 @@ Page({
     })
   },
   bindGetUserInfo: function (e) {
-    // console.log(e.detail)
+    console.log(e.detail)
     this.updatauser(e.detail.userInfo)
   },
   updatauser: function (data) { //更新用户信息
@@ -198,6 +197,9 @@ Page({
             nickName: res.userInfo.nickName
           })
           let data = res.userInfo;
+         
+          delete data.city;
+          console.log("data:", data)
           for (let key in data) {
             for (let ind in app.globalData.userInfo) {
               if (key == ind) {
@@ -205,6 +207,7 @@ Page({
               }
             }
           };
+          console.log('app.globalData.userInfo:', app.globalData.userInfo)
           // that.updatauser(res.userInfo)
         }
       },
@@ -257,7 +260,7 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success: (res) => {
-
+        console.log('res:',res)
         if (res.data.status == 0) {
           this.setData({
             city: res.data.result.address_component.city,
@@ -265,7 +268,7 @@ Page({
             restaurant: [],
             service: []
           })
-          app.globalData.userInfo.city = res.data.result.address_component.city
+          // app.globalData.userInfo.city = res.data.result.address_component.city
         }
       }
     })

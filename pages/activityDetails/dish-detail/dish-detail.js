@@ -284,8 +284,14 @@ Page({
       })
       return false
     }
-    let _this = this;
-    let _parms = {
+    wx.showToast({
+      title: '',
+      mask: 'true',
+      duration: 2000,
+      icon: 'none'
+    })
+    let _this = this, _parms={};
+    _parms = {
       actId: this.data.actId,
       userId: this.data.voteUserId,
       skuId: this.data.skuId
@@ -327,8 +333,13 @@ Page({
       })
       return false
     }
-    let id = e.currentTarget.id;
-    let ind = '';
+    wx.showToast({
+      mask: 'true',
+      duration: 2000,
+      icon: 'none',
+      title: ''
+    })
+    let id = e.currentTarget.id,ind = '';
     for (let i = 0; i < this.data.comment_list.length; i++) {
       if (this.data.comment_list[i].id == id) {
         ind = i;

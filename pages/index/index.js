@@ -144,8 +144,17 @@ Page({
     this.activityBanner();
   },
   onShow: function () {
-    this.getshoplist('附近',2);
     let that = this, userInfo = app.globalData.userInfo;
+
+    if (!app.globalData.userInfo.lat && !app.globalData.userInfo.lng && !app.globalData.userInfo.city) {
+      this.getlocation();
+    } else {
+      this.setData({
+        city: app.globalData.userInfo.city
+      })
+    }
+    this.getshoplist('附近',2);
+   
     if (this.data.phone && this.data.veridyTime) {
       this.setData({
         userGiftFlag: false,
@@ -183,25 +192,7 @@ Page({
       })
     }
 
-    let lat = app.globalData.userInfo.lat;
-    let lng = app.globalData.userInfo.lng;
-    let city = app.globalData.userInfo.city;
-    if (city){
-      this.setData({
-        city: city
-      })
-    }
-    if (lat && lng && !city) {
-      setTimeout(function () {
-        that.requestCityName(lat, lng);
-        wx.removeStorageSync('lat');
-        wx.removeStorageSync('lng');
-      }, 500)
-    } else {
-      if (!app.globalData.userInfo.lat && !app.globalData.userInfo.lng && !app.globalData.userInfo.city) {
-        that.getlocation();
-      }
-    }
+
     
     
   },
@@ -433,7 +424,6 @@ Page({
                   }
                 }
               };
-              
               that.getmoredata();
               if (data && data.mobile) {
                 that.setData({
@@ -466,7 +456,6 @@ Page({
     this.getshoplist();
     this.gettopiclist();
     this.gettoplistFor();
-    this.getlocation();
 
     return false;
 
@@ -520,8 +509,10 @@ Page({
           vodeoarr = vodeoarr.slice(0, 3);
           for (let i in vodeoarr) {
             let _str = vodeoarr[i].title;
-            _str = _str.slice(0, 4);
-            vodeoarr[i].title = _str + '...';
+            if(_str.length>6){
+              _str = _str.slice(0, 6);
+              vodeoarr[i].title = _str + '...';
+            }
           }
           this.setData({
             videolist: vodeoarr
@@ -585,7 +576,7 @@ Page({
     let _parms = {
       locationX: app.globalData.userInfo.lng ? app.globalData.userInfo.lng : lng,
       locationY: app.globalData.userInfo.lat ? app.globalData.userInfo.lat : lat,
-      city: app.globalData.userInfo.city ? app.globalData.userInfo.city:'十堰',
+      city: app.globalData.userInfo.city,
       page: this.data._page,
       rows: 8
     }
@@ -621,19 +612,21 @@ Page({
             _data[i].activity = _data[i].ruleDescs ? _data[i].ruleDescs.join(',') : '';
             posts.push(_data[i])
           }
-       
-          let newarr = posts.slice(0, 3);
+          that.setData({
+            posts_key: posts
+          })
+          let _arrn = posts.slice(0, 3);
+          let newarr = _arrn.concat();
           for (let i in newarr) {
             let _str = newarr[i].shopName;
-            _str = _str.slice(0,4);
-            newarr[i].shopName = _str+'...';
+            if(_str.length>7){
+              _str = _str.slice(0, 7);
+              newarr[i].shopName = _str + '...';
+            }
           }
           that.setData({
-            posts_key: posts,
-            hotshop: newarr
-          })
-          
-          
+            hotshop: newarr,
+          });
         } else {
           this.setData({
             isclosure: false
@@ -738,7 +731,7 @@ Page({
         that.requestCityName(latitude, longitude);
       },
       fail: function (res) {
-        let lat = '30.51597', lng = '114.34035';
+        lat = '30.51597', lng = '114.34035';
         that.requestCityName(lat, lng);
       }
     })
@@ -754,13 +747,14 @@ Page({
       success: (res) => {
         if (res.data.status == 0) {
           let _city = res.data.result.address_component.city;
+          app.globalData.userInfo.city = _city;
           this.setData({
             city: _city,
             alltopics: [],
             restaurant: [],
             service: []
           })
-          app.globalData.userInfo.city = _city;
+          
           app.globalData.picker = res.data.result.address_component;
         }
       }
@@ -987,6 +981,7 @@ Page({
       // })
       
     } else if (id == 1) {
+      return false
       let img = '';
       let _arr = this.data.carousel;
       for (let i = 0; i < _arr.length; i++) {

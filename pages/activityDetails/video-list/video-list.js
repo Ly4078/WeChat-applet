@@ -22,30 +22,47 @@ Page({
     isball:true,
     issnap: false,
     isnew: false,
-    switchFlag: true
+    switchFlag: true,
+    vitotal:0
   },
   onLoad: function (options) {
     let dateStr = new Date();
     let milisecond = new Date(this.dateConv(dateStr)).getTime() + 86400000;
     this.setData({
-      userId: app.globalData.userInfo.userId,
-      userName: app.globalData.userInfo.mobile,
       today: this.dateConv(dateStr),
       tomorrow: this.dateConv(new Date(milisecond))
     });
+    //在此函数中获取扫描普通链接二维码参数
+    let q = decodeURIComponent(options.q);
+    console.log('q',q)
+    if (q) {
+      if (utils.getQueryString(q, 'flag') == 5) {
+        console.log(utils.getQueryString(q, 'actId'))
+        this.setData({
+          actId: utils.getQueryString(q, 'actId')
+        });
+      }
+    }else{
+      this.setData({
+        userId: app.globalData.userInfo.userId,
+        userName: app.globalData.userInfo.mobile,
+      });
+    }
   },
   onShow: function () {
+    if (!app.globalData.userInfo.mobile) {
+      this.getuserinfo();
+    }else{
+      this.videoInfo();
+      this.videoData();
+      this.videoList();
+    }
     this.setData({
       page: 1,
       videoList: [],
       flag: true
     });
-    if (!app.globalData.userInfo.mobile) {
-      this.getuserinfo();
-    }
-    this.videoInfo();
-    this.videoData();
-    this.videoList();
+    
   },
   toactlist() {
     wx.switchTab({
@@ -55,10 +72,10 @@ Page({
   videoInfo() {     //视频详情
     let _parms = {
       id: this.data.actId,
-      userId: this.data.userId,
-      userName: this.data.userName,
+      userId: app.globalData.userInfo.userId,
+      userName: app.globalData.userInfo.userName,
       sourceType: '1'
-    }
+    },that = this;
     Api.actdetail(_parms).then((res) => {
       let data = res.data;
       if (data.code == 0) {
@@ -74,13 +91,25 @@ Page({
           startTime: startTime,
           endTime: endTime
         });
+      }else{
+        // that.videoInfo();
       }
     });
+  },
+  //回到顶部
+  toTop() {
+    wx.pageScrollTo({
+      scrollTop: 1500,
+      duration: 300
+    })
+    this.setData({
+      _page: 1
+    })
   },
   videoData() {
     let _parms = {
       actId: this.data.actId
-    }
+    },that = this;
     Api.videoData(_parms).then((res) => {
       let data = res.data;
       if (data.code == 0) {
@@ -90,6 +119,8 @@ Page({
             actHitNum: data.data.actHitNum
           });
         }
+      }else{
+        // that.videoData();
       }
     });
   },
@@ -107,10 +138,10 @@ Page({
   videoList() {
     let _parms = {
       actId: this.data.actId,
-      zanUserId: this.data.userId,
+      zanUserId: app.globalData.userInfo.userId,
       page: this.data.page,
       rows: 6
-    }
+    },that=this;
     if (!this.data.switchFlag) {
       _parms['sortType'] = 1;
     }
@@ -119,9 +150,25 @@ Page({
       if (data.code == 0) {
         wx.hideLoading();
         let videoList = this.data.videoList, listData = data.data.list;
+        this.setData({
+          vitotal: data.data.total
+        })
         if (listData && listData.length){
+          let reg = /^1[34578][0-9]{9}$/;
           for (let i = 0; i < listData.length; i++) {
             videoList.push(listData[i]);
+            if (reg.test(videoList[i].nickName)) {
+              videoList[i].nickName = videoList[i].nickName.substr(0, 3) + "****" + videoList[i].nickName.substr(7)
+            }
+            if (reg.test(videoList[i].userName)) {
+               videoList[i].userName = videoList[i].userName.substr(0, 3) + "****" +  videoList[i].userName.substr(7)
+            }
+            if (!videoList[i].nickName){
+              videoList[i].nickName = videoList.userName;
+            }
+            if (videoList[i].nickName && videoList[i].nickName.length>11){
+              videoList[i].nickName = videoList[i].nickName.slice(0,11);
+            }
           }
           this.setData({
             videoList: videoList
@@ -132,6 +179,8 @@ Page({
             });
           }
         }
+      }else{
+        // that.videoList();
       }
     });
   },
@@ -239,14 +288,24 @@ Page({
           success: function (res) {
             if (res.data.code == 0) {
               let data = res.data.data;
-              for (let key in data) {
-                for (let ind in app.globalData.userInfo) {
-                  if (key == ind) {
-                    app.globalData.userInfo[ind] = data[key]
+              if(data){
+                for (let key in data) {
+                  for (let ind in app.globalData.userInfo) {
+                    if (key == ind) {
+                      app.globalData.userInfo[ind] = data[key]
+                    }
                   }
+                };
+                that.setData({
+                  userId: app.globalData.userInfo.userId,
+                  userName: app.globalData.userInfo.mobile,
+                });
+                if (!data.mobile) {
+                  that.setData({
+                    isnew: true
+                  })
                 }
-              };
-              if (!data.mobile) {
+              }else{
                 that.setData({
                   isnew: true
                 })
@@ -262,23 +321,13 @@ Page({
     wx.login({
       success: res => {
         Api.findByCode({ code: res.code }).then((res) => {
+          wx.hideLoading();
           if (res.data.code == 0) {
             if (res.data.data.unionId) {
               app.globalData.userInfo.unionId = res.data.data.unionId;
               that.getmyuserinfo();
-            } else {
-              wx.hideLoading();
-              that.setData({
-                istouqu: true
-              })
-            }
-          } else {
-            that.findByCode();
-            wx.hideLoading();
-            that.setData({
-              istouqu: true
-            })
-          }
+            } 
+          } 
         })
       }
     })

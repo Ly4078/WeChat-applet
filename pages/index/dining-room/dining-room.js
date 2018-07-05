@@ -59,15 +59,13 @@ Page({
     })
   },
   getData: function () {
-    let lat = '30.51597', lng = '114.34035';  //lat纬度   lng经度
-    console.log(app.globalData.userInfo)
     wx.showLoading({
       title: '数据加载中。。。',
       mask: true
     })
     let _parms = {
-      locationX: app.globalData.userInfo.lng ? app.globalData.userInfo.lng : lng,
-      locationY: app.globalData.userInfo.lat ? app.globalData.userInfo.lat : lat,
+      locationX: app.globalData.userInfo.lng,
+      locationY: app.globalData.userInfo.lat,
       city: app.globalData.userInfo.city,
       page: this.data.page ? this.data.page:1,
       rows: 8

@@ -16,6 +16,7 @@ Page({
     searchValue: '',
     page: 1,
     stage: 1,
+    sku:0,
     dishLish: [],
     playerList: [],
     sortType: 2,
@@ -26,7 +27,7 @@ Page({
   },
   onLoad: function (options) {
     // console.log("options:", options)
-    //在此函数中获取扫描普通链接二维码参数
+   
 
     let dateStr = new Date(),that = this;
     let milisecond = new Date(this.dateConv(dateStr)).getTime() + 86400000;
@@ -34,7 +35,10 @@ Page({
       today: this.dateConv(dateStr),
       tomorrow: this.dateConv(new Date(milisecond))
     });
+
+     //在此函数中获取扫描普通链接二维码参数
     let q = decodeURIComponent(options.q);
+    console.log('q:',q)
     if (q) {
       if (utils.getQueryString(q, 'flag') == 4) {
         console.log(utils.getQueryString(q, 'actId'))
@@ -98,6 +102,16 @@ Page({
     } else {
       this.getPlayerList();
     }
+  },
+  //回到顶部
+  toTop() {
+    wx.pageScrollTo({
+      scrollTop: 1500,
+      duration: 300
+    })
+    this.setData({
+      _page: 1
+    })
   },
   actInfo: function () {   //活动简介
     let _parms = {
@@ -231,10 +245,9 @@ Page({
         } else {
           this.setData({
             flag: false
-          });
+          })
         }
       } else {
-        console.log('12111111111')
         wx.showToast({
           title: '系统繁忙',
           mask: 'true',
@@ -388,7 +401,7 @@ Page({
         user: user
       });
     });
-    if (app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+    if (!app.globalData.userInfo.mobile) {
       this.setData({
         sku: 0,
         user: 0
@@ -433,26 +446,34 @@ Page({
           icon: 'none'
         })
         if (this.data.switchTab) {
-          let dishLish = this.data.dishLish;
+          let dishLish = this.data.dishLish,_num='';
           for (let i = 0; i < dishLish.length; i++) {
             if (dishLish[i].skuId == id) {
               dishLish[i].voteNum++;
             }
           }
+          _num = this.data.sku - 1;
+          if(_num<0){
+            _num =0;
+          }
           this.setData({
             dishLish: dishLish,
-            sku: this.data.sku - 1
+            sku: _num
           });
         } else {
-          let playerList = this.data.playerList;
+          let playerList = this.data.playerList,_num = '';;
           for (let i = 0; i < playerList.length; i++) {
             if (playerList[i].userId == id) {
               playerList[i].voteNum++;
             }
           }
+          _num = this.data.user - 1;
+          if (_num < 0) {
+            _num = 0;
+          }
           this.setData({
             playerList: playerList,
-            user: this.data.user - 1
+            user: _num
           });
         }
       }
@@ -602,22 +623,12 @@ Page({
     wx.login({
       success: res => {
         Api.findByCode({ code: res.code }).then((res) => {
+          wx.hideLoading();
           if (res.data.code == 0) {
             if (res.data.data.unionId) {
               app.globalData.userInfo.unionId = res.data.data.unionId;
-              that.getmyuserinfo();
-            } else {
-              wx.hideLoading();
-              that.setData({
-                istouqu: true
-              })
+              that.getmyuserinfo()
             }
-          } else {
-            that.findByCode();
-            wx.hideLoading();
-            that.setData({
-              istouqu: true
-            })
           }
         })
       }

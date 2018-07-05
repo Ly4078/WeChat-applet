@@ -2,7 +2,7 @@
 .all{
   background:rgba(235,235,235,1); 
 }
-.video_details video{
+.video_details video,.voimg{
   width:750rpx;
   height:1334rpx
 }

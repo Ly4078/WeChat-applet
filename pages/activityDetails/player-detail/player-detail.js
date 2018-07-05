@@ -252,6 +252,12 @@ Page({
       })
       return false
     }
+    wx.showToast({
+      mask: 'true',
+      icon: 'none',
+      title: '',
+      duration: 2000
+    })
     let _parms = {
       refId: id,
       type: 2,
@@ -264,7 +270,7 @@ Page({
           icon: 'none',
           title: '点赞成功',
           duration: 2000
-        }, 1500)
+        })
         for (let i = 0; i < article.length; i++) {
           if (id == article[i].id) {
             article[i].isZan++;
@@ -287,6 +293,12 @@ Page({
       })
       return false
     }
+    wx.showToast({
+      mask: 'true',
+      icon: 'none',
+      title: '',
+      duration: 2000
+    })
     let _parms = {
       refId: id,
       type: 2,
@@ -436,6 +448,12 @@ Page({
       })
       return false
     }
+    wx.showToast({
+      title: '',
+      mask: 'true',
+      duration: 2000,
+      icon: 'none'
+    })
     let _this = this;
     let _parms = {
       actId: this.data.actId,
@@ -450,7 +468,8 @@ Page({
         wx.showToast({
           title: '今天票数已用完,请明天再来',
           mask: 'true',
-          icon: 'none'
+          icon: 'none',
+          duration:2000
         })
         return false;
       }

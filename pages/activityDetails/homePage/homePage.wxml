@@ -94,3 +94,5 @@
     </view>
   </view>
 </view>
+
+<image class='ball' bindtap='toindex' src='/images/icon/shouye.png'></image>

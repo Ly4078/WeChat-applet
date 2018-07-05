@@ -112,3 +112,7 @@
   </view>
 </view>
 <image class='ball' wx:if="{{isball}}"  bindtap='toactlist' src='/images/icon/shouye.png'></image>
+
+<view class='toTop' wx:if="{{dishLish.length>21 || playerList.length>21}}" bindtap='toTop'>
+  <image src='/images/icon/toTop.png'></image>
+</view> 

@@ -22,7 +22,7 @@
     </view>
   </view>
   <view class='myList'>
-    <view class='myList-single' catchtap='aboutMe'>
+    <view class='myList-single'>
       <view>
         <image class='myListImages' src='/images/icon/guanfangwz.png'></image>
         <text class='mylistText'>官方网站</text>

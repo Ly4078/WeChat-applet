@@ -165,6 +165,7 @@ Page({
   },
   videoplay(e){
     let id = e.currentTarget.id, _data = this.data.articleList;
+    console.log("data:",_data)
     for (let i in _data){
       if (_data[i].content[0].type == 'video' || _data[i].topicType == 2) { //视频
         wx.redirectTo({
@@ -179,6 +180,11 @@ Page({
     }
     this.setData({
       articleList: _data
+    })
+  },
+  toindex() {
+    wx.switchTab({
+      url: '../../index/index',
     })
   },
   toDetails(e) {

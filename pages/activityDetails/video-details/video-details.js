@@ -20,7 +20,8 @@ Page({
     isball:false,
     isdtzan:false,
     videodata:[],
-    voteNum:0
+    voteNum:0,
+    _iconUrl:''
   },
 
   /**
@@ -44,6 +45,7 @@ Page({
       });
       this.gettopiclist(options.id);
       this.getcmtlist(options.id);
+     
     } else if (options.url){
       this.setData({
         videoUrl:options.url
@@ -52,29 +54,41 @@ Page({
   },
 
   /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-    
-  },
-
-  /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+    console.log("app.globalData.userInfo:", app.globalData.userInfo)
     if (!app.globalData.userInfo.mobile) {
       this.setData({
-        isball: true,
-        isball:true
+        isball: true
       })
       this.getuserinfo();
     }
+    this.getuserif();
   },
-  toactlist() {
+  getuserif:function(){
+    let that = this;
+    wx.request({  //从自己的服务器获取用户信息
+      url: this.data._build_url + 'user/get/' + this.data._userId,
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        if (res.data.code == 0) {
+          let data = res.data.data;
+          that.setData({
+            _iconUrl: data.iconUrl
+          })
+        }
+      }
+    })
+  },
+  toindex() {
     wx.switchTab({
       url: '../../index/index',
     })
   },
+  
   gettopiclist: function (id) {  //获取文章内容数据
     let _parms = {
       id: id,
@@ -116,9 +130,15 @@ Page({
     })
   },
   toplayer:function(){  //to个人主页
-    wx.redirectTo({
-      url: '../../activityDetails/homePage/homePage?actId=' + this.data._actId + '&userId=' + this.data._userId,
-    })
+    if (!app.globalData.userInfo.mobile) {
+      this.setData({
+        issnap: true
+      })
+    }else{
+      wx.redirectTo({
+        url: '../../activityDetails/homePage/homePage?actId=' + this.data._actId + '&userId=' + this.data._userId,
+      })
+    }
   },
   showArea() {
     if (!app.globalData.userInfo.mobile) {
@@ -253,6 +273,7 @@ Page({
       });
     });
   },
+
   toLike: function (e) {//评论点赞
     if (!app.globalData.userInfo.mobile) {
       this.setData({
@@ -260,6 +281,12 @@ Page({
       })
       return false
     }
+    wx.showToast({
+      mask: true,
+      icon: 'none',
+      title: '',
+      duration: 2000
+    })
     let id = e.currentTarget.id, ind = '';
     for (let i = 0; i < this.data.comment_list.length; i++) {
       if (this.data.comment_list[i].id == id) {
@@ -276,11 +303,52 @@ Page({
         wx.showToast({
           mask: true,
           icon: 'none',
-          title: '点赞成功'
-        }, 1500)
+          title: '点赞成功',
+          duration:2000
+        })
         var comment_list = this.data.comment_list;
         comment_list[ind].isZan = 1;
         comment_list[ind].zan++;
+        this.setData({
+          comment_list: comment_list
+        });
+      }
+    })
+  },
+  cancelLike(e) {  //取消点赞
+    console.log("cancelLike")
+    if (!app.globalData.userInfo.mobile) {
+      this.setData({
+        issnap: true
+      })
+      return false
+    }
+    let id = e.currentTarget.id,ind = '';
+    for (let i = 0; i < this.data.comment_list.length; i++) {
+      if (this.data.comment_list[i].id == id) {
+        ind = i;
+      }
+    }
+    let _parms = {
+      refId: id,
+      type: 4,
+      userId: app.globalData.userInfo.userId,
+    }
+    console.log("_parms:", _parms)
+    Api.zandelete(_parms).then((res) => {
+      if (res.data.code == 0) {
+        wx.showToast({
+          mask: 'true',
+          duration: 2000,
+          icon: 'none',
+          title: '点赞取消'
+        })
+        var comment_list = this.data.comment_list;
+        comment_list[ind].isZan = 0;
+        comment_list[ind].zan--;
+        if (comment_list[ind].zan <= 0) {
+          comment_list[ind].zan = 0;
+        }
         this.setData({
           comment_list: comment_list
         });
@@ -383,6 +451,7 @@ Page({
     }
   },
  
+ 
   getuserinfo() {
     wx.login({
       success: res => {
@@ -422,18 +491,25 @@ Page({
           success: function (res) {
             if (res.data.code == 0) {
               let data = res.data.data;
-              for (let key in data) {
-                for (let ind in app.globalData.userInfo) {
-                  if (key == ind) {
-                    app.globalData.userInfo[ind] = data[key]
+              if(data){
+                for (let key in data) {
+                  for (let ind in app.globalData.userInfo) {
+                    if (key == ind) {
+                      app.globalData.userInfo[ind] = data[key]
+                    }
                   }
+                };
+                if (!data.mobile) {
+                  that.setData({
+                    isnew: true
+                  })
                 }
-              };
-              if (!data.mobile) {
+              }else{
                 that.setData({
                   isnew: true
                 })
               }
+              
             }
           }
         })

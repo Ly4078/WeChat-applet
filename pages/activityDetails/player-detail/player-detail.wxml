@@ -72,7 +72,7 @@
                 <text class="act_likeNum">{{item.zan}}</text>
                 <image src="/images/icon/smallHeart.png"></image>
               </view>
-              <view class="act_info_like" wx:else id="{{item.id}}" bindtap='quxiaozanwz'>
+              <view class="act_info_like" wx:if="{{item.isZan != 0}}" id="{{item.id}}" bindtap='quxiaozanwz'>
                 <text class="act_likeNum">{{item.zan}}</text>
                 <image src="/images/icon/smallHeart2.png"></image>
               </view>

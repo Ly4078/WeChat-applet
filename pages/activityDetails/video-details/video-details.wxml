@@ -14,9 +14,10 @@
 <view class='all'>
 
   <view class='video_details'>
-    <video src='{{videodata.content[0].value?videodata.content[0].value:videoUrl}}' autoplay='true' contain='cover'></video>
+    <video wx:if="{{!issnap}}" src='{{videodata.content[0].value?videodata.content[0].value:videoUrl}}' autoplay='true' contain='cover'></video>
+    <image class='voimg' wx:if="{{issnap && isnew}}" src='{{videodata.homePic}}'></image>
     <view class='Players' bindtap='toplayer' wx:if="{{refId}}">
-        <image class='homePic' src='{{videodata.homePic}}'></image>
+        <image class='homePic' src='{{_iconUrl}}'></image>
         <text>{{videodata.nickName!='null'?videodata.nickName:videodata.userName}}</text>
         <image class='righticon' src='/images/icon/home_arrow.png'></image>
     </view>
@@ -74,4 +75,4 @@
   <textarea class="commentArea" placeholder='请输入评论' focus="{{isComment}}" bindinput="getCommentVal" cursor-spacing="50rpx" show-confirm-bar="false" fixed="true"></textarea>
   <button class='fasong' form-type="reset" catchtap="setcmtadd">发送</button>
 </form>
-<image class='ball' wx:if="{{isball}}"  bindtap='toactlist' src='/images/icon/shouye.png'></image>
+<image class='ball' bindtap='toindex' src='/images/icon/shouye.png'></image>

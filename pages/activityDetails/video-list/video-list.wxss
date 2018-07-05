@@ -33,11 +33,14 @@
 
 .awards_item {
   flex: 1;
-  margin-right: 18rpx;
+  margin-right: 23rpx;
   box-sizing: border-box;
   text-align: center;
   border-radius: 16rpx;
   overflow: hidden;
+}
+.awards_item:last-child{
+  margin: 0;
 }
 
 .awards_item_tit {
