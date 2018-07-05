@@ -74,6 +74,7 @@
 
 .data_item image {
   width: 28rpx;
+  display:inline-block;
   height: 22rpx;
   margin-right: 6rpx;
 }
@@ -93,9 +94,10 @@
   border-radius: 34rpx;
 }
 
-.addPlayBtn_inner image {
+.innerimg {
   width: 52rpx;
   height: 34rpx;
+  display:inline-block;
   margin-right: 10rpx;
   vertical-align: middle; 
 
@@ -144,7 +146,7 @@
 }
 
 .b_tab_item text {
-  display: inline-block;
+  /* display: inline-block; */
   box-sizing: border-box;
   font-size: 30rpx;
 }
@@ -156,22 +158,22 @@
 
 .b_list {
   width: 100%;
-  padding: 20rpx 21rpx 0 21rpx;
+  padding: 20rpx 0rpx 0 0rpx;
   box-sizing: border-box;
   display: flex;
   flex-wrap: wrap;
 }
 
 .list_item {
-  width: 33%;
+  width: 370rpx;
+  height: 600rpx;
   font-size: 20rpx;
-  margin-bottom: 32rpx;
-  padding: 0 7rpx;
+  margin: 1rpx;
   box-sizing: border-box;
 }
 
 .list_item_t {
-  height: 310rpx;
+  height: 100%;
   width: 100%;
   position: relative;
   color: #fff;
@@ -179,7 +181,7 @@
 
 .list_item_bg {
   height: 100%;
-  width: 100%;
+  max-width: 100%;
 }
 
 .item_t_shadow {

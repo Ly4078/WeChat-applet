@@ -34,10 +34,9 @@ Page({
     });
     //在此函数中获取扫描普通链接二维码参数
     let q = decodeURIComponent(options.q);
-    console.log('q',q)
     if (q) {
       if (utils.getQueryString(q, 'flag') == 5) {
-        console.log(utils.getQueryString(q, 'actId'))
+        console.log(utils.getQueryString(q, 'actId'));
         this.setData({
           actId: utils.getQueryString(q, 'actId')
         });
@@ -145,11 +144,13 @@ Page({
     if (!this.data.switchFlag) {
       _parms['sortType'] = 1;
     }
+    console.log("_parms:",_parms)
     Api.videoList(_parms).then((res) => {
       let data = res.data;
       if (data.code == 0) {
         wx.hideLoading();
         let videoList = this.data.videoList, listData = data.data.list;
+
         this.setData({
           vitotal: data.data.total
         })
@@ -157,15 +158,16 @@ Page({
           let reg = /^1[34578][0-9]{9}$/;
           for (let i = 0; i < listData.length; i++) {
             videoList.push(listData[i]);
+            
             if (reg.test(videoList[i].nickName)) {
               videoList[i].nickName = videoList[i].nickName.substr(0, 3) + "****" + videoList[i].nickName.substr(7)
             }
             if (reg.test(videoList[i].userName)) {
                videoList[i].userName = videoList[i].userName.substr(0, 3) + "****" +  videoList[i].userName.substr(7)
             }
-            if (!videoList[i].nickName){
-              videoList[i].nickName = videoList.userName;
-            }
+            // if (videoList[i].nickName == 'null' || !videoList[i].nickName){
+            //   videoList[i].nickName = videoList.userName[i];
+            // }
             if (videoList[i].nickName && videoList[i].nickName.length>11){
               videoList[i].nickName = videoList[i].nickName.slice(0,11);
             }

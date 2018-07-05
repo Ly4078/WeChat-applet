@@ -447,8 +447,10 @@ Page({
         userId: app.globalData.userInfo.userId,
         summary: _title,
         homePic: _coverimg ? _coverimg : this.data.defaimg,
-        userName: app.globalData.userInfo.userName,
-        nickName: app.globalData.userInfo.nickName
+        userName: app.globalData.userInfo.userName
+      }
+      if (app.globalData.userInfo.nickName){
+        _parms.nickName=app.globalData.userInfo.nickName
       }
       wx.showLoading({
         title: '正在提交...',

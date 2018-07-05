@@ -52,7 +52,7 @@
               <image src="{{iconUrl}}"></image>
               <view>
                 <view class="list_item_name">{{nickName?nickName:userName}}</view>
-                <view class="list_item_time">15分钟前</view>
+                <view class="list_item_time">{{item.timeDiffrence}}</view>
               </view>
             </view>
             <view wx:if="{{item.isZan == 0}}" class="list_item_top_r" id="{{item.id}}" bindtap='dianzanwz'>

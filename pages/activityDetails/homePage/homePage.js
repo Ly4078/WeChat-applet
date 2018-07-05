@@ -133,11 +133,13 @@ Page({
     };
     Api.myArticleList(_parms).then((res) => {
       let data = res.data, list = data.data.list, articleList = this.data.articleList;
+
       if (data.code == 0) {
         wx.hideLoading();
         if (list != null && list != "" && list != []) {
           for (let i = 0; i < list.length; i++) {
             list[i].content = JSON.parse(list[i].content);
+            list[i].timeDiffrence = utils.timeDiffrence(res.data.currentTime, list[i].updateTime, list[i].createTime)
             list[i].isImg = true;
             if (list[i].content[0].type == 'video') {
               list[i].isImg = false;
@@ -165,7 +167,6 @@ Page({
   },
   videoplay(e){
     let id = e.currentTarget.id, _data = this.data.articleList;
-    console.log("data:",_data)
     for (let i in _data){
       if (_data[i].content[0].type == 'video' || _data[i].topicType == 2) { //视频
         wx.redirectTo({

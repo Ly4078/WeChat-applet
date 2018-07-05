@@ -40,10 +40,10 @@
         </view>
       </view>
       <view class="top_data">
-        <view class="data_item">
+         <!-- <view class="data_item">
           <image src="/images/icon/play.png"></image>
           <text>{{vitotal}}</text>
-        </view>
+        </view>  -->
         <view class="data_item">
           <image src="/images/icon/smallHeart2.png"></image>
           <text>{{zanTotal}}</text>
@@ -55,7 +55,7 @@
       </view>
       <view class="addPlayBtn">
         <view class="addPlayBtn_inner" bindtap='addVideo'>
-          <image src="/images/icon/camera2.png"></image>
+          <image class='innerimg' src="/images/icon/camera2.png"></image>
           <text>参与活动</text>
         </view>
       </view>
@@ -83,10 +83,10 @@
               <text>{{item.voteNum}}</text>
             </view>
           </view>
-          <view class="list_item_b">
+          <!-- <view class="list_item_b">
             <text class="item_b_dot"></text>
-            <text>{{item.nickName}}</text>
-          </view>
+            <text>{{item.nickName==null || !item.nickName?item.userName:item.nickName}}</text>
+          </view> -->
         </view>
       </block>
     </view>

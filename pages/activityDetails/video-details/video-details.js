@@ -21,7 +21,8 @@ Page({
     isdtzan:false,
     videodata:[],
     voteNum:0,
-    _iconUrl:''
+    _iconUrl:'',
+    _nickName:''
   },
 
   /**
@@ -57,7 +58,6 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    console.log("app.globalData.userInfo:", app.globalData.userInfo)
     if (!app.globalData.userInfo.mobile) {
       this.setData({
         isball: true
@@ -75,9 +75,21 @@ Page({
       },
       success: function (res) {
         if (res.data.code == 0) {
-          let data = res.data.data;
+          let data = res.data.data, reg = /^1[34578][0-9]{9}$/, _nickName='';
+          if (data.nickName && reg.test(data.nickName)) {
+            data.nickName = data.nickName.substr(0, 3) + "****" + data.nickName.substr(7)
+          }
+          if (data.userName && reg.test(data.userName)) {
+            data.userName = data.userName.substr(0, 3) + "****" + data.userName.substr(7)
+          }
+          if (data.nickName == 'null' || !data.nickName){
+            _nickName = data.userName;
+          }else{
+            _nickName = data.nickName;
+          }
           that.setData({
-            _iconUrl: data.iconUrl
+            _iconUrl: data.iconUrl,
+            _nickName: _nickName
           })
         }
       }
@@ -316,7 +328,6 @@ Page({
     })
   },
   cancelLike(e) {  //取消点赞
-    console.log("cancelLike")
     if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
@@ -334,7 +345,6 @@ Page({
       type: 4,
       userId: app.globalData.userInfo.userId,
     }
-    console.log("_parms:", _parms)
     Api.zandelete(_parms).then((res) => {
       if (res.data.code == 0) {
         wx.showToast({

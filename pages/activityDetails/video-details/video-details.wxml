@@ -18,7 +18,7 @@
     <image class='voimg' wx:if="{{issnap && isnew}}" src='{{videodata.homePic}}'></image>
     <view class='Players' bindtap='toplayer' wx:if="{{refId}}">
         <image class='homePic' src='{{_iconUrl}}'></image>
-        <text>{{videodata.nickName!='null'?videodata.nickName:videodata.userName}}</text>
+        <text>{{_nickName}}</text>
         <image class='righticon' src='/images/icon/home_arrow.png'></image>
     </view>
     <view class='introduction' wx:if="{{refId}}">
