@@ -34,9 +34,10 @@ Page({
         isshop: true
       })
     }
-    this.getuserInfo()
+    this.getuserInfo();
+    // this.personalInit();
   },
-
+  // onShow:function(){},
   onShow: function () {
     let that = this;
     if (!app.globalData.userInfo.unionId) {
@@ -99,11 +100,13 @@ Page({
         rows: 1,
       },
       success: function (res) {
-        let _total = res.data.data.total
-        _total = utils.million(_total)
-        that.setData({
-          sumTotal: _total
-        })
+        let _total = res.data.data.total;
+        _total = utils.million(_total);
+        if (app.globalData.isflag) {
+          that.setData({
+            sumTotal: _total
+          })
+        }
       }
     })
     wx.request({
@@ -128,7 +131,6 @@ Page({
     wx.getUserInfo({
       withCredentials: true,
       success: function (res) {
-        // console.log('res111:',res)
         that.updatauser(res.userInfo);
         let _pars = {
           sessionKey: app.globalData.userInfo.sessionKey,
@@ -137,7 +139,6 @@ Page({
         }
         Api.phoneAES(_pars).then((resv) => {
           if (resv.data.code == 0) {
-            console.log('resv:', resv)
             that.setData({
               istouqu: false
             })
@@ -161,7 +162,6 @@ Page({
     })
   },
   bindGetUserInfo: function (e) {
-    console.log(e.detail)
     this.updatauser(e.detail.userInfo)
   },
   updatauser: function (data) { //更新用户信息
@@ -199,7 +199,6 @@ Page({
           let data = res.userInfo;
          
           delete data.city;
-          console.log("data:", data)
           for (let key in data) {
             for (let ind in app.globalData.userInfo) {
               if (key == ind) {
@@ -207,7 +206,6 @@ Page({
               }
             }
           };
-          console.log('app.globalData.userInfo:', app.globalData.userInfo)
           // that.updatauser(res.userInfo)
         }
       },
@@ -223,7 +221,7 @@ Page({
     }
     wx.getSetting({
       success: (res) => {
-        if (!res.authSetting['scope.userLocation']) {// 用户未授受获取其用户信息
+        if (!res.authSetting['scope.userLocation']) {// 用户未授受获取其用户位置信息
           wx.showModal({
             title: '提示',
             content: '授权获得更多功能和体验',
@@ -260,10 +258,11 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success: (res) => {
-        console.log('res:',res)
         if (res.data.status == 0) {
+          let _city = res.data.result.address_component.city;
+          app.globalData.userInfo.city = _city;
           this.setData({
-            city: res.data.result.address_component.city,
+            city: _city,
             alltopics: [],
             restaurant: [],
             service: []

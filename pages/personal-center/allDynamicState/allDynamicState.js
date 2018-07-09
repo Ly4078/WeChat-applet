@@ -24,43 +24,46 @@ Page({
   },
   getList: function() {
     let that = this;
-    wx.request({
-      url: that.data._build_url + 'topic/myList',
-      method: 'GET',
-      data: {
-        userId: app.globalData.userInfo.userId,
-        page: that.data.page,
-        rows: 5
-      },
-      success: function(res) {
-        var data = res.data; 
-        if (data.code == 0 && data.data.list != null && data.data.list != "" && data.data.list != []) {
-          let article_list = that.data.article_list;
-          for (let i = 0; i < data.data.list.length; i++) {
-            let list_item = data.data.list[i]; 
-            list_item.summary = utils.uncodeUtf16(list_item.summary)
-            list_item.content = utils.uncodeUtf16(list_item.content)
-            list_item.timeDiffrence = utils.timeDiffrence(data.currentTime, list_item.updateTime, list_item.createTime);
-            list_item.isplay=false;
-            article_list.push(list_item);
+    if (app.globalData.isflag) {
+      wx.request({
+        url: that.data._build_url + 'topic/myList',
+        method: 'GET',
+        data: {
+          userId: app.globalData.userInfo.userId,
+          page: that.data.page,
+          rows: 5
+        },
+        success: function (res) {
+          var data = res.data;
+          if (data.code == 0 && data.data.list != null && data.data.list != "" && data.data.list != []) {
+            let article_list = that.data.article_list;
+            for (let i = 0; i < data.data.list.length; i++) {
+              let list_item = data.data.list[i];
+              list_item.summary = utils.uncodeUtf16(list_item.summary)
+              list_item.content = utils.uncodeUtf16(list_item.content)
+              list_item.timeDiffrence = utils.timeDiffrence(data.currentTime, list_item.updateTime, list_item.createTime);
+              list_item.isplay = false;
+              article_list.push(list_item);
 
+            }
+            that.setData({
+              article_list: article_list,
+              reFresh: true
+            });
+          } else {
+            that.setData({
+              reFresh: false
+            });
           }
-          that.setData({
-            article_list: article_list,
-            reFresh: true
-          });
-        } else {
-          that.setData({
-            reFresh: false
-          });
+          if (that.data.page == 1) {
+            wx.stopPullDownRefresh();
+          } else {
+            wx.hideLoading();
+          }
         }
-        if(that.data.page == 1) {
-          wx.stopPullDownRefresh();
-        } else {
-          wx.hideLoading();
-        }
-      }
-    })
+      })
+    }
+   
   },
   deleteMode: function (e) {    //删除文章
     let id = e.currentTarget.id, that = this;
@@ -91,7 +94,6 @@ Page({
     let _data = this.data.article_list, zan = '',userid='';
     for (let i = 0; i < _data.length; i++) {
       if (id == _data[i].id) {
-        console.log(_data[i])
         zan = _data[i].zan;
         userid = _data[i].userId;
       }

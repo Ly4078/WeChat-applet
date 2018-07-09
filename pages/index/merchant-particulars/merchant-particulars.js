@@ -343,6 +343,7 @@ Page({
       _parms = {
         shopId: this.data.shopid,
         page: this.data.article_page,
+        zanUserId: app.globalData.userInfo.userId,
         rows: 5
       }
     Api.myArticleList(_parms).then((res) => {
@@ -424,15 +425,68 @@ Page({
       url: 'preview-picture/preview-picture?id=' + this.data.store_details.id,
     })
   },
-  //腾讯地图
+  //打开地图导航
   TencentMap: function (event) {
+    let that = this;
+
+    wx.getSetting({
+      success: (res) => {
+        if (!res.authSetting['scope.userLocation']) {// 用户未授受获取其用户位置信息
+          wx.showModal({
+            title: '提示',
+            content: '授权获得更多功能和体验',
+            success: function (res) {
+              if (res.confirm) {
+                wx.openSetting({  //打开授权设置界面
+                  success: (res) => {
+                    if (res.authSetting['scope.userLocation']) {
+                      wx.getLocation({
+                        type: 'wgs84',
+                        success: function (res) {
+                          let latitude = res.latitude;
+                          let longitude = res.longitude;
+                          that.requestCityName(latitude, longitude);
+                        }
+                      })
+                    }
+                  }
+                })
+              }
+            }
+          })
+        }else{
+          this.openmap();
+        }
+      }
+    })
+
+  },
+  //获取城市
+  requestCityName(lat, lng) {//获取当前城市
+    let that = this;
+    wx.request({
+      url: 'https://apis.map.qq.com/ws/geocoder/v1/?location=' + lat + "," + lng + "&key=4YFBZ-K7JH6-OYOS4-EIJ27-K473E-EUBV7",
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: (res) => {
+        if (res.data.status == 0) {
+          let _city = res.data.result.address_component.city;
+          // app.globalData.userInfo.city = _city;
+          this.openmap();
+        }
+      }
+    })
+  },
+  //打开地图
+  openmap:function(){
     let that = this;
     wx.getLocation({
       type: 'gcj02',
       success: function (res) {
-        var latitude = res.latitude
-        var longitude = res.longitude
-        var storeDetails = that.data.store_details
+        let latitude = res.latitude;
+        let longitude = res.longitude;
+        let storeDetails = that.data.store_details
         wx.openLocation({
           longitude: storeDetails.locationX,
           latitude: storeDetails.locationY,
@@ -440,7 +494,7 @@ Page({
           name: storeDetails.shopName,
           address: storeDetails.address,
           success: function (res) {
-            console.log(res)
+            console.log('打开地图成功')
           }
         })
       }
@@ -712,7 +766,7 @@ Page({
       issnap: false
     })
     if (id == 1) {
-      wx.redirectTo({
+      wx.navigateTo({
         url: '/pages/personal-center/registered/registered'
       })
     }

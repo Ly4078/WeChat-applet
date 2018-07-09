@@ -178,10 +178,28 @@ Page({
       maxDuration: 60,
       camera: ['front', 'back'],
       success: function (res) {
+        console.log('res:',res)
+        
+        let videores = res;
+        if (res.duration*1<3){
+          wx.showToast({
+            title: '视频时长过短，请重新选择上传',
+            icon:'none',
+            duration:2000
+          })
+          return false;
+        }
+        if(res.duration*1>30){
+          wx.showToast({
+            title: '视频时长过长，请重新选择上传',
+            icon: 'none',
+            duration: 2000
+          })
+          return false;
+        }
         that.setData({
           isprogress: true
         })
-        let videores = res;
         timer = setInterval(()=>{
           let _per = that.data.percent;
           if (_per == 99){
@@ -533,7 +551,7 @@ Page({
     Api.addVideo(_parms).then((res) => {
       if (res.data.code == 0) {
         wx.redirectTo({
-          url: '../../activityDetails/video-list/video-list?actId=38&id=' + _parms.topicId
+          url: '../../activityDetails/video-list/video-list?actId=' + _parms.actId+'&id=' + _parms.topicId
         })
       }
     });

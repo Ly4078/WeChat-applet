@@ -258,7 +258,7 @@ Page({
       issnap: false
     })
     if (id == 1) {
-      wx.redirectTo({
+      wx.navigateTo({
         url: '/pages/personal-center/registered/registered'
       })
     }

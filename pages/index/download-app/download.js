@@ -5,7 +5,7 @@ Page({
    */
   data: {
     deimg: "https://xq-1256079679.file.myqcloud.com/test_363956872334670392_0.8.jpg",
-    deimgid1:'https://xq-1256079679.file.myqcloud.com/test_88963106746401929_0.8.jpg',
+    deimgid1:'https://xq-1256079679.file.myqcloud.com/test_475469268182967488_0.3.jpg',
     isdown: false,
     _value:'https://xqmp4-1256079679.file.myqcloud.com/xiangqi_H567B9652_0702190916.apk'
   },

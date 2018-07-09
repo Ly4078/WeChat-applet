@@ -26,29 +26,6 @@ Page({
         url: '../../index/index'
       })
     }
-    // if (!app.globalData.userInfo.userId){
-    //   wx.login({
-    //     success: res => {
-    //       if (res.code) {
-    //         let _parms = {
-    //           code: res.code
-    //         }
-    //         let that = this;
-    //         Api.getOpenId(_parms).then((res) => {
-    //           app.globalData.userInfo.openId = res.data.data.openId;
-    //           app.globalData.userInfo.sessionKey = res.data.data.sessionKey;
-    //           if (res.data.data.unionId) {
-    //             app.globalData.userInfo.unionId = res.data.data.unionId;
-    //             that.getmyuserinfo();
-    //           } else {
-    //             that.findByCode();
-    //             wx.hideLoading();
-    //           }
-    //         })
-    //       }
-    //     }
-    //   })
-    // }
   },
   findByCode: function () {
     let that = this;
@@ -271,6 +248,7 @@ Page({
           userId: app.globalData.userInfo.userId,
           userName: app.globalData.userInfo.userName
         }
+        console.log("_parms:", _parms)
         Api.isVerify(_parms).then((res) => {
           if (res.data.code == 0) {
             app.globalData.userInfo.userId = res.data.data
@@ -289,8 +267,12 @@ Page({
                       }
                     }
                   };
+                  console.log('data:',data)
                   if (data.mobile) {
-                    that.newUserToGet();
+                    // that.newUserToGet();
+                    wx.navigateBack({
+                      data:1
+                    })
                   }
                   // wx.switchTab({
                   //   url: '../personal-center'

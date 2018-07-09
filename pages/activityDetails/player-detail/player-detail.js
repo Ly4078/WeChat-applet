@@ -155,10 +155,21 @@ Page({
     };
     Api.playerDetails(_parms).then((res) => {
       if (res.data.code == 0) {
-        let data = res.data.data;
+        let data = res.data.data,reg = /^1[34578][0-9]{9}$/,_nickName='';
+        if (data.nickName && reg.test(data.nickName)) {
+          data.nickName = data.nickName.substr(0, 3) + "****" + data.nickName.substr(7)
+        }
+        if (data.userName && reg.test(data.userName)) {
+          data.userName = data.userName.substr(0, 3) + "****" + data.userName.substr(7)
+        }
+        if (data.nickName=='null' || !data.nickName){
+          _nickName = data.userName
+        }else{
+          _nickName = data.nickName
+        }
         this.setData({
           refId: data.id,
-          nickName: data.nickName,
+          nickName: _nickName,
           iconUrl: data.iconUrl,
           sex: data.sex,
           age: data.age,
@@ -193,32 +204,34 @@ Page({
     });
   },
   articleList() {
-    let _parms = {
-      zanUserId: this.data.voteUserId,
-      userId: this.data.userId,
-      page: 1,
-      rows: 10
-    };
-    Api.myArticleList(_parms).then((res) => {
-      
-      if(res.data.code == 0) {
-        let _data = res.data.data, videoarr = [], articlearr=[];
-        for (let i in _data.list){
+    if (app.globalData.isflag) {
+      let _parms = {
+        zanUserId: this.data.voteUserId,
+        userId: this.data.userId,
+        page: 1,
+        rows: 10
+      };
+      Api.myArticleList(_parms).then((res) => {
+        if (res.data.code == 0) {
+          let _data = res.data.data, videoarr = [], articlearr = [];
+          for (let i in _data.list) {
 
-          _data.list[i].content = JSON.parse(_data.list[i].content);
-          if (_data.list[i].content[0].type == 'video' || _data.list[i].topicType == 2) { //视频
-            videoarr.push(_data.list[i])
-          } else if (_data.list[i].content[0].type == 'img' || _data.list[i].topicType == 1) { //文章
-            articlearr.push(_data.list[i])
+            _data.list[i].content = JSON.parse(_data.list[i].content);
+            if (_data.list[i].content[0].type == 'video' || _data.list[i].topicType == 2) { //视频
+              videoarr.push(_data.list[i])
+            } else if (_data.list[i].content[0].type == 'img' || _data.list[i].topicType == 1) { //文章
+              articlearr.push(_data.list[i])
+            }
           }
+
+          this.setData({
+            article: videoarr,
+            articleNum: _data.total
+          });
         }
-        
-        this.setData({
-          article: videoarr,
-          articleNum: _data.total
-        });
-      } 
-    });
+      });
+    }
+    
   },
   previewImg(e) {
     let id = e.target.id, imgArr = this.data.imgArr, imgUrls = [], idx = 0;
@@ -240,9 +253,16 @@ Page({
       })
       return false
     }
-    wx.navigateTo({
-      url: '../../discover-plate/dynamic-state/dynamic-state?id=2&actId=37'
-    })
+    if (app.globalData.isflag){
+      wx.navigateTo({
+        url: '../../discover-plate/dynamic-state/dynamic-state?id=2&actId=37'
+      })
+    }else{
+      wx.showToast({
+        title: '功能开发中...',
+        icon:'none'
+      })
+    }
   },
   dianzanwz: function (e) {  //文章点赞
     let id = e.currentTarget.id, article = this.data.article;
@@ -635,7 +655,7 @@ Page({
       issnap: false
     })
     if (id == 1) {
-      wx.redirectTo({
+      wx.navigateTo({
         url: '/pages/personal-center/registered/registered'
       })
     }

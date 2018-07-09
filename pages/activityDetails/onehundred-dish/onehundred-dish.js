@@ -38,7 +38,6 @@ Page({
 
      //在此函数中获取扫描普通链接二维码参数
     let q = decodeURIComponent(options.q);
-    console.log('q:',q)
     if (q) {
       if (utils.getQueryString(q, 'flag') == 4) {
         console.log(utils.getQueryString(q, 'actId'))
@@ -68,14 +67,20 @@ Page({
         voteUserId: app.globalData.userInfo.userId,
         userName: app.globalData.userInfo.mobile
       });
+      this.availableVote();
     } else if (options.voteUserId) {
       this.setData({
         voteUserId: options.voteUserId,
         userName: options.userName
       });
     }
+    this.onehundredInit();
+    
   },
-  onShow: function () {
+  onShow:function(){
+   
+  },
+  onehundredInit: function () {
     let that = this;
     if (!app.globalData.userInfo.mobile) {
       this.getuserinfo();
@@ -96,7 +101,6 @@ Page({
       playerList: []
     });
     this.actInfo();
-    this.availableVote();
     if (this.data.switchTab) {
       this.getDishList();
     } else {
@@ -541,7 +545,7 @@ Page({
       issnap: false
     })
     if (id == 1) {
-      wx.redirectTo({
+      wx.navigateTo({
         url: '/pages/personal-center/registered/registered'
       })
     }
@@ -607,6 +611,10 @@ Page({
                   }
                 }
               };
+              that.setData({
+                voteUserId: app.globalData.userInfo.userId
+              });
+              that.availableVote();
               if (!data.mobile) {
                 that.setData({
                   isnew: true

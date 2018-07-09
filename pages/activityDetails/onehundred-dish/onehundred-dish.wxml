@@ -22,7 +22,7 @@
         </view>
         <view class="stage_dot"></view>
         <view class="stage_line"></view>
-        <view class="stage_date">7月2日-7月30日</view>
+        <view class="stage_date">7月9日-8月8日</view>
       </view>
       <view class="stage_box {{stage == 2 ? 'active' : ''}}">
         <view class="stage_txt">
@@ -31,7 +31,7 @@
         </view>
         <view class="stage_dot"></view>
         <view class="stage_line"></view>
-        <view class="stage_date">8月1日-8月25日</view>
+        <view class="stage_date">8月9日-8月27日</view>
       </view>
       <view class="stage_box {{stage == 3 ? 'active' : ''}}">
         <view class="stage_txt">
@@ -40,7 +40,7 @@
         </view>
         <view class="stage_dot"></view>
         <view class="stage_line"></view>
-        <view class="stage_date">8月26日-9月25日</view>
+        <view class="stage_date">8月28日-9月25日</view>
       </view>
     </view>
     <view class="hot_description">
@@ -49,7 +49,7 @@
         <view class="awards_setting"><text class="icon"></text> 100菜奖项设置</view>
         <text>1、对网络人气和专家评审非常高的餐饮企业，颁发相应的证书\n2、十堰"特色招牌菜"10名：颁发奖牌，并给予奖励\n3、十堰"招牌菜"90名：颁发奖牌\n4、每道"特色招牌菜"《汽车之旅十堰食典》专刊均用2-3个整版介绍、每道"招牌菜"用1个整版专题介绍\n5、享7美食平台给予前十招牌菜餐饮企业价值2万元的宣传推广奖励，含享7平台首页推荐位/banner10天，免费美食直播3次\n6、享7美食平台给予11-100名招牌菜餐饮企业价值1万元的宣传推广奖励，含享7平台首推荐位10天，免费美食直播2次\n</text>
         <view class="awards_setting"><text class="icon"></text> 美食天使奖项设置(根据人气排名)</view>
-        <text>一等奖1名：奖3万元 (现金+奖品)\n二等奖1名：奖2万元 (现金+奖品)\n三等奖1名：奖1万元 (现金+奖品)\n优秀奖7名：平分4万元 (现金+奖品)\n前三名获奖选手可以成为享7美食平台下半年拍摄广告片主角
+        <text>一等奖1名：价值2万元奖品\n二等奖1名：价值1.2万元奖品\n三等奖1名：价值8千元奖品\n优秀奖7名：各奖价值3000元奖品\n前三名获奖选手可以成为享7美食平台下半年拍摄广告片主角
         </text>
       </view>
       <view class="hot_desc_btn">
@@ -75,18 +75,6 @@
         <view class="{{!switchTab?'active':''}}" bindtap='dishTab' id="2">选手</view>
       </view>
       <view class="hot_list_search">
-        <!-- 下拉菜单隐藏掉以后会用到 -->
-        <!-- <view class='select' wx:if="{{switchTab}}">
-          <view class="select_text" bindtap='isShowOption'>
-            <text>{{selected}}</text>
-            <image src="/images/icon/restaurant_arrow.png"></image>
-          </view>
-          <view class="options_box {{isOption ? 'show' : 'hide'}}">
-            <block wx:for="{{city}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
-              <view class='option' id="{{item.id}}" bindtap='selectCity'>{{item.name}}</view>
-            </block>
-          </view>
-        </view> -->
         <input placeholder="请输入编号、名称" bindconfirm="searchList" bindinput="getInputVal" value="{{searchValue}}"></input>
         <image src="/images/icon/hot_search.png" bindtap="searchList"></image>
       </view>

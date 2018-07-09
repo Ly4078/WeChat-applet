@@ -158,20 +158,26 @@
 
 .b_list {
   width: 100%;
-  padding: 20rpx 0rpx 0 0rpx;
+  background: #fff;
   box-sizing: border-box;
   display: flex;
   flex-wrap: wrap;
 }
 
 .list_item {
-  width: 370rpx;
+  width: 374rpx;
   height: 600rpx;
   font-size: 20rpx;
   margin: 1rpx;
-  box-sizing: border-box;
+}
+.list_item:nth-child(1), .list_item:nth-child(2){
+  margin-top: 0;
 }
 
+.list_item:nth-child(n+1){
+  float: right;
+   margin-right: 0;
+}
 .list_item_t {
   height: 100%;
   width: 100%;

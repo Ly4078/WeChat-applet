@@ -16,7 +16,7 @@
     <button class="shareIcon" open-type="share">
       <image class='shareIcon-IMG' src='/images/icon/share.png'></image>
     </button>
-    <image class='cateImages' mode="aspectFill" src='{{store_details.logoUrl}}'></image>
+    <image class='cateImages' mode="aspectFill" src='{{store_details.indexUrl?store_details.indexUrl:store_details.logoUrl}}'></image>
     <text class='wrapImages'>共<text>{{store_images}}</text>张</text>
   </view>
   <view>
@@ -36,7 +36,7 @@
     </view>
   </view>
   <view class='locationWrap'>
-    <image class='location-left' src='/images/icon/location.png'></image>
+    <image class='location-left' catchtap='TencentMap' src='/images/icon/location.png'></image>
     <text class='location-text' catchtap='TencentMap'>{{store_details.address}}</text>
     <text class='cut-off0-rule'></text>
     <image class='location-right' bindtap="calling" src='/images/icon/telephone.png'></image>

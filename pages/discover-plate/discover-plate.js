@@ -19,7 +19,7 @@ Page({
     placeholderFlag: true,
     issnap: false,  
   },
-  onLoad: function () {
+  onShow: function () {
 
   },
   onPageScroll:function(){
@@ -36,7 +36,7 @@ Page({
       })
     }
   },
-  onShow: function (options) {
+  onLoad: function (options) {
     let that = this;
     if (!app.globalData.userInfo.unionId){
       wx.login({
@@ -127,66 +127,69 @@ Page({
     })
   },
   getfood: function (_type, data) {
-    let that = this
-    wx.showLoading({
-      title:'数据加载中。。。',
-      mask:true
-    })
-    let _parms = {
-      page: this.data.page,
-      row: 8
-    }
-    if (this.data.choicetype) {
-      _parms.choiceType = this.data.choicetype
-    }
-    if (this.data.sortype) {
-      _parms.sortType = this.data.sortype
-    }
-    Api.topiclist(_parms).then((res) => {
-      let _data = this.data.food
-      if (res.data.code == 0){
-        wx.hideLoading()
-        if (res.data.data.list != null && res.data.data.list != "" && res.data.data.list != []) {
-          let footList = res.data.data.list;
-          for (let i = 0; i < footList.length; i++) {
-            footList[i].summary = utils.uncodeUtf16(footList[i].summary);
-            footList[i].content = utils.uncodeUtf16(footList[i].content);
-            footList[i].timeDiffrence = utils.timeDiffrence(res.data.currentTime, footList[i].updateTime, footList[i].createTime)
-            footList[i].content = JSON.parse(footList[i].content)
-            footList[i].hitNum = utils.million(footList[i].hitNum)
-            footList[i].commentNum = utils.million(footList[i].commentNum)
-            footList[i].transNum = utils.million(footList[i].transNum)
-            if (!footList[i].nickName || footList[i].nickName =='null'){
-              footList[i].nickName='';
-              footList[i].userName = footList[i].userName.substr(0, 3) + "****" + footList[i].userName.substr(7);
+    let that = this;
+    if (app.globalData.isflag) {
+      wx.showLoading({
+        title: '数据加载中。。。',
+        mask: true
+      })
+      let _parms = {
+        page: this.data.page,
+        row: 8
+      }
+      if (this.data.choicetype) {
+        _parms.choiceType = this.data.choicetype
+      }
+      if (this.data.sortype) {
+        _parms.sortType = this.data.sortype
+      }
+      Api.topiclist(_parms).then((res) => {
+        let _data = this.data.food
+        if (res.data.code == 0) {
+          wx.hideLoading()
+          if (res.data.data.list != null && res.data.data.list != "" && res.data.data.list != []) {
+            let footList = res.data.data.list;
+            for (let i = 0; i < footList.length; i++) {
+              footList[i].summary = utils.uncodeUtf16(footList[i].summary);
+              footList[i].content = utils.uncodeUtf16(footList[i].content);
+              footList[i].timeDiffrence = utils.timeDiffrence(res.data.currentTime, footList[i].updateTime, footList[i].createTime)
+              footList[i].content = JSON.parse(footList[i].content)
+              footList[i].hitNum = utils.million(footList[i].hitNum)
+              footList[i].commentNum = utils.million(footList[i].commentNum)
+              footList[i].transNum = utils.million(footList[i].transNum)
+              if (!footList[i].nickName || footList[i].nickName == 'null') {
+                footList[i].nickName = '';
+                footList[i].userName = footList[i].userName.substr(0, 3) + "****" + footList[i].userName.substr(7);
+              }
+
+              if (footList[i].content[0].type != 'video' || footList[i].topicType == 1) { //文章
+                footList[i].isimg = true
+              } else {  //视频
+                footList[i].isimg = false
+                footList[i].clickvideo = false
+              }
+              _data.push(footList[i]);
             }
-            
-            if (footList[i].content[0].type != 'video' || footList[i].topicType ==1){ //文章
-              footList[i].isimg = true
-            }else{  //视频
-              footList[i].isimg = false
-              footList[i].clickvideo = false
-            }
-            _data.push(footList[i]);
+            this.setData({
+              food: _data
+            })
+          } else {
+            this.setData({
+              flag: false
+            });
           }
-          this.setData({
-            food: _data
-          })
         } else {
-          this.setData({
-            flag: false
-          });
+          wx.hideLoading()
         }
-      }else{
-        wx.hideLoading()
-      }
-      this.placeholderFlag = this.data.food.length < 1 ? false : true;
-      if (that.data.page == 1) {
-        wx.stopPullDownRefresh();
-      } else {
-        wx.hideLoading();
-      }
-    })
+        this.placeholderFlag = this.data.food.length < 1 ? false : true;
+        if (that.data.page == 1) {
+          wx.stopPullDownRefresh();
+        } else {
+          wx.hideLoading();
+        }
+      })
+    }
+    
   },
   bindended:function(e){  //视频播放完成
     const id = e.currentTarget.id
@@ -396,7 +399,7 @@ Page({
       issnap: false
     })
     if (id == 1) {
-      wx.redirectTo({
+      wx.navigateTo({
         url: '/pages/personal-center/registered/registered'
       })
     }

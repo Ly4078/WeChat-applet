@@ -191,13 +191,17 @@ Page({
         icon: 'none',
         duration: 2000
       })
-    } else {
-      let _value = utils.utf16toEntities(this.data.commentVal)
       this.setData({
-        commentVal: _value,
         isComment: false
       })
-    }
+      return false;
+    } 
+    let _value = utils.utf16toEntities(this.data.commentVal)
+    this.setData({
+      commentVal: _value,
+      isComment: false
+    })
+    
     let _parms = {
       refId: this.data.refId,
       cmtType: 2,
@@ -208,6 +212,9 @@ Page({
     }
     Api.cmtadd(_parms).then((res) => {
       if (res.data.code == 0) {
+        this.setData({
+          commentVal: '',
+        })
         this.getcmtlist();
       } else {
         wx.showToast({
@@ -455,7 +462,7 @@ Page({
       issnap: false
     })
     if (id == 1) {
-      wx.redirectTo({
+      wx.navigateTo({
         url: '/pages/personal-center/registered/registered'
       })
     }

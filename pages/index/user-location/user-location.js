@@ -208,20 +208,26 @@ Page({
     })
   },
   clickcity: function (e) {  //点击某个热门城市
-    let that = this
-    let ind = e.currentTarget.id
-    let _data = this.data.hotcity
+    let that = this,ind = e.currentTarget.id,_data = this.data.hotcity,newData=[];
     for (let i = 0; i < _data.length; i++) {
+      let _name = _data[i].name;
       if (ind == i) {
         if (_data[i].open == 1) {
           wx.request({
-            url: 'https://apis.map.qq.com/ws/place/v1/suggestion?keyword=' + _data[i].name + "&key=4YFBZ-K7JH6-OYOS4-EIJ27-K473E-EUBV7",
+            url: 'https://apis.map.qq.com/ws/place/v1/suggestion?keyword=' + _name + "&key=4YFBZ-K7JH6-OYOS4-EIJ27-K473E-EUBV7",
             header: {
               'content-type': 'application/json' // 默认值
             },
             success: (res) => {
+              let _olddata = res.data.data, reg = 'RegExp(/'+_name+'/)';
+              for (let i in _olddata){
+                let _city = _olddata[i].city+'';
+                if (_city.indexOf(_name) != -1 ){
+                  newData.push(_olddata[i])
+                }
+              }
               that.setData({
-                resultPosition: res.data.data
+                resultPosition: newData
               })
             }
           })

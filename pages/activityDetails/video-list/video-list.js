@@ -23,7 +23,8 @@ Page({
     issnap: false,
     isnew: false,
     switchFlag: true,
-    vitotal:0
+    vitotal:0,
+    actdata:{}
   },
   onLoad: function (options) {
     let dateStr = new Date();
@@ -47,8 +48,13 @@ Page({
         userName: app.globalData.userInfo.mobile,
       });
     }
+    this.videlistInit();
   },
-  onShow: function () {
+  onShow:function(){},
+  videlistInit: function () {
+    wx.showLoading({
+      title: '数据加载中...',
+    });
     if (!app.globalData.userInfo.mobile) {
       this.getuserinfo();
     }else{
@@ -82,7 +88,9 @@ Page({
           endTime = data.data.endTime;
         startTime = startTime.substring(0, startTime.indexOf(" "));
         endTime = endTime.substring(0, endTime.indexOf(" "));
+        wx.hideLoading();
         this.setData({
+          actdata:data.data,
           mainPic: data.data.mainPic,
           infoPic: data.data.actUrl,
           actName: data.data.actName,
@@ -129,62 +137,88 @@ Page({
         issnap: true
       })
     }else{
-      wx.redirectTo({
-        url: '../../discover-plate/dynamic-state/dynamic-state?actId=' + this.data.actId + '&id=2'
-      })
+      let _actdata = this.data.actdata;
+      if (_actdata.actStatus ==0){
+        wx.showToast({
+          title: '活动还未开始',
+          icon: 'none',
+          mask:'true'
+        })
+      } else if (_actdata.actStatus == 1){
+        if (app.globalData.isflag) {
+          wx.redirectTo({
+            url: '../../discover-plate/dynamic-state/dynamic-state?actId=' + this.data.actId + '&id=2'
+          })
+        } else {
+          wx.showToast({
+            title: '本期活动已结束',
+            icon: 'none'
+          })
+        }
+      } else if (_actdata.actStatus == 2){
+        wx.showToast({
+          title: '活动已结束',
+          icon: 'none',
+          mask: 'true'
+        })
+      }
     }
   },
   videoList() {
-    let _parms = {
-      actId: this.data.actId,
-      zanUserId: app.globalData.userInfo.userId,
-      page: this.data.page,
-      rows: 6
-    },that=this;
-    if (!this.data.switchFlag) {
-      _parms['sortType'] = 1;
-    }
-    console.log("_parms:",_parms)
-    Api.videoList(_parms).then((res) => {
-      let data = res.data;
-      if (data.code == 0) {
-        wx.hideLoading();
-        let videoList = this.data.videoList, listData = data.data.list;
-
-        this.setData({
-          vitotal: data.data.total
-        })
-        if (listData && listData.length){
-          let reg = /^1[34578][0-9]{9}$/;
-          for (let i = 0; i < listData.length; i++) {
-            videoList.push(listData[i]);
-            
-            if (reg.test(videoList[i].nickName)) {
-              videoList[i].nickName = videoList[i].nickName.substr(0, 3) + "****" + videoList[i].nickName.substr(7)
-            }
-            if (reg.test(videoList[i].userName)) {
-               videoList[i].userName = videoList[i].userName.substr(0, 3) + "****" +  videoList[i].userName.substr(7)
-            }
-            // if (videoList[i].nickName == 'null' || !videoList[i].nickName){
-            //   videoList[i].nickName = videoList.userName[i];
-            // }
-            if (videoList[i].nickName && videoList[i].nickName.length>11){
-              videoList[i].nickName = videoList[i].nickName.slice(0,11);
-            }
-          }
-          this.setData({
-            videoList: videoList
-          });
-          if (listData.length < 6) {
-            this.setData({
-              flag: false
-            });
-          }
-        }
-      }else{
-        // that.videoList();
+    if (app.globalData.isflag) {
+      let _parms = {
+        actId: this.data.actId,
+        zanUserId: app.globalData.userInfo.userId,
+        page: this.data.page,
+        rows: 6
+      }, that = this;
+      if (!this.data.switchFlag) {
+        _parms['sortType'] = 1;
       }
-    });
+      Api.videoList(_parms).then((res) => {
+        let data = res.data;
+        if (data.code == 0) {
+          wx.hideLoading();
+          let videoList = this.data.videoList, listData = data.data.list;
+
+          this.setData({
+            vitotal: data.data.total
+          })
+          if (listData && listData.length) {
+            let reg = /^1[34578][0-9]{9}$/;
+            for (let i = 0; i < listData.length; i++) {
+              videoList.push(listData[i]);
+
+              if (reg.test(videoList[i].nickName)) {
+                videoList[i].nickName = videoList[i].nickName.substr(0, 3) + "****" + videoList[i].nickName.substr(7)
+              }
+              if (reg.test(videoList[i].userName)) {
+                videoList[i].userName = videoList[i].userName.substr(0, 3) + "****" + videoList[i].userName.substr(7)
+              }
+              // if (videoList[i].nickName == 'null' || !videoList[i].nickName){
+              //   videoList[i].nickName = videoList.userName[i];
+              // }
+              if (videoList[i].nickName && videoList[i].nickName.length > 11) {
+                videoList[i].nickName = videoList[i].nickName.slice(0, 11);
+              }
+            }
+            this.setData({
+              videoList: videoList
+            });
+            if (listData.length < 6) {
+              this.setData({
+                flag: false
+              });
+            }
+          }
+        } else {
+          // that.videoList();
+        }
+      });
+    } else{
+      wx.hideLoading();
+    }
+    
   },
   videoDetail(e) {
     let id = e.currentTarget.id, _videoList = this.data.videoList,userid='';
@@ -229,9 +263,6 @@ Page({
       this.videoList();
     }
   },
-  onShareAppMessage: function () {
-
-  },
   dateConv: function (dateStr) {
     let year = dateStr.getFullYear(),
       month = dateStr.getMonth() + 1,
@@ -246,7 +277,7 @@ Page({
       issnap: false
     })
     if (id == 1) {
-      wx.redirectTo({
+      wx.navigateTo({
         url: '/pages/personal-center/registered/registered'
       })
     }
@@ -302,6 +333,9 @@ Page({
                   userId: app.globalData.userInfo.userId,
                   userName: app.globalData.userInfo.mobile,
                 });
+                that.videoInfo();
+                that.videoData();
+                that.videoList();
                 if (!data.mobile) {
                   that.setData({
                     isnew: true

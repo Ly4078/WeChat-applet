@@ -265,7 +265,6 @@
 .merchant_none {
   width:100%;
   height:500rpx;
-  /* background-color:#ebebeb; */
   position:relative;
 }
 

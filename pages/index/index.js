@@ -142,8 +142,29 @@ Page({
       // 新的版本下载失败
     })
     this.activityBanner();
+    this.indexinit();
   },
   onShow: function () {
+    wx.request({
+      url: this.data._build_url + 'act/flag', 
+      success: function (res) {
+        if(res.data.data == 0){
+          app.globalData.isflag = true;
+        }else if(res.data.data == 1){
+          app.globalData.isflag = false;
+        }
+      }
+    })
+    if (this.data.city != app.globalData.userInfo.city){
+      this.setData({
+        city: app.globalData.userInfo.city,
+        posts_key: [],
+        _page:1
+      })  
+      this.getmoredata();
+    }
+  },
+  indexinit: function () {
     let that = this, userInfo = app.globalData.userInfo;
 
     if (!app.globalData.userInfo.lat && !app.globalData.userInfo.lng && !app.globalData.userInfo.city) {
@@ -153,7 +174,7 @@ Page({
         city: app.globalData.userInfo.city
       })
     }
-    this.getshoplist('附近',2);
+    // this.getshoplist('附近',2);
    
     if (this.data.phone && this.data.veridyTime) {
       this.setData({
@@ -191,10 +212,6 @@ Page({
         }
       })
     }
-
-
-    
-    
   },
   onHide: function () {
     let that = this;
@@ -322,15 +339,18 @@ Page({
   //点击推荐短视频之一
   handViditem(e) {
     let id = e.currentTarget.id, _videolist = this.data.videolist,zan='',userid='';
-    for (let i in _videolist){
-      if (id == _videolist[i].id){
-        zan = _videolist[i].zan;
-        userid = _videolist[i].userId;
+    if (app.globalData.isflag){
+      for (let i in _videolist) {
+        if (id == _videolist[i].id) {
+          zan = _videolist[i].zan;
+          userid = _videolist[i].userId;
+        }
       }
+      wx.navigateTo({
+        url: '../activityDetails/video-details/video-details?id=' + id + '&zan=' + zan + '&userId=' + userid,
+      })
     }
-    wx.navigateTo({
-      url: '../activityDetails/video-details/video-details?id=' + id + '&zan=' + zan + '&userId=' + userid,
-    })
+    
   },
   //选择某个分类
   handfood(e) {
@@ -424,6 +444,7 @@ Page({
                   }
                 }
               };
+              that.isNewUser();
               that.getmoredata();
               if (data && data.mobile) {
                 that.setData({
@@ -451,6 +472,7 @@ Page({
     this.getmoredata();
   },
   getmoredata: function () {  //获取更多数据
+
     this.getcarousel();
     this.getactlist();
     this.getshoplist();
@@ -581,7 +603,6 @@ Page({
       rows: 8
     }
     if (val && val !='全部') { //美食类别 
-      
       if(val == '人气'){
         _parms.browSort = 2
       }else if(val == '附近'){
@@ -654,7 +675,7 @@ Page({
       _page:this.data._page+1
     })
     this.getshoplist();
-    if (this.data.alltopics.length < 1) {
+    if (!this.data.alltopics) {
       this.gettoplistFor()
     }
   },
@@ -962,8 +983,8 @@ Page({
     // })
   },
   toNewExclusive: function (e) {   //跳转至新人专享页面
-    let id = e.currentTarget.id, _linkUrl = '';
-    let _idd = e.currentTarget.id
+    let id = e.currentTarget.id, _linkUrl = '',_type ='';
+    console.log("id:",id)
     if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
@@ -972,7 +993,9 @@ Page({
     }
     for (let k in this.data.carousel) {
       if (id == this.data.carousel[k].id) {
-        _linkUrl = this.data.carousel[k].linkUrl
+        console.log("i:", this.data.carousel[k])
+        _linkUrl = this.data.carousel[k].linkUrl,
+        _type = this.data.carousel[k].type
       }
     }
     if (id == 4) {
@@ -982,23 +1005,16 @@ Page({
       
     } else if (id == 1) {
       return false
-      let img = '';
-      let _arr = this.data.carousel;
-      for (let i = 0; i < _arr.length; i++) {
-        if (id == _arr[i].id) {
-          img = _arr[i].linkUrl
-        }
-      }
       wx.navigateTo({
-        url: '../personal-center/free-of-charge/free-of-charge?img=' + img,
+        url: '../personal-center/free-of-charge/free-of-charge?img=' + _linkUrl,
       })
-    } else if (id == 2 && _linkUrl == '37') {
+    } else if (id == 2 || _type == 1) {  //十堰食典
       wx.navigateTo({
-        url: '../activityDetails/onehundred-dish/onehundred-dish?actid=37',
+        url: '../activityDetails/onehundred-dish/onehundred-dish?actid=' + _linkUrl,
       })
-    } else if (id == 3 && _linkUrl == '38') {
+    } else if (id == 3 || _type == 2) {  //视频活动
       wx.navigateTo({
-        url: '../activityDetails/video-list/video-list?id=38',
+        url: '../activityDetails/video-list/video-list?id=' + _linkUrl,
       })
     }
   },
@@ -1088,7 +1104,6 @@ Page({
       userId: app.globalData.userInfo.userId
     };
     Api.isNewUser(_parms).then((res) => {
-      // console.log("isNewUser:", res.data.code)
       if (res.data.code == 0) {
         that.setData({
           isNew: true
@@ -1325,11 +1340,11 @@ Page({
                       }
                     }
                   }
-                  if (data.mobile) {
-                    that.newUserToGet();
-                  }
+                  // if (data.mobile) {
+                  //   that.newUserToGet();
+                  // }
 
-                  // that.isNewUser();
+                  that.isNewUser();
                 }
               }
             })

@@ -113,10 +113,13 @@
       </view>
     </view>
   </view>
+  <view wx:if="{{food.length == 0}}" class='merchant_none'>
+  <image src="/images/icon/zhanweitu.png"></image>
+</view>
   <view class='placeholder' hidden='{{placeholderFlag}}'>
     <image src="/images/icon/zhanweitu.png"></image>
   </view>
-  <view bindtap='clickadd' class="cladd clplus">
+  <view bindtap='clickadd' wx:if="{{app.globalData.isflag}}" class="cladd clplus">
     <image class="publish-dynamic-condition {{isadd?'addtrue':'addfalse'}}" src='/images/icon/send_dongtai.png'></image>
   </view>
     <view catchtap='announceState' id='2' class="cladd  {{isadd?'dis_video':'dis_video2'}}">视频</view>  

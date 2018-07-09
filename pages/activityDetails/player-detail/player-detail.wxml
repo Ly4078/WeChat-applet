@@ -36,7 +36,7 @@
     </view>
   </view>
   <view class="playerResource" style="{{article.length > 0 ? '' : 'padding-bottom: 76rpx;'}}">
-    <view class="playerVideo" bindtap='handvideo'>
+    <view class="playerVideo" bindtap='handvideo' wx:if="{{app.globalData.isflag}}">
       <image class='vodeoimg' src='{{videoArr[0].smallPicUrl}}'></image>
       <view class='motai'></view>
       <image class='palyicon' src="/images/icon/paly.png"></image>

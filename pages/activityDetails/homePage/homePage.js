@@ -27,8 +27,10 @@ Page({
       actId: options.actId,
       userId: options.userId
     });
+    this.homePageInit();
   },
-  onShow: function () {
+  onShow:function(){},
+  homePageInit: function () {
     if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
@@ -49,10 +51,21 @@ Page({
     Api.playerDetails(_parms).then((res) => {
       if (res.data.code == 0) {
         if (res.data.data){
-          let data = res.data.data;
+          let data = res.data.data, _nickName = '', reg = /^1[34578][0-9]{9}$/;
+          if (data.userName && reg.test(data.userName)) {
+            data.userName = data.userName.substr(0, 3) + "****" + data.userName.substr(7);
+          }
+          if (data.nickName && reg.test(data.nickName)) {
+            data.nickName = data.nickName.substr(0, 3) + "****" + data.nickName.substr(7);
+          }
+          if (data.nickName == 'null' || !data.nickName) {
+            _nickName = data.userName
+          } else {
+            _nickName = data.nickName
+          }
           this.setData({
             // refId: data.id,
-            nickName: data.nickName ? data.nickName : app.g,
+            nickName: _nickName,
             iconUrl: data.iconUrl,
             sex: data.sex,
             age: data.age,
@@ -78,14 +91,21 @@ Page({
             },
             success: function (res) {
               if (res.data.code == 0) {
-                let data = res.data.data;
-                let reg = /^1[34578][0-9]{9}$/;
-                if (reg.test(data.userName)) {
+                let data = res.data.data, reg = /^1[34578][0-9]{9}$/, _nickName='';
+                if (data.userName && reg.test(data.userName)) {
                   data.userName = data.userName.substr(0, 3) + "****" + data.userName.substr(7);
+                }
+                if (data.nickName && reg.test(data.nickName)) {
+                  data.nickName = data.nickName.substr(0, 3) + "****" + data.nickName.substr(7);
+                }
+                if (data.nickName == 'null' || !data.nickName) {
+                  _nickName = data.userName
+                } else {
+                  _nickName = data.nickName
                 }
                 that.setData({
                   // refId: data.id,
-                  nickName: data.nickName,
+                  nickName: _nickName,
                   userName: data.userName,
                   iconUrl: data.iconUrl,
                   sex: data.sex,
@@ -126,55 +146,60 @@ Page({
     })
   },
   article() {    //文章列表
-    let _parms = {
-      userId: this.data.userId,
-      page: this.data.page,
-      rows: 5
-    };
-    Api.myArticleList(_parms).then((res) => {
-      let data = res.data, list = data.data.list, articleList = this.data.articleList;
+    if (app.globalData.isflag){
+      let _parms = {
+        userId: this.data.userId,
+        zanUserId: app.globalData.userInfo.userId,
+        page: this.data.page,
+        rows: 5
+      };
+      Api.myArticleList(_parms).then((res) => {
+        let data = res.data, list = data.data.list, articleList = this.data.articleList;
 
-      if (data.code == 0) {
-        wx.hideLoading();
-        if (list != null && list != "" && list != []) {
-          for (let i = 0; i < list.length; i++) {
-            list[i].content = JSON.parse(list[i].content);
-            list[i].timeDiffrence = utils.timeDiffrence(res.data.currentTime, list[i].updateTime, list[i].createTime)
-            list[i].isImg = true;
-            if (list[i].content[0].type == 'video') {
-              list[i].isImg = false;
+        if (data.code == 0) {
+          wx.hideLoading();
+          if (list != null && list != "" && list != []) {
+            for (let i = 0; i < list.length; i++) {
+              list[i].content = JSON.parse(list[i].content);
+              list[i].timeDiffrence = utils.timeDiffrence(res.data.currentTime, list[i].updateTime, list[i].createTime)
+              list[i].isImg = true;
+              if (list[i].content[0].type == 'video') {
+                list[i].isImg = false;
+              }
+              list[i].isplay = false;
+              articleList.push(list[i]);
             }
-            list[i].isplay=false;
-            articleList.push(list[i]);
+            this.setData({
+              articleList: articleList
+            });
+          } else {
+            this.setData({
+              flag: false
+            });
           }
-          this.setData({
-            articleList: articleList
-          });
         } else {
-          this.setData({
-            flag: false
-          });
+          wx.showToast({
+            title: '系统繁忙',
+            mask: 'true',
+            duration: 2000,
+            icon: 'none'
+          })
         }
-      } else {
-        wx.showToast({
-          title: '系统繁忙',
-          mask: 'true',
-          duration: 2000,
-          icon: 'none'
-        })
-      }
-    });
+      });
+    }else{
+      wx.hideLoading();
+    }
   },
   videoplay(e){
     let id = e.currentTarget.id, _data = this.data.articleList;
     for (let i in _data){
       if (_data[i].content[0].type == 'video' || _data[i].topicType == 2) { //视频
         wx.redirectTo({
-          url: '../../activityDetails/video-details/video-details?actId=' + this.data.actId + '&userId=' + this.data.userId + '&id=' + _data[i].id
+          url: '../../activityDetails/video-details/video-details?actId=' + this.data.actId + '&userId=' + this.data.userId + '&id=' + id
         })
       } else if (_data[i].content[0].type == 'img' || _data[i].content[0].type == 'text' || _data[i].topicType == 1) { //文章
         wx.redirectTo({
-          url: '../../discover-plate/dynamic-state/article_details/article_details?actId=' + this.data.actId + '&userId=' + this.data.userId + '&id=' + _data[i].id + '&zan=' + this.data.voteNum
+          url: '../../discover-plate/dynamic-state/article_details/article_details?actId=' + this.data.actId + '&userId=' + this.data.userId + '&id=' + id + '&zan=' + this.data.voteNum
         })
       }
      
@@ -321,7 +346,7 @@ Page({
       issnap: false
     })
     if (id == 1) {
-      wx.redirectTo({
+      wx.navigateTo({
         url: '/pages/personal-center/registered/registered'
       })
     }

@@ -16,7 +16,7 @@
         <image src="{{iconUrl}}"></image>
       </view>
       <view class="info_inner_r">
-        <view class="info_name">{{nickName?nickName:userName}}</view>
+        <view class="info_name">{{nickName}}</view>
         <view>
           <view class="info_age" wx:if="{{age}}">
             <image wx:if="{{sex == 0}}" src="/images/icon/male.png"></image>

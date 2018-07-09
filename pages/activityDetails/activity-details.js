@@ -11,10 +11,10 @@ Page({
     placeholderFlag: true
   },
 
-  onLoad: function (options) {
+  onShow: function (options) {
     
   },
-  onShow: function () {
+  onLoad: function () {
     let that = this;
     this.setData({
       actdata: [],
@@ -96,6 +96,7 @@ Page({
           actList.push(data.data.list[i]);
           actList[i].endTime = actList[i].endTime.substring(0, actList[i].endTime.indexOf(' '));
         }
+        console.log("actList:", actList)
         that.setData({
           actdata: actList
         })
