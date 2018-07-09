@@ -22,7 +22,7 @@
   <view>
     <view class='shop-z-Wrap'>
       <view class='shop-left-wrap'>
-        <image class='detailsName-img' mode="aspectFill" src='{{store_details.logoUrl}}'></image>
+        <image class='detailsName-img' mode="aspectFill" src='{{store_details.logoUrl?store_details.logoUrl:store_details.indexUrl}}'></image>
         <view class='detailsName-genre'>
           <text class='details-Name'>{{store_details.shopName}}</text>
           <text class='details-form'>{{store_details.shopInfo}}</text>
