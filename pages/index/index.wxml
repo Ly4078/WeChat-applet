@@ -95,7 +95,7 @@
 
   <!-- 导航nav_one -->
    <view class='indexNavOne'>
-    <view wx:for="{{navs}}" wx:key="index">
+    <view wx:for="{{app.globalData.isflag?navs:navs2}}" wx:key="index">
       <view class='navitem' id="{{item.id}}" bindtap='handnavOne'>
         <image class="img{{index+1}}" src='{{item.img}}'></image>
         <text>{{item.name}}</text>
@@ -125,7 +125,7 @@
   </view>   
 
   <!--短视频  -->
-   <block wx:for="{{Vid}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
+   <block wx:for="{{app.globalData.isflag?Vid:Vid2}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
     <template is="veoRes" data="{{item}}" />
   </block>
   <view class='Resbanner Vidbanner'>

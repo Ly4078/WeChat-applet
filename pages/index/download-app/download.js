@@ -5,9 +5,11 @@ Page({
    */
   data: {
     deimg: "https://xq-1256079679.file.myqcloud.com/test_363956872334670392_0.8.jpg",
-    deimgid1:'https://xq-1256079679.file.myqcloud.com/test_475469268182967488_0.3.jpg',
+    deimgid1:'https://xq-1256079679.file.myqcloud.com/test_325919865351719177_0.3.jpg',
+    // deimgid1:'/images/icon/img123.png',
     isdown: false,
-    _value:'https://xqmp4-1256079679.file.myqcloud.com/xiangqi_H567B9652_0702190916.apk'
+    erimg:'https://xq-1256079679.file.myqcloud.com/test_796192610565959937_0.8.jpg',
+    _value:'https://xqmp4-1256079679.file.myqcloud.com/test_H567B9652_0709203519.apk'
   },
 
   /**
@@ -36,6 +38,17 @@ Page({
   onReady: function () {
 
   },
+  previewImg: function (e) {
+    let that = this,arr=[];
+    arr.push(this.data.erimg);
+    wx.previewImage({
+      current: that.data.erimg,     //当前图片地址
+      urls: arr,               //所有要预览的图片的地址集合 数组形式
+      success: function (res) { },
+      fail: function (res) { },
+      complete: function (res) { },
+    })
+  },
   //点击下载按钮
   handxz: function () {
     this.setData({
@@ -49,6 +62,9 @@ Page({
         wx.getClipboardData({
           success: function (res) {
             console.log(res.data) // data
+            wx.showToast({
+              title: '复制成功！',
+            })
           }
         })
       }

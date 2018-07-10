@@ -70,6 +70,29 @@ Page({
         name: '商家入驻'
       }
     ],
+    navs2: [
+      {
+        img: '/images/icon/navquan.png',
+        id: 1,
+        name: '享7券'
+      }, {
+        img: '/images/icon/navcaiting.png',
+        id: 2,
+        name: '餐厅'
+      }, {
+        img: '/images/icon/navruzhu.png',
+        id: 3,
+        name: '活动'
+      }, {
+        img: '/images/icon/navshiping.png',
+        id: 4,
+        name: '微生活'
+      }, {
+        img: '/images/icon/navhuodong.png',
+        id: 5,
+        name: '商家入驻'
+      }
+    ],
     navtwo: [
       {
         img: '/images/icon/Commerce.png',
@@ -95,11 +118,17 @@ Page({
       name: '短视频',
       id: 2
     }],
+    Vid2: [{
+      img: '/images/icon/duansp.png',
+      name: '微生活',
+      id: 2
+    }],
     Act: [{
       img: '/images/icon/home_sign.png',
       name: '热门活动',
       id: 3
     }],
+    
     fooddatas: ['附近', '人气', "日本菜", "自助餐", "湖北菜", "川菜", "湘菜", "粤菜", "咖啡厅", "小龙虾", "火锅", "海鲜", "烧烤", "江浙菜", "西餐", "自助餐", "其它美食"],
     ResThree: [
       {
@@ -129,18 +158,18 @@ Page({
     wx.showLoading({
       title: '加载中..'
     });
-    const updateManager = wx.getUpdateManager()
+    const updateManager = wx.getUpdateManager();
     updateManager.onCheckForUpdate(function (res) {
       // 请求完新版本信息的回调
       // console.log(res.hasUpdate)
-    })
+    });
     updateManager.onUpdateReady(function () {
       // 新的版本已经下载好，调用 applyUpdate 应用新版本并重启
       updateManager.applyUpdate()
-    })
+    });
     updateManager.onUpdateFailed(function () {
       // 新的版本下载失败
-    })
+    });
     this.activityBanner();
     this.indexinit();
   },
@@ -148,7 +177,7 @@ Page({
     wx.request({
       url: this.data._build_url + 'act/flag', 
       success: function (res) {
-        if(res.data.data == 0){
+        if (res.data.data == 0) { //0显示  1不显示
           app.globalData.isflag = true;
         }else if(res.data.data == 1){
           app.globalData.isflag = false;

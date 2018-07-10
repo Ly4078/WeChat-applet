@@ -1,15 +1,16 @@
 
-  <view class='downbox'> 
+<view class='downbox'> 
 
   <image wx:if="{{isdown}}" class='deimg' src='{{deimg}}'></image>
   <image wx:else class='deimgid1' src='{{deimgid1}}'></image>
 
   <view class='handxz' wx:if="{{isdown}}" bindtap='handxz'></view>
-
+ 
   <view class='copycon'>
-     <input id='copy' value="{{_value}}" disabled="true"></input>
       <button bindtap='copy'>复制连接</button>
   </view> 
-  </view> 
+   <image bindtap='previewImg' class='erweima' src='erimg'></image>
+   <text class='tishiinfo'>点击二维码图片--长按图片保存到本地</text>
+</view> 
 
   

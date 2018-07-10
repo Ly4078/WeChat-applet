@@ -1,11 +1,9 @@
-.downbox{
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100%;
+ .downbox{
   width: 100%;
+  height: 3529rpx;
   overflow: hidden;
   background: #fff;
+   position: relative
 }
 .deimg{
   width: 100%;
@@ -28,14 +26,25 @@
   width: 694rpx;
   padding: 0 28rpx;
   height: 100rpx;
+  position: relative;
+  top:-87rpx;
+  right:-517rpx;
 }
-.copycon input{
-  width: 65%;
-  float: left;
-  background: #eaeaec;
-  color: #717171;
-  margin-right: 20rpx;
+.erweima{
+  position: relative;
+  width: 300rpx;
+  height: 300rpx;
+  z-index: 6;
+  top:-902rpx;
+  left:224rpx;
 }
+.tishiinfo{
+  position: relative;
+  top:-869rpx;
+  left:-133rpx;
+  font-size:25rpx;
+}
+
 .copycon button{
   float: left;
   height: 50rpx;
@@ -44,4 +53,4 @@
   padding: 5rpx 10rpx;
   background: #fc5e2d;
   color: #fff;
-}
+} 
