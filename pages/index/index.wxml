@@ -125,10 +125,10 @@
   </view>   
 
   <!--短视频  -->
-   <block wx:for="{{app.globalData.isflag?Vid:Vid2}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
+   <block wx:for="{{app.globalData.isflag?Vid:Vid2}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}"  wx:if="{{app.globalData.isflag}}">
     <template is="veoRes" data="{{item}}" />
   </block>
-  <view class='Resbanner Vidbanner'>
+  <view class='Resbanner Vidbanner' wx:if="{{app.globalData.isflag}}">
     <image class='Resbimg' id='2' data-ind="2" bindtap='handbaoming' src="{{bannthree[1].imgUrl}}"></image>
     <view class='resthree'>
       <view wx:for="{{videolist}}" wx:key="index">
