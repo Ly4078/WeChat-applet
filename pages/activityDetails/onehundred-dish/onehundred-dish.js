@@ -434,7 +434,7 @@ Page({
     }
     if (availableNum <= 0) {
       wx.showToast({
-        title: '今天票数已用完,请明天再来',
+        title: '请使用食典券后投票',
         mask: 'true',
         duration: 2000,
         icon: 'none'

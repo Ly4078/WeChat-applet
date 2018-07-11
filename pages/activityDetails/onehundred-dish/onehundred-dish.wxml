@@ -84,7 +84,8 @@
           <text class="{{sortType == 2 ? 'active' : ''}}" id="2" bindtap="bestSwitch">最热</text>
           <text class="{{sortType == 1 ? 'active' : ''}}" id="1" bindtap="bestSwitch">最新</text>
         </view>
-        <text class="user_availVote">可用票数：{{switchTab ? sku : user}}</text>
+        <text class="user_availVote" wx:if="{{switchTab ? sku : user}}">每人每天可用票数：{{switchTab ? sku : user}}</text>
+        <text class="user_availVote" wx:else>使用食典券获取更多投票</text>
       </view>
       <!-- 可用票数 -->
       <!-- 活动列表 -->
