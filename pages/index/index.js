@@ -310,7 +310,7 @@ Page({
       let str = arr[0].linkUrl;
       if (str == "ruzhu"){  //进入下载APP页面
         wx.navigateTo({
-          url: 'download-app/download'
+          url: '../../pages/index/download-app/download?isshop=ind',
         })
       }else if (reg1.test(str)){  //进入某个店铺
         let _arr = str.split("=");
