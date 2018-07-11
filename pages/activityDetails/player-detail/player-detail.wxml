@@ -35,7 +35,8 @@
       </view> 
     </view>
   </view>
-  <view class="playerResource" style="{{article.length > 0 ? '' : 'padding-bottom: 76rpx;'}}">
+  <!--  style="{{article.length > 0 ? '' : 'padding-bottom: 76rpx;'}}" -->
+  <view class="playerResource">
     <view class="playerVideo" bindtap='handvideo' wx:if="{{app.globalData.isflag}}">
       <image class='vodeoimg' src='{{videoArr[0].smallPicUrl}}'></image>
       <view class='motai'></view>

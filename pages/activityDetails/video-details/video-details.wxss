@@ -33,10 +33,10 @@
   top: -38rpx;
 }
 .righticon{
-  width:30rpx;
-  height:47rpx;
+  width:18rpx;
+  height:32rpx;
   position:relative;
-  top:27rpx;
+  top:38rpx;
   right:32rpx;
   float:right;
 }

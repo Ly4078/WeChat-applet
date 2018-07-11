@@ -55,6 +55,7 @@ Page({
             console.log(res.data) // data
             wx.showToast({
               title: '复制成功！',
+              icon:'none'
             })
           }
         })

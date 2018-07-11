@@ -11,7 +11,7 @@
 }
 .deimgid1{
   width: 100%;
-  height: 90%;
+  height: 98%;
 }
 .handxz{
  width:100%;
@@ -27,7 +27,7 @@
   padding: 0 28rpx;
   height: 100rpx;
   position: relative;
-  top:-87rpx;
+  top:-93rpx;
   right:-517rpx;
 }
 .erweima{
@@ -40,8 +40,8 @@
 }
 .tishiinfo{
   position: relative;
-  top:-869rpx;
-  left:-133rpx;
+  top:-912rpx;
+  left:-130rpx;
   font-size:25rpx;
 }
 

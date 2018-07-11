@@ -171,7 +171,7 @@ Page({
         success: function (res) {
           if (res.cancel) { //商家用户
             wx.navigateTo({
-              url: '../../index/download-app/download',
+              url: '../../../pages/index/download-app/download?isshop=ind',
             })
           } else if (res.confirm) { //普通用户
             let _parms = {

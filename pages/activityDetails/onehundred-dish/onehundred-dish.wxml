@@ -56,16 +56,16 @@
         <button bindtap='eventDetailss'>活动详情</button>
         <button bindtap='toApply'>我要报名</button>
       </view>
-      <view class='warm'><text>温馨提示:如您是商家用户请移步至商家APP报名参加活动</text></view>
+      <!-- <view class='warm'><text>温馨提示:如您是商家用户请移步至商家APP报名参加活动</text></view> -->
     </view>
     <!-- 时间阶段和描述 -->
     <!-- 主办单位 -->
     <view class="sponsor" wx:if="{{isflag == 0}}">
-      <view class="sponsor_tit">- 主办单位 -</view>
-      <text class="sponsor_cont">主办单位：十堰市旅游委\n行业指导：十堰市食药局、十堰市餐饮协会\n承办单位：中国《汽车之旅》杂志社、湖北三木广告有限公司\n执行单位：湖北享七网络科技有限公司\n活动网络平台：享7美食</text>
-      <view class="sponsor_tit sponsor_media">- 媒体支持 -</view>
+      <!-- <view class="sponsor_tit">- 主办单位 -</view> -->
+      <text class="sponsor_cont">主办单位：十堰市旅游委\n行业指导：十堰市餐饮服务行业管理办公室\n承办单位：中国《汽车之旅》杂志社</text>
+      <!-- <view class="sponsor_tit sponsor_media">- 媒体支持 -</view>
       <text class="sponsor_cont">汽车之旅 今日头条 搜狐新闻端 新浪新闻端 一点资讯\n网易新闻端 武汉电视台掌上武汉 花椒视频直播 腾讯朋友圈\n享7美食平台公众号 十堰日报 十堰晚报 东风汽车报 十堰周刊\n十堰电视台 十堰广播电台 秦楚网 东风热线等
-      </text>
+      </text> -->
     </view>
     <!-- 主办单位 -->
     <view class="hot_list_box">
