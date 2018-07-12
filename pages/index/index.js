@@ -179,12 +179,12 @@ Page({
     wx.request({
       url: this.data._build_url + 'act/flag', 
       success: function (res) {
-        if (res.data.data == 1) { //0显示  
+        if (res.data.data == 0) { //0显示  
           app.globalData.isflag = true;
           that.setData({
             isfile:true
           })
-        } else if (res.data.data == 0) {  //1不显示
+        } else if (res.data.data == 1) {  //1不显示
           app.globalData.isflag = false;
           that.setData({
             isfile: false
