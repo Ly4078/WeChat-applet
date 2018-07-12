@@ -179,12 +179,12 @@ Page({
     wx.request({
       url: this.data._build_url + 'act/flag', 
       success: function (res) {
-        if (res.data.data == 0) { //0显示  
+        if (res.data.data == 1) { //0显示  
           app.globalData.isflag = true;
           that.setData({
             isfile:true
           })
-        } else if (res.data.data == 1) {  //1不显示
+        } else if (res.data.data == 0) {  //1不显示
           app.globalData.isflag = false;
           that.setData({
             isfile: false
@@ -529,7 +529,7 @@ Page({
     this.gettopic();
     
   },
-  //获取热闹动态
+  //获取动态
   gettopiclist: function (_type, data) {
     let that = this,vodeoarr=[];
     wx.showLoading({
@@ -539,7 +539,7 @@ Page({
     let _parms = {
       page: 1,
       row: 5,
-      sortType:2
+      topicType:2
     }
     Api.topiclist(_parms).then((res) => {
       if (res.data.code == 0) {
@@ -550,7 +550,9 @@ Page({
             footList[i].summary = utils.uncodeUtf16(footList[i].summary);
             footList[i].content = utils.uncodeUtf16(footList[i].content);
             footList[i].timeDiffrence = utils.timeDiffrence(res.data.currentTime, footList[i].updateTime, footList[i].createTime)
-            footList[i].content = JSON.parse(footList[i].content)
+            if (footList[i].content) {
+              footList[i].content = JSON.parse(footList[i].content)
+            }
             footList[i].hitNum = utils.million(footList[i].hitNum)
             footList[i].commentNum = utils.million(footList[i].commentNum)
             footList[i].transNum = utils.million(footList[i].transNum)
@@ -1036,6 +1038,12 @@ Page({
         _type = this.data.carousel[k].type
       }
     }
+    let arr = _linkUrl.split("&"),_obj={};
+    for(let i in arr){
+      let arr2 = arr[i].split("=");
+      _obj[arr2[0]] = arr2[1];
+    }
+
     if (id == 4) {
       // wx.navigateTo({
       //   url: 'new-exclusive/new-exclusive',
@@ -1046,13 +1054,13 @@ Page({
       wx.navigateTo({
         url: '../personal-center/free-of-charge/free-of-charge?img=' + _linkUrl,
       })
-    } else if (id == 2 || _type == 1) {  //十堰食典
+    } else if (id == 2 || _obj.type == 1) {  //十堰食典
       wx.navigateTo({
-        url: '../activityDetails/onehundred-dish/onehundred-dish?actid=' + _linkUrl,
+        url: '../activityDetails/onehundred-dish/onehundred-dish?actid=' + _obj.actId,
       })
-    } else if (id == 3 || _type == 2) {  //视频活动
+    } else if (id == 3 || _obj.type == 2) {  //视频活动
       wx.navigateTo({
-        url: '../activityDetails/video-list/video-list?id=' + _linkUrl,
+        url: '../activityDetails/video-list/video-list?id=' + _obj.actId,
       })
     }
   },

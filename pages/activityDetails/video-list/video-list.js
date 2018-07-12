@@ -5,7 +5,7 @@ var app = getApp();
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
-    actId: 38,
+    actId: '',
     userId: '',
     userName: '',
     mainPic: '',
@@ -27,6 +27,12 @@ Page({
     actdata:{}
   },
   onLoad: function (options) {
+    console.log("options:",options)
+    if(options.id){
+      this.setData({
+        actId: options.id,
+      })
+    }
     let dateStr = new Date();
     let milisecond = new Date(this.dateConv(dateStr)).getTime() + 86400000;
     this.setData({
@@ -42,12 +48,13 @@ Page({
           actId: utils.getQueryString(q, 'actId')
         });
       }
-    }else{
+    } else {
       this.setData({
         userId: app.globalData.userInfo.userId,
         userName: app.globalData.userInfo.mobile,
       });
     }
+    
     this.videlistInit();
   },
   onShow:function(){},

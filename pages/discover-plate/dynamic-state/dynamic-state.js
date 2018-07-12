@@ -474,7 +474,6 @@ Page({
         title: '正在提交...',
       })
       Api.topicadd(_parms).then((res) => {
-        
         if (res.data.code == 0) {
           setTimeout(function () {
             console.log("cfrom:", that.data.cfrom);
