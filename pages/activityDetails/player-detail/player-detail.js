@@ -36,6 +36,7 @@ Page({
     isshow: false
   },
   onLoad: function (options) {
+    console.log("options:", options)
     let dateStr = new Date();
     let milisecond = new Date(this.dateConv(dateStr)).getTime() + 86400000;
     this.setData({
@@ -265,7 +266,7 @@ Page({
     }
     if (app.globalData.isflag) {
       wx.navigateTo({
-        url: '../../discover-plate/dynamic-state/dynamic-state?id=2&actId=37'
+        url: '../../discover-plate/dynamic-state/dynamic-state?acfrom=2&id=2&actId=' + this.data.actId
       })
     } else {
       wx.showToast({

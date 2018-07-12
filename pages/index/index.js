@@ -192,6 +192,7 @@ Page({
         }
       }
     })
+
     if (this.data.city != app.globalData.userInfo.city){
       this.setData({
         city: app.globalData.userInfo.city,
@@ -336,6 +337,7 @@ Page({
             url: '../activityDetails/onehundred-dish/onehundred-dish?actid=' + arr1[1],
           })
         } else if (arr2[1] == 2) {
+          console.log(" arr[1]:", arr[1])
           wx.navigateTo({
             url: '../activityDetails/video-list/video-list?id=' + arr[1],
           })
@@ -354,8 +356,14 @@ Page({
             url: '../activityDetails/onehundred-dish/onehundred-dish?actid=' + arr1[1],
           })
         }else if(arr2[1] == 2){
+          let _linkUrl = arr[1].linkUrl;
+          let aarr = _linkUrl.split("&"), _obj = {};
+          for (let i in aarr) {
+            let arr2 = aarr[i].split("=");
+            _obj[arr2[0]] = arr2[1];
+          }
           wx.navigateTo({
-            url: '../activityDetails/video-list/video-list?id='+arr[1],
+            url: '../activityDetails/video-list/video-list?id=' + _obj.actId,
           })
         }
       }

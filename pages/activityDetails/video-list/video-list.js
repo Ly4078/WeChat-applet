@@ -153,8 +153,8 @@ Page({
         })
       } else if (_actdata.actStatus == 1){
         if (app.globalData.isflag) {
-          wx.redirectTo({
-            url: '../../discover-plate/dynamic-state/dynamic-state?actId=' + this.data.actId + '&id=2'
+          wx.navigateTo({
+            url: '../../discover-plate/dynamic-state/dynamic-state?acfrom=1&actId=' + this.data.actId + '&id=2'
           })
         } else {
           wx.showToast({

@@ -21,12 +21,25 @@ Page({
     isfirst:true,
     defaimg:'',  //默认视频图片
     actId: 0,
-    cfrom:''
+    cfrom:'',
+    topidID:'',
+    acfrom:''
   },
 
   onLoad: function (options) {  // 生命周期函数--监听页面加载
     let that = this;
-    console.log(options)
+    getApp().globalData.article = [];
+    that.data.title = '';
+    that.covervideo = '';
+    that.data.coverimg = '';
+
+    // console.log(options)
+    // acfrom 1视频活动 2十堰食典
+    if (options.acfrom){
+      this.setData({
+        acfrom: options.acfrom
+      })
+    }
     if (options.id){
       this.setData({
         iswzsp: options.id
@@ -178,7 +191,6 @@ Page({
       maxDuration: 60,
       camera: ['front', 'back'],
       success: function (res) {
-        console.log('res:',res)
         
         let videores = res;
         if (res.duration*1<3){
@@ -385,7 +397,6 @@ Page({
     })
   },
   FormSubmit(e) {  // 点击按钮
-    console.log("isfirst:", this.data.isfirst)
     let that = this,ind = e.currentTarget.id;
     if (ind == '预览') {  //  ['预览','提交','退出编辑']
       let [..._data] = this.data.content
@@ -395,7 +406,6 @@ Page({
         url: 'article_details/article_details?content=' + _data+'&title='+this.data.title+'&cfrom=dy'
       })
     } else if (ind == '提交') {
-      // console.log("app.globalData.userInfo:", app.globalData.userInfo)
       let sum = [];
       let _content = JSON.stringify(this.data.content);
       let _con = utils.utf16toEntities(_content)
@@ -470,13 +480,15 @@ Page({
       if (app.globalData.userInfo.nickName){
         _parms.nickName=app.globalData.userInfo.nickName
       }
+      if (that.data.actId) {
+        _parms.actId = that.data.actId
+      }
       wx.showLoading({
         title: '正在提交...',
       })
       Api.topicadd(_parms).then((res) => {
         if (res.data.code == 0) {
           setTimeout(function () {
-            console.log("cfrom:", that.data.cfrom);
             wx.hideLoading();
             wx.showToast({
               title: '提交成功',
@@ -486,8 +498,7 @@ Page({
             that.setData({
               content: []
             })
-            
-            if (that.data.actId == 37) {
+            if (that.data.actId && that.data.acfrom == 2) {
               getApp().globalData.article = [];
               that.data.title = '';
               that.covervideo = '';
@@ -495,7 +506,7 @@ Page({
               wx.navigateBack({
                 delta: 1
               })
-            } else if (that.data.actId == 38) {
+            } else if (that.data.actId && that.data.acfrom == 1) {
               getApp().globalData.article = [];
               that.data.title = '';
               that.covervideo = '';
@@ -510,7 +521,6 @@ Page({
                 url: '../../activityDetails/video-list/video-list'
               })
             } else {
-              console.lo
               wx.switchTab({
                 url: '../../discover-plate/discover-plate'
               })
@@ -530,7 +540,7 @@ Page({
             that.data.title='';
             that.covervideo='';
             that.data.coverimg='';
-            if (that.data.actId == 37) {
+            if (that.data.actId) {
               wx.navigateBack({
                 delta: 1
               })
@@ -549,9 +559,12 @@ Page({
   addVideo(_parms) {
     Api.addVideo(_parms).then((res) => {
       if (res.data.code == 0) {
-        wx.redirectTo({
-          url: '../../activityDetails/video-list/video-list?actId=' + _parms.actId+'&id=' + _parms.topicId
+        wx.navigateBack({
+          delta: 1
         })
+        // wx.redirectTo({
+        //   url: '../../activityDetails/video-list/video-list?actId=' + _parms.actId+'&id=' + _parms.topicId
+        // })
       }
     });
   },

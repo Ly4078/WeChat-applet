@@ -12,6 +12,7 @@ Page({
     issnap: false,
     switchTab: true,
     isball:true,
+    isclick:false,
     flag: true,
     searchValue: '',
     page: 1,
@@ -77,9 +78,7 @@ Page({
     this.onehundredInit();
     
   },
-  onShow:function(){
-   
-  },
+  onShow:function(){},
   onehundredInit: function () {
     let that = this;
     if (!app.globalData.userInfo.mobile) {
@@ -413,13 +412,19 @@ Page({
     }
   },
   castvote: function (e) {  //選手投票
+    let that = this, id = e.currentTarget.id;
+    if (this.data.isclick){
+      return false
+    }
+    this.setData({
+      isclick:true
+    })
     if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
       })
       return false
     }
-    let id = e.currentTarget.id;
     let _parms = {
       actId: this.data.actId,
       userId: this.data.voteUserId
@@ -442,7 +447,13 @@ Page({
       return false;
     }
     Api.voteAdd(_parms).then((res) => {
+      setTimeout(function () {
+        that.setData({
+          isclick: false
+        })
+      },1000)
       if (res.data.code == 0) {
+
         wx.showToast({
           title: '投票成功',
           mask: 'true',
