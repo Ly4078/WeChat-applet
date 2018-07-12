@@ -1,4 +1,4 @@
-<view wx:if="{{article_list.length > 0}}">
+<view wx:if="{{article_list.length > 0}}" class="mydynamic">
   <block wx:for="{{article_list}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
     <view class='articleWrap'>
       <view class='articleLittle'>

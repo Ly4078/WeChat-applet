@@ -178,6 +178,7 @@ Page({
         } else {
           _nickName = data.nickName
         }
+        data.userInfo = utils.uncodeUtf16(data.userInfo);
         this.setData({
           refId: data.id,
           nickName: _nickName,

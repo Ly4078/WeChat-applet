@@ -19,6 +19,7 @@ Page({
     _userId:'',
     isball:false,
     isdtzan:false,
+    isclick:false,
     videodata:[],
     voteNum:0,
     _iconUrl:'',
@@ -373,6 +374,9 @@ Page({
     })
   },
   handzan:function(){
+    if(this.data.isclick){
+      return false
+    }
     if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
@@ -401,6 +405,9 @@ Page({
       userId: app.globalData.userInfo.userId
     }
     Api.zanadd(_parms).then((res) => {
+      that.setData({
+        isclick:false
+      })
       if (res.data.code == 0) {
         wx.showToast({
           mask: true,
@@ -435,6 +442,9 @@ Page({
       userId: app.globalData.userInfo.userId
     }
     Api.zandelete(_parms).then((res) => {
+      that.setData({
+        isclick: false
+      })
       if (res.data.code == 0) {
         wx.showToast({
           mask: true,

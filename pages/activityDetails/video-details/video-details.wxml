@@ -30,7 +30,7 @@
     </view>
   </view>
 
-  <view class='nocomment'  wx:if="{{totalComment < 1}}"></view>
+  <view class='nocomment'  wx:if="{{refId}}"></view>
 
   <view class="comment" wx:if="{{totalComment > 0}}">
     <view class="comment_tit" bindtap="toMoreComment">

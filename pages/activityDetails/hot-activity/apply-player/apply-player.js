@@ -104,6 +104,8 @@ Page({
       })
       return false;
     }
+    // inpVal.signText
+    inpVal.signText = utils.utf16toEntities(inpVal.signText);
     let fileIds = this.data.imgsIdArr
     fileIds.push(this.data.videoId);
     this.setData({

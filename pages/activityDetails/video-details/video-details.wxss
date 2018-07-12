@@ -9,6 +9,7 @@
 .video_details{
   width:750rpx;
   background: #fff;
+  margin-bottom: 20rpx;
 }
 .Players{
   width:694rpx;
@@ -148,10 +149,9 @@
   /*
     */
 
-    .comment {
+.comment {
   background-color: #fff;
   padding: 26rpx 26rpx 76rpx 28rpx;
-  margin-top: 20rpx;
 }
 
 .comment_tit {
