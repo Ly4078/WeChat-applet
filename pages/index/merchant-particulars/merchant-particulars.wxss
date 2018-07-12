@@ -676,11 +676,14 @@ page {
   width:14rpx;
   margin-top:19rpx;
   transform:rotate(90deg);
+  background: #FFFFFF;
+
 }
 .more_img2{
   width:14rpx;
   margin-bottom:22rpx;
   transform:rotate(-90deg);
+  background: #FFFFFF;
 }
 .distop{
   position:relative;

@@ -113,7 +113,7 @@ page {
 .motai{
   border-radius:10rpx;
   position:relative;
-  top:-402rpx;
+  top:-397rpx;
   height:390rpx;
   width:100%;
   background-color:#191919;
