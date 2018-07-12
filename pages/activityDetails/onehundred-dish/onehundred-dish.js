@@ -51,8 +51,6 @@ Page({
         actId: options.actid
       });
     }
-    
-    
     if (options.sortType == 1) {
       this.setData({
         sortType: 1
@@ -63,22 +61,22 @@ Page({
         switchTab: false
       });
     }
-    if (app.globalData.userInfo.userId && app.globalData.userInfo.mobile){
+    if (app.globalData.userInfo.userId && app.globalData.userInfo.mobile) {
       this.setData({
         voteUserId: app.globalData.userInfo.userId,
         userName: app.globalData.userInfo.mobile
       });
-      this.availableVote();
     } else if (options.voteUserId) {
       this.setData({
         voteUserId: options.voteUserId,
         userName: options.userName
       });
     }
-    this.onehundredInit();
-    
   },
-  onShow:function(){},
+  onShow: function (options) {
+    this.availableVote();
+    this.onehundredInit();
+  },
   onehundredInit: function () {
     let that = this;
     if (!app.globalData.userInfo.mobile) {
