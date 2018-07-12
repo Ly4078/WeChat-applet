@@ -12,7 +12,7 @@ Page({
     issnap: false,
     switchTab: true,
     isball:true,
-    isclick:false,
+    isclick:true,
     flag: true,
     searchValue: '',
     page: 1,
@@ -413,12 +413,9 @@ Page({
   },
   castvote: function (e) {  //選手投票
     let that = this, id = e.currentTarget.id;
-    if (this.data.isclick){
+    if (!this.data.isclick){
       return false
     }
-    this.setData({
-      isclick:true
-    })
     if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
@@ -446,14 +443,11 @@ Page({
       })
       return false;
     }
+    this.setData({
+      isclick: false
+    })
     Api.voteAdd(_parms).then((res) => {
-      setTimeout(function () {
-        that.setData({
-          isclick: false
-        })
-      },1000)
       if (res.data.code == 0) {
-
         wx.showToast({
           title: '投票成功',
           mask: 'true',
@@ -492,6 +486,11 @@ Page({
           });
         }
       }
+      setTimeout(function () {
+        that.setData({
+          isclick: true
+        })
+      }, 1000)
     });
   },
   payDish(e) {    //购买推荐菜
