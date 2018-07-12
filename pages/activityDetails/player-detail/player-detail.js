@@ -10,7 +10,7 @@ Page({
     voteUserId: 0,
     refId: 0,
     issnap: false,
-    isball:true,
+    isball: true,
     nickName: '',
     bgUrl: '',
     iconUrl: '',
@@ -31,9 +31,9 @@ Page({
     availableNum: 0,    //可用票数
     cmtdata: [],
     isApply: false,
-    isnew:false,
+    isnew: false,
     shareFlag: false,
-    isshow:false
+    isshow: false
   },
   onLoad: function (options) {
     let dateStr = new Date();
@@ -63,13 +63,13 @@ Page({
     if (!app.globalData.userInfo.mobile) {
       this.getuserinfo();
     }
-    if (app.globalData.isflag){
+    if (app.globalData.isflag) {
       this.setData({
-        isshow:true
+        isshow: true
       })
-    }else{
+    } else {
       this.setData({
-        isshow:false
+        isshow: false
       })
     }
     this.playerDetail();
@@ -78,7 +78,7 @@ Page({
   isSign() {
     let _parms = {
       refId: app.globalData.userInfo.userId,
-      actId: this.data.actId ? this.data.actId:37,
+      actId: this.data.actId ? this.data.actId : 37,
       type: 1
     }
     Api.actisSign(_parms).then((res) => {
@@ -86,7 +86,7 @@ Page({
         this.setData({
           isApply: true
         });
-      }else{
+      } else {
         this.setData({
           isApply: false
         });
@@ -116,7 +116,7 @@ Page({
         success: function (res) {
           if (res.cancel) { //商家用户
             wx.navigateTo({
-              url: '../../index/download-app/download',
+              url: '../../../pages/index/download-app/download?isshop=ind',
             })
           } else if (res.confirm) { //普通用户
             let _parms = {
@@ -165,16 +165,16 @@ Page({
     };
     Api.playerDetails(_parms).then((res) => {
       if (res.data.code == 0) {
-        let data = res.data.data,reg = /^1[34578][0-9]{9}$/,_nickName='';
+        let data = res.data.data, reg = /^1[34578][0-9]{9}$/, _nickName = '';
         if (data.nickName && reg.test(data.nickName)) {
           data.nickName = data.nickName.substr(0, 3) + "****" + data.nickName.substr(7)
         }
         if (data.userName && reg.test(data.userName)) {
           data.userName = data.userName.substr(0, 3) + "****" + data.userName.substr(7)
         }
-        if (data.nickName=='null' || !data.nickName){
+        if (data.nickName == 'null' || !data.nickName) {
           _nickName = data.userName
-        }else{
+        } else {
           _nickName = data.nickName
         }
         this.setData({
@@ -241,7 +241,7 @@ Page({
         }
       });
     }
-    
+
   },
   previewImg(e) {
     let id = e.target.id, imgArr = this.data.imgArr, imgUrls = [], idx = 0;
@@ -252,7 +252,7 @@ Page({
       }
     }
     wx.previewImage({
-      current: imgArr[idx].picUrl, 
+      current: imgArr[idx].picUrl,
       urls: imgUrls
     })
   },
@@ -263,14 +263,14 @@ Page({
       })
       return false
     }
-    if (app.globalData.isflag){
+    if (app.globalData.isflag) {
       wx.navigateTo({
         url: '../../discover-plate/dynamic-state/dynamic-state?id=2&actId=37'
       })
-    }else{
+    } else {
       wx.showToast({
         title: '功能开发中...',
-        icon:'none'
+        icon: 'none'
       })
     }
   },
@@ -356,7 +356,7 @@ Page({
               article: article,
               voteNum: this.data.voteNum - 1
             })
-            if(this.data.voteNum <= 0) {
+            if (this.data.voteNum <= 0) {
               this.setData({
                 voteNum: 0
               })
@@ -398,8 +398,8 @@ Page({
           }
         }
         this.setData({
-          comment_list:_data.list,
-          totalComment:_data.total
+          comment_list: _data.list,
+          totalComment: _data.total
         });
       }
     });
@@ -442,7 +442,7 @@ Page({
       wx.showToast({
         title: '请输入评论内容',
         icon: 'none',
-        mask:'true',
+        mask: 'true',
         duration: 2000
       })
       return false;
@@ -459,14 +459,14 @@ Page({
       nickName: app.globalData.userInfo.nickName,
     }
     Api.cmtadd(_parms).then((res) => {
-      if(res.data.code == 0) {
+      if (res.data.code == 0) {
         this.comment();
       } else {
         wx.showToast({
           title: '系统繁忙,请稍后再试',
           mask: 'true',
           duration: 2000,
-          icon:'none'
+          icon: 'none'
         })
       }
     })
@@ -499,7 +499,7 @@ Page({
           title: '今天票数已用完,请明天再来',
           mask: 'true',
           icon: 'none',
-          duration:2000
+          duration: 2000
         })
         return false;
       }
@@ -507,7 +507,7 @@ Page({
         if (res.data.code == 0) {
           wx.showToast({
             title: '投票成功',
-            mask:'true',
+            mask: 'true',
             icon: 'none'
           })
           _this.setData({
@@ -593,13 +593,13 @@ Page({
       }
     })
   },
-  handvideo:function(){
+  handvideo: function () {
     let Url = this.data.videoArr[0].picUrl;
     wx.navigateTo({
       url: '../video-details/video-details?url=' + Url + '&actId=' + this.data.actId + '&userId=' + this.data.userId,
     })
   },
-  clickvidoe:function(e){
+  clickvidoe: function (e) {
     if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
@@ -607,14 +607,14 @@ Page({
       return false
     }
     let id = e.currentTarget.id, ind = '', str = e.currentTarget;;
-    let _actId = this.data.actId,isvideo=false;
+    let _actId = this.data.actId, isvideo = false;
     for (let i = 0; i < this.data.article.length; i++) {
       if (this.data.article[i].id == id) {
-        if (this.data.article[i].content[0].type == 'video' || this.data.article[i].topicType==2) {
+        if (this.data.article[i].content[0].type == 'video' || this.data.article[i].topicType == 2) {
           wx.navigateTo({
             url: '../video-details/video-details?&id=' + id + '&actId=' + _actId + '&userId=' + this.data.userId,
           })
-        } else if (this.data.article[i].content[0].type == 'img' || this.data.article[i].topicType == 1){
+        } else if (this.data.article[i].content[0].type == 'img' || this.data.article[i].topicType == 1) {
           wx.navigateTo({
             url: '../../discover-plate/dynamic-state/article_details/article_details?id=' + str.id + '&zan=' + str.dataset.index
           })
@@ -720,7 +720,7 @@ Page({
                   }
                 }
               };
-              
+
               if (!data.mobile) {
                 that.setData({
                   isnew: true
@@ -758,7 +758,7 @@ Page({
       }
     })
   },
-  toactlist(){
+  toactlist() {
     wx.switchTab({
       url: '../../index/index',
     })
