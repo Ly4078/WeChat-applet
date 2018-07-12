@@ -32,7 +32,8 @@ Page({
     cmtdata: [],
     isApply: false,
     isnew:false,
-    shareFlag: false
+    shareFlag: false,
+    isshow:false
   },
   onLoad: function (options) {
     let dateStr = new Date();
@@ -61,6 +62,15 @@ Page({
   onShow: function () {
     if (!app.globalData.userInfo.mobile) {
       this.getuserinfo();
+    }
+    if (app.globalData.isflag){
+      this.setData({
+        isshow:true
+      })
+    }else{
+      this.setData({
+        isshow:false
+      })
     }
     this.playerDetail();
     this.articleList();

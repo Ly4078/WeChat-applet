@@ -90,6 +90,7 @@ Page({
       url: this.data._build_url + 'cp/get/' + this.data.id,
       success: function (res) {
         let data = res.data;
+        console.log('data:',data)
         if(res.data.code == 0){
           let arr = [],ticketArr=[];
           arr.push(res.data.data);
@@ -260,17 +261,16 @@ Page({
       id:soid,
       soStatus:'2'
     };
-    console.log('getshopOrderList ')
+
+    console.log("_parms:", _parms)
     Api.myorderForShop(_parms).then((res) => {
       console.log('res:',res)
-      if(res){
-        
-        if (res.data.code == 0 || res.data.code == 200) {
-          this.setData({
-            ticketInfo: res.data.data.list[0],
-            isticket: false
-          })
-        }
+      if (res.data.code == 0 || res.data.code == 200){
+        this.setData({
+          ticketInfo:res.data.data.list[0],
+          isticket: false
+        })
+
       }
     })
     console.log(res.data.data.list[0])

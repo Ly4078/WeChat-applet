@@ -18,9 +18,18 @@ Page({
     choicetype:'',
     placeholderFlag: true,
     issnap: false,  
+    isshow:false
   },
   onShow: function () {
-
+    if (app.globalData.isflag){
+      this.setData({
+        isshow:true
+      })
+    }else{
+      this.setData({
+        isshow: false
+      })
+    }
   },
   onPageScroll:function(){
     this.setData({

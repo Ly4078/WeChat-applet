@@ -47,6 +47,7 @@ Page({
     videolist:[],
     bannthree:[],
     actitem:'附近',
+    isfile:false,
     navs: [
       {
         img: '/images/icon/navquan.png',
@@ -174,13 +175,20 @@ Page({
     this.indexinit();
   },
   onShow: function () {
+    let that = this;
     wx.request({
       url: this.data._build_url + 'act/flag', 
       success: function (res) {
-        if (res.data.data == 0) { //0显示  1不显示
+        if (res.data.data == 0) { //0显示  
           app.globalData.isflag = true;
-        }else if(res.data.data == 1){
+          that.setData({
+            isfile:true
+          })
+        } else if (res.data.data == 1) {  //1不显示
           app.globalData.isflag = false;
+          that.setData({
+            isfile: false
+          })
         }
       }
     })
@@ -225,6 +233,9 @@ Page({
             let _parms = {
               code: res.code
             }
+
+            // console.log("code:",res.code);
+            // return false
             let that = this;
             Api.getOpenId(_parms).then((res) => {
               app.globalData.userInfo.openId = res.data.data.openId;
@@ -1013,7 +1024,6 @@ Page({
   },
   toNewExclusive: function (e) {   //跳转至新人专享页面
     let id = e.currentTarget.id, _linkUrl = '',_type ='';
-    console.log("id:",id)
     if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
@@ -1022,7 +1032,6 @@ Page({
     }
     for (let k in this.data.carousel) {
       if (id == this.data.carousel[k].id) {
-        console.log("i:", this.data.carousel[k])
         _linkUrl = this.data.carousel[k].linkUrl,
         _type = this.data.carousel[k].type
       }

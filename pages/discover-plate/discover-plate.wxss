@@ -21,10 +21,10 @@ scroll_box.initiate-exhibition {
   align-items: center;
 }
 .merchant_none {
-  width:70%;
-  height:300rpx;
-  top: 200rpx;
-  left: 120rpx;
+  width:50%;
+  height:242rpx;
+  top:200rpx;
+  left:180rpx;
   position:relative;
 }
 .merchant_none image{

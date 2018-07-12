@@ -403,6 +403,7 @@ Page({
             wx.redirectTo({
               url: '../../../personal-center/lelectronic-coupons/lectronic-coupons?pay=pay' + '&soid=' + soid
             })
+            that.messagepush();
           },
           fail: function (res) {
             wx.showToast({
@@ -415,6 +416,7 @@ Page({
       }
     })
   },
+
   //消息推送
   messagepush:function(){
     let that = this, paynum = that.data.payment ? that.data.payment:0;
@@ -428,6 +430,7 @@ Page({
       shopId: that.data.shopId
     }
     console.log('_parms:', _parms)
+
     Api.pushSoByShop(_parms).then((res) => {
       if(res.data.code == 0){
         console.log('推送成功')
