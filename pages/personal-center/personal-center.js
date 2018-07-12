@@ -291,7 +291,7 @@ Page({
       return false
     }else{
       wx.navigateTo({
-        url: '../index/download-app/download',
+          url: '../../pages/index/download-app/download?isshop=ind',
       })
     }
     wx.getSetting({
