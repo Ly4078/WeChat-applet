@@ -1051,12 +1051,10 @@ Page({
       let arr2 = arr[i].split("=");
       _obj[arr2[0]] = arr2[1];
     }
-
     if (id == 4) {
-      // wx.navigateTo({
-      //   url: 'new-exclusive/new-exclusive',
-      // })
-      
+      wx.navigateTo({
+        url: 'new-exclusive/new-exclusive',
+      })
     } else if (id == 1) {
       return false
       wx.navigateTo({
