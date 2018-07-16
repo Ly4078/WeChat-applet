@@ -61,8 +61,8 @@ page{
 }
 
 .hotDining{
-  width: 24rpx;
-  height: 24rpx;
+  width: 28rpx;
+  height: 28rpx;
 }
 
 .hotText{

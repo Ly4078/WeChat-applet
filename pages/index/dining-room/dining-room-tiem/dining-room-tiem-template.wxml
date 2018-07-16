@@ -10,13 +10,15 @@
         </view>
         <view class='trade_site_distance'>
           <view class='dq_popularitywrap'>
-            <view>
-              <image class='dq_popularity' src='/images/icon/restaurant_hot.png'></image>
-              <text class='trade_rq'>人气<text class='trade_figure'>{{item.popNum}}</text></text>
-              <text class="dq_popularity_meal">{{item.businessCate}}</text>
+            <view class='dq_popularity_sKu'>
+              <image class='dq_popularity' src='/images/icon/hot.png'></image>
+              <text class='trade_rq'>人气：<text class='trade_figure'>{{item.popNum}}</text></text>
+              <view class='returnes'>
+                <text class="dq_popularity_meal">{{item.businessCate}}</text>
+              </view>
             </view>
             <view class='trade_site_lxg'>
-              <image src="/images/icon/womendzbq.png"></image>
+              <image class='trade_site_images' src="/images/icon/womendzbq.png"></image>
               <text>{{item.distance}}</text>
             </view>
           </view>

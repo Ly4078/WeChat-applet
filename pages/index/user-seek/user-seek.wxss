@@ -1,21 +1,28 @@
 .search_arr{
   margin-top:  20rpx;
+  background-color: #f5f5fa;
+  width: 80%;
+  border-radius: 50rpx;
 }
 
 .user-cancel{
   margin-top:-62rpx;
   height:64rpx;
-  background-color: white;
   color: #808080;
   line-height: 64rpx;
+  background-color: #f5f5fa;
+  border-radius: 50rpx;
+  padding-right: 20rpx;
+}
+
+.clearFileHistoryWarp {
+  background-color: #f5f5fa;
 }
 
 .searchcion{
   margin:12rpx 0rpx 10rpx 30rpx;
 }
-/* .trade_site_distance text:nth-child(2) {
-padding-right:32rpx;
-} */
+
 .trade_site_address {
   display:inline-block;
   width:260rpx;
@@ -24,11 +31,89 @@ padding-right:32rpx;
   overflow:hidden;
 }
 
-.trade_site_lxg {
-  display:inline-block;
-  float: right;
-  padding: 0;
+.search{
+  background-color: #Fff;
 }
+
+.trade_site_lxg {
+  position: absolute;
+  top: 32rpx;
+  right: 20rpx;
+}
+
+.trade_site_lxg text{
+  vertical-align: middle;
+}
+
+.dq_popularity_meal{
+  width: 20%;
+}
+
+.trade_site_images{
+  width: 32rpx;
+  height: 32rpx;
+  vertical-align: middle;
+}
+
+.trade_rq{
+  padding-right: 10rpx;
+}
+
+.dq_popularity_sKu{
+   display: flex;
+   align-items: center;
+}
+
+.practical_left1{
+  width: 35%;
+  text-align: center;
+}
+
+.shopWrap{
+  border-bottom:0rpx;
+
+}
+
+.dq_popularitywrap{
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.record_rwap{
+  padding:18rpx 4rpx 18rpx 0rpx;
+  margin-left: 0rpx;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.practical_right1{
+  width: 65%;
+  line-height: 52rpx;
+}
+
+.practicalImg{
+  width: 198rpx;
+  height: 202rpx;
+}
+
+.navigationKb_right{
+  width: 76%;
+}
+
+.navigationKb_Wrapp{
+  overflow: hidden;
+text-overflow:ellipsis;
+white-space: nowrap;
+}
+
+.returnes{
+  display: inline-block;
+  width: 160rpx;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+}
+
 .elsk{
   display: flex;
   justify-content: space-between;
@@ -36,11 +121,11 @@ padding-right:32rpx;
 }
 .trade_name {
   font-size: 16px;
-  margin-top: 20rpx;
   display: inline-block; 
   width: 260rpx;
   text-overflow: ellipsis; 
   white-space: nowrap; 
   overflow: hidden;
+  margin-top: 0rpx;
 }
 
