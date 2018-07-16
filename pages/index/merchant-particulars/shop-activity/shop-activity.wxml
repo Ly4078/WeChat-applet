@@ -1,0 +1,19 @@
+<import src="../activity-item/activity-item.wxml" />
+<view class="merchant_box">
+  <view class="navbarBox">
+    <view class="{{switchFlag ? '' : 'active'}}" bindtap='tabSwitch'>
+      <text>全部</text>
+    </view>
+    <view class="{{switchFlag == 2 ? 'active' : ''}}" id="2" bindtap='tabSwitch'>
+      <text>视频</text>
+    </view>
+    <view class="{{switchFlag == 1 ? 'active' : ''}}" id="1" bindtap='tabSwitch'>
+      <text>文章</text>
+    </view>
+  </view>
+  <view>
+    <block wx:for="{{merchantArt}}" wx:key="{{index}}" data-idx="{{index}}">
+      <template is="activityItem" data="{{item}}"></template>
+    </block>
+  </view>
+</view>

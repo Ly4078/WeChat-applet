@@ -19,6 +19,8 @@
     "pages/index/merchant-particulars/preview-picture/preview-picture",
     "pages/index/merchant-particulars/food-details/food-details",
     "pages/index/merchant-particulars/coupon_details/coupon_details",
+    "pages/index/merchant-particulars/shop-activity/shop-activity",
+    "pages/index/merchant-particulars/answer-comment/answer-comment",
     "pages/personal-center/personal-center",
     "pages/discover-plate/dynamic-state/dynamic-state",
     "pages/discover-plate/dynamic-state/text_input/text_input",

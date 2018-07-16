@@ -1,4 +1,3 @@
-
 <view class="newUserModal" wx:if="{{issnap}}">
   <view class='drawer_screen'>
     <view class='sqtishi'>提示</view>
@@ -9,27 +8,28 @@
 </view>
 <view class="homePage">
   <view class="playerInfo">
-    <view class="playerInfoBack"></view>
-    <image class="playerInfoImg" src="{{bgUrl}}" mode="aspectFill"></image>
+    <!-- <view class="playerInfoBack"></view>
+    <image class="playerInfoImg" src="{{bgUrl}}" mode="aspectFill"></image> -->
     <view class="info_inner">
       <view class="info_inner_l">
         <image src="{{iconUrl}}"></image>
       </view>
       <view class="info_inner_r">
-        <view class="info_name">{{nickName}}</view>
-        <view>
-          <view class="info_age" wx:if="{{age}}">
-            <image wx:if="{{sex == 0}}" src="/images/icon/male.png"></image>
-            <image wx:if="{{sex == 1}}" src="/images/icon/girl.png"></image>
-            {{age}}岁
-          </view>
+        <view class="info_name">
+          <text>{{nickName?nickName:userName}}</text>
+          <image wx:if="{{sex == 0}}" src="/images/icon/male1.png"></image>
+          <image wx:if="{{sex == 1}}" src="/images/icon/girl1.png"></image>
+        </view>
+        <!-- <view>
           <view class="info_address" wx:if="{{height}}">{{height}}cm</view>
-        </view>
+        </view> -->
         <view class="info_data">
-          <text class="info_data_num">{{articleList.length}}</text><text class="info_data_txt">动态</text>
-          <text class="info_data_num">{{voteNum}}</text><text class="info_data_txt">赞</text>
+          <text class="info_data_num">{{articleList.length}}</text>
+          <text class="info_data_txt">动态</text>
+          <text class="info_data_num">{{voteNum}}</text>
+          <text class="info_data_txt">赞</text>
         </view>
-      </view> 
+      </view>
     </view>
   </view>
   <view class="articles_published">
@@ -47,34 +47,22 @@
     <view class="homePage_list">
       <block wx:for="{{articleList}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
         <view class="homePage_list_item">
-          <view class="list_item_top">
-            <view class="list_item_top_l">
-              <image src="{{iconUrl}}"></image>
-              <view>
-                <view class="list_item_name">{{nickName?nickName:userName}}</view>
-                <view class="list_item_time">{{item.timeDiffrence}}</view>
-              </view>
-            </view>
-            <view wx:if="{{item.isZan == 0}}" class="list_item_top_r" id="{{item.id}}" bindtap='dianzanwz'>
-              <text>{{item.zan}}</text>
-              <image src="/images/icon/wenreviewed.png"></image>
-            </view>
-            <view wx:else class="list_item_top_r" id="{{item.id}}" bindtap='quxiaozanwz'>
-              <text class="active">{{item.zan}}</text>
-              <image src="/images/icon/wenreview.png"></image>
-            </view>
-          </view>
           <view class="list_item_middle" id="{{item.id}}" bindtap='videoplay'>
+            <view class="list_item_top">
+              <view class="list_item_top_l">
+                <image src="{{iconUrl}}"></image>
+                <text class="list_item_name">{{nickName?nickName:userName}}</text>
+              </view>
+              <image class="playIcon" src="/images/icon/playMini.png"></image>
+            </view>
             <image class='abcimg' wx:if="{{item.isImg}}" src="{{item.homePic}}" mode="aspectFill"></image>
- 
             <image class='vodeoimg' id="{{item.id}}" wx:if='{{!item.isplay}}' src='{{item.homePic}}'></image>
-            <view class='motai' wx:if='{{!item.isplay}}'></view>
-            <image class='palyicon' wx:if='{{!item.isplay}}' src="/images/icon/paly.png"></image> 
-
-             <video mode="aspectFill" wx:if='{{item.isplay}}' autoplay='true' src='{{item.content[0].value}}' objectFit="fill" direction="0"></video> 
+            <view class='motai' wx:if='{{!item.isplay}}'></view> 
+            <!-- <image class='palyicon' wx:if='{{!item.isplay}}' src="/images/icon/paly.png"></image> -->
+            <video mode="aspectFill" wx:if='{{item.isplay}}' autoplay='true' src='{{item.content[0].value}}' objectFit="fill" direction="0"></video>
             <view class='summary'>{{item.summary}}</view>
           </view>
-          <view class="list_item_bottom" id="{{item.id}}" data-index="{{item.zan}}">
+          <!-- <view class="list_item_bottom" id="{{item.id}}" data-index="{{item.zan}}">
             <view class="item_bottom_l">
               <image src="/images/icon/find_see.png"></image>
               <text>{{item.hitNum}}</text>
@@ -82,10 +70,10 @@
             <view class="item_bottom_r">
               <image class="item_shareImg" src="/images/icon/find_share.png"></image>
               <text>{{item.transNum}}</text>
-              <image class="item_commentImg"src="/images/icon/find_comment.png"></image>
+              <image class="item_commentImg" src="/images/icon/find_comment.png"></image>
               <text>{{item.commentNum}}</text>
             </view>
-          </view>
+          </view> -->
         </view>
       </block>
       <view wx:if="{{articleList.length == 0}}" class='merchant_none'>

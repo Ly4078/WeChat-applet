@@ -1,0 +1,9 @@
+<view class="answer-comment">
+  <view class="comment_inner">
+    <textarea placeholder='说点什么...' bindinput='getvalue'></textarea>
+    <view class="btnBox">
+      <button class="cancel" bindtap='cancel'>取消</button>
+      <button class="send" bindtap='send'>发送</button>
+    </view>
+  </view>
+</view>
