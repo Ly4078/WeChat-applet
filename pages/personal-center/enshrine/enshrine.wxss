@@ -28,18 +28,10 @@ page{
 }
 
 .enshrineImages-right{
-  width: 22rpx;
-  height: 26rpx;
+  width: 14rpx;
+  height: 24rpx;
   vertical-align: middle;
-}
-
-.enshrine-classify{
-  color: #808080;
-  font-size: 26rpx;
-  display: block;
-  text-overflow:ellipsis; 
-  white-space:nowrap; 
-  overflow:hidden;
+  padding-right: 20rpx;
 }
 
 .enshrineImages-wrap{
@@ -111,10 +103,6 @@ page{
   margin: 0rpx 10rpx;
 }
 
-.dishes:nth-child(1){
-  margin: 0rpx 8rpx 0rpx 0rpx;
-}
-
 .ecommended{
   overflow: hidden;
   text-overflow:ellipsis;
@@ -127,27 +115,6 @@ page{
   overflow:hidden;
 }
 
-.enshrine-dynamic{
-  background-color: #FC5E2D;
-  width: 62rpx;
-  height: 30rpx;
-  border-radius: 4rpx;
-  color: white;
-  font-size: 24rpx;
-  padding: 0rpx 6rpx;
-  margin-right: 20rpx;
-}
-
-.enshrine-vote{
-  background-color: #FC2D59;
-  width: 62rpx;
-  height: 30rpx;
-  border-radius: 4rpx;
-  color: white;
-  font-size: 24rpx;
-  padding: 0rpx 6rpx;
-}
-
 .enshrineWrap-right{
   position: absolute;
   right: 10rpx;
@@ -155,10 +122,4 @@ page{
   font-size:26rpx;
   font-family:PingFangSC-Regular;
   color:rgba(128,128,128,1);
-}
-
-.enshrineWrap-right text{
-  vertical-align: middle;
-  margin: 0rpx 10rpx 0rpx 7rpx;
-  letter-spacing: 3rpx;
 }

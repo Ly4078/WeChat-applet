@@ -29,20 +29,20 @@ page{
   height: auto;
   display: flex;
   justify-content: flex-start;
-  align-items: center;  
+  align-items: center;
 }
 
 .portrait{
   width: 80rpx;
   height: 80rpx;
   border-radius: 50%;
-  margin: 0rpx 28rpx 0rpx 0rpx;
+  margin: 0rpx 28rpx 0rpx 20rpx;
 }
 
 .gender{
-  width: 14rpx;
-  height: 14rpx;
-  margin: 0rpx 16rpx;
+  width: 20rpx;
+  height: 24rpx;
+  margin: 0rpx 0rpx 0rpx 8rpx;
   vertical-align: middle;
 }
 
@@ -88,4 +88,10 @@ page{
 
 .zuoText{
   margin-right: 8rpx;
+}
+
+.portraitRight{
+  width: 30%;
+  display: flex;
+  justify-content: center;
 }

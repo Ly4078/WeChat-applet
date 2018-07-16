@@ -5,7 +5,8 @@
       <view class='portraitLeft'>
         <view class='portraitNickname'>
           <text>叮当唷</text>
-          <image class='gender' src='/images/icon/arrow.png'></image>
+          <image class='gender' src="/images/icon/genderes.png"></image>
+          <!-- <image class='gender' src="/images/icon/gender.png"></image> -->
         </view>
         <view>
           <text class='zuoText'>作品：23 </text>
@@ -13,7 +14,7 @@
         </view>
       </view>
     </view>
-    <view>
+    <view class='portraitRight'>
       <!-- <button class='button'>取消关注</button>  -->
       <button class='attentionBTn'>+关注</button>
     </view>
@@ -27,7 +28,7 @@
       <view class='portraitLeft'>
         <view class='portraitNickname'>
           <text>叮当唷</text>
-          <image class='gender' src='/images/icon/arrow.png'></image>
+          <image class='gender' src='/images/icon/gender.png'></image>
         </view>
         <view>
           <text class='zuoText'>作品：23 </text>
@@ -35,9 +36,9 @@
         </view>
       </view>
     </view>
-    <view>
-      <!-- <button class='button'>取消关注</button>  -->
-      <button class='attentionBTn'>+关注</button>
+    <view class='portraitRight'>
+       <button class='button'>取消关注</button>  
+      <!-- <button class='attentionBTn'>+关注</button> -->
     </view>
   </view>
 </view>

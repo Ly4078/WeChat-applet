@@ -22,9 +22,13 @@
         </view>
       </view>
       <view class='enshrineWrap-right'>
+        <image class='enshrineImages-right' src='/images/icon/home_arrow.png'></image>
+      </view>
+      <!-- 这是地理位置别删后面要用 -->
+      <!-- <view class='enshrineWrap-right'>
         <image class='enshrineImages-right' src='/images/icon/location.png'></image>
         <text>444m</text>
-      </view>
+      </view> -->
     </view>
   </block>
 </view>
