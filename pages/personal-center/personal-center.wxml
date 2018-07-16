@@ -1,9 +1,9 @@
-  <view class="newUserModal loginuser" wx:if="{{istouqu}}" catchtouchmove='true'>
-   <view class="drawer_screen"></view>
-    <button class="newUserM_box" open-type="getUserInfo" bindgetuserinfo="againgetinfo">
-      <image class='loginimg' src='/images/icon/login.png'></image>
-    </button>
-  </view>
+<view class="newUserModal loginuser" wx:if="{{istouqu}}" catchtouchmove='true'>
+  <view class="drawer_screen"></view>
+  <button class="newUserM_box" open-type="getUserInfo" bindgetuserinfo="againgetinfo">
+    <image class='loginimg' src='/images/icon/login.png'></image>
+  </button>
+</view>
 
 <view class="newUserModal" wx:if="{{issnap}}">
   <view class='drawer_screen'>
@@ -18,47 +18,62 @@
 <view>
   <view class='centreWrap'>
     <view class='centreTopName'>
-      <button wx:if="{{canIUse}}" class='suerinfo' open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">
-        <image class='centreImages' wx:if="{{ismobile}}" src='{{iconUrl}}'></image>
-        <image wx:else class='centreImages' src='{{iconUrl}}'></image>
-      </button>
-      <view wx:else>请升级微信版本</view>
-       <view class='centreText' catchtap='wxgetsetting'>{{nickName}}</view> 
-
+      <view class='theNameof'>
+        <button wx:if="{{canIUse}}" class='suerinfo' open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">
+          <image class='centreImages' wx:if="{{ismobile}}" src='{{iconUrl}}'></image>
+          <image wx:else class='centreImages' src='{{iconUrl}}'></image>
+        </button>
+        <view wx:else>请升级微信版本</view>
+        <text class='centreText' catchtap='wxgetsetting'>{{nickName}}</text>
+      </view>
     </view>
+    <view class='TopRight'>
+      <button catchtap='personal'>个人主页</button>
+    </view>
+    <image class='background' src='https://xq-1256079679.file.myqcloud.com/text_267089724441584708_0.8.jpg'></image>
+  </view>
+
+  <!-- 动态 收藏 钱包 关注 -->
+  <view class='variances'>
     <view class='messageCase'>
-      <view class='messageWrap' bindtap='DynamicState'>
-        <text class='messageTop'>动态</text>
-        <text>{{sumTotal}}</text>
+      <view class='messageWrap' bindtap='carefulness'>
+        <image class='coloursIcon' src='/images/icon/formicon.png'></image>
+        <text class='messageTop'>订单</text>
+        <!-- <text>{{sumTotal}}</text> -->
       </view>
-      <image class='halving-line' src='/images/icon/vertical.png'></image>
-      <view class='messageWrap' catchtap='enshrineClick'>
-        <text class='messageTop'>收藏</text>
-        <text>{{collectTotal}}</text>
+      <view class='messageWrap' catchtap='myTickets'>
+        <image class='coloursIcon' src='/images/icon/voucher.png'></image>
+        <text class='messageTop'>优惠券</text>
+        <!-- <text>{{collectTotal}}</text> -->
       </view>
-      <image class='halving-line' src='/images/icon/vertical.png'></image>
       <view class='messageWrap' catchtap='myMineMoney'>
+        <image class='coloursIcon' src='/images/icon/notecase.png'></image>
         <text class='messageTop'>钱包</text>
-        <text><text wx:if="{{accountBalance.data !=0}}">¥</text>{{accountBalance.data}}</text>
+        <!-- <text><text wx:if="{{accountBalance.data !=0}}">¥</text>{{accountBalance.data}}</text> -->
+      </view>
+      <view class='messageWrap' catchtap='personalCenter'>
+        <image class='coloursIcon' src='/images/icon/attention.png'></image>
+        <text class='messageTop'>关注</text>
+        <!-- <text>{{collectTotal}}</text> -->
       </view>
     </view>
   </view>
 
   <view class='mylistWrap'>
-    <view class='myList' catchtap='myTickets'>
+    <view class='myList' catchtap='enshrineClick'>
       <view class='myList-single'>
         <view>
-          <image class='myListImages' src='/images/icon/voucher.png'></image>
-          <text class='mylistText'>我的票劵</text>
+          <image class='myListImages' src='/images/icon/enshrine.png'></image>
+          <text class='mylistText'>收藏</text>
         </view>
         <image class='myListArrows' src='/images/icon/home_arrow.png'></image>
       </view>
     </view>
     <view class='myList'>
-      <view class='myList-single' catchtap='carefulness'>
+      <view class='myList-single' catchtap='infromation'>
         <view>
-          <image class='myListImages' src='/images/icon/order.png'></image>
-          <text class='mylistText'>我的订单</text>
+          <image class='myListImages' src='/images/icon/message.png'></image>
+          <text class='mylistText'>消息</text>
         </view>
         <image class='myListArrows' src='/images/icon/home_arrow.png'></image>
       </view>
@@ -66,7 +81,7 @@
   </view>
 
   <view class='mylistWrap'>
-    <view class='myList'>
+    <view class='myList sectionList'>
       <view class='myList-single' catchtap='enterEntrance'>
         <view>
           <image class='myListImages' src='/images/icon/merchants_join.png'></image>
@@ -75,46 +90,42 @@
         <image class='myListArrows' src='/images/icon/home_arrow.png'></image>
       </view>
     </view>
-    <!-- <view class='myList'>
-      <view class='myList-single' catchtap='theHostApplication'>
+
+    <view class='myList sectionList'>
+      <view class='myList-single'>
         <view>
-          <image class='myListImages' src='/images/icon/apply.png'></image>
-          <text class='mylistText'>吃播申请</text>
+          <image class='myListImages' src='/images/icon/find_article_wechat.png'></image>
+          <text class='mylistText'>在线客服</text>
+          <button class="cs_button" open-type="contact" session-from="weapp">
+            <!-- <image class="cs_image" src="../images/cs.png"></image> -->
+          </button>
         </view>
-        <image class='myListArrows' src='/images/icon/home_arrow.png'></image>
-      </view>
-    </view> -->
-    <view class='myList' wx:if="{{isshop}}">
-      <view class='myList-single' catchtap='scanAqrCode'>
-        <view>
-          <image class='myListImages' src='/images/icon/richScan.png'></image>
-          <text class='mylistText'>扫码核销</text>
-        </view>
-        <image class='myListArrows' src='/images/icon/home_arrow.png'></image>
-      </view>
-    </view>
-    <view class='myList' wx:if="{{isshop}}">
-      <view class='myList-single' catchtap='VoucherCode'>
-        <view>
-          <image class='myListImages' src='/images/icon/enter.png'></image>
-          <text class='mylistText'>券码核销</text>
-        </view>
-        <image class='myListArrows' src='/images/icon/home_arrow.png'></image>
+        <view><text class='TextTime'> 09:00--18:00 </text><image class='myListArrows' src='/images/icon/home_arrow.png'></image></view>
       </view>
     </view>
 
-    <view class='myList' wx:if="{{ismobile}}">
-      <view class='myList-single' catchtap='registered'>
+    <view class='myList sectionList'>
+      <view class='myList-single' catchtap='calling'>
         <view>
-          <image class='myListImages' src='/images/icon/anchor_join.png'></image>
-          <text class='mylistText'>用户注册</text>
+          <image class='myListImages' src='/images/icon/customer_service.png'></image>
+          <text class='mylistText'>客服电话</text>
+        </view>
+        <view><text class='TextTime'>027-59728176  (09:00--18:00)</text><image class='myListArrows' src='/images/icon/home_arrow.png'></image></view>
+      </view>
+    </view>
+
+    <view class='myList sectionList'>
+      <view class='myList-single' catchtap='aboutMe'>
+        <view>
+          <image class='myListImages' src='/images/icon/guanyuwome.png'></image>
+          <text class='mylistText'>关于我们</text>
         </view>
         <image class='myListArrows' src='/images/icon/home_arrow.png'></image>
       </view>
     </view>
   </view>
 
-  <view class='myList'>
+  <!-- <view class='myList'>
     <view class='myList-single'>
       <view>
         <image class='myListImages' src='/images/icon/customer_service.png'></image>
@@ -135,11 +146,12 @@
       <button open-type="contact" class='contacta'>（09:00--18:00）</button>
       <image class='myListArrows' src='/images/icon/home_arrow.png'></image>
 
-      <!-- <text class='immobilization'></text>
+      <text class='immobilization'></text>
       <view class='customer-service' catchtap='contactCustomer'>
         <contact-button type='default-light' class='wicket' size='20' session-from='weapp'></contact-button>
       </view>
-      <image class='myListArrows' src='/images/icon/home_arrow.png'></image> -->
+      
+      <image class='myListArrows' src='/images/icon/home_arrow.png'></image>
     </view>
   </view>
   <view class='myList'>
@@ -150,5 +162,5 @@
       </view>
       <image class='myListArrows' src='/images/icon/home_arrow.png'></image>
     </view>
-  </view>
+  </view> -->
 </view>

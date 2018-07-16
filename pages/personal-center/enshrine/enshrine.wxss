@@ -6,29 +6,31 @@ page{
 
 .enshrineWrap{
   width: 100%;
-  height: 162rpx;
+  height: 270rpx;
   background-color: white;
   display: flex;
   justify-content: space-between;
   border: 1px solid #E0E0E0;
+  position: relative;
 }
 
 .enshrineLeft{
   width: 90%;
-  height: 162rpx;
+  height: 270rpx;
   background-color: white;
   display: flex;
   justify-content: space-between;
 }
 
 .enshrineImages{
-  width: 130rpx;
-  height: 130rpx;
+  width: 198rpx;
+  height: 202rpx;
 }
 
 .enshrineImages-right{
-  width: 12rpx;
-  height: 22rpx;
+  width: 22rpx;
+  height: 26rpx;
+  vertical-align: middle;
 }
 
 .enshrine-classify{
@@ -42,7 +44,7 @@ page{
 
 .enshrineImages-wrap{
   width: 34%;
-  height: 162rpx;
+  height: 270rpx;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -50,17 +52,78 @@ page{
 
 .enshrine-caip{
   width: 65%;
-  height: 162rpx;
+  height: 270rpx;
   letter-spacing: 2rpx;
-  line-height: 49rpx;
+  line-height: 52rpx;
 }
 
 .enshrine-name{
-  font-size: 32rpx;
   color: #1E1E1E;
   display:block;
   text-overflow:ellipsis;
   white-space:nowrap;
+  overflow:hidden;
+  font-size:34rpx;
+  font-family:PingFangSC-Medium;
+  padding-top: 32rpx;
+}
+
+.hotDining{
+  width: 24rpx;
+  height: 24rpx;
+}
+
+.hotText{
+  font-size:28rpx;
+  font-family:PingFangSC-Regular;
+  color:rgba(252,94,45,1);
+  margin: 0rpx 29rpx 0rpx 6rpx;
+}
+
+.hotClassify{
+  font-size:28rpx;
+  font-family:PingFangSC-Regular;
+  color:rgba(128,128,128,1);
+}
+
+.ticket{
+  width: 26rpx;
+  height: 26rpx;
+}
+
+.reduction{
+  font-size:24rpx;
+  font-family:PingFangSC-Regular;
+  color:rgba(25,25,25,1);
+  margin-left: 13rpx;
+}
+
+.dishes{
+  height:34px;
+  background:#fff;
+  border-radius:6rpx;  
+  border: 1px solid #B0B0B0;
+  padding: 0rpx 8rpx;
+  font-size: 24rpx;
+  color: #808080;
+  letter-spacing: 2rpx;
+  font-family:PingFangSC-Regular;
+  margin: 0rpx 10rpx;
+}
+
+.dishes:nth-child(1){
+  margin: 0rpx 8rpx 0rpx 0rpx;
+}
+
+.ecommended{
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+}
+
+.regulation{
+  text-overflow:ellipsis; 
+  white-space:nowrap; 
   overflow:hidden;
 }
 
@@ -86,8 +149,16 @@ page{
 }
 
 .enshrineWrap-right{
-  width: 5%;
-  height: 162rpx;
-  display: flex;
-  align-items: center;
+  position: absolute;
+  right: 10rpx;
+  top: 120rpx;
+  font-size:26rpx;
+  font-family:PingFangSC-Regular;
+  color:rgba(128,128,128,1);
+}
+
+.enshrineWrap-right text{
+  vertical-align: middle;
+  margin: 0rpx 10rpx 0rpx 7rpx;
+  letter-spacing: 3rpx;
 }

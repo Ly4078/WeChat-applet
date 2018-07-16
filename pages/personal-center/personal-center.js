@@ -19,6 +19,7 @@ Page({
     issnap: false,
     userType: '',
     accountBalance: '',
+    userId:'',
   },
   onLoad: function () {
     this.setData({
@@ -323,14 +324,32 @@ Page({
       url: 'my-discount/my-discount',
     })
   },
-  carefulness: function (event) {
+  carefulness: function (event) { //订单
     wx.navigateTo({
       url: 'personnel-order/personnel-order',
     })
   },
-  enshrineClick: function (event) {
+  infromation:function(event){ //信息
+    wx.showToast({
+      title: '待更新...',
+      mask: 'true',
+      duration: 2000,
+      icon: 'none'
+    })
+  },
+  enshrineClick: function (event) { //收藏
     wx.navigateTo({
       url: 'enshrine/enshrine',
+    })
+  },
+  personalCenter: function (event) { //关注
+    wx.navigateTo({
+      url: '../personal-center/livepage/livepage'
+    })
+  },
+  personal:function(event){ //个人主页
+    wx.navigateTo({
+      url: '../activityDetails/homePage/homePage?iconUrl=' + this.data.iconUrl + '&userId=' + app.globalData.userInfo.userId,
     })
   },
   myMineMoney: function () { //钱包明细

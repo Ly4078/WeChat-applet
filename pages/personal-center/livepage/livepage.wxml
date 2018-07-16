@@ -1,2 +1,43 @@
-<!--pages/personal-center/livepage/livepage.wxml-->
-<text>pages/personal-center/livepage/livepage.wxml</text>
+<view class='meticulous'>
+  <view class='attention'>
+    <view class='portraitWrap'>
+      <image class='portrait' src="/images/icon/touxiang.jpg"></image>
+      <view class='portraitLeft'>
+        <view class='portraitNickname'>
+          <text>叮当唷</text>
+          <image class='gender' src='/images/icon/arrow.png'></image>
+        </view>
+        <view>
+          <text class='zuoText'>作品：23 </text>
+          <text>粉丝：47</text>
+        </view>
+      </view>
+    </view>
+    <view>
+      <!-- <button class='button'>取消关注</button>  -->
+      <button class='attentionBTn'>+关注</button>
+    </view>
+  </view>
+</view>
+
+<view class='meticulous'>
+  <view class='attention'>
+    <view class='portraitWrap'>
+      <image class='portrait' src="/images/icon/touxiang.jpg"></image>
+      <view class='portraitLeft'>
+        <view class='portraitNickname'>
+          <text>叮当唷</text>
+          <image class='gender' src='/images/icon/arrow.png'></image>
+        </view>
+        <view>
+          <text class='zuoText'>作品：23 </text>
+          <text>粉丝：47</text>
+        </view>
+      </view>
+    </view>
+    <view>
+      <!-- <button class='button'>取消关注</button>  -->
+      <button class='attentionBTn'>+关注</button>
+    </view>
+  </view>
+</view>
