@@ -208,6 +208,7 @@ page {
 .details-form image {
   height: 24rpx;
   width: 22rpx;
+  padding-right: 6rpx; 
 }
 
 .details-addition text {
