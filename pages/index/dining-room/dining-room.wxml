@@ -6,7 +6,7 @@
     <!-- 附近 、美食、综合排序 -->
     <view class='white_box'>
       <view class='sonNavigation'>
-        <view class='Navigation_data' catchtap="nearby">
+        <view class='Navigation_data' bindtap="nearby">
           <text>附近</text>
           <image class='Navigation_img' src='/images/icon/restaurant_arrow.png'></image>
         </view>
@@ -47,7 +47,7 @@
           <input class='inputs' placeholder="搜索商家/菜名" bindinput="onInputText" bindconfirm="onSearchInp" value='{{searchValue}}'/>
         </view>
       </view>
-      <view class='sonNavigation'>
+      <view class='sonNavigation'  wx:if="{{!ismodel}}">
         <view class='Navigation_data' id='1' catchtap='openmodel'>
           <text>附近</text>
           <image class='Navigation_img' src='/images/icon/restaurant_arrow.png'></image>

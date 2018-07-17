@@ -272,12 +272,18 @@ Page({
       _parms['searchKey'] = this.data.searchValue;
     }
     Api.hotActPlayerList(_parms).then((res) => {
-      let data = res.data, list = data.data.list, playerList = this.data.playerList;
+      let data = res.data, list = data.data.list, playerList = this.data.playerList, reg = /^1[34578][0-9]{9}$/;
       if (data.code == 0) {
         wx.hideLoading();
         if (list != null && list != "" && list != []) {
           for (let i = 0; i < list.length; i++) {
             list[i].imgStr = list[i].picUrls[0].picUrl;
+            if (list[i].nickName && reg.test(list[i].nickName)) {
+              list[i].nickName = list[i].nickName.substr(0, 3) + "****" + list[i].nickName.substr(7)
+            }
+            if (list[i].userName && reg.test(list[i].userName)) {
+              list[i].userName = list[i].userName.substr(0, 3) + "****" + list[i].userName.substr(7)
+            }
             playerList.push(list[i]);
           }
           this.setData({

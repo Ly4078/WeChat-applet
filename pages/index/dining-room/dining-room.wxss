@@ -12,6 +12,9 @@
   height: 200rpx;
 }
 
+.modal_box{
+  padding-top:80rpx;
+}
 .withoutText {
   width: 100%;
   display: flex;

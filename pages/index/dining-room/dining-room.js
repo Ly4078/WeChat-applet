@@ -88,6 +88,7 @@ Page({
           let posts = this.data.posts_key;
           let _data = data.data.list
           for (let i = 0; i < _data.length; i++) {
+            console.log("_data[i].distance:", _data[i].distance)
             _data[i].distance = utils.transformLength(_data[i].distance);
             _data[i].activity = _data[i].ruleDescs ? _data[i].ruleDescs.join(',') : '';
             posts.push(_data[i])
@@ -255,6 +256,7 @@ Page({
     })
   },
   nearby: function () {  //附近
+    console.log("nearby")
     this.setData({
       isnearby: true,
       isfood: false,
@@ -262,6 +264,7 @@ Page({
     })
   },
   goodfood: function () {  //美食
+    console.log("goodfood")
     this.setData({
       isnearby: false,
       isfood: true,
@@ -269,6 +272,7 @@ Page({
     })
   },
   sorting: function () {   //综合排序
+    console.log("sorting")
     this.setData({
       isnearby: false,
       isfood: false,
