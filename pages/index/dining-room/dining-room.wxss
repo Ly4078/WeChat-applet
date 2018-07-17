@@ -30,6 +30,7 @@
   position: fixed;
   top: 0;
   left: 0;
+  z-index: 999;
 }
 
 .search {
@@ -146,12 +147,6 @@
   overflow: hidden;
 }
 
-/* .elsk{
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-} */
-
 .trade_rq {
   font-size: 13px;
   color: #fc5e2d;
@@ -167,16 +162,29 @@
   padding-right: 30rpx;
 }
 
-.trade_site_lxg {
-  /* margin-top: 4rpx; */
-  display: inline-block;
-  color: #808080;
-}
-
 .trade_site_lxg image {
   width: 32rpx;
   height: 32rpx;
-   vertical-align: middle; 
+  vertical-align: middle; 
+}
+
+.dq_popularitywrap{
+  position: relative;
+  padding-bottom: 20rpx;
+}
+
+.trade_site_lxg {
+  position: absolute;
+  top: 20rpx;
+  right: 20rpx;
+}
+
+.returnes{
+  display: inline-block;
+  width: 130rpx;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
 }
 
 .trade_site_lxg text {
@@ -185,6 +193,12 @@
 
 .dq_popularity_meal {
   vertical-align: middle;
+  display: block;
+}
+
+.dq_popularity_sKu{
+  display: flex;
+  align-items: center;
 }
 
 .trade_site_address {
@@ -193,12 +207,6 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
-}
-
-.dq_popularitywrap {
-  padding-bottom: 20rpx;
-  display: flex;
-  justify-content: space-between;
 }
 
 .trade_site_distance {

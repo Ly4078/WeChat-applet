@@ -1,4 +1,3 @@
-
 .practical_right {
   width: 65%;
   height: auto;
@@ -45,8 +44,14 @@
   display: block;
 }
 
+.dq_popularitywrap{
+  position: relative;
+}
+
 .trade_site_lxg {
-  padding: 0rpx 30rpx 0rpx 0rpx;
+  position: absolute;
+  top: 100rpx;
+  right: 300rpx;
 }
 
 .navigationButtom {
