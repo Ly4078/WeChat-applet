@@ -10,13 +10,32 @@
   height:64rpx;
   color: #808080;
   line-height: 64rpx;
-  background-color: #f5f5fa;
   border-radius: 50rpx;
-  padding-right: 20rpx;
+  padding-right: 6rpx;
+}
+
+.search_arr {
+  width:82%;
+}
+
+.clearFileHistoryWarp{
+  width: 98%;
 }
 
 .clearFileHistoryWarp {
-  background-color: #f5f5fa;
+  background-color: #fff;
+  height: 90rpx;
+  line-height: 90rpx;
+}
+
+.clearFileHistory {
+  height: 90rpx;
+  line-height: 90rpx;
+}
+
+.record{
+  height: 90rpx;
+  line-height: 90rpx;
 }
 
 .searchcion{
