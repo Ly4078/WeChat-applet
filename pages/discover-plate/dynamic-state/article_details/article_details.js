@@ -13,6 +13,7 @@ Page({
     zan: '',   //点赞数
     details: {},   //文章数据 
     cmtdata: [],   //文章评论数据 
+    nodes:[],
     interval: '',  //时间差
     commentVal: '',  //评论内容
     userInfo: {},   //用户数据 
@@ -44,10 +45,11 @@ Page({
       this.gettopiclist(id)
       this.getcmtlist()
     } else {
-      options.content = JSON.parse(options.content)
+      // options.content = JSON.parse(options.content)
            
       this.setData({
         details: options
+       
       })
       
       this.setData({
@@ -61,7 +63,7 @@ Page({
     let _parms = {
       id: id,
       zanUserId: app.globalData.userInfo.userId,
-      zanUserName: app.globalData.userInfo.usrName,
+      zanUserName: app.globalData.userInfo.userName,
       zanSourceType: '1'
     }
     Api.getTopicByZan(_parms).then((res) => {
@@ -70,7 +72,7 @@ Page({
         _data.summary = utils.uncodeUtf16(_data.summary)
         _data.content = utils.uncodeUtf16(_data.content)
         _data.timeDiffrence = utils.timeDiffrence(res.data.currentTime, _data.updateTime, _data.createTime)
-        _data.content = JSON.parse(_data.content);
+        // _data.content = JSON.parse(_data.content);
         _data.hitNum = utils.million(_data.hitNum)
         _data.zan = utils.million(_data.zan) 
         let reg = /^1[34578][0-9]{9}$/; 
@@ -78,7 +80,8 @@ Page({
           _data.userName = _data.userName.substr(0, 3) + "****" + _data.userName.substr(7);
         }
         this.setData({
-          details: _data
+          details: _data,
+          nodes: _data.content.replace(/\<img/gi, '<img style="max-width:100%;height:auto" ')
         })
         this.getuser(_data.userId)
       }

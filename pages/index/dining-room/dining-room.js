@@ -89,6 +89,7 @@ Page({
           let posts = this.data.posts_key;
           let _data = data.data.list
           for (let i = 0; i < _data.length; i++) {
+            console.log("_data[i].distance:", _data[i].distance)
             _data[i].distance = utils.transformLength(_data[i].distance);
             _data[i].activity = _data[i].ruleDescs ? _data[i].ruleDescs.join(',') : '';
             posts.push(_data[i])

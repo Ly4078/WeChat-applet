@@ -74,6 +74,11 @@
   width: 694rpx;
   font-size: 32rpx;
   color: #191919;
+  word-break:break-all;
+}
+.min img{
+  width: 694rpx;
+  height: 300rpx;
 }
 .midtext{
   width: 694rpx;

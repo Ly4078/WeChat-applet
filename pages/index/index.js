@@ -176,22 +176,31 @@ Page({
   },
   onShow: function () {
     let that = this;
-    wx.request({
-      url: this.data._build_url + 'act/flag', 
-      success: function (res) {
-        if (res.data.data == 0) { //0显示  
-          app.globalData.isflag = true;
-          that.setData({
-            isfile:true
-          })
-        } else if (res.data.data == 1) {  //1不显示
-          app.globalData.isflag = false;
-          that.setData({
-            isfile: false
-          })
-        }
-      }
+
+    // wx.request({
+    //   url: this.data._build_url + 'act/flag', 
+    //   success: function (res) {
+    //     if (res.data.data == 0) { //0显示  
+    //       app.globalData.isflag = true;
+    //       that.setData({
+    //         isfile:true
+    //       })
+    //     } else if (res.data.data == 1) {  //1不显示
+    //       app.globalData.isflag = false;
+    //       that.setData({
+    //         isfile: false
+    //       })
+    //     }
+    //   }
+    // })
+
+
+    app.globalData.isflag = true;
+    that.setData({
+      isfile: true
     })
+
+
 
     if (this.data.city != app.globalData.userInfo.city){
       this.setData({

@@ -159,29 +159,40 @@ Page({
           if (res.data.data.list != null && res.data.data.list != "" && res.data.data.list != []) {
             let footList = res.data.data.list;
             for (let i = 0; i < footList.length; i++) {
-              footList[i].summary = utils.uncodeUtf16(footList[i].summary);
-              footList[i].content = utils.uncodeUtf16(footList[i].content);
-              footList[i].timeDiffrence = utils.timeDiffrence(res.data.currentTime, footList[i].updateTime, footList[i].createTime)
-              footList[i].content = JSON.parse(footList[i].content)
-              footList[i].hitNum = utils.million(footList[i].hitNum)
-              footList[i].commentNum = utils.million(footList[i].commentNum)
-              footList[i].transNum = utils.million(footList[i].transNum)
-              if (!footList[i].nickName || footList[i].nickName == 'null') {
-                footList[i].nickName = '';
-                footList[i].userName = footList[i].userName.substr(0, 3) + "****" + footList[i].userName.substr(7);
-              }
-
-              if (footList[i].content[0].type != 'video' || footList[i].topicType == 1) { //文章
-                footList[i].isimg = true
-              } else {  //视频
+             
+             
+              if (footList[i].topicType == 1) { // topicType  1文章  2视频
+                footList[i].isimg = true;
+                console.log("footList[i]:", footList[i])
+              } else if (footList[i].topicType == 2){
+                // footList[i].content = JSON.parse(footList[i].content);
                 footList[i].isimg = false
                 footList[i].clickvideo = false
               }
+              // footList[i].summary = utils.uncodeUtf16(footList[i].summary);
+              // footList[i].content = utils.uncodeUtf16(footList[i].content);
+              // footList[i].timeDiffrence = utils.timeDiffrence(res.data.currentTime, footList[i].updateTime, footList[i].createTime)
+              
+              // footList[i].hitNum = utils.million(footList[i].hitNum)
+              // footList[i].commentNum = utils.million(footList[i].commentNum)
+              // footList[i].transNum = utils.million(footList[i].transNum)
+              // if (!footList[i].nickName || footList[i].nickName == 'null') {
+              //   footList[i].nickName = '';
+              //   footList[i].userName = footList[i].userName.substr(0, 3) + "****" + footList[i].userName.substr(7);
+              // }
+
+              // if (footList[i].content[0].type != 'video' || footList[i].topicType == 1) { //文章
+              //   footList[i].isimg = true
+              // } else {  //视频
+              //   footList[i].isimg = false
+              //   footList[i].clickvideo = false
+              // }
               _data.push(footList[i]);
             }
             this.setData({
               food: _data
             })
+            console.log("food:", this.data.food)
           } else {
             this.setData({
               flag: false

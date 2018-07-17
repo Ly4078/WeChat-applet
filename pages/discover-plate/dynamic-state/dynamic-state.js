@@ -28,10 +28,10 @@ Page({
 
   onLoad: function (options) {  // 生命周期函数--监听页面加载
     let that = this;
-    getApp().globalData.article = [];
-    that.data.title = '';
-    that.covervideo = '';
-    that.data.coverimg = '';
+    // getApp().globalData.article = [];
+    // that.data.title = '';
+    // that.covervideo = '';
+    // that.data.coverimg = '';
 
     // console.log(options)
     // acfrom 1视频活动 2十堰食典
@@ -558,6 +558,10 @@ Page({
   },
   addVideo(_parms) {
     Api.addVideo(_parms).then((res) => {
+      getApp().globalData.article = [];
+      that.data.title = '';
+      that.covervideo = '';
+      that.data.coverimg = '';
       if (res.data.code == 0) {
         wx.navigateBack({
           delta: 1
