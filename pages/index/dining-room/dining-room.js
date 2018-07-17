@@ -54,7 +54,6 @@ Page({
         wx.navigateTo({
           url: '../merchant-particulars/merchant-particulars?shopid=' + res.data.data.id + '&flag=1'
         })
-   
       }
     })
   },
@@ -113,6 +112,7 @@ Page({
             for (let i = 0; i < _data.length; i++) {
               _data[i].distance = utils.transformLength(_data[i].distance);
               _data[i].activity = _data[i].ruleDescs ? _data[i].ruleDescs.join(',') : '';
+              _data[i].businessCate = _data[i].businessCate.split('/')[0].split(',')[0];
               posts.push(_data[i])
             }
             that.setData({
@@ -154,6 +154,7 @@ Page({
               for (let i = 0; i < _data.length; i++) {
                 _data[i].distance = utils.transformLength(_data[i].distance);
                 _data[i].activity = _data[i].ruleDescs ? _data[i].ruleDescs.join(',') : '';
+                _data[i].businessCate = _data[i].businessCate.split('/')[0].split(',')[0];
                 posts.push(_data[i])
               }
               _this.setData({
@@ -255,6 +256,7 @@ Page({
     })
   },
   nearby: function () {  //附近
+    console.log("nearby")
     this.setData({
       isnearby: true,
       isfood: false,
@@ -262,6 +264,7 @@ Page({
     })
   },
   goodfood: function () {  //美食
+    console.log("goodfood")
     this.setData({
       isnearby: false,
       isfood: true,
@@ -269,6 +272,7 @@ Page({
     })
   },
   sorting: function () {   //综合排序
+    console.log("sorting")
     this.setData({
       isnearby: false,
       isfood: false,

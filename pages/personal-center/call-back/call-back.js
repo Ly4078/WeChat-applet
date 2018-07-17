@@ -93,33 +93,33 @@ Page({
             if (_data.data.skuName.indexOf(Cts) > 0) {
               // _data.data.discount = false
             }
-            if (_data.data.skuName.indexOf(Act) > 0) {
-                let _parms = {
-                  shopId: app.globalData.userInfo.shopId,
-                  skuId:_data.data.skuId
-                }
-                Api.searchForShopIdNew(_parms).then((res) => {
-                  if (res.data.code == -1) {
-                    that.setData({
-                      _code: '',
-                      okhx: false,
-                      ticketsinfo: []
-                    })
-                    wx.showToast({
-                      title: res.data.message + ',不能核销此活动券 ',
-                      mask: 'true',
-                      icon: 'none',
-                      duration: 3000
-                    })
-                    setTimeout(function () {
-                      wx.switchTab({
-                        url: '../personal-center'
-                      })
-                    }, 3000)
-                  }
-                })
-              _data.data.discount = true;
-            }
+            // if (_data.data.skuName.indexOf(Act) > 0) {
+            //     let _parms = {
+            //       shopId: app.globalData.userInfo.shopId,
+            //       skuId:_data.data.skuId
+            //     }
+            //     Api.searchForShopIdNew(_parms).then((res) => {
+            //       if (res.data.code == -1) {
+            //         that.setData({
+            //           _code: '',
+            //           okhx: false,
+            //           ticketsinfo: []
+            //         })
+            //         wx.showToast({
+            //           title: res.data.message + ',不能核销此活动券 ',
+            //           mask: 'true',
+            //           icon: 'none',
+            //           duration: 3000
+            //         })
+            //         setTimeout(function () {
+            //           wx.switchTab({
+            //             url: '../personal-center'
+            //           })
+            //         }, 3000)
+            //       }
+            //     })
+            //   _data.data.discount = true;
+            // }
             // if (that.data._type) {
             //   let _parms = {
             //     shopId: app.globalData.userInfo.shopId

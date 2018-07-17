@@ -218,9 +218,9 @@ button{
 
 }
 
-.trade_site_lxg {
+/* .trade_site_lxg {
   padding: 0rpx 30rpx 0rpx 0rpx;
-}
+} */
 
 .navigationButtom {
   width: 100%;

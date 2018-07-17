@@ -1,0 +1,21 @@
+<template name="activityItem">
+  <view class="merchant_art" bindtap="toArticleInfo" id="{{item.id}}">
+    <!-- <view class="merchant_data">
+    <image src="{{item.iconUrl}}"></image>
+    <view>
+      <text class="merchant_name">{{item.nickName}}</text>
+      <text class="merchant_time">{{item.timeDiffrence}}</text>
+    </view>
+  </view> -->
+    <view class="merchant_l">
+      <image class="merchant_l_bg" mode="aspectFill" src="{{item.homePic}}"></image>
+      <!-- <view>99:99</view> -->
+      <image wx:if="{{item.topicType == 2}}" class="merchant_l_icon" src="/images/icon/playMini.png"></image>
+    </view>
+    <view class="merchant_r">
+      <view>{{item.title}}</view>
+      <text class="merchant_time">{{item.timeDiffrence}}</text>
+      <text>浏览量：{{item.hitNum}}</text>
+    </view>
+  </view>
+</template>

@@ -1,17 +1,46 @@
-page {
-  background-color: #ebebeb;
+page{
+  background-color: #F5F5FA;
+  width: 100%;
 }
-
 .centreWrap {
   background-color: white;
-  height: 470rpx;
-  margin-bottom: 20rpx;
+  height: 222rpx;
+  margin-bottom: 127rpx;
+  background: linear-gradient(to right,#FC5E2D, #FC8E2D);
+  border-bottom-left-radius: 40rpx;
+  border-bottom-right-radius: 40rpx;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
 }
 
 .centreTopName {
-  height: 300rpx;
-  text-align: center;
-  padding-top: 60rpx;
+  width: 60%;
+  height: 222rpx;
+  z-index: 100;
+}
+
+.cs_button{
+  width: 98%;
+  height: 100rpx;
+  position: absolute;
+  border: 1px solid red;
+  top: 0rpx;
+  opacity: 0;
+}
+
+.theNameof{
+  width: 100%;
+  height: 180rpx;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.TextTime{
+  font-size: 28rpx;
+  color: #808080;
+  padding-right: 20rpx;
 }
 
 .chname {
@@ -26,26 +55,60 @@ page {
 }
 
 .centreImages {
-  width: 154rpx;
-  height: 154rpx;
+  width: 111rpx;
+  height: 111rpx;
   border-radius: 50%;
   border: 1px solid #e0e0e0;
-  margin-top: -2rpx;
+  margin-top: -1rpx;
   margin-left: -1rpx;
   z-index: 3;
 }
 .suerinfo{
-  width: 154rpx;
-  height: 154rpx;
+  width: 108rpx;
+  height: 108rpx;
   border-radius: 50%;
-  margin-left: 298rpx;
+  margin: 0rpx 40rpx;
 }
 .suerinfo::after{
  border: none;
 }
 
+.TopRight{
+  width: 40%;
+  height: 180rpx;
+  position: relative;
+  z-index: 100;
+  overflow: hidden;
+}
+
+.TopRight button{
+  width:146rpx;
+  height:50rpx;
+  background:rgba(255,255,255,1);
+  opacity:0.94;
+  box-shadow:2px 0px 6px rgba(164,68,1,0.54);
+  font-size: 28rpx;
+  text-align: center;
+  line-height: 50rpx;
+  border-top-right-radius: 0rpx;
+  border-top-left-radius: 28rpx;
+  border-bottom-left-radius: 28rpx;
+  border-bottom-right-radius: 0rpx;
+  color: #FC832D;
+  letter-spacing: 2rpx;
+  position: absolute;
+  top: 74rpx;
+  right: 4rpx;
+}
+
+.background{
+  width: 100%;
+  height: 222rpx;
+  position: absolute;
+}
+
 .centreText {
-  color: #191919;
+  color: #fff;
   font-size: 36rpx;
   font-weight: 600;
   font-family: Adobe Heiti Std R;
@@ -57,35 +120,77 @@ page {
   padding-top: 10rpx;
 }
 
+.variances{
+  position: relative;
+}
+
 .messageCase {
   display: flex;
   justify-content: space-around;
   color: #191919;
+  width: 694rpx;
+  height: 140rpx;
+  border-top-right-radius: 16rpx;
+  border-top-left-radius: 16rpx;
+  border-bottom-left-radius: 16rpx;
+  border-bottom-right-radius: 16rpx;
+  position: absolute;
+  left: 28rpx;
+  top: -169rpx;
+  background: #FFF;
 }
 
 .messageTop {
   display: block;
   padding-bottom: 12rpx;
+  letter-spacing: 4rpx;
+  font-weight: 600;
 }
 
 .messageWrap {
   width: 33%;
   text-align: center;
   font-size: 30rpx;
+  line-height: 44rpx;
+  padding-top: 24rpx;
+}
+
+.coloursIcon{
+  width: 54rpx;
+  height: 54rpx;
 }
 
 .myList {
   height: 100rpx;
   background-color: white;
-  padding-left: 26rpx;
   line-height: 100rpx;
   border-bottom: 1px solid #e0e0e0;
+  border-top-left-radius: 18rpx;
+  border-top-right-radius: 18rpx;
+  width: 694rpx;
+  margin-left: 28rpx;
+}
+
+.myList:nth-child(2){
+  border-bottom-left-radius: 18rpx;
+  border-bottom-right-radius: 18rpx;
 }
 
 .myListImages {
-  width: 38rpx;
-  height: 38rpx;
+  width: 36rpx;
+  height: 36rpx;
   vertical-align: middle;
+  padding: 0rpx 10rpx 0rpx 23rpx;
+}
+
+.sectionList:nth-child(2){
+  border-bottom-left-radius: 0rpx;
+  border-bottom-right-radius: 0rpx;
+}
+
+.sectionList:nth-child(4){
+  border-bottom-left-radius: 18rpx;
+  border-bottom-right-radius: 18rpx;
 }
 
 .myListArrows {
@@ -112,7 +217,9 @@ page {
 }
 
 .mylistWrap {
-  padding-bottom: 20rpx;
+  padding-bottom: 30rpx;
+  width: 100%;
+  /* padding-left: 28rpx; */
 }
 
 .customer-service {

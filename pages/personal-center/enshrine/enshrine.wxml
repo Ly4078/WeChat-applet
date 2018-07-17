@@ -7,14 +7,28 @@
         </view>
         <view class='enshrine-caip'>
           <text class='enshrine-name'>{{item.shopName}}</text>
-          <text class='enshrine-classify'>{{item.shopInfo}}</text>
-          <text class='enshrine-dynamic'>动态</text>
-          <text class='enshrine-vote'>投票</text>
+          <view>
+            <image class='hotDining' src='/images/icon/popularity.png'></image>
+            <text class='hotText'>{{item.popNum}}</text>
+            <text class='hotClassify'>{{item.businessCate}}</text>
+          </view>
+          <view class='recommended' catchtap='recommendation'>
+            <text class='dishes' wx:for="{{item.dish}}" wx:key='index'>{{item.skuName}}</text>
+          </view>
+          <view class='regulation'>
+            <image class='ticket' src='/images/icon/restaurant_ticket.png'></image>
+            <text class='reduction' wx:for='{{item.reduction}}' wx:key='index'>{{item.ruleDesc}}、</text>
+          </view>
         </view>
       </view>
       <view class='enshrineWrap-right'>
         <image class='enshrineImages-right' src='/images/icon/home_arrow.png'></image>
       </view>
+      <!-- 这是地理位置别删后面要用 -->
+      <!-- <view class='enshrineWrap-right'>
+        <image class='enshrineImages-right' src='/images/icon/location.png'></image>
+        <text>444m</text>
+      </view> -->
     </view>
   </block>
 </view>

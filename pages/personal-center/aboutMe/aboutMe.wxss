@@ -7,6 +7,7 @@ page{
   border: 0px;
   width: 250rpx;
   height: 250rpx;
+  margin-top: 36rpx;
 }
 
 .officialAccounts{
@@ -34,4 +35,15 @@ page{
 
 .official text:nth-child(2){
   font-weight: 600;
+}
+
+.centreTopName {
+  width: 100%;
+  height: 400rpx;
+  text-align: center;
+}
+
+.centreText{
+  z-index: 999;
+  color: black;
 }

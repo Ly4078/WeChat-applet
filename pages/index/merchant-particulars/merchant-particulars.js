@@ -5,39 +5,57 @@ var app = getApp();
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
-    navbar: ['主页', '动态'],
-    shopid: '',  //商家ID
-    store_details: {},  //店铺详情
-    currentTab: 0,
-    commentNum: 0,    //评论数量
-    isCollected: false,   //是否收藏，默认false
+    navbar: [{
+        name: '优惠',
+        id: 'list1'
+      },
+      {
+        name: '动态',
+        id: 'list2'
+      },
+      {
+        name: '推荐菜',
+        id: 'list3'
+      },
+      {
+        name: '评价',
+        id: 'list4'
+      }
+    ],
+    shopid: '', //商家ID
+    store_details: {}, //店铺详情
+    commentNum: 0, //评论数量
+    isCollected: false, //是否收藏，默认false
     isComment: false,
     store_images: '',
-    merchantArt: [],   //商家动态列表
-    activity: [],   //商家活动列表
-    allactivity:[],
+    merchantArt: [], //商家动态列表
+    activity: [], //商家活动列表
+    allactivity: [],
     article_page: 1,
     reFresh: true,
     issnap: false,
     ismore: false,
-    isactmore:false,
+    isactmore: false,
     isAgio: false,
     listagio: [],
     newpackage: [],
     oldpackage: [],
-    actId:'',
-    isoter:false
+    actId: '',
+    isoter: false,
+    toView: 'list1',
+    shopList: [],
+    isFixed: false
   },
   // _data.list[i].nickName = _data.list[i].nickName.substr(0, 3) + "****" + _data.list[i].nickName.substr(7)
-  onLoad: function (options) {
+  onLoad: function(options) {
     this.setData({
       shopid: options.shopid
     });
     this.selectForOne(options.shopid)
-    if (options.flag == 1){
+    if (options.flag == 1) {
       this.getuserInfo();
     }
-    if (options.actId){
+    if (options.actId) {
       this.setData({
         actId: options.actId
       })
@@ -62,41 +80,41 @@ Page({
     // 分享功能
     wx.showShareMenu({
       withShareTicket: true,
-      success: function (res) {
+      success: function(res) {
         // 分享成功
         // console.log(res)
       },
-      fail: function (res) {
+      fail: function(res) {
         // 分享失败
         console.log(res)
       }
     });
   },
-  onShow: function () {
+  onShow: function() {
     let that = this;
     this.commentList();
-    if (this.data.currentTab == 1) {
-      this.setData({
-        merchantArt: [],   //商家动态列表
-        article_page: 1,
-        reFresh: true
-      });
-      this.merchantArt();
-    }
+    // if (this.data.currentTab == 1) {
+    //   this.setData({
+    //     merchantArt: [],   //商家动态列表
+    //     article_page: 1,
+    //     reFresh: true
+    //   });
+    //   this.merchantArt();
+    // }
     wx.request({
       url: that.data._build_url + 'sku/listForAgio',
       data: {
         userId: app.globalData.userInfo.userId
       },
-      success: function (res) {
+      success: function(res) {
         let data = res.data;
         if (data.code == 0) {
           let _data = data.data.list[0]
-          if (_data.isAgio) {  //已领取
+          if (_data.isAgio) { //已领取
             that.setData({
               isAgio: false
             })
-          } else {   //未领取
+          } else { //未领取
             that.setData({
               isAgio: true
             })
@@ -108,18 +126,18 @@ Page({
       }
     })
   },
-  selectForOne: function (val){
-    let _parms={
+  selectForOne: function(val) {
+    let _parms = {
       shopId: val
     }
     Api.selectForOne(_parms).then((res) => {
       // console.log('res:', res)
       if (res.data.code == 0) {
-        if(res.data.data){
+        if (res.data.data) {
           this.setData({
-            isoter:true
+            isoter: true
           })
-        }else{
+        } else {
           this.setData({
             isoter: false
           })
@@ -128,13 +146,13 @@ Page({
     })
   },
   //用户下拉刷新
-  onPullDownRefresh: function () {
+  onPullDownRefresh: function() {
     this.getstoredata();
     this.recommendation();
     this.isCollected();
     this.commentList();
   },
-  getuserInfo() {//如果是扫码直接进入到这里，则查询其用户信息，若查询到的用户信息中没有电话号码，要求用户注册
+  getuserInfo() { //如果是扫码直接进入到这里，则查询其用户信息，若查询到的用户信息中没有电话号码，要求用户注册
     let that = this;
     wx.login({
       success: res => {
@@ -145,12 +163,12 @@ Page({
           Api.useradd(_parms).then((res) => {
             if (res.data.data) {
               app.globalData.userInfo.userId = res.data.data;
-              wx.request({  //从自己的服务器获取用户信息
+              wx.request({ //从自己的服务器获取用户信息
                 url: this.data._build_url + 'user/get/' + res.data.data,
                 header: {
                   'content-type': 'application/json' // 默认值
                 },
-                success: function (res) {
+                success: function(res) {
                   if (res.data.code == 0) {
                     let data = res.data.data;
                     for (let key in data) {
@@ -174,7 +192,7 @@ Page({
       }
     })
   },
-  getmoredata:function(){
+  getmoredata: function() {
     this.getstoredata();
     this.selectByShopId();
     this.recommendation();
@@ -182,7 +200,7 @@ Page({
     this.merchantArt();
     this.getpackage();
   },
-  getstoredata() {  //获取店铺详情数据   
+  getstoredata() { //获取店铺详情数据   
     let id = this.data.shopid;
     let that = this;
     wx.request({
@@ -190,23 +208,25 @@ Page({
       header: {
         'content-type': 'application/json;Authorization'
       },
-      success: function (res) {
+      success: function(res) {
         let _data = res.data.data;
-        if (_data){
+        if (_data) {
           _data.popNum = utils.million(_data.popNum);
-
           if (_data.address.indexOf('-') > 0) {
             _data.address = _data.address.replace(/-/g, "");
           }
           that.setData({
             store_details: _data,
-            store_images: _data.shopTopPics.length
+            store_images: _data.shopTopPics.length,
+            storeType: _data.businessCate ? _data.businessCate.split(',') : [],
+            service: _data.otherService ? _data.otherService.split(',') : []
           })
+          that.shopList();
         }
       }
     })
   },
-  selectByShopId: function () {  //获取商家活动列表
+  selectByShopId: function() { //获取商家活动列表
     let id = this.data.shopid;
     let that = this;
     let _parms = {
@@ -217,7 +237,7 @@ Page({
         that.setData({
           allactivity: res.data.data
         })
-        if (that.data.allactivity.length >= 2 ) {
+        if (that.data.allactivity.length >= 2) {
           that.setData({
             isactmore: true
           })
@@ -233,24 +253,24 @@ Page({
       }
     })
   },
-  onPageScroll: function () {  //监听页面滑动
+  onPageScroll: function() { //监听页面滑动
     this.setData({
       isComment: false
     })
   },
   //商户动态上拉加载
-  onReachBottom: function () {
-    if (this.data.currentTab == 1 && this.data.reFresh) {
-      wx.showLoading({
-        title: '加载中..'
-      })
-      this.setData({
-        article_page: this.data.article_page + 1
-      });
-      this.merchantArt();
-    }
-  },
-  buynow: function (ev) {  //点击立即购买
+  // onReachBottom: function () {
+  //   if (this.data.currentTab == 1 && this.data.reFresh) {
+  //     wx.showLoading({
+  //       title: '加载中..'
+  //     })
+  //     this.setData({
+  //       article_page: this.data.article_page + 1
+  //     });
+  //     this.merchantArt();
+  //   }
+  // },
+  buynow: function(ev) { //点击立即购买
     let skuid = ev.currentTarget.id
     let _sell = '', _inp = '', _rule = ''
     for (let i = 0; i < this.data.activity.length; i++) {
@@ -265,31 +285,40 @@ Page({
     })
   },
   //推荐菜列表
-  recommendation: function () {
+  recommendation: function() {
     let that = this;
     wx.request({
       url: that.data._build_url + 'sku/tsc',
       data: {
-        shopId: that.data.shopid
+        shopId: that.data.shopid,
+        page: 1,
+        rows: 3
       },
-      success: function (res) {
+      success: function(res) {
         let data = res.data;
         if (data.code == 0) {
           that.setData({
-            recommend_list: data.data.list
+            recommend_list: data.data.list ? data.data.list : []
           });
         }
       }
     })
   },
-  getpackage: function () {  //套餐数据
+  fooddetails: function(e) {
+    let ind = e.currentTarget.id
+    let shopId = this.data.shopid
+    wx.navigateTo({
+      url: 'food-details/food-details?id=' + ind + '&shopid=' + shopId
+    })
+  },
+  getpackage: function() { //套餐数据
     let that = this;
     wx.request({
       url: that.data._build_url + 'sku/agioList',
       data: {
         shopId: this.data.shopid
       },
-      success: function (res) {
+      success: function(res) {
         let data = res.data;
         if (data.code == 0) {
           that.setData({
@@ -314,10 +343,10 @@ Page({
       }
     })
 
-    
-   
+
+
   },
-  liuynChange: function (e) {
+  liuynChange: function(e) {
     var that = this;
     that.setData({
       llbView: true,
@@ -326,19 +355,19 @@ Page({
     })
   },
   //餐厅推荐菜
-  recommendedRestaurant: function () {
+  recommendedRestaurant: function() {
     wx.navigateTo({
       url: 'recommendation/recommendation?id=' + this.data.store_details.id,
     })
   },
   //活动点赞
-  storeActivity: function () {
+  storeActivity: function() {
     wx.navigateTo({
-      url: '../../activityDetails/hot-activity/hot-activity?id='+this.data.actId
+      url: '../../activityDetails/hot-activity/hot-activity?id=' + this.data.actId
     })
   },
   //商家动态
-  merchantArt: function () {
+  merchantArt: function() {
     let that = this,
       _parms = {
         shopId: this.data.shopid,
@@ -374,7 +403,7 @@ Page({
     })
   },
   //跳转至文章详情
-  toArticleInfo: function (e) {
+  toArticleInfo: function(e) {
     const id = e.currentTarget.id
     let _data = this.data.merchantArt
     let zan = ''
@@ -388,12 +417,12 @@ Page({
     })
   },
   //分享给好友
-  onShareAppMessage: function () {
+  onShareAppMessage: function() {
     return {
       title: this.data.store_details.shopName,
       path: '/pages/index/merchant-particulars/merchant-particulars?shopid=' + this.data.shopid,
       imageUrl: this.data.store_details.logoUrl,
-      success: function (res) {
+      success: function(res) {
         wx.getShareInfo({
           shareTicket: res.shareTickets[0],
           success: function (res) { console.log(res) },
@@ -501,14 +530,15 @@ Page({
     })
   },
   // tab栏
-  navbarTap: function (e) {
-    // console.log(e.currentTarget.dataset.idx)
+  navbarTap: function(e) {
+    let id = e.currentTarget.id;
     this.setData({
-      currentTab: e.currentTarget.dataset.idx
+      toView: id
     })
+    console.log(id)
   },
   //评论列表
-  commentList: function () {
+  commentList: function() {
     let that = this;
     wx.request({
       url: that.data._build_url + 'cmt/list',
@@ -519,7 +549,7 @@ Page({
         page: 1,
         rows: 5
       },
-      success: function (res) {
+      success: function(res) {
         let data = res.data;
         if (data.code == 0 && data.data.list != null && data.data.list != "") {
           if (res.data.code == 0) {
@@ -528,7 +558,7 @@ Page({
             for (let i = 0; i < _data.length; i++) {
               _data[i].zan = utils.million(_data[i].zan)
               _data[i].content = utils.uncodeUtf16(_data[i].content)
-              if (!isNaN(_data[i].userName)){
+              if (!isNaN(_data[i].userName)) {
                 _data[i].userName = _data[i].userName.substr(0, 3) + "****" + _data[i].userName.substr(7);
               }
               if (reg.test(_data[i].nickName)) {
@@ -548,14 +578,14 @@ Page({
     })
   },
   //跳转至所有评论
-  jumpTotalComment: function () {
+  jumpTotalComment: function() {
     let that = this;
     wx.navigateTo({
       url: 'total-comment/total-comment?id=' + that.data.shopid + '&cmtType=5'
     })
   },
   //评论点赞
-  toLike: function (event) {
+  toLike: function(event) {
     let that = this
     if (app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
       this.setData({
@@ -572,7 +602,7 @@ Page({
     wx.request({
       url: that.data._build_url + 'zan/add?refId=' + id + '&type=4&userId=' + app.globalData.userInfo.userId,
       method: "POST",
-      success: function (res) {
+      success: function(res) {
         if (res.data.code == 0) {
           wx.showToast({
             mask: true,
@@ -590,7 +620,7 @@ Page({
     })
   },
   //取消点赞
-  cancelLike: function (event) {
+  cancelLike: function(event) {
     let that = this,
       id = event.currentTarget.id,
       cmtType = "",
@@ -609,7 +639,7 @@ Page({
     wx.request({
       url: that.data._build_url + 'zan/delete?refId=' + id + '&type=4&userId=' + app.globalData.userInfo.userId,
       method: "POST",
-      success: function (res) {
+      success: function(res) {
         if (res.data.code == 0) {
           wx.showToast({
             mask: true,
@@ -627,12 +657,12 @@ Page({
     })
   },
   //查询是否收藏
-  isCollected: function () {
+  isCollected: function() {
     let that = this;
     wx.request({
       url: that.data._build_url + 'fvs/isCollected?userId=' + app.globalData.userInfo.userId + '&shopId=' + that.data.shopid,
       method: "POST",
-      success: function (res) {
+      success: function(res) {
         const data = res.data;
         if (data.code == 0) {
           that.setData({
@@ -644,7 +674,7 @@ Page({
     })
   },
   //收藏
-  onCollect: function (event) {
+  onCollect: function(event) {
     let that = this;
     if (app.globalData.userInfo.mobile == 'a' || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
       this.setData({
@@ -655,7 +685,7 @@ Page({
     wx.request({
       url: that.data._build_url + 'fvs/add?userId=' + app.globalData.userInfo.userId + '&shopId=' + that.data.shopid,
       method: "POST",
-      success: function (res) {
+      success: function(res) {
         if (res.data.code == 0) {
           that.setData({
             isCollected: !that.data.isCollected
@@ -670,7 +700,7 @@ Page({
     })
   },
   //取消收藏
-  cancelCollect: function () {
+  cancelCollect: function() {
     let that = this;
     if (app.globalData.userInfo.mobile == 'a' || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
       this.setData({
@@ -681,7 +711,7 @@ Page({
     wx.request({
       url: that.data._build_url + 'fvs/delete?userId=' + app.globalData.userInfo.userId + '&shopId=' + that.data.shopid,
       method: "POST",
-      success: function (res) {
+      success: function(res) {
         if (res.data.code == 0) {
           that.setData({
             isCollected: !that.data.isCollected
@@ -696,7 +726,7 @@ Page({
     })
   },
   //显示发表评论框
-  showAreatext: function () {
+  showAreatext: function() {
     if (app.globalData.userInfo.mobile == undefined || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
       this.setData({
         issnap: true
@@ -708,13 +738,13 @@ Page({
     })
   },
   //获取评论输入框
-  getCommentVal: function (e) {
+  getCommentVal: function(e) {
     this.setData({
       commentVal: e.detail.value
     })
   },
   //发表评论
-  sendComment: function (e) {
+  sendComment: function(e) {
     let that = this;
     if (this.data.commentVal == "" || this.data.commentVal == undefined) {
       wx.showToast({
@@ -745,22 +775,22 @@ Page({
       })
     }
   },
-  onShareAppMessage: function (res) {
+  onShareAppMessage: function(res) {
     return {
       title: this.data.store_details.shopName,
       path: '',
       imageUrl: '',
-      success: function (res) {
+      success: function(res) {
         // 转发成功
         // console.log("res:", res)
       },
-      fail: function (res) {
+      fail: function(res) {
         // 转发失败
         console.log("res:", res)
       }
     }
   },
-  closetel: function (e) {
+  closetel: function(e) {
     let id = e.target.id;
     this.setData({
       issnap: false
@@ -851,8 +881,46 @@ Page({
       url: '../voucher-details/voucher-details?cfrom=pack',
     })
   },
-
-  paymentPay: function () {   //买单
+  shopList() { //商家推荐列表
+    let _parms = {
+      locationX: app.globalData.userInfo.lng,
+      locationY: app.globalData.userInfo.lat,
+      city: app.globalData.userInfo.city,
+      page: 1,
+      rows: 10,
+      businessCate: this.data.store_details.businessCate.split('/')[0].split(',')[0]
+    }
+    Api.shoplist(_parms).then((res) => {
+      let data = res.data;
+      if (data.code == 0) {
+        if (data.data.list != null && data.data.list != "" && data.data.list != []) {
+          let _data = data.data.list
+          for (let i = 0; i < _data.length; i++) {
+            _data[i].distance = utils.transformLength(_data[i].distance);
+            _data[i].businessCate = _parms.businessCate;
+          }
+          this.setData({
+            shopList: _data ? _data : []
+          });
+        }
+      }
+    })
+  },
+  toShopDetail(e) { //跳转至店铺详情
+    // wx.navigateTo({
+    //   url: 'merchant-particulars/merchant-particulars?shopid=' + e.currentTarget.id,
+    // })
+    var pages = getCurrentPages();
+    var prevPage = pages[pages.length - 1];  //上一个页面
+    prevPage.options.shopid = e.currentTarget.id;
+    console.log(prevPage.options)
+    prevPage.onLoad(prevPage.options)
+    wx.pageScrollTo({
+      scrollTop: 0,
+      duration: 100
+    })
+  },
+  paymentPay: function() { //买单
     if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
@@ -862,5 +930,37 @@ Page({
         url: 'paymentPay-page/paymentPay-page?shopid=' + this.data.shopid,
       })
     }
+  },
+  toActivity() {
+    wx.navigateTo({
+      url: 'shop-activity/shop-activity?shopid=' + this.data.shopid,
+    })
+  },
+  toComment() { //去评论
+    wx.navigateTo({
+      url: 'answer-comment/answer-comment?shopid=' + this.data.shopid
+    })
+  },
+  onPageScroll() {
+    // console.log('滚动');
+    this.queryMultipleNodes('#merchantBox');
+  },
+  queryMultipleNodes: function(dom) {
+    var query = wx.createSelectorQuery(), that = this;
+    query.select(dom).boundingClientRect()
+    query.selectViewport().scrollOffset()
+    query.exec(function(res) {
+      let isFixed = false;
+      // console.log(res[1].scrollTop);
+      if (res[1].scrollTop >= 330) {
+        isFixed = true;
+      }
+      that.setData({
+        isFixed: isFixed
+      });
+    })
+  },
+  bindscroll(e) {
+    console.log(e);
   }
 })

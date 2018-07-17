@@ -4,12 +4,11 @@ var app = getApp();
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
+    newshopid:'',
     posts_key: [],
+    dish:[],
     page: 1,
     reFresh: true
-  },
-  onLoad: function (options) {
-    
   },
   onShow: function() {
     this.getShareList();
@@ -30,12 +29,37 @@ Page({
         if (data.code == 0 && data.data.list != null && data.data.list != "" && data.data.list != []) {
           let posts_key = that.data.posts_key;
           for (let i = 0; i < data.data.list.length; i++) {
-            posts_key.push(data.data.list[i]);
+            wx.request({ //推荐菜
+              url: that.data._build_url + 'sku/tsc',
+              data: {
+                shopId: data.data.list[i].id
+              },
+              success: function (res) {
+                let list = res.data.data.list;
+                list = list.slice(0, 2);
+                data.data.list[i].dish = list;
+                posts_key.push(data.data.list[i]);
+              }
+            })
+            wx.request({ //满减规则
+              url: that.data._build_url + 'pnr/selectByShopId',
+              data: {
+                shopId: data.data.list[i].id
+              },
+              success: function (res) {
+                let list = res.data.data;
+                data.data.list[i].reduction = list;
+                posts_key.push(data.data.list[i]);
+              }
+            })
           }
-          that.setData({
-            posts_key: posts_key,
-            reFresh: true
-          });
+          setTimeout(function () {
+            that.setData({
+              posts_key: posts_key,
+              reFresh: true
+            });
+          }, 500)
+          
         } else {
           that.setData({
             reFresh: false
@@ -50,6 +74,9 @@ Page({
     });
   },
   enshrineXim:function(event){
+    this.setData({
+      newshopid: event.currentTarget.id
+    })
     wx.navigateTo({
       url: '../../index/merchant-particulars/merchant-particulars?shopid=' + event.currentTarget.id,
     })
@@ -74,5 +101,5 @@ Page({
       reFresh: true
     });
     this.getShareList();
-  }
+  },
 })

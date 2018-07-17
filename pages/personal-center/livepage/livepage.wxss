@@ -1,1 +1,97 @@
-/* pages/personal-center/livepage/livepage.wxss */
+page{
+  background:rgba(245,245,250,2);
+}
+
+.meticulous{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 8rpx 0rpx;
+}
+
+.meticulous:nth-child(1){
+  padding: 0rpx 0rpx;
+  border-radius: 0rpx;
+}
+
+.attention{
+  width: 94%;
+  height: 128rpx;
+  background: #fff;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-radius:16rpx;
+}
+
+.portraitWrap{
+  width: 70%;
+  height: auto;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.portrait{
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  margin: 0rpx 28rpx 0rpx 20rpx;
+}
+
+.gender{
+  width: 20rpx;
+  height: 24rpx;
+  margin: 0rpx 0rpx 0rpx 8rpx;
+  vertical-align: middle;
+}
+
+.portraitLeft{
+  width: 60%;
+  font-size:30rpx;
+  font-family:PingFangSC-Regular;
+  color:rgba(25,25,25,1);
+  line-height: 52rpx;
+}
+
+.portraitNickname{
+  display: inline-block;
+}
+
+.portraitNickname text{
+  font-size: 32rpx;
+  font-family:PingFangSC-Medium;
+  letter-spacing: 2rpx;
+  vertical-align: middle;
+}
+
+.button{
+  width: 176rpx;
+  height: 78rpx;
+  background-color: 404147;
+  font-size: 30rpx;
+  box-shadow:2px 0px 10px rgba(152,152,152,0.4);
+  letter-spacing: 2rpx;
+}
+
+.attentionBTn{
+  width:130rpx;
+  height:50rpx;
+  background:rgba(252,94,45,1);
+  border-radius:25rpx;
+  box-shadow:2px 0px 6px rgba(164,68,1,0.54);
+  font-size: 28rpx;
+  line-height: 50rpx;
+  color: #fff;
+  letter-spacing: 3rpx;
+}
+
+.zuoText{
+  margin-right: 8rpx;
+}
+
+.portraitRight{
+  width: 30%;
+  display: flex;
+  justify-content: center;
+}
