@@ -23,15 +23,9 @@
   margin:12rpx 0rpx 10rpx 30rpx;
 }
 
-<<<<<<< HEAD
 .search{
   background-color: #F5F5FA
 }
-/* .trade_site_distance text:nth-child(2) {
-padding-right:32rpx;
-} */
-=======
->>>>>>> 38f42611f1f5403fa361f3e0f8daa0ed56f08feb
 .trade_site_address {
   display:inline-block;
   width:260rpx;
