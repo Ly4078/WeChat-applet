@@ -40,12 +40,6 @@
         </view>
       </view>
       <view class="top_data">
-
-         <!-- <view class="data_item">
-          <image src="/images/icon/play.png"></image>
-          <text>{{vitotal}}</text>
-        </view>      -->
-
         <view class="data_item">
           <image src="/images/icon/smallHeart2.png"></image>
           <text>{{zanTotal}}</text>
