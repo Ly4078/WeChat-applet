@@ -13,6 +13,10 @@
 .searchcion{
   margin:12rpx 0rpx 10rpx 30rpx;
 }
+
+.search{
+  background-color: #F5F5FA
+}
 /* .trade_site_distance text:nth-child(2) {
 padding-right:32rpx;
 } */
