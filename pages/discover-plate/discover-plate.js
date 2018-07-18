@@ -144,7 +144,8 @@ Page({
       })
       let _parms = {
         page: this.data.page,
-        row: 8
+        row: 8,
+        topicType: 2
       }
       if (this.data.choicetype) {
         _parms.choiceType = this.data.choicetype
@@ -191,7 +192,6 @@ Page({
             this.setData({
               food: _data
             })
-            console.log("food:", this.data.food)
           } else {
             this.setData({
               flag: false
@@ -222,7 +222,7 @@ Page({
       }
     }
   },
-  clickarticle: function (e) {  //点击某条文章
+  videoplay: function (e) {  //点击某条文章
     const id = e.currentTarget.id;
     this.setData({
       ishotnew: false

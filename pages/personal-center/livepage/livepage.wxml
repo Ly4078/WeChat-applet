@@ -1,27 +1,31 @@
-<view class='meticulous'>
+<view class='meticulous' wx:if="{{myList.length > 0}}" wx:for="{{myList}}" wx:key="{{index}}">
   <view class='attention'>
-    <view class='portraitWrap'>
-      <image class='portrait' src="/images/icon/touxiang.jpg"></image>
+    <view class='portraitWrap' id="{{item.userId}}" data-idx="{{item.refId}}" bindtap="toHomePage">
+      <image class='portrait' src="{{item.iconUrl}}"></image>
       <view class='portraitLeft'>
         <view class='portraitNickname'>
-          <text>叮当唷</text>
-          <image class='gender' src="/images/icon/genderes.png"></image>
-          <!-- <image class='gender' src="/images/icon/gender.png"></image> -->
+          <text>{{item.nickName ? item.nickName : item.userName}}</text>
+          <image wx:if="{{item.sex == 1}}" class='gender' src="/images/icon/gender.png"></image>
+          <image wx:if="{{item.sex == 2}}" class='gender' src="/images/icon/genderes.png"></image> 
         </view>
-        <view>
+        <!-- <view>
           <text class='zuoText'>作品：23 </text>
           <text>粉丝：47</text>
-        </view>
+        </view> -->
       </view>
     </view>
-    <view class='portraitRight'>
+    <view class='portraitRight {{isMine ? "" : "del"}}'>
       <!-- <button class='button'>取消关注</button>  -->
-      <button class='attentionBTn'>+关注</button>
+      <button wx:if="{{item.isCollected == 1}}" class='attentionBTn del' id="{{item.refId}}" bindtap='delLike'>已关注</button>
+      <button wx:if="{{item.isCollected == 0}}" class='attentionBTn' id="{{item.refId}}" bindtap='addLike'>+关注</button>
     </view>
   </view>
 </view>
+ <view wx:if="{{myList.length < 1}}" class="noneBox">
+  <image src="/images/icon/zhanweitu.png"></image>
+</view> 
 
-<view class='meticulous'>
+<!-- <view class='meticulous'>
   <view class='attention'>
     <view class='portraitWrap'>
       <image class='portrait' src="/images/icon/touxiang.jpg"></image>
@@ -38,7 +42,6 @@
     </view>
     <view class='portraitRight'>
        <button class='button'>取消关注</button>  
-      <!-- <button class='attentionBTn'>+关注</button> -->
     </view>
   </view>
-</view>
+</view> -->

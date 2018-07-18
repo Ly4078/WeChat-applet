@@ -176,31 +176,22 @@ Page({
   },
   onShow: function () {
     let that = this;
-
-    // wx.request({
-    //   url: this.data._build_url + 'act/flag', 
-    //   success: function (res) {
-    //     if (res.data.data == 0) { //0显示  
-    //       app.globalData.isflag = true;
-    //       that.setData({
-    //         isfile:true
-    //       })
-    //     } else if (res.data.data == 1) {  //1不显示
-    //       app.globalData.isflag = false;
-    //       that.setData({
-    //         isfile: false
-    //       })
-    //     }
-    //   }
-    // })
-
-
-    app.globalData.isflag = true;
-    that.setData({
-      isfile: true
+    wx.request({
+      url: this.data._build_url + 'act/flag', 
+      success: function (res) {
+        if (res.data.data == 0) { //0显示  
+          app.globalData.isflag = true;
+          that.setData({
+            isfile:true
+          })
+        } else if (res.data.data == 1) {  //1不显示
+          app.globalData.isflag = false;
+          that.setData({
+            isfile: false
+          })
+        }
+      }
     })
-
-
 
     if (this.data.city != app.globalData.userInfo.city){
       this.setData({
@@ -1148,7 +1139,7 @@ Page({
     return {
       title: '享7美食',
       path: 'pages/index/index',
-      imageUrl: 'https://xq-1256079679.file.myqcloud.com/aaa_wxf91e2a026658e78e.o6zAJs-7D9920jC4XTKdzt72lobs.86hwazjh0Vhk732646790661f7af79f59e5d782d6c2f_0.8.jpg',
+      imageUrl: 'https://xq-1256079679.file.myqcloud.com/test_242386103115353639_0.8.jpg',
       success: function (res) {
         // 转发成功
         console.log("res:", res)

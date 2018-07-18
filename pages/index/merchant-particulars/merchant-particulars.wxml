@@ -76,7 +76,7 @@
         <text class="{{toView==item.id ? 'active' : ''}}">{{item.name}}</text>
       </view>
     </view>
-    <scroll-view style="height: 1000rpx;" scroll-into-view="{{toView}}" scroll-y scroll-with-animation="true">
+    <scroll-view style="height: 1500rpx;" scroll-into-view="{{toView}}" scroll-y scroll-with-animation="true">
       <!--优惠-->
       <view id="list1">
         <view class="xiang7Box" style="padding-bottom: 30rpx;" hidden='{{activity.length < 1}}'>
