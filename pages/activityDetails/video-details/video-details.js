@@ -17,11 +17,18 @@ Page({
     assNum:'',
     _actId:'',
     _userId:'',
+    reviousUrl: '',//上一个视频
+    currentUrl:'',//当前播放的视频
+    nextUrl: '',//下一个视频 
     isball:false,
     isdtzan:false,
     isclick:false,
+    frenum:0,
     videodata:[],
+    food:[],
+    page:1,
     voteNum:0,
+    cotitle:'',
     _iconUrl:'',
     _nickName:''
   },
@@ -46,14 +53,14 @@ Page({
         refId: options.id
       });
       this.gettopiclist(options.id);
-      this.getcmtlist(options.id);
-     
     } else if (options.url){
       this.setData({
         videoUrl:options.url
       })
     }
+    this.getfood();
   },
+  
 
   /**
    * 生命周期函数--监听页面显示
@@ -65,12 +72,15 @@ Page({
       })
       this.getuserinfo();
     }
-    this.getuserif();
+    // this.getuserif();
   },
-  getuserif:function(){
+  getuserif:function(val){
     let that = this;
+    this.setData({
+      _userId:val
+    })
     wx.request({  //从自己的服务器获取用户信息
-      url: this.data._build_url + 'user/get/' + this.data._userId,
+      url: this.data._build_url + 'user/get/' + val,
       header: {
         'content-type': 'application/json' // 默认值
       },
@@ -101,17 +111,60 @@ Page({
       url: '../../index/index',
     })
   },
-  
+  getfood: function (_type, data) {
+    let that = this;
+    let _parms = {
+      page: this.data.page,
+      row: 8,
+      topicType:2
+    }
+    Api.topiclist(_parms).then((res) => {
+      let _data = this.data.food,newData=[];
+      if (res.data.code == 0) {
+        wx.hideLoading()
+        if (res.data.data.list != null && res.data.data.list != "" && res.data.data.list != []) {
+          let footList = res.data.data.list;
+          for (let i = 0; i < footList.length; i++) {
+            if (footList[i].topicType == 1) { // topicType  1文章  2视频
+            } else if (footList[i].topicType == 2) {
+              footList[i].content = JSON.parse(footList[i].content);
+              if (footList[i].content[0].type == 'video'){
+                newData.push(footList[i]);
+              }
+            }
+          }
+          if (newData.length){
+            for (let i in newData){
+              _data.push(newData[i])
+            }
+            this.setData({
+              food: _data
+            })
+          }else{
+            this.setData({
+              page:this.data.page+1
+            })
+            this.getfood();
+          }
+          
+        } 
+      }
+    })
+  },
   gettopiclist: function (id) {  //获取文章内容数据
     let _parms = {
       id: id,
       zanUserId: app.globalData.userInfo.userId,
-      zanUserName: app.globalData.userInfo.usrName,
+      zanUserName: app.globalData.userInfo.userName,
       zanSourceType: '1'
     },that=this;
     Api.getTopicByZan(_parms).then((res) => {
       if (res.data.code == 0) {
+        that.getcmtlist(id);
+
         let _data = res.data.data;
+        that.getuserif(_data.userId)
+       
         _data.summary = utils.uncodeUtf16(_data.summary);
         _data.content = utils.uncodeUtf16(_data.content);
         _data.timeDiffrence = utils.timeDiffrence(res.data.currentTime, _data.updateTime, _data.createTime)
@@ -135,6 +188,8 @@ Page({
           })
         }
         that.setData({
+          currentUrl: _data.content[0].value ? _data.content[0].value : videoUrl,
+          cotitle: _data.title,
           videodata: _data,
           playerUserId: _data.userId,
           voteNum:_data.zan,
@@ -568,5 +623,106 @@ Page({
         })
       }
     })
+  },
+
+
+
+//滑动结束事件
+  handletouchend: function (event) {
+   
+    var currentX = event.changedTouches[0].pageX
+    var currentY = event.changedTouches[0].pageY
+    var tx = currentX - this.data.lastX
+    var ty = currentY - this.data.lastY
+    var text = ""
+    //左右方向滑动
+    if (Math.abs(tx) > Math.abs(ty)) {
+      if (tx < 0) {
+        console.log("向左滑动");
+       
+      }
+      else if (tx > 0) {
+        console.log("向右滑动")
+        
+      }
+
+    }
+    //上下方向滑动
+    else {
+      if (ty < 0) {
+        console.log("向上滑动")
+        this.setData({  //上一个视频
+          reviousUrl: this.data.currentUrl,
+        })
+
+        let _Num = this.data.frenum*1+1;
+        if (_Num == this.data.food.length - 1) {
+          _Num= 0
+        }
+        let _curr = this.data.nextUrl ? this.data.nextUrl : this.data.food[_Num].content[0].value, _title = this.data.food[_Num].title;
+        this.setData({  //当前播放的视频
+          currentUrl: _curr,
+          cotitle: _title,
+          frenum: _Num
+        })
+
+        _Num = _Num * 1 + 1;
+
+        this.setData({  //下一个视频 
+          nextUrl: this.data.food[_Num].content[0].value
+        })
+
+        if (_Num >= this.data.food.length-3){
+          this.setData({
+            page:this.data.page+1
+          })
+          this.getfood();
+        }
+      }
+
+      else if (ty > 0) {
+        console.log("向下滑动")
+        let _Num = this.data.frenum * 1 - 1;
+        if (_Num == 0) {
+          _Num=this.data.food.length - 1
+        }
+        this.setData({
+          frenum: _Num
+        })
+        this.setData({  //下一个视频
+          nextUrl: this.data.currentUrl,
+        })
+        let _curr = this.data.reviousUrl ? this.data.reviousUrl : this.data.food[_Num], _title = this.data.food[_Num].title;
+        this.setData({  //当前播放的视频
+          currentUrl: _curr,
+          cotitle: _title,
+          frenum: _Num
+        })
+        _Num = _Num * 1 - 1;
+
+        this.setData({  //下一个视频 
+          reviousUrl: this.data.food[_Num].content[0].value,
+        })
+      }
+    }
+
+    //将当前坐标进行保存以进行下一次计算
+    this.data.lastX = currentX
+    this.data.lastY = currentY
+    this.setData({
+      text: text,
+    });
+  },
+
+  //滑动开始事件
+  handletouchtart: function (event) {
+    this.data.lastX = event.touches[0].pageX
+    this.data.lastY = event.touches[0].pageY
+  },
+    //滑动移动事件
+  handletouchmove: function (event) {
+    // this.data.currentGesture = 0;
+    // console.log("没有滑动");
+
   }
 })

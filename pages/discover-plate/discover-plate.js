@@ -163,7 +163,6 @@ Page({
              
               if (footList[i].topicType == 1) { // topicType  1文章  2视频
                 footList[i].isimg = true;
-                console.log("footList[i]:", footList[i])
               } else if (footList[i].topicType == 2){
                 // footList[i].content = JSON.parse(footList[i].content);
                 footList[i].isimg = false

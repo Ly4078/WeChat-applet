@@ -1,4 +1,164 @@
 
+.videoBox{
+  position:fixed;
+  left:0;
+  top:0;
+  width:100%;
+  height:100%;
+  object-fit: fill;
+}
+.videoBox video{
+  width: 100%;
+  height: 100%;
+}
+.boxVideo{
+  position: absolute;
+  z-index: 1;
+  margin: 0;
+  padding: 0;
+  object-fit: fill;
+}
+
+.boxCover{
+  width: 50%;
+  height: 50%;
+  background: red;
+  font-size: 30rpx;
+  color: blue;
+}
+.boximg{
+  width: 100rpx;
+  height: 100rpx;
+}
+
+.boxbut{
+  width:100rpx;
+  height: 80rpx;
+}
+
+.avatar{
+  width: 48rpx;
+  height: 43rpx;
+  text-align: center;
+  margin-left:30rpx;
+  margin-bottom: 12rpx;
+}
+.baixin{
+  position: absolute;
+  top: 77px;
+}
+.first{
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  margin-left:10rpx;
+}
+.iconbox, .video-modal{
+  position:relative;
+  width: 100rpx;
+  height: 595rpx;
+  top:540rpx;
+  left:630rpx;
+}
+.video-modal{
+   width: 584rpx;
+  height: 375rpx;
+  top:140rpx;
+  left:130rpx;
+  background: red;
+}
+.iconli{
+  width: 100%;
+  margin-bottom: 35rpx;
+}
+.iconli button{
+  line-height: 1;
+}
+.iconli:last-child{
+  margin: 0;
+}
+.icontxt{
+  color:rgba(255,255,255,1);
+  font-size: 24rpx;
+  text-align: center;
+}
+.com_title{
+  width: 90%;
+  color: RGBA(255, 255, 255, 1);
+  font-size: 30rpx;
+  position: relative;
+  left: 5%;
+  top: 485rpx;
+  word-wrap: break-word;
+  white-space: pre-wrap; 
+}
+.comtotal{
+  text-align: center;
+}
+.comclose{
+  position: relative;
+  width: 40rpx;
+  height: 40rpx;
+  top:-43rpx;
+  float:right;
+}
+.listcom{
+  border-bottom: 1px solid #e0e0e0;
+}
+.evName{
+  position: relative;
+  top:-60rpx;
+  left:36px;
+  width: 30%;
+  float: left;
+  overflow: hidden;
+}
+.dzlist{
+  position: relative;
+  top:-86rpx;
+  width: 10%;
+  float: right;
+  right:26rpx;
+}
+.evaluaterightTx{
+  position: relative;
+  top: 34rpx;
+  left: 2rpx;
+}
+
+.evaluateright{
+  float: right;
+}
+.evaluate_r_cont{
+  word-wrap: break-word;
+  white-space: pre-wrap; 
+}
+.showcom{
+  height: 90%;
+}
+.revious, .nextUrl{
+  width:0rpx;
+  height: 0rpx;
+  z-index: -1;
+  opacity: 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 .all{
   background:rgba(235,235,235,1); 
 }
@@ -78,6 +238,8 @@
 .nocomment{
   width: 100%;
   height: 87rpx;
+  position: relative;
+  z-index: 10;
 }
 
 
@@ -122,7 +284,9 @@
   border: 0 !important;
   border-radius: 0 !important;
 }
-
+.evaluate_l{
+  height: 75rpx;
+}
 .evaluate_line {
   height: 26rpx;
   width: 2rpx;
@@ -151,9 +315,18 @@
 
 .comment {
   background-color: #fff;
-  padding: 26rpx 26rpx 76rpx 28rpx;
+  width: 696rpx;
+  height: 390rpx;
+  position: relative;
+  /* padding: 0; */
+  padding-bottom: 0rpx;
+  top: 677rpx;
 }
 
+.commentBox{
+  bottom:0rpx;
+  z-index: 9999;
+}
 .comment_tit {
   height: 60rpx;
   font-size: 28rpx;
@@ -177,6 +350,9 @@
 
 .comment_list {
   margin-top: 20rpx;
+  height: 370rpx;
+  width: 100%;
+  overflow:scroll;
 }
 
 .total-comment {

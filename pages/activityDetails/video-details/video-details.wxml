@@ -1,78 +1,94 @@
 <import src="../../index/merchant-particulars/comment-template/comment-template.wxml" />
 
 
+<view class="videoBox">
+<!-- 
+  <video class='revious' muted='true' autoplay='true' src="{{reviousUrl}}"></video>
+  <video class='nextUrl' muted='true' autoplay='true' src="{{nextUrl}}"></video> -->
+  
+  <video class="boxVideo {{isComment?'showcom':''}}" contain="fill" src='{{currentUrl}}' autoplay='true' loop='true' bindtouchstart="handletouchtart" bindtouchmove="handletouchmove" bindtouchend="handletouchend" height="100%" width="100%" >
 
-<view class="newUserModal" wx:if="{{issnap && isnew}}">
-  <view class='drawer_screen'>
-    <view class='sqtishi'>提示</view>
-    <view class='drphnumber'>获得更多体验,请移步[我的]-[新用户注册]</view>
-    <button class='gettel sqgettel' bindtap='closetel' id='1'>确定</button>
-    <button class='gettel colosetel' bindtap='closetel' id='2'>取消</button>
-  </view>
+    <cover-view class="newUserModal" wx:if="{{issnap && isnew}}">
+      <cover-view class='drawer_screen'>
+        <cover-view class='sqtishi'>提示</cover-view>
+        <cover-view class='drphnumber'>获得更多体验,请移步[我的]-[新用户注册]</cover-view>
+        <button class='gettel sqgettel' bindtap='closetel' id='1'>确定</button>
+        <button class='gettel colosetel' bindtap='closetel' id='2'>取消</button>
+      </cover-view>
+    </cover-view>
+
+
+    <cover-view class='iconbox' wx:if="{{!isComment}}">
+      <!-- 头像 -->
+      <cover-view class='iconli' bindtap='toplayer'>
+        <cover-image class="avatar first" src='{{_iconUrl}}' />
+        <cover-view class='icontxt'>{{_nickName}}</cover-view>
+      </cover-view>
+      <!-- 点赞 -->
+      <cover-view class='iconli' bindtap='handzan'>
+        <cover-image wx:if="!isdtzan" class="avatar" src="{{isdtzan?'/images/icon/baixin.png':'/images/icon/hongxin.png'}}" />
+        <cover-view class='icontxt'>{{voteNum?voteNum:'点赞'}}</cover-view>
+      </cover-view>
+      <!-- 评论 -->
+      <cover-view class='iconli' bindtap="showArea">
+        <cover-image class="avatar" src="/images/icon/pinglun.png" />
+        <cover-view class='icontxt'>{{assNum?assNum:'评论'}}</cover-view>
+      </cover-view>
+      <!-- 分享 -->
+      <cover-view class='iconli'>
+        <button class='sonButton' plain="true" data-name="shareBtn" open-type="share">
+          <cover-image class="avatar" src="/images/icon/fenxiang.png" />
+          <cover-view class='icontxt'>分享</cover-view>
+        </button>
+      </cover-view>
+      <!-- 首页 -->
+      <cover-view class='iconli' bindtap='toindex'>
+        <cover-image class="avatar" src="/images/icon/tohome.png" />
+        <cover-view class='icontxt'>首页</cover-view>
+      </cover-view>
+    </cover-view>
+
+    <cover-view class='com_title'>{{cotitle}}</cover-view>
+
+    <!-- 评论列表 -->
+    <cover-view class="comment" wx:if="{{isComment}}">
+      <cover-view class='comtotal'>{{totalComment}}条评论</cover-view>
+      <cover-image class='comclose' src="/images/icon/comclose.png" bindtap="showArea"></cover-image>
+
+      <cover-view class="comment_list">
+
+        <cover-view class='listcom' wx:for="{{comment_list}}" wx:key="{{index}}">
+
+          <cover-view class='evaluate_l'>
+            <cover-image class='evaluateImages' mode="aspectFill" src='{{item.userPic}}'></cover-image>
+            <cover-view class='evName'> {{item.nickName == 'null'?item.userName:item.nickName}}</cover-view>
+
+            <cover-view class='dzlist' wx:if="{{item.isZan == 0}}" bindtap="toLike" id="{{item.id}}">
+              <cover-view class='evaluaterightTx'>{{item.zan}}</cover-view>
+              <cover-image class='evaluateright' src='/images/icon/zanGray.png'></cover-image>
+            </cover-view>
+
+            <cover-view class='dzlist' wx:else bindtap="cancelLike" id="{{item.id}}">
+              <cover-view class='evaluaterightTx'>{{item.zan}}</cover-view>
+              <cover-image class='evaluateright' src="/images/icon/zanNew.png"></cover-image>
+            </cover-view>
+
+          </cover-view>
+          <cover-view class="evaluate_r">
+            <cover-view class='evaluate_r_cont'>{{item.content}}</cover-view>
+            <cover-view class='carry-out-data'>{{item.createTime}}</cover-view>
+          </cover-view>
+
+        </cover-view>
+
+      </cover-view>
+
+      <!-- 输入评论 -->
+      <cover-view class='commentBox'>
+        <textarea class="commentArea" placeholder='请输入评论' focus="{{isComment}}" bindinput="getCommentVal" cursor-spacing="50rpx" show-confirm-bar="false" fixed="true"></textarea>
+        <button class='fasong' form-type="reset" catchtap="setcmtadd">发送</button>
+      </cover-view>
+    </cover-view>
+
+  </video>
 </view>
-
-<view class='all'>
-
-  <view class='video_details'>
-    <video wx:if="{{!issnap}}" src='{{videodata.content[0].value?videodata.content[0].value:videoUrl}}' autoplay='true' contain='cover'></video>
-    <image class='voimg' wx:if="{{issnap && isnew}}" src='{{videodata.homePic}}'></image>
-    <view class='Players' bindtap='toplayer' wx:if="{{refId}}">
-        <image class='homePic' src='{{_iconUrl}}'></image>
-        <text>{{_nickName}}</text>
-        <image class='righticon' src='/images/icon/home_arrow.png'></image>
-    </view>
-    <view class='introduction' wx:if="{{refId}}">
-      {{videodata.title}}
-    </view>
-    <view class='other' wx:if="{{refId}}">
-      <text class='time'>{{videodata.updateTime}}</text>
-      <text class='views'>浏览量：{{videodata.hitNum}}</text>
-    </view>
-  </view>
-
-  <view class='nocomment'  wx:if="{{refId}}"></view>
-
-  <view class="comment" wx:if="{{totalComment > 0}}">
-    <view class="comment_tit" bindtap="toMoreComment">
-      <view>
-        <text class="activity_line"></text>
-        <text>精选评价</text><text class="activity_num">({{totalComment}})</text>
-      </view>
-      <image class='initiate-right' src='/images/icon/home_arrow.png'></image>
-    </view>
-    <view class="comment_list">
-      <block wx:for="{{comment_list}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
-        <template is="commentItem" data="{{item}}"></template>
-      </block>
-      <view class='total-comment' wx:if="{{totalComment > 5}}" catchtap='toMoreComment'>
-        <view class='total-center'>
-          <text>查看全部<text>{{totalComment}}</text>条评论</text>
-        </view>
-      </view>
-    </view>
-  </view>
-
-
-  <view class='evaluate' wx:if="{{refId}}">
-    <button class='evaluateSon sonButton' plain="true" data-name="shareBtn" open-type="share">
-      <image class='evaluateImg' src='/images/icon/find_share.png'></image>
-      <text class='evaluatExtea'>分享</text>
-      <view class="evaluate_line"></view>
-    </button>
-    <view class='evaluateSon' bindtap="showArea">
-      <image class='evaluateImg' src='/images/icon/find_comment.png'></image>
-      <text class='evaluatExtea' >{{assNum?assNum:'评论'}}</text>
-    </view>
-    <view class='evaluateSon' id="{{details.id}}" bindtap='handzan'>
-      <image class='evaluateImg' src='/images/icon/wenreviewed.png'></image>
-       <text class='evaluatExtea'>{{voteNum?voteNum:'点赞'}}</text>
-    </view>
-  </view>
-
-</view>
-
-<form class='commentBox {{isComment ? "show" : "hide"}}'>
-  <textarea class="commentArea" placeholder='请输入评论' focus="{{isComment}}" bindinput="getCommentVal" cursor-spacing="50rpx" show-confirm-bar="false" fixed="true"></textarea>
-  <button class='fasong' form-type="reset" catchtap="setcmtadd">发送</button>
-</form>
-<image class='ball' bindtap='toindex' src='/images/icon/shouye.png'></image>
