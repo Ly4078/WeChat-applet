@@ -54,6 +54,7 @@
     "pages/activityDetails/player-detail/player-detail",
     "pages/activityDetails/video-details/video-details",
     "pages/activityDetails/homePage/homePage",
+    "pages/activityDetails/homePage-item/homePage-item",
     "pages/activityDetails/dish-detail/dish-detail",
     "pages/activityDetails/onehundred-dish/onehundred-dish",
     "pages/activityDetails/video-list/video-list"

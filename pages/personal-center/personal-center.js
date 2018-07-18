@@ -344,7 +344,7 @@ Page({
   },
   personalCenter: function (event) { //关注
     wx.navigateTo({
-      url: '../personal-center/livepage/livepage'
+      url: '../personal-center/livepage/livepage?likeType=1&userId=' + app.globalData.userInfo.userId
     })
   },
   personal:function(event){ //个人主页

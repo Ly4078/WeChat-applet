@@ -1,3 +1,4 @@
+<import src="../homePage-item/homePage-item.wxml" />
 <view class="newUserModal" wx:if="{{issnap}}">
   <view class='drawer_screen'>
     <view class='sqtishi'>提示</view>
@@ -15,20 +16,29 @@
         <image src="{{iconUrl}}"></image>
       </view>
       <view class="info_inner_r">
-        <view class="info_name">
-          <text>{{nickName?nickName:userName}}</text>
-          <image wx:if="{{sex == 0}}" src="/images/icon/male1.png"></image>
-          <image wx:if="{{sex == 1}}" src="/images/icon/girl1.png"></image>
+        <view>
+          <view class="info_name">
+            <text>{{nickName?nickName:userName}}</text>
+            <image wx:if="{{sex == 1}}" src="/images/icon/gender.png"></image>
+            <image wx:if="{{sex == 2}}" src="/images/icon/genderes.png"></image>
+          </view>
+          <view class="info_data">
+            <view class="info_data_inner" id="1" bindtap="toLikeList">
+              <text class="info_data_num">{{likeNum.focus}}</text>
+              <text class="info_data_txt">关注</text>
+            </view>
+            <view class="info_data_inner" id="2" bindtap="toLikeList">
+              <text class="info_data_num">{{likeNum.fans}}</text>
+              <text class="info_data_txt">粉丝</text>
+            </view>
+            <view class="info_data_inner">
+              <text class="info_data_num">{{voteNum}}</text>
+              <text class="info_data_txt">赞</text>
+            </view>
+          </view>
         </view>
-        <!-- <view>
-          <view class="info_address" wx:if="{{height}}">{{height}}cm</view>
-        </view> -->
-        <view class="info_data">
-          <text class="info_data_num">{{articleList.length}}</text>
-          <text class="info_data_txt">动态</text>
-          <text class="info_data_num">{{voteNum}}</text>
-          <text class="info_data_txt">赞</text>
-        </view>
+        <view wx:if="{{likeNum.isCollected == 0}}" class="likeBtn" bindtap='addLike' hidden="{{userId == voteUserId}}">+关注</view>
+        <view wx:if="{{likeNum.isCollected == 1}}" class="likeBtn del" bindtap='delLike' hidden="{{userId == voteUserId}}">已关注</view>
       </view>
     </view>
   </view>
@@ -46,35 +56,7 @@
     </view> -->
     <view class="homePage_list">
       <block wx:for="{{articleList}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
-        <view class="homePage_list_item">
-          <view class="list_item_middle" id="{{item.id}}" bindtap='videoplay'>
-            <view class="list_item_top">
-              <view class="list_item_top_l">
-                <image src="{{iconUrl}}"></image>
-                <text class="list_item_name">{{nickName?nickName:userName}}</text>
-              </view>
-              <image class="playIcon" src="/images/icon/playMini.png"></image>
-            </view>
-            <image class='abcimg' wx:if="{{item.isImg}}" src="{{item.homePic}}" mode="aspectFill"></image>
-            <image class='vodeoimg' id="{{item.id}}" wx:if='{{!item.isplay}}' src='{{item.homePic}}'></image>
-            <view class='motai' wx:if='{{!item.isplay}}'></view> 
-            <!-- <image class='palyicon' wx:if='{{!item.isplay}}' src="/images/icon/paly.png"></image> -->
-            <video mode="aspectFill" wx:if='{{item.isplay}}' autoplay='true' src='{{item.content[0].value}}' objectFit="fill" direction="0"></video>
-            <view class='summary'>{{item.summary}}</view>
-          </view>
-          <!-- <view class="list_item_bottom" id="{{item.id}}" data-index="{{item.zan}}">
-            <view class="item_bottom_l">
-              <image src="/images/icon/find_see.png"></image>
-              <text>{{item.hitNum}}</text>
-            </view>
-            <view class="item_bottom_r">
-              <image class="item_shareImg" src="/images/icon/find_share.png"></image>
-              <text>{{item.transNum}}</text>
-              <image class="item_commentImg" src="/images/icon/find_comment.png"></image>
-              <text>{{item.commentNum}}</text>
-            </view>
-          </view> -->
-        </view>
+        <template is="homePageItem" data="{{item}}" />
       </block>
       <view wx:if="{{articleList.length == 0}}" class='merchant_none'>
         <image src="/images/icon/zhanweitu.png"></image>
