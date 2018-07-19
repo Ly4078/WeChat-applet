@@ -274,6 +274,7 @@ Page({
               if (!list[i].nickName) {
                 list[i].nickName = this.data.nickName;
               }
+              list[i].actUserName = this.data.actUserName;
               var myreg = /^[1][3,4,5,7,8][0-9]{9}$/, phone = list[i].userName;
               if (myreg.test(phone)) {
                 list[i].userName = phone.substring(0, 4) + '****' + phone.substring(phone.length - 3, phone.length);
