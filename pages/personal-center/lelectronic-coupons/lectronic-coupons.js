@@ -85,7 +85,9 @@ Page({
     clearInterval(this.data.timer)
   },
   toshop:function(){
-    
+    wx.navigateTo({
+      url: '../../index/merchant-particulars/merchant-particulars?shopid=' + this.data.store.id
+    })
   },
   //二维码放大
   previewImg: function (e) {

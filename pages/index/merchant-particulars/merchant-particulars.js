@@ -59,6 +59,7 @@ Page({
   },
   // _data.list[i].nickName = _data.list[i].nickName.substr(0, 3) + "****" + _data.list[i].nickName.substr(7)
   onLoad: function(options) {
+    // console.log("options:", options)
     this.setData({
       shopid: options.shopid
     });
@@ -835,8 +836,6 @@ Page({
         icon: 'none'
       }, 1500)
     } else {
-      console.log(that.data.commentVal)
-      console.log(utils.utf16toEntities(that.data.commentVal))
       let content = utils.utf16toEntities(that.data.commentVal);
       let _parms = {
         refId: that.data.shopid,
