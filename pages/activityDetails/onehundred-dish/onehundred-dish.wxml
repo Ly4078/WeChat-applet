@@ -62,7 +62,7 @@
     <!-- 主办单位 -->
     <view class="sponsor" wx:if="{{isflag == 0}}">
       <!-- <view class="sponsor_tit">- 主办单位 -</view> -->
-      <text class="sponsor_cont">主办单位：十堰市旅游委\n行业指导：十堰市餐饮服务行业管理办公室\n承办单位：中国《汽车之旅》杂志社</text>
+      <text class="sponsor_cont">主办单位：十堰市旅游委\n行业指导：十堰市饮食服务行业管理办公室\n承办单位：中国《汽车之旅》杂志社</text>
       <!-- <view class="sponsor_tit sponsor_media">- 媒体支持 -</view>
       <text class="sponsor_cont">汽车之旅 今日头条 搜狐新闻端 新浪新闻端 一点资讯\n网易新闻端 武汉电视台掌上武汉 花椒视频直播 腾讯朋友圈\n享7美食平台公众号 十堰日报 十堰晚报 东风汽车报 十堰周刊\n十堰电视台 十堰广播电台 秦楚网 东风热线等
       </text> -->
