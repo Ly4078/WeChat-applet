@@ -83,7 +83,7 @@ Page({
   },
   searchbusiness(e) {  //实时获取输入框的值
     let _value = e.detail.value, _this = this, ms = 0, _timer = null;
-    clearTimeout(this.data.timer);
+    clearInterval(this.data.timer);
     _timer = setInterval(function () {
       ms += 50;
       if (ms == 100) {

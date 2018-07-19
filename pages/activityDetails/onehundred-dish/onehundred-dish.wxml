@@ -10,7 +10,7 @@
 </view>
 <view class="hot_activity">
   <view class="hot_banner">
-     <image class="hot_banner_img" src="{{mainPic}}"></image> 
+    <image class="hot_banner_img" src="{{mainPic}}"></image>
   </view>
   <view class="hot_main">
     <!-- 时间阶段和描述 -->
@@ -46,9 +46,11 @@
     <view class="hot_description">
       <view class="hot_desc">
         <text>{{actDesc}}</text>
-        <view class="awards_setting"><text class="icon"></text> 100菜奖项设置</view>
+        <view class="awards_setting">
+          <text class="icon"></text> 100菜奖项设置</view>
         <text>1、对网络人气和专家评审非常高的餐饮企业，颁发相应的证书\n2、十堰"特色招牌菜"10名：颁发奖牌，并给予奖励\n3、十堰"招牌菜"90名：颁发奖牌\n4、每道"特色招牌菜"《汽车之旅十堰食典》专刊均用2-3个整版介绍、每道"招牌菜"用1个整版专题介绍\n5、享7美食平台给予前十招牌菜餐饮企业价值2万元的宣传推广奖励，含享7平台首页推荐位/banner10天，免费美食直播3次\n6、享7美食平台给予11-100名招牌菜餐饮企业价值1万元的宣传推广奖励，含享7平台首推荐位10天，免费美食直播2次\n</text>
-        <view class="awards_setting"><text class="icon"></text> 美食天使奖项设置(根据人气排名)</view>
+        <view class="awards_setting">
+          <text class="icon"></text> 美食天使奖项设置(根据人气排名)</view>
         <text>一等奖1名：价值2万元奖品\n二等奖1名：价值1.2万元奖品\n三等奖1名：价值8千元奖品\n优秀奖7名：各奖价值3000元奖品\n前三名获奖选手可以成为享7美食平台下半年拍摄广告片主角
         </text>
       </view>
@@ -75,7 +77,8 @@
         <view class="{{!switchTab?'active':''}}" bindtap='dishTab' id="2">选手</view>
       </view>
       <view class="hot_list_search">
-        <input placeholder="请输入编号、名称" bindconfirm="searchList" bindinput="getInputVal" value="{{searchValue}}"></input>
+        <!-- <input placeholder="请输入编号、名称" bindconfirm="searchList" bindinput="getInputVal" value="{{searchValue}}"></input> -->
+        <input placeholder="请输入编号、名称" bindinput="getInputVal" value="{{searchValue}}"></input>
         <image src="/images/icon/hot_search.png" bindtap="searchList"></image>
       </view>
       <!-- 可用票数 -->
@@ -93,15 +96,15 @@
         <block wx:if="{{switchTab}}" wx:for="{{dishLish}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
           <template is="dishList" data="{{item}}"></template>
         </block>
-         <block wx:if="{{!switchTab}}" wx:for="{{playerList}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
+        <block wx:if="{{!switchTab}}" wx:for="{{playerList}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
           <template is="playerList" data="{{item}}"></template>
-        </block> 
+        </block>
       </view>
     </view>
   </view>
 </view>
-<image class='ball' wx:if="{{isball}}"  bindtap='toactlist' src='/images/icon/shouye.png'></image>
+<image class='ball' wx:if="{{isball}}" bindtap='toactlist' src='/images/icon/shouye.png'></image>
 
-<view class='toTop'  wx:if="{{dishLish.length>21 || playerList.length>21}}" bindtap='toTop'>
+<view class='toTop' wx:if="{{dishLish.length>21 || playerList.length>21}}" bindtap='toTop'>
   <image src='/images/icon/toTop.png'></image>
-</view> 
+</view>
