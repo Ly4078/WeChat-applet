@@ -1,5 +1,5 @@
 @import "../../../commentsOnUp/commentsOnUp.wxss";
-
+@import "../../../index/merchant-particulars/comment-template/comment-template.wxss"; 
 .detail{
   width: 694rpx;
   padding: 0 28rpx;

@@ -52,6 +52,7 @@ Page({
     this.playerDetail();
     this.getLikeNum();
     this.article();
+    this.getactzanTotal();
   },
   playerDetail() { //选手资料
     let _parms = {
@@ -86,7 +87,7 @@ Page({
             sex: data.sex,
             age: data.age,
             height: data.height,
-            voteNum: data.voteNum ? data.voteNum : 0,
+            // voteNum: data.voteNum ? data.voteNum : 0,
             picUrls: data.picUrls ? data.picUrls : []
           });
           for (let i = 0; i < data.picUrls.length; i++) {
@@ -99,7 +100,6 @@ Page({
             }
           }
         } else {
-          that.getactzanTotal();
           wx.request({ //从自己的服务器获取用户信息
             url: that.data._build_url + 'user/get/' + that.data.userId,
             header: {
@@ -129,7 +129,7 @@ Page({
                   sex: data.sex,
                   age: data.age,
                   height: data.height,
-                  voteNum: data.voteNum ? data.voteNum : 0,
+                  // voteNum: data.voteNum ? data.voteNum : 0,
                   picUrls: data.picUrls ? data.picUrls : []
                   // bgUrl: data.picUrl
                 });
@@ -267,6 +267,10 @@ Page({
                 list[i].isImg = false;
               }
               list[i].isplay = false;
+              var myreg = /^[1][3,4,5,7,8][0-9]{9}$/, phone = list[i].userName;
+              if (myreg.test(phone)) {
+                list[i].userName = phone.substring(0, 4) + '****' + phone.substring(phone.length - 3, phone.length);
+              }
               articleList.push(list[i]);
             }
             this.setData({

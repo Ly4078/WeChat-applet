@@ -178,8 +178,6 @@ Page({
           if (res.data.data.list != null && res.data.data.list != "" && res.data.data.list != []) {
             let footList = res.data.data.list;
             for (let i = 0; i < footList.length; i++) {
-             
-             
               if (footList[i].topicType == 1) { // topicType  1文章  2视频
                 footList[i].isimg = true;
               } else if (footList[i].topicType == 2){
@@ -205,6 +203,10 @@ Page({
               //   footList[i].isimg = false
               //   footList[i].clickvideo = false
               // }
+              var myreg = /^[1][3,4,5,7,8][0-9]{9}$/, phone = footList[i].userName;
+              if (myreg.test(phone)) {
+                footList[i].userName = phone.substring(0, 4) + '****' + phone.substring(phone.length - 3, phone.length);
+              }
               _data.push(footList[i]);
             }
             this.setData({

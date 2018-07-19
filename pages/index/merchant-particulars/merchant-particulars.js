@@ -410,11 +410,17 @@ Page({
     for (let i = 0; i < _data.length; i++) {
       if (id == _data[i].id) {
         zan = _data[i].zan
+        if (_data[i].topicType == 1) {
+          wx.navigateTo({
+            url: '/pages/discover-plate/dynamic-state/article_details/article_details?id=' + id + '&zan=' + zan
+          })
+        } else if (_data[i].topicType == 2) {
+          wx.navigateTo({
+            url: '/pages/activityDetails/video-details/video-details?id=' + id + '&zan=' + zan
+          })
+        }
       }
     }
-    wx.navigateTo({
-      url: '/pages/discover-plate/dynamic-state/article_details/article_details?id=' + id + '&zan=' + zan
-    })
   },
   //分享给好友
   onShareAppMessage: function() {
@@ -907,9 +913,9 @@ Page({
     })
   },
   toShopDetail(e) { //跳转至店铺详情
-    // wx.navigateTo({
-    //   url: 'merchant-particulars/merchant-particulars?shopid=' + e.currentTarget.id,
-    // })
+    this.setData({
+      toView: 'list1'
+    });
     var pages = getCurrentPages();
     var prevPage = pages[pages.length - 1];  //上一个页面
     prevPage.options.shopid = e.currentTarget.id;
