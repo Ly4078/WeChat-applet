@@ -60,7 +60,7 @@
     "pages/activityDetails/video-list/video-list"
   ],
   "window": {
-    "backgroundTextStyle": "light",
+    "backgroundTextStyle": "dark",
     "navigationBarBackgroundColor": "#fff",
     "navigationBarTitleText": "享7",
     "navigationBarTextStyle": "black",
