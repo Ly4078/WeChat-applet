@@ -53,19 +53,20 @@
   border-radius: 50%;
   margin-left:10rpx;
 }
-.iconbox, .video-modal{
-  position:relative;
+.iconbox{
+  position:fixed;
   width: 100rpx;
   height: 595rpx;
-  top:540rpx;
-  left:630rpx;
+  bottom: 100rpx;
+  right:30rpx;
+  overflow: hidden;
 }
 .video-modal{
-   width: 584rpx;
+  position:fixed;
+  width: 584rpx;
   height: 375rpx;
   top:140rpx;
-  left:130rpx;
-  background: red;
+  overflow: hidden;
 }
 .iconli{
   width: 100%;
@@ -86,9 +87,9 @@
   width: 90%;
   color: RGBA(255, 255, 255, 1);
   font-size: 30rpx;
-  position: relative;
+  position: fixed;
   left: 5%;
-  top: 444rpx;
+  bottom: 10%;
   word-wrap: break-word;
   white-space: pre-wrap; 
 }
@@ -144,6 +145,7 @@
 }
 .commentArea{
   background:#fff; 
+  z-index: 999;
 }
 .vimodal{
   position: fixed;
@@ -334,6 +336,7 @@
 
 .comment {
   background-color: #fff;
+  padding-bottom: 120rpx;
   position: fixed;
   width: 698rpx;
   height: 390rpx;
@@ -344,8 +347,9 @@
 .commentBox{
   z-index: 9999;
   position: absolute;
-   bottom:0rpx;
-   background: #fff;
+  bottom:0rpx;
+  background: #fff;
+  border-top: 1px solid #ebebeb;
 }
 .fasong{
   background: #FF762B;

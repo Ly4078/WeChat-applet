@@ -641,6 +641,7 @@ Page({
     var ty = currentY - this.data.lastY
     var text = ""
     //左右方向滑动
+    
     if (Math.abs(tx) > Math.abs(ty)) {
       if (tx < 0) {
         console.log("向左滑动");
@@ -726,8 +727,11 @@ Page({
   //滑动开始事件
   handletouchtart: function (event) {
     // console.log("handletouchtart:",event)
-    this.data.lastX = event.touches[0].pageX
-    this.data.lastY = event.touches[0].pageY
+    this.data.lastX = event.touches[0].pageX;
+    this.data.lastY = event.touches[0].pageY;
+    this.setData({
+      isComment: false
+    })
   },
     //滑动移动事件
   handletouchmove: function (event) {
