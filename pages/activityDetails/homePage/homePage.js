@@ -95,7 +95,6 @@ Page({
               this.setData({
                 bgUrl: data.picUrls[i].picUrl
               });
-              return false;
             }
           }
         } else {
