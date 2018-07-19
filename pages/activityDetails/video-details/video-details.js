@@ -665,8 +665,9 @@ Page({
         if (_Num == this.data.food.length - 1) {
           _Num= 0
         }
-        let _curr = this.data.nextUrl ? this.data.nextUrl : this.data.food[_Num].content[0].value, _title = this.data.food[_Num].title, _userId = this.data.food[_Num].userId;
+        let _curr = this.data.nextUrl ? this.data.nextUrl : this.data.food[_Num].content[0].value, _title = this.data.food[_Num].title, _userId = this.data.food[_Num].userId, _id = this.data.food[_Num].id;
         this.getuserif(_userId);
+        this.gettopiclist(_id);
         this.setData({  //当前播放的视频
           currentUrl: _curr,
           refId: this.data.food[_Num].id,
@@ -700,8 +701,9 @@ Page({
         this.setData({  //下一个视频
           nextUrl: this.data.currentUrl,
         })
-        let _curr = this.data.reviousUrl ? this.data.reviousUrl : this.data.food[_Num], _title = this.data.food[_Num].title, _userId = this.data.food[_Num].userId;
+        let _curr = this.data.reviousUrl ? this.data.reviousUrl : this.data.food[_Num], _title = this.data.food[_Num].title, _userId = this.data.food[_Num].userId, _id = this.data.food[_Num].id;
         this.getuserif(_userId);
+        this.gettopiclist(_id);
         this.setData({  //当前播放的视频
           currentUrl: _curr,
           refId: this.data.food[_Num].id,

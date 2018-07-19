@@ -105,7 +105,7 @@ Page({
     }
     if (app.globalData.userInfo.userType == '2' && app.globalData.userInfo.shopId != '') {
       wx.navigateTo({
-        url: '../../index/download-app/download?isshop=yes',
+        url: '../../../pages/index/download-app/download?isshop=ind',
       })
     } else {
 
@@ -201,6 +201,7 @@ Page({
             imgArr.push(picUrls[i]);
           }
         }
+        console.log("videoArr:", videoArr)
         this.setData({
           videoArr: videoArr,
           imgArr: imgArr,

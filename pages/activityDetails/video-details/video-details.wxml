@@ -9,7 +9,7 @@
   <video class='revious' muted='true' autoplay='true' src="{{reviousUrl}}"></video>
   <video class='nextUrl' muted='true' autoplay='true' src="{{nextUrl}}"></video> -->
 
-  <video class="boxVideo {{isComment?'showcom':''}}" controls="{{false}}" contain="fill" src='{{currentUrl}}' autoplay='true' loop='true' bindtouchstart="handletouchtart" bindtouchmove="handletouchmove" bindtouchend="handletouchend" height="100%" width="100%" >
+  <video class="boxVideo {{isComment?'showcom':''}}" controls="{{false}}" contain="fill" src='{{currentUrl?currentUrl:videoUrl}}' autoplay='true' loop='true' bindtouchstart="handletouchtart" bindtouchmove="handletouchmove" bindtouchend="handletouchend" height="100%" width="100%" >
 
     <cover-view wx:if="{{isshare}}" class='vimodal' bindtap='handshare'>
       <cover-image class='shareImg' src="/images/icon/shareImg.png"></cover-image>
@@ -25,7 +25,7 @@
     </cover-view>
 
 
-    <cover-view class='iconbox' wx:if="{{!isComment}}">
+    <cover-view class='iconbox' wx:if="{{!isComment && !videoUrl}}">
       <!-- 头像 -->
       <cover-view class='iconli' bindtap='toplayer'>
         <cover-image class="avatar first" src='{{_iconUrl}}' />
