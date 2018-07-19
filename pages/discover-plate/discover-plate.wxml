@@ -68,7 +68,7 @@
   </view>  -->
 
 <view class="discoverTop">
-  <image src="/images/icon/ticket.png"></image>
+  <image src="{{topUrl}}"></image>
 </view>
 <view class='discover' catchtap='close'>
   <view class="discoverTab">

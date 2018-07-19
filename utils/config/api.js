@@ -371,6 +371,26 @@ const ALL_API = {
   videoData: {
     method: 'GET',
     url: 'actTopic/zanAndHitTotal'
+  },
+  likeList: {       //关注列表
+    method: 'GET',
+    url: 'userConcern/list'
+  },
+  addLike: {         //添加关注
+    method: 'POST',
+    url: 'userConcern/add'
+  },
+  delLike: {          //取消关注
+    method: 'POST',
+    url: 'userConcern/delete'
+  },
+  getLikeNum: {        //获取关注数
+    method: 'GET',
+    url: 'userConcern/nums'
+  },
+  deleteArticle: {    //删除文章
+    method: 'POST',
+    url: 'topic/delete'
   }
 }
 const Api = new MyHttp({}, ALL_API);

@@ -16,7 +16,8 @@ Page({
     userName: '',
     articleList: [],
     flag: true,
-    page: 1
+    page: 1,
+    isMine: false
   },
   onLoad: function(options) {
     // console.log('options:',options)
@@ -31,7 +32,16 @@ Page({
     });
     this.homePageInit();
   },
-  onShow: function() {},
+  onShow: function() {
+    let isMine = false;
+    if (this.data.voteUserId == this.data.userId) {
+      isMine = true;
+    } 
+    this.setData({
+      isMine: isMine
+    });
+    console.log(this.data.isMine);
+  },
   homePageInit: function() {
     if (!app.globalData.userInfo.mobile) {
       this.setData({
@@ -249,6 +259,7 @@ Page({
           wx.hideLoading();
           if (list != null && list != "" && list != []) {
             for (let i = 0; i < list.length; i++) {
+              list[i].isMine = this.data.isMine;
               list[i].content = JSON.parse(list[i].content);
               list[i].timeDiffrence = utils.timeDiffrence(res.data.currentTime, list[i].updateTime, list[i].createTime)
               list[i].isImg = true;
@@ -278,6 +289,33 @@ Page({
     } else {
       wx.hideLoading();
     }
+  },
+  cancel(e) {  //自己动态可以删除
+    let id = e.currentTarget.id, that = this;
+    wx.showModal({
+      title: '是否删除',
+      cancelColor: '#191919',
+      success: function (res) {
+        if (res.confirm) {
+          wx.request({
+            url: that.data._build_url + 'topic/delete/' + id,
+            method: 'GET',
+            success: function (res) {
+              that.setData({
+                articleList: [],
+                page: 1,
+                flag: true
+              })
+              that.article();
+            }
+          })
+        }
+      }
+    })
+    let _parms = {
+      
+    }
+    
   },
   videoplay(e) {
     let id = e.currentTarget.id,

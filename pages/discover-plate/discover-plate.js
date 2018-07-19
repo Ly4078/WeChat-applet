@@ -18,7 +18,8 @@ Page({
     choicetype:'',
     placeholderFlag: true,
     issnap: false,  
-    isshow:false
+    isshow:false,
+    topUrl: ''
   },
   onShow: function () {
     if (app.globalData.isflag){
@@ -76,9 +77,6 @@ Page({
         istouqu: false
       })
     }
-
-
-
     this.setData({
       sortype:'0',
       choicetype: '',
@@ -107,6 +105,7 @@ Page({
         })
       }
     })
+    this.getcarousel();
   },
   againgetinfo: function () {
     let that = this;
@@ -128,6 +127,25 @@ Page({
           }
         })
       }
+    })
+  },
+  getcarousel: function () {  //轮播图
+    Api.hcllist().then((res) => {
+      if (res.data.data) {
+        let data = res.data.data;
+        // this.setData({
+        //   carousel: res.data.data
+        // })
+        for(let i = 0; i < data.length; i++) {
+          let str = data[i].linkUrl;
+          if (str.substring(str.indexOf('=') + 1, str.indexOf('&')) == '38') {
+            this.setData({
+              topUrl: data[i].imgUrl
+            });
+            return false;
+          }
+        }
+      } 
     })
   },
   close:function(){

@@ -1,16 +1,17 @@
 <template name="homePageItem">
   <view class="homePage_list_item">
-    <view class="list_item_middle" id="{{item.id}}" bindtap='videoplay'>
+    <view class="list_item_middle">
       <view class="list_item_top">
         <view class="list_item_top_l">
-          <image src="{{iconUrl}}"></image>
-          <text class="list_item_name">{{nickName?nickName:userName}}</text>
+          <image src="{{item.iconUrl}}"></image>
+          <text class="list_item_name">{{item.nickName?item.nickName:item.userName}}</text>
         </view>
-        <image class="playIcon" src="/images/icon/playMini.png"></image>
+        <image wx:if="{{!item.isMine}}" class="playIcon" src="/images/icon/playMini.png"></image>
+        <image wx:if="{{item.isMine}}" class="playIcon" src="/images/icon/whiteDel.png" id="{{item.id}}" bindtap='cancel'></image>
       </view>
       <image class='abcimg' wx:if="{{item.isImg}}" src="{{item.homePic}}" mode="aspectFill"></image>
       <image class='vodeoimg' id="{{item.id}}" wx:if='{{!item.isplay}}' src='{{item.homePic}}'></image>
-      <view class='motai' wx:if='{{!item.isplay}}'></view>
+      <view class='motai' wx:if='{{!item.isplay}}' id="{{item.id}}" bindtap='videoplay'></view>
       <!-- <image class='palyicon' wx:if='{{!item.isplay}}' src="/images/icon/paly.png"></image> -->
       <video mode="aspectFill" wx:if='{{item.isplay}}' autoplay='true' src='{{item.content[0].value}}' objectFit="fill" direction="0"></video>
       <view class='summary'>{{item.summary}}</view>
