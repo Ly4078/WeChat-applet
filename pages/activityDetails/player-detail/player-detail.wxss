@@ -1,3 +1,4 @@
+@import "../../index/merchant-particulars/comment-template/comment-template.wxss"; 
 .playerDetail {
   background-color: #EBEBEB;
 }

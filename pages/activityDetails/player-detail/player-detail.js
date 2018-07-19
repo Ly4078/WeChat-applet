@@ -33,7 +33,8 @@ Page({
     isApply: false,
     isnew: false,
     shareFlag: false,
-    isshow: false
+    isshow: false,
+    voteFlag: true
   },
   onLoad: function (options) {
     console.log("options:", options)
@@ -521,12 +522,19 @@ Page({
     });
   },
   toLike: function (e) {//评论点赞
+    let that = this;
     if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
       })
       return false
     }
+    if (!this.data.voteFlag) {
+      return false;
+    }
+    this.setData({
+      voteFlag: false
+    });
     let id = e.currentTarget.id;
     let ind = '';
     for (let i = 0; i < this.data.comment_list.length; i++) {
@@ -553,16 +561,28 @@ Page({
         this.setData({
           comment_list: comment_list
         });
+        setTimeout(function () {
+          that.setData({
+            voteFlag: true
+          });
+        }, 1000);
       }
     })
   },
   cancelLike(e) {
+    let that = this;
     if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
       })
       return false
     }
+    if (!this.data.voteFlag) {
+      return false;
+    }
+    this.setData({
+      voteFlag: false
+    });
     let id = e.currentTarget.id;
     let ind = '';
     for (let i = 0; i < this.data.comment_list.length; i++) {
@@ -592,6 +612,11 @@ Page({
         this.setData({
           comment_list: comment_list
         });
+        setTimeout(function () {
+          that.setData({
+            voteFlag: true
+          });
+        }, 1000);
       }
     })
   },
