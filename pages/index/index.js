@@ -175,6 +175,7 @@ Page({
     this.indexinit();
   },
   onShow: function () {
+    this.getlocation();
     let that = this;
     wx.request({
       url: this.data._build_url + 'act/flag', 
@@ -192,7 +193,7 @@ Page({
         }
       }
     })
-    this.getLocation();
+    
     
     
   },
@@ -792,6 +793,7 @@ Page({
     wx.getLocation({
       type: 'wgs84',
       success: function (res) {
+        console.log("123123")
         let latitude = res.latitude;
         let longitude = res.longitude;
         that.requestCityName(latitude, longitude);

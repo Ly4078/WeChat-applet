@@ -189,7 +189,8 @@ Page({
       cashierId: app.globalData.userInfo.userId,	    //收银id	Long
       cashierName: app.globalData.userInfo.userName	    //收银账号	String
     }
-  
+    console.log("_parms:", _parms);
+    // return false
     Api.hxadd(_parms).then((res) => {
       if (res.data.code == 0) {
         wx.showToast({
@@ -203,21 +204,6 @@ Page({
             }, 1000);
           }
         })
-        // wx.showModal({
-        //   title: '提示',
-        //   content: '核销成功',
-        //   success: function (res) {
-        //     if (res.confirm) {
-        //       wx.switchTab({
-        //         url: '../personal-center'
-        //       })
-        //     } else if (res.cancel) {
-        //       wx.switchTab({
-        //         url: '../personal-center'
-        //       })
-        //     }
-        //   }
-        // })
       } else {
         wx.showModal({
           title: '提示',
