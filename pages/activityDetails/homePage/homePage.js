@@ -51,7 +51,6 @@ Page({
     }
     this.playerDetail();
     this.getLikeNum();
-    this.article();
     this.getactzanTotal();
   },
   playerDetail() { //选手资料
@@ -146,6 +145,7 @@ Page({
             }
           })
         }
+        that.article();
       } else {
         wx.showToast({
           title: '系统繁忙',
@@ -187,34 +187,31 @@ Page({
   },
   addLike() { //添加关注
     let that = this;
-    wx.showModal({
-      title: '是否关注?',
-      success: function(res) {
-        if (res.confirm) {
-          let _parms = {
-            userId: that.data.voteUserId,
-            refId: that.data.userId,
-            type: 1,
-          };
-          Api.addLike(_parms).then((res) => {
-            if (res.data.code == 0) {
-              that.setData({
-                likeNum: {
-                  isCollected: 1,
-                  fans: that.data.likeNum.fans + 1,
-                  focus: that.data.likeNum.focus
-                }
-              });
-            }
-          });
-        }
+    let _parms = {
+      userId: that.data.voteUserId,
+      refId: that.data.userId,
+      type: 1,
+    };
+    Api.addLike(_parms).then((res) => {
+      if (res.data.code == 0) {
+        that.setData({
+          likeNum: {
+            isCollected: 1,
+            fans: that.data.likeNum.fans + 1,
+            focus: that.data.likeNum.focus
+          }
+        });
+        wx.showToast({
+          icon: 'none',
+          title: '已关注'
+        })
       }
-    })
+    });
   },
   delLike() { //取消关注
     let that = this;
     wx.showModal({
-      title: '是否取消关注?',
+      title: '确定取消关注?',
       success: function(res) {
         if (res.confirm) {
           let _parms = {
@@ -231,6 +228,10 @@ Page({
                   focus: that.data.likeNum.focus
                 }
               });
+              wx.showToast({
+                icon: 'none',
+                title: '取消关注'
+              })
             }
           });
         }
@@ -267,6 +268,11 @@ Page({
                 list[i].isImg = false;
               }
               list[i].isplay = false;
+              console.log(!list[i].nickName)
+              console.log(this.data.nickName)
+              if (!list[i].nickName) {
+                list[i].nickName = this.data.nickName;
+              }
               var myreg = /^[1][3,4,5,7,8][0-9]{9}$/, phone = list[i].userName;
               if (myreg.test(phone)) {
                 list[i].userName = phone.substring(0, 4) + '****' + phone.substring(phone.length - 3, phone.length);

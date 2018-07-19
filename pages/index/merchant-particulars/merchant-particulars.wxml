@@ -19,10 +19,10 @@
       <view class="totalPhoto">共{{store_images}}张</view>
       <image class='cateImages' mode="aspectFill" src='{{store_details.logoUrl}}'></image>
     </view>
-    <view class="shopInfo">
+    <view class="shopInfo" style="{{service.length > 0 ? '' : 'height: 230rpx;'}}">
       <view class="shopInfo_inner">
-        <image class="shopInfo_bg" mode="aspectFill" src='{{store_details.logoUrl}}'></image>
-        <view class="shopInfo_shade"></view>
+        <!-- <image class="shopInfo_bg" mode="aspectFill" src='{{store_details.logoUrl}}'></image> -->
+         <view class="shopInfo_shade"></view> 
         <view class='shop-z-Wrap'>
           <view class='detailsName-genre'>
             <view class="details-NameBox">

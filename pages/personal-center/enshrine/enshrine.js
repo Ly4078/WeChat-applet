@@ -25,6 +25,8 @@ Page({
     wx.request({
       url: that.data._build_url + 'fvs/list?userId=' + app.globalData.userInfo.userId + '&page=' + that.data.page + '&rows=10',
       success: function(res) {
+        // console.log(res);
+        // console.log(that.data.posts_key);
         let data = res.data;
         if (data.code == 0 && data.data.list != null && data.data.list != "" && data.data.list != []) {
           let posts_key = that.data.posts_key;
@@ -38,7 +40,6 @@ Page({
                 let list = res.data.data.list;
                 list = list.slice(0, 2);
                 data.data.list[i].dish = list;
-                posts_key.push(data.data.list[i]);
               }
             })
             wx.request({ //满减规则
@@ -49,9 +50,9 @@ Page({
               success: function (res) {
                 let list = res.data.data;
                 data.data.list[i].reduction = list;
-                posts_key.push(data.data.list[i]);
               }
             })
+            posts_key.push(data.data.list[i]);
           }
           setTimeout(function () {
             that.setData({

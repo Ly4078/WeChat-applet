@@ -70,32 +70,29 @@ Page({
     }
     let id = e.currentTarget.id,
       that = this;
-    wx.showModal({
-      title: '是否关注?',
-      success: function(res) {
-        if (res.confirm) {
-          let _parms = {
-            userId: that.data.voteUserId,
-            refId: id,
-            type: 1,
-          };
-          Api.addLike(_parms).then((res) => {
-            if (res.data.code == 0) {
-              let myList = that.data.myList;
-              for (let i = 0; i < myList.length; i++) {
-                if (myList[i].refId == id) {
-                  myList[i].isCollected = 1;
-                  that.setData({
-                    myList: myList
-                  });
-                  return false;
-                }
-              }
-            }
-          });
+    let _parms = {
+      userId: that.data.voteUserId,
+      refId: id,
+      type: 1,
+    };
+    Api.addLike(_parms).then((res) => {
+      if (res.data.code == 0) {
+        let myList = that.data.myList;
+        for (let i = 0; i < myList.length; i++) {
+          if (myList[i].refId == id) {
+            myList[i].isCollected = 1;
+            that.setData({
+              myList: myList
+            });
+            wx.showToast({
+              icon: 'none',
+              title: '已关注',
+            })
+            return false;
+          }
         }
       }
-    })
+    });
   },
   delLike(e) { //取消关注
     if (!this.data.isMine) {
@@ -104,7 +101,7 @@ Page({
     let id = e.currentTarget.id,
       that = this;
     wx.showModal({
-      title: '是否取消关注?',
+      title: '确定取消关注?',
       success: function(res) {
         if (res.confirm) {
           let _parms = {
@@ -121,6 +118,10 @@ Page({
                   that.setData({
                     myList: myList
                   });
+                  wx.showToast({
+                    icon: 'none',
+                    title: '取消关注'
+                  })
                   return false;
                 }
               }

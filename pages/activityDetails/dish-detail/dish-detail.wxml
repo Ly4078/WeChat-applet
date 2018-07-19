@@ -50,8 +50,8 @@
 </view>
 <view class='geduan'></view>
 <view class='initiate-exhibition' bindtap="toMoreComment" wx:if="{{commentTotal > 0}}">
-  <view>
-    <image class='initiate-left' src='/images/icon/home_sign.png'></image>
+  <view class="commentTit">
+    <text class="shopNameIcon"></text>
     <text class='initiate-text'>精选评价</text><text class="commentTotal">({{commentTotal}})</text>
   </view>
   <image class='initiate-right' src='/images/icon/home_arrow.png'></image>

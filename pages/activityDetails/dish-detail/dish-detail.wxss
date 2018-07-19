@@ -236,3 +236,12 @@
 .evaluatExtea,.actzan{
   color: #fff;
 }
+
+.commentTit {
+  position: relative;
+  padding-left: 20rpx;
+}
+
+.commentTit .shopNameIcon {
+  top: 18rpx;
+}
