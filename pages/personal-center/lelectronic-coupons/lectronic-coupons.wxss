@@ -153,7 +153,7 @@ page {
 .codingImages {
   width:400rpx;
 height:400rpx;
-margin:10rpx 167.5rpx;
+margin:10rpx 179.5rpx;
 
 }
 
