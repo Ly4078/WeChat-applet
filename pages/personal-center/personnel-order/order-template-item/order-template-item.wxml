@@ -27,7 +27,9 @@
             <text>x {{item.skuNum}}</text>
           </view>
         </view>
-        <view class='roll-wrap-button'>
+      </view>
+    </view>
+    <view class='roll-wrap-button'>
           <view>
             <text>{{shopName?'实付':'应付总额：'}}</text>
           </view>
@@ -35,7 +37,5 @@
             <text>￥{{item.soAmount}}</text>
           </view>
         </view>
-      </view>
-    </view>
   </view>
 </template>
