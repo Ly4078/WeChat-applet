@@ -23,6 +23,7 @@ Page({
     isball:false,
     isdtzan:false,
     isclick:false,
+    isshare:false,
     frenum:0,
     videodata:[],
     food:[],
@@ -37,7 +38,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    // console.log('options:',options)
+    console.log('options:',options)
     if (options.userId){
       this.setData({
         _userId: options.userId
@@ -280,7 +281,9 @@ Page({
       }
     })
   },
-
+  bindtabb:function(){
+    console.log("bindtabb")
+  },
   getcmtlist: function (id) {  //获取评论数据
     let _parms = {
       zanUserId: app.globalData.userInfo.userId,
@@ -533,7 +536,11 @@ Page({
     }
   },
  
- 
+  handshare(){  //关闭打开模态框
+    this.setData({
+      isshare: !this.data.isshare
+    })
+  },
   getuserinfo() {
     wx.login({
       success: res => {
@@ -625,11 +632,9 @@ Page({
     })
   },
 
-
-
 //滑动结束事件
   handletouchend: function (event) {
-   
+    // console.log("handletouchend:", event)
     var currentX = event.changedTouches[0].pageX
     var currentY = event.changedTouches[0].pageY
     var tx = currentX - this.data.lastX
@@ -659,9 +664,11 @@ Page({
         if (_Num == this.data.food.length - 1) {
           _Num= 0
         }
-        let _curr = this.data.nextUrl ? this.data.nextUrl : this.data.food[_Num].content[0].value, _title = this.data.food[_Num].title;
+        let _curr = this.data.nextUrl ? this.data.nextUrl : this.data.food[_Num].content[0].value, _title = this.data.food[_Num].title, _userId = this.data.food[_Num].userId;
+        this.getuserif(_userId);
         this.setData({  //当前播放的视频
           currentUrl: _curr,
+          refId: this.data.food[_Num].id,
           cotitle: _title,
           frenum: _Num
         })
@@ -692,9 +699,11 @@ Page({
         this.setData({  //下一个视频
           nextUrl: this.data.currentUrl,
         })
-        let _curr = this.data.reviousUrl ? this.data.reviousUrl : this.data.food[_Num], _title = this.data.food[_Num].title;
+        let _curr = this.data.reviousUrl ? this.data.reviousUrl : this.data.food[_Num], _title = this.data.food[_Num].title, _userId = this.data.food[_Num].userId;
+        this.getuserif(_userId);
         this.setData({  //当前播放的视频
           currentUrl: _curr,
+          refId: this.data.food[_Num].id,
           cotitle: _title,
           frenum: _Num
         })
@@ -716,13 +725,37 @@ Page({
 
   //滑动开始事件
   handletouchtart: function (event) {
+    // console.log("handletouchtart:",event)
     this.data.lastX = event.touches[0].pageX
     this.data.lastY = event.touches[0].pageY
   },
     //滑动移动事件
   handletouchmove: function (event) {
+    // console.log("handletouchmove:",event)
     // this.data.currentGesture = 0;
     // console.log("没有滑动");
 
+  },
+
+  onShareAppMessage: function (ops) {
+    if (ops.from === 'button') {
+      // 来自页面内转发按钮
+      console.log(ops.target)
+    }
+    return {
+      title: '享7--视频动态',
+      path: 'pages/activityDetails/video-details/video-details?id=' + this.data.refId,
+      success: function (res) {
+        // 转发成功
+        console.log("转发成功:" + JSON.stringify(res));
+      },
+      fail: function (res) {
+        // 转发失败
+        console.log("转发失败:" + JSON.stringify(res));
+      }
+    }
   }
+
 })
+
+

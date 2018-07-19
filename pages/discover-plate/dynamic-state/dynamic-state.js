@@ -559,9 +559,9 @@ Page({
   addVideo(_parms) {
     Api.addVideo(_parms).then((res) => {
       getApp().globalData.article = [];
-      that.data.title = '';
-      that.covervideo = '';
-      that.data.coverimg = '';
+      this.data.title = '';
+      this.covervideo = '';
+      this.data.coverimg = '';
       if (res.data.code == 0) {
         wx.navigateBack({
           delta: 1

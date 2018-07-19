@@ -2,11 +2,18 @@
 
 
 <view class="videoBox">
+
+
+
 <!-- 
   <video class='revious' muted='true' autoplay='true' src="{{reviousUrl}}"></video>
   <video class='nextUrl' muted='true' autoplay='true' src="{{nextUrl}}"></video> -->
-  
-  <video class="boxVideo {{isComment?'showcom':''}}" contain="fill" src='{{currentUrl}}' autoplay='true' loop='true' bindtouchstart="handletouchtart" bindtouchmove="handletouchmove" bindtouchend="handletouchend" height="100%" width="100%" >
+
+  <video class="boxVideo {{isComment?'showcom':''}}" contain="fill" src='{{currentUrl}}' autoplay='true' loop='true' bindtouchstart="handletouchtart" bindtouchmove="handletouchmove" bindtouchend="handletouchend" height="100%" width="100%" bindtap="showArea">
+
+    <cover-view wx:if="{{isshare}}" class='vimodal' bindtap='handshare'>
+      <cover-image class='shareImg' src="/images/icon/shareImg.png"></cover-image>
+    </cover-view>
 
     <cover-view class="newUserModal" wx:if="{{issnap && isnew}}">
       <cover-view class='drawer_screen'>
@@ -35,11 +42,11 @@
         <cover-view class='icontxt'>{{assNum?assNum:'评论'}}</cover-view>
       </cover-view>
       <!-- 分享 -->
-      <cover-view class='iconli'>
-        <button class='sonButton' plain="true" data-name="shareBtn" open-type="share">
+      <cover-view class='iconli' bindtap='handshare'>
+        <cover-view class='sonButton'>
           <cover-image class="avatar" src="/images/icon/fenxiang.png" />
           <cover-view class='icontxt'>分享</cover-view>
-        </button>
+        </cover-view>
       </cover-view>
       <!-- 首页 -->
       <cover-view class='iconli' bindtap='toindex'>
@@ -56,9 +63,7 @@
       <cover-image class='comclose' src="/images/icon/comclose.png" bindtap="showArea"></cover-image>
 
       <cover-view class="comment_list">
-
         <cover-view class='listcom' wx:for="{{comment_list}}" wx:key="{{index}}">
-
           <cover-view class='evaluate_l'>
             <cover-image class='evaluateImages' mode="aspectFill" src='{{item.userPic}}'></cover-image>
             <cover-view class='evName'> {{item.nickName == 'null'?item.userName:item.nickName}}</cover-view>
@@ -86,7 +91,7 @@
       <!-- 输入评论 -->
       <cover-view class='commentBox'>
         <textarea class="commentArea" placeholder='请输入评论' focus="{{isComment}}" bindinput="getCommentVal" cursor-spacing="50rpx" show-confirm-bar="false" fixed="true"></textarea>
-        <button class='fasong' form-type="reset" catchtap="setcmtadd">发送</button>
+        <cover-view class='fasong' class='fasong' form-type="reset" catchtap="setcmtadd">发送</cover-view>
       </cover-view>
     </cover-view>
 
