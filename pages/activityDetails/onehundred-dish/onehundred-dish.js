@@ -24,7 +24,8 @@ Page({
     isflag:0,
     isnew:false,
     issgin:false,
-    isOption: false
+    isOption: false,
+    timer: null
   },
   onLoad: function (options) {
     console.log("options:", options)
@@ -315,8 +316,21 @@ Page({
     });
   },
   getInputVal: function (e) {   //获取input的值
+    let _value = e.detail.value, that = this, ms = 0, _timer = null;
+    clearInterval(this.data.timer);
+    _timer = setInterval(function () {
+      ms += 50;
+      if (ms == 150) {
+        that.setData({
+          searchValue: e.detail.value
+        })
+        console.log(that.data.searchValue);
+        that.searchList();
+        clearInterval(_timer);
+      }
+    }, 500);
     this.setData({
-      searchValue: e.detail.value
+      timer: _timer
     });
   },
   searchList: function () {    //搜索
