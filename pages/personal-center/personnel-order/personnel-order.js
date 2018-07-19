@@ -52,13 +52,29 @@ Page({
       let data = res.data;
       if (data.code == 0 && data.data != null && data.data != "" && data.data != []) {
         let order_list = that.data.order_list;
-        for (let i = 0; i < data.data.length; i++) {
-          order_list.push(data.data[i]);
+        if (data.data.length && data.data.length>0){
+          for (let i = 0; i < data.data.length; i++) {
+            if (that.data.currentTab == 1) {
+              if (data.data[i].skuType != 3) {
+                order_list.push(data.data[i]);
+                if (order_list.length < 10) {
+                  that.setData({
+                    page: this.data.page + 1,
+                    reFresh:true
+                  })
+                  that.getOrderList();
+                }
+              }
+            } else {
+              order_list.push(data.data[i]);
+            }
+          }
+          that.setData({
+            order_list: order_list,
+            reFresh: true
+          });
         }
-        that.setData({
-          order_list: order_list,
-          reFresh: true
-        });
+        
       } else {
         that.setData({
           reFresh: false
@@ -181,12 +197,11 @@ Page({
     } else {  //平台订单
       for (let i = 0; i < listArr.length; i++) {
         if (id == listArr[i].id) {
-          console.log("listArr[i]:", listArr[i])
-          sell = listArr[i].unitPrice;
-          rule = listArr[i].ruleDesc;
-          inp = parseInt(listArr[i].skuName);
-          num = listArr[i].skuNum;
-          soId = listArr[i].soId;
+          sell = listArr[i].unitPrice,
+          rule = listArr[i].ruleDesc,
+          inp = parseInt(listArr[i].skuName),
+          num = listArr[i].skuNum,
+          soId = listArr[i].soId,
           skuName = listArr[i].skuName,
           shopId = listArr[i].shopId,
           skuId = listArr[i].skuId,
@@ -208,6 +223,7 @@ Page({
   },
   //用户上拉触底
   onReachBottom: function () {
+    console.log("onReachBottom")
     if (this.data.currentTab != 2 && this.data.reFresh) {
       wx.showLoading({
         title: '加载中..'

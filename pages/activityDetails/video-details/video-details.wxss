@@ -147,6 +147,8 @@
 .commentArea{
   background:#fff; 
   z-index: 999;
+  height: 100%;
+  overflow: scroll;
 }
 .vimodal{
   position: fixed;

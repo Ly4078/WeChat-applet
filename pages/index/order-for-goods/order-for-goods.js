@@ -36,7 +36,7 @@ Page({
     }
     if (options.skutype==3){
       this.setData({
-        actId: options.actId,
+        actId: 37,
         shopId: options.shopId,
         skuId: options.skuId
       });
