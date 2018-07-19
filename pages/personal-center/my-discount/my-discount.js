@@ -121,6 +121,9 @@ Page({
     this.getTicketList();
   },
   immediateUse: function (e) {
+    if (this.data.isUsed == 1) {
+      return false;
+    }
     let soid = e.currentTarget.id, id = '';
     for (let i = 0; i < this.data.ticket_list.length; i++) {
       if (soid == this.data.ticket_list[i].soId) {

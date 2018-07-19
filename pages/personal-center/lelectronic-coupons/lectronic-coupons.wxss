@@ -1,27 +1,34 @@
 page {
   background-color: #ececec;
   width: 100%;
+  height: 100%;
+}
+
+.lectronicBox {
+  width: 100%;
+  height: 100%;
+  padding: 32rpx 28rpx;
+  box-sizing: border-box;
+  background-color: #f5f5fa;
 }
 
 .lectronic-wrap {
   width: 100%;
-  /* min-height: 168rpx; */
-  /* background-color: white; */
-  /* margin-bottom: 20rpx; */
+  /* min-height: 168rpx; *//* background-color: white; *//* margin-bottom: 20rpx; */
 }
 
 .lectronic-top {
   width: 100%;
   height: 70rpx;
   line-height: 70rpx;
-  background-color: #D44C4C;
+  background-color: #d44c4c;
   color: #fff;
   display: flex;
   justify-content: space-between;
   font-size: 30rpx;
   padding: 0 30rpx 0 24rpx;
   box-sizing: border-box;
-  letter-spacing: 2rpx;
+  letter-spacing: 4rpx;
 }
 
 .lectronic-left {
@@ -46,14 +53,16 @@ page {
   justify-content: center;
   align-items: center;
 }
-.success{
+
+.success {
   width: 100%;
   height: 100%;
-  color: #4CBA1B;
+  color: #4cba1b;
   font-size: 40rpx;
   text-align: center;
   line-height: 232rpx;
 }
+
 .lectronic-text {
   height: 120rpx;
   letter-spacing: 2rpx;
@@ -96,7 +105,7 @@ page {
 .qr-code {
   width: 100%;
   background-color: white;
-  margin-bottom: 20rpx;
+  text-align: center;
 }
 
 .rollMessage {
@@ -110,16 +119,13 @@ page {
 }
 
 .coding-code {
-  width: 100%;
-  height: 90rpx;
-  border-bottom: 1px solid #e0e0e0;
-  font-size: 32rpx;
+  display: inline-block;
+  background-color: #f5f5fa;
+  font-size: 28rpx;
   color: #555;
   text-align: center;
-  align-items: center;
   letter-spacing: 2px;
-  position: relative;
-  top: 18rpx;
+  padding: 8rpx 34rpx;
 }
 
 .coding-code.show {
@@ -128,6 +134,12 @@ page {
 
 .coding-code.hide {
   display: none;
+}
+
+.coding-time {
+  font-size: 22rpx;
+  color: #b1b1b1;
+  padding: 16rpx 0 30rpx;
 }
 
 .codingText {
@@ -139,10 +151,9 @@ page {
 }
 
 .codingImages {
-  width:400rpx;
-height:400rpx;
-margin:10rpx 179.5rpx;
-
+  width: 400rpx;
+  height: 400rpx;
+  margin-top: 10rpx;
 }
 
 .codingeven-more {
@@ -163,33 +174,72 @@ margin:10rpx 179.5rpx;
   vertical-align: middle;
 }
 
-.veent-more-img-top{
-  transform:rotate(180deg);
+.veent-more-img-top {
+  transform: rotate(180deg);
 }
 
 .qr-code-matter {
   padding-left: 20rpx;
   letter-spacing: 1px;
 }
+
 .order-for-shop {
   width: 100%;
   height: 122rpx;
-  background-color: #FFF;
+  background-color: #fff;
   display: flex;
   justify-content: center;
   margin-bottom: 20rpx;
 }
+
 .order-for-goods {
   width: 100%;
-  height: 570rpx;
   background-color: white;
-  display: flex;
-  justify-content: center;
+  border-top: 1rpx dotted #e0e0e0;
+  position: relative;
+  padding: 20rpx 36rpx 0 32rpx;
+  box-sizing: border-box;
+}
+
+.order-for-goods::before, .order-for-goods::after {
+  content: '';
+  width: 30rpx;
+  height: 30rpx;
+  border-radius: 50%;
+  position: absolute;
+  background-color: #f5f5fa;
+  top: -15rpx;
+}
+
+.order-for-goods::before {
+  left: -12rpx;
+}
+
+.order-for-goods::after {
+  right: -12rpx;
 }
 
 .order-for-nei {
-  width: 90%;
-  height: 380rpx;
+  width: 100%;
+  padding-bottom: 30rpx;
+  /* border-bottom: 1rpx solid #E0E0E0; */
+}
+
+.order-for-source {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  height: 90rpx;
+  line-height: 90rpx;
+  color: #606060;
+  font-size: 28rpx;
+}
+
+.source-r image {
+  width: 12rpx;
+  height: 22rpx;
+  vertical-align: middle;
+  margin-left: 18rpx;
 }
 
 .order-for-text {
@@ -201,12 +251,14 @@ margin:10rpx 179.5rpx;
 }
 
 .order-for-colour {
+  width: 100%;
   color: #555;
   font-size: 24rpx;
-  height: 62rpx;
-  line-height: 62rpx;
+  height: 56rpx;
+  line-height: 56rpx;
   display: flex;
   justify-content: space-between;
+  letter-spacing: 4rpx;
 }
 
 .warm-prompt {
@@ -218,13 +270,15 @@ margin:10rpx 179.5rpx;
   justify-content: center;
   align-items: center;
 }
-.close{
+
+.close {
   width: 22rpx;
   height: 22rpx;
   margin-top: 29rpx;
   margin-left: 29rpx;
 }
-.motitle{
+
+.motitle {
   width: 100%;
   height: 50rpx;
   line-height: 50rpx;
@@ -233,7 +287,8 @@ margin:10rpx 179.5rpx;
   font-size: 40rpx;
   text-align: center;
 }
-.money{
+
+.money {
   width: 100%;
   height: 70rpx;
   line-height: 70rpx;
@@ -241,73 +296,88 @@ margin:10rpx 179.5rpx;
   font-size: 28rpx;
   text-align: center;
 }
-.wallet{
+
+.wallet {
   width: 100%;
-  height:100rpx;
-  line-height:100rpx;
+  height: 100rpx;
+  line-height: 100rpx;
   color: #fff;
   font-size: 24rpx;
   text-align: center;
 }
-.wallet image{
+
+.wallet image {
   width: 19rpx;
   height: 11rpx;
 }
-.envelope{
-  width:390rpx;
-  height:522rpx;
-  background:linear-gradient(to right, #FD4D58, #FC7643);
-  position:absolute;
-  left:50%;
-  top:50%;
-  margin-top:-308rpx;
-  margin-left:-195rpx;
+
+.envelope {
+  width: 390rpx;
+  height: 522rpx;
+  background: linear-gradient(to right, #fd4d58, #fc7643);
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-top: -308rpx;
+  margin-left: -195rpx;
   border-radius: 15rpx;
 }
-.flod{
+
+.flod {
   width: 18rpx;
   height: 30rpx;
   margin-left: 183rpx;
   text-align: center;
   margin-bottom: 15rpx;
 }
-.flod image{
+
+.flod image {
   width: 30rpx;
   height: 100%;
 }
-.caikai{
+
+.caikai {
   width: 100%;
   height: 23rpx;
   margin: 7rpx 0;
   text-align: center;
-  color: #FFC0B9;
+  color: #ffc0b9;
   font-size: 24rpx;
 }
-.received{
-   color: #ECF862;
+
+.received {
+  color: #ecf862;
 }
-.big{
-  font-size:68rpx;
-  color: #ECF862;
+
+.big {
+  font-size: 68rpx;
+  color: #ecf862;
 }
-.currency{
+
+.currency {
   width: 126rpx;
   height: 126rpx;
   line-height: 126rpx;
   margin-top: 50rpx;
   margin-left: 135rpx;
 }
-.wallet image{
+
+.wallet image {
   width: 15rpx;
   height: 19rpx;
   margin-left: 5rpx;
 }
 
-.xuanz{
-  animation:myfirst 2s;
+.xuanz {
+  animation: myfirst 2s;
 }
-@keyframes myfirst
-{
-from {transform:rotateY(0deg);}
-to {transform:rotateY(360deg);}
+
+@keyframes myfirst {
+  from {
+    transform: rotateY(0deg);
+  }
+
+  to {
+    transform: rotateY(360deg);
+  }
 }
