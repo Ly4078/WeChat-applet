@@ -22,11 +22,31 @@ Page({
     frequency:0,
     shopodrder:{},
     istickts:false,
-    isDish: false
+    isDish: false,
+    isperson:false,
+    shopId:'',
+    optObj:{}
   },
   onLoad: function (options) {
     console.log(options)
     let that = this;
+    this.setData({
+      optObj:options
+    })
+    if (options.cfrom = 'ticket') {
+      this.setData({
+        isperson: true
+      })
+    } else {
+      this.setData({
+        isperson: false
+      })
+    }
+    if (options.shopId){
+      this.setData({
+        shopId: options.shopId
+      })
+    }
     if(options.pay== 'pay'){  //从商家订单支付跳转过来的
       this.getshopOrderList(options.soid);
     }else{
@@ -56,7 +76,7 @@ Page({
           timer: int
         })
       }
-      
+      this.getcodedetail();
       this.getTicketInfo();
     }
   },
@@ -90,36 +110,38 @@ Page({
       url: this.data._build_url + 'cp/get/' + this.data.id,
       success: function (res) {
         let data = res.data;
-        console.log('data:',data)
         if(res.data.code == 0){
           let arr = [],ticketArr=[];
-          arr.push(res.data.data);
+          if (res.data.data){
+            arr.push(res.data.data);
 
-          for (let i = 0; i < arr.length; i++) {
-            let Cts = "现金", Dis = '折扣';
-            if (arr[i].skuName.indexOf(Cts) > 0) {
-              arr[i].cash = true
+            for (let i = 0; i < arr.length; i++) {
+              let Cts = "现金", Dis = '平台', Dis2 = '折扣';
+              if (arr[i].skuName && arr[i].skuName.indexOf(Cts) > 0) {
+                arr[i].cash = true
+              }
+              if (arr[i].skuName && arr[i].skuName.indexOf(Dis) > 0 || arr[i].skuName && arr[i].skuName.indexOf(Dis2) > 0) {
+                arr[i].discount = true
+              }
+              ticketArr.push(arr[i]);
             }
-            if (arr[i].skuName.indexOf(Dis) > 0) {
-              arr[i].discount = true
-            }
-            ticketArr.push(arr[i]);
-          }
 
-          wx.hideLoading();
-          that.setData({
-            ticket: ticketArr
-          })
-          console.log(that.data.ticket)
-          if (res.data.data.isUsed != 0){
-            clearInterval(that.data.timer)
+            wx.hideLoading();
             that.setData({
-              ismoldel:true
+              ticket: ticketArr
             })
+            console.log("res.data.data:", res.data.data)
+            if (res.data.data.isUsed && res.data.data.isUsed != 0) {
+              clearInterval(that.data.timer)
+              // that.setData({
+              //   ismoldel: true
+              // })
+            }
+            if (res.data && res.data.data.type == 3) {
+              clearInterval(that.data.timer);
+            }
           }
-          if (res.data.data.type == 3) {
-            clearInterval(that.data.timer);
-          }
+          
         }
       }
     });
@@ -153,7 +175,9 @@ Page({
         }
         let data = res.data;
         if (data.code == 0) {
-          that.getshopInfo(data.data.shopId);
+          if (data.data.shopId){
+            that.getshopInfo(data.data.shopId);
+          }
           let imgsArr = [];
           if (that.data.myCount == 1) {
             let couponsArr = [];
@@ -173,9 +197,27 @@ Page({
           for (let i = 0; i < that.data.couponsArr.length; i++) {
             imgsArr.push(that.data.couponsArr[i].qrcodeUrl);
           }
-           data.data.userName =  data.data.userName.substr(0, 3) + "****" +  data.data.userName.substr(7)
+           data.data.userName =  data.data.userName.substr(0, 3) + "****" +  data.data.userName.substr(7);
+           let _arr = data.data.createTime.split(' ');
+           let _arr2 = _arr[0].split('-');
+           _arr2[1] = _arr2[1]*1+3;
+           if (_arr2[1]>12){
+             _arr2 = _arr2[0]*1+1;
+             _arr2[1] = 12 -_arr2[1];
+           }
+           data.data.endTime = _arr2[0] + '-' + _arr2[1] + '-' + _arr2[2];
+           let dip = "食典", _obj = data.data, Cts = "现金", Dis = '平台', Dis2 = '折扣';
+           if (_obj.skuName && _obj.skuName.indexOf(dip) > 0) {
+             _obj.dips = true
+           }
+           if (_obj.skuName && _obj.skuName.indexOf(Cts) > 0) {
+             _obj.cash = true
+           }
+           if (_obj.skuName && _obj.skuName.indexOf(Dis) > 0 || _obj.skuName && _obj.skuName.indexOf(Dis2) > 0) {
+             _obj.discount = true
+           }
           that.setData({
-            ticketInfo: data.data,
+            ticketInfo: _obj,
             qrCodeArr: imgsArr,
             _skuNum: _skuNum
           });
@@ -199,7 +241,7 @@ Page({
       },
       success: function (res) {
         let _data = res.data.data;
-        console.log('_data:',_data.shopName)
+        _data.address = _data.address.replace(/\-/g, "");
         that.setData({
           store: _data
         })
@@ -213,17 +255,24 @@ Page({
     });
   },
   sublevelSum: function (event) {
-    let that = this, _ind = this.data.ticket[0].type;
-    if (this.data.ticket[0].cash) {  //现金
+    let that = this;
+    console.log("this.data.ticket:", this.data.ticket)
+    console.log(" that.data.ticketInfo:", that.data.ticketInfo)
+    if (this.data.ticketInfo.dips){
+      wx.navigateTo({
+        url: '../../index/voucher-details/voucher-details?actId=actId&shidian=shidian&sell=' + that.data.ticketInfo.soAmount,
+      })
+    } else if (this.data.ticketInfo.cash) {  //现金
       wx.navigateTo({
         url: '../../index/voucher-details/voucher-details?id=' + that.data.ticketInfo.skuId + ' &sell=' + that.data.ticketInfo.unitPrice + '&inp=' + that.data.ticketInfo.coupons[0].couponAmount + '&rule=' + that.data.ticketInfo.coupons[0].promotionRules[0].ruleDesc + '&num=' + that.data.ticketInfo.skuNum
       })
-    } else if (this.data.ticket[0].discount){  //折扣
+    } else if (this.data.ticketInfo.discount){  //折扣
       wx.navigateTo({
         url: '../../index/voucher-details/voucher-details?cfrom=pack',
       })
     } else if (this.data.ticket[0].type == 3){
-      console.log("食典券详情")
+      
+      
     }
   },
   
@@ -262,18 +311,22 @@ Page({
       soStatus:'2'
     };
 
-    console.log("_parms:", _parms)
+   
     Api.myorderForShop(_parms).then((res) => {
-      console.log('res:',res)
+   
       if (res.data.code == 0 || res.data.code == 200){
+        let dip = "食典", _obj = res.data.data.list[0];
+      
+        if (_obj.skuName && _obj.skuName.indexOf(dip) > 0) {
+          _obj.dips = true
+        }
         this.setData({
-          ticketInfo:res.data.data.list[0],
+          ticketInfo:_obj,
           isticket: false
         })
 
       }
     })
-    console.log(res.data.data.list[0])
     // let dish = '食典';
     // if (that.data.ticketInfo.skuName.indexOf(dish) > 0) {
     //   that.setData({

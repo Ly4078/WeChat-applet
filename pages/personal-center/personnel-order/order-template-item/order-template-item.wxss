@@ -112,9 +112,11 @@
   line-height: 60rpx;
   border-top: 1rpx solid #e0e0e0;
   box-sizing: border-box;
-  display: flex;
-  justify-content: space-between;
   color: #b1b1b1;
   font-size: 26rpx;
-  align-items: center;
+  text-align: right;
+}
+
+.roll-wrap-button view{
+  display: inline-block;
 }

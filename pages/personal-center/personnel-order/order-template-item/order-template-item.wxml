@@ -15,7 +15,7 @@
     <view class='personnelOrder'>
       <view class='iconLogoWrap'>
         <image class='iconLogo_sj' wx:if="{{item.logoUrl}}" src='{{item.logoUrl}}'></image>
-        <image class='iconLogo_sj' wx:else src='/images/icon/xiangqiLGBL.gif'></image>
+        <image class='iconLogo_sj' wx:else src='/images/icon/brotheres.png'></image>
       </view>
       <view class='iconLogo-right'>
         <view class='logo-right-top'>
@@ -29,7 +29,7 @@
         </view>
         <view class='roll-wrap-button'>
           <view>
-            <text>{{shopName?'实付':'总价'}}</text>
+            <text>{{shopName?'实付':'应付总额：'}}</text>
           </view>
           <view>
             <text>￥{{item.soAmount}}</text>

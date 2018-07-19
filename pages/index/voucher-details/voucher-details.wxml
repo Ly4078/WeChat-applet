@@ -1,26 +1,26 @@
 <view>
   <view class='detailsWarp'>
-    <image class='detailsImg'  wx:if="{{!cfrom && actId != 37}}" src='/images/icon/xianjin.png'></image>
+    <image class='detailsImg'  wx:if="{{!cfrom && !actId}}" src='/images/icon/xianjin.png'></image>
     <image class='detailscf' wx:if="{{cfrom}}" src='/images/icon/package.png'></image>
-    <image class='detailscf' wx:if="{{!cfrom && actId == 37}}" src='/images/icon/shidian.png'></image>
+    <image class='detailscf' wx:if="{{!cfrom && actId}}" src='/images/icon/shidian.png'></image>
     
     <view class='speciesWrap'  wx:if="{{!cfrom}}">
-      <text class='speciesText' wx:if="{{actId == 37}}">{{obj.sell}}元食典劵</text>
+      <text class='speciesText' wx:if="{{actId}}">{{obj.sell}}元食典劵</text>
       <text class='speciesText' wx:else>{{obj.inp}}元现金劵</text>
       <!-- <text class='spaeciescondition'>{{obj.rule}}</text> -->
     </view>
     
   </view>
-  <view class='countersign' wx:if="{{!cfrom}}">
+  <view class='countersign' wx:if="{{!cfrom && !shidian}}">
     <view class='countersign_left'>
       <view>
         <text class='amount-number'>{{sell}}</text>
         <text class='amount-text'>元</text>
-        <text class='past-due' wx:if="{{actId != 37}}">{{orig}}元</text>
+        <text class='past-due' wx:if="{{!actId}}">{{orig}}元</text>
       </view>
       
       <view class='countersign-past-due'>
-        <text wx:if="{{actId == 37}}">{{sell}}元食典劵</text>
+        <text wx:if="{{actId}}">{{sell}}元食典劵</text>
         <text wx:else>{{obj.inp}}元现金劵</text>
         <!-- <text class='discount-number'>{{sell/obj.inp*10}}折</text> -->
       </view>

@@ -209,7 +209,7 @@ Page({
                           let latitude = res.latitude, longitude = res.longitude
                           app.globalData.userInfo.lat = latitude;
                           app.globalData.userInfo.lng = longitude;
-                          this.getLocation();
+                          that.getLocation();
                         }
                       })
                     }

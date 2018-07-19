@@ -8,16 +8,22 @@ Page({
     _build_url: GLOBAL_API_DOMAIN,
     obj:{},
     orig:'',
-    cfrom:''
+    cfrom:'',
+    shidian:false
   },
   onLoad: function (options) {
-    // console.log("options:", options)
+    console.log("options:", options)
     if (options.actId) {
       this.setData({
         actId: options.actId,
         shopId: options.shopId,
         skuId: options.skuId
       });
+    }
+    if (options.shidian){
+      this.setData({
+        shidian:true
+      })
     }
     if (options.cfrom){
       this.setData({

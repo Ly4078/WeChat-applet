@@ -1,4 +1,5 @@
-<view class="lectronicBox">
+
+<view wx:if="{{optObj.myCount == '1'}}" class="lectronicBox">
   <view class='lectronic-wrap' wx:if="{{!ticketInfo.shopName}}">
     <view class='lectronic-top'>
       <view class='lectronic-left'>
@@ -41,7 +42,7 @@
       <radio checked="true" bindtap='radioOperate' />支付成功</view>
   </view>
 
-  <view class='qr-code' wx:if="{{isticket}}">
+  <view class='qr-code'>
     <!-- <view class='rollMessage'>享7劵</view> -->
     <block wx:for="{{ticket}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
       <image src='{{item.qrcodeUrl}}' class='codingImages' data-index='{{idx}}' bindtap='previewImg'></image>
@@ -119,6 +120,138 @@
     <text>^_^温馨提示:到店向商家出示劵码</text>
   </view>
 </view>
+
+
+<view wx:if="{{optObj.cfrom == 'ticket'}}">
+  <view class='lectronic-wrap1' >
+    <view class='lectronic-top1'>
+      <view class='brotherRight1'  bindtap='sublevelSum'>
+        <view class='brothWrap1'><image class='borthImg1' src='/images/icon/brotheres.png'></image></view>
+        <view class='brothText1'>
+          <text class='restrictText1'>{{ticketInfo.skuName}}</text>
+          <text>有限期至：<text>{{ticketInfo.endTime}}</text></text>
+        </view>
+      </view>
+      <view class='brotherLeft1' >
+        <view class='brotherRiS1'>
+          <text>适用规则</text>
+          <image class='brotherArrows1' src='/images/icon/home_arrow.png'></image>
+        </view>
+      </view>
+    </view>
+    <!-- <view catchtap='sublevelSum1' wx:if="{{ticket[0].type != 3}}">
+      <view class='restrict-time' wx:if="{{isticket}}">
+        <view class='restrict-caution1'>
+          <text wx:if="{{isticket}}">有限期至:</text>
+          <text wx:if="{{isticket}}">{{ticket[0].expiryDate}}</text>
+        </view>
+        <view class='restric-page-down1' wx:if="{{isticket}}">
+          <text class='restric-page-text1' id="{{ticketInfo.id}}">使用详情</text>
+          <image class='restrict-Images1' src='/images/icon/home_arrow.png'></image>
+        </view>
+      </view>
+    </view>  -->
+  </view>
+
+  <view class='lectronic-wrap1' wx:if="{{ticketInfo.shopName}}">
+    <view class='success'>
+      <radio checked="true1" bindtap='radioOperate' />支付成功</view>
+  </view>
+
+  <view class='qr-code1' wx:if="{{isticket}}">
+    <!-- <view class='rollMessage'>享7劵</view> -->
+    <block wx:for="{{ticket}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
+      <image src='{{item.qrcodeUrl}}' class='codingImages1' data-index='{{idx}}' bindtap='previewImg'></image>
+      <view class='coding-code {{idx > 2 && qrCodeFlag ? "hide" : ""}}'>
+        劵码:{{item.couponCode}}
+      </view>
+    </block>
+    <view class='codingeven-more1' wx:if="{{ticket.length > 3}}" bindtap="onclickMore">
+      <text>{{qrCodeFlag ? '更多' : '收起'}}</text>
+      <image class="veent-more-img1" wx:if="{{qrCodeFlag}}" src='/images/icon/xialatupian.png'></image>
+      <image class="veent-more-img-top1" wx:else src='/images/icon/xialatupian.png'></image>
+    </view>
+  </view>
+
+  <view class='order-for-shop1' wx:if="{{ticketInfo.shopName}}">
+    <view class='order-for-nei1'>
+      <view class='order-for-text1'>
+        <text>商家信息</text>
+      </view>
+      <view class='order-for-colour1'>
+        <text>{{ticketInfo.shopName}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class='order-for-goods1'>
+    <view class='order-for-nei1'>
+      <view class='order-for-text1'>
+        <text>订单详情</text>
+      </view>
+      <view class='order-for-colour1'>
+        <text>订单号</text>
+        <text>{{ticketInfo.soId?ticketInfo.soId:ticketInfo.id}}</text>
+      </view>
+      <view class='order-for-colour1' wx:if="{{store.shopName}}">
+        <text>商家名称</text>
+        <text>{{store.shopName}}</text>
+      </view>
+      <view class='order-for-colour1'>
+        <text>联系电话</text>
+        <text>{{ticketInfo.userName}}</text>
+      </view>
+      <view class='order-for-colour1'>
+        <text>下单时间</text>
+        <text>{{ticketInfo.createTime}}</text>
+      </view>
+      <view class='order-for-colour1'>
+        <text>付款时间</text>
+        <text>{{ticketInfo.paidTime ? ticketInfo.paidTime : ticketInfo.updateTime}}</text>
+      </view>
+      <view class='order-for-colour1'>
+        <text>付款方式</text>
+        <text>{{ticketInfo.payType=='2' ? '微信支付' :'余额支付'}}</text>
+      </view>
+      <view class='order-for-colour1'>
+        <text>数量</text>
+        <text>{{ticketInfo.skuNum?ticketInfo.skuNum:1}}</text>
+      </view>
+      <view class='order-for-colour1'>
+        <text>总价</text>
+        <text>￥<text>{{ticketInfo.soAmount}}</text></text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 食店券商家 -->
+  <view wx:if="{{store.id}}" class='merchantSdj1' >
+    <view class='merchantLeft1'>
+      <view>{{store.shopName}}</view>
+      <text>{{store.address}}</text>
+    </view>
+    <view class='merchantRight1'>
+      <view class='brotherRiS1 brothWes1'>
+          <image class='brotherArrows1' src='/images/icon/home_arrow.png'></image>
+        </view>
+    </view>
+  </view>
+
+  <view class='warm-prompt1'>
+    <text>^_^温馨提示:到店向商家出示劵码</text>
+  </view>
+</view>
+
+
+
+
+
+
+
+
+
+
+
 
 
 <view class='modal_box' wx:if="{{ismoldel}}" bindtap='clickmolbox'>
