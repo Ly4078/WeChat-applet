@@ -21,7 +21,6 @@
   width: 100%;
   padding: 24rpx 20rpx 26rpx 24rpx;
   box-sizing: border-box;
-  border-radius: 16rpx;
 }
 
 .dishBox_skun {

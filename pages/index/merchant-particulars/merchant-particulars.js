@@ -1,5 +1,7 @@
 import Api from '/../../../utils/config/api.js';
-import { GLOBAL_API_DOMAIN } from '/../../../utils/config/config.js';
+import {
+  GLOBAL_API_DOMAIN
+} from '/../../../utils/config/config.js';
 var utils = require('../../../utils/util.js')
 var app = getApp();
 Page({
@@ -44,7 +46,16 @@ Page({
     isoter: false,
     toView: 'list1',
     shopList: [],
-    isFixed: false
+    isFixed: false,
+    text: '十堰“100菜”菜评选 暨《十堰食典》汇编、美食天使赛事评选',
+    marqueePace: 1, //滚动速度
+    marqueeDistance: 0, //初始滚动距离
+    marqueeDistance2: 0,
+    marquee2copy_status: false,
+    marquee2_margin: 60,
+    size: 14,
+    orientation: 'left', //滚动方向
+    interval: 50 // 时间间隔
   },
   // _data.list[i].nickName = _data.list[i].nickName.substr(0, 3) + "****" + _data.list[i].nickName.substr(7)
   onLoad: function(options) {
@@ -125,7 +136,62 @@ Page({
         }
       }
     })
+
+    // 文本横向滚动条
+    var vm = this;
+    var length = vm.data.text.length * vm.data.size; //文字长度
+    var windowWidth = wx.getSystemInfoSync().windowWidth; // 屏幕宽度
+    vm.setData({
+      length: length,
+      windowWidth: windowWidth,
+      marquee2_margin: length < windowWidth ? windowWidth - length : vm.data.marquee2_margin          //当文字长度小于屏幕长度时，需要增加补白
+    });
+    vm.antifriction();                   // 水平一行字滚动完了再按照原来的方向滚动
+    vm.bearing();                   // 第一个字消失后立即从右边出现
   },
+  antifriction: function() {
+    var vm = this;
+    var interval = setInterval(function() {
+      if (-vm.data.marqueeDistance < vm.data.length) {
+        vm.setData({
+          marqueeDistance: vm.data.marqueeDistance - vm.data.marqueePace,
+        });
+      } else {
+        clearInterval(interval);
+        vm.setData({
+          marqueeDistance: vm.data.windowWidth
+        });
+        vm.antifriction();
+      }
+    }, vm.data.interval);
+  },
+  bearing: function() {
+    var vm = this;
+    var interval = setInterval(function() {
+      if (-vm.data.marqueeDistance2 < vm.data.length) {
+        // 如果文字滚动到出现marquee2_margin=30px的白边，就接着显示
+        vm.setData({
+          marqueeDistance2: vm.data.marqueeDistance2 - vm.data.marqueePace,
+          marquee2copy_status: vm.data.length + vm.data.marqueeDistance2 <= vm.data.windowWidth + vm.data.marquee2_margin,
+        });
+      } else {
+        if (-vm.data.marqueeDistance2 >= vm.data.marquee2_margin) { // 当第二条文字滚动到最左边时
+          vm.setData({
+            marqueeDistance2: vm.data.marquee2_margin // 直接重新滚动
+          });
+          clearInterval(interval);
+          vm.bearing();
+        } else {
+          clearInterval(interval);
+          vm.setData({
+            marqueeDistance2: -vm.data.windowWidth
+          });
+          vm.bearing();
+        }
+      }
+    }, vm.data.interval);
+  },
+
   selectForOne: function(val) {
     let _parms = {
       shopId: val
@@ -272,7 +338,9 @@ Page({
   // },
   buynow: function(ev) { //点击立即购买
     let skuid = ev.currentTarget.id
-    let _sell = '', _inp = '', _rule = ''
+    let _sell = '',
+      _inp = '',
+      _rule = ''
     for (let i = 0; i < this.data.activity.length; i++) {
       if (skuid == this.data.activity[i].skuId) {
         _sell = this.data.activity[i].sellPrice;
@@ -379,7 +447,8 @@ Page({
       let data = res.data;
       wx.hideLoading();
       if (data.code == 0 && data.data.list != null && data.data.list != "" && data.data.list != []) {
-        let _data = data.data.list, articleList = this.data.merchantArt;
+        let _data = data.data.list,
+          articleList = this.data.merchantArt;
         for (let i = 0; i < _data.length; i++) {
           _data[i].timeDiffrence = utils.timeDiffrence(data.currentTime, _data[i].updateTime, _data[i].createTime)
           articleList.push(_data[i]);
@@ -431,53 +500,59 @@ Page({
       success: function(res) {
         wx.getShareInfo({
           shareTicket: res.shareTickets[0],
-          success: function (res) { console.log(res) },
-          fail: function (res) { console.log(res) },
-          complete: function (res) { console.log(res) }
+          success: function(res) {
+            console.log(res)
+          },
+          fail: function(res) {
+            console.log(res)
+          },
+          complete: function(res) {
+            console.log(res)
+          }
         })
       },
-      fail: function (res) {
+      fail: function(res) {
         // 分享失败
         console.log(res)
       }
     }
   },
   // 电话号码功能
-  calling: function () {
+  calling: function() {
     let that = this;
     wx.makePhoneCall({
       phoneNumber: that.data.store_details.phone ? that.data.store_details.phone : that.data.store_details.mobile,
-      success: function () {
+      success: function() {
         console.log("拨打电话成功！")
       },
-      fail: function () {
+      fail: function() {
         console.log("拨打电话失败！")
       }
     })
   },
-  moreImages: function (event) {
+  moreImages: function(event) {
     wx.navigateTo({
       url: 'preview-picture/preview-picture?id=' + this.data.store_details.id,
     })
   },
   //打开地图导航
-  TencentMap: function (event) {
+  TencentMap: function(event) {
     let that = this;
 
     wx.getSetting({
       success: (res) => {
-        if (!res.authSetting['scope.userLocation']) {// 用户未授受获取其用户位置信息
+        if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其用户位置信息
           wx.showModal({
             title: '提示',
             content: '授权获得更多功能和体验',
-            success: function (res) {
+            success: function(res) {
               if (res.confirm) {
-                wx.openSetting({  //打开授权设置界面
+                wx.openSetting({ //打开授权设置界面
                   success: (res) => {
                     if (res.authSetting['scope.userLocation']) {
                       wx.getLocation({
                         type: 'wgs84',
-                        success: function (res) {
+                        success: function(res) {
                           let latitude = res.latitude;
                           let longitude = res.longitude;
                           that.requestCityName(latitude, longitude);
@@ -489,7 +564,7 @@ Page({
               }
             }
           })
-        }else{
+        } else {
           this.openmap();
         }
       }
@@ -497,7 +572,7 @@ Page({
 
   },
   //获取城市
-  requestCityName(lat, lng) {//获取当前城市
+  requestCityName(lat, lng) { //获取当前城市
     let that = this;
     wx.request({
       url: 'https://apis.map.qq.com/ws/geocoder/v1/?location=' + lat + "," + lng + "&key=4YFBZ-K7JH6-OYOS4-EIJ27-K473E-EUBV7",
@@ -514,11 +589,11 @@ Page({
     })
   },
   //打开地图
-  openmap:function(){
+  openmap: function() {
     let that = this;
     wx.getLocation({
       type: 'gcj02',
-      success: function (res) {
+      success: function(res) {
         let latitude = res.latitude;
         let longitude = res.longitude;
         let storeDetails = that.data.store_details
@@ -528,7 +603,7 @@ Page({
           scale: 18,
           name: storeDetails.shopName,
           address: storeDetails.address,
-          success: function (res) {
+          success: function(res) {
             console.log('打开地图成功')
           }
         })
@@ -599,7 +674,8 @@ Page({
       })
       return false
     }
-    let id = event.currentTarget.id, index = "";
+    let id = event.currentTarget.id,
+      index = "";
     for (var i = 0; i < this.data.comment_list.length; i++) {
       if (this.data.comment_list[i].id == id) {
         index = i;
@@ -807,7 +883,7 @@ Page({
       })
     }
   },
-  receive: function () {
+  receive: function() {
     let that = this;
     if (!this.data.isAgio) {
       wx.navigateTo({
@@ -829,7 +905,7 @@ Page({
             icon: 'none',
           }, 1500)
           that.setData({
-            isAgio:false
+            isAgio: false
           })
         } else {
           wx.showToast({
@@ -842,13 +918,13 @@ Page({
     }
 
   },
-  moreinfo: function (e) {
+  moreinfo: function(e) {
     let _id = e.currentTarget.id;
     wx.navigateTo({
       url: './coupon_details/coupon_details?id=' + _id + '&shopid=' + this.data.shopid,
     })
   },
-  clickactmore: function () {
+  clickactmore: function() {
     this.setData({
       isactmore: !this.data.isactmore,
       activity: []
@@ -865,7 +941,7 @@ Page({
       })
     }
   },
-  clickmore: function () {
+  clickmore: function() {
     this.setData({
       ismore: !this.data.ismore,
       newpackage: []
@@ -882,7 +958,7 @@ Page({
       })
     }
   },
-  gotouse: function () {
+  gotouse: function() {
     wx.navigateTo({
       url: '../voucher-details/voucher-details?cfrom=pack',
     })
@@ -917,7 +993,7 @@ Page({
       toView: 'list1'
     });
     var pages = getCurrentPages();
-    var prevPage = pages[pages.length - 1];  //上一个页面
+    var prevPage = pages[pages.length - 1]; //上一个页面
     prevPage.options.shopid = e.currentTarget.id;
     console.log(prevPage.options)
     prevPage.onLoad(prevPage.options)
@@ -931,7 +1007,7 @@ Page({
       this.setData({
         issnap: true
       })
-    }else{
+    } else {
       wx.navigateTo({
         url: 'paymentPay-page/paymentPay-page?shopid=' + this.data.shopid,
       })
@@ -952,7 +1028,8 @@ Page({
     this.queryMultipleNodes('#merchantBox');
   },
   queryMultipleNodes: function(dom) {
-    var query = wx.createSelectorQuery(), that = this;
+    var query = wx.createSelectorQuery(),
+      that = this;
     query.select(dom).boundingClientRect()
     query.selectViewport().scrollOffset()
     query.exec(function(res) {

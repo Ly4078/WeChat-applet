@@ -22,7 +22,7 @@
     <view class="shopInfo" style="{{service.length > 0 ? '' : 'height: 230rpx;'}}">
       <view class="shopInfo_inner">
         <!-- <image class="shopInfo_bg" mode="aspectFill" src='{{store_details.logoUrl}}'></image> -->
-         <view class="shopInfo_shade"></view> 
+        <view class="shopInfo_shade"></view>
         <view class='shop-z-Wrap'>
           <view class='detailsName-genre'>
             <view class="details-NameBox">
@@ -52,6 +52,27 @@
       </view>
     </view>
   </view>
+
+  <!-- 活动投票栏 -->
+  <!-- <view class='merchantVote'>
+    <view class='program'>【参与活动】</view>
+    <view class='voteGao'>
+      <view class="example">
+        <view class="marquee_box">
+          <view class="marquee_text" style="{{orientation}}:{{marqueeDistance}}px;font-size: {{size}}px;">
+            {{text}}
+          </view>
+        </view>
+      </view>
+    </view> -->
+    <!-- <scroll-view scroll-x="true" style=" white-space: nowrap; display: flex">
+      <view style="background: red; width: 200px; height: 100px; display: inline-block"></view>
+      <view style="background: green; width: 200px; height: 100px; display: inline-block"></view>
+      <view style="background: blue; width: 200px; height: 100px; display: inline-block"></view>
+      <view style="background: yellow; width: 200px; height: 100px; display: inline-block"></view>
+    </scroll-view> -->
+  <!-- </view> -->
+
   <!-- 商家参加的投票列表 -->
   <view catchtap='storeActivity' wx:if="{{_shopCode}}">
     <view class='currentTabButton'>
