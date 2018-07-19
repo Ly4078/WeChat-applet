@@ -160,7 +160,7 @@ Page({
       skuid = e.currentTarget.dataset.skuid,
       sostatus = e.currentTarget.dataset.sostatus,
       listArr = this.data.order_list,
-      sell = "", inp = "", rule = "", num = "", soId = "",
+      sell = "", inp = "", rule = "", num = "", soId = "", skuName = "", skutype = "", soid = "",skuId = "",shopId = "",
       _shopname = e.currentTarget.dataset.shopname;
     if (_shopname) { //商家订单
       if (sostatus == 2 || sostatus == 3) {
@@ -181,21 +181,25 @@ Page({
     } else {  //平台订单
       for (let i = 0; i < listArr.length; i++) {
         if (id == listArr[i].id) {
-          console.log("listArr:", listArr[i])
+          console.log("listArr[i]:", listArr[i])
           sell = listArr[i].unitPrice;
           rule = listArr[i].ruleDesc;
           inp = parseInt(listArr[i].skuName);
           num = listArr[i].skuNum;
           soId = listArr[i].soId;
+          skuName = listArr[i].skuName,
+          shopId = listArr[i].shopId,
+          skuId = listArr[i].skuId,
+          skutype = listArr[i].skuType,
+          soid = listArr[i].soId
         }
-      }
+      } 
       
       if (sostatus == 1) {
         wx.navigateTo({
-          url: '/pages/index/order-for-goods/order-for-goods?id=' + id + '&soid=' + soId + '&sell=' + sell + '&inp=' + inp + '&rule=' + rule + '&num=' + num + '&sostatus=1'
+          url: '/pages/index/order-for-goods/order-for-goods?id=' + skuId + '&sell=' + sell + '&inp=' + inp + '&rule=' + rule + '&num=' + num + '&sostatus=1' + '&skuName=' + skuName + "&skutype=" + skutype + '&skuId=' + skuId + '&shopId=' + shopId
         })
       } else if (sostatus == 2 || sostatus == 3) {
-        console.log("2222")
         wx.navigateTo({
           url: '../lelectronic-coupons/lectronic-coupons?id=' + id + '&soid=' + soId + '&cfrom=ticket'
         })

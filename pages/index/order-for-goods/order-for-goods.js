@@ -13,6 +13,7 @@ Page({
     issecond: false,
     paytype: '', //支付方式， 1微信支付  2余额支付
     balance: 0,  //余额
+    skuName:"",
     items: [
       { name: '微信支付', id: '1', disabled: false, img: '/images/icon/weixinzhifu.png', checked: false },
       { name: '余额支付', id: '2', disabled: false, img: '/images/icon/yuezhifu.png', checked: true },
@@ -20,10 +21,29 @@ Page({
   },
   
   onLoad: function (options) {
-    // console.log("options:",options)
-    if(options.actId == '37') {
+    if (options.skuName){
       this.setData({
-        actId: 37,
+        skuName: options.skuName
+      })
+      let arr = this.data.items
+      arr[0].checked = true;
+      arr[1].checked = false;
+      arr[1].disabled = true;
+      this.setData({
+        paytype: 1,
+        items: arr
+      })
+    }
+    if (options.skutype==3){
+      this.setData({
+        actId: options.actId,
+        shopId: options.shopId,
+        skuId: options.skuId
+      });
+    }
+    if(options.actId) {
+      this.setData({
+        actId: options.actId,
         shopId: options.shopId,
         skuId: options.skuId
       });
@@ -118,7 +138,7 @@ Page({
   },
 
   bindPlus: function () {  //点击加号
-    if(this.data.actId != 37) {
+    if(!this.data.actId) {
       let number = this.data.number;
       ++number;
       if (number > 10) {
@@ -151,7 +171,7 @@ Page({
     }
   },
   calculate: function (val) {  //判断支付方式
-    if(this.data.actId == 37) {
+    if (this.data.actId || this.data.obj.skutype ==3) {
       this.setData({
         balance: 0
       });
@@ -186,7 +206,7 @@ Page({
 
   determine: function (e) {  //点击确认支付按钮
     let that = this
-    if (app.globalData.userInfo.mobile == 'undefined' || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+    if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
       })
@@ -251,7 +271,7 @@ Page({
   },
 
   confirmPayment: function (e) {  //生成订单号
-    let that = this
+    let that = this;
     if (that.data.issecond) {
       return false
     }
@@ -259,7 +279,6 @@ Page({
       issecond: true
     })
     if (this.data.obj.soid && this.data.obj.soid != 'undefined' && this.data.obj.soid != '') {
-
       if (that.data.paytype == 1) {
         that.payment(this.data.obj.soid);
         that.updateuser();
@@ -330,8 +349,8 @@ Page({
       soId: soid,
       openId: app.globalData.userInfo.openId
     },that = this;
-    if(this.data.actId == 37) {
-      _pars['actId'] = '37';
+    if(this.data.actId) {
+      _pars['actId'] = this.data.actId;
       _pars['skuId'] = this.data.skuId;
       _pars['shopId'] = this.data.obj.shopId;
       Api.doUnifiedOrderAct(_pars).then((res) => {
@@ -385,7 +404,6 @@ Page({
     }
   },
   messagepush: function () {//消息推送
-    console.log('messagepush')
     let that = this, pannum = this.data.paymentAmount ? this.data.paymentAmount:0;
     let _parms = {
       type: 'android',
@@ -395,7 +413,6 @@ Page({
       ios: '1',
       shopId: that.data.shopId
     }
-    console.log('_parms:', _parms)
     Api.pushSoByShop(_parms).then((res) => {
       if (res.data.code == 0) {
         console.log('推送成功')

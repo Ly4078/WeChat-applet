@@ -46,7 +46,7 @@ Page({
       })
     };
     if(options.actId) {
-      if (options.actId == 37){
+      if (options.actId){
         getApp().globalData.article = [];
         that.data.title = '';
         that.covervideo = '';

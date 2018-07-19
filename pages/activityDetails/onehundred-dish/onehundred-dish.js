@@ -5,7 +5,7 @@ var app = getApp();
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
-    actId: 37,     //活动id
+    actId: '',     //活动id
     voteUserId: 0,
     // city: [{ name: '十堰', id: 1 }, { name: '武汉', id: 2 }],
     selected: '十堰',
@@ -27,9 +27,12 @@ Page({
     isOption: false
   },
   onLoad: function (options) {
-    // console.log("options:", options)
-   
-
+    console.log("options:", options)
+    if (options.actid){
+      this.setData({
+        actId: options.actid
+      })
+    }
     let dateStr = new Date(),that = this;
     let milisecond = new Date(this.dateConv(dateStr)).getTime() + 86400000;
     this.setData({
@@ -46,10 +49,6 @@ Page({
           actId: utils.getQueryString(q, 'actId')
         });
       }
-    }else{
-      this.setData({
-        actId: options.actid
-      });
     }
     if (options.sortType == 1) {
       this.setData({
@@ -72,10 +71,20 @@ Page({
         userName: options.userName
       });
     }
+    this.first();
   },
   onShow: function (options) {
-    this.availableVote();
-    this.onehundredInit();
+    
+  },
+  first:function(){
+    let _timer=null,that = this;
+    _timer = setInterval(function () {
+      if (that.data.actId){
+        clearInterval(_timer);
+        that.availableVote();
+        that.onehundredInit();
+      }
+    },200)
   },
   onehundredInit: function () {
     let that = this;
@@ -122,6 +131,7 @@ Page({
       sourceType: '1'
     }
     Api.actdetail(_parms).then((res) => {
+      console.log("res:",res)
       let startTime = res.data.data.startTime,
         endTime = res.data.data.endTime,
         stage = 1;

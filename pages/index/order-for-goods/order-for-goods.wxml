@@ -11,8 +11,9 @@
 <view>
   <view class='particulars'>
     <view class='particulars_details'>
-      <text class='particulars_text' wx:if="{{actId == 37}}">{{obj.sell}}元食典劵</text>
-      <text class='particulars_text' wx:else>{{obj.inp}}元现金劵</text>
+      <text class='particulars_text' wx:if="{{skuName}}">{{skuName}}</text>
+      <text class='particulars_text' wx:if="{{actId && !skuName}}">{{obj.sell}}元食典劵</text>
+      <text class='particulars_text' wx:if="{{!actId && !skuName}}">{{obj.inp}}元现金劵</text>
       <text>￥{{obj.sell}}</text>
     </view>
   </view>
@@ -24,7 +25,7 @@
         <text class="minusStatus normal" bindtap="bindMinus">-</text>
         <!-- 数值 -->
         <!-- <input wx:if="{{sostatus == 1}}" disabled='true' type="number" disabled='true' value="{{number}}" /> -->
-        <input wx:if="{{actId == 37}}" type="number" disabled='true' value="{{number}}" />
+        <input wx:if="{{actId}}" type="number" disabled='true' value="{{number}}" />
         <input wx:else type="number" bindchange="bindManual" disabled='true' value="{{number}}" />
         <!-- 加号 -->
         <text  class="normal" bindtap="bindPlus">+</text>
