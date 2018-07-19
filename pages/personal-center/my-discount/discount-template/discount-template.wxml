@@ -1,30 +1,36 @@
 <template name="discountList">
-<!--
+  <!--
 三者区分
 现金券.type：1  cash:true
 折扣券.type：1   discount:true
 食典券(活动券).type：3
   -->
-  <view class='securityWrap'>
+  <view class='securityWrap' id="{{item.soId}}" catchtap='immediateUse'>
     <view class='security-use'>
-      <view class='security-top'>
-    
-        <!--现金券样式  -->
-        <view class='security-top-left' wx:if="{{item.cash}}">
-          <text class='security-money {{item.isUsed == 1 ? "isGray" : ""}}'>￥<text class='security-money-se'>{{item.skuName}}</text></text>
-        </view> 
+      <view class="security-top">
+        <image class="security-top-bg" src="/images/icon/ticketImg.png"></image>
+        <view class='security-top-inner'>
+          <!--现金券样式  -->
+          <view class='security-top-left' wx:if="{{item.cash}}">
+            <text class='security-money'><text class='security-money-se'>{{item.skuName}}</text></text>
+            <!-- <view>*满减规则由商家制定</view> -->
+          </view>
 
-        <!--折扣券样式  -->
-        <view class='security-top-left contick {{item.isUsed == 1?"isGray":"isnoGray"}} ' wx:if="{{item.discount}}">
-          <view>{{item.skuName}}</view>
-          <view><text>享7专享</text> | <text>全平台通用</text> | <text>免预约</text></view>
-        </view>
+          <!--折扣券样式  -->
+          <view class='security-top-left contick' wx:if="{{item.discount}}">
+            <view>{{item.skuName}}</view>
+            <view>
+              <text>享7专享</text> |
+              <text>全平台通用</text> |
+              <text>免预约</text>
+            </view>
+          </view>
 
-         <!--食典（活动）券样式  -->
-        <view class='security-top-left contick' wx:if="{{item.type == 3}}">
-          <view class='{{item.isUsed == 1?"isGray":"actsku"}}'>{{item.skuName}}</view>
-          <view>仅限在参与活动的商家中使用</view>
-        </view>
+          <!--食典（活动）券样式  -->
+          <view class='security-top-left contick' wx:if="{{item.type == 3}}">
+            <view>{{item.skuName}}</view>
+            <view>仅限在参与活动的商家中使用</view>
+          </view>
 
           <!-- <view class='security-top-left contick actsku' wx:if="{{item.type == 1}}">
           <view>{{item.skuName}}</view>
@@ -35,12 +41,14 @@
           <view>商家券</view>
         </view>   -->
 
-       
-        <view class='security-top-right'>
-          <view wx:if="{{item.isDue == 1}}" hidden='{{item.type == 4}}' class='my-immediateUse isGray'>已过期</view>
-          <view wx:if="{{item.isUsed == 1 && item.isDue == 0}}" class='my-immediateUse isGray'>已使用</view>
-          <view wx:else class='my-immediateUse {{item.discount? "istick" : ""}}' catchtap='immediateUse' id="{{item.soId}}">立即使用</view>
+
+          <!-- <view class='security-top-right'>
+            <view wx:if="{{item.isDue == 1}}" hidden='{{item.type == 4}}' class='my-immediateUse isGray'>已过期</view>
+            <view wx:if="{{item.isUsed == 1 && item.isDue == 0}}" class='my-immediateUse isGray'>已使用</view>
+            <view wx:else class='my-immediateUse {{item.discount? "istick" : ""}}' catchtap='immediateUse' id="{{item.soId}}">立即使用</view>
+          </view> -->
         </view>
+
       </view>
       <view class='deadline-time'>
         <view>

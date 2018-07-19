@@ -54,3 +54,39 @@ page {
   height: 100%;
 }
 
+.discountTab {
+  display: flex;
+  flex-direction: row;
+  height: 88rpx;
+  line-height: 88rpx;
+  background-color: #fff;
+  box-sizing: border-box;
+  border-top: 1rpx solid #E0E0E0;
+  border-bottom: 1rpx solid #E0E0E0;
+}
+
+.discountTab view {
+  flex: 1;
+  text-align: center;
+  box-sizing: border-box;
+  height: 100%;
+}
+
+.discountTab text {
+  display: inline-block;
+  color: #808080;
+  font-size: 28rpx;
+  box-sizing: border-box;
+  height: 100%;
+}
+
+.discountTab view.active text {
+  border-bottom: 4rpx solid #FC5E2D;
+  color: #FC5E2D;
+}
+
+.discountBox {
+  padding: 20rpx 28rpx;
+  box-sizing: border-box;
+  width: 100%;
+}

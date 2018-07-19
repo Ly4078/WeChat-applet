@@ -8,7 +8,8 @@ Page({
     ticket_list: [],
     page: 1,
     isUpdate: true,
-    isball:false
+    isball:false,
+    isUsed: 0
   },
   onLoad: function (options) {
     if (options.cfrom == 'reg'){
@@ -39,7 +40,7 @@ Page({
       url: that.data._build_url + 'cp/list',
       data: {
         userId: app.globalData.userInfo.userId,
-        isUsed: 0,
+        isUsed: that.data.isUsed,
         page: that.data.page,
         rows: 8
       },
@@ -81,6 +82,17 @@ Page({
       }
     })
   },
+  ticketType(e) {    //不同类型的票券列表
+    this.setData({
+      ticket_list: [],
+      page: 1,
+      isUpdate: true
+    });
+    this.setData({
+      isUsed: e.currentTarget.id
+    });
+    this.getTicketList();
+  },
   //跳转至已过期
   toDueList: function () {
     wx.navigateTo({
@@ -108,16 +120,15 @@ Page({
     });
     this.getTicketList();
   },
-  immediateUse: function (event) {
-    let soid = event.target.id, isDue = 0,id = '';
+  immediateUse: function (e) {
+    let soid = e.currentTarget.id, id = '';
     for (let i = 0; i < this.data.ticket_list.length; i++) {
       if (soid == this.data.ticket_list[i].soId) {
         id = this.data.ticket_list[i].id;
-        isDue = this.data.ticket_list[i].isDue;
       }
     }
     wx.navigateTo({
-      url: '../lelectronic-coupons/lectronic-coupons?soid=' + event.target.id + '&id='+ id +'&myCount=1'
+      url: '../lelectronic-coupons/lectronic-coupons?soid=' + e.currentTarget.id + '&id='+ id +'&myCount=1'
     })
   },
   //对比时间是否过期

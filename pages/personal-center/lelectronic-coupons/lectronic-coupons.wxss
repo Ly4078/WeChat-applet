@@ -5,37 +5,33 @@ page {
 
 .lectronic-wrap {
   width: 100%;
-  min-height: 168rpx;
-  background-color: white;
-  margin-bottom: 20rpx;
+  /* min-height: 168rpx; */
+  /* background-color: white; */
+  /* margin-bottom: 20rpx; */
 }
 
 .lectronic-top {
   width: 100%;
-  height: 168rpx;
+  height: 70rpx;
+  line-height: 70rpx;
+  background-color: #D44C4C;
+  color: #fff;
   display: flex;
   justify-content: space-between;
-  border: 1px dotted #e0e0e0;
+  font-size: 30rpx;
+  padding: 0 30rpx 0 24rpx;
   box-sizing: border-box;
+  letter-spacing: 2rpx;
 }
 
 .lectronic-left {
-  width: 80%;
-  height: 168rpx;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  /* width: 80%; */
+  height: 100%;
 }
 
 .lectronic-right {
-  width: 20%;
-  height: 168rpx;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #555;
-  font-size: 28rpx;
-  letter-spacing: 1rpx;
+  /* width: 20%; */
+  height: 100%;
 }
 
 .lectronic-images {
@@ -59,16 +55,8 @@ page {
   line-height: 232rpx;
 }
 .lectronic-text {
-  width: 74%;
   height: 120rpx;
   letter-spacing: 2rpx;
-}
-
-.lectronic-reel {
-  display: block;
-  color: #191919;
-  font-size: 46rpx;
-  padding-top: 30rpx;
 }
 
 .lectronic-limit {

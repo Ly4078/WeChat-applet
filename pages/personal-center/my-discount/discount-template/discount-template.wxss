@@ -1,31 +1,38 @@
 .securityWrap{
-  display: flex;
-  justify-content: center;
-  position: relative;
+  margin-bottom: 22rpx;
 }
 
 .security-use{
-  width: 92%;
-  background-color: white;
-  height: 226rpx;
-  margin-top: 24rpx;
-}
-
-.daishiyong{
-  color: #808080
+  width: 100%;
 }
 
 .security-top{
-  width: 98%;
-  height: 162rpx;
-  display: flex;
-  border-bottom: 1px dashed #E0E0E0;
-  margin: -3rpx 10rpx;
+  width: 100%;
+  height: 214rpx;
+  position: relative;
+}
+
+.security-top-bg {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+}
+
+.security-top-inner {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 20;
 }
 
 .security-top-left{
-  width: 73%;
-  height: 162rpx;
+  width: 100%;
+  height: 100%;
 }
 
 .security-money{
@@ -33,7 +40,7 @@
   height: 162rpx;
   line-height: 162rpx;
   font-size: 40rpx;
-  color: #FC5E2D;
+  color: #FDF2F2;
   text-indent: 28rpx;
 }
 
@@ -75,12 +82,13 @@
   border:1rpx solid #DB9C34;
 }
 .deadline-time{
-  color: #B1B1B1;
+  color: #191919;
+  background-color: #fff;
   font-size: 24rpx;
   display: flex;
-  height: 56rpx;
+  height: 66rpx;
   justify-content: space-between;
-  padding: 0rpx 40rpx;
+  padding: 0rpx 36rpx 0 32rpx;
   align-items: center;
   letter-spacing: 1px;
 }
@@ -94,17 +102,14 @@
 }
 .contick view{
   padding-left: 30rpx;
-  width: 70%; 
-  height: 81rpx;
-  line-height: 81rpx;
 }
 .contick view:nth-child(1){
-  
   font-size: 46rpx;
-  line-height:100rpx;
+  color: #FDF2F2;
+  padding: 40rpx 0 32rpx 30rpx;
 }
 .contick view:nth-child(2){
-  color: #808080;
+  color: #A82020;
   font-size: 24rpx;
 }
 .actsku{
