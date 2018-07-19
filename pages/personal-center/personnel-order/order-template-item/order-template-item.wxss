@@ -73,17 +73,18 @@
 .logo-right-top {
   width: 100%;
   height: 152rpx;
-  padding-top: 36rpx;
   box-sizing: border-box;
   display: flex;
   justify-content: space-between;
+  line-height:56rpx;
+  align-items:center;
+
 }
 
 .logo-right-condition text {
   display: block;
   font-size: 40rpx;
   color: #191919;
-  padding-top: 16rpx;
 }
 
 .roll-unused {
