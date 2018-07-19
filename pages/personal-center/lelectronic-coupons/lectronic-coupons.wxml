@@ -225,7 +225,7 @@
   </view>
 
   <!-- 食店券商家 -->
-  <view wx:if="{{store.id}}" class='merchantSdj1' >
+  <view wx:if="{{store.id}}" class='merchantSdj1' bindtap='toshop'>
     <view class='merchantLeft1'>
       <view>{{store.shopName}}</view>
       <text>{{store.address}}</text>

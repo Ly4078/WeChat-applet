@@ -28,7 +28,7 @@ Page({
     optObj:{}
   },
   onLoad: function (options) {
-    console.log(options)
+    // console.log(options)
     let that = this;
     this.setData({
       optObj:options
@@ -84,6 +84,9 @@ Page({
   onHide:function(){
     clearInterval(this.data.timer)
   },
+  toshop:function(){
+    
+  },
   //二维码放大
   previewImg: function (e) {
     let that = this,
@@ -130,7 +133,6 @@ Page({
             that.setData({
               ticket: ticketArr
             })
-            console.log("res.data.data:", res.data.data)
             if (res.data.data.isUsed && res.data.data.isUsed != 0) {
               clearInterval(that.data.timer)
               // that.setData({
@@ -256,8 +258,6 @@ Page({
   },
   sublevelSum: function (event) {
     let that = this;
-    console.log("this.data.ticket:", this.data.ticket)
-    console.log(" that.data.ticketInfo:", that.data.ticketInfo)
     if (this.data.ticketInfo.dips){
       wx.navigateTo({
         url: '../../index/voucher-details/voucher-details?actId=actId&shidian=shidian&sell=' + that.data.ticketInfo.soAmount,

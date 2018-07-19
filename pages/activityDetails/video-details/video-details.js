@@ -54,12 +54,13 @@ Page({
         refId: options.id
       });
       this.gettopiclist(options.id);
+      this.getfood();
     } else if (options.url){
       this.setData({
         videoUrl:options.url
       })
     }
-    this.getfood();
+   
   },
   
 
@@ -641,6 +642,9 @@ Page({
 //滑动结束事件
   handletouchend: function (event) {
     // console.log("handletouchend:", event)
+    if (this.data.videoUrl){
+      return false
+    }
     var currentX = event.changedTouches[0].pageX
     var currentY = event.changedTouches[0].pageY
     var tx = currentX - this.data.lastX
