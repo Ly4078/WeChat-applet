@@ -81,8 +81,8 @@
   </view>
 
   <view class='mylistWrap'>
-    <view class='myList' catchtap='scanAqrCode'>
-      <view class='myList-single'>
+    <view class='myList' hidden="{{!isshop}}">
+      <view class='myList-single' catchtap='scanAqrCode'>
         <view>
           <image class='myListImages' src='/images/icon/saoma.png'></image>
           <text class='mylistText'>扫码核销</text>
@@ -90,7 +90,7 @@
         <image class='myListArrows' src='/images/icon/home_arrow.png'></image>
       </view>
     </view>
-    <view class='myList'>
+    <view class='myList' hidden="{{!isshop}}">
       <view class='myList-single' catchtap='VoucherCode'>
         <view>
           <image class='myListImages' src='/images/icon/quanma.png'></image>
@@ -102,7 +102,7 @@
   </view>
 
   <view class='mylistWrap'>
-    <view class='myList sectionList'>
+    <view class='myList sectionList' hidden="{{isshop}}">
       <view class='myList-single' catchtap='enterEntrance'>
         <view>
           <image class='myListImages' src='/images/icon/merchants_join.png'></image>

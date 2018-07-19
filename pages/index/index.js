@@ -209,7 +209,7 @@ Page({
                           let latitude = res.latitude, longitude = res.longitude
                           app.globalData.userInfo.lat = latitude;
                           app.globalData.userInfo.lng = longitude;
-                          this.getLocation();
+                          that.getLocation();
                         }
                       })
                     }
@@ -219,13 +219,13 @@ Page({
             }
           })
         } else {
-          if (this.data.city != app.globalData.userInfo.city) {
-            this.setData({
+          if (that.data.city != app.globalData.userInfo.city) {
+            that.setData({
               city: app.globalData.userInfo.city,
               posts_key: [],
               _page: 1
             })
-            this.getLocation();
+            that.getLocation();
           }
         }
       }
