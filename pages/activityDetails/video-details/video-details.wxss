@@ -133,6 +133,7 @@
 .evaluate_r_cont{
   word-wrap: break-word;
   white-space: pre-wrap; 
+  padding:20rpx 30rpx 10rpx 30rpx;
 }
 .showcom{
   height: 90%;

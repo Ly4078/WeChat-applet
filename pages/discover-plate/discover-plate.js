@@ -203,6 +203,9 @@ Page({
               //   footList[i].isimg = false
               //   footList[i].clickvideo = false
               // }
+              if (footList[i].nickName == "null" || footList[i].nickName == "undefined") {
+                footList[i].nickName = "";
+              }
               var myreg = /^[1][3,4,5,7,8][0-9]{9}$/, phone = footList[i].userName;
               if (myreg.test(phone)) {
                 footList[i].userName = phone.substring(0, 4) + '****' + phone.substring(phone.length - 3, phone.length);

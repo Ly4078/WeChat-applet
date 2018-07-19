@@ -67,6 +67,10 @@
 .list_item_name {
   color: #fff;
   font-size: 28rpx;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 230rpx;
 }
 
 .playIcon {
