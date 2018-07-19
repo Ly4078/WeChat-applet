@@ -33,7 +33,6 @@ Page({
         this.getshopInfo(utils.getQueryString(q, 'shopCode'));
       }
     }
-    // this.getData();
   },
   onShow: function () {
     this.setData({
@@ -41,7 +40,38 @@ Page({
       page:1,
       isclosure: true
     })
-    this.getData()
+    wx.getSetting({
+      success: (res) => {
+        if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其用户信息或位置信息
+          wx.showModal({
+            title: '提示',
+            content: '查询附近餐厅需要你授权位置信息',
+            success: function (res) {
+              if (res.confirm) {
+                wx.openSetting({  //打开授权设置界面
+                  success: (res) => {
+                    if (res.authSetting['scope.userLocation']) {
+                      wx.getLocation({
+                        type: 'wgs84',
+                        success: function (res) {
+                          let latitude = res.latitude,longitude = res.longitude
+                          app.globalData.userInfo.lat = latitude;
+                          app.globalData.userInfo.lng = longitude;
+                          this.getLocation()
+                        }
+                      })
+                    }
+                  }
+                })
+              }
+            }
+          })
+        } else {
+          this.getLocation()
+        }
+      }
+    })
+    
   },
   //通过shopcode查询商家信息
   getshopInfo: function (val) {
@@ -219,10 +249,22 @@ Page({
       page: 1,
       searchValue:''
     });
-    this.getData()
+    this.getLocation();
   },
 
-
+  getLocation:function(){
+    console.log("getLocation")
+    let that = this;
+    wx.getLocation({
+      type: 'wgs84',
+      success: function (res) {
+        let latitude = res.latitude, longitude = res.longitude;
+        app.globalData.userInfo.lat = latitude;
+        app.globalData.userInfo.lng = longitude;
+        that.getData();
+      }
+    })
+  },
 
   // 模态框 start
   openmodel: function (e) {  //打开模态框
@@ -279,53 +321,22 @@ Page({
     })
   },
   clicknearby: function (ev) { //附近之一
-    let id = ev.currentTarget.id
-    let _data = this.data.nearbydatas
-    let _value = ''
-    wx.getSetting({
-      success: (res) => {
-        if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其用户信息或位置信息
-          wx.showModal({
-            title: '提示',
-            content: '查询附近餐厅需要你授权位置信息',
-            success: function (res) {
-              if (res.confirm) {
-                wx.openSetting({  //打开授权设置界面
-                  success: (res) => {
-                    if (res.authSetting['scope.userLocation']) {
-                      wx.getLocation({
-                        type: 'wgs84',
-                        success: function (res) {
-                          let latitude = res.latitude
-                          let longitude = res.longitude
-                          app.globalData.userInfo.lat = latitude
-                          app.globalData.userInfo.lng = longitude
-                        }
-                      })
-                    }
-                  }
-                })
-              }
-            }
-          })
-        } else {
-          for (let i = 0; i < _data.length; i++) {
-            if (id == i) {
-              _value = _data[i]
-            }
-          }
-          this.setData({
-            businessCate:'',
-            browSort:'',
-            posts_key: [],
-            isclosure:true,
-            page: 1
-          })
-          this.closemodel()
-          this.getData()
-        }
+    let id = ev.currentTarget.id, _data = this.data.nearbydatas, _value = '';
+    for (let i = 0; i < _data.length; i++) {
+      if (id == i) {
+        _value = _data[i]
       }
+    }
+    this.setData({
+      businessCate: '',
+      browSort: '',
+      posts_key: [],
+      isclosure: true,
+      page: 1
     })
+    this.closemodel();
+    this.getData();
+    
   },
   clickfood: function (ev) { //美食之一
     let id = ev.currentTarget.id

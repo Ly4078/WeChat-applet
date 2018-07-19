@@ -164,7 +164,7 @@ page{
   height: 100rpx;
   background-color: white;
   line-height: 100rpx;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1rpx solid #e0e0e0;
   border-top-left-radius: 18rpx;
   border-top-right-radius: 18rpx;
   width: 694rpx;
@@ -229,6 +229,7 @@ page{
 .mylistWrap {
   padding-bottom: 30rpx;
   width: 100%;
+  box-shadow:4rpx 0rpx 18rpx rgba(206,206,206,0.26);
   /* padding-left: 28rpx; */
 }
 

@@ -6,6 +6,7 @@ Page({
     page: 1,
     reFresh: true,
     completed: true,
+    isfirst:false,
     currentTab: '',  // 1待支付 2 已支付 3已核销 10取消,
     shoporderlist: []
   },
@@ -46,7 +47,11 @@ Page({
       soType: 1
     };
     if (this.data.currentTab) {
-      _parms.soStatus = this.data.currentTab
+      _parms.soStatus = this.data.currentTab,
+        _parms.rows = 20
+    }
+    if (this.data.currentTab == 1 || !this.data.currentTab) {
+        _parms.rows = 20
     }
     Api.somyorder(_parms).then((res) => {
       let data = res.data;
@@ -54,12 +59,35 @@ Page({
         let order_list = that.data.order_list;
         if (data.data.length && data.data.length>0){
           for (let i = 0; i < data.data.length; i++) {
+            if (this.data.currentTab == 1 || !this.data.currentTab) {
+              if (data.data[i].skuType != 3 ){
+                order_list.push(data.data[i]);
+                if (order_list.length<9){
+                  this.setData({
+                    page: this.data.page + 1
+                  })
+                  that.getOrderList ();
+                }
+              }
+            }else{
               order_list.push(data.data[i])
+            }
           }
           that.setData({
             order_list: order_list,
             reFresh: true
           });
+        }else{
+          if (this.data.currentTab == 1){
+            if(this.data.isfirst){
+              return false
+            }
+            this.setData({
+              page: this.data.page + 1,
+              isfirst:true
+            })
+            this.getOrderList();
+          }
         }
         
       } else {

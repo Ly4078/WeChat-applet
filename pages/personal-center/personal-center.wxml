@@ -81,6 +81,27 @@
   </view>
 
   <view class='mylistWrap'>
+    <view class='myList' catchtap='scanAqrCode'>
+      <view class='myList-single'>
+        <view>
+          <image class='myListImages' src='/images/icon/saoma.png'></image>
+          <text class='mylistText'>扫码核销</text>
+        </view>
+        <image class='myListArrows' src='/images/icon/home_arrow.png'></image>
+      </view>
+    </view>
+    <view class='myList'>
+      <view class='myList-single' catchtap='VoucherCode'>
+        <view>
+          <image class='myListImages' src='/images/icon/quanma.png'></image>
+          <text class='mylistText'>券码核销</text>
+        </view>
+        <image class='myListArrows' src='/images/icon/home_arrow.png'></image>
+      </view>
+    </view>
+  </view>
+
+  <view class='mylistWrap'>
     <view class='myList sectionList'>
       <view class='myList-single' catchtap='enterEntrance'>
         <view>
@@ -91,6 +112,8 @@
       </view>
     </view>
 
+
+
     <view class='myList sectionList'>
       <view class='myList-single'>
         <view>
@@ -100,7 +123,10 @@
             <!-- <image class="cs_image" src="../images/cs.png"></image> -->
           </button>
         </view>
-        <view><text class='TextTime'> 09:00--18:00 </text><image class='myListArrows' src='/images/icon/home_arrow.png'></image></view>
+        <view>
+          <text class='TextTime'> 09:00--18:00 </text>
+          <image class='myListArrows' src='/images/icon/home_arrow.png'></image>
+        </view>
       </view>
     </view>
 
@@ -110,7 +136,10 @@
           <image class='myListImages' src='/images/icon/customer_service.png'></image>
           <text class='mylistText'>客服电话</text>
         </view>
-        <view><text class='TextTime'>027-59728176  (09:00--18:00)</text><image class='myListArrows' src='/images/icon/home_arrow.png'></image></view>
+        <view>
+          <text class='TextTime'>027-59728176  (09:00--18:00)</text>
+          <image class='myListArrows' src='/images/icon/home_arrow.png'></image>
+        </view>
       </view>
     </view>
 

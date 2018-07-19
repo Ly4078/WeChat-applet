@@ -514,12 +514,16 @@ Page({
         if (_details.zan < 0) {
           _details.zan = 0
         }
-        let _zan = this.data.zan
-        _zan--
+        let _zan = this.data.zan, _voteNum = that.data.voteNum;
+        _zan--;
+        _voteNum--;
+        if (_voteNum<0){
+          _voteNum=0
+        }
         this.setData({
           videodata: _details,
           isdtzan: true,
-          voteNum: that.data.voteNum - 1,
+          voteNum: that.data.voteNum,
         })
       }
     })

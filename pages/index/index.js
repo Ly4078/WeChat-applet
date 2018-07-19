@@ -157,7 +157,7 @@ Page({
   },
   onLoad: function (options) {
     wx.showLoading({
-      title: '加载中..'
+      title: '加载中...'
     });
     const updateManager = wx.getUpdateManager();
     updateManager.onCheckForUpdate(function (res) {
@@ -192,15 +192,45 @@ Page({
         }
       }
     })
-
-    if (this.data.city != app.globalData.userInfo.city){
-      this.setData({
-        city: app.globalData.userInfo.city,
-        posts_key: [],
-        _page:1
-      })  
-      this.getmoredata();
-    }
+    wx.getSetting({
+      success: (res) => {
+        if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其用户信息或位置信息
+          wx.showModal({
+            title: '提示',
+            content: '查询附近餐厅需要你授权位置信息',
+            success: function (res) {
+              if (res.confirm) {
+                wx.openSetting({  //打开授权设置界面
+                  success: (res) => {
+                    if (res.authSetting['scope.userLocation']) {
+                      wx.getLocation({
+                        type: 'wgs84',
+                        success: function (res) {
+                          let latitude = res.latitude, longitude = res.longitude
+                          app.globalData.userInfo.lat = latitude;
+                          app.globalData.userInfo.lng = longitude;
+                          this.getLocation();
+                        }
+                      })
+                    }
+                  }
+                })
+              }
+            }
+          })
+        } else {
+          if (this.data.city != app.globalData.userInfo.city) {
+            this.setData({
+              city: app.globalData.userInfo.city,
+              posts_key: [],
+              _page: 1
+            })
+            this.getLocation();
+          }
+        }
+      }
+    })
+    
   },
   indexinit: function () {
     let that = this, userInfo = app.globalData.userInfo;
@@ -516,8 +546,9 @@ Page({
       currentTab: e.currentTarget.dataset.idx
     })
   },
-  onPullDownRefresh: function () {
-    this.getmoredata();
+  onPullDownRefresh: function () { //下拉刷新
+    // this.getmoredata();
+    this.getlocation();
   },
   getmoredata: function () {  //获取更多数据
 
@@ -541,7 +572,7 @@ Page({
   gettopiclist: function (_type, data) {
     let that = this,vodeoarr=[];
     wx.showLoading({
-      title: '数据加载中。。。',
+      title: '数据加载中...',
       mask: true
     })
     let _parms = {
@@ -642,7 +673,7 @@ Page({
   getshoplist(val,keys) {  
     let lat = '30.51597', lng = '114.34035';  //lat纬度   lng经度
     wx.showLoading({
-      title: '数据加载中。。。',
+      title: '数据加载中...',
       mask: true
     })
     let _parms = {
@@ -732,7 +763,7 @@ Page({
   gettoplistFor: function () {  //加载分类数据
     let _list = [], _shop = [], that = this;
     wx.showLoading({
-      title: '数据加载中。。。',
+      title: '数据加载中...',
       mask: true
     })
     Api.listForHomePage().then((res) => {
@@ -825,7 +856,7 @@ Page({
             restaurant: [],
             service: []
           })
-          
+          this.getmoredata();
           app.globalData.picker = res.data.result.address_component;
         }
       }
@@ -1430,5 +1461,6 @@ Page({
     }
   }
 })
+
 
 
