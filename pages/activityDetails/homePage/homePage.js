@@ -164,7 +164,7 @@ Page({
     Api.actzanTotal(_parms).then((res) => {
       if (res.data.code == 0) {
         let _vote = res.data.data;
-        if (_vote == 'null') {
+        if (_vote == 'null' || _vote == null || _vote == '' || _vote == undefined) {
           _vote = 0
         }
         this.setData({

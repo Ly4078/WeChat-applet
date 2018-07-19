@@ -18,7 +18,7 @@
       <view class="info_inner_r">
         <view>
           <view class="info_name">
-            <text>{{actUserName ? actUserName : nickName}}</text>
+            <text>{{nickName ? nickName : userName}}</text>
             <image wx:if="{{sex == 1}}" src="/images/icon/gender.png"></image>
             <image wx:if="{{sex == 2}}" src="/images/icon/genderes.png"></image>
           </view>

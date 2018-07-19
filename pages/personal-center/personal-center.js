@@ -295,20 +295,7 @@ Page({
           url: '../../pages/index/download-app/download?isshop=ind',
       })
     }
-    wx.getSetting({
-      success: (res) => {
-        if (!res.authSetting['scope.userInfo']) { // 用户未授受获取其用户信息或位置信息
-          wx.showModal({
-            title: '提示',
-            content: '请先点击头像授权用户信息,方可进行免费入驻',
-          })
-        } else {
-          wx.navigateTo({
-            url: 'free-of-charge/free-of-charge',
-          })
-        }
-      }
-    })
+    
   },
 
 

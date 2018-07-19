@@ -175,8 +175,12 @@ Page({
     this.indexinit();
   },
   onShow: function () {
-    this.getlocation();
+    
     let that = this;
+   
+    setTimeout(function(){
+      that.getlocationsa();
+    },500)
     wx.request({
       url: this.data._build_url + 'act/flag', 
       success: function (res) {
@@ -193,15 +197,12 @@ Page({
         }
       }
     })
-    
-    
-    
   },
   indexinit: function () {
     let that = this, userInfo = app.globalData.userInfo;
 
     if (!app.globalData.userInfo.lat && !app.globalData.userInfo.lng && !app.globalData.userInfo.city) {
-      this.getlocation();
+      this.getlocationsa();
     } else {
       this.setData({
         city: app.globalData.userInfo.city
@@ -513,7 +514,7 @@ Page({
   },
   onPullDownRefresh: function () { //下拉刷新
     // this.getmoredata();
-    this.getlocation();
+    this.getlocationsa();
   },
   getmoredata: function () {  //获取更多数据
 
@@ -788,7 +789,7 @@ Page({
       }
     })
   },
-  getlocation: function () {  //获取用户位置
+  getlocationsa: function () {  //获取用户位置
     let that = this,lat = '', lng = ''
     wx.getLocation({
       type: 'wgs84',
@@ -817,7 +818,7 @@ Page({
                               app.globalData.userInfo.lat = latitude;
                               app.globalData.userInfo.lng = longitude;
                               that.requestCityName(latitude, longitude);
-                              this.getLocation();
+                              that.getlocationsa();
                             }
                           })
                         }
