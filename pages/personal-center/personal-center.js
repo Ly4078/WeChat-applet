@@ -35,7 +35,6 @@ Page({
         isshop: true
       })
     }
-    console.log(this.data.isshop)
     this.getuserInfo();
     // this.personalInit();
   },

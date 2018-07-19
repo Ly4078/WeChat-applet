@@ -195,11 +195,12 @@ Page({
         wx.showToast({
           title: '核销成功',
           icon: 'none',
-          duration: 1000,
-          success() {
-            wx.switchTab({
-              url: '../personal-center'
-            })
+          complete: function() {
+            setTimeout(function() {
+              wx.switchTab({
+                url: '../personal-center'
+              })
+            }, 1000);
           }
         })
         // wx.showModal({
