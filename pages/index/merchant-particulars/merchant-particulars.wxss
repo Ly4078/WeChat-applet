@@ -1065,7 +1065,7 @@ page {
 .evaluateWrap {
   border-radius: 50rpx;
   border: 1rpx solid #ebebeb;
-  box-shadow: 7rpx 7rpx 5rpx #ebebeb;
+  box-shadow: 0rpx 4rpx 8rpx #ebebeb;
   box-sizing: border-box;
   background-color: #fcfcfc;
 }
