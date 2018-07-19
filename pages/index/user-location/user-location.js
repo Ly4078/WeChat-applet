@@ -126,7 +126,6 @@ Page({
     wx.getLocation({
       type: 'wgs84',
       success: (res) => {
-        console.log('res:',res)
         let lat = res.latitude;
         let lng = res.longitude;
         app.globalData.userInfo.lat = lat;
@@ -152,6 +151,12 @@ Page({
         that.setData({
           currentSite: res.data.result.address
         })
+       
+        setTimeout(function(){
+          wx.switchTab({  //跳转到 tabBar 页面，并关闭其他所有非 tabBar 页面
+            url: '../../index/index'
+          })
+        },2000)
       }
     })
   },
@@ -203,6 +208,7 @@ Page({
     app.globalData.userInfo.lat = lat;
     app.globalData.userInfo.lng = lng;
     app.globalData.userInfo.city = city;
+    console.log(" app.globalData.userInfo：", app.globalData.userInfo)
     wx.switchTab({  //跳转到 tabBar 页面，并关闭其他所有非 tabBar 页面
       url: '../../index/index'
     })

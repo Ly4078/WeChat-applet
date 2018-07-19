@@ -40,37 +40,38 @@ Page({
       page:1,
       isclosure: true
     })
-    wx.getSetting({
-      success: (res) => {
-        if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其用户信息或位置信息
-          wx.showModal({
-            title: '提示',
-            content: '查询附近餐厅需要你授权位置信息',
-            success: function (res) {
-              if (res.confirm) {
-                wx.openSetting({  //打开授权设置界面
-                  success: (res) => {
-                    if (res.authSetting['scope.userLocation']) {
-                      wx.getLocation({
-                        type: 'wgs84',
-                        success: function (res) {
-                          let latitude = res.latitude,longitude = res.longitude
-                          app.globalData.userInfo.lat = latitude;
-                          app.globalData.userInfo.lng = longitude;
-                          this.getLocation()
-                        }
-                      })
-                    }
-                  }
-                })
-              }
-            }
-          })
-        } else {
-          this.getLocation()
-        }
-      }
-    })
+    this.getData();
+    // wx.getSetting({
+    //   success: (res) => {
+    //     if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其用户信息或位置信息
+    //       wx.showModal({
+    //         title: '提示',
+    //         content: '查询附近餐厅需要你授权位置信息',
+    //         success: function (res) {
+    //           if (res.confirm) {
+    //             wx.openSetting({  //打开授权设置界面
+    //               success: (res) => {
+    //                 if (res.authSetting['scope.userLocation']) {
+    //                   wx.getLocation({
+    //                     type: 'wgs84',
+    //                     success: function (res) {
+    //                       let latitude = res.latitude,longitude = res.longitude
+    //                       app.globalData.userInfo.lat = latitude;
+    //                       app.globalData.userInfo.lng = longitude;
+    //                       this.getLocation()
+    //                     }
+    //                   })
+    //                 }
+    //               }
+    //             })
+    //           }
+    //         }
+    //       })
+    //     } else {
+    //       this.getLocation()
+    //     }
+    //   }
+    // })
     
   },
   //通过shopcode查询商家信息
@@ -249,11 +250,10 @@ Page({
       page: 1,
       searchValue:''
     });
-    this.getLocation();
+    // this.getLocation();
   },
 
   getLocation:function(){
-    console.log("getLocation")
     let that = this;
     wx.getLocation({
       type: 'wgs84',
@@ -261,7 +261,7 @@ Page({
         let latitude = res.latitude, longitude = res.longitude;
         app.globalData.userInfo.lat = latitude;
         app.globalData.userInfo.lng = longitude;
-        that.getData();
+        // that.getData();
       }
     })
   },

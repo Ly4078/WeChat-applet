@@ -21,7 +21,7 @@
       <view class='theNameof'>
         <button wx:if="{{canIUse}}" class='suerinfo' open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">
           <image class='centreImages' wx:if="{{ismobile}}" src='{{iconUrl}}'></image>
-          <image wx:else class='centreImages' src='{{iconUrl}}'></image>
+          <image wx:if="{{!ismobile}}" class='centreImages' src='{{iconUrl}}'></image>
         </button>
         <view wx:else>请升级微信版本</view>
         <text class='centreText' catchtap='wxgetsetting'>{{nickName}}</text>

@@ -175,12 +175,13 @@ Page({
     this.indexinit();
   },
   onShow: function () {
-    
     let that = this;
-   
-    setTimeout(function(){
-      that.getlocationsa();
-    },500)
+    if (app.globalData.userInfo.city){
+      this.setData({
+        city: app.globalData.userInfo.city
+      })
+    }
+    
     wx.request({
       url: this.data._build_url + 'act/flag', 
       success: function (res) {
@@ -200,7 +201,6 @@ Page({
   },
   indexinit: function () {
     let that = this, userInfo = app.globalData.userInfo;
-
     if (!app.globalData.userInfo.lat && !app.globalData.userInfo.lng && !app.globalData.userInfo.city) {
       this.getlocationsa();
     } else {
@@ -513,8 +513,7 @@ Page({
     })
   },
   onPullDownRefresh: function () { //下拉刷新
-    // this.getmoredata();
-    this.getlocationsa();
+    this.getmoredata();
   },
   getmoredata: function () {  //获取更多数据
 
@@ -790,11 +789,11 @@ Page({
     })
   },
   getlocationsa: function () {  //获取用户位置
+    console.log("getlocationsa")
     let that = this,lat = '', lng = ''
     wx.getLocation({
       type: 'wgs84',
       success: function (res) {
-        console.log("123123")
         let latitude = res.latitude;
         let longitude = res.longitude;
         that.requestCityName(latitude, longitude);
@@ -851,7 +850,7 @@ Page({
             restaurant: [],
             service: []
           })
-          this.getmoredata();
+          // this.getmoredata();
           app.globalData.picker = res.data.result.address_component;
         }
       }

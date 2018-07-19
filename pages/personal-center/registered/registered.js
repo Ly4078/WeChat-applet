@@ -25,6 +25,8 @@ Page({
       wx.switchTab({
         url: '../../index/index'
       })
+    }else{
+      this.findByCode();
     }
   },
   findByCode: function () {
@@ -35,6 +37,14 @@ Page({
           if (res.data.code == 0) {
             if (res.data.data.unionId) {
               app.globalData.userInfo.unionId = res.data.data.unionId;
+              let data = res.data.data;
+              for (let key in data) {
+                for (let ind in app.globalData.userInfo) {
+                  if (key == ind) {
+                    app.globalData.userInfo[ind] = data[key]
+                  }
+                }
+              }
               wx.hideLoading();
               that.getmyuserinfo();
             }
@@ -61,17 +71,19 @@ Page({
           success: function (res) {
             if (res.data.code == 0) {
               let data = res.data.data;
-              for (let key in data) {
-                for (let ind in app.globalData.userInfo) {
-                  if (key == ind) {
-                    app.globalData.userInfo[ind] = data[key]
+              if (data){
+                for (let key in data) {
+                  for (let ind in app.globalData.userInfo) {
+                    if (key == ind) {
+                      app.globalData.userInfo[ind] = data[key]
+                    }
                   }
                 }
-              }
-              if(data.mobile){
-                wx.switchTab({
-                  url: '../../index/index'
-                })
+                if (data.mobile) {
+                  wx.switchTab({
+                    url: '../../index/index'
+                  })
+                }
               }
             }
           }
@@ -242,6 +254,7 @@ Page({
           mask: 'true',
           duration: 2000
         })
+        console.log("app.globalData.userInfo:", app.globalData.userInfo)
         let _parms = {
           shopMobile: this.data.phone,
           SmsContent: this.data.verify,
@@ -259,7 +272,8 @@ Page({
               },
               success: function (res) {
                 if (res.data.code == 0) {
-                  let data = res.data.data
+                  let data = res.data.data;
+                  console.log("data:",data)
                   for (let key in data) {
                     for (let ind in app.globalData.userInfo) {
                       if (key == ind) {
