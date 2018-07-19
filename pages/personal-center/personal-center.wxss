@@ -227,10 +227,8 @@ page{
 }
 
 .mylistWrap {
-  padding-bottom: 30rpx;
+  padding-bottom: 20rpx;
   width: 100%;
-  box-shadow:4rpx 0rpx 18rpx rgba(206,206,206,0.26);
-  /* padding-left: 28rpx; */
 }
 
 .customer-service {

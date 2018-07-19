@@ -4,7 +4,7 @@
       <view class="list_item_top">
         <view class="list_item_top_l">
           <image src="{{item.iconUrl}}"></image>
-          <text class="list_item_name">{{item.actUserName?item.actUserName:item.nickName}}</text>
+          <text class="list_item_name">{{item.nickName?item.nickName:item.userName}}</text>
         </view>
         <image wx:if="{{!item.isMine}}" class="playIcon" src="/images/icon/playMini.png"></image>
         <image wx:if="{{item.isMine}}" class="playIcon" src="/images/icon/whiteDel.png" id="{{item.id}}" bindtap='cancel'></image>
