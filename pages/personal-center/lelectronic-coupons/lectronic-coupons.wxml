@@ -124,8 +124,8 @@
 
 <view wx:if="{{optObj.cfrom == 'ticket'}}">
   <view class='lectronic-wrap1' >
-    <view class='lectronic-top1'>
-      <view class='brotherRight1'  bindtap='sublevelSum'>
+    <view class='lectronic-top1'  bindtap='sublevelSum'>
+      <view class='brotherRight1'>
         <view class='brothWrap1'><image class='borthImg1' src='/images/icon/brotheres.png'></image></view>
         <view class='brothText1'>
           <text class='restrictText1'>{{ticketInfo.skuName}}</text>
