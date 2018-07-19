@@ -514,11 +514,13 @@ Page({
         if (_details.zan < 0) {
           _details.zan = 0
         }
-        let _zan = this.data.zan, _voteNum = that.data.voteNum;
+        let _zan = this.data.zan;
         _zan--;
-        _voteNum--;
-        if (_voteNum<0){
-          _voteNum=0
+        that.data.voteNum--;
+        if (that.data.voteNum<0){
+          this.setData({
+            voteNum:0
+          })
         }
         this.setData({
           videodata: _details,
