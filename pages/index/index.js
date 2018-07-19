@@ -1058,7 +1058,7 @@ Page({
     // })
   },
   toNewExclusive: function (e) {   //跳转至新人专享页面
-    let id = e.currentTarget.id, _linkUrl = '',_type ='';
+    let id = e.currentTarget.id, _linkUrl = '', _type = '', _obj = {};
     if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
@@ -1071,12 +1071,15 @@ Page({
         _type = this.data.carousel[k].type
       }
     }
-    let arr = _linkUrl.split("&"),_obj={};
-    for(let i in arr){
-      let arr2 = arr[i].split("=");
-      _obj[arr2[0]] = arr2[1];
+    if (_linkUrl.indexOf('&') >= 0){
+      let arr = _linkUrl.split("&");
+      for (let i in arr) {
+        let arr2 = arr[i].split("=");
+        _obj[arr2[0]] = arr2[1];
+      }
     }
-    if (id == 4) {
+    
+    if (_linkUrl == 'lingquan') {
       wx.navigateTo({
         url: 'new-exclusive/new-exclusive',
       })
@@ -1085,11 +1088,11 @@ Page({
       wx.navigateTo({
         url: '../personal-center/free-of-charge/free-of-charge?img=' + _linkUrl,
       })
-    } else if (id == 2 || _obj.type == 1) {  //十堰食典
+    } else if ( _obj.type == 1) {  //十堰食典
       wx.navigateTo({
         url: '../activityDetails/onehundred-dish/onehundred-dish?actid=' + _obj.actId,
       })
-    } else if (id == 3 || _obj.type == 2) {  //视频活动
+    } else if (_obj.type == 2) {  //视频活动
       wx.navigateTo({
         url: '../activityDetails/video-list/video-list?id=' + _obj.actId,
       })
