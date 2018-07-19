@@ -38,6 +38,7 @@ Page({
         searchKey: _value,
         locationX: app.globalData.userInfo.lng,
         locationY: app.globalData.userInfo.lat,
+        city: app.globalData.userInfo.city
       }
       Api.shoplist(_parms).then((res) => {
         if (res.data.code == 0) {
