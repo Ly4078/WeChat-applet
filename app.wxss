@@ -187,8 +187,8 @@ button{
 }
 
 .dq_popularity {
-  width: 33rpx;
-  height: 33rpx;
+  width: 30rpx;
+  height: 30rpx;
   display: inline-block;
   vertical-align: middle;
   padding-right: 10rpx;

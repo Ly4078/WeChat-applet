@@ -135,7 +135,7 @@ Page({
   onReachBottom: function () {  //用户上拉触底
     if (this.data.flag) {
       wx.showLoading({
-        title: '加载中..'
+        title: '加载中...'
       })
       this.setData({
         page: this.data.page + 1
