@@ -37,7 +37,7 @@
         <image src="{{item.imgStr}}" mode="aspectFill"></image>
       </view>
       <view class="player_bottom">
-        <view class="player_name">{{item.nickName?item.nickName:item.userkName}}</view>
+        <view class="player_name">{{item.actUserName?item.actUserName:item.userkName}}</view>
         <view class="click_tolike" bindtap="castvote" id="{{item.userId}}">为TA点赞</view>
       </view>
     </view>

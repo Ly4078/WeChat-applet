@@ -17,7 +17,8 @@ Page({
     articleList: [],
     flag: true,
     page: 1,
-    isMine: false
+    isMine: false,
+    actUserName: ''
   },
   onLoad: function(options) {
     // console.log('options:',options)
@@ -82,6 +83,7 @@ Page({
           this.setData({
             // refId: data.id,
             nickName: _nickName,
+            actUserName: data.actUserName,
             iconUrl: data.iconUrl,
             sex: data.sex,
             age: data.age,

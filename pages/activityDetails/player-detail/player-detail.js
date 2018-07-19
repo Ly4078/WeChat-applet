@@ -12,6 +12,7 @@ Page({
     issnap: false,
     isball: true,
     nickName: '',
+    actUserName: '',
     bgUrl: '',
     iconUrl: '',
     sex: 0,
@@ -183,6 +184,7 @@ Page({
         this.setData({
           refId: data.id,
           nickName: _nickName,
+          actUserName: data.actUserName,
           iconUrl: data.iconUrl,
           sex: data.sex,
           age: data.age,

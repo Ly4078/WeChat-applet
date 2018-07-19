@@ -69,6 +69,9 @@ Page({
               mask: true,
               duration: 2000
             })
+            that.setData({
+              storename: ''
+            })
           }
         } else {
           wx.showToast({

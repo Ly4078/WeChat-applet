@@ -324,7 +324,6 @@ Page({
         that.setData({
           searchValue: e.detail.value
         })
-        console.log(that.data.searchValue);
         that.searchList();
         clearInterval(_timer);
       }

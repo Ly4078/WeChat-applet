@@ -77,7 +77,6 @@
         <view class="{{!switchTab?'active':''}}" bindtap='dishTab' id="2">选手</view>
       </view>
       <view class="hot_list_search">
-        <!-- <input placeholder="请输入编号、名称" bindconfirm="searchList" bindinput="getInputVal" value="{{searchValue}}"></input> -->
         <input placeholder="请输入编号、名称" bindinput="getInputVal" value="{{searchValue}}"></input>
         <image src="/images/icon/hot_search.png" bindtap="searchList"></image>
       </view>

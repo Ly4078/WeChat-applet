@@ -17,7 +17,7 @@
         <image src="{{iconUrl}}" bindtap="homePage"></image>
       </view>
       <view class="info_inner_r">
-        <view class="info_name">{{nickName}}</view>
+        <view class="info_name">{{actUserName ? actUserName : nickName}}</view>
         <view>
           <view class="info_age">
             <image wx:if="{{sex == 0}}" src="/images/icon/male.png"></image>

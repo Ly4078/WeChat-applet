@@ -5,7 +5,7 @@
    <form bindreset="backHomepage" class='foo'>
     <view class="search_arr">
         <icon class="searchcion" size='20' type='search' bindtap="selectAddress"></icon>
-        <input class='inputs' placeholder="输入商家名称搜索" auto-focus bindinput="searchbusiness"/>
+        <input class='inputs' placeholder="输入商家名称搜索" auto-focus bindinput="searchbusiness" value='{{storename}}'/>
     </view>
     <button class='user-cancel' form-type="reset">取消</button>
   </form> 
