@@ -54,20 +54,7 @@ Page({
         let order_list = that.data.order_list;
         if (data.data.length && data.data.length>0){
           for (let i = 0; i < data.data.length; i++) {
-            if (that.data.currentTab == 1) {
-              if (data.data[i].skuType != 3) {
-                order_list.push(data.data[i]);
-                if (order_list.length < 10) {
-                  that.setData({
-                    page: this.data.page + 1,
-                    reFresh:true
-                  })
-                  that.getOrderList();
-                }
-              }
-            } else {
-              order_list.push(data.data[i]);
-            }
+              order_list.push(data.data[i])
           }
           that.setData({
             order_list: order_list,

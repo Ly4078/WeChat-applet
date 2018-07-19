@@ -339,7 +339,7 @@
 
 .comment {
   background-color: #fff;
-  padding-bottom: 120rpx;
+  padding-bottom: 160rpx;
   position: fixed;
   width: 698rpx;
   height: 390rpx;
@@ -387,6 +387,7 @@
   margin-top: 20rpx;
   height: 370rpx;
   width: 100%;
+  margin-bottom: 100rpx;
   overflow:scroll;
 }
 
