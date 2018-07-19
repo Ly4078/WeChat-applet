@@ -45,7 +45,7 @@ Page({
         if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其用户信息或位置信息
           wx.showModal({
             title: '提示',
-            content: '查询餐厅需要你授权位置信息',
+            content: '查询附近餐厅需要你授权位置信息',
             success: function (res) {
               if (res.confirm) {
                 wx.openSetting({  //打开授权设置界面

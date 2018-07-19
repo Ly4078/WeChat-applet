@@ -192,44 +192,8 @@ Page({
         }
       }
     })
-    wx.getSetting({
-      success: (res) => {
-        if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其用户信息或位置信息
-          wx.showModal({
-            title: '提示',
-            content: '查询附近餐厅需要你授权位置信息',
-            success: function (res) {
-              if (res.confirm) {
-                wx.openSetting({  //打开授权设置界面
-                  success: (res) => {
-                    if (res.authSetting['scope.userLocation']) {
-                      wx.getLocation({
-                        type: 'wgs84',
-                        success: function (res) {
-                          let latitude = res.latitude, longitude = res.longitude
-                          app.globalData.userInfo.lat = latitude;
-                          app.globalData.userInfo.lng = longitude;
-                          that.getLocation();
-                        }
-                      })
-                    }
-                  }
-                })
-              }
-            }
-          })
-        } else {
-          if (that.data.city != app.globalData.userInfo.city) {
-            that.setData({
-              city: app.globalData.userInfo.city,
-              posts_key: [],
-              _page: 1
-            })
-            that.getLocation();
-          }
-        }
-      }
-    })
+    this.getLocation();
+    
     
   },
   indexinit: function () {
@@ -833,8 +797,36 @@ Page({
         that.requestCityName(latitude, longitude);
       },
       fail: function (res) {
-        lat = '30.51597', lng = '114.34035';
-        that.requestCityName(lat, lng);
+        wx.getSetting({
+          success: (res) => {
+            if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其用户信息或位置信息
+              wx.showModal({
+                title: '提示',
+                content: '更多体验需要你授权位置信息',
+                success: function (res) {
+                  if (res.confirm) {
+                    wx.openSetting({  //打开授权设置界面
+                      success: (res) => {
+                        if (res.authSetting['scope.userLocation']) {
+                          wx.getLocation({
+                            type: 'wgs84',
+                            success: function (res) {
+                              let latitude = res.latitude, longitude = res.longitude
+                              app.globalData.userInfo.lat = latitude;
+                              app.globalData.userInfo.lng = longitude;
+                              that.requestCityName(latitude, longitude);
+                              this.getLocation();
+                            }
+                          })
+                        }
+                      }
+                    })
+                  }
+                }
+              })
+            }
+          }
+        })
       }
     })
   },
