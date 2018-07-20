@@ -64,14 +64,14 @@
           </view>
         </view>
       </view>
-    </view> -->
-    <!-- <scroll-view scroll-x="true" style=" white-space: nowrap; display: flex">
-      <view style="background: red; width: 200px; height: 100px; display: inline-block"></view>
-      <view style="background: green; width: 200px; height: 100px; display: inline-block"></view>
-      <view style="background: blue; width: 200px; height: 100px; display: inline-block"></view>
-      <view style="background: yellow; width: 200px; height: 100px; display: inline-block"></view>
-    </scroll-view> -->
-  <!-- </view> -->
+    </view>
+    <scroll-view scroll-x="true" class='sliding'>
+      <view class='typesetting'></view>
+      <view class='typesetting' style="background: green;"></view>
+      <view class='typesetting' style="background: blue;"></view>
+      <view class='typesetting' style="background: yellow;"></view>
+    </scroll-view>
+  </view> -->
 
   <!-- 商家参加的投票列表 -->
   <view catchtap='storeActivity' wx:if="{{_shopCode}}">

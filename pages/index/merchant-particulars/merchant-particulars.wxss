@@ -1159,6 +1159,7 @@ page {
   width: 100%;
   display: flex;
   position: relative;
+  background-color: #fff;
 }
 
 .voteGao{
@@ -1187,7 +1188,6 @@ page {
 }
 
 .program{
-  /* width: 170rpx; */
   height: 90rpx;
   background: #fff;
   position: absolute;
@@ -1198,5 +1198,19 @@ page {
   color: #FC5E2D;
   text-align: center;
   line-height: 90rpx;
-  /* padding-left: 16rpx; */
+  border-bottom-right-radius: 28rpx;
+  border-top-right-radius: 28rpx;
+}
+
+.sliding{
+  padding-top: 92rpx;
+  white-space: nowrap; 
+  display: flex
+}
+
+.typesetting{
+  background: red; 
+  width: 200rpx; 
+  height: 530rpx; 
+  display: inline-block
 }
