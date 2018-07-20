@@ -19,7 +19,8 @@ Page({
     placeholderFlag: true,
     issnap: false,  
     isshow:false,
-    topUrl: ''
+    topUrl: '',
+    actId:''
   },
   onShow: function () {
     if (app.globalData.isflag){
@@ -133,14 +134,20 @@ Page({
     Api.hcllist().then((res) => {
       if (res.data.data) {
         let data = res.data.data;
-        // this.setData({
-        //   carousel: res.data.data
-        // })
         for(let i = 0; i < data.length; i++) {
-          let str = data[i].linkUrl;
-          if (str.substring(str.indexOf('=') + 1, str.indexOf('&')) == '38') {
+          let _linkUrl = data[i].linkUrl,_obj={};
+
+          if (_linkUrl.indexOf('&') >= 0) {
+            let arr = _linkUrl.split("&");
+            for (let i in arr) {
+              let arr2 = arr[i].split("=");
+              _obj[arr2[0]] = arr2[1];
+            }
+          }
+          if(_obj.type == 2) {  //视频活动
             this.setData({
-              topUrl: data[i].imgUrl
+              topUrl: data[i].imgUrl,
+              actId: _obj.actId
             });
             return false;
           }
@@ -151,6 +158,11 @@ Page({
   close:function(){
     this.setData({
       ishotnew:false
+    })
+  },
+  tovideoact:function(){  //去视频活动页面
+    wx.navigateTo({
+      url: '../activityDetails/video-list/video-list?id=' + this.data.actId,
     })
   },
   getfood: function (_type, data) {

@@ -516,8 +516,7 @@ Page({
     this.getmoredata();
   },
   getmoredata: function () {  //获取更多数据
-
-    this.getcarousel();
+    console.log("empty")
     this.getactlist();
     this.getshoplist();
     this.gettopiclist();

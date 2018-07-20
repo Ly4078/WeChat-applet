@@ -1,3 +1,5 @@
+
+
 <import src="../activityDetails/homePage-item/homePage-item.wxml" />
 <view class="newUserModal loginuser" wx:if="{{istouqu}}" catchtouchmove='true'>
   <view class="drawer_screen"></view>
@@ -68,7 +70,7 @@
   </view>  -->
 
 <view class="discoverTop">
-  <image src="{{topUrl}}"></image>
+  <image src="{{topUrl}}" bindtap='tovideoact'></image>
 </view>
 <view class='discover' catchtap='close'>
   <view class="discoverTab">

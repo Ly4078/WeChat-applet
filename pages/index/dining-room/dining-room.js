@@ -250,6 +250,7 @@ Page({
       page: 1,
       searchValue:''
     });
+    this.getData();
     // this.getLocation();
   },
 
