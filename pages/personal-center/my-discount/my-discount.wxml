@@ -1,7 +1,7 @@
 <import src="discount-template/discount-template.wxml" />
 <view class="discountTab">
   <view class="{{isUsed == 0 ? 'active' : ''}}" id="0" bindtap='ticketType'>
-    <text>未使用</text>
+    <text>待使用</text>
   </view>
   <view class="{{isUsed == 1 ? 'active' : ''}}" id="1" bindtap='ticketType'>
     <text>已使用</text>
@@ -14,7 +14,7 @@
 </view>
 <!-- <view class='already-past-wrap' bindtap="toDueList">
   <view class='already-past-due'>
-    <text>查看过期/已用劵</text>
+    <text>查看过期/已用劵</text>active
   </view>
 </view> -->
 <view class='placeholder' wx:if="{{ticket_list.length<1}}">
