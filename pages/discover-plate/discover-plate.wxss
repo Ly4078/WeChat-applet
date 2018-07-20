@@ -286,7 +286,7 @@ scroll_box.initiate-exhibition {
   color: rgba(255, 255, 255, 1);
   text-align: center;
   line-height: 108rpx;
-  right: 60rpx;
+  right: 42rpx;
   position: fixed;
   bottom: 31rpx;
 }
