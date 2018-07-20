@@ -173,6 +173,7 @@ Page({
     });
     this.activityBanner();
     this.indexinit();
+    this.getcarousel();
   },
   onShow: function () {
     let that = this;
@@ -863,6 +864,7 @@ Page({
     Api.hcllist().then((res) => {
       // console.log("carousel:",res.data.data)
       if (res.data.data) {
+        console.log(res.data.data)
         this.setData({
           carousel: res.data.data
         })
