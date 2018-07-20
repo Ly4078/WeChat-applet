@@ -33,14 +33,13 @@ Page({
         this.getshopInfo(utils.getQueryString(q, 'shopCode'));
       }
     }
+    this.getData();
   },
   onShow: function () {
     this.setData({
-      posts_key: [],
-      page:1,
       isclosure: true
     })
-    this.getData();
+   
     // wx.getSetting({
     //   success: (res) => {
     //     if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其用户信息或位置信息
@@ -89,7 +88,7 @@ Page({
   },
   getData: function () {
     wx.showLoading({
-      title: '数据加载中。。。',
+      title: '数据加载中...',
       mask: true
     })
     let _parms = {
@@ -171,7 +170,7 @@ Page({
           locationX: app.globalData.userInfo.lng,
           locationY: app.globalData.userInfo.lat,
           city: app.globalData.userInfo.city,
-          page: _this.data.page,
+          page: 1,
           rows: 8
         }
         Api.shoplist(_parms).then((res) => {

@@ -25,3 +25,9 @@ page{
   border-bottom-left-radius: 8rpx;
   border-bottom-right-radius: 8rpx; 
 }
+
+.zhanweitu{
+  width:250rpx;
+  height:200rpx;
+  margin: 450rpx auto;
+}

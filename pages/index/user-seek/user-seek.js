@@ -11,7 +11,9 @@ Page({
     storename: '',
     _is: true,
     modalHidden: true,
-    timer:null
+    timer:null,
+    page:1,
+    isover:false
   },
   onReady: function () {  
     let that = this;
@@ -38,7 +40,8 @@ Page({
         searchKey: _value,
         locationX: app.globalData.userInfo.lng,
         locationY: app.globalData.userInfo.lat,
-        city: app.globalData.userInfo.city
+        city: app.globalData.userInfo.city,
+        page: this.data.page
       }
       Api.shoplist(_parms).then((res) => {
         if (res.data.code == 0) {
@@ -71,7 +74,8 @@ Page({
               duration: 2000
             })
             that.setData({
-              storename: ''
+              storename: '',
+              isover:true
             })
           }
         } else {
@@ -99,7 +103,8 @@ Page({
       }
     }, 500)
     _this.setData({
-      timer: _timer
+      timer: _timer,
+      isover:false
     });
   },
   backHomepage: function () {  //取消  清空输入框
@@ -215,8 +220,17 @@ Page({
       inputValue: ''
     })
   },
+
   onHide: function () {
 
+  },
+  onPullDownRefresh: function () {
+    if(!this.data.isover){
+      this.setData({
+        page: this.data.page + 1
+      })
+      this.selectAddress();
+    }
   },
   clearInput: function () {
     this.setData({
@@ -224,3 +238,5 @@ Page({
     })
   }
 })
+
+

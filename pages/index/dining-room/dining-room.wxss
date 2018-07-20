@@ -292,13 +292,14 @@
 .white_box {
   position: relative;
   width: 100%;
-  height: 633rpx;
+  max-height: 633rpx;
   background: rgb(255, 255, 255);
   opacity: no;
 }
 
 .nearby, .food, .sorting {
-  height: 540rpx;
+  /* height: 540rpx; */
+  max-height: 540rpx;
   width: 100%;
   overflow-y: scroll;
 }
