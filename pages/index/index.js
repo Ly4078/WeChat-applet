@@ -1071,6 +1071,7 @@ Page({
         _type = this.data.carousel[k].type
       }
     }
+
     if (_linkUrl.indexOf('&') >= 0){
       let arr = _linkUrl.split("&");
       for (let i in arr) {
@@ -1078,7 +1079,7 @@ Page({
         _obj[arr2[0]] = arr2[1];
       }
     }
-    
+   
     if (_linkUrl == 'lingquan') {
       wx.navigateTo({
         url: 'new-exclusive/new-exclusive',
@@ -1095,6 +1096,10 @@ Page({
     } else if (_obj.type == 2) {  //视频活动
       wx.navigateTo({
         url: '../activityDetails/video-list/video-list?id=' + _obj.actId,
+      })
+    } else if(_obj.type == 3) {  //店铺主页
+      wx.navigateTo({
+        url: 'merchant-particulars/merchant-particulars?shopid=' + _obj.shopId,
       })
     }
   },
