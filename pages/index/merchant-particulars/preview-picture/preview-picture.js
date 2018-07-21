@@ -28,7 +28,6 @@ Page({
   previewImg: function (e) {
     var index = e.currentTarget.id;
     var carousel = this.data.carousel;
-    console.log('carousel:', carousel);
     let arr = [];
     let obj ={}
     for (let i = 0; i < carousel.length;i++){

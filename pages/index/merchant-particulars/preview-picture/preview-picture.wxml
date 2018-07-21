@@ -1,8 +1,8 @@
 <view class='imgListWrap'>
   <view class='imgList-li-small'>
-    <view class='imgList-li' bindtap='previewImg' wx:for='{{carousel}}' wx:key="{{index}}" id="{{index}}">
+    <view wx:if="{{carousel.length>0}}" class='imgList-li' bindtap='previewImg' wx:for='{{carousel}}' wx:key="{{index}}" id="{{index}}">
       <image class='specificImg' mode="aspectFill" src='{{item.value0}}' id="{{index}}" data-index='{{index}}'></image>
     </view>
-    <image class='zhanweitu' src='/images/icon/zhanweitu.png' ></image>
+    <image wx:if="{{carousel.length<1}}" class='zhanweitu' src='/images/icon/zhanweitu.png' ></image>
   </view>
 </view>

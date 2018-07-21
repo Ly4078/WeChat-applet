@@ -72,6 +72,7 @@ scroll_box.initiate-exhibition {
   top: 200rpx;
   left: 180rpx;
   position: relative;
+  z-index: 9999;
 }
 
 .merchant_none image {
@@ -277,7 +278,7 @@ scroll_box.initiate-exhibition {
 .cladd {
   width: 108rpx;
   height: 108rpx;
-  z-index: 1;
+  z-index: 2;
   border-radius: 50%;
   float: right;
   margin-left: 49rpx;

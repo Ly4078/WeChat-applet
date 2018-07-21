@@ -1,3 +1,4 @@
 {
-  "navigationBarTitleText": "店铺图片"
+  "navigationBarTitleText": "店铺图片",
+  "enablePullDownRefresh": false
 }
