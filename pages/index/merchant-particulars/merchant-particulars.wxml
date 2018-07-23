@@ -1,5 +1,6 @@
 <import src="comment-template/comment-template.wxml" />
 <import src="activity-item/activity-item.wxml" />
+
 <view class="newUserModal" wx:if="{{issnap}}">
   <view class='drawer_screen'>
     <view class='sqtishi'>提示</view>
@@ -54,7 +55,7 @@
   </view>
 
   <!-- 活动投票栏 -->
-  <!-- <view class='merchantVote'>
+  <view class='merchantVote'>
     <view class='program'>【参与活动】</view>
     <view class='voteGao'>
       <view class="example">
@@ -65,13 +66,82 @@
         </view>
       </view>
     </view>
-    <scroll-view scroll-x="true" class='sliding'>
-      <view class='typesetting'></view>
-      <view class='typesetting' style="background: green;"></view>
-      <view class='typesetting' style="background: blue;"></view>
-      <view class='typesetting' style="background: yellow;"></view>
-    </scroll-view>
-  </view> -->
+    <view class='chairman'>
+      <scroll-view scroll-x="true" class='sliding'>
+        <view class="dish_list_item">
+          <view class="dish_list_inner">
+            <view class="list_item_top">
+              <view class="list_item_num">
+                <text class="list_item_num_l">{{item.skuCode}}号</text>
+                <text class="list_item_num_r">{{item.voteNum}}票</text>
+              </view>
+              <view class="list_item_vote" id="{{item.skuId}}" bindtap='castvote'>投票</view>
+              <image src="{{item.picUrl}}" mode="aspectFill" id="{{item.skuId}}" bindtap='toDishDetail'></image>
+            </view>
+            <view class="list_item_bottom">
+              <view class="list_item_info">
+                <view class="list_item_name">{{item.actSkuName}}</view>
+                <view>
+                  <text class="price_icon">￥</text>
+                  <text class="price_real">{{item.jianAmount}}</text>
+                  <text class="price_original">原价￥{{item.manAmount}}</text>
+                </view>
+              </view>
+              <button id="{{item.prSkuId}}" data-index="{{item.id}}" bindtap='payDish'>购买</button>
+            </view>
+          </view>
+        </view>
+
+        <view class="dish_list_item">
+          <view class="dish_list_inner">
+            <view class="list_item_top">
+              <view class="list_item_num">
+                <text class="list_item_num_l">{{item.skuCode}}号</text>
+                <text class="list_item_num_r">{{item.voteNum}}票</text>
+              </view>
+              <view class="list_item_vote" id="{{item.skuId}}" bindtap='castvote'>投票</view>
+              <image src="{{item.picUrl}}" mode="aspectFill" id="{{item.skuId}}" bindtap='toDishDetail'></image>
+            </view>
+            <view class="list_item_bottom">
+              <view class="list_item_info">
+                <view class="list_item_name">{{item.actSkuName}}</view>
+                <view>
+                  <text class="price_icon">￥</text>
+                  <text class="price_real">{{item.jianAmount}}</text>
+                  <text class="price_original">原价￥{{item.manAmount}}</text>
+                </view>
+              </view>
+              <button id="{{item.prSkuId}}" data-index="{{item.id}}" bindtap='payDish'>购买</button>
+            </view>
+          </view>
+        </view>
+
+        <view class="dish_list_item">
+          <view class="dish_list_inner">
+            <view class="list_item_top">
+              <view class="list_item_num">
+                <text class="list_item_num_l">{{item.skuCode}}号</text>
+                <text class="list_item_num_r">{{item.voteNum}}票</text>
+              </view>
+              <view class="list_item_vote" id="{{item.skuId}}" bindtap='castvote'>投票</view>
+              <image src="{{item.picUrl}}" mode="aspectFill" id="{{item.skuId}}" bindtap='toDishDetail'></image>
+            </view>
+            <view class="list_item_bottom">
+              <view class="list_item_info">
+                <view class="list_item_name">{{item.actSkuName}}</view>
+                <view>
+                  <text class="price_icon">￥</text>
+                  <text class="price_real">{{item.jianAmount}}</text>
+                  <text class="price_original">原价￥{{item.manAmount}}</text>
+                </view>
+              </view>
+              <button id="{{item.prSkuId}}" data-index="{{item.id}}" bindtap='payDish'>购买</button>
+            </view>
+          </view>
+        </view>
+      </scroll-view>
+    </view>
+  </view>
 
   <!-- 商家参加的投票列表 -->
   <view catchtap='storeActivity' wx:if="{{_shopCode}}">
