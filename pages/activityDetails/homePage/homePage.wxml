@@ -24,11 +24,11 @@
           </view>
           <view class="info_data">
             <view class="info_data_inner" id="1" bindtap="toLikeList">
-              <text class="info_data_num">{{likeNum.focus}}</text>
+              <text class="info_data_num">{{likeNum.focus ? likeNum.focus : 0}}</text>
               <text class="info_data_txt">关注</text>
             </view>
             <view class="info_data_inner" id="2" bindtap="toLikeList">
-              <text class="info_data_num">{{likeNum.fans}}</text>
+              <text class="info_data_num">{{likeNum.fans ? likeNum.fans : 0}}</text>
               <text class="info_data_txt">粉丝</text>
             </view>
             <view class="info_data_inner">

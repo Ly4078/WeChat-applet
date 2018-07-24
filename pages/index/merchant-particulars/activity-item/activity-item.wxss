@@ -44,6 +44,7 @@
   font-size: 28rpx;
   color: #191919;
   padding-top: 16rpx;
+  width: 420rpx;
 }
 
 .merchant_r text {

@@ -197,7 +197,7 @@ Page({
                 footList[i].isimg = false
                 footList[i].clickvideo = false
               }
-              // footList[i].summary = utils.uncodeUtf16(footList[i].summary);
+              footList[i].summary = utils.uncodeUtf16(footList[i].summary);
               // footList[i].content = utils.uncodeUtf16(footList[i].content);
               // footList[i].timeDiffrence = utils.timeDiffrence(res.data.currentTime, footList[i].updateTime, footList[i].createTime)
               

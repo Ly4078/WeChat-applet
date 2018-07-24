@@ -79,6 +79,7 @@ Page({
         if (reg.test(_data.userName)) {
           _data.userName = _data.userName.substr(0, 3) + "****" + _data.userName.substr(7);
         }
+        _data.title = utils.uncodeUtf16(_data.title);
         this.setData({
           details: _data,
           nodes: _data.content.replace(/\<img/gi, '<img style="max-width:100%;height:auto" ')

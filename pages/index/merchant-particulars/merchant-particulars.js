@@ -7,23 +7,27 @@ var app = getApp();
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
-    navbar: [{
-        name: '优惠',
-        id: 'list1'
-      },
-      {
-        name: '动态',
-        id: 'list2'
-      },
-      {
-        name: '推荐菜',
-        id: 'list3'
-      },
-      {
-        name: '评价',
-        id: 'list4'
-      }
-    ],
+    // navbar: [{
+    //     name: '优惠',
+    //     id: 'list1'
+    //   },
+    //   {
+    //     name: '动态',
+    //     id: 'list2'
+    //   },
+    //   {
+    //     name: '推荐菜',
+    //     id: 'list3'
+    //   },
+    //   {
+    //     name: '评价',
+    //     id: 'list4'
+    //   }
+    // ],
+    dishLish: [],
+    city: '',  //商家所在的城市
+    sku: 0,   //可用票数
+    isclick: true,
     shopid: '', //商家ID
     store_details: {}, //店铺详情
     commentNum: 0, //评论数量
@@ -44,7 +48,7 @@ Page({
     oldpackage: [],
     actId: '',
     isoter: false,
-    toView: 'list1',
+    // toView: 'list1',
     shopList: [],
     isFixed: false,
     text: '十堰“100菜”菜评选 暨《十堰食典》汇编、美食天使赛事评选',
@@ -150,6 +154,134 @@ Page({
     vm.antifriction();                   // 水平一行字滚动完了再按照原来的方向滚动
     vm.bearing();                   // 第一个字消失后立即从右边出现
   },
+  getDishList() {    //参赛菜品列表
+    let dateStr = new Date();
+    let milisecond = new Date(this.dateConv(dateStr)).getTime() + 86400000;
+    let _parms = {
+      shopId: this.data.shopid,
+      actId: 37,
+      beginTime: this.dateConv(dateStr),
+      endTime: this.dateConv(new Date(milisecond)),
+      voteUserId: app.globalData.userInfo.userId,
+      city: this.data.city,
+      page: 1,
+      rows: 6
+    };
+    Api.dishList(_parms).then((res) => {
+      let data = res.data;
+      if (data.code == 0) {
+        let list = data.data.list;
+        if (list != "null" && list != null && list != "" && list != []) {
+          this.setData({
+            dishLish: list
+          });
+        }
+      }
+    });
+  },
+  toDishDetail(e) {    //跳转至菜品详情
+    if (!app.globalData.userInfo.mobile) {
+      this.setData({
+        issnap: true
+      })
+      return false
+    }
+    wx.navigateTo({
+      url: '../../activityDetails/dish-detail/dish-detail?actId=37&skuId=' + e.target.id
+    })
+  },
+  availableVote() {
+    let _parms = {
+      actId: 37,
+      userId: app.globalData.userInfo.userId
+    }
+    Api.availableVote(_parms).then((res) => {
+      let sku = 0;
+      if (res.data.code == 0) {
+        sku = res.data.data.sku;
+      }
+      this.setData({
+        sku: sku
+      });
+    });
+    if (!app.globalData.userInfo.mobile) {
+      this.setData({
+        sku: 0
+      });
+    }
+  },
+  castvote: function (e) {  //对菜品投票
+    let that = this, id = e.currentTarget.id;
+    if (!this.data.isclick) {
+      return false;
+    }
+    if (!app.globalData.userInfo.mobile) {
+      this.setData({
+        issnap: true
+      })
+      return false
+    }
+    let _parms = {
+      actId: 37,
+      userId: app.globalData.userInfo.userId,
+      skuId: id
+    };
+    if (this.data.sku <= 0) {
+      wx.showToast({
+        title: '请使用食典券后投票',
+        mask: 'true',
+        duration: 2000,
+        icon: 'none'
+      })
+      return false;
+    }
+    this.setData({
+      isclick: false
+    })
+    Api.voteAdd(_parms).then((res) => {
+      if (res.data.code == 0) {
+        wx.showToast({
+          title: '投票成功',
+          mask: 'true',
+          duration: 2000,
+          icon: 'none'
+        })
+        let _num = 0;
+        _num = that.data.sku - 1;
+        if (_num < 0) {
+          _num = 0;
+        }
+        that.setData({
+          sku: _num
+        });
+      }
+      setTimeout(function () {
+        that.setData({
+          isclick: true
+        })
+      }, 1000)
+    });
+  },
+  payDish(e) {    //购买活动菜
+    if (!app.globalData.userInfo.mobile) {
+      this.setData({
+        issnap: true
+      })
+      return false
+    }
+    let dishLish = this.data.dishLish, id = e.target.dataset.index, prSkuId = e.target.id, skuId = 0, manAmount = 0, jianAmount = 0, shopId = 0;
+    for (let i = 0; i < dishLish.length; i++) {
+      if (id == dishLish[i].id) {
+        manAmount = dishLish[i].manAmount;
+        jianAmount = dishLish[i].jianAmount;
+        shopId = dishLish[i].shopId;
+        skuId = dishLish[i].skuId;
+      }
+    }
+    wx.navigateTo({
+      url: '../voucher-details/voucher-details?id=' + prSkuId + "&skuId=" + skuId + "&sell=" + jianAmount + "&inp=" + manAmount + "&actId=37&shopId=" + shopId
+    })
+  },
   antifriction: function() {
     var vm = this;
     var interval = setInterval(function() {
@@ -192,7 +324,6 @@ Page({
       }
     }, vm.data.interval);
   },
-
   selectForOne: function(val) {
     let _parms = {
       shopId: val
@@ -266,6 +397,7 @@ Page({
     this.isCollected();
     this.merchantArt();
     this.getpackage();
+    this.availableVote();
   },
   getstoredata() { //获取店铺详情数据   
     let id = this.data.shopid;
@@ -286,9 +418,11 @@ Page({
             store_details: _data,
             store_images: _data.shopTopPics.length,
             storeType: _data.businessCate ? _data.businessCate.split(',') : [],
-            service: _data.otherService ? _data.otherService.split(',') : []
+            service: _data.otherService ? _data.otherService.split(',') : [],
+            city: _data.city
           })
           that.shopList();
+          that.getDishList();
         }
       }
     })
@@ -451,6 +585,7 @@ Page({
         let _data = data.data.list,
           articleList = this.data.merchantArt;
         for (let i = 0; i < _data.length; i++) {
+          _data[i].title = utils.uncodeUtf16(_data[i].title);
           _data[i].timeDiffrence = utils.timeDiffrence(data.currentTime, _data[i].updateTime, _data[i].createTime)
           articleList.push(_data[i]);
         }
@@ -612,13 +747,13 @@ Page({
     })
   },
   // tab栏
-  navbarTap: function(e) {
-    let id = e.currentTarget.id;
-    this.setData({
-      toView: id
-    })
-    console.log(id)
-  },
+  // navbarTap: function(e) {
+  //   let id = e.currentTarget.id;
+  //   this.setData({
+  //     toView: id
+  //   })
+  //   console.log(id)
+  // },
   //评论列表
   commentList: function() {
     let that = this;
@@ -988,13 +1123,12 @@ Page({
     })
   },
   toShopDetail(e) { //跳转至店铺详情
-    this.setData({
-      toView: 'list1'
-    });
+    // this.setData({
+    //   toView: 'list1'
+    // });
     var pages = getCurrentPages();
     var prevPage = pages[pages.length - 1]; //上一个页面
     prevPage.options.shopid = e.currentTarget.id;
-    console.log(prevPage.options)
     prevPage.onLoad(prevPage.options)
     wx.pageScrollTo({
       scrollTop: 0,
@@ -1044,5 +1178,13 @@ Page({
   },
   bindscroll(e) {
     console.log(e);
+  },
+  dateConv: function (dateStr) {
+    let year = dateStr.getFullYear(),
+      month = dateStr.getMonth() + 1,
+      today = dateStr.getDate();
+    month = month > 9 ? month : "0" + month;
+    today = today > 9 ? today : "0" + today;
+    return year + "-" + month + "-" + today;
   }
 })

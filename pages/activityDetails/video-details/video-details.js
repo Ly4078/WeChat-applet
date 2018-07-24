@@ -191,7 +191,7 @@ Page({
         }
         that.setData({
           currentUrl: _data.content[0].value ? _data.content[0].value : videoUrl,
-          cotitle: _data.title,
+          cotitle: utils.uncodeUtf16(_data.title),
           videodata: _data,
           playerUserId: _data.userId,
           voteNum:_data.zan,
@@ -675,7 +675,7 @@ Page({
         if (_Num == this.data.food.length - 1) {
           _Num= 0
         }
-        let _curr = this.data.nextUrl ? this.data.nextUrl : this.data.food[_Num].content[0].value, _title = this.data.food[_Num].title, _userId = this.data.food[_Num].userId, _id = this.data.food[_Num].id;
+        let _curr = this.data.nextUrl ? this.data.nextUrl : this.data.food[_Num].content[0].value, _title = utils.uncodeUtf16(this.data.food[_Num].title), _userId = this.data.food[_Num].userId, _id = this.data.food[_Num].id;
         this.getuserif(_userId);
         this.gettopiclist(_id);
         this.setData({  //当前播放的视频

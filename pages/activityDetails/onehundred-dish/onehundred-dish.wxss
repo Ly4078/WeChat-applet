@@ -1,3 +1,4 @@
+@import "dish-template/dish-template.wxss";
 .hot_activity {
   background-color: #347BB7;
   height: 100%;
@@ -296,86 +297,6 @@
   flex-wrap: wrap;
 }
 
-.dish_list_item:nth-child(2n+1){
-  padding-right: 10rpx;
-}
-
-.dish_list_item:nth-child(2n){
-  padding-left: 10rpx;
-}
-
-.dish_list_item {
-  display: inline-block;  
-  width: 50%;
-  margin-bottom: 20rpx;
-  box-sizing: border-box;
-}
-
-.dish_list_inner {
-  border-radius: 10rpx;
-  overflow: hidden;
-}
-
-.list_item_top {
-  width: 100%;
-  height: 424rpx;
-  position: relative;
-  color: #fff;
-  font-size: 24rpx;
-}
-
-.list_item_top.player_top {
-  height: 388rpx;
-}
-
-.list_item_num {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  background-color: #191919;
-  opacity: 0.5;
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 40rpx;
-  line-height: 40rpx;
-  padding: 0 20rpx;
-  box-sizing: border-box;
-}
-
-.list_item_num.player_num {
-  height: 50rpx;
-  line-height: 50rpx;
-  font-size: 28rpx;
-}
-
-.list_item_vote {
-  width: 80rpx;
-  height: 80rpx;
-  line-height: 80rpx;
-  text-align: center;
-  border-radius: 50%;
-  position: absolute;
-  right: 20rpx;
-  bottom: 30rpx;
-  background-color: #FF4343;
-}
-
-.list_item_top image {
-  width: 100%;
-  height: 100%;
-}
-
-.list_item_bottom {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  background-color: #fff;
-  padding: 16rpx 16rpx;
-  box-sizing: border-box;
-}
-
 .player_bottom {
   height: 128rpx;
   background-color: #fff;
@@ -385,44 +306,9 @@
   text-align: center;
 }
 
-.list_item_info {
-  font-size: 26rpx;
-}
-
-.list_item_name {
-  color: #191919;
-  margin-bottom: 5rpx;
-  width: 210rpx;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;  
-}
-
-.price_icon {
-  margin-right: -6rpx;
-  color: #FF4343;
-}
-
 .price_real {
   color: #FF4343;
   margin-right: 10rpx;
-}
-
-.price_original {
-  color: #B1B1B1;
-  text-decoration:line-through;
-}
-
-.list_item_bottom button {
-  width: 80rpx;
-  height: 48rpx;
-  line-height: 48rpx;
-  text-align: center;
-  background-color: #347BB7;
-  color: #fff;
-  border-radius: 50rpx;
-  font-size: 24rpx;
-  margin-top: 12rpx;
 }
 
 .player_name {
