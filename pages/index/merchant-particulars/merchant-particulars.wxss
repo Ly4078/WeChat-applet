@@ -489,7 +489,7 @@ page {
 
 .initiate-left {
   width: 7rpx;
-  height: 20rpx;
+  height: 18rpx;
   background: #fc5e2d;
   vertical-align: middle;
   padding-right: 20rpx;

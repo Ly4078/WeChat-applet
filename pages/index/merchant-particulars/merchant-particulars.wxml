@@ -231,12 +231,12 @@
         </view>  -->
       </view>
       <!--动态-->
-      <view class="merchant_box" style="{{merchantArt.length > 0 ? 'padding-bottom: 30rpx;' : ''}}" id="list2">
+      <view class="merchant_box" style="{{merchantArt.length > 0 ? 'padding-bottom: 30rpx;' : ''}}" id="list2" wx:if="{{merchantArt.length > 0}}">
         <view class="merchantTab">
           <text class='initiate-left'></text>
           <text class='initiate-text'>动态</text>
         </view>
-        <view wx:if="{{merchantArt.length > 0}}">
+        <view>
           <block wx:for="{{merchantArt}}" wx:key="{{index}}" data-idx="{{index}}">
             <template is="activityItem" data="{{item}}"></template>
           </block>
@@ -250,7 +250,7 @@
         </view> -->
       </view>
       <!-- 推荐菜 -->
-      <view class='initiate-wrapp' style="{{recommend_list.length > 0 ? 'padding-bottom: 30rpx;' : ''}}" id="list3">
+      <view class='initiate-wrapp' style="{{recommend_list.length > 0 ? 'padding-bottom: 30rpx;' : ''}}" id="list3" hidden="{{recommend_list.length < 1}}">
         <view class='initiate-exhibition'>
           <view>
             <!-- <image class='initiate-left' src='/images/icon/home_sign.png'></image> -->
@@ -258,12 +258,12 @@
             <text class='initiate-text'>推荐菜</text>
           </view>
         </view>
-        <view class='scroll_box' hidden="{{recommend_list.length < 1}}">
+        <view class='scroll_box'>
           <block wx:for="{{recommend_list}}" wx:key="{{index}}">
             <view class="anchor" id="{{item.id}}" bindtap='fooddetails'>
               <image class='anchor_img' mode="aspectFill" src='{{item.picUrl}}'></image>
               <view class='cate_site'>{{item.skuName}}</view>
-              <view class="anchor_info">{{item.skuInfo}}</view>
+              <view class="anchor_info">{{item.skuInfo ? item.skuInfo : ''}}</view>
             </view>
           </block>
           <view class="setMealMore" catchtap='recommendedRestaurant' hidden="{{recommend_list.length < 3}}">
@@ -273,7 +273,7 @@
         </view>
       </view>
       <!-- 评价 -->
-      <view class="commentList" style="{{comment_list.length > 0 ? 'padding-bottom: 30rpx;' : ''}}" id="list4">
+      <view class="commentList" style="{{comment_list.length > 0 ? 'padding-bottom: 30rpx;' : ''}}" id="list4" hidden="{{commentNum < 5}}">
         <view class='initiate-exhibition the-second'>
           <view>
             <text class='initiate-left'></text>
