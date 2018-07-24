@@ -1,5 +1,7 @@
 import Api from '../../utils/config/api.js';
-import { GLOBAL_API_DOMAIN } from '/../../utils/config/config.js';
+import {
+  GLOBAL_API_DOMAIN
+} from '/../../utils/config/config.js';
 var utils = require('../../utils/util.js');
 var app = getApp();
 Page({
@@ -12,34 +14,34 @@ Page({
     tect: '最新',
     isscelect: 1,
     ishotnew: false,
-    isadd:false,
+    isadd: false,
     istouqu: false,
-    sortype:'0',
-    choicetype:'',
+    sortype: '0',
+    choicetype: '',
     placeholderFlag: true,
-    issnap: false,  
-    isshow:false,
+    issnap: false,
+    isshow: false,
     topUrl: '',
-    actId:''
+    actId: ''
   },
-  onShow: function () {
-    if (app.globalData.isflag){
+  onShow: function() {
+    if (app.globalData.isflag) {
       this.setData({
-        isshow:true
+        isshow: true
       })
-    }else{
+    } else {
       this.setData({
         isshow: false
       })
     }
   },
-  onPageScroll:function(){
+  onPageScroll: function() {
     this.setData({
-      isadd:false,
-      ishotnew:false      
+      isadd: false,
+      ishotnew: false
     })
   },
-  onHide:function(){
+  onHide: function() {
     let _data = this.data.food
     for (let i = 0; i < _data.length; i++) {
       this.setData({
@@ -47,9 +49,9 @@ Page({
       })
     }
   },
-  onLoad: function (options) {
+  onLoad: function(options) {
     let that = this;
-    if (!app.globalData.userInfo.unionId){
+    if (!app.globalData.userInfo.unionId) {
       wx.login({
         success: res => {
           if (res.code) {
@@ -79,9 +81,9 @@ Page({
       })
     }
     this.setData({
-      sortype:'0',
+      sortype: '0',
       choicetype: '',
-      isscelect:1
+      isscelect: 1
     })
     getApp().globalData.article = []
     let _arr = ['idnum', 'text', 'ismodi', 'isIll', 'title', 'cover']
@@ -100,7 +102,7 @@ Page({
     this.getfood();
     wx.request({
       url: that.data._build_url + 'zb/list/',
-      success: function (res) {
+      success: function(res) {
         that.setData({
           hotlive: res.data.data.list
         })
@@ -108,11 +110,11 @@ Page({
     })
     this.getcarousel();
   },
-  againgetinfo: function () {
+  againgetinfo: function() {
     let that = this;
     wx.getUserInfo({
       withCredentials: true,
-      success: function (res) {
+      success: function(res) {
         let _pars = {
           sessionKey: app.globalData.userInfo.sessionKey,
           ivData: res.iv,
@@ -130,13 +132,12 @@ Page({
       }
     })
   },
-  getcarousel: function () {  //轮播图
+  getcarousel: function() { //轮播图
     Api.hcllist().then((res) => {
       if (res.data.data) {
         let data = res.data.data;
-        for(let i = 0; i < data.length; i++) {
+        for (let i = 0; i < data.length; i++) {
           let _linkUrl = data[i].linkUrl,_obj={};
-
           if (_linkUrl.indexOf('&') >= 0) {
             let arr = _linkUrl.split("&");
             for (let i in arr) {
@@ -144,28 +145,37 @@ Page({
               _obj[arr2[0]] = arr2[1];
             }
           }
-          if(_obj.type == 2) {  //视频活动
+          // if(_obj.type == 2) {  //视频活动
+          //   this.setData({
+          //     topUrl: data[i].imgUrl,
+          //     actId: _obj.actId
+          //   });
+          //   return false;
+          // }
+          if (data[i].sortNum == 4) {
             this.setData({
               topUrl: data[i].imgUrl,
-              actId: _obj.actId
+              actId: _obj == {} ? '' : _obj.actId
             });
             return false;
           }
         }
-      } 
+      }
     })
   },
-  close:function(){
+  close: function() {
     this.setData({
-      ishotnew:false
+      ishotnew: false
     })
   },
-  tovideoact:function(){  //去视频活动页面
-    wx.navigateTo({
-      url: '../activityDetails/video-list/video-list?id=' + this.data.actId,
-    })
+  tovideoact: function() { //去视频活动页面
+    if (this.data.actId != '') {
+      wx.navigateTo({
+        url: '../activityDetails/video-list/video-list?id=' + this.data.actId,
+      })
+    }
   },
-  getfood: function (_type, data) {
+  getfood: function(_type, data) {
     let that = this;
     if (app.globalData.isflag) {
       wx.showLoading({
@@ -192,7 +202,7 @@ Page({
             for (let i = 0; i < footList.length; i++) {
               if (footList[i].topicType == 1) { // topicType  1文章  2视频
                 footList[i].isimg = true;
-              } else if (footList[i].topicType == 2){
+              } else if (footList[i].topicType == 2) {
                 // footList[i].content = JSON.parse(footList[i].content);
                 footList[i].isimg = false
                 footList[i].clickvideo = false
@@ -200,7 +210,7 @@ Page({
               footList[i].summary = utils.uncodeUtf16(footList[i].summary);
               // footList[i].content = utils.uncodeUtf16(footList[i].content);
               // footList[i].timeDiffrence = utils.timeDiffrence(res.data.currentTime, footList[i].updateTime, footList[i].createTime)
-              
+
               // footList[i].hitNum = utils.million(footList[i].hitNum)
               // footList[i].commentNum = utils.million(footList[i].commentNum)
               // footList[i].transNum = utils.million(footList[i].transNum)
@@ -218,7 +228,8 @@ Page({
               if (footList[i].nickName == "null" || footList[i].nickName == "undefined") {
                 footList[i].nickName = "";
               }
-              var myreg = /^[1][3,4,5,7,8][0-9]{9}$/, phone = footList[i].userName;
+              var myreg = /^[1][3,4,5,7,8][0-9]{9}$/,
+                phone = footList[i].userName;
               if (myreg.test(phone)) {
                 footList[i].userName = phone.substring(0, 4) + '****' + phone.substring(phone.length - 3, phone.length);
               }
@@ -243,9 +254,9 @@ Page({
         }
       })
     }
-    
+
   },
-  bindended:function(e){  //视频播放完成
+  bindended: function(e) { //视频播放完成
     const id = e.currentTarget.id
     let _data = this.data.food
     for (let i = 0; i < _data.length; i++) {
@@ -257,7 +268,7 @@ Page({
       }
     }
   },
-  videoplay: function (e) {  //点击某条文章
+  videoplay: function(e) { //点击某条文章
     const id = e.currentTarget.id;
     this.setData({
       ishotnew: false
@@ -273,7 +284,7 @@ Page({
     for (let i = 0; i < _data.length; i++) {
       if (id == _data[i].id) {
         zan = _data[i].zan;
-        if (!_data[i].isimg){
+        if (!_data[i].isimg) {
           // _data[i].clickvideo=true
           // this.setData({
           //   food:_data
@@ -281,7 +292,7 @@ Page({
           wx.navigateTo({
             url: '../activityDetails/video-details/video-details?id=' + id + '&zan=' + zan + '&userId=' + _data[i].userId
           })
-        }else{
+        } else {
           for (let i = 0; i < _data.length; i++) {
             if (!_data[i].isimg) {
               _data[i].clickvideo = false
@@ -297,29 +308,31 @@ Page({
       }
     }
   },
-  gotodetail(e){ //点击下边一排
+  gotodetail(e) { //点击下边一排
     const id = e.currentTarget.id
     this.setData({
       ishotnew: false
     })
-    let _data = this.data.food, video=false, zan = '';
+    let _data = this.data.food,
+      video = false,
+      zan = '';
     for (let i = 0; i < _data.length; i++) {
       if (id == _data[i].id) {
         zan = _data[i].zan;
         _data[i].clickvideo = false;
         if (_data[i].content[0].type == 'video') {
           video = true;
-        }else{
+        } else {
           video = false;
         }
         this.setData({
           food: _data
         })
-        if(video){  //视频
+        if (video) { //视频
           wx.navigateTo({
             url: '../activityDetails/video-details/video-details?id=' + id + '&zan=' + zan
           })
-        }else{ //文章
+        } else { //文章
           wx.navigateTo({
             url: 'dynamic-state/article_details/article_details?id=' + id + '&zan=' + zan
           })
@@ -327,33 +340,33 @@ Page({
       }
     }
   },
-  clickadd(){
+  clickadd() {
     if (app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
       this.setData({
         issnap: true
       })
-    } else{
+    } else {
       this.setData({
         isadd: !this.data.isadd
       })
     }
   },
-  closemodel:function(){
+  closemodel: function() {
     this.setData({
       isadd: false
     })
   },
-  announceState: function (event) { // 跳转到编辑动态页面
-  
+  announceState: function(event) { // 跳转到编辑动态页面
+
     const id = event.currentTarget.id;
     this.setData({
       ishotnew: false
     })
     wx.redirectTo({
-      url: 'dynamic-state/dynamic-state?id='+ id,
+      url: 'dynamic-state/dynamic-state?id=' + id,
     })
   },
-  onReachBottom: function () {  //用户上拉触底
+  onReachBottom: function() { //用户上拉触底
     let that = this
     if (this.data.flag) {
       wx.showLoading({
@@ -366,7 +379,7 @@ Page({
       that.getfood();
     }
   },
-  onPullDownRefresh: function () {  //用户下拉刷新
+  onPullDownRefresh: function() { //用户下拉刷新
     let that = this;
     this.setData({
       ishotnew: false,
@@ -377,37 +390,37 @@ Page({
     this.getfood();
     wx.request({
       url: that.data._build_url + 'zb/list/',
-      success: function (res) {
+      success: function(res) {
         that.setData({
           hotlive: res.data.data.list
         })
       }
     })
   },
-  topall: function () {  //选择全部
+  topall: function() { //选择全部
     this.setData({
       ishotnew: false,
-      food:[],
+      food: [],
       page: 1,
-      flag:true,
+      flag: true,
       isscelect: 1,
-      choicetype:''
+      choicetype: ''
     })
     let _type = ''
     this.getfood()
   },
-  topbus: function () {  //选择商家
+  topbus: function() { //选择商家
     this.setData({
       ishotnew: false,
       food: [],
       page: 1,
       flag: true,
       isscelect: 2,
-      choicetype:'2'
+      choicetype: '2'
     })
     this.getfood()
   },
-  topper: function () {  //选择个人
+  topper: function() { //选择个人
     this.setData({
       ishotnew: false,
       food: [],
@@ -418,27 +431,27 @@ Page({
     })
     this.getfood()
   },
-  sect: function () {  //点击最新/最热
+  sect: function() { //点击最新/最热
     let that = this
     this.setData({
       ishotnew: true
     })
-    setTimeout(function () {
+    setTimeout(function() {
       that.setData({
         ishotnew: false
       })
-    },2000)
+    }, 2000)
   },
-  mostnew: function () { //选择最新
+  mostnew: function() { //选择最新
     this.setData({
       ishotnew: false,
       food: [],
-      sortype:'0',
+      sortype: '0',
       tect: '最新'
     })
     this.getfood()
   },
-  mosthot: function () {  //选择最热
+  mosthot: function() { //选择最热
     this.setData({
       ishotnew: false,
       food: [],
@@ -447,7 +460,7 @@ Page({
     })
     this.getfood()
   },
-  closetel: function (e) {
+  closetel: function(e) {
     let id = e.target.id;
     this.setData({
       issnap: false

@@ -70,13 +70,18 @@
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
-  width: 230rpx;
+  width: 200rpx;
 }
 
 .playIcon {
   width: 28rpx;
   height: 28rpx;
   padding-top: 6rpx;
+}
+
+.playIcon.del {
+  width: 50rpx;
+  height: 50rpx;
 }
 
 .vodeoimg{
