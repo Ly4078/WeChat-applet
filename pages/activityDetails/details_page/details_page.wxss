@@ -1,5 +1,5 @@
 @import "../../commentsOnUp/commentsOnUp.wxss";
-
+@import "../../index/merchant-particulars/comment-template/comment-template.wxss";
 .detail_top{
   width: 100%;
   height: 700rpx;

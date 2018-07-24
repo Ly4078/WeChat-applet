@@ -1,4 +1,5 @@
 @import "../../../commentsOnUp/commentsOnUp.wxss";
+@import "../comment-template/comment-template.wxss";
 .foodpic{
   width: 100%;
   height: 420rpx;
