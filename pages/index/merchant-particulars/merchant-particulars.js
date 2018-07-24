@@ -107,6 +107,7 @@ Page({
     });
   },
   onShow: function() {
+    console.log('显示');
     let that = this;
     this.commentList();
     // if (this.data.currentTab == 1) {
@@ -1153,7 +1154,7 @@ Page({
   },
   toComment() { //去评论
     wx.navigateTo({
-      url: 'answer-comment/answer-comment?shopid=' + this.data.shopid
+      url: 'answer-comment/answer-comment?shopid=' + this.data.shopid + '&actId=' + this.data.actId
     })
   },
   onPageScroll() {
