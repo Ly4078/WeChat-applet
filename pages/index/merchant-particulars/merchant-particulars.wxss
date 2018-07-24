@@ -1179,6 +1179,7 @@ page {
   height: 96rpx;
   background: #fff;
   line-height: 96rpx;
+  overflow: hidden;
 }
 
 .marquee_box {
@@ -1222,11 +1223,20 @@ page {
 
 .dish_list_item {
   display: inline-block;  
-  width: 49%;
+  width: 46%;
   box-sizing: border-box;
   padding-left: 2%;
   margin-bottom: 0;
   padding-bottom: 20rpx;
+  padding-right: 0!important;
+}
+
+.dish_list_item:last-child {
+  padding-right: 2%!important;
+}
+
+.dish_list_item.active {
+  width: 50%;
 }
 
 .dish_list_item:last-child{

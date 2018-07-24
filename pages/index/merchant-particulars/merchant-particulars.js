@@ -252,8 +252,13 @@ Page({
         if (_num < 0) {
           _num = 0;
         }
+        let dishLish = that.data.dishLish;
+        for (let i = 0; i < dishLish.length; i++) {
+          dishLish[i].voteNum = dishLish[i].voteNum + 1;
+        }
         that.setData({
-          sku: _num
+          sku: _num,
+          dishLish: dishLish
         });
       }
       setTimeout(function () {
