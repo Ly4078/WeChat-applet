@@ -1,5 +1,7 @@
 import Api from '../../../utils/config/api.js';
-import { GLOBAL_API_DOMAIN } from '/../../../utils/config/config.js';
+import {
+  GLOBAL_API_DOMAIN
+} from '/../../../utils/config/config.js';
 var utils = require('../../../utils/util.js');
 var app = getApp();
 Page({
@@ -9,7 +11,7 @@ Page({
     actId: 0,
     skuId: 0,
     issnap: false,
-    isball:true,
+    isball: true,
     picUrl: '',
     actSkuName: '',
     skuCode: '',
@@ -28,11 +30,11 @@ Page({
     commentTotal: 0,
     commentVal: '',
     availableNum: 0,
-    isnew:false,
+    isnew: false,
     shareFlag: false,
     voteFlag: true
   },
-  onLoad: function (options) {
+  onLoad: function(options) {
     let dateStr = new Date();
     let milisecond = new Date(this.dateConv(dateStr)).getTime() + 86400000;
     this.setData({
@@ -40,7 +42,7 @@ Page({
       skuId: options.skuId,
       today: this.dateConv(dateStr),
       tomorrow: this.dateConv(new Date(milisecond))
-    }); 
+    });
     if (app.globalData.userInfo.userId) {
       this.setData({
         voteUserId: app.globalData.userInfo.userId
@@ -52,7 +54,7 @@ Page({
       });
     }
   },
-  onShow: function () {
+  onShow: function() {
     if (!app.globalData.userInfo.mobile) {
       this.getuserinfo();
     }
@@ -83,7 +85,7 @@ Page({
         });
         this.getShopInfo();
       } else {
-        
+
       }
     })
   },
@@ -94,7 +96,7 @@ Page({
       header: {
         'content-type': 'application/json;Authorization'
       },
-      success: function (res) {
+      success: function(res) {
         let data = res.data;
         if (data.code == 0) {
           _this.setData({
@@ -131,11 +133,11 @@ Page({
       url: '../onehundred-dish/onehundred-dish?actid=' + this.data.actId
     })
   },
-  TencentMap: function (event) {    //腾讯地图
+  TencentMap: function(event) { //腾讯地图
     let that = this;
     wx.getLocation({
       type: 'gcj02',
-      success: function (res) {
+      success: function(res) {
         var latitude = res.latitude
         var longitude = res.longitude
         var storeDetails = that.data.store_details
@@ -145,26 +147,26 @@ Page({
           scale: 18,
           name: that.data.shopName,
           address: that.data.address,
-          success: function (res) {
+          success: function(res) {
             console.log(res)
           }
         })
       }
     })
   },
-  calling: function () {     // 电话号码功能
+  calling: function() { // 电话号码功能
     let that = this;
     wx.makePhoneCall({
       phoneNumber: that.data.phone ? that.data.phone : that.data.mobile,
-      success: function () {
+      success: function() {
         console.log("拨打电话成功！")
       },
-      fail: function () {
+      fail: function() {
         console.log("拨打电话失败！")
       }
     })
   },
-  payDish() {    //购买推荐菜
+  payDish() { //购买推荐菜
     if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
@@ -175,7 +177,7 @@ Page({
       url: '../../index/voucher-details/voucher-details?id=' + this.data.prSkuId + "&skuId=" + this.data.skuId + "&sell=" + this.data.jianAmount + "&inp=" + this.data.manAmount + "&actId=" + this.data.actId + "&shopId=" + this.data.shopId
     })
   },
-  comment(){
+  comment() {
     let _parms = {
       refId: this.data.skuId,
       cmtType: 6,
@@ -203,7 +205,7 @@ Page({
       }
     })
   },
-  onPageScroll: function () {  //监听页面滑动
+  onPageScroll: function() { //监听页面滑动
     this.setData({
       isComment: false
     })
@@ -224,7 +226,7 @@ Page({
       commentVal: e.detail.value
     })
   },
-  setcmtadd: function () {  //新增评论
+  setcmtadd: function() { //新增评论
     if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
@@ -278,7 +280,7 @@ Page({
       url: '../../index/merchant-particulars/total-comment/total-comment?id=' + this.data.skuId + '&cmtType=6'
     })
   },
-  castvote: function () {  //推荐菜投票
+  castvote: function() { //推荐菜投票
     if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
@@ -291,7 +293,8 @@ Page({
       duration: 2000,
       icon: 'none'
     })
-    let _this = this, _parms={};
+    let _this = this,
+      _parms = {};
     _parms = {
       actId: this.data.actId,
       userId: this.data.voteUserId,
@@ -327,7 +330,7 @@ Page({
       });
     });
   },
-  toLike: function (e) {//评论点赞
+  toLike: function(e) { //评论点赞
     let that = this;
     if (!app.globalData.userInfo.mobile) {
       this.setData({
@@ -335,50 +338,50 @@ Page({
       })
       return false
     }
-    if (!this.data.voteFlag) {
-      return false;
-    }
-    this.setData({
-      voteFlag: false
-    });
-    wx.showToast({
-      mask: 'true',
-      duration: 2000,
-      icon: 'none',
-      title: ''
-    })
-    let id = e.currentTarget.id,ind = '';
-    for (let i = 0; i < this.data.comment_list.length; i++) {
-      if (this.data.comment_list[i].id == id) {
-        ind = i;
+    if (this.data.voteFlag) {
+      this.setData({
+        voteFlag: false
+      });
+      wx.showToast({
+        mask: 'true',
+        duration: 2000,
+        icon: 'none',
+        title: ''
+      })
+      let id = e.currentTarget.id,
+        ind = '';
+      for (let i = 0; i < this.data.comment_list.length; i++) {
+        if (this.data.comment_list[i].id == id) {
+          ind = i;
+        }
       }
-    }
-    let _parms = {
-      refId: id,
-      type: 4,
-      userId: this.data.voteUserId,
-    }
-    Api.zanadd(_parms).then((res) => {
-      if (res.data.code == 0) {
-        wx.showToast({
-          mask: 'true',
-          duration: 2000,
-          icon: 'none',
-          title: '点赞成功'
-        })
-        var comment_list = this.data.comment_list;
-        comment_list[ind].isZan = 1;
-        comment_list[ind].zan++;
-        this.setData({
-          comment_list: comment_list
-        });
+      let _parms = {
+        refId: id,
+        type: 4,
+        userId: this.data.voteUserId,
+      }
+      Api.zanadd(_parms).then((res) => {
         setTimeout(function() {
           that.setData({
             voteFlag: true
           });
-        }, 1000);
-      }
-    })
+        }, 3000);
+        if (res.data.code == 0) {
+          wx.showToast({
+            mask: 'true',
+            duration: 2000,
+            icon: 'none',
+            title: '点赞成功'
+          })
+          var comment_list = this.data.comment_list;
+          comment_list[ind].isZan = 1;
+          comment_list[ind].zan++;
+          this.setData({
+            comment_list: comment_list
+          });
+        }
+      })
+    }
   },
   cancelLike(e) {
     let that = this;
@@ -388,48 +391,47 @@ Page({
       })
       return false
     }
-    if (!this.data.voteFlag) {
-      return false;
-    }
-    this.setData({
-      voteFlag: false
-    });
-    let id = e.currentTarget.id;
-    let ind = '';
-    for (let i = 0; i < this.data.comment_list.length; i++) {
-      if (this.data.comment_list[i].id == id) {
-        ind = i;
-      }
-    }
-    let _parms = {
-      refId: id,
-      type: 4,
-      userId: this.data.voteUserId,
-    }
-    Api.zandelete(_parms).then((res) => {
-      if (res.data.code == 0) {
-        wx.showToast({
-          mask: 'true',
-          duration: 2000,
-          icon: 'none',
-          title: '点赞取消'
-        })
-        var comment_list = this.data.comment_list;
-        comment_list[ind].isZan = 0;
-        comment_list[ind].zan--;
-        if (comment_list[ind].zan <= 0) {
-          comment_list[ind].zan = 0;
+    if (this.data.voteFlag) {
+      this.setData({
+        voteFlag: false
+      });
+      let id = e.currentTarget.id;
+      let ind = '';
+      for (let i = 0; i < this.data.comment_list.length; i++) {
+        if (this.data.comment_list[i].id == id) {
+          ind = i;
         }
-        this.setData({
-          comment_list: comment_list
-        });
+      }
+      let _parms = {
+        refId: id,
+        type: 4,
+        userId: this.data.voteUserId,
+      }
+      Api.zandelete(_parms).then((res) => {
         setTimeout(function () {
           that.setData({
             voteFlag: true
           });
-        }, 1000);
-      }
-    })
+        }, 3000);
+        if (res.data.code == 0) {
+          wx.showToast({
+            mask: 'true',
+            duration: 2000,
+            icon: 'none',
+            title: '点赞取消'
+          })
+          var comment_list = this.data.comment_list;
+          comment_list[ind].isZan = 0;
+          comment_list[ind].zan--;
+          if (comment_list[ind].zan <= 0) {
+            comment_list[ind].zan = 0;
+          }
+          this.setData({
+            comment_list: comment_list
+          });
+        }
+      })
+    }
   },
   onShareAppMessage() {
     return {
@@ -444,7 +446,7 @@ Page({
   transpond() {
     this.onShareAppMessage();
   },
-  dateConv: function (dateStr) {
+  dateConv: function(dateStr) {
     let year = dateStr.getFullYear(),
       month = dateStr.getMonth() + 1,
       today = dateStr.getDate();
@@ -452,7 +454,7 @@ Page({
     today = today > 9 ? today : "0" + today;
     return year + "-" + month + "-" + today;
   },
-  closetel: function (e) {
+  closetel: function(e) {
     let id = e.target.id;
     this.setData({
       issnap: false
@@ -491,23 +493,24 @@ Page({
       }
     })
   },
-  getmyuserinfo: function () {
+  getmyuserinfo: function() {
     let _parms = {
-      openId: app.globalData.userInfo.openId,
-      unionId: app.globalData.userInfo.unionId
-    }, that = this;
+        openId: app.globalData.userInfo.openId,
+        unionId: app.globalData.userInfo.unionId
+      },
+      that = this;
     Api.addUserUnionId(_parms).then((res) => {
       if (res.data.data) {
         app.globalData.userInfo.userId = res.data.data;
-        wx.request({  //从自己的服务器获取用户信息
+        wx.request({ //从自己的服务器获取用户信息
           url: this.data._build_url + 'user/get/' + res.data.data,
           header: {
             'content-type': 'application/json' // 默认值
           },
-          success: function (res) {
+          success: function(res) {
             if (res.data.code == 0) {
               let data = res.data.data;
-              console.log('data:',data)
+              console.log('data:', data)
               for (let key in data) {
                 for (let ind in app.globalData.userInfo) {
                   if (key == ind) {
@@ -522,18 +525,20 @@ Page({
               }
               that.playerDetail();
               that.articleList();
-              
+
             }
           }
         })
       }
     })
   },
-  findByCode: function () {
+  findByCode: function() {
     let that = this;
     wx.login({
       success: res => {
-        Api.findByCode({ code: res.code }).then((res) => {
+        Api.findByCode({
+          code: res.code
+        }).then((res) => {
           if (res.data.code == 0) {
             if (res.data.data.unionId) {
               app.globalData.userInfo.unionId = res.data.data.unionId;

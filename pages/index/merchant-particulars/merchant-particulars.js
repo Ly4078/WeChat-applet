@@ -25,8 +25,8 @@ Page({
     //   }
     // ],
     dishLish: [],
-    city: '',  //商家所在的城市
-    sku: 0,   //可用票数
+    city: '', //商家所在的城市
+    sku: 0, //可用票数
     isclick: true,
     shopid: '', //商家ID
     store_details: {}, //店铺详情
@@ -59,7 +59,8 @@ Page({
     marquee2_margin: 60,
     size: 14,
     orientation: 'left', //滚动方向
-    interval: 50 // 时间间隔
+    interval: 50, // 时间间隔
+    zanFlag: true //点赞节流阀
   },
   // _data.list[i].nickName = _data.list[i].nickName.substr(0, 3) + "****" + _data.list[i].nickName.substr(7)
   onLoad: function(options) {
@@ -150,12 +151,12 @@ Page({
     vm.setData({
       length: length,
       windowWidth: windowWidth,
-      marquee2_margin: length < windowWidth ? windowWidth - length : vm.data.marquee2_margin          //当文字长度小于屏幕长度时，需要增加补白
+      marquee2_margin: length < windowWidth ? windowWidth - length : vm.data.marquee2_margin //当文字长度小于屏幕长度时，需要增加补白
     });
-    vm.antifriction();                   // 水平一行字滚动完了再按照原来的方向滚动
-    vm.bearing();                   // 第一个字消失后立即从右边出现
+    vm.antifriction(); // 水平一行字滚动完了再按照原来的方向滚动
+    vm.bearing(); // 第一个字消失后立即从右边出现
   },
-  getDishList() {    //参赛菜品列表
+  getDishList() { //参赛菜品列表
     let dateStr = new Date();
     let milisecond = new Date(this.dateConv(dateStr)).getTime() + 86400000;
     let _parms = {
@@ -180,7 +181,7 @@ Page({
       }
     });
   },
-  toDishDetail(e) {    //跳转至菜品详情
+  toDishDetail(e) { //跳转至菜品详情
     if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
@@ -211,8 +212,9 @@ Page({
       });
     }
   },
-  castvote: function (e) {  //对菜品投票
-    let that = this, id = e.currentTarget.id;
+  castvote: function(e) { //对菜品投票
+    let that = this,
+      id = e.currentTarget.id;
     if (!this.data.isclick) {
       return false;
     }
@@ -261,21 +263,27 @@ Page({
           dishLish: dishLish
         });
       }
-      setTimeout(function () {
+      setTimeout(function() {
         that.setData({
           isclick: true
         })
       }, 1000)
     });
   },
-  payDish(e) {    //购买活动菜
+  payDish(e) { //购买活动菜
     if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
       })
       return false
     }
-    let dishLish = this.data.dishLish, id = e.target.dataset.index, prSkuId = e.target.id, skuId = 0, manAmount = 0, jianAmount = 0, shopId = 0;
+    let dishLish = this.data.dishLish,
+      id = e.target.dataset.index,
+      prSkuId = e.target.id,
+      skuId = 0,
+      manAmount = 0,
+      jianAmount = 0,
+      shopId = 0;
     for (let i = 0; i < dishLish.length; i++) {
       if (id == dishLish[i].id) {
         manAmount = dishLish[i].manAmount;
@@ -816,32 +824,42 @@ Page({
       })
       return false
     }
-    let id = event.currentTarget.id,
-      index = "";
-    for (var i = 0; i < this.data.comment_list.length; i++) {
-      if (this.data.comment_list[i].id == id) {
-        index = i;
-      }
-    }
-    wx.request({
-      url: that.data._build_url + 'zan/add?refId=' + id + '&type=4&userId=' + app.globalData.userInfo.userId,
-      method: "POST",
-      success: function(res) {
-        if (res.data.code == 0) {
-          wx.showToast({
-            mask: true,
-            icon: 'none',
-            title: '点赞成功'
-          }, 1500)
-          var comment_list = that.data.comment_list
-          comment_list[index].isZan = 1;
-          comment_list[index].zan++;
-          that.setData({
-            comment_list: comment_list
-          });
+    if (this.data.zanFlag) {
+      this.setData({
+        zanFlag: false
+      });
+      let id = event.currentTarget.id,
+        index = "";
+      for (var i = 0; i < this.data.comment_list.length; i++) {
+        if (this.data.comment_list[i].id == id) {
+          index = i;
         }
       }
-    })
+      wx.request({
+        url: that.data._build_url + 'zan/add?refId=' + id + '&type=4&userId=' + app.globalData.userInfo.userId,
+        method: "POST",
+        success: function (res) {
+          setTimeout(function () {
+            that.setData({
+              zanFlag: true
+            });
+          }, 3000);
+          if (res.data.code == 0) {
+            wx.showToast({
+              mask: true,
+              icon: 'none',
+              title: '点赞成功'
+            }, 1500)
+            var comment_list = that.data.comment_list
+            comment_list[index].isZan = 1;
+            comment_list[index].zan++;
+            that.setData({
+              comment_list: comment_list
+            });
+          }
+        }
+      })
+    }
   },
   //取消点赞
   cancelLike: function(event) {
@@ -855,30 +873,40 @@ Page({
       })
       return false
     }
-    for (var i = 0; i < this.data.comment_list.length; i++) {
-      if (this.data.comment_list[i].id == id) {
-        index = i;
-      }
-    }
-    wx.request({
-      url: that.data._build_url + 'zan/delete?refId=' + id + '&type=4&userId=' + app.globalData.userInfo.userId,
-      method: "POST",
-      success: function(res) {
-        if (res.data.code == 0) {
-          wx.showToast({
-            mask: true,
-            icon: 'none',
-            title: '已取消'
-          }, 1500)
-          var comment_list = that.data.comment_list
-          comment_list[index].isZan = 0;
-          comment_list[index].zan == 0 ? comment_list[index].zan : comment_list[index].zan--;
-          that.setData({
-            comment_list: comment_list
-          });
+    if (this.data.zanFlag) {
+      this.setData({
+        zanFlag: false
+      });
+      for (var i = 0; i < this.data.comment_list.length; i++) {
+        if (this.data.comment_list[i].id == id) {
+          index = i;
         }
       }
-    })
+      wx.request({
+        url: that.data._build_url + 'zan/delete?refId=' + id + '&type=4&userId=' + app.globalData.userInfo.userId,
+        method: "POST",
+        success: function (res) {
+          setTimeout(function () {
+            that.setData({
+              zanFlag: true
+            });
+          }, 3000);
+          if (res.data.code == 0) {
+            wx.showToast({
+              mask: true,
+              icon: 'none',
+              title: '已取消'
+            }, 1500)
+            var comment_list = that.data.comment_list
+            comment_list[index].isZan = 0;
+            comment_list[index].zan == 0 ? comment_list[index].zan : comment_list[index].zan--;
+            that.setData({
+              comment_list: comment_list
+            });
+          }
+        }
+      })
+    }
   },
   //查询是否收藏
   isCollected: function() {
@@ -1185,7 +1213,7 @@ Page({
   bindscroll(e) {
     console.log(e);
   },
-  dateConv: function (dateStr) {
+  dateConv: function(dateStr) {
     let year = dateStr.getFullYear(),
       month = dateStr.getMonth() + 1,
       today = dateStr.getDate();

@@ -179,10 +179,11 @@ Page({
     let that = this;
     if (app.globalData.userInfo.city){
       this.setData({
-        city: app.globalData.userInfo.city
+        city: app.globalData.userInfo.city,
+        posts_key: [],
+        _page: 1
       })
     }
-    
     wx.request({
       url: this.data._build_url + 'act/flag', 
       success: function (res) {
@@ -199,6 +200,7 @@ Page({
         }
       }
     })
+    this.getmoredata();
   },
   indexinit: function () {
     let that = this, userInfo = app.globalData.userInfo;
