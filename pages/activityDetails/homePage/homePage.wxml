@@ -37,8 +37,8 @@
             </view>
           </view>
         </view>
-        <view wx:if="{{likeNum.isCollected == 0}}" class="likeBtn" bindtap='addLike' hidden="{{userId == voteUserId}}">+关注</view>
-        <view wx:if="{{likeNum.isCollected == 1}}" class="likeBtn del" bindtap='delLike' hidden="{{userId == voteUserId}}">已关注</view>
+        <view wx:if="{{likeNum.isCollected == 0}}" class="likeBtn" bindtap='addLike' hidden="{{isMine}}">+关注</view>
+        <view wx:if="{{likeNum.isCollected == 1}}" class="likeBtn del" bindtap='delLike' hidden="{{isMine}}">已关注</view>
       </view>
     </view>
   </view>

@@ -180,7 +180,6 @@ Page({
       viewUserId: this.data.voteUserId //当前用户的userId
     };
     Api.getLikeNum(_parms).then((res) => {
-      console.log(res.data.data);
       this.setData({
         likeNum: res.data.data
       });
@@ -262,12 +261,12 @@ Page({
           if (list != null && list != "" && list != []) {
             for (let i = 0; i < list.length; i++) {
               list[i].isMine = this.data.isMine;
-              list[i].content = JSON.parse(list[i].content);
+              // list[i].content = JSON.parse(list[i].content);
               list[i].timeDiffrence = utils.timeDiffrence(res.data.currentTime, list[i].updateTime, list[i].createTime)
               list[i].isImg = true;
-              if (list[i].content[0].type == 'video') {
-                list[i].isImg = false;
-              }
+              // if (list[i].content[0].type == 'video') {
+              //   list[i].isImg = false;
+              // }
               list[i].isplay = false;
               if (!list[i].nickName) {
                 list[i].nickName = this.data.nickName;
@@ -332,16 +331,15 @@ Page({
     let id = e.currentTarget.id,
       _data = this.data.articleList;
     for (let i in _data) {
-      if (_data[i].content[0].type == 'video' || _data[i].topicType == 2) { //视频
+      if (_data[i].topicType == 2) { //视频
         wx.redirectTo({
           url: '../../activityDetails/video-details/video-details?actId=' + this.data.actId + '&userId=' + this.data.userId + '&id=' + id
         })
-      } else if (_data[i].content[0].type == 'img' || _data[i].content[0].type == 'text' || _data[i].topicType == 1) { //文章
+      } else if (_data[i].topicType == 1) { //文章
         wx.redirectTo({
           url: '../../discover-plate/dynamic-state/article_details/article_details?actId=' + this.data.actId + '&userId=' + this.data.userId + '&id=' + id + '&zan=' + this.data.voteNum
         })
       }
-
     }
     this.setData({
       articleList: _data
