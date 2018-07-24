@@ -137,26 +137,21 @@ Page({
       if (res.data.data) {
         let data = res.data.data;
         for (let i = 0; i < data.length; i++) {
-          let _linkUrl = data[i].linkUrl,_obj={};
-          if (_linkUrl.indexOf('&') >= 0) {
-            let arr = _linkUrl.split("&");
-            for (let i in arr) {
-              let arr2 = arr[i].split("=");
-              _obj[arr2[0]] = arr2[1];
-            }
-          }
-          // if(_obj.type == 2) {  //视频活动
-          //   this.setData({
-          //     topUrl: data[i].imgUrl,
-          //     actId: _obj.actId
-          //   });
-          //   return false;
-          // }
           if (data[i].sortNum == 4) {
             this.setData({
-              topUrl: data[i].imgUrl,
-              actId: _obj == {} ? '' : _obj.actId
+              topUrl: data[i].imgUrl
             });
+            if (data[i].linkUrl.indexOf('&') >= 0) {
+              let _linkUrl = data[i].linkUrl, _obj = {};
+              let arr = _linkUrl.split("&");
+              for (let i in arr) {
+                let arr2 = arr[i].split("=");
+                _obj[arr2[0]] = arr2[1];
+                this.setData({
+                  actId: _obj.actId
+                });
+              }
+            }
             return false;
           }
         }
