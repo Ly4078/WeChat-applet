@@ -8,25 +8,20 @@
   <view class='securityWrap' id="{{item.soId}}" catchtap='immediateUse'>
     <view class='security-use'>
       <view class="security-top">
+      
         <image class="security-top-bg" wx:if="{{item.cash}}" src="/images/icon/ticketImg.png"></image>
-        <image class="security-top-bg" wx:if="{{item.discount}}" src="/images/icon/ticketImg.png"></image>
-        <image class="security-top-bg"  wx:if="{{item.type == 3}}" src="/images/icon/ticketImg.png"></image>
+        <image class="security-top-bg" wx:if="{{item.discount}}" src="/images/icon/ticketImg-oi.png"></image>
+        <image class="security-top-bg"  wx:if="{{item.type == 3}}" src="/images/icon/ticketImg-sd.png"></image>
+
         <view class='security-top-inner'>
-          <!--现金券/享7券样式  -->
-          <view class='security-top-left contick' wx:if="{{item.cash}}">
-             <view><text class='fist'>{{item.couponAmount}}</text>元享7券</view>
-            <view>*满减规则由商家制定</view>
-          </view>
-
-          <!--折扣券样式  -->
-          <view class='security-top-left contick' wx:if="{{item.discount}}">
-            <view><text class='fist'>套</text>餐券</view>
-             <view>*满减规则由商家制定</view>
-          </view>
-
-          <!--食典（活动）券样式  -->
-          <view class='security-top-left contick' wx:if="{{item.type == 3}}">
-             <view><text class='fist'>{{item.couponAmount}}</text>元食典券</view>
+         
+          <view class='security-top-left contick' >
+           <!--现金券/享7券  -->
+            <view wx:if="{{item.cash}}"><text class='fist'>{{item.couponAmount}}</text>元享7券</view>
+           <!--折扣券  -->
+            <view wx:if="{{item.discount}}"><text class='fist'>套</text>餐券</view>
+          <!--食典（活动）券  -->
+            <view wx:if="{{item.type == 3}}"><text class='fist'>{{item.couponAmount}}</text>元食典券</view>
             <view>*满减规则由商家制定</view>
           </view>
 

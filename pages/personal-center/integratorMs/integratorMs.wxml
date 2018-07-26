@@ -1,0 +1,11 @@
+<view class='integrator'>
+  <view class='integrator-ds'>
+    <view class='integrator-Top'>
+      <image class='moneySign' src='/images/icon/distance.png'></image>
+      <view class='signText'>
+        <text class='available'>可用金币<text>?</text></text>
+        <text class='number'>217</text>
+      </view>
+    </view>
+  </view>
+</view>
