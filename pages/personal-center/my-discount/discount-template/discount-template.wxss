@@ -116,6 +116,11 @@
   color: #FDF2F2;
   padding: 25rpx 0 5rpx 30rpx;
 }
+.conticka view:nth-child(1){
+  font-size: 46rpx;
+  color: #fff;
+  padding: 25rpx 0 5rpx 30rpx;
+}
 .contick view:nth-child(2){
   color: #A82020;
   font-size: 24rpx;
@@ -125,6 +130,9 @@
 }
 .shidian text{
   color:#47aa39;
+}
+.shidiana text, .taocana text, .xiangqia text{
+  color:#fff;
 }
 .taocan text{
   color:#487fdd;

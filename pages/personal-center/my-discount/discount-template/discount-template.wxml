@@ -9,22 +9,23 @@
     <view class='security-use'>
       <view class="security-top">
 
-        <image class="security-top-bg" wx:if="{{item.cash}}" src="/images/icon/ticketImg.png"></image>
-        <image class="security-top-bg" wx:if="{{item.discount}}" src="/images/icon/ticketImg-oi.png"></image>
-        <image class="security-top-bg"  wx:if="{{item.type == 3}}" src="/images/icon/ticketImg-sd.png"></image>
+    <image class="security-top-bg" wx:if="{{item.isgq}}" src="/images/icon/guoqi.png"></image>
+        <image class="security-top-bg" wx:if="{{item.cash && !item.isgq}}" src="/images/icon/ticketImg.png"></image>
+        <image class="security-top-bg" wx:if="{{item.discount && !item.isgq}}" src="/images/icon/ticketImg-oi.png"></image>
+        <image class="security-top-bg"  wx:if="{{item.type == 3 && !item.isgq}}" src="/images/icon/ticketImg-sd.png"></image>
 
         <view class='security-top-inner'>
          
-          <view class='security-top-left contick' >
+          <view class='security-top-left contick' class='{{item.isgq?"security-top-left conticka":"security-top-left contick"}}' >
            <!--现金券/享7券  -->
             <view wx:if="{{item.cash}}"><text class='fist'>{{item.couponAmount}}</text>元享7券</view>
            <!--折扣券  -->
             <view wx:if="{{item.discount}}"><text class='fist'>套</text>餐券</view>
           <!--食典（活动）券  -->
             <view wx:if="{{item.type == 3}}"><text class='fist'>{{item.couponAmount}}</text>元食典券</view>
-            <view class='shidian' wx:if="{{item.type == 3}}"><text>*仅限在参与活动的商家中使用</text></view>
-            <view class='taocan' wx:if="{{item.discount}}"><text>享7专享|全平台通用|名预约</text></view>
-            <view class='xiangqi'  wx:if="{{item.cash}}"><text>*满减规则由商家制定</text></view>
+            <view class='{{item.isgq?"shidiana":"shidian"}}' wx:if="{{item.type == 3}}"><text>*仅限在参与活动的商家中使用</text></view>
+            <view class='{{item.isgq?"taocana":"taocan"}}' wx:if="{{item.discount}}"><text>享7专享|全平台通用|名预约</text></view>
+            <view class='{{item.isgq?"xiangqia":"xiangqi"}}'  wx:if="{{item.cash}}"><text>*满减规则由商家制定</text></view>
           </view>
 
         </view>

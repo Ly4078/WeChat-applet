@@ -58,6 +58,11 @@ Page({
                 ticketList[i].discount = true
               }
               ticketList[i]["isDue"] = that.isDueFunc(ticketList[0].expiryDate);
+              if (that.data.isUsed == 0){
+                ticketList[i].isgq=false;
+              } else if (that.data.isUsed ==1){
+                ticketList[i].isgq = true;
+              }
               ticketArr.push(ticketList[i]);
             }
             console.log("ticketArr:", ticketArr)

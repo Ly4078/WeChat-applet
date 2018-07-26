@@ -1,10 +1,10 @@
 <import src="discount-template/discount-template.wxml" />
 <view class="discountTab">
   <view class="{{isUsed == 0 ? 'active' : ''}}" id="0" bindtap='ticketType'>
-    <text>待使用</text>
+    <text>待使用{{isUsed}}</text>
   </view>
   <view class="{{isUsed == 1 ? 'active' : ''}}" id="1" bindtap='ticketType'>
-    <text>已使用</text>
+    <text>已使用{{isUsed}}</text>
   </view>
 </view>
 <view class="discountBox">
