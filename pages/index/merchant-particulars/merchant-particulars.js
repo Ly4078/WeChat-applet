@@ -7,23 +7,6 @@ var app = getApp();
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
-    // navbar: [{
-    //     name: '优惠',
-    //     id: 'list1'
-    //   },
-    //   {
-    //     name: '动态',
-    //     id: 'list2'
-    //   },
-    //   {
-    //     name: '推荐菜',
-    //     id: 'list3'
-    //   },
-    //   {
-    //     name: '评价',
-    //     id: 'list4'
-    //   }
-    // ],
     dishLish: [],
     city: '', //商家所在的城市
     sku: 0, //可用票数
@@ -63,9 +46,7 @@ Page({
     interval: 50, // 时间间隔
     zanFlag: true //点赞节流阀
   },
-  // _data.list[i].nickName = _data.list[i].nickName.substr(0, 3) + "****" + _data.list[i].nickName.substr(7)
   onLoad: function(options) {
-    // console.log("options:", options)
     this.setData({
       shopid: options.shopid
     });
@@ -99,11 +80,8 @@ Page({
     wx.showShareMenu({
       withShareTicket: true,
       success: function(res) {
-        // 分享成功
-        // console.log(res)
       },
       fail: function(res) {
-        // 分享失败
         console.log(res)
       }
     });
@@ -113,16 +91,6 @@ Page({
     let that = this;
     this.commentList();
     this.getsetget();
-    // if (this.data.currentTab == 1) {
-    //   this.setData({
-    //     merchantArt: [],   //商家动态列表
-    //     article_page: 1,
-    //     reFresh: true
-    //   });
-    //   this.merchantArt();
-    // }
-   
-
     // 文本横向滚动条
     var vm = this;
     var length = vm.data.text.length * vm.data.size; //文字长度
@@ -349,7 +317,6 @@ Page({
       shopId: val
     }
     Api.selectForOne(_parms).then((res) => {
-      // console.log('res:', res)
       if (res.data.code == 0) {
         if (res.data.data) {
           this.setData({
@@ -1216,7 +1183,6 @@ Page({
     })
   },
   onPageScroll() {
-    // console.log('滚动');
     this.queryMultipleNodes('#merchantBox');
   },
   queryMultipleNodes: function(dom) {
@@ -1226,7 +1192,6 @@ Page({
     query.selectViewport().scrollOffset()
     query.exec(function(res) {
       let isFixed = false;
-      // console.log(res[1].scrollTop);
       if (res[1].scrollTop >= 330) {
         isFixed = true;
       }
