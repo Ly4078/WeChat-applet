@@ -296,7 +296,7 @@
       </view>
     </view>
     <!-- 评价 -->
-    <view class="commentList" style="{{shopList.length < 1 ? 'padding-bottom: 120rpx;' : 'padding-bottom: 30rpx;'}}" id="list4" hidden="{{comment_list.length < 1}}">
+    <view class="commentList" style="padding-bottom: 30rpx;" id="list4" hidden="{{comment_list.length < 1}}">
       <view class='initiate-exhibition the-second'>
         <view>
           <text class='initiate-left'></text>
@@ -314,6 +314,7 @@
       </view>
     </view>
     <!-- 精选推荐 -->
+    <view class="placeholderBox" wx:if="{{shopList.length < 1}}"></view>
     <view class="recommend_shop {{shopList.length < 1 ? '' : 'addPadding'}}" hidden="{{shopList.length < 1}}">
       <view class="merchantTab recommend_shop_top">
         <text class='initiate-left'></text>

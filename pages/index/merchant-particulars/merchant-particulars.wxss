@@ -1247,3 +1247,9 @@ page {
   border: 1rpx solid #EBEBEB;
   box-sizing: border-box;
 }
+
+.placeholderBox {
+  width: 100%;
+  height: 110rpx;
+  background-color: #fff;
+}
