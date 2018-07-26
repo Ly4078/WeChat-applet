@@ -1,0 +1,50 @@
+page{
+  background-color: #F5F5FA;
+}
+
+.integrator{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.integrator-ds{
+  width: 94%;
+}
+
+.integrator-Top{
+  width: 100%;
+  height: 240rpx;
+  border-radius:16px;
+  box-shadow:4px 0px 8px rgba(183,183,183,0.41);
+  background: -webkit-linear-gradient(right,#F77D3B,#F7A53B);
+  position: relative;
+}
+
+.moneySign{
+  width: 166rpx;
+  height: 137rpx;
+  position: absolute;
+  right: 0rpx;
+  bottom: 0rpx;
+  z-index: 99;
+}
+
+.signText{
+  width: 70%;
+  height: auto;
+}
+
+.available{
+  font-size:24rpx;
+  font-family:PingFangSC-Regular;
+  color:rgba(255,255,255,1);
+  display: block;
+}
+
+.number{
+  font-size:80rpx;
+  font-family:PingFangSC-Regular;
+  color:rgba(255,255,255,1);
+}

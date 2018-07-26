@@ -39,22 +39,18 @@
       <view class='messageWrap' bindtap='carefulness'>
         <image class='coloursIcon' src='/images/icon/formicon.png'></image>
         <text class='messageTop'>订单</text>
-        <!-- <text>{{sumTotal}}</text> -->
       </view>
       <view class='messageWrap' catchtap='myTickets'>
         <image class='coloursIcon' src='/images/icon/voucher.png'></image>
         <text class='messageTop'>优惠券</text>
-        <!-- <text>{{collectTotal}}</text> -->
       </view>
       <view class='messageWrap' catchtap='myMineMoney'>
         <image class='coloursIcon' src='/images/icon/notecase.png'></image>
-        <text class='messageTop'>钱包</text>
-        <!-- <text><text wx:if="{{accountBalance.data !=0}}">¥</text>{{accountBalance.data}}</text> -->
+        <text class='messageTop'>金币</text>
       </view>
       <view class='messageWrap' catchtap='personalCenter'>
         <image class='coloursIcon' src='/images/icon/attention.png'></image>
         <text class='messageTop'>关注</text>
-        <!-- <text>{{collectTotal}}</text> -->
       </view>
     </view>
   </view>
@@ -120,7 +116,6 @@
           <image class='myListImages' src='/images/icon/find_article_wechat.png'></image>
           <text class='mylistText'>在线客服</text>
           <button class="cs_button" open-type="contact" session-from="weapp">
-            <!-- <image class="cs_image" src="../images/cs.png"></image> -->
           </button>
         </view>
         <view>
@@ -153,43 +148,4 @@
       </view>
     </view>
   </view>
-
-  <!-- <view class='myList'>
-    <view class='myList-single'>
-      <view>
-        <image class='myListImages' src='/images/icon/customer_service.png'></image>
-        <text class='mylistText'>客服电话</text>
-      </view>
-      <view class='telephone-Wrap' catchtap='calling'>
-        <text>027-59728176（09:00--18:00）</text>
-        <image class='myListArrows' src='/images/icon/home_arrow.png'></image>
-      </view>
-    </view>
-  </view>
-  <view class='myList'>
-    <view class='myList-single'>
-      <view>
-        <image class='myListImages' src='/images/icon/find_article_wechat.png'></image>
-        <text class='mylistText'>在线客服</text>
-      </view>
-      <button open-type="contact" class='contacta'>（09:00--18:00）</button>
-      <image class='myListArrows' src='/images/icon/home_arrow.png'></image>
-
-      <text class='immobilization'></text>
-      <view class='customer-service' catchtap='contactCustomer'>
-        <contact-button type='default-light' class='wicket' size='20' session-from='weapp'></contact-button>
-      </view>
-      
-      <image class='myListArrows' src='/images/icon/home_arrow.png'></image>
-    </view>
-  </view>
-  <view class='myList'>
-    <view class='myList-single' catchtap='aboutMe'>
-      <view>
-        <image class='myListImages' src='/images/icon/guanyuwome.png'></image>
-        <text class='mylistText'>关于我们</text>
-      </view>
-      <image class='myListArrows' src='/images/icon/home_arrow.png'></image>
-    </view>
-  </view> -->
 </view>

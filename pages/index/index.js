@@ -708,7 +708,7 @@ Page({
   //回到顶部
   toTop(){
     wx.pageScrollTo({
-      scrollTop: 1500,
+      scrollTop: 0,
       duration: 300
     })
     this.setData({
