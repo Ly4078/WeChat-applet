@@ -23,7 +23,7 @@
           </view>
         </view>
         <!-- 明细-->
-        <view class='about' wx:for="{{detail}}">
+        <view class='about'>
           <view class='control'>
             <view>核销劵</view>
             <text>2018-08-08</text>

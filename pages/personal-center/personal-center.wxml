@@ -46,7 +46,7 @@
       </view>
       <view class='messageWrap' catchtap='myMineMoney'>
         <image class='coloursIcon' src='/images/icon/notecase.png'></image>
-        <text class='messageTop'>金币</text>
+        <text class='messageTop'>钱包</text>
       </view>
       <view class='messageWrap' catchtap='personalCenter'>
         <image class='coloursIcon' src='/images/icon/attention.png'></image>

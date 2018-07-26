@@ -340,14 +340,9 @@ Page({
       url: '../activityDetails/homePage/homePage?iconUrl=' + this.data.iconUrl + '&userId=' + app.globalData.userInfo.userId,
     })
   },
-  // myMineMoney: function () { //钱包明细
-  //   wx.navigateTo({
-  //     url: 'myWallet/myWallet?sumTotal=' + this.data.accountBalance.data
-  //   })
-  // },
-  myMineMoney: function (){
+  myMineMoney: function () { //钱包明细
     wx.navigateTo({
-      url: 'integratorMs/integratorMs'
+      url: 'myWallet/myWallet?sumTotal=' + this.data.accountBalance.data
     })
   },
 

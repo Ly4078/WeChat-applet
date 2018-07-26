@@ -173,3 +173,7 @@ textRight view{
   font-family:PingFangSC-Regular;
   color:rgba(247,128,59,1);
 }
+
+.about:last-child{
+  border-bottom:0rpx;
+}
