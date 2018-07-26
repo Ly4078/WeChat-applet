@@ -20,6 +20,9 @@ page{
   box-shadow:4px 0px 8px rgba(183,183,183,0.41);
   background: -webkit-linear-gradient(right,#F77D3B,#F7A53B);
   position: relative;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 21rpx;
 }
 
 .moneySign{
@@ -28,12 +31,14 @@ page{
   position: absolute;
   right: 0rpx;
   bottom: 0rpx;
-  z-index: 99;
 }
 
 .signText{
-  width: 70%;
+  width: 72%;
   height: auto;
+  line-height: 70rpx;
+  margin: 40rpx 0rpx 0rpx 47rpx;
+  position: relative;
 }
 
 .available{
@@ -47,4 +52,124 @@ page{
   font-size:80rpx;
   font-family:PingFangSC-Regular;
   color:rgba(255,255,255,1);
+}
+
+.signRight{
+  width: 28%;
+  height: auto;
+  display: flex;
+  align-items: center;
+}
+
+.sinButton{
+  line-height: 50rpx;
+  padding: 0rpx 14rpx;
+  font-size:28rpx;
+  font-family:PingFangSC-Regular;
+  color:#FFFFFF;
+  letter-spacing: 2px;
+  background-color:transparent;
+  border: 1rpx solid  wheat;
+  border-radius:27rpx;
+  z-index: 9;
+}
+
+.particulars{
+  width: 100%;
+  background:rgba(255,255,255,1);
+  border-radius:16rpx;
+  box-shadow:4px 0px 16px rgba(156,156,156,0.41);
+  margin-top: 20rpx;
+}
+
+.gainIose{
+  width: 94%;
+  margin: 0 auto;
+}
+
+.msRecord{
+  width: 100%;
+  height: 87rpx;
+  border-bottom: 1rpx solid #EBEBEB;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.textRight{
+  width: 50%;
+  display: flex;
+  align-items: center;
+}
+
+.textRight text{
+  font-size: 28rpx
+}
+
+.gramophone{
+  width: 30rpx;
+  height: 30rpx;
+  position: absolute;
+  top: 19rpx;
+  left: 100rpx;
+}
+
+.msRight{
+  width: 50%;
+  font-size:24rpx;
+  font-family:PingFangSC-Regular;
+  color:rgba(160,160,160,1);
+  text-align: right;
+}
+
+.textImg{
+  width: 6rpx;
+  height: 30rpx;
+  background-color: #FC5E2D;
+  display: inline-block;
+  margin-right: 10rpx;
+}
+
+textRight view{
+  font-size:26rpx;
+  font-family:PingFangSC-Regular;
+  color:rgba(25,25,25,1);
+  display: block;
+}
+
+.about{
+  width: 100%;
+  height: 111rpx;
+  border-bottom: 1rpx solid #EBEBEB;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.control{
+  width: 50%;
+  height: auto;
+}
+
+.control view{
+  font-size:28rpx;
+  font-family:PingFangSC-Regular;
+  color:rgba(25,25,25,1);
+}
+
+.control text{
+  font-size:22rpx;
+  font-family:PingFangSC-Regular;
+  color:rgba(177,177,177,1);
+}
+
+.subtract{
+  width: 50%;
+  text-align: right;
+}
+
+.subtract text{
+  font-size:28rpx;
+  font-family:PingFangSC-Regular;
+  color:rgba(247,128,59,1);
 }

@@ -3,8 +3,36 @@
     <view class='integrator-Top'>
       <image class='moneySign' src='/images/icon/distance.png'></image>
       <view class='signText'>
-        <text class='available'>可用金币<text>?</text></text>
+        <text class='available'>可用金币</text>
+        <image class='gramophone' src='/images/icon/understand.png'></image>
         <text class='number'>217</text>
+      </view>
+      <view class='signRight'>
+        <button class='sinButton'>金币商城</button>
+      </view>
+    </view>
+    <view class='particulars'>
+      <view class='gainIose'>
+        <view class='msRecord'>
+          <view class='textRight'>
+            <view class='textImg'></view>
+            <text>金币明细</text>
+          </view>
+          <view class='msRight'>
+            <text>仅显示最近100条数据</text>
+          </view>
+        </view>
+        <!-- 明细-->
+        <view class='about' wx:for="{{detail}}">
+          <view class='control'>
+            <view>核销劵</view>
+            <text>2018-08-08</text>
+          </view>
+          <view class='subtract'>
+            <text>+5</text>
+          </view>
+        </view>
+
       </view>
     </view>
   </view>
