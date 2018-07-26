@@ -415,7 +415,7 @@ Page({
       url: '../player-detail/player-detail?actId=' + this.data.actId + '&id=' + e.currentTarget.id + '&actName=' + this.data.actName
     })
   },
-  availableVote() {
+  availableVote() { //获取用户剩余投票数
     let _parms = {
       actId: this.data.actId,
       userId: this.data.voteUserId

@@ -8,6 +8,7 @@ Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
     voteUserId: 0,
+    sku:0,
     actId: 0,
     skuId: 0,
     issnap: false,
@@ -60,6 +61,28 @@ Page({
     }
     this.getDish();
     this.comment();
+    this.availableVote();
+  },
+  availableVote() { //获取用户剩余投票数
+    let _parms = {
+      actId: this.data.actId,
+      userId: this.data.voteUserId
+    }
+    Api.availableVote(_parms).then((res) => {
+      let sku = 0;
+      if (res.data.code == 0) {
+        sku = res.data.data.sku;
+      }
+      this.setData({
+        sku: sku
+      });
+    });
+    if (!app.globalData.userInfo.mobile) {
+      this.setData({
+        sku: 0,
+        user: 0
+      });
+    }
   },
   getDish() {
     let _parms = {
@@ -316,6 +339,7 @@ Page({
       }
       Api.voteAdd(_parms).then((res) => {
         if (res.data.code == 0) {
+          _this.availableVote();
           wx.showToast({
             title: '投票成功',
             mask: 'true',

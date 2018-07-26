@@ -75,7 +75,7 @@ Page({
         wx.showToast({
           mask: true,
           icon: 'none',
-          title: '投票成功'
+          title: '点赞成功'
         }, 1500)
         _details.isZan = 1
         _details.zan = _details.zan + 1

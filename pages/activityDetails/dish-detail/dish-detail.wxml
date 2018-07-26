@@ -88,8 +88,8 @@
       </view>
     </view>
     <view class='evaluateSon' catchtap='castvote'>
-      <image class='evaluateImg' src='/images/icon/wenreviewed.png'></image>
-      <text class='actzan'>{{voteNum}}</text>
+      <!-- <image class='evaluateImg' src='/images/icon/wenreviewed.png'></image> -->
+      <text class='actzan'>{{sku>0?'投票':'已投票'}}</text>
     </view>
   </view>
 </view>

@@ -1,14 +1,14 @@
 <template name="discountList">
   <!--
 三者区分
-现金券.type：1  cash:true
+现金(享7)券.type：1  cash:true
 折扣券.type：1   discount:true
 食典券(活动券).type：3
   -->
   <view class='securityWrap' id="{{item.soId}}" catchtap='immediateUse'>
     <view class='security-use'>
       <view class="security-top">
-      
+
         <image class="security-top-bg" wx:if="{{item.cash}}" src="/images/icon/ticketImg.png"></image>
         <image class="security-top-bg" wx:if="{{item.discount}}" src="/images/icon/ticketImg-oi.png"></image>
         <image class="security-top-bg"  wx:if="{{item.type == 3}}" src="/images/icon/ticketImg-sd.png"></image>
