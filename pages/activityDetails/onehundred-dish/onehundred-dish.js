@@ -423,8 +423,8 @@ Page({
     Api.availableVote(_parms).then((res) => {
       let sku = 0, user = 0;
       if (res.data.code == 0) {
-        sku = res.data.data.sku;
-        user = res.data.data.user;
+        sku = res.data.data.sku <0 ? 0: res.data.data.sku;
+        user = res.data.data.user < 0 ? 0 : res.data.data.sku;;
       }
       this.setData({
         sku: sku,

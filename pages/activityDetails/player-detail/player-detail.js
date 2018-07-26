@@ -305,7 +305,7 @@ Page({
           mask: 'true',
           icon: 'none',
           title: '点赞成功',
-          duration: 2000
+          duration: 3000
         })
         for (let i = 0; i < article.length; i++) {
           if (id == article[i].id) {
@@ -329,12 +329,6 @@ Page({
       })
       return false
     }
-    wx.showToast({
-      mask: 'true',
-      icon: 'none',
-      title: '',
-      duration: 2000
-    })
     let _parms = {
       refId: id,
       type: 2,
@@ -346,7 +340,7 @@ Page({
           mask: 'true',
           icon: 'none',
           title: '取消成功',
-          duration: 2000
+          duration: 3000
         })
         for (let i = 0; i < article.length; i++) {
           if (id == article[i].id) {

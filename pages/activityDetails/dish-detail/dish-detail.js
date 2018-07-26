@@ -72,10 +72,11 @@ Page({
       let sku = 0;
       if (res.data.code == 0) {
         sku = res.data.data.sku;
+        console.log('sku:',sku)
+        this.setData({
+          sku: sku
+        });
       }
-      this.setData({
-        sku: sku
-      });
     });
     if (!app.globalData.userInfo.mobile) {
       this.setData({

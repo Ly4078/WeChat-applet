@@ -10,7 +10,7 @@
           <text>{{ticket[0].skuName?ticket[0].skuName:ticketInfo.skuName}}</text>
         </view>
       </view>
-      <view class='lectronic-right' catchtap='sublevelSum' wx:if="{{ticket[0].type != 3}}">
+      <view class='lectronic-right' catchtap='sublevelSum'>
         使用须知
       </view>
       <!-- <view class='lectronic-right' wx:if="{{isticket}}">
@@ -116,6 +116,18 @@
     </view> -->
   </view>
 
+    <!-- 食店券商家 -->
+  <view wx:if="{{store.id}}" class='merchantSdj1' bindtap='toshop'>
+    <view class='merchantLeft1'>
+      <view>{{store.shopName}}</view>
+      <text>{{store.address}}</text>
+    </view>
+    <view class='merchantRight1'>
+      <view class='brotherRiS1 brothWes1'>
+          <image class='brotherArrows1' src='/images/icon/home_arrow.png'></image>
+        </view>
+    </view>
+  </view>
   <view class='warm-prompt'>
     <text>^_^温馨提示:到店向商家出示劵码</text>
   </view>
@@ -134,7 +146,7 @@
       </view>
       <view class='brotherLeft1' >
         <view class='brotherRiS1'>
-          <text>适用规则</text>
+          <text>使用规则</text>
           <image class='brotherArrows1' src='/images/icon/home_arrow.png'></image>
         </view>
       </view>
@@ -237,8 +249,8 @@
     </view>
   </view>
 
-  <view class='warm-prompt1'>
-    <text>^_^温馨提示:到店向商家出示劵码</text>
+  <view class='warm-prompt1' bindtap='tomyOrder'>
+    <text>查看优惠券</text> <image class='brotherArrows1' src='/images/icon/home_arrow.png'></image>
   </view>
 </view>
 

@@ -401,7 +401,7 @@ Page({
             })
             that.messagepush();
             wx.redirectTo({
-              url: '../../../personal-center/lelectronic-coupons/lectronic-coupons?pay=pay' + '&soid=' + soid
+              url: '../../../personal-center/lelectronic-coupons/lectronic-coupons?pay=pay' + '&soid=' + soid + '&myCount=1'
             })
             that.messagepush();
           },

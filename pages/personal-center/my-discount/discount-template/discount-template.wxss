@@ -39,6 +39,9 @@
   font-size: 100rpx;
   margin-right: 19rpx;
 }
+.security-top-left view text{
+  font-size: 22rpx;
+}
 
 .security-money{
   display: block;
@@ -119,4 +122,13 @@
 }
 .actsku{
   color:#FC5E2D;
+}
+.shidian text{
+  color:#47aa39;
+}
+.taocan text{
+  color:#487fdd;
+}
+.xiangqi text{
+  color:#cf4d31;
 }

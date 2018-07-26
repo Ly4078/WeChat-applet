@@ -22,7 +22,9 @@
             <view wx:if="{{item.discount}}"><text class='fist'>套</text>餐券</view>
           <!--食典（活动）券  -->
             <view wx:if="{{item.type == 3}}"><text class='fist'>{{item.couponAmount}}</text>元食典券</view>
-            <view>*满减规则由商家制定</view>
+            <view class='shidian' wx:if="{{item.type == 3}}"><text>*仅限在参与活动的商家中使用</text></view>
+            <view class='taocan' wx:if="{{item.discount}}"><text>享7专享|全平台通用|名预约</text></view>
+            <view class='xiangqi'  wx:if="{{item.cash}}"><text>*满减规则由商家制定</text></view>
           </view>
 
         </view>
