@@ -47,6 +47,7 @@ Page({
     newpackage: [],
     oldpackage: [],
     actId: '',
+    service: '',
     isoter: false,
     // toView: 'list1',
     shopList: [],
@@ -111,6 +112,7 @@ Page({
     console.log('显示');
     let that = this;
     this.commentList();
+    this.getsetget();
     // if (this.data.currentTab == 1) {
     //   this.setData({
     //     merchantArt: [],   //商家动态列表
@@ -119,12 +121,28 @@ Page({
     //   });
     //   this.merchantArt();
     // }
+   
+
+    // 文本横向滚动条
+    var vm = this;
+    var length = vm.data.text.length * vm.data.size; //文字长度
+    var windowWidth = wx.getSystemInfoSync().windowWidth; // 屏幕宽度
+    vm.setData({
+      length: length,
+      windowWidth: windowWidth,
+      marquee2_margin: length < windowWidth ? windowWidth - length : vm.data.marquee2_margin //当文字长度小于屏幕长度时，需要增加补白
+    });
+    vm.antifriction(); // 水平一行字滚动完了再按照原来的方向滚动
+    vm.bearing(); // 第一个字消失后立即从右边出现
+  },
+  getsetget:function(){
+    let that = this;
     wx.request({
       url: that.data._build_url + 'sku/listForAgio',
       data: {
         userId: app.globalData.userInfo.userId
       },
-      success: function(res) {
+      success: function (res) {
         let data = res.data;
         if (data.code == 0) {
           let _data = data.data.list[0]
@@ -143,18 +161,6 @@ Page({
         }
       }
     })
-
-    // 文本横向滚动条
-    var vm = this;
-    var length = vm.data.text.length * vm.data.size; //文字长度
-    var windowWidth = wx.getSystemInfoSync().windowWidth; // 屏幕宽度
-    vm.setData({
-      length: length,
-      windowWidth: windowWidth,
-      marquee2_margin: length < windowWidth ? windowWidth - length : vm.data.marquee2_margin //当文字长度小于屏幕长度时，需要增加补白
-    });
-    vm.antifriction(); // 水平一行字滚动完了再按照原来的方向滚动
-    vm.bearing(); // 第一个字消失后立即从右边出现
   },
   getDishList() { //参赛菜品列表
     let dateStr = new Date();
@@ -412,6 +418,8 @@ Page({
     this.merchantArt();
     this.getpackage();
     this.availableVote();
+    this.commentList();
+    this.getsetget();
   },
   getstoredata() { //获取店铺详情数据   
     let id = this.data.shopid;
@@ -432,9 +440,13 @@ Page({
             store_details: _data,
             store_images: _data.shopTopPics.length,
             storeType: _data.businessCate ? _data.businessCate.split(',') : [],
-            service: _data.otherService ? _data.otherService.split(',') : [],
             city: _data.city
           })
+          if (_data.otherService != "null" && _data.otherService) {
+            that.setData({
+              service: _data.otherService ? _data.otherService.split(',') : []
+            });
+          } 
           that.shopList();
           that.getDishList();
         }
@@ -596,15 +608,13 @@ Page({
       let data = res.data;
       wx.hideLoading();
       if (data.code == 0 && data.data.list != null && data.data.list != "" && data.data.list != []) {
-        let _data = data.data.list,
-          articleList = this.data.merchantArt;
+        let _data = data.data.list;
         for (let i = 0; i < _data.length; i++) {
           _data[i].title = utils.uncodeUtf16(_data[i].title);
           _data[i].timeDiffrence = utils.timeDiffrence(data.currentTime, _data[i].updateTime, _data[i].createTime)
-          articleList.push(_data[i]);
         }
         that.setData({
-          merchantArt: articleList
+          merchantArt: _data
         });
 
       } else {
@@ -784,22 +794,23 @@ Page({
         let data = res.data;
         if (data.code == 0 && data.data.list != null && data.data.list != "") {
           if (res.data.code == 0) {
-            let _data = res.data.data.list
-            let reg = /^1[34578][0-9]{9}$/;
-            for (let i = 0; i < _data.length; i++) {
-              _data[i].zan = utils.million(_data[i].zan)
-              _data[i].content = utils.uncodeUtf16(_data[i].content)
-              if (!isNaN(_data[i].userName)) {
-                _data[i].userName = _data[i].userName.substr(0, 3) + "****" + _data[i].userName.substr(7);
+            if (res.data.data && res.data.data.list){
+              let _data = res.data.data.list, reg = /^1[34578][0-9]{9}$/;
+              for (let i = 0; i < _data.length; i++) {
+                _data[i].zan = utils.million(_data[i].zan)
+                _data[i].content = utils.uncodeUtf16(_data[i].content)
+                if (!isNaN(_data[i].userName)) {
+                  _data[i].userName = _data[i].userName.substr(0, 3) + "****" + _data[i].userName.substr(7);
+                }
+                if (reg.test(_data[i].nickName)) {
+                  _data[i].nickName = _data[i].nickName.substr(0, 3) + "****" + _data[i].nickName.substr(7);
+                }
               }
-              if (reg.test(_data[i].nickName)) {
-                _data[i].nickName = _data[i].nickName.substr(0, 3) + "****" + _data[i].nickName.substr(7);
-              }
+              that.setData({
+                comment_list: _data
+              })
             }
-            console.log("comment_list:",_data)
-            that.setData({
-              comment_list: _data
-            })
+            
           }
           that.setData({
             commentNum: res.data.data.total
@@ -839,8 +850,8 @@ Page({
       wx.request({
         url: that.data._build_url + 'zan/add?refId=' + id + '&type=4&userId=' + app.globalData.userInfo.userId,
         method: "POST",
-        success: function (res) {
-          setTimeout(function () {
+        success: function(res) {
+          setTimeout(function() {
             that.setData({
               zanFlag: true
             });
@@ -886,8 +897,8 @@ Page({
       wx.request({
         url: that.data._build_url + 'zan/delete?refId=' + id + '&type=4&userId=' + app.globalData.userInfo.userId,
         method: "POST",
-        success: function (res) {
-          setTimeout(function () {
+        success: function(res) {
+          setTimeout(function() {
             that.setData({
               zanFlag: true
             });
@@ -1145,22 +1156,35 @@ Page({
       let data = res.data;
       if (data.code == 0) {
         if (data.data.list != null && data.data.list != "" && data.data.list != []) {
-          let _data = data.data.list
+          let _data = data.data.list, _dataSub = [];
           for (let i = 0; i < _data.length; i++) {
-            _data[i].distance = utils.transformLength(_data[i].distance);
-            _data[i].businessCate = _parms.businessCate;
+            if (_data[i].id != this.data.shopid) {
+              _data[i].distance = utils.transformLength(_data[i].distance);
+              _data[i].businessCate = _parms.businessCate;
+              _dataSub.push(_data[i]);
+            }
           }
           this.setData({
-            shopList: _data ? _data : []
+            shopList: _dataSub
           });
         }
       }
     })
   },
   toShopDetail(e) { //跳转至店铺详情
-    // this.setData({
-    //   toView: 'list1'
-    // });
+    let that = this;
+    this.setData({
+      shopid: e.currentTarget.id,
+      dishLish: [],
+      comment_list: [],
+      merchantArt: [],
+      activity: [],
+      allactivity: [],
+      oldpackage: [],
+      newpackage: [],
+      recommend_list: [],
+      shopList: []
+    });
     var pages = getCurrentPages();
     var prevPage = pages[pages.length - 1]; //上一个页面
     prevPage.options.shopid = e.currentTarget.id;

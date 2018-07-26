@@ -296,7 +296,7 @@
       </view>
     </view>
     <!-- 评价 -->
-    <view class="commentList" style="{{comment_list.length > 0 ? 'padding-bottom: 30rpx;' : ''}}" id="list4" hidden="{{commentNum < 1}}">
+    <view class="commentList" style="{{comment_list.length > 0 ? 'padding-bottom: 30rpx;' : ''}}" id="list4" hidden="{{comment_list.length < 1}}">
       <view class='initiate-exhibition the-second'>
         <view>
           <text class='initiate-left'></text>
