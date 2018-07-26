@@ -123,3 +123,9 @@ page{
   font-family:PingFangSC-Regular;
   color:rgba(128,128,128,1);
 }
+
+.hotDining-Wrap{
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}

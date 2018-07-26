@@ -494,7 +494,10 @@ page {
   height: 122rpx;
   padding-left: 10rpx;
   line-height:46rpx;
-  padding-top: 18rpx;
+  padding-top: 38rpx;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
 }
 
 .merchantRightf1{

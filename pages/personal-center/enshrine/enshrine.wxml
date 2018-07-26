@@ -7,7 +7,7 @@
         </view>
         <view class='enshrine-caip'>
           <text class='enshrine-name'>{{item.shopName}}</text>
-          <view>
+          <view class='hotDining-Wrap'>
             <image class='hotDining' src='/images/icon/popularity.png'></image>
             <text class='hotText'>{{item.popNum}}</text>
             <text class='hotClassify'>{{item.businessCate}}</text>
