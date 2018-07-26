@@ -796,6 +796,7 @@ Page({
                 _data[i].nickName = _data[i].nickName.substr(0, 3) + "****" + _data[i].nickName.substr(7);
               }
             }
+            console.log("comment_list:",_data)
             that.setData({
               comment_list: _data
             })

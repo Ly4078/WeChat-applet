@@ -200,6 +200,7 @@ Page({
         }
       }
     })
+    // app.globalData.isflag = true;
     this.getmoredata();
   },
   indexinit: function () {
@@ -519,7 +520,6 @@ Page({
     this.getmoredata();
   },
   getmoredata: function () {  //获取更多数据
-    console.log("empty")
     this.getactlist();
     this.getshoplist();
     this.gettopiclist();
@@ -791,7 +791,7 @@ Page({
     })
   },
   getlocationsa: function () {  //获取用户位置
-    console.log("getlocationsa")
+    // console.log("getlocationsa")
     let that = this,lat = '', lng = ''
     wx.getLocation({
       type: 'wgs84',
@@ -866,7 +866,6 @@ Page({
     Api.hcllist().then((res) => {
       // console.log("carousel:",res.data.data)
       if (res.data.data) {
-        console.log(res.data.data)
         this.setData({
           carousel: res.data.data
         })

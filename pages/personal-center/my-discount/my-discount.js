@@ -60,6 +60,7 @@ Page({
               ticketList[i]["isDue"] = that.isDueFunc(ticketList[0].expiryDate);
               ticketArr.push(ticketList[i]);
             }
+            console.log("ticketArr:", ticketArr)
             that.setData({
               ticket_list: ticketArr
             })

@@ -33,6 +33,11 @@
 .security-top-left{
   width: 100%;
   height: 100%;
+  font-size: 30rpx;
+}
+.security-top-left .fist{
+  font-size: 100rpx;
+  margin-right: 19rpx;
 }
 
 .security-money{
@@ -106,7 +111,7 @@
 .contick view:nth-child(1){
   font-size: 46rpx;
   color: #FDF2F2;
-  padding: 40rpx 0 32rpx 30rpx;
+  padding: 25rpx 0 5rpx 30rpx;
 }
 .contick view:nth-child(2){
   color: #A82020;

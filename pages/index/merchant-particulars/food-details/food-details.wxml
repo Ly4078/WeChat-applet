@@ -52,9 +52,10 @@
       </view>
     </view>
     <view class='evaluateSon' id="{{_details.id}}" catchtap='clickzan'>
-      <image class='evaluateImg' wx:if="{{foodData.isZan==1}}" src='/images/icon/wenreview.png'></image>
-      <image class='evaluateImg' wx:else src='/images/icon/wenreviewed.png'></image>
-      <text class='{{foodData.isZan==1?"actzan":"nozan"}}'>点赞</text>
+      <!-- <image class='evaluateImg' wx:if="{{foodData.isZan==1}}" src='/images/icon/wenreview.png'></image> -->
+      <!-- <image class='evaluateImg' wx:else src='/images/icon/wenreviewed.png'></image> -->
+       <text wx:if="{{foodData.isZan==1}}"  class='{{foodData.isZan==1?"actzan":"nozan"}}'>已投票</text>
+      <text wx:else class='{{foodData.isZan==1?"actzan":"nozan"}}'>投票</text>
     </view>
   </view>
 </view>

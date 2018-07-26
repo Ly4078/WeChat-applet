@@ -190,6 +190,7 @@ Page({
       sourceType: ['album'],
       maxDuration: 60,
       camera: ['front', 'back'],
+      compressed:'true',
       success: function (res) {
         
         let videores = res;
