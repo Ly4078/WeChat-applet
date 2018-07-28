@@ -38,7 +38,8 @@ Page({
     shareFlag: false,
     isshow: false,
     voteFlag: true,
-    likeFlag: true
+    likeFlag: true,
+    castFlag: true
   },
   onLoad: function(options) {
     console.log("options:", options)
@@ -508,45 +509,49 @@ Page({
       })
       return false
     }
-    wx.showToast({
-      title: '',
-      mask: 'true',
-      duration: 2000,
-      icon: 'none'
-    })
-    let _this = this;
-    let _parms = {
-      actId: this.data.actId,
-      userId: this.data.voteUserId,
-      playerUserId: this.data.userId
-    }
-    Api.availableVote(_parms).then((res) => {
+    if (this.data.castFlag) {
       this.setData({
-        availableNum: res.data.data.user
+        castFlag: false
       });
-      if (this.data.availableNum <= 0) {
-        wx.showToast({
-          title: '今天票数已用完,请明天再来',
-          mask: 'true',
-          icon: 'none',
-          duration: 2000
-        })
-        return false;
+      let _this = this;
+      let _parms = {
+        actId: this.data.actId,
+        userId: this.data.voteUserId,
+        playerUserId: this.data.userId
       }
-      Api.voteAdd(_parms).then((res) => {
-        if (res.data.code == 0) {
-          wx.showToast({
-            title: '投票成功',
-            mask: 'true',
-            icon: 'none'
-          })
+      Api.availableVote(_parms).then((res) => {
+        this.setData({
+          availableNum: res.data.data.user
+        });
+        setTimeout(function() {
           _this.setData({
-            availableNum: _this.data.availableNum - 1,
-            voteNum: _this.data.voteNum + 1
+            castFlag: true
           });
+        }, 3000);
+        if (this.data.availableNum <= 0) {
+          wx.showToast({
+            title: '今天票数已用完,请明天再来',
+            mask: 'true',
+            icon: 'none',
+            duration: 2000
+          })
+          return false;
         }
+        Api.voteAdd(_parms).then((res) => {
+          if (res.data.code == 0) {
+            wx.showToast({
+              title: '投票成功',
+              mask: 'true',
+              icon: 'none'
+            })
+            _this.setData({
+              availableNum: _this.data.availableNum - 1,
+              voteNum: _this.data.voteNum + 1
+            });
+          }
+        });
       });
-    });
+    }
   },
   toLike: function(e) { //评论点赞
     let that = this;

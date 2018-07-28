@@ -28,7 +28,6 @@ Page({
     timer: null
   },
   onLoad: function (options) {
-    console.log("options:", options)
     if (options.actid){
       this.setData({
         actId: options.actid
@@ -45,7 +44,6 @@ Page({
     let q = decodeURIComponent(options.q);
     if (q) {
       if (utils.getQueryString(q, 'flag') == 4) {
-        console.log(utils.getQueryString(q, 'actId'))
         this.setData({
           actId: utils.getQueryString(q, 'actId')
         });
@@ -132,7 +130,6 @@ Page({
       sourceType: '1'
     }
     Api.actdetail(_parms).then((res) => {
-      console.log("res:",res)
       let startTime = res.data.data.startTime,
         endTime = res.data.data.endTime,
         stage = 1;
@@ -423,8 +420,8 @@ Page({
     Api.availableVote(_parms).then((res) => {
       let sku = 0, user = 0;
       if (res.data.code == 0) {
-        sku = res.data.data.sku <0 ? 0: res.data.data.sku;
-        user = res.data.data.user < 0 ? 0 : res.data.data.sku;;
+        sku = res.data.data.sku < 0 ? 0: res.data.data.sku;
+        user = res.data.data.user < 0 ? 0 : res.data.data.user;
       }
       this.setData({
         sku: sku,
