@@ -31,7 +31,6 @@ Page({
       actId: options.actId ? options.actId : '',
       userId: options.userId
     });
-    this.homePageInit();
   },
   onShow: function() {
     let isMine = false;
@@ -41,7 +40,7 @@ Page({
     this.setData({
       isMine: isMine
     });
-    console.log(this.data.isMine);
+    this.homePageInit();
   },
   homePageInit: function() {
     if (!app.globalData.userInfo.mobile) {

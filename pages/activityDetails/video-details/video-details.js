@@ -22,7 +22,7 @@ Page({
     nextUrl: '',//下一个视频 
     isball:false,
     isdtzan:false,
-    isclick:false,
+    isclick:true,
     isshare:false,
     frenum:0,
     videodata:[],
@@ -434,17 +434,19 @@ Page({
   },
   handzan:function(){
     if(this.data.isclick){
-      return false
-    }
-    if (!app.globalData.userInfo.mobile) {
       this.setData({
-        issnap: true
-      })
-    }else{
-      if (this.data.isdtzan) {
-        this.dianzanwz();
+        isclick: false
+      });
+      if (!app.globalData.userInfo.mobile) {
+        this.setData({
+          issnap: true
+        })
       } else {
-        this.quxiaozanwz();
+        if (this.data.isdtzan) {
+          this.dianzanwz();
+        } else {
+          this.quxiaozanwz();
+        }
       }
     }
   },
@@ -464,9 +466,11 @@ Page({
       userId: app.globalData.userInfo.userId
     }
     Api.zanadd(_parms).then((res) => {
-      that.setData({
-        isclick:false
-      })
+      setTimeout(function() {
+        that.setData({
+          isclick: true
+        })
+      }, 2000);
       if (res.data.code == 0) {
         wx.showToast({
           mask: true,
@@ -501,9 +505,11 @@ Page({
       userId: app.globalData.userInfo.userId
     }
     Api.zandelete(_parms).then((res) => {
-      that.setData({
-        isclick: false
-      })
+      setTimeout(function () {
+        that.setData({
+          isclick: true
+        })
+      }, 2000);
       if (res.data.code == 0) {
         wx.showToast({
           mask: true,
