@@ -8,7 +8,7 @@ Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
     voteUserId: 0,
-    sku:0,
+    sku: 0,
     actId: 0,
     skuId: 0,
     issnap: false,
@@ -30,10 +30,10 @@ Page({
     comment_list: [],
     commentTotal: 0,
     commentVal: '',
-    availableNum: 0,
     isnew: false,
     shareFlag: false,
-    voteFlag: true
+    voteFlag: true,
+    castFlag: true
   },
   onLoad: function(options) {
     let dateStr = new Date();
@@ -72,7 +72,7 @@ Page({
       let sku = 0;
       if (res.data.code == 0) {
         sku = res.data.data.sku;
-        console.log('sku:',sku)
+        console.log('sku:', sku)
         this.setData({
           sku: sku
         });
@@ -311,34 +311,32 @@ Page({
       })
       return false
     }
-    wx.showToast({
-      title: '',
-      mask: 'true',
-      duration: 2000,
-      icon: 'none'
-    })
-    let _this = this,
-      _parms = {};
-    _parms = {
-      actId: this.data.actId,
-      userId: this.data.voteUserId,
-      skuId: this.data.skuId
+    if (this.data.sku <= 0) {
+      wx.showToast({
+        title: '今天票数已用完,请明天再来',
+        mask: 'true',
+        duration: 2000,
+        icon: 'none'
+      })
+      return false;
     }
-    Api.availableVote(_parms).then((res) => {
+    if (this.data.castFlag) {
       this.setData({
-        availableNum: res.data.data.sku
+        castFlag: false
       });
-      if (this.data.availableNum <= 0) {
-        console.log(this.data.availableNum)
-        wx.showToast({
-          title: '今天票数已用完,请明天再来',
-          mask: 'true',
-          duration: 2000,
-          icon: 'none'
-        })
-        return false;
+      let _this = this,
+        _parms = {};
+      _parms = {
+        actId: this.data.actId,
+        userId: this.data.voteUserId,
+        skuId: this.data.skuId
       }
       Api.voteAdd(_parms).then((res) => {
+        setTimeout(function(){
+          _this.setData({
+            castFlag: true
+          });
+        }, 3000);
         if (res.data.code == 0) {
           _this.availableVote();
           wx.showToast({
@@ -348,12 +346,13 @@ Page({
             icon: 'none'
           })
           _this.setData({
-            availableNum: _this.data.availableNum - 1,
+            sku: _this.data.sku - 1,
             voteNum: _this.data.voteNum + 1
           });
         }
       });
-    });
+    }
+
   },
   toLike: function(e) { //评论点赞
     let that = this;
@@ -433,7 +432,7 @@ Page({
         userId: this.data.voteUserId,
       }
       Api.zandelete(_parms).then((res) => {
-        setTimeout(function () {
+        setTimeout(function() {
           that.setData({
             voteFlag: true
           });
