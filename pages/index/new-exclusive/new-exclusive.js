@@ -46,7 +46,7 @@ Page({
       Api.getFreeTicket(_parms).then((res) => {
         if (res.data.code == 0) {
           wx.navigateTo({
-            url: '../../personal-center/lelectronic-coupons/lectronic-coupons?id=' + res.data.data + '&isPay=1'
+            url: '../../personal-center/my-discount/my-discount?id=' + res.data.data + '&isPay=1'
           })
         }else{
           wx.showToast({
