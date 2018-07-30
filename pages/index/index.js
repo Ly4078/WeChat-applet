@@ -50,17 +50,17 @@ Page({
     isfile:false,
     navs: [
       {
-        img: '/images/icon/navquan.png',
+        img: '/images/icon/kanjia.png',
         id: 1,
-        name: '享7券'
+        name: '砍价'
       }, {
         img: '/images/icon/navcaiting.png',
         id: 2,
         name: '餐厅'
-      }, {
-        img: '/images/icon/navruzhu.png',
-        id: 3,
-        name: '活动'
+      // }, {
+      //   img: '/images/icon/navruzhu.png',
+      //   id: 3,
+      //   name: '活动'
       }, {
         img: '/images/icon/navshiping.png',
         id: 4,
@@ -73,17 +73,17 @@ Page({
     ],
     navs2: [
       {
-        img: '/images/icon/navquan.png',
+        img: '/images/icon/kanjia.png',
         id: 1,
-        name: '享7券'
+        name: '砍价'
       }, {
         img: '/images/icon/navcaiting.png',
         id: 2,
         name: '餐厅'
-      }, {
-        img: '/images/icon/navruzhu.png',
-        id: 3,
-        name: '活动'
+      // }, {
+      //   img: '/images/icon/navruzhu.png',
+      //   id: 3,
+      //   name: '活动'
       }, {
         img: '/images/icon/navshiping.png',
         id: 4,
@@ -92,21 +92,6 @@ Page({
         img: '/images/icon/navhuodong.png',
         id: 5,
         name: '商家入驻'
-      }
-    ],
-    navtwo: [
-      {
-        img: '/images/icon/Commerce.png',
-        id: 1
-      }, {
-        img: '/images/icon/Lovers.png',
-        id: 2
-      }, {
-        img: '/images/icon/Family.png',
-        id: 3
-      }, {
-        img: '/images/icon/friend2.png',
-        id: 4
       }
     ],
     Res: [{
@@ -266,9 +251,13 @@ Page({
   // 点击One某个nav
   handnavOne(e) {
     let id = e.currentTarget.id;
-    if (id == 1) { //享7券
-      wx.navigateTo({
-        url: 'consume-qibashare/consume-qibashare',
+    if (id == 1) { //砍菜
+      // wx.navigateTo({
+      //   url: 'consume-qibashare/consume-qibashare',
+      // })
+      wx.showToast({
+        icon: 'none',
+        title: '暂未开放，敬请期待'
       })
     } else if (id == 2) {  //餐厅
       wx.navigateTo({
@@ -287,14 +276,6 @@ Page({
         url: '../../pages/index/download-app/download?isshop=ind',
       })
     }
-  },
-  // 点击Two某个nav
-  handnavTwo(e) {
-    let id = e.currentTarget.id - 1;
-    let arr = ['商务', '约会', '聚会', '聚会'];
-    wx.navigateTo({
-      url: 'dining-room/dining-room?cate=' + arr[id],
-    })
   },
   //点击某个“查看更多”
   handVeoRes(e) {

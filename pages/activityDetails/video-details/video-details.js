@@ -33,40 +33,33 @@ Page({
     _iconUrl:'',
     _nickName:''
   },
-
   /**
-   * 生命周期函数--监听页面加载
-   */
+  * 生命周期函数--监听页面加载
+  */
   onLoad: function (options) {
-    console.log('options:',options)
-    if (options.userId){
+    if (options.userId) {
       this.setData({
         _userId: options.userId
       })
     }
-    if (options.actId){
+    if (options.actId) {
       this.setData({
         _actId: options.actId
       })
     }
-    if(options.id){
+    if (options.id) {
       this.setData({
         refId: options.id
       });
-      this.gettopiclist(options.id);
-      this.getfood();
-    } else if (options.url){
+    } else if (options.url) {
       this.setData({
-        videoUrl:options.url
+        videoUrl: options.url
       })
     }
-   
   },
-  
-
   /**
-   * 生命周期函数--监听页面显示
-   */
+  * 生命周期函数--监听页面显示
+  */
   onShow: function () {
     if (!app.globalData.userInfo.mobile) {
       this.setData({
@@ -74,7 +67,15 @@ Page({
       })
       this.getuserinfo();
     }
-    // this.getuserif();
+    if (this.data.refId) {
+      this.gettopiclist(this.data.refId);
+      this.getfood();
+    }
+  },
+  onHide: function () {
+    this.setData({
+      currentUrl: ''
+    });
   },
   getuserif:function(val){
     let that = this;
@@ -205,7 +206,7 @@ Page({
         issnap: true
       })
     }else{
-      wx.redirectTo({
+      wx.navigateTo({
         url: '../../activityDetails/homePage/homePage?actId=' + this.data._actId + '&userId=' + this.data._userId,
       })
     }

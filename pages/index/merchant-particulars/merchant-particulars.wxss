@@ -1054,7 +1054,7 @@ page {
 }
 
 .evaluate {
-  z-index: 1000;
+  z-index: 199;
   padding: 0 38rpx;
   box-sizing: border-box;
   border-top: 0;
@@ -1200,7 +1200,7 @@ page {
   position: absolute;
   top: 0rpx;
   left: 0rpx;
-  z-index: 999;
+  z-index: 190;
   font-size: 28rpx;
   color: #FC5E2D;
   text-align: center;

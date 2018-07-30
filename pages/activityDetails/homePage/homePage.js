@@ -321,10 +321,6 @@ Page({
         }
       }
     })
-    let _parms = {
-      
-    }
-    
   },
   videoplay(e) {
     let id = e.currentTarget.id,

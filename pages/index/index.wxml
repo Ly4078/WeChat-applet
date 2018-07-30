@@ -94,23 +94,12 @@
   </view> -->
 
   <!-- 导航nav_one -->
-   <view class='indexNavOne'>
-    <view wx:for="{{isfile?navs:navs2}}" wx:key="index">
-      <view class='navitem' id="{{item.id}}" bindtap='handnavOne'>
-        <image class="img{{index+1}}" src='{{item.img}}'></image>
-        <text>{{item.name}}</text>
-      </view>
+  <view class='indexNavOne'>
+    <view wx:for="{{isfile?navs:navs2}}" wx:key="index" class='navitem' id="{{item.id}}" bindtap='handnavOne'>
+      <image class="img{{index+1}}" src='{{item.img}}'></image>
+      <view class="navitem_txt">{{item.name}}</view>
     </view>
   </view> 
-
-  <!-- 导航nav_two -->
-    <view class='indexNavTwo'>
-    <view wx:for="{{navtwo}}" wx:key="index">
-      <view class='TwoItem' id="{{item.id}}" bindtap='handnavTwo'>
-        <image src="{{item.img}}"></image>
-      </view>
-    </view>
-  </view>  
 
   <!-- 热门活动 -->
   <block wx:for="{{Act}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">

@@ -1184,6 +1184,12 @@ Page({
     })
   },
   toComment() { //去评论
+    if (!app.globalData.userInfo.mobile) {
+      this.setData({
+        issnap: true
+      })
+      return false
+    }
     wx.navigateTo({
       url: 'answer-comment/answer-comment?shopid=' + this.data.shopid + '&actId=' + this.data.actId
     })
