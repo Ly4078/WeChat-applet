@@ -128,8 +128,8 @@
       <view class="evaluate_line"></view>
     </view>
     <view class='evaluateSon' id="{{details.id}}" bindtap='castvote'>
-      <!-- <image class='evaluateImg' src='/images/icon/wenreviewed.png'></image> -->
-      <text class='evaluatExtea'>{{user>0?'投票':'已投票'}}</text>
+      <image class='evaluateImg' src='/images/icon/wenreviewed.png'></image>
+      <text class='evaluatExtea'>{{voteNum}}</text>
     </view>
   </view>
 </view>

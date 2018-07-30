@@ -327,10 +327,7 @@ Page({
       })
       return false
     }
-<<<<<<< Updated upstream
-=======
 
->>>>>>> Stashed changes
     if (this.data.likeFlag) {
       that.setData({
         likeFlag: false
