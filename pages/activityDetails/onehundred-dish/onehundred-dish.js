@@ -74,6 +74,10 @@ Page({
   },
   onShow: function (options) {
     this.availableVote();
+    if (!app.globalData.userInfo.mobile) {
+      console.log("onehundredInit")
+      this.getuserinfo();
+    }
   },
   first:function(){
     let _timer=null,that = this;

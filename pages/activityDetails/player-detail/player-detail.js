@@ -39,7 +39,8 @@ Page({
     isshow: false,
     voteFlag: true,
     likeFlag: true,
-    castFlag: true
+    castFlag: true,
+    user:''
   },
   onLoad: function(options) {
     console.log("options:", options)
@@ -81,6 +82,29 @@ Page({
     }
     this.playerDetail();
     this.articleList();
+    this.availableVote;
+  },
+  availableVote() { //获取用户剩余投票数
+    let _parms = {
+      actId: this.data.actId,
+      userId: this.data.voteUserId
+    }
+    Api.availableVote(_parms).then((res) => {
+      let sku = 0;
+      if (res.data.code == 0) {
+        user = res.data.data.user;
+        console.log('sku:', sku)
+        this.setData({
+          user: user
+        });
+      }
+    });
+    if (!app.globalData.userInfo.mobile) {
+      this.setData({
+        sku: 0,
+        user: 0
+      });
+    }
   },
   isSign() {
     let _parms = {
@@ -303,6 +327,10 @@ Page({
       })
       return false
     }
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
     if (this.data.likeFlag) {
       that.setData({
         likeFlag: false

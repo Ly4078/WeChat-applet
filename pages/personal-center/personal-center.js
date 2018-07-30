@@ -30,6 +30,10 @@ Page({
         ismobile: false
       })
     };
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
     this.getuserInfo();
     // this.personalInit();
   },
