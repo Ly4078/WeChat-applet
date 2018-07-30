@@ -17,7 +17,8 @@ Page({
     isComment:false,
     commentVal:'',
     commentNum:0,
-    _details:''
+    _details: '',
+    issnap: false
   },
 
   /**
@@ -49,6 +50,12 @@ Page({
     })
   },
   clickzan:function(){
+    if (!app.globalData.userInfo.mobile) {
+      this.setData({
+        issnap: true
+      })
+      return false
+    }
     let _details = this.data.foodData.isZan
     if (_details == 0){
       this.dianzanwz();
@@ -57,6 +64,12 @@ Page({
     }
   },
   dianzanwz: function (e) {  //推荐菜点赞
+    if (!app.globalData.userInfo.mobile) {
+      this.setData({
+        issnap: true
+      })
+      return false
+    }
     let that = this
     let _details = this.data.foodData
     if (app.globalData.userInfo.mobile == 'a' || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
@@ -89,6 +102,12 @@ Page({
     })
   },
   quxiaozanwz: function () {  //推荐菜取消点赞
+    if (!app.globalData.userInfo.mobile) {
+      this.setData({
+        issnap: true
+      })
+      return false
+    }
     let that = this
     let _details = this.data.foodData
     if (!app.globalData.userInfo.mobile) {
