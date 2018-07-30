@@ -307,7 +307,7 @@ Page({
               Api.phoneAES(_pars).then((res) => {
                 if (res.data.code == 0) {
                   let _data = JSON.parse(res.data.data)
-                  console.log("_data:", _data)
+                  // console.log("_data:", _data)
                   app.globalData.userInfo.mobile = _data.phoneNumber,
                     this.setData({
                       isphoneNumber: false,

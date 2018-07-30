@@ -79,6 +79,7 @@ Page({
   },
   first:function(){
     let _timer=null,that = this;
+    console.log("fdsa")
     _timer = setInterval(function () {
       if (that.data.actId){
         clearInterval(_timer);
@@ -90,6 +91,7 @@ Page({
   onehundredInit: function () {
     let that = this;
     if (!app.globalData.userInfo.mobile) {
+      console.log("onehundredInit")
       this.getuserinfo();
     }
     wx.request({
@@ -132,7 +134,6 @@ Page({
       sourceType: '1'
     }
     Api.actdetail(_parms).then((res) => {
-      console.log("res:",res)
       let startTime = res.data.data.startTime,
         endTime = res.data.data.endTime,
         stage = 1;
@@ -611,6 +612,7 @@ Page({
           }
           let that = this;
           Api.getOpenId(_parms).then((res) => {
+            console.log("getuserinfo_res:",res)
             app.globalData.userInfo.openId = res.data.data.openId;
             app.globalData.userInfo.sessionKey = res.data.data.sessionKey;
             if (res.data.data.unionId) {
@@ -626,12 +628,14 @@ Page({
     })
   },
   getmyuserinfo: function () {
+    console.log("getmyuserinfo")
     let _parms = {
       openId: app.globalData.userInfo.openId,
       unionId: app.globalData.userInfo.unionId
     }, that = this;
     Api.addUserUnionId(_parms).then((res) => {
       if (res.data.data) {
+        console.log("userid:",res.data.data)
         app.globalData.userInfo.userId = res.data.data;
         wx.request({  //从自己的服务器获取用户信息
           url: this.data._build_url + 'user/get/' + res.data.data,
@@ -641,6 +645,8 @@ Page({
           success: function (res) {
             if (res.data.code == 0) {
               let data = res.data.data;
+              console.log('datares:',res)
+              console.log("userdata:",data)
               for (let key in data) {
                 for (let ind in app.globalData.userInfo) {
                   if (key == ind) {
@@ -648,6 +654,7 @@ Page({
                   }
                 }
               };
+              console.log("app.globalData.userInfo:", app.globalData.userInfo)
               that.setData({
                 voteUserId: app.globalData.userInfo.userId
               });

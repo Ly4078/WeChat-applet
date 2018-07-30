@@ -288,12 +288,6 @@ Page({
       })
       return false
     }
-    wx.showToast({
-      mask: 'true',
-      icon: 'none',
-      title: '',
-      duration: 2000
-    })
     let _parms = {
       refId: id,
       type: 2,

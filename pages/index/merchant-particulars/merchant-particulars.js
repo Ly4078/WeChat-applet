@@ -48,7 +48,8 @@ Page({
   },
   onLoad: function(options) {
     this.setData({
-      shopid: options.shopid
+      shopid: options.shopid,
+      comment_list:[]
     });
     this.selectForOne(options.shopid)
     if (options.flag == 1) {
@@ -91,6 +92,7 @@ Page({
     let that = this;
     this.commentList();
     this.getsetget();
+
     // 文本横向滚动条
     var vm = this;
     var length = vm.data.text.length * vm.data.size; //文字长度
@@ -378,6 +380,7 @@ Page({
     })
   },
   getmoredata: function() {
+    console.log("123")
     this.getstoredata();
     this.selectByShopId();
     this.recommendation();
@@ -748,6 +751,7 @@ Page({
   //评论列表
   commentList: function() {
     let that = this;
+    console.log("456")
     wx.request({
       url: that.data._build_url + 'cmt/list',
       data: {
@@ -784,7 +788,11 @@ Page({
           })
           wx.stopPullDownRefresh();
         }
+      },
+      complete:function(res){
+        console.log('res:',res)
       }
+
     })
   },
   //跳转至所有评论

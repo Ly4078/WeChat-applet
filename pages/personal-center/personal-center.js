@@ -30,17 +30,18 @@ Page({
         ismobile: false
       })
     };
-    if (app.globalData.userInfo.shopId && app.globalData.userInfo.userType == 2) {
-      this.setData({
-        isshop: true
-      })
-    }
+    
     this.getuserInfo();
     // this.personalInit();
   },
   // onShow:function(){},
   onShow: function () {
     let that = this;
+    if (app.globalData.userInfo.shopId && app.globalData.userInfo.userType == 2) {
+      this.setData({
+        isshop: true
+      })
+    }
     if (!app.globalData.userInfo.unionId) {
       wx.login({
         success: res => {
