@@ -303,30 +303,6 @@ Page({
       })
       return false
     }
-<<<<<<< HEAD
-    let _parms = {
-      refId: id,
-      type: 2,
-      userId: app.globalData.userInfo.userId
-    }
-    Api.zanadd(_parms).then((res) => {
-      if (res.data.code == 0) {
-        wx.showToast({
-          mask: 'true',
-          icon: 'none',
-          title: '点赞成功',
-          duration: 3000
-        })
-        for (let i = 0; i < article.length; i++) {
-          if (id == article[i].id) {
-            article[i].isZan++;
-            article[i].zan++;
-            this.setData({
-              article: article,
-              voteNum: this.data.voteNum + 1
-            })
-            return false;
-=======
     if (this.data.likeFlag) {
       that.setData({
         likeFlag: false
@@ -359,7 +335,6 @@ Page({
               })
               return false;
             }
->>>>>>> 4f2c9f63d85abd5a003fdc1ac365893f5c666bb3
           }
         }
       })

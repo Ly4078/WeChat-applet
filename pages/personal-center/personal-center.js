@@ -30,14 +30,9 @@ Page({
         ismobile: false
       })
     };
-<<<<<<< HEAD
-    
-=======
->>>>>>> 4f2c9f63d85abd5a003fdc1ac365893f5c666bb3
     this.getuserInfo();
     // this.personalInit();
   },
-  // onShow:function(){},
   onShow: function () {
     if (app.globalData.userInfo.shopId && app.globalData.userInfo.userType == 2) {
       this.setData({

@@ -17,8 +17,7 @@ Page({
     isComment:false,
     commentVal:'',
     commentNum:0,
-    _details: '',
-    issnap: false
+    _details: ''
   },
 
   /**
