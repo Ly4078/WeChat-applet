@@ -320,7 +320,9 @@ Page({
     }
     Api.selectForOne(_parms).then((res) => {
       if (res.data.code == 0) {
-        if (res.data.data) {
+        let data = res.data.data;
+        console.log(data && data.paymentMethod == 2 && data.isDelete == 0)
+        if (data && data.paymentMethod == 2 && data.isDelete == 0) {
           this.setData({
             isoter: true
           })
@@ -329,6 +331,10 @@ Page({
             isoter: false
           })
         }
+      } else {
+        this.setData({
+          isoter: false
+        })
       }
     })
   },
