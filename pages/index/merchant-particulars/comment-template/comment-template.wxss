@@ -19,7 +19,7 @@
 .evaluate_r {
   width: 88%;
   border-bottom: 1rpx solid #E0E0E0;
-  padding: 0 30rpx 10rpx 0;
+  padding: 6px 30rpx 10rpx 0;
   box-sizing: border-box;
 }
 .evaluate_r_top {

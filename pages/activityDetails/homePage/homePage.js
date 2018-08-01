@@ -38,7 +38,10 @@ Page({
       isMine = true;
     } 
     this.setData({
-      isMine: isMine
+      isMine: isMine,
+      articleList: [],
+      page: 1,
+      flag: true
     });
     this.homePageInit();
   },
