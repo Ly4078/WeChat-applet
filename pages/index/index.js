@@ -258,7 +258,7 @@ Page({
       // })
       wx.showToast({
         icon: 'none',
-        title: '暂未开放，敬请期待'
+        title: '一元吃美食，建设中，即将开放...'
       })
     } else if (id == 2) {  //餐厅
       wx.navigateTo({
