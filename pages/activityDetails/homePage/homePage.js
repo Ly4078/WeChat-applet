@@ -270,7 +270,7 @@ Page({
               //   list[i].isImg = false;
               // }
               list[i].isplay = false;
-              if (!list[i].nickName) {
+              if (!list[i].nickName || list[i].nickName == 'null') {
                 list[i].nickName = this.data.nickName;
               }
               list[i].actUserName = this.data.actUserName;
