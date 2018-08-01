@@ -360,6 +360,7 @@ scroll_box.initiate-exhibition {
 .dis_video {
   background: #fc2d59;
   animation: video1 0.5s forwards;
+  z-index: 2050;
 }
 
 .dis_video2 {

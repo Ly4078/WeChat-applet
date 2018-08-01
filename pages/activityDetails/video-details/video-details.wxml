@@ -12,11 +12,14 @@
 
   <video class="boxVideo {{isComment?'showcom':''}}" controls="{{false}}" contain="fill" src='{{currentUrl?currentUrl:videoUrl}}' autoplay='true' loop='true' bindtouchstart="handletouchtart" bindtouchmove="handletouchmove" bindtouchend="handletouchend" height="100%" width="100%" >
 
-    <cover-view class="newUserModal loginuser videoModal" wx:if="{{istouqu}}" catchtouchmove='true'>
+    <cover-view class="newUserModal loginuser" wx:if="{{istouqu}}" catchtouchmove='true'>
     <cover-view class="drawer_screen"></cover-view>
-    <button class="newUserM_box" open-type="getUserInfo" bindgetuserinfo="againgetinfo">
+    <cover-view class='videoModal'>
+      <button class="newUserM_box" open-type="getUserInfo" bindgetuserinfo="againgetinfo">
       <cover-image class='loginimg' src='/images/icon/login.png'></cover-image>
     </button>
+    </cover-view>
+    
   </cover-view>
 
 

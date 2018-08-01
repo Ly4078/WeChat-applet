@@ -94,10 +94,11 @@ Page({
       this.getuserinfo();
     }
     wx.request({
-      url: this.data._build_url + 'act/flag',
+      // url: this.data._build_url + 'act/flag',
+      url: 'https://www.hbxq001.cn/version.txt',
       success: function (res) {
         that.setData({
-          isflag: res.data.data
+          isflag: res.data.flag
         });
       }
     })

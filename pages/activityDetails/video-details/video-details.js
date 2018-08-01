@@ -78,7 +78,7 @@ Page({
       currentUrl: ''
     });
   },
-  getuserif:function(val){
+  getuserif: function (val) {  //从自己的服务器获取用户信息
     let that = this;
     this.setData({
       _userId:val
@@ -106,20 +106,6 @@ Page({
             _iconUrl: data.iconUrl,
             _nickName: _nickName
           })
-          if (data) {
-            for (let key in data) {
-              for (let ind in app.globalData.userInfo) {
-                if (key == ind) {
-                  app.globalData.userInfo[ind] = data[key]
-                }
-              }
-            };
-            if (!data.mobile) {
-              that.setData({
-                isnew: true
-              })
-            }
-          }
         }
       }
     })
@@ -164,7 +150,6 @@ Page({
             })
             this.getfood();
           }
-          
         } 
       }
     })
@@ -303,9 +288,6 @@ Page({
         })
       }
     })
-  },
-  bindtabb:function(){
-    console.log("bindtabb")
   },
   getcmtlist: function (id) {  //获取评论数据
     let _parms = {
@@ -610,33 +592,33 @@ Page({
       console.log('getmyuserinfo_res:',res)
       if (res.data.data) {
         app.globalData.userInfo.userId = res.data.data;
-        that.getuserif(res.data.data);
-        // wx.request({  //从自己的服务器获取用户信息
-        //   url: this.data._build_url + 'user/get/' + res.data.data,
-        //   header: {
-        //     'content-type': 'application/json' // 默认值
-        //   },
-        //   success: function (res) {
-        //     if (res.data.code == 0) {
-        //       let data = res.data.data;
-        //       console.log("userdata:",data)
-        //       if(data){
-        //         for (let key in data) {
-        //           for (let ind in app.globalData.userInfo) {
-        //             if (key == ind) {
-        //               app.globalData.userInfo[ind] = data[key]
-        //             }
-        //           }
-        //         };
-        //         if (!data.mobile) {
-        //           that.setData({
-        //             isnew: true
-        //           })
-        //         }
-        //       }
-        //     }
-        //   }
-        // })
+        // that.getuserif(res.data.data);
+        wx.request({  //从自己的服务器获取用户信息
+          url: this.data._build_url + 'user/get/' + res.data.data,
+          header: {
+            'content-type': 'application/json' // 默认值
+          },
+          success: function (res) {
+            if (res.data.code == 0) {
+              let data = res.data.data;
+              console.log("userdata:",data)
+              if(data){
+                for (let key in data) {
+                  for (let ind in app.globalData.userInfo) {
+                    if (key == ind) {
+                      app.globalData.userInfo[ind] = data[key]
+                    }
+                  }
+                };
+                if (!data.mobile) {
+                  that.setData({
+                    isnew: true
+                  })
+                }
+              }
+            }
+          }
+        })
       }
     })
   },
@@ -689,7 +671,6 @@ Page({
       }
     })
   },
-
 //滑动结束事件
   handletouchend: function (event) {
     // console.log("handletouchend:", event)

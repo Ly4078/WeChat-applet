@@ -150,6 +150,14 @@ Page({
   onUnload: function () { //生命周期函数--监听页面卸载
   },
   onShow: function () {
+    getApp().globalData.article = [];
+    this.setData({
+      title : '',
+      covervideo : '',
+      coverimg : ''
+    })
+    console.log('title:',this.data.title)
+   
   },
   // 开始播放视频 
   playvideo:function(){
@@ -538,9 +546,11 @@ Page({
           if (res.confirm) {
             wx.clearStorage();
             getApp().globalData.article=[];
-            that.data.title='';
-            that.covervideo='';
-            that.data.coverimg='';
+            that.setData({
+              title: '',
+              covervideo: '',
+              coverimg: ''
+            })
             if (that.data.actId) {
               wx.navigateBack({
                 delta: 1

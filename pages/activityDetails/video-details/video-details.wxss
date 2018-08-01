@@ -108,7 +108,7 @@
 }
 .evName{
   position: relative;
-  top:-60rpx;
+  top:-55rpx;
   left:36px;
   width: 30%;
   float: left;
@@ -168,9 +168,17 @@
   left: 15%;
 }
 .videoModal{
-  margin-top: 300rpx;
-  margin-left: 150rpx;
+  position: fixed;
+  background: red; 
+  z-index: 6001;
+  top: 200rpx;
+  left: 0rpx;
 }
+.loginimg{
+  
+  height: 700rpx;
+}
+
 
 
 

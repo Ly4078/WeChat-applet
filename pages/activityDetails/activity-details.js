@@ -88,7 +88,6 @@ Page({
       let data = res.data;
       wx.hideLoading()
       if (data.code == 0 && data.data.list != null && data.data.list != "" && data.data.list != []) {
-
         let actList = [];
         actList = that.data.actdata;
         for (let i = 0; i < data.data.list.length; i++) {
@@ -96,7 +95,7 @@ Page({
           actList.push(data.data.list[i]);
           actList[i].endTime = actList[i].endTime.substring(0, actList[i].endTime.indexOf(' '));
         }
-        console.log("actList:", actList)
+        // console.log("actList:", actList)
         that.setData({
           actdata: actList
         })

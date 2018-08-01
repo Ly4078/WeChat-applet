@@ -92,7 +92,7 @@ Page({
     if (reg.test(_nickName)) {
       _nickName = _nickName.substr(0, 3) + "****" + _nickName.substr(7);
     }
-    console.log("app.globalData.userInfo:", app.globalData.userInfo)
+    
     this.setData({
       iconUrl: app.globalData.userInfo.iconUrl,
       nickName: _nickName

@@ -170,14 +170,15 @@ Page({
       })
     }
     wx.request({
-      url: this.data._build_url + 'act/flag', 
+      // url: this.data._build_url + 'act/flag', 
+      url:'https://www.hbxq001.cn/version.txt',
       success: function (res) {
-        if (res.data.data == 0) { //0显示  
+        if (res.data.flag == 0) { //0显示  
           app.globalData.isflag = true;
           that.setData({
             isfile:true
           })
-        } else if (res.data.data == 1) {  //1不显示
+        } else if (res.data.flag == 1) {  //1不显示
           app.globalData.isflag = false;
           that.setData({
             isfile: false
@@ -318,7 +319,6 @@ Page({
             url: '../activityDetails/onehundred-dish/onehundred-dish?actid=' + arr1[1],
           })
         } else if (arr2[1] == 2) {
-          console.log(" arr[1]:", arr[1])
           wx.navigateTo({
             url: '../activityDetails/video-list/video-list?id=' + arr[1],
           })
@@ -978,7 +978,7 @@ Page({
   },
   preferential: function (event) {
     let id = event.currentTarget.id, _actlist = this.data.actlist,_obj={};
-    console.log('_actlist:', _actlist);
+    // console.log('_actlist:', _actlist);
     for (let i in _actlist){
       if (id == _actlist[i].id){
         _obj = _actlist[i];
@@ -1258,7 +1258,7 @@ Page({
     if (!_value) {
       this.closephone()
     }
-    let RegExp = /^[1][3,4,5,7,8][0-9]{9}$/;
+    let RegExp = /^[1][3,4,6,5,7,8,9][0-9]{9}$/;
     if (RegExp.test(_value)) {
       this.setData({
         isclose: true,
