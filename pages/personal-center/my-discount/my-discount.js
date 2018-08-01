@@ -65,7 +65,6 @@ Page({
               }
               ticketArr.push(ticketList[i]);
             }
-            console.log("ticketArr:", ticketArr)
             that.setData({
               ticket_list: ticketArr
             })

@@ -12,6 +12,7 @@ Page({
     voteUserId: 0,
     refId: 0,
     issnap: false,
+    istouqu:false,
     isball: true,
     nickName: '',
     actUserName: '',
@@ -843,6 +844,29 @@ Page({
             that.setData({
               istouqu: true
             })
+          }
+        })
+      }
+    })
+  },
+  againgetinfo: function () { //点击获取用户unionId
+    let that = this;
+    wx.getUserInfo({
+      withCredentials: true,
+      success: function (res) {
+        let _pars = {
+          sessionKey: app.globalData.userInfo.sessionKey,
+          ivData: res.iv,
+          encrypData: res.encryptedData
+        }
+        Api.phoneAES(_pars).then((resv) => {
+          if (resv.data.code == 0) {
+            that.setData({
+              istouqu: false
+            })
+            let _data = JSON.parse(resv.data.data);
+            app.globalData.userInfo.unionId = _data.unionId;
+            that.getmyuserinfo();
           }
         })
       }

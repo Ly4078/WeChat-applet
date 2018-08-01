@@ -167,7 +167,10 @@
   top: 0;
   left: 15%;
 }
-
+.videoModal{
+  margin-top: 300rpx;
+  margin-left: 150rpx;
+}
 
 
 

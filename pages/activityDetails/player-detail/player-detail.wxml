@@ -1,5 +1,12 @@
 <import src="../../index/merchant-particulars/comment-template/comment-template.wxml" />
 
+<view class="newUserModal loginuser" wx:if="{{istouqu}}" catchtouchmove='true'>
+    <view class="drawer_screen"></view>
+    <button class="newUserM_box" open-type="getUserInfo" bindgetuserinfo="againgetinfo">
+      <image class='loginimg' src='/images/icon/login.png'></image>
+    </button>
+  </view>
+  
 <view class="newUserModal" wx:if="{{issnap && isnew}}">
   <view class='drawer_screen'>
     <view class='sqtishi'>提示</view>
@@ -128,8 +135,8 @@
       <view class="evaluate_line"></view>
     </view>
     <view class='evaluateSon' id="{{details.id}}" bindtap='castvote'>
-      <image class='evaluateImg' src='/images/icon/wenreviewed.png'></image>
-      <text class='evaluatExtea'>{{voteNum}}</text>
+      <!-- <image class='evaluateImg' src='/images/icon/wenreviewed.png'></image> -->
+      <text class='evaluatExtea'>{{user>0?'投票':'已投票'}}</text>
     </view>
   </view>
 </view>

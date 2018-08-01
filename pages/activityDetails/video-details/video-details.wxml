@@ -1,6 +1,7 @@
 <import src="../../index/merchant-particulars/comment-template/comment-template.wxml" />
 
 
+
 <view class="videoBox">
 
 
@@ -11,6 +12,14 @@
 
   <video class="boxVideo {{isComment?'showcom':''}}" controls="{{false}}" contain="fill" src='{{currentUrl?currentUrl:videoUrl}}' autoplay='true' loop='true' bindtouchstart="handletouchtart" bindtouchmove="handletouchmove" bindtouchend="handletouchend" height="100%" width="100%" >
 
+    <cover-view class="newUserModal loginuser videoModal" wx:if="{{istouqu}}" catchtouchmove='true'>
+    <cover-view class="drawer_screen"></cover-view>
+    <button class="newUserM_box" open-type="getUserInfo" bindgetuserinfo="againgetinfo">
+      <cover-image class='loginimg' src='/images/icon/login.png'></cover-image>
+    </button>
+  </cover-view>
+
+
     <cover-view wx:if="{{isshare}}" class='vimodal' bindtap='handshare'>
       <cover-image class='shareImg' src="/images/icon/shareImg.png"></cover-image>
     </cover-view>
@@ -19,8 +28,8 @@
       <cover-view class='drawer_screen'>
         <cover-view class='sqtishi'>提示</cover-view>
         <cover-view class='drphnumber'>获得更多体验,请移步[我的]-[新用户注册]</cover-view>
-        <button class='gettel sqgettel' bindtap='closetel' id='1'>确定</button>
-        <button class='gettel colosetel' bindtap='closetel' id='2'>取消</button>
+        <cover-view class='gettel sqgettel' bindtap='closetel' id='1'>确定</cover-view>
+        <cover-view class='gettel colosetel' bindtap='closetel' id='2'>取消</cover-view>
       </cover-view>
     </cover-view>
 

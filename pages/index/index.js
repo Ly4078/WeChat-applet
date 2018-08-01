@@ -427,7 +427,7 @@ Page({
       }
     })
   },
-  againgetinfo: function () {
+  againgetinfo: function () { //点击获取用户unionId
     let that = this;
     wx.getUserInfo({
       withCredentials: true,

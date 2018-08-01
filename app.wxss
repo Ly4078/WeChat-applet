@@ -12,7 +12,7 @@ button{
   position: fixed; 
   top: 0; 
   left: 0; 
-  z-index: 200; 
+  z-index: 6000; 
   overflow: hidden; 
 } 
 
@@ -500,6 +500,8 @@ button{
 }
 .gettel{
   width: 290rpx;
+  height: 40px;
+  line-height: 40px;
   position:fixed;
   overflow:auto;
   z-index: 199; 
@@ -507,6 +509,7 @@ button{
   color:rgba(128,128,128,1);
   text-align: center;
   border-radius: 0rpx!important;
+  border-top: 1rpx solid #ebebeb;
 }
 .gettel::after{
   border: none;
@@ -515,6 +518,7 @@ button{
   left:374rpx;
   top:407rpx;
   color: #FC5E2D;
+  border-right: 1rpx solid #ebebeb;
 }
 .colosetel{
   left:85rpx;

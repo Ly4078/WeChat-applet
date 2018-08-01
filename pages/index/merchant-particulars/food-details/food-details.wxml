@@ -49,17 +49,13 @@
 </view> -->
 <view class='evaluate'>
   <view class='evaluateWrap'>
-    <button class='evaluateSon sonButton' bindtap='share' plain="true" data-name="shareBtn" open-type="share">
-      <image class='evaluateImg' src='/images/icon/find_share.png'></image>
-      <text class='evaluatExtea'>分享</text>
-    </button>
-    <view class='evaluateSon' bindtap='showAreatext'>
+    <view class='evaluateSon foodson' bindtap='showAreatext'>
       <view class='evaluateSonsed'>
         <image class='evaluateImg' src='/images/icon/find_comment.png'></image>
         <text class='evaluatExtea'>评价</text>
       </view>
     </view>
-    <view class='evaluateSon' id="{{_details.id}}" catchtap='clickzan'>
+    <view class='evaluateSon foodson' id="{{_details.id}}" catchtap='clickzan'>
       <image class='evaluateImg' wx:if="{{foodData.isZan==1}}" src='/images/icon/wenreview.png'></image>
       <image class='evaluateImg' wx:else src='/images/icon/wenreviewed.png'></image>
        <!-- <text wx:if="{{foodData.isZan==1}}"  class='{{foodData.isZan==1?"actzan":"nozan"}}'>已投票</text> -->
@@ -67,6 +63,8 @@
     </view>
   </view>
 </view>
+
+
 
 <form class='commentBox {{isComment ? "show" : "hide"}}'>
   <textarea class="commentArea" placeholder='请输入评论' focus="{{isComment}}" bindinput="getCommentVal" cursor-spacing="10px" show-confirm-bar="false" fixed="true"></textarea>

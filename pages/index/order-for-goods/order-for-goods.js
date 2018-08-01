@@ -210,64 +210,65 @@ Page({
       this.setData({
         issnap: true
       })
-      return false
+    }else{
+      this.confirmPayment()
     }
-    wx.getSetting({
-      success: (res) => {
-        if (res.authSetting['scope.userInfo'] && res.authSetting['scope.userLocation']) {
-          this.confirmPayment()
-        } else if (!res.authSetting['scope.userInfo']) { // 用户未授受获取其用户信息或位置信息
-          wx.showModal({
-            title: '提示',
-            content: '请先至[我的]页面点击头像授权用户信息,方可购买券票',
-            success: (res) => {
-              wx.switchTab({
-                url: '../../personal-center/personal-center'
-              })
-            }
-          })
-        } else {
-          wx.showModal({
-            title: '提示',
-            content: '为让享7更好为您服务，请授权以下权限给享7',
-            success: function (res) {
-              if (res.confirm) {
-                wx.openSetting({
-                  success: (res) => {
-                    if (res.authSetting['scope.userLocation']) {  //得到用户位置授权，获取用户位置
-                      wx.getLocation({
-                        type: 'wgs84',
-                        success: function (res) {
-                          let latitude = res.latitude
-                          let longitude = res.longitude
-                          let speed = res.speed
-                          let accuracy = res.accuracy
-                          app.globalData.userInfo.lat = latitude
-                          app.globalData.userInfo.lng = longitude
-                          if (latitude && longitude) {
-                            wx.request({
-                              url: 'https://apis.map.qq.com/ws/geocoder/v1/?location=' + latitude + "," + longitude + "&key=4YFBZ-K7JH6-OYOS4-EIJ27-K473E-EUBV7",
-                              header: {
-                                'content-type': 'application/json' // 默认值
-                              },
-                              success: (res) => {
-                                if (res.data.status == 0) {
-                                  app.globalData.userInfo.city = res.data.result.address_component.city
-                                }
-                              }
-                            })
-                          }
-                        }
-                      })
-                    }
-                  }
-                })
-              }
-            }
-          })
-        }
-      }
-    })
+    // wx.getSetting({
+    //   success: (res) => {
+    //     if (res.authSetting['scope.userInfo'] && res.authSetting['scope.userLocation']) {
+    //       this.confirmPayment()
+    //     } else if (!res.authSetting['scope.userInfo']) { // 用户未授受获取其用户信息或位置信息
+    //       wx.showModal({
+    //         title: '提示',
+    //         content: '请先至[我的]页面点击头像授权用户信息,方可购买券票',
+    //         success: (res) => {
+    //           wx.switchTab({
+    //             url: '../../personal-center/personal-center'
+    //           })
+    //         }
+    //       })
+    //     } else {
+    //       wx.showModal({
+    //         title: '提示',
+    //         content: '为让享7更好为您服务，请授权以下权限给享7',
+    //         success: function (res) {
+    //           if (res.confirm) {
+    //             wx.openSetting({
+    //               success: (res) => {
+    //                 if (res.authSetting['scope.userLocation']) {  //得到用户位置授权，获取用户位置
+    //                   wx.getLocation({
+    //                     type: 'wgs84',
+    //                     success: function (res) {
+    //                       let latitude = res.latitude
+    //                       let longitude = res.longitude
+    //                       let speed = res.speed
+    //                       let accuracy = res.accuracy
+    //                       app.globalData.userInfo.lat = latitude
+    //                       app.globalData.userInfo.lng = longitude
+    //                       if (latitude && longitude) {
+    //                         wx.request({
+    //                           url: 'https://apis.map.qq.com/ws/geocoder/v1/?location=' + latitude + "," + longitude + "&key=4YFBZ-K7JH6-OYOS4-EIJ27-K473E-EUBV7",
+    //                           header: {
+    //                             'content-type': 'application/json' // 默认值
+    //                           },
+    //                           success: (res) => {
+    //                             if (res.data.status == 0) {
+    //                               app.globalData.userInfo.city = res.data.result.address_component.city
+    //                             }
+    //                           }
+    //                         })
+    //                       }
+    //                     }
+    //                   })
+    //                 }
+    //               }
+    //             })
+    //           }
+    //         }
+    //       })
+    //     }
+    //   }
+    // })
   },
 
   confirmPayment: function (e) {  //生成订单号

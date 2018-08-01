@@ -12,6 +12,9 @@
   font-size: 28rpx;
   color: #808080;
 }
+.evaluateSon {
+  width: 49.9%;
+}
 .homezan{
   width: 29rpx;
   height: 29rpx;

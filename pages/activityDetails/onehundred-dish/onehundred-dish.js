@@ -12,6 +12,7 @@ Page({
     issnap: false,
     switchTab: true,
     isball:true,
+    istouqu: false,
     isclick:true,
     flag: true,
     searchValue: '',
@@ -75,13 +76,11 @@ Page({
   onShow: function (options) {
     this.availableVote();
     if (!app.globalData.userInfo.mobile) {
-      console.log("onehundredInit")
       this.getuserinfo();
     }
   },
   first:function(){
     let _timer=null,that = this;
-    console.log("fdsa")
     _timer = setInterval(function () {
       if (that.data.actId){
         clearInterval(_timer);
@@ -92,7 +91,6 @@ Page({
   onehundredInit: function () {
     let that = this;
     if (!app.globalData.userInfo.mobile) {
-      console.log("onehundredInit")
       this.getuserinfo();
     }
     wx.request({
@@ -523,6 +521,7 @@ Page({
     });
   },
   payDish(e) {    //购买推荐菜
+    console.log(app.globalData.userInfo)
     if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap:true
@@ -605,15 +604,14 @@ Page({
     })
   },
   getuserinfo(){
+    let that = this;
     wx.login({
       success: res => {
         if (res.code) {
           let _parms = {
             code: res.code
           }
-          let that = this;
           Api.getOpenId(_parms).then((res) => {
-            console.log("getuserinfo_res:",res)
             app.globalData.userInfo.openId = res.data.data.openId;
             app.globalData.userInfo.sessionKey = res.data.data.sessionKey;
             if (res.data.data.unionId) {
@@ -671,17 +669,46 @@ Page({
       }
     })
   },
-  findByCode: function () {
+  findByCode: function () {//获取用户unionId 如未获取到，则调用againgetinfo事件
+    console.log('findByCode')
     let that = this;
     wx.login({
       success: res => {
         Api.findByCode({ code: res.code }).then((res) => {
           wx.hideLoading();
+          console.log('res123:',res)
           if (res.data.code == 0) {
             if (res.data.data.unionId) {
               app.globalData.userInfo.unionId = res.data.data.unionId;
               that.getmyuserinfo()
+            }else{
+              that.setData({
+                istouqu:true
+              })
             }
+          }
+        })
+      }
+    })
+  },
+  againgetinfo: function () { //点击获取用户unionId
+    let that = this;
+    wx.getUserInfo({
+      withCredentials: true,
+      success: function (res) {
+        let _pars = {
+          sessionKey: app.globalData.userInfo.sessionKey,
+          ivData: res.iv,
+          encrypData: res.encryptedData
+        }
+        Api.phoneAES(_pars).then((resv) => {
+          if (resv.data.code == 0) {
+            that.setData({
+              istouqu: false
+            })
+            let _data = JSON.parse(resv.data.data);
+            app.globalData.userInfo.unionId = _data.unionId;
+            that.getmyuserinfo();
           }
         })
       }

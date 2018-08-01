@@ -8,6 +8,14 @@
     <button class='gettel colosetel' bindtap='closetel' id='2'>取消</button>
   </view>
 </view>
+
+<view class="newUserModal loginuser" wx:if="{{istouqu}}" catchtouchmove='true'>
+    <view class="drawer_screen"></view>
+    <button class="newUserM_box" open-type="getUserInfo" bindgetuserinfo="againgetinfo">
+      <image class='loginimg' src='/images/icon/login.png'></image>
+    </button>
+  </view>
+  
 <view class="hot_activity">
   <view class="hot_banner">
     <image class="hot_banner_img" src="{{mainPic}}"></image>

@@ -8,6 +8,7 @@ Page({
     issnap: false,
     isnew: false,
     isComment: false,
+    istouqu: false,
     totalComment: 0,
     commentVal: '',
     playerUserId:'',
@@ -105,6 +106,20 @@ Page({
             _iconUrl: data.iconUrl,
             _nickName: _nickName
           })
+          if (data) {
+            for (let key in data) {
+              for (let ind in app.globalData.userInfo) {
+                if (key == ind) {
+                  app.globalData.userInfo[ind] = data[key]
+                }
+              }
+            };
+            if (!data.mobile) {
+              that.setData({
+                isnew: true
+              })
+            }
+          }
         }
       }
     })
@@ -155,6 +170,12 @@ Page({
     })
   },
   gettopiclist: function (id) {  //获取文章内容数据
+    if (!app.globalData.userInfo.mobile) {
+      this.setData({
+        issnap: true
+      })
+      return false
+    }
     let _parms = {
       id: id,
       zanUserId: app.globalData.userInfo.userId,
@@ -555,7 +576,7 @@ Page({
       isshare: !this.data.isshare
     })
   },
-  getuserinfo() {
+  getuserinfo() {  //获取用户openId、sessionKey
     wx.login({
       success: res => {
         if (res.code) {
@@ -578,52 +599,54 @@ Page({
       }
     })
   },
-  getmyuserinfo: function () {
+  getmyuserinfo: function () {  //创建用户，获取用户信息
+    console.log('getmyuserinfo')
     let _parms = {
       openId: app.globalData.userInfo.openId,
       unionId: app.globalData.userInfo.unionId
     }, that = this;
+    console.log('_parms:', _parms)
     Api.addUserUnionId(_parms).then((res) => {
+      console.log('getmyuserinfo_res:',res)
       if (res.data.data) {
         app.globalData.userInfo.userId = res.data.data;
-        wx.request({  //从自己的服务器获取用户信息
-          url: this.data._build_url + 'user/get/' + res.data.data,
-          header: {
-            'content-type': 'application/json' // 默认值
-          },
-          success: function (res) {
-            if (res.data.code == 0) {
-              let data = res.data.data;
-              if(data){
-                for (let key in data) {
-                  for (let ind in app.globalData.userInfo) {
-                    if (key == ind) {
-                      app.globalData.userInfo[ind] = data[key]
-                    }
-                  }
-                };
-                if (!data.mobile) {
-                  that.setData({
-                    isnew: true
-                  })
-                }
-              }else{
-                that.setData({
-                  isnew: true
-                })
-              }
-              
-            }
-          }
-        })
+        that.getuserif(res.data.data);
+        // wx.request({  //从自己的服务器获取用户信息
+        //   url: this.data._build_url + 'user/get/' + res.data.data,
+        //   header: {
+        //     'content-type': 'application/json' // 默认值
+        //   },
+        //   success: function (res) {
+        //     if (res.data.code == 0) {
+        //       let data = res.data.data;
+        //       console.log("userdata:",data)
+        //       if(data){
+        //         for (let key in data) {
+        //           for (let ind in app.globalData.userInfo) {
+        //             if (key == ind) {
+        //               app.globalData.userInfo[ind] = data[key]
+        //             }
+        //           }
+        //         };
+        //         if (!data.mobile) {
+        //           that.setData({
+        //             isnew: true
+        //           })
+        //         }
+        //       }
+        //     }
+        //   }
+        // })
       }
     })
   },
   findByCode: function () {
+    console.log('findByCode123')
     let that = this;
     wx.login({
       success: res => {
         Api.findByCode({ code: res.code }).then((res) => {
+          console.log('findByCode_res:',res)
           if (res.data.code == 0) {
             if (res.data.data.unionId) {
               app.globalData.userInfo.unionId = res.data.data.unionId;
@@ -634,12 +657,33 @@ Page({
                 istouqu: true
               })
             }
-          } else {
-            that.findByCode();
-            wx.hideLoading();
+          }
+        })
+      }
+    })
+  },
+  againgetinfo: function () { //点击获取用户unionId
+    console.log("againgetinfo")
+    let that = this;
+    wx.getUserInfo({
+      withCredentials: true,
+      success: function (res) {
+        let _pars = {
+          sessionKey: app.globalData.userInfo.sessionKey,
+          ivData: res.iv,
+          encrypData: res.encryptedData
+        }
+        Api.phoneAES(_pars).then((resv) => {
+          console.log("againgetinfo_resv:",resv)
+          if (resv.data.code == 0) {
             that.setData({
-              istouqu: true
+              istouqu: false
             })
+            let _data = JSON.parse(resv.data.data);
+            console.log("_data123:",_data);
+            app.globalData.userInfo.unionId = _data.unionId;
+            console.log("app.globalData.userInfo123:", app.globalData.userInfo)
+            that.getmyuserinfo();
           }
         })
       }

@@ -48,7 +48,7 @@ Page({
       isComment: false
     })
   },
-  clickzan:function(){
+  clickzan:function(){  //点赞
     if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
@@ -71,7 +71,7 @@ Page({
     }
     let that = this
     let _details = this.data.foodData
-    if (app.globalData.userInfo.mobile == 'a' || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+    if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
       })
