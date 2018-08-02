@@ -57,18 +57,9 @@
       <text class='site_location_text'>{{city}}</text>
       <image class='location' src='/images/icon/home_bar_arrow.png'></image>
     </view>
-    <view class='page_row'>
-      <!-- <view class="search">
-        <view class="df search_arr">
-          <image class="searchcion" src="/images/icon/home_bar_search.png"></image>
-          <input disabled placeholder="请输入关键字" value="{{searchValue}}" />
-        </view>
-      </view> -->
-    </view>
-    <!-- catchtap='discountCoupon' -->
+    <view class='page_row'> </view>
     <view class="usingTheVolumeBox" bindtap="seekTap">
       <image class="usingTheVolume" src="/images/icon/home_bar_search.png"></image>
-      <!-- <image class='usingTheVolume' src='/images/icon/home_bar_quan.png'></image> -->
     </view>
   </view>
 
