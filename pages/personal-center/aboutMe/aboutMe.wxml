@@ -1,7 +1,7 @@
 <view>
   <view class='centreTopName'>
-    <image class='centreImages' src='/images/icon/aboutMe.png'></image>
-    <view class='centreText'>享7美食</view>
+    <image class='centreImages' src='https://xqmp4-1256079679.file.myqcloud.com/text_364168613151514.png'></image>
+    <view class='centreText'><text>享7美食</text></view>
   </view>
   <view class='myList'>
     <view class='myList-single'>

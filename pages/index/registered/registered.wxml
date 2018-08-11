@@ -1,5 +1,5 @@
 <view class='phonebox'>
-    <image class='logo' src='/images/icon/dongtaiLgy.png'></image>
+    <image class='logo' src='https://xqmp4-1256079679.file.myqcloud.com/text_10002730102299103.png'></image>
   <view class='forinput'>
    <input class='phoneput' type='number' placeholder='请输入手机号'  value="{{phone}}" maxlength="11" bindblur="bindblur"></input>
         <button class='getnumber phonenum' wx:if="{{isgetnumber}}" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">请输入手机号</button>    

@@ -14,7 +14,7 @@
   <block wx:if="{{item.actType == 36}}">
     <view class="hot_ticket" catchtap='toMyTicket'>
       <view class="hot_ticket_l">
-        <image src="/images/icon/blue_ticket.png" mode="aspectFill"></image>
+        <image src="https://xqmp4-1256079679.file.myqcloud.com/text_393517078236219446.png" mode="aspectFill"></image>
         <view class="hot_ticket_l_txt blue_txt">
         {{item.skuName}}
         </view>

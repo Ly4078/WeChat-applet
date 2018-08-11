@@ -15,10 +15,10 @@
       <image src="{{information.iconUrl}}" mode="aspectFill" class='topimg'></image>
       <view class='u_name'>{{information.actUserName}}</view>
       <view class='u_yearh'>
-        <text class='textyear'> <image class='sexicon' src='/images/icon/girl.png'></image>{{information.age}}岁</text>
+        <text class='textyear'> <image class='sexicon' src='https://xqmp4-1256079679.file.myqcloud.com/text_607100630211750181.png'></image>{{information.age}}岁</text>
         <text class='texthei'>{{information.height}}cm</text>
-        <image wx:if="{{user.sex == '2'}}" class='sexicon' mode="aspectFill" src='/images/icon/girl.png'></image>
-        <image wx:if="{{user.sex == '1'}}" class='sexicon' mode="aspectFill" src='/images/icon/male.png'></image>
+        <image wx:if="{{user.sex == '2'}}" class='sexicon' mode="aspectFill" src='https://xqmp4-1256079679.file.myqcloud.com/text_607100630211750181.png'></image>
+        <image wx:if="{{user.sex == '1'}}" class='sexicon' mode="aspectFill" src='https://xqmp4-1256079679.file.myqcloud.com/text_72445400565668401.png'></image>
       </view>
       <view class='topbut ones'>
         <view class='xsnum'>{{groupCode?groupCode:information.userCode}}</view>

@@ -1,0 +1,29 @@
+<view>
+  <view class="hd-title">我的收货地址</view>
+  <view class="container" catchtap='backtrackwback'  wx:for="{{customerInfo.address}}" wx:key="index"  wx:for-item="list">
+    <view class="customerInfo">
+      <view class="view-group line-before-bottom">
+        <view class='underneath'>
+          <view class="group-bd">
+            <view class="group-bd-hd">地址:
+              <text class="font-color-999">{{list.address}}</text>
+            </view>
+            <view class="consignee-info">
+              <view class='font-color-wrap'>
+                <text class="font-color-999">{{list.consignee}}：</text>
+                <text class="font-color-999">{{list.phone}}</text>
+              </view>
+              <view class='compiletext' catchtap='copyreader'>
+                <image class='compileese' src='/images/icon/compile-es.png'></image>
+                <text>编辑</text>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class='addShipping'>
+    <button class='download' catchtap='download'>新增收货地址</button>
+  </view>
+</view>

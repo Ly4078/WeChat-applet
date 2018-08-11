@@ -15,7 +15,7 @@
     <view class='personnelOrder'>
       <view class='iconLogoWrap'>
         <image class='iconLogo_sj' wx:if="{{item.logoUrl}}" src='{{item.logoUrl}}'></image>
-        <image class='iconLogo_sj' wx:else src='/images/icon/brotheres.png'></image>
+        <image class='iconLogo_sj' wx:else src='https://xqmp4-1256079679.file.myqcloud.com/text_449126809543213900.png'></image>
       </view>
       <view class='iconLogo-right'>
         <view class='logo-right-top'>

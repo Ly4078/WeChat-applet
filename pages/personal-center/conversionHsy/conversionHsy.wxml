@@ -1,0 +1,20 @@
+<view class='records_wrap'>
+  <view class='records_inner'>
+    <view class='records_single'>
+      <view class='records_img'>
+        <image class='records_images' src='https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1533968206827&di=6056151542d2cb77d9822afb81010f60&imgtype=0&src=http%3A%2F%2Fg-search2.alicdn.com%2Fbao%2Fuploaded%2Fg-search1.alicdn.com%2Fbao%2Fuploaded%2Fi1%2FTB1_ledHpXXXXbxapXXXXXXXXXX_%2521%25210-item_pic.jpg_400x400.jpg'></image>
+      </view>
+      <view class='records_right'>
+        <view class='records_right_top'>
+          <text>T恤</text>
+          <text>待发货</text>
+        </view>
+        <view class='records_right_cent'>
+          <view>颜色：<text>红色</text>；尺码：<text>XL</text></view>
+          <view>X<text>1</text></view>
+        </view>
+        <view class='practical_gold'><text>88</text>金币</view>
+      </view>
+    </view>
+  </view>
+</view>

@@ -138,7 +138,7 @@
   <view class='lectronic-wrap1' >
     <view class='lectronic-top1'  bindtap='sublevelSum'>
       <view class='brotherRight1'>
-        <view class='brothWrap1'><image class='borthImg1' src='/images/icon/brotheres.png'></image></view>
+        <view class='brothWrap1'><image class='borthImg1' src='https://xqmp4-1256079679.file.myqcloud.com/text_449126809543213900.png'></image></view>
         <view class='brothText1'>
           <text class='restrictText1'>{{ticketInfo.skuName}}</text>
           <text>有限期至：<text>{{ticketInfo.endTime}}</text></text>
@@ -268,13 +268,13 @@
 
 <view class='modal_box' wx:if="{{ismoldel}}" bindtap='clickmolbox'>
   <view class='envelope'>
-    <image bindtap='closemob' class='close' src='/images/icon/close.png'></image>
+    <image bindtap='closemob' class='close' src='https://xqmp4-1256079679.file.myqcloud.com/text_571384624394205621.png'></image>
     <view class='motitle'>恭喜获得</view>
     <view class='money {{redfirst == 2?"received":""}}'>
       <text wx:if="{{redfirst == 2}}">￥</text>
       <text class='{{redfirst == 2?"big":""}}'>{{amount}}</text>
     </view>
-    <image catchtap='clickcur' class='currency {{redfirst == 2?"xuanz":""}}' src='/images/icon/currency.png'></image>
+    <image catchtap='clickcur' class='currency {{redfirst == 2?"xuanz":""}}' src='https://xqmp4-1256079679.file.myqcloud.com/text_228282355422930529.png'></image>
     <view class='flod' wx:if="{{redfirst == 1}}">
       <image src='/images/icon/top2.png'></image>
     </view>

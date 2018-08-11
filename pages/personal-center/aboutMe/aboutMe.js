@@ -1,7 +1,7 @@
 Page({
   data: {
     markers: [{
-      iconPath: "/images/icon/zuobiaosea.png",
+      iconPath: "https://xqmp4-1256079679.file.myqcloud.com/text_5132363901663589.png",
       id: 0,
       latitude: 30.480270,
       longitude: 114.421820,

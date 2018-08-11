@@ -1,0 +1,238 @@
+.ship_list{
+  width: 100%;
+  height: 360rpx;
+  background: #fff;
+}
+.ship_list .ship_name{
+  width: 100%;
+  height: 100rpx;
+  border-bottom: 2rpx solid #F1f3f2;
+  position: relative;
+}
+.ship_list .ship_name text{
+  float: left;
+  line-height: 100rpx;
+  padding-left: 20rpx;
+  font-size: 28rpx;
+  color: #212121;
+}
+.ship_list .ship_name .ship_focus{
+  line-height: 100rpx;
+  padding-left: 70rpx;
+  font-size: 28rpx;
+  padding-top: 30rpx;
+}
+.ship_list .ship_area{
+  width: 100%;
+  height: 100rpx;
+  border-bottom: 2rpx solid #F1f3f2;
+  position: relative;
+}
+.ship_list .ship_area text{
+  float: left;
+  line-height: 100rpx;
+  padding-left: 20rpx;
+  font-size: 30rpx;
+  color: #212121;
+}
+.ship_list .ship_area .ship_citychoose{
+  width: auto;
+  font-size: 28rpx;
+  line-height: 100rpx;
+  color: #828282;
+  padding-left: 40rpx;
+  padding-top: 30rpx;
+}
+.ship_list .buy_street{
+  width: 100%;
+  height: 120rpx;
+}
+.ship_list .buy_street text{
+  float: left;
+  font-size: 28rpx;
+  color: #212121;
+  padding-left: 20rpx;
+  padding-top: 10rpx;
+}
+.ship_list .buy_street .buy_streetnumber{
+  width: 72%;
+  height: 110rpx;
+  margin-left: 174rpx;
+  padding-top: 12rpx;
+  font-size: 28rpx;
+}
+
+.happen{
+  padding-left: 46rpx!important;
+}
+
+.preserve{
+  width: 100%;
+  height: 130rpx;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.cancel{
+  background-color: #EBEBEB!important;
+}
+
+.btnGroup-bao{
+  padding-top: 110rpx;
+}
+
+.btnGroup-btn{
+  width: 50%;
+  height: 80rpx;
+  line-height: 80rpx;
+  border-radius: 50rpx;
+  letter-spacing: 3rpx;
+  font-size: 36rpx;
+  background-color: #FF7038;
+  color: #fff;
+}
+
+
+/*时间弹窗  */
+.citypickers{
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  min-height: 100%;
+  background-color: #ff0;
+}
+.citybody {
+  position: fixed;
+  bottom: 0px;
+}
+.cityheader {
+  position: absolute;
+  top:0px;
+  width: 100%;
+  z-index: 5;
+}
+.city-cancel {
+  float: left;
+  margin: 20rpx;
+  color: #828282;
+}
+.city-true {
+  float: right;
+  margin: 20rpx;
+  color: #10FF10;
+}
+.section .picker {
+  background-color: #fff;
+  border-bottom: 2px #cccccc solid;
+  border-top: 2px #d9d9d9 solid;
+  padding: 20rpx;
+}
+
+
+
+/* 选择地址弹窗 */
+.dialog-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 8;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.picker-view {
+  width: 100%;
+  display: flex;
+  z-index:12;
+  background-color: #fff;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  bottom: 0rpx;
+  left: 0rpx;
+  height: 40vh;
+}
+
+.hidden.state-menu {
+  transform: translateY(-200rpx);
+  transition: all 0.4s ease;
+  visibility: hidden;
+}
+
+.show.state-menu {
+  transform: translateY(0);
+  transition: all 0.4s ease;
+  visibility: visible;
+}
+
+.picker-item {
+  line-height: 70rpx;
+  margin-left: 5rpx;
+  margin-right: 5rpx;
+  text-align: center;
+}
+
+.mortal{
+  width: 78%;
+  height: 100rpx;
+  opacity: 0;
+  position: absolute;
+  right: 0rpx;
+  top: 0rpx;
+  z-index: 999;
+}
+
+.info_list {
+  height: 100rpx;
+  line-height: 100rpx;
+  width: 93%;
+  border-bottom:2rpx solid #F1f3f2;
+  padding-left: 24rpx;
+  display: inline-block;
+  font-size: 28rpx;
+  display: none;
+}
+
+.left{ 
+  float: left;
+  padding-top:27rpx;
+  }
+
+.right{float: right}
+
+.yanzheng_btn {
+  width:180rpx;
+  background:#FC5E2D;
+  padding-right:50rpx;
+  height:70rpx;
+  margin-top:18rpx;
+  text-align:center;
+  line-height:70rpx;
+  border-radius:50rpx;
+  color:#fff;
+  font-size:26rpx;
+  padding:0 10rpx;
+}
+
+.confirmCall{
+  height:10% ;
+  width:95%;
+  margin-top:10rpx;
+  font-size: 40rpx;
+}
+
+.confirmCall text:nth-child(1){
+  color: #b3b3b3;
+}
+
+.confirmCall text:nth-child(2){
+  color: green
+}
+
+.pop-updata{
+  width: 100%;
+  height: 300px;
+}

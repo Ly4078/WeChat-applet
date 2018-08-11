@@ -1,0 +1,143 @@
+<view>
+  <swiper class='swiper' indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" indicator-dots="true" circular="true" indicator-active-color="rgba(252, 94, 45,0.8)">
+    <block wx:for="{{imgUrls}}" wx:key="index">
+      <swiper-item>
+        <image src="{{item}}" class="slide-image" />
+      </swiper-item>
+    </block>
+  </swiper>
+  <view class='parameter'>
+    <text>定制T恤(白色)</text>
+    <text>一件有意思的s舒适T恤</text>
+    <text>88 金币</text>
+  </view>
+
+  <!-- 配送地址 -->
+  <view class='Shipping' catchtap='dispatching'>
+    <view class='Shipping-nem'>
+      <view class='ShippingLeft'>
+        <view class='headline'></view>
+        <text>配送地址</text>
+      </view>
+      <view>
+        <image class='arrowhead' src='/images/icon/home_arrow.png'></image>
+      </view>
+    </view>
+  </view>
+  <!-- 当用户填写地址后返回展会页面 -->
+  <view class='havElocation'>
+    <view class='elocation-787'>
+      <view class='elocation-dian'>
+        <text>杨锋：</text>
+        <text>15827245422</text>
+      </view>
+      <view>地址:
+        <text>分解无法拉尔夫可可粉饥饿而扣分空军飞机附件四啊大家覅飞机欸将飞机</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 产品规格 -->
+  <view class='Shipping' bindtap='modal_show' data-flag="2">
+    <view class='Shipping-nem'>
+      <view class='ShippingLeft'>
+        <view class='headline'></view>
+        <text>产品规格</text>
+      </view>
+      <view>
+        <image class='arrowhead' src='/images/icon/home_arrow.png'></image>
+      </view>
+    </view>
+  </view>
+
+  <!-- 商品详情 -->
+  <view class='arrows'>
+    <view class='Shipping-ent'>
+      <view class='ShippingLeft'>
+        <view class='headline'></view>
+        <text>商品详情</text>
+      </view>
+      <view class='arrowsText'>
+        <text>BOSS您好，我想应聘贵司的H5\小程序职位。我擅长Web前端、Javascript、HTML/CSS等技能，并且拥有5年的工作经验，期待您的回复。BOSS您好，我想应聘贵司的H5\小程序职位。我擅长Web前端、Javascript、HTML/CSS等技能，并且拥有5年的工作经验，期待您的回复。</text>
+      </view>
+    </view>
+    <view wx:for="{{twoList}}" wx:for-index="index" wx:key="index" wx:for-item="item">
+      <image class='commodityImg' src='{{item.adc}}'></image>
+    </view>
+  </view>
+
+  <!-- 兑换说明 -->
+  <view class='arrows'>
+    <view class='Shipping-ent'>
+      <view class='ShippingLeft'>
+        <view class='headline'></view>
+        <text>兑换说明</text>
+      </view>
+      <view class='series'>
+        <text>1.的企鹅哦啊了纠纷打快点.\n 2.毒啊司法局的浪费了,\n 3.毒啊司法局的浪费了\n</text>
+      </view>
+    </view>
+  </view>
+  <view class='residue'>
+    <text>可用积分：83</text>
+  </view>
+  <button class='immediately' bindtap='modal_show' data-flag="2">立即兑换</button>
+  <!-- 产品规格弹窗 -->
+  <view class='specification' style="display:{{choose_modal}}">
+    <view class='size'>
+      <view class='information'>
+        <view class='website'>
+          <image class='websiteImg' src='https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1532670487912&di=298054c82c12d3d72c89ebfd1d593ba9&imgtype=0&src=http%3A%2F%2Fimg01.taopic.com%2F160809%2F240390-160P91133119.jpg'></image>
+        </view>
+        <view class='commName'>
+          <text>定制T恤(白)</text>
+          <text>白色.L</text>
+          <text>88金币</text>
+        </view>
+        <icon class="clear shutdown" type='clear' bindtap="modal_none"></icon>
+      </view>
+      <!--选择尺码-->
+      <view class="spec_view_container">
+        <view class="modal_spec">
+          <block wx:for="{{spec}}" wx:key="index" wx:for-index="group_idx">
+            <view class="modal_spec_name">{{item.name}}</view>
+            <view class='modal_spec_group'>
+              <block wx:for="{{item.child}}" wx:key="index">
+                <view class="modal_spec_item_{{item.isSelect ? 'active' : ''}}" data-select-index="{{group_idx}}" data-attr-index="{{index}}" data-attr-id="{{item.id}}" bindtap='clickAttr'>{{item.name}}</view>
+              </block>
+            </view>
+          </block>
+        </view>
+      </view>
+      <!--选择颜色-->
+      <view class="spec_view_container">
+        <view class="modal_spec">
+          <block wx:for="{{speces}}" wx:key="index" wx:for-index="group_idx">
+            <view class="modal_spec_name">{{item.name}}</view>
+            <view class='modal_spec_group'>
+              <block wx:for="{{item.child}}" wx:key="index">
+                <view class="modal_spec_item_{{item.isSelect ? 'active' : ''}}" data-select-index="{{group_idx}}" data-attr-index="{{index}}" data-attr-id="{{item.id}}" bindtap='clickAttr'>{{item.name}}</view>
+              </block>
+            </view>
+          </block>
+        </view>
+      </view>
+      <!--选择数量 -->
+      <view class="buy_num">
+        <view class="font_num">购买数量：</view>
+        <view class="stepper">
+          <!-- 减号 -->
+          <text class="{{minusStatus}}" bindtap="bindMinus">-</text>
+          <!-- 数值 -->
+          <input type="number" bindchange="bindManual" value="{{num}}" />
+          <!-- 加号 -->
+          <text class="normal" bindtap="bindPlus">+</text>
+        </view>
+      </view>
+      <!-- 弹窗立即兑换 -->
+      <view class='windowsWrap'>
+        <button class='windows-Tc' catchtap='ImmediatelyChange'>立即兑换</button>
+      </view>
+    </view>
+  </view>
+</view>

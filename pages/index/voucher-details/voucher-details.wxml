@@ -1,8 +1,8 @@
 <view>
   <view class='detailsWarp'>
-    <image class='detailsImg'  wx:if="{{!cfrom && !actId}}" src='/images/icon/xianjin.png'></image>
-    <image class='detailscf' wx:if="{{cfrom}}" src='/images/icon/package.png'></image>
-    <image class='detailscf' wx:if="{{!cfrom && actId}}" src='/images/icon/shidian.png'></image>
+    <image class='detailsImg'  wx:if="{{!cfrom && !actId}}" src='https://xqmp4-1256079679.file.myqcloud.com/text_795304398318743860.png'></image>
+    <image class='detailscf' wx:if="{{cfrom}}" src='https://xqmp4-1256079679.file.myqcloud.com/text_822736298892403993.png'></image>
+    <image class='detailscf' wx:if="{{!cfrom && actId}}" src='https://xqmp4-1256079679.file.myqcloud.com/text_844679799616664617.png'></image>
     
     <view class='speciesWrap'  wx:if="{{!cfrom}}">
       <text class='speciesText' wx:if="{{actId}}">{{obj.sell}}元食典劵</text>

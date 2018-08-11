@@ -50,7 +50,7 @@ Page({
     isfile:false,
     navs: [
       {
-        img: '/images/icon/kanjia.png',
+        img: 'https://xqmp4-1256079679.file.myqcloud.com/text_701070039850928092.png',
         id: 1,
         name: '砍价'
       }, {
@@ -73,7 +73,7 @@ Page({
     ],
     navs2: [
       {
-        img: '/images/icon/kanjia.png',
+        img: 'https://xqmp4-1256079679.file.myqcloud.com/text_701070039850928092.png',
         id: 1,
         name: '砍价'
       }, {
@@ -256,9 +256,8 @@ Page({
       // wx.navigateTo({
       //   url: 'consume-qibashare/consume-qibashare',
       // })
-      wx.showToast({
-        icon: 'none',
-        title: '一元吃美食，建设中，即将开放...'
+      wx.navigateTo({
+        url: 'bargainirg-store/bargainirg-store',
       })
     } else if (id == 2) {  //餐厅
       wx.navigateTo({
@@ -1309,7 +1308,7 @@ Page({
         userId: app.globalData.userInfo.userId,
         userName: app.globalData.userInfo.userName
       }
-      Api.sendForRegister(_parms).then((res) => {
+      Api.sendForRegister(_parms).then((res) => {  //获取手机验证码
         if (res.data.code == 0) {
           // console.log('res.data.data:', res.data.data)
           that.setData({

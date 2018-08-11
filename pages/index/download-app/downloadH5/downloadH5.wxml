@@ -1,5 +1,0 @@
- 
- 
- 
-
-      <web-view wx:if="{{!isdown}}" src="https://www.hbxq001.cn/download.html"></web-view>    

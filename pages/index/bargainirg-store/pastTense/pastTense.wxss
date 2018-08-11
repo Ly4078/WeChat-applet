@@ -1,0 +1,124 @@
+page{
+ background-color: #F5F5FA;
+}
+
+.previously{
+  width: 100%;
+  height: 250rpx;
+  background-color: white;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20rpx;
+  border-top: 1px solid #EBEBEB;
+}
+
+.preImages{
+  width: 190rpx;
+  height: 190rpx;
+  margin: 30rpx 22rpx;
+  border-radius: 18rpx;
+}
+
+.preRight{
+  width: 74%;
+  padding-top: 22rpx;
+}
+
+.preRitTop{
+  display: flex;
+  justify-content: space-between;
+  letter-spacing: 2rpx;
+  padding-right: 22rpx;
+}
+
+.pre-rigtTop-name{
+  width: 72%;
+  font-size:30rpx;
+  font-family:PingFangSC-Regular;
+  color:rgba(25,25,25,1);
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+  font-weight: 600;
+}
+
+.pre-rigtTop-price{
+  font-size:28rpx;
+  font-family:PingFangSC-Regular;
+  color:rgba(255,67,67,1);
+}
+
+.voteText{
+  width: 40rpx;
+  height: 34rpx;
+  display: inline-block;
+  font-size:24rpx;
+  background: black;
+  color: white;
+  opacity: 0.8;
+  text-align: center;
+  letter-spacing: 2rpx;
+  border-radius: 6rpx;
+}
+
+.votefenge{
+  display: inline-block;
+  padding: 0rpx 6rpx;
+}
+
+.countDownTimeView{
+  padding: 6rpx 0rpx 0rpx 0rpx;
+}
+
+.countDownTimeView text{
+  font-size:24rpx;
+  font-family:PingFangSC-Regular;
+  color:rgba(45,42,42,1);
+  padding-left: 10rpx;
+}
+
+.already{
+  display: inline-block;
+  font-size:24rpx;
+}
+
+.already text{
+  color:rgba(255,67,67,1);
+}
+
+.alreadyWrap{
+  margin-bottom: 10rpx;
+}
+
+.depend{
+  display: flex;
+  justify-content: space-between;
+  height: 70rpx;
+  align-items: center;
+  border-top: 1px solid #EBEBEB;
+}
+
+.dependLeft{
+  font-size:30rpx;
+  font-family:PingFangSC-Regular;
+  color:rgba(255,67,67,1);
+}
+
+.dependLeft view{
+  display: inline-block;
+  padding-left: 20rpx;
+  text-decoration:line-through;
+  color:rgba(177,177,177,1);
+  font-size:24rpx;
+}
+
+.depend button{
+  width:120rpx;
+  height:46rpx;
+  background:rgba(255,67,67,1);
+  border-radius:23px;
+  color:rgba(255,255,255,1);
+  font-size: 22rpx;
+  line-height: 46rpx;
+  margin-right: 22rpx;
+}

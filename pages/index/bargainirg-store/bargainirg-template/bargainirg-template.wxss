@@ -1,0 +1,139 @@
+/* 模板 */
+.templateWrap{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  background-color: #78B6FC;
+}
+
+.cutCuisine{
+  width: 94%;
+}
+
+.cutCuisine-shell{
+  width:49%;
+  background:rgba(255,255,255,1);
+  border-radius:20rpx;
+  box-shadow:0px 0px 10rpx rgba(221,221,221,1);
+  margin-top: 18rpx;
+}
+
+.cutCuisine-images{
+  width:100%;
+  height:344rpx;
+  border-top-left-radius: 20rpx;
+  border-top-right-radius: 20rpx;
+}
+
+.cutCuisine-bottom{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding-bottom: 8rpx;
+}
+
+.cutCuisine-text{
+  width: 94%;
+}
+
+.name-sales{
+  display: flex;
+  justify-content: space-between;
+  letter-spacing: 1rpx;
+}
+
+.name-sales text:nth-child(1){
+  width: 64%;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+  font-size:26rpx;
+  font-family:PingFangSC-Regular;
+  color:rgba(25,25,25,1);
+}
+
+.name-sales text:nth-child(2){
+  font-size:18rpx;
+  font-family:PingFangSC-Regular;
+  color:rgba(255,255,255,1);
+  background-color: #258CFF;
+  padding: 4rpx 14rpx;
+  border-radius: 50rpx;
+  line-height: 32rpx;
+}
+
+.merchantSign{
+  width: 17rpx;
+  height: 17rpx;
+  padding-right: 5rpx;
+  vertical-align: middle;
+}
+
+.symbol-dst{
+  display: flex;
+  justify-content: space-between;
+  letter-spacing: 2rpx;
+  color:rgba(177,177,177,1);
+  font-size:20rpx;
+  ont-family:PingFangSC-Regular;
+  padding-top: 10rpx;
+}
+
+.symbol-dst view text{
+  vertical-align: middle;
+}
+
+.symbol-dst view{
+  width: 72%;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+}
+
+.greens-cost-wrap{
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.greens-cost{
+  width: 52%;
+  font-size:18rpx;
+  font-family:PingFangSC-Regular;
+  color:rgba(255,67,67,1);
+  display: flex;
+  justify-content: space-between;
+}
+
+.greens-cost view text:nth-child(1){
+  display: flex;
+  flex-wrap:wrap-reverse;
+  padding-left: 24rpx;
+}
+
+.greens-cost view{
+  line-height: 24rpx;
+  padding-top: 10rpx;
+}
+
+.original-money{
+  font-size:50rpx;
+  font-family:PingFangSC-Regular;
+  color:rgba(255,67,67,1);
+}
+
+.original-money-sand{
+  font-size:18rpx;
+  font-family:PingFangSC-Regular;
+  color:rgba(85,85,85,1);
+  padding-bottom: 10rpx;
+}
+
+.cutCuisine{
+  display: flex;
+  flex-wrap:wrap;
+}
+
+.cutCuisine-shell:nth-child(2n){
+  margin-left: 2%;
+}

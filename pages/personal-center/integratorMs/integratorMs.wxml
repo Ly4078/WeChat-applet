@@ -1,14 +1,14 @@
 <view class='integrator'>
   <view class='integrator-ds'>
     <view class='integrator-Top'>
-      <image class='moneySign' src='/images/icon/distance.png'></image>
+      <image class='moneySign' src='https://xqmp4-1256079679.file.myqcloud.com/text_142718858044706124.png'></image>
       <view class='signText'>
         <text class='available'>可用金币</text>
         <image class='gramophone' src='/images/icon/understand.png'></image>
         <text class='number'>217</text>
       </view>
       <view class='signRight'>
-        <button class='sinButton'>金币商城</button>
+        <button class='sinButton' catchtap='goldPath'>金币商城</button>
       </view>
     </view>
     <view class='particulars'>
@@ -23,16 +23,15 @@
           </view>
         </view>
         <!-- 明细-->
-        <view class='about'>
+        <view class='about' wx:for="{{address}}" wx:key="index" wx:for-item="item">
           <view class='control'>
-            <view>核销劵</view>
-            <text>2018-08-08</text>
+            <view>{{item.address}}</view>
+            <text>{{item.consignee}}</text>
           </view>
           <view class='subtract'>
-            <text>+5</text>
+            <text>{{item.phone}}</text>
           </view>
         </view>
-
       </view>
     </view>
   </view>

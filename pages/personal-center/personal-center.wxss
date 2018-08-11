@@ -153,7 +153,7 @@ page{
 .messageWrap {
   width: 33%;
   text-align: center;
-  font-size: 30rpx;
+  font-size: 26rpx;
   line-height: 44rpx;
   padding-top: 24rpx;
 }
@@ -168,25 +168,34 @@ page{
   background-color: white;
   line-height: 100rpx;
   border-bottom: 1rpx solid #e0e0e0;
-  border-top-left-radius: 18rpx;
-  border-top-right-radius: 18rpx;
+  
   width: 694rpx;
   margin-left: 28rpx;
 }
 
-.myList:nth-child(2){
-  border-top-left-radius: 0rpx;
-  border-top-right-radius: 0rpx;
+.myList:nth-child(1){
+  border-top-left-radius: 18rpx;
+  border-top-right-radius: 18rpx;
+}
+
+.myList_sue{
   border-bottom-left-radius: 18rpx;
   border-bottom-right-radius: 18rpx;
 }
-.myList:nth-child(3){
-  border-top-left-radius: 0rpx;
-  border-top-right-radius: 0rpx;
-}
+
 .myList:nth-child(4){
-  border-top-left-radius: 0rpx;
-  border-top-right-radius: 0rpx;
+  border-bottom-left-radius: 18rpx;
+  border-bottom-right-radius: 18rpx;
+}
+
+.sectionList{
+  border-bottom-left-radius: 0rpx!important;
+  border-bottom-right-radius:0rpx!important;
+}
+
+.myList_wo{
+  border-bottom-left-radius: 18rpx;
+  border-bottom-right-radius:18rpx;
 }
 
 .myListImages {
@@ -215,7 +224,7 @@ page{
 
 .mylistText {
   color: #191919;
-  font-size: 30rpx;
+  font-size: 28rpx;
   padding-left: 20rpx;
   vertical-align: middle;
 }

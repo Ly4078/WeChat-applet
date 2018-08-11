@@ -1,0 +1,64 @@
+<view class="ship_list">
+  <view class='ship_name'>
+    <text>联系人:</text>
+    <input class='ship_focus' type='text' placeholder="姓名"/>
+  </view>
+  <view class='ship_name'>
+    <text>手机号:</text>
+    <input class='ship_focus' bindinput="phoneInput" type='number' maxlength="11" placeholder="11位手机号"/>
+  </view>
+  <view class='info_list'>
+    <input class='left' maxlength="6" placeholder='验证码'></input>
+    <button class='right yanzheng_btn' bindtap="bindButtonTap" disabled='{{disabled}}' style="background-color:{{color}}">{{text}}</button>
+  </view>
+  <view class='ship_name'>
+    <text>邮政编码:</text>
+    <input class='ship_focus happen' type='number' maxlength="6" placeholder="6位邮政编码" />
+  </view>
+  <view class='ship_area'>
+    <text>选择地区:</text>
+    <!--要显示的省-市-区-->
+    <button class='mortal' bindtap="selectDistrict"></button>
+    <input class='ship_citychoose' placeholder="选择省-市-区" value="{{areaInfo}}" focus="{{focus}}" bindfocus="open" />
+    <!--要显示的省-市-区-->
+  </view>
+  <view class='buy_street'>
+    <text>详细地址:</text>
+    <textarea class='buy_streetnumber' placeholder='需要填写街道楼栋楼层或门牌号信息'></textarea>
+  </view>
+
+  <view class='preserve  btnGroup-bao'>
+    <button class='btnGroup-btn'>确定保存</button>
+  </view>
+  <!-- 从新增收货地址进来显示取消,从原来已有地址进来编辑显示删除 -->
+  <view class='preserve'>
+    <button class='btnGroup-btn cancel' catchtap='backtrack'>取消</button>
+  </view>
+  <view class='preserve'>
+    <button class='btnGroup-btn cancel' catchtap='remove'>删除</button>
+  </view>
+</view>
+
+<!-- 地址弹出动画  -->
+<view class="dialog-mask " style="z-index:11;visibility:{{addressMenuIsShow ? 'visible': 'hidden'}}" bindtap="hideCitySelected" />
+<!--城市三级联动-->
+<view class="picker-view" animation="{{animationAddressMenu}}" style="visibility:{{addressMenuIsShow ? 'visible':'hidden'}}">
+  <view class='confirmCall'>
+    <text catchtap="cityCancel">取消</text>
+    <text style="float: right" catchtap="citySure">确定</text>
+  </view>
+  <picker-view class='pop-updata' bindchange="cityChange" value="{{value}}" wx:key="index">
+    <picker-view-column>
+      <view wx:for="{{provinces}}" wx:key="index" class="picker-item">
+        {{item.name}}</view>
+    </picker-view-column>
+    <picker-view-column>
+      <view wx:for="{{citys}}" class="picker-item" wx:key="index">
+        {{item.name}}</view>
+    </picker-view-column>
+    <picker-view-column>
+      <view wx:for="{{areas}}" class="picker-item" wx:key="index">
+        {{item.name}}</view>
+    </picker-view-column>
+  </picker-view>
+</view>

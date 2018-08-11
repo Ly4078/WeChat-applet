@@ -27,8 +27,8 @@
         <view class="info_name">{{actUserName ? actUserName : nickName}}</view>
         <view>
           <view class="info_age">
-            <image wx:if="{{sex == 0}}" src="/images/icon/male.png"></image>
-            <image wx:if="{{sex == 1}}" src="/images/icon/girl.png"></image>
+            <image wx:if="{{sex == 0}}" src="https://xqmp4-1256079679.file.myqcloud.com/text_72445400565668401.png"></image>
+            <image wx:if="{{sex == 1}}" src="https://xqmp4-1256079679.file.myqcloud.com/text_607100630211750181.png"></image>
             {{age}}岁
           </view>
           <view class="info_address">{{height}}cm</view>

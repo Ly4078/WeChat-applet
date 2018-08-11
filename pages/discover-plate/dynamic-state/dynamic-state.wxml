@@ -9,7 +9,7 @@
   <icon wx:if="{{!isplay && defaimg}}" type="cancel" size="30" color="#fff" class='canceldeo' catchtap='delvideo'/>
   <image wx:if="{{!isplay && defaimg}}" src='{{defaimg}}' bindtap='playvideo' class='dynamic_cover'></image>
   <video wx:if="{{isplay}}" id="video" autoplay='true' src="{{covervideo}}" class='dynamic_cover' objectFit="cover" bindpause="pausevideo" bindended="pausevideo" controls></video> 
-  <image wx:if="{{!defaimg}}" catchtap='bindButtonTap' class='dynamic_cover' src='/images/icon/camera.png'></image>
+  <image wx:if="{{!defaimg}}" catchtap='bindButtonTap' class='dynamic_cover' src='https://xqmp4-1256079679.file.myqcloud.com/text_532552500774283245.png'></image>
   <view class="dynamicmotai" wx:if="{{!isplay && defaimg}}" bindtap='playvideo'>
     <image class='gasimg' src='/images/icon/paly.png'></image>
   </view>

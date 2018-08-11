@@ -1,7 +1,8 @@
 {
   "pages": [
+    
     "pages/index/index",
-    "pages/index/cctvweb-view/cctvweb-view",
+    "pages/personal-center/conversionHsy/conversionHsy",
     "pages/personal-center/aboutMe/aboutMe",
     "pages/personal-center/aboutMe/officialWebsite/officialWebsite",
     "pages/index/merchant-particulars/recommendation/recommendation",
@@ -9,7 +10,6 @@
     "pages/personal-center/call-back/call-back",
     "pages/personal-center/livepage/livepage",
     "pages/index/download-app/download",
-    "pages/index/download-app/downloadH5/downloadH5",
     "pages/personal-center/free-of-charge/free-of-charge",
     "pages/activityDetails/details-like/details-like",
     "pages/activityDetails/act-info/act-info",
@@ -28,7 +28,6 @@
     "pages/index/new-exclusive/new-exclusive",
     "pages/index/order-for-goods/order-for-goods",
     "pages/personal-center/enshrine/enshrine",
-    "pages/personal-center/cancel-after-verification/cancel-after-verification",
     "pages/personal-center/lelectronic-coupons/lectronic-coupons",
     "pages/personal-center/my-discount/my-discount",
     "pages/personal-center/my-discount/expired-ticket/expired-ticket",
@@ -47,8 +46,6 @@
     "pages/personal-center/free-of-charge/category/category",
     "pages/personal-center/free-of-charge/get-address/get-address",
     "pages/activityDetails/hot-activity/eventDetails/eventDetails",
-    "pages/personal-center/myWallet/moneyDetail/moneyDetail",
-    "pages/personal-center/myWallet/myWallet",
     "pages/index/merchant-particulars/paymentPay-page/paymentPay-page",
     "pages/index/merchant-particulars/ticket-list/ticket-list",
     "pages/activityDetails/player-detail/player-detail",
@@ -58,7 +55,15 @@
     "pages/activityDetails/dish-detail/dish-detail",
     "pages/activityDetails/onehundred-dish/onehundred-dish",
     "pages/activityDetails/video-list/video-list",
-    "pages/personal-center/integratorMs/integratorMs"
+    "pages/personal-center/integratorMs/integratorMs",
+    "pages/golSdhopping/golSdhopping",
+    "pages/golSdhopping/commodityDetails/commodityDetails",
+    "pages/personal-center/shipping/add-shipping/add-shipping",
+    "pages/personal-center/shipping/shipping",
+    "pages/index/bargainirg-store/pastTense/pastTense",
+    "pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails",
+    "pages/index/bargainirg-store/AprogressBar/AprogressBar",
+    "pages/index/bargainirg-store/bargainirg-store"
   ],
   "window": {
     "backgroundTextStyle": "dark",
@@ -87,6 +92,13 @@
         "text": "活动",
         "iconPath": "images/icon/home_tab_huodong.png",
         "selectedIconPath": "images/icon/home_tab_huodonged.png"
+      },
+      {
+        "selectedColor": "#FF4411",
+        "pagePath": "pages/golSdhopping/golSdhopping",
+        "text": "商城",
+        "iconPath": "images/icon/gold_mall.png",
+        "selectedIconPath": "images/icon/gold_malles.png"
       },
       {
         "selectedColor": "#FF4411",

@@ -71,7 +71,7 @@ page{
   background-color:transparent;
   border: 1rpx solid  wheat;
   border-radius:27rpx;
-  z-index: 9;
+  z-index: 9999;
 }
 
 .particulars{
@@ -172,8 +172,4 @@ textRight view{
   font-size:28rpx;
   font-family:PingFangSC-Regular;
   color:rgba(247,128,59,1);
-}
-
-.about:last-child{
-  border-bottom:0rpx;
 }

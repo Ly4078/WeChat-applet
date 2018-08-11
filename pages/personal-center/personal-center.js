@@ -19,7 +19,7 @@ Page({
     issnap: false,
     userType: '',
     accountBalance: '',
-    userId:'',
+    userId: '',
   },
   onLoad: function () {
     this.setData({
@@ -30,11 +30,6 @@ Page({
         ismobile: false
       })
     };
-
-    this.getuserInfo();
-    // this.personalInit();
-  },
-  onShow: function () {
     if (app.globalData.userInfo.shopId && app.globalData.userInfo.userType == 2) {
       this.setData({
         isshop: true
@@ -75,11 +70,11 @@ Page({
         istouqu: false
       })
     }
-    if (!app.globalData.userInfo.nickName && app.globalData.userInfo.mobile){
-     this.setData({
-       istouqu:true
-     })
-   }
+    if (!app.globalData.userInfo.nickName && app.globalData.userInfo.mobile) {
+      this.setData({
+        istouqu: true
+      })
+    }
     this.getbalance();
     if (app.globalData.userInfo.mobile) {
       this.setData({
@@ -92,7 +87,6 @@ Page({
     if (reg.test(_nickName)) {
       _nickName = _nickName.substr(0, 3) + "****" + _nickName.substr(7);
     }
-    
     this.setData({
       iconUrl: app.globalData.userInfo.iconUrl,
       nickName: _nickName
@@ -162,7 +156,7 @@ Page({
     }
     Api.accountBalance(_account).then((res) => {
       let _data = res.data;
-      _data = _data==null?0:_data;
+      _data = _data == null ? 0 : _data;
       this.setData({
         accountBalance: _data
       })
@@ -204,7 +198,7 @@ Page({
             nickName: res.userInfo.nickName
           })
           let data = res.userInfo;
-         
+
           delete data.city;
           for (let key in data) {
             for (let ind in app.globalData.userInfo) {
@@ -296,12 +290,12 @@ Page({
         issnap: true
       })
       return false
-    }else{
+    } else {
       wx.navigateTo({
-          url: '../../pages/index/download-app/download?isshop=ind',
+        url: '../../pages/index/download-app/download?isshop=ind',
       })
     }
-    
+
   },
 
 
@@ -322,14 +316,18 @@ Page({
       url: 'personnel-order/personnel-order',
     })
   },
-  infromation:function(event){ //信息
-    wx.showToast({
-      title: '待更新...',
-      mask: 'true',
-      duration: 2000,
-      icon: 'none'
+  infromation: function (event) { //收货地址
+    wx.navigateTo({
+      url: '../personal-center/shipping/shipping',
     })
   },
+
+  remittance: function (event) { //兑换记录
+    wx.navigateTo({
+      url: '../personal-center/conversionHsy/conversionHsy',
+    })
+  },
+
   enshrineClick: function (event) { //收藏
     wx.navigateTo({
       url: 'enshrine/enshrine',
@@ -340,17 +338,30 @@ Page({
       url: '../personal-center/livepage/livepage?likeType=1&userId=' + app.globalData.userInfo.userId
     })
   },
-  personal:function(event){ //个人主页
+  personal: function (event) { //个人主页
     wx.navigateTo({
       url: '../activityDetails/homePage/homePage?iconUrl=' + this.data.iconUrl + '&userId=' + app.globalData.userInfo.userId,
     })
   },
-  myMineMoney: function () { //钱包明细
+  // myMineMoney: function () { //钱包明细
+  //   wx.navigateTo({
+  //     url: 'myWallet/myWallet?sumTotal=' + this.data.accountBalance.data
+  //   })
+  // },
+  myMineMoney: function () {
     wx.navigateTo({
-      url: 'myWallet/myWallet?sumTotal=' + this.data.accountBalance.data
+      url: 'integratorMs/integratorMs'
     })
   },
-
+  // 我的砍价
+  continuousAs: function () {
+    wx.navigateTo({
+      url: '../index/bargainirg-store/pastTense/pastTense',
+      success: function (res) { },
+      fail: function (res) { },
+      complete: function (res) { },
+    })
+  },
   VoucherCode: function () { //输入券码核销
     wx.navigateTo({
       url: '../personal-center/call-back/call-back?ent=ent'
@@ -418,7 +429,7 @@ Page({
           } else if (data.data.discount) {
             let _parms = {
               shopId: app.globalData.userInfo.shopId,
-              skuId:data.data.skuId
+              skuId: data.data.skuId
             }
             Api.searchForShopIdNew(_parms).then((res) => {
               if (res.data.code == -1) {

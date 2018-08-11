@@ -1,0 +1,506 @@
+.detailsImag{
+  width: 100%;
+  height: 650rpx;
+}
+
+.shell{
+  position: relative;
+}
+
+.information{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  top: 570rpx;
+  left: 0rpx;
+}
+
+.information-inner{
+  width: 694rpx;
+  background:rgba(255,255,255,1);
+  border-radius:10px;
+  box-shadow:4px 2px 8px 4px rgba(101,101,101,0.3);
+}
+
+.shopsTopLeft{
+  font-size:30rpx;
+  font-family:PingFangSC-Medium;
+  color:rgba(25,25,25,1);
+  letter-spacing: 2rpx;
+  font-weight: 600;
+}
+
+.information-inner view{
+  font-size:30rpx;
+  font-family:PingFangSC-Regular;
+  color:rgba(252,94,45,1);
+  letter-spacing: 2rpx;
+}
+
+.shopsTop{
+  display: flex;
+  justify-content: space-between;
+  padding: 31rpx 21rpx 12rpx 21rpx;
+}
+
+.shopsTopRight{
+  font-size:30rpx;
+  font-family:PingFangSC-Medium;
+  color:rgba(25,25,25,1);
+}
+
+.shopsConter{
+  width: 70%;
+  font-size:24px;
+  font-family:PingFangSC-Medium;
+  color:rgba(255,67,67,1);
+}
+
+.shopscCurrency{
+  width: 66rpx;
+  line-height: 28rpx;
+  text-align: right;
+  display: inline-block;
+  font-size:r24px;
+  font-family:PingFangSC-Medium;
+  color:#FF4343;
+}
+
+.shopsConter .lowValue{
+  font-size:60rpx;
+  font-family:PingFangSC-Medium;
+  color:#FF4343;
+  font-weight: 600;
+}
+
+.abandon{
+  font-size:24rpx;
+  font-family:PingFangSC-Regular;
+  color:rgba(177,177,177,1);
+  padding-left: 20rpx;
+  text-decoration:line-through;
+}
+
+.at-present{
+  display: flex;
+  align-items: flex-end;
+  font-size:24rpx;
+  font-family:PingFangSC-Regular;
+  color:rgba(177,177,177,1);
+  padding-bottom: 10rpx;
+}
+
+.instructions{
+  width: 654rpx;
+  height: 80rpx;
+  padding: 0rpx 21rpx 12rpx 21rpx;
+}
+
+.shopssecond{
+  padding:0rpx 21rpx 10rpx 21rpx;
+}
+
+/* 使用餐厅 */
+.theFollowing{
+  width: 100%;
+  padding-top: 210rpx;
+  display: flex;
+  justify-content: center;
+}
+
+.embedded{
+  width: 694rpx;
+}
+
+.specialWrap{
+  width: 100%;
+  height: 80rpx;
+  display: flex;
+  align-items: center;
+}
+
+.specialWrap text{
+  font-size:28rpx;
+  font-family:PingFangSC-Regular;
+  color:rgba(25,25,25,1);
+  padding-left: 16rpx;
+}
+
+.special{
+  width: 6rpx;
+  height: 26rpx;
+  background-color: #FC5F2F;
+  display: inline-block;
+}
+
+.parallelismDining{
+  width: 694rpx;
+  padding-bottom: 10rpx;
+  background:rgba(245,245,250,1);
+  border-radius:4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.diningLeft{
+  width: 76%;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+  margin-left: 22rpx;
+}
+
+.diningRight{
+  width: 34%;
+  text-align: right;
+}
+
+.diningRight text{
+  font-size:24rpx;
+  font-family:PingFangSC-Regular;
+  color:rgba(128,128,128,1);
+  padding-right: 17rpx;
+  vertical-align: middle;
+}
+
+.doubleImges{
+  width: 24rpx;
+  height: 26rpx;
+  vertical-align: middle;
+}
+
+.geography{
+  width: 22rpx;
+  height: 26rpx;
+  vertical-align: middle;
+  padding-right: 12rpx;
+}
+
+.diningLeftname{
+  font-size:28rpx;
+  font-family:PingFangSC-Regular;
+  color:rgba(25,25,25,1);
+  letter-spacing: 2px;
+  width: 70%;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+  display: inline;
+}
+
+.diningzCenter{
+  font-size:24rpx;
+  font-family:PingFangSC-Regular;
+  padding:4rpx 0rpx;
+}
+
+.diningzCenter text:nth-child(2){
+  color:rgba(252,94,45,1);
+  vertical-align: middle;
+  padding-left: 6rpx;
+}
+
+.diningzCenter text:nth-child(3){
+  color:rgba(128,128,128,1);
+  padding-left: 29rpx;
+  vertical-align: middle;
+}
+
+.diningzPlace{
+  width: 70%;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+  display: inline;
+  padding-bottom: 20rpx;
+}
+
+.diningzPlace text{
+  font-size:24rpx;
+  font-family:PingFangSC-Regular;
+  color:rgba(128,128,128,1);
+  vertical-align: middle;
+}
+
+.merchant-xiaji{
+  width: 12rpx;
+  height: 22rpx;
+  padding-right: 35rpx;
+  vertical-align: middle;
+}
+
+.merchantROM{
+  width: 100%;
+  height: 160rpx;
+  border-bottom: 1px solid #E0E0E0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.merchantLeft{
+  width: 80%;
+  height: 160rpx;
+  display: flex;
+  align-items: center;
+}
+
+.merchantImages{
+  width:120rpx;
+  height:120rpx;
+}
+
+.acuisineMessage{
+  width: 60%;
+  display: inline-block;
+  padding-left: 22rpx;
+  line-height:44rpx;
+}
+
+.acuisineName{
+  font-size:28rpx;
+  font-family:PingFangSC-Regular;
+  color:rgba(25,25,25,1);
+}
+
+.house{
+  width: 20rpx;
+  height: 20rpx;
+  vertical-align: middle;
+}
+
+.lemon{
+  font-size:20rpx;
+  font-family:PingFangSC-Regular;
+  color:rgba(177,177,177,1);
+}
+
+.lemon text:nth-child(2){
+  padding-left: 6rpx;
+  vertical-align: middle;
+}
+
+.lemon text:nth-child(3){
+  padding-left: 31rpx;
+  vertical-align: middle;
+}
+
+.original-cmb{
+  ont-size:36rpx;
+  font-family:PingFangSC-Medium;
+  color:rgba(255,67,67,1);
+}
+
+.specialHot{
+  padding-top: 20rpx;
+}
+
+.original-cmb text:nth-child(2){
+  font-size:24rpx;
+  font-family:PingFangSC-Medium;
+  color:rgba(177,177,177,1);
+  padding-left: 19rpx;
+  text-decoration:line-through;
+}
+
+.aBargain{
+  width: 30%;
+  height: 160rpx;
+  display: flex;
+  align-items: center;
+}
+
+.aBargain button{
+  width:120rpx;
+  height:50rpx;
+  background: none;
+  border: 1px solid #FF4343;
+  border-radius:25px;
+  font-size:22rpx;
+  font-family:PingFangSC-Regular;
+  color:rgba(255,67,67,1);
+  line-height: 46rpx;
+  margin-left: 70rpx;
+  letter-spacing: 2rpx;
+}
+
+.merchantROM:last-child{
+  padding-bottom: 20rpx;
+}
+
+.ecommendation{
+  width: 337rpx;
+  background:rgba(255,255,255,1);
+  border-radius:16rpx;
+  box-shadow:0px 0px 10px rgba(221,221,221,1);
+  margin-bottom: 20rpx;
+}
+
+.ecommendationImg{
+  width: 336rpx;
+  height: 340rpx;
+}
+
+.ecomt_images{
+  width: 336rpx;
+  height: 340rpx;
+  border-top-left-radius: 16rpx;
+  border-top-right-radius: 16rpx;
+}
+
+.bean {
+  display: flex;
+  justify-content: space-between;
+  padding: 17rpx 18rpx 14rpx 18rpx;
+  align-items: center;
+}
+
+.beanLeft{
+  font-size:26rpx;
+  font-family:PingFangSC-Regular;
+  color:rgba(25,25,25,1);
+  width: 66%;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+}
+
+.beanRight{
+  height: 30rpx;
+  font-size:18rpx;
+  font-family:PingFangSC-Regular;
+  color:rgba(255,255,255,1);
+  background:rgba(255,125,67,1);
+  border-radius:12px;
+  padding: 0rpx 8rpx;
+  line-height: 32rpx;
+}
+
+.horticulture{
+  display: flex;
+  justify-content: space-between;
+  font-size:20rpx;
+  font-family:PingFangSC-Regular;
+  color:rgba(177,177,177,1);
+  padding: 0rpx 18rpx;
+}
+
+.hol-left{
+  width: 70%;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+}
+
+.hol-left text{
+  vertical-align: middle;
+  padding-left: 6rpx;
+}
+
+.superscript{
+  color:rgba(255,67,67,1);
+  padding: 0rpx 18rpx 6rpx 18rpx;
+}
+
+.superscript text{
+  vertical-align:sub;
+  font-size:50rpx;
+  font-family:PingFangSC-Regular;
+  color:rgba(255,67,67,1);
+}
+
+.oldWrap{
+  display: flex;
+  flex-wrap:wrap;
+  padding-bottom: 86rpx;
+}
+
+.ecommendation:nth-of-type(even){
+  margin-left: 20rpx;
+}
+
+.function{
+  width: 100%;
+  height: 86rpx;
+  display: flex;
+  border-top:1px solid  #EBEBEB;
+  position: fixed;
+  bottom: 0rpx;
+  left: 0rpx;
+  right: 0rpx;
+  z-index: 999;
+  background-color: white;
+  letter-spacing: 1rpx;
+}
+
+/* 功能键 */
+.returnHome{
+  width: 116rpx;
+  height: 86rpx;
+  font-size:24rpx;
+  font-family:PingFangSC-Regular;
+  color:rgba(85,85,85,1);
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+  line-height: 28rpx;
+}
+
+.returnHome text{
+  display: block;
+}
+
+.home{
+  border-right: 1px solid #EBEBEB;
+}
+
+.returnPrice{
+  width: 200rpx;
+  height: 86rpx;
+  background-color: #FFC0AC;
+  text-align: center;
+  line-height: 30rpx;
+}
+
+.returnSponsor{
+  width: 320rpx;
+  height: 86rpx;
+  background-color: #FC6232;
+  text-align: center;
+  line-height: 34rpx;
+  font-size:24rpx;
+  font-family:PingFangSC-Regular;
+  color:rgba(255,255,255,1);
+}
+
+.returnSponsor view{
+  padding-top: 12rpx;
+}
+
+.houselet{
+  width: 28rpx;
+  height: 28rpx;
+  display: inline-block;
+  padding-top: 16rpx;
+}
+
+.yellowShare{
+  width: 28rpx;
+  height: 28rpx;
+  display: inline-block;
+  padding-top: 16rpx;
+}
+
+.returnPrice view{
+  font-size:24rpx;
+  color:rgba(255,255,255,1);
+  padding-top: 12rpx;
+}
+
+.directly{
+  font-size:24rpx;
+  font-family:PingFangSC-Regular;
+  color:rgba(255,255,255,1);
+}

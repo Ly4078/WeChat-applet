@@ -46,7 +46,7 @@
       </view>
       <view class='messageWrap' catchtap='myMineMoney'>
         <image class='coloursIcon' src='/images/icon/notecase.png'></image>
-        <text class='messageTop'>钱包</text>
+        <text class='messageTop'>金币</text>
       </view>
       <view class='messageWrap' catchtap='personalCenter'>
         <image class='coloursIcon' src='/images/icon/attention.png'></image>
@@ -65,11 +65,29 @@
         <image class='myListArrows' src='/images/icon/home_arrow.png'></image>
       </view>
     </view>
+    <view class='myList' catchtap='continuousAs'>
+      <view class='myList-single'>
+        <view>
+          <image class='myListImages' src='/images/icon/bargainirg_kj.png'></image>
+          <text class='mylistText'>我的砍价</text>
+        </view>
+        <image class='myListArrows' src='/images/icon/home_arrow.png'></image>
+      </view>
+    </view>
     <view class='myList'>
       <view class='myList-single' catchtap='infromation'>
         <view>
           <image class='myListImages' src='/images/icon/message.png'></image>
-          <text class='mylistText'>消息</text>
+          <text class='mylistText'>收货地址</text>
+        </view>
+        <image class='myListArrows' src='/images/icon/home_arrow.png'></image>
+      </view>
+    </view>
+    <view class='myList'>
+      <view class='myList-single' catchtap='remittance'>
+        <view>
+          <image class='myListImages' src='/images/icon/remittance.png'></image>
+          <text class='mylistText'>兑换记录</text>
         </view>
         <image class='myListArrows' src='/images/icon/home_arrow.png'></image>
       </view>
@@ -86,7 +104,7 @@
         <image class='myListArrows' src='/images/icon/home_arrow.png'></image>
       </view>
     </view>
-    <view class='myList' hidden="{{!isshop}}">
+    <view class='myList myList_sue' hidden="{{!isshop}}">
       <view class='myList-single' catchtap='VoucherCode'>
         <view>
           <image class='myListImages' src='/images/icon/quanma.png'></image>
@@ -138,7 +156,7 @@
       </view>
     </view>
 
-    <view class='myList sectionList'>
+    <view class='myList myList_wo'>
       <view class='myList-single' catchtap='aboutMe'>
         <view>
           <image class='myListImages' src='/images/icon/guanyuwome.png'></image>
