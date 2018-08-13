@@ -74,7 +74,7 @@
         <image class='myListArrows' src='/images/icon/home_arrow.png'></image>
       </view>
     </view>
-    <view class='myList'>
+    <!-- <view class='myList'>
       <view class='myList-single' catchtap='infromation'>
         <view>
           <image class='myListImages' src='/images/icon/message.png'></image>
@@ -91,7 +91,7 @@
         </view>
         <image class='myListArrows' src='/images/icon/home_arrow.png'></image>
       </view>
-    </view>
+    </view> -->
   </view>
 
   <view class='mylistWrap'>

@@ -1,0 +1,21 @@
+<view class='available-as'>
+  <view class='available-nm'>
+    <view class='available-first'>
+     <view>1.金币是什么？</view>
+     <text>金币是享7美食通过砍价、购买等行为获得的奖励,金币仅限在享7美食平台使用。</text>
+    </view>
+    <view class='available-first'>
+     <view>2.金币的用途？</view>
+     <view class='available-title'>金币可以在金币商城兑换各种礼品。</view>
+     <text>a）兑换实物类奖品邮费到付；\n b）兑换时请仔细核对收货信息，商品一经兑换，不支持收货信息修改，不支持退货、提现等；\n c）凡兑换的实物类奖品将在15个工作日内安排发货；</text>
+    </view>
+    <view class='available-first'>
+     <view>3.如何获得金币?</view>
+     <text>金币是享7美食通过砍价、购买等行为获得的奖励,金币仅限在享7美食平台使用。</text>
+    </view>
+    <view class='available-first'>
+     <view>4.金币有效期有多久</view>
+     <text>金币是享7美食通过砍价、购买等行为获得的奖励,金币仅限在享7美食平台使用。</text>
+    </view>
+  </view>
+</view>

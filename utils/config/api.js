@@ -391,7 +391,19 @@ const ALL_API = {
   deleteArticle: {    //删除文章
     method: 'POST',
     url: 'topic/delete'
-  }
+  },
+  speciesList: {    //金币列表     
+    method: 'get',
+    url: 'account/listTrading'
+  },
+  getTicketaBlance: {    //金币余额
+    method: 'get',
+    url: 'account/balance'
+  },
+  vegetables: {    //金币余额
+    method: 'get',
+    url: 'bargain/skuRedis'
+  },
 }
 const Api = new MyHttp({}, ALL_API);
 

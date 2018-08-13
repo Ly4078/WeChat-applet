@@ -1,6 +1,5 @@
 {
   "pages": [
-    
     "pages/index/index",
     "pages/personal-center/conversionHsy/conversionHsy",
     "pages/personal-center/aboutMe/aboutMe",
@@ -63,7 +62,8 @@
     "pages/index/bargainirg-store/pastTense/pastTense",
     "pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails",
     "pages/index/bargainirg-store/AprogressBar/AprogressBar",
-    "pages/index/bargainirg-store/bargainirg-store"
+    "pages/index/bargainirg-store/bargainirg-store",
+    "pages/personal-center/integratorMs/available-m/available-m"
   ],
   "window": {
     "backgroundTextStyle": "dark",

@@ -1,3 +1,10 @@
+import {
+  GLOBAL_API_DOMAIN
+} from '../../../../utils/config/config.js';
+import Api from '../../../../utils/config/api.js'
+var utils = require('../../../../utils/util.js')
+var app = getApp();
+
 Page({
   data: {
     windowHeight: 654,
@@ -56,4 +63,20 @@ Page({
       }
     }.bind(this), 1000);
   },
+
+  onShow: function () {
+    this.vegetablesInquire(); //查询菜品
+  },
+
+  vegetablesInquire: function () { //查询菜品
+    let _parms = {
+      userId: 1400,   //userId    app.globalData.userInfo.userId
+    };
+    Api.vegetables(_parms).then((res) => {
+      console.log("res_res:", res)
+      this.setData({
+        likeNum: res.data.data
+      });
+    });
+  }
 })

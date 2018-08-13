@@ -2,7 +2,7 @@
   <view class='integrator-ds'>
     <view class='integrator-Top'>
       <image class='moneySign' src='https://xqmp4-1256079679.file.myqcloud.com/text_142718858044706124.png'></image>
-      <view class='signText'>
+      <view class='signText' catchtap='heaven'>
         <text class='available'>可用金币</text>
         <image class='gramophone' src='/images/icon/understand.png'></image>
         <text class='number'>217</text>
@@ -19,20 +19,26 @@
             <text>金币明细</text>
           </view>
           <view class='msRight'>
-            <text>仅显示最近100条数据</text>
+            <text>仅显示最近<text>{{total}}</text>条数据</text>
           </view>
         </view>
         <!-- 明细-->
-        <view class='about' wx:for="{{address}}" wx:key="index" wx:for-item="item">
+        <view class='about'  wx:if="{{isdata}}"  wx:for="{{data}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
           <view class='control'>
-            <view>{{item.address}}</view>
-            <text>{{item.consignee}}</text>
+            <view>{{item.remark}}</view>
+            <text>{{item.createTime}}</text>
           </view>
-          <view class='subtract'>
-            <text>{{item.phone}}</text>
+          <view class='subtract {{item.operateType==1?"blackOperateType":""}}'>
+            <text wx:if="{{item.operateType==2}}">+</text>
+            <text wx:else>-</text>
+            <text>{{item.operateGold}}</text>
           </view>
         </view>
       </view>
     </view>
   </view>
+</view>
+
+<view wx:if="{{!isdata}}" class='kongkong'>
+  <image src="/images/icon/zhanweitu.png"></image> 
 </view>
