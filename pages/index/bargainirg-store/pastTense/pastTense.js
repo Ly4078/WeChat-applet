@@ -7,6 +7,7 @@ var app = getApp();
 
 Page({
   data: {
+    _build_url: GLOBAL_API_DOMAIN,
     windowHeight: 654,
     maxtime: "",
     isHiddenLoading: true,
