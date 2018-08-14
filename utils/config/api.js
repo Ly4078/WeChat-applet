@@ -400,6 +400,10 @@ const ALL_API = {
     method: 'get',
     url: 'account/findGold'
   },
+  vegetables: {    //金币余额
+    method: 'get',
+    url: 'bargain/skuRedis'
+  },
 }
 const Api = new MyHttp({}, ALL_API);
 
