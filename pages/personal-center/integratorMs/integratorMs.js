@@ -11,7 +11,7 @@ Page({
     speciesList:'',
     data: [],
     isdata: false,
-    total:0
+    total:0,
   },
 
   onReady: function () {
@@ -32,13 +32,12 @@ Page({
     this.getTicketList(); //获取劵列表
   },
   getTicketaBlancees: function () { //金币余额   入参:userId
-    let _parms = {
+    let _parmes = {
       userId: app.globalData.userInfo.userId,   //userId
     };
-    Api.getTicketaBlance(_parms).then((res) => {
-      console.log("余额:",res)
+    Api.getTicketaBlance(_parmes).then((res) => {
       this.setData({
-        // likeNum: res.data.data
+        aggregate: res.data
       });
     });
   },
@@ -49,11 +48,9 @@ Page({
       type: 2,
     };
     Api.speciesList(_parms).then((res) => {
-      console.log("列表:", res)
       wx.hideLoading();
       if (res.data.code == 0) {
         let _data = res.data.data.list;
-
         let posts = this.data.data;
         for (let i = 0; i < _data.length; i++) {
           posts.push(_data[i])

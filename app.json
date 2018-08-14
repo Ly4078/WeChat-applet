@@ -95,13 +95,6 @@
       },
       {
         "selectedColor": "#FF4411",
-        "pagePath": "pages/golSdhopping/golSdhopping",
-        "text": "商城",
-        "iconPath": "images/icon/gold_mall.png",
-        "selectedIconPath": "images/icon/gold_malles.png"
-      },
-      {
-        "selectedColor": "#FF4411",
         "pagePath": "pages/discover-plate/discover-plate",
         "text": "推荐",
         "iconPath": "images/icon/home_tab_search.png",
