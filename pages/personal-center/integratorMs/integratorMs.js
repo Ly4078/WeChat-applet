@@ -50,7 +50,11 @@ Page({
     Api.speciesList(_parms).then((res) => {
       wx.hideLoading();
       if (res.data.code == 0) {
+        console.log('res:',res)
         let _data = res.data.data.list;
+        if (!_data){
+          return false;
+        }
         let posts = this.data.data;
         for (let i = 0; i < _data.length; i++) {
           posts.push(_data[i])
