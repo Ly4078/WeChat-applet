@@ -20,11 +20,10 @@ Page({
 
   // 金币商城直通车
   goldPath: function () {
-    wx.navigateTo({
-      url: '../../golSdhopping/golSdhopping',
-      success: function (res) { },
-      fail: function (res) { },
-      complete: function (res) { },
+    wx.showToast({
+      title: '待更新...',
+      icon: 'none',
+      duration: 2000
     })
   },
 
@@ -37,9 +36,9 @@ Page({
       userId: app.globalData.userInfo.userId,   //userId
     };
     Api.getTicketaBlance(_parms).then((res) => {
-      console.log("yue:",res)
+      console.log("余额:",res)
       this.setData({
-        likeNum: res.data.data
+        // likeNum: res.data.data
       });
     });
   },
@@ -76,5 +75,5 @@ Page({
     wx.navigateTo({
       url: 'available-m/available-m',
     })
-  }
+  },
 })

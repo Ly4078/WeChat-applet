@@ -5,7 +5,7 @@
       <view class='signText' catchtap='heaven'>
         <text class='available'>可用金币</text>
         <image class='gramophone' src='/images/icon/understand.png'></image>
-        <text class='number'>217</text>
+        <text class='number'>{{data.data.data}}</text>
       </view>
       <view class='signRight'>
         <button class='sinButton' catchtap='goldPath'>金币商城</button>

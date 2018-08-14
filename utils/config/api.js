@@ -398,7 +398,7 @@ const ALL_API = {
   },
   getTicketaBlance: {    //金币余额
     method: 'get',
-    url: 'account/balance'
+    url: 'account/findGold'
   },
   vegetables: {    //金币余额
     method: 'get',
