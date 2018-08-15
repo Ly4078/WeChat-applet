@@ -1,0 +1,85 @@
+page{
+  background:rgba(94,104,199,1);
+}
+
+.sharepullTop{
+  width: 100%;
+  height: 774rpx;
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+.sharepullImages{
+  width: 100%;
+  height: 100%;
+}
+
+.dimensional{
+  width: 489rpx;
+  height: 489rpx;
+  position: absolute;
+  top: 122rpx;
+  left: 134rpx;
+}
+
+.picture{
+  width:180rpx;
+  height:70rpx;
+  background:rgba(252,94,45,1);
+  border-radius:10rpx;
+  font-size:30rpx;
+  font-family:PingFangSC-Regular;
+  color:rgba(255,255,255,1);
+  letter-spacing: 2rpx;
+  position: absolute;
+  bottom:62rpx;
+  left:290rpx;
+}
+
+.pictureText{
+  width: 100%;
+  height: 120rpx;
+  display: flex;
+  justify-content: center;
+  line-height: 42rpx;
+  align-items:center;
+}
+
+.pictureText-cen{
+  width: 80%;
+  font-size:24rpx;
+  font-family:PingFangSC-Regular;
+  color:rgba(178,185,247,1);
+}
+
+.manyPersons{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding-top: 50rpx;
+  font-weight: 600;
+}
+
+.manyPersonsText{
+  width: 80%;
+  height: 106rpx;
+  background-color: white;
+  border-radius:16rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.manyPersonsText text{
+  font-size:30rpx;
+  font-family:PingFangSC-Medium;
+  padding-left: 30rpx;
+}
+
+.manyPersonsText view{
+  font-size:30rpx;
+  font-family:PingFangSC-Medium;
+  color:rgba(255,57,57,1);
+  padding-right: 30rpx;
+}

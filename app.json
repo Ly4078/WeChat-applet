@@ -1,5 +1,6 @@
 {
   "pages": [
+    
     "pages/index/index",
     "pages/personal-center/conversionHsy/conversionHsy",
     "pages/personal-center/aboutMe/aboutMe",
@@ -63,6 +64,8 @@
     "pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails",
     "pages/index/bargainirg-store/AprogressBar/AprogressBar",
     "pages/index/bargainirg-store/bargainirg-store",
+    "pages/personal-center/securities-sdb/securities-sdb",
+    "pages/personal-center/sharepull-sdb/sharepull-sdb",
     "pages/personal-center/integratorMs/available-m/available-m"
   ],
   "window": {

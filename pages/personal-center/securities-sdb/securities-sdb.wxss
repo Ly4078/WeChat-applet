@@ -1,0 +1,85 @@
+page {
+  background: rgba(249, 79, 81, 1);
+}
+
+.securities {
+  width: 750rpx;
+  height: 612rpx;
+}
+
+image {
+  width: 750rpx;
+  height: 612rpx;
+  display: inline;
+  overflow: hidden;
+}
+
+.securitiesText{
+  width: 100%;
+  height: 636rpx;
+  display: flex;
+  justify-content: center;
+}
+
+.economy{
+  width: 76%;
+  height: 636rpx;
+}
+
+.cell-phone{
+  width: 100%;
+  height: 88rpx;
+  background-color: white;
+  border-radius:44rpx;
+  display: flex;
+  justify-content: space-between;
+}
+
+.cell-phone input{
+  width: 60%;
+  height: 88rpx;
+  background-color: white;
+  border-top-left-radius:44rpx;
+  border-bottom-left-radius: 44rpx; 
+  font-size:26rpx;
+  font-family:PingFangSC-Regular;
+  color:rgba(128,128,128,1);
+  padding-left: 40rpx;
+}
+
+.cell-phone button{
+  width: 40%;
+  height: 88rpx;
+  border-top-right-radius:44rpx;
+  border-bottom-right-radius: 44rpx; 
+  border-top-left-radius:0rpx;
+  border-bottom-left-radius: 0rpx; 
+  font-size:26rpx;
+  font-family:PingFangSC-Regular;
+  color:rgba(249,79,81,1);
+  line-height:86rpx;
+  background-color: white;
+}
+
+.cell-phoneWrap{
+  width: 100%;
+  height: 88rpx;
+  margin-top: 48rpx;
+}
+
+.cell-phone-bun{
+  width: 100%;
+  font-size:40rpx;
+  font-family:PingFangSC-Regular;
+  color:rgba(164,132,37,1);
+  background:linear-gradient(0deg,rgba(254,239,201,1),rgba(236,214,151,1));
+  border-radius:50rpx;
+}
+
+.cell-phone:nth-child(1){
+  margin-top: 108rpx;
+}
+
+.cell-phone:nth-child(2){
+  margin-top: 30rpx;
+}
