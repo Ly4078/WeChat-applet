@@ -1,5 +1,5 @@
 <import src="index-item/index-item-template.wxml" />
-
+<import src="bargainirg-store/bargainirg-template/bargainirg-template.wxml" />
 
 <!--index.wxml-->
 <view class="container">
@@ -121,10 +121,10 @@
   </view> 
 
   <!--精选餐厅  -->
-   <block wx:for="{{Res}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
+   <block wx:for="{{Res}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}" wx:if="{{false}}">
     <template is="veoRes" data="{{item}}" />
   </block> 
-   <view class='Resbanner'>
+   <view class='Resbanner' wx:if="{{false}}">
     <image class='Resbimg' id='1' data-ind="1" bindtap='handbaoming' src="{{bannthree[0].imgUrl}}"></image>
     <view class='resthree'>
       <view wx:for="{{hotshop}}" wx:key="index">
@@ -136,13 +136,44 @@
       </view>
     </view>
   </view>   
+
+  
+  <!--拼菜砍价  -->
+   <block wx:for="{{Bargain}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
+    <template is="veoRes" data="{{item}}" />
+  </block> 
+   <view class='Resbanner'>
+    <image class='Resbimg' id='1' data-ind="1" src="{{bannthree[0].imgUrl}}"></image>
+    <view class='resthree'>
+      <view wx:for="{{bargainList}}" wx:key="index">
+        <view class='RthreeItem' id='{{item.id}}' data-index="{{item.shopId}}" bindtap='candyDetails'>
+          <image class='Resimg' src="{{item.picUrl}}"></image>
+          <text>{{item.shopName}}\n</text>
+          <text class='Baragio'>¥{{item.agioPrice}}</text>
+          <text class='BarinPrice'>¥{{item.inPrice}}</text>
+        </view>
+      </view>
+    </view>
+  </view> 
  
 
   <!--商家广告位  -->
     <image class='Advertising' id="3" data-ind="3" bindtap="handbaoming" src="{{bannthree[2].imgUrl}}"></image>  
 
+  <!--拼菜砍价列表  -->
+<view>
+  <view class="templateWrap {{showModal?'':'unders'}}">
+    <view class='cutCuisine'>
+      <block wx:for="{{bargainListall}}" wx:key="{{index}}" id="{{index}}" wx:for-index="idx">
+        <template is="cuisine" data="{{item}}" />
+      </block>
+    </view>
+  </view>
+</view>
+
+
   <!--分类搜索商家菜品  -->
-    <view class='scroll_box'>
+    <view class='scroll_box' wx:if="{{false}}">
     <scroll-view scroll-x="true" class='scroll_activity'>
       <block wx:for="{{fooddatas}}" wx:key="{{index}}">
         <text class='sortscrch {{actitem == item? "actsort" : ""}}' id='{{item}}' bindtap='handfood'>{{item}}</text>
@@ -244,7 +275,8 @@
   </view>
 
   <!-- 底部动画 -->
-  <view class='bottomAnimation '>
+  <view class='buttomBox'></view>
+  <view class='bottomAnimation' wx:if="{{false}}">
     <view class='bottomAnimationText'>
       <image class='bottomAnimationImg' src='https://xqmp4-1256079679.file.myqcloud.com/text_10002730102299103.png'></image>
       <text>共享美味新生活</text>

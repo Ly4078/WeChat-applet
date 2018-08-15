@@ -127,6 +127,7 @@ page {
   color: #555;
   text-align: center;
   letter-spacing: 2px;
+  margin-left: 27%;
   padding: 8rpx 34rpx;
 }
 
@@ -805,6 +806,51 @@ from {transform:rotateY(0deg);}
 to {transform:rotateY(360deg);}
 }
 
+
+/*  */
+
+.directions{
+  width:460rpx;
+  height:507rpx;
+  padding: 35rpx;
+  background:rgba(255,255,255,1);
+  border-radius:16rpx;
+  margin-top: 270rpx;
+  margin-left: 110rpx;
+  color: #555555;
+  font-size: 24rpx;
+  position: relative;
+}
+.Dirtitle{
+  width: 70%;
+  margin-left: 15%;
+  height: 30rpx;
+  text-align: center;
+  line-height: 30rpx;
+  margin-bottom: 10rpx;
+}
+.Dirtitle text{
+  position:relative;
+  display:block;
+  width:50%;
+  z-index:10;
+  height:100%;
+  background:#fff;
+  margin-left:25%;
+}
+.Dirtitle span{
+  width: 100%;
+  height: 1rpx;
+  background: #555;
+  position: relative;
+  display: block;
+  z-index: 5;
+  top:-13rpx;
+}
+.DirItem{
+  width: 100%;
+  line-height: 41rpx;
+}
 
 
 

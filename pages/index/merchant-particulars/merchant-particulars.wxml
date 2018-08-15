@@ -133,6 +133,43 @@
     </view> -->
     <!-- <scroll-view style="height: 1500rpx;" scroll-into-view="{{toView}}" scroll-y scroll-with-animation="true"> -->
     <!--优惠-->
+
+<!-- 拼菜砍价开始 -->
+ <view class='initiate-wrapp' style="{{Bargainlist.length > 0 ? 'padding-bottom: 30rpx;' : ''}}" id="list3" hidden="{{Bargainlist.length < 1}}">
+      <view class='initiate-exhibition kaicai'>
+        <view>
+          <text class='tekaicai'>【砍价拼菜】</text>
+        </view>
+      </view>
+      <view class='scroll_box'>
+        <block wx:for="{{Bargainlist}}" wx:key="{{index}}">
+          <view class="anchor" id='{{item.id}}' data-index="{{item.shopId}}" bindtap='initiate'>
+            <image class='anchor_img' mode="aspectFill" src='{{item.picUrl}}'></image>
+            <view class='Barbut'>
+              <view class='barbLeft'>
+                 <view class='bLtop'>{{item.skuName}}</view>
+                  <view class='bLbut'>
+                    <text>底价 ¥{{item.agioPrice}}</text>
+                    <text>原价¥{{item.sellPrice}}</text>
+                  </view>
+              </view>
+              <view class='barbRight'>发起砍价</view>
+            </view>
+           
+          </view>
+        </block>
+        <view class="setMealMore" catchtap='changeBar'>
+          <text>{{Bargainlist.length<3?'查看全部推荐菜':'查看部分推荐菜'}}</text>
+          <image src="/images/icon/restaurant_arrow.png" class='Bargainlist.length < 3?"":"transjt"'></image>
+        </view>
+      </view>
+    </view>
+
+
+<!-- 拼菜砍价结束 -->
+
+
+    <!-- 享7券 -->
     <view id="list1">
       <view class="xiang7Box" style="padding-bottom: 30rpx;" hidden='{{activity.length < 1}}'>
         <view class="initiateBox">
@@ -262,6 +299,8 @@
           </view>
         </view>  -->
     </view>
+
+
     <!--动态-->
     <view class="merchant_box" style="{{merchantArt.length > 0 ? 'padding-bottom: 30rpx;' : ''}}" id="list2" wx:if="{{merchantArt.length > 0}}">
       <view class="merchantTab">
@@ -281,6 +320,8 @@
           <image src="/images/icon/zhanweitu.png"></image>
         </view> -->
     </view>
+
+
     <!-- 推荐菜 -->
     <view class='initiate-wrapp' style="{{recommend_list.length > 0 ? 'padding-bottom: 30rpx;' : ''}}" id="list3" hidden="{{recommend_list.length < 1}}">
       <view class='initiate-exhibition'>
@@ -304,6 +345,8 @@
         </view>
       </view>
     </view>
+
+
     <!-- 评价 -->
     <view class="commentList" style="padding-bottom: 30rpx;" id="list4" hidden="{{comment_list.length < 1}}">
       <view class='initiate-exhibition the-second'>

@@ -63,7 +63,7 @@ const ALL_API = {
     method: 'GET',
     url: 'hcl/list'
   },
-  activityImg: {   //首页活动banner图
+  activityImg: {   //首页活动banner图 其它图片
     method: 'GET',
     url: 'hcl/listForHomePage'
   },
@@ -419,10 +419,14 @@ const ALL_API = {
   isbargain: {      //查询是否发起砍价
     method: 'GET',
     url: 'bargain/skuRedis'
-  },
+  }, 
   bargainDetail: {   //获取砍菜详情
     method: 'GET',
     url: 'bargain/skuGroup'
+  },
+  getGold: {   //券核销完成后给金币
+    method: 'POST',
+    url: 'account/ingold'
   }
 }
 const Api = new MyHttp({}, ALL_API);

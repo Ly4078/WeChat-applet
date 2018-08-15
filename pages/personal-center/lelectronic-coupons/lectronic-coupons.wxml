@@ -1,3 +1,10 @@
+<view class='modal_box' wx:if="{{ismodel}}" catchtap='closemodel'>
+  <view class='directions'>
+    <view class='Dirtitle'><text>规则说明</text>
+    <span class="line"></span></view>
+    <view class='DirItem' wx:for="{{molTxt}}" wx:key="{{index}}">{{item}}</view>
+  </view>
+</view>
 
 <view wx:if="{{optObj.myCount == '1'}}" class="lectronicBox">
   <view class='lectronic-wrap' wx:if="{{!ticketInfo.shopName}}">

@@ -19,6 +19,8 @@ Page({
     store_images: '',
     merchantArt: [], //商家动态列表
     activity: [], //商家活动列表
+    Bargainlist:[],//砍菜列表
+    isBarg:false,
     allactivity: [],
     article_page: 1,
     reFresh: true,
@@ -90,7 +92,6 @@ Page({
     });
   },
   onShow: function() {
-    console.log('显示');
     let that = this;
     this.commentList();
     this.getsetget();
@@ -495,7 +496,7 @@ Page({
     })
   },
   getmoredata: function() {
-    console.log("123")
+    console.log("getmoredata")
     this.getstoredata();
     this.selectByShopId();
     this.recommendation();
@@ -505,6 +506,48 @@ Page({
     this.availableVote();
     this.commentList();
     this.getsetget();
+    this.hotDishList();
+  },
+  changeBar(){  //点击拼菜展开
+   this.setData({
+     isBarg: !this.data.isBarg
+   });
+    this.hotDishList();
+  },
+  hotDishList() {  //拼价砍菜列表
+    //browSort 0附近 1销量 2价格
+    let _parms = {
+      zanUserId: app.globalData.userInfo.userId,
+      browSort: 1,
+      shopId: this.data.shopid,
+      locationX: app.globalData.userInfo.lng,
+      locationY: app.globalData.userInfo.lat,
+      page: 1,
+      rows: 10
+    };
+    Api.partakerList(_parms).then((res) => {
+      if (res.data.code == 0) {
+        this.setData({
+          Bargainlist:[]
+        });
+        let _list = res.data.data.list, _oldData = this.data.Bargainlist, arr = []; 
+        if (_list && _list.length){
+          arr = _oldData.concat(_list);
+          if (!this.data.isBarg){
+            arr = arr.splice(0,3);
+          }
+          this.setData({
+            Bargainlist: arr
+          })
+        }
+      }
+    })
+  },
+  initiate(e){//发起砍价
+    let id = e.currentTarget.id, shopId = e.currentTarget.dataset.index;
+    wx.navigateTo({
+      url: '../bargainirg-store/CandyDishDetails/CandyDishDetails?id=' + id + '&shopId=' + shopId
+    })
   },
   getstoredata() { //获取店铺详情数据   
     let id = this.data.shopid;
@@ -866,7 +909,9 @@ Page({
   //评论列表
   commentList: function() {
     let that = this;
-    console.log("456")
+    if (this.data.comment_list.length>0){
+      return
+    };
     wx.request({
       url: that.data._build_url + 'cmt/list',
       data: {
@@ -903,9 +948,6 @@ Page({
           })
           wx.stopPullDownRefresh();
         }
-      },
-      complete:function(res){
-        console.log('res:',res)
       }
 
     })

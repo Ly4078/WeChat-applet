@@ -161,7 +161,7 @@ textRight view{
 }
 
 .control{
-  width: 50%;
+  width: 70%;
   height: auto;
 }
 
@@ -178,7 +178,7 @@ textRight view{
 }
 
 .subtract{
-  width: 50%;
+  width: 30%;
   text-align: right;
 }
 

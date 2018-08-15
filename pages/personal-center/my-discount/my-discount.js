@@ -141,6 +141,7 @@ Page({
   },
   //对比时间是否过期
   isDueFunc: function (expiryDate) {
+    //isDue=0 已过期 isDue=1未过期
     let currentT = new Date().getFullYear() + '-' + new Date().getMonth() + '-' + new Date().getDate() + " 23:59:59",
       isDue = 0;
     if (new Date(expiryDate + " 23:59:59").getTime() < new Date(currentT).getTime()) {

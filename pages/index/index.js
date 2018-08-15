@@ -44,6 +44,8 @@ Page({
     _page: 1,
     posts_key: [],
     hotshop:[],
+    bargainList:[],
+    bargainListall:[],
     videolist:[],
     bannthree:[],
     actitem:'附近',
@@ -114,7 +116,11 @@ Page({
       name: '热门活动',
       id: 3
     }],
-    
+    Bargain: [{
+      img: '/images/icon/bargainImg.png',
+      name: '拼菜砍价',
+      id: 4
+    }],
     fooddatas: ['附近', '人气', "自助餐", "湖北菜", "川菜", "湘菜", "粤菜", "咖啡厅", "小龙虾", "火锅", "海鲜", "烧烤", "江浙菜", "西餐", "料理", "其它美食"],
     ResThree: [
       {
@@ -292,6 +298,10 @@ Page({
       wx.switchTab({
         url: '../activityDetails/activity-details',
       })
+    }else if(id == 4){  //拼菜砍价列表
+      wx.navigateTo({
+        url: 'bargainirg-store/bargainirg-store',
+      })
     }
   },
   //点击精选餐厅下的入驻图片
@@ -362,6 +372,14 @@ Page({
     let shopid = e.currentTarget.id;
     wx.navigateTo({
       url: 'merchant-particulars/merchant-particulars?shopid=' + shopid
+    })
+  },
+
+  //点击拼菜砍价之一
+  candyDetails(e){
+    let id = e.currentTarget.id, shopId = e.currentTarget.dataset.index;
+    wx.navigateTo({
+      url: 'bargainirg-store/CandyDishDetails/CandyDishDetails?id=' + id + '&shopId=' + shopId
     })
   },
   //点击推荐短视频之一
@@ -501,10 +519,10 @@ Page({
   },
   getmoredata: function () {  //获取更多数据
     this.getactlist();
-    this.getshoplist();
+    // this.getshoplist();
     this.gettopiclist();
     this.gettoplistFor();
-
+    this.hotDishList();
     return false;
 
 
@@ -702,7 +720,8 @@ Page({
     this.setData({
       _page:this.data._page+1
     })
-    this.getshoplist();
+    // this.getshoplist();
+    this.hotDishList();
     if (!this.data.alltopics) {
       this.gettoplistFor()
     }
@@ -714,7 +733,6 @@ Page({
       mask: true
     })
     Api.listForHomePage().then((res) => {
-     
       if (res.data.code == 0) {
         _list = res.data.data;
         if (!_list) {
@@ -1146,6 +1164,7 @@ Page({
       url: 'merchant-particulars/merchant-particulars?shopid=' + shopid
     })
   },
+  //监听页面分享
   onShareAppMessage: function (res) {
     if (res.from === 'button') {
       // 来自页面内转发按钮
@@ -1231,6 +1250,31 @@ Page({
           mask: 'true',
           icon: 'none',
           duration
+        })
+      }
+    })
+  },
+  hotDishList() {  //拼价砍菜列表
+    //browSort 0附近 1销量 2价格
+    let _parms = {
+      zanUserId: app.globalData.userInfo.userId,
+      browSort: 2,
+      locationX: app.globalData.userInfo.lng,
+      locationY: app.globalData.userInfo.lat,
+      page: this.data._page,
+      rows: 10
+    };
+    Api.partakerList(_parms).then((res) => {
+      if(res.data.code == 0){
+        let _list = res.data.data.list, _oldData = this.data.bargainListall, arr = [];
+        if (this.data._page == 1){
+          this.setData({
+            bargainList: _list.splice(0, 3)
+          })
+        }
+        arr = _oldData.concat(_list);
+        this.setData({
+          bargainListall: arr
         })
       }
     })

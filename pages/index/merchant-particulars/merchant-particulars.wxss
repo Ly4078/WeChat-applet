@@ -507,6 +507,21 @@ page {
   letter-spacing: 2px;
   margin-left: 10rpx;
 }
+.kaicai{
+  margin-left: 0rpx;
+  padding: 0;
+  
+}
+.kaicai text {
+color: #FC5E2D;
+  font-size: 24rpx;
+
+}
+
+.tekaicai{
+color: #FC5E2D;
+  font-size: 24rpx;
+}
 
 .scroll_box {
   white-space: nowrap;
@@ -538,7 +553,49 @@ page {
   height: 390rpx;
   border-radius: 4rpx;
 }
-
+.Barbut{
+  width: 100%;
+  height: 90rpx;
+  padding: 20rpx 0;
+}
+.barbLeft{
+  width: 60%;
+  height: 90rpx;
+  float: left;
+}
+.barbRight{
+  float: right;
+  width:140rpx;
+  height:54rpx;
+  line-height: 54rpx;
+  margin-top: 34rpx;
+  background:rgba(252,94,45,1);
+  border-radius:27rpx;
+  color: #fff;
+  font-size: 24rpx;
+  text-align: center;
+}
+.transjt{
+  transform:rotate(180deg);
+}
+.bLtop{
+  font-size: 28rpx;
+  color: #191919;
+  height: 45rpx;
+  line-height: 45px;
+}
+.bLbut{
+  font-size: 30rpx;
+  color: #FF5252;
+  height: 45rpx;
+  line-height: 45px;
+}
+.bLbut text:nth-child(2){
+  color:#B1B1B1;
+  font-size:24rpx;
+  text-decoration:line-through;
+  margin-left: 20rpx;
+}
 .cate_site {
   padding-top: 10rpx;
   overflow: hidden;

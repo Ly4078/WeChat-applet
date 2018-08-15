@@ -1,6 +1,6 @@
 /**index.wxss**/
 @import "index-item/index-item-template.wxss";
-
+@import "bargainirg-store/bargainirg-template/bargainirg-template.wxss";
 page {
   width: 100%;
 }
@@ -623,7 +623,11 @@ page {
   height: 4rpx;
   background: #FC5E2D;
 }
-
+.buttomBox{
+  width: 100%;
+  height: 50rpx;
+  background-color: #78B6FC;
+}
 .bottomAnimation{
   width: 100%;
   height: 240rpx;
@@ -942,11 +946,16 @@ page {
   font-weight: 600;
 }
 .RthreeItem text:nth-child(3){
-  border:1rpx solid #FC5E2D;
-  border-radius: 4rpx; 
-  padding: 2rpx 5rpx;
+  border:none;
   color: #FC5E2D;
-  font-size: 20rpx;
+  margin-right: 13rpx;
+  font-size: 22rpx;
+}
+
+.BarinPrice{
+  color: #B1B1B1;
+   font-size: 22rpx;
+   text-decoration:line-through;
 }
 .VthreeItem text{
   color: #FFFFFF;

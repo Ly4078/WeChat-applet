@@ -61,13 +61,14 @@ Page({
           for (let i = 0; i < data.data.length; i++) {
             if (this.data.currentTab == 1 || !this.data.currentTab) {
               if (data.data[i].skuType != 3 ){
+                data.data[i]["isDue"] = that.isDueFunc(data.data[i].createTime);
                 order_list.push(data.data[i]);
-                if (order_list.length<9){
-                  this.setData({
-                    page: this.data.page + 1
-                  })
-                  that.getOrderList ();
-                }
+                // if (order_list.length<9){
+                //   this.setData({
+                //     page: this.data.page + 1
+                //   })
+                //   that.getOrderList ();
+                // }
               }
             }else{
               order_list.push(data.data[i])
@@ -142,6 +143,7 @@ Page({
       if (data.code == 0 && data.data != null && data.data != "" && data.data != []) {
         let shoplist = that.data.shoporderlist;
         for (let i = 0; i < data.data.length; i++) {
+          data.data[i]["isDue"] = that.isDueFunc(data.data[i].createTime);
           shoplist.push(data.data[i]);
         }
         that.setData({
@@ -186,8 +188,8 @@ Page({
       wx.hideLoading();
     }
   },
+  //点击某张券
   lowerLevel: function (e) {
-    console.log(e.currentTarget.id)
     let id = e.currentTarget.id,
       skuid = e.currentTarget.dataset.skuid,
       sostatus = e.currentTarget.dataset.sostatus,
@@ -203,7 +205,7 @@ Page({
         let shoplist = this.data.shoporderlist,actdata={};
         for (let i = 0; i < shoplist.length;i++){
           if (id = shoplist[i].id){
-            actdata = shoplist[i]
+            actdata = shoplist[i];
           }
         }
         wx.navigateTo({
@@ -213,7 +215,6 @@ Page({
     } else {  //平台订单
       for (let i = 0; i < listArr.length; i++) {
         if (id == listArr[i].id) {
-          console.log("listArr[i]:", listArr[i])
           sell = listArr[i].unitPrice,
           rule = listArr[i].ruleDesc,
           inp = parseInt(listArr[i].skuName),
@@ -271,5 +272,15 @@ Page({
     });
     this.getOrderList();
     this.getshopOrderList();
+  },
+  //对比时间是否过期
+  isDueFunc: function (createTime) {
+    //isDue=0   已过期 isDue=1未过期
+    let _createTime = new Date(createTime).getTime();
+    let _endTime = _createTime +60*60*24*30*1000,isDue = 0;
+    if (_createTime < _endTime) {
+      isDue = 1;
+    }
+    return isDue;
   }
 })

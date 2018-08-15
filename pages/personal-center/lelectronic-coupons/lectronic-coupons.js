@@ -24,8 +24,17 @@ Page({
     istickts:false,
     isDish: false,
     isperson:false,
+    ismodel:true,
     shopId:'',
-    optObj:{}
+    optObj:{},
+    molTxt:[
+      '1.砍价菜品均为限量发售，售完即止；',
+      '2.用户可在30分钟内邀请好友帮忙砍价，砍一刀也可以进行购买，若超时，仅限当天可以按当前价格购买； ',
+      '3.支付成功后，3月内均可进店使用，过期作废；',
+      '4.同一道菜每桌仅限使用1次，不可叠加使用； 购买后不支持退款、不兑现、不找零； ',
+      '5.其他优惠等问题，以门店实际规定为准 购买后不支持退款、不兑现、不找零； ',
+      '6.最终解释权归享7平台所有。'
+    ]
   },
   onLoad: function (options) {
     // console.log(options)
@@ -76,6 +85,13 @@ Page({
           timer: int
         })
       }
+      let int = setInterval(function () {
+        that.getcodedetail();
+      }, 2000);
+      this.setData({
+        isticket: true,
+        timer: int
+      })
       this.getcodedetail();
       this.getTicketInfo();
     }
@@ -83,6 +99,12 @@ Page({
 
   onHide:function(){
     clearInterval(this.data.timer)
+  },
+  //关闭弹框
+  closemodel:function(){
+    this.setData({
+      ismodel:false
+    })
   },
   toshop:function(){
     wx.navigateTo({
@@ -136,7 +158,10 @@ Page({
               ticket: ticketArr
             })
             if (res.data.data.isUsed && res.data.data.isUsed != 0) {
-              clearInterval(that.data.timer)
+              let _id = res.data.data.id;
+              that.getgold(_id);
+              clearInterval(that.data.timer);
+             
               // that.setData({
               //   ismoldel: true
               // })
@@ -147,6 +172,17 @@ Page({
           }
           
         }
+      }
+    });
+  },
+  getgold: function (_id){  //券核销完成后给金币
+    let _parms = {
+      userId: app.globalData.userInfo.userId,
+      id:_id,
+    };
+    Api.getGold(_parms).then((res) => {
+      if (res.data.code == 0) {
+        console.log('核销成功，获取' + res.data.data + '个金币');
       }
     });
   },
@@ -277,6 +313,7 @@ Page({
       
     }
   },
+  
   
   clickmolbox:function(){  //关闭弹框
     if (this.data.redfirst == 2) {

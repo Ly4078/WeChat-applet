@@ -5,7 +5,7 @@
 折扣券.type：1   discount:true
 食典券(活动券).type：3
   -->
-  <view class='securityWrap' id="{{item.soId}}" catchtap='immediateUse'>
+  <view class='securityWrap' id="{{item.soId}}" catchtap='immediateUse' wx:if="{{item.isDue != 1}}">
     <view class='security-use'>
       <view class="security-top">
 

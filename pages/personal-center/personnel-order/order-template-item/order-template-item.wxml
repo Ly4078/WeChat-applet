@@ -1,5 +1,6 @@
 <template name="order_template">
-  <view class='personnelWrap' id="{{item.id}}" data-skuid="{{item.skuId}}" catchtap='lowerLevel' data-shopName="{{item.shopName}}" data-soStatus="{{item.soStatus}}">
+  <view class='personnelWrap' id="{{item.id}}" data-skuid="{{item.skuId}}" catchtap='lowerLevel' data-shopName="{{item.shopName}}" data-soStatus="{{item.soStatus}}" wx:if="{{item.isDue==1}}">
+
     <view class="personnelTime">
       <view class="personnelTime_left">
         <text wx:if="{{item.soStatus == 2 || item.soStatus == 3}}">{{item.paidTime?item.paidTime:item.updateTime}}</text>
