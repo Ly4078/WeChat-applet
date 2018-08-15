@@ -300,3 +300,15 @@ button::after{
   font-size: 30rpx;
   color: #191919;
 }
+
+.dividual-lk{
+  margin-top: 20rpx;
+  border-bottom-left-radius: 18rpx;
+  border-bottom-right-radius: 18rpx;
+  border-top-left-radius: 18rpx;
+  border-top-right-radius: 18rpx;
+}
+
+.impressiones{
+  display: none;
+}

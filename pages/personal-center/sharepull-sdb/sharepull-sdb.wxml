@@ -1,7 +1,7 @@
 <view class='sharepull'>
   <view class='sharepullTop'>
     <image class='sharepullImages'  src='https://xqmp4-1256079679.file.myqcloud.com/text_880301006914381206.png'></image>
-    <image class='dimensional' src='https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1534326117096&di=8582a0fc987ace5e9c11f255ab60c43e&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F01c4075861378fa801219c771754d9.jpg%401280w_1l_2o_100sh.jpg'></image>
+    <image class='dimensional' src='{{picUrl}}'></image>
   <button class='picture' catchtap='saveImgToPhotosAlbumTap'>保存图片</button>
   </view>
   
@@ -15,7 +15,7 @@
   <view class='manyPersons'>
     <view class='manyPersonsText'>
       <text>邀请人数</text>
-      <view><text>10</text>人</view>
+      <view><text>{{pullNum}}人</text></view>
     </view>
   </view>
 </view>

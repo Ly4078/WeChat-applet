@@ -165,5 +165,15 @@
         <image class='myListArrows' src='/images/icon/home_arrow.png'></image>
       </view>
     </view>
+
+    <view class='myList dividual-lk {{!userId?"impressiones":""}}'>
+      <view class='myList-single' catchtap='dividualLogin'>
+        <view>
+          <image class='myListImages' src='/images/icon/impression-sefa.png'></image>
+          <text class='mylistText'>分享注册</text>
+        </view>
+        <image class='myListArrows' src='/images/icon/home_arrow.png'></image>
+      </view>
+    </view>
   </view>
 </view>
