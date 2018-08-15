@@ -1,3 +1,7 @@
+import Api from '../../../../utils/config/api.js';
+var utils = require('../../../../utils/util.js');
+import { GLOBAL_API_DOMAIN } from '../../../../utils/config/config.js';
+var app = getApp()
 Page({
   data: {
     windowHeight: 654,
@@ -9,14 +13,21 @@ Page({
     countDownMinute: 0,
     countDownSecond: 0,
     showModal: false,
+    groupId: ''
   },
-  onLoad: function () {
+  onLoad: function (options) {
     this.setData({
+      userId: app.globalData.userInfo.userId,
+      refId: options.refId,
+      shopId: options.shopId,
+      skuMoneyOut: options.skuMoneyOut,
+      skuMoneyMin: options.skuMoneyMin,
+      amount: +options.skuMoneyOut - options.skuMoneyMin,
       windowHeight: wx.getStorageSync('windowHeight')
     });
     // progressNum
     var that = this;
-    var progressNum = 0
+    var progressNum = 0;
     var timer = setInterval(function () {
       progressNum++;
       //当进度条为100时清除定时任务
@@ -27,7 +38,8 @@ Page({
       that.setData({
         progress: progressNum
       })
-    })
+    });
+    this.createBargain();
   },
   // 页面渲染完成后 调用
   onReady: function () {
@@ -70,21 +82,57 @@ Page({
       }
     }.bind(this), 1000);
   },
+  //创建一笔砍价
+  createBargain() {
+    let _parms = {
+      refId: this.data.refId,
+      userId: this.data.userId,
+      shopId: this.data.shopId,
+      amount: this.data.amount,
+      skuMoneyOut: this.data.skuMoneyOut,
+      skuMoneyMin: this.data.skuMoneyMin
+    };
+    Api.createBargain(_parms).then((res) => {
+      if(res.data.code == 0) {
+        wx.showToast({
+          title: '发起成功',
+          icon: 'none'
+        })
+        console.log(res.data.data)
+        this.setData({
+          groupId: res.data.data.groupId     //砍价id
+        });
+        this.bargain();
+      }
+    });
+  },
+  //获取砍价详情
+  bargain() {
+    let _parms = {
+      skuId: this.data.refId,     //菜品Id
+      parentId: this.data.userId,    //发起人的userId
+      shopId: this.data.shopId,     
+      groupId: this.data.groupId
+    };
+    Api.bargainDetail(_parms).then((res) => {
+      if (res.data.code == 0) {
+        wx.showToast({
+          title: '发起成功',
+          icon: 'none'
+        })
+      }
+    });
+  },
   // 左上角返回首页
   returnHomepage:function(){
     wx.switchTab({
-      url: '../../index',
-      success: function(res) {},
-      fail: function(res) {},
-      complete: function(res) {},
+      url: '../../index'
     })
   },
-
   //点击砍一刀
   dubayyGainGold:function(e){
     console.log("砍价成功",e)
   },
-
   // 使用规则
   instructions:function(){
     this.setData({

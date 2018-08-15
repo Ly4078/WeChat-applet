@@ -1,20 +1,20 @@
 <view class='shell'>
-  <image class='detailsImag' mode='scaleToFill' src='https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1533624975161&di=2b5a6bf0a7ef471259a985d18cdbe131&imgtype=0&src=http%3A%2F%2Fimgsrc.baidu.com%2Fimgad%2Fpic%2Fitem%2F241f95cad1c8a7863837c0936d09c93d70cf500a.jpg'></image>
+  <image class='detailsImag' mode='scaleToFill' src='{{picUrl}}'></image>
   <view class='information'>
     <view class='information-inner'>
       <view class='shopsTop'>
-        <text class='shopsTopLeft'>宫保鸡丁</text>
+        <text class='shopsTopLeft'>{{skuName}}</text>
         <view class='shopsTopRight'>剩余
-          <text>18</text>份</view>
+          <text>{{stockNum}}</text>份</view>
       </view>
       <view class='shopsTop shopssecond'>
         <view class='shopsConter'>
           <view class='shopscCurrency'>￥ 底价
           </view>
-          <text class='lowValue'>28.5</text>
-          <text class='abandon'>原价：￥34</text>
+          <text class='lowValue'>{{agioPrice}}</text>
+          <text class='abandon'>原价：￥{{sellPrice}}</text>
         </view>
-        <text class='at-present'>已售18份</text>
+        <text class='at-present'>已售{{sellNum}}份</text>
       </view>
       <image class='instructions' src='https://xqmp4-1256079679.file.myqcloud.com/text_461753568722106529.png'></image>
     </view>
@@ -31,18 +31,17 @@
       <!-- 餐厅 -->
       <view class='parallelismDining'>
         <view class='diningLeft'>
-          <text class='diningLeftname'>靓靓蒸虾</text>
+          <text class='diningLeftname'>{{shopName}}</text>
           <view class='diningzCenter'>
             <image class='doubleImges' src='/images/icon/hot.png'></image>
-            <text>999+</text>
-            <text>440m</text>
+            <text>{{popNum}}</text>
           </view>
           <view class='diningzPlace'>
             <image class='geography' src='/images/icon/location.png'></image>
-            <text>湖北省武汉市武昌区武大园一路武大园二路3栋3单元202室</text>
+            <text>{{address}}</text>
           </view>
         </view>
-        <view class='diningRight'>
+        <view class='diningRight' bindtap="toShopDetail">
           <text>商家主页</text>
           <image class='merchant-xiaji' src='/images/icon/home_arrow.png'></image>
         </view>
@@ -53,26 +52,28 @@
         <view class='special'></view>
         <text>同店推荐</text>
       </view>
-      <view class='merchantROM'>
-        <view class='merchantLeft'>
-          <image class='merchantImages' src='https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1533645240922&di=0fc1e206b114a9ae7a86d9de2505c643&imgtype=0&src=http%3A%2F%2Fimg.pconline.com.cn%2Fimages%2Fupload%2Fupc%2Ftx%2Fphotoblog%2F1204%2F13%2Fc6%2F11242247_11242247_1334318121515_mthumb.jpg'></image>
-          <view class='acuisineMessage'>
-            <text class='acuisineName'>鱼香肉丝</text>
-            <view class='lemon'>
-              <image class='house' src='/images/icon/house.png'></image>
-              <text>柠檬鱼</text>
-              <text>已售892</text>
-            </view>
-            <view class='original-cmb'>
-              <text>￥20</text>
-              <text>原价：￥43</text>
+      <block wx:for="{{dishList}}" wx:key="{{index}}" id="{{index}}" wx:for-index="idx">
+        <view class='merchantROM'>
+          <view class='merchantLeft'>
+            <image class='merchantImages' mode='scaleToFill' src='{{item.picUrl}}'></image>
+            <view class='acuisineMessage'>
+              <text class='acuisineName'>{{item.skuName}}</text>
+              <view class='lemon'>
+                <image class='house' src='/images/icon/house.png'></image>
+                <text>{{item.shopName}}</text>
+                <text>已售{{item.sellNum}}</text>
+              </view>
+              <view class='original-cmb'>
+                <text>￥{{item.agioPrice}}</text>
+                <text>原价：￥{{item.sellPrice}}</text>
+              </view>
             </view>
           </view>
+          <view class='aBargain'>
+            <button id="{{item.id}}">发起砍价</button>
+          </view>
         </view>
-        <view class='aBargain'>
-          <button>发起砍价</button>
-        </view>
-      </view>
+      </block>
 
       <!-- 热门推荐 -->
       <view class='specialWrap specialHot'>
@@ -80,55 +81,32 @@
         <text>热门推荐</text>
       </view>
       <view class='oldWrap'>
-        <view class='ecommendation'>
-          <view class='ecommendationImg'>
-            <image mode='scaleToFill' class='ecomt_images' src='https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1534247547&di=20f71fac18abcc4a44239afefbe4f334&imgtype=jpg&er=1&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F011cbe5a1be3d9a80121713204d552.jpg%401280w_1l_2o_100sh.jpg'></image>
-          </view>
-          <view class='bean'>
-            <view class='beanLeft'>
-              <text>皮蛋豆腐</text>
+        <block wx:for="{{hotDishList}}" wx:key="{{index}}" id="{{index}}" wx:for-index="idx">
+          <view class='ecommendation'>
+            <view class='ecommendationImg'>
+              <image mode='scaleToFill' class='ecomt_images' src='{{item.picUrl}}'></image>
             </view>
-            <view class='beanRight'>已售
-              <text>7873</text>
+            <view class='bean'>
+              <view class='beanLeft'>
+                <text>{{item.skuName}}</text>
+              </view>
+              <view class='beanRight'>已售
+                <text>{{item.sellNum}}</text>
+              </view>
             </view>
-          </view>
-          <view class='horticulture'>
-            <view class='hol-left'>
-              <image class='house' src='/images/icon/house.png'></image>
-              <text>柠檬鱼柠檬鱼柠檬鱼柠檬鱼柠檬鱼</text>
+            <view class='horticulture'>
+              <view class='hol-left'>
+                <image class='house' src='/images/icon/house.png'></image>
+                <text>{{item.shopName}}</text>
+              </view>
+              <view class='hol-right'>
+                <text>{{item.distance}}</text>m</view>
             </view>
-            <view class='hol-right'>
-              <text>100</text>m</view>
-          </view>
-          <view class='superscript'>￥
-            <text>2</text>
-          </view>
-        </view>
-
-        <view class='ecommendation'>
-          <view class='ecommendationImg'>
-            <image mode='scaleToFill' class='ecomt_images' src='https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1534247547&di=20f71fac18abcc4a44239afefbe4f334&imgtype=jpg&er=1&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F011cbe5a1be3d9a80121713204d552.jpg%401280w_1l_2o_100sh.jpg'></image>
-          </view>
-          <view class='bean'>
-            <view class='beanLeft'>
-              <text>皮蛋豆腐</text>
-            </view>
-            <view class='beanRight'>已售
-              <text>7873</text>
+            <view class='superscript'>￥
+              <text>{{item.agioPrice}}</text>
             </view>
           </view>
-          <view class='horticulture'>
-            <view class='hol-left'>
-              <image class='house' src='/images/icon/house.png'></image>
-              <text>柠檬鱼柠檬鱼柠檬鱼柠檬鱼柠檬鱼</text>
-            </view>
-            <view class='hol-right'>
-              <text>100</text>m</view>
-          </view>
-          <view class='superscript'>￥
-            <text>2</text>
-          </view>
-        </view>
+        </block>
       </view>
     </view>
   </view>
@@ -144,12 +122,16 @@
       <text>分享</text>
     </view>
     <view class='returnPrice'>
-      <view>￥<text>332</text></view>
+      <view>￥
+        <text>{{sellPrice}}</text>
+      </view>
       <text class='directly'>原价购买</text>
     </view>
     <view class='returnSponsor' catchtap='sponsorVgts'>
-      <view>最低￥<text>23.9</text></view>
+      <view>最低￥
+        <text>{{agioPrice}}</text>
+      </view>
       <text>发起砍价</text>
     </view>
   </view>
-</view> 
+</view>

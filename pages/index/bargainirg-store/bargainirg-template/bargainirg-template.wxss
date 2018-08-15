@@ -102,7 +102,7 @@
   font-family:PingFangSC-Regular;
   color:rgba(255,67,67,1);
   display: flex;
-  justify-content: space-between;
+  flex-direction: row;
 }
 
 .greens-cost view text:nth-child(1){

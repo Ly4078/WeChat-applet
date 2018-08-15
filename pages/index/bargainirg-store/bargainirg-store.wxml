@@ -2,7 +2,7 @@
 <!--顶部tab栏选择-->
 <view class="top-table">
   <view class="navbar">
-    <text wx:for="{{navbar}}" data-idx="{{index}}" class="item {{currentTab==index ? 'active' : ''}}" wx:key="unique" bindtap="navbarTap">{{item}}</text>
+    <text wx:for="{{navbar}}" data-idx="{{index}}" class="item {{browSort==index ? 'active' : ''}}" wx:key="unique" bindtap="navbarTap">{{item}}</text>
   </view>
   <view class='diagram' wx:if="{{showModal}}">
     <image class='diagram-image' src='https://xq-1256079679.file.myqcloud.com/text_291799988395889818_1.0.jpg'></image>
@@ -12,31 +12,7 @@
   </view>
 </view>
 
-<!--附近-->
-<view hidden="{{currentTab!==0}}">
-  <view class="templateWrap {{showModal?'':'unders'}}">
-    <view class='cutCuisine'>
-      <block wx:for="{{cuisineArray}}" wx:key="{{index}}" id="{{index}}" wx:for-index="idx">
-        <template is="cuisine" data="{{item}}" />
-      </block>
-    </view>
-  </view>
-</view>
-
-<!--销量-->
-<view hidden="{{currentTab!==1}}">
-是是是
-  <!-- <view class="templateWrap {{showModal?'':'unders'}}">
-    <view class='cutCuisine'>
-      <block wx:for="{{cuisineArray}}" wx:key="{{index}}" id="{{index}}" wx:for-index="idx">
-        <template is="cuisine" data="{{item}}" />
-      </block>
-    </view>
-  </view> -->
-</view>
-
-<!--价格-->
-<view hidden="{{currentTab!==2}}">
+<view>
   <view class="templateWrap {{showModal?'':'unders'}}">
     <view class='cutCuisine'>
       <block wx:for="{{cuisineArray}}" wx:key="{{index}}" id="{{index}}" wx:for-index="idx">

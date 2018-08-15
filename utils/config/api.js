@@ -404,6 +404,26 @@ const ALL_API = {
     method: 'get',
     url: 'bargain/skuRedis'
   },
+  partakerList : {     //砍菜列表
+    method: 'GET',
+    url: 'sku/kjcList'
+  },
+  discountDetail: {    //砍价菜详情
+    method: 'GET',
+    url: 'sku/getKjc'
+  },
+  createBargain: {    //创建砍菜信息
+    method: 'POST',
+    url: 'gold/initiator'
+  },
+  isbargain: {      //查询是否发起砍价
+    method: 'GET',
+    url: 'bargain/skuRedis'
+  },
+  bargainDetail: {   //获取砍菜详情
+    method: 'GET',
+    url: 'bargain/skuGroup'
+  }
 }
 const Api = new MyHttp({}, ALL_API);
 

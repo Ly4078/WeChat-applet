@@ -1,18 +1,18 @@
 <template name="cuisine">
-  <view class='cutCuisine-shell' catchtap='candyDetails'>
-    <image class='cutCuisine-images' src='http://a3.att.hudong.com/52/30/28300542748198146650303532276_950.jpg'></image>
+  <view class='cutCuisine-shell' id="{{item.id}}" data-index="{{item.shopId}}" catchtap='candyDetails'>
+    <image class='cutCuisine-images' src='{{item.picUrl}}'></image>
     <view class='cutCuisine-bottom'>
       <view class='cutCuisine-text'>
         <view class='name-sales'>
-          <text>湘味香辣蛇湘味香辣蛇湘味香辣蛇湘味香辣蛇</text>
-          <text>已售8421</text>
+          <text>{{item.skuName}}</text>
+          <text>已售{{item.sellNum}}</text>
         </view>
         <view class='symbol-dst'>
           <view>
             <image class='merchantSign' src='/images/icon/original-can.png'></image>
-            <text>湘味香辣蛇湘味香辣湘味香辣蛇湘味香辣湘味香辣蛇湘味香辣</text>
+            <text>{{item.shopName}}</text>
           </view>
-          <text>1003m</text>
+          <text>{{item.distance}}</text>
         </view>
         <view class='greens-cost-wrap'>
           <view class='greens-cost'>
@@ -20,38 +20,9 @@
               <text>¥</text>
               <text>低价</text>
             </view>
-            <text class='original-money'>102.2</text>
+            <text class='original-money'>{{item.agioPrice}}</text>
           </view>
-          <text class='original-money-sand'>原价¥20</text>
-        </view>
-      </view>
-    </view>
-  </view>
-
-  <view class='cutCuisine-shell' catchtap='candyDetails'>
-    <image class='cutCuisine-images' src='http://a3.att.hudong.com/52/30/28300542748198146650303532276_950.jpg'></image>
-    <view class='cutCuisine-bottom'>
-      <view class='cutCuisine-text'>
-        <view class='name-sales'>
-          <text>湘味香辣蛇湘味香辣蛇湘味香辣蛇湘味香辣蛇</text>
-          <text>已售8421</text>
-        </view>
-        <view class='symbol-dst'>
-          <view>
-            <image class='merchantSign' src='/images/icon/original-can.png'></image>
-            <text>湘味香辣蛇湘味香辣湘味香辣蛇湘味香辣湘味香辣蛇湘味香辣</text>
-          </view>
-          <text>1003m</text>
-        </view>
-        <view class='greens-cost-wrap'>
-          <view class='greens-cost'>
-            <view>
-              <text>¥</text>
-              <text>低价</text>
-            </view>
-            <text class='original-money'>102.2</text>
-          </view>
-          <text class='original-money-sand'>原价¥20</text>
+          <text class='original-money-sand'>原价¥{{item.sellPrice}}</text>
         </view>
       </view>
     </view>

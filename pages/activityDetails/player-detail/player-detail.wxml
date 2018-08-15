@@ -45,7 +45,7 @@
   <!--  style="{{article.length > 0 ? '' : 'padding-bottom: 76rpx;'}}" -->
   <view class="playerResource">
     <view class="playerVideo" bindtap='handvideo' wx:if="{{isshow}}">
-      <image class='vodeoimg' src='{{videoArr[0].smallPicUrl}}'></image>
+      <image class='vodeoimg' src='{{videoArr[0].smallPicUrl}}' mode="aspectFill"></image>
       <view class='motai'></view>
       <image class='palyicon' src="/images/icon/paly.png"></image>
     </view>

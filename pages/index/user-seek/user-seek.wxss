@@ -151,3 +151,11 @@ white-space: nowrap;
   margin-top: 0rpx;
 }
 
+.record_text {
+  height: 70rpx;
+}
+
+.record_text_xw {
+  display: block;
+  height: 100%;
+}
