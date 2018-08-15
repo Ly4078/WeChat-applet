@@ -16,6 +16,9 @@ Page({
     countDownHour: 0,
     countDownMinute: 0,
     countDownSecond: 0,
+    data:[],
+    skuName:[],
+    picUrl:[],
   },
   onLoad: function () {
     this.setData({
@@ -69,15 +72,46 @@ Page({
     this.vegetablesInquire(); //查询菜品
   },
 
-  vegetablesInquire: function () { //查询菜品
+
+  vegetablesInquire: function () { //查询菜品   
     let _parms = {
-      userId: 1400,   //userId    app.globalData.userInfo.userId
+      userId: app.globalData.userInfo.userId,   //userId
     };
+    let that = this;
     Api.vegetables(_parms).then((res) => {
       console.log("res_res:", res)
-      this.setData({
-        likeNum: res.data.data
+      let sukId = res.data.data[0].skuId;
+      wx.request({ //通过skuId查询菜品 
+        url: this.data._build_url + 'sku/get/' + sukId,
+        header: {
+          'content-type': 'application/json' // 默认值
+        },
+        success: function (res) {
+          let skuName_ = res.data.data.skuName
+          let picUrl_ = res.data.data.picUrl
+          that.setData({
+            skuName: skuName_,
+            picUrl: picUrl_
+          });
+        }
+      });
+      that.setData({
+        skuMoneyNow: res.data.data[0].skuMoneyNow,  //现价
+        skuMoneyOut: res.data.data[0].skuMoneyOut,  //低价
+        skuAmount: res.data.data[0].skuAmount,      //已减
+        peoplenum: res.data.data[0].peoplenum       //砍价人数
       });
     });
-  }
+
+  },
+
+  
+
+
+
+
+
+
+
+  
 })

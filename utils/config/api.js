@@ -402,7 +402,7 @@ const ALL_API = {
   },
   vegetables: {    //金币余额
     method: 'get',
-    url: 'bargain/skuRedis'
+    url: 'bargain/userRedis'
   },
   partakerList : {     //砍菜列表
     method: 'GET',

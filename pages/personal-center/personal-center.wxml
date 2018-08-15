@@ -69,7 +69,7 @@
       <view class='myList-single'>
         <view>
           <image class='myListImages' src='/images/icon/bargainirg_kj.png'></image>
-          <text class='mylistText'>我的砍价</text>
+          <text class='mylistText'>我的砍菜</text>
         </view>
         <image class='myListArrows' src='/images/icon/home_arrow.png'></image>
       </view>

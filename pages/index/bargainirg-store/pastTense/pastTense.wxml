@@ -1,10 +1,10 @@
 <view>
   <view class='previously'>
-    <image class='preImages' src='https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1534303009&di=d49f422b87fc0e528219ac0e7a195687&imgtype=jpg&er=1&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F0196a75540a6870000017c94ce091f.jpg%401280w_1l_2o_100sh.jpg'></image>
+    <image class='preImages' src='{{picUrl}}'></image>
     <view class='preRight'>
       <view class='preRitTop'>
         <view class='pre-rigtTop-name'>
-          <text>皮蛋豆腐</text>
+          <text>{{skuName}}</text>
         </view>
       </view>
       <!--倒计时  -->
@@ -18,13 +18,13 @@
       </view>
       <!-- 已砍价 已减价格 -->
       <view class='alreadyWrap'>
-        <view class='already'><text>98</text>人已砍</view>，
-        <view class='already'>已减<text>9</text>元</view>
+        <view class='already'><text>{{peoplenum?peoplenum:0}}</text>人已砍</view>，
+        <view class='already'>已减<text>{{skuAmount?skuAmount:0}}</text>元</view>
       </view>
       <view class='depend'>
         <view class='dependLeft'>
-          <text class='dependText'>￥20.00</text>
-          <view>原价￥<text>40.00</text></view>
+          <text class='dependText'>￥{{skuMoneyNow}}</text>
+          <view>原价￥<text>{{skuMoneyOut}}</text></view>
         </view>
         <button>立即购买</button>
       </view>
