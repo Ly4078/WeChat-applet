@@ -419,6 +419,7 @@ Page({
       hotDishList: [],
       page: 1
     });
+    this.bargain();
     this.hotDishList();
   },
   // 左上角返回首页
