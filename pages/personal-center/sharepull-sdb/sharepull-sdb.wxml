@@ -15,7 +15,7 @@
   <view class='manyPersons'>
     <view class='manyPersonsText'>
       <text>邀请人数</text>
-      <view><text>{{pullNum}}人</text></view>
+      <view><text>{{_data}}人</text></view>
     </view>
   </view>
 </view>
