@@ -64,6 +64,7 @@ Page({
           icon: 'none'
         })
         this.setData({
+          status: 1,
           groupId: res.data.data.groupId //生成团砍Id
         });
         this.bargain();
