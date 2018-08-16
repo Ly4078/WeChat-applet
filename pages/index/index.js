@@ -193,7 +193,7 @@ Page({
       }
     })
     // app.globalData.isflag = true;
-    this.getmoredata();
+    // this.getmoredata();
   },
   indexinit: function () {
     let that = this, userInfo = app.globalData.userInfo;
@@ -1272,10 +1272,13 @@ Page({
             bargainList: _list.splice(0, 3)
           })
         }
-        console.log("bargainList:", this.data.bargainList)
-        arr = _oldData.concat(_list);
+        for (let i = 0; i < _list.length; i++) {
+          _oldData.push(_list[i])
+        }
+        // console.log("bargainList:", this.data.bargainList)
+        // arr = _oldData.concat(_list);
         this.setData({
-          bargainListall: arr
+          bargainListall: _oldData
         })
       }
     })

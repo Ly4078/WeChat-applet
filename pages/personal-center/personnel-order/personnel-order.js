@@ -55,6 +55,7 @@ Page({
     }
     Api.somyorder(_parms).then((res) => {
       let data = res.data;
+      console.log('getOrderList_res:',res);
       if (data.code == 0 && data.data != null && data.data != "" && data.data != []) {
         let order_list = that.data.order_list;
         if (data.data.length && data.data.length > 0) {
@@ -140,6 +141,7 @@ Page({
 
     Api.myorderForShop(_parms).then((res) => {
       let data = res.data;
+      console.log('getshopOrderList_res:',res)
       if (data.code == 0 && data.data != null && data.data != "" && data.data != []) {
         let shoplist = that.data.shoporderlist;
         for (let i = 0; i < data.data.length; i++) {
@@ -286,6 +288,7 @@ Page({
   //对比时间是否过期
   isDueFunc: function(createTime) {
     //isDue=0   已过期 isDue=1未过期
+    createTime = createTime.replace(/\-/g, "/");
     let _createTime = new Date(createTime).getTime();
     let _endTime = _createTime + 60 * 60 * 24 * 30 * 1000,
       isDue = 0;

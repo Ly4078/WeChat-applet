@@ -54,7 +54,7 @@ page{
   width:90rpx;
   height:32rpx;
   line-height:32rpx;
-  margin-top:15rpx;
+  margin-top:13rpx;
   display: inline-block;
   font-size:24rpx;
   background: black;

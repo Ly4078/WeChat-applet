@@ -14,7 +14,8 @@ Page({
     bargainList: [],
     countDownHour: 0,
     countDownMinute: 0,
-    countDownSecond: 0
+    countDownSecond: 0,
+    bigTimer:null
   },
   onLoad: function() {
     this.setData({
@@ -23,6 +24,11 @@ Page({
   },
   onShow: function() {
     this.vegetablesInquire(); //查询菜品
+  },
+  onHide:function(){
+    this.setData({
+      bigTimer:null
+    })
   },
   vegetablesInquire: function() { //查询菜品列表
     let _parms = {
@@ -91,7 +97,8 @@ Page({
         }
       }
       that.setData({
-        bargainList: _list
+        bargainList: _list,
+        bigTimer:timer
       });
     },1000)
   },
