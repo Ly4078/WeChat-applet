@@ -6,14 +6,16 @@ import {
 var app = getApp()
 Page({
   data: {
-    initiator: '',    //发起人Id
+    initiator: '', //发起人Id
     showModal: false,
     groupId: '',
-    doneBargain: '',   //已砍金额
-    countDown: '',     //倒计时
-    getGoldNum: 0,    //砍价人获得的金币数
-    progress: 0,    //进度条
-    status: 1, //砍价状态 1.30分钟内  2.过了30分钟没超过24小时  3.过了24小时或者已买  4.可以帮发起人砍价  5.不能帮发起人砍价 6砍完了
+    doneBargain: '', //已砍金额
+    countDown: '', //倒计时
+    getGoldNum: 0, //砍价人获得的金币数
+    progress: 0, //进度条
+    status: 1,         //砍价状态 1.30分钟内  2.过了30分钟没超过24小时  3.过了24小时或者已买 4.满5人
+    otherStatus: 1,    //1.可以帮发起人砍价  2.已经砍过  3.人数已满  4.过了30分钟 5.砍价结束
+    isMine: true, //是本人
     page: 1,
     flag: true,
     hotDishList: [],
@@ -23,21 +25,21 @@ Page({
   },
   onLoad: function(options) {
     this.setData({
-      refId: options.refId,    //菜品Id
-      shopId: options.shopId,  //商家Id
-      skuMoneyOut: options.skuMoneyOut,   //原价
-      skuMoneyMin: options.skuMoneyMin,   //低价
-      userId: app.globalData.userInfo.userId,    //登录者Id
+      refId: options.refId, //菜品Id
+      shopId: options.shopId, //商家Id
+      skuMoneyOut: options.skuMoneyOut, //原价
+      skuMoneyMin: options.skuMoneyMin, //低价
+      userId: app.globalData.userInfo.userId, //登录者Id
       initiator: options.initiator ? options.initiator : '', //发起人Id
-      groupId: options.groupId ? options.groupId : ''        //团砍Id
+      groupId: options.groupId ? options.groupId : '' //团砍Id
     });
-    this.dishDetail();    //查询菜详情
+    this.dishDetail(); //查询菜详情
     if (this.data.groupId) {
       this.bargain();
     } else {
       this.createBargain();
     }
-    this.hotDishList();   //热门推荐
+    this.hotDishList(); //热门推荐
   },
   onShow() {
     if (!app.globalData.userInfo.mobile) {
@@ -50,7 +52,7 @@ Page({
       refId: this.data.refId,
       userId: this.data.userId,
       shopId: this.data.shopId,
-      amount: this.data.skuMoneyOut * 1 - this.data.skuMoneyMin,
+      amount: (+this.data.skuMoneyOut - this.data.skuMoneyMin).toFixed(2),
       skuMoneyOut: this.data.skuMoneyOut,
       skuMoneyMin: this.data.skuMoneyMin
     };
@@ -70,18 +72,28 @@ Page({
   //获取砍价券详情
   bargain() {
     let _parms = {
-      skuId: this.data.refId, //菜品Id
-      parentId: this.data.initiator ? this.data.initiator : this.data.userId, //发起人的userId
-      shopId: this.data.shopId,
-      groupId: this.data.groupId
-    }, _this = this;
+        skuId: this.data.refId, //菜品Id
+        parentId: this.data.initiator ? this.data.initiator : this.data.userId, //发起人的userId
+        shopId: this.data.shopId,
+        groupId: this.data.groupId
+      },
+      _this = this;
     Api.bargainDetail(_parms).then((res) => {
-      let code = res.data.code, data = res.data.data;
+      let code = res.data.code,
+        data = res.data.data;
       if (code == 0) {
-        if(data) {
-          let endTime = data[0].endTime, max = this.data.skuMoneyOut * 1 - this.data.skuMoneyMin,
-          doneBargain = this.data.skuMoneyOut * 1 - data[0].skuMoneyNow, progress = 0; 
+        if (data) {
+          let endTime = data[0].endTime,
+            max = (+this.data.skuMoneyOut - this.data.skuMoneyMin).toFixed(2),
+            doneBargain = (+this.data.skuMoneyOut - data[0].skuMoneyNow).toFixed(2),
+            progress = 0;
           progress = doneBargain / max * 100;
+          if (this.data.initiator && this.data.userId && this.data.initiator != this.data.userId) {
+            this.setData({
+              isMine: false
+            });
+            this.isBargain();
+          }
           this.setData({
             skuMoneyNow: data[0].skuMoneyNow,
             doneBargain: doneBargain,
@@ -90,46 +102,44 @@ Page({
             peoplenum: data[0].peoplenum * 1 - 1,
             peopleList: data.slice(1)
           });
-          let miliEndTime = new Date(endTime).getTime(), miliNow = new Date().getTime();
+          let miliEndTime = new Date(endTime).getTime(),
+            miliNow = new Date().getTime();
           let minus = Math.floor((miliEndTime - miliNow) / 1000);
-          if (minus > 0 && minus <= 1800) {
+          if (minus > 0 && minus <= 1800) { //小于30分钟
             //好友进入砍菜页面人数满5人并且超过半小时不能砍价
-            if (this.data.peoplenum < 5) {
-              if (this.data.initiator && this.data.userId && this.data.initiator != this.data.userId) {
-                this.isBargain();
-                this.setData({
-                  status: 4
-                });
-              }
+            if (this.data.peoplenum >= 5) {
+              this.setData({
+                status: 4
+              });
             } else {
               this.setData({
-                status: 5
+                status: 1
               });
-            }
-            this.setData({
-              status: 1
-            });
-            let hours = '', minutes = '', seconds = '', countDown = '';
-            let timer = setInterval(function () {
-              if (minus == 0) {
-                clearInterval(timer);
-                minus = 0;
+              let hours = '',
+                minutes = '',
+                seconds = '',
+                countDown = '';
+              let timer = setInterval(function() {
+                if (minus == 0) {
+                  clearInterval(timer);
+                  minus = 0;
+                  _this.setData({
+                    status: 2
+                  });
+                }
+                hours = Math.floor(minus / 3600); //时
+                minutes = Math.floor(minus / 60); //分
+                seconds = minus % 60; //秒
+                hours = hours < 10 ? '0' + hours : hours;
+                minutes = minutes < 10 ? '0' + minutes : minutes;
+                seconds = seconds < 10 ? '0' + seconds : seconds;
+                countDown = hours + ':' + minutes + ':' + seconds;
                 _this.setData({
-                  status: 2
+                  countDown: countDown
                 });
-              }
-              hours = Math.floor(minus / 3600);         //时
-              minutes = Math.floor(minus / 60);         //分
-              seconds = minus % 60;                   //秒
-              hours = hours < 10 ? '0' + hours : hours;
-              minutes = minutes < 10 ? '0' + minutes : minutes;
-              seconds = seconds < 10 ? '0' + seconds : seconds;
-              countDown = hours + ':' + minutes + ':' + seconds;
-              _this.setData({
-                countDown: countDown
-              });
-              minus--;
-            }, 1000);
+                minus--;
+              }, 1000);
+            }
           } else {
             this.setData({
               status: 2
@@ -137,7 +147,7 @@ Page({
           }
         } else {
           this.setData({
-            status: 3    
+            status: 3
           });
         }
       } else {
@@ -145,6 +155,9 @@ Page({
           title: res.data.message,
           icon: 'none'
         })
+        this.setData({
+          status: 3
+        });
       }
     });
   },
@@ -166,7 +179,7 @@ Page({
         });
       } else {
         this.setData({
-          status: 5
+          status: 3
         });
       }
     })
@@ -180,15 +193,21 @@ Page({
       groupId: this.data.groupId
     };
     Api.isHelpfriend(_parms).then((res) => {
-      if (res.data.code == 0) {
-        this.setData({
-          status: 4
-        });
+      let code = res.data.code, otherStatus = 1;
+      if (code == 0) {
+        otherStatus = 1;
+      } else if(code == 200065) {
+        otherStatus = 2;
+      } else if (code == 200066) {
+        otherStatus = 3;
+      } else if (code == 200067) {
+        otherStatus = 4;
       } else {
-        this.setData({
-          status: 5
-        });
+        otherStatus = 5;
       }
+      this.setData({
+        otherStatus: otherStatus
+      });
     });
   },
   //帮好友砍价
@@ -207,15 +226,16 @@ Page({
       },
       _this = this;
     Api.isHelpfriend(_parms).then((res) => {
-      if (res.data.code == 0) {
+      let code = res.data.code;
+      if (code == 0) {
         _this.setData({
-          status: 4
+          otherStatus: 1
         });
         _parms.shopId = _this.data.shopId;
         Api.helpfriend(_parms).then((e) => {
           if (e.data.code == 0) {
             _this.setData({
-              status: 6
+              otherStatus: 2
             });
             _this.bargain();
           }
@@ -224,9 +244,33 @@ Page({
             icon: 'none'
           })
         });
+      } else if (code == 200065) {
+        this.setData({
+          otherStatus: 2
+        });
+        wx.showToast({
+          title: res.data.message,
+          icon: 'none'
+        })
+      } else if (code == 200066) {
+        this.setData({
+          otherStatus: 3
+        });
+        wx.showToast({
+          title: res.data.message,
+          icon: 'none'
+        })
+      } else if (code == 200067) {
+        this.setData({
+          otherStatus: 4
+        });
+        wx.showToast({
+          title: res.data.message,
+          icon: 'none'
+        })
       } else {
         this.setData({
-          status: 5
+          otherStatus: 5
         });
         wx.showToast({
           title: res.data.message,
@@ -235,7 +279,7 @@ Page({
       }
     });
   },
-  toBuy() {    //买菜
+  toBuy() { //买菜
     if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
@@ -260,7 +304,8 @@ Page({
     };
     Api.partakerList(_parms).then((res) => {
       if (res.data.code == 0 && res.data.data.list && res.data.data.list != 'null') {
-        let list = res.data.data.list, hotDishList = this.data.hotDishList;
+        let list = res.data.data.list,
+          hotDishList = this.data.hotDishList;
         for (let i = 0; i < list.length; i++) {
           list[i].distance = utils.transformLength(list[i].distance);
           hotDishList.push(list[i]);
@@ -280,7 +325,7 @@ Page({
       }
     })
   },
-  onReachBottom: function () {  //用户上拉触底加载更多
+  onReachBottom: function() { //用户上拉触底加载更多
     if (!this.data.flag) {
       return false;
     }
@@ -289,7 +334,7 @@ Page({
     });
     this.hotDishList();
   },
-  onPullDownRefresh: function () {
+  onPullDownRefresh: function() {
     this.setData({
       flag: true,
       hotDishList: [],

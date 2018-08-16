@@ -300,7 +300,7 @@ page{
 }
 
 .userRuleRight-Top view{
-  width: 80%;
+  width: 60%;
   overflow: hidden;
   text-overflow:ellipsis;
   white-space: nowrap;

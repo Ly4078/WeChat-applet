@@ -25,7 +25,7 @@
           <view class='already'>
             <text>{{item.peoplenum*1-1}}</text>人已砍</view>，
           <view class='already'>已减
-            <text>{{item.skuMoneyOut*1-item.skuMoneyNow}}</text>元</view>
+            <text>{{item.subtract}}</text>元</view>
         </view>
         <view class='depend'>
           <view class='dependLeft'>
