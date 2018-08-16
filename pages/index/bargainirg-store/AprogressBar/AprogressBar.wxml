@@ -1,5 +1,13 @@
 <import src="../bargainirg-template/bargainirg-template.wxml" />
 
+<view class="newUserModal" wx:if="{{issnap && isnew}}">
+  <view class='drawer_screen'>
+    <view class='sqtishi'>提示</view>
+    <view class='drphnumber'>获得更多体验,请移步[我的]-[新用户注册]</view>
+    <button class='gettel sqgettel' bindtap='closetel' id='1'>确定</button>
+    <button class='gettel colosetel' bindtap='closetel' id='2'>取消</button>
+  </view>
+</view>
 <view class='assist'>
   <view class='assistInner'>
     <view class='assistTop'>
@@ -12,22 +20,22 @@
         <text>规则说明</text>
       </view>
     </view>
-    <view class='userCuisined'>
-      <view class='userTop'>
-        <image class='userImages' src='https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1533735338150&di=cc2eed66f1b422552ec4a1565d62ede7&imgtype=0&src=http%3A%2F%2Fc.hiphotos.baidu.com%2Fzhidao%2Fwh%253D450%252C600%2Fsign%3D607483af0bf431adbc874b3d7e068099%2Fa8ec8a13632762d025c0c282a7ec08fa513dc615.jpg'></image>
+    <view class='userCuisined active'>
+      <view wx:if="{{status != 3}}" class='userTop'>
+        <image class='userImages' src='{{peopleList[0].iconUrl}}'></image>
         <view class='userNameJ-j'>
-          <text class='userNameJ-text'>韩斌</text>
+          <text class='userNameJ-text'>{{peopleList[0].nickName}}</text>
           <view class='userintrosse'>
             <text>砍价不套路，一刀也优惠，还能领金币兑好礼</text>
           </view>
         </view>
       </view>
       <view class='cuisine'>
-        <image class='cuisineImages' src='https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1534330434&di=6e1ea923510961477db4c1777a368879&imgtype=jpg&er=1&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F01f343554b6fd8000001bf72c7956e.jpg%401280w_1l_2o_100sh.jpg'></image>
+        <image class='cuisineImages' src='{{picUrl}}'></image>
         <view class='cuisineRight'>
           <view class='cuisineRight-Top'>
             <view class='cuisineRight-text'>
-              <text>鱼香肉丝</text>
+              <text>{{skuName}}</text>
             </view>
             <view class='cuisineRight-down'>
               <text>详情</text>
@@ -36,109 +44,111 @@
           </view>
           <view class='centerSwordWrap'>
             <image class='centerSword' src='/images/icon/house.png'></image>
-            <text>鱼香肉丝</text>
-            <text>已售<text>832</text></text>
+            <text>{{shopName}}</text>
+            <text>已售<text>{{sellNum}}</text></text>
           </view>
           <view class='bargainBtn'>
             <view>￥
               <text>底价</text>
             </view>
-            <text>10</text>
-            <text>原价￥<text>28</text></text>
+            <text>{{skuMoneyMin}}</text>
+            <text>原价￥<text>{{skuMoneyOut}}</text></text>
           </view>
         </view>
       </view>
       <!-- 砍价进度条 -->
-      <view>
+      <view wx:if="{{status != 3}}">
         <view class='canvasWrap'>
           <view class='built-in'>
             <image class='canvasImages' src='/images/icon/present_set.png'></image>
-            <text class='canvasTextxianjia'>现价￥<text>22</text></text>
+            <text class='canvasTextxianjia'>现价￥<text>{{skuMoneyNow}}</text></text>
           </view>
         </view>
         <view class='progressShell'>
           <view class='progressWrap'>
-            <progress class='progress' percent="{{progress}}" color="red" stroke-width="6" activeColor="#FF4343" backgroundColor="#ccc" percent="1" />
+            <progress class='progress' percent="{{progress}}" color="red" stroke-width="6" activeColor="#FF4343" backgroundColor="#ccc" />
             <view class='progressText'>
               <view>原价￥
-                <text>28</text>
+                <text>{{skuMoneyOut}}</text>
               </view>
               <view>现价￥
-                <text>20</text>
+                <text>{{skuMoneyNow}}</text>
               </view>
             </view>
             <view class='helpShell'>
-              <text>2</text>人帮忙，已砍掉
-              <text>6</text>元</view>
+              <text>{{peoplenum}}</text>人帮忙，已砍掉
+              <text>{{doneBargain}}</text>元</view>
           </view>
         </view>
       </view>
 
       <!-- 发布朋友砍价 -->
-      <view class='invitation'>
-        <button>邀请好友帮忙砍</button>
-        <button>￥
-          <text>22</text>立即购买</button>
+      <view wx:if="{{status == 1 || status == 2}}" class='invitation'>
+        <button plain="true" data-name="shareBtn" open-type="share" bindtap='transpond'>邀请好友帮忙砍</button>
+        <button bindtap='toBuy'>￥
+          <text>{{skuMoneyNow}}</text>立即购买</button>
       </view>
 
       <!-- 分享出去朋友进来未砍状态 -->
-      <!-- <view class='notInvitation'>
-        <view catchtap='dubayyGainGold'>
+      <view wx:if="{{status == 4}}" class='notInvitation'>
+        <view catchtap='helpfriend'>
           <image class='notCutImg' src='https://xqmp4-1256079679.file.myqcloud.com/text_329725168984554576.png'></image>
           <view class='notCutdong'>
             <view>砍</view>
-            <text>￥22</text>
+            <text>￥{{skuMoneyNow}}</text>
           </view>
         </view>
-      </view> -->
+      </view>
 
       <!-- 已经帮朋友砍完价 -->
-      <!-- <view class='invitation-share'>
-        <button>已帮好友砍价，获得两个<text>2</text>个金币</button>
-      </view> -->
+      <view wx:if="{{status == 6}}" class='invitation-share'>
+        <button>已帮好友砍价，获得两个
+          <text>{{getGoldNum}}</text>个金币</button>
+      </view>
 
       <!--倒计时  -->
-      <view class="countDownTimeView">
+      <view wx:if="{{status == 1}}" class="countDownTimeView">
         <text>还剩</text>
-        <view class="voteText">{{countDownHour}}</view>
-        <view class='votefenge'>:</view>
-        <view class="voteText">{{countDownMinute}}</view>
-        <view class='votefenge'>:</view>
-        <view class="voteText">{{countDownSecond}}</view>
+        <view class="voteText">{{countDown}}</view>
         <text>结束</text>
+      </view>
+      <view wx:if="{{status == 2}}" class="isEnd">
+        本次砍价已结束
       </view>
     </view>
 
     <!-- 好友砍价记录 -->
-    <view class='friendBargain'>
+    <view wx:if="{{status != 3}}" class='friendBargain'>
       <view class='moneyRule'>
         <view class='moneyRulenei'>
-          <view class='moneyRuleLeft'>领取金币
-            <text>8</text>/
-            <text>10</text>个</view>
+          <view class='moneyRuleLeft'>领取人数
+            <text>{{peoplenum+1}}</text>/
+            <text>6</text>人</view>
           <view class='moneyRuleRighe'>
             <text>金币规则</text>
           </view>
         </view>
-
-        <view class='userRuleWrap'>
-          <view class='userRuleLeft'>
-            <image class='userRuleImages' src='https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2888992783,2147980339&fm=27&gp=0.jpg'></image>
-          </view>
-          <view class='userRuleRight'>
-            <view class='userRuleRight-Top'>
-              <view>
-                <text>坚果小嫂子</text>
+        <block wx:for="{{peopleList}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
+          <view class='userRuleWrap'>
+            <view class='userRuleLeft'>
+              <image class='userRuleImages' src='{{item.iconUrl}}'></image>
+            </view>
+            <view class='userRuleRight'>
+              <view class='userRuleRight-Top'>
+                <view>
+                  <text>{{item.nickName}}</text>
+                </view>
+                <text>{{item.skuAmount == 0 ? '发起人' : '砍掉'+item.skuAmount+'元'}}</text>
               </view>
-              <text>砍掉2元</text>
-            </view>
-            <view class='userRuleRight-btn'>
-              <text>2018-08-12</text>
-              <text>12:43</text>
-              <text>获得<text>6</text>个金币</text>
+              <view class='userRuleRight-btn'>
+                <text>{{item.createTime}}</text>
+                <!-- <text>12:43</text> -->
+                <text>获得<text>{{item.goldAmount}}</text>个金币</text>
+              </view>
             </view>
           </view>
-        </view>
+
+        </block>
       </view>
     </view>
     <!-- 精选推荐 -->
@@ -148,14 +158,14 @@
       <image class='selectionIoImgRight' src='/images/icon/seven ribbon.png'></image>
     </view>
     <view class='selectionIo_like'>
-      <!-- <block wx:for="{{cuisineArray}}" wx:key="{{index}}" id="{{index}}" wx:for-index="idx"> -->
-      <template is="cuisine" data="{{item}}" />
-      <!-- </block> -->
+      <block wx:for="{{hotDishList}}" wx:key="{{index}}" id="{{index}}" wx:for-index="idx">
+        <template is="cuisine" data="{{item}}" />
+      </block>
     </view>
   </view>
 
   <!-- 规则说明 -->
-  <view class="mask"  bindtap="understand" catchtouchmove="preventTouchMove" wx:if="{{showModal}}"></view>
+  <view class="mask" bindtap="understand" catchtouchmove="preventTouchMove" wx:if="{{showModal}}"></view>
   <view class="modalDlg" wx:if="{{showModal}}">
     <view class='windows_tishi'>请了解使用规则</view>
     <view class='windows_text'>

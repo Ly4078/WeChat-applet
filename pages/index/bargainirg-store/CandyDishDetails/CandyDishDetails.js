@@ -31,10 +31,9 @@ Page({
     this.shopDetail();
     this.dishList();
     this.hotDishList();
-    this.isbargain();
   },
   onShow: function () {
-    
+    this.isbargain();
   },
   //查询单个砍价菜
   dishDetail() {    
@@ -162,8 +161,7 @@ Page({
       userId: app.globalData.userInfo.userId,  
       skuId: this.data.id
     };
-    Api.isbargain(_parms).then((res) => {
-      console.log(res.data.data)
+    Api.vegetables(_parms).then((res) => {
       if (res.data.data.length > 0) {
         this.setData({
           isbargain: true
@@ -174,7 +172,6 @@ Page({
   },
   //发起砍价
   sponsorVgts:function(){
-    console.log(this.data.isbargain);
     if (this.data.isbargain) {
       this.toBargainList();
     } else {

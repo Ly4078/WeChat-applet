@@ -47,6 +47,11 @@ page{
   background:rgba(255,255,255,1);
   border-radius:16rpx;
   box-shadow:2px 0px 8px rgba(61,137,222,1);
+  box-sizing: border-box;
+}
+
+.userCuisined.active {
+  padding-top: 28rpx;
 }
 
 .userTop{
@@ -193,6 +198,7 @@ page{
 .invitation button{
   width: 272rpx;
   height: 70rpx;
+  border: 0;
   border-radius:35rpx;
   font-size:28rpx;
   font-family:PingFangSC-Medium;
@@ -533,4 +539,12 @@ page{
   letter-spacing: 1rpx;
   position: absolute;
   bottom: 0rpx;
+}
+
+.isEnd {
+  color: #78B6FC;
+  font-size: 22rpx;
+  height: 100rpx;
+  line-height: 100rpx;
+  text-align: center;
 }

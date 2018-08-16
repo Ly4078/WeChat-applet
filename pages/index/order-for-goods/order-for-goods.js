@@ -12,36 +12,51 @@ Page({
     issnap: false,
     issecond: false,
     paytype: '', //支付方式， 1微信支付  2余额支付
-    balance: 0,  //余额
-    skuName:"",
-    items: [
-      { name: '微信支付', id: '1', disabled: false, img: '/images/icon/weixinzhifu.png', checked: false },
-      { name: '余额支付', id: '2', disabled: false, img: '/images/icon/yuezhifu.png', checked: true },
+    balance: 0, //余额
+    skuName: "",
+    items: [{
+        name: '微信支付',
+        id: '1',
+        disabled: false,
+        img: '/images/icon/weixinzhifu.png',
+        checked: false
+      }
+      // { name: '余额支付', id: '2', disabled: false, img: '/images/icon/yuezhifu.png', checked: true },
     ]
   },
-  
-  onLoad: function (options) {
-    if (options.skuName){
+  onLoad: function(options) {
+    console.log(options)
+    if (options.skuName) {
       this.setData({
         skuName: options.skuName
       })
       let arr = this.data.items
       arr[0].checked = true;
-      arr[1].checked = false;
-      arr[1].disabled = true;
+      // arr[1].checked = false;
+      // arr[1].disabled = true;
       this.setData({
         paytype: 1,
         items: arr
       })
     }
-    if (options.skutype==3){
+    if (options.skutype == 3) {
       this.setData({
         actId: 37,
         shopId: options.shopId,
         skuId: options.skuId
       });
     }
-    if(options.actId) {
+    if (options.skutype == 4) {
+      this.setData({
+        skutype: options.skutype,
+        skuName: options.skuName,
+        shopId: options.shopId,
+        dishSkuId: options.dishSkuId,
+        dishSkuName: options.dishSkuName,
+        groupId: options.groupId
+      });
+    }
+    if (options.actId) {
       this.setData({
         actId: options.actId,
         shopId: options.shopId,
@@ -53,7 +68,7 @@ Page({
       obj: options,
       paymentAmount: options.sell
     })
-    this.getbalance();
+    // this.getbalance();
     if (options.num && options.num != 'undefined' && options.num != '') {
       this.setData({
         number: options.num,
@@ -67,7 +82,7 @@ Page({
     }
   },
 
-  getbalance: function () {//查询余额
+  getbalance: function() { //查询余额
     let _account = {
       userId: app.globalData.userInfo.userId
     }
@@ -80,7 +95,7 @@ Page({
       }
     })
   },
-  radioChange: function (e) {  //选框
+  radioChange: function(e) { //选框
     let num = e.detail.value;
     this.setData({
       issecond: false
@@ -89,7 +104,7 @@ Page({
       this.setData({
         paytype: 1
       })
-    } else if (num == 2) {  //2余额支付
+    } else if (num == 2) { //2余额支付
       this.setData({
         paytype: 2
       })
@@ -108,7 +123,7 @@ Page({
   //     }
   //   })
   // },
-  hidtel: function ($phone) {
+  hidtel: function($phone) {
     $IsWhat = preg_match('/(0[0-9]{2,3}[\-]?[2-9][0-9]{6,7}[\-]?[0-9]?)/i', $phone);
     if ($IsWhat == 1) {
       return preg_replace('/(0[0-9]{2,3}[\-]?[2-9])[0-9]{3,4}([0-9]{3}[\-]?[0-9]?)/i', '$1****$2', $phone);
@@ -117,7 +132,7 @@ Page({
     }
   },
 
-  bindMinus: function () {  //点击减号
+  bindMinus: function() { //点击减号
     let number = this.data.number;
     if (number > 1) {
       --number;
@@ -137,8 +152,8 @@ Page({
 
   },
 
-  bindPlus: function () {  //点击加号
-    if(!this.data.actId) {
+  bindPlus: function() { //点击加号
+    if (!this.data.actId && this.data.skutype != 4) {
       let number = this.data.number;
       ++number;
       if (number > 10) {
@@ -170,8 +185,8 @@ Page({
       });
     }
   },
-  calculate: function (val) {  //判断支付方式
-    if (this.data.actId || this.data.obj.skutype ==3) {
+  calculate: function(val) { //判断支付方式
+    if (this.data.actId || this.data.obj.skutype == 3) {
       this.setData({
         balance: 0
       });
@@ -180,16 +195,16 @@ Page({
     let diff = (this.data.balance * 1) - (val * 1);
     if (diff < 0) {
       arr[0].checked = true;
-      arr[1].checked = false;
-      arr[1].disabled = true;
+      // arr[1].checked = false;
+      // arr[1].disabled = true;
       this.setData({
         paytype: 1,
         items: arr
       })
     } else {
       arr[0].checked = false;
-      arr[1].checked = true;
-      arr[1].disabled = false;
+      // arr[1].checked = true;
+      // arr[1].disabled = false;
       this.setData({
         paytype: 2,
         items: arr
@@ -197,20 +212,20 @@ Page({
     }
   },
 
-  bindManual: function (e) {
+  bindManual: function(e) {
     var number = e.detail.value;
     this.setData({
       number: number
     });
   },
 
-  determine: function (e) {  //点击确认支付按钮
+  determine: function(e) { //点击确认支付按钮
     let that = this
     if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
       })
-    }else{
+    } else {
       this.confirmPayment()
     }
     // wx.getSetting({
@@ -271,7 +286,7 @@ Page({
     // })
   },
 
-  confirmPayment: function (e) {  //生成订单号
+  confirmPayment: function(e) { //生成订单号
     let that = this;
     if (that.data.issecond) {
       return false
@@ -279,63 +294,108 @@ Page({
     that.setData({
       issecond: true
     })
-    if (this.data.obj.soid && this.data.obj.soid != 'undefined' && this.data.obj.soid != '') {
-      if (that.data.paytype == 1) {
-        that.payment(this.data.obj.soid);
-        that.updateuser();
-      } else if (that.data.paytype == 2) {
-        wx.showToast({
-          title: '余额支付成功',
-          icon: 'none',
-          mask: true
-        })
-        setTimeout(function () {
-          wx.redirectTo({
-            url: '../../personal-center/my-discount/my-discount'
-          })
-        }, 2000)
-      }
-    } else {
+    if (this.data.skutype == 4) {
       let _parms = {
-        userId: app.globalData.userInfo.userId,
-        userName: app.globalData.userInfo.userName,
-        skuId: this.data.obj.id,
-        skuNum: this.data.number
-      }
-      if (this.data.shopId){
-        _parms.shopId = this.data.shopId;
-      }
-      if (that.data.paytype == 1) {  //微信支付
-        _parms.payType = '2';
-      } else if (that.data.paytype == 2) {  //余额支付
-        _parms.payType = '1';
-      }
-      Api.socreate(_parms).then((res) => {
-        if (res.data.code == 0) {
-          if (that.data.paytype == 1) {
-            that.updateuser(res.data.data);
-          } else if (that.data.paytype == 2) {
-            wx.showToast({
-              title: '余额支付成功',
-              icon: 'none',
-              mask: true
-            })
-            setTimeout(function () {
-              wx.redirectTo({
-                url: '../../personal-center/my-discount/my-discount'
+        skuName: this.data.skuName, 
+        skuType: 4, 
+        stockNum: 999, 
+        opreatorId: app.globalData.userInfo.userId, 
+        opreatorName: app.globalData.userInfo.userName, 
+        sellPrice: this.data.paymentAmount,
+        inPrice: 20,
+        agioPrice: this.data.paymentAmount
+      }, _this = this;
+      Api.createBargainTick(_parms).then((res) => {
+        if(res.data.code == 0) {
+          _this.setData({
+            skuId: res.data.data   //生成这一张券的id
+          });
+          let _parms = {
+            userId: app.globalData.userInfo.userId,
+            userName: app.globalData.userInfo.userName, 
+            skuId: _this.data.skuId,
+            skuNum: _this.data.number,
+            shopId: _this.data.shopId, 
+            payType: 2, 
+            dishSkuId: _this.data.dishSkuId, 
+            dishSkuName: _this.data.dishSkuName
+          };
+          Api.socreate(_parms).then((res) => {
+            if (res.data.code == 0) {
+              _this.updateuser(res.data.data);
+            } else {
+              wx.showToast({
+                title: res.data.message,
+                icon: 'none'
               })
-            }, 2000)
-          }
+            }
+          });
         } else {
           wx.showToast({
-            title: res.data.message,
+            title: '系统繁忙',
             icon: 'none'
           })
         }
       })
+    } else {
+      if (this.data.obj.soid && this.data.obj.soid != 'undefined' && this.data.obj.soid != '') {
+        if (that.data.paytype == 1) {
+          that.payment(this.data.obj.soid);
+          that.updateuser();
+        } else if (that.data.paytype == 2) {
+          wx.showToast({
+            title: '余额支付成功',
+            icon: 'none',
+            mask: true
+          })
+          setTimeout(function() {
+            wx.redirectTo({
+              url: '../../personal-center/my-discount/my-discount'
+            })
+          }, 2000)
+        }
+      } else {
+        let _parms = {
+          userId: app.globalData.userInfo.userId,
+          userName: app.globalData.userInfo.userName,
+          skuId: this.data.obj.id,
+          skuNum: this.data.number
+        }
+        if (this.data.shopId) {
+          _parms.shopId = this.data.shopId;
+        }
+        if (that.data.paytype == 1) { //微信支付
+          _parms.payType = '2';
+        } else if (that.data.paytype == 2) { //余额支付
+          _parms.payType = '1';
+        }
+        Api.socreate(_parms).then((res) => {
+          if (res.data.code == 0) {
+            if (that.data.paytype == 1) {
+              that.updateuser(res.data.data);
+            } else if (that.data.paytype == 2) {
+              wx.showToast({
+                title: '余额支付成功',
+                icon: 'none',
+                mask: true
+              })
+              setTimeout(function() {
+                wx.redirectTo({
+                  url: '../../personal-center/my-discount/my-discount'
+                })
+              }, 2000)
+            }
+          } else {
+            wx.showToast({
+              title: res.data.message,
+              icon: 'none'
+            })
+          }
+        })
+      }
     }
   },
-  updateuser: function (val) {  //更新用户信息
+  updateuser: function(val) { //更新用户信息
     let that = this;
     let _parms = {
       id: app.globalData.userInfo.userId,
@@ -345,12 +405,13 @@ Page({
       that.payment(val);
     })
   },
-  payment: function (soid) {//调起微信支付
+  payment: function(soid) { //调起微信支付
     let _pars = {
-      soId: soid,
-      openId: app.globalData.userInfo.openId
-    },that = this;
-    if(this.data.actId) {
+        soId: soid,
+        openId: app.globalData.userInfo.openId
+      },
+      that = this;
+    if (this.data.actId) {
       _pars['actId'] = this.data.actId;
       _pars['skuId'] = this.data.skuId;
       _pars['shopId'] = this.data.obj.shopId;
@@ -362,13 +423,13 @@ Page({
             'package': res.data.data.package,
             'signType': 'MD5',
             'paySign': res.data.data.paySign,
-            success: function (res) {
+            success: function(res) {
               that.messagepush();
               wx.redirectTo({
                 url: '../../personal-center/my-discount/my-discount'
               })
             },
-            fail: function (res) {
+            fail: function(res) {
               wx.showToast({
                 icon: 'none',
                 title: '支付取消',
@@ -378,8 +439,16 @@ Page({
           })
         }
       })
-    } else {
-      Api.doUnifiedOrder(_pars).then((res) => {
+    } else if(this.data.skutype == 4) {
+      let _parms = {
+        soId: soid, 
+        openId: app.globalData.userInfo.openId, 
+        skuId: this.data.skuId, 
+        shopId: this.data.shopId, 
+        type: 2,
+        groupId: this.data.groupId
+      }
+      Api.buyBargainTick(_parms).then((res) => {
         if (res.data.code == 0) {
           wx.requestPayment({
             'timeStamp': res.data.data.timeStamp,
@@ -401,11 +470,36 @@ Page({
             }
           })
         }
+      });
+    } else {
+      Api.doUnifiedOrder(_pars).then((res) => {
+        if (res.data.code == 0) {
+          wx.requestPayment({
+            'timeStamp': res.data.data.timeStamp,
+            'nonceStr': res.data.data.nonceStr,
+            'package': res.data.data.package,
+            'signType': 'MD5',
+            'paySign': res.data.data.paySign,
+            success: function(res) {
+              wx.redirectTo({
+                url: '../../personal-center/my-discount/my-discount'
+              })
+            },
+            fail: function(res) {
+              wx.showToast({
+                icon: 'none',
+                title: '支付取消',
+                duration: 1200
+              })
+            }
+          })
+        }
       })
     }
   },
-  messagepush: function () {//消息推送
-    let that = this, pannum = this.data.paymentAmount ? this.data.paymentAmount:0;
+  messagepush: function() { //消息推送
+    let that = this,
+      pannum = this.data.paymentAmount ? this.data.paymentAmount : 0;
     let _parms = {
       type: 'android',
       title: '收款通知',
@@ -420,7 +514,7 @@ Page({
       }
     })
   },
-  closetel: function (e) {
+  closetel: function(e) {
     let id = e.target.id;
     this.setData({
       issnap: false
@@ -431,4 +525,4 @@ Page({
       })
     }
   }
-})  
+})

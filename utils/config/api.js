@@ -400,7 +400,11 @@ const ALL_API = {
     method: 'get',
     url: 'account/findGold'
   },
-  vegetables: {    //金币余额
+  vegetables: {    //是否为某道菜砍过价
+    method: 'get',
+    url: 'bargain/skuRedis'
+  },
+  bargainList: {    //我的砍价列表
     method: 'get',
     url: 'bargain/userRedis'
   },
@@ -416,10 +420,6 @@ const ALL_API = {
     method: 'POST',
     url: 'gold/initiator'
   },
-  isbargain: {      //查询是否发起砍价
-    method: 'GET',
-    url: 'bargain/skuRedis'
-  }, 
   bargainDetail: {   //获取砍菜详情
     method: 'GET',
     url: 'bargain/skuGroup'
@@ -431,6 +431,22 @@ const ALL_API = {
   setPullUser:{  //上传推荐人userId
     method:'POST',
     url:'pullUser/update'
+  },
+  isHelpfriend: {    //查询能否帮好友砍价
+    method: 'GET',
+    url: 'gold/getshior'
+  },
+  helpfriend: {    //帮好友砍价
+    method: 'POST',
+    url: 'gold/helpfriend'
+  },
+  createBargainTick: {     //新增砍菜券
+    method: 'POST',
+    url: 'sku/addSkuForKj'
+  },
+  buyBargainTick: {      //购买砍菜券
+    method: 'POST',
+    url: 'wxpay/doUnifiedOrderForKj'
   }
 }
 const Api = new MyHttp({}, ALL_API);

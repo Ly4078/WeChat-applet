@@ -1,86 +1,48 @@
 import Api from '../../../../utils/config/api.js';
 var utils = require('../../../../utils/util.js');
-import { GLOBAL_API_DOMAIN } from '../../../../utils/config/config.js';
+import {
+  GLOBAL_API_DOMAIN
+} from '../../../../utils/config/config.js';
 var app = getApp()
 Page({
   data: {
-    windowHeight: 654,
-    maxtime: "",
-    isHiddenLoading: true,
-    isHiddenToast: true,
-    dataList: {},
-    countDownHour: 0,
-    countDownMinute: 0,
-    countDownSecond: 0,
+    initiator: '',    //发起人Id
     showModal: false,
-    groupId: ''
+    groupId: '',
+    doneBargain: '',   //已砍金额
+    countDown: '',     //倒计时
+    getGoldNum: 0,    //砍价人获得的金币数
+    progress: 0,    //进度条
+    status: 1, //砍价状态 1.30分钟内  2.过了30分钟没超过24小时  3.过了24小时或者已买  4.可以帮发起人砍价  5.不能帮发起人砍价 6砍完了
+    page: 1,
+    flag: true,
+    hotDishList: [],
+    issnap: false,
+    isnew: false,
+    istouqu: false
   },
-  onLoad: function (options) {
+  onLoad: function(options) {
     this.setData({
-      userId: app.globalData.userInfo.userId,
-      refId: options.refId,
-      shopId: options.shopId,
-      skuMoneyOut: options.skuMoneyOut,
-      skuMoneyMin: options.skuMoneyMin,
-      amount: +options.skuMoneyOut - options.skuMoneyMin,
-      windowHeight: wx.getStorageSync('windowHeight')
+      refId: options.refId,    //菜品Id
+      shopId: options.shopId,  //商家Id
+      skuMoneyOut: options.skuMoneyOut,   //原价
+      skuMoneyMin: options.skuMoneyMin,   //低价
+      userId: app.globalData.userInfo.userId,    //登录者Id
+      initiator: options.initiator ? options.initiator : '', //发起人Id
+      groupId: options.groupId ? options.groupId : ''        //团砍Id
     });
-    // progressNum
-    var that = this;
-    var progressNum = 0;
-    var timer = setInterval(function () {
-      progressNum++;
-      //当进度条为100时清除定时任务
-      if (progressNum >= 100) {
-        clearInterval(timer);
-      }
-      //并且把当前的进度值设置到progress中
-      that.setData({
-        progress: progressNum
-      })
-    });
-    this.createBargain();
+    this.dishDetail();    //查询菜详情
+    if (this.data.groupId) {
+      this.bargain();
+    } else {
+      this.createBargain();
+    }
+    this.hotDishList();   //热门推荐
   },
-  // 页面渲染完成后 调用
-  onReady: function () {
-    var totalSecond = 1505540080 - Date.parse(new Date()) / 1000;
-    var interval = setInterval(function () {
-      // 秒数
-      var second = totalSecond;
-      // 天数位
-      var day = Math.floor(second / 3600 / 24);
-      var dayStr = day.toString();
-      if (dayStr.length == 1) dayStr = '0' + dayStr;
-      // 小时位
-      var hr = Math.floor((second - day * 3600 * 24) / 3600);
-      var hrStr = hr.toString();
-      if (hrStr.length == 1) hrStr = '0' + hrStr;
-      // 分钟位
-      var min = Math.floor((second - day * 3600 * 24 - hr * 3600) / 60);
-      var minStr = min.toString();
-      if (minStr.length == 1) minStr = '0' + minStr;
-      // 秒位
-      var sec = second - day * 3600 * 24 - hr * 3600 - min * 60;
-      var secStr = sec.toString();
-      if (secStr.length == 1) secStr = '0' + secStr;
-      this.setData({
-        countDownHour: hrStr,
-        countDownMinute: minStr,
-        countDownSecond: secStr,
-      });
-      totalSecond--;
-      if (totalSecond < 0) {
-        clearInterval(interval);
-        wx.showToast({
-          title: '活动已结束',
-        });
-        this.setData({
-          countDownHour: '00',
-          countDownMinute: '00',
-          countDownSecond: '00',
-        });
-      }
-    }.bind(this), 1000);
+  onShow() {
+    if (!app.globalData.userInfo.mobile) {
+      this.getuserinfo();
+    }
   },
   //创建一笔砍价
   createBargain() {
@@ -88,61 +50,392 @@ Page({
       refId: this.data.refId,
       userId: this.data.userId,
       shopId: this.data.shopId,
-      amount: this.data.amount,
+      amount: this.data.skuMoneyOut * 1 - this.data.skuMoneyMin,
       skuMoneyOut: this.data.skuMoneyOut,
       skuMoneyMin: this.data.skuMoneyMin
     };
     Api.createBargain(_parms).then((res) => {
-      if(res.data.code == 0) {
-        wx.showToast({
-          title: '发起成功',
-          icon: 'none'
-        })
-        console.log(res.data.data)
-        this.setData({
-          groupId: res.data.data.groupId     //砍价id
-        });
-        this.bargain();
-      }
-    });
-  },
-  //获取砍价详情
-  bargain() {
-    let _parms = {
-      skuId: this.data.refId,     //菜品Id
-      parentId: this.data.userId,    //发起人的userId
-      shopId: this.data.shopId,     
-      groupId: this.data.groupId
-    };
-    Api.bargainDetail(_parms).then((res) => {
       if (res.data.code == 0) {
         wx.showToast({
           title: '发起成功',
           icon: 'none'
         })
+        this.setData({
+          groupId: res.data.data.groupId //生成团砍Id
+        });
+        this.bargain();
       }
     });
   },
+  //获取砍价券详情
+  bargain() {
+    let _parms = {
+      skuId: this.data.refId, //菜品Id
+      parentId: this.data.initiator ? this.data.initiator : this.data.userId, //发起人的userId
+      shopId: this.data.shopId,
+      groupId: this.data.groupId
+    }, _this = this;
+    Api.bargainDetail(_parms).then((res) => {
+      let code = res.data.code, data = res.data.data;
+      if (code == 0) {
+        if(data) {
+          let endTime = data[0].endTime, max = this.data.skuMoneyOut * 1 - this.data.skuMoneyMin,
+          doneBargain = this.data.skuMoneyOut * 1 - data[0].skuMoneyNow, progress = 0; 
+          progress = doneBargain / max * 100;
+          this.setData({
+            skuMoneyNow: data[0].skuMoneyNow,
+            doneBargain: doneBargain,
+            progress: progress <= 100 ? progress : 100,
+            endTime: endTime,
+            peoplenum: data[0].peoplenum * 1 - 1,
+            peopleList: data.slice(1)
+          });
+          let miliEndTime = new Date(endTime).getTime(), miliNow = new Date().getTime();
+          let minus = Math.floor((miliEndTime - miliNow) / 1000);
+          if (minus > 0 && minus <= 1800) {
+            //好友进入砍菜页面人数满5人并且超过半小时不能砍价
+            if (this.data.peoplenum < 5) {
+              if (this.data.initiator && this.data.userId && this.data.initiator != this.data.userId) {
+                this.isBargain();
+                this.setData({
+                  status: 4
+                });
+              }
+            } else {
+              this.setData({
+                status: 5
+              });
+            }
+            this.setData({
+              status: 1
+            });
+            let hours = '', minutes = '', seconds = '', countDown = '';
+            let timer = setInterval(function () {
+              if (minus == 0) {
+                clearInterval(timer);
+                minus = 0;
+                _this.setData({
+                  status: 2
+                });
+              }
+              hours = Math.floor(minus / 3600);         //时
+              minutes = Math.floor(minus / 60);         //分
+              seconds = minus % 60;                   //秒
+              hours = hours < 10 ? '0' + hours : hours;
+              minutes = minutes < 10 ? '0' + minutes : minutes;
+              seconds = seconds < 10 ? '0' + seconds : seconds;
+              countDown = hours + ':' + minutes + ':' + seconds;
+              _this.setData({
+                countDown: countDown
+              });
+              minus--;
+            }, 1000);
+          } else {
+            this.setData({
+              status: 2
+            });
+          }
+        } else {
+          this.setData({
+            status: 3    
+          });
+        }
+      } else {
+        wx.showToast({
+          title: res.data.message,
+          icon: 'none'
+        })
+      }
+    });
+  },
+  //查询砍价菜详情
+  dishDetail() {
+    let _parms = {
+      Id: this.data.refId,
+      zanUserId: this.data.initiator ? this.data.initiator : this.data.userId,
+      shopId: this.data.shopId
+    };
+    Api.discountDetail(_parms).then((res) => {
+      if (res.data.code == 0 && res.data.data) {
+        let data = res.data.data;
+        this.setData({
+          picUrl: data.picUrl,
+          skuName: data.skuName,
+          shopName: data.shopName,
+          sellNum: data.sellNum
+        });
+      } else {
+        this.setData({
+          status: 5
+        });
+      }
+    })
+  },
+  //查询能否砍价
+  isBargain() {
+    let _parms = {
+      refId: this.data.refId,
+      parentId: this.data.initiator,
+      userId: this.data.userId,
+      groupId: this.data.groupId
+    };
+    Api.isHelpfriend(_parms).then((res) => {
+      if (res.data.code == 0) {
+        this.setData({
+          status: 4
+        });
+      } else {
+        this.setData({
+          status: 5
+        });
+      }
+    });
+  },
+  //帮好友砍价
+  helpfriend() {
+    if (!app.globalData.userInfo.mobile) {
+      this.setData({
+        issnap: true
+      })
+      return false
+    }
+    let _parms = {
+        refId: this.data.refId,
+        parentId: this.data.initiator,
+        userId: this.data.userId,
+        groupId: this.data.groupId
+      },
+      _this = this;
+    Api.isHelpfriend(_parms).then((res) => {
+      if (res.data.code == 0) {
+        _this.setData({
+          status: 4
+        });
+        _parms.shopId = _this.data.shopId;
+        Api.helpfriend(_parms).then((e) => {
+          if (e.data.code == 0) {
+            _this.setData({
+              status: 6
+            });
+            _this.bargain();
+          }
+          wx.showToast({
+            title: e.data.message,
+            icon: 'none'
+          })
+        });
+      } else {
+        this.setData({
+          status: 5
+        });
+        wx.showToast({
+          title: res.data.message,
+          icon: 'none'
+        })
+      }
+    });
+  },
+  toBuy() {    //买菜
+    if (!app.globalData.userInfo.mobile) {
+      this.setData({
+        issnap: true
+      })
+      return false
+    }
+    let sellPrice = this.data.skuMoneyNow;
+    wx.navigateTo({
+      url: '../../order-for-goods/order-for-goods?shopId=' + this.data.shopId + '&groupId=' + this.data.groupId + '&skuName=' + sellPrice + '元砍价券&sell=' + sellPrice + '&skutype=4&dishSkuId=' + this.data.refId + '&dishSkuName=' + this.data.skuName
+    })
+  },
+  //热门推荐
+  hotDishList() {
+    //browSort 0附近 1销量 2价格
+    let _parms = {
+      zanUserId: app.globalData.userInfo.userId,
+      browSort: 1,
+      locationX: app.globalData.userInfo.lng,
+      locationY: app.globalData.userInfo.lat,
+      page: this.data.page,
+      rows: 6
+    };
+    Api.partakerList(_parms).then((res) => {
+      if (res.data.code == 0 && res.data.data.list && res.data.data.list != 'null') {
+        let list = res.data.data.list, hotDishList = this.data.hotDishList;
+        for (let i = 0; i < list.length; i++) {
+          list[i].distance = utils.transformLength(list[i].distance);
+          hotDishList.push(list[i]);
+        }
+        this.setData({
+          hotDishList: hotDishList
+        });
+        if (list.length < 6) {
+          this.setData({
+            flag: false
+          });
+        }
+      } else {
+        this.setData({
+          flag: false
+        });
+      }
+    })
+  },
+  onReachBottom: function () {  //用户上拉触底加载更多
+    if (!this.data.flag) {
+      return false;
+    }
+    this.setData({
+      page: this.data.page + 1
+    });
+    this.hotDishList();
+  },
+  onPullDownRefresh: function () {
+    this.setData({
+      flag: true,
+      hotDishList: [],
+      page: 1
+    });
+    this.hotDishList();
+  },
   // 左上角返回首页
-  returnHomepage:function(){
+  returnHomepage: function() {
     wx.switchTab({
       url: '../../index'
     })
   },
-  //点击砍一刀
-  dubayyGainGold:function(e){
-    console.log("砍价成功",e)
-  },
   // 使用规则
-  instructions:function(){
+  instructions: function() {
     this.setData({
       showModal: true
     })
   },
   // 关闭弹窗
-  understand: function () {
+  understand: function() {
     this.setData({
       showModal: false
+    })
+  },
+  transpond() {
+    this.onShareAppMessage();
+  },
+  onShareAppMessage() { //分享给好友帮忙砍价
+    let initiator = this.data.initiator ? this.data.initiator : this.data.userId;
+    return {
+      title: '帮好友砍价',
+      desc: '享7美食',
+      path: '/pages/index/bargainirg-store/AprogressBar/AprogressBar?refId=' + this.data.refId + '&shopId=' + this.data.shopId + '&skuMoneyOut=' + this.data.skuMoneyOut + '&skuMoneyMin=' + this.data.skuMoneyMin + '&initiator=' + initiator + '&groupId=' + this.data.groupId
+    }
+  },
+  getuserinfo() {
+    wx.login({
+      success: res => {
+        if (res.code) {
+          let _parms = {
+            code: res.code
+          }
+          let that = this;
+          Api.getOpenId(_parms).then((res) => {
+            app.globalData.userInfo.openId = res.data.data.openId;
+            app.globalData.userInfo.sessionKey = res.data.data.sessionKey;
+            if (res.data.data.unionId) {
+              app.globalData.userInfo.unionId = res.data.data.unionId;
+              that.getmyuserinfo();
+            } else {
+              that.findByCode();
+              wx.hideLoading();
+            }
+          })
+        }
+      }
+    })
+  },
+  getmyuserinfo: function() {
+    let _parms = {
+        openId: app.globalData.userInfo.openId,
+        unionId: app.globalData.userInfo.unionId
+      },
+      that = this;
+    Api.addUserUnionId(_parms).then((res) => {
+      if (res.data.data) {
+        app.globalData.userInfo.userId = res.data.data;
+        wx.request({ //从自己的服务器获取用户信息
+          url: this.data._build_url + 'user/get/' + res.data.data,
+          header: {
+            'content-type': 'application/json' // 默认值
+          },
+          success: function(res) {
+            if (res.data.code == 0) {
+              let data = res.data.data;
+              for (let key in data) {
+                for (let ind in app.globalData.userInfo) {
+                  if (key == ind) {
+                    app.globalData.userInfo[ind] = data[key]
+                  }
+                }
+              };
+              if (!data.mobile) {
+                that.setData({
+                  isnew: true
+                })
+              }
+              that.playerDetail();
+              that.articleList();
+
+            }
+          }
+        })
+      }
+    })
+  },
+  findByCode: function() {
+    let that = this;
+    wx.login({
+      success: res => {
+        Api.findByCode({
+          code: res.code
+        }).then((res) => {
+          if (res.data.code == 0) {
+            if (res.data.data.unionId) {
+              app.globalData.userInfo.unionId = res.data.data.unionId;
+              that.getmyuserinfo();
+            } else {
+              wx.hideLoading();
+              that.setData({
+                istouqu: true
+              })
+            }
+          } else {
+            that.findByCode();
+            wx.hideLoading();
+            that.setData({
+              istouqu: true
+            })
+          }
+        })
+      }
+    })
+  },
+  againgetinfo: function() { //点击获取用户unionId
+    let that = this;
+    wx.getUserInfo({
+      withCredentials: true,
+      success: function(res) {
+        let _pars = {
+          sessionKey: app.globalData.userInfo.sessionKey,
+          ivData: res.iv,
+          encrypData: res.encryptedData
+        }
+        Api.phoneAES(_pars).then((resv) => {
+          if (resv.data.code == 0) {
+            that.setData({
+              istouqu: false
+            })
+            let _data = JSON.parse(resv.data.data);
+            app.globalData.userInfo.unionId = _data.unionId;
+            that.getmyuserinfo();
+          }
+        })
+      }
     })
   }
 })

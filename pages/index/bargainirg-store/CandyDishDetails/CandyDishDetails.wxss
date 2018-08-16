@@ -253,7 +253,7 @@
 }
 
 .acuisineMessage{
-  width: 60%;
+  width: 400rpx;
   display: inline-block;
   padding-left: 22rpx;
   line-height:44rpx;
@@ -263,6 +263,10 @@
   font-size:28rpx;
   font-family:PingFangSC-Regular;
   color:rgba(25,25,25,1);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
 }
 
 .house{
@@ -306,7 +310,7 @@
 }
 
 .aBargain{
-  width: 30%;
+  /* width: 20%; */
   height: 160rpx;
   display: flex;
   align-items: center;
@@ -322,7 +326,6 @@
   font-family:PingFangSC-Regular;
   color:rgba(255,67,67,1);
   line-height: 46rpx;
-  margin-left: 70rpx;
   letter-spacing: 2rpx;
 }
 

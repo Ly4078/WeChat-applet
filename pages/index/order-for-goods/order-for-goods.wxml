@@ -26,6 +26,7 @@
         <!-- 数值 -->
         <!-- <input wx:if="{{sostatus == 1}}" disabled='true' type="number" disabled='true' value="{{number}}" /> -->
         <input wx:if="{{actId}}" type="number" disabled='true' value="{{number}}" />
+        <input wx:if="{{skutype == 4}}" type="number" disabled='true' value="{{number}}" />
         <input wx:else type="number" bindchange="bindManual" disabled='true' value="{{number}}" />
         <!-- 加号 -->
         <text  class="normal" bindtap="bindPlus">+</text>
