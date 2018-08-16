@@ -6,6 +6,7 @@ import {
 var app = getApp()
 Page({
   data: {
+    _build_url: GLOBAL_API_DOMAIN,
     initiator: '', //发起人Id
     showModal: false,
     groupId: '',
@@ -25,6 +26,7 @@ Page({
     istouqu: false
   },
   onLoad: function(options) {
+    this.findByCode();
     this.setData({
       refId: options.refId, //菜品Id
       shopId: options.shopId, //商家Id
@@ -46,6 +48,55 @@ Page({
     if (!app.globalData.userInfo.mobile) {
       this.getuserinfo();
     }
+  },
+  findByCode: function () { //通过code查询进入的用户信息，判断是否是新用户
+    let that = this;
+    wx.login({
+      success: res => {
+        Api.findByCode({ code: res.code }).then((res) => {
+          if (res.data.code == 0) {
+            let data = res.data.data;
+            for (let key in data) {
+              for (let ind in app.globalData.userInfo) {
+                if (key == ind) {
+                  app.globalData.userInfo[ind] = data[key]
+                }
+              }
+            }
+            if (!data.mobile) { //是新用户，去注册页面
+              wx.navigateTo({
+                url: '../../../../pages/personal-center/securities-sdb/securities-sdb?back=1'
+              })
+            }
+          } else {
+            that.findByCode();
+          }
+        })
+      }
+    })
+  },
+  getuserInfo: function (val) {//从自己的服务器获取用户信息
+    let that = this;
+    wx.request({
+      url: that.data._build_url + 'user/get/' + app.globalData.userInfo.userId,
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        if (res.data.code == 0) {
+          let data = res.data.data;
+          if (val == 1) {
+            for (let key in data) {
+              for (let ind in app.globalData.userInfo) {
+                if (key == ind) {
+                  app.globalData.userInfo[ind] = data[key]
+                }
+              }
+            };
+          }
+        }
+      }
+    })
   },
   //创建一笔砍价
   createBargain() {
@@ -398,117 +449,5 @@ Page({
       desc: '享7美食',
       path: '/pages/index/bargainirg-store/AprogressBar/AprogressBar?refId=' + this.data.refId + '&shopId=' + this.data.shopId + '&skuMoneyOut=' + this.data.skuMoneyOut + '&skuMoneyMin=' + this.data.skuMoneyMin + '&initiator=' + initiator + '&groupId=' + this.data.groupId
     }
-  },
-  getuserinfo() {
-    wx.login({
-      success: res => {
-        if (res.code) {
-          let _parms = {
-            code: res.code
-          }
-          let that = this;
-          Api.getOpenId(_parms).then((res) => {
-            app.globalData.userInfo.openId = res.data.data.openId;
-            app.globalData.userInfo.sessionKey = res.data.data.sessionKey;
-            if (res.data.data.unionId) {
-              app.globalData.userInfo.unionId = res.data.data.unionId;
-              that.getmyuserinfo();
-            } else {
-              that.findByCode();
-              wx.hideLoading();
-            }
-          })
-        }
-      }
-    })
-  },
-  getmyuserinfo: function() {
-    let _parms = {
-        openId: app.globalData.userInfo.openId,
-        unionId: app.globalData.userInfo.unionId
-      },
-      that = this;
-    Api.addUserUnionId(_parms).then((res) => {
-      if (res.data.data) {
-        app.globalData.userInfo.userId = res.data.data;
-        wx.request({ //从自己的服务器获取用户信息
-          url: this.data._build_url + 'user/get/' + res.data.data,
-          header: {
-            'content-type': 'application/json' // 默认值
-          },
-          success: function(res) {
-            if (res.data.code == 0) {
-              let data = res.data.data;
-              for (let key in data) {
-                for (let ind in app.globalData.userInfo) {
-                  if (key == ind) {
-                    app.globalData.userInfo[ind] = data[key]
-                  }
-                }
-              };
-              if (!data.mobile) {
-                that.setData({
-                  isnew: true
-                })
-              }
-              that.playerDetail();
-              that.articleList();
-
-            }
-          }
-        })
-      }
-    })
-  },
-  findByCode: function() {
-    let that = this;
-    wx.login({
-      success: res => {
-        Api.findByCode({
-          code: res.code
-        }).then((res) => {
-          if (res.data.code == 0) {
-            if (res.data.data.unionId) {
-              app.globalData.userInfo.unionId = res.data.data.unionId;
-              that.getmyuserinfo();
-            } else {
-              wx.hideLoading();
-              that.setData({
-                istouqu: true
-              })
-            }
-          } else {
-            that.findByCode();
-            wx.hideLoading();
-            that.setData({
-              istouqu: true
-            })
-          }
-        })
-      }
-    })
-  },
-  againgetinfo: function() { //点击获取用户unionId
-    let that = this;
-    wx.getUserInfo({
-      withCredentials: true,
-      success: function(res) {
-        let _pars = {
-          sessionKey: app.globalData.userInfo.sessionKey,
-          ivData: res.iv,
-          encrypData: res.encryptedData
-        }
-        Api.phoneAES(_pars).then((resv) => {
-          if (resv.data.code == 0) {
-            that.setData({
-              istouqu: false
-            })
-            let _data = JSON.parse(resv.data.data);
-            app.globalData.userInfo.unionId = _data.unionId;
-            that.getmyuserinfo();
-          }
-        })
-      }
-    })
   }
 })

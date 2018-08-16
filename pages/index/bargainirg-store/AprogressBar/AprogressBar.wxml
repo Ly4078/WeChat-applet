@@ -71,7 +71,7 @@
               <view>原价￥
                 <text>{{skuMoneyOut}}</text>
               </view>
-              <view>低价￥
+              <view>底价￥
                 <text>{{skuMoneyMin}}</text>
               </view>
             </view>

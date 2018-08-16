@@ -30,9 +30,12 @@ Page({
     console.log('options:',options);
     this.findByCode();
     if(options.back == 1){
+      console.log("11111")
       this.setData({
         isBack:true
       })
+    }else{
+      console.log("11111")
     }
     if(options.userId){
       this.setData({
