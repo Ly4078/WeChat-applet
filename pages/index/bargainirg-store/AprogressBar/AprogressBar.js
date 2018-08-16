@@ -9,6 +9,7 @@ Page({
     initiator: '', //发起人Id
     showModal: false,
     groupId: '',
+    dishData:{},  //当前菜
     doneBargain: '', //已砍金额
     countDown: '', //倒计时
     getGoldNum: 0, //砍价人获得的金币数
@@ -103,8 +104,6 @@ Page({
             peopleList: data.slice(1)
           });
           for (let i = 0; i < this.data.peopleList.length; i++) {
-            console.log(this.data.peopleList[i].parentId, this.data.userId)
-            console.log(this.data.peopleList[i].parentId == this.data.userId)
             if (this.data.peopleList[i].userId == this.data.userId) {
               this.setData({
                 getGoldNum: this.data.peopleList[i].goldAmount
@@ -184,6 +183,7 @@ Page({
       if (res.data.code == 0 && res.data.data) {
         let data = res.data.data;
         this.setData({
+          dishData:data,
           picUrl: data.picUrl,
           skuName: data.skuName,
           shopName: data.shopName,
@@ -195,6 +195,18 @@ Page({
           otherStatus: 5
         });
       }
+    })
+  },
+  chilkDish(e){
+    let id = e.currentTarget.id, _shopId = e.currentTarget.dataset.shipid;
+    wx.navigateTo({
+      url: '../CandyDishDetails/CandyDishDetails?id=' + id + '&shopId=' + _shopId
+    })
+  },
+  candyDetails(e){
+    let id = e.currentTarget.id, _shopId = e.currentTarget.dataset.index;
+    wx.navigateTo({
+      url: '../CandyDishDetails/CandyDishDetails?id=' + id + '&shopId=' + _shopId
     })
   },
   //查询能否砍价

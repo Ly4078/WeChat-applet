@@ -30,7 +30,7 @@
           </view>
         </view>
       </view>
-      <view class='cuisine'>
+      <view class='cuisine' id="{{dishData.id}}" data-shipid="{{dishData.shopId}}" catchtap='chilkDish'>
         <image class='cuisineImages' src='{{picUrl}}'></image>
         <view class='cuisineRight'>
           <view class='cuisineRight-Top'>

@@ -38,8 +38,6 @@ Page({
         for (let i = 0; i < list.length; i++) {
           list[i].subtract = (list[i].skuMoneyOut - list[i].skuMoneyNow).toFixed(2);
           let _endTime = (new Date(list[i].endTime)).getTime();
-          console.log("_now:", _now)
-          console.log("_endTime:", _endTime)
           if (_now < _endTime ){
             list[i].doing = true;
           }else{
