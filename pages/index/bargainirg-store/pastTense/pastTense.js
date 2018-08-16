@@ -30,18 +30,75 @@ Page({
   vegetablesInquire: function() { //查询菜品列表
     let _parms = {
       userId: this.data.userId
-    };
+    },that= this;
     Api.bargainList(_parms).then((res) => {
       if (res.data.code == 0 && res.data.data) {
-        let list = res.data.data;
+        let list = res.data.data, _now = (new Date()).getTime();
+       
         for (let i = 0; i < list.length; i++) {
           list[i].subtract = (list[i].skuMoneyOut - list[i].skuMoneyNow).toFixed(2);
+          let _endTime = (new Date(list[i].endTime)).getTime();
+          console.log("_now:", _now)
+          console.log("_endTime:", _endTime)
+          if (_now < _endTime ){
+            list[i].doing = true;
+          }else{
+            list[i].doing = false;
+          }
+          
         }
+       
         this.setData({
           bargainList: list
         });
+        that.updateTime();
       }
     });
+  },
+
+  updateTime() {  //倒时计
+    let hours = '',
+    minutes = '',
+    seconds = '',
+    countDown = '',
+    countDown2 = '',
+    miliEndTime = '',
+    miliNow = '',
+    minus = '', //时间差(秒)
+    _list = this.data.bargainList,
+    that = this, 
+    timer=null,
+    frequency=0;
+    timer = setInterval(function () {
+      if (frequency>30*60){
+        clearInterval(timer);
+        timer = null;
+      }
+      for (let i = 0; i < _list.length;i++){
+        if (_list[i].doing){
+          miliNow = new Date().getTime();
+          miliEndTime = (new Date(_list[i].endTime)).getTime();
+          minus = Math.floor((miliEndTime - miliNow) / 1000); //时间差(秒)
+          if(minus<=0){
+            _list[i].doing= false;
+            continue; 
+          }
+          hours = Math.floor(minus / 3600); //时
+          minutes = Math.floor(minus / 60); //分
+          seconds = minus % 60; //秒
+          hours = hours < 10 ? '0' + hours : hours;
+          minutes = minutes < 10 ? '0' + minutes : minutes;
+          seconds = seconds < 10 ? '0' + seconds : seconds;
+          countDown = hours + ':' + minutes + ':' + seconds;
+          countDown2 =  minutes + ':' + seconds;
+          frequency++;
+          _list[i].countDown = countDown2;
+        }
+      }
+      that.setData({
+        bargainList: _list
+      });
+    },1000)
   },
   bargainDetail(e) {
     let id = e.currentTarget.id,

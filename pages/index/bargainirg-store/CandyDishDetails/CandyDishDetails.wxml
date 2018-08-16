@@ -70,7 +70,7 @@
             </view>
           </view>
           <view class='aBargain'>
-            <button id="{{item.id}}">发起砍价</button>
+            <button id="{{item.id}}" data-shopId="{{item.shopId}}" data-agioPrice="{{item.agioPrice}}" data-sellPrice="{{item.sellPrice}}" catchtap='chickinItiate'>发起砍价</button>
           </view>
         </view>
       </block>
@@ -82,7 +82,7 @@
       </view>
       <view class='oldWrap'>
         <block wx:for="{{hotDishList}}" wx:key="{{index}}" id="{{index}}" wx:for-index="idx">
-          <view class='ecommendation'>
+          <view class='ecommendation' id="{{item.id}}" catchtap='chilkDish'>
             <view class='ecommendationImg'>
               <image mode='scaleToFill' class='ecomt_images' src='{{item.picUrl}}'></image>
             </view>
@@ -117,10 +117,16 @@
       <image class='houselet' src='/images/icon/houselet.png'></image>
       <text>首页</text>
     </view>
-    <view class='returnHome'>
+    <!-- <view class='returnHome' catchtap='shareCand'>
       <image class='yellowShare' src='/images/icon/yellowShare.png'></image>
       <text>分享</text>
-    </view>
+    </view> -->
+
+    <button class='returnHome' bindtap='share' plain="true" data-name="shareBtn" open-type="share">
+      <image class='yellowShare' src='/images/icon/yellowShare.png'></image>
+       <text>分享</text>
+    </button>
+
     <view class='returnPrice'>
       <view>￥
         <text>{{sellPrice}}</text>

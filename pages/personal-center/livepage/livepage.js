@@ -36,9 +36,9 @@ Page({
       },
       likeType = this.data.likeType;
     if (likeType == 1) { //关注列表
-      _parms.userId = this.data.voteUserId;
+      _parms.userId = app.globalData.userInfo.userId;
     } else if (likeType == 2) { //粉丝列表
-      _parms.refId = this.data.voteUserId;
+      _parms.refId = app.globalData.userInfo.userId;
     }
     Api.likeList(_parms).then((res) => {
       let data = res.data.data;

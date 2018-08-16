@@ -27,13 +27,36 @@ Page({
       shopId: options.shopId,
       id: options.id
     });
+    this.getmoreData();
+  },
+  onShow: function () {
+    this.isbargain();
+  },
+  getmoreData(){  //查询 更多数据 
     this.dishDetail();
     this.shopDetail();
     this.dishList();
     this.hotDishList();
   },
-  onShow: function () {
-    this.isbargain();
+  chilkDish(e){  //点击某个热闹推荐菜
+    let id = e.currentTarget.id;
+    this.setData({
+      id:id
+    });
+    wx.pageScrollTo({
+      scrollTop: 0,
+      duration: 300
+    });
+    this.getmoreData();
+  },
+  chickinItiate(e){  //点击某个发起砍价
+    let id = e.currentTarget.id,
+      _shopId = e.currentTarget.dataset.shopid,
+      _agioPrice = e.currentTarget.dataset.agioprice,
+      _sellPrice = e.currentTarget.dataset.sellprice;
+    wx.navigateTo({
+      url: '../AprogressBar/AprogressBar?refId=' + this.data.id + '&shopId=' + _shopId + '&skuMoneyMin=' + _agioPrice + '&skuMoneyOut=' + _sellPrice
+    })
   },
   //查询单个砍价菜
   dishDetail() {    
@@ -188,6 +211,9 @@ Page({
       fail: function (res) { },
       complete: function (res) { },
     })
+  },
+  shareCand:function(){  //点击分享
+
   },
   onReachBottom: function () {  //用户上拉触底加载更多
     if (!this.data.flag) {

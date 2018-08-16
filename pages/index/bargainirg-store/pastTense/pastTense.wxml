@@ -1,7 +1,7 @@
 <view>
   <block wx:for="{{bargainList}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
-    <view class='previously'>
-      <image class='preImages' src='{{item.picUrl}}' id="{{item.skuId}}" bindtap='bargainDetail'></image>
+    <view class='previously' id="{{item.skuId}}" bindtap='bargainDetail'>
+      <image class='preImages' src='{{item.picUrl}}' ></image>
       <view class='preRight'>
         <view class='preRitTop'>
           <view class='pre-rigtTop-name'>
@@ -9,15 +9,11 @@
           </view>
         </view>
         <!--倒计时  -->
-        <view wx:if="{{item.isEnd}}" class="countDownTimeView">
-          <view class="voteText">{{countDownHour}}</view>
-          <view class='votefenge'>:</view>
-          <view class="voteText">{{countDownMinute}}</view>
-          <view class='votefenge'>:</view>
-          <view class="voteText">{{countDownSecond}}</view>
+        <view wx:if="{{item.doing && item.countDown}}" class="countDownTimeView">
+          <view class="voteText">{{item.countDown}}</view>
           <text>后结束</text>
         </view>
-        <view wx:else class="countDownTimeView">
+        <view wx:if="{{!item.doing}}" class="countDownTimeView">
           <text>砍价已结束</text>
         </view>
         <!-- 已砍价 已减价格 -->
@@ -34,7 +30,7 @@
               <text>{{item.skuMoneyOut}}</text>
             </view>
           </view>
-          <button id="">立即购买</button>
+          <button id="{{item.skuId}}">立即购买</button>
         </view>
       </view>
     </view>

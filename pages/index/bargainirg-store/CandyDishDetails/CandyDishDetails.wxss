@@ -449,6 +449,10 @@
   vertical-align: middle;
   text-align: center;
   line-height: 28rpx;
+  border: none;
+}
+.returnHome[plain] {
+  border: 0;
 }
 
 .returnHome text{
