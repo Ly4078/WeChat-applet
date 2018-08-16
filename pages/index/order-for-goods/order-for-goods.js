@@ -443,7 +443,7 @@ Page({
       let _parms = {
         soId: soid, 
         openId: app.globalData.userInfo.openId, 
-        skuId: this.data.skuId, 
+        skuId: this.data.dishSkuId, 
         shopId: this.data.shopId, 
         type: 2,
         groupId: this.data.groupId
