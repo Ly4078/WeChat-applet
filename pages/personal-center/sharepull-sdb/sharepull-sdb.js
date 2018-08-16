@@ -66,7 +66,7 @@ Page({
     return {
       title: '就差你了,一起来注册领享7劵吧',
       desc: '就差你了,一起来注册领享7劵吧',
-      path: 'pages/personal-center/securities-sdb/securities-sdb',
+      path: 'pages/personal-center/securities-sdb/securities-sdb?userId=' + app.globalData.userInfo.userId,
       imageUrl: 'https://xq-1256079679.file.myqcloud.com/test_242386103115353639_0.8.jpg',
     }
   }

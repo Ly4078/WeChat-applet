@@ -25,7 +25,7 @@ Page({
     picUrl: '',
   },
   onLoad: function () {
-    console.log('app.globalData.userInfo:', app.globalData.userInfo)
+    // console.log('app.globalData.userInfo:', app.globalData.userInfo)
     let that = this;
     this.setData({
       userType: app.globalData.userInfo.userType
@@ -35,6 +35,13 @@ Page({
         ismobile: false
       })
     };
+
+
+    this.getuserInfo();
+    // this.personalInit();
+  },
+  onShow: function () {
+    let that = this;
     if (app.globalData.userInfo.shopId && app.globalData.userInfo.userType == 2) {
       this.setData({
         isshop: true
