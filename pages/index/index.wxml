@@ -148,7 +148,7 @@
       <view wx:for="{{bargainList}}" wx:key="index">
         <view class='RthreeItem' id='{{item.id}}' data-index="{{item.shopId}}" bindtap='candyDetails'>
           <image class='Resimg' src="{{item.picUrl}}"></image>
-          <text>{{item.shopName}}\n</text>
+          <text>{{item.skuName}}\n</text>
           <text class='Baragio'>¥{{item.agioPrice}}</text>
           <text class='BarinPrice'>¥{{item.sellPrice}}</text>
         </view>

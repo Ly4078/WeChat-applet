@@ -1272,6 +1272,7 @@ Page({
             bargainList: _list.splice(0, 3)
           })
         }
+        console.log("bargainList:", this.data.bargainList)
         arr = _oldData.concat(_list);
         this.setData({
           bargainListall: arr
