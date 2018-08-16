@@ -26,7 +26,6 @@
 
   <!-- 新用户弹窗 -->
   <view class="newUserModal" wx:if="{{userGiftFlag || isNew || isfirst}}" catchtouchmove='true'>
-    {{userGiftFlag}}{{isNew}}{{isfirst}}
     <view class="drawer_screen"></view>
     <view wx:if="{{isphoneNumber}}" class="newUserM_box getphone gettels">
       <view class='nubtitle'>快速注册</view>

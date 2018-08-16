@@ -24,7 +24,7 @@ Page({
     istickts:false,
     isDish: false,
     isperson:false,
-    ismodel:true,
+    ismodel:false,
     shopId:'',
     optObj:{},
     molTxt:[
@@ -246,13 +246,16 @@ Page({
              _arr2[1] = 12 -_arr2[1];
            }
            data.data.endTime = _arr2[0] + '-' + _arr2[1] + '-' + _arr2[2];
-           let dip = "食典", _obj = data.data, Cts = "现金", Dis = '平台', Dis2 = '折扣';
+          let dip = "食典", _obj = data.data, Cts = "现金", Dis = '平台', Dis2 = '折扣',Barg="砍价";
            if (_obj.skuName && _obj.skuName.indexOf(dip) > 0) {
              _obj.dips = true
            }
            if (_obj.skuName && _obj.skuName.indexOf(Cts) > 0) {
              _obj.cash = true
            }
+          if (_obj.skuName && _obj.skuName.indexOf(Barg) > 0) {
+            _obj.Barg = true
+          }
            if (_obj.skuName && _obj.skuName.indexOf(Dis) > 0 || _obj.skuName && _obj.skuName.indexOf(Dis2) > 0) {
              _obj.discount = true
            }
@@ -296,7 +299,13 @@ Page({
   },
   sublevelSum: function (event) {
     let that = this;
-    if (this.data.ticketInfo.dips){
+    console.log("this.data.ticketInfo:", this.data.ticketInfo)
+    if (this.data.ticketInfo.Barg){
+      console.log("thatthat")
+      this.setData({
+        ismodel: true
+      })
+    }else if (this.data.ticketInfo.dips){
       wx.navigateTo({
         url: '../../index/voucher-details/voucher-details?actId=actId&shidian=shidian&sell=' + that.data.ticketInfo.soAmount,
       })

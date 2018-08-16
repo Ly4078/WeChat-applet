@@ -28,6 +28,7 @@ Page({
    */
   onLoad: function (options) {
     console.log('options:',options);
+    this.findByCode();
     if(options.back == 1){
       this.setData({
         isBack:true
@@ -55,7 +56,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    this.findByCode();
+   
   },
 
   findByCode: function () { //通过code查询用户信息
@@ -154,7 +155,6 @@ Page({
   
   getVerificationCode() {   //点击获取验证码
     let that = this;
-    console.log('app.globalData.userInfo:', app.globalData.userInfo)
     if (this.data.phoneNum) {
       let _parms = {
         shopMobile: that.data.phoneNum,
@@ -163,12 +163,10 @@ Page({
       }
       Api.sendForRegister(_parms).then((res) => {
         if (res.data.code == 0) {
-          console.log('res:',res)
           that.setData({
             verifyId: res.data.data.verifyId,
             veridyTime: res.data.data.veridyTime
           })
-          console.log('verifyId:', that.data.verifyId)
           that.Countdown();
         
           that.setData({
@@ -206,6 +204,7 @@ Page({
   },
   
   registered:function(){//点击注册（领红包）按钮  ,核验验证码
+      let that = this;
       if (this.data.phoneNum){
         if (this.data.codeNum){
           if (this.data.codeNum == this.data.verifyId){
@@ -218,9 +217,10 @@ Page({
             Api.isVerify(_parms).then((res) => {
               if (res.data.code == 0) {
                 app.globalData.userInfo.userId=res.data.data;
-                this.getuserInfo();
-                if (this.data.referrer){  //推荐人
-                  this.setpullUser();
+                that.getuserInfo();
+                if (that.data.referrer){  //推荐人
+                  console.log("referrer:", that.data.referrer)
+                  that.setpullUser();
                 }
               }
             })
@@ -261,10 +261,8 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success: function (res) {
-       
         if (res.data.code == 0) {
           let data = res.data.data;
-          console.log("data:", data)
           if(val == 1){
             for (let key in data) {
               for (let ind in app.globalData.userInfo) {
@@ -289,7 +287,7 @@ Page({
   },
 
   setpullUser:function(){  //上传推荐人userId
-    let _parms = { userId: this.data.referrer}
+    let _parms = { userId: this.data.referrer};
     Api.setPullUser(_parms).then((res)=>{
       if(res.data.code == 0){
         console.log('res:',res)

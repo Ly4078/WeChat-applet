@@ -426,7 +426,7 @@ Page({
       title:'收款通知',
       messageInfo: '享七收款' + paynum +'元',
       badge:1,
-      ios:'1',
+      ios: '享七收款' + paynum + '元',
       shopId: that.data.shopId
     }
     console.log('_parms:', _parms)

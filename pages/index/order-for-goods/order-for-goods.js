@@ -505,7 +505,7 @@ Page({
       title: '收款通知',
       messageInfo: '享七收款' + pannum + '元',
       badge: 1,
-      ios: '1',
+      ios: '享七收款' + pannum + '元',
       shopId: that.data.shopId
     }
     Api.pushSoByShop(_parms).then((res) => {

@@ -24,7 +24,7 @@ Page({
     userId: '',
     picUrl: '',
   },
-  onLoad: function () {
+  onLoad: function() {
     // console.log('app.globalData.userInfo:', app.globalData.userInfo)
     let that = this;
     this.setData({
@@ -40,7 +40,7 @@ Page({
     this.getuserInfo();
     // this.personalInit();
   },
-  onShow: function () {
+  onShow: function() {
     let that = this;
     if (app.globalData.userInfo.shopId && app.globalData.userInfo.userType == 2) {
       this.setData({
@@ -48,11 +48,6 @@ Page({
       })
     }
 
-    if (app.globalData.userInfo.shopId && app.globalData.userInfo.userType == 2) {
-      this.setData({
-        isshop: true
-      })
-    }
     if (!app.globalData.userInfo.unionId) {
       wx.login({
         success: res => {
@@ -89,7 +84,7 @@ Page({
     }
 
     if (app.globalData.userInfo.mobile) {
-      this.getbalance();
+      // this.getbalance();
       this.setData({
         ismobile: false
       })
@@ -113,7 +108,7 @@ Page({
         page: '1',
         rows: 1,
       },
-      success: function (res) {
+      success: function(res) {
         let _total = res.data.data.total;
         _total = utils.million(_total);
         if (app.globalData.isflag) {
@@ -123,6 +118,7 @@ Page({
         }
       }
     })
+
     wx.request({
       url: that.data._build_url + 'fvs/list?userId=' + app.globalData.userInfo.userId + '&page=' + that.data.page + '&rows=10',
       method: 'GET',
@@ -131,7 +127,7 @@ Page({
         page: '1',
         rows: 1,
       },
-      success: function (res) {
+      success: function(res) {
         let _total = res.data.data.total
         _total = utils.million(_total)
         that.setData({
@@ -139,25 +135,22 @@ Page({
         })
       }
     })
-    // 查询是否配置
+    // // 查询是否配置
+    this.getPullUser();
+  },
+  getPullUser:function(){
     wx.request({
       url: this.data._build_url + 'pullUser/get/' + app.globalData.userInfo.userId,
       success: function (res) {
-        let _userId = res.data.data.userId;
-        let _picUrl = res.data.data.picUrl;
-        that.setData({
-          userId: _userId,
-          picUrl: _picUrl
-        })
+        console.log(res.data)
       }
     })
   },
-
-  againgetinfo: function () {
+  againgetinfo: function() {
     let that = this;
     wx.getUserInfo({
       withCredentials: true,
-      success: function (res) {
+      success: function(res) {
         that.updatauser(res.userInfo);
         let _pars = {
           sessionKey: app.globalData.userInfo.sessionKey,
@@ -176,22 +169,24 @@ Page({
       }
     })
   },
-  getbalance: function () { //查询余额
+  getbalance: function() { //查询余额
+    let _userId = app.globalData.userInfo.userId;
     let _account = {
-      userId: app.globalData.userInfo.userId
+      userId: _userId
     }
     Api.accountBalance(_account).then((res) => {
-      let _data = res.data;
-      _data = _data == null ? 0 : _data;
-      this.setData({
-        accountBalance: _data
-      })
+      if (res.data.code == 0) {
+        let _data = res.data.data == null ? '0' : res.data.data;
+        this.setData({
+          accountBalance: _data
+        })
+      }
     })
   },
-  bindGetUserInfo: function (e) {
+  bindGetUserInfo: function(e) {
     this.updatauser(e.detail.userInfo)
   },
-  updatauser: function (data) { //更新用户信息
+  updatauser: function(data) { //更新用户信息
     let that = this;
     let _parms = {
       id: app.globalData.userInfo.userId,
@@ -214,7 +209,7 @@ Page({
       }
     })
   },
-  getuserInfo: function () { //从微信服务器获取用户信息
+  getuserInfo: function() { //从微信服务器获取用户信息
     let that = this;
     wx.getUserInfo({
       success: res => {
@@ -241,7 +236,7 @@ Page({
       }
     })
   },
-  wxgetsetting: function () { //若用户之前没用授权其用户信息，则调整此函数请求用户授权
+  wxgetsetting: function() { //若用户之前没用授权其用户信息，则调整此函数请求用户授权
     let that = this
     if (!app.globalData.userInfo.mobile) {
       return false
@@ -252,14 +247,14 @@ Page({
           wx.showModal({
             title: '提示',
             content: '授权获得更多功能和体验',
-            success: function (res) {
+            success: function(res) {
               if (res.confirm) {
                 wx.openSetting({ //打开授权设置界面
                   success: (res) => {
                     if (res.authSetting['scope.userLocation']) {
                       wx.getLocation({
                         type: 'wgs84',
-                        success: function (res) {
+                        success: function(res) {
                           let latitude = res.latitude
                           let longitude = res.longitude
                           that.requestCityName(latitude, longitude)
@@ -299,18 +294,18 @@ Page({
       }
     })
   },
-  calling: function () { //享7客户电话
+  calling: function() { //享7客户电话
     wx.makePhoneCall({
       phoneNumber: '02759728176',
-      success: function () {
+      success: function() {
         console.log("拨打电话成功！")
       },
-      fail: function () {
+      fail: function() {
         console.log("拨打电话失败！")
       }
     })
   },
-  enterEntrance: function (event) { //点击免费入驻
+  enterEntrance: function(event) { //点击免费入驻
     if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
@@ -327,44 +322,44 @@ Page({
 
 
 
-  DynamicState: function (e) {
+  DynamicState: function(e) {
     wx.navigateTo({
       url: 'allDynamicState/allDynamicState',
     })
   },
-  myTickets: function (event) {
+  myTickets: function(event) {
     wx.navigateTo({
       url: 'my-discount/my-discount',
     })
   },
-  carefulness: function (event) { //订单
+  carefulness: function(event) { //订单
     wx.navigateTo({
       url: 'personnel-order/personnel-order',
     })
   },
-  infromation: function (event) { //收货地址
+  infromation: function(event) { //收货地址
     wx.navigateTo({
       url: '../personal-center/shipping/shipping',
     })
   },
 
-  remittance: function (event) { //兑换记录
+  remittance: function(event) { //兑换记录
     wx.navigateTo({
       url: '../personal-center/conversionHsy/conversionHsy',
     })
   },
 
-  enshrineClick: function (event) { //收藏
+  enshrineClick: function(event) { //收藏
     wx.navigateTo({
       url: 'enshrine/enshrine',
     })
   },
-  personalCenter: function (event) { //关注
+  personalCenter: function(event) { //关注
     wx.navigateTo({
       url: '../personal-center/livepage/livepage?likeType=1&userId=' + app.globalData.userInfo.userId
     })
   },
-  personal: function (event) { //个人主页
+  personal: function(event) { //个人主页
     wx.navigateTo({
       url: '../activityDetails/homePage/homePage?iconUrl=' + this.data.iconUrl + '&userId=' + app.globalData.userInfo.userId,
     })
@@ -374,26 +369,26 @@ Page({
   //     url: 'myWallet/myWallet?sumTotal=' + this.data.accountBalance.data
   //   })
   // },
-  myMineMoney: function () {
+  myMineMoney: function() {
     wx.navigateTo({
       url: 'integratorMs/integratorMs'
     })
   },
   // 我的砍价
-  continuousAs: function () {
+  continuousAs: function() {
     wx.navigateTo({
       url: '../index/bargainirg-store/pastTense/pastTense',
-      success: function (res) { },
-      fail: function (res) { },
-      complete: function (res) { },
+      success: function(res) {},
+      fail: function(res) {},
+      complete: function(res) {},
     })
   },
-  VoucherCode: function () { //输入券码核销
+  VoucherCode: function() { //输入券码核销
     wx.navigateTo({
       url: '../personal-center/call-back/call-back?ent=ent'
     })
   },
-  scanAqrCode: function (e) { //扫一扫核销
+  scanAqrCode: function(e) { //扫一扫核销
     let that = this;
     wx.scanCode({
       onlyFromCamera: true,
@@ -416,17 +411,17 @@ Page({
       }
     });
   },
-  registered: function () { //用户注册
+  registered: function() { //用户注册
     wx.navigateTo({
       url: '../personal-center/registered/registered'
     })
   },
   //判断二维码是否可以跳转
-  getCodeState: function () {
+  getCodeState: function() {
     let that = this;
     wx.request({
       url: this.data._build_url + 'cp/getByCode/' + that.data.qrCode,
-      success: function (res) {
+      success: function(res) {
         if (res.data.code == 0) {
           let data = res.data;
           let Cts = "现金",
@@ -492,19 +487,19 @@ Page({
       }
     })
   },
-  isDueFunc: function (current, expiryDate) { //对比时间是否过期
+  isDueFunc: function(current, expiryDate) { //对比时间是否过期
     let isDue = 0;
     if (new Date(expiryDate + " 23:59:59").getTime() < current) {
       isDue = 1;
     }
     return isDue;
   },
-  aboutMe: function (e) { //关于我们
+  aboutMe: function(e) { //关于我们
     wx.navigateTo({
       url: 'aboutMe/aboutMe',
     })
   },
-  closetel: function (e) {
+  closetel: function(e) {
     let id = e.target.id;
     this.setData({
       issnap: false
@@ -517,7 +512,7 @@ Page({
   },
 
   // 分享注册
-  dividualLogin: function () {
+  dividualLogin: function() {
     wx.navigateTo({
       url: '/pages/personal-center/sharepull-sdb/sharepull-sdb?picUrl=' + this.data.picUrl
     })

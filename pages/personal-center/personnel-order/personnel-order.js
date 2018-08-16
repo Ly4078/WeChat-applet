@@ -6,15 +6,15 @@ Page({
     page: 1,
     reFresh: true,
     completed: true,
-    isfirst:false,
-    currentTab: '',  // 1待支付 2 已支付 3已核销 10取消,
+    isfirst: false,
+    currentTab: '', // 1待支付 2 已支付 3已核销 10取消,
     shoporderlist: []
   },
-  onShow: function () {
+  onShow: function() {
     this.getOrderList();
     this.getshopOrderList();
   },
-  onHide: function () {
+  onHide: function() {
     this.setData({
       order_list: [],
       shoporderlist: [],
@@ -24,21 +24,21 @@ Page({
       currentTab: ''
     })
   },
-  swichNav: function (event) {
+  swichNav: function(event) {
     this.setData({
       order_list: [],
-      shoporderlist:[],
+      shoporderlist: [],
       page: 1,
       reFresh: true,
       completed: true,
       currentTab: event.currentTarget.dataset.current
     })
     this.getOrderList();
-    if (this.data.currentTab == 2 || this.data.currentTab==''){
+    if (this.data.currentTab == 2 || this.data.currentTab == '') {
       this.getshopOrderList();
     }
   },
-  getOrderList: function () {       //获取平台订单列表
+  getOrderList: function() { //获取平台订单列表
     let that = this;
     let _parms = {
       userId: app.globalData.userInfo.userId,
@@ -51,16 +51,16 @@ Page({
         _parms.rows = 20
     }
     if (this.data.currentTab == 1 || !this.data.currentTab) {
-        _parms.rows = 20
+      _parms.rows = 20
     }
     Api.somyorder(_parms).then((res) => {
       let data = res.data;
       if (data.code == 0 && data.data != null && data.data != "" && data.data != []) {
         let order_list = that.data.order_list;
-        if (data.data.length && data.data.length>0){
+        if (data.data.length && data.data.length > 0) {
           for (let i = 0; i < data.data.length; i++) {
             if (this.data.currentTab == 1 || !this.data.currentTab) {
-              if (data.data[i].skuType != 3 ){
+              if (data.data[i].skuType != 3) {
                 data.data[i]["isDue"] = that.isDueFunc(data.data[i].createTime);
                 order_list.push(data.data[i]);
                 // if (order_list.length<9){
@@ -70,7 +70,7 @@ Page({
                 //   that.getOrderList ();
                 // }
               }
-            }else{
+            } else {
               order_list.push(data.data[i])
             }
           }
@@ -78,19 +78,19 @@ Page({
             order_list: order_list,
             reFresh: true
           });
-        }else{
-          if (this.data.currentTab == 1){
-            if(this.data.isfirst){
+        } else {
+          if (this.data.currentTab == 1) {
+            if (this.data.isfirst) {
               return false
             }
             this.setData({
               page: this.data.page + 1,
-              isfirst:true
+              isfirst: true
             })
             this.getOrderList();
           }
         }
-        
+
       } else {
         that.setData({
           reFresh: false
@@ -129,15 +129,15 @@ Page({
       wx.hideLoading();
     }
   },
-  getshopOrderList: function () {       //获取商家订单列表
+  getshopOrderList: function() { //获取商家订单列表
     let that = this;
     let _parms = {
       userId: app.globalData.userInfo.userId,
       page: this.data.page,
       rows: 8,
-      soStatus:'2'
+      soStatus: '2'
     };
-   
+
     Api.myorderForShop(_parms).then((res) => {
       let data = res.data;
       if (data.code == 0 && data.data != null && data.data != "" && data.data != []) {
@@ -189,12 +189,21 @@ Page({
     }
   },
   //点击某张券
-  lowerLevel: function (e) {
+  lowerLevel: function(e) {
     let id = e.currentTarget.id,
       skuid = e.currentTarget.dataset.skuid,
       sostatus = e.currentTarget.dataset.sostatus,
       listArr = this.data.order_list,
-      sell = "", inp = "", rule = "", num = "", soId = "", skuName = "", skutype = "", soid = "",skuId = "",shopId = "",
+      sell = "",
+      inp = "",
+      rule = "",
+      num = "",
+      soId = "",
+      skuName = "",
+      skutype = "",
+      soid = "",
+      skuId = "",
+      shopId = "",
       _shopname = e.currentTarget.dataset.shopname;
     if (_shopname) { //商家订单
       if (sostatus == 2 || sostatus == 3) {
@@ -202,17 +211,18 @@ Page({
           url: '../lelectronic-coupons/lectronic-coupons?pay=pay' + '&soid=' + id
         })
       } else if (sostatus == 1) {
-        let shoplist = this.data.shoporderlist,actdata={};
-        for (let i = 0; i < shoplist.length;i++){
-          if (id = shoplist[i].id){
+        let shoplist = this.data.shoporderlist,
+          actdata = {};
+        for (let i = 0; i < shoplist.length; i++) {
+          if (id = shoplist[i].id) {
             actdata = shoplist[i];
           }
         }
         wx.navigateTo({
-          url: '/pages/index/merchant-particulars/paymentPay-page/paymentPay-page?shopid=' + actdata.shopId +'&soid='+actdata.id+'&wei=wei'
+          url: '/pages/index/merchant-particulars/paymentPay-page/paymentPay-page?shopid=' + actdata.shopId + '&soid=' + actdata.id + '&wei=wei'
         })
       }
-    } else {  //平台订单
+    } else { //平台订单
       for (let i = 0; i < listArr.length; i++) {
         if (id == listArr[i].id) {
           sell = listArr[i].unitPrice,
@@ -226,8 +236,8 @@ Page({
           skutype = listArr[i].skuType,
           soid = listArr[i].soId
         }
-      } 
-      
+      }
+
       if (sostatus == 1) {
         wx.navigateTo({
           url: '/pages/index/order-for-goods/order-for-goods?id=' + skuId + '&sell=' + sell + '&inp=' + inp + '&rule=' + rule + '&num=' + num + '&sostatus=1' + '&skuName=' + skuName + "&skutype=" + skutype + '&skuId=' + skuId + '&shopId=' + shopId
@@ -240,7 +250,7 @@ Page({
     }
   },
   //用户上拉触底
-  onReachBottom: function () {
+  onReachBottom: function() {
     console.log("onReachBottom")
     if (this.data.currentTab != 2 && this.data.reFresh) {
       wx.showLoading({
@@ -264,7 +274,7 @@ Page({
     }
   },
   //用户下拉刷新
-  onPullDownRefresh: function () {
+  onPullDownRefresh: function() {
     this.setData({
       order_list: [],
       page: 1,
@@ -274,10 +284,11 @@ Page({
     this.getshopOrderList();
   },
   //对比时间是否过期
-  isDueFunc: function (createTime) {
+  isDueFunc: function(createTime) {
     //isDue=0   已过期 isDue=1未过期
     let _createTime = new Date(createTime).getTime();
-    let _endTime = _createTime +60*60*24*30*1000,isDue = 0;
+    let _endTime = _createTime + 60 * 60 * 24 * 30 * 1000,
+      isDue = 0;
     if (_createTime < _endTime) {
       isDue = 1;
     }
