@@ -127,7 +127,7 @@ page {
   color: #555;
   text-align: center;
   letter-spacing: 2px;
-  margin-left: 27%;
+  /* margin-left: 27%; */
   padding: 8rpx 34rpx;
 }
 
@@ -592,6 +592,7 @@ page {
   background-color: white;
   margin-bottom: 20rpx;
 }
+
 
 .rollMessage1 {
   height: 60rpx;

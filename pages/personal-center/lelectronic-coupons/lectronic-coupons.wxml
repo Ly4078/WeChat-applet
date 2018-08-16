@@ -181,7 +181,7 @@
     <!-- <view class='rollMessage'>享7劵</view> -->
     <block wx:for="{{ticket}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
       <image src='{{item.qrcodeUrl}}' class='codingImages1' data-index='{{idx}}' bindtap='previewImg'></image>
-      <view class='coding-code {{idx > 2 && qrCodeFlag ? "hide" : ""}}'>
+      <view class='coding-code1 coding-code {{idx > 2 && qrCodeFlag ? "hide" : ""}}'>
         劵码:{{item.couponCode}}
       </view>
     </block>
