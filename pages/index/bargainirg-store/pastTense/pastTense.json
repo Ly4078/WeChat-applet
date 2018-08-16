@@ -1,3 +1,4 @@
 {
-  "navigationBarTitleText": "我的砍菜"
+  "navigationBarTitleText": "我的砍菜",
+  "enablePullDownRefresh": false
 }
