@@ -102,6 +102,13 @@ Page({
             peoplenum: data[0].peoplenum * 1 - 1,
             peopleList: data.slice(1)
           });
+          for (let i = 0; i < this.data.peopleList.length; i++) {
+            if (this.data.peopleList[i].parentId == this.data.userId) {
+              this.setData({
+                getGoldNum: this.data.peopleList[i].goldAmount
+              });
+            }
+          }
           let miliEndTime = new Date(endTime).getTime(),
             miliNow = new Date().getTime();
           let minus = Math.floor((miliEndTime - miliNow) / 1000);
@@ -124,6 +131,7 @@ Page({
                   clearInterval(timer);
                   minus = 0;
                   _this.setData({
+                    otherStatus: 2,
                     status: 2
                   });
                 }
@@ -142,12 +150,14 @@ Page({
             }
           } else {
             this.setData({
-              status: 2
+              status: 2,
+              otherStatus: 4
             });
           }
         } else {
           this.setData({
-            status: 3
+            status: 3,
+            otherStatus: 5
           });
         }
       } else {
@@ -179,7 +189,8 @@ Page({
         });
       } else {
         this.setData({
-          status: 3
+          status: 3,
+          otherStatus: 5
         });
       }
     })
