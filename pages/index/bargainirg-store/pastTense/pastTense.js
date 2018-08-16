@@ -21,9 +21,6 @@ Page({
       userId: app.globalData.userInfo.userId
     });
   },
-  countDown(endTime) {
-    
-  },
   onShow: function() {
     this.vegetablesInquire(); //查询菜品
   },
@@ -37,7 +34,7 @@ Page({
        
         for (let i = 0; i < list.length; i++) {
           list[i].subtract = (list[i].skuMoneyOut - list[i].skuMoneyNow).toFixed(2);
-          let _endTime = (new Date(list[i].endTime)).getTime();
+          let _endTime = (new Date(list[i].endTime.replace(/\-/g, "/"))).getTime();
           if (_now < _endTime ){
             list[i].doing = true;
           }else{
@@ -75,7 +72,7 @@ Page({
       for (let i = 0; i < _list.length;i++){
         if (_list[i].doing){
           miliNow = new Date().getTime();
-          miliEndTime = (new Date(_list[i].endTime)).getTime();
+          miliEndTime = (new Date(_list[i].endTime.replace(/\-/g, "/"))).getTime();
           minus = Math.floor((miliEndTime - miliNow) / 1000); //时间差(秒)
           if(minus<=0){
             _list[i].doing= false;

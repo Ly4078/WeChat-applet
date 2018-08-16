@@ -85,7 +85,7 @@ Page({
         data = res.data.data;
       if (code == 0) {
         if (data) {
-          let endTime = data[0].endTime,
+          let endTime = data[0].endTime.replace(/\-/g, "/"),
             max = (+this.data.skuMoneyOut - this.data.skuMoneyMin).toFixed(2),
             doneBargain = (+this.data.skuMoneyOut - data[0].skuMoneyNow).toFixed(2),
             progress = 0;
