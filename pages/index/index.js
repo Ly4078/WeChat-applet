@@ -44,8 +44,8 @@ Page({
     _page: 1,
     posts_key: [],
     hotshop:[],
-    bargainList:[],
-    bargainListall:[],
+    bargainList:[],//砍价拼菜
+    bargainListall:[],//拼菜砍价
     videolist:[],
     bannthree:[],
     actitem:'附近',

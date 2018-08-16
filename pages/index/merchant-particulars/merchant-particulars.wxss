@@ -510,16 +510,14 @@ page {
 .kaicai{
   margin-left: 0rpx;
   padding: 0;
-  
 }
 .kaicai text {
-color: #FC5E2D;
+  color: #FC5E2D;
   font-size: 24rpx;
-
 }
 
 .tekaicai{
-color: #FC5E2D;
+  color: #FC5E2D;
   font-size: 24rpx;
 }
 

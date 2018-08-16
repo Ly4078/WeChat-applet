@@ -10,7 +10,6 @@ page {
 image {
   width: 750rpx;
   height: 612rpx;
-  display: inline;
   overflow: hidden;
 }
 
@@ -47,7 +46,7 @@ image {
   padding-left: 40rpx;
 }
 
-.cell-phone button{
+.codeButtom{
   width: 40%;
   height: 88rpx;
   border-top-right-radius:44rpx;
@@ -60,7 +59,9 @@ image {
   line-height:86rpx;
   background-color: white;
 }
-
+.actCode{
+  color: #e0e0e0;
+}
 .cell-phoneWrap{
   width: 100%;
   height: 88rpx;

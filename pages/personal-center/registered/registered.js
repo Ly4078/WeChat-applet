@@ -29,7 +29,7 @@ Page({
       this.findByCode();
     }
   },
-  findByCode: function () {
+  findByCode: function () { //通过code查询用户信息
     let that = this;
     wx.login({
       success: res => {
@@ -55,43 +55,8 @@ Page({
       }
     })
   },
-  getmyuserinfo: function () {
-    let _parms = {
-      openId: app.globalData.userInfo.openId,
-      unionId: app.globalData.userInfo.unionId
-    }, that = this;
-    Api.addUserUnionId(_parms).then((res) => {
-      if (res.data.data) {
-        app.globalData.userInfo.userId = res.data.data;
-        wx.request({  //从自己的服务器获取用户信息
-          url: this.data._build_url + 'user/get/' + res.data.data,
-          header: {
-            'content-type': 'application/json' // 默认值
-          },
-          success: function (res) {
-            if (res.data.code == 0) {
-              let data = res.data.data;
-              if (data){
-                for (let key in data) {
-                  for (let ind in app.globalData.userInfo) {
-                    if (key == ind) {
-                      app.globalData.userInfo[ind] = data[key]
-                    }
-                  }
-                }
-                if (data.mobile) {
-                  wx.switchTab({
-                    url: '../../index/index'
-                  })
-                }
-              }
-            }
-          }
-        })
-      }
-    })
-  },
-  numbindinput: function (e) {  //监听号码输入框
+ 
+  numbindinput: function (e) {  //监听手机号输入框
     let _value = e.detail.value
     if(!_value){
       this.closephone();
@@ -181,7 +146,6 @@ Page({
       })
     }
   },
-
   yzmbindblur: function (e) {  //实时监听获取输入的验证码
     let _value = e.detail.value
     this.setData({

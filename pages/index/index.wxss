@@ -10,7 +10,9 @@ page {
   background:RGBA(245, 245, 250, 1);
   flex-direction: column;
 }
-
+.templateWrap {
+  background: #F5F5FA;
+}
 .headSeek {
   box-shadow: #aaa7a7 0rpx 4rpx 10rpx 0rpx;
   color: black;
@@ -626,7 +628,7 @@ page {
 .buttomBox{
   width: 100%;
   height: 50rpx;
-  background-color: #78B6FC;
+  background-color:#F5F5FA;
 }
 .bottomAnimation{
   width: 100%;

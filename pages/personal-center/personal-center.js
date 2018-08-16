@@ -25,6 +25,8 @@ Page({
     picUrl:'',
   },
   onLoad: function() {
+    console.log('app.globalData.userInfo:', app.globalData.userInfo)
+    let that = this;
     this.setData({
       userType: app.globalData.userInfo.userType
     })
@@ -38,7 +40,7 @@ Page({
         isshop: true
       })
     }
-    let that = this;
+    
     if (app.globalData.userInfo.shopId && app.globalData.userInfo.userType == 2) {
       this.setData({
         isshop: true
@@ -78,8 +80,9 @@ Page({
         istouqu: true
       })
     }
-    this.getbalance();
+    
     if (app.globalData.userInfo.mobile) {
+      this.getbalance();
       this.setData({
         ismobile: false
       })
@@ -233,7 +236,7 @@ Page({
   },
   wxgetsetting: function() { //若用户之前没用授权其用户信息，则调整此函数请求用户授权
     let that = this
-    if (app.globalData.userInfo.mobile == 'a' || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+    if (!app.globalData.userInfo.mobile) {
       return false
     }
     wx.getSetting({
@@ -544,3 +547,4 @@ Page({
     })
   }
 })
+

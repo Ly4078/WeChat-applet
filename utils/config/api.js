@@ -427,6 +427,10 @@ const ALL_API = {
   getGold: {   //券核销完成后给金币
     method: 'POST',
     url: 'account/ingold'
+  },
+  setPullUser:{  //上传推荐人userId
+    method:'POST',
+    url:'pullUser/update'
   }
 }
 const Api = new MyHttp({}, ALL_API);

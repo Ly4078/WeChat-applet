@@ -4,15 +4,21 @@
 <view class='securitiesText'>
   <view class='economy'>
     <view class='cell-phone'>
-      <input type='number' placeholder="请输入手机号" maxlength="11" adjust-position="tuer"></input>
-      <button wx:if="{{disabled==2}}" disabled='{{disabled}}' data-id="2" bindtap="getVerificationCode">获取验证码</button>
-      <button wx:else disabled='{{disabled}}' data-id="2" bindtap="getVerificationCode">{{time}}</button>
+      <input type='number' placeholder="请输入手机号" maxlength="11" adjust-position="tuer" bindinput="changePhone" value='{{phoneNum}}'></input>
+      <button  class="codeButtom  {{isClick?'':'actCode'}}"  data-id="2" bindtap="getVerificationCode">{{butTxt}}</button>
     </view>
     <view class='cell-phone'>
-      <input type='number' placeholder="请输入验证码" maxlength="6" adjust-position="tuer"></input>
+      <input type='number' placeholder="请输入验证码" maxlength="4" adjust-position="tuer" bindinput="changeCode" value='{{codeNum}}'></input>
     </view>
     <view class='cell-phoneWrap'>
-      <button class='cell-phone-bun'>领红包</button>
+      <button class='cell-phone-bun' bindtap='registered'>领红包</button>
     </view>
   </view>
 </view>
+
+  <view class="newUserModal loginuser" wx:if="{{istouqu}}" catchtouchmove='true'>
+    <view class="drawer_screen"></view>
+    <button class="newUserM_box" open-type="getUserInfo" bindgetuserinfo="againgetinfo">
+      <image class='loginimg' src='/images/icon/login.png'></image>
+    </button>
+  </view>

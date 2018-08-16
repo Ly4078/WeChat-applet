@@ -26,6 +26,7 @@
 
   <!-- 新用户弹窗 -->
   <view class="newUserModal" wx:if="{{userGiftFlag || isNew || isfirst}}" catchtouchmove='true'>
+    {{userGiftFlag}}{{isNew}}{{isfirst}}
     <view class="drawer_screen"></view>
     <view wx:if="{{isphoneNumber}}" class="newUserM_box getphone gettels">
       <view class='nubtitle'>快速注册</view>
@@ -150,7 +151,7 @@
           <image class='Resimg' src="{{item.picUrl}}"></image>
           <text>{{item.shopName}}\n</text>
           <text class='Baragio'>¥{{item.agioPrice}}</text>
-          <text class='BarinPrice'>¥{{item.inPrice}}</text>
+          <text class='BarinPrice'>¥{{item.sellPrice}}</text>
         </view>
       </view>
     </view>
