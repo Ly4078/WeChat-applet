@@ -72,7 +72,7 @@
                 <text>{{skuMoneyOut}}</text>
               </view>
               <view>低价￥
-                <text>{{skuMoneyOut}}</text>
+                <text>{{skuMoneyMin}}</text>
               </view>
             </view>
             <view class='helpShell'>

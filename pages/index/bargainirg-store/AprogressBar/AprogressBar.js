@@ -13,8 +13,8 @@ Page({
     countDown: '', //倒计时
     getGoldNum: 0, //砍价人获得的金币数
     progress: 0, //进度条
-    status: 1,         //砍价状态 1.30分钟内  2.过了30分钟没超过24小时  3.过了24小时或者已买 4.满5人
-    otherStatus: 1,    //1.可以帮发起人砍价  2.已经砍过  3.人数已满  4.过了30分钟 5.砍价结束
+    status: 1, //砍价状态 1.30分钟内  2.过了30分钟没超过24小时  3.过了24小时或者已买 4.满5人
+    otherStatus: 1, //1.可以帮发起人砍价  2.已经砍过  3.人数已满  4.过了30分钟 5.砍价结束
     isMine: true, //是本人
     page: 1,
     flag: true,
@@ -103,7 +103,9 @@ Page({
             peopleList: data.slice(1)
           });
           for (let i = 0; i < this.data.peopleList.length; i++) {
-            if (this.data.peopleList[i].parentId == this.data.userId) {
+            console.log(this.data.peopleList[i].parentId, this.data.userId)
+            console.log(this.data.peopleList[i].parentId == this.data.userId)
+            if (this.data.peopleList[i].userId == this.data.userId) {
               this.setData({
                 getGoldNum: this.data.peopleList[i].goldAmount
               });
@@ -204,10 +206,11 @@ Page({
       groupId: this.data.groupId
     };
     Api.isHelpfriend(_parms).then((res) => {
-      let code = res.data.code, otherStatus = 1;
+      let code = res.data.code,
+        otherStatus = 1;
       if (code == 0) {
         otherStatus = 1;
-      } else if(code == 200065) {
+      } else if (code == 200065) {
         otherStatus = 2;
       } else if (code == 200066) {
         otherStatus = 3;
