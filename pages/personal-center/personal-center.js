@@ -139,10 +139,16 @@ Page({
     this.getPullUser();
   },
   getPullUser:function(){
+    let that = this;
     wx.request({
       url: this.data._build_url + 'pullUser/get/' + app.globalData.userInfo.userId,
       success: function (res) {
-        console.log(res.data)
+        let userId = res.data.data.userId
+        let picUrl = res.data.data.picUrl
+        that.setData({
+          userId : userId,
+          picUrl: picUrl
+        })
       }
     })
   },

@@ -23,7 +23,6 @@ Page({
       url: 'https://www.xq0036.top/pullUser/update/?userId=' + userId,
       method: 'POST',
       success: function (res) {
-        console.log("返回值:",res)
         if (res.data.code == 0) {
           that.setData({
             _data: res.data.data,
@@ -39,11 +38,9 @@ Page({
     wx.downloadFile({
       url: imgUrl,
       success: function (res) {
-        console.log("res陈宫", res)
         wx.saveImageToPhotosAlbum({
           filePath: res.tempFilePath,
           success: function (res) {
-            console.log('保存成功：', res)
             wx.showToast({
               title: '保存成功',
               icon: 'success',
@@ -52,7 +49,6 @@ Page({
           },
           fail: function (res) {
             console.log(res)
-            console.log('fail')
           }
         })
       },
