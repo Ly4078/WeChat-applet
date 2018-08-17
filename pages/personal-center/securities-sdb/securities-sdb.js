@@ -30,12 +30,9 @@ Page({
     console.log('options:',options);
     this.findByCode();
     if(options.back == 1){
-      console.log("11111")
       this.setData({
         isBack:true
       })
-    }else{
-      console.log("11111")
     }
     if(options.userId){
       this.setData({
@@ -46,7 +43,6 @@ Page({
     if (q) {
       if (utils.getQueryString(q, 'flag') == 6) {
         let _ref = utils.getQueryString(q, 'userId');
-        console.log('_ref:',_ref)
         this.setData({
           referrer: _ref
         })
