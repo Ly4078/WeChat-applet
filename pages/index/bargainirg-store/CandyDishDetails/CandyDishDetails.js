@@ -147,6 +147,7 @@ Page({
       browSort: 0,
       locationX: app.globalData.userInfo.lng,
       locationY: app.globalData.userInfo.lat,
+      isDeleted: 0,
       page: 1,
       rows: 10
     };
@@ -173,6 +174,7 @@ Page({
       locationX: app.globalData.userInfo.lng,
       locationY: app.globalData.userInfo.lat,
       city: app.globalData.userInfo.city,
+      isDeleted: 0,
       page: this.data.page,
       rows: 6
     };
