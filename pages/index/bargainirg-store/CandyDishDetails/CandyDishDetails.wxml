@@ -41,8 +41,8 @@
         <view class='diningLeft'>
           <text class='diningLeftname'>{{shopName}}</text>
           <view class='diningzCenter'>
-            <image class='doubleImges' src='/images/icon/hot.png'></image>
-            <text>{{popNum}}</text>
+            <!-- <image class='doubleImges' src='/images/icon/hot.png'></image>
+            <text>{{popNum}}</text> -->
           </view>
           <view class='diningzPlace'>
             <image class='geography' src='/images/icon/location.png'></image>
@@ -108,7 +108,8 @@
                 <text>{{item.shopName}}</text>
               </view>
               <view class='hol-right'>
-                <text>{{item.distance}}</text>m</view>
+                <text>{{item.distance}}</text>
+              </view>
             </view>
             <view class='superscript'>￥
               <text>{{item.agioPrice}}</text>
