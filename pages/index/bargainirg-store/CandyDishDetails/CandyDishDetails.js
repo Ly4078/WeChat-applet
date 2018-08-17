@@ -351,5 +351,22 @@ Page({
         url: '/pages/personal-center/registered/registered'
       })
     }
-  }
+  },
+  //分享给好友
+  onShareAppMessage: function () {
+    return {
+      title: this.data.store_details.shopName,
+      path: '/pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails?shopid=' + this.data.shopid+'&id='+this.data.id,
+      // imageUrl: this.data.store_details.logoUrl,
+      success: function (res) {
+        console.log('success')
+      },
+      fail: function (res) {
+        // 分享失败
+        console.log(res)
+      }
+    }
+  },
 })
+
+
