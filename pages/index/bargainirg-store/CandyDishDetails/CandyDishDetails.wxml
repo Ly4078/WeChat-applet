@@ -62,7 +62,7 @@
       </view>
       <block wx:for="{{dishList}}" wx:key="{{index}}" id="{{index}}" wx:for-index="idx">
         <view class='merchantROM'>
-          <view class='merchantLeft'>
+          <view class='merchantLeft' catchtap='dishesDiscounts'>
             <image class='merchantImages' mode='scaleToFill' src='{{item.picUrl}}'></image>
             <view class='acuisineMessage'>
               <text class='acuisineName'>{{item.skuName}}</text>
