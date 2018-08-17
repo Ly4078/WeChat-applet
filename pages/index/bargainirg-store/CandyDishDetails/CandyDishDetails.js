@@ -5,6 +5,8 @@ var app = getApp()
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
+    issnap: false,   //新用户
+    isnew: false,   //新用户
     shopId: '',   //店铺id
     id: '',       //菜id
     picUrl: '',     //菜图
@@ -22,14 +24,16 @@ Page({
     page: 1,
     isbargain: false   //是否砍过价
   },
-  onLoad: function (options) {
+  onLoad(options) {
+    this.findByCode();
     this.setData({
       shopId: options.shopId,
       id: options.id
     });
-    this.getmoreData();
   },
-  onShow: function () {
+  onShow() {
+    this.getuserInfo();
+    this.getmoreData();
     this.isbargain();
   },
   getmoreData(){  //查询 更多数据 
@@ -38,25 +42,48 @@ Page({
     this.dishList();
     this.hotDishList();
   },
-  chilkDish(e){  //点击某个热闹推荐菜
+  chilkDish(e){  //点击某个推荐菜
     let id = e.currentTarget.id;
     this.setData({
-      id:id
+      id: id,
+      page: 1,
+      flag: true,
+      hotDishList: []
     });
     wx.pageScrollTo({
       scrollTop: 0,
       duration: 300
     });
     this.getmoreData();
+    this.isbargain();
   },
   chickinItiate(e){  //点击某个发起砍价
-    let id = e.currentTarget.id,
+    if (!app.globalData.userInfo.mobile) {
+      this.setData({
+        issnap: true
+      })
+      return false
+    }
+    let _refId = e.currentTarget.id,
       _shopId = e.currentTarget.dataset.shopid,
       _agioPrice = e.currentTarget.dataset.agioprice,
       _sellPrice = e.currentTarget.dataset.sellprice;
-    wx.navigateTo({
-      url: '../AprogressBar/AprogressBar?refId=' + this.data.id + '&shopId=' + _shopId + '&skuMoneyMin=' + _agioPrice + '&skuMoneyOut=' + _sellPrice
-    })
+    let _parms = {
+      userId: app.globalData.userInfo.userId,
+      skuId: _refId
+    };
+    Api.vegetables(_parms).then((res) => {
+      if (res.data.data.length > 0) {
+        this.setData({
+          isbargain: true
+        });
+        this.toBargainList();
+      } else {
+        wx.navigateTo({
+          url: '../AprogressBar/AprogressBar?refId=' + _refId + '&shopId=' + _shopId + '&skuMoneyMin=' + _agioPrice + '&skuMoneyOut=' + _sellPrice
+        })
+      }
+    });
   },
   //查询单个砍价菜
   dishDetail() {    
@@ -125,8 +152,14 @@ Page({
     };
     Api.partakerList(_parms).then((res) => {
       if (res.data.code == 0 && res.data.data.list && res.data.data.list != 'null') {
+        let list = res.data.data.list, newList = [];
+        for (let i = 0; i < list.length; i++) {
+          if (list[i].id != this.data.id) {
+            newList.push(list[i]);
+          } 
+        }
         this.setData({
-          dishList: res.data.data.list
+          dishList: newList
         });
       } 
     })
@@ -146,8 +179,10 @@ Page({
       if (res.data.code == 0 && res.data.data.list && res.data.data.list != 'null') {
         let list = res.data.data.list, hotDishList = this.data.hotDishList;
         for (let i = 0; i < list.length; i++) {
-          list[i].distance = utils.transformLength(list[i].distance);
-          hotDishList.push(list[i]);
+          if (list[i].id != this.data.id) {
+            list[i].distance = utils.transformLength(list[i].distance);
+            hotDishList.push(list[i]);
+          }
         }
         this.setData({
           hotDishList: hotDishList
@@ -193,8 +228,27 @@ Page({
       }
     });
   },
+  //原价购买
+  originalPrice() {
+    if (!app.globalData.userInfo.mobile) {
+      this.setData({
+        issnap: true
+      })
+      return false
+    }
+    let sellPrice = this.data.skuMoneyNow;
+    wx.navigateTo({
+      url: '../../order-for-goods/order-for-goods?shopId=' + this.data.shopId + '&groupId=' + this.data.groupId + '&skuName=' + sellPrice + '元砍价券&sell=' + sellPrice + '&skutype=4&dishSkuId=' + this.data.refId + '&dishSkuName=' + this.data.skuName + '&bargainType=1'
+    })
+  },
   //发起砍价
   sponsorVgts:function(){
+    if (!app.globalData.userInfo.mobile) {
+      this.setData({
+        issnap: true
+      })
+      return false
+    }
     if (this.data.isbargain) {
       this.toBargainList();
     } else {
@@ -231,5 +285,68 @@ Page({
       page: 1
     });
     this.hotDishList();
+  },
+  findByCode: function () { //通过code查询进入的用户信息，判断是否是新用户
+    let that = this;
+    wx.login({
+      success: res => {
+        Api.findByCode({ code: res.code }).then((res) => {
+          if (res.data.code == 0) {
+            let data = res.data.data;
+            for (let key in data) {
+              for (let ind in app.globalData.userInfo) {
+                if (key == ind) {
+                  app.globalData.userInfo[ind] = data[key]
+                }
+              }
+            }
+            if (!data.mobile) { //是新用户，去注册页面
+            that.setData({
+              isnew: true
+            });
+                // wx.navigateTo({
+                //   url: '../../../../pages/personal-center/securities-sdb/securities-sdb?back=1'
+                // })
+            }
+          } else {
+            that.findByCode();
+          }
+        })
+      }
+    })
+  },
+  getuserInfo: function (val) {//从自己的服务器获取用户信息
+    let that = this;
+    wx.request({
+      url: that.data._build_url + 'user/get/' + app.globalData.userInfo.userId,
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        if (res.data.code == 0) {
+          let data = res.data.data;
+          if (val == 1) {
+            for (let key in data) {
+              for (let ind in app.globalData.userInfo) {
+                if (key == ind) {
+                  app.globalData.userInfo[ind] = data[key]
+                }
+              }
+            };
+          }
+        }
+      }
+    })
+  },
+  closetel: function (e) {
+    let id = e.target.id;
+    this.setData({
+      issnap: false
+    })
+    if (id == 1) {
+      wx.navigateTo({
+        url: '/pages/personal-center/registered/registered'
+      })
+    }
   }
 })

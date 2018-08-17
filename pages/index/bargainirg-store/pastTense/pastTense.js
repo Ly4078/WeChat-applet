@@ -23,6 +23,10 @@ Page({
     });
   },
   onShow: function() {
+    this.setData({
+      bargainList: [],
+      bigTimer: null
+    });
     this.vegetablesInquire(); //查询菜品
   },
   onHide:function(){
@@ -46,9 +50,7 @@ Page({
           }else{
             list[i].doing = false;
           }
-          
         }
-       
         this.setData({
           bargainList: list
         });

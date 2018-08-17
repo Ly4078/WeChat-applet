@@ -22,8 +22,7 @@ Page({
     flag: true,
     hotDishList: [],
     issnap: false,
-    isnew: false,
-    istouqu: false
+    isnew: false
   },
   onLoad: function(options) {
     this.findByCode();
@@ -46,7 +45,7 @@ Page({
   },
   onShow() {
     if (!app.globalData.userInfo.mobile) {
-      this.getuserinfo();
+      this.getuserInfo();
     }
   },
   findByCode: function () { //通过code查询进入的用户信息，判断是否是新用户
@@ -97,6 +96,17 @@ Page({
         }
       }
     })
+  },
+  closetel: function (e) {
+    let id = e.target.id;
+    this.setData({
+      issnap: false
+    })
+    if (id == 1) {
+      wx.navigateTo({
+        url: '/pages/personal-center/registered/registered'
+      })
+    }
   },
   //创建一笔砍价
   createBargain() {
@@ -214,12 +224,9 @@ Page({
           });
         }
       } else {
-        wx.showToast({
-          title: res.data.message,
-          icon: 'none'
-        })
         this.setData({
-          status: 3
+          status: 3,
+          otherStatus: 5
         });
       }
     });
@@ -271,7 +278,7 @@ Page({
     };
     Api.isHelpfriend(_parms).then((res) => {
       let code = res.data.code,
-        otherStatus = 1;
+        otherStatus = 1, status = 1;
       if (code == 0) {
         otherStatus = 1;
       } else if (code == 200065) {
@@ -280,11 +287,14 @@ Page({
         otherStatus = 3;
       } else if (code == 200067) {
         otherStatus = 4;
+        status = 2;
       } else {
         otherStatus = 5;
+        status = 3;
       }
       this.setData({
-        otherStatus: otherStatus
+        otherStatus: otherStatus,
+        status: status
       });
     });
   },
@@ -312,15 +322,15 @@ Page({
         _parms.shopId = _this.data.shopId;
         Api.helpfriend(_parms).then((e) => {
           if (e.data.code == 0) {
+            wx.showToast({
+              title: '砍价成功',
+              icon: 'none'
+            })
             _this.setData({
               otherStatus: 2
             });
             _this.bargain();
           }
-          wx.showToast({
-            title: e.data.message,
-            icon: 'none'
-          })
         });
       } else if (code == 200065) {
         this.setData({
@@ -340,7 +350,8 @@ Page({
         })
       } else if (code == 200067) {
         this.setData({
-          otherStatus: 4
+          otherStatus: 4,
+          status: 2
         });
         wx.showToast({
           title: res.data.message,
@@ -348,6 +359,7 @@ Page({
         })
       } else {
         this.setData({
+          status: 3,
           otherStatus: 5
         });
         wx.showToast({
@@ -364,10 +376,24 @@ Page({
       })
       return false
     }
-    let sellPrice = this.data.skuMoneyNow;
-    wx.navigateTo({
-      url: '../../order-for-goods/order-for-goods?shopId=' + this.data.shopId + '&groupId=' + this.data.groupId + '&skuName=' + sellPrice + '元砍价券&sell=' + sellPrice + '&skutype=4&dishSkuId=' + this.data.refId + '&dishSkuName=' + this.data.skuName
-    })
+    let _parms = {
+      skuId: this.data.refId, //菜品Id
+      parentId: this.data.initiator ? this.data.initiator : this.data.userId, //发起人的userId
+      shopId: this.data.shopId,
+      groupId: this.data.groupId
+    },
+      _this = this;
+    Api.bargainDetail(_parms).then((res) => {
+      if(res.data.code == 0) {
+        this.setData({
+          skuMoneyNow: res.data.data[0].skuMoneyNow
+        });
+      }
+      let sellPrice = this.data.skuMoneyNow;
+      wx.navigateTo({
+        url: '../../order-for-goods/order-for-goods?shopId=' + this.data.shopId + '&groupId=' + this.data.groupId + '&skuName=' + sellPrice + '元砍价券&sell=' + sellPrice + '&skutype=4&dishSkuId=' + this.data.refId + '&dishSkuName=' + this.data.skuName + '&bargainType=2'
+      })
+    });
   },
   //热门推荐
   hotDishList() {

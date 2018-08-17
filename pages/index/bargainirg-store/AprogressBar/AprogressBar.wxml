@@ -21,7 +21,7 @@
       </view>
     </view>
     <view class='userCuisined active'>
-      <view wx:if="{{status != 3 || otherStatus != 5}}" class='userTop'>
+      <view wx:if="{{status != 3 && otherStatus != 5}}" class='userTop'>
         <image class='userImages' src='{{peopleList[0].iconUrl}}'></image>
         <view class='userNameJ-j'>
           <text class='userNameJ-text'>{{peopleList[0].nickName}}</text>

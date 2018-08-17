@@ -18,7 +18,7 @@
           <view class='greens-cost'>
             <view>
               <text>¥</text>
-              <text>低价</text>
+              <text>底价</text>
             </view>
             <text class='original-money'>{{item.agioPrice}}</text>
           </view>
