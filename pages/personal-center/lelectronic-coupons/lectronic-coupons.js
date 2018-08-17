@@ -182,6 +182,18 @@ Page({
     };
     Api.getGold(_parms).then((res) => {
       if (res.data.code == 0) {
+        wx.showModal({
+          title: '',
+          showCancel: false,
+          content: '已使用，获得' + res.data.data + '个金币',
+          success: function (res) {
+            if (res.confirm) {
+              console.log('用户点击确定')
+            } else if (res.cancel) {
+              console.log('用户点击取消')
+            }
+          }
+        })
         console.log('核销成功，获取' + res.data.data + '个金币');
       }
     });

@@ -14,7 +14,7 @@
           <image class='lectronic-images' src='/images/icon/xiangqiLGBL.gif'></image>
         </view> -->
         <view class='lectronic-text'>
-          <text>{{ticket[0].skuName?ticket[0].skuName:ticketInfo.skuName}}</text>
+          <text>{{ticketInfo.dishSkuName?ticketInfo.dishSkuName:ticketInfo.skuName}}</text>
         </view>
       </view>
       <view class='lectronic-right' catchtap='sublevelSum'>
@@ -147,7 +147,7 @@
       <view class='brotherRight1'>
         <view class='brothWrap1'><image class='borthImg1' src='https://xqmp4-1256079679.file.myqcloud.com/text_449126809543213900.png'></image></view>
         <view class='brothText1'>
-          <text class='restrictText1'>{{ticketInfo.skuName}}</text>
+          <text class='restrictText1'>{{ticketInfo.dishSkuName?ticketInfo.dishSkuName:ticketInfo.skuName}}</text>
           <text>有限期至：<text>{{ticketInfo.endTime}}</text></text>
         </view>
       </view>

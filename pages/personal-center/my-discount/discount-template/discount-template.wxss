@@ -39,6 +39,12 @@
   font-size: 100rpx;
   margin-right: 19rpx;
 }
+.security-top-left .dishName{
+  margin-top: 30rpx;
+  display: block;
+  margin-bottom: 23rpx;
+  font-size: 50rpx;
+}
 .security-top-left view text{
   font-size: 22rpx;
 }
@@ -133,6 +139,10 @@
 }
 .shidiana text, .taocana text, .xiangqia text{
   color:#fff;
+  padding-left: 30rpx;
+}
+.kancai text{
+  color: #D9882B;
 }
 .taocan text{
   color:#487fdd;

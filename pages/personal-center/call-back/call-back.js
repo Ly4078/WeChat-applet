@@ -193,17 +193,32 @@ Page({
     // return false
     Api.hxadd(_parms).then((res) => {
       if (res.data.code == 0) {
-        wx.showToast({
-          title: '核销成功',
-          icon: 'none',
-          complete: function() {
-            setTimeout(function() {
+        wx.showModal({
+          title: '',
+          showCancel: false,
+          content: '核销成功',
+          success: function (res) {
+            if (res.confirm) {
               wx.switchTab({
                 url: '../personal-center'
               })
-            }, 1000);
+            } else if (res.cancel) {
+              console.log('用户点击取消')
+            }
           }
         })
+
+        // wx.showToast({
+        //   title: '核销成功',
+        //   icon: 'none',
+        //   complete: function() {
+        //     setTimeout(function() {
+        //       wx.switchTab({
+        //         url: '../personal-center'
+        //       })
+        //     }, 1000);
+        //   }
+        // })
       } else {
         wx.showModal({
           title: '提示',
