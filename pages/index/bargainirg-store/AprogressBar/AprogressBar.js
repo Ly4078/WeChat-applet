@@ -44,9 +44,7 @@ Page({
     this.hotDishList(); //热门推荐
   },
   onShow() {
-    if (!app.globalData.userInfo.mobile) {
-      this.getuserInfo();
-    }
+    this.getuserInfo(1);
   },
   findByCode: function () { //通过code查询进入的用户信息，判断是否是新用户
     let that = this;
