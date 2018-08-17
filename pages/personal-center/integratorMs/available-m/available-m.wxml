@@ -11,11 +11,11 @@
     </view>
     <view class='available-first'>
      <view>3.如何获得金币?</view>
-     <text>金币是享7美食通过砍价、购买等行为获得的奖励,金币仅限在享7美食平台使用。</text>
+     <text>a) 使用优惠劵\n b) 发起砍价并成功购买\n c) 帮好友砍价。</text>
     </view>
-    <view class='available-first'>
+    <!-- <view class='available-first'>
      <view>4.金币有效期有多久</view>
-     <text>金币是享7美食通过砍价、购买等行为获得的奖励,金币仅限在享7美食平台使用。</text>
-    </view>
+     <text>金币有限期至获得金币起无使用期限</text>
+    </view> -->
   </view>
 </view>

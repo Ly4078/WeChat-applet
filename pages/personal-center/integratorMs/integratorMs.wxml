@@ -19,7 +19,7 @@
             <text>金币明细</text>
           </view>
           <view class='msRight'>
-            <text>仅显示最近<text>{{total}}</text>条数据</text>
+            <text><text>{{total}}</text>条记录</text>
           </view>
         </view>
         <!-- 明细-->
