@@ -14,24 +14,9 @@ Page({
     })
   },
   onShow: function () {
-    this.numberOfBargain(); //邀请人数
-    this.getuserNUm();
+    this.getuserNUm();//邀请人数
   },
-  numberOfBargain: function () {
-    let that = this
-    let userId = app.globalData.userInfo.userId;
-    wx.request({
-      url: this.data._build_url +'pullUser/update/?userId=' + userId,
-      method: 'POST',
-      success: function (res) {
-        if (res.data.code == 0) {
-          that.setData({
-            // _data: res.data.data,
-          });
-        }
-      }
-    })
-  },
+
   getuserNUm: function () {
     console.log('_build_url:', this.data._build_url)
     let that = this,userId=app.globalData.userInfo.userId;
