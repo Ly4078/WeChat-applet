@@ -172,8 +172,11 @@ Page({
       this.setData({
         city: app.globalData.userInfo.city,
         posts_key: [],
+        bargainList: [],//砍价拼菜
+        bargainListall: [],//拼菜砍价
         _page: 1
       })
+      this.hotDishList();
     }
     wx.request({
       // url: this.data._build_url + 'act/flag', 
@@ -1261,25 +1264,27 @@ Page({
       browSort: 2,
       locationX: app.globalData.userInfo.lng,
       locationY: app.globalData.userInfo.lat,
+      city: app.globalData.userInfo.city,
       page: this.data._page,
+      isDeleted:0,
       rows: 10
     };
     Api.partakerList(_parms).then((res) => {
       if(res.data.code == 0){
         let _list = res.data.data.list, _oldData = this.data.bargainListall, arr = [];
-        if (this.data._page == 1){
+        if(_list){
+          if (this.data._page == 1) {
+            this.setData({
+              bargainList: _list.splice(0, 3)
+            })
+          }
+          for (let i = 0; i < _list.length; i++) {
+            _oldData.push(_list[i])
+          }
           this.setData({
-            bargainList: _list.splice(0, 3)
+            bargainListall: _oldData
           })
         }
-        for (let i = 0; i < _list.length; i++) {
-          _oldData.push(_list[i])
-        }
-        // console.log("bargainList:", this.data.bargainList)
-        // arr = _oldData.concat(_list);
-        this.setData({
-          bargainListall: _oldData
-        })
       }
     })
   },

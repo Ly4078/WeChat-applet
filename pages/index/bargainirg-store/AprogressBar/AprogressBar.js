@@ -404,6 +404,7 @@ Page({
       locationX: app.globalData.userInfo.lng,
       locationY: app.globalData.userInfo.lat,
       city: app.globalData.userInfo.city,
+      isDeleted:0,
       page: this.data.page,
       rows: 6
     };

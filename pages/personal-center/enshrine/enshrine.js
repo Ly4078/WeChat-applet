@@ -23,7 +23,7 @@ Page({
   getShareList: function() {
     let that = this;
     wx.request({
-      url: that.data._build_url + 'fvs/list?userId=' + app.globalData.userInfo.userId + '&page=' + that.data.page + '&rows=10',
+      url: that.data._build_url + 'fvs/list?userId=' + app.globalData.userInfo.userId + '&page=' + that.data.page + '&rows=5',
       success: function(res) {
         // console.log(res);
         // console.log(that.data.posts_key);

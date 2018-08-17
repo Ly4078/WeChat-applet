@@ -208,7 +208,7 @@ Page({
     app.globalData.userInfo.lat = lat;
     app.globalData.userInfo.lng = lng;
     app.globalData.userInfo.city = city;
-    console.log(" app.globalData.userInfo：", app.globalData.userInfo)
+    // console.log(" app.globalData.userInfo：", app.globalData.userInfo)
     wx.switchTab({  //跳转到 tabBar 页面，并关闭其他所有非 tabBar 页面
       url: '../../index/index'
     })

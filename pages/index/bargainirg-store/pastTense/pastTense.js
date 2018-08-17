@@ -4,7 +4,7 @@ import {
 import Api from '../../../../utils/config/api.js'
 var utils = require('../../../../utils/util.js')
 var app = getApp();
-
+var timer = null;
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
@@ -15,14 +15,14 @@ Page({
     countDownHour: 0,
     countDownMinute: 0,
     countDownSecond: 0,
-    bigTimer:null
+    bigTimer:null,
+    page:1
   },
-  onLoad: function() {
-    this.setData({
-      userId: app.globalData.userInfo.userId
-    });
+  onLoad: function () {
+    console.log('222')
   },
   onShow: function() {
+    console.log('1111')
     this.setData({
       bargainList: [],
       bigTimer: null
@@ -31,12 +31,16 @@ Page({
   },
   onHide:function(){
     this.setData({
-      bigTimer:null
+      bigTimer:null,
+      bargainList: [],
     })
+    clearInterval(timer);
   },
   vegetablesInquire: function() { //查询菜品列表
     let _parms = {
-      userId: this.data.userId
+      userId: app.globalData.userInfo.userId,
+      page:this.data.page,
+      rows:5
     },that= this;
     Api.bargainList(_parms).then((res) => {
       if (res.data.code == 0 && res.data.data) {
@@ -70,7 +74,7 @@ Page({
     minus = '', //时间差(秒)
     _list = this.data.bargainList,
     that = this, 
-    timer=null,
+   
     frequency=0;
     timer = setInterval(function () {
       if (frequency>30*60){
@@ -82,8 +86,14 @@ Page({
           miliNow = new Date().getTime();
           miliEndTime = (new Date(_list[i].endTime.replace(/\-/g, "/"))).getTime();
           minus = Math.floor((miliEndTime - miliNow) / 1000); //时间差(秒)
+   
           if(minus<=0){
             _list[i].doing= false;
+            _list[i].countDown='';
+            that.setData({
+              bargainList: _list
+            });
+            _list = this.data.bargainList;
             continue; 
           }
           hours = Math.floor(minus / 3600); //时
@@ -109,6 +119,11 @@ Page({
       list = this.data.bargainList;
     for (let i = 0; i < list.length; i++) {
       if (list[i].skuId == id) {
+        this.setData({
+          bigTimer:null,
+          bargainList:[]
+        })
+        clearInterval(timer);
         wx.navigateTo({
           url: '../AprogressBar/AprogressBar?groupId=' + list[i].groupId + '&shopId=' + list[i].shopId + '&refId=' + list[i].skuId + '&skuMoneyOut=' + list[i].skuMoneyOut + '&skuMoneyMin=' + list[i].skuMoneyMin
         })
