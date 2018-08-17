@@ -414,7 +414,7 @@ page{
 }
 
 .canvasImages{
-  width: 122rpx;
+  width: 134rpx;
   height: 48rpx;
 }
 
@@ -462,14 +462,6 @@ page{
   height: 182rpx;
 }
 
-.notCutdong{
-  position: absolute;
-  top: 54rpx;
-  left:45%;
-  text-align: center;
-  color:rgba(255,253,253,1);
-}
-
 .notCutdong view{
   font-size: 60rpx;
 }
@@ -483,7 +475,21 @@ page{
   padding: 30rpx 0rpx 10rpx 0rpx;
 }
 
+.notCutdongWRaps{
+  width: 300rpx;
+  height: 300rpx;
+  position: absolute;
+  top:-78rpx;
+  left:28%;
+  text-align: center;
+  color:rgba(255,253,253,1);
+}
 
+.notCutdongWRaps-text{
+  display: block;
+  padding-top:138rpx;
+  font-size: 60rpx;
+}
 
 .mask{
     width: 100%;
@@ -524,7 +530,7 @@ page{
 
 .windows_text{
   overflow-y: auto;
-  width: 100%;
+  width: 100%;                              
 }
 
 .understand{

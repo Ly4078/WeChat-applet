@@ -93,10 +93,10 @@
       <view wx:if="{{!isMine && otherStatus == 1}}" class='notInvitation'>
         <view catchtap='helpfriend'>
           <image class='notCutImg' src='https://xqmp4-1256079679.file.myqcloud.com/text_329725168984554576.png'></image>
-          <view class='notCutdong'>
-            <view>砍</view>
-            <text>￥{{skuMoneyNow}}</text>
-          </view>
+            <view class='notCutdongWRaps'>
+              <view class='notCutdongWRaps-text'>砍</view>
+              <text>￥{{skuMoneyNow}}</text>
+            </view>
         </view>
       </view>
 
