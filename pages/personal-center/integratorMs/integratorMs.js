@@ -26,11 +26,11 @@ Page({
       duration: 2000
     })
   },
-
-  onShow: function () {
+  onLoad:function(){
     this.getTicketaBlancees(); //金币余额
     this.getTicketList(); //获取劵列表
   },
+
   getTicketaBlancees: function () { //金币余额   入参:userId
     let _parmes = {
       userId: app.globalData.userInfo.userId,   //userId
@@ -50,7 +50,6 @@ Page({
     Api.speciesList(_parms).then((res) => {
       wx.hideLoading();
       if (res.data.code == 0) {
-        console.log('res:',res)
         let _data = res.data.data.list;
         if (!_data){
           return false;
@@ -69,7 +68,9 @@ Page({
           total:res.data.data.total
         })
       }
+      
     });
+    
   },
   
   heaven:function(){ //关于金币

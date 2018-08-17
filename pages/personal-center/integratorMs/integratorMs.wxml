@@ -8,7 +8,7 @@
         <text class='number'>{{aggregate.data?aggregate.data:0}}</text>
       </view>
       <view class='signRight'>
-        <button class='sinButton' catchtap='goldPath'>金币商城</button>
+        <button class='sinButton' bindtap='goldPath'>金币商城</button>
       </view>
     </view>
     <view class='particulars'>
