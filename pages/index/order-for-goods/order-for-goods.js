@@ -54,7 +54,7 @@ Page({
         shopId: options.shopId,
         dishSkuId: options.dishSkuId,
         dishSkuName: options.dishSkuName,
-        groupId: options.groupId,
+        groupId: options.groupId ? options.groupId : '',
         bargainType: options.bargainType
       });
     }
@@ -446,14 +446,15 @@ Page({
         soId: soid, 
         openId: app.globalData.userInfo.openId, 
         skuId: this.data.dishSkuId, 
-        shopId: this.data.shopId
+        shopId: this.data.shopId,
+        type: 1
       }
       //type=1原价购买，grounpId不传
       if (this.data.bargainType == 1) {
-        _parms[type] = 1;
+        _parms.type = 1;
       } else if(this.data.bargainType == 2) {
-        _parms[type] = 2;
-        _parms[groupId] = this.data.groupId;
+        _parms.type = 2;
+        _parms.groupId = this.data.groupId;
       }
       Api.buyBargainTick(_parms).then((res) => {
         if (res.data.code == 0) {
@@ -475,6 +476,11 @@ Page({
                 duration: 1200
               })
             }
+          })
+        } else {
+          wx.showToast({
+            title: res.data.message,
+            icon: 'none'
           })
         }
       });
