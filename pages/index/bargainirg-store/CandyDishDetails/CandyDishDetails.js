@@ -172,6 +172,7 @@ Page({
       browSort: 1,
       locationX: app.globalData.userInfo.lng,
       locationY: app.globalData.userInfo.lat,
+      city: app.globalData.userInfo.city,
       page: this.data.page,
       rows: 6
     };

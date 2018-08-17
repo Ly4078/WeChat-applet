@@ -8,111 +8,103 @@ var timer = null;
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
-    maxtime: "",
     isHiddenLoading: true,
     isHiddenToast: true,
     bargainList: [],
     countDownHour: 0,
     countDownMinute: 0,
     countDownSecond: 0,
-    bigTimer:null,
-    page:1
+    page: 1,
+    timeArr: [] //时间集合
   },
-  onLoad: function () {
-    console.log('222')
+  onLoad: function() {
+
   },
   onShow: function() {
-    console.log('1111')
     this.setData({
-      bargainList: [],
-      bigTimer: null
+      bargainList: []
     });
     this.vegetablesInquire(); //查询菜品
   },
-  onHide:function(){
+  onHide: function() {
     this.setData({
-      bigTimer:null,
-      bargainList: [],
+      bargainList: []
     })
     clearInterval(timer);
   },
   vegetablesInquire: function() { //查询菜品列表
     let _parms = {
-      userId: app.globalData.userInfo.userId,
-      page:this.data.page,
-      rows:5
-    },that= this;
+        userId: app.globalData.userInfo.userId,
+        page: this.data.page,
+        rows: 5
+      },
+      that = this;
     Api.bargainList(_parms).then((res) => {
       if (res.data.code == 0 && res.data.data) {
-        let list = res.data.data, _now = (new Date()).getTime();
-       
+        let list = res.data.data,
+          _now = (new Date()).getTime();
         for (let i = 0; i < list.length; i++) {
           list[i].subtract = (list[i].skuMoneyOut - list[i].skuMoneyNow).toFixed(2);
           let _endTime = (new Date(list[i].endTime.replace(/\-/g, "/"))).getTime();
-          if (_now < _endTime ){
-            list[i].doing = true;
-          }else{
-            list[i].doing = false;
-          }
         }
         this.setData({
           bargainList: list
         });
-        that.updateTime();
+        let arr = [];
+        for (let i = 0; i < list.length; i++) {
+          arr.push({
+            endTime: list[i].endTime.replace(/\-/g, "/"),
+            countDown: ''
+          });
+        }
+        that.updateTime(arr);
       }
     });
   },
 
-  updateTime() {  //倒时计
+  updateTime(arr) { //倒时计
     let hours = '',
-    minutes = '',
-    seconds = '',
-    countDown = '',
-    countDown2 = '',
-    miliEndTime = '',
-    miliNow = '',
-    minus = '', //时间差(秒)
-    _list = this.data.bargainList,
-    that = this, 
-   
-    frequency=0;
-    timer = setInterval(function () {
-      if (frequency>30*60){
-        clearInterval(timer);
-        timer = null;
-      }
-      for (let i = 0; i < _list.length;i++){
-        if (_list[i].doing){
-          miliNow = new Date().getTime();
-          miliEndTime = (new Date(_list[i].endTime.replace(/\-/g, "/"))).getTime();
+      minutes = '',
+      seconds = '',
+      timeArr = arr,
+      countDown = '',
+      miliEndTime = '',
+      miliNow = '',
+      minus = '', //时间差(秒)
+      that = this,
+      timer = setInterval(function() {
+        let isEnd = 0;
+        for (let i = 0; i < arr.length; i++) {
+          miliNow = new Date().getTime(); //现在时间
+          miliEndTime = (new Date(timeArr[i].endTime)).getTime(); //结束时间
           minus = Math.floor((miliEndTime - miliNow) / 1000); //时间差(秒)
-   
-          if(minus<=0){
-            _list[i].doing= false;
-            _list[i].countDown='';
-            that.setData({
-              bargainList: _list
-            });
-            _list = this.data.bargainList;
-            continue; 
+          if (minus <= 0) {
+            isEnd++;
+            timeArr[i].countDown = '';
+          } else {
+            isEnd--;
+            hours = Math.floor(minus / 3600); //时
+            minutes = Math.floor(minus / 60); //分
+            seconds = minus % 60; //秒
+            hours = hours < 10 ? '0' + hours : hours;
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            seconds = seconds < 10 ? '0' + seconds : seconds;
+            timeArr[i].countDown = hours + ':' + minutes + ':' + seconds;
           }
-          hours = Math.floor(minus / 3600); //时
-          minutes = Math.floor(minus / 60); //分
-          seconds = minus % 60; //秒
-          hours = hours < 10 ? '0' + hours : hours;
-          minutes = minutes < 10 ? '0' + minutes : minutes;
-          seconds = seconds < 10 ? '0' + seconds : seconds;
-          countDown = hours + ':' + minutes + ':' + seconds;
-          countDown2 =  minutes + ':' + seconds;
-          frequency++;
-          _list[i].countDown = countDown2;
+          that.setData({
+            timeArr: timeArr
+          });
+          timeArr = that.data.timeArr;
         }
-      }
-      that.setData({
-        bargainList: _list,
-        bigTimer:timer
-      });
-    },1000)
+        that.setData({
+          timeArr: timeArr,
+        });
+        if (isEnd == timeArr.length) {
+          clearInterval(timer);
+          return false;
+        }
+        minus--;
+      }, 1000)
   },
   bargainDetail(e) {
     let id = e.currentTarget.id,
@@ -120,8 +112,7 @@ Page({
     for (let i = 0; i < list.length; i++) {
       if (list[i].skuId == id) {
         this.setData({
-          bigTimer:null,
-          bargainList:[]
+          bargainList: []
         })
         clearInterval(timer);
         wx.navigateTo({

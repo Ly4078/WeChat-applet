@@ -124,6 +124,7 @@ Page({
         })
         this.setData({
           status: 1,
+          otherStatus: 1,
           groupId: res.data.data.groupId //生成团砍Id
         });
         this.bargain();
@@ -177,11 +178,13 @@ Page({
             //好友进入砍菜页面人数满5人并且超过半小时不能砍价
             if (this.data.peoplenum >= 5) {
               this.setData({
-                status: 4
+                status: 4,
+                otherStatus: 3
               });
             } else {
               this.setData({
-                status: 1
+                status: 1,
+                otherStatus: 1
               });
               let hours = '',
                 minutes = '',
@@ -192,7 +195,7 @@ Page({
                   clearInterval(timer);
                   minus = 0;
                   _this.setData({
-                    otherStatus: 2,
+                    otherStatus: 4,
                     status: 2
                   });
                 }
@@ -275,8 +278,7 @@ Page({
       groupId: this.data.groupId
     };
     Api.isHelpfriend(_parms).then((res) => {
-      let code = res.data.code,
-        otherStatus = 1, status = 1;
+      let code = res.data.code, otherStatus = 1;
       if (code == 0) {
         otherStatus = 1;
       } else if (code == 200065) {
@@ -285,14 +287,17 @@ Page({
         otherStatus = 3;
       } else if (code == 200067) {
         otherStatus = 4;
-        status = 2;
+        this.setData({
+          status: 2
+        });
       } else {
         otherStatus = 5;
-        status = 3;
+        this.setData({
+          status: 3
+        });
       }
       this.setData({
-        otherStatus: otherStatus,
-        status: status
+        otherStatus: otherStatus
       });
     });
   },

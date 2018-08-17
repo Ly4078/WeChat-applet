@@ -51,7 +51,6 @@ page{
 }
 
 .voteText{
-  width:90rpx;
   height:32rpx;
   line-height:32rpx;
   margin-top:13rpx;

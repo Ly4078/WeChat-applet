@@ -9,11 +9,11 @@
           </view>
         </view>
         <!--倒计时  -->
-        <view wx:if="{{item.doing && item.countDown}}" class="countDownTimeView">
-          <view class="voteText">{{item.countDown}}</view>
+        <view wx:if="{{timeArr[idx].countDown}}" class="countDownTimeView">
+          <view class="voteText">{{timeArr[idx].countDown}}</view>
           <text>后结束</text>
         </view>
-        <view wx:if="{{!item.doing}}" class="countDownTimeView">
+        <view wx:else class="countDownTimeView">
           <text>砍价已结束</text>
         </view>
         <!-- 已砍价 已减价格 -->

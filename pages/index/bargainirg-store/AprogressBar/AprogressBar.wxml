@@ -57,7 +57,7 @@
         </view>
       </view>
       <!-- 砍价进度条 -->
-      <view wx:if="{{status != 3 || otherStatus != 5}}">
+      <view wx:if="{{status != 3 && otherStatus != 5}}">
         <view class='canvasWrap'>
           <view class='built-in'>
             <image class='canvasImages' src='/images/icon/present_set.png'></image>
@@ -112,13 +112,13 @@
         <view class="voteText">{{countDown}}</view>
         <text>结束</text>
       </view>
-      <view wx:else class="isEnd">
+      <view wx:if="{{status != 1 && otherStatus != 1}}" class="isEnd">
         本次砍价已结束
       </view>
     </view>
 
     <!-- 好友砍价记录 -->
-    <view wx:if="{{status != 3 || otherStatus != 5}}" class='friendBargain'>
+    <view wx:if="{{status != 3 && otherStatus != 5}}" class='friendBargain'>
       <view class='moneyRule'>
         <view class='moneyRulenei'>
           <view class='moneyRuleLeft'>领取人数

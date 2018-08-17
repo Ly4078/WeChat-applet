@@ -193,6 +193,7 @@ page{
   justify-content: space-around;
   letter-spacing: 2rpx;
   padding-top: 34rpx;
+  text-align: center;
 }
 
 .invitation button{
@@ -203,10 +204,12 @@ page{
   font-size:28rpx;
   font-family:PingFangSC-Medium;
   color:rgba(255,255,255,1);
+  text-align: center;
 }
 
 .invitation text{
   padding-right: 14rpx;
+  text-align: center;
 }
 
 .invitation button:nth-child(1){
