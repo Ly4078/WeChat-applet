@@ -143,12 +143,16 @@ Page({
     wx.request({
       url: this.data._build_url + 'pullUser/get/' + app.globalData.userInfo.userId,
       success: function (res) {
-        let userId = res.data.data.userId
-        let picUrl = res.data.data.picUrl
-        that.setData({
-          userId : userId,
-          picUrl: picUrl
-        })
+        if (res.data.code == 0) {
+          if (res.data.data) {
+            let _userId = res.data.data.userId;
+            let _picUrl = res.data.data.picUrl;
+            that.setData({
+              userId: _userId,
+              picUrl: _picUrl
+            })
+          }
+        }
       }
     })
   },
