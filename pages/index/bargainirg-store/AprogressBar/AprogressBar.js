@@ -54,6 +54,7 @@ Page({
         Api.findByCode({ code: res.code }).then((res) => {
           if (res.data.code == 0) {
             let data = res.data.data;
+            console.log('findByCode_data:',data)
             for (let key in data) {
               for (let ind in app.globalData.userInfo) {
                 if (key == ind) {
@@ -62,6 +63,7 @@ Page({
               }
             }
             if (!data.mobile) { //是新用户，去注册页面
+            
               wx.navigateTo({
                 url: '../../../../pages/personal-center/securities-sdb/securities-sdb?back=1'
               })
@@ -84,6 +86,7 @@ Page({
       success: function (res) {
         if (res.data.code == 0) {
           let data = res.data.data;
+          console.log('getuserInfo_data:',data)
           if(!data.mobile){
             wx.navigateTo({
               url: '../../../../pages/personal-center/securities-sdb/securities-sdb?back=1'

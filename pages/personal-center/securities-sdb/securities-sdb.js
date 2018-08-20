@@ -155,8 +155,8 @@ Page({
   },
   
   getVerificationCode() {   //点击获取验证码
+    console.log('getVerificationCode')
     let that = this;
-   
     if(this.data.isabss){
       return
     }
@@ -212,6 +212,7 @@ Page({
   },
   
   registered:function(){//点击注册（领红包）按钮  ,核验验证码
+    console.log('registered')
       let that = this;
       if (this.data.phoneNum){
         if (this.data.codeNum){
@@ -222,6 +223,7 @@ Page({
               userId: app.globalData.userInfo.userId,
               userName: app.globalData.userInfo.userName
             }
+            console.log('_parms:', _parms)
             Api.isVerify(_parms).then((res) => {
               if (res.data.code == 0) {
                 app.globalData.userInfo.userId=res.data.data;
