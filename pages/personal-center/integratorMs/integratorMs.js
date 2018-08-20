@@ -10,14 +10,11 @@ Page({
     _build_url: GLOBAL_API_DOMAIN,
     speciesList:'',
     data: [],
+    page: 1,
+    flag: true,
     isdata: false,
     total:0,
   },
-
-  onReady: function () {
-
-  },
-
   // 金币商城直通车
   goldPath: function () {
     wx.showToast({
@@ -46,6 +43,8 @@ Page({
     let _parms = {
       userId: app.globalData.userInfo.userId,   //userId     
       type: 2,
+      page: this.data.page,
+      rows: 10
     };
     Api.speciesList(_parms).then((res) => {
       wx.hideLoading();
@@ -62,15 +61,22 @@ Page({
           this.setData({
             isdata: true
           })
+        } 
+        if(_data.length <= 0) {
+          this.setData({
+            flag: false
+          })
         }
         this.setData({
           data: posts,
           total:res.data.data.total
         })
+      } else {
+        this.setData({
+          flag: false
+        })
       }
-      
     });
-    
   },
   
   heaven:function(){ //关于金币
@@ -78,4 +84,25 @@ Page({
       url: 'available-m/available-m',
     })
   },
+  //用户上拉触底
+  onReachBottom: function () {
+    if (this.data.flag) {
+      wx.showLoading({
+        title: '加载中..'
+      })
+      this.setData({
+        page: this.data.page + 1
+      });
+      this.getTicketList();
+    }
+  },
+  //用户下拉刷新
+  onPullDownRefresh: function () {
+    this.setData({
+      data: [],
+      page: 1,
+      flag: true
+    });
+    this.getTicketList();
+  }
 })

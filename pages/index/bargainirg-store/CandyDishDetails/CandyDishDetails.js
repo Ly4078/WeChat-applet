@@ -264,13 +264,24 @@ Page({
       })
       return false
     }
-    if (this.data.isbargain) {
-      this.toBargainList();
-    } else {
-      wx.navigateTo({
-        url: '../AprogressBar/AprogressBar?refId=' + this.data.id + '&shopId=' + this.data.shopId + '&skuMoneyMin=' + this.data.agioPrice + '&skuMoneyOut=' + this.data.sellPrice
-      })
-    }
+    let _parms = {
+      userId: app.globalData.userInfo.userId,
+      skuId: this.data.id
+    };
+    Api.vegetables(_parms).then((res) => {
+      if (res.data.code == 0) {
+        if (res.data.data.length > 0) {
+          this.setData({
+            isbargain: true
+          });
+          this.toBargainList();
+        } else {
+          wx.navigateTo({
+            url: '../AprogressBar/AprogressBar?refId=' + this.data.id + '&shopId=' + this.data.shopId + '&skuMoneyMin=' + this.data.agioPrice + '&skuMoneyOut=' + this.data.sellPrice
+          })
+        }
+      }
+    });
   },
   // 左上角返回首页
   returnHomeArrive: function () {
