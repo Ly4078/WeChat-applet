@@ -525,7 +525,7 @@ Page({
     // this.getshoplist();
     this.gettopiclist();
     this.gettoplistFor();
-    this.hotDishList();
+    // this.hotDishList();
     return false;
 
 
@@ -847,6 +847,7 @@ Page({
         if (res.data.status == 0) {
           let _city = res.data.result.address_component.city;
           app.globalData.userInfo.city = _city;
+          this.hotDishList();
           this.setData({
             city: _city,
             alltopics: [],
