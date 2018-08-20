@@ -142,7 +142,7 @@ Page({
   },
   bindblur:function(e){  //输入框失去焦点  获取输入框内容
     let _phone = e.detail.value
-    if (/^1[34578]\d{9}$/.test(_phone)){
+    if (/^1[1234567890]\d{9}$/.test(_phone)){
       this.setData({
         phone: _phone
       })

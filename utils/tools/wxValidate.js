@@ -88,7 +88,7 @@ class wxValidate {
 			 * 验证手机格式
 			 */
       tel(value) {
-        return that.optional(value) || /^1[34578]\d{9}$/.test(value)
+        return that.optional(value) || /^1[1234567890]\d{9}$/.test(value)
       },
 			/**
 			 * 验证URL格式

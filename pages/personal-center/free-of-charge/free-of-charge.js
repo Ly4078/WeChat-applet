@@ -238,7 +238,7 @@ Page({
   },
   blurmobile: function (e) {  //验证手机号
     let Phone = e.detail.value
-    let RegExp = /^((0\d{2,3}\d{7,8})|(1[3584]\d{9}))$/;
+    let RegExp = /^((0\d{2,3}\d{7,8})|(1[1234567890]\d{9}))$/;
     if (RegExp.test(Phone) == false) {
       wx.showToast({
         title: '请正确输入号码',

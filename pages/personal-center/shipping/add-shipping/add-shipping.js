@@ -135,7 +135,7 @@ Page({
     var warn = null; //warn为当手机号为空或格式不正确时提示用户的文字，默认为空
     if (phone == '') {
       warn = "号码不能为空";
-    } else if (phone.trim().length != 11 || !/^1[3|4|5|6|7|8|9]\d{9}$/.test(phone)) {
+    } else if (phone.trim().length != 11 || !/^1[1|2|3|4|5|6|7|8|9|0]\d{9}$/.test(phone)) {
       warn = "手机号格式不正确";
     } else {
       //当手机号正确的时候提示用户短信验证码已经发送

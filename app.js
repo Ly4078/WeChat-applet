@@ -22,6 +22,7 @@ App({
     picker:{},
     isflag:true,
     userInfo: {
+      id:'',
       openId: '',
       sessionKey:'',
       password: '',
