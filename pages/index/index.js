@@ -172,7 +172,7 @@ Page({
       this.setData({
         city: app.globalData.userInfo.city,
         posts_key: [],
-        bargainList: [],//砍价拼菜
+        // bargainList: [],//砍价拼菜
         bargainListall: [],//拼菜砍价
         _page: 1
       })
@@ -717,12 +717,13 @@ Page({
     })
   },
   onReachBottom: function () {  //用户上拉触底加载更多
+    console.log('onReachBottom')
     if (!app.globalData.userInfo.mobile) {
       return false
     }
-    this.setData({
-      _page:this.data._page+1
-    })
+      this.setData({
+        _page: this.data._page + 1
+      })
     // this.getshoplist();
     this.hotDishList();
     if (!this.data.alltopics) {
@@ -1269,6 +1270,7 @@ Page({
       isDeleted:0,
       rows: 10
     };
+   
     Api.partakerList(_parms).then((res) => {
       if(res.data.code == 0){
         let _list = res.data.data.list, _oldData = this.data.bargainListall, arr = [];

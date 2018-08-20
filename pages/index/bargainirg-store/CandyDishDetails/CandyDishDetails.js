@@ -32,6 +32,11 @@ Page({
     });
   },
   onShow() {
+    this.setData({
+      flag: true,
+      hotDishList: [],
+      page: 1
+    });
     this.getuserInfo();
     this.getmoreData();
     this.isbargain();

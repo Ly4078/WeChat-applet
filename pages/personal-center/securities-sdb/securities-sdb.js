@@ -20,6 +20,7 @@ Page({
     isClick:false,
     istouqu:false,
     isBack:false,
+    isabss:false,
     referrer:''
   },
 
@@ -131,6 +132,7 @@ Page({
       clearInterval(interval);
       this.setData({
         isClick: false,
+        isabss: false,
         codeNum:'',
         verifyId:'',
         butTxt: '获取验证码'
@@ -154,6 +156,13 @@ Page({
   
   getVerificationCode() {   //点击获取验证码
     let that = this;
+   
+    if(this.data.isabss){
+      return
+    }
+    this.setData({
+      isabss:true
+    })
     if (this.data.phoneNum) {
       let _parms = {
         shopMobile: that.data.phoneNum,

@@ -165,6 +165,7 @@ Page({
             peopleList: data.slice(1)
           });
           for (let i = 0; i < this.data.peopleList.length; i++) {
+            this.data.peopleList[i].userName = this.data.peopleList[i].userName.substr(0, 3) + "****" + this.data.peopleList[i].userName.substr(7);
             if (this.data.peopleList[i].userId == this.data.userId) {
               this.setData({
                 getGoldNum: this.data.peopleList[i].goldAmount

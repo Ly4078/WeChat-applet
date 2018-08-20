@@ -136,7 +136,7 @@
             <view class='userRuleRight'>
               <view class='userRuleRight-Top'>
                 <view>
-                  <text>{{item.nickName}}</text>
+                  <text>{{item.nickName?item.nickName:item.userName}}</text>
                 </view>
                 <text>{{item.parentId ? '砍掉'+item.skuAmount+'元' : '发起人'}}</text>
               </view>
