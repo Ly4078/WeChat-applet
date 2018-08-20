@@ -10,7 +10,7 @@
   width: 100%;
   height: 460rpx;
 }
-
+ 
 .dishBox {
   width: 100%;
   box-sizing: border-box;
@@ -109,7 +109,6 @@
 
 .shopInfoBox {
   display: flex;
-  /* flex-direction: row; */
   justify-content: space-between;
   padding: 26rpx 0 24rpx 28rpx;
 }
