@@ -1,8 +1,6 @@
 import Api from '../../../../utils/config/api.js';
 var utils = require('../../../../utils/util.js');
-import {
-  GLOBAL_API_DOMAIN
-} from '../../../../utils/config/config.js';
+import { GLOBAL_API_DOMAIN} from '../../../../utils/config/config.js';
 var app = getApp()
 Page({
   data: {
@@ -25,7 +23,7 @@ Page({
     isnew: false
   },
   onLoad: function(options) {
-    this.findByCode();
+    console.log('options:',options)
     this.setData({
       refId: options.refId, //菜品Id
       shopId: options.shopId, //商家Id
@@ -41,10 +39,13 @@ Page({
     } else {
       this.createBargain();
     }
-    this.hotDishList(); //热门推荐
   },
   onShow() {
-    this.getuserInfo(1);
+    if (app.globalData.userInfo.userId){
+      this.getuserInfo(1);
+    }else{
+      this.findByCode();
+    }
   },
   findByCode: function () { //通过code查询进入的用户信息，判断是否是新用户
     let that = this;
@@ -73,6 +74,7 @@ Page({
     })
   },
   getuserInfo: function (val) {//从自己的服务器获取用户信息
+    console.log("getuserInfo")
     let that = this;
     wx.request({
       url: that.data._build_url + 'user/get/' + app.globalData.userInfo.userId,
@@ -82,14 +84,21 @@ Page({
       success: function (res) {
         if (res.data.code == 0) {
           let data = res.data.data;
-          if (val == 1) {
-            for (let key in data) {
-              for (let ind in app.globalData.userInfo) {
-                if (key == ind) {
-                  app.globalData.userInfo[ind] = data[key]
+          if(!data.mobile){
+            wx.navigateTo({
+              url: '../../../../pages/personal-center/securities-sdb/securities-sdb?back=1'
+            })
+          }else{
+            if (val == 1) {
+              for (let key in data) {
+                for (let ind in app.globalData.userInfo) {
+                  if (key == ind) {
+                    app.globalData.userInfo[ind] = data[key]
+                  }
                 }
-              }
-            };
+              };
+              that.hotDishList(); //热门推荐
+            }
           }
         }
       }
@@ -141,8 +150,10 @@ Page({
       },
       _this = this;
     Api.bargainDetail(_parms).then((res) => {
+      console.log('res:',res)
       let code = res.data.code,
-        data = res.data.data;
+        data = res.data.data,
+        reg = /^1[34578][0-9]{9}$/;
       if (code == 0) {
         if (data) {
           let endTime = data[0].endTime.replace(/\-/g, "/"),
@@ -165,16 +176,21 @@ Page({
             peopleList: data.slice(1)
           });
           for (let i = 0; i < this.data.peopleList.length; i++) {
-            this.data.peopleList[i].userName = this.data.peopleList[i].userName.substr(0, 3) + "****" + this.data.peopleList[i].userName.substr(7);
+            if (this.data.peopleList[i].userName && reg.test(this.data.peopleList[i].userName)) {
+              this.data.peopleList[i].userName = this.data.peopleList[i].userName.substr(0, 3) + "****" + this.data.peopleList[i].userName.substr(7)
+            }
             if (this.data.peopleList[i].userId == this.data.userId) {
               this.setData({
                 getGoldNum: this.data.peopleList[i].goldAmount
               });
             }
           }
+
+        
           let miliEndTime = new Date(endTime).getTime(),
             miliNow = new Date().getTime();
           let minus = Math.floor((miliEndTime - miliNow) / 1000);
+          console.log('minus:', minus)
           if (minus > 0 && minus <= 1800) { //小于30分钟
             //好友进入砍菜页面人数满5人并且超过半小时不能砍价
             if (this.data.peoplenum >= 5) {
@@ -187,6 +203,7 @@ Page({
                 status: 1,
                 otherStatus: 1
               });
+              console.log("倒计时")
               let hours = '',
                 minutes = '',
                 seconds = '',
@@ -199,18 +216,19 @@ Page({
                     otherStatus: 4,
                     status: 2
                   });
+                }else{
+                  hours = Math.floor(minus / 3600); //时
+                  minutes = Math.floor(minus / 60); //分
+                  seconds = minus % 60; //秒
+                  hours = hours < 10 ? '0' + hours : hours;
+                  minutes = minutes < 10 ? '0' + minutes : minutes;
+                  seconds = seconds < 10 ? '0' + seconds : seconds;
+                  countDown = minutes + ':' + seconds;
+                  _this.setData({
+                    countDown: countDown
+                  });
+                  minus--;
                 }
-                hours = Math.floor(minus / 3600); //时
-                minutes = Math.floor(minus / 60); //分
-                seconds = minus % 60; //秒
-                hours = hours < 10 ? '0' + hours : hours;
-                minutes = minutes < 10 ? '0' + minutes : minutes;
-                seconds = seconds < 10 ? '0' + seconds : seconds;
-                countDown = hours + ':' + minutes + ':' + seconds;
-                _this.setData({
-                  countDown: countDown
-                });
-                minus--;
               }, 1000);
             }
           } else {

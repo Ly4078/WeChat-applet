@@ -717,7 +717,6 @@ Page({
     })
   },
   onReachBottom: function () {  //用户上拉触底加载更多
-    console.log('onReachBottom')
     if (!app.globalData.userInfo.mobile) {
       return false
     }
@@ -1281,6 +1280,7 @@ Page({
             })
           }
           for (let i = 0; i < _list.length; i++) {
+            _list[i].distance = utils.transformLength(_list[i].distance);
             _oldData.push(_list[i])
           }
           this.setData({

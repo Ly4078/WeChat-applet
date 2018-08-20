@@ -1,6 +1,6 @@
 import Api from '../../../../utils/config/api.js';
 var utils = require('../../../../utils/util.js');
-import {GLOBAL_API_DOMAIN} from '../../../../utils/config/config.js';
+import { GLOBAL_API_DOMAIN } from '../../../../utils/config/config.js';
 var app = getApp()
 Page({
   data: {
@@ -41,13 +41,13 @@ Page({
     this.getmoreData();
     this.isbargain();
   },
-  getmoreData(){  //查询 更多数据 
+  getmoreData() {  //查询 更多数据 
     this.dishDetail();
     this.shopDetail();
     this.dishList();
     this.hotDishList();
   },
-  chilkDish(e){  //点击某个推荐菜
+  chilkDish(e) {  //点击某个推荐菜
     let id = e.currentTarget.id;
     this.setData({
       id: id,
@@ -62,7 +62,7 @@ Page({
     this.getmoreData();
     this.isbargain();
   },
-  chickinItiate(e){  //点击某个发起砍价
+  chickinItiate(e) {  //点击某个发起砍价
     if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
@@ -91,22 +91,22 @@ Page({
     });
   },
   //查询单个砍价菜
-  dishDetail() {    
+  dishDetail() {
     let _parms = {
-      Id: this.data.id, 
-      zanUserId: app.globalData.userInfo.userId, 
+      Id: this.data.id,
+      zanUserId: app.globalData.userInfo.userId,
       shopId: this.data.shopId
     };
     Api.discountDetail(_parms).then((res) => {
-      if(res.data.code == 0 && res.data.data) {
+      if (res.data.code == 0 && res.data.data) {
         let data = res.data.data;
         this.setData({
           picUrl: data.picUrl,
-          skuName: data.skuName,     
-          stockNum: data.stockNum,   
-          agioPrice: data.agioPrice,  
-          sellPrice: data.sellPrice,  
-          sellNum: data.sellNum       
+          skuName: data.skuName,
+          stockNum: data.stockNum,
+          agioPrice: data.agioPrice,
+          sellPrice: data.sellPrice,
+          sellNum: data.sellNum
         });
       } else {
         wx.showToast({
@@ -135,7 +135,7 @@ Page({
         }
       }
     });
-    
+
   },
   //跳转至商家主页
   toShopDetail() {
@@ -162,12 +162,12 @@ Page({
         for (let i = 0; i < list.length; i++) {
           if (list[i].id != this.data.id) {
             newList.push(list[i]);
-          } 
+          }
         }
         this.setData({
           dishList: newList
         });
-      } 
+      }
     })
   },
   //热门推荐
@@ -224,15 +224,21 @@ Page({
   //是否发起过砍价
   isbargain() {
     let _parms = {
-      userId: app.globalData.userInfo.userId,  
+      userId: app.globalData.userInfo.userId,
       skuId: this.data.id
-    };
+    }, miliNow = '', miliEndTime = '', minus = '';
     Api.vegetables(_parms).then((res) => {
-      if (res.data.data.length > 0) {
-        this.setData({
-          isbargain: true
-        });
-        this.toBargainList();
+      if (res.data.code == 0) {
+        let _data = res.data.data[0];
+        miliNow = new Date().getTime(); //现在时间
+        miliEndTime = (new Date(_data.endTime)).getTime(); //结束时间
+        minus = Math.floor((miliEndTime - miliNow) / 1000); //时间差(秒)
+        if (minus > 0) {
+          this.setData({
+            isbargain: true
+          });
+          this.toBargainList();
+        }
       }
     });
   },
@@ -250,7 +256,7 @@ Page({
     })
   },
   //发起砍价
-  sponsorVgts:function(){
+  sponsorVgts: function () {
     if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
@@ -274,7 +280,7 @@ Page({
       complete: function (res) { },
     })
   },
-  shareCand:function(){  //点击分享
+  shareCand: function () {  //点击分享
 
   },
   onReachBottom: function () {  //用户上拉触底加载更多
@@ -309,12 +315,12 @@ Page({
               }
             }
             if (!data.mobile) { //是新用户，去注册页面
-            that.setData({
-              isnew: true
-            });
-                // wx.navigateTo({
-                //   url: '../../../../pages/personal-center/securities-sdb/securities-sdb?back=1'
-                // })
+              that.setData({
+                isnew: true
+              });
+              // wx.navigateTo({
+              //   url: '../../../../pages/personal-center/securities-sdb/securities-sdb?back=1'
+              // })
             }
           } else {
             that.findByCode();
@@ -361,7 +367,7 @@ Page({
   onShareAppMessage: function () {
     return {
       title: this.data.store_details.shopName,
-      path: '/pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails?shopid=' + this.data.shopid+'&id='+this.data.id,
+      path: '/pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails?shopid=' + this.data.shopid + '&id=' + this.data.id,
       // imageUrl: this.data.store_details.logoUrl,
       success: function (res) {
         console.log('success')
