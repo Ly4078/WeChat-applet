@@ -15,7 +15,7 @@ Page({
     progress: 0, //进度条
     status: 1, //砍价状态 1.30分钟内  2.过了30分钟没超过24小时  3.过了24小时或者已买 4.满5人
     otherStatus: 1, //1.可以帮发起人砍价  2.已经砍过  3.人数已满  4.过了30分钟 5.砍价结束
-    isMine: true, //是本人
+    isMine: false, //是本人
     page: 1,
     flag: true,
     hotDishList: [],
@@ -36,7 +36,8 @@ Page({
     this.dishDetail(); //查询菜详情
     if (this.data.groupId) {
       this.bargain();
-    } else {
+    } 
+    if (!this.data.groupId && this.data.userId) {
       this.createBargain();
     }
   },
@@ -135,6 +136,7 @@ Page({
           icon: 'none'
         })
         this.setData({
+          isMine: true,
           status: 1,
           otherStatus: 1,
           groupId: res.data.data.groupId //生成团砍Id
@@ -164,11 +166,16 @@ Page({
             doneBargain = (+this.data.skuMoneyOut - data[0].skuMoneyNow).toFixed(2),
             progress = 0;
           progress = doneBargain / max * 100;
-          if (this.data.initiator && this.data.userId && this.data.initiator != this.data.userId) {
+          if (this.data.initiator && this.data.initiator != this.data.userId) {
             this.setData({
               isMine: false
             });
             this.isBargain();
+          } 
+          if (this.data.initiator == this.data.userId) {
+            this.setData({
+              isMine: true
+            });
           }
           this.setData({
             skuMoneyNow: data[0].skuMoneyNow,

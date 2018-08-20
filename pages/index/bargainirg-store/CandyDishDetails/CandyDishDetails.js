@@ -78,6 +78,7 @@ Page({
       skuId: _refId
     };
     Api.vegetables(_parms).then((res) => {
+      console.log(res.data.data.length)
       if (res.data.data.length > 0) {
         this.setData({
           isbargain: true
@@ -226,14 +227,11 @@ Page({
     let _parms = {
       userId: app.globalData.userInfo.userId,
       skuId: this.data.id
-    }, miliNow = '', miliEndTime = '', minus = '';
+    };
     Api.vegetables(_parms).then((res) => {
+      console.log(res.data.data.length)
       if (res.data.code == 0) {
-        let _data = res.data.data[0];
-        miliNow = new Date().getTime(); //现在时间
-        miliEndTime = (new Date(_data.endTime)).getTime(); //结束时间
-        minus = Math.floor((miliEndTime - miliNow) / 1000); //时间差(秒)
-        if (minus > 0) {
+        if (res.data.data.length > 0) {
           this.setData({
             isbargain: true
           });
