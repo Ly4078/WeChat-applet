@@ -521,16 +521,20 @@ page{
 
 .windows_tishi{
   width: 100%;
-  border-bottom: 1px solid #E0E0E0;
   height: 80rpx;
   line-height: 80rpx;
-  font-size: 30rpx;
   text-align: center;
+  color: #555555;
+  font-size: 24rpx;  
 }
 
 .windows_text{
   overflow-y: auto;
-  width: 100%;                              
+  width: 100%;   
+  color: #555555;
+  font-size: 24rpx;  
+  padding: 0 20rpx 0 30rpx;
+  box-sizing: border-box;                         
 }
 
 .understand{

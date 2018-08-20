@@ -167,9 +167,9 @@
   <!-- 规则说明 -->
   <view class="mask" bindtap="understand" catchtouchmove="preventTouchMove" wx:if="{{showModal}}"></view>
   <view class="modalDlg" wx:if="{{showModal}}">
-    <view class='windows_tishi'>———— 请了解使用规则 ————</view>
+    <view class='windows_tishi'>———— 规则说明 ————</view>
     <view class='windows_text'>
-      <text>1.砍价菜品均为限量发售，售完即止；\n\n2.用户可在30分钟内邀请好友帮忙砍价，砍一刀也可以进行购买，若超时，仅限当天可以按当前价格购买；\n\n3.支付成功后，3月内均可进店使用，过期作废；\n\n 4.同一道菜每桌仅限使用1次，不可叠加使用；购买后不支持退款、不兑现、不找零；\n\n5.其他优惠等问题，以门店实际规定为准,购买后不支持退款、不兑现、不找零；\n\n6.最终解释权归享7平台所有。\n\n\n\n</text>
+      <text>1.砍价菜品均为限量发售，售完即止；\n\n2.用户可在30分钟内邀请好友帮忙砍价，砍一刀也可以进行购买，若超时，仅限当天可以按当前价格购买；\n\n3.支付成功后，1月内均可进店使用，过期作废；\n\n 4.每桌仅限使用一道砍价菜品，不可叠加使用；\n\n5.其他优惠等问题，以门店实际规定为准,购买后不支持退款、不兑现、不找零；\n\n6.最终解释权归享7平台所有。\n\n\n\n</text>
     </view>
     <button class='understand' bindtap="understand">我已知晓此规则</button>
   </view>
