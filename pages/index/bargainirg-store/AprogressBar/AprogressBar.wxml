@@ -21,10 +21,10 @@
       </view>
     </view>
     <view class='userCuisined active'>
-      <view wx:if="{{status != 3 && otherStatus != 5}}" class='userTop'>
+      <view wx:if="{{status != 3 && otherStatus != 4}}" class='userTop'>
         <image class='userImages' src='{{peopleList[0].iconUrl}}'></image>
         <view class='userNameJ-j'>
-          <text class='userNameJ-text'>{{peopleList[0].nickName}}</text>
+          <text class='userNameJ-text'>{{peopleList[0].nickName ? peopleList[0].nickName : peopleList[0].userName}}</text>
           <view class='userintrosse'>
             <text>砍价不套路，一刀也优惠，还能领金币兑好礼</text>
           </view>
@@ -57,7 +57,7 @@
         </view>
       </view>
       <!-- 砍价进度条 -->
-      <view wx:if="{{status != 3 && otherStatus != 5}}">
+      <view wx:if="{{status != 3 && otherStatus != 4}}">
         <view class='canvasWrap'>
           <view class='built-in'>
             <image class='canvasImages' src='/images/icon/present_set.png'></image>
@@ -118,7 +118,7 @@
     </view>
 
     <!-- 好友砍价记录 -->
-    <view wx:if="{{status != 3 && otherStatus != 5}}" class='friendBargain'>
+    <view wx:if="{{status != 3 && otherStatus != 4}}" class='friendBargain'>
       <view class='moneyRule'>
         <view class='moneyRulenei'>
           <view class='moneyRuleLeft'>领取人数

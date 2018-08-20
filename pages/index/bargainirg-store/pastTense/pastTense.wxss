@@ -72,6 +72,8 @@ page{
 
 .countDownTimeView{
   padding: 6rpx 0rpx 0rpx 0rpx;
+  height: 32rpx;
+  line-height: 32rpx;
 }
 
 .countDownTimeView text{
@@ -92,6 +94,7 @@ page{
 
 .alreadyWrap{
   margin-bottom: 10rpx;
+  text-align: left;
 }
 
 .depend{

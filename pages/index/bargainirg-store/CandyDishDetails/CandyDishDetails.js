@@ -33,13 +33,14 @@ Page({
   },
   onShow() {
     this.setData({
+      isbargain: false,
       flag: true,
       hotDishList: [],
       page: 1
     });
     this.getuserInfo();
     this.getmoreData();
-    this.isbargain();
+    this.isbargain(false);
   },
   getmoreData() {  //查询 更多数据 
     this.dishDetail();
@@ -60,7 +61,7 @@ Page({
       duration: 300
     });
     this.getmoreData();
-    this.isbargain();
+    this.isbargain(false);
   },
   chickinItiate(e) {  //点击某个发起砍价
     if (!app.globalData.userInfo.mobile) {
@@ -223,7 +224,7 @@ Page({
     })
   },
   //是否发起过砍价
-  isbargain() {
+  isbargain(isHref) {
     let _parms = {
       userId: app.globalData.userInfo.userId,
       skuId: this.data.id
@@ -235,7 +236,9 @@ Page({
           this.setData({
             isbargain: true
           });
-          this.toBargainList();
+          if (isHref) {
+            this.toBargainList();
+          }
         }
       }
     });

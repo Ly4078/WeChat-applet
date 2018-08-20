@@ -1274,15 +1274,23 @@ Page({
     Api.partakerList(_parms).then((res) => {
       if(res.data.code == 0){
         let _list = res.data.data.list, _oldData = this.data.bargainListall, arr = [];
-        if(_list){
-          if (this.data._page == 1) {
-            this.setData({
-              bargainList: _list.splice(0, 3)
-            })
-          }
+        if (_list.length > 0) {
           for (let i = 0; i < _list.length; i++) {
             _list[i].distance = utils.transformLength(_list[i].distance);
             _oldData.push(_list[i])
+          }
+          if (this.data._page == 1) {
+            arr = _oldData.splice(0, 3);
+            this.setData({
+              bargainList: arr
+            })
+          }
+          for (var i = 0; i < this.data.bargainList.length; i++) {
+            for (var j = 0; j < _oldData.length; j++) {
+              if (_oldData[j].id == this.data.bargainList[i].id) {
+                _oldData.splice(j, 1)
+              }
+            }
           }
           this.setData({
             bargainListall: _oldData

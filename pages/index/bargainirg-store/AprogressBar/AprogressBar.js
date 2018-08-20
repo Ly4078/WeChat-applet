@@ -13,8 +13,8 @@ Page({
     countDown: '', //倒计时
     getGoldNum: 0, //砍价人获得的金币数
     progress: 0, //进度条
-    status: 1, //砍价状态 1.30分钟内  2.过了30分钟没超过24小时  3.过了24小时或者已买 4.满5人
-    otherStatus: 1, //1.可以帮发起人砍价  2.已经砍过  3.人数已满  4.过了30分钟 5.砍价结束
+    status: 1, //砍价状态 1.60分钟内  3.过了60分钟或者已买 4.满5人
+    otherStatus: 1, //1.可以帮发起人砍价  2.已经砍过  3.人数已满  4.过了60分钟砍价结束
     isMine: false, //是本人
     page: 1,
     flag: true,
@@ -23,7 +23,6 @@ Page({
     isnew: false
   },
   onLoad: function(options) {
-    console.log('options:',options)
     this.setData({
       refId: options.refId, //菜品Id
       shopId: options.shopId, //商家Id
@@ -42,6 +41,11 @@ Page({
     }
   },
   onShow() {
+    this.setData({
+      flag: true,
+      hotDishList: [],
+      page: 1
+    });
     if (app.globalData.userInfo.userId){
       this.getuserInfo(1);
     }else{
@@ -55,7 +59,6 @@ Page({
         Api.findByCode({ code: res.code }).then((res) => {
           if (res.data.code == 0) {
             let data = res.data.data;
-            console.log('findByCode_data:',data)
             for (let key in data) {
               for (let ind in app.globalData.userInfo) {
                 if (key == ind) {
@@ -63,8 +66,10 @@ Page({
                 }
               }
             }
+            if(data.id){
+              that.getuserInfo(1);
+            }
             if (!data.mobile) { //是新用户，去注册页面
-            
               wx.navigateTo({
                 url: '../../../../pages/personal-center/securities-sdb/securities-sdb?back=1'
               })
@@ -77,17 +82,17 @@ Page({
     })
   },
   getuserInfo: function (val) {//从自己的服务器获取用户信息
-    console.log("getuserInfo")
     let that = this;
+    console.log('app.globalData.userInfo:', app.globalData.userInfo)
     wx.request({
       url: that.data._build_url + 'user/get/' + app.globalData.userInfo.userId,
       header: {
         'content-type': 'application/json' // 默认值
       },
       success: function (res) {
+        console.log("res123:", res);
         if (res.data.code == 0) {
           let data = res.data.data;
-          console.log('getuserInfo_data:',data)
           if(!data.mobile){
             wx.navigateTo({
               url: '../../../../pages/personal-center/securities-sdb/securities-sdb?back=1'
@@ -105,6 +110,9 @@ Page({
             }
           }
         }
+      },
+      fail:function(res){
+        that.getuserInfo(1);
       }
     })
   },
@@ -155,7 +163,6 @@ Page({
       },
       _this = this;
     Api.bargainDetail(_parms).then((res) => {
-      console.log('res:',res)
       let code = res.data.code,
         data = res.data.data,
         reg = /^1[34578][0-9]{9}$/;
@@ -182,26 +189,27 @@ Page({
             doneBargain: doneBargain,
             progress: progress <= 100 ? progress : 100,
             endTime: endTime,
-            peoplenum: data[0].peoplenum * 1 - 1,
-            peopleList: data.slice(1)
+            peoplenum: data[0].peoplenum * 1 - 1
           });
-          for (let i = 0; i < this.data.peopleList.length; i++) {
-            if (this.data.peopleList[i].userName && reg.test(this.data.peopleList[i].userName)) {
-              this.data.peopleList[i].userName = this.data.peopleList[i].userName.substr(0, 3) + "****" + this.data.peopleList[i].userName.substr(7)
+          let peopleList = data.slice(1);
+          for (let i = 0; i < peopleList.length; i++) {
+            if (peopleList[i].userName && reg.test(peopleList[i].userName)) {
+              peopleList[i].userName = peopleList[i].userName.substr(0, 3) + "****" + peopleList[i].userName.substr(7)
             }
-            if (this.data.peopleList[i].userId == this.data.userId) {
+            if (peopleList[i].userId == this.data.userId) {
               this.setData({
-                getGoldNum: this.data.peopleList[i].goldAmount
+                getGoldNum: peopleList[i].goldAmount
               });
             }
           }
-
+          this.setData({
+            peopleList: peopleList
+          });
         
           let miliEndTime = new Date(endTime).getTime(),
             miliNow = new Date().getTime();
           let minus = Math.floor((miliEndTime - miliNow) / 1000);
-          console.log('minus:', minus)
-          if (minus > 0 && minus <= 1800) { //小于30分钟
+          if (minus > 0 && minus <= 3600) { //小于60分钟
             //好友进入砍菜页面人数满5人并且超过半小时不能砍价
             if (this.data.peoplenum >= 5) {
               this.setData({
@@ -213,7 +221,6 @@ Page({
                 status: 1,
                 otherStatus: 1
               });
-              console.log("倒计时")
               let hours = '',
                 minutes = '',
                 seconds = '',
@@ -224,7 +231,7 @@ Page({
                   minus = 0;
                   _this.setData({
                     otherStatus: 4,
-                    status: 2
+                    status: 3
                   });
                 }else{
                   hours = Math.floor(minus / 3600); //时
@@ -243,20 +250,20 @@ Page({
             }
           } else {
             this.setData({
-              status: 2,
+              status: 3,
               otherStatus: 4
             });
           }
         } else {
           this.setData({
             status: 3,
-            otherStatus: 5
+            otherStatus: 4
           });
         }
       } else {
         this.setData({
           status: 3,
-          otherStatus: 5
+          otherStatus: 4
         });
       }
     });
@@ -281,7 +288,7 @@ Page({
       } else {
         this.setData({
           status: 3,
-          otherStatus: 5
+          otherStatus: 4
         });
       }
     })
@@ -314,13 +321,8 @@ Page({
         otherStatus = 2;
       } else if (code == 200066) {
         otherStatus = 3;
-      } else if (code == 200067) {
+      } else if (code == 200068) {
         otherStatus = 4;
-        this.setData({
-          status: 2
-        });
-      } else {
-        otherStatus = 5;
         this.setData({
           status: 3
         });
@@ -380,25 +382,16 @@ Page({
           title: res.data.message,
           icon: 'none'
         })
-      } else if (code == 200067) {
+      } else if (code == 200068) {
         this.setData({
           otherStatus: 4,
-          status: 2
+          status: 3
         });
         wx.showToast({
           title: res.data.message,
           icon: 'none'
         })
-      } else {
-        this.setData({
-          status: 3,
-          otherStatus: 5
-        });
-        wx.showToast({
-          title: res.data.message,
-          icon: 'none'
-        })
-      }
+      } 
     });
   },
   toBuy() { //买菜
@@ -440,7 +433,9 @@ Page({
       page: this.data.page,
       rows: 6
     };
+    console.log('429='+_parms);
     Api.partakerList(_parms).then((res) => {
+      console.log('431=' + res);
       if (res.data.code == 0 && res.data.data.list && res.data.data.list != 'null') {
         let list = res.data.data.list,
           hotDishList = this.data.hotDishList;
