@@ -519,6 +519,7 @@ Page({
     let _parms = {
       zanUserId: app.globalData.userInfo.userId,
       browSort: 1,
+      isDeleted: 0,
       shopId: this.data.shopid,
       locationX: app.globalData.userInfo.lng,
       locationY: app.globalData.userInfo.lat,

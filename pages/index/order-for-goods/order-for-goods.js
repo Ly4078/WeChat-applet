@@ -19,7 +19,7 @@ Page({
         id: '1',
         disabled: false,
         img: '/images/icon/weixinzhifu.png',
-        checked: false
+        checked: true
       }
       // { name: '余额支付', id: '2', disabled: false, img: '/images/icon/yuezhifu.png', checked: true },
     ]
@@ -30,14 +30,14 @@ Page({
       this.setData({
         skuName: options.skuName
       })
-      let arr = this.data.items
-      arr[0].checked = true;
+      // let arr = this.data.items
+      // arr[0].checked = true;
       // arr[1].checked = false;
       // arr[1].disabled = true;
-      this.setData({
-        paytype: 1,
-        items: arr
-      })
+      // this.setData({
+      //   paytype: 1,
+      //   items: arr
+      // })
     }
     if (options.skutype == 3) {
       this.setData({
@@ -298,28 +298,29 @@ Page({
     })
     if (this.data.skutype == 4) {
       let _parms = {
-        skuName: this.data.skuName, 
-        skuType: 4, 
-        stockNum: 999, 
-        opreatorId: app.globalData.userInfo.userId, 
-        opreatorName: app.globalData.userInfo.userName, 
-        sellPrice: this.data.paymentAmount,
-        inPrice: 20,
-        agioPrice: this.data.paymentAmount
-      }, _this = this;
+          skuName: this.data.skuName,
+          skuType: 4,
+          stockNum: 999,
+          opreatorId: app.globalData.userInfo.userId,
+          opreatorName: app.globalData.userInfo.userName,
+          sellPrice: this.data.paymentAmount,
+          inPrice: 20,
+          agioPrice: this.data.paymentAmount
+        },
+        _this = this;
       Api.createBargainTick(_parms).then((res) => {
-        if(res.data.code == 0) {
+        if (res.data.code == 0) {
           _this.setData({
-            skuId: res.data.data   //生成这一张券的id
+            skuId: res.data.data //生成这一张券的id
           });
           let _parms = {
             userId: app.globalData.userInfo.userId,
-            userName: app.globalData.userInfo.userName, 
+            userName: app.globalData.userInfo.userName,
             skuId: _this.data.skuId,
             skuNum: _this.data.number,
-            shopId: _this.data.shopId, 
-            payType: 2, 
-            dishSkuId: _this.data.dishSkuId, 
+            shopId: _this.data.shopId,
+            payType: 2,
+            dishSkuId: _this.data.dishSkuId,
             dishSkuName: _this.data.dishSkuName
           };
           Api.socreate(_parms).then((res) => {
@@ -341,6 +342,9 @@ Page({
       })
     } else {
       if (this.data.obj.soid && this.data.obj.soid != 'undefined' && this.data.obj.soid != '') {
+        that.payment(this.data.obj.soid);
+        that.updateuser();
+        return;
         if (that.data.paytype == 1) {
           that.payment(this.data.obj.soid);
           that.updateuser();
@@ -361,18 +365,21 @@ Page({
           userId: app.globalData.userInfo.userId,
           userName: app.globalData.userInfo.userName,
           skuId: this.data.obj.id,
-          skuNum: this.data.number
+          skuNum: this.data.number,
+          payType: '2'
         }
         if (this.data.shopId) {
           _parms.shopId = this.data.shopId;
         }
-        if (that.data.paytype == 1) { //微信支付
-          _parms.payType = '2';
-        } else if (that.data.paytype == 2) { //余额支付
-          _parms.payType = '1';
-        }
+        // if (that.data.paytype == 1) { //微信支付
+        //   _parms.payType = '2';
+        // } else if (that.data.paytype == 2) { //余额支付
+        //   _parms.payType = '1';
+        // }
         Api.socreate(_parms).then((res) => {
           if (res.data.code == 0) {
+            that.updateuser(res.data.data);
+            return;
             if (that.data.paytype == 1) {
               that.updateuser(res.data.data);
             } else if (that.data.paytype == 2) {
@@ -441,18 +448,18 @@ Page({
           })
         }
       })
-    } else if(this.data.skutype == 4) {
+    } else if (this.data.skutype == 4) {
       let _parms = {
-        soId: soid, 
-        openId: app.globalData.userInfo.openId, 
-        skuId: this.data.dishSkuId, 
+        soId: soid,
+        openId: app.globalData.userInfo.openId,
+        skuId: this.data.dishSkuId,
         shopId: this.data.shopId,
         type: 1
       }
       //type=1原价购买，grounpId不传
       if (this.data.bargainType == 1) {
         _parms.type = 1;
-      } else if(this.data.bargainType == 2) {
+      } else if (this.data.bargainType == 2) {
         _parms.type = 2;
         _parms.groupId = this.data.groupId;
       }
@@ -464,12 +471,12 @@ Page({
             'package': res.data.data.package,
             'signType': 'MD5',
             'paySign': res.data.data.paySign,
-            success: function (res) {
+            success: function(res) {
               wx.redirectTo({
                 url: '../../personal-center/my-discount/my-discount'
               })
             },
-            fail: function (res) {
+            fail: function(res) {
               wx.showToast({
                 icon: 'none',
                 title: '支付取消',

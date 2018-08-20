@@ -59,6 +59,7 @@ Page({
         Api.findByCode({ code: res.code }).then((res) => {
           if (res.data.code == 0) {
             let data = res.data.data;
+            app.globalData.userInfo.userId = data.id;
             for (let key in data) {
               for (let ind in app.globalData.userInfo) {
                 if (key == ind) {
