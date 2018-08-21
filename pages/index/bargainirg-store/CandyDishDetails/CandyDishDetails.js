@@ -25,7 +25,6 @@ Page({
     isbargain: false   //是否砍过价
   },
   onLoad(options) {
-    this.findByCode();
     this.setData({
       shopId: options.shopId,
       id: options.id
@@ -38,15 +37,23 @@ Page({
       hotDishList: [],
       page: 1
     });
-    this.getuserInfo();
-    this.getmoreData();
-    this.isbargain(false);
+    if (app.globalData.userInfo.userId){
+      this.getmoreData();
+      this.isbargain(false);
+    }else{
+      this.findByCode();
+    }
+    
   },
   getmoreData() {  //查询 更多数据 
     this.dishDetail();
     this.shopDetail();
-    this.dishList();
-    this.hotDishList();
+    if (app.globalData.userInfo.lng && app.globalData.userInfo.lat){
+      this.dishList();
+      this.hotDishList();
+    }else{
+      this.getlocation();
+    }
   },
   chilkDish(e) {  //点击某个推荐菜
     let id = e.currentTarget.id;
@@ -79,7 +86,6 @@ Page({
       skuId: _refId
     };
     Api.vegetables(_parms).then((res) => {
-      console.log(res.data.data.length)
       if (res.data.data.length > 0) {
         this.setData({
           isbargain: true
@@ -230,7 +236,6 @@ Page({
       skuId: this.data.id
     };
     Api.vegetables(_parms).then((res) => {
-      console.log(res.data.data.length)
       if (res.data.code == 0) {
         if (res.data.data.length > 0) {
           this.setData({
@@ -320,6 +325,8 @@ Page({
           if (res.data.code == 0) {
             let data = res.data.data;
             app.globalData.userInfo.userId = data.id;
+            app.globalData.userInfo.lat = data.locationX;
+            app.globalData.userInfo.lng = data.locationY;
             for (let key in data) {
               for (let ind in app.globalData.userInfo) {
                 if (key == ind) {
@@ -327,13 +334,18 @@ Page({
                 }
               }
             }
+            
             if (!data.mobile) { //是新用户，去注册页面
               that.setData({
                 isnew: true
               });
-              // wx.navigateTo({
-              //   url: '../../../../pages/personal-center/securities-sdb/securities-sdb?back=1'
-              // })
+            }
+            let userInfo = app.globalData.userInfo;
+            if (userInfo.userId && userInfo.lat && userInfo.lng) {
+              that.getmoreData();
+              that.isbargain(false);
+            } else {
+              that.getlocation();
             }
           } else {
             that.findByCode();
@@ -342,25 +354,66 @@ Page({
       }
     })
   },
-  getuserInfo: function (val) {//从自己的服务器获取用户信息
+  getlocation: function () {  //获取用户位置
+    let that = this, lat = '', lng = '';
+    wx.getLocation({
+      type: 'wgs84',
+      success: function (res) {
+        let latitude = res.latitude;
+        let longitude = res.longitude;
+        app.globalData.userInfo.lat = latitude;
+        app.globalData.userInfo.lng = longitude;
+        that.requestCityName(latitude, longitude);
+      },
+      fail: function (res) {
+        wx.getSetting({
+          success: (res) => {
+            if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其用户信息或位置信息
+              wx.showModal({
+                title: '提示',
+                content: '更多体验需要你授权位置信息',
+                success: function (res) {
+                  if (res.confirm) {
+                    wx.openSetting({  //打开授权设置界面
+                      success: (res) => {
+                        if (res.authSetting['scope.userLocation']) {
+                          wx.getLocation({
+                            type: 'wgs84',
+                            success: function (res) {
+                              let latitude = res.latitude, 
+                              longitude = res.longitude
+                              app.globalData.userInfo.lat = latitude;
+                              app.globalData.userInfo.lng = longitude;
+                              that.requestCityName(latitude, longitude);
+                            }
+                          })
+                        }
+                      }
+                    })
+                  }
+                }
+              })
+            }
+          }
+        })
+      }
+    })
+  },
+  requestCityName(lat, lng) {//获取当前城市
+    app.globalData.userInfo.lat = lat;
+    app.globalData.userInfo.lng = lng;
     let that = this;
     wx.request({
-      url: that.data._build_url + 'user/get/' + app.globalData.userInfo.userId,
+      url: 'https://apis.map.qq.com/ws/geocoder/v1/?location=' + lat + "," + lng + "&key=4YFBZ-K7JH6-OYOS4-EIJ27-K473E-EUBV7",
       header: {
         'content-type': 'application/json' // 默认值
       },
-      success: function (res) {
-        if (res.data.code == 0) {
-          let data = res.data.data;
-          if (val == 1) {
-            for (let key in data) {
-              for (let ind in app.globalData.userInfo) {
-                if (key == ind) {
-                  app.globalData.userInfo[ind] = data[key]
-                }
-              }
-            };
-          }
+      success: (res) => {
+        if (res.data.status == 0) {
+          let _city = res.data.result.address_component.city;
+          app.globalData.userInfo.city = _city;
+          that.getmoreData();
+          that.isbargain(false);
         }
       }
     })

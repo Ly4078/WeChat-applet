@@ -178,7 +178,7 @@ Page({
         _page: 1
       })
       this.hotDishList();
-      if (this.data.verifyId && this.data.phone || phonetwo){
+      if (this.data.verifyId && this.data.phone || this.data.phonetwo){
         this.setData({
           userGiftFlag:false,
           isNew:true,
@@ -1334,6 +1334,7 @@ Page({
     if (RegExp.test(_value)) {
       this.setData({
         isclose: true,
+        phonetwo: _value,
         phone: _value
       })
     } else {

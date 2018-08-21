@@ -6,6 +6,7 @@
     <button class='gettel colosetel' bindtap='closetel' id='2'>取消</button>
   </view>
 </view>
+
 <view class='shell'>
   <image class='detailsImag' mode='scaleToFill' src='{{picUrl}}'></image>
   <view class='information'>

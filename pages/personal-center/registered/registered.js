@@ -36,8 +36,11 @@ Page({
         Api.findByCode({ code: res.code }).then((res) => {
           if (res.data.code == 0) {
             if (res.data.data.unionId) {
-              app.globalData.userInfo.unionId = res.data.data.unionId;
               let data = res.data.data;
+              app.globalData.userInfo.unionId = data.unionId;
+              app.globalData.userInfo.userId = data.id;
+              app.globalData.userInfo.lat = data.locationX;
+              app.globalData.userInfo.lng = data.locationY;
               for (let key in data) {
                 for (let ind in app.globalData.userInfo) {
                   if (key == ind) {
@@ -46,7 +49,6 @@ Page({
                 }
               }
               wx.hideLoading();
-              that.getmyuserinfo();
             }
           } else {
             that.findByCode();
@@ -61,7 +63,7 @@ Page({
     if(!_value){
       this.closephone();
     }
-    let RegExp = /^[1][3,4,5,7,8][0-9]{9}$/;
+    let RegExp = /^[1][3456789][0-9]{9}$/;
     if (RegExp.test(_value)) {
       this.setData({
         isclose: true,
@@ -69,8 +71,14 @@ Page({
         phone: _value
       })
     }else{
+      clearInterval(this.data.settime)
       this.setData({
-        isclose: false
+        isclose: false,
+        rematime: '获取验证码',
+        isclick: true,
+        goto: false,
+        settime: null,
+        isyaz: false
       })
     }
   },
@@ -105,7 +113,7 @@ Page({
       return false
     }
     
-    let RegExp = /^[1][3,4,5,7,8][0-9]{9}$/;
+    let RegExp = /^[1][3456789][0-9]{9}$/;
     if (RegExp.test(this.data.phone)) {
       that.setData({
         goto: true
@@ -261,6 +269,9 @@ Page({
           }
         })
       } else {
+        that.setData({
+          verify:''
+        });
         wx.showToast({
           title: '验证码输入有误，请重新输入',
           icon: 'none',

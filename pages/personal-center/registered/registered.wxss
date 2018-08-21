@@ -52,6 +52,9 @@
   color: #808080;
   border-radius: 8rpx;
 }
+.setphone input:nth-child(1){
+  width: 80%;
+}
 
 .setcode{
   margin-top: 31rpx;
@@ -106,4 +109,9 @@
 }
 .closephoneindex{
   right:15rpx;
+}
+.closephone{
+  width: 60rpx;
+  height: 60rpx;
+  top: -70rpx;
 }

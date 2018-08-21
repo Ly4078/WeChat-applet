@@ -32,13 +32,7 @@ Page({
       initiator: options.initiator ? options.initiator : '', //发起人Id
       groupId: options.groupId ? options.groupId : '' //团砍Id
     });
-    this.dishDetail(); //查询菜详情
-    if (this.data.groupId) {
-      this.bargain();
-    } 
-    if (!this.data.groupId && this.data.userId) {
-      this.createBargain();
-    }
+   
   },
   onShow() {
     this.setData({
@@ -47,7 +41,19 @@ Page({
       page: 1
     });
     if (app.globalData.userInfo.userId){
-      this.getuserInfo(1);
+      console.log("show_userid:", app.globalData.userInfo.userId)
+      this.dishDetail(); //查询菜详情
+      if (this.data.groupId){
+        this.bargain();
+      }else{
+        this.createBargain();
+      }
+      if (app.globalData.userInfo.lat && app.globalData.userInfo.lng && app.globalData.userInfo.city) {
+        console.log("show_lat:", app.globalData.userInfo.lat, app.globalData.userInfo.lng, app.globalData.userInfo.city)
+        this.hotDishList();
+      }else{
+        this.getlocation();
+      }
     }else{
       this.findByCode();
     }
@@ -60,6 +66,8 @@ Page({
           if (res.data.code == 0) {
             let data = res.data.data;
             app.globalData.userInfo.userId = data.id;
+            app.globalData.userInfo.lat = data.locationX;
+            app.globalData.userInfo.lng = data.locationY;
             for (let key in data) {
               for (let ind in app.globalData.userInfo) {
                 if (key == ind) {
@@ -67,13 +75,19 @@ Page({
                 }
               }
             }
-            if(data.id){
-              that.getuserInfo(1);
-            }
             if (!data.mobile) { //是新用户，去注册页面
               wx.navigateTo({
                 url: '../../../../pages/personal-center/securities-sdb/securities-sdb?back=1'
               })
+            }
+            let userInfo = app.globalData.userInfo;
+            console.log('findByCode_userInfo:', userInfo);
+            if (userInfo.userId && userInfo.lat && userInfo.lng && userInfo.city) {
+              that.hotDishList();
+              that.bargain();
+              that.createBargain()
+            } else {
+              that.getlocation();
             }
           } else {
             that.findByCode();
@@ -82,38 +96,74 @@ Page({
       }
     })
   },
-  getuserInfo: function (val) {//从自己的服务器获取用户信息
+  getlocation: function () {  //获取用户位置
+    let that = this, lat = '', lng = '';
+    console.log('getlocation:');
+    wx.getLocation({
+      type: 'wgs84',
+      success: function (res) {
+        console.log('res_location:',res);
+        let latitude = res.latitude;
+        let longitude = res.longitude;
+        app.globalData.userInfo.lat = latitude;
+        app.globalData.userInfo.lng = longitude;
+        console.log('111:', latitude, longitude);
+        that.requestCityName(latitude, longitude);
+      },
+      fail: function (res) {
+        wx.getSetting({
+          success: (res) => {
+            if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其用户信息或位置信息
+              wx.showModal({
+                title: '提示',
+                content: '更多体验需要你授权位置信息',
+                success: function (res) {
+                  if (res.confirm) {
+                    wx.openSetting({  //打开授权设置界面
+                      success: (res) => {
+                        if (res.authSetting['scope.userLocation']) {
+                          wx.getLocation({
+                            type: 'wgs84',
+                            success: function (res) {
+                              let latitude = res.latitude,
+                                longitude = res.longitude
+                              app.globalData.userInfo.lat = latitude;
+                              app.globalData.userInfo.lng = longitude;
+                              console.log('222:', latitude, longitude);
+                              that.requestCityName(latitude, longitude);
+                            }
+                          })
+                        }
+                      }
+                    })
+                  }
+                }
+              })
+            }
+          }
+        })
+      }
+    })
+  },
+  requestCityName(lat, lng) {//获取当前城市
+    app.globalData.userInfo.lat = lat;
+    app.globalData.userInfo.lng = lng;
+    console.log('requestCityName:',lat,lng);
     let that = this;
-    console.log('app.globalData.userInfo:', app.globalData.userInfo)
     wx.request({
-      url: that.data._build_url + 'user/get/' + app.globalData.userInfo.userId,
+      url: 'https://apis.map.qq.com/ws/geocoder/v1/?location=' + lat + "," + lng + "&key=4YFBZ-K7JH6-OYOS4-EIJ27-K473E-EUBV7",
       header: {
         'content-type': 'application/json' // 默认值
       },
-      success: function (res) {
-        console.log("res123:", res);
-        if (res.data.code == 0) {
-          let data = res.data.data;
-          if(!data.mobile){
-            wx.navigateTo({
-              url: '../../../../pages/personal-center/securities-sdb/securities-sdb?back=1'
-            })
-          }else{
-            if (val == 1) {
-              for (let key in data) {
-                for (let ind in app.globalData.userInfo) {
-                  if (key == ind) {
-                    app.globalData.userInfo[ind] = data[key]
-                  }
-                }
-              };
-              that.hotDishList(); //热门推荐
-            }
-          }
+      success: (res) => {
+        if (res.data.status == 0) {
+          let _city = res.data.result.address_component.city;
+          app.globalData.userInfo.city = _city;
+          console.log('_city:', _city);
+          that.hotDishList();
+          that.bargain();
+          that.createBargain()
         }
-      },
-      fail:function(res){
-        that.getuserInfo(1);
       }
     })
   },
@@ -434,9 +484,9 @@ Page({
       page: this.data.page,
       rows: 6
     };
-    console.log('429='+_parms);
+    console.log('hotDishList_parms:', _parms);
     Api.partakerList(_parms).then((res) => {
-      console.log('431=' + res);
+      console.log('hotDishList_res:',res);
       if (res.data.code == 0 && res.data.data.list && res.data.data.list != 'null') {
         let list = res.data.data.list,
           hotDishList = this.data.hotDishList;
