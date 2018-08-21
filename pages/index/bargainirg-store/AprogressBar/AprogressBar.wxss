@@ -516,7 +516,7 @@ page{
     flex-direction: column;
     align-items: center;
     overflow: hidden;
-    margin: 200rpx auto;
+    margin: 200rpx auto 350rpx auto;
 }
 
 .windows_tishi{

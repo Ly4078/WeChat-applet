@@ -15,7 +15,7 @@ Page({
     progress: 0, //进度条
     status: 1, //砍价状态 1.60分钟内  3.过了60分钟或者已买 4.满5人
     otherStatus: 1, //1.可以帮发起人砍价  2.已经砍过  3.人数已满  4.过了60分钟砍价结束
-    isMine: false, //是本人
+    isMine: false, //不是本人
     page: 1,
     flag: true,
     hotDishList: [],
@@ -182,7 +182,7 @@ Page({
   createBargain() {
     let _parms = {
       refId: this.data.refId,
-      userId: this.data.userId,
+      userId: app.globalData.userInfo.userId,
       shopId: this.data.shopId,
       amount: (+this.data.skuMoneyOut - this.data.skuMoneyMin).toFixed(2),
       skuMoneyOut: this.data.skuMoneyOut,
@@ -208,7 +208,7 @@ Page({
   bargain() {
     let _parms = {
         skuId: this.data.refId, //菜品Id
-        parentId: this.data.initiator ? this.data.initiator : this.data.userId, //发起人的userId
+        parentId: this.data.initiator ? this.data.initiator : app.globalData.userInfo.userId, //发起人的userId
         shopId: this.data.shopId,
         groupId: this.data.groupId
       },
@@ -224,13 +224,13 @@ Page({
             doneBargain = (+this.data.skuMoneyOut - data[0].skuMoneyNow).toFixed(2),
             progress = 0;
           progress = doneBargain / max * 100;
-          if (this.data.initiator && this.data.initiator != this.data.userId) {
+          if (this.data.initiator && (this.data.initiator != app.globalData.userInfo.userId)) {
             this.setData({
               isMine: false
             });
             this.isBargain();
           } 
-          if (this.data.initiator == this.data.userId) {
+          if (this.data.initiator == app.globalData.userInfo.userId) {
             this.setData({
               isMine: true
             });
@@ -247,7 +247,7 @@ Page({
             if (peopleList[i].userName && reg.test(peopleList[i].userName)) {
               peopleList[i].userName = peopleList[i].userName.substr(0, 3) + "****" + peopleList[i].userName.substr(7)
             }
-            if (peopleList[i].userId == this.data.userId) {
+            if (peopleList[i].userId == app.globalData.userInfo.userId) {
               this.setData({
                 getGoldNum: peopleList[i].goldAmount
               });
@@ -323,7 +323,7 @@ Page({
   dishDetail() {
     let _parms = {
       Id: this.data.refId,
-      zanUserId: this.data.initiator ? this.data.initiator : this.data.userId,
+      zanUserId: this.data.initiator ? this.data.initiator : app.globalData.userInfo.userId,
       shopId: this.data.shopId
     };
     Api.discountDetail(_parms).then((res) => {
@@ -361,7 +361,7 @@ Page({
     let _parms = {
       refId: this.data.refId,
       parentId: this.data.initiator,
-      userId: this.data.userId,
+      userId: app.globalData.userInfo.userId,
       groupId: this.data.groupId
     };
     Api.isHelpfriend(_parms).then((res) => {
@@ -394,7 +394,7 @@ Page({
     let _parms = {
         refId: this.data.refId,
         parentId: this.data.initiator,
-        userId: this.data.userId,
+        userId: app.globalData.userInfo.userId,
         groupId: this.data.groupId
       },
       _this = this;
@@ -454,7 +454,7 @@ Page({
     }
     let _parms = {
       skuId: this.data.refId, //菜品Id
-      parentId: this.data.initiator ? this.data.initiator : this.data.userId, //发起人的userId
+      parentId: this.data.initiator ? this.data.initiator : app.globalData.userInfo.userId, //发起人的userId
       shopId: this.data.shopId,
       groupId: this.data.groupId
     },
@@ -549,7 +549,7 @@ Page({
     this.onShareAppMessage();
   },
   onShareAppMessage() { //分享给好友帮忙砍价
-    let initiator = this.data.initiator ? this.data.initiator : this.data.userId;
+    let initiator = this.data.initiator ? this.data.initiator : app.globalData.userInfo.userId;
     return {
       title: '帮好友砍价',
       desc: '享7美食',
