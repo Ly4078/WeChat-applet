@@ -248,10 +248,10 @@
   </view> -->
 
   <!-- 专题推荐 -->
-  <view class='recommend-topics' wx:if="{{isphoneNumber}}">
+  <!-- <view class='recommend-topics' wx:if="{{isphoneNumber}}">
     <text>专题推荐</text>
-  </view>
-  <view class='homepage' wx:if="{{isphoneNumber}}">
+  </view> -->
+  <view class='homepage' wx:if="{{false}}">
     <!--tab导航条-->
     <!-- <view class="navbar">
       <text wx:for="{{navbar}}" wx:key="{{index}}" data-idx="{{index}}" class="item {{currentTab==index ? 'active' : ''}}" bindtap="navbarTap">{{item}}</text>
@@ -274,8 +274,9 @@
     </view>
   </view>
 
+ <view class='buttomBox'></view>
   <!-- 底部动画 -->
-  <view class='buttomBox'></view>
+ 
   <view class='bottomAnimation' wx:if="{{false}}">
     <view class='bottomAnimationText'>
       <image class='bottomAnimationImg' src='https://xqmp4-1256079679.file.myqcloud.com/text_10002730102299103.png'></image>

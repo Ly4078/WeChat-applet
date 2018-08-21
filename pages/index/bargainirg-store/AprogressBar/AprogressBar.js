@@ -263,6 +263,9 @@ Page({
           let _move = doneBargain / max * 1;
           _move *= 500;
           _move = _move.toFixed(0);
+          if(_move < 10) {
+            _move = 0;
+          }
           this.setData({
             move: _move
           })
