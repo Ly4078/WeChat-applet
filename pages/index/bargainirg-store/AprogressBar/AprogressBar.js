@@ -41,6 +41,13 @@ Page({
     }
   },
   onShow() {
+    let _userInfo = app.globalData.userInfo;
+   
+    if (!_userInfo.lat && !_userInfo.lng && !_userInfo.city){
+      wx.switchTab({
+        url: '/pages/index/index'
+      })
+    }
     this.setData({
       flag: true,
       hotDishList: [],
@@ -107,6 +114,7 @@ Page({
                   }
                 }
               };
+              console.log('app.globalData.userInfo:', app.globalData.userInfo)
               that.hotDishList(); //热门推荐
             }
           }
@@ -344,11 +352,13 @@ Page({
     let _parms = {
         refId: this.data.refId,
         parentId: this.data.initiator,
-        userId: this.data.userId,
+      userId: this.data.userId ? this.data.userId: app.globalData.userInfo.userId,
         groupId: this.data.groupId
       },
       _this = this;
+    console.log('_parms:', _parms);
     Api.isHelpfriend(_parms).then((res) => {
+      console.log('_parms_res:',res);
       let code = res.data.code;
       if (code == 0) {
         _this.setData({
@@ -356,6 +366,7 @@ Page({
         });
         _parms.shopId = _this.data.shopId;
         Api.helpfriend(_parms).then((e) => {
+          console.log('helpfriend_res:',res)
           if (e.data.code == 0) {
             wx.showToast({
               title: '砍价成功',
@@ -424,6 +435,11 @@ Page({
   //热门推荐
   hotDishList() {
     //browSort 0附近 1销量 2价格
+
+    if (app.globalData.userInfo.lng && app.globalData.userInfo.lat){
+      this.getlocationsa();
+      return;
+    }
     let _parms = {
       zanUserId: app.globalData.userInfo.userId,
       browSort: 1,
@@ -434,9 +450,9 @@ Page({
       page: this.data.page,
       rows: 6
     };
-    console.log('429='+_parms);
+    console.log('429=',_parms);
     Api.partakerList(_parms).then((res) => {
-      console.log('431=' + res);
+      console.log('431=', res);
       if (res.data.code == 0 && res.data.data.list && res.data.data.list != 'null') {
         let list = res.data.data.list,
           hotDishList = this.data.hotDishList;
@@ -456,6 +472,51 @@ Page({
         this.setData({
           flag: false
         });
+      }
+    })
+  },
+  getlocationsa: function () {  //获取用户位置
+    // console.log("getlocationsa")
+    let that = this, lat = '', lng = ''
+    wx.getLocation({
+      type: 'wgs84',
+      success: function (res) {
+        let latitude = res.latitude;
+        let longitude = res.longitude;
+        app.globalData.userInfo.lng = longitude;
+        app.globalData.userInfo.lat = latitude;
+        that.hotDishList();
+      },
+      fail: function (res) {
+        wx.getSetting({
+          success: (res) => {
+            if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其用户信息或位置信息
+              wx.showModal({
+                title: '提示',
+                content: '更多体验需要你授权位置信息',
+                success: function (res) {
+                  if (res.confirm) {
+                    wx.openSetting({  //打开授权设置界面
+                      success: (res) => {
+                        if (res.authSetting['scope.userLocation']) {
+                          wx.getLocation({
+                            type: 'wgs84',
+                            success: function (res) {
+                              let latitude = res.latitude, longitude = res.longitude
+                              app.globalData.userInfo.lat = latitude;
+                              app.globalData.userInfo.lng = longitude;
+                              that.hotDishList();
+                            }
+                          })
+                        }
+                      }
+                    })
+                  }
+                }
+              })
+            }
+          }
+        })
       }
     })
   },

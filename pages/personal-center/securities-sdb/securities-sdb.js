@@ -66,6 +66,8 @@ Page({
         Api.findByCode({ code: res.code }).then((res) => {
           if (res.data.code == 0) {
             let data = res.data.data;
+            console.log('data:',data);
+            app.globalData.userInfo.userId = data.id;
             for (let key in data) {
               for (let ind in app.globalData.userInfo) {
                 if (key == ind) {
@@ -73,6 +75,7 @@ Page({
                 }
               }
             }
+            console.log("userInfo_aaaa:", app.globalData.userInfo);
             if (data.mobile) {
               wx.switchTab({
                 url: '../../index/index'
@@ -217,6 +220,7 @@ Page({
       if (this.data.phoneNum){
         if (this.data.codeNum){
           if (this.data.codeNum == this.data.verifyId){
+            console.log("userInfo123:", app.globalData.userInfo);
             let _parms = {
               shopMobile: this.data.phoneNum,
               SmsContent: this.data.verifyId,
@@ -224,6 +228,7 @@ Page({
               userName: app.globalData.userInfo.userName
             }
             console.log('_parms:', _parms)
+            // return;
             Api.isVerify(_parms).then((res) => {
               if (res.data.code == 0) {
                 app.globalData.userInfo.userId=res.data.data;

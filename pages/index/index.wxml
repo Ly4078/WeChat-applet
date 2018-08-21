@@ -30,7 +30,7 @@
     <view wx:if="{{isphoneNumber}}" class="newUserM_box getphone gettels">
       <view class='nubtitle'>快速注册</view>
       <view class='setphone'>
-        <input type="number" value='{{phone}}' maxlength="11" focus='true' placeholder="输入手机号" bindinput="numbindinput"></input>
+        <input type="number" value="{{phonetwo}}" maxlength="11" focus='true' placeholder="输入手机号" bindinput="numbindinput"></input>
         <image class="clphone" bindtap='closephone' src="https://xqmp4-1256079679.file.myqcloud.com/text_359631370815683703.png"></image>
       </view>
       <view class='setcode'>
@@ -90,22 +90,22 @@
       <image class="img{{index+1}}" src='{{item.img}}'></image>
       <view class="navitem_txt">{{item.name}}</view>
     </view>
-  </view> 
+  </view>
 
   <!-- 热门活动 -->
   <block wx:for="{{Act}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
     <template is="veoRes" data="{{item}}" />
   </block>
-   <view class='scroll_box'>
-     <scroll-view scroll-x="true" class='scroll_activity'>
+  <view class='scroll_box'>
+    <scroll-view scroll-x="true" class='scroll_activity'>
       <block wx:for="{{actlist}}" wx:key="{{index}}" id="{{index}}" wx:for-index="idx">
         <template is="hotActivityss" data="{{item}}" />
       </block>
-    </scroll-view> 
-  </view>   
+    </scroll-view>
+  </view>
 
   <!--短视频  -->
-   <block wx:if="{{isfile}}" wx:for="{{isfile?Vid:Vid2}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}" >
+  <block wx:if="{{isfile}}" wx:for="{{isfile?Vid:Vid2}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
     <template is="veoRes" data="{{item}}" />
   </block>
   <view class='Resbanner Vidbanner' wx:if="{{isfile}}">
@@ -118,13 +118,13 @@
         </view>
       </view>
     </view>
-  </view> 
+  </view>
 
   <!--精选餐厅  -->
-   <block wx:for="{{Res}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}" wx:if="{{false}}">
+  <block wx:for="{{Res}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}" wx:if="{{false}}">
     <template is="veoRes" data="{{item}}" />
-  </block> 
-   <view class='Resbanner' wx:if="{{false}}">
+  </block>
+  <view class='Resbanner' wx:if="{{false}}">
     <image class='Resbimg' id='1' data-ind="1" bindtap='handbaoming' src="{{bannthree[0].imgUrl}}"></image>
     <view class='resthree'>
       <view wx:for="{{hotshop}}" wx:key="index">
@@ -135,14 +135,14 @@
         </view>
       </view>
     </view>
-  </view>   
+  </view>
 
-  
+
   <!--拼菜砍价  -->
-   <block wx:for="{{Bargain}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
+  <block wx:for="{{Bargain}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
     <template is="veoRes" data="{{item}}" />
-  </block> 
-   <view class='Resbanner'>
+  </block>
+  <view class='Resbanner'>
     <image class='Resbimg' id='1' data-ind="1" src="{{bannthree[0].imgUrl}}"></image>
     <view class='resthree'>
       <view wx:for="{{bargainList}}" wx:key="index">
@@ -154,26 +154,26 @@
         </view>
       </view>
     </view>
-  </view> 
- 
+  </view>
+
 
   <!--商家广告位  -->
-    <image class='Advertising' id="3" data-ind="3" bindtap="handbaoming" src="{{bannthree[2].imgUrl}}"></image>  
+  <image class='Advertising' id="3" data-ind="3" bindtap="handbaoming" src="{{bannthree[2].imgUrl}}"></image>
 
   <!--拼菜砍价列表  -->
-<view>
-  <view class="templateWrap {{showModal?'':'unders'}}">
-    <view class='cutCuisine'>
-      <block wx:for="{{bargainListall}}" wx:key="{{index}}" id="{{index}}" wx:for-index="idx">
-        <template is="cuisine" data="{{item}}" />
-      </block>
+  <view>
+    <view class="templateWrap {{showModal?'':'unders'}}">
+      <view class='cutCuisine'>
+        <block wx:for="{{bargainListall}}" wx:key="{{index}}" id="{{index}}" wx:for-index="idx">
+          <template is="cuisine" data="{{item}}" />
+        </block>
+      </view>
     </view>
   </view>
-</view>
 
 
   <!--分类搜索商家菜品  -->
-    <view class='scroll_box' wx:if="{{false}}">
+  <view class='scroll_box' wx:if="{{false}}">
     <scroll-view scroll-x="true" class='scroll_activity'>
       <block wx:for="{{fooddatas}}" wx:key="{{index}}">
         <text class='sortscrch {{actitem == item? "actsort" : ""}}' id='{{item}}' bindtap='handfood'>{{item}}</text>
@@ -192,11 +192,11 @@
         <text wx:for="{{item.ruleDescs}}" wx:key="index">{{item}}；</text>
       </view>
     </view>
-  </view>  
+  </view>
 
-    <view class='toTop' wx:if="{{_page>1}}" bindtap='toTop'>
-      <image src='/images/icon/toTop.png'></image>
-    </view>  
+  <view class='toTop' wx:if="{{_page>1}}" bindtap='toTop'>
+    <image src='/images/icon/toTop.png'></image>
+  </view>
 
 
   <!--新版修改结束  -->
@@ -253,9 +253,9 @@
   </view>
   <view class='homepage' wx:if="{{isphoneNumber}}">
     <!--tab导航条-->
-    <view class="navbar">
+    <!-- <view class="navbar">
       <text wx:for="{{navbar}}" wx:key="{{index}}" data-idx="{{index}}" class="item {{currentTab==index ? 'active' : ''}}" bindtap="navbarTap">{{item}}</text>
-    </view>
+    </view> -->
     <!--菜系专题-->
     <view hidden="{{currentTab!==0}}">
       <!-- <swiper-item> -->

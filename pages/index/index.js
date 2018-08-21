@@ -9,6 +9,7 @@ Page({
     _build_url: GLOBAL_API_DOMAIN,
     city: "",
     phone: '',
+    phonetwo: '',
     verify: '', //输入的验证码
     verifyId: '',//后台返回的短信验证码
     veridyTime: '',//短信发送时间
@@ -19,8 +20,8 @@ Page({
     food: [],   //美食墙
     logs: [],
     topics: [],   //专题
-    restaurant: [], //菜系专题
-    service: [],  //服务专题
+    // restaurant: [], //菜系专题
+    // service: [],  //服务专题
     alltopics: [],
     currentTab: 0,
     issnap: false,  //是否是临时用户
@@ -177,6 +178,14 @@ Page({
         _page: 1
       })
       this.hotDishList();
+      if (this.data.verifyId && this.data.phone || phonetwo){
+        this.setData({
+          userGiftFlag:false,
+          isNew:true,
+          isfirst:true,
+          isphoneNumber:true
+        })
+      }
     }
     wx.request({
       // url: this.data._build_url + 'act/flag', 
@@ -251,7 +260,7 @@ Page({
   },
   onHide: function () {
     let that = this;
-    clearInterval(that.data.settime)
+    // clearInterval(that.data.settime);
     that.setData({
       userGiftFlag: false,
       isfirst: false,
@@ -775,8 +784,8 @@ Page({
             let [...newarr] = arr;
             that.setData({
               alltopics: newarr,
-              restaurant: arr.slice(0, 6), //菜系专题
-              service: arr.slice(6, arr.length)
+              // restaurant: arr.slice(0, 6), //菜系专题
+              // service: arr.slice(6, arr.length)
             })
           } else {
             wx.hideLoading()
@@ -851,8 +860,8 @@ Page({
           this.setData({
             city: _city,
             alltopics: [],
-            restaurant: [],
-            service: []
+            // restaurant: [],
+            // service: []
           })
           // this.getmoredata();
           app.globalData.picker = res.data.result.address_component;
@@ -1317,19 +1326,25 @@ Page({
     }
   },
   numbindinput: function (e) {  //监听号码输入框
-    let _value = e.detail.value
+    let _value = e.detail.value,that = this;
     if (!_value) {
       this.closephone()
     }
-    let RegExp = /^[1][3,4,6,5,7,8,9][0-9]{9}$/;
+    let RegExp = /^[1][3456789][0-9]{9}$/;
     if (RegExp.test(_value)) {
       this.setData({
         isclose: true,
         phone: _value
       })
     } else {
+      clearInterval(that.data.settime);
       this.setData({
-        isclose: false
+        phonetwo: _value,
+        phone:'',
+        isclose: false,
+        rematime:'获取验证码',
+        verifyId:'',
+        settime: null
       })
     }
   },
@@ -1338,6 +1353,7 @@ Page({
     clearInterval(this.data.settime)
     this.setData({
       phone: '',
+      phonetwo:'',
       rematime: '获取验证码',
       isclick: true,
       goto: false,
@@ -1359,7 +1375,7 @@ Page({
     if (this.data.goto) {
       return false
     }
-    let RegExp = /^[1][3,4,5,7,8][0-9]{9}$/;
+    let RegExp = /^[1][3456789][0-9]{9}$/;
     if (RegExp.test(this.data.phone)) {
       this.setData({
         goto: true

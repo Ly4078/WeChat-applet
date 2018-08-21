@@ -759,6 +759,9 @@ page {
   color: #808080;
   border-radius: 8rpx;
 }
+.setphone input:nth-child(1){
+  width: 85%;
+}
 
 
 .setcode{
@@ -786,7 +789,7 @@ page {
   margin: 0;
   padding: 0;
   position:relative;
-  top: -10rpx;
+  top: -26rpx;
 }
 .actbut{
  border: 1rpx solid #808080;
@@ -816,13 +819,12 @@ page {
 
 .clphone{
   position: relative;
-  width:40rpx;
-  height:40rpx;
-  top:-60rpx;
+  width:60rpx;
+  height:60rpx;
+  top:-70rpx;
   float:right;
   right:15rpx;
-  z-index: 3;
-  /* border: 2rpx solid red; */
+  z-index: 999;
 }
 
 /*新版新增加样式  */
