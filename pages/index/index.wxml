@@ -44,7 +44,7 @@
     </view>
 
     <view wx:else class="newUserM_box">
-      <image class="user_present" src="https://xqmp4-1256079679.file.myqcloud.com/text_333413672422503787.png" bindtap='newUserToGet'></image>
+      <image class="user_present" src="https://xqmp4-1256079679.file.myqcloud.com/test_211362532181670312.png" bindtap='newUserToGet'></image>
       <image class="newUserM_gif" src="/images/icon/xiangqiLGBL.gif"></image>
     </view>
 
