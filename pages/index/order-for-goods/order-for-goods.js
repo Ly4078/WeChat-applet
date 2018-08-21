@@ -296,6 +296,11 @@ Page({
     that.setData({
       issecond: true
     })
+    setTimeout(function () {
+      that.setData({
+        issecond: false
+      })
+    }, 3000)
     if (this.data.skutype == 4) {
       let _parms = {
           skuName: this.data.skuName,
