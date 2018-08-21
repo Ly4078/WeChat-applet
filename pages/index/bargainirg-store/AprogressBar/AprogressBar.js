@@ -32,7 +32,6 @@ Page({
       initiator: options.initiator ? options.initiator : '', //发起人Id
       groupId: options.groupId ? options.groupId : '' //团砍Id
     });
-   
   },
   onShow() {
     this.setData({
@@ -83,9 +82,12 @@ Page({
             let userInfo = app.globalData.userInfo;
             console.log('findByCode_userInfo:', userInfo);
             if (userInfo.userId && userInfo.lat && userInfo.lng && userInfo.city) {
+              if (!that.data.groupId) {
+                that.createBargain()
+              };
+              that.dishDetail();
               that.hotDishList();
               that.bargain();
-              that.createBargain()
             } else {
               that.getlocation();
             }
@@ -157,12 +159,14 @@ Page({
       },
       success: (res) => {
         if (res.data.status == 0) {
+          if (!that.data.groupId) {
+            that.createBargain()
+          };
           let _city = res.data.result.address_component.city;
           app.globalData.userInfo.city = _city;
           console.log('_city:', _city);
           that.hotDishList();
           that.bargain();
-          that.createBargain()
         }
       }
     })
