@@ -9,7 +9,8 @@ Page({
     _build_url: GLOBAL_API_DOMAIN,
     initiator: '', //发起人Id
     showModal: false,
-    isGif: false,
+    instruct: false,
+    showCanvas: false,
     groupId: '',
     move: '',
     dishData: {}, //当前菜
@@ -25,7 +26,9 @@ Page({
     hotDishList: [],
     issnap: false,
     isnew: false,
-    timer: null
+    timer: null,
+    canvasSrc: '',
+    audioSrc: ''
   },
   onLoad: function(options) {
     this.setData({
@@ -431,32 +434,19 @@ Page({
   },
   //帮好友砍价
   helpfriend() {
-    let that = this;
+    let _this = this;
     if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
       })
       return false
     }
-
-    // 声音播放
-    const innerAudioContext = wx.createInnerAudioContext()
-    innerAudioContext.autoplay = true
-    innerAudioContext.src = 'https://xqmp4-1256079679.file.myqcloud.com/test_kan.mp3'
-    innerAudioContext.onPlay(() => {
-      console.log('开始播放')
-    })
-
-
-
-
     let _parms = {
         refId: this.data.refId,
         parentId: this.data.initiator,
         userId: app.globalData.userInfo.userId,
         groupId: this.data.groupId
-      },
-      _this = this;
+      };
     Api.isHelpfriend(_parms).then((res) => {
       let code = res.data.code;
       if (code == 0) {
@@ -466,10 +456,26 @@ Page({
         _parms.shopId = _this.data.shopId;
         Api.helpfriend(_parms).then((e) => {
           if (e.data.code == 0) {
-            wx.showToast({
-              title: '砍价成功',
-              icon: 'none'
-            })
+          _this.setData({
+            showModal: true,
+            showCanvas: true,
+            canvasSrc: '/images/icon/kan.gif',
+            audioSrc: 'https://xqmp4-1256079679.file.myqcloud.com/test_kan.mp3'
+          });
+          setTimeout(function() {
+            const innerAudioContext = wx.createInnerAudioContext();
+            innerAudioContext.autoplay = true
+            innerAudioContext.src = _this.data.audioSrc;
+            innerAudioContext.onPlay(() => {})
+          }, 700);
+          setTimeout(function() {
+            _this.setData({
+              showModal: false,
+              showCanvas: false,
+              canvasSrc: '',
+              audioSrc: ''
+            });
+          }, 2000);
             _this.setData({
               otherStatus: 2
             });
@@ -595,13 +601,16 @@ Page({
   // 使用规则
   instructions: function() {
     this.setData({
-      showModal: true
+      showModal: true,
+      instruct: true
     })
   },
   // 关闭弹窗
   understand: function() {
     this.setData({
-      showModal: false
+      showModal: false,
+      instruct: false,
+      showCanvas: false
     })
   },
   transpond() {
