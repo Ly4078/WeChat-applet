@@ -910,7 +910,7 @@ Page({
   //评论列表
   commentList: function() {
     let that = this;
-    if (this.data.comment_list.length>0){
+    if (this.data.comment_list.length>7){
       return
     };
     wx.request({

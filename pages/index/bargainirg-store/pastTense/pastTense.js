@@ -4,7 +4,6 @@ import {
 import Api from '../../../../utils/config/api.js'
 var utils = require('../../../../utils/util.js')
 var app = getApp();
-var timer = null;
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
@@ -15,7 +14,7 @@ Page({
     countDownMinute: 0,
     countDownSecond: 0,
     page: 1,
-    timer:null,
+    timer: null,
     timeArr: [] //时间集合
   },
   onLoad: function() {
@@ -28,10 +27,21 @@ Page({
     this.vegetablesInquire(); //查询菜品
   },
   onHide: function() {
+    let _this = this;
     this.setData({
       bargainList: []
     })
-    clearInterval(this.data.timer);
+    clearInterval(_this.data.timer);
+    this.setData({
+      timer: null
+    });
+  },
+  onUnload() {
+    let _this = this;
+    clearInterval(_this.data.timer);
+    this.setData({
+      timer: null
+    });
   },
   vegetablesInquire: function() { //查询菜品列表
     let _parms = {
@@ -71,13 +81,12 @@ Page({
       countDown = '',
       miliEndTime = '',
       miliNow = '',
-      timer=null,
+      timer = null,
       minus = '', //时间差(秒)
       that = this;
-      timer = setInterval(function() {
-        that.setData({
-          timer: timer
-        });
+    this.setData({
+      timer: setInterval(function() {
+        console.log('定时器');
         let isEnd = 0;
         for (let i = 0; i < arr.length; i++) {
           miliNow = new Date().getTime(); //现在时间
@@ -110,10 +119,12 @@ Page({
         }
         minus--;
       }, 1000)
+    });
   },
   bargainDetail(e) {
     let id = e.currentTarget.id,
-      list = this.data.bargainList,that =this;;
+      list = this.data.bargainList,
+      that = this;;
     for (let i = 0; i < list.length; i++) {
       if (list[i].skuId == id) {
         this.setData({
