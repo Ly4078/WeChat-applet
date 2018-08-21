@@ -138,12 +138,12 @@
                 <view>
                   <text>{{item.nickName?item.nickName:item.userName}}</text>
                 </view>
-                <text>{{item.parentId ? '砍掉'+item.skuAmount+'元' : '发起人'}}</text>
+                <text class="{{item.parentId ? '' : 'blueColor'}}">{{item.parentId ? '砍掉'+item.skuAmount+'元' : '发起人'}}</text>
               </view>
               <view class='userRuleRight-btn'>
                 <text>{{item.createTime}}</text>
                 <!-- <text>12:43</text> -->
-                <text>获得<text>{{item.goldAmount}}</text>个金币</text>
+                <text class="goldColor">获得<text>{{item.goldAmount}}</text>个金币</text>
               </view>
             </view>
           </view>
