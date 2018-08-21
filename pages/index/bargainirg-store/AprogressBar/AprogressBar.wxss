@@ -561,3 +561,11 @@ page{
   line-height: 100rpx;
   text-align: center;
 }
+
+.blueColor {
+  color: #78B6FC;
+}
+
+.goldColor {
+  color: #FFB20E;
+}

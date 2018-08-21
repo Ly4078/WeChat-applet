@@ -1,7 +1,8 @@
 import Api from '../../../../utils/config/api.js';
 var utils = require('../../../../utils/util.js');
 import { GLOBAL_API_DOMAIN} from '../../../../utils/config/config.js';
-var app = getApp()
+var app = getApp();
+var timer = null;
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
@@ -61,6 +62,9 @@ Page({
     }else{
       this.findByCode();
     }
+  },
+  onHide() {
+    clearInterval(timer);
   },
   findByCode: function () { //通过code查询进入的用户信息，判断是否是新用户
     let that = this;
@@ -170,6 +174,7 @@ Page({
           let _city = res.data.result.address_component.city;
           app.globalData.userInfo.city = _city;
           console.log('_city:', _city);
+          that.dishDetail();
           that.hotDishList();
           that.bargain();
         }
@@ -285,7 +290,7 @@ Page({
                 minutes = '',
                 seconds = '',
                 countDown = '';
-              let timer = setInterval(function() {
+              timer = setInterval(function() {
                 if (minus == 0) {
                   clearInterval(timer);
                   minus = 0;
