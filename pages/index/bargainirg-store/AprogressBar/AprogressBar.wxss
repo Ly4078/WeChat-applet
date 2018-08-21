@@ -406,15 +406,15 @@ page{
 }
 
 .canvasWrap{
-  width: 100%;
-  height: 56rpx;
-  display: flex;
-  justify-content: center;
-  padding-top: 34rpx;
+  width:90%;
+  height:56rpx;
+  display:flex;
+  padding-top:34rpx;
+  margin-left:5%;
 }
 
 .canvasImages{
-  width: 134rpx;
+  width: 155rpx;
   height: 48rpx;
 }
 
@@ -423,13 +423,17 @@ page{
   font-family:PingFangSC-Regular;
   color:rgba(255,67,67,1);
   position: relative;
-  width: 90%;
+  width: 20%;
+  left: 0;
 }
 
 .canvasTextxianjia{
-  position: absolute;
-  top: 7rpx;
-  left: 8rpx;
+ position: relative;
+ width: 155rpx;
+  height: 48rpx;
+  top: -48rpx;
+  text-align: center;
+  line-height: 34rpx;
 }
 
 /* 朋友已经砍价后状态 */

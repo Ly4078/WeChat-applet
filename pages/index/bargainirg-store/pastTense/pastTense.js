@@ -15,6 +15,7 @@ Page({
     countDownMinute: 0,
     countDownSecond: 0,
     page: 1,
+    timer:null,
     timeArr: [] //时间集合
   },
   onLoad: function() {
@@ -30,7 +31,7 @@ Page({
     this.setData({
       bargainList: []
     })
-    clearInterval(timer);
+    clearInterval(this.data.timer);
   },
   vegetablesInquire: function() { //查询菜品列表
     let _parms = {
@@ -98,9 +99,10 @@ Page({
         }
         that.setData({
           timeArr: timeArr,
+          timer: timer
         });
         if (isEnd == timeArr.length) {
-          clearInterval(timer);
+          clearInterval(this.data.timer);
           return false;
         }
         minus--;
@@ -108,13 +110,13 @@ Page({
   },
   bargainDetail(e) {
     let id = e.currentTarget.id,
-      list = this.data.bargainList;
+      list = this.data.bargainList,that =this;;
     for (let i = 0; i < list.length; i++) {
       if (list[i].skuId == id) {
         this.setData({
           bargainList: []
         })
-        clearInterval(timer);
+        clearInterval(that.data.timer);
         wx.navigateTo({
           url: '../AprogressBar/AprogressBar?groupId=' + list[i].groupId + '&shopId=' + list[i].shopId + '&refId=' + list[i].skuId + '&skuMoneyOut=' + list[i].skuMoneyOut + '&skuMoneyMin=' + list[i].skuMoneyMin + '&initiator=' + app.globalData.userInfo.userId
         })

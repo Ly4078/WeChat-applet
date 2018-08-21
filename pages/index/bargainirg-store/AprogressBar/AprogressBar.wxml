@@ -59,9 +59,9 @@
       <!-- 砍价进度条 -->
       <view wx:if="{{status != 3 && otherStatus != 4}}">
         <view class='canvasWrap'>
-          <view class='built-in'>
+          <view class='built-in' style="left:{{move+'rpx'}}">
             <image class='canvasImages' src='/images/icon/present_set.png'></image>
-            <text class='canvasTextxianjia'>现价￥<text>{{skuMoneyNow}}</text></text>
+            <view class='canvasTextxianjia'>现价￥<text>{{skuMoneyNow}}</text></view>
           </view>
         </view>
         <view class='progressShell'>

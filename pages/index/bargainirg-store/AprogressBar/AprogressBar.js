@@ -8,6 +8,7 @@ Page({
     initiator: '', //发起人Id
     showModal: false,
     groupId: '',
+    move:'',
     dishData:{},  //当前菜
     doneBargain: '', //已砍金额
     countDown: '', //倒计时
@@ -233,6 +234,12 @@ Page({
             doneBargain = (+this.data.skuMoneyOut - data[0].skuMoneyNow).toFixed(2),
             progress = 0;
           progress = doneBargain / max * 100;
+          let _move = doneBargain / max*1;
+          _move *=500;
+          _move  = _move.toFixed(0);
+          this.setData({
+            move:_move
+          })
           if (this.data.initiator && (this.data.initiator != app.globalData.userInfo.userId)) {
             this.setData({
               isMine: false
