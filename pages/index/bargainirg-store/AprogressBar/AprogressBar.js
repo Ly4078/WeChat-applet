@@ -8,6 +8,7 @@ Page({
     _build_url: GLOBAL_API_DOMAIN,
     initiator: '', //发起人Id
     showModal: false,
+    isGif:false,
     groupId: '',
     move:'',
     dishData:{},  //当前菜
@@ -406,12 +407,25 @@ Page({
   },
   //帮好友砍价
   helpfriend() {
+    let that = this;
     if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
       })
       return false
     }
+   
+     // 声音播放
+      const innerAudioContext = wx.createInnerAudioContext()
+      innerAudioContext.autoplay = true
+      innerAudioContext.src = 'https://xqmp4-1256079679.file.myqcloud.com/test_kan.mp3'
+      innerAudioContext.onPlay(() => {
+        console.log('开始播放')
+      })
+  
+
+   
+
     let _parms = {
         refId: this.data.refId,
         parentId: this.data.initiator,

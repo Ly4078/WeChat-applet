@@ -71,9 +71,13 @@ Page({
       countDown = '',
       miliEndTime = '',
       miliNow = '',
+      timer=null,
       minus = '', //时间差(秒)
-      that = this,
+      that = this;
       timer = setInterval(function() {
+        that.setData({
+          timer: timer
+        });
         let isEnd = 0;
         for (let i = 0; i < arr.length; i++) {
           miliNow = new Date().getTime(); //现在时间
@@ -98,11 +102,10 @@ Page({
           timeArr = that.data.timeArr;
         }
         that.setData({
-          timeArr: timeArr,
-          timer: timer
+          timeArr: timeArr
         });
         if (isEnd == timeArr.length) {
-          clearInterval(this.data.timer);
+          clearInterval(that.data.timer);
           return false;
         }
         minus--;

@@ -37,7 +37,7 @@ Page({
       hotDishList: [],
       page: 1
     });
-    if (app.globalData.userInfo.userId){
+    if (app.globalData.userInfo.userId || app.globalData.userInfo.userId!=null){
       this.getmoreData();
       this.isbargain(false);
       if (!app.globalData.userInfo.mobile) { //是新用户，去注册页面
@@ -48,9 +48,9 @@ Page({
     }else{
       this.findByCode();
     }
-    
   },
   getmoreData() {  //查询 更多数据 
+    
     this.dishDetail();
     this.shopDetail();
     if (app.globalData.userInfo.lng && app.globalData.userInfo.lat){
@@ -105,33 +105,40 @@ Page({
   },
   //查询单个砍价菜
   dishDetail() {
-    let _parms = {
-      Id: this.data.id,
-      zanUserId: app.globalData.userInfo.userId,
-      shopId: this.data.shopId
-    };
-    Api.discountDetail(_parms).then((res) => {
-      if (res.data.code == 0 && res.data.data) {
-        let data = res.data.data;
-        let skuInfo = '';
-        if (data.skuInfo && data.skuInfo != 'null' && data.skuInfo != 'undefined') {
-          skuInfo = data.skuInfo;
+    if (app.globalData.userInfo.userId == null || !app.globalData.userInfo.userId){
+      this.findByCode();
+    }else{
+      let _parms = {
+        Id: this.data.id,
+        zanUserId: app.globalData.userInfo.userId,
+        shopId: this.data.shopId
+      };
+      console.log('_parms:', _parms);
+      Api.discountDetail(_parms).then((res) => {
+        if (res.data.code == 0 && res.data.data) {
+          let data = res.data.data;
+          let skuInfo = '';
+          if (data.skuInfo && data.skuInfo != 'null' && data.skuInfo != 'undefined') {
+            skuInfo = data.skuInfo;
+          }
+          this.setData({
+            picUrl: data.picUrl,
+            skuName: data.skuName,
+            skuInfo: skuInfo,
+            stockNum: data.stockNum,
+            agioPrice: data.agioPrice,
+            sellPrice: data.sellPrice,
+            sellNum: data.sellNum
+          });
+        } else {
+          console.log('系统繁忙');
+          wx.showToast({
+            title: '系统繁忙'
+          })
         }
-        this.setData({
-          picUrl: data.picUrl,
-          skuName: data.skuName,
-          skuInfo: skuInfo,
-          stockNum: data.stockNum,
-          agioPrice: data.agioPrice,
-          sellPrice: data.sellPrice,
-          sellNum: data.sellNum
-        });
-      } else {
-        wx.showToast({
-          title: '系统繁忙'
-        })
-      }
-    })
+      })
+    }
+    
   },
   //查询商家信息
   shopDetail() {

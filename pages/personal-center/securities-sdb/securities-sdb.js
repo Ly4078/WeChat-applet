@@ -63,35 +63,24 @@ Page({
     let that = this;
     wx.login({
       success: res => {
-        Api.findByCode({ code: res.code }).then((res) => {
-          if (res.data.code == 0) {
-            let data = res.data.data;
-            console.log('data:',data);
-            app.globalData.userInfo.userId = data.id;
-            for (let key in data) {
-              for (let ind in app.globalData.userInfo) {
-                if (key == ind) {
-                  app.globalData.userInfo[ind] = data[key]
-                }
-              }
-            }
-            console.log("userInfo_aaaa:", app.globalData.userInfo);
-            if (data.mobile) {
-              wx.switchTab({
-                url: '../../index/index'
-              })
-            }
+        if (res.code) {
+          let _parms = {
+            code: res.code
+          }
+          Api.getOpenId(_parms).then((res) => {
+            console.log("getOpenId_parms:",_parms)
+            app.globalData.userInfo.openId = res.data.data.openId;
+            app.globalData.userInfo.sessionKey = res.data.data.sessionKey;
             if (res.data.data.unionId) {
               app.globalData.userInfo.unionId = res.data.data.unionId;
+              that.getmyuserinfo();
             } else {
               that.setData({
-                istouqu: true
+                istouqu:true
               })
             }
-          } else {
-            that.findByCode();
-          }
-        })
+          })
+        }
       }
     })
   },
@@ -113,14 +102,52 @@ Page({
             })
             let _data = JSON.parse(resv.data.data);
             app.globalData.userInfo.unionId = _data.unionId;
+            app.globalData.userInfo.openId = _data.openId;
+            that.getmyuserinfo();
           }
         })
       }
     })
   },
 
+  getmyuserinfo: function () { //从自己的服务器获取用户信息
+    let _parms = {
+      openId: app.globalData.userInfo.openId,
+      unionId: app.globalData.userInfo.unionId
+    }, that = this;
+    console.log("getmyuserinfo_parms:",_parms);
+    Api.addUserUnionId(_parms).then((res) => {
+      if (res.data.data) {
+        app.globalData.userInfo.userId = res.data.data;
+        wx.request({  //从自己的服务器获取用户信息
+          url: this.data._build_url + 'user/get/' + res.data.data,
+          header: {
+            'content-type': 'application/json' // 默认值
+          },
+          success: function (res) {
+            if (res.data.code == 0) {
+              let data = res.data.data;
+              for (let key in data) {
+                for (let ind in app.globalData.userInfo) {
+                  if (key == ind) {
+                    app.globalData.userInfo[ind] = data[key]
+                  }
+                }
+              };
+              console.log('app.globalData.userInfo:', app.globalData.userInfo)
+              if (data.mobile) {
+                wx.switchTab({
+                  url: '../../index/index'
+                })
+              }
+            }
+          }
+        })
+      }
+    })
+  },
   changePhone: function (e) {  //监听手机号输入
-    let _value = e.detail.value, RegExp = /^[1][3,4,5,7,8][0-9]{9}$/;
+    let _value = e.detail.value, RegExp = /^[1][3456789][0-9]{9}$/;
     if (!_value) {
       this.setData({
         phoneNum:''
@@ -172,6 +199,7 @@ Page({
         userId: app.globalData.userInfo.userId,
         userName: app.globalData.userInfo.userName
       }
+      console.log('_parms:', _parms);
       Api.sendForRegister(_parms).then((res) => {
         if (res.data.code == 0) {
           that.setData({
