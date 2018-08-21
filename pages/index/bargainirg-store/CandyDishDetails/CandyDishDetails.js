@@ -40,6 +40,11 @@ Page({
     if (app.globalData.userInfo.userId){
       this.getmoreData();
       this.isbargain(false);
+      if (!app.globalData.userInfo.mobile) { //是新用户，去注册页面
+        this.setData({
+          isnew: true
+        });
+      }
     }else{
       this.findByCode();
     }

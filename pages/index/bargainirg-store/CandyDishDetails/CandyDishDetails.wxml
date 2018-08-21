@@ -15,7 +15,7 @@
         <text class='shopsTopLeft'>{{skuName}}</text>
         <view class='shopsTopRight'>剩余
           <text>{{stockNum}}</text>份</view>
-      </view>
+        </view>
       <view class='shopsTop shopssecond'>
         <view class='shopsConter'>
           <view class='shopscCurrency'>￥ 底价

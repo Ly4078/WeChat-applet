@@ -36,9 +36,7 @@ Page({
       })
     };
 
-
     this.getuserInfo();
-    // this.personalInit();
   },
   onShow: function() {
     let that = this;

@@ -178,7 +178,7 @@ Page({
         _page: 1
       })
       this.hotDishList();
-      if (this.data.verifyId && this.data.phone || this.data.phonetwo){
+      if (this.data.verifyId && this.data.phone && this.data.phonetwo){
         this.setData({
           userGiftFlag:false,
           isNew:true,
@@ -1470,7 +1470,10 @@ Page({
               isfirst: false,
               userGiftFlag: false,
               phone: '',
-              veridyTime: ''
+              veridyTime: '',
+              verifyId: '',
+              isphoneNumber: false,
+              phonetwo: ''
             })
             wx.request({  //从自己的服务器获取用户信息
               url: this.data._build_url + 'user/get/' + res.data.data,
@@ -1491,6 +1494,7 @@ Page({
                   // if (data.mobile) {
                   //   that.newUserToGet();
                   // }
+                  
 
                   that.isNewUser();
                 }
