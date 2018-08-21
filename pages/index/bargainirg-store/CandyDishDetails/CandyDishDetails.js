@@ -113,9 +113,14 @@ Page({
     Api.discountDetail(_parms).then((res) => {
       if (res.data.code == 0 && res.data.data) {
         let data = res.data.data;
+        let skuInfo = '';
+        if (data.skuInfo && data.skuInfo != 'null' && data.skuInfo != 'undefined') {
+          skuInfo = data.skuInfo;
+        }
         this.setData({
           picUrl: data.picUrl,
           skuName: data.skuName,
+          skuInfo: skuInfo,
           stockNum: data.stockNum,
           agioPrice: data.agioPrice,
           sellPrice: data.sellPrice,

@@ -32,6 +32,14 @@
   <!-- 主体 -->
   <view class='theFollowing'>
     <view class='embedded'>
+      <!-- 菜品详情 -->
+      <view wx:if="{{skuInfo}}">
+        <view class='specialWrap'>
+          <view class='special'></view>
+          <text>详情</text>
+        </view>
+        <view class="skuInfo">{{skuInfo}}</view>
+      </view>
       <!-- 标题 -->
       <view class='specialWrap'>
         <view class='special'></view>

@@ -511,3 +511,9 @@
   font-family:PingFangSC-Regular;
   color:rgba(255,255,255,1);
 }
+
+.skuInfo {
+  color: #191919;
+  font-size: 28rpx;
+  padding-left: 20rpx;
+}
