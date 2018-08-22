@@ -19,8 +19,8 @@ Page({
     store_images: '',
     merchantArt: [], //商家动态列表
     activity: [], //商家活动列表
-    Bargainlist:[],//砍菜列表
-    isBarg:false,
+    Bargainlist: [], //砍菜列表
+    isBarg: false,
     allactivity: [],
     article_page: 1,
     reFresh: true,
@@ -28,7 +28,7 @@ Page({
     istouqu: false,
     ismore: false,
     isactmore: false,
-    isnew:false,
+    isnew: false,
     isAgio: false,
     listagio: [],
     newpackage: [],
@@ -53,7 +53,7 @@ Page({
   onLoad: function(options) {
     this.setData({
       shopid: options.shopid,
-      comment_list:[]
+      comment_list: []
     });
     this.selectForOne(options.shopid)
     if (options.flag == 1) {
@@ -84,8 +84,7 @@ Page({
     // 分享功能
     wx.showShareMenu({
       withShareTicket: true,
-      success: function(res) {
-      },
+      success: function(res) {},
       fail: function(res) {
         console.log(res)
       }
@@ -110,7 +109,7 @@ Page({
     vm.antifriction(); // 水平一行字滚动完了再按照原来的方向滚动
     vm.bearing(); // 第一个字消失后立即从右边出现
   },
-  getinfouser: function () { //获取用户openId、sessionKey
+  getinfouser: function() { //获取用户openId、sessionKey
     let that = this;
     wx.login({
       success: res => {
@@ -133,12 +132,14 @@ Page({
       }
     })
   },
-  findByCode: function () {//获取用户unionId 如未获取到，则调用againgetinfo事件
+  findByCode: function() { //获取用户unionId 如未获取到，则调用againgetinfo事件
     console.log('findByCode')
     let that = this;
     wx.login({
       success: res => {
-        Api.findByCode({ code: res.code }).then((res) => {
+        Api.findByCode({
+          code: res.code
+        }).then((res) => {
           wx.hideLoading();
           if (res.data.code == 0) {
             if (res.data.data.unionId) {
@@ -154,11 +155,11 @@ Page({
       }
     })
   },
-  againgetinfo: function () { //点击获取用户unionId
+  againgetinfo: function() { //点击获取用户unionId
     let that = this;
     wx.getUserInfo({
       withCredentials: true,
-      success: function (res) {
+      success: function(res) {
         let _pars = {
           sessionKey: app.globalData.userInfo.sessionKey,
           ivData: res.iv,
@@ -177,20 +178,21 @@ Page({
       }
     })
   },
-  getmyuserinfo: function () {
+  getmyuserinfo: function() {
     let _parms = {
-      openId: app.globalData.userInfo.openId,
-      unionId: app.globalData.userInfo.unionId
-    }, that = this;
+        openId: app.globalData.userInfo.openId,
+        unionId: app.globalData.userInfo.unionId
+      },
+      that = this;
     Api.addUserUnionId(_parms).then((res) => {
       if (res.data.data) {
         app.globalData.userInfo.userId = res.data.data;
-        wx.request({  //从自己的服务器获取用户信息
+        wx.request({ //从自己的服务器获取用户信息
           url: this.data._build_url + 'user/get/' + res.data.data,
           header: {
             'content-type': 'application/json' // 默认值
           },
-          success: function (res) {
+          success: function(res) {
             if (res.data.code == 0) {
               let data = res.data.data;
               for (let key in data) {
@@ -215,14 +217,14 @@ Page({
       }
     })
   },
-  getsetget:function(){
+  getsetget: function() {
     let that = this;
     wx.request({
       url: that.data._build_url + 'sku/listForAgio',
       data: {
         userId: app.globalData.userInfo.userId
       },
-      success: function (res) {
+      success: function(res) {
         let data = res.data;
         if (data.code == 0) {
           let _data = data.data.list[0]
@@ -508,13 +510,13 @@ Page({
     this.getsetget();
     this.hotDishList();
   },
-  changeBar(){  //点击拼菜展开
-   this.setData({
-     isBarg: !this.data.isBarg
-   });
+  changeBar() { //点击拼菜展开
+    this.setData({
+      isBarg: !this.data.isBarg
+    });
     this.hotDishList();
   },
-  hotDishList() {  //拼价砍菜列表
+  hotDishList() { //拼价砍菜列表
     //browSort 0附近 1销量 2价格
     let _parms = {
       zanUserId: app.globalData.userInfo.userId,
@@ -529,13 +531,15 @@ Page({
     Api.partakerList(_parms).then((res) => {
       if (res.data.code == 0) {
         this.setData({
-          Bargainlist:[]
+          Bargainlist: []
         });
-        let _list = res.data.data.list, _oldData = this.data.Bargainlist, arr = []; 
-        if (_list && _list.length){
+        let _list = res.data.data.list,
+          _oldData = this.data.Bargainlist,
+          arr = [];
+        if (_list && _list.length) {
           arr = _oldData.concat(_list);
-          if (!this.data.isBarg){
-            arr = arr.splice(0,3);
+          if (!this.data.isBarg) {
+            arr = arr.splice(0, 3);
           }
           this.setData({
             Bargainlist: arr
@@ -544,11 +548,48 @@ Page({
       }
     })
   },
-  initiate(e){//发起砍价
-    let id = e.currentTarget.id, shopId = e.currentTarget.dataset.index;
+  initiate(e) { //跳转至菜品详情
+    let id = e.currentTarget.id,
+      shopId = e.currentTarget.dataset.index;
     wx.navigateTo({
       url: '../bargainirg-store/CandyDishDetails/CandyDishDetails?id=' + id + '&shopId=' + shopId
     })
+  },
+  //发起砍价
+  toBargain(e) {
+    if (!app.globalData.userInfo.mobile) {
+      this.setData({
+        issnap: true
+      })
+      return false
+    }
+    let _refId = e.currentTarget.id,
+      _shopId = e.currentTarget.dataset.shopid,
+      _agioPrice = e.currentTarget.dataset.agioprice,
+      _sellPrice = e.currentTarget.dataset.sellprice;
+    let _parms = {
+      userId: app.globalData.userInfo.userId,
+      skuId: _refId
+    };
+    Api.vegetables(_parms).then((res) => {
+      if (res.data.data.length > 0) {
+        wx.showModal({
+          title: '您已发起了砍价，是否查看状态',
+          content: '',
+          complete(e) {
+            if (e.confirm) {
+              wx.navigateTo({
+                url: '../bargainirg-store/pastTense/pastTense'
+              });
+            }
+          }
+        })
+      } else {
+        wx.navigateTo({
+          url: '../bargainirg-store/AprogressBar/AprogressBar?refId=' + _refId + '&shopId=' + _shopId + '&skuMoneyMin=' + _agioPrice + '&skuMoneyOut=' + _sellPrice
+        })
+      }
+    });
   },
   getstoredata() { //获取店铺详情数据   
     let id = this.data.shopid;
@@ -575,7 +616,7 @@ Page({
             that.setData({
               service: _data.otherService ? _data.otherService.split(',') : []
             });
-          } 
+          }
           that.shopList();
           that.getDishList();
         }
@@ -910,7 +951,7 @@ Page({
   //评论列表
   commentList: function() {
     let that = this;
-    if (this.data.comment_list.length>7){
+    if (this.data.comment_list.length > 7) {
       return
     };
     wx.request({
@@ -926,8 +967,9 @@ Page({
         let data = res.data;
         if (data.code == 0 && data.data.list != null && data.data.list != "") {
           if (res.data.code == 0) {
-            if (res.data.data && res.data.data.list){
-              let _data = res.data.data.list, reg = /^1[34578][0-9]{9}$/;
+            if (res.data.data && res.data.data.list) {
+              let _data = res.data.data.list,
+                reg = /^1[34578][0-9]{9}$/;
               for (let i = 0; i < _data.length; i++) {
                 _data[i].zan = utils.million(_data[i].zan)
                 _data[i].content = utils.uncodeUtf16(_data[i].content)
@@ -942,7 +984,7 @@ Page({
                 comment_list: _data
               })
             }
-            
+
           }
           that.setData({
             commentNum: res.data.data.total
@@ -1289,7 +1331,8 @@ Page({
       let data = res.data;
       if (data.code == 0) {
         if (data.data.list != null && data.data.list != "" && data.data.list != []) {
-          let _data = data.data.list, _dataSub = [];
+          let _data = data.data.list,
+            _dataSub = [];
           for (let i = 0; i < _data.length; i++) {
             if (_data[i].id != this.data.shopid) {
               _data[i].distance = utils.transformLength(_data[i].distance);

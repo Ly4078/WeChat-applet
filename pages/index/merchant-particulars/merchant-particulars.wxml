@@ -143,8 +143,8 @@
       </view>
       <view class='scroll_box'>
         <block wx:for="{{Bargainlist}}" wx:key="{{index}}">
-          <view class="anchor" id='{{item.id}}' data-index="{{item.shopId}}" bindtap='initiate'>
-            <image class='anchor_img' mode="aspectFill" src='{{item.picUrl}}'></image>
+          <view class="anchor">
+            <image class='anchor_img' mode="aspectFill" src='{{item.picUrl}}' id='{{item.id}}' data-index="{{item.shopId}}" bindtap='initiate'></image>
             <view class='Barbut'>
               <view class='barbLeft'>
                  <view class='bLtop'>{{item.skuName}}</view>
@@ -153,7 +153,7 @@
                     <text>原价¥{{item.sellPrice}}</text>
                   </view>
               </view>
-              <view class='barbRight'>发起砍价</view>
+              <view class='barbRight' id="{{item.id}}" data-shopId="{{item.shopId}}" data-agioPrice="{{item.agioPrice}}" data-sellPrice="{{item.sellPrice}}" bindtap='toBargain'>发起砍价</view>
             </view>
            
           </view>

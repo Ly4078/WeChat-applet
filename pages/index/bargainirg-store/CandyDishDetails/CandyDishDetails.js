@@ -1,28 +1,30 @@
 import Api from '../../../../utils/config/api.js';
 var utils = require('../../../../utils/util.js');
-import { GLOBAL_API_DOMAIN } from '../../../../utils/config/config.js';
+import {
+  GLOBAL_API_DOMAIN
+} from '../../../../utils/config/config.js';
 var app = getApp()
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
-    issnap: false,   //新用户
-    isnew: false,   //新用户
-    shopId: '',   //店铺id
-    id: '',       //菜id
-    picUrl: '',     //菜图
-    skuName: '',    //菜名
-    stockNum: '',   //库存
-    agioPrice: '',  //底价
-    sellPrice: '',  //原价
-    sellNum: '',     //已售
-    shopName: '',     //店名
+    issnap: false, //新用户
+    isnew: false, //新用户
+    shopId: '', //店铺id
+    id: '', //菜id
+    picUrl: '', //菜图
+    skuName: '', //菜名
+    stockNum: '', //库存
+    agioPrice: '', //底价
+    sellPrice: '', //原价
+    sellNum: '', //已售
+    shopName: '', //店名
     address: '', //地址
-    popNum: '',   //人气值
-    dishList: [],   //同店推荐
-    hotDishList: [],  //热门推荐
+    popNum: '', //人气值
+    dishList: [], //同店推荐
+    hotDishList: [], //热门推荐
     flag: true,
     page: 1,
-    isbargain: false   //是否砍过价
+    isbargain: false //是否砍过价
   },
   onLoad(options) {
     this.setData({
@@ -37,7 +39,7 @@ Page({
       hotDishList: [],
       page: 1
     });
-    if (app.globalData.userInfo.userId || app.globalData.userInfo.userId!=null){
+    if (app.globalData.userInfo.userId || app.globalData.userInfo.userId != null) {
       this.getmoreData();
       this.isbargain(false);
       if (!app.globalData.userInfo.mobile) { //是新用户，去注册页面
@@ -45,25 +47,27 @@ Page({
           isnew: true
         });
       }
-    }else{
+    } else {
       this.findByCode();
     }
   },
-  getmoreData() {  //查询 更多数据 
-    
+  getmoreData() { //查询 更多数据 
+
     this.dishDetail();
     this.shopDetail();
-    if (app.globalData.userInfo.lng && app.globalData.userInfo.lat){
+    if (app.globalData.userInfo.lng && app.globalData.userInfo.lat) {
       this.dishList();
       this.hotDishList();
-    }else{
+    } else {
       this.getlocation();
     }
   },
-  chilkDish(e) {  //点击某个推荐菜
-    let id = e.currentTarget.id;
+  chilkDish(e) { //点击某个推荐菜
+    let id = e.currentTarget.id,
+      shopId = e.currentTarget.dataset.shopid;
     this.setData({
       id: id,
+      shopId: shopId,
       page: 1,
       flag: true,
       hotDishList: []
@@ -75,7 +79,7 @@ Page({
     this.getmoreData();
     this.isbargain(false);
   },
-  chickinItiate(e) {  //点击某个发起砍价
+  chickinItiate(e) { //点击某个发起砍价
     if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
@@ -103,11 +107,27 @@ Page({
       }
     });
   },
+  //点击同店推荐菜品
+  dishesDiscounts(e) {
+    let id = e.currentTarget.id;
+    this.setData({
+      id: id,
+      page: 1,
+      flag: true,
+      hotDishList: []
+    });
+    wx.pageScrollTo({
+      scrollTop: 0,
+      duration: 300
+    });
+    this.getmoreData();
+    this.isbargain(false);
+  },
   //查询单个砍价菜
   dishDetail() {
-    if (app.globalData.userInfo.userId == null || !app.globalData.userInfo.userId){
+    if (app.globalData.userInfo.userId == null || !app.globalData.userInfo.userId) {
       this.findByCode();
-    }else{
+    } else {
       let _parms = {
         Id: this.data.id,
         zanUserId: app.globalData.userInfo.userId,
@@ -119,7 +139,8 @@ Page({
           let data = res.data.data;
           let skuInfo = '';
           if (data.skuInfo && data.skuInfo != 'null' && data.skuInfo != 'undefined') {
-            skuInfo = data.skuInfo;
+            skuInfo = data.skuInfo.split('Œ');
+            console.log(skuInfo)
           }
           this.setData({
             picUrl: data.picUrl,
@@ -131,21 +152,18 @@ Page({
             sellNum: data.sellNum
           });
         } else {
-          console.log('系统繁忙');
-          wx.showToast({
-            title: '系统繁忙'
-          })
+
         }
       })
     }
-    
+
   },
   //查询商家信息
   shopDetail() {
     let _this = this;
     wx.request({
       url: _this.data._build_url + 'shop/get/' + _this.data.shopId,
-      success: function (res) {
+      success: function(res) {
         if (res.data.code == 0 && res.data.data) {
           let data = res.data.data;
           _this.setData({
@@ -154,9 +172,7 @@ Page({
             popNum: data.popNum
           });
         } else {
-          wx.showToast({
-            title: '系统繁忙'
-          })
+
         }
       }
     });
@@ -183,7 +199,8 @@ Page({
     };
     Api.partakerList(_parms).then((res) => {
       if (res.data.code == 0 && res.data.data.list && res.data.data.list != 'null') {
-        let list = res.data.data.list, newList = [];
+        let list = res.data.data.list,
+          newList = [];
         for (let i = 0; i < list.length; i++) {
           if (list[i].id != this.data.id) {
             newList.push(list[i]);
@@ -210,7 +227,8 @@ Page({
     };
     Api.partakerList(_parms).then((res) => {
       if (res.data.code == 0 && res.data.data.list && res.data.data.list != 'null') {
-        let list = res.data.data.list, hotDishList = this.data.hotDishList;
+        let list = res.data.data.list,
+          hotDishList = this.data.hotDishList;
         for (let i = 0; i < list.length; i++) {
           if (list[i].id != this.data.id) {
             list[i].distance = utils.transformLength(list[i].distance);
@@ -279,7 +297,7 @@ Page({
     })
   },
   //发起砍价
-  sponsorVgts: function () {
+  sponsorVgts: function() {
     if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
@@ -306,18 +324,18 @@ Page({
     });
   },
   // 左上角返回首页
-  returnHomeArrive: function () {
+  returnHomeArrive: function() {
     wx.switchTab({
       url: '../../index',
-      success: function (res) { },
-      fail: function (res) { },
-      complete: function (res) { },
+      success: function(res) {},
+      fail: function(res) {},
+      complete: function(res) {},
     })
   },
-  shareCand: function () {  //点击分享
+  shareCand: function() { //点击分享
 
   },
-  onReachBottom: function () {  //用户上拉触底加载更多
+  onReachBottom: function() { //用户上拉触底加载更多
     if (!this.data.flag) {
       return false;
     }
@@ -326,7 +344,7 @@ Page({
     });
     this.hotDishList();
   },
-  onPullDownRefresh: function () {
+  onPullDownRefresh: function() {
     this.setData({
       flag: true,
       hotDishList: [],
@@ -334,11 +352,13 @@ Page({
     });
     this.hotDishList();
   },
-  findByCode: function () { //通过code查询进入的用户信息，判断是否是新用户
+  findByCode: function() { //通过code查询进入的用户信息，判断是否是新用户
     let that = this;
     wx.login({
       success: res => {
-        Api.findByCode({ code: res.code }).then((res) => {
+        Api.findByCode({
+          code: res.code
+        }).then((res) => {
           if (res.data.code == 0) {
             let data = res.data.data;
             app.globalData.userInfo.userId = data.id;
@@ -351,7 +371,7 @@ Page({
                 }
               }
             }
-            
+
             if (!data.mobile) { //是新用户，去注册页面
               that.setData({
                 isnew: true
@@ -371,34 +391,36 @@ Page({
       }
     })
   },
-  getlocation: function () {  //获取用户位置
-    let that = this, lat = '', lng = '';
+  getlocation: function() { //获取用户位置
+    let that = this,
+      lat = '',
+      lng = '';
     wx.getLocation({
       type: 'wgs84',
-      success: function (res) {
+      success: function(res) {
         let latitude = res.latitude;
         let longitude = res.longitude;
         app.globalData.userInfo.lat = latitude;
         app.globalData.userInfo.lng = longitude;
         that.requestCityName(latitude, longitude);
       },
-      fail: function (res) {
+      fail: function(res) {
         wx.getSetting({
           success: (res) => {
             if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其用户信息或位置信息
               wx.showModal({
                 title: '提示',
                 content: '更多体验需要你授权位置信息',
-                success: function (res) {
+                success: function(res) {
                   if (res.confirm) {
-                    wx.openSetting({  //打开授权设置界面
+                    wx.openSetting({ //打开授权设置界面
                       success: (res) => {
                         if (res.authSetting['scope.userLocation']) {
                           wx.getLocation({
                             type: 'wgs84',
-                            success: function (res) {
-                              let latitude = res.latitude, 
-                              longitude = res.longitude
+                            success: function(res) {
+                              let latitude = res.latitude,
+                                longitude = res.longitude
                               app.globalData.userInfo.lat = latitude;
                               app.globalData.userInfo.lng = longitude;
                               that.requestCityName(latitude, longitude);
@@ -416,7 +438,7 @@ Page({
       }
     })
   },
-  requestCityName(lat, lng) {//获取当前城市
+  requestCityName(lat, lng) { //获取当前城市
     app.globalData.userInfo.lat = lat;
     app.globalData.userInfo.lng = lng;
     let that = this;
@@ -435,7 +457,7 @@ Page({
       }
     })
   },
-  closetel: function (e) {
+  closetel: function(e) {
     let id = e.target.id;
     this.setData({
       issnap: false
@@ -447,20 +469,18 @@ Page({
     }
   },
   //分享给好友
-  onShareAppMessage: function () {
+  onShareAppMessage: function() {
     return {
       title: this.data.store_details.shopName,
       path: '/pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails?shopid=' + this.data.shopid + '&id=' + this.data.id,
       // imageUrl: this.data.store_details.logoUrl,
-      success: function (res) {
+      success: function(res) {
         console.log('success')
       },
-      fail: function (res) {
+      fail: function(res) {
         // 分享失败
         console.log(res)
       }
     }
   },
 })
-
-

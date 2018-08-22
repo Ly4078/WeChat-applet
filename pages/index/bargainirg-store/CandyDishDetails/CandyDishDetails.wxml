@@ -15,7 +15,7 @@
         <text class='shopsTopLeft'>{{skuName}}</text>
         <view class='shopsTopRight'>剩余
           <text>{{stockNum}}</text>份</view>
-        </view>
+      </view>
       <view class='shopsTop shopssecond'>
         <view class='shopsConter'>
           <view class='shopscCurrency'>￥ 底价
@@ -38,7 +38,9 @@
           <view class='special'></view>
           <text>详情</text>
         </view>
-        <view class="skuInfo">{{skuInfo}}</view>
+        <view class="skuInfo">
+          <view wx:for="{{skuInfo}}" wx:key="{{index}}" id="{{index}}" wx:for-index="idx">{{idx+1}}.{{item}}</view>
+        </view>
       </view>
       <!-- 标题 -->
       <view class='specialWrap'>
@@ -71,7 +73,7 @@
       </view>
       <block wx:for="{{dishList}}" wx:key="{{index}}" id="{{index}}" wx:for-index="idx">
         <view class='merchantROM'>
-          <view class='merchantLeft' catchtap='dishesDiscounts'>
+          <view class='merchantLeft' id="{{item.id}}" catchtap='dishesDiscounts'>
             <image class='merchantImages' mode='scaleToFill' src='{{item.picUrl}}'></image>
             <view class='acuisineMessage'>
               <text class='acuisineName'>{{item.skuName}}</text>
@@ -99,7 +101,7 @@
       </view>
       <view class='oldWrap'>
         <block wx:for="{{hotDishList}}" wx:key="{{index}}" id="{{index}}" wx:for-index="idx">
-          <view class='ecommendation' id="{{item.id}}" catchtap='chilkDish'>
+          <view class='ecommendation' id="{{item.id}}" data-shopId="{{item.shopId}}" catchtap='chilkDish'>
             <view class='ecommendationImg'>
               <image mode='scaleToFill' class='ecomt_images' src='{{item.picUrl}}'></image>
             </view>
@@ -142,7 +144,7 @@
 
     <button class='returnHome' bindtap='share' plain="true" data-name="shareBtn" open-type="share">
       <image class='yellowShare' src='/images/icon/yellowShare.png'></image>
-       <text>分享</text>
+      <text>分享</text>
     </button>
 
     <view class='returnPrice' catchtap='originalPrice'>
