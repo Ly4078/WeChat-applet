@@ -13,5 +13,5 @@ page{
 .dishesesImg{
   padding: 20rpx;
   width: 710rpx;
-  height: 5000rpx;
+  height: 2456rpx;
 }
