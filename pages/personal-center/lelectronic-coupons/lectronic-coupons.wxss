@@ -429,7 +429,7 @@ page {
 .brotherLeft1 text{
   font-size:24rpx;
   font-family:PingFangSC-Regular;
-  color:rgba(177,177,177,1);
+  color: red;
 }
 
 .brotherArrows1{
