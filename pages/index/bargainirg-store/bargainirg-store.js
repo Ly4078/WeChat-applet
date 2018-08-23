@@ -12,6 +12,7 @@ Page({
     flag: true,   //节流阀
     scrollLeft: 0,
     choose_modal: "",
+    isball:true
   },
   onLoad: function(options) {
     this.dishList();
@@ -72,6 +73,14 @@ Page({
       page: 1
     })
     this.dishList();
+  },
+  toactlist() {
+    this.setData({
+      isball: false
+    })
+    wx.switchTab({
+      url: '../../index/index',
+    })
   },
   onReachBottom: function () {  //用户上拉触底加载更多
     if (!this.data.flag) {
