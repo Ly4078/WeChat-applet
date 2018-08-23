@@ -30,8 +30,10 @@ Page({
     _lng:''
   },
   onLoad(options) {
-    console.log('options:', options)
     this.setData({
+      flag: true,
+      hotDishList: [],
+      page: 1,
       shopId: options.shopId,
       id: options.id,
       _city: options.city ? options.city:''
@@ -48,7 +50,6 @@ Page({
     // if (this.data._city) {
     //   app.globalData.userInfo.city = this.data._city;
     // }
-    console.log("userInfo_show_can:", app.globalData.userInfo);
     if (app.globalData.userInfo.userId || app.globalData.userInfo.userId != null) {
       this.getmoreData();
       this.isbargain(false);
@@ -65,7 +66,12 @@ Page({
     this.dishDetail();
     this.shopDetail();
     if (app.globalData.userInfo.lng && app.globalData.userInfo.lat) {
-      if (this.data._city || app.globalData.userInfo.city){
+      if (this.data._city || app.globalData.userInfo.city) {
+        this.setData({
+          flag: true,
+          hotDishList: [],
+          page: 1
+        });
         this.dishList();
         this.hotDishList();
       }
@@ -144,14 +150,12 @@ Page({
         zanUserId: app.globalData.userInfo.userId,
         shopId: this.data.shopId
       };
-      console.log('_parms:', _parms);
       Api.discountDetail(_parms).then((res) => {
         if (res.data.code == 0 && res.data.data) {
           let data = res.data.data;
           let skuInfo = '';
           if (data.skuInfo && data.skuInfo != 'null' && data.skuInfo != 'undefined') {
             skuInfo = data.skuInfo.split('Œ');
-            console.log(skuInfo)
           }
           this.setData({
             picUrl: data.picUrl,
@@ -225,6 +229,12 @@ Page({
   },
   //热门推荐
   hotDishList() {
+    if(this.data.page == 1) {
+      this.setData({
+        flag: true,
+        hotDishList: []
+      });
+    }
     //browSort 0附近 1销量 2价格
     let _parms = {
       zanUserId: app.globalData.userInfo.userId,
@@ -236,7 +246,6 @@ Page({
       page: this.data.page,
       rows: 6
     };
-    console.log('hot__parms:', _parms);
     Api.partakerList(_parms).then((res) => {
       if (res.data.code == 0 && res.data.data.list && res.data.data.list != 'null') {
         let list = res.data.data.list,
@@ -486,18 +495,16 @@ Page({
   },
   //分享给好友
   onShareAppMessage: function() {
-    console.log('userInfo:', app.globalData.userInfo);
-    console.log('shopid:', this.data.shopId)
     let userInfo = app.globalData.userInfo;
     return {
       title: this.data.skuName,
       path: '/pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails?shopId=' + this.data.shopId + '&id=' + this.data.id + '&lat=' + userInfo.lat+'&lng='+userInfo.lng+'&city='+userInfo.city,
       success: function(res) {
-        console.log('success')
+        
       },
       fail: function(res) {
         // 分享失败
-        console.log('fail')
+        
       }
     }
   },
