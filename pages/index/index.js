@@ -1,6 +1,8 @@
 //index.js 
 import Api from '/../../utils/config/api.js';
-import { GLOBAL_API_DOMAIN } from '/../../utils/config/config.js';
+import {
+  GLOBAL_API_DOMAIN
+} from '/../../utils/config/config.js';
 var utils = require('../../utils/util.js')
 var app = getApp();
 
@@ -11,33 +13,33 @@ Page({
     phone: '',
     phonetwo: '',
     verify: '', //输入的验证码
-    verifyId: '',//后台返回的短信验证码
-    veridyTime: '',//短信发送时间
-    carousel: [],  //轮播图
+    verifyId: '', //后台返回的短信验证码
+    veridyTime: '', //短信发送时间
+    carousel: [], //轮播图
     business: [], //商家列表，推荐餐厅
-    actlist: [],  //热门活动
-    hotlive: [],  //热门直播
-    food: [],   //美食墙
+    actlist: [], //热门活动
+    hotlive: [], //热门直播
+    food: [], //美食墙
     logs: [],
-    topics: [],   //专题
+    topics: [], //专题
     // restaurant: [], //菜系专题
     // service: [],  //服务专题
     alltopics: [],
     currentTab: 0,
-    issnap: false,  //是否是临时用户
-    isNew: false,   //是否新用户
-    userGiftFlag: false,    //新用户礼包是否隐藏
-    isphoneNumber: false,  //是否拿到手机号
+    issnap: false, //是否是临时用户
+    isNew: false, //是否新用户
+    userGiftFlag: false, //新用户礼包是否隐藏
+    isphoneNumber: false, //是否拿到手机号
     isfirst: false,
-    isopen:false,
-    item:'',
-    selAddress:'',
+    isopen: false,
+    item: '',
+    selAddress: '',
     istouqu: false,
     isclose: false,
     goto: false,
     navbar: ['菜系专题', '服务专题'],
-    sort: ['川湘菜','海鲜','火锅', '烧烤', '西餐', '自助餐', '聚会', '商务', '约会'],
-    activityImg: '',   //活动图
+    sort: ['川湘菜', '海鲜', '火锅', '烧烤', '西餐', '自助餐', '聚会', '商务', '约会'],
+    activityImg: '', //活动图
     settime: null,
     rematime: '获取验证码',
     afirst: false,
@@ -45,60 +47,58 @@ Page({
     // 改版新增变量 
     _page: 1,
     posts_key: [],
-    hotshop:[],
-    bargainList:[],//砍价拼菜
-    bargainListall:[],//拼菜砍价
+    hotshop: [],
+    bargainList: [], //砍价拼菜
+    bargainListall: [], //拼菜砍价
+    whhotdish: [],
+    syhotdish:[],
     hotdish:[],
-    videolist:[],
-    bannthree:[],
-    actitem:'附近',
-    isfile:false,
-    navs: [
-      {
-        img: 'https://xqmp4-1256079679.file.myqcloud.com/text_701070039850928092.png',
-        id: 1,
-        name: '砍价'
-      }, {
-        img: '/images/icon/navcaiting.png',
-        id: 2,
-        name: '餐厅'
+    videolist: [],
+    bannthree: [],
+    actitem: '附近',
+    isfile: false,
+    navs: [{
+      img: 'https://xqmp4-1256079679.file.myqcloud.com/text_701070039850928092.png',
+      id: 1,
+      name: '砍价'
+    }, {
+      img: '/images/icon/navcaiting.png',
+      id: 2,
+      name: '餐厅'
       // }, {
       //   img: '/images/icon/navruzhu.png',
       //   id: 3,
       //   name: '活动'
-      }, {
-        img: '/images/icon/navshiping.png',
-        id: 4,
-        name: '短视频'
-      }, {
-        img: '/images/icon/navhuodong.png',
-        id: 5,
-        name: '商家入驻'
-      }
-    ],
-    navs2: [
-      {
-        img: 'https://xqmp4-1256079679.file.myqcloud.com/text_701070039850928092.png',
-        id: 1,
-        name: '砍价'
-      }, {
-        img: '/images/icon/navcaiting.png',
-        id: 2,
-        name: '餐厅'
+    }, {
+      img: '/images/icon/navshiping.png',
+      id: 4,
+      name: '短视频'
+    }, {
+      img: '/images/icon/navhuodong.png',
+      id: 5,
+      name: '商家入驻'
+    }],
+    navs2: [{
+      img: 'https://xqmp4-1256079679.file.myqcloud.com/text_701070039850928092.png',
+      id: 1,
+      name: '砍价'
+    }, {
+      img: '/images/icon/navcaiting.png',
+      id: 2,
+      name: '餐厅'
       // }, {
       //   img: '/images/icon/navruzhu.png',
       //   id: 3,
       //   name: '活动'
-      }, {
-        img: '/images/icon/navshiping.png',
-        id: 4,
-        name: '微生活'
-      }, {
-        img: '/images/icon/navhuodong.png',
-        id: 5,
-        name: '商家入驻'
-      }
-    ],
+    }, {
+      img: '/images/icon/navshiping.png',
+      id: 4,
+      name: '微生活'
+    }, {
+      img: '/images/icon/navhuodong.png',
+      id: 5,
+      name: '商家入驻'
+    }],
     Res: [{
       img: '/images/icon/jxcanting.png',
       name: '精选餐厅',
@@ -125,54 +125,51 @@ Page({
       id: 4
     }],
     fooddatas: ['附近', '人气', "自助餐", "湖北菜", "川菜", "湘菜", "粤菜", "咖啡厅", "小龙虾", "火锅", "海鲜", "烧烤", "江浙菜", "西餐", "料理", "其它美食"],
-    ResThree: [
-      {
-        img: 'https://xq-1256079679.file.myqcloud.com/test_798888529104573275_0.8.jpg',
-        id: 1,
-        name: '享7券',
-        dishtype: "湘菜",
-        juli: '289',
-        shopname: "恩施印像"
-      }, {
-        img: 'https://xq-1256079679.file.myqcloud.com/test_798888529104573275_0.8.jpg',
-        id: 2,
-        name: '餐厅',
-        dishtype: "湘菜",
-        juli: '289',
-        shopname: "恩施印像"
-      }, {
-        img: 'https://xq-1256079679.file.myqcloud.com/test_798888529104573275_0.8.jpg',
-        id: 3,
-        name: '活动',
-        dishtype: "湘菜",
-        juli: '289',
-        shopname: "恩施印像",
-      }]
+    ResThree: [{
+      img: 'https://xq-1256079679.file.myqcloud.com/test_798888529104573275_0.8.jpg',
+      id: 1,
+      name: '享7券',
+      dishtype: "湘菜",
+      juli: '289',
+      shopname: "恩施印像"
+    }, {
+      img: 'https://xq-1256079679.file.myqcloud.com/test_798888529104573275_0.8.jpg',
+      id: 2,
+      name: '餐厅',
+      dishtype: "湘菜",
+      juli: '289',
+      shopname: "恩施印像"
+    }, {
+      img: 'https://xq-1256079679.file.myqcloud.com/test_798888529104573275_0.8.jpg',
+      id: 3,
+      name: '活动',
+      dishtype: "湘菜",
+      juli: '289',
+      shopname: "恩施印像",
+    }]
   },
-  onLoad: function (options) {
+  onLoad: function(options) {
     wx.showLoading({
       title: '加载中...'
     });
     const updateManager = wx.getUpdateManager();
-    updateManager.onCheckForUpdate(function (res) {
+    updateManager.onCheckForUpdate(function(res) {
       // 请求完新版本信息的回调
       // console.log(res.hasUpdate)
     });
-    updateManager.onUpdateReady(function () {
+    updateManager.onUpdateReady(function() {
       // 新的版本已经下载好，调用 applyUpdate 应用新版本并重启
       updateManager.applyUpdate()
     });
-    updateManager.onUpdateFailed(function () {
+    updateManager.onUpdateFailed(function() {
       // 新的版本下载失败
     });
     this.activityBanner();
     this.getcarousel();
     this.indexinit();
-   
   },
-  onShow: function () {
+  onShow: function() {
     let that = this;
-
     if (this.data.verifyId && this.data.phone && this.data.phonetwo) {
       this.setData({
         userGiftFlag: false,
@@ -182,36 +179,72 @@ Page({
       })
     }
 
-    wx.request({  //isflag
-      url: 'https://www.xq0036.top/version.txt',
-      success: function (res) {
-        console.log('res:',res.data);
+    wx.request({ //isflag
+      url: 'https://www.hbxq001.cn/version.txt',
+      success: function(res) {
+        console.log('res:', res.data);
         if (res.data.flag == 0) { //0显示  
           app.globalData.isflag = true;
           that.setData({
             isfile: true
           })
-        } else if (res.data.flag == 1) {  //1不显示
+        } else if (res.data.flag == 1) { //1不显示
           app.globalData.isflag = false;
           that.setData({
             isfile: false
           })
         }
-        if(res.data.dish.length>0){
+        if (res.data.sydish.length > 0) {
           that.setData({
-            hotdish: res.data.dish
+            syhotdish: res.data.sydish,
+            hotdish: res.data.sydish
+          })
+        }
+        if (res.data.whdish.length > 0) {
+          that.setData({
+            whhotdish: res.data.whdish
           })
         }
       }
     })
 
-    if (app.globalData.userInfo.userId){
+    if (app.globalData.userInfo.city) {
+      this.setData({
+        bargainListall: [],
+        bargainList: [],
+        _page: 1
+      })
+      if (app.globalData.userInfo.city == '十堰市') {
+        this.setData({
+          hotdish: this.data.syhotdish
+        })
+      } else if (app.globalData.userInfo.city == '武汉市') {
+        this.setData({
+          hotdish: this.data.whhotdish
+        })
+      }
+      for (let i = 0; i < that.data.hotdish.length; i++) {
+        let _hotdish = that.data.hotdish[i];
+        setTimeout(() => {
+        that.getdishDetail(_hotdish.dishId, _hotdish.shopId);
+        }, 100)
+      }
+      if (app.globalData.userInfo.lat && app.globalData.userInfo.lng) {
+        setTimeout(()=>{
+          that.hotDishList();
+        },1100)
+      }else{
+        this.getlocationsa();
+      }
+    }
+
+    if (app.globalData.userInfo.userId) {
       if (app.globalData.userInfo.city) {
         this.setData({
           city: app.globalData.userInfo.city,
           posts_key: [],
-          bargainList: [],//砍价拼菜
-          bargainListall: [],//拼菜砍价
+          // bargainList: [],//砍价拼菜
+          // bargainListall: [],//拼菜砍价
           _page: 1,
           isopen: false
         })
@@ -221,16 +254,19 @@ Page({
         // }
 
       } else {
+        console.log('333');
         this.getlocationsa();
       }
-    }else{
+    } else {
+      console.log('444');
       this.getuserCode();
     }
   },
 
- 
-  indexinit: function () {
-    let that = this, userInfo = app.globalData.userInfo;
+
+  indexinit: function() {
+    let that = this,
+      userInfo = app.globalData.userInfo;
     if (!app.globalData.userInfo.lat && !app.globalData.userInfo.lng && !app.globalData.userInfo.city) {
       this.getlocationsa();
     } else {
@@ -239,7 +275,7 @@ Page({
       })
     }
     // this.getshoplist('附近',2);
-   
+
     if (userInfo.openId && userInfo.sessionKey && userInfo.unionId) {
       that.setData({
         istouqu: false
@@ -249,13 +285,13 @@ Page({
       that.getuserCode();
     }
   },
-  getuserCode:function(){  //创建新用户
+  getuserCode: function() { //创建新用户
     let that = this;
-    if(this.data.isopen){
+    if (this.data.isopen) {
       return
     }
     this.setData({
-      isopen:true
+      isopen: true
     })
     wx.login({
       success: res => {
@@ -269,9 +305,11 @@ Page({
             app.globalData.userInfo.openId = res.data.data.openId;
             app.globalData.userInfo.sessionKey = res.data.data.sessionKey;
             if (res.data.data.unionId) {
+              console.log("1111111")
               app.globalData.userInfo.unionId = res.data.data.unionId;
               that.getmyuserinfo();
             } else {
+              console.log("2222222222")
               that.findByCode();
               wx.hideLoading();
             }
@@ -280,7 +318,7 @@ Page({
       }
     })
   },
-  onHide: function () {
+  onHide: function() {
     let that = this;
     // clearInterval(that.data.settime);
     that.setData({
@@ -299,19 +337,19 @@ Page({
       wx.navigateTo({
         url: 'bargainirg-store/bargainirg-store',
       })
-    } else if (id == 2) {  //餐厅
+    } else if (id == 2) { //餐厅
       wx.navigateTo({
         url: 'dining-room/dining-room',
       })
-    } else if (id == 3) {  //活动
+    } else if (id == 3) { //活动
       wx.switchTab({
         url: '../activityDetails/activity-details',
       })
-    } else if (id == 4) {  //短视频
+    } else if (id == 4) { //短视频
       wx.switchTab({
         url: '../discover-plate/discover-plate',
       })
-    } else if (id == 5) {  //商家入驻  APP下载
+    } else if (id == 5) { //商家入驻  APP下载
       wx.navigateTo({
         url: '../../pages/index/download-app/download?isshop=ind',
       })
@@ -319,20 +357,21 @@ Page({
   },
   //点击某个“查看更多”
   handVeoRes(e) {
-    let id = e.currentTarget.id,that = this;
-    if (id == 1) {  //商家列表
+    let id = e.currentTarget.id,
+      that = this;
+    if (id == 1) { //商家列表
       wx.navigateTo({
         url: 'dining-room/dining-room',
       })
-    } else if (id == 2) {  //短视频
+    } else if (id == 2) { //短视频
       wx.switchTab({
         url: '../discover-plate/discover-plate',
       })
-    }else if(id ==3){ //活动列表
+    } else if (id == 3) { //活动列表
       wx.switchTab({
         url: '../activityDetails/activity-details',
       })
-    }else if(id == 4){  //拼菜砍价列表
+    } else if (id == 4) { //拼菜砍价列表
       wx.navigateTo({
         url: 'bargainirg-store/bargainirg-store',
       })
@@ -340,23 +379,28 @@ Page({
   },
   //点击精选餐厅下的入驻图片
   handbaoming(e) {
-    let id = e.currentTarget.id, ind = e.currentTarget.dataset.ind;
-    let reg1 = new RegExp("shopId"), reg2 = new RegExp("topicId"), reg3 = new RegExp("actId"), reg4 = new RegExp("type");
+    let id = e.currentTarget.id,
+      ind = e.currentTarget.dataset.ind;
+    let reg1 = new RegExp("shopId"),
+      reg2 = new RegExp("topicId"),
+      reg3 = new RegExp("actId"),
+      reg4 = new RegExp("type");
     let arr = this.data.bannthree;
     if (id == 1) {
       let str = arr[0].linkUrl;
-      if (str == "ruzhu"){  //进入下载APP页面
+      if (str == "ruzhu") { //进入下载APP页面
         wx.navigateTo({
           url: '../../pages/index/download-app/download?isshop=ind',
         })
-      }else if (reg1.test(str)){  //进入某个店铺
+      } else if (reg1.test(str)) { //进入某个店铺
         let _arr = str.split("=");
         wx.navigateTo({
           url: 'merchant-particulars/merchant-particulars?shopid=' + _arr[1]
         })
-      } else if (reg3.test(str) && reg4.test(str)){  //进入某个活动页面
+      } else if (reg3.test(str) && reg4.test(str)) { //进入某个活动页面
         let _arr = str.split("&");
-        let arr1 = _arr[0].split('='), arr2 = _arr[1].split('=');
+        let arr1 = _arr[0].split('='),
+          arr2 = _arr[1].split('=');
         if (arr2[1] == 1) {
           wx.navigateTo({
             url: '../activityDetails/onehundred-dish/onehundred-dish?actid=' + arr1[1],
@@ -369,19 +413,21 @@ Page({
       }
     } else if (id == 2) {
       let str = arr[1].linkUrl;
-      if (reg2.test(str)) {  //去文章或视频详情页面
+      if (reg2.test(str)) { //去文章或视频详情页面
         let _arr = str.split("=");
         this.getoddtopic(_arr[1]);
-      } else if (reg3.test(str) && reg4.test(str)){ //去某一活动页面
+      } else if (reg3.test(str) && reg4.test(str)) { //去某一活动页面
         let _arr = str.split("&");
-        let arr1 = _arr[0].split('='), arr2 = _arr[1].split('=');
-        if(arr2[1] == 1){
+        let arr1 = _arr[0].split('='),
+          arr2 = _arr[1].split('=');
+        if (arr2[1] == 1) {
           wx.navigateTo({
             url: '../activityDetails/onehundred-dish/onehundred-dish?actid=' + arr1[1],
           })
-        }else if(arr2[1] == 2){
+        } else if (arr2[1] == 2) {
           let _linkUrl = arr[1].linkUrl;
-          let aarr = _linkUrl.split("&"), _obj = {};
+          let aarr = _linkUrl.split("&"),
+            _obj = {};
           for (let i in aarr) {
             let arr2 = aarr[i].split("=");
             _obj[arr2[0]] = arr2[1];
@@ -391,14 +437,14 @@ Page({
           })
         }
       }
-    } else if (id == 3) {//点击商家广告位，进入指定商家页面
-        let str = arr[2].linkUrl;
-        if (reg1.test(str)) {
-          let _arr = str.split("=");
-          wx.navigateTo({
-            url: 'merchant-particulars/merchant-particulars?shopid=' + _arr[1]
-          })
-        }
+    } else if (id == 3) { //点击商家广告位，进入指定商家页面
+      let str = arr[2].linkUrl;
+      if (reg1.test(str)) {
+        let _arr = str.split("=");
+        wx.navigateTo({
+          url: 'merchant-particulars/merchant-particulars?shopid=' + _arr[1]
+        })
+      }
     }
   },
   //点击推荐的三个餐厅之一
@@ -410,16 +456,20 @@ Page({
   },
 
   //点击拼菜砍价之一
-  candyDetails(e){
-    let id = e.currentTarget.id, shopId = e.currentTarget.dataset.index;
+  candyDetails(e) {
+    let id = e.currentTarget.id,
+      shopId = e.currentTarget.dataset.index;
     wx.navigateTo({
       url: 'bargainirg-store/CandyDishDetails/CandyDishDetails?id=' + id + '&shopId=' + shopId
     })
   },
   //点击推荐短视频之一
   handViditem(e) {
-    let id = e.currentTarget.id, _videolist = this.data.videolist,zan='',userid='';
-    if (app.globalData.isflag){
+    let id = e.currentTarget.id,
+      _videolist = this.data.videolist,
+      zan = '',
+      userid = '';
+    if (app.globalData.isflag) {
       for (let i in _videolist) {
         if (id == _videolist[i].id) {
           zan = _videolist[i].zan;
@@ -430,18 +480,18 @@ Page({
         url: '../activityDetails/video-details/video-details?id=' + id + '&zan=' + zan + '&userId=' + userid,
       })
     }
-    
+
   },
   //选择某个分类
   handfood(e) {
     let val = e.currentTarget.id;
     this.setData({
-      actitem:val,
-      _page:1
+      actitem: val,
+      _page: 1
     })
-    if(val == '全部'){
+    if (val == '全部') {
       this.getshoplist();
-    }else{
+    } else {
       this.getshoplist(val);
     }
   },
@@ -452,11 +502,13 @@ Page({
       url: 'merchant-particulars/merchant-particulars?shopid=' + shopid
     })
   },
-  findByCode: function () {
+  findByCode: function() {
     let that = this;
     wx.login({
       success: res => {
-        Api.findByCode({ code: res.code }).then((res) => {
+        Api.findByCode({
+          code: res.code
+        }).then((res) => {
           if (res.data.code == 0) {
             if (res.data.data.unionId) {
               app.globalData.userInfo.unionId = res.data.data.unionId;
@@ -478,11 +530,11 @@ Page({
       }
     })
   },
-  againgetinfo: function () { //点击获取用户unionId
+  againgetinfo: function() { //点击获取用户unionId
     let that = this;
     wx.getUserInfo({
       withCredentials: true,
-      success: function (res) {
+      success: function(res) {
         let _pars = {
           sessionKey: app.globalData.userInfo.sessionKey,
           ivData: res.iv,
@@ -501,20 +553,23 @@ Page({
       }
     })
   },
-  getmyuserinfo: function () {  //创建新用户
+  getmyuserinfo: function() { //创建新用户
+    console.log('getmyuserinfo')
     let _parms = {
-      openId: app.globalData.userInfo.openId,
-      unionId: app.globalData.userInfo.unionId
-    }, that = this;
+        openId: app.globalData.userInfo.openId,
+        unionId: app.globalData.userInfo.unionId
+      },
+      that = this;
+    console.log('parms:',_parms)
     Api.addUserUnionId(_parms).then((res) => {
       if (res.data.data) {
         app.globalData.userInfo.userId = res.data.data;
-        wx.request({  //从自己的服务器获取用户信息
+        wx.request({ //从自己的服务器获取用户信息
           url: this.data._build_url + 'user/get/' + res.data.data,
           header: {
             'content-type': 'application/json' // 默认值
           },
-          success: function (res) {
+          success: function(res) {
             if (res.data.code == 0) {
               let data = res.data.data;
               for (let key in data) {
@@ -524,8 +579,10 @@ Page({
                   }
                 }
               };
+              console.log('fdsafdaf')
+              that.getmoretow();
               that.isNewUser();
-              that.getmoredata();
+             
               if (data && data.mobile) {
                 that.setData({
                   isfirst: false,
@@ -543,33 +600,46 @@ Page({
       }
     })
   },
-  navbarTap: function (e) {// 专题推荐栏
+  navbarTap: function(e) { // 专题推荐栏
     this.setData({
       currentTab: e.currentTarget.dataset.idx
     })
   },
-  onPullDownRefresh: function () { //下拉刷新
+  onPullDownRefresh: function() { //下拉刷新
     this.setData({
       posts_key: [],
-      bargainList: [],//砍价拼菜
-      bargainListall: [],//拼菜砍价
-      _page:1
+      // bargainList: [], //砍价拼菜
+      bargainListall: [], //拼菜砍价
+      _page: 1
     })
     this.getmoredata();
+    this.hotDishList();
   },
-  getmoredata: function () {  //获取更多数据
-   let that = this;
+  getmoredata: function() { //获取更多数据
+    let that = this;
     this.getactlist();
     // this.getshoplist();
     this.gettopiclist();
     this.gettoplistFor();
     if (app.globalData.userInfo.lat && app.globalData.userInfo.lng && app.globalData.userInfo.city) {
       // this.hotDishList();
+      if (app.globalData.userInfo.city == '十堰市') {
+        this.setData({
+          hotdish: this.data.syhotdish
+        })
+      } else if (app.globalData.userInfo.city == '武汉市') {
+        this.setData({
+          hotdish: this.data.whhotdish
+        })
+      }
       for (let i = 0; i < that.data.hotdish.length; i++) {
         let _hotdish = that.data.hotdish[i];
-        that.getdishDetail(_hotdish.dishId, _hotdish.shopId)
+        
+        setTimeout(()=>{
+          that.getdishDetail(_hotdish.dishId, _hotdish.shopId);
+        },100)
       }
-    }else{
+    } else {
       this.getlocationsa();
     }
     return false;
@@ -580,11 +650,36 @@ Page({
     this.getdata();
     this.getactlist();
     this.gettopic();
-    
+
+  },
+  getmoretow:function(){
+    let that = this;
+    this.getactlist();
+    // this.getshoplist();
+    this.gettopiclist();
+    this.gettoplistFor();
+    console.log('getmoretow', that.data.hotdish)
+    if (app.globalData.userInfo.city == '十堰市') {
+      this.setData({
+        hotdish: this.data.syhotdish
+      })
+    } else if (app.globalData.userInfo.city == '武汉市') {
+      this.setData({
+        hotdish: this.data.whhotdish
+      })
+    }
+    for (let i = 0; i < that.data.hotdish.length; i++) {
+      let _hotdish = that.data.hotdish[i];
+      setTimeout(() => {
+        console.log("i:", _hotdish)
+        that.getdishDetail(_hotdish.dishId, _hotdish.shopId);
+      }, 100)
+    }
   },
   //获取动态
-  gettopiclist: function (_type, data) {
-    let that = this,vodeoarr=[];
+  gettopiclist: function(_type, data) {
+    let that = this,
+      vodeoarr = [];
     wx.showLoading({
       title: '数据加载中...',
       mask: true
@@ -592,7 +687,7 @@ Page({
     let _parms = {
       page: 1,
       row: 5,
-      topicType:2
+      topicType: 2
     }
     Api.topiclist(_parms).then((res) => {
       if (res.data.code == 0) {
@@ -616,17 +711,17 @@ Page({
 
             if (footList[i].content[0].type != 'video' || footList[i].topicType == 1) { //文章
               footList[i].isimg = true;
-            } else {  //视频
+            } else { //视频
               footList[i].isimg = false;
               footList[i].clickvideo = false;
-              vodeoarr.push(footList[i]);  //视频
+              vodeoarr.push(footList[i]); //视频
             }
             // _data.push(footList[i]);
           }
           vodeoarr = vodeoarr.slice(0, 3);
           for (let i in vodeoarr) {
             let _str = vodeoarr[i].title;
-            if(_str.length>6){
+            if (_str.length > 6) {
               _str = _str.slice(0, 6);
               vodeoarr[i].title = _str + '...';
             }
@@ -650,7 +745,7 @@ Page({
       }
     })
   },
-  getoddtopic: function (id) {  //获取单个文章内容数据
+  getoddtopic: function(id) { //获取单个文章内容数据
     let _parms = {
       id: id,
       zanUserId: app.globalData.userInfo.userId,
@@ -666,7 +761,8 @@ Page({
         _data.content = JSON.parse(_data.content);
         _data.hitNum = utils.million(_data.hitNum)
         _data.zan = utils.million(_data.zan)
-        let reg = /^1[34578][0-9]{9}$/, zan = _data.zan;
+        let reg = /^1[34578][0-9]{9}$/,
+          zan = _data.zan;
         if (reg.test(_data.userName)) {
           _data.userName = _data.userName.substr(0, 3) + "****" + _data.userName.substr(7);
         }
@@ -684,8 +780,9 @@ Page({
     })
   },
   //获取商家列表
-  getshoplist(val,keys) {  
-    let lat = '30.51597', lng = '114.34035';  //lat纬度   lng经度
+  getshoplist(val, keys) {
+    let lat = '30.51597',
+      lng = '114.34035'; //lat纬度   lng经度
     wx.showLoading({
       title: '数据加载中...',
       mask: true
@@ -697,24 +794,25 @@ Page({
       page: this.data._page,
       rows: 8
     }
-    if (val && val !='全部') { //美食类别 
-      if(val == '人气'){
+    if (val && val != '全部') { //美食类别 
+      if (val == '人气') {
         _parms.browSort = 2
-      }else if(val == '附近'){
-        
-      }else{
+      } else if (val == '附近') {
+
+      } else {
         _parms.businessCate = val;
       }
-      
+
       this.setData({
         posts_key: []
       })
     }
-    if (keys){
+    if (keys) {
       _parms.browSort = 2
     }
     Api.shoplist(_parms).then((res) => {
-      let that = this, data = res.data;
+      let that = this,
+        data = res.data;
       wx.hideLoading();
       if (data.code == 0) {
         if (data.data.list != null && data.data.list != "" && data.data.list != []) {
@@ -735,7 +833,7 @@ Page({
           let newarr = _arrn.concat();
           for (let i in newarr) {
             let _str = newarr[i].shopName;
-            if(_str.length>7){
+            if (_str.length > 7) {
               _str = _str.slice(0, 7);
               newarr[i].shopName = _str + '...';
             }
@@ -753,27 +851,30 @@ Page({
 
   },
   //回到顶部
-  toTop(){
+  toTop() {
     wx.pageScrollTo({
       scrollTop: 0,
       duration: 300
     })
     this.setData({
-      _page:1
+      _page: 1
     })
   },
-  onReachBottom: function () {  //用户上拉触底加载更多
-      this.setData({
-        _page: this.data._page + 1
-      })
+  onReachBottom: function() { //用户上拉触底加载更多
+    console.log('onReachBottomonReachBottomonReachBottomonReachBottomonReachBottom')
+    this.setData({
+      _page: this.data._page + 1
+    })
     // this.getshoplist();
     this.hotDishList();
     if (!this.data.alltopics) {
       this.gettoplistFor()
     }
   },
-  gettoplistFor: function () {  //加载分类数据
-    let _list = [], _shop = [], that = this;
+  gettoplistFor: function() { //加载分类数据
+    let _list = [],
+      _shop = [],
+      that = this;
     wx.showLoading({
       title: '数据加载中...',
       mask: true
@@ -783,11 +884,11 @@ Page({
         _list = res.data.data;
         if (!_list) {
           that.gettoplistFor();
-        }else{
+        } else {
           // bannthree
           let listarr = _list.slice(0, 3);
           that.setData({
-            bannthree:listarr
+            bannthree: listarr
           })
         }
         return false;
@@ -833,33 +934,35 @@ Page({
       }
     })
   },
-  getlocationsa: function () {  //获取用户位置
+  getlocationsa: function() { //获取用户位置
     // console.log("getlocationsa")
-    let that = this,lat = '', lng = '';
+    let that = this,
+      lat = '',
+      lng = '';
     wx.getLocation({
       type: 'wgs84',
-      success: function (res) {
+      success: function(res) {
         let latitude = res.latitude;
         let longitude = res.longitude;
         that.requestCityName(latitude, longitude);
       },
-      fail: function (res) {
+      fail: function(res) {
         wx.getSetting({
           success: (res) => {
             if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其用户信息或位置信息
               wx.showModal({
                 title: '提示',
                 content: '更多体验需要你授权位置信息',
-                success: function (res) {
+                success: function(res) {
                   if (res.confirm) {
-                    wx.openSetting({  //打开授权设置界面
+                    wx.openSetting({ //打开授权设置界面
                       success: (res) => {
                         if (res.authSetting['scope.userLocation']) {
                           wx.getLocation({
                             type: 'wgs84',
-                            success: function (res) {
+                            success: function(res) {
                               let latitude = res.latitude,
-                               longitude = res.longitude;
+                                longitude = res.longitude;
                               app.globalData.userInfo.lat = latitude;
                               app.globalData.userInfo.lng = longitude;
                               that.requestCityName(latitude, longitude);
@@ -878,7 +981,7 @@ Page({
       }
     })
   },
-  requestCityName(lat, lng) {//获取当前城市
+  requestCityName(lat, lng) { //获取当前城市
     let that = this;
     app.globalData.userInfo.lat = lat;
     app.globalData.userInfo.lng = lng;
@@ -890,13 +993,13 @@ Page({
       success: (res) => {
         if (res.data.status == 0) {
           let _city = res.data.result.address_component.city;
-          if (_city == '十堰市'){
+          if (_city == '十堰市') {
             app.globalData.userInfo.city = _city;
-          }else{
+          } else {
             app.globalData.userInfo.city = '十堰市';
           }
           this.hotDishList();
-        
+
           this.setData({
             city: app.globalData.userInfo.city,
             alltopics: [],
@@ -909,7 +1012,7 @@ Page({
       }
     })
   },
-  getcarousel: function () {  //轮播图
+  getcarousel: function() { //轮播图
     let that = this;
     if (!this.data.carousel) {
       return false
@@ -925,8 +1028,9 @@ Page({
       }
     })
   },
-  getdata: function () { // 获取推荐餐厅数据
-    let lat = '30.51597', lng = '114.34035';
+  getdata: function() { // 获取推荐餐厅数据
+    let lat = '30.51597',
+      lng = '114.34035';
     let _parms = {
       locationX: app.globalData.userInfo.lng ? app.globalData.userInfo.lng : lng,
       locationY: app.globalData.userInfo.lat ? app.globalData.userInfo.lat : lat,
@@ -942,7 +1046,7 @@ Page({
       }
     })
   },
-  gettopic: function () {  // 美食墙
+  gettopic: function() { // 美食墙
     Api.topictop().then((res) => {
       // console.log("food:", res.data.data)
       if (res.data.data) {
@@ -967,7 +1071,7 @@ Page({
       };
     })
   },
-  getactlist() {  //获取热门活动数据
+  getactlist() { //获取热门活动数据
     Api.actlist().then((res) => {
       // console.log("actlist:",res)
       if (res.data.data.list) {
@@ -979,11 +1083,11 @@ Page({
       }
     })
   },
-  gethotlive() {  //获取热门直播数据
+  gethotlive() { //获取热门直播数据
     let that = this;
     wx.request({
       url: that.data._build_url + 'zb/top/',
-      success: function (res) {
+      success: function(res) {
         // console.log("hotlive:",res.data.data)
         if (res.data.data) {
           that.setData({
@@ -995,33 +1099,33 @@ Page({
       }
     })
   },
-  userLocation: function () {   // 用户定位
+  userLocation: function() { // 用户定位
     wx.navigateTo({
       url: 'user-location/user-location',
     })
   },
-  seekTap: function () {   //用户搜索
+  seekTap: function() { //用户搜索
     wx.navigateTo({
       url: 'user-seek/user-seek',
     })
   },
-  discountCoupon: function () {  //用户优惠券
+  discountCoupon: function() { //用户优惠券
     wx.navigateTo({
       url: '../personal-center/my-discount/my-discount',
     })
   },
-  shopping: function () {
+  shopping: function() {
     wx.navigateTo({
       url: 'consume-qibashare/consume-qibashare',
     })
   },
-  entertainment: function () {  //掌上生活
+  entertainment: function() { //掌上生活
     wx.navigateTo({
       // url: '../../pages/personal-center/free-of-charge/free-of-charge?cfrom=index',
       url: '../../pages/index/download-app/download',
     })
   },
-  activityBanner: function () {      //获取活动banner图
+  activityBanner: function() { //获取活动banner图
     let that = this;
     Api.activityImg().then((res) => {
       if (res.data.code == 0) {
@@ -1036,36 +1140,38 @@ Page({
       }
     })
   },
-  recommendCt: function (event) {  //跳转到商家列表页面
+  recommendCt: function(event) { //跳转到商家列表页面
     wx.navigateTo({
       url: 'dining-room/dining-room',
     })
   },
-  cateWall: function (event) {  //美食墙 查看更多
+  cateWall: function(event) { //美食墙 查看更多
     wx.switchTab({
       url: '../discover-plate/discover-plate',
     })
   },
-  preferential: function (event) {
-    let id = event.currentTarget.id, _actlist = this.data.actlist,_obj={};
+  preferential: function(event) {
+    let id = event.currentTarget.id,
+      _actlist = this.data.actlist,
+      _obj = {};
     // console.log('_actlist:', _actlist);
-    for (let i in _actlist){
-      if (id == _actlist[i].id){
+    for (let i in _actlist) {
+      if (id == _actlist[i].id) {
         _obj = _actlist[i];
       }
     }
-    
+
     wx.switchTab({
       url: '../activityDetails/activity-details',
     })
   },
-  diningHhall: function (event) {  //跳转到商家（餐厅）内页
+  diningHhall: function(event) { //跳转到商家（餐厅）内页
     const shopid = event.currentTarget.id;
     wx.navigateTo({
       url: 'merchant-particulars/merchant-particulars?shopid=' + shopid
     })
   },
-  fooddetails: function (e) {  //跳转美食墙内页
+  fooddetails: function(e) { //跳转美食墙内页
     const id = e.currentTarget.id
     let _data = this.data.food
     let zan = ''
@@ -1087,21 +1193,21 @@ Page({
 
 
   },
-  detailOfTheActivity: function (event) { //跳转到活动内页
+  detailOfTheActivity: function(event) { //跳转到活动内页
     const actid = event.currentTarget.id
     // console.log("actid:",actid)
     wx.navigateTo({
       url: '../activityDetails/details-like/details-like?actid=' + actid,
     })
   },
-  tolive: function (ev) { //跳转到直播内页
+  tolive: function(ev) { //跳转到直播内页
     const liveid = ev.currentTarget.id
     // console.log("liveid:",liveid)
     // wx.navigateTo({
     //   url: 'test?liveid=' + liveid,
     // })
   },
-  cctvwebview: function (event) {  //享7直播页面路径
+  cctvwebview: function(event) { //享7直播页面路径
     wx.showToast({
       title: "即将开发",
       icon: 'none',
@@ -1110,8 +1216,11 @@ Page({
     //   url: './livepage/livepage'
     // })
   },
-  toNewExclusive: function (e) {   //跳转至新人专享页面
-    let id = e.currentTarget.id, _linkUrl = '', _type = '', _obj = {};
+  toNewExclusive: function(e) { //跳转至新人专享页面
+    let id = e.currentTarget.id,
+      _linkUrl = '',
+      _type = '',
+      _obj = {};
     if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
@@ -1121,18 +1230,18 @@ Page({
     for (let k in this.data.carousel) {
       if (id == this.data.carousel[k].id) {
         _linkUrl = this.data.carousel[k].linkUrl,
-        _type = this.data.carousel[k].type
+          _type = this.data.carousel[k].type
       }
     }
 
-    if (_linkUrl.indexOf('&') >= 0){
+    if (_linkUrl.indexOf('&') >= 0) {
       let arr = _linkUrl.split("&");
       for (let i in arr) {
         let arr2 = arr[i].split("=");
         _obj[arr2[0]] = arr2[1];
       }
     }
-   
+    console.log('obj:', _obj)
     if (_linkUrl == 'lingquan') {
       wx.navigateTo({
         url: 'new-exclusive/new-exclusive',
@@ -1142,42 +1251,45 @@ Page({
       wx.navigateTo({
         url: '../personal-center/free-of-charge/free-of-charge?img=' + _linkUrl,
       })
-    } else if ( _obj.type == 1) {  //十堰食典
+    } else if (_obj.type == 1) { //十堰食典
       wx.navigateTo({
         url: '../activityDetails/onehundred-dish/onehundred-dish?actid=' + _obj.actId,
       })
-    } else if (_obj.type == 2) {  //视频活动
+    } else if (_obj.type == 2) { //视频活动
       wx.navigateTo({
         url: '../activityDetails/video-list/video-list?id=' + _obj.actId,
       })
-    } else if(_obj.type == 3) {  //店铺主页
+    } else if (_obj.type == 3) { //店铺主页
       wx.navigateTo({
         url: 'merchant-particulars/merchant-particulars?shopid=' + _obj.shopId,
       })
     }
   },
-  hotactivityHref: function (e) {     //热门活动跳转
-    let _id = e.currentTarget.id,_obj={};
-    let _actlist = this.data.actlist, _actName = '';
+  hotactivityHref: function(e) { //热门活动跳转
+    let _id = e.currentTarget.id,
+      _obj = {};
+    let _actlist = this.data.actlist,
+      _actName = '';
     for (let i = 0; i < _actlist.length; i++) {
       if (_id == _actlist[i].id) {
         _obj = _actlist[i];
         _actName = _actlist[i].actName
       }
     }
-    if (_obj.type ==1){
+    if (_obj.type == 1) {
       wx.navigateTo({
-        url: '../activityDetails/onehundred-dish/onehundred-dish?actid='+_obj.id,
+        url: '../activityDetails/onehundred-dish/onehundred-dish?actid=' + _obj.id,
       })
-    } else if (_obj.type == 2){
+    } else if (_obj.type == 2) {
       wx.navigateTo({
         url: '../activityDetails/video-list/video-list?id=' + _obj.id,
       })
     }
   },
-  clickimg: function (e) {  //点击专题图片 --某个分类
+  clickimg: function(e) { //点击专题图片 --某个分类
     let ind = e.currentTarget.id
-    let arr = this.data.alltopics, cate = ''
+    let arr = this.data.alltopics,
+      cate = ''
     for (let i = 0; i < arr.length; i++) {
       if (ind == arr[i].img.id) {
         cate = arr[i].cate
@@ -1187,14 +1299,14 @@ Page({
       url: 'dining-room/dining-room?cate=' + cate,
     })
   },
-  clickcon: function (e) {  //點擊某一傢點
+  clickcon: function(e) { //點擊某一傢點
     let shopid = e.currentTarget.id;
     wx.navigateTo({
       url: 'merchant-particulars/merchant-particulars?shopid=' + shopid
     })
   },
   //监听页面分享
-  onShareAppMessage: function (res) {
+  onShareAppMessage: function(res) {
     if (res.from === 'button') {
       // 来自页面内转发按钮
       console.log(res.target)
@@ -1203,17 +1315,17 @@ Page({
       title: '享7美食',
       path: 'pages/index/index',
       imageUrl: 'https://xq-1256079679.file.myqcloud.com/test_242386103115353639_0.8.jpg',
-      success: function (res) {
+      success: function(res) {
         // 转发成功
         console.log("res:", res)
       },
-      fail: function (res) {
+      fail: function(res) {
         // 转发失败
         console.log("res:", res)
       }
     }
   },
-  isNewUser: function () {   //判断是否新用户
+  isNewUser: function() { //判断是否新用户
     let that = this;
     let _parms = {
       userId: app.globalData.userInfo.userId
@@ -1230,7 +1342,7 @@ Page({
       }
     })
   },
-  userGiftCancle: function () {    //新用户领取代金券
+  userGiftCancle: function() { //新用户领取代金券
     this.setData({
       userGiftFlag: false,
       isfirst: false,
@@ -1244,7 +1356,7 @@ Page({
       })
     }
   },
-  newUserToGet: function () {    //新用户跳转票券
+  newUserToGet: function() { //新用户跳转票券
     let that = this;
     if (!app.globalData.userInfo.mobile) {
       this.setData({
@@ -1283,7 +1395,7 @@ Page({
       }
     })
   },
-  hotDishList() {  //拼价砍菜列表
+  hotDishList() { //拼价砍菜列表
     //browSort 0附近 1销量 2价格
     let _parms = {
       zanUserId: app.globalData.userInfo.userId,
@@ -1292,57 +1404,69 @@ Page({
       locationY: app.globalData.userInfo.lat,
       city: app.globalData.userInfo.city,
       page: this.data._page,
-      isDeleted:0,
-      rows: 10
+      isDeleted: 0,
+      rows: 9
     };
-   
+    console.log('_parms:', _parms);
     Api.partakerList(_parms).then((res) => {
-      if(res.data.code == 0){
-        let _list = res.data.data.list, _oldData = this.data.bargainListall, arr = [];
-        if (_list.length > 0) {
-          for (let i = 0; i < _list.length; i++) {
-            _list[i].distance = utils.transformLength(_list[i].distance);
-            _oldData.push(_list[i])
+      if (res.data.code == 0) {
+        let _list = res.data.data.list,
+          _oldData = this.data.bargainListall,
+          arr = [];
+        if (_list && _list.length > 0) {
+
+          for (let i = 0; i < this.data.bargainList.length; i++) {
+            for (let j = 0; j < _list.length; j++) {
+              if (_list[j].id == this.data.bargainList[i].id) {
+                console.log(_list[j].id)
+                _list.splice(j, 1)
+              }
+            }
           }
-          for (var i = 0; i < this.data.bargainList.length; i++) {
-            for (var j = 0; j < _oldData.length; j++) {
-              if (_oldData[j].id == this.data.bargainList[i].id) {
+
+          for (let i = 0; i < _list.length; i++) {
+            for (let j = 0; j < _oldData.length; j++) {
+              if (_oldData[j].id == _list[i].id) {
+                console.log(_oldData[j].id)
                 _oldData.splice(j, 1)
               }
             }
           }
-          if (this.data._page ==1){
-            setTimeout(() => {
-              console.log('this.data.bargainList.length:', this.data.bargainList.length)
-              if (this.data.bargainList.length * 1 < 3) {
-                let _deff = 3 - this.data.bargainList.length * 1;
-                let arr = _oldData.slice(0, _deff);
-                let arr2 = arr.concat(this.data.bargainList);
-                this.setData({
-                  bargainList: arr2,
-                  bargainListall: _oldData
-                })
-              }
-            }, 2000)
+
+          for (let i = 0; i < _list.length; i++) {
+            _list[i].distance = utils.transformLength(_list[i].distance);
+            _oldData.push(_list[i])
           }
+
           
+
+          
+         
           this.setData({
             bargainListall: _oldData
           })
+          console.log("bargainListall:", this.data.bargainListall)
+          console.log("bargainListall:", this.data.bargainListall.length)
         }
       }
     })
   },
-  getdishDetail: function (Id, shopId) {  //查询单个砍菜详情
+  getdishDetail: function(Id, shopId) { //查询单个砍菜详情
+    console.log('getdishDetail')
+    if (this.data.bargainList.length>=3){
+      return
+    }
     let _parms = {
       Id: Id,
       zanUserId: app.globalData.userInfo.userId,
       shopId: shopId
     };
+    console.log('_parms:', _parms)
     Api.discountDetail(_parms).then((res) => {
-      if(res.data.code == 0){
+      if (res.data.code == 0) {
+        
         let arr = this.data.bargainList;
-        if (res.data.data.isDeleted == 0){
+        if (res.data.data && res.data.data.isDeleted == 0) {
           arr.push(res.data.data);
           this.setData({
             bargainList: arr
@@ -1351,12 +1475,12 @@ Page({
       }
     })
   },
-  closebut: function () {
+  closebut: function() {
     this.setData({
       isphoneNumber: false
     })
   },
-  closetel: function (e) {
+  closetel: function(e) {
     let id = e.target.id;
     clearInterval(this.data.settime)
     this.setData({
@@ -1368,8 +1492,9 @@ Page({
       })
     }
   },
-  numbindinput: function (e) {  //监听号码输入框
-    let _value = e.detail.value,that = this;
+  numbindinput: function(e) { //监听号码输入框
+    let _value = e.detail.value,
+      that = this;
     if (!_value) {
       this.closephone()
     }
@@ -1384,28 +1509,29 @@ Page({
       clearInterval(that.data.settime);
       this.setData({
         phonetwo: _value,
-        phone:'',
+        phone: '',
         isclose: false,
-        rematime:'获取验证码',
-        verifyId:'',
+        rematime: '获取验证码',
+        verifyId: '',
         settime: null
       })
     }
   },
 
-  closephone: function () {  //手机号置空
+  closephone: function() { //手机号置空
     clearInterval(this.data.settime)
     this.setData({
       phone: '',
-      phonetwo:'',
+      phonetwo: '',
       rematime: '获取验证码',
       isclick: true,
       goto: false,
       settime: null
     })
   },
-  submitphone: function () {  //获取验证码
-    let that = this, sett = null;
+  submitphone: function() { //获取验证码
+    let that = this,
+      sett = null;
     if (!this.data.phone) {
       that.closephone();
       wx.showToast({
@@ -1432,7 +1558,7 @@ Page({
         userId: app.globalData.userInfo.userId,
         userName: app.globalData.userInfo.userName
       }
-      Api.sendForRegister(_parms).then((res) => {  //获取手机验证码
+      Api.sendForRegister(_parms).then((res) => { //获取手机验证码
         if (res.data.code == 0) {
           // console.log('res.data.data:', res.data.data)
           that.setData({
@@ -1440,7 +1566,7 @@ Page({
             veridyTime: res.data.data.veridyTime,
             goto: false
           })
-          sett = setInterval(function () {
+          sett = setInterval(function() {
             that.remaining();
           }, 1000)
           that.setData({
@@ -1461,14 +1587,15 @@ Page({
       })
     }
   },
-  yzmbindblur: function (e) {  //监听获取输入的验证码
+  yzmbindblur: function(e) { //监听获取输入的验证码
     let _value = e.detail.value
     this.setData({
       verify: _value
     })
   },
-  remaining: function (val) {  //倒计时
-    let _vertime = this.data.veridyTime.replace(/\-/ig, "\/"), rema = 60;
+  remaining: function(val) { //倒计时
+    let _vertime = this.data.veridyTime.replace(/\-/ig, "\/"),
+      rema = 60;
     rema = utils.reciprocal(_vertime);
     if (rema == 'no' || rema == 'yes' || !rema) {
       clearInterval(this.data.settime)
@@ -1482,7 +1609,7 @@ Page({
       })
     }
   },
-  submitverify: function () {  //确定
+  submitverify: function() { //确定
     let that = this;
     if (this.data.phone && this.data.verify) {
       if (this.data.verify == this.data.verifyId) {
@@ -1518,12 +1645,12 @@ Page({
               isphoneNumber: false,
               phonetwo: ''
             })
-            wx.request({  //从自己的服务器获取用户信息
+            wx.request({ //从自己的服务器获取用户信息
               url: this.data._build_url + 'user/get/' + res.data.data,
               header: {
                 'content-type': 'application/json' // 默认值
               },
-              success: function (res) {
+              success: function(res) {
                 if (res.data.code == 0) {
                   let data = res.data.data;
                   let users = app.globalData.userInfo
@@ -1568,12 +1695,9 @@ Page({
     }
   },
   // 砍菜砍价详情
-  chartOfDisheses:function(){
+  chartOfDisheses: function() {
     wx.navigateTo({
       url: 'chartOfDisheses/chartOfDisheses',
     })
   }
 })
-
-
-

@@ -574,6 +574,7 @@ page{
 
 .goldColor {
   color: #FFB20E;
+  font-size: 24rpx;
 }
 
 .skuCanvas {

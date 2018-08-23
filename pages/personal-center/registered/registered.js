@@ -255,7 +255,7 @@ Page({
                   };
                   console.log('data:',data)
                   if (data.mobile) {
-                    // that.newUserToGet();
+                    that.newUserToGet();
                     wx.navigateBack({
                       data:1
                     })
@@ -291,9 +291,9 @@ Page({
     }
     Api.getFreeTicket(_parms).then((res) => {
       if (res.data.code == 0) {
-        wx.redirectTo({
-          url: '../my-discount/my-discount?cfrom=reg'
-        });
+        // wx.redirectTo({
+        //   url: '../my-discount/my-discount?cfrom=reg'
+        // });
       }
     })
   },

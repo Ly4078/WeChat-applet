@@ -250,20 +250,33 @@ Page({
       if (res.data.code == 0 && res.data.data.list && res.data.data.list != 'null') {
         let list = res.data.data.list,
           hotDishList = this.data.hotDishList;
-        for (let i = 0; i < list.length; i++) {
-          if (list[i].id != this.data.id) {
-            list[i].distance = utils.transformLength(list[i].distance);
-            hotDishList.push(list[i]);
+        if (list && list.length>0){
+          for (let i = 0; i < list.length; i++) {
+            for (let j = 0; j < hotDishList.length; j++) {
+              if (hotDishList[j].id == list[i].id) {
+                console.log(hotDishList[j].id)
+                hotDishList.splice(j, 1)
+              }
+            }
+          }
+
+          for (let i = 0; i < list.length; i++) {
+            if (list[i].id != this.data.id) {
+              list[i].distance = utils.transformLength(list[i].distance);
+              hotDishList.push(list[i]);
+            }
+          }
+
+          this.setData({
+            hotDishList: hotDishList
+          });
+          if (list.length < 6) {
+            this.setData({
+              flag: false
+            });
           }
         }
-        this.setData({
-          hotDishList: hotDishList
-        });
-        if (list.length < 6) {
-          this.setData({
-            flag: false
-          });
-        }
+        
       } else {
         this.setData({
           flag: false
@@ -365,7 +378,7 @@ Page({
     });
     this.hotDishList();
   },
-  onPullDownRefresh: function() {
+  onPullDownRefresh: function() {  //下拉刷新 
     this.setData({
       flag: true,
       hotDishList: [],
@@ -400,7 +413,7 @@ Page({
             }
             let userInfo = app.globalData.userInfo;
             if (userInfo.userId && userInfo.lat && userInfo.lng && userInfo.city) {
-              that.getmoreData();
+              // that.getmoreData();
               that.isbargain(false);
             } else {
               that.getlocation();
