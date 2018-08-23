@@ -4,9 +4,22 @@ var app = getApp()
 var that = null;
 Page({
   data: {
-    navbar: ['附近', '销量', '价格'],
+    navbar: [
+      {
+        id: 2,
+        name: '价格'
+      },
+      {
+        id: 0,
+        name: '附近'
+      },
+      {
+        id: 1,
+        name: '销量'
+      }
+    ],
     showModal: true,
-    browSort: 0,
+    browSort: 2,
     cuisineArray: [],
     page: 1,
     flag: true,   //节流阀
@@ -64,10 +77,10 @@ Page({
     })
   },
   //顶部tab栏
-  navbarTap: function (e) { 
-    let idx = e.currentTarget.dataset.idx;
+  navbarTap: function (e) {
+    //browSort 0附近 1销量 2价格    ---    navbar: ['价格', '附近', '销量'],
     this.setData({
-      browSort: idx,
+      browSort: e.currentTarget.id,
       flag: true,
       cuisineArray: [],
       page: 1

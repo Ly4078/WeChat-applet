@@ -278,13 +278,14 @@ Page({
             progress = 0;
           progress = doneBargain / max * 100;
           let _move = doneBargain / max * 1;
-          _move *= 483;
+          _move *= 500;
           _move = _move.toFixed(0);
-          if(_move < 10) {
-            _move = 0;
+          if (_move == 500) {
+            _move = +_move + 14;
           }
+          console.log(_move)
           this.setData({
-            move: _move
+            move: _move - 14
           })
           if (this.data.initiator && (this.data.initiator != app.globalData.userInfo.userId)) {
             this.setData({

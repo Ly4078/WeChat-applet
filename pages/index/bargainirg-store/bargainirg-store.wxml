@@ -2,7 +2,7 @@
 <!--顶部tab栏选择-->
 <view class="top-table">
   <view class="navbar">
-    <text wx:for="{{navbar}}" data-idx="{{index}}" class="item {{browSort==index ? 'active' : ''}}" wx:key="unique" bindtap="navbarTap">{{item}}</text>
+    <text wx:for="{{navbar}}" data-idx="{{index}}" id="{{item.id}}" class="item {{browSort==item.id ? 'active' : ''}}" wx:key="unique" bindtap="navbarTap">{{item.name}}</text>
   </view>
   <view class='diagram' wx:if="{{showModal}}">
     <image class='diagram-image' src='https://xq-1256079679.file.myqcloud.com/text_291799988395889818_1.0.jpg'></image>
