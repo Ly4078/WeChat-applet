@@ -28,7 +28,10 @@ Page({
     isnew: false,
     timer: null,
     canvasSrc: '',
-    audioSrc: ''
+    audioSrc: '',
+    _city: '',
+    _lat:'',
+    _lng:''
   },
   onLoad: function(options) {
     this.setData({
@@ -38,7 +41,10 @@ Page({
       skuMoneyMin: options.skuMoneyMin, //低价
       userId: app.globalData.userInfo.userId, //登录者Id
       initiator: options.initiator ? options.initiator : '', //发起人Id
-      groupId: options.groupId ? options.groupId : '' //团砍Id
+      groupId: options.groupId ? options.groupId : '', //团砍Id
+      _city: options.city ? options.city:'',
+      _lat: options.lat ? options.lat : '',
+      _lng: options.lng ? options.lng : '',
     });
   },
   onShow() {
@@ -47,6 +53,10 @@ Page({
       hotDishList: [],
       page: 1
     });
+    // if (this.data._city){
+    //   app.globalData.userInfo.city = this.data._city;
+    // }
+    console.log("userInfo_show_apr:", app.globalData.userInfo);
     if (app.globalData.userInfo.userId) {
       console.log("show_userid:", app.globalData.userInfo.userId);
       if (!app.globalData.userInfo.mobile) { //是新用户，去注册页面
@@ -60,9 +70,10 @@ Page({
       } else {
         this.createBargain();
       }
-      if (app.globalData.userInfo.lat && app.globalData.userInfo.lng && app.globalData.userInfo.city) {
-        console.log("show_lat:", app.globalData.userInfo.lat, app.globalData.userInfo.lng, app.globalData.userInfo.city)
-        this.hotDishList();
+      if (app.globalData.userInfo.lat && app.globalData.userInfo.lng) {
+        if (this.data._city || app.globalData.userInfo.city){
+          this.hotDishList();
+        }
       } else {
         this.getlocation();
       }
@@ -179,29 +190,35 @@ Page({
     })
   },
   requestCityName(lat, lng) { //获取当前城市
+    let that = this;
     app.globalData.userInfo.lat = lat;
     app.globalData.userInfo.lng = lng;
     console.log('requestCityName:', lat, lng);
-    let that = this;
-    wx.request({
-      url: 'https://apis.map.qq.com/ws/geocoder/v1/?location=' + lat + "," + lng + "&key=4YFBZ-K7JH6-OYOS4-EIJ27-K473E-EUBV7",
-      header: {
-        'content-type': 'application/json' // 默认值
-      },
-      success: (res) => {
-        if (res.data.status == 0) {
-          if (!that.data.groupId) {
-            that.createBargain()
-          };
-          let _city = res.data.result.address_component.city;
-          app.globalData.userInfo.city = _city;
-          console.log('_city:', _city);
-          that.dishDetail();
-          that.hotDishList();
-          that.bargain();
+    if (app.globalData.userInfo.city || this.data._city){
+      that.dishDetail();
+      that.hotDishList();
+      that.bargain();
+    }else{
+      wx.request({
+        url: 'https://apis.map.qq.com/ws/geocoder/v1/?location=' + lat + "," + lng + "&key=4YFBZ-K7JH6-OYOS4-EIJ27-K473E-EUBV7",
+        header: {
+          'content-type': 'application/json' // 默认值
+        },
+        success: (res) => {
+          if (res.data.status == 0) {
+            if (!that.data.groupId) {
+              that.createBargain()
+            };
+            let _city = res.data.result.address_component.city;
+            app.globalData.userInfo.city = _city;
+            console.log('_city:', _city);
+            that.dishDetail();
+            that.hotDishList();
+            that.bargain();
+          }
         }
-      }
-    })
+      })
+    }
   },
   closetel: function(e) {
     let id = e.target.id;
@@ -261,7 +278,7 @@ Page({
             progress = 0;
           progress = doneBargain / max * 100;
           let _move = doneBargain / max * 1;
-          _move *= 500;
+          _move *= 483;
           _move = _move.toFixed(0);
           if(_move < 10) {
             _move = 0;
@@ -323,7 +340,7 @@ Page({
                 countDown = '';
               this.setData({
                 timer: setInterval(function() {
-                  console.log('倒计时');
+                  // console.log('倒计时');
                   if (minus == 0) {
                     clearInterval(_this.data.timer);
                     minus = 0;
@@ -547,7 +564,7 @@ Page({
       browSort: 1,
       locationX: app.globalData.userInfo.lng,
       locationY: app.globalData.userInfo.lat,
-      city: app.globalData.userInfo.city,
+      city: this.data._city ? this.data._city:app.globalData.userInfo.city,
       isDeleted: 0,
       page: this.data.page,
       rows: 6
@@ -621,10 +638,18 @@ Page({
   },
   onShareAppMessage() { //分享给好友帮忙砍价
     let initiator = this.data.initiator ? this.data.initiator : app.globalData.userInfo.userId;
+    let userInfo = app.globalData.userInfo;
     return {
       title: '帮好友砍价',
       desc: '享7美食',
-      path: '/pages/index/bargainirg-store/AprogressBar/AprogressBar?refId=' + this.data.refId + '&shopId=' + this.data.shopId + '&skuMoneyOut=' + this.data.skuMoneyOut + '&skuMoneyMin=' + this.data.skuMoneyMin + '&initiator=' + initiator + '&groupId=' + this.data.groupId
+      path: '/pages/index/bargainirg-store/AprogressBar/AprogressBar?refId=' + this.data.refId + '&shopId=' + this.data.shopId + '&skuMoneyOut=' + this.data.skuMoneyOut + '&skuMoneyMin=' + this.data.skuMoneyMin + '&initiator=' + initiator + '&groupId=' + this.data.groupId + '&lat=' + userInfo.lat + '&lng=' + userInfo.lng + '&city=' + userInfo.city,
+      success: function (res) {
+        console.log('success')
+      },
+      fail: function (res) {
+        // 分享失败
+        console.log('fail')
+      }
     }
   }
 })

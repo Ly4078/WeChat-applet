@@ -159,7 +159,7 @@
           </view>
         </block>
         <view class="setMealMore" catchtap='changeBar'>
-          <text>{{isBarg ? '查看部分推荐菜' : '查看全部推荐菜'}}</text>
+          <text>{{isBarg ? '查看部分砍价菜' : '查看全部砍价菜'}}</text>
           <image src="/images/icon/restaurant_arrow.png" class='{{isBarg ? "transjt" : ""}}'></image>
         </view>
       </view>

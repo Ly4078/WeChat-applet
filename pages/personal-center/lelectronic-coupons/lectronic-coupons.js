@@ -100,6 +100,9 @@ Page({
   onHide:function(){
     clearInterval(this.data.timer)
   },
+  onUnload:function(){
+    clearInterval(this.data.timer);
+  },
   //关闭弹框
   closemodel:function(){
     this.setData({

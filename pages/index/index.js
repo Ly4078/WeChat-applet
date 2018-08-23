@@ -855,10 +855,16 @@ Page({
       success: (res) => {
         if (res.data.status == 0) {
           let _city = res.data.result.address_component.city;
-          app.globalData.userInfo.city = _city;
+          if (_city == '十堰市'){
+            app.globalData.userInfo.city = _city;
+          }else{
+            app.globalData.userInfo.city = '十堰市';
+          }
+          console.log('_city:', _city);
+         
           this.hotDishList();
           this.setData({
-            city: _city,
+            city: app.globalData.userInfo.city,
             alltopics: [],
             // restaurant: [],
             // service: []

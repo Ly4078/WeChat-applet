@@ -72,8 +72,8 @@ Page({
     })
   },
   requestCityName(lat, lng) {//获取当前城市
-    app.globalData.userInfo.lat = lat
-    app.globalData.userInfo.lng = lng
+    app.globalData.userInfo.lat = lat;
+    app.globalData.userInfo.lng = lng;
     wx.request({
       url: 'https://apis.map.qq.com/ws/geocoder/v1/?location=' + lat + "," + lng + "&key=4YFBZ-K7JH6-OYOS4-EIJ27-K473E-EUBV7",
       header: {
@@ -205,8 +205,8 @@ Page({
         city = _data[i].city;
       }
     }
-    app.globalData.userInfo.lat = lat;
-    app.globalData.userInfo.lng = lng;
+    // app.globalData.userInfo.lat = lat;
+    // app.globalData.userInfo.lng = lng;
     app.globalData.userInfo.city = city;
     // console.log(" app.globalData.userInfo：", app.globalData.userInfo)
     wx.switchTab({  //跳转到 tabBar 页面，并关闭其他所有非 tabBar 页面

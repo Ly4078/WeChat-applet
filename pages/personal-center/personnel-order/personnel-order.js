@@ -55,7 +55,7 @@ Page({
     }
     Api.somyorder(_parms).then((res) => {
       let data = res.data;
-      console.log('getOrderList_res:',res);
+      // console.log('getOrderList_res:',res);
       if (data.code == 0 && data.data != null && data.data != "" && data.data != []) {
         let order_list = that.data.order_list;
         if (data.data.length && data.data.length > 0) {
@@ -141,7 +141,7 @@ Page({
 
     Api.myorderForShop(_parms).then((res) => {
       let data = res.data;
-      console.log('getshopOrderList_res:',res)
+      // console.log('getshopOrderList_res:',res)
       if (data.code == 0 && data.data != null && data.data != "" && data.data != []) {
         let shoplist = that.data.shoporderlist;
         for (let i = 0; i < data.data.length; i++) {

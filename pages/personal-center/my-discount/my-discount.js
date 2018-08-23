@@ -18,6 +18,9 @@ Page({
     }
   },
   onShow: function() {
+    this.setData({
+      page: 1
+    });
     this.getTicketList();
   },
   onHide: function() {

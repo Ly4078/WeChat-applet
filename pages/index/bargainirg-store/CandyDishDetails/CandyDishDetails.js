@@ -24,13 +24,19 @@ Page({
     hotDishList: [], //热门推荐
     flag: true,
     page: 1,
-    isbargain: false //是否砍过价
+    isbargain: false, //是否砍过价
+    _city:'',
+    _lat:'',
+    _lng:''
   },
   onLoad(options) {
+    console.log('options:', options)
     this.setData({
       shopId: options.shopId,
-      id: options.id
+      id: options.id,
+      _city: options.city ? options.city:''
     });
+
   },
   onShow() {
     this.setData({
@@ -39,6 +45,10 @@ Page({
       hotDishList: [],
       page: 1
     });
+    // if (this.data._city) {
+    //   app.globalData.userInfo.city = this.data._city;
+    // }
+    console.log("userInfo_show_can:", app.globalData.userInfo);
     if (app.globalData.userInfo.userId || app.globalData.userInfo.userId != null) {
       this.getmoreData();
       this.isbargain(false);
@@ -52,12 +62,13 @@ Page({
     }
   },
   getmoreData() { //查询 更多数据 
-
     this.dishDetail();
     this.shopDetail();
     if (app.globalData.userInfo.lng && app.globalData.userInfo.lat) {
-      this.dishList();
-      this.hotDishList();
+      if (this.data._city || app.globalData.userInfo.city){
+        this.dishList();
+        this.hotDishList();
+      }
     } else {
       this.getlocation();
     }
@@ -220,11 +231,12 @@ Page({
       browSort: 1,
       locationX: app.globalData.userInfo.lng,
       locationY: app.globalData.userInfo.lat,
-      city: app.globalData.userInfo.city,
+      city: this.data._city ? this.data._city:app.globalData.userInfo.city,
       isDeleted: 0,
       page: this.data.page,
       rows: 6
     };
+    console.log('hot__parms:', _parms);
     Api.partakerList(_parms).then((res) => {
       if (res.data.code == 0 && res.data.data.list && res.data.data.list != 'null') {
         let list = res.data.data.list,
@@ -378,7 +390,7 @@ Page({
               });
             }
             let userInfo = app.globalData.userInfo;
-            if (userInfo.userId && userInfo.lat && userInfo.lng) {
+            if (userInfo.userId && userInfo.lat && userInfo.lng && userInfo.city) {
               that.getmoreData();
               that.isbargain(false);
             } else {
@@ -439,9 +451,13 @@ Page({
     })
   },
   requestCityName(lat, lng) { //获取当前城市
+    let that = this;
     app.globalData.userInfo.lat = lat;
     app.globalData.userInfo.lng = lng;
-    let that = this;
+    if (app.globalData.userInfo.city || this.data._city){
+      that.getmoreData();
+      that.isbargain(false);
+    }
     wx.request({
       url: 'https://apis.map.qq.com/ws/geocoder/v1/?location=' + lat + "," + lng + "&key=4YFBZ-K7JH6-OYOS4-EIJ27-K473E-EUBV7",
       header: {
@@ -470,16 +486,18 @@ Page({
   },
   //分享给好友
   onShareAppMessage: function() {
+    console.log('userInfo:', app.globalData.userInfo);
+    console.log('shopid:', this.data.shopId)
+    let userInfo = app.globalData.userInfo;
     return {
-      title: this.data.store_details.shopName,
-      path: '/pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails?shopid=' + this.data.shopid + '&id=' + this.data.id,
-      // imageUrl: this.data.store_details.logoUrl,
+      title: this.data.skuName,
+      path: '/pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails?shopId=' + this.data.shopId + '&id=' + this.data.id + '&lat=' + userInfo.lat+'&lng='+userInfo.lng+'&city='+userInfo.city,
       success: function(res) {
         console.log('success')
       },
       fail: function(res) {
         // 分享失败
-        console.log(res)
+        console.log('fail')
       }
     }
   },

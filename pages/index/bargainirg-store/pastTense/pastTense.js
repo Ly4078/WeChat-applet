@@ -26,6 +26,7 @@ Page({
     });
     this.vegetablesInquire(); //查询菜品
   },
+
   onHide: function() {
     let _this = this;
     this.setData({
@@ -84,9 +85,11 @@ Page({
       timer = null,
       minus = '', //时间差(秒)
       that = this;
-    this.setData({
-      timer: setInterval(function() {
-        console.log('定时器');
+
+      timer = setInterval(function() {
+        that.setData({
+          timer: timer
+        });
         let isEnd = 0;
         for (let i = 0; i < arr.length; i++) {
           miliNow = new Date().getTime(); //现在时间
@@ -119,7 +122,6 @@ Page({
         }
         minus--;
       }, 1000)
-    });
   },
   bargainDetail(e) {
     let id = e.currentTarget.id,
@@ -139,3 +141,4 @@ Page({
     }
   }
 })
+
