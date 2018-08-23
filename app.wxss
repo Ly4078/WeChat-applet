@@ -468,8 +468,10 @@ button{
    background: rgba(0,0,0,0);filter:Alpha(opacity=50);
 }
 .drphnumber{
-   width:580rpx;
-   text-align: center;
+  width:580rpx;
+  height: 85rpx;
+  line-height: 85rpx;
+  text-align: center;
   position:fixed;
   left:85rpx;
   top:321rpx;
@@ -479,17 +481,18 @@ button{
   font-size:30rpx;
   font-family:PingFangSC-Regular;
   color:rgba(128,128,128,1);
-  padding:25rpx 0;
+  /* padding:25rpx 0; */
   border-bottom: 1rpx solid rgba(224,224,224,1);
 }
 .sqtishi{
   width:580rpx;
-  height:34rpx; 
+  height:84rpx; 
+  line-height:84rpx; 
   font-size:36rpx;
   text-align: center;
   font-family:PingFangSC-Regular;
   color:rgba(25,25,25,1);
-  padding: 25rpx 0;
+  /* padding: 25rpx 0; */
   background: #fff;
   position:fixed;
   left:85rpx;
