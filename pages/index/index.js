@@ -164,37 +164,29 @@ Page({
       // 新的版本下载失败
     });
     this.activityBanner();
-    this.indexinit();
     this.getcarousel();
+    this.indexinit();
+   
   },
   onShow: function () {
     let that = this;
-    if (app.globalData.userInfo.city){
+
+    if (this.data.verifyId && this.data.phone && this.data.phonetwo) {
       this.setData({
-        city: app.globalData.userInfo.city,
-        posts_key: [],
-        // bargainList: [],//砍价拼菜
-        bargainListall: [],//拼菜砍价
-        _page: 1
+        userGiftFlag: false,
+        isNew: true,
+        isfirst: true,
+        isphoneNumber: true
       })
-      this.hotDishList();
-      if (this.data.verifyId && this.data.phone && this.data.phonetwo){
-        this.setData({
-          userGiftFlag:false,
-          isNew:true,
-          isfirst:true,
-          isphoneNumber:true
-        })
-      }
     }
-    wx.request({
-      // url: this.data._build_url + 'act/flag', 
-      url:'https://www.hbxq001.cn/version.txt',
+
+    wx.request({  //isflag
+      url: 'https://www.hbxq001.cn/version.txt',
       success: function (res) {
         if (res.data.flag == 0) { //0显示  
           app.globalData.isflag = true;
           that.setData({
-            isfile:true
+            isfile: true
           })
         } else if (res.data.flag == 1) {  //1不显示
           app.globalData.isflag = false;
@@ -204,9 +196,30 @@ Page({
         }
       }
     })
-    // app.globalData.isflag = true;
-    // this.getmoredata();
+
+    if (app.globalData.userInfo.userId){
+      if (app.globalData.userInfo.city) {
+        this.setData({
+          city: app.globalData.userInfo.city,
+          posts_key: [],
+          // bargainList: [],//砍价拼菜
+          bargainListall: [],//拼菜砍价
+          _page: 1
+        })
+
+        if (app.globalData.userInfo.lat && app.globalData.userInfo.lng) {
+          this.hotDishList();
+        }
+
+      } else {
+        this.getlocationsa();
+      }
+    }else{
+      this.getuserCode();
+    }
   },
+
+
   indexinit: function () {
     let that = this, userInfo = app.globalData.userInfo;
     if (!app.globalData.userInfo.lat && !app.globalData.userInfo.lng && !app.globalData.userInfo.city) {
@@ -218,45 +231,41 @@ Page({
     }
     // this.getshoplist('附近',2);
    
-    if (this.data.phone && this.data.veridyTime) {
-      this.setData({
-        userGiftFlag: false,
-        isNew: true,
-        isfirst: true,
-        isphoneNumber: true
-      })
-    }
     if (userInfo.openId && userInfo.sessionKey && userInfo.unionId) {
       that.setData({
         istouqu: false
       })
       that.getmyuserinfo();
     } else {
-      wx.login({
-        success: res => {
-          if (res.code) {
-            let _parms = {
-              code: res.code
-            }
-
-            // console.log("code:",res.code);
-            // return false
-            let that = this;
-            Api.getOpenId(_parms).then((res) => {
-              app.globalData.userInfo.openId = res.data.data.openId;
-              app.globalData.userInfo.sessionKey = res.data.data.sessionKey;
-              if (res.data.data.unionId) {
-                app.globalData.userInfo.unionId = res.data.data.unionId;
-                that.getmyuserinfo();
-              } else {
-                that.findByCode();
-                wx.hideLoading();
-              }
-            })
-          }
-        }
-      })
+      that.getuserCode();
     }
+  },
+  getuserCode:function(){  //创建新用户
+    let that = this;
+    wx.login({
+      success: res => {
+        if (res.code) {
+          let _parms = {
+            code: res.code
+          }
+
+          // console.log("code:",res.code);
+          // return false
+
+          Api.getOpenId(_parms).then((res) => {
+            app.globalData.userInfo.openId = res.data.data.openId;
+            app.globalData.userInfo.sessionKey = res.data.data.sessionKey;
+            if (res.data.data.unionId) {
+              app.globalData.userInfo.unionId = res.data.data.unionId;
+              that.getmyuserinfo();
+            } else {
+              that.findByCode();
+              wx.hideLoading();
+            }
+          })
+        }
+      }
+    })
   },
   onHide: function () {
     let that = this;
@@ -479,7 +488,7 @@ Page({
       }
     })
   },
-  getmyuserinfo: function () {
+  getmyuserinfo: function () {  //创建新用户
     let _parms = {
       openId: app.globalData.userInfo.openId,
       unionId: app.globalData.userInfo.unionId
@@ -527,6 +536,9 @@ Page({
     })
   },
   onPullDownRefresh: function () { //下拉刷新
+    this.setData({
+      _page:1
+    })
     this.getmoredata();
   },
   getmoredata: function () {  //获取更多数据
@@ -534,7 +546,11 @@ Page({
     // this.getshoplist();
     this.gettopiclist();
     this.gettoplistFor();
-    // this.hotDishList();
+    if (app.globalData.userInfo.lat && app.globalData.userInfo.lng && app.globalData.userInfo.city) {
+      this.hotDishList();
+    }else{
+      this.getlocationsa();
+    }
     return false;
 
 
@@ -726,9 +742,6 @@ Page({
     })
   },
   onReachBottom: function () {  //用户上拉触底加载更多
-    if (!app.globalData.userInfo.mobile) {
-      return false
-    }
       this.setData({
         _page: this.data._page + 1
       })
@@ -825,7 +838,8 @@ Page({
                           wx.getLocation({
                             type: 'wgs84',
                             success: function (res) {
-                              let latitude = res.latitude, longitude = res.longitude
+                              let latitude = res.latitude,
+                               longitude = res.longitude;
                               app.globalData.userInfo.lat = latitude;
                               app.globalData.userInfo.lng = longitude;
                               that.requestCityName(latitude, longitude);
@@ -860,7 +874,7 @@ Page({
           }else{
             app.globalData.userInfo.city = '十堰市';
           }
-          console.log('_city:', _city);
+          console.log('_city:', app.globalData.userInfo.city);
          
           this.hotDishList();
           this.setData({
@@ -1497,11 +1511,6 @@ Page({
                       }
                     }
                   }
-                  // if (data.mobile) {
-                  //   that.newUserToGet();
-                  // }
-                  
-
                   that.isNewUser();
                 }
               }
