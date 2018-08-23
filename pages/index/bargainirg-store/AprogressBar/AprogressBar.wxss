@@ -169,7 +169,7 @@ page{
   font-size:20rpx;
   font-family:PingFangSC-Medium;
   color:rgba(255,67,67,1);  
-  width: 44rpx;
+  width: 40rpx;
   text-align: right;
   display: inline-block;
 }

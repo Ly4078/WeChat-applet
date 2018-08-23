@@ -35,6 +35,7 @@
     "pages/discover-plate/discover-plate",
     "pages/index/voucher-details/voucher-details",
     "pages/index/user-location/user-location",
+    "pages/index/chartOfDisheses/chartOfDisheses",
     "pages/index/user-seek/user-seek",
     "pages/index/dining-room/dining-room",
     "pages/activityDetails/activity-details",

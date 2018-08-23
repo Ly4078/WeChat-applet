@@ -1,0 +1,17 @@
+page{
+  background-color: #78b6fc;
+}
+
+.disheses{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dishesesImg{
+  padding: 20rpx;
+  width: 710rpx;
+  height: 5000rpx;
+}

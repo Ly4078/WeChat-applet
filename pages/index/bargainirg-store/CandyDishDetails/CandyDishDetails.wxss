@@ -58,7 +58,7 @@
 }
 
 .shopscCurrency{
-  width: 66rpx;
+  width: 68rpx;
   line-height: 28rpx;
   text-align: right;
   display: inline-block;

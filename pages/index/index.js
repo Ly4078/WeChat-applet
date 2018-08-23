@@ -874,8 +874,6 @@ Page({
           }else{
             app.globalData.userInfo.city = '十堰市';
           }
-          console.log('_city:', app.globalData.userInfo.city);
-         
           this.hotDishList();
           this.setData({
             city: app.globalData.userInfo.city,
@@ -1543,6 +1541,12 @@ Page({
         duration: 2000
       });
     }
+  },
+  // 砍菜砍价详情
+  chartOfDisheses:function(){
+    wx.navigateTo({
+      url: 'chartOfDisheses/chartOfDisheses',
+    })
   }
 })
 
