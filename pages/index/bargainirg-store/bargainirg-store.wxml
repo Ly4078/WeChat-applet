@@ -21,3 +21,5 @@
     </view>
   </view>
 </view>
+
+<image class='ball' wx:if="{{isball}}" bindtap='toactlist' src='/images/icon/shouye.png'></image>

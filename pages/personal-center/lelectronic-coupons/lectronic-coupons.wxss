@@ -33,14 +33,12 @@ page {
 }
 
 .lectronic-left {
-  /* width: 80%; */
   height: 100%;
 }
 
 .lectronic-right {
-  /* width: 20%; */
   height: 100%;
-  color: rgba(177,177,177,1);
+  color: red;
 }
 
 .lectronic-images {
