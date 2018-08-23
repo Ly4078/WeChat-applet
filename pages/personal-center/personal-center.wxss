@@ -15,7 +15,7 @@ page{
 }
 
 .centreTopName {
-  width: 60%;
+  width: 79%;
   height: 222rpx;
   z-index: 100;
 }
@@ -68,14 +68,14 @@ page{
   width: 110rpx;
   height: 110rpx;
   border-radius: 50%;
-  margin: 0rpx 40rpx;
+  margin: 0rpx 30rpx 0rpx 20rpx;
 }
 .suerinfo::after{
  border: none;
 }
 
 .TopRight{
-  width: 40%;
+  width: 21%;
   height: 180rpx;
   position: relative;
   z-index: 100;
@@ -110,7 +110,7 @@ page{
 
 .centreText {
   color: #fff;
-  width: 245rpx;
+  width: 366rpx;
   overflow: hidden;
   font-size: 36rpx;
   font-weight: 600;
