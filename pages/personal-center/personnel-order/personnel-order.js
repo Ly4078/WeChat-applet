@@ -62,7 +62,7 @@ Page({
           for (let i = 0; i < data.data.length; i++) {
             if (this.data.currentTab == 1 || !this.data.currentTab) {
               if (data.data[i].skuType != 3) {
-                data.data[i]["isDue"] = that.isDueFunc(data.data[i].createTime);
+                // data.data[i]["isDue"] = that.isDueFunc(data.data[i].createTime);
                 order_list.push(data.data[i]);
                 // if (order_list.length<9){
                 //   this.setData({
@@ -79,6 +79,7 @@ Page({
             order_list: order_list,
             reFresh: true
           });
+          console.log(this.data.order_list);
         } else {
           if (this.data.currentTab == 1) {
             if (this.data.isfirst) {
@@ -117,6 +118,7 @@ Page({
             order_list: order_list,
             completed: true
           });
+          console.log(this.data.order_list);
         } else {
           that.setData({
             completed: false
@@ -145,7 +147,7 @@ Page({
       if (data.code == 0 && data.data != null && data.data != "" && data.data != []) {
         let shoplist = that.data.shoporderlist;
         for (let i = 0; i < data.data.length; i++) {
-          data.data[i]["isDue"] = that.isDueFunc(data.data[i].createTime);
+          // data.data[i]["isDue"] = that.isDueFunc(data.data[i].createTime);
           shoplist.push(data.data[i]);
         }
         that.setData({
