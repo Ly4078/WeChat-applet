@@ -21,9 +21,11 @@ App({
   globalData: {  //全局变量
     picker:{},
     isflag:true,
+    oldcity:'',
     userInfo: {
       id:'',
       openId: '',
+      unionId:'',
       sessionKey:'',
       password: '',
       userType:'',

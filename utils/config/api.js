@@ -192,7 +192,7 @@ const ALL_API = {
     method: 'GET',
     url: 'topic/myList'
   },
-  isNewUser: {     //是否新用户
+  isNewUser: {     //查询新用户是否已经领券
     method: 'GET',
     url: 'sku/isNewUser'
   },
