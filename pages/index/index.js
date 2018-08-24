@@ -513,7 +513,10 @@ Page({
 
     if (app.globalData.userInfo.lat && app.globalData.userInfo.lng) {
       this.hotDishList();
-      console.log('hotdish:', this.data.hotdish)
+      console.log('hotdish:', this.data.hotdish);
+      this.setData({
+        bargainList: []
+      });
       for (let i = 0; i < this.data.hotdish.length; i++) {
         let _hotdish = this.data.hotdish[i];
         this.getdishDetail(_hotdish.dishId, _hotdish.shopId);
