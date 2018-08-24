@@ -48,9 +48,9 @@ Page({
       hotDishList: [],
       page: 1
     });
-    // if (this.data._city) {
-    //   app.globalData.userInfo.city = this.data._city;
-    // }
+    if (!app.globalData.userInfo.city) {
+      app.globalData.userInfo.city = '十堰市';
+    }
     if (app.globalData.userInfo.userId || app.globalData.userInfo.userId != null) {
       this.getmoreData();
       this.isbargain(false);
@@ -488,21 +488,24 @@ Page({
     if (app.globalData.userInfo.city || this.data._city){
       that.getmoreData();
       that.isbargain(false);
-    }
-    wx.request({
-      url: 'https://apis.map.qq.com/ws/geocoder/v1/?location=' + lat + "," + lng + "&key=4YFBZ-K7JH6-OYOS4-EIJ27-K473E-EUBV7",
-      header: {
-        'content-type': 'application/json' // 默认值
-      },
-      success: (res) => {
-        if (res.data.status == 0) {
-          let _city = res.data.result.address_component.city;
-          app.globalData.userInfo.city = _city;
-          that.getmoreData();
-          that.isbargain(false);
+    }else{
+      return
+      wx.request({
+        url: 'https://apis.map.qq.com/ws/geocoder/v1/?location=' + lat + "," + lng + "&key=4YFBZ-K7JH6-OYOS4-EIJ27-K473E-EUBV7",
+        header: {
+          'content-type': 'application/json' // 默认值
+        },
+        success: (res) => {
+          if (res.data.status == 0) {
+            let _city = res.data.result.address_component.city;
+            app.globalData.userInfo.city = _city;
+            that.getmoreData();
+            that.isbargain(false);
+          }
         }
-      }
-    })
+      })
+    }
+    
   },
   closetel: function(e) {
     let id = e.target.id;

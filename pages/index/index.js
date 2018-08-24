@@ -149,7 +149,6 @@ Page({
     }]
   },
   onLoad: function(options) {
-    console.log('index_options:',options)
     let that = this;
     // wx.showLoading({
     //   title: '加载中...'
@@ -1385,7 +1384,8 @@ Page({
 
 
 
-//  注册start
+
+  //  注册start
   closetel: function(e) { //新用户提示按钮选项
     let id = e.target.id;
     clearInterval(this.data.settime)
@@ -1491,7 +1491,7 @@ Page({
         phone: ''
       })
     }
-  },
+  }, 
   yzmbindblur: function(e) { //监听获取输入的验证码
     let _value = e.detail.value
     this.setData({
