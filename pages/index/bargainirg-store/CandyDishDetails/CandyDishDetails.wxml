@@ -99,7 +99,7 @@
       </view>
 
       <!-- 热门推荐 -->
-      <view class='specialWrap specialHot'>
+      <view class='specialWrap specialHot' wx:if="{{hotDishList.length>0}}">
         <view class='special'></view>
         <text>热门推荐</text>
       </view>
