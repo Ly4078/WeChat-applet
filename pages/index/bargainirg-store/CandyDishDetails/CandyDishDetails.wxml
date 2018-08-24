@@ -67,7 +67,7 @@
       </view>
 
       <!-- 同店推荐 -->
-      <view class='specialWrap'>
+      <view class='specialWrap' wx:if="{{dishList.length>0}}">
         <view class='special'></view>
         <text>同店推荐</text>
       </view>

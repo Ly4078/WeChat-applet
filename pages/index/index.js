@@ -209,7 +209,6 @@ Page({
   },
   onShow: function() {
     let that = this;
-  
     if (this.data.verifyId && this.data.phone && this.data.phonetwo) {
       this.setData({
         userGiftFlag: false,
@@ -233,35 +232,11 @@ Page({
           _page: 1
         })
         this.getCutDish();
-        
       }
     }
     
-
-    // if (app.globalData.userInfo.userId) {
-    //   if (app.globalData.userInfo.city) {
-    //     this.setData({
-    //       city: app.globalData.userInfo.city,
-    //       posts_key: [],
-    //       // bargainList: [],//砍价拼菜
-    //       // bargainListall: [],//拼菜砍价
-    //       _page: 1,
-    //       isopen: false
-    //     })
-
-    //     // if (app.globalData.userInfo.lat && app.globalData.userInfo.lng) {
-    //     //   that.hotDishList();
-    //     // }
-
-    //   } else {
-    //     console.log('333');
-    //     this.getUserlocation();
-    //   }
-    // } else {
-    //   console.log('444');
-    //   this.getuserCode();
-    // }
   },
+
   onHide: function () {
     let that = this;
     // clearInterval(that.data.settime);
@@ -539,6 +514,7 @@ Page({
 
     if (app.globalData.userInfo.lat && app.globalData.userInfo.lng) {
       this.hotDishList();
+      console.log('hotdish:', this.data.hotdish)
       for (let i = 0; i < this.data.hotdish.length; i++) {
         let _hotdish = this.data.hotdish[i];
         this.getdishDetail(_hotdish.dishId, _hotdish.shopId);
@@ -584,6 +560,9 @@ Page({
 
   hotDishList() { //拼价砍菜列表
     //browSort 0附近 1销量 2价格
+    this.setData({
+      city: this.data.city ? this.data.city: app.globalData.userInfo.city
+    })
     let _parms = {
       zanUserId: app.globalData.userInfo.userId,
       browSort: 2,
@@ -624,6 +603,7 @@ Page({
       }
     })
   },
+
   getdishDetail: function (Id, shopId) { //查询单个砍菜详情
     let _parms = {
       Id: Id,
@@ -1381,7 +1361,7 @@ Page({
   },
 
 
-  
+
   //监听页面分享
   onShareAppMessage: function(res) {
     if (res.from === 'button') {
