@@ -517,3 +517,22 @@
   font-size: 28rpx;
   padding-left: 20rpx;
 }
+
+.setMealMore {
+  width: 100%;
+  text-align: center;
+  color: #808080;
+  font-size: 24rpx;
+  padding-top: 20rpx;
+}
+
+.setMealMore image {
+  width: 18rpx;
+  height: 8rpx;
+  vertical-align: middle;
+  margin-left: 8rpx;
+}
+
+.transjt{
+  transform:rotate(180deg);
+}

@@ -19,7 +19,9 @@ Page({
     address: '', //地址
     popNum: '', //人气值
     dishList: [], //同店推荐
+    preDishList: [],
     hotDishList: [], //热门推荐
+    isBarg: false,
     flag: true,
     page: 1,
     isbargain: false, //是否砍过价
@@ -40,6 +42,7 @@ Page({
   },
   onShow() {
     this.setData({
+      isBarg: true,
       isbargain: false,
       flag: true,
       hotDishList: [],
@@ -213,14 +216,16 @@ Page({
     Api.partakerList(_parms).then((res) => {
       if (res.data.code == 0 && res.data.data.list && res.data.data.list != 'null') {
         let list = res.data.data.list,
-          newList = [];
+          newList = [], preDishList = [];
         for (let i = 0; i < list.length; i++) {
           if (list[i].id != this.data.id) {
             newList.push(list[i]);
           }
         }
+        preDishList = newList.length > 5 ? newList.slice(0, 4) : newList;
         this.setData({
-          dishList: newList
+          dishList: newList,
+          preDishList: preDishList
         });
       }
     })
@@ -327,6 +332,12 @@ Page({
     wx.navigateTo({
       url: '../../order-for-goods/order-for-goods?shopId=' + this.data.shopId + '&skuName=' + sellPrice + '元砍价券&sell=' + sellPrice + '&skutype=4&dishSkuId=' + this.data.id + '&dishSkuName=' + this.data.skuName + '&bargainType=1'
     })
+  },
+  //查看全部砍价菜
+  changeBar() {
+    this.setData({
+      isBarg: !this.data.isBarg
+    });
   },
   //发起砍价
   sponsorVgts: function() {
