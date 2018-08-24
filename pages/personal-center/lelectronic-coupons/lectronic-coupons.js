@@ -14,11 +14,15 @@ Page({
     _skuNum: '',
     soid:'',  //点击的订单ID
     id:'',  //票券ID
+    couponId: '',   //券Id
+    isUsed: 0,   //是否使用
+    goldNum: 0,   //金币数量
     ismoldel:false,
     redfirst:'1',
     timer:'',
     amount:'',
     isticket:false,
+    isGold: false,
     frequency:0,
     shopodrder:{},
     istickts:false,
@@ -77,22 +81,13 @@ Page({
           title: '订单详情'
         })
       } else {
-        let int = setInterval(function () {
-          that.getcodedetail();
-        }, 2000);
         this.setData({
-          isticket: true,
-          timer: int
+          isticket: true
         })
       }
-      let int = setInterval(function () {
-        that.getcodedetail();
-      }, 2000);
       this.setData({
-        isticket: true,
-        timer: int
+        isticket: true
       })
-      this.getcodedetail();
       this.getTicketInfo();
     }
   },
@@ -133,11 +128,12 @@ Page({
     this.setData({
       frequency: freq
     })
+    console.log(freq)
     if (freq == 20){
       clearInterval(that.data.timer)
     }
     wx.request({
-      url: this.data._build_url + 'cp/get/' + this.data.id,
+      url: this.data._build_url + 'cp/get/' + this.data.couponId,
       success: function (res) {
         let data = res.data;
         if(res.data.code == 0){
@@ -160,11 +156,16 @@ Page({
             that.setData({
               ticket: ticketArr
             })
+            if (res.data.data.isUsed == 0) {
+              that.setData({
+                isGold: true
+              });
+            }
+            console.log(that.data.isGold);
             if (res.data.data.isUsed && res.data.data.isUsed != 0) {
               let _id = res.data.data.id;
               that.getgold(_id);
               clearInterval(that.data.timer);
-             
               // that.setData({
               //   ismoldel: true
               // })
@@ -179,27 +180,31 @@ Page({
     });
   },
   getgold: function (_id){  //券核销完成后给金币
-    let _parms = {
-      userId: app.globalData.userInfo.userId,
-      id:_id,
-    };
-    Api.getGold(_parms).then((res) => {
-      if (res.data.code == 0) {
-        wx.showModal({
-          title: '',
-          showCancel: false,
-          content: '已使用，获得' + res.data.data + '个金币',
-          success: function (res) {
-            if (res.confirm) {
-              console.log('用户点击确定')
-            } else if (res.cancel) {
-              console.log('用户点击取消')
+    if (this.data.isGold) {
+      let _parms = {
+        userId: app.globalData.userInfo.userId,
+        id: _id,
+      };
+      Api.getGold(_parms).then((res) => {
+        if (res.data.code == 0) {
+          this.setData({
+            isGold: false
+          });
+          wx.showModal({
+            title: '',
+            showCancel: false,
+            content: '已使用，获得' + res.data.data + '个金币',
+            success: function (res) {
+              if (res.confirm) {
+                console.log('用户点击确定')
+              } else if (res.cancel) {
+                console.log('用户点击取消')
+              }
             }
-          }
-        })
-        console.log('核销成功，获取' + res.data.data + '个金币');
-      }
-    });
+          })
+        }
+      });
+    }
   },
   getredpacket:function () {//获取可领取的随机红包金额
     let that = this;
@@ -242,11 +247,13 @@ Page({
               }
             }
             that.setData({
-              couponsArr: couponsArr
+              couponsArr: couponsArr,
+              couponId: data.data.coupons[0].couponId
             });
           } else {
             that.setData({
-              couponsArr: data.data.coupons
+              couponsArr: data.data.coupons,
+              couponId: data.data.coupons[0].couponId
             });
           }
           for (let i = 0; i < that.data.couponsArr.length; i++) {
@@ -286,6 +293,13 @@ Page({
           //   });
           // }
         }
+        that.getcodedetail();
+        let int = setInterval(function () {
+          that.getcodedetail();
+        }, 2000);
+        that.setData({
+          timer: int
+        });
       }
     });
   },

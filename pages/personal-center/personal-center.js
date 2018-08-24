@@ -442,6 +442,13 @@ Page({
           }
           let current = res.currentTime;
           let isDue = that.isDueFunc(current, data.expiryDate);
+          if (data.data.type == 4 && data.data.shopId != app.globalData.userInfo.shopId) {
+            wx.showToast({
+              title: '该菜不属于本店',
+              icon: 'none'
+            })
+            return false;
+          }
           if (data.data.isUsed == 1) {
             wx.showToast({
               title: '该票券已被使用',

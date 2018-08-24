@@ -853,21 +853,9 @@ to {transform:rotateY(360deg);}
   line-height: 41rpx;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+.goldBox {
+  padding-top: 20rpx;
+  text-align: center;
+  color:red;
+  font-size: 24rpx;
+}
