@@ -42,7 +42,7 @@ Page({
   },
   onShow() {
     this.setData({
-      isBarg: true,
+      isBarg: false,
       isbargain: false,
       flag: true,
       hotDishList: [],
