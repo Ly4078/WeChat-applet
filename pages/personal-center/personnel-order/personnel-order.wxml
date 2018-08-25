@@ -14,9 +14,9 @@
     </block>
   </view>
   <view>
-    <block wx:for="{{shoporderlist}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
+    <!-- <block wx:for="{{shoporderlist}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
       <template is="order_template" data="{{item}}"></template>
-    </block>
+    </block> -->
   </view>
 </view>
 <view wx:if="{{order_list.length < 1 && shoporderlist.length < 1}}" class='placeholder'>

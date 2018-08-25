@@ -7,7 +7,7 @@ Page({
     reFresh: true,
     completed: true,
     isfirst: false,
-    currentTab: '', // 1待支付 2 已支付 3已核销 10取消,
+    currentTab: '', // 1待支付 2 已支付 3已核销 10取消, 订单状态 1待支付 2 已支付 3已核销 10取消
     shoporderlist: []
   },
   onShow: function() {
@@ -55,7 +55,6 @@ Page({
     }
     Api.somyorder(_parms).then((res) => {
       let data = res.data;
-      // console.log('getOrderList_res:',res);
       if (data.code == 0 && data.data != null && data.data != "" && data.data != []) {
         let order_list = that.data.order_list;
         if (data.data.length && data.data.length > 0) {
@@ -79,7 +78,6 @@ Page({
             order_list: order_list,
             reFresh: true
           });
-          console.log(this.data.order_list);
         } else {
           if (this.data.currentTab == 1) {
             if (this.data.isfirst) {
@@ -107,6 +105,7 @@ Page({
         soStatus: 3
       };
       Api.somyorder(_parms).then((res) => {
+
         let data = res.data;
         wx.hideLoading();
         if (data.code == 0 && data.data != null && data.data != "" && data.data != []) {
@@ -118,7 +117,6 @@ Page({
             order_list: order_list,
             completed: true
           });
-          console.log(this.data.order_list);
         } else {
           that.setData({
             completed: false
@@ -141,26 +139,7 @@ Page({
       soStatus: '2'
     };
 
-    Api.myorderForShop(_parms).then((res) => {
-      let data = res.data;
-      // console.log('getshopOrderList_res:',res)
-      if (data.code == 0 && data.data != null && data.data != "" && data.data != []) {
-        let shoplist = that.data.shoporderlist;
-        for (let i = 0; i < data.data.length; i++) {
-          // data.data[i]["isDue"] = that.isDueFunc(data.data[i].createTime);
-          shoplist.push(data.data[i]);
-        }
-        that.setData({
-          shoporderlist: shoplist,
-          reFresh: true
-        });
-      } else {
-        that.setData({
-          reFresh: false
-        });
-      }
-    });
-    if (this.data.currentTab == 2) {
+    if (this.data.currentTab == 2 || this.data.currentTab == '') {
       let _parms = {
         userId: app.globalData.userInfo.userId,
         page: this.data.page,
@@ -255,7 +234,6 @@ Page({
   },
   //用户上拉触底
   onReachBottom: function() {
-    console.log("onReachBottom")
     if (this.data.currentTab != 2 && this.data.reFresh) {
       wx.showLoading({
         title: '加载中..'
