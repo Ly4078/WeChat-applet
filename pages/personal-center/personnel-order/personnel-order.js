@@ -2,174 +2,53 @@ import Api from '../../../utils/config/api.js';
 var app = getApp();
 Page({
   data: {
-    order_list: [],
     page: 1,
-    reFresh: true,
-    completed: true,
-    isfirst: false,
-    currentTab: '', // 1待支付 2 已支付 3已核销 10取消, 订单状态 1待支付 2 已支付 3已核销 10取消
-    shoporderlist: []
+    currentTab: '', // 1待支付 2 已支付 3已核销 10取消, 
+    order_list: []
   },
   onShow: function() {
-    this.getOrderList();
-    this.getshopOrderList();
+    this.getplatformList();
   },
   onHide: function() {
     this.setData({
       order_list: [],
-      shoporderlist: [],
       page: 1,
-      reFresh: true,
-      completed: true,
       currentTab: ''
     })
   },
-  swichNav: function(event) {
+  clickTab: function(event) {  //点击tab,选择查询没有类别
     this.setData({
       order_list: [],
       shoporderlist: [],
       page: 1,
-      reFresh: true,
-      completed: true,
       currentTab: event.currentTarget.dataset.current
     })
-    this.getOrderList();
-    if (this.data.currentTab == 2 || this.data.currentTab == '') {
-      this.getshopOrderList();
-    }
+    this.getplatformList();
   },
-  getOrderList: function() { //获取平台订单列表
-    let that = this;
-    let _parms = {
+  getplatformList: function (){   // 获取订单列表
+    let that = this, _parms = {}, _soStatus = this.data.currentTab;
+    _parms = {
       userId: app.globalData.userInfo.userId,
       page: this.data.page,
-      rows: 8,
-      soType: 1
-    };
-    if (this.data.currentTab) {
-      _parms.soStatus = this.data.currentTab,
-        _parms.rows = 20
-    }
-    if (this.data.currentTab == 1 || !this.data.currentTab) {
-      _parms.rows = 20
+      soStatus: _soStatus,
+      rows: 10
+      //soType: 1  //1平台列表   2商家列表
     }
     Api.somyorder(_parms).then((res) => {
-      let data = res.data;
-      if (data.code == 0 && data.data != null && data.data != "" && data.data != []) {
-        let order_list = that.data.order_list;
-        if (data.data.length && data.data.length > 0) {
-          for (let i = 0; i < data.data.length; i++) {
-            if (this.data.currentTab == 1 || !this.data.currentTab) {
-              if (data.data[i].skuType != 3) {
-                // data.data[i]["isDue"] = that.isDueFunc(data.data[i].createTime);
-                order_list.push(data.data[i]);
-                // if (order_list.length<9){
-                //   this.setData({
-                //     page: this.data.page + 1
-                //   })
-                //   that.getOrderList ();
-                // }
-              }
-            } else {
-              order_list.push(data.data[i])
-            }
+      wx.hideLoading();
+      if (res.data.code == 0) {
+        let order_list = that.data.order_list,_list = res.data.data;
+        if (_list && _list.length>0){
+          for (let i = 0; i < _list.length; i++) {
+            order_list.push(_list[i]);
           }
           that.setData({
-            order_list: order_list,
-            reFresh: true
+            order_list: order_list
           });
-        } else {
-          if (this.data.currentTab == 1) {
-            if (this.data.isfirst) {
-              return false
-            }
-            this.setData({
-              page: this.data.page + 1,
-              isfirst: true
-            })
-            this.getOrderList();
-          }
+          console.log('order_list:', order_list)
         }
-
-      } else {
-        that.setData({
-          reFresh: false
-        });
       }
-    });
-    if (this.data.currentTab == 2) {
-      let _parms = {
-        userId: app.globalData.userInfo.userId,
-        page: this.data.page,
-        rows: 5,
-        soStatus: 3
-      };
-      Api.somyorder(_parms).then((res) => {
-
-        let data = res.data;
-        wx.hideLoading();
-        if (data.code == 0 && data.data != null && data.data != "" && data.data != []) {
-          let order_list = that.data.order_list;
-          for (let i = 0; i < data.data.length; i++) {
-            order_list.push(data.data[i]);
-          }
-          that.setData({
-            order_list: order_list,
-            completed: true
-          });
-        } else {
-          that.setData({
-            completed: false
-          });
-        }
-      });
-    }
-    if (that.data.page == 1) {
-      wx.stopPullDownRefresh();
-    } else {
-      wx.hideLoading();
-    }
-  },
-  getshopOrderList: function() { //获取商家订单列表
-    let that = this;
-    let _parms = {
-      userId: app.globalData.userInfo.userId,
-      page: this.data.page,
-      rows: 8,
-      soStatus: '2'
-    };
-
-    if (this.data.currentTab == 2 || this.data.currentTab == '') {
-      let _parms = {
-        userId: app.globalData.userInfo.userId,
-        page: this.data.page,
-        rows: 5,
-        soStatus: 3
-      };
-      Api.somyorder(_parms).then((res) => {
-        let data = res.data;
-        wx.hideLoading();
-        if (data.code == 0 && data.data != null && data.data != "" && data.data != []) {
-          let shoplist = that.data.shoporderlist;
-          for (let i = 0; i < data.data.length; i++) {
-            shoplist.push(data.data[i]);
-          }
-          that.setData({
-            shoporderlist: shoplist,
-            completed: true
-          });
-        } else {
-          that.setData({
-            completed: false
-          });
-        }
-      });
-    }
-    if (that.data.page == 1) {
-      wx.stopPullDownRefresh();
-    } else {
-      wx.hideLoading();
-    }
+    })
   },
   //点击某张券
   lowerLevel: function(e) {
@@ -234,36 +113,21 @@ Page({
   },
   //用户上拉触底
   onReachBottom: function() {
-    if (this.data.currentTab != 2 && this.data.reFresh) {
-      wx.showLoading({
-        title: '加载中..'
-      })
-      this.setData({
-        page: this.data.page + 1
-      });
-      this.getOrderList();
-      this.getshopOrderList();
-    }
-    if (this.data.currentTab == 2 && (this.data.reFresh || this.data.completed)) {
-      wx.showLoading({
-        title: '加载中..'
-      })
-      this.setData({
-        page: this.data.page + 1
-      });
-      this.getOrderList();
-      this.getshopOrderList();
-    }
+    this.setData({
+      page: this.data.page + 1
+    });
+    wx.showLoading({
+      title: '加载中..'
+    })
+    this.getplatformList();
   },
   //用户下拉刷新
   onPullDownRefresh: function() {
     this.setData({
       order_list: [],
-      page: 1,
-      reFresh: true,
+      page: 1
     });
-    this.getOrderList();
-    this.getshopOrderList();
+    this.getplatformList();
   },
   //对比时间是否过期
   isDueFunc: function(createTime) {

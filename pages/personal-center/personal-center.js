@@ -133,7 +133,7 @@ Page({
         })
       }
     })
-    // // 查询是否配置
+    // 查询是否配置
     this.getPullUser();
   },
   getPullUser:function(){
