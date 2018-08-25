@@ -148,6 +148,10 @@ const ALL_API = {
     method: "GET",
     url: 'so/myorder'
   },
+  myorderForShop: {  //查询我的商家订单
+    method: "GET",
+    url: 'so/myorderForShop'
+  },
   socreate: {  //创建支付订单
     method: 'POST',
     url: 'so/create'
@@ -331,10 +335,6 @@ const ALL_API = {
   doUnifiedOrderForShop:{  //商家订单支付
     method:'POST',
     url:'wxpay/doUnifiedOrderForShop'
-  },
-  myorderForShop:{  //查询我的商家订单
-    method:"GET",
-    url:'so/myorderForShop'
   },
   selectForOne:{  //查询商家是否参加商家订单
     method:'GET',
