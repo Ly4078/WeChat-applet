@@ -57,32 +57,38 @@ Page({
     bannthree: [],
     actitem: '附近',
     isfile: false,
-    navs: [{
+    iskancai:false,
+    navs: [
+      {
       img: 'https://xqmp4-1256079679.file.myqcloud.com/text_701070039850928092.png',
       id: 1,
       name: '砍价'
-    }, {
-      img: '/images/icon/navcaiting.png',
-      id: 2,
-      name: '餐厅'
-      // }, {
-      //   img: '/images/icon/navruzhu.png',
-      //   id: 3,
-      //   name: '活动'
-    }, {
-      img: '/images/icon/navshiping.png',
-      id: 4,
-      name: '短视频'
-    }, {
-      img: '/images/icon/navhuodong.png',
-      id: 5,
-      name: '商家入驻'
-    }],
-    navs2: [{
+      }, 
+      {
+        img: '/images/icon/navcaiting.png',
+        id: 2,
+        name: '餐厅'
+        // }, {
+        //   img: '/images/icon/navruzhu.png',
+        //   id: 3,
+        //   name: '活动'
+      }, {
+        img: '/images/icon/navshiping.png',
+        id: 4,
+        name: '短视频'
+      }, {
+        img: '/images/icon/navhuodong.png',
+        id: 5,
+        name: '商家入驻'
+      }
+    ],
+    navs2: [
+      {
       img: 'https://xqmp4-1256079679.file.myqcloud.com/text_701070039850928092.png',
       id: 1,
       name: '砍价'
-    }, {
+    }, 
+    {
       img: '/images/icon/navcaiting.png',
       id: 2,
       name: '餐厅'
@@ -153,6 +159,7 @@ Page({
     // wx.showLoading({
     //   title: '加载中...'
     // });
+   
 
     //版本更新
     const updateManager = wx.getUpdateManager();
@@ -182,6 +189,26 @@ Page({
           app.globalData.isflag = false;
           that.setData({
             isfile: false
+          })
+        }
+        console.log('res.data.kancai:', res.data.kancai)
+        
+        if (res.data.kancai == 0) { //砍价0显示   
+          let _Bargain = that.data.Bargain;
+          _Bargain[0].name = '拼菜砍价';
+          that.setData({
+            iskancai: true,
+            Bargain: _Bargain
+          })
+        } else if (res.data.kancai == 1) { //砍价1不显示
+          let _Bargain = that.data.Bargain;
+          let _navs = that.data.navs;
+          _Bargain[0].name = '精选美食';
+          _navs = _navs.slice(1, 4);
+          that.setData({
+            iskancai: false,
+            Bargain: _Bargain,
+            navs: _navs
           })
         }
         if (res.data.sydish.length > 0) {
