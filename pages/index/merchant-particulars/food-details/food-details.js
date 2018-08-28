@@ -37,8 +37,10 @@ Page({
       zanUserId: app.globalData.userInfo.userId
     }
     Api.getTscForZan(_parms).then((res) => {
+      let _data = res.data.data;
+      _data.skuInfo = utils.uncodeUtf16(_data.skuInfo);
       this.setData({
-        foodData: res.data.data
+        foodData: _data
       })
       this.commentList()
     })

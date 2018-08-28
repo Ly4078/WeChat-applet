@@ -696,6 +696,7 @@ Page({
       success: function(res) {
         let data = res.data;
         if (data.code == 0) {
+          console.log('list:', data.data.list);
           that.setData({
             recommend_list: data.data.list ? data.data.list : []
           });
@@ -971,8 +972,8 @@ Page({
               let _data = res.data.data.list,
                 reg = /^1[34578][0-9]{9}$/;
               for (let i = 0; i < _data.length; i++) {
-                _data[i].zan = utils.million(_data[i].zan)
-                _data[i].content = utils.uncodeUtf16(_data[i].content)
+                _data[i].zan = utils.million(_data[i].zan);
+                _data[i].content = utils.uncodeUtf16(_data[i].content);
                 if (!isNaN(_data[i].userName)) {
                   _data[i].userName = _data[i].userName.substr(0, 3) + "****" + _data[i].userName.substr(7);
                 }
@@ -1046,7 +1047,7 @@ Page({
           }
         }
       })
-    }
+    } 
   },
   //取消点赞
   cancelLike: function(event) {

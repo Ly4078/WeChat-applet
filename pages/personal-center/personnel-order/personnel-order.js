@@ -24,7 +24,7 @@ Page({
       currentTab: ''
     })
   },
-  swichNav: function (event) {
+  clickTab: function (event) {
     this.setData({
       order_list: [],
       shoporderlist: [],
