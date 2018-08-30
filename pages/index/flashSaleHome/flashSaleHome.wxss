@@ -1,0 +1,72 @@
+@import "flashSale-template/flashSale-template.wxss";
+
+page{ 
+ display: flex; 
+ flex-direction: column; 
+ height: 100%; 
+} 
+.navbar{ 
+ flex: none; 
+ display: flex; 
+ background: #fff; 
+} 
+.navbar .item{ 
+ position: relative; 
+ flex: auto; 
+ text-align: center; 
+ line-height: 80rpx; 
+ font-size: 26rpx;
+} 
+.navbar .item.active{ 
+ color: #3FAFFD; 
+ font-size: 28rpx;
+} 
+.navbar .item.active:after{ 
+ content: ""; 
+ display: block; 
+ position: absolute; 
+ bottom: 0; 
+ left: 0; 
+ right: 0; 
+ height: 4rpx; 
+ background: #3FAFFD; 
+}
+
+.diagram{
+  width: 100%;
+  position: relative;
+  background-color: #78B6FC;
+}
+
+.diagram-image{
+  width: 100%;
+  height: 181rpx;
+}
+
+.diagramWrap-close{
+  width: 50rpx;
+  height: 50rpx;
+  text-align: center;
+  line-height: 50rpx;
+  position: absolute;
+  top: 4rpx;
+  right: 6rpx;
+  z-index: 9;
+}
+
+.diagram-close{
+  width: 28rpx;
+  height: 28rpx;
+}
+
+/* 主体菜 */
+.cuisine-center{
+  width: 100%;
+  background-color: #78B6FC;
+  display: flex;
+  justify-content: center;
+}
+
+.cuisineSingle{
+  width: 694rpx;
+}

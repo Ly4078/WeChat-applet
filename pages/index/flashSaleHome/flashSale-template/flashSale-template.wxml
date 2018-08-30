@@ -1,0 +1,32 @@
+<!-- 附件美食 -->
+<template name="flashSale">
+  <view class='flashSaleWrap'>
+    <view class='flashSale-left'>
+      <image class='flashSale-img' src='https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2526659021,2245145335&fm=26&gp=0.jpg'></image>
+      <image class='flashSaleBut' src='https://xqmp4-1256079679.file.myqcloud.com/1535364539984Colin_秒杀底部.png'></image>
+    </view>
+    <view class='flashSale-right'>
+      <view class='flashSaleRig-row'>
+        <view class='diningName'>
+          <text>心湖条子肉</text>
+        </view>
+      </view>
+      <view class='sumName'>
+        <image class='diningNameImg' src='/images/icon/house.png'></image>
+        <text>心湖民宿度假村</text>
+        <text>100m</text>
+      </view>
+      <view class='sumPurchase'>
+        <view class='sumResidue'>
+          <view class='fixationTop'>
+            <text class='fixation'>0.01<text>元</text></text>
+            <text>28元</text>
+          </view>
+        </view>
+        <view class='oncePurchase'>
+          
+        </view>
+      </view>
+    </view>
+  </view>
+</template>

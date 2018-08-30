@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/index/flashSaleHome/flashSaleHome",
     "pages/index/index",
     "pages/personal-center/conversionHsy/conversionHsy",
     "pages/personal-center/aboutMe/aboutMe",
