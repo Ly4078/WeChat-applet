@@ -1,6 +1,5 @@
 {
   "pages": [
-    "pages/index/flashSaleHome/flashSaleHome",
     "pages/index/index",
     "pages/personal-center/conversionHsy/conversionHsy",
     "pages/personal-center/aboutMe/aboutMe",
@@ -67,7 +66,8 @@
     "pages/index/bargainirg-store/bargainirg-store",
     "pages/personal-center/securities-sdb/securities-sdb",
     "pages/personal-center/sharepull-sdb/sharepull-sdb",
-    "pages/personal-center/integratorMs/available-m/available-m"
+    "pages/personal-center/integratorMs/available-m/available-m",
+    "pages/index/flashSaleHome/flashSaleHome"
   ],
   "window": {
     "backgroundTextStyle": "dark",

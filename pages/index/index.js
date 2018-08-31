@@ -473,6 +473,10 @@ Page({
                               that.requestCityName(latitude, longitude);
                             }
                           })
+                        }else{
+                          console.log('close');
+                          app.globalData.userInfo.city  = '十堰市';
+                          that.getCutDish();
                         }
                       }
                     })
