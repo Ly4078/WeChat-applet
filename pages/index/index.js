@@ -179,7 +179,6 @@ Page({
     wx.request({ //isflag
       url: 'https://www.hbxq001.cn/version.txt',
       success: function (res) {
-        console.log('res:', res.data);
         if (res.data.flag == 0) { //0显示  
           app.globalData.isflag = true;
           that.setData({
@@ -191,7 +190,6 @@ Page({
             isfile: false
           })
         }
-        console.log('res.data.kancai:', res.data.kancai)
         
         if (res.data.kancai == 0) { //砍价0显示   
           let _Bargain = that.data.Bargain;
@@ -301,7 +299,6 @@ Page({
                 that.getOpendId();
               }
             }
-            console.log('findbyCode_userInfo', app.globalData.userInfo)
           } else {
             that.findByCode();
             wx.hideLoading();
@@ -323,7 +320,6 @@ Page({
            code: res.code
          }
          Api.getOpenId(_parms).then((res) => {
-           console.log("openid_res:",res);
            app.globalData.userInfo.openId = res.data.data.openId;
            app.globalData.userInfo.sessionKey = res.data.data.sessionKey;
            if (res.data.data.unionId) {
@@ -334,7 +330,6 @@ Page({
                istouqu: true
              })
            }
-           console.log("getOpenId:", app.globalData.userInfo)
          })
        }
      }
@@ -346,20 +341,17 @@ Page({
     wx.getUserInfo({
       withCredentials: true,
       success: function (res) {
-        console.log('111res:',res)
         let _parms = {
           sessionKey: app.globalData.userInfo.sessionKey,
           ivData: res.iv,
           encrypData: res.encryptedData
         }
         Api.phoneAES(_parms).then((resv) => {
-          console.log('resv:', resv)
           if (resv.data.code == 0) {
             that.setData({
               istouqu: false
             })
             let _data = JSON.parse(resv.data.data);
-            console.log('_data:', _data);
             app.globalData.userInfo.unionId = _data.unionId;
             app.globalData.userInfo.openId = _data.openId;
             that.createNewUser();
@@ -370,7 +362,6 @@ Page({
   },
 
   createNewUser: function () { //创建新用户
-    console.log('createNewUser', app.globalData.userInfo)
     let _parms = {
       openId: app.globalData.userInfo.openId,
       unionId: app.globalData.userInfo.unionId
@@ -421,7 +412,6 @@ Page({
 
   getuserIdLater:function(){  //获取到userId之后要执行的事件
     let that = this,userInfo = app.globalData.userInfo;
-    console.log('getuserIdLater_userInfo:', userInfo);
     if (userInfo.lat && userInfo.lng && userInfo.city) {
       this.getCutDish();
     } else{
@@ -459,6 +449,7 @@ Page({
                 title: '提示',
                 content: '更多体验需要你授权位置信息',
                 showCancel:false,
+                confirmText:'确认授权',
                 success: function (res) {
                   if (res.confirm) {
                     wx.openSetting({ //打开授权设置界面
@@ -467,10 +458,8 @@ Page({
                           wx.getLocation({
                             type: 'wgs84',
                             success: function (res) {
-                              let latitude = res.latitude,
-                                longitude = res.longitude;
-                              app.globalData.userInfo.lat = latitude;
-                              app.globalData.userInfo.lng = longitude;
+                              let latitude = res.latitude;
+                              let longitude = res.longitude;
                               that.requestCityName(latitude, longitude);
                             }
                           })
@@ -493,38 +482,44 @@ Page({
 
   requestCityName(lat, lng) { //获取当前城市
     let that = this;
-    app.globalData.userInfo.lat = lat;
-    app.globalData.userInfo.lng = lng;
     console.log('requestCityName:', lat, lng);
-    if (app.globalData.userInfo.city){
-      this.getCutDish();
-    } else {
-      wx.request({
-        url: 'https://apis.map.qq.com/ws/geocoder/v1/?location=' + lat + "," + lng + "&key=4YFBZ-K7JH6-OYOS4-EIJ27-K473E-EUBV7",
-        header: {
-          'content-type': 'application/json' // 默认值
-        },
-        success: (res) => {
-          if (res.data.status == 0) {
-            let _city = res.data.result.address_component.city;
-            if (_city == '十堰市') {
-              app.globalData.userInfo.city = _city;
-            } else {
-              app.globalData.userInfo.city = '十堰市';
+    if(!lat && !lng){
+      this.getUserlocation();
+    }else{
+      app.globalData.userInfo.lat = lat;
+      app.globalData.userInfo.lng = lng;
+      if (app.globalData.userInfo.city) {
+        this.getCutDish();
+      } else {
+        wx.request({
+          url: 'https://apis.map.qq.com/ws/geocoder/v1/?location=' + lat + "," + lng + "&key=4YFBZ-K7JH6-OYOS4-EIJ27-K473E-EUBV7",
+          header: {
+            'content-type': 'application/json' // 默认值
+          },
+          success: (res) => {
+            if (res.data.status == 0) {
+              let _city = res.data.result.address_component.city;
+              if (_city == '十堰市') {
+                app.globalData.userInfo.city = _city;
+              } else {
+                app.globalData.userInfo.city = '十堰市';
+              }
+              app.globalData.oldcity = app.globalData.userInfo.city;
+              console.log('city:', app.globalData.userInfo.city);
+              this.getCutDish();
+              this.setData({
+                city: app.globalData.userInfo.city,
+                // alltopics: [],
+                // restaurant: [],
+                // service: []
+              })
+              app.globalData.picker = res.data.result.address_component;
             }
-            app.globalData.oldcity = app.globalData.userInfo.city;
-            this.getCutDish();
-            this.setData({
-              city: app.globalData.userInfo.city,
-              // alltopics: [],
-              // restaurant: [],
-              // service: []
-            })
-            app.globalData.picker = res.data.result.address_component;
           }
-        }
-      })
+        })
+      }
     }
+    
   },
 
   getCutDish: function () {// 获取砍菜数据
@@ -607,7 +602,6 @@ Page({
       isDeleted: 0,
       rows: 10
     };
-    console.log('_parms:', _parms);
     Api.partakerList(_parms).then((res) => {
       if (res.data.code == 0) {
         let _list = res.data.data.list,
@@ -1324,7 +1318,6 @@ Page({
         _obj[arr2[0]] = arr2[1];
       }
     }
-    console.log('obj:', _obj)
     if (_linkUrl == 'lingquan') {
       wx.navigateTo({
         url: 'new-exclusive/new-exclusive',

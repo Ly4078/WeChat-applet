@@ -255,6 +255,7 @@ Page({
           wx.showModal({
             title: '提示',
             content: '授权获得更多功能和体验',
+            showCancel: false,
             success: function(res) {
               if (res.confirm) {
                 wx.openSetting({ //打开授权设置界面
@@ -263,11 +264,14 @@ Page({
                       wx.getLocation({
                         type: 'wgs84',
                         success: function(res) {
-                          let latitude = res.latitude
-                          let longitude = res.longitude
-                          that.requestCityName(latitude, longitude)
+                          let latitude = res.latitude,
+                          longitude = res.longitude;
+                          that.requestCityName(latitude, longitude);
                         }
                       })
+                    }else{
+                      let latitude = '',longitude = '';
+                      that.requestCityName(latitude, longitude);
                     }
                   }
                 })
@@ -280,6 +284,10 @@ Page({
   },
   requestCityName(lat, lng) { //获取当前城市
     let that = this;
+    if(!lat && !lng){
+      this.wxgetsetting();
+      return;
+    }
     app.globalData.userInfo.lat = lat
     app.globalData.userInfo.lng = lng
     wx.request({

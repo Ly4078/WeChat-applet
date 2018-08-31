@@ -869,42 +869,63 @@ Page({
   //打开地图导航
   TencentMap: function(event) {
     let that = this;
-
-    wx.getSetting({
-      success: (res) => {
-        if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其用户位置信息
-          wx.showModal({
-            title: '提示',
-            content: '授权获得更多功能和体验',
-            success: function(res) {
-              if (res.confirm) {
-                wx.openSetting({ //打开授权设置界面
-                  success: (res) => {
-                    if (res.authSetting['scope.userLocation']) {
-                      wx.getLocation({
-                        type: 'wgs84',
-                        success: function(res) {
-                          let latitude = res.latitude;
-                          let longitude = res.longitude;
+    wx.getLocation({
+      type: 'wgs84',
+      success: function (res) {
+        let latitude = res.latitude;
+        let longitude = res.longitude;
+        app.globalData.userInfo.lat = latitude;
+        app.globalData.userInfo.lng = longitude;
+        that.requestCityName(latitude, longitude);
+      },
+      fail: function (res) {
+        wx.getSetting({
+          success: (res) => {
+            if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其用户位置信息
+              wx.showModal({
+                title: '提示',
+                content: '授权获得更多功能和体验',
+                showCancel: false,
+                success: function (res) {
+                  if (res.confirm) {
+                    wx.openSetting({ //打开授权设置界面
+                      success: (res) => {
+                        if (res.authSetting['scope.userLocation']) {
+                          wx.getLocation({
+                            type: 'wgs84',
+                            success: function (res) {
+                              let latitude = res.latitude,
+                                longitude = res.longitude;
+                              that.requestCityName(latitude, longitude);
+                            }
+                          })
+                        } else {
+                          let latitude = '',
+                            longitude = '';
                           that.requestCityName(latitude, longitude);
                         }
-                      })
-                    }
+                      }
+                    })
                   }
-                })
-              }
+                }
+              })
+            } else {
+              this.openmap();
             }
-          })
-        } else {
-          this.openmap();
-        }
+          }
+        })
       }
     })
+    
 
   },
   //获取城市
   requestCityName(lat, lng) { //获取当前城市
     let that = this;
+    if(!lat && !lng){
+      this.TencentMap();
+      return;
+    }
     wx.request({
       url: 'https://apis.map.qq.com/ws/geocoder/v1/?location=' + lat + "," + lng + "&key=4YFBZ-K7JH6-OYOS4-EIJ27-K473E-EUBV7",
       header: {

@@ -451,6 +451,8 @@ Page({
               wx.showModal({
                 title: '提示',
                 content: '更多体验需要你授权位置信息',
+                showCancel:false,
+                confirmText: '确认授权',
                 success: function(res) {
                   if (res.confirm) {
                     wx.openSetting({ //打开授权设置界面
@@ -460,12 +462,15 @@ Page({
                             type: 'wgs84',
                             success: function(res) {
                               let latitude = res.latitude,
-                                longitude = res.longitude
+                                longitude = res.longitude;
                               app.globalData.userInfo.lat = latitude;
                               app.globalData.userInfo.lng = longitude;
                               that.requestCityName(latitude, longitude);
                             }
                           })
+                        }else{
+                          let latitude ='',longitude = '';
+                          that.requestCityName(latitude, longitude);
                         }
                       }
                     })
@@ -480,28 +485,33 @@ Page({
   },
   requestCityName(lat, lng) { //获取当前城市
     let that = this;
-    app.globalData.userInfo.lat = lat;
-    app.globalData.userInfo.lng = lng;
-    if (app.globalData.userInfo.city || this.data._city){
-      that.getmoreData();
-      that.isbargain(false);
+    if(!lat && !lng){
+      this.getlocation();
     }else{
-      return
-      wx.request({
-        url: 'https://apis.map.qq.com/ws/geocoder/v1/?location=' + lat + "," + lng + "&key=4YFBZ-K7JH6-OYOS4-EIJ27-K473E-EUBV7",
-        header: {
-          'content-type': 'application/json' // 默认值
-        },
-        success: (res) => {
-          if (res.data.status == 0) {
-            let _city = res.data.result.address_component.city;
-            app.globalData.userInfo.city = _city;
-            that.getmoreData();
-            that.isbargain(false);
+      app.globalData.userInfo.lat = lat;
+      app.globalData.userInfo.lng = lng;
+      if (app.globalData.userInfo.city || this.data._city) {
+        that.getmoreData();
+        that.isbargain(false);
+      } else {
+        return
+        wx.request({
+          url: 'https://apis.map.qq.com/ws/geocoder/v1/?location=' + lat + "," + lng + "&key=4YFBZ-K7JH6-OYOS4-EIJ27-K473E-EUBV7",
+          header: {
+            'content-type': 'application/json' // 默认值
+          },
+          success: (res) => {
+            if (res.data.status == 0) {
+              let _city = res.data.result.address_component.city;
+              app.globalData.userInfo.city = _city;
+              that.getmoreData();
+              that.isbargain(false);
+            }
           }
-        }
-      })
+        })
+      }
     }
+    
     
   },
   closetel: function(e) {

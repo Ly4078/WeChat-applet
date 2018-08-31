@@ -165,9 +165,9 @@ Page({
     wx.getLocation({
       type: 'gcj02',
       success: function (res) {
-        var latitude = res.latitude
-        var longitude = res.longitude
-        var storeDetails = that.data.store
+        let latitude = res.latitude,
+        longitude = res.longitude,
+        storeDetails = that.data.store;
         wx.openLocation({
           longitude: storeDetails.locationX,
           latitude: storeDetails.locationY,
@@ -178,8 +178,54 @@ Page({
             console.log(res)
           }
         })
+      },
+      fail: function (res) {
+        wx.getSetting({
+          success: (res) => {
+            if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其用户信息或位置信息
+              wx.showModal({
+                title: '提示',
+                content: '更多体验需要你授权位置信息',
+                showCancel: false,
+                success: function (res) {
+                  if (res.confirm) {
+                    wx.openSetting({ //打开授权设置界面
+                      success: (res) => {
+                        if (res.authSetting['scope.userLocation']) {
+                          wx.getLocation({
+                            type: 'wgs84',
+                            success: function (res) {
+                              let latitude = res.latitude,
+                                longitude = res.longitude,
+                                storeDetails = that.data.store;
+                              wx.openLocation({
+                                longitude: storeDetails.locationX,
+                                latitude: storeDetails.locationY,
+                                scale: 18,
+                                name: storeDetails.shopName,
+                                address: storeDetails.address,
+                                success: function (res) {
+                                  console.log(res)
+                                }
+                              })
+                            }
+                          })
+                        } else {
+                          this.Renew();
+                        }
+                      }
+                    })
+                  }
+                }
+              })
+            }
+          }
+        })
       }
     })
+  },
+  Renew:function(){//重新请求
+    this.TencentMap();
   }
 
 })
