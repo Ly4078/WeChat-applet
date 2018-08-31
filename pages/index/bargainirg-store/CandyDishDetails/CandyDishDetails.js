@@ -375,9 +375,6 @@ Page({
       complete: function(res) {},
     })
   },
-  shareCand: function() { //点击分享
-
-  },
   onReachBottom: function() { //用户上拉触底加载更多
     if (!this.data.flag) {
       return false;

@@ -141,10 +141,6 @@
       <image class='houselet' src='/images/icon/houselet.png'></image>
       <text>首页</text>
     </view>
-    <!-- <view class='returnHome' catchtap='shareCand'>
-      <image class='yellowShare' src='/images/icon/yellowShare.png'></image>
-      <text>分享</text>
-    </view> -->
 
     <button class='returnHome' bindtap='share' plain="true" data-name="shareBtn" open-type="share">
       <image class='yellowShare' src='/images/icon/yellowShare.png'></image>

@@ -458,6 +458,7 @@ Page({
               wx.showModal({
                 title: '提示',
                 content: '更多体验需要你授权位置信息',
+                showCancel:false,
                 success: function (res) {
                   if (res.confirm) {
                     wx.openSetting({ //打开授权设置界面
@@ -474,12 +475,12 @@ Page({
                             }
                           })
                         }else{
-                          console.log('close');
-                          app.globalData.userInfo.city  = '十堰市';
                           that.getCutDish();
                         }
                       }
                     })
+                  }else if(res.cancel){
+                    that.getCutDish();
                   }
                 }
               })
