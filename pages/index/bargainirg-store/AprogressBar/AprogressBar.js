@@ -139,9 +139,7 @@ Page({
     })
   },
   getlocation: function() { //获取用户位置
-    let that = this,
-      lat = '',
-      lng = '';
+    let that = this,lat = '',lng = '';
     wx.getLocation({
       type: 'wgs84',
       success: function(res) {
@@ -152,6 +150,7 @@ Page({
         console.log('111:', latitude, longitude);
         that.requestCityName(latitude, longitude);
       },
+      
       fail: function(res) {
         wx.getSetting({
           success: (res) => {
@@ -183,6 +182,10 @@ Page({
                         }
                       }
                     })
+                  } else if (res.cancel) {
+                    let latitude = '',
+                      longitude = '';
+                    that.requestCityName(latitude, longitude);
                   }
                 }
               })
@@ -195,7 +198,7 @@ Page({
   requestCityName(lat, lng) { //获取当前城市
     let that = this;
     if(!lat && !lng){
-      this.getlocation();
+      // this.getlocation();
     }else{
       app.globalData.userInfo.lat = lat;
       app.globalData.userInfo.lng = lng;
@@ -568,6 +571,12 @@ Page({
   //热门推荐
   hotDishList() {
     //browSort 0附近 1销量 2价格
+    let that = this;
+    console.log('userinfo:', app.globalData.userInfo);
+    if (!app.globalData.userInfo.lng && !app.globalData.userInfo.lat){
+      that.getlocation();
+      return;
+    }
     let _parms = {
       zanUserId: app.globalData.userInfo.userId,
       browSort: 1,

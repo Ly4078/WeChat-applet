@@ -77,7 +77,7 @@ Page({
         this.hotDishList();
       }
     } else {
-      this.getlocation();
+      // this.getlocation();
     }
   },
   chilkDish(e) { //点击某个推荐菜
@@ -203,6 +203,11 @@ Page({
   //同店推荐
   dishList() {
     //browSort 0附近 1销量 2价格
+    let that = this;
+    if (!app.globalData.userInfo.lat && !app.globalData.userInfo.lng){
+      that.getlocation();
+      return;
+    }
     let _parms = {
       shopId: this.data.shopId,
       zanUserId: app.globalData.userInfo.userId,
@@ -237,6 +242,10 @@ Page({
         flag: true,
         hotDishList: []
       });
+    }
+    if (!app.globalData.userInfo.lat && !app.globalData.userInfo.lng) {
+      that.getlocation();
+      return;
     }
     //browSort 0附近 1销量 2价格
     let _parms = {
@@ -391,6 +400,7 @@ Page({
       page: 1
     });
     this.hotDishList();
+    this.dishList();
   },
   findByCode: function() { //通过code查询进入的用户信息，判断是否是新用户
     let that = this;

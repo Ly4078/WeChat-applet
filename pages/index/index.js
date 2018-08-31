@@ -229,6 +229,7 @@ Page({
     this.gettopiclist();
     this.gettoplistFor();
     this.findByCode();
+    console.log('onShow')
     // this.indexinit();
   },
   onShow: function() {
@@ -432,8 +433,8 @@ Page({
   },
 
   getUserlocation: function () { //获取用户位置经纬度
-    console.log("getUserlocation")
     let that = this;
+    console.log("11getUserlocation");
     wx.getLocation({
       type: 'wgs84',
       success: function (res) {
