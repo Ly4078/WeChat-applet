@@ -434,7 +434,6 @@ Page({
 
   getUserlocation: function () { //获取用户位置经纬度
     let that = this;
-    console.log("11getUserlocation");
     wx.getLocation({
       type: 'wgs84',
       success: function (res) {
@@ -455,10 +454,11 @@ Page({
                   if (res.confirm) {
                     wx.openSetting({ //打开授权设置界面
                       success: (res) => {
-                        if (res.authSetting['scope.userLocation']) {  //打开位置授权
+                        if (res.authSetting['scope.userLocation']) {  //打开位置授权                
                           wx.getLocation({
                             type: 'wgs84',
                             success: function (res) {
+                              console.log('scope_res:',res);
                               let latitude = res.latitude;
                               let longitude = res.longitude;
                               that.requestCityName(latitude, longitude);
