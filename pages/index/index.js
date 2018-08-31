@@ -6,6 +6,19 @@ import {
 var utils = require('../../utils/util.js')
 var app = getApp();
 
+
+
+var village_LBS = function (that) {
+  wx.getLocation({
+    success: function(res) {
+      console.log('vill_res:',res)
+      let latitude = res.latitude;
+      let longitude = res.longitude;
+      that.requestCityName(latitude, longitude);
+    },
+  })
+}
+
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
@@ -455,15 +468,17 @@ Page({
                     wx.openSetting({ //打开授权设置界面
                       success: (res) => {
                         if (res.authSetting['scope.userLocation']) {  //打开位置授权                
-                          wx.getLocation({
-                            type: 'wgs84',
-                            success: function (res) {
-                              console.log('scope_res:',res);
-                              let latitude = res.latitude;
-                              let longitude = res.longitude;
-                              that.requestCityName(latitude, longitude);
-                            }
-                          })
+                          village_LBS(that);
+                          
+                          // wx.getLocation({
+                          //   type: 'wgs84',
+                          //   success: function (res) {
+                          //     console.log('scope_res:',res);
+                          //     let latitude = res.latitude;
+                          //     let longitude = res.longitude;
+                          //     that.requestCityName(latitude, longitude);
+                          //   }
+                          // })
                         }else{
                           that.getCutDish();
                         }

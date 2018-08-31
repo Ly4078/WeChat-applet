@@ -4,6 +4,20 @@ import {
 } from '/../../../utils/config/config.js';
 var utils = require('../../../utils/util.js')
 var app = getApp();
+
+
+var village_LBS = function (that) {
+  wx.getLocation({
+    success: function (res) {
+      console.log('vill_res:', res)
+      let latitude = res.latitude,
+        longitude = res.longitude;
+      that.requestCityName(latitude, longitude);
+    },
+  })
+}
+
+
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
@@ -23,6 +37,7 @@ Page({
     isBarg: false,
     allactivity: [],
     article_page: 1,
+    _page:1,
     reFresh: true,
     issnap: false,
     istouqu: false,
@@ -30,6 +45,7 @@ Page({
     isactmore: false,
     isnew: false,
     isAgio: false,
+    isMpa:false,
     listagio: [],
     newpackage: [],
     oldpackage: [],
@@ -656,17 +672,24 @@ Page({
     })
   },
   //商户动态上拉加载
-  // onReachBottom: function () {
-  //   if (this.data.currentTab == 1 && this.data.reFresh) {
-  //     wx.showLoading({
-  //       title: '加载中..'
-  //     })
-  //     this.setData({
-  //       article_page: this.data.article_page + 1
-  //     });
-  //     this.merchantArt();
-  //   }
-  // },
+  onReachBottom: function () {
+    if (this.data._page !=1){
+      this.setData({
+        _page: this.data._page+1
+      })
+    }
+    console.log('onReachBottom')
+    this.shopList();
+    // if (this.data.currentTab == 1 && this.data.reFresh) {
+    //   wx.showLoading({
+    //     title: '加载中..'
+    //   })
+    //   this.setData({
+    //     article_page: this.data.article_page + 1
+    //   });
+    //   this.merchantArt();
+    // }
+  },
   buynow: function(ev) { //点击立即购买
     let skuid = ev.currentTarget.id
     let _sell = '',
@@ -868,7 +891,17 @@ Page({
   },
   //打开地图导航
   TencentMap: function(event) {
+    console.log('event:', event)
     let that = this;
+    if (event && event.type == 'tap'){
+      this.setData({
+        isMpa:true
+      })
+    }else{
+      this.setData({
+        isMpa: false
+      })
+    }
     wx.getLocation({
       type: 'wgs84',
       success: function (res) {
@@ -891,14 +924,16 @@ Page({
                     wx.openSetting({ //打开授权设置界面
                       success: (res) => {
                         if (res.authSetting['scope.userLocation']) {
-                          wx.getLocation({
-                            type: 'wgs84',
-                            success: function (res) {
-                              let latitude = res.latitude,
-                                longitude = res.longitude;
-                              that.requestCityName(latitude, longitude);
-                            }
-                          })
+                          village_LBS(that);
+
+                          // wx.getLocation({
+                          //   type: 'wgs84',
+                          //   success: function (res) {
+                          //     let latitude = res.latitude,
+                          //       longitude = res.longitude;
+                          //     that.requestCityName(latitude, longitude);
+                          //   }
+                          // })
                         } else {
                           let latitude = '',
                             longitude = '';
@@ -935,7 +970,12 @@ Page({
         if (res.data.status == 0) {
           let _city = res.data.result.address_component.city;
           // app.globalData.userInfo.city = _city;
-          this.openmap();
+          if (this.data.isMpa){
+            this.openmap();
+          }else{
+            this.shopList();
+          }
+          
         }
       }
     })
@@ -1341,11 +1381,15 @@ Page({
     })
   },
   shopList() { //商家推荐列表
+    if (!app.globalData.userInfo.lng && !app.globalData.userInfo.lat){
+      this.TencentMap();
+      return;
+    }
     let _parms = {
       locationX: app.globalData.userInfo.lng,
       locationY: app.globalData.userInfo.lat,
       city: app.globalData.userInfo.city,
-      page: 1,
+      page: this.data._page,
       rows: 10,
       businessCate: this.data.store_details.businessCate.split('/')[0].split(',')[0]
     }

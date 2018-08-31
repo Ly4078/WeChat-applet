@@ -4,6 +4,20 @@ import {
   GLOBAL_API_DOMAIN
 } from '../../../../utils/config/config.js';
 var app = getApp();
+
+var village_LBS = function (that) {
+  wx.getLocation({
+    success: function (res) {
+      console.log('vill_res:', res)
+      let latitude = res.latitude,
+        longitude = res.longitude;
+      app.globalData.userInfo.lat = latitude;
+      app.globalData.userInfo.lng = longitude;
+      that.requestCityName(latitude, longitude);
+    },
+  })
+}
+
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
@@ -147,7 +161,6 @@ Page({
         let longitude = res.longitude;
         app.globalData.userInfo.lat = latitude;
         app.globalData.userInfo.lng = longitude;
-        console.log('111:', latitude, longitude);
         that.requestCityName(latitude, longitude);
       },
       
@@ -165,16 +178,18 @@ Page({
                     wx.openSetting({ //打开授权设置界面
                       success: (res) => {
                         if (res.authSetting['scope.userLocation']) {
-                          wx.getLocation({
-                            type: 'wgs84',
-                            success: function(res) {
-                              let latitude = res.latitude,
-                                longitude = res.longitude;
-                              app.globalData.userInfo.lat = latitude;
-                              app.globalData.userInfo.lng = longitude;
-                              that.requestCityName(latitude, longitude);
-                            }
-                          })
+                          village_LBS(that);
+
+                          // wx.getLocation({
+                          //   type: 'wgs84',
+                          //   success: function(res) {
+                          //     let latitude = res.latitude,
+                          //       longitude = res.longitude;
+                          //     app.globalData.userInfo.lat = latitude;
+                          //     app.globalData.userInfo.lng = longitude;
+                          //     that.requestCityName(latitude, longitude);
+                          //   }
+                          // })
                         }else{
                           let latitude = '',
                             longitude = '';
