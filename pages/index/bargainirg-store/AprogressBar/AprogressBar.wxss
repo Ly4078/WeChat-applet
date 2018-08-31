@@ -442,15 +442,16 @@ page{
 
 .invitation-share{
   width: 100%;
-  height: 80rpx;
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
+  text-align: center;
+  flex-wrap: wrap;
   letter-spacing: 2rpx;
   padding-top: 44rpx;
 }
 
 .invitation-share button{
-  width: 516rpx;
+  width: 70%;
   height: 70rpx;
   border-radius:35rpx;
   font-size:28rpx;
@@ -460,6 +461,10 @@ page{
   box-shadow:0px 4px 0px 0px #DB9603;
   letter-spacing: 2rpx;
   font-weight: 600;
+}
+
+.invitation-share-f {
+  margin-bottom: 20rpx;
 }
 
 /* 分享出去朋友未砍 */
