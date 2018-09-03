@@ -92,6 +92,41 @@
     </view>
   </view>
 
+  <!-- 限量秒杀 -->
+  <block wx:for="{{secKillArr}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
+    <template is="secKill" data="{{item}}" />
+  </block>
+  <view class='Resbanner secKillList'>
+    <view class='resthree'>
+      <view wx:for="{{bargainList}}" wx:key="index">
+        <view class='RthreeItem' id='{{item.id}}' data-index="{{item.shopId}}" bindtap='candyDetails'>
+          <image class='Resimg' src="{{item.picUrl}}"></image>
+          <text>{{item.skuName}}\n</text>
+          <text class='Baragio'>¥{{item.agioPrice}}</text>
+          <text class='BarinPrice'>¥{{item.sellPrice}}</text>
+          <view class="secKillIcon">抢购</view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 超值换购 -->
+  <block wx:for="{{crab}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
+    <template is="secKill" data="{{item}}" />
+  </block>
+  <view class='Resbanner secKillList'>
+    <image class='Resbimg' src="{{bannthree[0].imgUrl}}"></image>
+    <view class='resthree'>
+      <view wx:for="{{bargainList}}" wx:key="index">
+        <view class='RthreeItem' id='{{item.id}}' data-index="{{item.shopId}}" bindtap='candyDetails'>
+          <image class='Resimg' src="{{item.picUrl}}"></image>
+          <text>{{item.skuName}}\n</text>
+          <view class="crabShopIcon">推荐商家</view>
+        </view>
+      </view>
+    </view>
+  </view>
+
   <!-- 热门活动 -->
   <block wx:for="{{Act}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
     <template is="veoRes" data="{{item}}" />
@@ -274,9 +309,9 @@
     </view>
   </view>
 
- <view class='buttomBox'></view>
+  <view class='buttomBox'></view>
   <!-- 底部动画 -->
- 
+
   <view class='bottomAnimation' wx:if="{{false}}">
     <view class='bottomAnimationText'>
       <image class='bottomAnimationImg' src='https://xqmp4-1256079679.file.myqcloud.com/text_10002730102299103.png'></image>

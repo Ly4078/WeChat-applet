@@ -1,10 +1,6 @@
 Page({
-
-  /**
-   * 页面的初始数据
-   */
   data: {
-    navbar: ['附件美食', '我的秒杀'],
+    navbar: ['附近美食', '我的秒杀'],
     currentTab: 0,
     showModal: true,
   },
@@ -22,5 +18,10 @@ Page({
     this.setData({
       currentTab: e.currentTarget.dataset.idx
     })
-  } 
+  },
+  toSecKillDetail() {   //跳转至菜品详情
+    wx.navigateTo({
+      url: 'secKillDetail/secKillDetail'
+    })
+  }
 })

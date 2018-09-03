@@ -1,0 +1,101 @@
+<view class="newUserModal" wx:if="{{issnap && isnew}}">
+  <view class='drawer_screen'>
+    <view class='sqtishi'>提示</view>
+    <view class='drphnumber'>获得更多体验,请移步[我的]-[新用户注册]</view>
+    <button class='gettel sqgettel' bindtap='closetel' id='1'>确定</button>
+    <button class='gettel colosetel' bindtap='closetel' id='2'>取消</button>
+  </view>
+</view>
+
+<view class='shell'>
+  <image class='detailsImag' mode='scaleToFill' src='{{picUrl}}'></image>
+  <view class='information'>
+    <view class='information-inner'>
+      <view class='shopsTop'>
+        <text class='shopsTopLeft'>{{skuName}}</text>
+        <view class='shopsTopRight'>剩余
+          <text>{{stockNum}}</text>份</view>
+      </view>
+      <view class='shopsTop shopssecond'>
+        <view class='shopsConter'>
+          <view class='shopscCurrency'>￥ 底价
+          </view>
+          <text class='lowValue'>{{agioPrice}}</text>
+          <text class='abandon'>原价：￥{{sellPrice}}</text>
+        </view>
+        <text class='at-present'>已售{{sellNum}}份</text>
+      </view>
+      <image class='instructions' src='https://xqmp4-1256079679.file.myqcloud.com/text_461753568722106529.png'></image>
+    </view>
+  </view>
+
+  <!-- 主体 -->
+  <view class='theFollowing'>
+    <view class='embedded'>
+      <!-- 邀请好友 -->
+      <view class='specialWrap'>
+        <view class='special'></view>
+        <text>邀请好友</text>
+      </view>
+      <view class="inviteFriend">
+        <view class="inviteFriend_l">
+          <image src="/images/icon/dot_mos.png"></image>
+          <image src="/images/icon/dot_mos.png"></image>
+        </view>
+        <view class="inviteFriend_r">
+          <button>发起邀请</button>
+        </view>
+      </view>
+      <!-- 菜品详情 -->
+      <view class='specialWrap'>
+        <view class='special'></view>
+        <text>详情</text>
+      </view>
+      <view class="skuInfo">
+        <view>1个小时内完成邀请并成功购买，逾期失效</view>
+      </view>
+      <!-- 标题 -->
+      <view class='specialWrap'>
+        <view class='special'></view>
+        <text>适用餐厅</text>
+      </view>
+      <!-- 餐厅 -->
+      <view class='parallelismDining'>
+        <view class='diningLeft'>
+          <text class='diningLeftname'>{{shopName}}</text>
+          <view class='diningzCenter'>
+            <!-- <image class='doubleImges' src='/images/icon/hot.png'></image>
+            <text>{{popNum}}</text> -->
+          </view>
+          <view class='diningzPlace'>
+            <image class='geography' src='/images/icon/location.png'></image>
+            <text>{{address}}</text>
+          </view>
+        </view>
+        <view class='diningRight' bindtap="toShopDetail">
+          <text>商家主页</text>
+          <image class='merchant-xiaji' src='/images/icon/home_arrow.png'></image>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部tab功能键 -->
+  <view class='function'>
+    <view class='returnHome home' catchtap='returnHomeArrive'>
+      <image class='houselet' src='/images/icon/houselet.png'></image>
+      <text>首页</text>
+    </view>
+    <!-- <view class='returnHome' catchtap='shareCand'>
+      <image class='yellowShare' src='/images/icon/yellowShare.png'></image>
+      <text>分享</text>
+    </view> -->
+
+    <button class='returnHome' bindtap='share' plain="true" data-name="shareBtn" open-type="share">
+      <image class='yellowShare' src='/images/icon/yellowShare.png'></image>
+      <text>分享</text>
+    </button>
+
+    <view class='returnPrice'>立即购买</view>
+  </view>
+</view>

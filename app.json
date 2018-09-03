@@ -67,7 +67,8 @@
     "pages/personal-center/securities-sdb/securities-sdb",
     "pages/personal-center/sharepull-sdb/sharepull-sdb",
     "pages/personal-center/integratorMs/available-m/available-m",
-    "pages/index/flashSaleHome/flashSaleHome"
+    "pages/index/flashSaleHome/flashSaleHome",
+    "pages/index/flashSaleHome/secKillDetail/secKillDetail"
   ],
   "window": {
     "backgroundTextStyle": "dark",

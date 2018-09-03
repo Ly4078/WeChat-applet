@@ -34,6 +34,7 @@ page{
 
 .diagram{
   width: 100%;
+  height: 181rpx;
   position: relative;
   background-color: #78B6FC;
 }
@@ -62,11 +63,9 @@ page{
 /* 主体菜 */
 .cuisine-center{
   width: 100%;
-  background-color: #78B6FC;
-  display: flex;
-  justify-content: center;
 }
 
-.cuisineSingle{
-  width: 694rpx;
+.cuisine-center.active {
+  box-sizing: border-box;
+  padding: 0 28rpx;
 }

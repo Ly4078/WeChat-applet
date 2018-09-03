@@ -1,28 +1,32 @@
 <import src="flashSale-template/flashSale-template.wxml" />
 
-<!--导航菜单-->
-<view class="navbar"> 
- <text wx:for="{{navbar}}" data-idx="{{index}}" class="item {{currentTab==index ? 'active' : ''}}" wx:key="unique" bindtap="navbarTap">{{item}}</text> 
-</view> 
-<view class='diagram' wx:if="{{showModal}}">
-  <image class='diagram-image' src='https://xqmp4-1256079679.file.myqcloud.com/1535364395351Colin_限时秒杀.png'></image>
-  <view class='diagramWrap-close' catchtap='occludeAds'>
-    <image class='diagram-close' src='https://xqmp4-1256079679.file.myqcloud.com/text_233311490490843063.png'></image>
+<view class="flashSaleHome {{currentTab == 0 ? '' : 'active'}}">
+  <!--导航菜单-->
+  <view class="navbar">
+    <text wx:for="{{navbar}}" data-idx="{{index}}" class="item {{currentTab==index ? 'active' : ''}}" wx:key="unique" bindtap="navbarTap">{{item}}</text>
   </view>
-</view>
-  
-<!--附件美食-->
-<view hidden="{{currentTab!==0}}"> 
- <view class='cuisine-center'>
-    <view class='cuisineSingle'>
+  <view class='diagram' wx:if="{{showModal}}">
+    <image class='diagram-image' src='https://xqmp4-1256079679.file.myqcloud.com/1535364395351Colin_限时秒杀.png'></image>
+    <view class='diagramWrap-close' catchtap='occludeAds'>
+      <image class='diagram-close' src='https://xqmp4-1256079679.file.myqcloud.com/text_233311490490843063.png'></image>
+    </view>
+  </view>
+
+  <!--附近美食-->
+  <view hidden="{{currentTab == 1}}">
+    <view class='cuisine-center active'>
       <!-- <block wx:for="{{actlist}}" wx:key="{{index}}" id="{{index}}" wx:for-index="idx"> -->
-        <template is="flashSale" data="{{item}}" />
+      <template is="flashSale" data="{{item}}" />
       <!-- </block> -->
     </view>
- </view> 
-</view> 
-  
-<!--我的秒杀-->
-<view hidden="{{currentTab!==1}}"> 
- tab_02 
+  </view>
+
+  <!--我的秒杀-->
+  <view hidden="{{currentTab == 0}}">
+    <view class='cuisine-center'>
+      <!-- <block wx:for="{{actlist}}" wx:key="{{index}}" id="{{index}}" wx:for-index="idx"> -->
+      <template is="mySeckill" data="{{item}}" />
+      <!-- </block> -->
+    </view>
+  </view>
 </view>

@@ -143,6 +143,16 @@ Page({
       name: '拼菜砍价',
       id: 4
     }],
+    secKillArr: [{
+      img: '/images/icon/clock.png',
+      name: '限量秒杀',
+      id: 5
+    }],
+    crab: [{
+      img: '/images/icon/crab.png',
+      name: '超值换购',
+      id: 5
+    }],
     fooddatas: ['附近', '人气', "自助餐", "湖北菜", "川菜", "湘菜", "粤菜", "咖啡厅", "小龙虾", "火锅", "海鲜", "烧烤", "江浙菜", "西餐", "料理", "其它美食"],
     ResThree: [{
       img: 'https://xq-1256079679.file.myqcloud.com/test_798888529104573275_0.8.jpg',
@@ -1262,6 +1272,11 @@ Page({
     const shopid = event.currentTarget.id;
     wx.navigateTo({
       url: 'merchant-particulars/merchant-particulars?shopid=' + shopid
+    })
+  },
+  toSeckillList() {      //跳转至限时秒杀列表
+    wx.navigateTo({
+      url: 'flashSaleHome/flashSaleHome'
     })
   },
   fooddetails: function(e) { //跳转美食墙内页

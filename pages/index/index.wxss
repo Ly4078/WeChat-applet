@@ -1054,3 +1054,40 @@ page {
   color:#555555;
   line-height: 73rpx;
 }
+
+.Resbanner.secKillList {
+  padding-top: 0;
+}
+
+.secKill_img {
+  width: 37rpx;
+  height: 37rpx;
+  margin-left:28rpx;
+}
+
+.secKillIcon {
+   width: 72rpx;
+   height: 38rpx;
+   line-height: 38rpx;
+   text-align: center;
+   background-color: #F95811;
+   border-top-left-radius: 20rpx;
+   border-bottom-right-radius: 20rpx;
+   position: absolute;
+   top: 0;
+   left: 6rpx;
+   font-size: 24rpx;
+   color: #fff;
+}
+
+.crabShopIcon {
+  display: inline-block;
+  width: 98rpx;
+  height: 34rpx;
+  line-height: 34rpx;
+  text-align: center;
+  color: #FF4343;
+  border: 2rpx solid #FF4343; 
+  border-radius: 10rpx;
+  font-size: 20rpx;
+}
