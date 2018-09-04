@@ -1091,3 +1091,24 @@ page {
   border-radius: 10rpx;
   font-size: 20rpx;
 }
+
+.crabModels{
+  margin-top: 20rpx;
+  width: 100%;
+  height: 260rpx;
+  display: flex;
+  justify-content: space-between;
+}
+
+.crabModels-img{
+  width: 337rpx;
+  height: 260rpx;
+}
+
+.crabModels-img:nth-child(1){
+  border-bottom-left-radius: 16rpx;
+}
+
+.crabModels-img:nth-child(2){
+  border-bottom-right-radius: 16rpx;
+}

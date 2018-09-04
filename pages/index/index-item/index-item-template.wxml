@@ -61,7 +61,7 @@
   </view>
 </template>
 
-<!-- 超值换购 -->
+<!-- 享7生鲜 -->
 <template name="secKill">
   <view class='wrap_recommend veoRes_recommend' catchtap='toSeckillList'>
     <view class='recommend'>
@@ -74,7 +74,7 @@
     </view>
   </view>
 </template>
-<!-- 超值换购 -->
+<!-- 享7生鲜 -->
 
 <!--热门活动  -->
 <template name="hotActivity">

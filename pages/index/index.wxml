@@ -5,7 +5,6 @@
 <view class="container">
   <!--顶部 定位 搜索 卷  -->
   <!-- <template is="locationSeek" data="{{...item}}" /> -->
-
   <view class="newUserModal" wx:if="{{issnap}}">
     <view class='drawer_screen'>
       <view class='sqtishi'>提示</view>
@@ -92,6 +91,18 @@
     </view>
   </view>
 
+  <!-- 享7生鲜 -->
+  <block wx:for="{{crab}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
+    <template is="secKill" data="{{item}}" />
+  </block>
+  <view class='Resbanner secKillList'>
+    <image class='Resbimg' src="{{bannthree[0].imgUrl}}"></image>
+    <view class='crabModels'>
+      <image mode='scaleToFill' class='crabModels-img' src='http://pic12.photophoto.cn/20090817/0042040248702653_b.jpg'></image>
+      <image mode='scaleToFill' class='crabModels-img' src='http://pic36.photophoto.cn/20150824/0042040237789702_b.jpg'></image>
+    </view>
+  </view>
+
   <!-- 限量秒杀 -->
   <block wx:for="{{secKillArr}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
     <template is="secKill" data="{{item}}" />
@@ -110,25 +121,8 @@
     </view>
   </view>
 
-  <!-- 超值换购 -->
-  <block wx:for="{{crab}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
-    <template is="secKill" data="{{item}}" />
-  </block>
-  <view class='Resbanner secKillList'>
-    <image class='Resbimg' src="{{bannthree[0].imgUrl}}"></image>
-    <view class='resthree'>
-      <view wx:for="{{bargainList}}" wx:key="index">
-        <view class='RthreeItem' id='{{item.id}}' data-index="{{item.shopId}}" bindtap='candyDetails'>
-          <image class='Resimg' src="{{item.picUrl}}"></image>
-          <text>{{item.skuName}}\n</text>
-          <view class="crabShopIcon">推荐商家</view>
-        </view>
-      </view>
-    </view>
-  </view>
-
   <!-- 热门活动 -->
-  <block wx:for="{{Act}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
+  <!-- <block wx:for="{{Act}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
     <template is="veoRes" data="{{item}}" />
   </block>
   <view class='scroll_box'>
@@ -137,10 +131,10 @@
         <template is="hotActivityss" data="{{item}}" />
       </block>
     </scroll-view>
-  </view>
+  </view> -->
 
   <!--短视频  -->
-  <block wx:if="{{isfile}}" wx:for="{{isfile?Vid:Vid2}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
+  <!-- <block wx:if="{{isfile}}" wx:for="{{isfile?Vid:Vid2}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
     <template is="veoRes" data="{{item}}" />
   </block>
   <view class='Resbanner Vidbanner' wx:if="{{isfile}}">
@@ -153,7 +147,7 @@
         </view>
       </view>
     </view>
-  </view>
+  </view> -->
 
   <!--精选餐厅  -->
   <block wx:for="{{Res}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}" wx:if="{{false}}">
@@ -171,7 +165,6 @@
       </view>
     </view>
   </view>
-
 
   <!--拼菜砍价  -->
   <block wx:for="{{Bargain}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
@@ -191,7 +184,6 @@
     </view>
   </view>
 
-
   <!--商家广告位  -->
   <image class='Advertising' id="3" data-ind="3" bindtap="handbaoming" src="{{bannthree[2].imgUrl}}"></image>
 
@@ -205,7 +197,6 @@
       </view>
     </view>
   </view>
-
 
   <!--分类搜索商家菜品  -->
   <view class='scroll_box' wx:if="{{false}}">
@@ -233,14 +224,7 @@
     <image src='/images/icon/toTop.png'></image>
   </view>
 
-
   <!--新版修改结束  -->
-
-
-
-
-
-
   <!--推荐餐厅 -->
   <!-- <template is="postItem" data="{{...item}}" /> -->
   <!--推荐餐厅  -->
