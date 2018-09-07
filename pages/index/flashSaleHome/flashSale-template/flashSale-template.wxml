@@ -1,34 +1,34 @@
 <!-- 附件美食 -->
 <template name="flashSale">
   <view class='flashSaleWrap'>
-    <view class='flashSale-left' bindtap='toSecKillDetail'>
-      <image class='flashSale-img' src='https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2526659021,2245145335&fm=26&gp=0.jpg'></image>
+    <view class='flashSale-left'>
+      <image class='flashSale-img' src='{{item.picUrl}}'></image>
       <image class='flashSaleBut' src='https://xqmp4-1256079679.file.myqcloud.com/1535364539984Colin_秒杀底部.png'></image>
     </view>
     <view class='flashSale-right'>
       <view class='flashSaleRig-row'>
         <view class='diningName'>
-          <text>心湖条子肉</text>
+          <text>{{item.skuName}}</text>
         </view>
       </view>
       <view class='sumName'>
         <image class='diningNameImg' src='/images/icon/house.png'></image>
-        <text>心湖民宿度假村</text>
+        <text>{{item.shopName}}</text>
         <text>100m</text>
       </view>
       <view class='sumPurchase'>
         <view class='sumResidue'>
           <view class='fixationTop'>
-            <text class='fixation'>0.01<text>元</text></text>
-            <text>28元</text>
+            <text class='fixation'>{{item.agioLevel}}<text>元</text></text>
+            <text>{{item.agioPrice}}元</text>
           </view>
           <view class='accuracyQay'>
-            <text class='accuracyQay-text'>剩余<text>{{list.residue}}</text>份</text>
+            <text class='accuracyQay-text'>剩余<text>{{item.stockNum-item.sellNum}}</text>份</text>
             <view class='actualaccurac'></view>
           </view>
         </view>
         <view class='oncePurchase'>
-          <button>抢购</button>
+          <button bindtap='toSecKillDetail' id="{{item.id}}" data-shopid="{{item.shopId}}">抢购</button>
         </view>
       </view>
     </view>
@@ -36,37 +36,21 @@
 </template>
 
 <!-- 我的秒杀 -->
-<template name="mySeckill">
+<!-- <template name="mySeckill">
   <view class="mySeckillWrap">
     <view class="mySeckill_l">
-      <image src="/images/icon/blue_ticket.png"></image>
+      <image src="{{item.skuPic}}"></image>
       <view class="mySeckill_info">
-        <view class="secKill_name">养生罗伯特养生罗伯特养生罗伯特养生罗伯特养生罗伯特养生罗伯特</view>
+        <view class="secKill_name">{{item.skuName}}</view>
         <view class="secKill_people">完成0/2个好友注册</view>
-        <view class="secKill_time">
-          <text class="time_num">26</text>
-          <text class="colon">:</text>
-          <text class="time_num">23</text> 后结束</view>
+        <view wx:if="{{timeArr[idx].countDown}}" class="secKill_time">
+          <view class="voteText">{{timeArr[idx].countDown}}</view>
+          <text>后结束</text>
+        </view>
       </view>
     </view>
     <view class="mySeckill_r">
       <button>邀请好友</button>
     </view>
   </view>
-  <view class="mySeckillWrap">
-    <view class="mySeckill_l">
-      <image src="/images/icon/blue_ticket.png"></image>
-      <view class="mySeckill_info">
-        <view class="secKill_name">养生罗伯特养生罗伯特养生罗伯特养生罗伯特养生罗伯特养生罗伯特</view>
-        <view class="secKill_people">完成0/2个好友注册</view>
-        <view class="secKill_time">
-          <text class="time_num">26</text>
-          <text class="colon">:</text>
-          <text class="time_num">23</text> 后结束</view>
-      </view>
-    </view>
-    <view class="mySeckill_r">
-      <button>邀请好友</button>
-    </view>
-  </view>
-</template>
+</template> -->

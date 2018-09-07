@@ -58,11 +58,8 @@
 }
 
 .shopscCurrency{
-  width: 68rpx;
-  line-height: 28rpx;
-  text-align: right;
   display: inline-block;
-  font-size:r24px;
+  font-size:24rpx;
   font-family:PingFangSC-Medium;
   color:#FF4343;
 }
@@ -113,6 +110,45 @@
 .embedded{
   width: 694rpx;
 }
+
+.inviteBox {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 80rpx;
+}
+
+.inviteWrap{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.inviteWrap text{
+  font-size:28rpx;
+  font-family:PingFangSC-Regular;
+  color:rgba(25,25,25,1);
+  padding-left: 16rpx;
+}
+
+.countDown {
+  width: 300rpx;
+  font-size: 24rpx;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.countDownNum {
+  background-color: #3C3C3C;
+  color: #fff;
+  padding: 0 6rpx;
+  border-radius: 6rpx;
+  margin: 0 6rpx;
+}
+
+
+
+
 
 .specialWrap{
   width: 100%;
@@ -563,4 +599,5 @@
   font-size: 28rpx;
   border-radius: 36rpx;
   background-color: #FC6232;
+  border: 0;
 }

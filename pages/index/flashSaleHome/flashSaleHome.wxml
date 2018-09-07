@@ -14,7 +14,7 @@
 
   <!--附近美食-->
   <view hidden="{{currentTab == 1}}">
-    <view class='cuisine-center active'>
+    <view class='cuisine-center active' wx:for="{{aNearbyShop}}" wx:key="{{index}}">
       <!-- <block wx:for="{{actlist}}" wx:key="{{index}}" id="{{index}}" wx:for-index="idx"> -->
       <template is="flashSale" data="{{item}}" />
       <!-- </block> -->
@@ -23,10 +23,26 @@
 
   <!--我的秒杀-->
   <view hidden="{{currentTab == 0}}">
-    <view class='cuisine-center'>
+    <view class='cuisine-center' wx:for="{{aNearbyShop}}" wx:key="{{index}}" wx:for-index="idx">
       <!-- <block wx:for="{{actlist}}" wx:key="{{index}}" id="{{index}}" wx:for-index="idx"> -->
-      <template is="mySeckill" data="{{item}}" />
+      <!-- <template is="mySeckill" data="{{item}}" /> -->
       <!-- </block> -->
+      <view class="mySeckillWrap">
+        <view class="mySeckill_l">
+          <image src="{{item.skuPic}}"></image>
+          <view class="mySeckill_info">
+            <view class="secKill_name">{{item.skuName}}</view>
+            <view class="secKill_people">完成0/2个好友注册</view>
+            <view wx:if="{{timeArr[idx].countDown}}" class="secKill_time">
+              <view class="voteText">{{timeArr[idx].countDown}}</view>
+              <text>后结束</text>
+            </view>
+          </view>
+        </view>
+        <view class="mySeckill_r">
+          <button id="{{item.skuId}}" data-shopid="{{item.shopId}}" bindtap='toSecKillDetail'>查看详情</button>
+        </view>
+      </view>
     </view>
   </view>
 </view>

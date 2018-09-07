@@ -444,9 +444,41 @@ const ALL_API = {
     method: 'POST',
     url: 'sku/addSkuForKj'
   },
+  addSecKill: {    //新增抢购券
+    method: 'POST',
+    url: 'sku/addSkuForKj'
+  },
   buyBargainTick: {      //购买砍菜券
     method: 'POST',
     url: 'wxpay/doUnifiedOrderForKj'
+  },
+  buySecKill: {    //购买抢购券
+    method: 'POST',
+    url: 'wxpay/doUnifiedOrderForQg'
+  },
+  secKillList: {     //限时秒杀列表
+    method: 'GET',
+    url: 'sku/qgcList'
+  },
+  mySecKill: {   //我的秒杀列表
+    method: 'GET',
+    url: 'user/myRedislist'
+  },
+  secKillDetail: {   //秒杀菜品详情
+    method: 'GET',
+    url: 'sku/getQgc'
+  },
+  createSecKill: {     //创建秒杀菜
+    method: 'GET',
+    url: 'user/invite'
+  },
+  inviteNum: {    //查询邀请人数
+    method: 'GET',
+    url: 'user/getNewUser'
+  },
+  inviteNewUser: {    //邀请新人注册后保存进秒杀信息
+    method: 'PSOT',
+    url: 'user/upPeopleNum'
   }
 }
 const Api = new MyHttp({}, ALL_API);

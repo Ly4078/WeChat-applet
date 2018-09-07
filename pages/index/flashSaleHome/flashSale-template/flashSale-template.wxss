@@ -149,6 +149,7 @@
 .mySeckill_l image {
   height: 120rpx;
   width: 120rpx;
+  border-radius: 8rpx;
 }
 
 .mySeckill_info {
@@ -174,15 +175,13 @@
   color: #2d2a2a;
 }
 
-.secKill_time .time_num {
+.secKill_time .voteText {
+  display: inline-block;
   background-color: #2d2a2a;
   color: #fff;
   border-radius: 4rpx;
   padding: 0 4rpx;
-}
-
-.secKill_time .colon {
-  padding: 0 4rpx;
+  margin-right: 6rpx;
 }
 
 .mySeckill_r {

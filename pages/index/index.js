@@ -63,6 +63,7 @@ Page({
     hotshop: [],
     bargainList: [], //砍价拼菜
     bargainListall: [], //拼菜砍价
+    secKillList: [], //限量秒杀
     whhotdish: [],
     syhotdish:[],
     hotdish:[],
@@ -566,6 +567,7 @@ Page({
 
     if (app.globalData.userInfo.lat && app.globalData.userInfo.lng) {
       this.hotDishList();
+      this.getsecKill();
       console.log('hotdish:', this.data.hotdish);
       this.setData({
         bargainList: []
@@ -676,8 +678,33 @@ Page({
       }
     })
   },
-
-
+  getsecKill() { //查询限量秒杀列表
+    let _parms = {
+      shopId: app.globalData.userInfo.shopId,
+      zanUserId: app.globalData.userInfo.userId,
+      browSort: 0,
+      locationX: app.globalData.userInfo.lng,
+      locationY: app.globalData.userInfo.lat,
+      city: app.globalData.userInfo.city,
+      isDeleted: 0,
+      page: 1,
+      rows: 8
+    };
+    Api.secKillList(_parms).then((res) => {
+      let data = res.data;
+      if (data.code == 0 && data.data.list) {
+        this.setData({
+          secKillList: data.data.list.slice(0, 3)
+        });
+      } 
+    });
+  },
+  toSecKillDetail(e) { //跳转至菜品详情
+    let curr = e.currentTarget;
+    wx.navigateTo({
+      url: 'flashSaleHome/secKillDetail/secKillDetail?id=' + curr.id + '&shopId=' + curr.dataset.shopid
+    })
+  },
   // 点击One某个nav
   handnavOne(e) {
     let id = e.currentTarget.id;

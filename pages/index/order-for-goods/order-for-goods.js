@@ -46,14 +46,18 @@ Page({
         skuId: options.skuId
       });
     }
+    if (options.skutype == 4 || options.skutype == 8) {
+      this.setData({
+        shopId: options.shopId,
+        skuName: options.skuName,
+        skutype: options.skutype,
+        dishSkuId: options.dishSkuId,
+        dishSkuName: options.dishSkuName
+      });
+    }
     if (options.skutype == 4) {
       //type==1,grounpid不穿
       this.setData({
-        skutype: options.skutype,
-        skuName: options.skuName,
-        shopId: options.shopId,
-        dishSkuId: options.dishSkuId,
-        dishSkuName: options.dishSkuName,
         groupId: options.groupId ? options.groupId : '',
         bargainType: options.bargainType
       });
@@ -155,7 +159,7 @@ Page({
   },
 
   bindPlus: function() { //点击加号
-    if (!this.data.actId && this.data.skutype != 4) {
+    if (!this.data.actId && this.data.skutype != 4 && this.data.skutype != 8) {
       let number = this.data.number;
       ++number;
       if (number > 10) {
@@ -269,6 +273,50 @@ Page({
             skuNum: _this.data.number,
             shopId: _this.data.shopId,
             payType: 2,
+            dishSkuId: _this.data.dishSkuId,
+            dishSkuName: _this.data.dishSkuName
+          };
+          Api.socreate(_parms).then((res) => {
+            if (res.data.code == 0) {
+              _this.updateuser(res.data.data);
+            } else {
+              wx.showToast({
+                title: res.data.message,
+                icon: 'none'
+              })
+            }
+          });
+        } else {
+          wx.showToast({
+            title: '系统繁忙',
+            icon: 'none'
+          })
+        }
+      })
+    } else if (this.data.skutype == 8) {
+      let _parms = {
+        skuName: this.data.skuName,
+        skuType: 8,
+        stockNum: 999,
+        opreatorId: app.globalData.userInfo.userId,
+        opreatorName: app.globalData.userInfo.userName,
+        sellPrice: this.data.paymentAmount,
+        inPrice: 20,
+        agioPrice: this.data.paymentAmount
+      },
+        _this = this;
+      Api.addSecKill(_parms).then((res) => {
+        if (res.data.code == 0) {
+          _this.setData({
+            skuId: res.data.data //生成这一张券的id
+          });
+          let _parms = {
+            userId: app.globalData.userInfo.userId,
+            userName: app.globalData.userInfo.userName,
+            skuId: _this.data.skuId,
+            skuNum: _this.data.number,
+            shopId: _this.data.shopId,
+            payType: 2,    //微信支付
             dishSkuId: _this.data.dishSkuId,
             dishSkuName: _this.data.dishSkuName
           };
@@ -426,6 +474,41 @@ Page({
               })
             },
             fail: function(res) {
+              wx.showToast({
+                icon: 'none',
+                title: '支付取消',
+                duration: 1200
+              })
+            }
+          })
+        } else {
+          wx.showToast({
+            title: res.data.message,
+            icon: 'none'
+          })
+        }
+      });
+    } else if (this.data.skutype == 8) {
+      let _parms = {
+        soId: soid,
+        openId: app.globalData.userInfo.openId,
+        skuId: this.data.dishSkuId,
+        shopId: this.data.shopId
+      }
+      Api.buySecKill(_parms).then((res) => {
+        if (res.data.code == 0) {
+          wx.requestPayment({
+            'timeStamp': res.data.data.timeStamp,
+            'nonceStr': res.data.data.nonceStr,
+            'package': res.data.data.package,
+            'signType': 'MD5',
+            'paySign': res.data.data.paySign,
+            success: function (res) {
+              wx.redirectTo({
+                url: '../../personal-center/my-discount/my-discount'
+              })
+            },
+            fail: function (res) {
               wx.showToast({
                 icon: 'none',
                 title: '支付取消',

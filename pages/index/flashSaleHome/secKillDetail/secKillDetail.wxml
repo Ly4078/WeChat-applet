@@ -18,14 +18,14 @@
       </view>
       <view class='shopsTop shopssecond'>
         <view class='shopsConter'>
-          <view class='shopscCurrency'>￥ 底价
-          </view>
           <text class='lowValue'>{{agioPrice}}</text>
-          <text class='abandon'>原价：￥{{sellPrice}}</text>
+          <view class='shopscCurrency'>元
+          </view>
+          <text class='abandon'>￥{{sellPrice}}</text>
         </view>
         <text class='at-present'>已售{{sellNum}}份</text>
       </view>
-      <image class='instructions' src='https://xqmp4-1256079679.file.myqcloud.com/text_461753568722106529.png'></image>
+      <image class='instructions' src='/images/icon/secKill.png'></image>
     </view>
   </view>
 
@@ -33,17 +33,27 @@
   <view class='theFollowing'>
     <view class='embedded'>
       <!-- 邀请好友 -->
-      <view class='specialWrap'>
-        <view class='special'></view>
-        <text>邀请好友</text>
+      <view class="inviteBox">
+        <view class='inviteWrap'>
+          <view class='special'></view>
+          <text>邀请好友</text>
+        </view>
+        <view class="countDown" wx:if="{{countDown != '' && countDown != 'isEnd'}}">
+          <view>还剩</view>
+          <view class="countDownNum">{{countDown}}</view>
+          <view>结束</view>
+        </view>
       </view>
       <view class="inviteFriend">
-        <view class="inviteFriend_l">
-          <image src="/images/icon/dot_mos.png"></image>
-          <image src="/images/icon/dot_mos.png"></image>
+        <view wx:if="{{newList.length > 0}}" wx:for="{{newList}}" wx:key="index" class="inviteFriend_l">
+          <image src="{{item.iconUrl}}"></image>
+        </view>
+        <view wx:if="{{newList.length <= 0}}" class="inviteFriend_l">
+          <image src="/images/icon/invite.png"></image>
+          <image src="/images/icon/invite.png"></image>
         </view>
         <view class="inviteFriend_r">
-          <button>发起邀请</button>
+          <button plain="true" data-name="shareBtn" open-type="share" bindtap='inviteOthers'>发起邀请</button>
         </view>
       </view>
       <!-- 菜品详情 -->
@@ -96,6 +106,6 @@
       <text>分享</text>
     </button>
 
-    <view class='returnPrice'>立即购买</view>
+    <view class='returnPrice' bindtap='toBuy'>立即购买</view>
   </view>
 </view>

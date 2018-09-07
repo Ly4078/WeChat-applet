@@ -367,7 +367,7 @@ Page({
                 countDown = '';
               this.setData({
                 timer: setInterval(function() {
-                  // console.log('倒计时');
+                  console.log('倒计时');
                   if (minus == 0) {
                     clearInterval(_this.data.timer);
                     minus = 0;
