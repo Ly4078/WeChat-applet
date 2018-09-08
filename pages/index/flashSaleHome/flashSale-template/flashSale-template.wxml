@@ -14,7 +14,7 @@
       <view class='sumName'>
         <image class='diningNameImg' src='/images/icon/house.png'></image>
         <text>{{item.shopName}}</text>
-        <text>100m</text>
+        <text>{{item.distance}}</text>
       </view>
       <view class='sumPurchase'>
         <view class='sumResidue'>

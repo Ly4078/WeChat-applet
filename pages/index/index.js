@@ -833,15 +833,6 @@ Page({
       url: 'merchant-particulars/merchant-particulars?shopid=' + shopid
     })
   },
-
-  //点击拼菜砍价之一
-  candyDetails(e) {
-    let id = e.currentTarget.id,
-      shopId = e.currentTarget.dataset.index;
-    wx.navigateTo({
-      url: 'bargainirg-store/CandyDishDetails/CandyDishDetails?id=' + id + '&shopId=' + shopId
-    })
-  },
   //点击推荐短视频之一
   handViditem(e) {
     let id = e.currentTarget.id,

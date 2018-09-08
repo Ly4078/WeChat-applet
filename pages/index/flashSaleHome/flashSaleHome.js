@@ -1,4 +1,5 @@
 import Api from '../../../utils/config/api.js';
+var utils = require('../../../utils/util.js');
 var app = getApp();
 Page({
   data: {
@@ -57,6 +58,7 @@ Page({
         let list = data.data.list,
           aNearbyShop = this.data.aNearbyShop;
         for (let i = 0; i < list.length; i++) {
+          list[i].distance = utils.transformLength(list[i].distance);
           aNearbyShop.push(list[i]);
         }
         this.setData({
@@ -207,7 +209,7 @@ Page({
     }
   },
   onReachBottom: function() { //上拉加载
-    if (this.data.isUpdate) {
+    if (this.data.flag) {
       wx.showLoading({
         title: '加载中..'
       })
@@ -219,6 +221,7 @@ Page({
       } else if (this.data.currentTab == 1) {
         this.mySecKill();
       }
+      wx.hideLoading();
     }
   }
 })

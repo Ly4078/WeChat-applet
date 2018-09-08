@@ -919,6 +919,11 @@ page {
   min-height: 100rpx;
   display: block;
 }
+.resthree.secKill_inner {
+  clear: both;
+  overflow: hidden;
+  margin: 0;
+}
 .RthreeItem,.VthreeItem{
   width: 33.33%;
   height: 100%;

@@ -22,7 +22,8 @@ Page({
     initiator: '', //发起人
     newList: [], //邀请新人列表
     timer: null, //倒计时
-    countDown: ''
+    countDown: '',
+    isCreated: true   //是否创建菜品
   },
   onLoad: function(options) {
     let _this = this;
@@ -55,17 +56,22 @@ Page({
         //判断之前是否创建过，并查看邀请了多少人注册
         Api.inviteNum(_parms).then((res) => {
           if (res.data.code == 0) {
+            let isCreated = false;
             if (res.data.data.length > 0 && res.data.data[0]) {
-              let data = res.data.data;
+              isCreated = true;
+              let data = res.data.data, newList = data[0].newUser ? data[0].newUser : [];
+              if (newList.length > 2) {
+                newList = newList.slice(0,2);
+              }
+              this.getUserIcon(newList);
               this.setData({
-                newList: data[0].newUser ? data[0].newUser : [],
                 peoPleNum: data[0].peoPleNum ? data[0].peoPleNum : 0
               });
               this.countDownFunc(data[0].endTime);
-            } else {
-              //创建一个秒杀菜
-              this.createSecKill();
             }
+            this.setData({
+              isCreated: isCreated
+            });
           }
         })
       }
@@ -140,7 +146,11 @@ Page({
           title: '发起成功，快去邀请好友参与秒杀吧',
           icon: 'none'
         })
+        this.setData({
+          isCreated: true
+        });
         this.countDownFunc(res.data.data.endTime);
+        this.onShareAppMessage();
       }
     })
   },
@@ -181,6 +191,25 @@ Page({
       });
     }
   },
+  getUserIcon(obj) {    //获取用户头像
+    let userArr = obj, _this = this;
+    for (let i = 0; i < userArr.length; i++) {
+      wx.request({ //从自己的服务器获取用户信息
+        url: _this.data._build_url + 'user/get/' + userArr[i].id,
+        header: {
+          'content-type': 'application/json' // 默认值
+        },
+        success: function (res) {
+          if (res.data.code == 0) {
+            userArr[i].iconUrl = res.data.data.iconUrl;
+            _this.setData({
+              newList: userArr
+            });
+          }
+        }
+      })
+    }
+  },
   toBuy() { //买菜
     if (!app.globalData.userInfo.mobile) {
       this.setData({
@@ -199,6 +228,12 @@ Page({
         icon: 'none'
       })
     }
+  },
+  //跳转至商家主页
+  toShopDetail() {
+    wx.navigateTo({
+      url: '../../merchant-particulars/merchant-particulars?shopid=' + this.data.shopId
+    })
   },
   //查询邀请人数
   // getInviteNum() {
@@ -255,7 +290,12 @@ Page({
     })
   },
   inviteOthers() {
-    this.onShareAppMessage();
+    if (this.data.isCreated) {
+      this.onShareAppMessage();
+    } else {
+      //创建一个秒杀菜
+      this.createSecKill();
+    }
   },
   //分享给好友
   onShareAppMessage: function() {
@@ -268,8 +308,7 @@ Page({
 
       },
       fail: function(res) {
-        // 分享失败
-
+        
       }
     }
   }
