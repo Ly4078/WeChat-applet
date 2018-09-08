@@ -32,7 +32,7 @@
           <image src="{{item.skuPic}}"></image>
           <view class="mySeckill_info">
             <view class="secKill_name">{{item.skuName}}</view>
-            <view class="secKill_people">完成0/2个好友注册</view>
+            <view class="secKill_people">完成{{item.peoPleNum ? item.peoPleNum : 0}}/2个好友注册</view>
             <view wx:if="{{timeArr[idx].countDown}}" class="secKill_time">
               <view class="voteText">{{timeArr[idx].countDown}}</view>
               <text>后结束</text>

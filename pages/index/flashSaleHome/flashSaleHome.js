@@ -14,8 +14,11 @@ Page({
     countDownMinute: 0,
     countDownSecond: 0
   },
-  onShow: function(options) {
+  onShow: function (options) {
+    let _this = this;
+    clearInterval(_this.data.timer);
     this.setData({
+      timer: null,
       currentTab: 0,
       page: 1,
       aNearbyShop: [],

@@ -1,5 +1,9 @@
-.flashSaleHome {
+page {
   height: 100%;
+  background-color: #f5f5fa;
+}
+.flashSaleHome {
+  /* min-height: 100%; */
   background-color: #78b6fc;
 }
 
@@ -112,7 +116,7 @@
 }
 
 .fixation {
-  font-size: 46rpx;
+  font-size: 40rpx;
   font-weight: 600;
   color: rgba(252, 94, 45, 1);
 }

@@ -25,42 +25,50 @@ Page({
     countDown: ''
   },
   onLoad: function(options) {
-    console.log(options);
+    let _this = this;
+    clearInterval(_this.data.timer);
     this.setData({
+      timer: null,
       initiator: options.initiator ? options.initiator : '', //发起人Id
       id: options.id,
       shopId: options.shopId
     });
   },
   onShow: function() {
+    let _this = this;
+    clearInterval(_this.data.timer);
+    this.setData({
+      timer: null
+    });
     this.shopDetail();
     if (app.globalData.userInfo.userId) {
       if (!app.globalData.userInfo.mobile) { //是新用户，去注册页面
         wx.navigateTo({
-          url: '../../../../pages/personal-center/securities-sdb/securities-sdb?back=1&parentId=' + this.data.initiator + '&skuId=' + this.data.id + '&shopId=' + this.data.shopId
+          url: '../../../../pages/personal-center/securities-sdb/securities-sdb?parentId=' + this.data.initiator + '&skuId=' + this.data.id + '&shopId=' + this.data.shopId
+        })
+      } else {
+        this.getDish(); //查询菜详情
+        let _parms = {
+          skuId: this.data.id,
+          parentId: app.globalData.userInfo.userId
+        };
+        //判断之前是否创建过，并查看邀请了多少人注册
+        Api.inviteNum(_parms).then((res) => {
+          if (res.data.code == 0) {
+            if (res.data.data.length > 0 && res.data.data[0]) {
+              let data = res.data.data;
+              this.setData({
+                newList: data[0].newUser ? data[0].newUser : [],
+                peoPleNum: data[0].peoPleNum ? data[0].peoPleNum : 0
+              });
+              this.countDownFunc(data[0].endTime);
+            } else {
+              //创建一个秒杀菜
+              this.createSecKill();
+            }
+          }
         })
       }
-      this.getDish(); //查询菜详情
-      let _parms = {
-        skuId: this.data.id,
-        parentId: app.globalData.userInfo.userId
-      };
-      //判断之前是否创建过，并查看邀请了多少人注册
-      Api.inviteNum(_parms).then((res) => {
-        if (res.data.code == 0) {
-          if (res.data.data.length > 0 && res.data.data[0]) {
-            let data = res.data.data;
-            this.setData({
-              newList: data[0].newUser ? data[0].newUser : [],
-              peoPleNum: data[0].peoPleNum ? data[0].peoPleNum : 0
-            });
-            this.countDownFunc(data[0].endTime);
-          } else {
-            //创建一个秒杀菜
-            this.createSecKill();
-          }
-        }
-      })
     } else {
       this.findByCode();
     }
@@ -128,6 +136,10 @@ Page({
     };
     Api.createSecKill(_parms).then((res) => {
       if (res.data.code == 0 && res.data.data) {
+        wx.showToast({
+          title: '发起成功，快去邀请好友参与秒杀吧',
+          icon: 'none'
+        })
         this.countDownFunc(res.data.data.endTime);
       }
     })
@@ -177,7 +189,7 @@ Page({
       return false
     }
     if (this.data.peoPleNum >= 2) {
-      let sellPrice = this.data.agioPrice;    //折后价
+      let sellPrice = this.data.agioPrice; //折后价
       wx.navigateTo({
         url: '../../order-for-goods/order-for-goods?shopId=' + this.data.shopId + '&skuName=' + sellPrice + '元抢购券&sell=' + sellPrice + '&skutype=8&dishSkuId=' + this.data.id + '&dishSkuName=' + this.data.skuName
       })
@@ -223,7 +235,7 @@ Page({
             }
             if (!data.mobile) { //是新用户，去注册页面
               wx.navigateTo({
-                url: '../../../../pages/personal-center/securities-sdb/securities-sdb?back=1&parentId=' + this.data.initiator + '&skuId=' + this.data.id + '&shopId=' + this.data.shopId
+                url: '../../../../pages/personal-center/securities-sdb/securities-sdb?parentId=' + this.data.initiator + '&skuId=' + this.data.id + '&shopId=' + this.data.shopId
               })
             }
           } else {
@@ -234,12 +246,12 @@ Page({
     })
   },
   // 左下角返回首页
-  returnHomeArrive: function () {
+  returnHomeArrive: function() {
     wx.switchTab({
       url: '../../index',
-      success: function (res) { },
-      fail: function (res) { },
-      complete: function (res) { },
+      success: function(res) {},
+      fail: function(res) {},
+      complete: function(res) {},
     })
   },
   inviteOthers() {
