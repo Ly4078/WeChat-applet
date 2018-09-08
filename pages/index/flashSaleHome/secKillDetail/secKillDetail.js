@@ -25,6 +25,7 @@ Page({
     countDown: ''
   },
   onLoad: function(options) {
+    console.log(options);
     this.setData({
       initiator: options.initiator ? options.initiator : '', //发起人Id
       id: options.id,
@@ -232,6 +233,15 @@ Page({
       }
     })
   },
+  // 左下角返回首页
+  returnHomeArrive: function () {
+    wx.switchTab({
+      url: '../../index',
+      success: function (res) { },
+      fail: function (res) { },
+      complete: function (res) { },
+    })
+  },
   inviteOthers() {
     this.onShareAppMessage();
   },
@@ -241,7 +251,7 @@ Page({
     let userInfo = app.globalData.userInfo;
     return {
       title: this.data.skuName,
-      path: '/pages/index/flashSaleHome/secKillDetail/secKillDetail?initiator=' + initiator + 'shopId=' + this.data.shopId + '&id=' + this.data.id,
+      path: '/pages/index/flashSaleHome/secKillDetail/secKillDetail?initiator=' + initiator + '&shopId=' + this.data.shopId + '&id=' + this.data.id,
       success: function(res) {
 
       },

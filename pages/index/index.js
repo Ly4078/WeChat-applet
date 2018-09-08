@@ -680,7 +680,6 @@ Page({
   },
   getsecKill() { //查询限量秒杀列表
     let _parms = {
-      shopId: app.globalData.userInfo.shopId,
       zanUserId: app.globalData.userInfo.userId,
       browSort: 0,
       locationX: app.globalData.userInfo.lng,

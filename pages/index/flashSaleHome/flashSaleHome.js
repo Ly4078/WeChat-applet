@@ -39,7 +39,6 @@ Page({
   },
   secKillList() { //附近美食
     let _parms = {
-      shopId: app.globalData.userInfo.shopId,
       zanUserId: app.globalData.userInfo.userId,
       browSort: 0,
       locationX: app.globalData.userInfo.lng,

@@ -105,18 +105,20 @@
   </view>
 
   <!-- 限量秒杀 -->
-  <block wx:for="{{secKillArr}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
-    <template is="secKill" data="{{item}}" />
-  </block>
-  <view class='Resbanner secKillList'>
-    <view class='resthree'>
-      <view wx:for="{{secKillList}}" wx:key="index">
-        <view class='RthreeItem' id='{{item.id}}' data-index="{{item.shopId}}" bindtap='candyDetails'>
-          <image class='Resimg' src="{{item.picUrl}}" bindtap='toSecKillDetail' id="{{item.id}}" data-shopid="{{item.shopId}}"></image>
-          <text>{{item.skuName}}\n</text>
-          <text class='Baragio'>¥{{item.agioPrice}}</text>
-          <text class='BarinPrice'>¥{{item.sellPrice}}</text>
-          <view class="secKillIcon">抢购</view>
+  <view wx:if="{{secKillList.length > 0}}">
+    <block wx:for="{{secKillArr}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
+      <template is="secKill" data="{{item}}" />
+    </block>
+    <view class='Resbanner secKillList'>
+      <view class='resthree'>
+        <view wx:for="{{secKillList}}" wx:key="index">
+          <view class='RthreeItem' id='{{item.id}}' data-index="{{item.shopId}}" bindtap='candyDetails'>
+            <image class='Resimg' src="{{item.picUrl}}" bindtap='toSecKillDetail' id="{{item.id}}" data-shopid="{{item.shopId}}"></image>
+            <text>{{item.skuName}}\n</text>
+            <text class='Baragio'>¥{{item.agioPrice}}</text>
+            <text class='BarinPrice'>¥{{item.sellPrice}}</text>
+            <view class="secKillIcon">抢购</view>
+          </view>
         </view>
       </view>
     </view>
@@ -226,7 +228,7 @@
   </view>
 
   <!--新版修改结束  -->
-  
+
   <!--推荐餐厅 -->
   <!-- <template is="postItem" data="{{...item}}" /> -->
   <!--推荐餐厅  -->
