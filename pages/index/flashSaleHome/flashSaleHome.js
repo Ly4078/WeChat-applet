@@ -20,12 +20,15 @@ Page({
     clearInterval(_this.data.timer);
     this.setData({
       timer: null,
-      currentTab: 0,
       page: 1,
       aNearbyShop: [],
       flag: true
     })
-    this.secKillList();
+    if (this.data.currentTab == 0) {
+      this.secKillList();
+    } else if (this.data.currentTab == 1) {
+      this.mySecKill();
+    }
   },
   onHide() {
     let _this = this;

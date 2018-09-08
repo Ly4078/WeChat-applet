@@ -24,10 +24,7 @@
   <!--我的秒杀-->
   <view hidden="{{currentTab == 0}}">
     <view class='cuisine-center' wx:for="{{aNearbyShop}}" wx:key="{{index}}" wx:for-index="idx">
-      <!-- <block wx:for="{{actlist}}" wx:key="{{index}}" id="{{index}}" wx:for-index="idx"> -->
-      <!-- <template is="mySeckill" data="{{item}}" /> -->
-      <!-- </block> -->
-      <view class="mySeckillWrap">
+      <view class="mySeckillWrap" id="{{item.skuId}}" data-shopid="{{item.shopId}}" bindtap='toSecKillDetail'>
         <view class="mySeckill_l">
           <image src="{{item.skuPic}}"></image>
           <view class="mySeckill_info">
@@ -40,7 +37,7 @@
           </view>
         </view>
         <view class="mySeckill_r">
-          <button id="{{item.skuId}}" data-shopid="{{item.shopId}}" bindtap='toSecKillDetail'>查看详情</button>
+          <button>查看详情</button>
         </view>
       </view>
     </view>

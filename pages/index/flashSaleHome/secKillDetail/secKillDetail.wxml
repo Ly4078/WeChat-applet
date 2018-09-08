@@ -38,7 +38,7 @@
           <view class='special'></view>
           <text>邀请好友</text>
         </view>
-        <view class="countDown" wx:if="{{countDown != '' && countDown != 'isEnd'}}">
+        <view class="countDown" wx:if="{{!isEnd}}">
           <view>还剩</view>
           <view class="countDownNum">{{countDown}}</view>
           <view>结束</view>

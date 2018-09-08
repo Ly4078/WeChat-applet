@@ -23,6 +23,7 @@ Page({
     newList: [], //邀请新人列表
     timer: null, //倒计时
     countDown: '',
+    isEnd: true,   //是否结束
     isCreated: true   //是否创建菜品
   },
   onLoad: function(options) {
@@ -170,7 +171,8 @@ Page({
           console.log('倒计时');
           if (minus == 0) {
             _this.setData({
-              countDown: 'isEnd'
+              countDown: '',
+              isEnd: true
             });
             minus = 0;
             clearInterval(_this.data.timer);
@@ -183,7 +185,8 @@ Page({
             seconds = seconds < 10 ? '0' + seconds : seconds;
             countDown = minutes + ':' + seconds;
             _this.setData({
-              countDown: countDown
+              countDown: countDown,
+              isEnd: false
             });
             minus--;
           }
