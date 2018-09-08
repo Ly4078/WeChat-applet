@@ -30,7 +30,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    console.log('options:', options);
     this.findByCode();
     if (options.back == 1) {
       this.setData({
@@ -77,7 +76,6 @@ Page({
             code: res.code
           }
           Api.getOpenId(_parms).then((res) => {
-            console.log("getOpenId_parms:", _parms)
             app.globalData.userInfo.openId = res.data.data.openId;
             app.globalData.userInfo.sessionKey = res.data.data.sessionKey;
             if (res.data.data.unionId) {
@@ -125,7 +123,6 @@ Page({
         unionId: app.globalData.userInfo.unionId
       },
       that = this;
-    console.log("getmyuserinfo_parms:", _parms);
     Api.addUserUnionId(_parms).then((res) => {
       if (res.data.data) {
         app.globalData.userInfo.userId = res.data.data;
@@ -144,7 +141,6 @@ Page({
                   }
                 }
               };
-              console.log('app.globalData.userInfo:', app.globalData.userInfo)
               if (data.mobile) {
                 wx.switchTab({
                   url: '../../index/index'
@@ -196,7 +192,6 @@ Page({
   },
 
   getVerificationCode() { //点击获取验证码
-    console.log('getVerificationCode')
     let that = this;
     if (this.data.isabss) {
       return
@@ -210,7 +205,6 @@ Page({
         userId: app.globalData.userInfo.userId,
         userName: app.globalData.userInfo.userName
       }
-      console.log('_parms:', _parms);
       Api.sendForRegister(_parms).then((res) => {
         if (res.data.code == 0) {
           that.setData({
@@ -255,26 +249,22 @@ Page({
   },
 
   registered: function() { //点击注册（领红包）按钮  ,核验验证码
-    console.log('registered')
     let that = this;
     if (this.data.phoneNum) {
       if (this.data.codeNum) {
         if (this.data.codeNum == this.data.verifyId) {
-          console.log("userInfo123:", app.globalData.userInfo);
           let _parms = {
             shopMobile: this.data.phoneNum,
             SmsContent: this.data.verifyId,
             userId: app.globalData.userInfo.userId,
             userName: app.globalData.userInfo.userName
           }
-          console.log('_parms:', _parms)
           // return;
           Api.isVerify(_parms).then((res) => {
             if (res.data.code == 0) {
               app.globalData.userInfo.userId = res.data.data;
               that.getuserInfo();
               if (that.data.referrer) { //推荐人
-                console.log("referrer:", that.data.referrer)
                 that.setpullUser();
               }
               if (that.data.parentId) {
@@ -361,7 +351,9 @@ Page({
       shopId: this.data.shopId,
       newUser: app.globalData.userInfo.userId
     };
+    console.log("368行：_parms", _parms);
     Api.inviteNewUser(_parms).then((res) => {
+      consle.log('369行：邀请是否成功' + res.data);
       if (res.data.code == 0) {
         consle.log('邀请成功:'+res.data);
       }

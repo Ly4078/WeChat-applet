@@ -477,7 +477,7 @@ const ALL_API = {
     url: 'user/getNewUser'
   },
   inviteNewUser: {    //邀请新人注册后保存进秒杀信息
-    method: 'PSOT',
+    method: 'POST',
     url: 'user/upPeopleNum'
   }
 }

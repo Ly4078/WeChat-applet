@@ -45,8 +45,8 @@
         </view>
       </view>
       <view class="inviteFriend">
-        <view wx:if="{{newList.length > 0}}" wx:for="{{newList}}" wx:key="index" class="inviteFriend_l">
-          <image src="{{item.iconUrl}}"></image>
+        <view wx:if="{{newList.length > 0}}" class="inviteFriend_l">
+          <image wx:for="{{newList}}" wx:key="index" src="{{item.iconUrl}}"></image>
         </view>
         <view wx:if="{{newList.length <= 0}}" class="inviteFriend_l">
           <image src="/images/icon/invite.png"></image>
