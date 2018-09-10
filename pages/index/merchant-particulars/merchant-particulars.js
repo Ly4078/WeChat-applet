@@ -1491,5 +1491,11 @@ Page({
     month = month > 9 ? month : "0" + month;
     today = today > 9 ? today : "0" + today;
     return year + "-" + month + "-" + today;
+  },
+
+  crabSection:function(){   //店铺螃蟹栏
+    wx.navigateTo({
+      url: '../crabShopping/crabShopping?currentTab=1',
+    })
   }
 })

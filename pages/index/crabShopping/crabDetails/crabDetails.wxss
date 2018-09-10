@@ -1,0 +1,561 @@
+page{
+  background-color: #F5F5FA;
+}
+
+.swiper {
+  width: 100%;
+  height: 750rpx;
+}
+
+.swiper-image {
+  height: 750rpx;
+  width: 100%;
+}
+
+.slide-image{
+  height: 750rpx;
+  width: 100%;
+}
+
+.presentation{
+  width: 100%;
+  height: 142rpx;
+  border-top: #F5F5FA;
+  background-color: #FFF;
+  display: flex;
+  justify-content: center;
+}
+
+.presentationacd{
+  width: 92%;
+}
+
+.presentationName{
+  font-size:30rpx;
+  color:rgba(25,25,25,1);
+  padding-top: 20rpx;
+  font-weight: 600;
+  letter-spacing: 2rpx;
+}
+
+.presentationName text:nth-child(2){
+  font-size:20rpx;
+  color:rgba(255,67,67,1);
+  border: 1px solid rgba(255,67,67,1);
+  padding: 0rpx 10rpx;
+  margin-left: 10rpx;
+  border-radius: 24rpx;
+}
+
+.quantity{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding-top: 30rpx;
+}
+
+.quantityLeft{
+  width: 72%;
+  display: flex;
+  align-items: center;
+}
+
+.quantityLeft text:nth-child(1){
+  font-size:36rpx;
+  color:rgba(255,67,67,1);
+}
+
+.quantityLeft text:nth-child(2){
+  font-size:24rpx;
+  color:rgba(177,177,177,1);
+}
+
+.quantityRight{
+  width: 28%;
+  font-size: 24rpx;
+  color:rgba(177,177,177,1);
+  text-align: center;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.alertingText{
+  width: 100%;
+  height: 58rpx;
+  background-color: #49c1ff;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+
+.specification{
+  width: 100%;
+  height: 88rpx;
+  background-color: #FFF;
+  margin-top: 20rpx;
+}
+
+.alertingText-cen{
+  width: 92%;
+}
+
+.alertingText-cen text{
+  color: #fff;
+  font-size: 24rpx;
+  letter-spacing: 2rpx;
+}
+
+.specification-cet{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.specification-img{
+  width: 22rpx;
+  height: 12rpx;
+  transform:rotate(-90deg);
+}
+
+.specification-left{
+  color:rgba(128,128,128,1);
+  font-size: 28rpx;
+  width: 90%;
+  padding-left: 30rpx;
+  letter-spacing: 2rpx;
+}
+
+.safeguard{
+  font-size: 24rpx;
+}
+
+.dot{
+  color: red;
+  padding-right: 2rpx;
+}
+
+.safeguard text:nth-child(1){
+  padding-left: 0rpx
+}
+
+.safeguard text{
+  padding-left: 36rpx;
+}
+
+.specification-right{
+  width: 10%;
+  display: flex;
+  align-items: center;
+  padding-right: 30rpx;
+  justify-content: flex-end;
+}
+
+.speParticulars{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  background-color: #FFF;
+  padding-bottom: 40rpx;
+}
+
+.synopsis{
+  width: 694rpx;
+  background-color: #F9F9F9;
+}
+
+.synopsisText{
+  width: 100%;
+  font-size:24rpx;
+  padding: 24rpx 0rpx 0rpx 20rpx;
+  letter-spacing: 2rpx;
+}
+
+.synopsisText text:nth-child(1){
+  color:rgba(128,128,128,1);
+}
+
+.synopsisText text:nth-child(2){
+  color:rgba(25,25,25,1);
+  padding-left: 90rpx;
+}
+
+.synopsisText:last-child{
+  padding-bottom: 20rpx;
+}
+
+.synopsisImgWrap{
+  width: 100%;
+  height: 100%;
+  padding-bottom: 82rpx;
+}
+
+.immediately{
+  width: 100%;
+  height: 86rpx;
+  position: fixed;
+  left: 0rpx;
+  bottom: 0rpx;
+  z-index: 999;
+  border: 1px solid red;
+}
+
+/* 底部 */
+.function{
+  width: 100%;
+  height: 86rpx;
+  display: flex;
+  border-top:1px solid  #EBEBEB;
+  position: fixed;
+  bottom: 0rpx;
+  left: 0rpx;
+  right: 0rpx;
+  z-index: 999;
+  background-color: white;
+  letter-spacing: 1rpx;
+}
+
+.returnHome{
+  width: 136rpx;
+  height: 86rpx;
+  font-size:24rpx;
+  font-family:PingFangSC-Regular;
+  color:rgba(85,85,85,1);
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+  line-height: 28rpx;
+  border: none;
+}
+.returnHome[plain] {
+  border: 0;
+}
+
+.returnHome text{
+  display: block;
+}
+
+.home{
+  border-right: 1px solid #EBEBEB;
+}
+
+
+.houselet{
+  width: 28rpx;
+  height: 28rpx;
+  display: inline-block;
+  padding-top: 16rpx;
+}
+
+.yellowShare{
+  width: 28rpx;
+  height: 28rpx;
+  display: inline-block;
+  padding-top: 16rpx;
+}
+
+.returnPrice{
+  width: 478rpx;
+  height: 86rpx;
+  background-color: #FC6232;
+  text-align: center;
+  line-height: 30rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  letter-spacing: 2rpx;
+  font-weight: 600;
+}
+
+.directly{
+  font-size:28rpx;
+  font-family:PingFangSC-Regular;
+  color:rgba(255,255,255,1);
+}
+
+/* 选择规格/数量弹窗 */
+.commodity_screen {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: #000;
+  opacity: 0.7;
+  overflow: hidden;
+  color: #fff;
+  bottom: 86rpx;
+  z-index: 99;
+}
+
+.commodity_attr_box {
+  height: 800rpx;
+  width: 100%;
+  overflow: hidden;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 999;
+  background: #fff;
+  padding-top: 20rpx;
+  border-radius:16rpx 16rpx 0rpx 0rpx; 
+  margin-bottom:88rpx;
+}
+
+.synopsisimgsrc{
+  width: 750rpx;
+}
+
+.commodityTop{
+  width: 100%;
+  height: 180rpx;
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  top: 20rpx;
+  left: 0rpx;
+}
+
+.commodityTop-cet{
+  width: 94%;
+  height: 180rpx;
+  display: flex;
+}
+
+.commodityImg{
+  width: 148rpx;
+  height: 148rpx;
+  background:rgba(255,255,255,1);
+  border:1rpx solid rgba(235,235,235,1);
+  border-radius:8rpx;
+}
+
+.commodityText{
+  width: 70%;
+  height: 150rpx;
+  padding: 20rpx 0rpx 0rpx 28rpx;
+
+}
+
+.commodityText text{
+  font-size:30rpx;
+  color:rgba(255,67,67,1);
+}
+
+.commodityPitch{
+  font-size:24rpx;
+  color:rgba(25,25,25,1);
+  width: 86%;
+  padding-top: 20rpx;
+}
+
+.occlude{
+  position: absolute;
+  right: 10rpx;
+  top: -10rpx;
+}
+
+.scrollbar{
+  width: 100%;
+  height: 600rpx;
+  margin-top: 180rpx;
+  display: flex;
+  justify-content: center;
+}
+
+.scrollbarCen{
+  width: 94%;
+  height: 600rpx;
+}
+
+.fication{
+  font-size:30rpx;
+  color:rgba(25,25,25,1);
+}
+
+.ficationReality{
+  width: 100%;
+  border-bottom: 1px solid #EBEBEB;
+}
+
+.ficationSingle{
+  width: 100%;
+  height: 56rpx;
+  background:rgba(245,245,250,1);
+  border-radius:8rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20rpx 0rpx;
+  font-size:24rpx;
+  letter-spacing: 2rpx;
+}
+
+.ficationSingle:last-child{
+  margin-bottom: 40rpx;
+}
+
+/* .stand-alone{
+  color:rgba(252,98,50,1);
+  background:rgba(255,233,226,1);
+  border:1px solid rgba(252,98,50,1);
+} */
+
+.ficationLeft{
+  width: 80%;
+  height: auto;
+  margin-left: 20rpx;
+}
+
+.ficationRight{
+  width: 20%;
+  height: auto;
+  text-align: right;
+  margin-right: 20rpx;
+}
+
+.stepper {
+	width: 100px;
+	height: auto;
+	border: 1px solid #ccc;
+	border-radius: 6rpx;
+  font-size: 30rpx;
+}
+ 
+.stepper text {
+	width: 29px;
+	line-height: 26px;
+	text-align: center;
+	float: left;
+}
+ 
+.stepper input {
+	width: 40px;
+	height: 26px;
+	float: left;
+	margin: 0 auto;
+	text-align: center;
+	font-size: 12px;
+	border-left: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+}
+ 
+.stepper .normal{
+	color: black;
+}
+ 
+.stepper .disabled{
+	color: #ccc;
+}
+
+.quantityIncrease{
+  width: 100%;
+  height: 114rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #EBEBEB;
+  margin-bottom: 100rpx;
+}
+
+.quantNumber{
+  font-size:30rpx;
+}
+
+.crabStore{
+  width: 100%;
+  height: 120rpx;
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  margin-top: 20rpx;
+}
+
+.crabStore-center{
+  width: 92%;
+  height: auto;
+  display: flex;
+  justify-content: space-between;
+}
+
+.crabStore-left{
+  width: 16%;
+  height: auto;
+  display: flex;
+  align-items: center;
+}
+
+.crabStore-right{
+  width: 84%;
+  height: auto;
+  display: flex;
+  justify-content: space-between;
+}
+
+.crabStore-img{
+  width:80rpx;
+  height:80rpx;
+  border-radius:4rpx;
+  border: 1px solid #F5F5FA;
+}
+
+.crabStore-right-little{
+  width: 77%;
+  height: auto;
+}
+
+.crabStore-right-btn{
+  width: 23%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.crabStore-right-btn button{
+  width:120rpx;
+  height:42rpx;
+  background:rgba(252,94,45,1);
+  border-radius:21rpx;
+  color:rgba(255,255,255,1);
+  font-size: 24rpx;
+  line-height: 42rpx;
+}
+
+.crabStoreName{
+  width: 90%;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  font-size:28rpx;
+  margin-top: 24rpx;
+  font-weight: 600;
+}
+
+.crabStoreImg{
+  width: 28rpx;
+  height: 22rpx;
+  vertical-align: middle;
+}
+
+.crabStoreSiteWrap{
+  width: 90%;
+  display: flex;
+  font-size:24rpx;
+  color:#191919;
+  align-items: center;
+  margin-top: 10rpx;
+}
+
+.crabStoreSite{
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.crabStoreSite text{
+  vertical-align: middle;
+  margin-left: 8rpx;
+}

@@ -8,7 +8,21 @@ Page({
     completed: true,
     isfirst: false,
     currentTab: '', // 1待支付 2 已支付 3已核销 10取消, 订单状态 1待支付 2 已支付 3已核销 10取消
-    shoporderlist: []
+    shoporderlist: [],
+    navbar: ['票劵订单', '物流订单'],
+    shopping: 0,
+    commoditys: ['全部订单', '待付款', '待收货','已完成','已取消'],
+    elephant: 0
+  },
+  navbarTap: function (e) { //顶部第一级tab栏
+    this.setData({
+      shopping: e.currentTarget.dataset.idx
+    })
+  },
+  distributionmag: function (e) { //物流订单
+    this.setData({
+      elephant: e.currentTarget.dataset.idx
+    })
   },
   onShow: function () {
     this.getOrderList();
@@ -269,5 +283,15 @@ Page({
       isDue = 1;
     }
     return isDue;
+  },
+
+  // 物流订单-->订单详情
+  clickLogistics:function(){
+    wx.navigateTo({
+      url: 'logisticsDetails/logisticsDetails',
+      success: function(res) {},
+      fail: function(res) {},
+      complete: function(res) {},
+    })
   }
 })

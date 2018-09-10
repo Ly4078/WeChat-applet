@@ -1,25 +1,82 @@
 <import src="order-template-item/order-template-item.wxml" />
-<view>
-  <view class="myorder_tab">
-    <view class="myorder_tab_list {{currentTab=='' ? 'on' : ''}}" data-current="" bindtap="clickTab">全部订单</view>
-    <view class="myorder_tab_list {{currentTab=='1' ? 'on' : ''}}" data-current="1" bindtap="clickTab">待付款</view>
-    <view class="myorder_tab_list {{currentTab=='2' ? 'on' : ''}}" data-current="2" bindtap="clickTab">已完成</view>
-    <view class="myorder_tab_list {{currentTab=='10' ? 'on' : ''}}" data-current="10" bindtap="clickTab">已取消</view>
+
+
+<!--导航条-->
+<view class="navbar">  
+  <text wx:for="{{navbar}}" data-idx="{{index}}" class="item {{shopping==index ? 'active' : ''}}" wx:key="unique" bindtap="navbarTap">{{item}}</text>
+</view>
+
+<!--票劵订单-->
+<view hidden="{{shopping!==0}}">
+  <view>
+    <view class="myorder_tab">
+      <view class="myorder_tab_list {{currentTab=='' ? 'on' : ''}}" data-current="" bindtap="clickTab">全部订单</view>
+      <view class="myorder_tab_list {{currentTab=='1' ? 'on' : ''}}" data-current="1" bindtap="clickTab">待付款</view>
+      <view class="myorder_tab_list {{currentTab=='2' ? 'on' : ''}}" data-current="2" bindtap="clickTab">已完成</view>
+      <view class="myorder_tab_list {{currentTab=='10' ? 'on' : ''}}" data-current="10" bindtap="clickTab">已取消</view>
+    </view>
+  </view>
+  <view class='zhanwei'></view>
+  <view class="myOrderBox">
+    <view>
+      <block wx:for="{{order_list}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
+        <template is="order_template" data="{{item}}"></template>
+      </block>
+    </view>
+    <view>
+      <block wx:for="{{shoporderlist}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
+        <template is="order_template" data="{{item}}"></template>
+      </block>
+    </view>
+  </view>
+  <view wx:if="{{order_list.length < 1 && shoporderlist.length < 1}}" class='placeholder'>
+    <image src="/images/icon/zhanweitu.png"></image>
   </view>
 </view>
-<view class='zhanwei'></view>
-<view class="myOrderBox">
-  <view>
-    <block wx:for="{{order_list}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
-      <template is="order_template" data="{{item}}"></template>
-    </block>
+
+<!--物流订单-->
+<view hidden="{{shopping!==1}}">
+  <!--导航条-->
+  <view class="commoditys">
+    <text wx:for="{{commoditys}}" data-idx="{{index}}" class="item {{elephant==index ? 'active' : ''}}" wx:key="unique" bindtap="distributionmag">{{item}}</text>
   </view>
-  <view>
+ 
+<!--全部订单-->
+  <view hidden="{{elephant!==0}}">
     <block wx:for="{{shoporderlist}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
-      <template is="order_template" data="{{item}}"></template>
+      <template is="order_logistics" data="{{item}}"></template>
     </block>
   </view>
-</view>
-<view wx:if="{{order_list.length < 1 && shoporderlist.length < 1}}" class='placeholder'>
-  <image src="/images/icon/zhanweitu.png"></image>
+ 
+<!--待付款-->
+  <view hidden="{{elephant!==1}}">
+    <block wx:for="{{shoporderlist}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
+      <template is="order_logistics" data="{{item}}"></template>
+    </block>
+  </view>
+ 
+<!--待收货-->
+  <view hidden="{{elephant!==2}}">
+    <block wx:for="{{shoporderlist}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
+      <template is="order_logistics" data="{{item}}"></template>
+    </block>
+  </view>
+
+<!--已完成-->
+  <view hidden="{{elephant!==3}}">
+    <block wx:for="{{shoporderlist}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
+      <template is="order_logistics" data="{{item}}"></template>
+    </block>
+  </view>
+
+<!--已取消-->
+  <view hidden="{{elephant!==4}}">
+    <block wx:for="{{shoporderlist}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
+      <template is="order_logistics" data="{{item}}"></template>
+    </block>
+  </view>
+
+  <view wx:if="{{order_list.length < 1 && shoporderlist.length < 1}}" class='placeholder'>
+    <image src="/images/icon/zhanweitu.png"></image>
+  </view>
 </view>

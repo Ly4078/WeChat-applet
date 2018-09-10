@@ -1,0 +1,35 @@
+
+<view class='pages'>
+  <!-- 头部 -->
+  <view class='head'>
+    <image class='head_img' src='https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1202195685,1220011337&fm=27&gp=0.jpg'></image>
+    <label class='head_name'>已签收</label>
+    <label class='head_title'>圆通速递：8889993221341234</label>
+    <label class='head_tel_name'>官方客服:95338</label>
+    <label class="head_tell">物流客服</label>
+  </view>
+  <!-- 追踪 -->
+  <view class='logisit' wx:for="{{list}}" wx:key="key">
+    <!-- 列表 -->
+    <view class='list'>
+      <!-- 判断列表中id==0并且长度大于1  已完成ICON带线 -->
+      <image class='list_img_tab1' wx:if="{{item.id==0&&list.length>1}}" src='/images/icon/logistics-iconEn.png'></image>
+      <!-- 判断列表中id==0并且长度小于1  已完成ICON无线 -->
+      <image class='list_img' wx:if="{{item.id==0&&list.length==1}}" src='/images/icon/logistics-icon.png'></image>
+      <!-- 判断列表中id==1  灰色ICON -->
+      <image class='list_imgs' wx:if="{{item.id==1}}" src='/images/icon/logistics-icon.png'></image>
+      <!-- 判断列表中id==2  灰色ICON -->
+      <image class='list_imgs' wx:if="{{item.id==2}}" src='/images/icon/logistics-icon.png'></image>
+      <!-- 判断列表中id==3  灰色ICON -->
+      <image class='list_img' wx:if="{{item.id==3}}" src='/images/icon/logistics-icon.png'></image>
+      <view class='list_name_page'>
+        <!-- 列表名称 -->
+        <lable class='list_name'>{{item.name}}</lable>
+      </view>
+      <!-- 时间 -->
+      <view class='list_dates_page'>{{item.dates}}</view>
+    </view>
+    <!-- 列表底线 -->
+    <view class='writes'></view>
+  </view>
+</view>

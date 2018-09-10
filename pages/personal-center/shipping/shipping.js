@@ -15,14 +15,10 @@ Page({
       ]
     }
   },
-  onLoad: function (options) {
-    // 页面初始化 options为页面跳转所带来的参数
-  },
   onReady: function () {
-    this.setData({
-      // 页面渲染完成
-      customerInfo: customerInfo
-    })
+    // this.setData({
+    //   customerInfo: customerInfo
+    // })
   },
   // 新增收货人地址
   download: function () {
@@ -43,10 +39,13 @@ Page({
       complete: function (res) { },
     })
   },
-  // 返回商品详情
+  // 返回提交订单页面
   backtrackwback:function(){
+    let username = this.data.customerInfo.address[0].consignee;
+    let address = this.data.customerInfo.address[0].address;
+    let phone = this.data.customerInfo.address[0].phone;
     wx.navigateTo({
-      url: '../../golSdhopping/commodityDetails/commodityDetails',
+      url: '../../index/crabShopping/crabDetails/submitOrder/submitOrder?username=' + username + '&address=' + address + '&phone=' + phone,
       success: function (res) { },
       fail: function (res) { },
       complete: function (res) { },

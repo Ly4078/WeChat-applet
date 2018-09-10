@@ -1,0 +1,261 @@
+page{
+  background:rgba(245,245,250,1);
+}
+
+.submitTop{
+  width: 100%;
+  height: 126rpx;
+  border-top: 1px solid #E0E0E0;
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+}
+
+.submitCenter{
+  width: 92%;
+  height: 126rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.submitImg{
+  width: 26rpx;
+  height: 30rpx;
+}
+
+.AddTheAddress{
+  width: 40rpx;
+  height: 40rpx;
+  vertical-align: middle;
+  margin-top: 6rpx;
+}
+
+.submitLeft{
+  width: 86%;
+  height: auto;
+}
+
+.submitLeft text{
+  margin-left: 10rpx;
+  font-size: 30rpx;
+  letter-spacing: 2rpx;
+  vertical-align: middle;
+}
+
+.submitRight{
+  width: 22rpx;
+  height: 12rpx;
+  transform:rotate(-90deg);
+  vertical-align: middle;
+}
+
+.compellation{
+  font-size:30rpx;
+  font-family:PingFangSC-Regular;
+  font-weight:600;
+  color:rgba(25,25,25,1);
+}
+
+.compellation text{
+  padding-left: 46rpx;
+}
+
+.compellationText{
+  font-size:24rpx;
+  color:rgba(128,128,128,1);
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  padding-top: 18rpx;
+}
+
+.indentDetails{
+  width: 100%;
+  height: 444rpx;
+  margin-top: 20rpx;
+  display: flex;
+  justify-content: center;
+  background-color: #fff;
+}
+
+.indentDetailsCtn{
+  width: 92%;
+  height: auto;
+}
+
+.indentDetailsTop{
+  width: 100%;
+  height: 176rpx;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #EBEBEB;
+}
+
+.indentDetailsLeft{
+  width: 20%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.indentDetailsRight{
+  width: 80%;
+  height: auto;
+  letter-spacing: 2rpx;
+  margin-left: 26rpx;
+}
+
+.indentDetailsImg{
+  width: 120rpx;
+  height: 120rpx;
+  background:rgba(255,255,255,1);
+  border:1rpx solid rgba(235,235,235,1); 
+  border-radius: 6rpx;
+}
+
+.presentName{
+  width: 90%;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  font-size:28rpx;
+  font-weight: 600rpx;
+  color:rgba(25,25,25,1);
+  padding-top: 24rpx;
+}
+
+.presentNameSize{
+  width: 90%;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  font-size:20rpx;
+  color:rgba(128,128,128,1);
+  padding: 16rpx 0rpx 24rpx 0rpx;
+}
+
+.priceAmount{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.priceAmount text:nth-child(1){
+  font-size:28rpx;
+  color:rgba(255,67,67,1);
+}
+
+.priceAmount text:nth-child(2){
+  font-size:24rpx;
+  color:rgba(25,25,25,1);
+}
+
+.equally{
+  width: 100%;
+  height: 88rpx;
+  border-bottom: 1px solid #EBEBEB;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size:28rpx;
+  color:rgba(128,128,128,1);
+  letter-spacing: 2rpx;
+}
+
+.equally:last-child{
+  border-bottom: 0rpx;
+}
+
+.presentComm{
+  width: 100%;
+  height: 86rpx;
+  display: flex;
+  justify-content: space-between;
+  position: fixed;
+  bottom: 0rpx;
+  left: 0rpx;
+}
+
+.presentCommLeft{
+  width: 464rpx;
+  height: auto;
+  background:rgba(255,255,255,1);
+  display: flex;
+  align-items: center;
+  padding-left: 30rpx;
+}
+
+.presentCommLeft view{
+  font-size:30rpx;
+  color:rgba(25,25,25,1);
+  font-weight: 600;
+}
+
+.presentCommLeft view text{
+  font-size:36rpx;
+  color:rgba(255,67,67,1);
+}
+
+.presentCommRight{
+  width: 286rpx;
+  height: auto;
+  background:rgba(252,98,50,1);
+  font-size:30rpx;
+  color:rgba(255,255,255,1);
+  text-align: center;
+  line-height: 86rpx;
+  letter-spacing: 2rpx;
+}
+
+.agreement{
+  width: 100%;
+  height: 88rpx;
+  margin-top: 20rpx;
+  display: flex;
+  justify-content: center;
+  background-color: #ffffff;
+}
+
+.agreementInner{
+  width: 92%;
+  height: auto;
+  font-size:24rpx;
+  color:rgba(25,25,25,1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.adb{
+  width: 42rpx;
+  height: 42rpx;
+}
+
+.questionTExt{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  letter-spacing: 2rpx;
+}
+
+.questionWrap{
+  width: 60rpx;
+  height: 60rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.question{
+  width: 30rpx;
+  height: 30rpx;
+  background-color: #FC5E2D;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+}

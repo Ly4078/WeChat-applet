@@ -1,6 +1,9 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/index/crabShopping/crabDetails/submitOrder/submitOrder",
+    "pages/index/crabShopping/crabDetails/crabDetails",
+    "pages/index/crabShopping/crabShopping",
     "pages/personal-center/conversionHsy/conversionHsy",
     "pages/personal-center/aboutMe/aboutMe",
     "pages/personal-center/aboutMe/officialWebsite/officialWebsite",
@@ -30,7 +33,6 @@
     "pages/personal-center/lelectronic-coupons/lectronic-coupons",
     "pages/personal-center/my-discount/my-discount",
     "pages/personal-center/my-discount/expired-ticket/expired-ticket",
-    "pages/personal-center/personnel-order/personnel-order",
     "pages/personal-center/registered/registered",
     "pages/discover-plate/discover-plate",
     "pages/index/voucher-details/voucher-details",
@@ -68,7 +70,10 @@
     "pages/personal-center/sharepull-sdb/sharepull-sdb",
     "pages/personal-center/integratorMs/available-m/available-m",
     "pages/index/flashSaleHome/flashSaleHome",
-    "pages/index/flashSaleHome/secKillDetail/secKillDetail"
+    "pages/index/flashSaleHome/secKillDetail/secKillDetail",
+  "pages/personal-center/personnel-order/logisticsDetails/toTheLogistics/toTheLogistics",
+    "pages/personal-center/personnel-order/logisticsDetails/logisticsDetails",
+    "pages/personal-center/personnel-order/personnel-order"
   ],
   "window": {
     "backgroundTextStyle": "dark",

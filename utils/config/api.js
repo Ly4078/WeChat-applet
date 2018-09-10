@@ -7,9 +7,9 @@ const ALL_API = {
     method: 'POST',
     url: 'user/list'
   },
-  addUserUnionId:{ 
-    method:'POST',
-    url:'user/addUserUnionId'
+  addUserUnionId: {
+    method: 'POST',
+    url: 'user/addUserUnionId'
   },
   addUserForVersion: { //新增用户
     method: 'POST',
@@ -304,9 +304,9 @@ const ALL_API = {
     method: 'GET',
     url: 'vote/canVote'
   },
-  searchForShopId:{  //查询商家是否参加某一活动
-    method:'GET',
-    url:'actshop/searchForShopId'
+  searchForShopId: {  //查询商家是否参加某一活动
+    method: 'GET',
+    url: 'actshop/searchForShopId'
   },
   searchForShopIdNew: {  //查询商家是否参加某一活动(后来的)
     method: 'GET',
@@ -321,30 +321,30 @@ const ALL_API = {
     url: 'account/listTrading'
   },
   redpacket: {  //获取可领取的随机红包金额
-    method:'POST',
-    url:'account/redPacket'
+    method: 'POST',
+    url: 'account/redPacket'
   },
-  listShopUser:{  //在商家内获取当前商家票券
-    method:'GET',
-    url:'cp/listShopUser'
+  listShopUser: {  //在商家内获取当前商家票券
+    method: 'GET',
+    url: 'cp/listShopUser'
   },
-  createForShop:{  //商家内购买生成订单
-    method:'POST',
-    url:'so/createForShop'
+  createForShop: {  //商家内购买生成订单
+    method: 'POST',
+    url: 'so/createForShop'
   },
-  doUnifiedOrderForShop:{  //商家订单支付
-    method:'POST',
-    url:'wxpay/doUnifiedOrderForShop'
+  doUnifiedOrderForShop: {  //商家订单支付
+    method: 'POST',
+    url: 'wxpay/doUnifiedOrderForShop'
   },
-  selectForOne:{  //查询商家是否参加商家订单
-    method:'GET',
-    url:'shopAllocation/selectForOne'
+  selectForOne: {  //查询商家是否参加商家订单
+    method: 'GET',
+    url: 'shopAllocation/selectForOne'
   },
-  getByCode:{ //通过shopcode查询商家信息
-    method:'GET',
-    url:'shop/getByCode'
+  getByCode: { //通过shopcode查询商家信息
+    method: 'GET',
+    url: 'shop/getByCode'
   },
-  availableVote:{//可投票数
+  availableVote: {//可投票数
     method: 'GET',
     url: 'act/actVoteNums'
   },
@@ -352,13 +352,13 @@ const ALL_API = {
     method: 'GET',
     url: 'act/CreateCode'
   },
-  pushSoByShop:{//消息推送
-    method:'GET',
-    url:'shop/pushSoByShop'
+  pushSoByShop: {//消息推送
+    method: 'GET',
+    url: 'shop/pushSoByShop'
   },
-  actzanTotal:{
-    method:'GET',
-    url:'act/zanTotal'
+  actzanTotal: {
+    method: 'GET',
+    url: 'act/zanTotal'
   },
   addVideo: {
     method: 'POST',
@@ -408,7 +408,7 @@ const ALL_API = {
     method: 'get',
     url: 'bargain/userRedis'
   },
-  partakerList : {     //砍菜列表
+  partakerList: {     //砍菜列表
     method: 'GET',
     url: 'sku/kjcList'
   },
@@ -428,9 +428,9 @@ const ALL_API = {
     method: 'POST',
     url: 'account/ingold'
   },
-  setPullUser:{  //上传推荐人userId
-    method:'POST',
-    url:'pullUser/update'
+  setPullUser: {  //上传推荐人userId
+    method: 'POST',
+    url: 'pullUser/update'
   },
   isHelpfriend: {    //查询能否帮好友砍价
     method: 'GET',
@@ -475,6 +475,26 @@ const ALL_API = {
   inviteNum: {    //查询邀请人数
     method: 'GET',
     url: 'user/getNewUser'
+  },
+  crabList: {      //享7生鲜--送货到家(螃蟹列表)
+    method: 'GET',
+    url: 'goodsSku/list'
+  },
+  listForSkuAllocation: {      //享7生鲜--品质好店(螃蟹列表)
+    method: 'GET',
+    url: 'shop/listForSkuAllocation'
+  },
+  DetailBySkuId: {      //享7生鲜--商品详情(螃蟹列表)   
+    method: 'GET',
+    url: 'goodsSku/selectDetailBySkuId'
+  },
+  dhcList: {      //享7生鲜--品质好店详情-->列表
+    method: 'GET',
+    url: 'sku/dhcList'
+  },
+  detailsList: {      //享7生鲜--品质好店详情
+    method: 'GET',
+    url: 'sku/getDhc'
   },
   inviteNewUser: {    //邀请新人注册后保存进秒杀信息
     method: 'POST',

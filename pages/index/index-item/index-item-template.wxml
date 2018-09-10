@@ -62,6 +62,21 @@
 </template>
 
 <!-- 享7生鲜 -->
+<template name="toFresh">
+  <view class='wrap_recommend veoRes_recommend' catchtap='toFresh'>
+    <view class='recommend'>
+      <image class='secKill_img' src='{{item.img}}'></image>
+      <view class='recommend_text'>{{item.name}}</view>
+    </view>
+    <view class='djevenMore'>
+      <view class='recommend_right'>查看更多</view>
+      <image class='recommend_more' src='/images/icon/home_arrow.png'></image>
+    </view>
+  </view>
+</template>
+<!-- 享7生鲜 -->
+
+<!-- 限量秒杀 -->
 <template name="secKill">
   <view class='wrap_recommend veoRes_recommend' catchtap='toSeckillList'>
     <view class='recommend'>
@@ -74,7 +89,7 @@
     </view>
   </view>
 </template>
-<!-- 享7生鲜 -->
+<!-- 限量秒杀 -->
 
 <!--热门活动  -->
 <template name="hotActivity">

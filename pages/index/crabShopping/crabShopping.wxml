@@ -1,0 +1,66 @@
+<!--顶部导航条-->
+<view class="navbar">
+  <text wx:for="{{navbar}}" data-idx="{{index}}" class="item {{currentTab==index ? 'active' : ''}}" wx:key="unique" bindtap="navbarTap">{{item}}</text>
+</view>
+
+<!--送货到家-->
+<view hidden="{{currentTab==1}}">
+  <view class='crabWrap'>
+    <view class='crabCenter'>
+      <view class='crabSingle' wx:for="{{listData}}" wx:key="item.id">
+        <view catchtap='crabPrticulars' id='{{item.id}}' data-spuId="{{item.spuId}}">
+          <image class='crabImg' mode='scaleToFill' src='{{item.skuPic}}'></image>
+          <view class='crabWrapText'>
+            <view class='crabName'>
+              <text>{{item.skuName}}</text>
+            </view>
+            <view class='crabProduct'>
+              <text>新品</text>
+            </view>
+            <view class='crabPrice'>
+              <view class='crabPriceleft'>
+                <text>￥{{item.sellPrice}}</text>/盒</view>
+              <view class='crabPriceright'>已售
+                <text>{{item.sellNum}}</text>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+
+  </view>
+</view>
+
+<!--品质好店-->
+<view hidden="{{currentTab==0}}">
+  <image class='storeImg' src='https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1536061402028&di=5bc6d2f5c95b617505a6b811fa1bfe89&imgtype=0&src=http%3A%2F%2Fpic35.photophoto.cn%2F20150420%2F0042040462723252_b.jpg'></image>
+  <view class='storeWrapCrad'>
+    <view class='storStyle'>
+      <view class='storPprofileWrap' wx:for="{{storeData}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}" catchtap='crabBargainirg' id='{{item.id}}' data-id="{{item.skuForTscOuts[0].id}}">
+        <view >
+          <image class='storPprofile' mode='aspectFill' src='{{item.logoUrl}}'></image>
+          <view class='storShade'></view>
+          <view class='bullfrog'>
+            <view class='storShade-left'>
+              <image class='storShade-leftHead' src='{{item.logoUrl}}'></image>
+              <view>
+                <view class='storsNmae'>
+                  <text>{{item.shopName}}</text>
+                </view>
+                <view>
+                  <image class='storLocation' src='/images/icon/bullfrog-imgas.png'></image>
+                  <text class='storLocationText'>{{item.distance}}</text>
+                </view>
+              </view>
+            </view>
+            <view class='storShade-right'>
+              <button>立即预约</button>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

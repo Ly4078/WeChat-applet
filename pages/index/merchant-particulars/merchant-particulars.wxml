@@ -63,6 +63,11 @@
     </view>
   </view>
 
+  <!-- 螃蟹活动 -->
+  <view class='crabSection' catchtap='crabSection'>
+    <image class='crabSection-image' src='https://xqmp4-1256079679.file.myqcloud.com/Colin_crabSection-image.png'></image>
+  </view>
+
   <!-- 活动投票栏 -->
   <view class='merchantVote' wx:if="{{dishLish.length > 0}}">
     <view class='program'>【参与活动】</view>

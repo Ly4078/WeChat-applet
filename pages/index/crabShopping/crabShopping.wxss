@@ -1,0 +1,231 @@
+page{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: #F5F5FA;
+}
+
+.navbar{
+  flex: none;
+  display: flex;
+  background: #fff;
+}
+
+.navbar .item{
+  position: relative;
+  flex: auto;
+  text-align: center;
+  line-height: 80rpx;
+  font-size: 26rpx;
+}
+
+.navbar .item.active{
+  color: #3FAFFD;
+  font-size: 30rpx;
+}
+
+.navbar .item.active:after{
+  content: "";
+  display: block;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 4rpx;
+  background: #3FAFFD;
+  font-size: 28rpx;
+}
+
+.crabWrap{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.crabCenter{
+  width: 92%;
+  display: flex;
+  flex-wrap:wrap;
+}
+
+.crabSingle{
+  width: 336rpx;
+  height: 482rpx;
+  background-color: #fff;
+  border-radius: 16rpx;
+  margin-top: 20rpx;
+}
+
+.crabSingle:nth-child(2n){
+  margin-left: 18rpx;
+}
+
+.crabImg{
+  width: 100%;
+  height: 312rpx;
+  border-top-right-radius: 16rpx;
+  border-top-left-radius: 16rpx;
+}
+
+.crabName{
+  font-size:26rpx;
+  letter-spacing: 2rpx;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+}
+
+.crabWrapText{
+  padding: 0rpx 20rpx 0rpx 20rpx;
+}
+
+.crabProduct{
+  margin: 6rpx 0rpx 20rpx 0rpx;
+}
+
+.crabProduct text{
+  border: 1px solid #FF4343;
+  border-radius:24rpx;
+  font-size:20rpx;
+  padding: 0rpx 14rpx;
+  color: #FF4343;
+}
+
+.crabPrice{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.crabPriceleft{
+  width: 50%;
+  font-size: 30rpx;
+  color: #B1B1B1;
+}
+
+.crabPriceleft text{
+  color: #FF4343;
+}
+
+.crabPriceright{
+  width: 50%;
+  font-size:20rpx;
+  color: #B1B1B1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.storeImg{
+  width: 100%;
+  height: 420rpx;
+}
+
+.storeWrapCrad{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.storStyle{
+  width: 92%;
+}
+
+.storPprofileWrap{
+  width: 100%;
+  height: 134rpx;
+  position: relative;
+  margin-top: 20rpx;
+}
+
+.storPprofileWrap:nth-child(1){
+  margin-top: 10rpx;
+}
+
+.storPprofile{
+  width: 100%;
+  height: 134rpx;
+  border-radius: 16rpx;
+}
+
+.storShade{
+  width: 100%;
+  height: 134rpx;
+  border-radius: 16rpx; 
+  background:rgba(27,27,27,1);
+  opacity:0.66;
+  position: absolute;
+  left: 0rpx;
+  top: 0rpx;
+}
+
+.bullfrog{
+  width: 100%;
+  height: 134rpx;
+  position: absolute;
+  top: 0rpx;
+  left: 0rpx;
+  display: flex;
+  justify-content: space-between;
+  border-radius: 16rpx; 
+}
+
+.storShade-left{
+  width: 76%;
+  height: auto;
+  display: flex;
+  align-items: center;
+}
+
+.storShade-right{
+  width: 24%;
+  height: auto;
+}
+
+.storShade-leftHead{
+  width:88rpx;
+  height:88rpx;
+  border-radius:8rpx;
+  margin: 0rpx 30rpx 0rpx 42rpx;
+}
+
+.storLocation{
+  width: 18rpx;
+  height: 18rpx;
+  vertical-align: middle;
+}
+
+.storsNmae{
+  width: 332rpx;
+  font-size:28rpx;
+  color:rgba(255,255,255,1);
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.storLocationText{
+  font-size: 22rpx;
+  color:rgba(255,255,255,1);
+  padding-left: 4rpx;
+  vertical-align: middle;
+}
+
+.storShade-right{
+  display: flex;
+  align-items: center;
+}
+
+.storShade-right button{
+  width: 120rpx;
+  height: 36rpx;
+  color: #191919;
+  font-size:24rpx;
+  text-align: center;
+  line-height: 36rpx;
+  font-weight: 600;
+  letter-spacing: 2rpx;
+  border-radius: 24rpx;
+  margin: 2rpx 4rpx;
+}

@@ -1,0 +1,67 @@
+<view class='submitWrap'>
+  <view class='submitTop' catchtap='additionSite'>
+    <view class='submitCenter'>
+      <!-- <image class='submitImg' src='/images/icon/location.png'></image> -->
+      <image class='AddTheAddress' src='/images/icon/AddTheAddresss.png'></image>
+      <!-- <view class='submitLeft'>
+        <view class='compellation'>杨锋<text>1582725222</text></view>
+        <view class='compellationText'><text>武汉市洪山区关南社区达拉的看法武汉市洪山区关南社区达拉的看法</text></view>
+      </view> -->
+      <view class='submitLeft'>
+        <text>添加地址</text>
+      </view>
+      <view><image class='submitRight' src='/images/icon/xialatupian.png'></image></view>
+    </view>
+  </view>
+  <!-- 订单详情 -->
+  <view class='indentDetails'>
+    <view class='indentDetailsCtn'>
+      <view class='indentDetailsTop'>
+        <view class='indentDetailsLeft'>
+          <image class='indentDetailsImg' src='https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3300896358,414916369&fm=26&gp=0.jpg'></image>
+        </view>
+        <view class='indentDetailsRight'>
+          <view class='presentName'><text>发的拉了发放了的来访的</text></view>
+          <view class='presentNameSize'><text>已选：礼盒二 公4.3两 母3.2两 4对8只</text></view>
+          <view class='priceAmount'>
+            <text>￥342</text>
+            <text>×1</text>
+          </view>
+        </view>
+      </view>
+      <view class='equally'>
+        <text>配送方式</text>
+        <text>顺丰快递</text>
+      </view>
+      <view class='equally'>
+        <text>邮费</text>
+        <text>到付</text>
+      </view>
+      <view class='equally'>
+        <text>合计:</text>
+        <text>￥2354</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 预售协议 -->
+  <view class='agreement'>
+    <view class='agreementInner'>
+      <view class='questionTExt'>
+        <text>我已同意预售协议</text>
+        <view class='questionWrap'><view class='question'>? </view></view>
+      </view>
+      <label><checkbox value="checkbox2"/></label>
+    </view>
+  </view>
+
+  <!-- 提交订单 -->
+  <view class='presentComm'>
+    <view class='presentCommLeft'>
+      <view>应付：<text>￥232</text></view>
+    </view>
+    <view class='presentCommRight'>
+      <view>提交订单</view>
+    </view>
+  </view>
+</view>
