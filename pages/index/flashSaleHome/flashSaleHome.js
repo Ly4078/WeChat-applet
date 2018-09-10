@@ -62,6 +62,8 @@ Page({
           aNearbyShop = this.data.aNearbyShop;
         for (let i = 0; i < list.length; i++) {
           list[i].distance = utils.transformLength(list[i].distance);
+          list[i].theOthers = list[i].stockNum - list[i].sellNum;
+          list[i].widthRate = list[i].theOthers / list[i].stockNum * 186;
           aNearbyShop.push(list[i]);
         }
         this.setData({

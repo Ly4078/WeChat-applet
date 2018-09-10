@@ -223,7 +223,7 @@ page {
 }
 
 .actualaccurac {
-  width: 126rpx;
+  /* width: 126rpx; */
   height: 22rpx;
   background: rgba(252, 94, 45, 1);
   border-radius: 10rpx;
