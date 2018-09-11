@@ -19,7 +19,7 @@
             </view>
             <view class='crabPrice'>
               <view class='crabPriceleft'>
-                <text>￥{{item.sellPrice}}</text>/盒</view>
+                <text>￥{{item.sellPrice}}</text>/{{item.unit}}</view>
               <view class='crabPriceright'>已售
                 <text>{{item.sellNum}}</text>
               </view>
@@ -35,7 +35,7 @@
 
 <!--品质好店-->
 <view hidden="{{currentTab==0}}">
-  <image class='storeImg' src='https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1536061402028&di=5bc6d2f5c95b617505a6b811fa1bfe89&imgtype=0&src=http%3A%2F%2Fpic35.photophoto.cn%2F20150420%2F0042040462723252_b.jpg'></image>
+  <image class='storeImg' src='https://xqmp4-1256079679.file.myqcloud.com/Colin_reachTheStore.png'></image>
   <view class='storeWrapCrad'>
     <view class='storStyle'>
       <view class='storPprofileWrap' wx:for="{{storeData}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}" catchtap='crabBargainirg' id='{{item.id}}' data-id="{{item.skuForTscOuts[0].id}}">

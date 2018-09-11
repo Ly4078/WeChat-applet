@@ -476,7 +476,7 @@ const ALL_API = {
     method: 'GET',
     url: 'user/getNewUser'
   },
-  crabList: {      //享7生鲜--送货到家(螃蟹列表)
+  crabList: {      //享7生鲜--送货到家(螃蟹规格列表)
     method: 'GET',
     url: 'goodsSku/list'
   },
@@ -492,13 +492,45 @@ const ALL_API = {
     method: 'GET',
     url: 'sku/dhcList'
   },
-  detailsList: {      //享7生鲜--品质好店详情
+  detailsList: {      //享7生鲜--品质好店菜品详情
     method: 'GET',
     url: 'sku/getDhc'
   },
   inviteNewUser: {    //邀请新人注册后保存进秒杀信息
     method: 'POST',
     url: 'user/upPeopleNum'
+  },
+  AddressList: {  //根据userid查询用户收货地址信息
+    method:'GET',
+    url:'orderAddress/getAddressList'
+  },
+  singleAddress: {  //根据id查询单个收货地址信息
+    method: 'GET',
+    url: 'orderAddress/getAddress'
+  },
+  AddAddress:{ //新增用户收货地址
+    method:'POST',
+    url: 'orderAddress/inAddress'
+  },
+  outAddress:{ //删除某条收货地址
+    method:'POST',
+    url:'orderAddress/outAddress'
+  },
+  upAddress:{ //更新某条收货地址
+    method:'POST',
+    url:'orderAddress/upAddress'
+  },
+  findDictCity:{ //查询地市级数据
+    method:'GET',
+    url:'dict/findDictCity'
+  },
+  findDictCounty: { //查询县区级数据
+    method: 'GET',
+    url: 'dict/findDictCounty'
+  },
+  createorder:{  //创建平台订单
+    method:'POST',
+    url:'orderInfo/create'
   }
 }
 const Api = new MyHttp({}, ALL_API);

@@ -34,6 +34,26 @@ page{
   line-height:39rpx;
 }
 
+.itemli{
+  width: 94%;
+  padding-top: 30rpx;
+}
+.litop,.libut{
+  width: 100%;
+  min-height:70rpx;
+  font-size: 30rpx;
+  
+}
+
+
+.compiletext{
+  width: 20%;
+  float: right;
+}
+.compiletext text{
+  vertical-align: middle;
+}
+
 .customerInfo{
   width: 94%;
   height: auto;
@@ -93,9 +113,7 @@ page{
   padding-right: 10rpx;
 }
 
-.compiletext text{
-  vertical-align: middle;
-}
+
 
 .font-color-wrap text{
   color:rgba(25,25,25,1);

@@ -52,11 +52,11 @@ Page({
         skuName: options.skuName,
         skutype: options.skutype,
         dishSkuId: options.dishSkuId,
-        dishSkuName: options.dishSkuName
+        dishSkuName: options.dishSkuName,
       });
+
     }
-    if (options.skutype == 4) {
-      //type==1,grounpid不穿
+    if (options.skutype == 4) {//是否消息穿透type==1,grounpid不穿
       this.setData({
         groupId: options.groupId ? options.groupId : '',
         bargainType: options.bargainType
@@ -86,6 +86,7 @@ Page({
         sostatus: 1
       });
     }
+
   },
 
   getbalance: function() { //查询余额

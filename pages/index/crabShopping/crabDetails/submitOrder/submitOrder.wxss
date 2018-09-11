@@ -168,7 +168,10 @@ page{
 .equally:last-child{
   border-bottom: 0rpx;
 }
-
+.suoming{
+  color: #B1B1B1;
+  font-size: 26rpx;
+}
 .presentComm{
   width: 100%;
   height: 86rpx;
@@ -213,7 +216,7 @@ page{
 .agreement{
   width: 100%;
   height: 88rpx;
-  margin-top: 20rpx;
+  margin-top: 100rpx;
   display: flex;
   justify-content: center;
   background-color: #ffffff;

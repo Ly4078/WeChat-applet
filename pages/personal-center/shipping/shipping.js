@@ -1,29 +1,44 @@
+
+import Api from '../../../utils/config/api.js';
+import { GLOBAL_API_DOMAIN } from '../../../utils/config/config.js';
+var utils = require('../../../utils/util.js');
+var app = getApp();
+
 Page({
   data: {
-    customerInfo: {
-      address: [{
-        addressId: 1,
-        address: '湖北省武汉市硚口区人名西路302号明日财富大厦20层，迪吧拉亚公司研发部',
-        consignee: '轩少',
-        phone: 13985858585
-      }, {
-        addressId: 2,
-        address: '湖北省武汉市硚口区人名西路302号明日财富大厦20层，迪吧拉亚公司研发部',
-        consignee: '袁小娇',
-        phone: 13985858585
-      }
-      ]
-    }
+    _build_url: GLOBAL_API_DOMAIN,
+    address:[]
   },
-  onReady: function () {
-    // this.setData({
-    //   customerInfo: customerInfo
-    // })
+  onLoad:function(){
+    
+  },
+  onShow:function(){
+    this.getAddressList();
+  },
+  //查询已有收货地址
+  getAddressList:function(){
+    console.log('getAddressList');
+    let that = this;
+    let _parms={
+      userId: app.globalData.userInfo.userId
+    }
+    Api.AddressList(_parms).then((res) => {
+      if(res.data.code == 0){
+        let _list=res.data.data.list;
+        for(let i=0;i<_list.length;i++){
+          _list[i].address = _list[i].dictProvince + _list[i].dictCity + _list[i].dictCounty + _list[i].detailAddress;
+        }
+        that.setData({
+          address: _list
+        })
+        console.log('address:', that.data.address)
+      }
+    })
   },
   // 新增收货人地址
-  download: function () {
+  addnewaddress: function () {
     wx.navigateTo({
-      url: 'add-shipping/add-shipping',
+      url: 'add-shipping/add-shipping?isnew=isnew',
       success: function (res) { },
       fail: function (res) { },
       complete: function (res) { },
@@ -31,35 +46,30 @@ Page({
   },
 
   // 已有地址后编辑
-  copyreader:function(){
+  copyreader:function(e){
+    let _id = e.currentTarget.id;
     wx.navigateTo({
-      url: 'add-shipping/add-shipping',
-      success: function (res) { },
-      fail: function (res) { },
-      complete: function (res) { },
+      url:'add-shipping/add-shipping?id='+_id
     })
   },
   // 返回提交订单页面
-  backtrackwback:function(){
-    let username = this.data.customerInfo.address[0].consignee;
-    let address = this.data.customerInfo.address[0].address;
-    let phone = this.data.customerInfo.address[0].phone;
+  handli:function(e){
+    console.log('e.currentTarget.id:', e.currentTarget.id);
+    let _id = e.currentTarget.id, _chatName = '', _area = '', _mobile='',addressId='';
+    for (let i = 0;i< this.data.address.length;i++){
+      if (_id * 1 == this.data.address[i].id*1){
+        _chatName = this.data.address[i].chatName;
+        _area = this.data.address[i].address;
+        _mobile = this.data.address[i].mobile;
+        addressId = this.data.address[i].id;
+      }
+    }
+
     wx.navigateTo({
-      url: '../../index/crabShopping/crabDetails/submitOrder/submitOrder?username=' + username + '&address=' + address + '&phone=' + phone,
+      url: '../../index/crabShopping/crabDetails/submitOrder/submitOrder?username=' + _chatName + '&address=' + _area + '&phone=' + _mobile + '&addressId=' + addressId,
       success: function (res) { },
       fail: function (res) { },
       complete: function (res) { },
     })
-  },
-
-
-  onShow: function () {
-    // 页面显示
-  },
-  onHide: function () {
-    // 页面隐藏
-  },
-  onUnload: function () {
-    // 页面关闭
   }
 })

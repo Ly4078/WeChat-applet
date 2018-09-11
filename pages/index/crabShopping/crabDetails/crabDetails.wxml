@@ -2,27 +2,30 @@
   <swiper class='swiper' indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" indicator-color='#EAEAEA' indicator-active-color='#FC6232'>
     <!-- <block wx:for="{{imgUrls}}" wx:key="{{index}}"> -->
       <swiper-item>
-        <image src="{{detailsData.skuPic}}" class="slide-image" />
+        <image src="{{SelectedList.skuPic?SelectedList.skuPic:SelectedList.picUrl}}" class="slide-image" />
       </swiper-item>
     <!-- </block> -->
   </swiper>
   <!-- 礼盒名称 -->
   <view class='presentation'>
     <view class='presentationacd'>
-      <view class='presentationName'><text>{{detailsData.skuName}}</text><text>新品</text></view>
+      <view class='presentationName'>
+       <text>{{SelectedList.skuName}}</text>
+        <text>新品</text>
+      </view>
       <view class='quantity'>
         <view class='quantityLeft'>
-          <text>￥{{detailsData.sellPrice}}</text>
-          <text>／盒</text>
+          <text>￥{{SelectedList.agioPrice?SelectedList.agioPrice:SelectedList.sellPrice}}</text>
+          <text wx:if="{{SelectedList.unit}}">／{{SelectedList.unit}}(裸蟹价)</text>
         </view>
         <view class='quantityRight'>
           <text>已售</text>
-          <text>{{detailsData.sellNum}}</text>
+          <text>{{SelectedList.sellNum}}</text>
         </view>
       </view>
     </view>
   </view>
-  <view class='alertingText'>
+  <view class='alertingText' wx:if="{{issku}}">
     <view class='alertingText-cen'>
       <text>现在购买，72小时后可到店消费</text>
     </view>
@@ -31,7 +34,7 @@
   <view class='specification' catchtap='showModal'>
     <view class='specification-cet'>
       <view class='specification-left'>
-        <text>选择规格/数量</text>
+        <text>{{SelectedList.skuName}}</text>
       </view>
       <view class='specification-right'>
         <image class='specification-img' src='/images/icon/xialatupian.png'></image>
@@ -39,7 +42,7 @@
     </view>
   </view>
   <!-- 商品规格说明 -->
-  <view class='specification'>
+  <view class='specification'  catchtap='showmodalbz'>
     <view class='specification-cet'>
       <view class='specification-left safeguard'>
         <text><text class='dot'>·</text>正品保障</text>
@@ -54,21 +57,21 @@
   </view>
 
   <!-- 餐厅信息 -->
-  <view class='crabStore'>
+  <view class='crabStore' wx:if="{{shopId}}">
     <view class='crabStore-center'>
       <view class='crabStore-left'>
         <image class='crabStore-img' src='https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2307777211,3898684468&fm=26&gp=0.jpg'></image>
       </view>
       <view class='crabStore-right'>
         <view class='crabStore-right-little'>
-          <view class='crabStoreName'><text>{{diningtData.shopName}}</text></view>
+          <view class='crabStoreName' ><text>{{store_details.shopName}}</text></view>
           <view class='crabStoreSiteWrap'>
            <image class='crabStoreImg' src='/images/icon/expressagegouwuce.png'></image>
-           <view class='crabStoreSite'><text>湖北武汉光谷天地一期3楼</text></view>
+           <view class='crabStoreSite' bindtap='openMap'><text>{{store_details.address}}</text></view>
           </view>
         </view>
         <view class='crabStore-right-btn'>
-          <button>商家主页</button>
+          <button bindtap='handshopHome' id='{{store_details.id}}'>商家主页</button>
         </view>
       </view>
     </view>
@@ -100,7 +103,7 @@
     </label>
   </view>
   <!-- 底部固定立即购买 -->
-  <view class='function'>
+  <view class='pagebuttom' wx:if="{{!isbut}}">
     <view class='returnHome home' catchtap='returnHomeArrive'>
       <image class='houselet' src='/images/icon/houselet.png'></image>
       <text>首页</text>
@@ -110,52 +113,64 @@
       <image class='yellowShare' src='/images/icon/yellowShare.png'></image>
       <text>分享</text>
     </button>
-
-    <!-- <view class='safekeeping'>
-      <view class='pricToBuyEs'>
-        <text class='pricToBuyEs-text'>￥234</text>
-        <view><text>原价购买</text></view>
-      </view>
-      <view class='returnPrice-bar'>
-        <view><text>低价:￥9.3</text></view>
-        <text class='directly'>发起砍价</text>
-      </view>
-    </view> -->
-
-    <view class='returnPrice' catchtap='originalPrice'>
+    <view class='returnPrice' catchtap='originalPrice' wx:if="{{!issku}}">
       <text class='directly'>立即购买</text>
+    </view>
+    <!-- <view wx:if="{{issku}}" class='originals' catchtap='originalPrice'>
+      <view class='oritop'>¥{{SelectedList.sellPrice}}</view>
+      <view class='oribut'>原价购买</view>
+    </view> -->
+    <view wx:if="{{issku}}" class='returnPrice' bindtap='initiateCut'>
+     <view class='directly'>最低¥{{SelectedList.agioPrice}}</view>
+      <view class='directly'>发起砍价</view>
     </view>
   </view>
 
-  <!-- 选择规格/数量弹窗 -->
+
   <!--屏幕背景变暗的背景  -->
   <view class="commodity_screen" catchtouchmove='true' bindtap="hideModal" wx:if="{{showModalStatus}}"></view>
   <!--弹出框  -->
   <view animation="{{animationData}}"  catchtouchmove='true' class="commodity_attr_box" wx:if="{{showModalStatus}}">
-    <view class='commodityTop'>
+   
+    <view class='closebox'>
+     <icon type='cancel' bindtap="hideModal" class='occlude' size='28'></icon>
+    </view>
+        <!-- 选择规格/数量弹窗 -->
+    <view class='commodityTop' wx:if="{{isguige}}">
       <view class='commodityTop-cet'>
-        <image class='commodityImg' src='https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=666433332,3038005955&fm=26&gp=0.jpg'></image>
+        <image class='commodityImg' src='{{SelectedList.skuPic?SelectedList.skuPic:SelectedList.picUrl}}'></image>
         <view class='commodityText'>
-          <text>￥234</text>
-          <view class='commodityPitch'>已选：礼盒二 公4.3两 母3.2两 4对8只</view>
-          <icon type='cancel' bindtap="hideModal" class='occlude' size='28'></icon>
+          <text>￥{{SelectedList.agioPrice?SelectedList.agioPrice:SelectedList.sellPrice}}</text>
+          <view class='commodityPitch'>已选：{{SelectedList.skuName}}</view>
         </view>
       </view>
     </view>
 
-    <view class='scrollbar'>
+    <view class='scrollbar'  wx:if="{{isguige}}">
       <view class='scrollbarCen'>
       <scroll-view scroll-y='true' style='height:100%; overflow:scroll'>
         <view class='fication'><text>规格</text></view>
             <view class='ficationReality'>
         <!-- 下面stand-alone是选中后的状态 -->
-              <view class='ficationSingle stand-alone' wx:for="{{specificationData}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}" catchtap='chooseLike'>
+              <view wx:if="{{specificationData.length>0}}" wx:for="{{specificationData}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}" id='{{item.id}}' class="ficationSingle {{isAct == item.id?'stand-alone':''}}" catchtap='chooseLike'>
                 <view class='ficationLeft'>
                   <text>{{item.skuName}}</text>
                 </view>
-                <view class='ficationRight'><text>￥{{item.sellPrice}}</text></view>
+                <view class='ficationRight'>
+                  <text>￥{{item.sellPrice}}</text>
+                </view>
+              </view>
+
+              <view  wx:if="{{specificationData.length==0}}" class="ficationSingle stand-alone">
+                <view class='ficationLeft'>
+                    <text>{{SelectedList.skuName}}</text>
+                  </view>
+                  <view class='ficationRight'>
+                    <text>￥{{SelectedList.agioPrice}}</text>
+                  </view>
               </view>
             </view>
+            
             <!-- 数量 -->
             <view class='quantityIncrease'>
               <view class='quantNumber'><text>数量</text></view>
@@ -163,7 +178,7 @@
                 <!-- 减号 -->
                 <text class="{{minusStatus}}" bindtap="bindMinus">-</text>
                 <!-- 数值 -->
-                <input type="number" bindchange="bindManual" value="{{num}}" />
+                <input disabled='issku?false:true' type="number" bindchange="bindManual" value="{{num}}" />
                 <!-- 加号 -->
                 <text class="normal" bindtap="bindPlus">+</text>
               </view>
@@ -171,17 +186,15 @@
           </scroll-view>
       </view>
     </view>
-  </view>
 
-  <!-- 产品规格说明正品、邮费、顺丰、时间弹窗 -->
-  <!--屏幕背景变暗的背景  -->
-  <!-- <view class="commodity_screen" catchtouchmove='true' bindtap="hideModal" wx:if="{{showModalStatus}}"></view> -->
-  <!--弹出框  -->
-  <!-- <view animation="{{animationData}}"  catchtouchmove='true' class="commodity_attr_box" wx:if="{{showModalStatus}}">
-    <view class='commodityTop'>
-      <view class='commodityTop-cet'>
-        
+        <!-- 正品保障。。弹窗 -->
+    <view  wx:if="{{!isguige}}">
+      <view class='bzul' wx:for="{{legined}}"  wx:key="{{index}}">
+        <view class='dian'>·</view>
+        <view class='ullip1'>{{item.p1}}</view>
+        <view class='ullip2'>{{item.p2}}</view>
       </view>
     </view>
-  </view> -->
+  </view>
+
 </view>

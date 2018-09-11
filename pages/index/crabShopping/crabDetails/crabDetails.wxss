@@ -203,7 +203,7 @@ page{
 }
 
 /* 底部 */
-.function{
+.pagebuttom{
   width: 100%;
   height: 86rpx;
   display: flex;
@@ -212,7 +212,7 @@ page{
   bottom: 0rpx;
   left: 0rpx;
   right: 0rpx;
-  z-index: 999;
+  z-index: 1001;
   background-color: white;
   letter-spacing: 1rpx;
 }
@@ -258,7 +258,7 @@ page{
 
 .returnPrice{
   width: 478rpx;
-  height: 87rpx;
+  height: 86rpx;
   background-color: #FC6232;
   text-align: center;
   line-height: 30rpx;
@@ -268,7 +268,30 @@ page{
   letter-spacing: 2rpx;
   font-weight: 600;
 }
-
+.originals{
+  width: 199rpx;
+  height: 86rpx;
+  text-align: center;
+  background: #FFB59E;
+  color: #fff;
+  font-size: 24rpx;
+  padding-top: 10rpx;
+}
+.reserve{
+  width: 320rpx;
+  height: 86rpx;
+  text-align: center;
+  background: #FC6232;
+  color: #fff;
+  font-size: 24rpx;
+  padding-top: 10rpx;
+}
+.oritop, .oribut{
+  width: 100%;
+  height: 38rpx;
+  line-height: 38rpx;
+  
+}
 .directly{
   font-size:28rpx;
   font-family:PingFangSC-Regular;
@@ -291,7 +314,7 @@ page{
 }
 
 .commodity_attr_box {
-  height: 800rpx;
+  height: 888rpx;
   width: 100%;
   overflow: hidden;
   position: fixed;
@@ -301,7 +324,7 @@ page{
   background: #fff;
   padding-top: 20rpx;
   border-radius:16rpx 16rpx 0rpx 0rpx; 
-  margin-bottom:88rpx;
+  /* margin-bottom:88rpx; */
 }
 
 .synopsisimgsrc{
@@ -313,9 +336,6 @@ page{
   height: 180rpx;
   display: flex;
   justify-content: center;
-  position: absolute;
-  top: 20rpx;
-  left: 0rpx;
 }
 
 .commodityTop-cet{
@@ -351,16 +371,11 @@ page{
   padding-top: 20rpx;
 }
 
-.occlude{
-  position: absolute;
-  right: 10rpx;
-  top: -10rpx;
-}
 
 .scrollbar{
   width: 100%;
   height: 600rpx;
-  margin-top: 180rpx;
+  margin-top: 10rpx;
   display: flex;
   justify-content: center;
 }
@@ -397,11 +412,11 @@ page{
   margin-bottom: 40rpx;
 }
 
-/* .stand-alone{
+.stand-alone{
   color:rgba(252,98,50,1);
   background:rgba(255,233,226,1);
   border:1px solid rgba(252,98,50,1);
-} */
+}
 
 .ficationLeft{
   width: 80%;
@@ -559,32 +574,38 @@ page{
   vertical-align: middle;
   margin-left: 8rpx;
 }
-
-.returnPrice-bar{
-  width: 320rpx;
-  height: 86rpx;
-  color:rgba(255,255,255,1);
-  background:rgba(252,98,50,1);
-  font-size:24rpx;
-  text-align: center;
-  letter-spacing: 2rpx;
-  padding-top: 10rpx;
+.closebox{
+  width: 100%;
+  height: 30px;
 }
 
-.pricToBuyEs{
-  width: 200rpx;
-  height: 86rpx;
-  text-align: center;
-  background:rgba(255,181,158,1);
-  font-size:24rpx;
-  color:rgba(255,255,255,1);
+.occlude{
+  float: right;
+  margin-right: 20rpx;
 }
-
-.safekeeping{
-  display: flex;
-  justify-content: space-between;
+.bzul{
+  margin-left: 63rpx;
+  width: 624rpx;
 }
-
-.pricToBuyEs{
-  padding-top: 10rpx;
+.dian{
+  color:#ED3B3B;
+  font-size:50rpx;
+  width:5rpx;
+  height:50rpx;
+  line-height:40rpx;
+  text-align:center;
+  float:left;
+  margin-right:21rpx;
+}
+.ullip1{
+  color: #191919;
+  font-size: 30rpx;
+  margin-left: 10rpx;
+}
+.ullip2{
+  color: #808080;
+  font-size: 24rpx;
+  margin-top: 23rpx;
+  margin-bottom: 62rpx;
+  margin-left: 30rpx;
 }

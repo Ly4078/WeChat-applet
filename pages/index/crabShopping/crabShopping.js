@@ -25,6 +25,7 @@ Page({
     navbar: ['送货到家', '品质好店'],
     currentTab: 0,
     page: 1,
+    _page:1,
     articleid:'',
     list:[{
       img:'http://pic36.photophoto.cn/20150824/0042040237789702_b.jpg',
@@ -36,23 +37,32 @@ Page({
         distance: '230',
       }]
   },
-  navbarTap: function (e) {
-    console.log(e.currentTarget.dataset.idx)
-    this.setData({
-      currentTab: e.currentTarget.dataset.idx
-    })
-  },
-  onLoad:function(option){
+  onLoad: function (option) {
     this.setData({
       currentTab: option.currentTab //获取店铺详情页传过来的currentTab值
     })
   },
   onShow: function () {
     this.commodityCrabList();
-    this.listForSkuAllocation();
   },
-
-  commodityCrabList: function () {   //送货到家列表
+  //切换顶部tab
+  navbarTap: function (e) {
+    this.setData({
+      currentTab: e.currentTarget.dataset.idx
+    })
+    if (this.data.currentTab == 0){
+      if (this.data.listData.length == 0){
+        this.commodityCrabList();
+      }
+    } else if (this.data.currentTab == 1){
+      if (this.data.storeData.length == 0){
+        this.listForSkuAllocation();
+      }
+    }
+  },
+  
+  //查询送货到家列表
+  commodityCrabList: function () {   
     let that = this;
     let _parms = {
       spuType:10,
@@ -66,6 +76,61 @@ Page({
         })
       }
     })
+  },
+
+  //查询品质好店列表
+  listForSkuAllocation: function () { 
+    let that = this;
+    if (!app.globalData.userInfo.lat && !app.globalData.userInfo.lng) {
+      this.getlocation();
+    } else {
+      let _parms = {
+        Type: 1,
+        page: this.data._page,
+        rows: 8,
+        locationX: app.globalData.userInfo.lng,
+        locationY: app.globalData.userInfo.lat
+      };
+      Api.listForSkuAllocation(_parms).then((res) => {
+        if (res.data.code == 0) {
+          let _list = res.data.data.list;
+          for (let i = 0; i < _list.length; i++) {
+            _list[i].distance = utils.transformLength(_list[i].distance);
+          }
+          this.setData({
+            storeData: _list,
+          })
+          console.log("storeData:", this.data.storeData)
+        }
+      })
+    }
+  },
+
+  //下拉刷新
+  onPullDownRefresh:function(){
+    this.setData({
+      page: 0,
+      _page:0
+    });
+    if (this.data.currentTab == 0) {
+      this.commodityCrabList();
+    } else if (this.data.currentTab == 1) {
+      this.listForSkuAllocation();
+    }
+  },
+  //用户上拉触底加载更多
+  onReachBottom:function(){
+    if(this.data.currentTab == 0){
+      this.setData({
+        page:this.data.page+1
+      });
+      this.commodityCrabList();
+    }else if(this.data.currentTab == 1){
+      this.setData({
+        _page: this.data._page+1
+      });
+      this.listForSkuAllocation();
+    }
   },
 
   getlocation: function () { //获取用户位置
@@ -111,37 +176,11 @@ Page({
     })
   },
 
-  listForSkuAllocation:function(){ //品质好店列表
-    let that = this;
-    if (!app.globalData.userInfo.lat && !app.globalData.userInfo.lng){
-      this.getlocation();
-    }else{
-      let _parms = {
-        Type: 1,
-        page: this.data.page,
-        rows: 8,
-        locationX: app.globalData.userInfo.lng,
-        locationY: app.globalData.userInfo.lat
-      };
-      Api.listForSkuAllocation(_parms).then((res) => {
-        if (res.data.code == 0) {
-          let _list = res.data.data.list;
-          for(let i=0;i<_list.length;i++){
-              _list[i].distance = utils.transformLength(_list[i].distance);
-          }
-          this.setData({
-            storeData: _list,
-          })
-        }
-      })
-    }
-  },
+ 
 
   // 进入菜品详情
   crabPrticulars:function(e){
-    console.log("daying:",e)
-    let id = e.currentTarget.id;
-    let spuId = e.currentTarget.dataset.spuid;
+    let id = e.currentTarget.id,spuId = e.currentTarget.dataset.spuid;
     wx.navigateTo({
       url: 'crabDetails/crabDetails?id=' + id + '&spuId=' + spuId,
     })
@@ -149,9 +188,7 @@ Page({
 
   //进入品质好店发起砍价
   crabBargainirg:function(e){ 
-    let shopId = e.currentTarget.id;
-    let greensID = e.currentTarget.dataset.id;
-    console.log("greenID:", greensID)
+    let shopId = e.currentTarget.id, greensID = e.currentTarget.dataset.id;
     wx.navigateTo({
       url: 'crabDetails/crabDetails?shopId=' + shopId + '&greensID=' + greensID,
     })

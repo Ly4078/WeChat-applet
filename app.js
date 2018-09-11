@@ -22,6 +22,7 @@ App({
     picker:{},
     isflag:true,
     oldcity:'',
+    OrderObj:{},
     userInfo: {
       id:'',
       openId: '',

@@ -1096,7 +1096,8 @@ Page({
       _page: 1
     })
   },
-  onReachBottom: function () { //用户上拉触底加载更多
+  //用户上拉触底加载更多
+  onReachBottom: function () { 
     this.setData({
       _page: this.data._page + 1
     })

@@ -22,6 +22,11 @@
   font-size: 28rpx;
   padding-top: 30rpx;
 }
+.ship_list .ship_name .groups{
+    line-height: 100rpx;
+    padding-left: 20rpx;
+    font-size: 28rpx;
+}
 .ship_list .ship_area{
   width: 100%;
   height: 100rpx;
