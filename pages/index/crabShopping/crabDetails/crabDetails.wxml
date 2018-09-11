@@ -111,6 +111,17 @@
       <text>分享</text>
     </button>
 
+    <!-- <view class='safekeeping'>
+      <view class='pricToBuyEs'>
+        <text class='pricToBuyEs-text'>￥234</text>
+        <view><text>原价购买</text></view>
+      </view>
+      <view class='returnPrice-bar'>
+        <view><text>低价:￥9.3</text></view>
+        <text class='directly'>发起砍价</text>
+      </view>
+    </view> -->
+
     <view class='returnPrice' catchtap='originalPrice'>
       <text class='directly'>立即购买</text>
     </view>

@@ -258,7 +258,7 @@ page{
 
 .returnPrice{
   width: 478rpx;
-  height: 86rpx;
+  height: 87rpx;
   background-color: #FC6232;
   text-align: center;
   line-height: 30rpx;
@@ -558,4 +558,33 @@ page{
 .crabStoreSite text{
   vertical-align: middle;
   margin-left: 8rpx;
+}
+
+.returnPrice-bar{
+  width: 320rpx;
+  height: 86rpx;
+  color:rgba(255,255,255,1);
+  background:rgba(252,98,50,1);
+  font-size:24rpx;
+  text-align: center;
+  letter-spacing: 2rpx;
+  padding-top: 10rpx;
+}
+
+.pricToBuyEs{
+  width: 200rpx;
+  height: 86rpx;
+  text-align: center;
+  background:rgba(255,181,158,1);
+  font-size:24rpx;
+  color:rgba(255,255,255,1);
+}
+
+.safekeeping{
+  display: flex;
+  justify-content: space-between;
+}
+
+.pricToBuyEs{
+  padding-top: 10rpx;
 }
