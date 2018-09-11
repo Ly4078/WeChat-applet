@@ -23,8 +23,10 @@ Page({
     newList: [], //邀请新人列表
     timer: null, //倒计时
     countDown: '',
-    isEnd: true,   //是否结束
-    isCreated: true   //是否创建菜品
+    isEnd: true, //是否结束
+    isCreated: true, //是否创建菜品
+    btnTxt: '发起邀请', //按钮文字
+    peoPleNum: 0 //邀请人数
   },
   onLoad: function(options) {
     let _this = this;
@@ -43,6 +45,8 @@ Page({
       timer: null
     });
     this.shopDetail();
+    console.log('48行：==========' + app.globalData.userInfo.userId);
+    console.log('49行：==========' + app.globalData.userInfo.mobile);
     if (app.globalData.userInfo.userId) {
       if (!app.globalData.userInfo.mobile) { //是新用户，去注册页面
         wx.navigateTo({
@@ -50,33 +54,10 @@ Page({
         })
       } else {
         this.getDish(); //查询菜详情
-        let _parms = {
-          skuId: this.data.id,
-          parentId: app.globalData.userInfo.userId
-        };
-        //判断之前是否创建过，并查看邀请了多少人注册
-        Api.inviteNum(_parms).then((res) => {
-          if (res.data.code == 0) {
-            let isCreated = false;
-            if (res.data.data.length > 0 && res.data.data[0]) {
-              isCreated = true;
-              let data = res.data.data, newList = data[0].newUser ? data[0].newUser : [];
-              if (newList.length > 2) {
-                newList = newList.slice(0,2);
-              }
-              this.getUserIcon(newList);
-              this.setData({
-                peoPleNum: data[0].peoPleNum ? data[0].peoPleNum : 0
-              });
-              this.countDownFunc(data[0].endTime);
-            }
-            this.setData({
-              isCreated: isCreated
-            });
-          }
-        })
+        this.isCreateFunc();
       }
     } else {
+      console.log('测试进入85行==========');
       this.findByCode();
     }
   },
@@ -103,14 +84,44 @@ Page({
     };
     Api.secKillDetail(_parms).then((res) => {
       if (res.data.code == 0 && res.data.data) {
-        let data = res.data.data;
+        let data = res.data.data, skuInfo = data.skuInfo;
+        skuInfo = skuInfo ? '1个小时内完成邀请并成功购买，逾期失效Œ' + skuInfo : '1个小时内完成邀请并成功购买，逾期失效'
         this.setData({
           picUrl: data.picUrl,
           skuName: data.skuName,
           stockNum: data.stockNum,
           agioPrice: data.agioPrice,
           sellPrice: data.sellPrice,
-          sellNum: data.sellNum
+          sellNum: data.sellNum,
+          skuInfo: skuInfo.split('Œ')
+        });
+      }
+    })
+  },
+  isCreateFunc() { //判断之前是否创建过，并查看邀请了多少人注册
+    let _parms = {
+      skuId: this.data.id,
+      parentId: app.globalData.userInfo.userId
+    };
+    Api.inviteNum(_parms).then((res) => {
+      if (res.data.code == 0) {
+        let isCreated = false;
+        if (res.data.data.length > 0 && res.data.data[0]) {
+          isCreated = true;
+          let data = res.data.data,
+            newList = data[0].newUser ? data[0].newUser : [];
+          if (newList.length > 2) {
+            newList = newList.slice(0, 2);
+          }
+          this.getUserIcon(newList);
+          this.setData({
+            peoPleNum: data[0].peoPleNum ? data[0].peoPleNum : 0,
+            btnTxt: '邀请好友'
+          });
+          this.countDownFunc(data[0].endTime);
+        }
+        this.setData({
+          isCreated: isCreated
         });
       }
     })
@@ -145,13 +156,15 @@ Page({
       if (res.data.code == 0 && res.data.data) {
         wx.showToast({
           title: '发起成功，快去邀请好友参与秒杀吧',
-          icon: 'none'
+          icon: 'none',
+          duration: 3000
         })
         this.setData({
-          isCreated: true
+          isCreated: true,
+          btnTxt: '邀请好友'
         });
         this.countDownFunc(res.data.data.endTime);
-        this.onShareAppMessage();
+        // this.onShareAppMessage();
       }
     })
   },
@@ -168,7 +181,6 @@ Page({
         _this = this;
       this.setData({
         timer: setInterval(function() {
-          console.log('倒计时');
           if (minus == 0) {
             _this.setData({
               countDown: '',
@@ -194,15 +206,16 @@ Page({
       });
     }
   },
-  getUserIcon(obj) {    //获取用户头像
-    let userArr = obj, _this = this;
+  getUserIcon(obj) { //获取用户头像
+    let userArr = obj,
+      _this = this;
     for (let i = 0; i < userArr.length; i++) {
       wx.request({ //从自己的服务器获取用户信息
         url: _this.data._build_url + 'user/get/' + userArr[i].id,
         header: {
           'content-type': 'application/json' // 默认值
         },
-        success: function (res) {
+        success: function(res) {
           if (res.data.code == 0) {
             userArr[i].iconUrl = res.data.data.iconUrl;
             _this.setData({
@@ -214,6 +227,7 @@ Page({
     }
   },
   toBuy() { //买菜
+    let _this = this;
     if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
@@ -225,11 +239,21 @@ Page({
       wx.navigateTo({
         url: '../../order-for-goods/order-for-goods?shopId=' + this.data.shopId + '&skuName=' + sellPrice + '元抢购券&sell=' + sellPrice + '&skutype=8&dishSkuId=' + this.data.id + '&dishSkuName=' + this.data.skuName
       })
-    } else {
-      wx.showToast({
-        title: '未满足条件',
-        icon: 'none'
+    } else if (!this.data.isCreated) {
+      wx.showModal({
+        title: '是否发起邀请',
+        complete(res) {
+          if (res.confirm) {
+            _this.createSecKill();
+          }
+        }
       })
+    } else if (this.data.isCreated && this.data.peoPleNum < 2) {
+      wx.showToast({
+        title: '邀请2个新用户注册1分钱享美食,快去邀请吧',
+        icon: 'none',
+        duration: 3000
+      });
     }
   },
   //跳转至商家主页
@@ -238,22 +262,6 @@ Page({
       url: '../../merchant-particulars/merchant-particulars?shopid=' + this.data.shopId
     })
   },
-  //查询邀请人数
-  // getInviteNum() {
-  //   let _parms = {
-  //     skuId: this.data.id,
-  //     parentId: app.globalData.userInfo.userId
-  //   };
-  //   Api.inviteNum(_parms).then((res) => {
-  //     console.log(res);
-  //     if (res.data.code == 0 && res.data.data) {
-  //       let data = res.data.data;
-  //       this.setData({
-
-  //       });
-  //     }
-  //   })
-  // },
   findByCode: function() { //通过code查询进入的用户信息，判断是否是新用户
     let that = this;
     wx.login({
@@ -264,10 +272,12 @@ Page({
           if (res.data.code == 0) {
             let data = res.data.data;
             app.globalData.userInfo.userId = data.id;
+            console.log('270行:===============' + data.id);
             for (let key in data) {
               for (let ind in app.globalData.userInfo) {
                 if (key == ind) {
                   app.globalData.userInfo[ind] = data[key]
+                  console.log('275行:===============' + ind + '==value==' + app.globalData.userInfo[ind]);
                 }
               }
             }
@@ -275,6 +285,10 @@ Page({
               wx.navigateTo({
                 url: '../../../../pages/personal-center/securities-sdb/securities-sdb?parentId=' + this.data.initiator + '&skuId=' + this.data.id + '&shopId=' + this.data.shopId
               })
+            }
+            if (app.globalData.userInfo.userId) {
+              this.getDish(); //查询菜详情
+              this.isCreateFunc();
             }
           } else {
             that.findByCode();
@@ -311,7 +325,7 @@ Page({
 
       },
       fail: function(res) {
-        
+
       }
     }
   }

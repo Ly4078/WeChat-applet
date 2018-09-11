@@ -54,7 +54,7 @@
           <image src="/images/icon/invite.png"></image>
         </view>
         <view class="inviteFriend_r">
-          <button plain="true" data-name="shareBtn" open-type="share" bindtap='inviteOthers'>发起邀请</button>
+          <button plain="true" data-name="shareBtn" open-type="share" bindtap='inviteOthers'>{{btnTxt}}</button>
         </view>
       </view>
       <!-- 菜品详情 -->
@@ -63,7 +63,7 @@
         <text>详情</text>
       </view>
       <view class="skuInfo">
-        <view>1个小时内完成邀请并成功购买，逾期失效</view>
+        <view wx:for="{{skuInfo}}" wx:key="index" wx:for-index="{{index}}">*{{item}}</view>
       </view>
       <!-- 标题 -->
       <view class='specialWrap'>

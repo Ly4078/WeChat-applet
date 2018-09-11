@@ -24,11 +24,16 @@
 }
 
 .shopsTopLeft{
+  display: inline-block;
+  width: 480rpx;
   font-size:30rpx;
   font-family:PingFangSC-Medium;
   color:rgba(25,25,25,1);
   letter-spacing: 2rpx;
   font-weight: 600;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
 }
 
 .information-inner view{

@@ -38,6 +38,7 @@ page {
   width: 472rpx;
   height: auto;
   padding-left: 26rpx;
+  box-sizing: border-box;
   background-color: #fff;
   border-top-right-radius: 16rpx;
   border-bottom-right-radius: 16rpx;
@@ -54,14 +55,17 @@ page {
 
 .flashSaleRig-row {
   padding-top: 14rpx;
-  width: 90%;
 }
 
 .diningName {
-  width: 96%;
   font-size: 36rpx;
   font-weight: 500;
   color: rgba(252, 94, 45, 1);
+}
+
+.diningName text {
+  display: block;
+  width: 380rpx;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

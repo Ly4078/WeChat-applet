@@ -24,7 +24,7 @@
           </view>
           <view class='accuracyQay'>
             <text class='accuracyQay-text'>剩余<text>{{item.theOthers}}</text>份</text>
-            <view class='actualaccurac' style=""></view>
+            <view class='actualaccurac' style="width: {{item.widthRate + 'rpx'}};"></view>
           </view>
         </view>
         <view class='oncePurchase'>

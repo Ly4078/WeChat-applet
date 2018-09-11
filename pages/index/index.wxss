@@ -1117,3 +1117,11 @@ page {
 .crabModels-img:nth-child(2){
   border-bottom-right-radius: 16rpx;
 }
+
+.secKillSkuName {
+  display: block;
+  width: 210rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
