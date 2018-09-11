@@ -314,6 +314,7 @@ Page({
       this.createSecKill();
     }
   },
+ 
   //分享给好友
   onShareAppMessage: function() {
     let initiator = this.data.initiator ? this.data.initiator : app.globalData.userInfo.userId;

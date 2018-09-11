@@ -37,7 +37,8 @@ Page({
   },
   // 新增收货人地址
   addnewaddress: function () {
-    wx.navigateTo({
+   
+    wx.redirectTo({
       url: 'add-shipping/add-shipping?isnew=isnew',
       success: function (res) { },
       fail: function (res) { },
@@ -48,7 +49,8 @@ Page({
   // 已有地址后编辑
   copyreader:function(e){
     let _id = e.currentTarget.id;
-    wx.navigateTo({
+    // navigateTo
+    wx.redirectTo({
       url:'add-shipping/add-shipping?id='+_id
     })
   },

@@ -230,7 +230,7 @@ page{
   border: none;
 }
 .returnHome[plain] {
-  border: 0;
+  border: none;
 }
 
 .returnHome text{

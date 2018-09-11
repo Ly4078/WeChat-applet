@@ -37,9 +37,7 @@ Page({
         area: options.address,
         mobile: options.phone,
       })
-    } else {
-      this.getAddressList();
-    }
+    } 
     let _bzf = 0;
    
     if(options.issku){
@@ -79,6 +77,11 @@ Page({
       spuId: options.spuId
     })
 
+  },
+  onShow:function(){
+    if (!this.data.chatName){
+      this.getAddressList();
+    }
   },
   //查询已有收货地址
   getAddressList:function(){

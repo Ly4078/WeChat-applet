@@ -10,7 +10,9 @@ page{
   display: flex;
   justify-content: center;
 }
-
+.defaultadd{
+  color:  #FF7038;
+}
 .download{
   background-color: #FF7038;
   font-size: 32rpx;

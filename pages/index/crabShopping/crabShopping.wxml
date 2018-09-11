@@ -7,7 +7,7 @@
 <view hidden="{{currentTab==1}}">
   <view class='crabWrap'>
     <view class='crabCenter'>
-      <view class='crabSingle' wx:for="{{listData}}" wx:key="item.id">
+      <view class='crabSingle' wx:if="{{listData.length>0}}" wx:for="{{listData}}" wx:key="item.id">
         <view catchtap='crabPrticulars' id='{{item.id}}' data-spuId="{{item.spuId}}">
           <image class='crabImg' mode='scaleToFill' src='{{item.skuPic}}'></image>
           <view class='crabWrapText'>
@@ -27,8 +27,12 @@
           </view>
         </view>
       </view>
-    </view>
 
+      <view class='placeholder' wx:if="{{listData.length<1}}">
+        <image src="/images/icon/zhanweitu.png"></image>
+      </view>
+
+    </view>
 
   </view>
 </view>
@@ -38,7 +42,7 @@
   <image class='storeImg' src='https://xqmp4-1256079679.file.myqcloud.com/Colin_reachTheStore.png'></image>
   <view class='storeWrapCrad'>
     <view class='storStyle'>
-      <view class='storPprofileWrap' wx:for="{{storeData}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}" catchtap='crabBargainirg' id='{{item.id}}' data-id="{{item.skuForTscOuts[0].id}}">
+      <view class='storPprofileWrap' wx:if="{{storeData.length>0}}" wx:for="{{storeData}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}" catchtap='crabBargainirg' id='{{item.id}}' data-id="{{item.skuForTscOuts[0].id}}">
         <view >
           <image class='storPprofile' mode='aspectFill' src='{{item.logoUrl}}'></image>
           <view class='storShade'></view>
@@ -60,6 +64,10 @@
             </view>
           </view>
         </view>
+      </view>
+
+      <view class='placeholder' wx:if="{{storeData.length<1}}">
+        <image src="/images/icon/zhanweitu.png"></image>
       </view>
     </view>
   </view>

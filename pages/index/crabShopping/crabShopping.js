@@ -62,7 +62,7 @@ Page({
   },
   
   //查询送货到家列表
-  commodityCrabList: function () {   
+  commodityCrabList: function () {
     let that = this;
     let _parms = {
       spuType:10,

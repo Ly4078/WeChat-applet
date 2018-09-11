@@ -330,7 +330,22 @@ Page({
     });
   },
 
+  //分享给好友
+  onShareAppMessage: function () {
+    let userInfo = app.globalData.userInfo;
+    console.log(' this.SelectedList:', this.data.SelectedList)
+    return {
+      title: this.data.SelectedList.skuName,
+      path: '/pages/index/crabShopping/crabDetails/crabDetails?shopId=' + this.data.SelectedList.shopId + '&id=' + this.data.SelectedList.id,
+      success: function (res) {
 
+      },
+      fail: function (res) {
+        // 分享失败
+
+      }
+    }
+  },
 
   /* 点击减号地增减数量 */
   bindMinus: function() {
