@@ -1,144 +1,90 @@
 page{
-  background-color: #ffffff;
+  background-color: #fff;
 }
 
-.head{
-  position: relative;
+.heads{
+  width: 690px;
+  padding: 20rpx 28rpx 20rpx 32rpx;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: #fff;
+}
+.headImg{
+  width: 80rpx;
+  height: 80rpx;
+  float: left;
+  margin-right: 23rpx;
+}
+.headImg image{
   width: 100%;
-  height: 230rpx;
-  border-bottom: 6rpx solid #ebebeb;
-  background-color: #ffffff;
+  height: 100%;
 }
-
-.head_img{
-  position: absolute;
-  width: 144rpx;
-  height: 144rpx;
-  left: 60rpx;
-  top: 45rpx;
-  border-radius: 8rpx;
+.headRight{
+  width: 595rpx;
+  height: 100%;
+  float: left;
+  position: relative;
 }
-
-.head_name{
-  position: absolute;
-  left: 230rpx;
-  font-size: 30rpx;
-  top: 36rpx;
+.headRtop, .headRbot{
+  width: 100%;
+  height: 40rpx;
+  line-height: 40rpx;
+  color: #B1B1B1;
+  font-size: 22rpx;
 }
-
-.head_title{
-position: absolute;
-font-size: 30rpx;
-left: 230rpx;
-top: 100rpx;
-color: #333;
+.newdate{
+  color: #555555;
 }
-
-.head_tel_name{
-  position: absolute;
-font-size: 30rpx;
-left: 230rpx;
-top: 150rpx;
-color: #333;
+.copys{
+  color: #FC5E2D;
+  float: right;
+  position: relative;
+  right: 0;
 }
-
-.head_tell{
-  position: absolute;
-  font-size: 28rpx;
-  right: 60rpx;
-  bottom: 40rpx;
-  font-family: PingFangSC-Regular;
-color: #AAAAAA;
-letter-spacing: 0;
+.jiange{
+  width: 100%;
+  height: 20rpx;
+  background:  #EBEBEB;
+  margin-top: 120rpx;
 }
-
 .logisit{
-  position:relative;
-  width: 100%;
-  height: 170rpx;
-  text-align: center;
-  background-color: #ffffff;
-}
-
-.list{
+  width: 690rpx;
+  padding: 20rpx 28rpx 20rpx 32rpx; 
+  
+  background: #fff;
   position: relative;
-  display: inline-block;
-  width: 85%;
-  height: 170rpx;
-  border-left: 1rpx solid #ddd;
 }
-
-.list_name_page{
+.lists{
+  width: 690rpx;
+  min-height: 122rpx;
+  border-left: 2rpx solid #EBEBEB;
+}
+.list_img_tab1, .list_img{
   position: relative;
-  width: 100%;
-  top:25%;
-  left: 40rpx;
-}
-
-.list_dates_page{
-    position: relative;
-  width: 100%;
-  top: 30%;
-  color: #aaa;
-  text-align: left;
-  font-size: 30rpx;
-  left: 40rpx;
-}
-
-.list_img_tab1{
-    display: inline-flex;
-  position: absolute;
-  left: -23rpx;
-  top: 40rpx;
-  width: 45rpx;
-  height: 45rpx;
-}
-
-.list_img{
-  position: absolute;
   left: -20rpx;
   top: 50rpx;
   width: 40rpx;
   height: 40rpx;
 }
-
-.list_imgs{
-   display: inline-flex;
-  position: absolute;
-  left: -20rpx;
-  top: 40rpx;
-  width: 40rpx;
-  height: 40rpx;
+.list_img{
+  width: 30rpx;
+  height: 30rpx;
+  left: -15rpx;
+}
+.list_name_page{
+  font-size: 26rpx;
+  color: #B1B1B1;
+  margin-left: 30rpx;
+}
+.act_name{
+   color: #191919;
+}
+.list_dates_page{
+  font-size: 22rpx;
+  color: #B1B1B1;
+  margin-top: 20rpx;
+  margin-left: 30rpx;
 }
 
-.list_name{
-  position: relative;
-  text-align: left;
-  font-size: 30rpx;
-  width: 600rpx;
-  display: -webkit-box;    
-  -webkit-box-orient: vertical;    
-  -webkit-line-clamp: 2;    
-  overflow: hidden;
-}
 
-.list_dates{
-  position: absolute;
-  text-align: left;
-  top:68%;
-  font-size: 30rpx;
-}
-/* .write{
-  position: absolute;
-  height: 78%;
-  top:38%;
-  border-left: 1rpx solid #ddd;
- left: 45rpx;
-} */
-.writes{
-  position: absolute;
-  width: 80%;
-  bottom: -20rpx;
-  border-bottom: 1rpx solid #ddd;
-  left:100rpx;
-}

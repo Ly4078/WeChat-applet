@@ -372,7 +372,7 @@ Page({
     let _parms = {
       id: app.globalData.userInfo.userId,
       openId: app.globalData.userInfo.openId
-      }, that = this;
+    }, that = this;
     Api.updateuser(_parms).then((res) => {
       that.payment(val)
     })

@@ -89,16 +89,22 @@ page {
 
 /* 物流订单 */
 .commoditys{
-  flex: none;
-  display: flex;
+  width: 100%;
+  position: fixed;
+  top: 80rpx;
   background: #fff;
-  padding-top: 90rpx;
   font-size:24rpx;
   color:rgba(128,128,128,1);
   border-bottom: 1px solid #E0E0E0;
 }
+.ditybj{
+  width: 100%;
+  height: 160rpx;
+}
 .commoditys .item{
   position: relative;
+  width: 20%;
+  float: left;
   flex: auto;
   text-align: center;
   line-height: 80rpx;

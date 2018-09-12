@@ -2,21 +2,30 @@
   <!-- 订单信息 -->
   <view class='logisticsTop'>
     <image class='logisticsTopImg' src='/images/icon/logisticsTopImg.png'></image>
-    <!-- <view class='logisticsTopText'>
-      <text>订单已完成</text>
-    </view> -->
-    <!-- 24小时倒计时 -->
+
+
     <view class='logisticsTopShould'>
-      <view class='logisticsTopfront'><text>订单已完成</text></view>
-      <view class='logisticsTopCount'><text>24小时52分后取消订单，请及时付款</text></view>
+      <view class='logisticsTopfront'>
+        <text>订单{{soDetail.status2}}</text>
+      </view>
+      <view class='logisticsTopCount' wx:if="{{soDetail.status ==1}}">
+        <text>{{soDetail.Countdown}}后取消订单，请及时付款</text>
+      </view>
+      <view class='logisticsTopCount' wx:if="{{soDetail.status ==2}}">
+        <text>您订购的商品已经发货，正在运送途中</text>
+      </view>
     </view>
   </view>
   <!-- 物流信息 -->
   <view class='expressage' catchtap='examineLogistics'>
     <image class='expressageImg' src='/images/icon/expressagecheche.png'></image>
     <view class='expressageText'>
-      <view class='expressageSite'><text>快递离开上海正在发往十堰</text></view>
-      <view class='expressageTime'><text>2018-09-09 20:04</text></view>
+      <view class='expressageSite'>
+        <text>快递离开上海正在发往十堰</text>
+      </view>
+      <view class='expressageTime'>
+        <text>2018-09-09 20:04</text>
+      </view>
     </view>
     <image class='expressageImgRight' src='/images/icon/home_arrow.png'></image>
   </view>
@@ -24,47 +33,56 @@
   <view class='expressage'>
     <image class='siteImg' src='/images/icon/expressagegouwuce.png'></image>
     <view class='yourself'>
-      <view class='expressageSiteName'>杨锋<text>1582342423</text></view>
-      <view class='expressageMsg'><text>湖北省 武汉市 洪山区 关南园路交通路交叉口关南园路交通路交叉口</text></view>
+      <view class='expressageSiteName'>{{soDetail.orderAddressOut.chatName}}
+        <text>{{soDetail.orderAddressOut.mobile}}</text>
+      </view>
+      <view class='expressageMsg'>
+        <text>{{soDetail.address}}</text>
+      </view>
     </view>
   </view>
   <!-- 商品信息 -->
   <view class='handise'>
     <view class='handiseTop'>
       <view class='handiseTop-left'>
-        <image class='handiseTop-img' src='https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1202195685,1220011337&fm=27&gp=0.jpg'></image>
+        <image class='handiseTop-img' src='{{soDetail.orderItemOuts[0].goodsSkuPic}}'></image>
       </view>
       <view class='handiseTop-right'>
-        <view class='handiseTop-rightText'><text>阳澄湖大闸蟹礼盒装</text></view>
-        <view class='handiseTop-rightCation'><text>礼盒二 公4.3两 母3.2两 4对8只</text></view>
+        <view class='handiseTop-rightText'>
+          <text>阳澄湖大闸蟹礼盒装</text>
+        </view>
+        <view class='handiseTop-rightCation'>
+          <text>{{soDetail.orderItemOuts[0].goodsSkuName}}</text>
+        </view>
         <view class='handiseTop-rightBtn'>
-          <text>￥234</text>
-          <text>×1</text>
+          <text>￥{{soDetail.orderItemOuts[0].goodsPrice}}</text>
+          <text>×{{soDetail.orderItemOuts[0].goodsNum}}</text>
         </view>
       </view>
     </view>
-    <view class='endAmount'> 
+    <view class='endAmount'>
       <view class='endAmountNei'>
         <text>总金额</text>
-        <text>￥234.00</text>
+        <text>￥{{soDetail.skuAmount}}</text>
       </view>
     </view>
-    <view class='endAmount'> 
+    <view class='endAmount'>
       <view class='endAmountNei'>
         <text>运费</text>
-        <text>￥65.00</text>
+        <text>到付</text>
       </view>
     </view>
-    <view class='practicalPay'> 
+    <view class='practicalPay'>
       <view class='practicalPayAmount'>
-        <text>实付款：</text><text>￥65.00</text>
+        <text>实付款：</text>
+        <text>￥{{soDetail.skuAmount}}</text>
       </view>
     </view>
   </view>
   <!-- 支付订单信息 -->
   <view class='paymentMagic'>
     <view class='paymentHead'>
-      <view class='paymentHead-center'> 
+      <view class='paymentHead-center'>
         <text>订单详情</text>
       </view>
     </view>
@@ -72,9 +90,9 @@
       <view class='payment-copy'>
         <view class='payment-copyText'>
           <text>订单编号</text>
-          <text>212131231</text>
+          <text>{{soDetail.orderCode}}</text>
         </view>
-        <view class='payment-copyRight'>
+        <view class='payment-copyRight' bindtap='copyCode'>
           <button>复制</button>
         </view>
       </view>
@@ -84,11 +102,11 @@
       </view>
       <view class='inconformity'>
         <text>下单时间</text>
-        <text>2018-09-09 20:30:23</text>
+        <text>{{soDetail.createTime}}</text>
       </view>
       <view class='inconformity'>
         <text>快递方式</text>
-        <text>顺风快递</text>
+        <text>顺风速运</text>
       </view>
     </view>
   </view>

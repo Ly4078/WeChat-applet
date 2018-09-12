@@ -26,7 +26,8 @@ Page({
     isbox:0,
     id:'',
     shopId:'',
-    spuId:''
+    spuId:'',
+    orderId:''
   },
   onLoad: function (options) {
     console.log('options:', options)
@@ -188,7 +189,11 @@ Page({
         success: function (res) {
           if (res.data.code == 0) {
             if (res.data.data) {
+              that.setData({
+                orderId:res.data.data
+              })
               console.log('订单生成成功，订单号；', res.data.data)
+             that.updataUser();
             }
           }
         }
@@ -199,5 +204,69 @@ Page({
         icon:'none'
       })
     }
+  },
+  //更新用户信息
+  updataUser:function(){
+    let that = this;
+    wx.login({
+      success: res => {
+        if (res.code) {
+          let _parms = {
+            code: res.code
+          }
+          Api.getOpenId(_parms).then((res) => {
+            console.log('openres:',res)
+            if(res.data.code == 0){
+              app.globalData.userInfo.openId = res.data.data.openId;
+              app.globalData.userInfo.sessionKey = res.data.data.sessionKey;
+              let _obj = {
+                id: app.globalData.userInfo.userId,
+                openId: app.globalData.userInfo.openId
+              };
+              Api.updateuser(_obj).then((res) => {
+                if (res.data.code == 0) {
+                  that.wxpayment()
+                }
+              })
+            }
+          })
+        }
+      }
+    })
+  },
+  //调起微信支付
+  wxpayment:function(){
+    
+    let _parms = {
+      orderId: this.data.orderId,
+      openId: app.globalData.userInfo.openId
+    }
+    console.log('_parms:', _parms)
+    
+
+    Api.shoppingMall(_parms).then((res)=>{
+      if(res.data.code == 0){
+        console.log('res:',res)
+        if (res.data.code == 0) {
+          wx.requestPayment({
+            'timeStamp': res.data.data.timeStamp,
+            'nonceStr': res.data.data.nonceStr,
+            'package': res.data.data.package,
+            'signType': 'MD5',
+            'paySign': res.data.data.paySign,
+            success: function (res) {
+              console.log('支付成功')
+            },
+            fail: function (res) {
+              wx.showToast({
+                icon: 'none',
+                title: '支付取消',
+                duration: 1200
+              })
+            }
+          })
+        }
+      }
+    })
   }
 })

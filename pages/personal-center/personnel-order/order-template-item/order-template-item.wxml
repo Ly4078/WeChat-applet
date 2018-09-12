@@ -43,26 +43,25 @@
 
 <!-- 物流订单 -->
 <template name="order_logistics">
-  <view class='logistics' catchtap='clickLogistics'>
+  <view class='logistics' catchtap='clickLogistics' id='{{item.id}}'>
    <view class='logistics-top'>
     <view class='logistics-Left'>
-      <text>2018.01.14</text>
-      <text>12:23</text>
+      <text>{{item.createTime}}</text>
     </view>
-    <view class='logistics-right'><text>已完成</text></view>
+    <view class='logistics-right'><text>{{item.status2}}</text></view>
    </view>
    <view class='logistics-center'>
     <view class='logistics-center-left'>
-      <image class='logistics-center-img' src='https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1536212504597&di=a5b0c9c7d1e30887a4017723804c75bf&imgtype=0&src=http%3A%2F%2Fimgsrc.baidu.com%2Fimgad%2Fpic%2Fitem%2F3ac79f3df8dcd1000f8dce0f798b4710b9122f8e.jpg'></image>
+      <image class='logistics-center-img' src='{{item.orderItemOuts[0].goodsSkuPic}}'></image>
     </view>
     <view class='logistics-center-right'>
-      <view class='logistics-ctn-name'><text>样噔湖大闸蟹礼盒装</text></view>
-      <view class='logistics-ctn-spn'><text>礼盒二 公 4.3两 母3.2两 4对8只</text></view>
+      <view class='logistics-ctn-name'><text>阳澄湖大闸蟹礼盒装</text></view>
+      <view class='logistics-ctn-spn'><text>{{item.orderItemOuts[0].goodsSkuName}}</text></view>
     </view>
    </view>
    <view class='logistics-button'>
-      <view class='logistics-nab'>共<text>1</text>件，实付款</view>
-      <view class='logistics-sum'><text>￥324</text></view>
+      <view class='logistics-nab'>共<text>{{item.orderItemOuts[0].goodsNum}}</text>件，实付款</view>
+      <view class='logistics-sum'><text>￥{{item.skuAmount}}</text></view>
    </view>
   </view>
 </template>

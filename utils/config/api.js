@@ -531,6 +531,18 @@ const ALL_API = {
   createorder:{  //创建平台订单
     method:'POST',
     url:'orderInfo/create'
+  },
+  shoppingMall:{//送货到家微信支付
+    method:'POST',
+    url:'wxpay/doUnifiedOrderForShoppingMall'
+  },
+  orderInfoList:{  //查询送货到家订单列表
+    method:'GET',
+    url:'orderInfo/list'
+  },
+  orderInfoDetail: {//查询送货到家单个订单详情
+    method:'GET',
+    url:'orderInfo/getDetail'
   }
 }
 const Api = new MyHttp({}, ALL_API);

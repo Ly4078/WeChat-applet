@@ -26,16 +26,7 @@ Page({
     currentTab: 0,
     page: 1,
     _page:1,
-    articleid:'',
-    list:[{
-      img:'http://pic36.photophoto.cn/20150824/0042040237789702_b.jpg',
-      name:'三十三简堂',
-      distance:'230',
-    }, {
-        img: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1536061402384&di=71e2b64bff905846f2d4261757894d3e&imgtype=0&src=http%3A%2F%2Fpic7.photophoto.cn%2F20080517%2F0042040259640925_b.jpg',
-        name: '猪婆包猪婆猪婆包猪婆猪婆包猪婆猪婆包猪婆',
-        distance: '230',
-      }]
+    articleid:''
   },
   onLoad: function (option) {
     this.setData({
@@ -67,12 +58,22 @@ Page({
     let _parms = {
       spuType:10,
       page: this.data.page,
-      rows: 8
+      rows: 10
     };
+    if(this.data.page == 1){
+      this.setData({
+        listData: [],
+      })
+    }
     Api.crabList(_parms).then((res) => {
+      let _listData = this.data.listData;
       if(res.data.code == 0){
+        let _list = res.data.data.list;
+        for(let i =0;i<_list.length;i++){
+          _listData.push(_list[i])
+        }
         this.setData({
-          listData:res.data.data.list,
+          listData: _listData,
         })
       }
     })
@@ -87,18 +88,24 @@ Page({
       let _parms = {
         Type: 1,
         page: this.data._page,
-        rows: 8,
+        rows: 10,
         locationX: app.globalData.userInfo.lng,
         locationY: app.globalData.userInfo.lat
       };
+      if (this.data._page == 1){
+        this.setData({
+          storeData:[]
+        })
+      };
       Api.listForSkuAllocation(_parms).then((res) => {
         if (res.data.code == 0) {
-          let _list = res.data.data.list;
+          let _list = res.data.data.list, _storeData = this.data.storeData;
           for (let i = 0; i < _list.length; i++) {
             _list[i].distance = utils.transformLength(_list[i].distance);
-          }
+            _storeData.push(_list[i]);
+          };
           this.setData({
-            storeData: _list,
+            storeData: _storeData,
           })
           console.log("storeData:", this.data.storeData)
         }

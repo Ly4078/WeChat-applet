@@ -45,6 +45,7 @@ Page({
       isdown: false
     })
   },
+  //复制链接
   copy: function () {
     wx.setClipboardData({
       data: this.data._value,

@@ -4,25 +4,57 @@ Page({
   data: {
     order_list: [],
     page: 1,
+    orpage:1,
     reFresh: true,
     completed: true,
     isfirst: false,
     currentTab: '', // 1待支付 2 已支付 3已核销 10取消, 订单状态 1待支付 2 已支付 3已核销 10取消
     shoporderlist: [],
+    logisticsList:[],//物流订单列表
     navbar: ['票劵订单', '物流订单'],
     shopping: 0,
-    commoditys: ['全部订单', '待付款', '待收货','已完成','已取消'],
+    commoditys:[
+      {
+        title:'全部订单',
+        id:''
+      },
+      {
+        title: '待付款',
+        id: '1'
+      }, {
+        title: '待收货',
+        id: '2'
+      }, {
+        title: '已完成',
+        id: '3'
+      }, {
+        title: '已取消',
+        id: '10'
+      },
+    ],
+    logId:'',
     elephant: 0
   },
   navbarTap: function (e) { //顶部第一级tab栏
+    console.log(e.currentTarget.dataset.idx)
     this.setData({
       shopping: e.currentTarget.dataset.idx
     })
+    if(this.data.shopping == 0){
+      this.getOrderList();
+      this.getshopOrderList();
+    }else if(this.data.shopping == 1){
+      this.getlogisticsList();
+    }
   },
-  distributionmag: function (e) { //物流订单
+  distributionmag: function (e) { //物流订单tab
+    let id = e.currentTarget.id;
     this.setData({
-      elephant: e.currentTarget.dataset.idx
+      elephant: e.currentTarget.dataset.idx,
+      orpage:1,
+      logId:id
     })
+    this.getlogisticsList(id);
   },
   onShow: function () {
     this.getOrderList();
@@ -38,6 +70,7 @@ Page({
       currentTab: ''
     })
   },
+  //切换票券订单tab
   clickTab: function (event) {
     this.setData({
       order_list: [],
@@ -51,6 +84,48 @@ Page({
     if (this.data.currentTab == 2 || this.data.currentTab == '') {
       this.getshopOrderList();
     }
+  },
+  // 查询物流订单列表
+  getlogisticsList:function(val){
+    console.log(app.globalData.userInfo)
+    let _parms = {
+      userId: app.globalData.userInfo.userId,
+      row:10,
+      page:this.data.orpage
+    };
+    if (val) {
+      _parms.status= val
+    }
+    if(this.data.orpage == 1){
+      this.setData({
+        logisticsList:[]
+      })
+    }
+    Api.orderInfoList(_parms).then((res)=>{
+      if(res.data.code == 0 ){
+        // 1待付款  2待收货  3已完成 10取消，
+        let _list = res.data.data.list, logistics = this.data.logisticsList;
+        if (_list && _list.length>0){
+          for (let i = 0; i < _list.length; i++) {
+            if (_list[i].status = 1) {
+              _list[i].status2 = '待付款';
+            } else if (_list[i].status = 2) {
+              _list[i].status2 = '待收货';
+            } else if (_list[i].status = 3) {
+              _list[i].status2 = '已完成';
+            } else if (_list[i].status = 10) {
+              _list[i].status2 = '已取消';
+            }
+            logistics.push(_list[i]);
+          }
+          this.setData({
+            logisticsList: logistics
+          });
+        }
+        
+        console.log('logisticsList:', this.data.logisticsList)
+      }
+    })
   },
   getOrderList: function () { //获取平台订单列表
     let that = this;
@@ -241,36 +316,48 @@ Page({
   },
   //用户上拉触底
   onReachBottom: function () {
-    if (this.data.currentTab != 2 && this.data.reFresh) {
-      wx.showLoading({
-        title: '加载中..'
-      })
-      this.setData({
-        page: this.data.page + 1
-      });
-      this.getOrderList();
-      this.getshopOrderList();
-    }
-    if (this.data.currentTab == 2 && (this.data.reFresh || this.data.completed)) {
-      wx.showLoading({
-        title: '加载中..'
-      })
-      this.setData({
-        page: this.data.page + 1
-      });
-      this.getOrderList();
-      this.getshopOrderList();
+    this.setData({
+      page: this.data.page + 1,
+      orpage:this.data.orpage +1
+    });
+    if(this.data.shopping == 0){
+      if (this.data.currentTab != 2 && this.data.reFresh) {
+        wx.showLoading({
+          title: '加载中..'
+        })
+
+        this.getOrderList();
+        this.getshopOrderList();
+      }
+      if (this.data.currentTab == 2 && (this.data.reFresh || this.data.completed)) {
+        wx.showLoading({
+          title: '加载中..'
+        })
+
+        this.getOrderList();
+        this.getshopOrderList();
+      }
+    }else if(this.data.shopping == 1){
+      this.getlogisticsList(this.data.logId);
     }
   },
   //用户下拉刷新
   onPullDownRefresh: function () {
-    this.setData({
-      order_list: [],
-      page: 1,
-      reFresh: true,
-    });
-    this.getOrderList();
-    this.getshopOrderList();
+    if (this.data.shopping == 0) {
+      this.setData({
+        order_list: [],
+        page: 1,
+        reFresh: true,
+      });
+      this.getOrderList();
+      this.getshopOrderList();
+    } else if (this.data.shopping == 1) {
+      this.setData({
+        logisticsList: [],
+        orpage: 1,
+      });
+      this.getlogisticsList(this.data.logId);
+    }
   },
   //对比时间是否过期
   isDueFunc: function (createTime) {
@@ -286,9 +373,11 @@ Page({
   },
 
   // 物流订单-->订单详情
-  clickLogistics:function(){
+  clickLogistics:function(e){
+    let id = e.currentTarget.id;
+    console.log('id:',id)
     wx.navigateTo({
-      url: 'logisticsDetails/logisticsDetails',
+      url: 'logisticsDetails/logisticsDetails?soId='+id,
       success: function(res) {},
       fail: function(res) {},
       complete: function(res) {},

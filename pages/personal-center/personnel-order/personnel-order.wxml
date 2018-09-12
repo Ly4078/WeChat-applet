@@ -7,7 +7,7 @@
 </view>
 
 <!--票劵订单-->
-<view hidden="{{shopping!==0}}">
+<view hidden="{{shopping==1}}">
   <view>
     <view class="myorder_tab">
       <view class="myorder_tab_list {{currentTab=='' ? 'on' : ''}}" data-current="" bindtap="clickTab">全部订单</view>
@@ -35,48 +35,21 @@
 </view>
 
 <!--物流订单-->
-<view hidden="{{shopping!==1}}">
+<view hidden="{{shopping==0}}">
   <!--导航条-->
   <view class="commoditys">
-    <text wx:for="{{commoditys}}" data-idx="{{index}}" class="item {{elephant==index ? 'active' : ''}}" wx:key="unique" bindtap="distributionmag">{{item}}</text>
+    <view wx:for="{{commoditys}}" data-idx="{{index}}" id='{{item.id}}' class="item {{elephant==index ? 'active' : ''}}" wx:key="unique" bindtap="distributionmag">{{item.title}}</view>
   </view>
- 
+ <view class='ditybj'></view>
 <!--全部订单-->
-  <view hidden="{{elephant!==0}}">
-    <block wx:for="{{shoporderlist}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
+  <view>
+    <block wx:for="{{logisticsList}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
       <template is="order_logistics" data="{{item}}"></template>
     </block>
   </view>
  
-<!--待付款-->
-  <view hidden="{{elephant!==1}}">
-    <block wx:for="{{shoporderlist}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
-      <template is="order_logistics" data="{{item}}"></template>
-    </block>
-  </view>
- 
-<!--待收货-->
-  <view hidden="{{elephant!==2}}">
-    <block wx:for="{{shoporderlist}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
-      <template is="order_logistics" data="{{item}}"></template>
-    </block>
-  </view>
 
-<!--已完成-->
-  <view hidden="{{elephant!==3}}">
-    <block wx:for="{{shoporderlist}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
-      <template is="order_logistics" data="{{item}}"></template>
-    </block>
-  </view>
-
-<!--已取消-->
-  <view hidden="{{elephant!==4}}">
-    <block wx:for="{{shoporderlist}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
-      <template is="order_logistics" data="{{item}}"></template>
-    </block>
-  </view>
-
-  <view wx:if="{{order_list.length < 1 && shoporderlist.length < 1}}" class='placeholder'>
+  <view wx:if="{{order_list.length < 1 || shoporderlist.length < 1}}" class='placeholder'>
     <image src="/images/icon/zhanweitu.png"></image>
   </view>
 </view>
