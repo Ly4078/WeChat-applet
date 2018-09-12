@@ -113,6 +113,7 @@
   <!-- 底部联系客服再次/购买 -->
   <view class='secondOrderLeader'>
     <button open-type='contact'>联系客服</button>
-    <button>再次购买</button>
+    <button bindtap='buyagain'>再次购买</button>
+   
   </view>
 </view>

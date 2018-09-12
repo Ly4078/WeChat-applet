@@ -41,6 +41,7 @@ Page({
       }
     })
   },
+  //换算截至时间
   reciprocal: function(createTime) {
     let _createTime = '',
       oneDay = 60 * 60 * 1000 * 24,
@@ -57,6 +58,12 @@ Page({
     h = Math.floor(diff / 1000 / 60 / 60 % 24); //时
     m = Math.floor(diff / 1000 / 60 % 60); //分
     return h + '小时' + m + '分';
+  },
+  //点击再次购买按钮
+  buyagain:function(){
+    wx.navigateTo({
+      url: '../../../index/crabShopping/crabDetails/crabDetails',
+    })
   },
   //复制订单编号
   copyCode: function() {
