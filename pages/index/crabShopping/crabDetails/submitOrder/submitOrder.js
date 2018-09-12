@@ -33,7 +33,6 @@ Page({
     orderId:''
   },
   onLoad: function (options) {
-
     if (options.username) {
       this.setData({
         chatName: options.username,

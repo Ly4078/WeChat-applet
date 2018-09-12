@@ -8,10 +8,10 @@
       <view class='logisticsTopfront'>
         <text>订单{{soDetail.status2}}</text>
       </view>
-      <view class='logisticsTopCount' wx:if="{{soDetail.status ==1}}">
+      <view class='logisticsTopCount' wx:if="{{soDetail.status == 1}}">
         <text>{{soDetail.Countdown}}后取消订单，请及时付款</text>
       </view>
-      <view class='logisticsTopCount' wx:if="{{soDetail.status ==2}}">
+      <view class='logisticsTopCount' wx:if="{{soDetail.status == 2}}">
         <text>您订购的商品已经发货，正在运送途中</text>
       </view>
     </view>
@@ -113,7 +113,7 @@
   <!-- 底部联系客服再次/购买 -->
   <view class='secondOrderLeader'>
     <button open-type='contact'>联系客服</button>
-    <button bindtap='buyagain'>再次购买</button>
-   
+    <button bindtap='buyagain' wx:if="{{soDetail.status != 1}}">再次购买</button>
+    <button bindtap='carryPay' wx:if="{{soDetail.status == 1}}">继续支付</button>
   </view>
 </view>
