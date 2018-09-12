@@ -18,13 +18,13 @@
     <view class='indentDetailsCtn'>
       <view class='indentDetailsTop'>
         <view class='indentDetailsLeft'>
-          <image class='indentDetailsImg' src='{{skuPic}}'></image>
+          <image class='indentDetailsImg' src='{{current.skuPic}}'></image>
         </view>
         <view class='indentDetailsRight'>
-          <view class='presentName'><text>{{spuName}}</text></view>
-          <view class='presentNameSize'><text>已选：{{skuName}}</text></view>
+          <view class='presentName'><text>{{current.skuName}}</text></view>
+          <view class='presentNameSize'><text>已选：{{current.skuName}}</text></view>
           <view class='priceAmount'>
-            <text>￥{{sellPrice}}</text>
+            <text>￥{{current.sellPrice}}</text>
             <text>×{{num}}</text>
           </view>
         </view>
@@ -39,11 +39,11 @@
       </view>
       <view class='equally' bindtap='handbzf'>
         <text>包装费<text class='suoming'>（冰袋、保温内胆、加厚泡沫箱）？</text></text>
-        <text>￥{{bzf}}</text>
+        <text>￥{{current.bzf}}</text>
       </view>
       <view class='equally'>
         <text>合计:</text>
-        <text>￥{{total}}</text>
+        <text>￥{{current.total}}</text>
       </view>
     </view>
   </view>
@@ -66,7 +66,7 @@
   <!-- 提交订单 -->
   <view class='presentComm'>
     <view class='presentCommLeft'>
-      <view>应付：<text>￥{{total}}</text></view>
+      <view>应付：<text>￥{{current.total}}</text></view>
     </view>
     <view class='presentCommRight' bindtap='submitSoid'>
       <view>提交订单</view>

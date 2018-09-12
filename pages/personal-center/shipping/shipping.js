@@ -17,7 +17,6 @@ Page({
   },
   //查询已有收货地址
   getAddressList:function(){
-    console.log('getAddressList');
     let that = this;
     let _parms={
       userId: app.globalData.userInfo.userId
@@ -31,7 +30,6 @@ Page({
         that.setData({
           address: _list
         })
-        console.log('address:', that.data.address)
       }
     })
   },
@@ -56,7 +54,6 @@ Page({
   },
   // 返回提交订单页面
   handli:function(e){
-    console.log('e.currentTarget.id:', e.currentTarget.id);
     let _id = e.currentTarget.id, _chatName = '', _area = '', _mobile='',addressId='';
     for (let i = 0;i< this.data.address.length;i++){
       if (_id * 1 == this.data.address[i].id*1){
@@ -66,8 +63,9 @@ Page({
         addressId = this.data.address[i].id;
       }
     }
+ 
 
-    wx.navigateTo({
+    wx.redirectTo({
       url: '../../index/crabShopping/crabDetails/submitOrder/submitOrder?username=' + _chatName + '&address=' + _area + '&phone=' + _mobile + '&addressId=' + addressId,
       success: function (res) { },
       fail: function (res) { },

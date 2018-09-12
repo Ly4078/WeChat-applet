@@ -1,12 +1,15 @@
 
 var app = getApp();
 import Api from '../../../../../utils/config/api.js';
+import utils from '../../../../../utils/util.js';
 import {
   GLOBAL_API_DOMAIN
 } from '../../../../../utils/config/config.js';
+var rules= [];
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
+    current:{},
     username:'',
     phone:'',
     address:'',
@@ -30,58 +33,82 @@ Page({
     orderId:''
   },
   onLoad: function (options) {
-    console.log('options:', options)
 
     if (options.username) {
       this.setData({
         chatName: options.username,
         area: options.address,
         mobile: options.phone,
+        addressId: options.addressId ? options.addressId : '',
       })
-    } 
-    let _bzf = 0;
-   
-    if(options.issku){
+    }
+    if (options.id) {
       app.globalData.OrderObj = options;
     }else{
       options = app.globalData.OrderObj;
     }
-    if(options.num){
-      if(options.isbox==1){ //按盒算
-        _bzf = options.num*5;
-      }else{  //按斤算
-        _bzf = Math.floor(options.num / 8.5) * 15 + 15;
-      }
-     
-    }
-    let _total = options.sellPrice * 1 * options.num + _bzf;
-    _total = _total.toFixed(2);
-    if(options.issku == 1){
-      this.setData({
-        isagree:true
-      })
-    };
-    
     this.setData({
-      issku: options.issku,
+      id: options.id,
       num: options.num,
-      sellPrice: options.sellPrice,
-      skuName: options.skuName,
-      spuName: options.spuName,
-      skuPic: options.skuPic,
-      total: _total,
-      bzf: _bzf,
-      isbox: options.isbox,
-      id:options.id,
+      issku: options.issku,
+      id: options.id,
       shopId: options.shopId,
-      addressId: options.addressId,
       spuId: options.spuId
     })
-
   },
   onShow:function(){
     if (!this.data.chatName){
       this.getAddressList();
+    }
+    this.getDetailBySkuId();
+  },
+  //查询当前商品详情
+  getDetailBySkuId: function (val) {
+    let that = this, man = 0, _bzf = 0, _ceil = 0;
+    Api.DetailBySkuId({ id: this.data.id }).then((res) => {
+      if (res.data.code == 0) {
+        let _obj = res.data.data, _bzf = 0, _total=0;
+        if (_obj.unit) {
+          rules = _obj.goodsPromotionRules;
+          rules.sort(that.compareUp("ruleType"));
+          for (let i = 0; i < rules.length;i++ ){
+            if (rules[i].ruleType ==2){
+              if (this.data.num > rules[i].manNum){
+                man = Math.floor(this.data.num/rules[i].manNum);
+              }
+            }
+            if (rules[i].ruleType == 3) {
+              _ceil = Math.ceil(this.data.num/rules[i].manNum);
+              _bzf += _ceil * rules[i].giftNum;
+              _bzf += man * rules[i].giftNum;
+              _obj.bzf = _bzf;
+            }
+          }
+          _total = this.data.num * _obj.sellPrice + _obj.bzf;
+          _obj.total = _total;
+        }
+        this.setData({
+          current: _obj
+        })
+        console.log('current:', this.data.current)
+      }
+    })
+  },
+  // 升序排序
+  compareUp:function(propertyName) {
+    if ((typeof rules[0][propertyName]) != "number") { // 属性值为非数字
+      return function (object1, object2) {
+        var value1 = object1[propertyName];
+        var value2 = object2[propertyName];
+        return value1.localeCompare(value2);
+      }
+    }
+    else {
+      return function (object1, object2) { // 属性值为数字
+        var value1 = object1[propertyName];
+        var value2 = object2[propertyName];
+        return value1 - value2;
+      }
     }
   },
   //查询已有收货地址
@@ -92,27 +119,24 @@ Page({
     }
     Api.AddressList(_parms).then((res) => {
       if(res.data.code == 0){
-        let _list=res.data.data.list;
+        let _list=res.data.data.list,actList={};
 
         for(let i=0;i<_list.length;i++){
           _list[i].address = _list[i].dictProvince + _list[i].dictCity + _list[i].dictCounty + _list[i].detailAddress;
         }
-        // that.setData({
-        //   address: _list
-        // })
-        console.log('list:',_list)
+     
         this.setData({
-          chatName: _list[0].chatName,
-          area: _list[0].address,
-          mobile: _list[0].mobile,
-          addressId:_list[0].id
+          chatName:  _list[0].chatName,
+          area:  _list[0].address,
+          mobile:  _list[0].mobile,
+          addressId: _list[0].id
         })
       }
     })
   },
   // 选择收货地址
   additionSite:function(){
-    wx.navigateTo({
+    wx.redirectTo({
       url: '../../../../personal-center/shipping/shipping',
       success: function(res) {},
       fail: function(res) {},
@@ -134,11 +158,10 @@ Page({
   //点击包装费疑问
   handbzf:function(){
     let str ='';
-    if (this.data.isbox == 1){
-      str = '每盒收取5元包装费';
-    }else{
-      str = '每8斤包装费15元;不满8斤按照8斤收取15元包装费。';
+    for (let i = 0; i < rules.length;i++){
+      str += rules[i].ruleDesc+' ';
     }
+    
     wx.showModal({
       title: '',
       content: str ,
@@ -236,37 +259,39 @@ Page({
   },
   //调起微信支付
   wxpayment:function(){
-    
-    let _parms = {
+    let  _parms = {
       orderId: this.data.orderId,
       openId: app.globalData.userInfo.openId
-    }
-    console.log('_parms:', _parms)
-    
-
+    },that = this;
     Api.shoppingMall(_parms).then((res)=>{
-      if(res.data.code == 0){
-        console.log('res:',res)
-        if (res.data.code == 0) {
-          wx.requestPayment({
-            'timeStamp': res.data.data.timeStamp,
-            'nonceStr': res.data.data.nonceStr,
-            'package': res.data.data.package,
-            'signType': 'MD5',
-            'paySign': res.data.data.paySign,
-            success: function (res) {
-              console.log('支付成功')
-            },
-            fail: function (res) {
-              wx.showToast({
-                icon: 'none',
-                title: '支付取消',
-                duration: 1200
-              })
-            }
-          })
-        }
+      if (res.data.code == 0) {
+        wx.requestPayment({
+          'timeStamp': res.data.data.timeStamp,
+          'nonceStr': res.data.data.nonceStr,
+          'package': res.data.data.package,
+          'signType': 'MD5',
+          'paySign': res.data.data.paySign,
+          success: function (res) {
+            wx.redirectTo({
+              url: '../../../../personal-center/personnel-order/logisticsDetails/logisticsDetails?soId=' + that.data.orderId,
+            })
+          },
+          fail: function (res) {
+            wx.showToast({
+              icon: 'none',
+              title: '支付取消',
+              duration: 1200
+            })
+          }
+        })
       }
     })
   }
 })
+
+
+
+
+
+
+

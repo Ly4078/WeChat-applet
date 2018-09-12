@@ -80,7 +80,6 @@ Page({
     let that = this;
     Api.singleAddress({ Id: this.data.addId}).then((res)=>{
       if(res.data.code == 0){
-        console.log('get_res:',res)
         let _data = res.data.data,_arr =[];
         _arr.push(_data.dictProvinceId);
         _arr.push(_data.dictCityId);

@@ -18,6 +18,7 @@ Page({
     isguige:true,//是否点击规格详情
     isisbut:false,  //是否显示底按钮
     issku:false,//是否是送货到家的菜
+    isspecifi:false,
     inputVal: "",
     num: 1, //数量默认是1
     id: '', //商品id
@@ -95,7 +96,6 @@ Page({
         issku: false
       })
     }
-    console.log("issku:", this.data.issku)
     if (options.shopId) {
       _shopId = options.shopId;
     }
@@ -112,8 +112,11 @@ Page({
   onShow: function() {
     if (this.data.issku){
       this.bargainDetails();
-    }else{
+    }
+    if(this.data.spuId){
       this.geSkutlist();
+    }else{
+      this.getDetailBySkuId();
     }
     if(this.data.shopId){
       this.getShopInfo();
@@ -121,7 +124,7 @@ Page({
   },
 
   bargainDetails:function(){   //品质好店-->店铺详情--列表
-    let that = this;
+    let that = this, _array=[];
     let _parms = {
       shopId: this.data.shopId,
       zanUserId: app.globalData.userInfo.userId,
@@ -142,7 +145,6 @@ Page({
           }
         }
         
-        
         this.setData({
           SelectedList: _obj
         })
@@ -150,7 +152,10 @@ Page({
       console.log('SelectedList:', this.data.SelectedList)
     })
   },
+  //查询商品朝夕相处列表 即同一商品不同规格列表
   geSkutlist:function(){
+    if (this.data.isspecifi){return }
+    let that = this, _array=[];
     let _parms = {
       spuType: 10,
       page: this.data.page,
@@ -161,25 +166,56 @@ Page({
       if (res.data.code == 0) {
         let _list = res.data.data.list;
         let _obj = _list[0];
-        if (_obj.unit) {
-          let str = _obj.unit;
-          if (str.indexOf("盒") != -1) {
-            _obj.isbox = 1;
-          } else {
-            _obj.isbox = 0;
+        for(let i =0;i<_list.length;i++){
+          if(that.data.id == _list[i].id){
+              that.getDetailBySkuId();
           }
         }
         this.setData({
           specificationData: _list,
-          SelectedList: _obj,
-          isAct: _obj.id
+          isspecifi:true
         })
       }
     });
   },
+  //查询单个详情
+  getDetailBySkuId:function(){
+    if (this.data.isAct){return}
+    let _array = [];
+    Api.DetailBySkuId({id:this.data.id}).then((res)=>{
+      if(res.data.code == 0){
+        let _obj = res.data.data;
+       
+        _array = this.data.array;
+        if (_obj.spuId == 1) {
+          _array[1].place = '礼盒装';
+        } else if (_obj.spuId == 2) {
+          _array[1].place = '散装';
+        }
+
+       
+        this.setData({
+          SelectedList: _obj,
+          isAct: _obj.id,
+          array: _array,
+          spuId: _obj.spuId
+        })
+        this.geSkutlist();
+      }
+    })
+  },
+  //弹窗里同种类选择不同规格
+  chooseLike: function (e) {
+    let id = e.currentTarget.id;
+    console.log('id:',id);
+    this.setData({
+      isAct: id,
+      id:id
+    })
+    this.getDetailBySkuId();
 
 
-
+  },
   //查询商家详情
   getShopInfo: function() {
     let that = this;
@@ -235,6 +271,7 @@ Page({
       }
     })
   },
+
   //发起砍价
   initiateCut:function(){
     if (!app.globalData.userInfo.mobile) {
@@ -343,30 +380,7 @@ Page({
       })
     }.bind(this), 200)
   },
-
-  chooseLike: function(e) { //弹窗里同种类选择不同规格
-    let id = e.currentTarget.id, _data = this.data.specificationData,actData={};
-    for (let i = 0; i < _data.length;i++){
-      if (id == _data[i].id){
-        actData = _data[i]
-      }
-    }
-
-    let _obj = actData;
-    if (_obj.unit) {
-      let str = _obj.unit;
-      if (str.indexOf("盒") != -1) {
-        _obj.isbox = 1;
-      } else {
-        _obj.isbox = 0;
-      }
-    }
-
-    this.setData({
-      SelectedList: _obj,
-      isAct:id
-    });
-  },
+ 
 
   //分享给好友
   onShareAppMessage: function () {
@@ -419,28 +433,10 @@ Page({
   },
   //原价购买
   originalPrice: function() {
-    console.log('issku:', this.data.issku)
-    console.log('this.data.SelectedList:', this.data.SelectedList)
-    let _sellPrice = this.data.SelectedList.sellPrice,
-      _num = this.data.num, 
-      _id = this.data.SelectedList.id, 
-      _shopId = this.data.SelectedList.shopId,
-      _skuName = this.data.SelectedList.skuName;
-    if(this.data.issku){  //品质好店付款
-      wx.navigateTo({
-        url: '../../order-for-goods/order-for-goods?shopId=' + this.data.shopId + '&skuName=' + _sellPrice + '元兑换券&sell=' + _sellPrice + '&skutype=4&dishSkuId=' + this.SelectedList.id + '&dishSkuName=' + _skuName + '&num='+_num+'&bargainType=1',
-      })
-    }else{  //送货到家提交订单
-      let  _spuName = this.data.SelectedList.spuName ? this.data.SelectedList.spuName : this.data.SelectedList.skuName, _skuPic = this.data.SelectedList.skuPic ? this.data.SelectedList.skuPic : this.data.SelectedList.picUrl, _issku = this.data.issku ? 1 : 2,isbox = this.data.SelectedList.isbox;
-
-      wx.navigateTo({
-        url: 'submitOrder/submitOrder?skuName=' + _skuName + '&sellPrice=' + _sellPrice + '&spuName=' + _spuName + '&issku=' + _issku + '&num=' + _num + '&skuPic=' + _skuPic + '&isbox=' + isbox + '&id=' + _id + '&shopId=' + _shopId + '&spuId='+this.data.spuId,
-        success: function (res) { },
-        fail: function (res) { },
-        complete: function (res) { },
-      })
-    }
-    
+    let _num = this.data.num, _issku = this.data.issku ? 1 : 2, _shopId = this.data.SelectedList.shopId;
+    wx.navigateTo({
+      url: 'submitOrder/submitOrder?spuId=' + this.data.spuId + '&id=' + this.data.id + '&num=' + _num + '&issku=' + _issku + '&shopId=' + _shopId
+    })
   },
 
   // 左下角返回首页
@@ -451,6 +447,6 @@ Page({
       fail: function(res) {},
       complete: function(res) {},
     })
-  },
+  }
 
 })

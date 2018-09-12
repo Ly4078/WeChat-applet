@@ -3,10 +3,12 @@ var app = getApp();
 Page({
   data: {
     soId: '',
+    id:'',
     Countdown: '',
     soDetail: {}
   },
   onLoad: function(options) {
+    console.log('options:', options)
     this.setData({
       soId: options.soId
     })
@@ -61,8 +63,11 @@ Page({
   },
   //点击再次购买按钮
   buyagain:function(){
+    console.log(this.data.soDetail.orderItemOuts[0])
+    let id = this.data.soDetail.orderItemOuts[0].goodsSkuSpecValues[0].id;
     wx.navigateTo({
-      url: '../../../index/crabShopping/crabDetails/crabDetails',
+      // url: '../../../index/crabShopping/crabDetails/crabDetails',
+      url: '../../../../pages/index/crabShopping/crabDetails/crabDetails?id=' + id
     })
   },
   //复制订单编号

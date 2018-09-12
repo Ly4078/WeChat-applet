@@ -76,7 +76,7 @@ function uncodeUtf16(str) {  //反解开EMOJI编码后的字符串   与上对�
   return result;
 }
 
-function timeDiffrence(current, updateTime, createTime) {      //文章发布时间  updateTime
+function timeDiffrence(current, updateTime, createTime) {      //文章发布时间 
   let createT = '', timestamp = 0, str = '暂无';
   updateTime = updateTime?updateTime.replace(/-/g, "/"):''; 
   updateTime = updateTime ? updateTime : createTime;
@@ -142,6 +142,40 @@ function dateConv(dateStr,type) {  //   yyyy/mm/dd
     return year + "/" + month + "/" + today;
   }
 }
+ // 升序排序
+function compareUp(propertyName) {
+  if ((typeof data[0][propertyName]) != "number") { // 属性值为非数字
+    return function (object1, object2) {
+      var value1 = object1[propertyName];
+      var value2 = object2[propertyName];
+      return value1.localeCompare(value2);
+    }
+  }
+  else {
+    return function (object1, object2) { // 属性值为数字
+      var value1 = object1[propertyName];
+      var value2 = object2[propertyName];
+      return value1 - value2;
+    }
+  }
+}
+// 降序排序
+function compareDown(propertyName) { 
+  if ((typeof data[0][propertyName]) != "number") { // 属性值为非数字
+    return function (object1, object2) {
+      var value1 = object1[propertyName];
+      var value2 = object2[propertyName];
+      return value2.localeCompare(value1);
+    }
+  }
+  else {
+    return function (object1, object2) { // 属性值为数字
+      var value1 = object1[propertyName];
+      var value2 = object2[propertyName];
+      return value2 - value1;
+    }
+  }
+}
 
 let getQueryString = function (url, name) {  //识别普通二维码，跳转到指定商家页面
   // console.log("url = " + url)
@@ -157,6 +191,7 @@ let getQueryString = function (url, name) {  //识别普通二维码，跳转到
 }
 
 
+
 module.exports = {
   calcDistance: calcDistance,
   transformLength: transformLength,
@@ -169,5 +204,7 @@ module.exports = {
   getNowFormatDate: getNowFormatDate,
   reciprocal: reciprocal,
   getQueryString: getQueryString,
-  dateConv: dateConv
+  dateConv: dateConv,
+  compareUp: compareUp,
+  compareDown: compareDown
 }
