@@ -127,12 +127,10 @@
       <view class='oritop'>¥{{SelectedList.sellPrice}}</view>
       <view class='oribut'>原价购买</view>
     </view> -->
-    <button class='buttonGouging' data-name="shareBtn" open-type="share" bindtap='inviteOthers'>
       <view wx:if="{{issku}}" class='immediatelydir' bindtap='initiateCut'>
         <view class='directly'>最低：¥{{SelectedList.agioPrice}}</view>
         <view class='directly'>发起砍价</view>
       </view>
-    </button>
   </view>
 
 

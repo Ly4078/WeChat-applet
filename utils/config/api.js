@@ -543,6 +543,10 @@ const ALL_API = {
   orderInfoDetail: {//查询送货到家单个订单详情
     method:'GET',
     url:'orderInfo/getDetail'
+  },
+  createCrabDish: {    //创建砍蟹接口
+    method: 'POST',
+    url: 'gold/createQg'
   }
 }
 const Api = new MyHttp({}, ALL_API);

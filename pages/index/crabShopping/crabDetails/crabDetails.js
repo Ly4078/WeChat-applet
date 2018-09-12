@@ -8,6 +8,8 @@ var app = getApp();
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
+    issnap: false, //新用户
+    isnew: false, //新用户
     // indicatorDots: true,  //是否显示面板指示点
     autoplay: true, //是否自动切换
     interval: 5000, //自动切换时间间隔
@@ -129,7 +131,7 @@ Page({
     };
     Api.dhcList(_parms).then((res) => {  //列表
 
-      if (res.data.code == 0) {
+      if (res.data.code == 0 && res.data.data.list) {
         let _obj = res.data.data.list[0];
         if (_obj.unit){
           let str = _obj.unit;
@@ -233,10 +235,46 @@ Page({
       }
     })
   },
-
-//发起砍价
+  //发起砍价
   initiateCut:function(){
-    console.log('initiateCut')
+    if (!app.globalData.userInfo.mobile) {
+      this.setData({
+        issnap: true
+      })
+      return false
+    }
+    let _parms = {
+      userId: app.globalData.userInfo.userId,
+      skuId: this.data.SelectedList.id
+    };
+    Api.vegetables(_parms).then((res) => {
+      if (res.data.code == 0) {
+        if (res.data.data.length > 0) {
+          this.setData({
+            isbargain: true
+          });
+          this.toBargainList();
+        } else {
+          wx.navigateTo({
+            url: 'crabShare/crabShare?refId=' + this.data.SelectedList.id + '&shopId=' + this.data.SelectedList.shopId + '&skuMoneyMin=' + this.data.SelectedList.agioPrice + '&skuMoneyOut=' + this.data.SelectedList.sellPrice
+          })
+        }
+      }
+    });
+  },
+  //点击跳转至砍价列表
+  toBargainList() {
+    wx.showModal({
+      title: '您已发起了砍价，是否查看状态',
+      content: '',
+      complete(e) {
+        if (e.confirm) {
+          wx.navigateTo({
+            url: '../../bargainirg-store/pastTense/pastTense'
+          });
+        }
+      }
+    })
   },
   //显弹出框
   showModal: function() {
