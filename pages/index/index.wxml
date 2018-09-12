@@ -97,10 +97,10 @@
     <template is="toFresh" data="{{item}}" />
   </block>
   <view class='Resbanner secKillList'>
-    <image class='Resbimg' src="{{bannthree[0].imgUrl}}"></image>
+    <image class='Resbimg' catchtap='crabSteamed' src="{{bannthree[0].imgUrl}}"></image>
     <view class='crabModels'>
-      <image mode='scaleToFill' class='crabModels-img' src='https://xqmp4-1256079679.file.myqcloud.com/Colin_组 46.png'></image>
-      <image mode='scaleToFill' class='crabModels-img' src='https://xqmp4-1256079679.file.myqcloud.com/Colin_组 47.png'></image>
+      <image mode='scaleToFill' catchtap='crabPrtDetails' class='crabModels-img' src='https://xqmp4-1256079679.file.myqcloud.com/Colin_组 46.png'></image>
+      <image mode='scaleToFill' catchtap='crabPrtPackage' class='crabModels-img' src='https://xqmp4-1256079679.file.myqcloud.com/Colin_组 47.png'></image>
     </view>
   </view>
 

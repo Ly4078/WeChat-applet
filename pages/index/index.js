@@ -1747,13 +1747,31 @@ Page({
           title: res.data.message,
           mask: 'true',
           icon: 'none',
-          duration
+          duration        
         })
       }
     })
   },
 
-  //  注册end
+  // 螃蟹使用攻略
+  crabSteamed: function (e) {
+    wx.navigateTo({
+      url: 'crabSteamed/crabSteamed'
+    })
+  },
+
+  // 螃蟹进入商品详情
+  crabPrtDetails: function (e) {
+    wx.navigateTo({
+      url: 'crabShopping/crabDetails/crabDetails?id=' + 1 + '&spuId=' + 1,
+    })
+  },
+  // 螃蟹进入商品详情
+  crabPrtPackage: function (e) {
+    wx.navigateTo({
+      url: 'crabShopping/crabDetails/crabDetails?id=' + 1 + '&spuId=' + 2,
+    })
+  },
 
 
 })

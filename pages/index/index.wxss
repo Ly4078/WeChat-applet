@@ -1108,6 +1108,7 @@ page {
 .crabModels-img{
   width: 337rpx;
   height: 260rpx;
+  border: 1px solid #F5F5FA;
 }
 
 .crabModels-img:nth-child(1){
