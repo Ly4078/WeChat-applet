@@ -99,8 +99,8 @@
   <view class='Resbanner secKillList'>
     <image class='Resbimg' src="{{bannthree[0].imgUrl}}"></image>
     <view class='crabModels'>
-      <image mode='scaleToFill' class='crabModels-img' src='http://pic12.photophoto.cn/20090817/0042040248702653_b.jpg'></image>
-      <image mode='scaleToFill' class='crabModels-img' src='http://pic36.photophoto.cn/20150824/0042040237789702_b.jpg'></image>
+      <image mode='scaleToFill' class='crabModels-img' src='https://xqmp4-1256079679.file.myqcloud.com/Colin_组 46.png'></image>
+      <image mode='scaleToFill' class='crabModels-img' src='https://xqmp4-1256079679.file.myqcloud.com/Colin_组 47.png'></image>
     </view>
   </view>
 

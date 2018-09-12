@@ -609,3 +609,17 @@ page{
   margin-bottom: 62rpx;
   margin-left: 30rpx;
 }
+
+.buttonGouging{
+  border-radius: 0rpx;
+}
+
+.immediatelydir{
+  width: 478rpx;
+  height: 86rpx;
+  background-color: #FC6232;
+  text-align: center;
+  line-height: 40rpx;
+  letter-spacing: 2rpx;
+  font-weight: 600;
+}
