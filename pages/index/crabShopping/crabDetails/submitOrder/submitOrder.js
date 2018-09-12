@@ -137,9 +137,6 @@ Page({
   additionSite:function(){
     wx.redirectTo({
       url: '../../../../personal-center/shipping/shipping',
-      success: function(res) {},
-      fail: function(res) {},
-      complete: function(res) {},
     })
   },
   //是否同意预售协议

@@ -9,11 +9,13 @@ Page({
     _build_url: GLOBAL_API_DOMAIN,
     address:[]
   },
-  onLoad:function(){
-    
-  },
   onShow:function(){
     this.getAddressList();
+  },
+  onUnload:function(){
+    wx.navigateTo({
+      url: 'submitOrder/submitOrder'
+    })
   },
   //查询已有收货地址
   getAddressList:function(){

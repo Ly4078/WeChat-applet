@@ -75,6 +75,12 @@ Page({
   onShow:function(){
     this.getprovince();
   },
+  onUnload: function () {
+    wx.navigateTo({
+      // url: 'submitOrder/submitOrder'
+      url: "../../../../pages/personal-center/shipping/shipping"
+    })
+  },
   //查询单个地址详情
   getAddress:function(){
     let that = this;
