@@ -260,7 +260,9 @@ Page({
             userName: app.globalData.userInfo.userName
           }
           // return;
+          console.log('263行:=========' + _parms);
           Api.isVerify(_parms).then((res) => {
+            console.log('265行:=========' + res);
             if (res.data.code == 0) {
               app.globalData.userInfo.userId = res.data.data;
               that.getuserInfo();
@@ -268,6 +270,7 @@ Page({
                 that.setpullUser();
               }
               if (that.data.parentId) {
+                console.log('273行:=========' + that.data.parentId);
                 that.inviteNewUser();
               }
             }
@@ -351,11 +354,11 @@ Page({
       shopId: this.data.shopId,
       newUser: app.globalData.userInfo.userId
     };
-    console.log("368行：_parms", _parms);
+    console.log("368行：=========_parms", _parms);
     Api.inviteNewUser(_parms).then((res) => {
-      consle.log('369行：邀请是否成功' + res.data);
+      consle.log('369行：=========邀请是否成功' + res.data);
       if (res.data.code == 0) {
-        consle.log('邀请成功:'+res.data);
+        consle.log('邀请成功：========='+res.data);
       }
     })
   }
