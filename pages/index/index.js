@@ -695,6 +695,10 @@ Page({
         this.setData({
           secKillList: data.data.list.slice(0, 3)
         });
+      } else {
+        this.setData({
+          secKillList: []
+        });
       }
     });
   },
@@ -1096,8 +1100,7 @@ Page({
       _page: 1
     })
   },
-  //用户上拉触底加载更多
-  onReachBottom: function () { 
+  onReachBottom: function () { //用户上拉触底加载更多
     this.setData({
       _page: this.data._page + 1
     })

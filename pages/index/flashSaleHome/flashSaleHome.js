@@ -62,8 +62,7 @@ Page({
           aNearbyShop = this.data.aNearbyShop;
         for (let i = 0; i < list.length; i++) {
           list[i].distance = utils.transformLength(list[i].distance);
-          list[i].theOthers = list[i].stockNum - list[i].sellNum;
-          list[i].widthRate = list[i].theOthers / list[i].stockNum * 186;
+          list[i].widthRate = list[i].stockNum / 15 * 186;
           aNearbyShop.push(list[i]);
         }
         this.setData({
@@ -83,9 +82,7 @@ Page({
   },
   mySecKill() { //我的秒杀列表
     let _parms = {
-      parentId: app.globalData.userInfo.userId,
-      page: this.data.page,
-      rows: 8
+      parentId: app.globalData.userInfo.userId
     };
     Api.mySecKill(_parms).then((res) => {
       let data = res.data;
@@ -210,23 +207,25 @@ Page({
     if (this.data.currentTab == 0) {
       this.secKillList();
     } else if (this.data.currentTab == 1) {
+      let _this = this;
+      clearInterval(_this.data.timer);
+      this.setData({
+        timer: null,
+      });
       this.mySecKill();
     }
   },
   onReachBottom: function() { //上拉加载
     if (this.data.flag) {
-      wx.showLoading({
-        title: '加载中..'
-      })
       this.setData({
         page: this.data.page + 1
       });
       if (this.data.currentTab == 0) {
+        // wx.showLoading({
+        //   title: '加载中..'
+        // })
         this.secKillList();
-      } else if (this.data.currentTab == 1) {
-        this.mySecKill();
       }
-      wx.hideLoading();
     }
   }
 })

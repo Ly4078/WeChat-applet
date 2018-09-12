@@ -4,6 +4,8 @@
     <view class='flashSale-left'>
       <image class='flashSale-img' src='{{item.picUrl}}'></image>
       <image class='flashSaleBut' src='https://xqmp4-1256079679.file.myqcloud.com/1535364539984Colin_秒杀底部.png'></image>
+      <view wx:if="{{item.stockNum <= 0}}" class="shadedow"></view>
+      <image wx:if="{{item.stockNum <= 0}}" class="sellOutIcon" src="/images/icon/sellOut.png"></image>
     </view>
     <view class='flashSale-right'>
       <view class='flashSaleRig-row'>
@@ -23,12 +25,13 @@
             <text>{{item.sellPrice}}元</text>
           </view>
           <view class='accuracyQay'>
-            <text class='accuracyQay-text'>剩余<text>{{item.theOthers}}</text>份</text>
+            <text class='accuracyQay-text'>剩余<text>{{item.stockNum}}</text>份</text>
             <view class='actualaccurac' style="width: {{item.widthRate + 'rpx'}};"></view>
           </view>
         </view>
         <view class='oncePurchase'>
-          <button>抢购</button>
+          <button wx:if="{{item.stockNum > 0}}">抢购</button>
+          <button wx:else>已售罄</button>
         </view>
       </view>
     </view>

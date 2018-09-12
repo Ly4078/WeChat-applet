@@ -227,6 +227,13 @@ Page({
     }
   },
   toBuy() { //买菜
+    if (this.data.stockNum <= 0) {
+      wx.showToast({
+        title: '该菜品已售罄',
+        icon: 'none'
+      })
+      return false;
+    }
     let _this = this;
     if (!app.globalData.userInfo.mobile) {
       this.setData({
@@ -307,6 +314,13 @@ Page({
     })
   },
   inviteOthers() {
+    if (this.data.stockNum <= 0) {
+      wx.showToast({
+        title: '该菜品已售罄',
+        icon: 'none'
+      })
+      return false;
+    }
     if (this.data.isCreated) {
       this.onShareAppMessage();
     } else {
@@ -314,7 +328,6 @@ Page({
       this.createSecKill();
     }
   },
- 
   //分享给好友
   onShareAppMessage: function() {
     let initiator = this.data.initiator ? this.data.initiator : app.globalData.userInfo.userId;

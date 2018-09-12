@@ -54,7 +54,8 @@
           <image src="/images/icon/invite.png"></image>
         </view>
         <view class="inviteFriend_r">
-          <button plain="true" data-name="shareBtn" open-type="share" bindtap='inviteOthers'>{{btnTxt}}</button>
+          <button wx:if="{{stockNum > 0}}" plain="true" data-name="shareBtn" open-type="share" bindtap='inviteOthers'>{{btnTxt}}</button>
+          <button wx:else bindtap='inviteOthers'>{{btnTxt}}</button>
         </view>
       </view>
       <!-- 菜品详情 -->
