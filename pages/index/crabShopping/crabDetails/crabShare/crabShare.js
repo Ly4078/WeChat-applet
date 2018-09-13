@@ -433,7 +433,7 @@ Page({
     let id = e.currentTarget.id,
       _shopId = e.currentTarget.dataset.shopid;
     wx.navigateTo({
-      url: '../crabDetails?greensID=' + id + '&shopId=' + _shopId
+      url: '../crabDetails?greensID=' + id + '&shopId=' + _shopId + '&isShop=true'
     })
   },
   //查询能否砍价
