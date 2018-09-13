@@ -446,7 +446,11 @@ const ALL_API = {
   },
   addSecKill: {    //新增抢购券
     method: 'POST',
-    url: 'sku/addSkuForKj'
+    url: 'sku/addSkuForQg'
+  },
+  addCrabTicket: {    //新增螃蟹券
+    method: 'POST',
+    url: 'sku/addSkuForDh'
   },
   buyBargainTick: {      //购买砍菜券
     method: 'POST',
@@ -455,6 +459,10 @@ const ALL_API = {
   buySecKill: {    //购买抢购券
     method: 'POST',
     url: 'wxpay/doUnifiedOrderForQg'
+  },
+  buyCrabTicket: {    //购买螃蟹券
+    method: 'POST',
+    url: 'wxpay/doUnifiedOrderForDh'
   },
   secKillList: {     //限时秒杀列表
     method: 'GET',
