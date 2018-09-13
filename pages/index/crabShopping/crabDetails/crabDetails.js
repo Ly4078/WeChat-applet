@@ -182,7 +182,7 @@ Page({
     let _parms = {
       spuType: 10,
       page: this.data.page,
-      rows: 8,
+      rows: 20,
       spuId: this.data.spuId
     };
     Api.crabList(_parms).then((res) => { //查询同类规格列表
