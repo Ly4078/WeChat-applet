@@ -51,14 +51,7 @@ Page({
         place: '到付'
       }
     ],
-    photograph: [
-      {
-      print: 'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=666433332,3038005955&fm=26&gp=0.jpg'
-      }, {
-      print: 'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=666433332,3038005955&fm=26&gp=0.jpg'
-      }, {
-      print: 'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=666433332,3038005955&fm=26&gp=0.jpg'
-    }],
+    crabImgUrl: [],// 详情图列表
     legined:[
       {
         p1:'正品保障',
@@ -78,6 +71,12 @@ Page({
 
   onLoad: function(options) {
     console.log('optons:',options)
+    wx.request({
+      url: this.data._build_url + 'version.txt',
+      success: function (res) {
+        app.globalData.txtObj = res.data;
+      }
+    })
     let _id = '', _spuId = '', _shopId = '', _greensID = '', isShop = false;
     
     if (options.id) {
@@ -114,8 +113,21 @@ Page({
   },
 
   onShow: function() {
+    let _crabImgUrl = app.globalData.txtObj.crabImgUrl, _ruleImg = app.globalData.txtObj.ruleImg;
+    this.setData({
+      crabImgUrl: _crabImgUrl
+    })
     if (this.data.issku){
       this.bargainDetails();
+      _crabImgUrl = this.data.crabImgUrl;
+      _crabImgUrl.shift();
+      _crabImgUrl.shift();
+      _crabImgUrl.pop();
+      _crabImgUrl.unshift(_ruleImg);
+
+      this.setData({
+        crabImgUrl: _crabImgUrl
+      })
     }else{
       if (this.data.spuId) {
         this.geSkutlist();
@@ -142,7 +154,7 @@ Page({
       zanUserId: app.globalData.userInfo.userId,
       isDeleted: 0,
       page: this.data.page,
-      rows: 8,
+      rows: 20,
     };
     Api.dhcList(_parms).then((res) => {  //列表
       if (res.data.code == 0 && res.data.data.list) {
@@ -161,7 +173,6 @@ Page({
           });
         }
       }
-      console.log('SelectedList:', this.data.SelectedList)
     })
   },
   //查询商品朝夕相处列表 即同一商品不同规格列表
@@ -178,14 +189,9 @@ Page({
       if (res.data.code == 0) {
         let _list = res.data.data.list;
         let _obj = _list[0];
-        console.log('id:', that.data.id)
         for(let i =0;i<_list.length;i++){
-          console.log('_list[i].id:', _list[i].id)
           if(that.data.id == _list[i].id){
-            console.log('1111')
               that.getDetailBySkuId();
-          }else{
-            console.log('222')
           }
         }
         this.setData({
@@ -198,17 +204,23 @@ Page({
   //查询单个详情
   getDetailBySkuId:function(val){
     if (this.data.isAct && !val){return}
-    let _array = [];
+    let _array = [],that = this;
     Api.DetailBySkuId({id:this.data.id}).then((res)=>{
       if(res.data.code == 0){
-        let _obj = res.data.data;
+        let _obj = res.data.data, _crabImgUrl = this.data.crabImgUrl;
        
         _array = this.data.array;
-        console.log('_obj:', _obj)
         if (_obj.spuId == 1) {
-          _array[1].place = '礼盒装';
-        } else if (_obj.spuId == 2) {
           _array[1].place = '散装';
+          if (_crabImgUrl.length > 8) {
+            _crabImgUrl.shift();
+            _crabImgUrl.shift();
+            that.setData({
+              crabImgUrl: _crabImgUrl
+            })
+          }
+        } else if (_obj.spuId == 2) {
+          _array[1].place = '礼盒装';
         }
         _array[2].place = _obj.skuName;
 
@@ -226,7 +238,6 @@ Page({
   //弹窗里同种类选择不同规格
   chooseLike: function (e) {
     let id = e.currentTarget.id;
-    console.log('id:',id);
     this.setData({
       isAct: id,
       id:id
@@ -253,7 +264,6 @@ Page({
               store_details: _data,
               city: _data.city
             })
-            console.log('store_details:', that.data.store_details)
           }
         }
       }
@@ -415,8 +425,6 @@ Page({
         success: function (res) { }
       }
     }
-    console.log(' this.SelectedList:', this.data.SelectedList)
-    
   },
 
   /* 点击减号地增减数量 */
