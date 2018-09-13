@@ -109,14 +109,16 @@ Page({
       Api.listForSkuAllocation(_parms).then((res) => {
         if (res.data.code == 0) {
           let _list = res.data.data.list, _storeData = this.data.storeData;
-          for (let i = 0; i < _list.length; i++) {
-            _list[i].distance = utils.transformLength(_list[i].distance);
-            _storeData.push(_list[i]);
-          };
-          this.setData({
-            storeData: _storeData,
-          })
-          console.log("storeData:", this.data.storeData)
+          if(_list && _list.length>0){
+            for (let i = 0; i < _list.length; i++) {
+              _list[i].distance = utils.transformLength(_list[i].distance);
+              _storeData.push(_list[i]);
+            };
+            this.setData({
+              storeData: _storeData,
+            })
+            console.log("storeData:", this.data.storeData)
+          }
         }
       })
     }

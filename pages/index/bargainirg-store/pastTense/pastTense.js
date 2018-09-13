@@ -87,7 +87,6 @@ Page({
       that = this;
 
     timer = setInterval(function() {
-      console.log("111")
       that.setData({
         timer: timer
       });

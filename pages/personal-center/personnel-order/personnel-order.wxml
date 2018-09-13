@@ -2,7 +2,7 @@
 
 
 <!--导航条-->
-<view class="navbar">  
+<view class="navbar">
   <text wx:for="{{navbar}}" data-idx="{{index}}" class="item {{shopping==index ? 'active' : ''}}" wx:key="unique" bindtap="navbarTap">{{item}}</text>
 </view>
 
@@ -29,7 +29,7 @@
       </block>
     </view>
   </view>
-  <view wx:if="{{order_list.length < 1 && shoporderlist.length < 1}}" class='placeholder'>
+  <view wx:if="{{order_list.length < 1}}" class='placeholder'>
     <image src="/images/icon/zhanweitu.png"></image>
   </view>
 </view>
@@ -40,16 +40,16 @@
   <view class="commoditys">
     <view wx:for="{{commoditys}}" data-idx="{{index}}" id='{{item.id}}' class="item {{elephant==index ? 'active' : ''}}" wx:key="unique" bindtap="distributionmag">{{item.title}}</view>
   </view>
- <view class='ditybj'></view>
-<!--全部订单-->
+  <view class='ditybj'></view>
+  <!--全部订单-->
   <view>
     <block wx:for="{{logisticsList}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
       <template is="order_logistics" data="{{item}}"></template>
     </block>
   </view>
- 
 
-  <view wx:if="{{order_list.length < 1 || shoporderlist.length < 1}}" class='placeholder'>
+
+  <view wx:if="{{logisticsList.length < 1}}" class='placeholder'>
     <image src="/images/icon/zhanweitu.png"></image>
   </view>
 </view>

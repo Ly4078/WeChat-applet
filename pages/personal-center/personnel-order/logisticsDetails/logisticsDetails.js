@@ -51,8 +51,8 @@ Page({
       diff = '',
       h = '',
       m = '';
-    _createTime = new Date(createTime);
-    _createTime = _createTime.getTime();
+    createTime = createTime.replace(/-/g, "/");//兼容IOS   IOS下不支付时间有(-)须替换成（/）
+    _createTime = (new Date(createTime)).getTime(); //结束时间
     _endTime = _createTime + oneDay;
     now = new Date().getTime();
     diff = _endTime - now;
@@ -64,7 +64,6 @@ Page({
   buyagain:function(){
     let id = this.data.soDetail.orderItemOuts[0].goodsSkuSpecValues[0].id;
     wx.navigateTo({
-      // url: '../../../index/crabShopping/crabDetails/crabDetails',
       url: '../../../../pages/index/crabShopping/crabDetails/crabDetails?id=' + id
     })
   },
@@ -140,12 +139,23 @@ Page({
       }
     })
   },
-  // examineLogistics: function() { //实时物流入口--
-  //   wx.navigateTo({
-  //     url: 'toTheLogistics/toTheLogistics',
-  //     success: function(res) {},
-  //     fail: function(res) {},
-  //     complete: function(res) {},
-  //   })
-  // }
+
+  examineLogistics: function() { //实时物流入口--
+    wx.navigateTo({
+      url: 'toTheLogistics/toTheLogistics',
+      success: function(res) {},
+      fail: function(res) {},
+      complete: function(res) {},
+    })
+  },
+  //确认收货
+  receipt:function(){
+    let that = this;
+    Api.confirmCeceipt({ id: this.data.soId}).then((res)=>{
+      if(res.data.code == 0){
+        that.getorderInfoDetail();
+      }
+    })
+  }
+
 })
