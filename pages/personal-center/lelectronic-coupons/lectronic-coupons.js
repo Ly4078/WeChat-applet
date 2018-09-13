@@ -60,6 +60,12 @@ Page({
         shopId: options.shopId
       })
     }
+    if (options.skuType) {
+      this.setData({
+        skuType: options.skuType
+      })
+      console.log(this.data.skuType);
+    }
     if(options.pay== 'pay'){  //从商家订单支付跳转过来的
       this.getshopOrderList(options.soid);
     }else{

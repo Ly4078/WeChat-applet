@@ -19,7 +19,7 @@
           <text>{{ticketInfo.dishSkuName?ticketInfo.dishSkuName:ticketInfo.skuName}}</text>
         </view>
       </view>
-      <view class='lectronic-right' catchtap='sublevelSum'>
+      <view wx:if="{{skuType != 5 && skuType != 6}}" class='lectronic-right' catchtap='sublevelSum'>
         使用须知
       </view>
       <!-- <view class='lectronic-right' wx:if="{{isticket}}">

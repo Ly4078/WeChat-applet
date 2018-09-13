@@ -5,8 +5,10 @@
 折扣券.type：1   discount:true
 食典券(活动券).type：3
 砍菜券.type：4
+抢购券.type：5
+兑换券.type：6
   -->
-  <view class='securityWrap' id="{{item.soId}}" catchtap='immediateUse' wx:if="{{item.isDue != 1}}">
+  <view class='securityWrap' id="{{item.soId}}" data-type="{{item.type}}" catchtap='immediateUse' wx:if="{{item.isDue != 1}}">
     <view class='security-use'>
       <view class="security-top">
 
@@ -16,6 +18,7 @@
         <image class="security-top-bg" wx:if="{{item.type == 3 && !item.isgq}}" src="/images/icon/ticketImg-sd.png"></image>
         <image class="security-top-bg" wx:if="{{item.type == 4  && !item.isgq}}" src="/images/icon/ticketImg-ew.png"></image>
         <image class="security-top-bg" wx:if="{{item.type == 5  && !item.isgq}}" src="/images/icon/ticketImg-ew.png"></image>
+        <image class="security-top-bg" wx:if="{{item.type == 6  && !item.isgq}}" src="/images/icon/ticketImg-ew.png"></image>
 
         <view class='security-top-inner'>
 
@@ -36,7 +39,7 @@
             <!-- <view wx:if="{{item.type == 4}}">
               <text class='fist'>{{item.couponAmount}}</text>元砍菜券
             </view> -->
-            <view wx:if="{{item.type == 4 || item.type == 5}}">
+            <view wx:if="{{item.type == 4 || item.type == 5 || item.type == 6}}">
               <text class='dishName'>{{item.dishSkuName}}</text>
             </view>
             <view class='{{item.isgq?"shidiana":"shidian"}}' wx:if="{{item.type == 3}}">
@@ -52,7 +55,7 @@
               <text>*满减规则由商家制定</text>
             </view> -->
 
-            <view class='{{item.isgq?"xiangqia":"kancai"}}' wx:if="{{item.type == 4 || item.type == 5}}">
+            <view class='{{item.isgq?"xiangqia":"kancai"}}' wx:if="{{item.type == 4 || item.type == 5 || item.type == 6}}">
               <text>*仅限到店使用</text>
             </view>
           </view>

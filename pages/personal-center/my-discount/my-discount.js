@@ -134,6 +134,7 @@ Page({
       return false;
     }
     let soid = e.currentTarget.id,
+      skuType = e.currentTarget.dataset.type,
       id = '';
     for (let i = 0; i < this.data.ticket_list.length; i++) {
       if (soid == this.data.ticket_list[i].soId) {
@@ -141,7 +142,7 @@ Page({
       }
     }
     wx.navigateTo({
-      url: '../lelectronic-coupons/lectronic-coupons?soid=' + e.currentTarget.id + '&id=' + id + '&myCount=1'
+      url: '../lelectronic-coupons/lectronic-coupons?soid=' + e.currentTarget.id + '&id=' + id + '&myCount=1' + '&skuType=' + skuType
     })
   },
   //对比时间是否过期
