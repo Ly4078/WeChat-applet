@@ -74,7 +74,7 @@ Page({
           rules.sort(that.compareUp("ruleType"));
           for (let i = 0; i < rules.length;i++ ){
             if (rules[i].ruleType ==2){
-              if (this.data.num > rules[i].manNum){
+              if (this.data.num > rules[i].manNum*1-0.5){
                 man = Math.floor(this.data.num/rules[i].manNum);
               }
             }
