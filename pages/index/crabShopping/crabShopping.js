@@ -22,7 +22,7 @@ Page({
     _build_url: GLOBAL_API_DOMAIN,
     listData:[],  //送货到家
     storeData:[], //品质好店
-    navbar: ['送货到家', '品质好店'],
+    navbar: ['送货到家', '到店消费'],
     currentTab: 0,
     page: 1,
     _page:1,
@@ -94,7 +94,8 @@ Page({
         page: this.data._page,
         rows: 10,
         locationX: app.globalData.userInfo.lng,
-        locationY: app.globalData.userInfo.lat
+        locationY: app.globalData.userInfo.lat,
+        city: app.globalData.userInfo.city
       };
       if (this.data._page == 1){
         this.setData({
@@ -201,7 +202,7 @@ Page({
   crabBargainirg:function(e){ 
     let shopId = e.currentTarget.id, greensID = e.currentTarget.dataset.id;
     wx.navigateTo({
-      url: 'crabDetails/crabDetails?shopId=' + shopId + '&greensID=' + greensID,
+      url: 'crabDetails/crabDetails?shopId=' + shopId + '&greensID=' + greensID + '&isShop=true'
     })
   }
 })

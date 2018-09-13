@@ -32,7 +32,8 @@ Page({
     isAct:0,
     city:'',    
     shopId: '',
-    greensID: '',
+    greensID: '',       
+    isShop: false,
     array: [{
         placeName: '产地',
         place: '阳澄湖'
@@ -77,7 +78,7 @@ Page({
 
   onLoad: function(options) {
     console.log('optons:',options)
-    let _id = '', _spuId = '', _shopId = '', _greensID='';
+    let _id = '', _spuId = '', _shopId = '', _greensID = '', isShop = false;
     
     if (options.id) {
       _id = options.id;
@@ -99,12 +100,15 @@ Page({
     if (options.shopId) {
       _shopId = options.shopId;
     }
-    
+    if(options.isShop) {
+      isShop = options.isShop;
+    }
     this.setData({
       id: _id ? _id:this.data.id,
       spuId: _spuId ? _spuId : this.data.spuId,
       shopId: _shopId ? _shopId : this.data.shopId,
-      greensID: _greensID ? _greensID : this.data.greensID
+      greensID: _greensID ? _greensID : this.data.greensID,
+      isShop: isShop
     })
 
   },
@@ -123,7 +127,6 @@ Page({
     if(this.data.shopId){
       this.getShopInfo();
     }
-
   },
 
   bargainDetails:function(){   //品质好店-->店铺详情--列表
@@ -147,6 +150,16 @@ Page({
         this.setData({
           SelectedList: _obj
         })
+        if (this.data.isShop) {
+          let array = this.data.array;
+          array[1].placeName = '品牌';
+          array[1].place = '万蟹楼';
+          array[2].place = _obj.skuName;
+          array = array.slice(0,3);
+          this.setData({
+            array: array
+          });
+        }
       }
       console.log('SelectedList:', this.data.SelectedList)
     })
