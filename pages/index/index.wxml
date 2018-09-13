@@ -97,10 +97,10 @@
     <template is="toFresh" data="{{item}}" />
   </block>
   <view class='Resbanner secKillList'>
-    <image class='Resbimg' catchtap='crabSteamed' src="{{freshobj.fresh1}}"></image>
+    <image class='Resbimg' catchtap='crabSteamed' src="{{fresh1.imgUrl}}"></image>
     <view class='crabModels'>
-      <image mode='scaleToFill' catchtap='crabPrtDetails' class='crabModels-img' src="{{freshobj.fresh2}}"></image>
-      <image mode='scaleToFill' catchtap='crabPrtPackage' class='crabModels-img' src="{{freshobj.fresh3}}"></image>
+      <image mode='scaleToFill' catchtap='crabPrtDetails' class='crabModels-img' src="{{fresh2.imgUrl}}" id='{{fresh2.id}}' data-spuId="{{fresh2.spuId}}"></image>
+      <image mode='scaleToFill' catchtap='crabPrtDetails' class='crabModels-img' src="{{fresh3.imgUrl}}" id='{{fresh3.id}}' data-spuId="{{fresh3.spuId}}"></image>
     </view>
   </view>
 

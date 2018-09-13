@@ -34,7 +34,11 @@ Page({
     })
   },
   onShow: function () {
-    this.commodityCrabList();
+    if (this.data.currentTab == 0) {
+      this.commodityCrabList();
+    } else if (this.data.currentTab == 1) {
+      this.listForSkuAllocation();
+    }
   },
   //切换顶部tab
   navbarTap: function (e) {
@@ -116,8 +120,8 @@ Page({
   //下拉刷新
   onPullDownRefresh:function(){
     this.setData({
-      page: 0,
-      _page:0
+      page: 1,
+      _page:1
     });
     if (this.data.currentTab == 0) {
       this.commodityCrabList();

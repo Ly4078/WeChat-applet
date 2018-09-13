@@ -110,7 +110,6 @@ Page({
   },
 
   onShow: function() {
-    console.log('this.data.issku:', this.data.issku);
     if (this.data.issku){
       this.bargainDetails();
     }else{

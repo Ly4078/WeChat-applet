@@ -64,12 +64,9 @@ Page({
     bargainList: [], //砍价拼菜
     bargainListall: [], //拼菜砍价
     secKillList: [], //限量秒杀
-    // freshobj:{
-    //   fresh1: 'https://xqmp4-1256079679.file.myqcloud.com/test_Colin11.png',
-    //   fresh2: 'https://xqmp4-1256079679.file.myqcloud.com/test_Colin222.png',
-    //   fresh3: 'https://xqmp4-1256079679.file.myqcloud.com/test_Colin333332.png'
-    // }, //享7生鲜图片
-    freshobj: {}, //享7生鲜图片
+    fresh1: {},//享7生鲜图片1
+    fresh2: {},//享7生鲜图片2
+    fresh3: {},//享7生鲜图片3
     whhotdish: [],
     syhotdish: [],
     hotdish: [],
@@ -204,9 +201,9 @@ Page({
 
     //请求配置数据
     wx.request({ //isflag
-      url: 'https://www.xq0036.top/version.txt',
+      url: this.data._build_url+'version.txt',
       success: function (res) {
-        
+        console.log('version:',res)
         if (res.data.flag == 0) { //0显示  
           app.globalData.isflag = true;
           that.setData({
@@ -218,15 +215,13 @@ Page({
             isfile: false
           })
         }
-        if (res.data.fresh){
-          console.log('res:', res.data.fresh)
-          let _fresh = res.data.fresh;
-          console.log("_fresh:", _fresh)
+        if (res.data.fresh1){
           that.setData({
-            freshobj: _fresh
+            fresh1: res.data.fresh1,
+            fresh2: res.data.fresh2,
+            fresh3: res.data.fresh3,
           })
         }
-        console.log('fresh:', that.data.freshobj.fresh1)
         if (res.data.kancai == 0) { //砍价0显示   
           let _Bargain = that.data.Bargain;
           _Bargain[0].name = '拼菜砍价';
@@ -265,7 +260,6 @@ Page({
     this.gettopiclist();
     this.gettoplistFor();
     this.findByCode();
-    console.log('onShow')
     // this.indexinit();
   },
   onShow: function () {
@@ -1768,14 +1762,19 @@ Page({
   // 螃蟹使用攻略
   crabSteamed: function (e) {
     wx.navigateTo({
-      url: 'crabSteamed/crabSteamed'
+      url: 'crabShopping/crabShopping?currentTab=1'
     })
   },
 
+  
   // 螃蟹进入商品详情
   crabPrtDetails: function (e) {
+    console.log("e:",e)
+    let id = e.currentTarget.id, spuId = e.target.dataset.spuid;
+    console.log('id:', id, 'spuId:',spuId)
+    // return
     wx.navigateTo({
-      url: 'crabShopping/crabDetails/crabDetails?id=' + 1 + '&spuId=' + 1,
+      url: 'crabShopping/crabDetails/crabDetails?id=' + id + '&spuId=' + spuId,
     })
   },
   // 螃蟹进入商品详情
