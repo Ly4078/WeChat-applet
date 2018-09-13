@@ -76,6 +76,7 @@ Page({
             if (rules[i].ruleType ==2){
               if (this.data.num > rules[i].manNum*1-0.5){
                 man = Math.floor(this.data.num/rules[i].manNum);
+                console.log('man:', man)
               }
             }
             if (rules[i].ruleType == 3) {
@@ -86,6 +87,7 @@ Page({
             }
           }
           _total = this.data.num * _obj.sellPrice + _obj.bzf;
+          _total = _total.toFixed(2);
           _obj.total = _total;
         }
         this.setData({
