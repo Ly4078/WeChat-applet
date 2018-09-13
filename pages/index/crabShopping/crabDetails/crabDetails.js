@@ -187,8 +187,8 @@ Page({
     });
   },
   //查询单个详情
-  getDetailBySkuId:function(){
-    if (this.data.isAct){return}
+  getDetailBySkuId:function(val){
+    if (this.data.isAct && !val){return}
     let _array = [];
     Api.DetailBySkuId({id:this.data.id}).then((res)=>{
       if(res.data.code == 0){
@@ -219,10 +219,8 @@ Page({
     this.setData({
       isAct: id,
       id:id
-    })
-    this.getDetailBySkuId();
-
-
+    });
+    this.getDetailBySkuId('val');
   },
   //查询商家详情
   getShopInfo: function() {
