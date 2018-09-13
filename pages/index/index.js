@@ -1781,7 +1781,7 @@ Page({
   // 螃蟹进入商品详情
   crabPrtPackage: function (e) {
     wx.navigateTo({
-      url: 'crabShopping/crabDetails/crabDetails?id=' + 1 + '&spuId=' + 2,
+      url: 'crabShopping/crabDetails/crabDetails?id=' + 6 + '&spuId=' + 2,
     })
   },
 

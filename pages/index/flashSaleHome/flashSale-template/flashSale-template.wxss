@@ -123,13 +123,9 @@ page {
   color: rgba(252, 94, 45, 1);
 }
 
-.fixationTop text:nth-child(2) {
-  font-size: 24rpx;
-  font-family: PingFangSC-Regular;
-  font-weight: 400;
-  text-decoration: line-through;
-  color: rgba(177, 177, 177, 1);
-  padding-left: 18rpx;
+.fixationTop{
+  display: flex;
+  align-items: center;
 }
 
 .mySeckillWrap {
@@ -248,4 +244,18 @@ page {
   top: 50%;
   margin-left: -52rpx;
   margin-top: -52rpx;
+}
+
+.fixaSellPrice{
+  width: 112rpx;
+  font-size: 24rpx;
+  font-family: PingFangSC-Regular;
+  font-weight: 400;
+  text-decoration: line-through;
+  color: rgba(177, 177, 177, 1);
+  padding-left: 18rpx;
+  margin-top: 12rpx;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
 }

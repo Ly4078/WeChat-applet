@@ -20,9 +20,9 @@
       </view>
       <view class='sumPurchase'>
         <view class='sumResidue'>
-          <view class='fixationTop'>
+          <view class='fixationTop'>  
             <text class='fixation'>{{item.agioPrice}}<text>元</text></text>
-            <text>{{item.sellPrice}}元</text>
+            <view class='fixaSellPrice'><text>{{item.sellPrice}}元</text></view>
           </view>
           <view class='accuracyQay'>
             <text class='accuracyQay-text'>剩余<text>{{item.stockNum}}</text>份</text>
