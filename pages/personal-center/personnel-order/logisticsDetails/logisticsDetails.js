@@ -8,7 +8,6 @@ Page({
     soDetail: {}
   },
   onLoad: function(options) {
-    console.log('options:', options)
     this.setData({
       soId: options.soId
     })
@@ -24,7 +23,6 @@ Page({
     }).then((res) => {
       if (res.data.code == 0) {
         let _data = res.data.data;
-        console.log('_data:', _data)
         // 1待付款  2待收货  3已完成 10取消，
         if (_data.status == 1) {
           _data.status2 = '待付款';
@@ -41,7 +39,6 @@ Page({
         that.setData({
           soDetail: _data
         })
-        console.log('soDetail:', this.data.soDetail)
       }
     })
   },
@@ -134,7 +131,6 @@ Page({
       success: function(res) {
         wx.getClipboardData({
           success: function(res) {
-            console.log(res.data) // data
             wx.showToast({
               title: '复制成功！',
               icon: 'none'
@@ -144,12 +140,12 @@ Page({
       }
     })
   },
-  examineLogistics: function() { //实时物流入口--
-    wx.navigateTo({
-      url: 'toTheLogistics/toTheLogistics',
-      success: function(res) {},
-      fail: function(res) {},
-      complete: function(res) {},
-    })
-  }
+  // examineLogistics: function() { //实时物流入口--
+  //   wx.navigateTo({
+  //     url: 'toTheLogistics/toTheLogistics',
+  //     success: function(res) {},
+  //     fail: function(res) {},
+  //     complete: function(res) {},
+  //   })
+  // }
 })

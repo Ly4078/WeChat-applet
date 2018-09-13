@@ -27,7 +27,9 @@
         <text>2018-09-09 20:04</text>
       </view>
     </view>
-    <image class='expressageImgRight' src='/images/icon/home_arrow.png'></image>
+    <!-- 下面这个view后面接通物流后删除把img放开 -->
+    <view class='expressageImgRight'></view> 
+    <!-- <image class='expressageImgRight' src='/images/icon/home_arrow.png'></image> -->
   </view>
   <!-- 收货地址 -->
   <view class='expressage'>
