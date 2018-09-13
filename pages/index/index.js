@@ -64,6 +64,12 @@ Page({
     bargainList: [], //砍价拼菜
     bargainListall: [], //拼菜砍价
     secKillList: [], //限量秒杀
+    // freshobj:{
+    //   fresh1: 'https://xqmp4-1256079679.file.myqcloud.com/test_Colin11.png',
+    //   fresh2: 'https://xqmp4-1256079679.file.myqcloud.com/test_Colin222.png',
+    //   fresh3: 'https://xqmp4-1256079679.file.myqcloud.com/test_Colin333332.png'
+    // }, //享7生鲜图片
+    freshobj: {}, //享7生鲜图片
     whhotdish: [],
     syhotdish: [],
     hotdish: [],
@@ -155,21 +161,22 @@ Page({
       id: 5
     }],
     fooddatas: ['附近', '人气', "自助餐", "湖北菜", "川菜", "湘菜", "粤菜", "咖啡厅", "小龙虾", "火锅", "海鲜", "烧烤", "江浙菜", "西餐", "料理", "其它美食"],
-    ResThree: [{
+    ResThree: [
+      {
       img: 'https://xq-1256079679.file.myqcloud.com/test_798888529104573275_0.8.jpg',
       id: 1,
       name: '享7券',
       dishtype: "湘菜",
       juli: '289',
       shopname: "恩施印像"
-    }, {
+      }, {
       img: 'https://xq-1256079679.file.myqcloud.com/test_798888529104573275_0.8.jpg',
       id: 2,
       name: '餐厅',
       dishtype: "湘菜",
       juli: '289',
       shopname: "恩施印像"
-    }, {
+      }, {
       img: 'https://xq-1256079679.file.myqcloud.com/test_798888529104573275_0.8.jpg',
       id: 3,
       name: '活动',
@@ -180,10 +187,6 @@ Page({
   },
   onLoad: function (options) {
     let that = this;
-    // wx.showLoading({
-    //   title: '加载中...'
-    // });
-
 
     //版本更新
     const updateManager = wx.getUpdateManager();
@@ -201,8 +204,9 @@ Page({
 
     //请求配置数据
     wx.request({ //isflag
-      url: 'https://www.hbxq001.cn/version.txt',
+      url: 'https://www.xq0036.top/version.txt',
       success: function (res) {
+        
         if (res.data.flag == 0) { //0显示  
           app.globalData.isflag = true;
           that.setData({
@@ -214,7 +218,15 @@ Page({
             isfile: false
           })
         }
-
+        if (res.data.fresh){
+          console.log('res:', res.data.fresh)
+          let _fresh = res.data.fresh;
+          console.log("_fresh:", _fresh)
+          that.setData({
+            freshobj: _fresh
+          })
+        }
+        console.log('fresh:', that.data.freshobj.fresh1)
         if (res.data.kancai == 0) { //砍价0显示   
           let _Bargain = that.data.Bargain;
           _Bargain[0].name = '拼菜砍价';
