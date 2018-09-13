@@ -36,7 +36,6 @@ Page({
     elephant: 0
   },
   navbarTap: function (e) { //顶部第一级tab栏
-    console.log(e.currentTarget.dataset.idx)
     this.setData({
       shopping: e.currentTarget.dataset.idx
     })
@@ -87,7 +86,6 @@ Page({
   },
   // 查询物流订单列表
   getlogisticsList:function(val){
-    console.log(app.globalData.userInfo)
     let _parms = {
       userId: app.globalData.userInfo.userId,
       row:10,
@@ -122,8 +120,6 @@ Page({
             logisticsList: logistics
           });
         }
-        
-        console.log('logisticsList:', this.data.logisticsList)
       }
     })
   },
@@ -375,7 +371,6 @@ Page({
   // 物流订单-->订单详情
   clickLogistics:function(e){
     let id = e.currentTarget.id;
-    console.log('id:',id)
     wx.navigateTo({
       url: 'logisticsDetails/logisticsDetails?soId='+id,
       success: function(res) {},

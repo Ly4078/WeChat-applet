@@ -76,12 +76,6 @@ page{
   height: auto;
 }
 
-.expressageImgRight{
-  width: 12rpx;
-  height: 22rpx;
-  margin-right: 28rpx;
-}
-
 .expressageSite{
   width: 90%;
   overflow: hidden;
