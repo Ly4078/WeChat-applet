@@ -38,7 +38,7 @@
         <text>到付</text>
       </view>
       <view class='equally' bindtap='handbzf'>
-        <text>包装费<text class='suoming'>（冰袋、保温内胆、加厚泡沫箱）？</text></text>
+        <text>包装费<text class='suoming'>（冰袋、保温内胆、加厚泡沫箱）</text></text>
         <text>￥{{current.bzf}}</text>
       </view>
       <view class='equally'>
@@ -61,6 +61,12 @@
         </label>
       </checkbox-group>
     </view>
+  </view>
+
+  <!-- 温馨提示 -->
+  <view class='warmPrompt'>
+    <view><text>每8斤包装费15元；</text></view>
+    <view><text>不满8斤按照8斤收取15元包装费。</text></view>
   </view>
 
   <!-- 提交订单 -->
