@@ -568,7 +568,7 @@ Page({
       }
       let sellPrice = this.data.skuMoneyNow;
       wx.navigateTo({
-        url: '../../../order-for-goods/order-for-goods?shopId=' + this.data.shopId + '&groupId=' + this.data.groupId + '&skuName=' + sellPrice + '元砍价券&sell=' + sellPrice + '&skutype=10&dishSkuId=' + this.data.refId + '&dishSkuName=' + this.data.skuName + '&bargainType=2'
+        url: '../../../order-for-goods/order-for-goods?shopId=' + this.data.shopId + '&groupId=' + this.data.groupId + '&skuName=' + sellPrice + '元兑换券&sell=' + sellPrice + '&skutype=10&dishSkuId=' + this.data.refId + '&dishSkuName=' + this.data.skuName + '&bargainType=2'
       })
     });
   },

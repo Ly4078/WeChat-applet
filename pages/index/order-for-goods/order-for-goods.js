@@ -338,7 +338,7 @@ Page({
           })
         }
       })
-    } else if (this.data.skuType == 10) {
+    } else if (this.data.skutype == 10) {
       let _parms = {
           skuName: this.data.skuName,
           skuType: 10,
