@@ -153,14 +153,9 @@ Page({
   },
   //点击包装费疑问
   handbzf:function(){
-    let str ='';
-    for (let i = 0; i < rules.length;i++){
-      str += rules[i].ruleDesc+' ';
-    }
-    
     wx.showModal({
       title: '',
-      content: str ,
+      content: '每8斤包装费15元；不满8斤按照8斤收取15元包装费。',
       showCancel:false,
       success: function (res) {
         if (res.confirm) {
@@ -219,7 +214,7 @@ Page({
       })
     }else{
       wx.showToast({
-        title: '请先同意顺丰到付',
+        title: '亲,请勾线顺丰到付哟!',
         icon:'none'
       })
     }

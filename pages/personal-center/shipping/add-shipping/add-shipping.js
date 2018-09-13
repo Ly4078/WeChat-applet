@@ -325,6 +325,7 @@ Page({
         if (res.data.code == 0) {
           wx.showToast({
             title: '保存成功',
+            icon: 'none'
           });
           setTimeout(() => {
             wx.redirectTo({
