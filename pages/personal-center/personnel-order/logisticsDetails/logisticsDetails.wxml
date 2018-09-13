@@ -60,22 +60,32 @@
         </view>
       </view>
     </view>
+
     <view class='endAmount'>
       <view class='endAmountNei'>
-        <text>总金额</text>
-        <text>￥{{soDetail.skuAmount}}</text>
+        <text>商品总额</text>
+        <text>￥{{soDetail.comTotal}}</text>
       </view>
     </view>
+
+    <view class='endAmount'>
+      <view class='endAmountNei'>
+        <text>包装费</text>
+        <text>￥{{soDetail.orderItemOuts[0].packingPrice}}</text>
+      </view>
+    </view>
+
     <view class='endAmount'>
       <view class='endAmountNei'>
         <text>运费</text>
         <text>到付</text>
       </view>
     </view>
+    
     <view class='practicalPay'>
       <view class='practicalPayAmount'>
         <text>实付款：</text>
-        <text>￥{{soDetail.skuAmount}}</text>
+        <text>￥{{soDetail.realAmount}}</text>
       </view>
     </view>
   </view>

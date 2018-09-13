@@ -56,11 +56,19 @@
       </view>
       <checkbox-group bindchange="checkboxChange">
         <label class="checkbox">
-          <checkbox value="1" />
+          <checkbox value="1"  checked="{{isagree}}"/>
         </label>
       </checkbox-group>
     </view>
   </view>
+
+
+  <!-- 温馨提示 -->
+  <!-- <view class='warmPrompt'>
+    <view><text>每8斤包装费15元；</text></view>
+    <view><text>不满8斤按照8斤收取15元包装费。</text></view>
+  </view> -->
+
 
   <!-- 提交订单 -->
   <view class='presentComm'>

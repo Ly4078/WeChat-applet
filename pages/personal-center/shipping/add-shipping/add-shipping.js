@@ -162,21 +162,25 @@ Page({
   // 处理省市县联动逻辑
   cityChange: function(e) {
     let _arr = e.detail.value;
+    console.log('_arr:', _arr)
     this.getcity(_arr[0] + 1,_arr[1]);
     this.setData({
       preId: _arr[0],
       value:_arr
     });
+    console.log('valu11e:', this.data.value)
   },
   // 点击地区选择确定按钮
   citySure: function (e) {
     let that = this, city = that.data.city, value = that.data.value;
+    console.log('value:', value)
     that.startAddressAnimation(false)
     // 将选择的城市信息显示到输入框
     let _areaInfo = that.data.provinces[value[0]].provinceCname + ',' + that.data.citys[value[1]].cityCname + ',' + that.data.areas[value[2]].countyCname, _areaIds = [];
     _areaIds.push(that.data.provinces[value[0]].id);
     _areaIds.push(that.data.citys[value[1]].id);
     _areaIds.push(that.data.areas[value[2]].id);
+    console.log('_areaIds:', _areaIds)
     that.setData({
       areaInfo: _areaInfo,
       areaIds: _areaIds

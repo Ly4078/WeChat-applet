@@ -209,7 +209,7 @@ page{
   padding-top: 20rpx;
 }
 
-.endAmount:nth-child(3){
+.endAmount:nth-child(4){
   border-bottom: 1px solid #F5F5FA;
   padding-bottom: 20rpx;
 }

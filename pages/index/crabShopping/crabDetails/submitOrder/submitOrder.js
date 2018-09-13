@@ -52,8 +52,10 @@ Page({
       issku: options.issku,
       id: options.id,
       shopId: options.shopId,
-      spuId: options.spuId
+      spuId: options.spuId,
+      isagree: options.isagree ? options.isagree :false
     })
+    app.globalData.OrderObj = options;
   },
   onShow:function(){
     if (!this.data.chatName){
@@ -153,6 +155,14 @@ Page({
   },
   //点击包装费疑问
   handbzf:function(){
+    let str ='';
+    for (let i = 0; i < rules.length;i++){
+      str += rules[i].ruleDesc+' ';
+    }
+    if(rules.length<2){
+      str += ' ' +'不满8斤按照8斤收取15元包装费。'
+    }
+    
     wx.showModal({
       title: '',
       content: '每8斤包装费15元；不满8斤按照8斤收取15元包装费。',

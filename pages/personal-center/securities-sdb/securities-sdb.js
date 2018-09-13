@@ -30,6 +30,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
+    console.log('options:', options)
     this.findByCode();
     if (options.back == 1) {
       this.setData({
@@ -142,9 +143,15 @@ Page({
                 }
               };
               if (data.mobile) {
-                wx.switchTab({
-                  url: '../../index/index'
-                })
+                if (that.data.isBack) {
+                  wx.navigateBack({
+                    data: 1
+                  })
+                }else{
+                  wx.switchTab({
+                    url: '../../index/index'
+                  })
+                }
               }
             }
           }

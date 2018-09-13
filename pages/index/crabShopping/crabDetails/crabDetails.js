@@ -42,8 +42,8 @@ Page({
         place: '礼盒装'
       },
       {
-        placeName: '数量',
-        place: '8只'
+        placeName: '规格',
+        place: ''
       },
       {
         placeName: '邮费',
@@ -123,12 +123,13 @@ Page({
     if(this.data.shopId){
       this.getShopInfo();
     }
+
   },
 
   bargainDetails:function(){   //品质好店-->店铺详情--列表
     if (!app.globalData.userInfo.mobile) {
-      this.setData({
-        issnap: true
+      wx.navigateTo({
+        url: '../../../../pages/personal-center/securities-sdb/securities-sdb?back=1'
       })
       return false
     }
@@ -143,15 +144,6 @@ Page({
     Api.dhcList(_parms).then((res) => {  //列表
       if (res.data.code == 0 && res.data.data.list) {
         let _obj = res.data.data.list[0];
-        if (_obj.unit){
-          let str = _obj.unit;
-          if (str.indexOf("盒") != -1) {
-            _obj.isbox = 1;
-          } else {
-            _obj.isbox = 0;
-          }
-        }
-        
         this.setData({
           SelectedList: _obj
         })
@@ -173,9 +165,14 @@ Page({
       if (res.data.code == 0) {
         let _list = res.data.data.list;
         let _obj = _list[0];
+        console.log('id:', that.data.id)
         for(let i =0;i<_list.length;i++){
+          console.log('_list[i].id:', _list[i].id)
           if(that.data.id == _list[i].id){
+            console.log('1111')
               that.getDetailBySkuId();
+          }else{
+            console.log('222')
           }
         }
         this.setData({
@@ -194,11 +191,13 @@ Page({
         let _obj = res.data.data;
        
         _array = this.data.array;
+        console.log('_obj:', _obj)
         if (_obj.spuId == 1) {
           _array[1].place = '礼盒装';
         } else if (_obj.spuId == 2) {
           _array[1].place = '散装';
         }
+        _array[2].place = _obj.skuName;
 
        
         this.setData({
@@ -280,8 +279,8 @@ Page({
   //发起砍价
   initiateCut:function(){
     if (!app.globalData.userInfo.mobile) {
-      this.setData({
-        issnap: true
+      wx.navigateTo({
+        url: '../../../../pages/personal-center/securities-sdb/securities-sdb?back=1'
       })
       return false
     }
@@ -443,8 +442,8 @@ Page({
   originalPrice: function() {
     let _num = this.data.num, _issku = this.data.issku ? 1 : 2, _shopId = this.data.SelectedList.shopId;
     if (!app.globalData.userInfo.mobile) {
-      this.setData({
-        issnap: true
+      wx.navigateTo({
+        url: '../../../../pages/personal-center/securities-sdb/securities-sdb?back=1'
       })
     }else{
       wx.navigateTo({

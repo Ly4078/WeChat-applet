@@ -406,7 +406,7 @@ page{
 }
 
 .ficationSingle{
-  width: 100%;
+  width: 98%;
   height: 56rpx;
   background:rgba(245,245,250,1);
   border-radius:8rpx;

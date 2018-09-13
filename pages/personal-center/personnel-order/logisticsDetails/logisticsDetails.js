@@ -37,6 +37,7 @@ Page({
           _data.status2 = '已取消';
         }
         _data.address = _data.orderAddressOut.dictProvince + _data.orderAddressOut.dictCity + _data.orderAddressOut.dictCounty + _data.orderAddressOut.detailAddress;
+        _data.comTotal = _data.orderItemOuts[0].goodsPrice * _data.orderItemOuts[0].goodsNum;
         that.setData({
           soDetail: _data
         })
@@ -80,7 +81,6 @@ Page({
             code: res.code
           }
           Api.getOpenId(_parms).then((res) => {
-            console.log('openres:', res)
             if (res.data.code == 0) {
               app.globalData.userInfo.openId = res.data.data.openId;
               app.globalData.userInfo.sessionKey = res.data.data.sessionKey;
