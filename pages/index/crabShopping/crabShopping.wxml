@@ -39,7 +39,7 @@
 
 <!--到店消费-->
 <view hidden="{{currentTab==0}}">
-  <image class='storeImg' src='https://xqmp4-1256079679.file.myqcloud.com/Colin_reachTheStore.png'></image>
+  <image class='storeImg' src='{{dshImg}}'></image>
   <view class='storeWrapCrad'>
     <view class='storStyle'>
       <view class='storPprofileWrap' wx:if="{{storeData.length>0}}" wx:for="{{storeData}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}" catchtap='crabBargainirg' id='{{item.id}}' data-id="{{item.skuForTscOuts[0].id}}">

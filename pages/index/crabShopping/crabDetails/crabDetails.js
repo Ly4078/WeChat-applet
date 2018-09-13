@@ -51,14 +51,7 @@ Page({
         place: '到付'
       }
     ],
-    photograph: [
-      {
-      print: 'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=666433332,3038005955&fm=26&gp=0.jpg'
-      }, {
-      print: 'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=666433332,3038005955&fm=26&gp=0.jpg'
-      }, {
-      print: 'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=666433332,3038005955&fm=26&gp=0.jpg'
-    }],
+    crabImgUrl: [],// 详情图列表
     legined:[
       {
         p1:'正品保障',
@@ -78,6 +71,12 @@ Page({
 
   onLoad: function(options) {
     console.log('optons:',options)
+    wx.request({
+      url: this.data._build_url + 'version.txt',
+      success: function (res) {
+        app.globalData.txtObj = res.data;
+      }
+    })
     let _id = '', _spuId = '', _shopId = '', _greensID = '', isShop = false;
     
     if (options.id) {
@@ -110,12 +109,27 @@ Page({
       greensID: _greensID ? _greensID : this.data.greensID,
       isShop: isShop
     })
-
   },
 
   onShow: function() {
+    console.log('txtObj:', app.globalData.txtObj)
+    let _crabImgUrl = app.globalData.txtObj.crabImgUrl, _ruleImg = app.globalData.txtObj.ruleImg;
+    this.setData({
+      crabImgUrl: _crabImgUrl
+    })
     if (this.data.issku){
       this.bargainDetails();
+      
+
+      _crabImgUrl = this.data.crabImgUrl;
+      _crabImgUrl.shift();
+      _crabImgUrl.shift();
+      _crabImgUrl.pop();
+      _crabImgUrl.unshift(_ruleImg);
+      
+      this.setData({
+        crabImgUrl: _crabImgUrl
+      })
     }else{
       if (this.data.spuId) {
         this.geSkutlist();
@@ -127,6 +141,7 @@ Page({
     if(this.data.shopId){
       this.getShopInfo();
     }
+
   },
 
   bargainDetails:function(){   //品质好店-->店铺详情--列表
@@ -171,7 +186,7 @@ Page({
     let _parms = {
       spuType: 10,
       page: this.data.page,
-      rows: 8,
+      rows: 20,
       spuId: this.data.spuId
     };
     Api.crabList(_parms).then((res) => { //查询同类规格列表
@@ -198,17 +213,25 @@ Page({
   //查询单个详情
   getDetailBySkuId:function(val){
     if (this.data.isAct && !val){return}
-    let _array = [];
+    let _array = [],that = this;
     Api.DetailBySkuId({id:this.data.id}).then((res)=>{
       if(res.data.code == 0){
-        let _obj = res.data.data;
-       
+        let _obj = res.data.data, _crabImgUrl = this.data.crabImgUrl;
+        console.log('_crabImgUrl.lenght:', _crabImgUrl.length)
         _array = this.data.array;
         console.log('_obj:', _obj)
         if (_obj.spuId == 1) {
-          _array[1].place = '礼盒装';
-        } else if (_obj.spuId == 2) {
           _array[1].place = '散装';
+          // crabImgUrl.detail
+          if (_crabImgUrl.length>8){
+            _crabImgUrl.shift();
+            _crabImgUrl.shift();
+            that.setData({
+              crabImgUrl: _crabImgUrl
+            })
+          }
+        } else if (_obj.spuId == 2) {
+          _array[1].place = '礼盒装';
         }
         _array[2].place = _obj.skuName;
 

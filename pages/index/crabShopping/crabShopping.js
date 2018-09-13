@@ -26,7 +26,8 @@ Page({
     currentTab: 0,
     page: 1,
     _page:1,
-    articleid:''
+    articleid:'',
+    dshImg:''
   },
   onLoad: function (option) {
     this.setData({
@@ -34,6 +35,9 @@ Page({
     })
   },
   onShow: function () {
+    this.setData({
+      dshImg: app.globalData.txtObj.dsh.imgUrl
+    })
     if (this.data.currentTab == 0) {
       this.commodityCrabList();
     } else if (this.data.currentTab == 1) {

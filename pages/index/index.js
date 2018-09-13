@@ -204,6 +204,7 @@ Page({
       url: this.data._build_url+'version.txt',
       success: function (res) {
         console.log('version:',res)
+        app.globalData.txtObj = res.data;
         if (res.data.flag == 0) { //0显示  
           app.globalData.isflag = true;
           that.setData({

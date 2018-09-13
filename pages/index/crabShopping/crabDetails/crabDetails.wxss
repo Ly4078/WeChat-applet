@@ -196,10 +196,17 @@ page{
   padding-bottom: 20rpx;
 }
 
+
+.imgUlrs{
+  width:750rpx;
+  height:auto;
+  display: block;
+}
+
 .synopsisImgWrap{
   width: 100%;
-  height: 100%;
-  padding-bottom: 82rpx;
+  height: auto;
+  border: 1rpx solid red;
 }
 
 .immediately{
@@ -213,6 +220,10 @@ page{
 }
 
 /* 底部 */
+.bjjges{
+  width: 100%;
+  height: 86rpx;
+}
 .pagebuttom{
   width: 100%;
   height: 86rpx;
@@ -339,6 +350,9 @@ page{
 
 .synopsisimgsrc{
   width: 750rpx;
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 .commodityTop{

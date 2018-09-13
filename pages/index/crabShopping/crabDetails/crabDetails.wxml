@@ -113,16 +113,11 @@
           </view>
         </view>
       </label>
-      <!-- <view class='synopsis'>
-        <view class='synopsisText'><text>产地</text><text>阳澄湖</text></view>
-      </view> -->
     </view>
   </view>
-  <view class='synopsisImgWrap' wx:for="{{photograph}}" wx:for-item="item" wx:for-index="index" wx:key="{{index}}">
-    <!-- <label> -->
-      <image class='synopsisimgsrc' src='{{item.print}}'></image>
-    <!-- </label> -->
-  </view>
+
+    <image class='imgUlrs'  wx:for="{{crabImgUrl}}" wx:for-item="item" wx:for-index="index" wx:key="{{index}}" mode="widthFix" src='{{item}}'></image>
+  <view class='bjjges'></view>
   <!-- 底部固定立即购买 -->
   <view class='pagebuttom' wx:if="{{!isbut}}">
     <view class='returnHome home' catchtap='returnHomeArrive'>

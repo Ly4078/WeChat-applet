@@ -23,6 +23,7 @@ App({
     isflag:true,
     oldcity:'',
     OrderObj:{},
+    txtObj:{},
     userInfo: {
       id:'',
       openId: '',
