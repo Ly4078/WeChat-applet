@@ -32,7 +32,7 @@ Page({
     countDown: '', //倒计时
     getGoldNum: 0, //砍价人获得的金币数
     progress: 0, //进度条
-    status: 1, //砍价状态 1.60分钟内  3.过了60分钟或者已买 4.满5人
+    status: 1, //砍价状态 1.60分钟内  3.过了60分钟或者已买 4.满3人
     otherStatus: 1, //1.可以帮发起人砍价  2.已经砍过  3.人数已满  4.过了60分钟砍价结束
     isMine: false, //不是本人
     issnap: false,
@@ -340,8 +340,8 @@ Page({
             miliNow = new Date().getTime();
           let minus = Math.floor((miliEndTime - miliNow) / 1000);
           if (minus > 0 && minus <= 3600) { //小于60分钟
-            //好友进入砍菜页面人数满5人并且超过半小时不能砍价
-            if (this.data.peoplenum >= 5) {
+            //好友进入砍菜页面人数满3人并且超过半小时不能砍价
+            if (this.data.peoplenum >= 3) {
               this.setData({
                 status: 4,
                 otherStatus: 3
@@ -409,7 +409,7 @@ Page({
       zanUserId: this.data.initiator ? this.data.initiator : app.globalData.userInfo.userId,
       shopId: this.data.shopId
     };
-    Api.discountDetail(_parms).then((res) => {
+    Api.crabDishDetail(_parms).then((res) => {
       if (res.data.code == 0 && res.data.data) {
         let data = res.data.data;
         this.setData({
@@ -429,16 +429,9 @@ Page({
   },
   chilkDish(e) {
     let id = e.currentTarget.id,
-      _shopId = e.currentTarget.dataset.shipid;
+      _shopId = e.currentTarget.dataset.shopid;
     wx.navigateTo({
-      url: '../CandyDishDetails/CandyDishDetails?id=' + id + '&shopId=' + _shopId
-    })
-  },
-  candyDetails(e) {
-    let id = e.currentTarget.id,
-      _shopId = e.currentTarget.dataset.index;
-    wx.navigateTo({
-      url: '../CandyDishDetails/CandyDishDetails?id=' + id + '&shopId=' + _shopId
+      url: '../crabDetails/crabDetails?id=' + id + '&shopId=' + _shopId
     })
   },
   //查询能否砍价
@@ -449,7 +442,7 @@ Page({
       userId: app.globalData.userInfo.userId,
       groupId: this.data.groupId
     };
-    Api.isHelpfriend(_parms).then((res) => {
+    Api.isBargainCeab(_parms).then((res) => {
       let code = res.data.code,
         otherStatus = 1;
       if (code == 0) {
@@ -484,7 +477,7 @@ Page({
         userId: app.globalData.userInfo.userId,
         groupId: this.data.groupId
       };
-    Api.isHelpfriend(_parms).then((res) => {
+    Api.bargainCrab(_parms).then((res) => {
       let code = res.data.code;
       if (code == 0) {
         _this.setData({
@@ -569,7 +562,7 @@ Page({
       }
       let sellPrice = this.data.skuMoneyNow;
       wx.navigateTo({
-        url: '../../order-for-goods/order-for-goods?shopId=' + this.data.shopId + '&groupId=' + this.data.groupId + '&skuName=' + sellPrice + '元砍价券&sell=' + sellPrice + '&skutype=4&dishSkuId=' + this.data.refId + '&dishSkuName=' + this.data.skuName + '&bargainType=2'
+        url: '../../../order-for-goods/order-for-goods?shopId=' + this.data.shopId + '&groupId=' + this.data.groupId + '&skuName=' + sellPrice + '元砍价券&sell=' + sellPrice + '&skutype=4&dishSkuId=' + this.data.refId + '&dishSkuName=' + this.data.skuName + '&bargainType=2'
       })
     });
   },
@@ -579,7 +572,7 @@ Page({
   // 左上角返回首页
   returnHomepage: function() {
     wx.switchTab({
-      url: '../../index'
+      url: '../../../index'
     })
   },
   // 使用规则

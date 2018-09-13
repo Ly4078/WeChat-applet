@@ -1,1 +1,9 @@
 @import "../../../bargainirg-store/AprogressBar/AprogressBar.wxss";
+
+.cuisineRight-text text {
+  display: block;
+  width: 320rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

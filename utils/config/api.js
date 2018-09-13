@@ -547,6 +547,18 @@ const ALL_API = {
   createCrabDish: {    //创建砍蟹接口
     method: 'POST',
     url: 'gold/createQg'
+  },
+  crabDishDetail: {   //螃蟹兑换菜详情
+    method: 'GET',
+    url: 'sku/getDhc'
+  },
+  isBargainCeab: {    //查询是否能帮好友砍螃蟹
+    method: 'GET',
+    url: 'gold/getshiorQg'
+  },
+  bargainCrab: {    //帮好友砍螃蟹
+    method: 'GET',
+    url: 'gold/helpfriendQg'
   }
 }
 const Api = new MyHttp({}, ALL_API);

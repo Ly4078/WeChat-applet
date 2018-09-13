@@ -1,6 +1,6 @@
 <view>
   <block wx:for="{{bargainList}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
-    <view class='previously' id="{{item.skuId}}" bindtap='bargainDetail'>
+    <view class='previously' id="{{item.skuId}}" data-skuType="{{item.skuType}}" bindtap='bargainDetail'>
       <image class='preImages' src='{{item.picUrl}}' ></image>
       <view class='preRight'>
         <view class='preRitTop'>

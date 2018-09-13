@@ -28,7 +28,7 @@
           </view>
         </view>
       </view>
-      <view class='cuisine' id="{{dishData.id}}" data-shipid="{{dishData.shopId}}" catchtap='chilkDish'>
+      <view class='cuisine' id="{{dishData.id}}" data-shopid="{{dishData.shopId}}" catchtap='chilkDish'>
         <image class='cuisineImages' src='{{picUrl}}'></image>
         <view class='cuisineRight'>
           <view class='cuisineRight-Top'>
@@ -101,7 +101,7 @@
       <!-- 已经帮朋友砍完价 -->
       <view wx:if="{{!isMine && otherStatus == 2}}" class='invitation-share'>
         <button class='invitation-share-f'>已帮好友砍价，获得<text>{{getGoldNum}}</text>个金币</button>
-        <button class='invitation-share-s' id="{{dishData.id}}" data-shipid="{{dishData.shopId}}" catchtap='chilkDish'>发起砍价</button>
+        <button class='invitation-share-s' id="{{dishData.id}}" data-shopid="{{dishData.shopId}}" catchtap='chilkDish'>发起砍价</button>
       </view>
 
       <!--倒计时  -->
@@ -121,7 +121,7 @@
         <view class='moneyRulenei'>
           <view class='moneyRuleLeft'>领取人数
             <text>{{peoplenum+1}}</text>/
-            <text>6</text>人</view>
+            <text>3</text>人</view>
           <view class='moneyRuleRighe'>
             <text>金币规则</text>
           </view>
@@ -156,7 +156,7 @@
   <view class="modalDlg" wx:if="{{instruct}}">
     <view class='windows_tishi'>———— 规则说明 ————</view>
     <view class='windows_text'>
-      <text>1.砍价菜品均为限量发售，售完即止；\n\n2.用户需在60分钟内邀请好友帮您砍价并成功支付；若超时，需要重新发起砍价申请；\n\n3.支付成功后，一个月内均可进店使用，过期作废；\n\n 4.每桌仅限使用一道砍价菜品，不可叠加使用；\n\n5.其他优惠等问题，以门店实际规定为准,购买后不支持退款、不兑现、不找零；\n\n6.最终解释权归享7平台所有。\n\n\n\n</text>
+      <text>1.螃蟹均为限量发售，售完即止；\n\n2.用户需在60分钟内邀请好友帮您砍价并成功支付；若超时，需要重新发起砍价申请；\n\n3.支付成功后，5天内均可进店使用，过期作废；\n\n 4.每人每天仅限两只螃蟹，不可叠加使用；\n\n5.其他优惠等问题，以门店实际规定为准,购买后不支持退款、不兑现、不找零；\n\n6.最终解释权归享7平台所有。\n\n\n\n</text>
     </view>
     <!-- <button class='understand' bindtap="understand">我已知晓此规则</button> -->
   </view>

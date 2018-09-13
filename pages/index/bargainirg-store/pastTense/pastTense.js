@@ -86,60 +86,66 @@ Page({
       minus = '', //时间差(秒)
       that = this;
 
-      timer = setInterval(function() {
-        console.log("111")
-        that.setData({
-          timer: timer
-        });
-        let isEnd = 0;
-        for (let i = 0; i < arr.length; i++) {
-          miliNow = new Date().getTime(); //现在时间
-          miliEndTime = (new Date(timeArr[i].endTime)).getTime(); //结束时间
-          minus = Math.floor((miliEndTime - miliNow) / 1000); //时间差(秒)
-          if (minus <= 0) {
-            isEnd++;
-            timeArr[i].countDown = '';
-          } else {
-            isEnd--;
-            hours = Math.floor(minus / 3600); //时
-            minutes = Math.floor(minus / 60); //分
-            seconds = minus % 60; //秒
-            hours = hours < 10 ? '0' + hours : hours;
-            minutes = minutes < 10 ? '0' + minutes : minutes;
-            seconds = seconds < 10 ? '0' + seconds : seconds;
-            timeArr[i].countDown = hours + ':' + minutes + ':' + seconds;
-          }
-          that.setData({
-            timeArr: timeArr
-          });
-          timeArr = that.data.timeArr;
+    timer = setInterval(function() {
+      console.log("111")
+      that.setData({
+        timer: timer
+      });
+      let isEnd = 0;
+      for (let i = 0; i < arr.length; i++) {
+        miliNow = new Date().getTime(); //现在时间
+        miliEndTime = (new Date(timeArr[i].endTime)).getTime(); //结束时间
+        minus = Math.floor((miliEndTime - miliNow) / 1000); //时间差(秒)
+        if (minus <= 0) {
+          isEnd++;
+          timeArr[i].countDown = '';
+        } else {
+          isEnd--;
+          hours = Math.floor(minus / 3600); //时
+          minutes = Math.floor(minus / 60); //分
+          seconds = minus % 60; //秒
+          hours = hours < 10 ? '0' + hours : hours;
+          minutes = minutes < 10 ? '0' + minutes : minutes;
+          seconds = seconds < 10 ? '0' + seconds : seconds;
+          timeArr[i].countDown = hours + ':' + minutes + ':' + seconds;
         }
         that.setData({
           timeArr: timeArr
         });
-        if (isEnd == timeArr.length) {
-          clearInterval(that.data.timer);
-          return false;
-        }
-        minus--;
-      }, 1000)
+        timeArr = that.data.timeArr;
+      }
+      that.setData({
+        timeArr: timeArr
+      });
+      if (isEnd == timeArr.length) {
+        clearInterval(that.data.timer);
+        return false;
+      }
+      minus--;
+    }, 1000)
   },
   bargainDetail(e) {
+    console.log(e);
     let id = e.currentTarget.id,
       list = this.data.bargainList,
-      that = this;;
+      skuType = e.currentTarget.dataset.skutype,
+      that = this;
     for (let i = 0; i < list.length; i++) {
       if (list[i].skuId == id) {
         this.setData({
           bargainList: []
         })
         clearInterval(that.data.timer);
-        wx.navigateTo({
-          url: '../AprogressBar/AprogressBar?groupId=' + list[i].groupId + '&shopId=' + list[i].shopId + '&refId=' + list[i].skuId + '&skuMoneyOut=' + list[i].skuMoneyOut + '&skuMoneyMin=' + list[i].skuMoneyMin + '&initiator=' + app.globalData.userInfo.userId
-        })
-        return false;
+        if (skuType == 9) {
+          wx.navigateTo({
+            url: '../../crabShopping/crabDetails/crabShare/crabShare?groupId=' + list[i].groupId + '&shopId=' + list[i].shopId + '&refId=' + list[i].skuId + '&skuMoneyOut=' + list[i].skuMoneyOut + '&skuMoneyMin=' + list[i].skuMoneyMin + '&initiator=' + app.globalData.userInfo.userId
+          })
+        } else if (skuType == 6) {
+          wx.navigateTo({
+            url: '../AprogressBar/AprogressBar?groupId=' + list[i].groupId + '&shopId=' + list[i].shopId + '&refId=' + list[i].skuId + '&skuMoneyOut=' + list[i].skuMoneyOut + '&skuMoneyMin=' + list[i].skuMoneyMin + '&initiator=' + app.globalData.userInfo.userId
+          })
+        }
       }
     }
   }
 })
-
