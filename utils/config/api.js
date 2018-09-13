@@ -560,12 +560,12 @@ const ALL_API = {
     method: 'GET',
     url: 'sku/getDhc'
   },
-  isBargainCeab: {    //查询是否能帮好友砍螃蟹
+  isBargainCrab: {    //查询是否能帮好友砍螃蟹
     method: 'GET',
     url: 'gold/getshiorQg'
   },
   bargainCrab: {    //帮好友砍螃蟹
-    method: 'GET',
+    method: 'POST',
     url: 'gold/helpfriendQg'
   }
 }

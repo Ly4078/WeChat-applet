@@ -5,10 +5,10 @@ import {
 } from '../../../../../utils/config/config.js';
 var app = getApp();
 
-var village_LBS = function (that) {
+var village_LBS = function(that) {
   wx.getLocation({
-    success: function (res) {
-      console.log('vill_res:', res)
+    success: function(res) {
+      console.log('13行：==============vill_res:', res)
       let latitude = res.latitude,
         longitude = res.longitude;
       app.globalData.userInfo.lat = latitude;
@@ -41,11 +41,11 @@ Page({
     canvasSrc: '',
     audioSrc: '',
     _city: '',
-    _lat:'',
-    _lng:''
+    _lat: '',
+    _lng: ''
   },
   onLoad: function(options) {
-    console.log('options:'+options);
+    console.log('48行options:============' + options);
     this.setData({
       refId: options.refId, //菜品Id
       shopId: options.shopId, //商家Id
@@ -54,7 +54,7 @@ Page({
       userId: app.globalData.userInfo.userId, //登录者Id
       initiator: options.initiator ? options.initiator : '', //发起人Id
       groupId: options.groupId ? options.groupId : '', //团砍Id
-      _city: options.city ? options.city:'',
+      _city: options.city ? options.city : '',
       _lat: options.lat ? options.lat : '',
       _lng: options.lng ? options.lng : '',
     });
@@ -63,9 +63,9 @@ Page({
     // if (this.data._city){
     //   app.globalData.userInfo.city = this.data._city;
     // }
-    console.log("userInfo_show_apr:", app.globalData.userInfo);
+    console.log("userInfo_show_apr:=============", app.globalData.userInfo);
     if (app.globalData.userInfo.userId) {
-      console.log("show_userid:", app.globalData.userInfo.userId);
+      console.log("show_userid:=============", app.globalData.userInfo.userId);
       if (!app.globalData.userInfo.mobile) { //是新用户，去注册页面
         wx.navigateTo({
           url: '../../../../pages/personal-center/securities-sdb/securities-sdb?back=1'
@@ -78,7 +78,7 @@ Page({
         this.createBargain();
       }
       if (app.globalData.userInfo.lat && app.globalData.userInfo.lng) {
-        if (this.data._city || app.globalData.userInfo.city){
+        if (this.data._city || app.globalData.userInfo.city) {
           // this.hotDishList();     //推荐列表
         }
       } else {
@@ -127,7 +127,7 @@ Page({
               })
             }
             let userInfo = app.globalData.userInfo;
-            console.log('findByCode_userInfo:', userInfo);
+            console.log('130行：==============findByCode_userInfo:', userInfo);
             if (userInfo.userId && userInfo.lat && userInfo.lng && userInfo.city) {
               if (!that.data.groupId) {
                 that.createBargain()
@@ -145,7 +145,9 @@ Page({
     })
   },
   getlocation: function() { //获取用户位置
-    let that = this,lat = '',lng = '';
+    let that = this,
+      lat = '',
+      lng = '';
     wx.getLocation({
       type: 'wgs84',
       success: function(res) {
@@ -155,7 +157,7 @@ Page({
         app.globalData.userInfo.lng = longitude;
         that.requestCityName(latitude, longitude);
       },
-      
+
       fail: function(res) {
         wx.getSetting({
           success: (res) => {
@@ -163,7 +165,7 @@ Page({
               wx.showModal({
                 title: '提示',
                 content: '更多体验需要你授权位置信息',
-                showCancel:false,
+                showCancel: false,
                 confirmText: '确认授权',
                 success: function(res) {
                   if (res.confirm) {
@@ -182,7 +184,7 @@ Page({
                           //     that.requestCityName(latitude, longitude);
                           //   }
                           // })
-                        }else{
+                        } else {
                           let latitude = '',
                             longitude = '';
                           that.requestCityName(latitude, longitude);
@@ -204,12 +206,12 @@ Page({
   },
   requestCityName(lat, lng) { //获取当前城市
     let that = this;
-    if(!lat && !lng){
+    if (!lat && !lng) {
       // this.getlocation();
-    }else{
+    } else {
       app.globalData.userInfo.lat = lat;
       app.globalData.userInfo.lng = lng;
-      console.log('requestCityName:', lat, lng);
+      console.log('212行：==============requestCityName:', lat, lng);
       if (app.globalData.userInfo.city || this.data._city) {
         that.dishDetail();
         that.bargain();
@@ -226,7 +228,7 @@ Page({
               };
               let _city = res.data.result.address_component.city;
               app.globalData.userInfo.city = _city;
-              console.log('_city:', _city);
+              console.log('229行：==============_city:', _city);
               that.dishDetail();
               that.bargain();
             }
@@ -234,7 +236,7 @@ Page({
         })
       }
     }
-    
+
   },
   closetel: function(e) {
     let id = e.target.id;
@@ -299,7 +301,6 @@ Page({
           if (_move == 500) {
             _move = +_move + 14;
           }
-          console.log(_move)
           this.setData({
             move: _move - 14
           })
@@ -357,7 +358,6 @@ Page({
                 countDown = '';
               this.setData({
                 timer: setInterval(function() {
-                  console.log('倒计时');
                   if (minus == 0) {
                     clearInterval(_this.data.timer);
                     minus = 0;
@@ -409,7 +409,9 @@ Page({
       zanUserId: this.data.initiator ? this.data.initiator : app.globalData.userInfo.userId,
       shopId: this.data.shopId
     };
+    console.log('412行：============' + _parms);
     Api.crabDishDetail(_parms).then((res) => {
+      console.log('414行：============' + res);
       if (res.data.code == 0 && res.data.data) {
         let data = res.data.data;
         this.setData({
@@ -431,7 +433,7 @@ Page({
     let id = e.currentTarget.id,
       _shopId = e.currentTarget.dataset.shopid;
     wx.navigateTo({
-      url: '../crabDetails/crabDetails?id=' + id + '&shopId=' + _shopId
+      url: '../crabDetails?greensID=' + id + '&shopId=' + _shopId
     })
   },
   //查询能否砍价
@@ -442,7 +444,8 @@ Page({
       userId: app.globalData.userInfo.userId,
       groupId: this.data.groupId
     };
-    Api.isBargainCeab(_parms).then((res) => {
+    Api.isBargainCrab(_parms).then((res) => {
+      console.log('448行：===================' + res.data.code);
       let code = res.data.code,
         otherStatus = 1;
       if (code == 0) {
@@ -472,40 +475,43 @@ Page({
       return false
     }
     let _parms = {
-        refId: this.data.refId,
-        parentId: this.data.initiator,
-        userId: app.globalData.userInfo.userId,
-        groupId: this.data.groupId
-      };
-    Api.bargainCrab(_parms).then((res) => {
+      refId: this.data.refId,
+      parentId: this.data.initiator,
+      userId: app.globalData.userInfo.userId,
+      groupId: this.data.groupId
+    };
+    console.log('482行：===================refId:' + _parms.refId + ',parentId:' + _parms.parentId + ',userId:' + _parms.userId + ',groupId:' + _parms.groupId);
+    Api.isBargainCrab(_parms).then((res) => {
+      console.log('484行：===================' + res.data.code);
       let code = res.data.code;
       if (code == 0) {
         _this.setData({
           otherStatus: 1
         });
         _parms.shopId = _this.data.shopId;
-        Api.helpfriend(_parms).then((e) => {
+        Api.bargainCrab(_parms).then((e) => {
+          console.log('492行：===================' + e.data.code);
           if (e.data.code == 0) {
-          _this.setData({
-            showModal: true,
-            showCanvas: true,
-            canvasSrc: '/images/icon/kan.gif',
-            audioSrc: 'https://xqmp4-1256079679.file.myqcloud.com/test_kan.mp3'
-          });
-          setTimeout(function() {
-            const innerAudioContext = wx.createInnerAudioContext();
-            innerAudioContext.autoplay = true
-            innerAudioContext.src = _this.data.audioSrc;
-            innerAudioContext.onPlay(() => {})
-          }, 700);
-          setTimeout(function() {
             _this.setData({
-              showModal: false,
-              showCanvas: false,
-              canvasSrc: '',
-              audioSrc: ''
+              showModal: true,
+              showCanvas: true,
+              canvasSrc: '/images/icon/kan.gif',
+              audioSrc: 'https://xqmp4-1256079679.file.myqcloud.com/test_kan.mp3'
             });
-          }, 2000);
+            setTimeout(function() {
+              const innerAudioContext = wx.createInnerAudioContext();
+              innerAudioContext.autoplay = true
+              innerAudioContext.src = _this.data.audioSrc;
+              innerAudioContext.onPlay(() => {})
+            }, 700);
+            setTimeout(function() {
+              _this.setData({
+                showModal: false,
+                showCanvas: false,
+                canvasSrc: '',
+                audioSrc: ''
+              });
+            }, 2000);
             _this.setData({
               otherStatus: 2
             });
@@ -599,13 +605,13 @@ Page({
     return {
       title: '帮好友砍价',
       desc: '享7美食',
-      path: '/pages/index/bargainirg-store/AprogressBar/AprogressBar?refId=' + this.data.refId + '&shopId=' + this.data.shopId + '&skuMoneyOut=' + this.data.skuMoneyOut + '&skuMoneyMin=' + this.data.skuMoneyMin + '&initiator=' + initiator + '&groupId=' + this.data.groupId + '&lat=' + userInfo.lat + '&lng=' + userInfo.lng + '&city=' + userInfo.city,
-      success: function (res) {
-        console.log('success')
+      path: '/pages/index/crabShopping/crabDetails/crabShare/crabShare?refId=' + this.data.refId + '&shopId=' + this.data.shopId + '&skuMoneyOut=' + this.data.skuMoneyOut + '&skuMoneyMin=' + this.data.skuMoneyMin + '&initiator=' + initiator + '&groupId=' + this.data.groupId + '&lat=' + userInfo.lat + '&lng=' + userInfo.lng + '&city=' + userInfo.city,
+      success: function(res) {
+
       },
-      fail: function (res) {
+      fail: function(res) {
         // 分享失败
-        console.log('fail')
+
       }
     }
   }
