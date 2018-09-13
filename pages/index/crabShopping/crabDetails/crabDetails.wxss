@@ -596,6 +596,7 @@ page{
   text-align:center;
   float:left;
   margin-right:21rpx;
+  border-radius: 50%;
 }
 .ullip1{
   color: #191919;

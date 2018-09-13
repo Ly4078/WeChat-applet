@@ -12,6 +12,7 @@ Page({
   onShow:function(){
     this.getAddressList();
   },
+  //监听页面卸载
   onUnload:function(){
     wx.navigateTo({
       url: 'submitOrder/submitOrder'

@@ -300,6 +300,7 @@ Page({
     });
     this.getactlist();
   },
+  //点击弹框按钮
   closetel: function (e) {
     let id = e.target.id;
     this.setData({

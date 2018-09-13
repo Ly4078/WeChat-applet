@@ -110,20 +110,29 @@ Page({
   },
 
   onShow: function() {
+    console.log('this.data.issku:', this.data.issku);
     if (this.data.issku){
       this.bargainDetails();
-    }
-    if(this.data.spuId){
-      this.geSkutlist();
     }else{
-      this.getDetailBySkuId();
+      if (this.data.spuId) {
+        this.geSkutlist();
+      } else {
+        this.getDetailBySkuId();
+      }
     }
+    
     if(this.data.shopId){
       this.getShopInfo();
     }
   },
 
   bargainDetails:function(){   //品质好店-->店铺详情--列表
+    if (!app.globalData.userInfo.mobile) {
+      this.setData({
+        issnap: true
+      })
+      return false
+    }
     let that = this, _array=[];
     let _parms = {
       shopId: this.data.shopId,
@@ -133,7 +142,6 @@ Page({
       rows: 8,
     };
     Api.dhcList(_parms).then((res) => {  //列表
-
       if (res.data.code == 0 && res.data.data.list) {
         let _obj = res.data.data.list[0];
         if (_obj.unit){
@@ -244,9 +252,9 @@ Page({
   },
   //点击商家主页面按钮，跳转到商家详情页
   handshopHome:function(e){
-    const id = e.currentTarget.id;
+    const shopid = e.currentTarget.id;
     wx.navigateTo({
-      url: '../../merchant-particulars/merchant-particulars?shopid=' + id + '&flag=1'
+      url: '../../merchant-particulars/merchant-particulars?shopid=' + shopid + '&flag=1'
     })
   },
   //打开地图导航
@@ -385,18 +393,21 @@ Page({
   //分享给好友
   onShareAppMessage: function () {
     let userInfo = app.globalData.userInfo;
-    console.log(' this.SelectedList:', this.data.SelectedList)
-    return {
-      title: this.data.SelectedList.skuName,
-      path: '/pages/index/crabShopping/crabDetails/crabDetails?shopId=' + this.data.SelectedList.shopId + '&id=' + this.data.SelectedList.id,
-      success: function (res) {
-
-      },
-      fail: function (res) {
-        // 分享失败
-
+    if (this.data.issku){
+      return {
+        title: this.data.SelectedList.skuName,
+        path: '/pages/index/crabShopping/crabDetails/crabDetails?shopId=' + this.data.shopId + '&greensID=' + this.data.greensID,
+        success: function (res) { }
+      }
+    }else{
+      return {
+        title: this.data.SelectedList.skuName,
+        path: '/pages/index/crabShopping/crabDetails/crabDetails?spuId=' + this.data.spuId+'&id=' + this.data.SelectedList.id,
+        success: function (res) { }
       }
     }
+    console.log(' this.SelectedList:', this.data.SelectedList)
+    
   },
 
   /* 点击减号地增减数量 */
@@ -434,9 +445,27 @@ Page({
   //原价购买
   originalPrice: function() {
     let _num = this.data.num, _issku = this.data.issku ? 1 : 2, _shopId = this.data.SelectedList.shopId;
-    wx.navigateTo({
-      url: 'submitOrder/submitOrder?spuId=' + this.data.spuId + '&id=' + this.data.id + '&num=' + _num + '&issku=' + _issku + '&shopId=' + _shopId
+    if (!app.globalData.userInfo.mobile) {
+      this.setData({
+        issnap: true
+      })
+    }else{
+      wx.navigateTo({
+        url: 'submitOrder/submitOrder?spuId=' + this.data.spuId + '&id=' + this.data.id + '&num=' + _num + '&issku=' + _issku + '&shopId=' + _shopId
+      })
+    }
+  },
+  //点击弹框按钮
+  closetel: function (e) {
+    let id = e.target.id;
+    this.setData({
+      issnap: false
     })
+    if (id == 1) {
+      wx.navigateTo({
+        url: '/pages/personal-center/registered/registered'
+      })
+    }
   },
 
   // 左下角返回首页
