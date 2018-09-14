@@ -173,7 +173,6 @@ Page({
         isClick: true
       })
     } else {
-      clearInterval(interval);
       this.setData({
         isClick: false,
         isabss: false,
@@ -181,6 +180,7 @@ Page({
         verifyId: '',
         butTxt: '获取验证码'
       })
+      clearInterval(interval);
     }
   },
 
@@ -199,6 +199,7 @@ Page({
   },
 
   getVerificationCode() { //点击获取验证码
+    console.log("点击获取验证码112")
     let that = this;
     if (this.data.isabss) {
       return
@@ -214,6 +215,7 @@ Page({
       }
       Api.sendForRegister(_parms).then((res) => {
         if (res.data.code == 0) {
+          console.log("点击获取验证码112-res:",res)
           that.setData({
             verifyId: res.data.data.verifyId,
             veridyTime: res.data.data.veridyTime
@@ -245,12 +247,14 @@ Page({
         butTxt: currentTime + '秒'
       })
       if (currentTime <= 0) {
-        clearInterval(interval)
+        console.log("132131")
         that.setData({
           butTxt: '获取验证码',
           currentTime: 61,
-          isClick: false
+          isabss: false,
+          isClick: true
         })
+        clearInterval(interval);
       }
     }, 1000)
   },

@@ -1609,6 +1609,7 @@ Page({
       clearInterval(this.data.settime)
       this.setData({
         rematime: '获取验证码',
+        goto: false,
         isclick: true
       })
     } else {

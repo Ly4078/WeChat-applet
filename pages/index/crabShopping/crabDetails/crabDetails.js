@@ -71,12 +71,7 @@ Page({
 
   onLoad: function(options) {
     console.log('optons:',options)
-    wx.request({
-      url: this.data._build_url + 'version.txt',
-      success: function (res) {
-        app.globalData.txtObj = res.data;
-      }
-    })
+   
     let _id = '', _spuId = '', _shopId = '', _greensID = '', isShop = false;
     
     if (options.id) {
@@ -113,6 +108,12 @@ Page({
   },
 
   onShow: function() {
+    wx.request({
+      url: this.data._build_url + 'version.txt',
+      success: function (res) {
+        app.globalData.txtObj = res.data;
+      }
+    });
     let _crabImgUrl = app.globalData.txtObj.crabImgUrl, _ruleImg = app.globalData.txtObj.ruleImg;
     this.setData({
       crabImgUrl: _crabImgUrl
