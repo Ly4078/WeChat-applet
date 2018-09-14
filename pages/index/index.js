@@ -1384,7 +1384,6 @@ Page({
           _type = this.data.carousel[k].type
       }
     }
-
     if (_linkUrl.indexOf('&') >= 0) {
       let arr = _linkUrl.split("&");
       for (let i in arr) {
@@ -1396,12 +1395,19 @@ Page({
       wx.navigateTo({
         url: 'new-exclusive/new-exclusive',
       })
-    } else if (id == 1) {
-      return false
+    } else if (_linkUrl == 'ruzhu'){
       wx.navigateTo({
-        url: '../personal-center/free-of-charge/free-of-charge?img=' + _linkUrl,
+        url: '../../pages/index/download-app/download?isshop=ind',
       })
-    } else if (_obj.type == 1) { //十堰食典
+    }else
+    //  if (id == 1) {
+    //   console.log('1')
+    //   return false
+    //   wx.navigateTo({
+    //     url: '../personal-center/free-of-charge/free-of-charge?img=' + _linkUrl,
+    //   })
+    // } else 
+    if (_obj.type == 1) { //十堰食典
       wx.navigateTo({
         url: '../activityDetails/onehundred-dish/onehundred-dish?actid=' + _obj.actId,
       })
