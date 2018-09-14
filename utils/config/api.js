@@ -536,6 +536,10 @@ const ALL_API = {
     method: 'GET',
     url: 'dict/findDictCounty'
   },
+  confirmCeceipt:{ // 确认收货
+    method:'POST',
+    url:'orderInfo/confirmCeceipt'
+  },
   createorder:{  //创建平台订单
     method:'POST',
     url:'orderInfo/create'
