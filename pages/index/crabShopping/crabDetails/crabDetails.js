@@ -70,8 +70,6 @@ Page({
   },
 
   onLoad: function(options) {
-    console.log('optons:',options)
-   
     let _id = '', _spuId = '', _shopId = '', _greensID = '', isShop = false;
     
     if (options.id) {
@@ -107,7 +105,10 @@ Page({
 
   },
 
-  onShow: function() {
+  onShow: function () {
+    wx.showLoading({
+      title: '加载中...'
+    })
     wx.request({
       url: this.data._build_url + 'version.txt',
       success: function (res) {
@@ -145,6 +146,7 @@ Page({
   bargainDetails:function(){   //品质好店-->店铺详情--列表
     
     if (!app.globalData.userInfo.mobile) {
+      wx.hideLoading();
       wx.navigateTo({
         url: '../../../../pages/personal-center/securities-sdb/securities-sdb?back=1'
       })
@@ -159,6 +161,7 @@ Page({
       rows: 20,
     };
     Api.dhcList(_parms).then((res) => {  //列表
+      wx.hideLoading();
       if (res.data.code == 0 && res.data.data.list) {
         let _obj = res.data.data.list[0];
         this.setData({
@@ -188,6 +191,7 @@ Page({
       spuId: this.data.spuId
     };
     Api.crabList(_parms).then((res) => { //查询同类规格列表
+      wx.hideLoading();
       if (res.data.code == 0) {
         let _list = res.data.data.list;
         let _obj = _list[0];
@@ -207,7 +211,8 @@ Page({
   getDetailBySkuId:function(val){
     if (this.data.isAct && !val){return}
     let _array = [],that = this;
-    Api.DetailBySkuId({id:this.data.id}).then((res)=>{
+    Api.DetailBySkuId({ id: this.data.id }).then((res) => {
+      wx.hideLoading();
       if(res.data.code == 0){
         let _obj = res.data.data, _crabImgUrl = this.data.crabImgUrl;
        
@@ -304,6 +309,7 @@ Page({
   //发起砍价
   initiateCut:function(){
     if (!app.globalData.userInfo.mobile) {
+      wx.hideLoading();
       wx.navigateTo({
         url: '../../../../pages/personal-center/securities-sdb/securities-sdb?back=1'
       })
