@@ -27,7 +27,7 @@
     <view class='groups'>
       <checkbox-group bindchange="checkboxChange">
         <label class="checkbox">
-          <checkbox value="1" checked="{{isDefault== 1}}"/>设置为默认地址
+          <checkbox class='delicateSSbf' value="1" checked="{{isDefault== 1}}"/><text class='delicateSSText'>设置为默认地址</text>
         </label>
       </checkbox-group>
     </view>

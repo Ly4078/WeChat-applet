@@ -241,3 +241,17 @@
   width: 100%;
   height: 300px;
 }
+
+.delicateSSbf{
+  zoom: 70%;
+}
+
+.checkbox{
+  display: flex;
+  align-items: center;
+  
+}
+
+.delicateSSText{
+  padding-right: 30rpx;
+}
