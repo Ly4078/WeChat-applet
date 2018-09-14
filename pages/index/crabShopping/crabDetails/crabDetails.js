@@ -84,7 +84,7 @@ Page({
       _greensID = options.greensID;
       this.setData({
         issku:true,
-        num:2
+        num:1
       })
     }else{
       this.setData({

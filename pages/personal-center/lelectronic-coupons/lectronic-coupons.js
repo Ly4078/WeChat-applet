@@ -286,7 +286,7 @@ Page({
              _arr2[1] = 12 -_arr2[1];
            }
            data.data.endTime = _arr2[0] + '-' + _arr2[1] + '-' + _arr2[2];
-          let dip = "食典", _obj = data.data, Cts = "现金", Dis = '平台', Dis2 = '折扣',Barg="砍价", secKill = "抢购";
+          let dip = "食典", _obj = data.data, Cts = "现金", Dis = '平台', Dis2 = '折扣',Barg="砍价", secKill = "抢购", crab = "兑换";
            if (_obj.skuName && _obj.skuName.indexOf(dip) > 0) {
              _obj.dips = true
            }
@@ -307,6 +307,13 @@ Page({
           if (_obj.skuName && _obj.skuName.indexOf(secKill) > 0) {
             let endTime = '', createTime = data.data.createTime.substring(0, data.data.createTime.indexOf(' ')), getMonth = '';
             endTime = new Date(createTime).setDate(new Date(createTime).getDate() + 7);
+            endTime = new Date(endTime);
+            getMonth = endTime.getMonth() + 1;
+            _obj.endTime = endTime.getFullYear() + '-' + getMonth + '-' + endTime.getDate();
+          }
+          if (_obj.skuName && _obj.skuName.indexOf(crab) > 0) {
+            let endTime = '', createTime = data.data.createTime.substring(0, data.data.createTime.indexOf(' ')), getMonth = '';
+            endTime = new Date(createTime).setDate(new Date(createTime).getDate() + 5);
             endTime = new Date(endTime);
             getMonth = endTime.getMonth() + 1;
             _obj.endTime = endTime.getFullYear() + '-' + getMonth + '-' + endTime.getDate();

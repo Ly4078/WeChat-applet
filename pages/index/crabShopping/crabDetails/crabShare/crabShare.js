@@ -68,7 +68,7 @@ Page({
       console.log("show_userid:=============", app.globalData.userInfo.userId);
       if (!app.globalData.userInfo.mobile) { //是新用户，去注册页面
         wx.navigateTo({
-          url: '../../../../pages/personal-center/securities-sdb/securities-sdb?back=1'
+          url: '../../../../../pages/personal-center/securities-sdb/securities-sdb?back=1'
         })
       }
       this.dishDetail(); //查询菜详情
@@ -123,7 +123,7 @@ Page({
             }
             if (!data.mobile) { //是新用户，去注册页面
               wx.navigateTo({
-                url: '../../../../pages/personal-center/securities-sdb/securities-sdb?back=1'
+                url: '../../../../../pages/personal-center/securities-sdb/securities-sdb?back=1'
               })
             }
             let userInfo = app.globalData.userInfo;
