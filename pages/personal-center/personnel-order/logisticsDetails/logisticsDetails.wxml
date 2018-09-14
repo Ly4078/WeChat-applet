@@ -56,7 +56,7 @@
         </view>
         <view class='handiseTop-rightBtn'>
           <text>￥{{soDetail.orderItemOuts[0].goodsPrice}}</text>
-          <text>×{{soDetail.orderItemOuts[0].goodsNum}}</text>
+          <text class='dolphinNei'>×{{soDetail.orderItemOuts[0].goodsNum}}</text>
         </view>
       </view>
     </view>
@@ -64,14 +64,14 @@
     <view class='endAmount'>
       <view class='endAmountNei'>
         <text>商品总额</text>
-        <text>￥{{soDetail.comTotal}}</text>
+        <text class='dolphinNei'>￥{{soDetail.comTotal}}</text>
       </view>
     </view>
 
     <view class='endAmount'>
       <view class='endAmountNei'>
         <text>包装费</text>
-        <text>￥{{soDetail.orderItemOuts[0].packingPrice}}</text>
+        <text class='dolphinNei'>￥{{soDetail.orderItemOuts[0].packingPrice}}</text>
       </view>
     </view>
 

@@ -17,6 +17,10 @@ page{
   top: 0rpx;
 }
 
+.dolphinNei{
+  color: #FC5E2D;
+}
+
 .logisticsTopText{
   width: 100%;
   height: 150rpx;
@@ -186,7 +190,6 @@ page{
 
 .handiseTop-rightBtn text:nth-child(2){
   font-size:24rpx;
-  color:rgba(25,25,25,1);
   padding-right: 28rpx;
 }
 
