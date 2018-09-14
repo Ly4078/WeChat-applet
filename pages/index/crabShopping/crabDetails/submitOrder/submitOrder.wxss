@@ -52,7 +52,6 @@ page{
 .compellation{
   font-size:30rpx;
   font-family:PingFangSC-Regular;
-  font-weight:600;
   color:rgba(25,25,25,1);
   display: flex;
   align-items: center;
