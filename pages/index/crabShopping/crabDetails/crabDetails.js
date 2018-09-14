@@ -143,6 +143,7 @@ Page({
   },
 
   bargainDetails:function(){   //品质好店-->店铺详情--列表
+    
     if (!app.globalData.userInfo.mobile) {
       wx.navigateTo({
         url: '../../../../pages/personal-center/securities-sdb/securities-sdb?back=1'
@@ -466,6 +467,7 @@ Page({
     this.setData({
       showModalStatus: false
     });
+    console.log('useriinfo:', app.globalData.userInfo);
     if (!app.globalData.userInfo.mobile) {
       wx.navigateTo({
         url: '../../../../pages/personal-center/securities-sdb/securities-sdb?back=1'

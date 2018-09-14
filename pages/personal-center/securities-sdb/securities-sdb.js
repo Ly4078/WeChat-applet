@@ -199,7 +199,6 @@ Page({
   },
 
   getVerificationCode() { //点击获取验证码
-    console.log("点击获取验证码112")
     let that = this;
     if (this.data.isabss) {
       return
@@ -215,7 +214,6 @@ Page({
       }
       Api.sendForRegister(_parms).then((res) => {
         if (res.data.code == 0) {
-          console.log("点击获取验证码112-res:",res)
           that.setData({
             verifyId: res.data.data.verifyId,
             veridyTime: res.data.data.veridyTime
@@ -247,7 +245,6 @@ Page({
         butTxt: currentTime + '秒'
       })
       if (currentTime <= 0) {
-        console.log("132131")
         that.setData({
           butTxt: '获取验证码',
           currentTime: 61,
@@ -271,9 +268,7 @@ Page({
             userName: app.globalData.userInfo.userName
           }
           // return;
-          console.log('263行:=========' + _parms);
           Api.isVerify(_parms).then((res) => {
-            console.log('265行:=========' + res);
             if (res.data.code == 0) {
               app.globalData.userInfo.userId = res.data.data;
               that.getuserInfo();
@@ -281,7 +276,6 @@ Page({
                 that.setpullUser();
               }
               if (that.data.parentId) {
-                console.log('273行:=========' + that.data.parentId);
                 that.inviteNewUser();
               }
             }
@@ -325,7 +319,7 @@ Page({
       success: function(res) {
         if (res.data.code == 0) {
           let data = res.data.data;
-          if (val == 1) {
+          // if (val == 1) {
             for (let key in data) {
               for (let ind in app.globalData.userInfo) {
                 if (key == ind) {
@@ -333,7 +327,7 @@ Page({
                 }
               }
             };
-          }
+          // }
           if (that.data.isBack) {
             wx.navigateBack({
               data: 1
