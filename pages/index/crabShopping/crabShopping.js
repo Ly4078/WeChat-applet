@@ -41,9 +41,14 @@ Page({
     this.setData({
       dshImg: app.globalData.txtObj.dsh.imgUrl
     })
+    wx.showLoading({
+      title: '加载中...'
+    })
     if (this.data.currentTab == 0) {
       if (this.data.listData.length<1){
         this.commodityCrabList();
+      } else {
+        wx.hideLoading();
       }
     } else if (this.data.currentTab == 1) {
       this.listForSkuAllocation();
@@ -103,6 +108,7 @@ Page({
     }
     Api.crabList(_parms).then((res) => {
       let _listData = this.data.listData;
+      wx.hideLoading();
       if(res.data.code == 0){
         let _list = res.data.data.list;
         if(_list && _list.length>0){
@@ -121,6 +127,7 @@ Page({
   listForSkuAllocation: function () { 
     let that = this;
     if (!app.globalData.userInfo.lat && !app.globalData.userInfo.lng) {
+      wx.hideLoading();
       this.getlocation();
     } else {
       let _parms = {
@@ -137,6 +144,7 @@ Page({
         })
       };
       Api.listForSkuAllocation(_parms).then((res) => {
+        wx.hideLoading();
         if (res.data.code == 0) {
           let _list = res.data.data.list, _storeData = this.data.storeData;
           if(_list && _list.length>0){
@@ -156,6 +164,9 @@ Page({
 
   //下拉刷新
   onPullDownRefresh:function(){
+    wx.showLoading({
+      title: '加载中...'
+    })
     this.setData({
       page: 1,
       _page:1
@@ -168,6 +179,9 @@ Page({
   },
   //用户上拉触底加载更多
   onReachBottom:function(){
+    wx.showLoading({
+      title: '加载中...'
+    })
     if(this.data.currentTab == 0){
       this.setData({
         page:this.data.page+1

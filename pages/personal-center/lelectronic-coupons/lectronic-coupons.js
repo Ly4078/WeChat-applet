@@ -29,6 +29,7 @@ Page({
     isDish: false,
     isperson:false,
     ismodel:false,
+    isHidden: false,   //是否隐藏使用须知
     shopId:'',
     optObj:{},
     molTxt:[
@@ -41,7 +42,6 @@ Page({
     ]
   },
   onLoad: function (options) {
-    // console.log(options)
     let that = this;
     this.setData({
       optObj:options
@@ -60,11 +60,25 @@ Page({
         shopId: options.shopId
       })
     }
-    if (options.skuType) {
+    if (options.skuType) {     //优惠券：1平台券 2 商家券 3 食典券   4砍价券  5抢购券 6兑换券
       this.setData({
-        skuType: options.skuType
+        skuType: options.skuType     //5，6隐藏 
       })
-      console.log(this.data.skuType);
+      if (options.skuType == 5 || options.skuType == 6) {
+        this.setData({
+          isHidden: true
+        });
+      }
+    }
+    if (options.tickType) {    //订单：1享七券 2 特色菜 3食典券 4砍价券 5商家套餐 6砍价菜 7抢购菜 8抢购券 9兑换菜 10兑换券
+      this.setData({
+        tickType: options.tickType    //8和10隐藏
+      })
+      if (options.tickType == 8 || options.tickType == 10) {
+        this.setData({
+          isHidden: true
+        });
+      }
     }
     if(options.pay== 'pay'){  //从商家订单支付跳转过来的
       this.getshopOrderList(options.soid);
@@ -134,7 +148,6 @@ Page({
     this.setData({
       frequency: freq
     })
-    console.log(freq)
     if (freq == 20){
       clearInterval(that.data.timer)
     }
@@ -167,7 +180,6 @@ Page({
                 isGold: true
               });
             }
-            console.log(that.data.isGold);
             if (res.data.data.isUsed && res.data.data.isUsed != 0) {
               let _id = res.data.data.id;
               that.getgold(_id);
@@ -202,9 +214,9 @@ Page({
             content: '已使用，获得' + res.data.data + '个金币',
             success: function (res) {
               if (res.confirm) {
-                console.log('用户点击确定')
+                // console.log('用户点击确定')
               } else if (res.cancel) {
-                console.log('用户点击取消')
+                // console.log('用户点击取消')
               }
             }
           })
@@ -346,9 +358,7 @@ Page({
   },
   sublevelSum: function (event) {
     let that = this;
-    console.log("this.data.ticketInfo:", this.data.ticketInfo)
     if (this.data.ticketInfo.Barg){
-      console.log("thatthat")
       this.setData({
         ismodel: true
       })

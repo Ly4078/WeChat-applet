@@ -265,6 +265,7 @@ Page({
       skuid = e.currentTarget.dataset.skuid,
       sostatus = e.currentTarget.dataset.sostatus,
       listArr = this.data.order_list,
+      tickType = e.currentTarget.dataset.type,
       sell = "",
       inp = "",
       rule = "",
@@ -279,7 +280,7 @@ Page({
     if (_shopname) { //商家订单
       if (sostatus == 2 || sostatus == 3) {
         wx.navigateTo({
-          url: '../lelectronic-coupons/lectronic-coupons?pay=pay' + '&soid=' + id
+          url: '../lelectronic-coupons/lectronic-coupons?pay=pay' + '&soid=' + id + '&tickType=' + tickType
         })
       } else if (sostatus == 1) {
         let shoplist = this.data.shoporderlist,
@@ -315,7 +316,7 @@ Page({
         })
       } else if (sostatus == 2 || sostatus == 3) {
         wx.navigateTo({
-          url: '../lelectronic-coupons/lectronic-coupons?id=' + skuId + '&soid=' + soId + '&cfrom=ticket'
+          url: '../lelectronic-coupons/lectronic-coupons?id=' + skuId + '&soid=' + soId + '&cfrom=ticket' + '&tickType=' + tickType
         })
       }
     }

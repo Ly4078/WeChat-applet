@@ -472,6 +472,9 @@ page {
   font-size:36rpx;
   font-family:PingFangSC-Regular;
   color:rgba(25,25,25,1);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .merchantSdj1{

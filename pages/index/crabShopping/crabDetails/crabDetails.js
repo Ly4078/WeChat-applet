@@ -417,7 +417,7 @@ Page({
     if (this.data.issku){
       return {
         title: this.data.SelectedList.skuName,
-        path: '/pages/index/crabShopping/crabDetails/crabDetails?shopId=' + this.data.shopId + '&greensID=' + this.data.greensID,
+        path: '/pages/index/crabShopping/crabDetails/crabDetails?shopId=' + this.data.shopId + '&greensID=' + this.data.greensID + '&isShop=' + this.data.isShop,
         success: function (res) { }
       }
     }else{

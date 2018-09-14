@@ -44,6 +44,10 @@
   display: block;
   margin-bottom: 23rpx;
   font-size: 50rpx;
+  width: 90%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .security-top-left view text{
   font-size: 22rpx;

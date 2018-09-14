@@ -1,5 +1,5 @@
 <template name="order_template">
-  <view class='personnelWrap' id="{{item.id}}" data-skuid="{{item.skuId}}" catchtap='lowerLevel' data-shopName="{{item.shopName}}" data-soStatus="{{item.soStatus}}">
+  <view class='personnelWrap' id="{{item.id}}" data-skuid="{{item.skuId}}" catchtap='lowerLevel' data-shopName="{{item.shopName}}" data-soStatus="{{item.soStatus}}" data-type="{{item.skuType}}">
 
     <view class="personnelTime">
       <view class="personnelTime_left">

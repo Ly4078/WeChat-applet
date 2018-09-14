@@ -575,6 +575,13 @@ Page({
         skuId: this.data.dishSkuId,
         shopId: this.data.shopId
       }
+      //type=1原价购买，grounpId不传
+      if (this.data.bargainType == 1) {
+        _parms.type = 1;
+      } else if (this.data.bargainType == 2) {
+        _parms.type = 2;
+        _parms.groupId = this.data.groupId;
+      }
       Api.buyCrabTicket(_parms).then((res) => {
         if (res.data.code == 0) {
           wx.requestPayment({
