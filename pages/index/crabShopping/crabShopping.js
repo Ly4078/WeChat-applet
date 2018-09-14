@@ -23,7 +23,10 @@ Page({
     listData:[],  //送货到家
     storeData:[], //品质好店
     navbar: ['送货到家', '到店消费'],
+    oneTab: ["礼盒装", "邮购"],
     currentTab: 0,
+    tabId:0,
+    spuval:2,
     page: 1,
     _page:1,
     articleid:'',
@@ -39,7 +42,9 @@ Page({
       dshImg: app.globalData.txtObj.dsh.imgUrl
     })
     if (this.data.currentTab == 0) {
-      this.commodityCrabList();
+      if (this.data.listData.length<1){
+        this.commodityCrabList();
+      }
     } else if (this.data.currentTab == 1) {
       this.listForSkuAllocation();
     }
@@ -59,6 +64,28 @@ Page({
       }
     }
   },
+  //点击二级目录
+  handonetab:function(e){
+    let id = e.currentTarget.id,val=2;
+    if (id == 0) {
+      val == 2;
+    } else if (id == 1) {
+      val = 1;
+    } else if (id == 2) {
+      val = 3;
+    }
+    console.log("id:", id)
+    this.setData({
+      tabId:id,
+      spuval:val,
+      listData: [],
+      page:1
+    });
+    
+   
+    this.commodityCrabList();
+    console.log("tabId:",this.data.tabId)
+  },
   
   //查询送货到家列表
   commodityCrabList: function () {
@@ -66,6 +93,7 @@ Page({
     let _parms = {
       spuType:10,
       page: this.data.page,
+      spuId: this.data.spuval,
       rows: 10
     };
     if(this.data.page == 1){
@@ -77,12 +105,14 @@ Page({
       let _listData = this.data.listData;
       if(res.data.code == 0){
         let _list = res.data.data.list;
-        for(let i =0;i<_list.length;i++){
-          _listData.push(_list[i])
+        if(_list && _list.length>0){
+          for (let i = 0; i < _list.length; i++) {
+            _listData.push(_list[i])
+          }
+          this.setData({
+            listData: _listData,
+          })
         }
-        this.setData({
-          listData: _listData,
-        })
       }
     })
   },

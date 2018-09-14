@@ -5,6 +5,9 @@
 
 <!--送货到家-->
 <view hidden="{{currentTab==1}}">
+  <view class='tabone'>
+    <view  wx:for="{{oneTab}}" wx:key= "index" id='{{index}}' class="onetab {{tabId==index ? 'actonetab' : ''}}" bindtap="handonetab">{{item}}</view>
+  </view>
   <view class='crabWrap'>
     <view class='crabCenter'>
       <view class='crabSingle' wx:if="{{listData.length>0}}" wx:for="{{listData}}" wx:key="item.id">

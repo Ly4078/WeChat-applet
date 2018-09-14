@@ -30,7 +30,7 @@
     <image class='expressageImgRight' src='/images/icon/home_arrow.png'></image>
   </view> -->
   <!-- 收货地址 -->
-  <view class='expressage'>
+  <view class='expressage' wx:if="{{soDetail.orderAddressOut}}">
     <image class='siteImg' src='/images/icon/expressagegouwuce.png'></image>
     <view class='yourself'>
       <view class='expressageSiteName'>{{soDetail.orderAddressOut.chatName}}

@@ -35,7 +35,30 @@ page{
   background: #3FAFFD;
   font-size: 28rpx;
 }
-
+.tabone{
+  width: 100%;
+  height: 48rpx;
+  padding: 24rpx 0;
+  background: #fff;
+  display:flex;
+  justify-content:space-around;
+}
+.onetab{
+  width: 112rpx;
+  height: 52rpx;
+  float: left;
+  border-radius:26px;
+  border:1px solid rgba(177,177,177,1);
+  color: #B1B1B1;
+  text-align: center;
+  line-height: 52rpx;
+  font-size: 24rpx;
+}
+.actonetab{
+  background:rgba(222,241,255,1);
+  border:1px solid rgba(63,175,253,1);
+  color: #3FAFFD;
+}
 .crabWrap{
   width: 100%;
   height: 100%;

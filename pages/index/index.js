@@ -698,6 +698,7 @@ Page({
     };
     Api.secKillList(_parms).then((res) => {
       let data = res.data;
+      console.log('secKillList:',data)
       if (data.code == 0 && data.data.list) {
         this.setData({
           secKillList: data.data.list.slice(0, 3)

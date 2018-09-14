@@ -459,9 +459,12 @@ Page({
       num: num
     });
   },
-  //原价购买
+  //立即购买
   originalPrice: function() {
     let _num = this.data.num, _issku = this.data.issku ? 1 : 2, _shopId = this.data.SelectedList.shopId;
+    this.setData({
+      showModalStatus: false
+    });
     if (!app.globalData.userInfo.mobile) {
       wx.navigateTo({
         url: '../../../../pages/personal-center/securities-sdb/securities-sdb?back=1'

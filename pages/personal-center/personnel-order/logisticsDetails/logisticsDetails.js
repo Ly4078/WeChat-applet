@@ -15,6 +15,9 @@ Page({
   onShow: function() {
     this.getorderInfoDetail();
   },
+  onPullDownRefresh:function(){
+    this.getorderInfoDetail();
+  },
   //查询单个订单详情
   getorderInfoDetail: function() {
     let that = this;
@@ -23,6 +26,7 @@ Page({
     }).then((res) => {
       if (res.data.code == 0) {
         let _data = res.data.data;
+        wx.stopPullDownRefresh();
         // 1待付款  2待收货  3已完成 10取消，
         if (_data.status == 1) {
           _data.status2 = '待付款';
@@ -34,7 +38,10 @@ Page({
         } else if (_data.status == 10) {
           _data.status2 = '已取消';
         }
-        _data.address = _data.orderAddressOut.dictProvince + _data.orderAddressOut.dictCity + _data.orderAddressOut.dictCounty + _data.orderAddressOut.detailAddress;
+        if (_data.orderAddressOut){
+          _data.address = _data.orderAddressOut.dictProvince + _data.orderAddressOut.dictCity + _data.orderAddressOut.dictCounty + _data.orderAddressOut.detailAddress;
+        }
+        
         _data.comTotal = _data.orderItemOuts[0].goodsPrice * _data.orderItemOuts[0].goodsNum;
         that.setData({
           soDetail: _data
@@ -51,7 +58,7 @@ Page({
       diff = '',
       h = '',
       m = '';
-    createTime = createTime.replace(/-/g, "/");//兼容IOS   IOS下不支付时间有(-)须替换成（/）
+    createTime = createTime.replace(/-/g, "/");//兼容IOS   IOS下不支持时间有(-)须替换成（/）
     _createTime = (new Date(createTime)).getTime(); //结束时间
     _endTime = _createTime + oneDay;
     now = new Date().getTime();

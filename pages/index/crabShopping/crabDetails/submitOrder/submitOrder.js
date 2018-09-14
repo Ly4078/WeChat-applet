@@ -76,7 +76,6 @@ Page({
             if (rules[i].ruleType ==2){
               if (this.data.num > rules[i].manNum*1-0.5){
                 man = Math.floor(this.data.num/rules[i].manNum);
-                console.log('man:', man)
               }
             }
             if (rules[i].ruleType == 3) {
@@ -123,7 +122,6 @@ Page({
     Api.AddressList(_parms).then((res) => {
       if(res.data.code == 0){
         let _list=res.data.data.list,actList={};
-
         for(let i=0;i<_list.length;i++){
           _list[i].address = _list[i].dictProvince + _list[i].dictCity + _list[i].dictCounty + _list[i].detailAddress;
         }
@@ -161,13 +159,9 @@ Page({
     for (let i = 0; i < rules.length;i++){
       str += rules[i].ruleDesc+' ';
     }
-    if(rules.length<2){
-      str += ' ' +'不满8斤按照8斤收取15元包装费。'
-    }
-    
     wx.showModal({
       title: '',
-      content: '每8斤包装费15元；不满8斤按照8斤收取15元包装费。',
+      content: str,
       showCancel:false,
       success: function (res) {
         if (res.confirm) {
