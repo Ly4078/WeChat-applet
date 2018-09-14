@@ -108,18 +108,23 @@ Page({
   onShow: function () {
     wx.showLoading({
       title: '加载中...'
-    })
+    });
+    let that = this;
     wx.request({
       url: this.data._build_url + 'version.txt',
       success: function (res) {
         app.globalData.txtObj = res.data;
+        that.crabinit();
       }
     });
+  },
+  //页面初始化
+  crabinit:function(){
     let _crabImgUrl = app.globalData.txtObj.crabImgUrl, _ruleImg = app.globalData.txtObj.ruleImg;
     this.setData({
       crabImgUrl: _crabImgUrl
     })
-    if (this.data.issku){
+    if (this.data.issku) {
       this.bargainDetails();
       _crabImgUrl = this.data.crabImgUrl;
       _crabImgUrl.shift();
@@ -130,19 +135,18 @@ Page({
       this.setData({
         crabImgUrl: _crabImgUrl
       })
-    }else{
+    } else {
       if (this.data.spuId) {
         this.geSkutlist();
       } else {
         this.getDetailBySkuId();
       }
     }
-    
-    if(this.data.shopId){
+
+    if (this.data.shopId) {
       this.getShopInfo();
     }
   },
-
   bargainDetails:function(){   //品质好店-->店铺详情--列表
     
     if (!app.globalData.userInfo.mobile) {
@@ -254,12 +258,14 @@ Page({
   //查询商家详情
   getShopInfo: function() {
     let that = this;
+    console.log('257行：===================' + this.data.shopId)
     wx.request({
       url: that.data._build_url + 'shop/get/' + this.data.shopId,
       header: {
         'content-type': 'application/json;Authorization'
       },
       success: function(res) {
+        console.log('263行：===================' + res)
         if(res.data.code == 0){
           let _data = res.data.data;
           if (_data) {
@@ -429,7 +435,7 @@ Page({
     }else{
       return {
         title: this.data.SelectedList.skuName,
-        path: '/pages/index/crabShopping/crabDetails/crabDetails?spuId=' + this.data.spuId+'&id=' + this.data.SelectedList.id,
+        path: '/pages/index/crabShopping/crabDetails/crabDetails?shopId=' + this.data.shopId + '&spuId=' + this.data.spuId+'&id=' + this.data.SelectedList.id,
         success: function (res) { }
       }
     }
