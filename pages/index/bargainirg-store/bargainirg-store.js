@@ -47,6 +47,7 @@ Page({
         let list = res.data.data.list, cuisineArray = this.data.cuisineArray;
         for(let i = 0; i < list.length; i++) {
           list[i].distance = utils.transformLength(list[i].distance);
+          console.log(list[i])
           cuisineArray.push(list[i]);
         }
         this.setData({
