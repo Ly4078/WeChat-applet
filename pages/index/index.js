@@ -575,7 +575,6 @@ Page({
     if (app.globalData.userInfo.lat && app.globalData.userInfo.lng) {
       this.hotDishList();
       this.getsecKill();
-      console.log('hotdish:', this.data.hotdish);
       this.setData({
         bargainList: []
       });

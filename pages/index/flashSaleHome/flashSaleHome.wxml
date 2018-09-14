@@ -14,16 +14,17 @@
 
   <!--附近美食-->
   <view hidden="{{currentTab == 1}}">
-    <view class='cuisine-center active' wx:for="{{aNearbyShop}}" wx:key="{{index}}">
-      <!-- <block wx:for="{{actlist}}" wx:key="{{index}}" id="{{index}}" wx:for-index="idx"> -->
+    <view class='cuisine-center active' wx:if="{{aNearbyShop.length>0}}" wx:for="{{aNearbyShop}}" wx:key="{{index}}">
       <template is="flashSale" data="{{item}}" />
-      <!-- </block> -->
+    </view>
+    <view class='placeholder' wx:if="{{aNearbyShop.length<1}}">
+      <image src="/images/icon/zhanweitu.png"></image>
     </view>
   </view>
 
   <!--我的秒杀-->
   <view hidden="{{currentTab == 0}}">
-    <view class='cuisine-center' wx:for="{{aNearbyShop}}" wx:key="{{index}}" wx:for-index="idx">
+    <view class='cuisine-center'  wx:if="{{aNearbyShop.length>0}}" wx:for="{{aNearbyShop}}" wx:key="{{index}}" wx:for-index="idx">
       <view class="mySeckillWrap" id="{{item.skuId}}" data-shopid="{{item.shopId}}" bindtap='toSecKillDetail'>
         <view class="mySeckill_l">
           <image src="{{item.skuPic}}"></image>
@@ -40,6 +41,9 @@
           <button>查看详情</button>
         </view>
       </view>
+    </view>
+    <view class='placeholder' wx:if="{{aNearbyShop.length<1}}">
+      <image src="/images/icon/zhanweitu.png"></image>
     </view>
   </view>
 </view>

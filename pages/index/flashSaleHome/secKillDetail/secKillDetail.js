@@ -45,8 +45,6 @@ Page({
       timer: null
     });
     this.shopDetail();
-    console.log('48行：==========' + app.globalData.userInfo.userId);
-    console.log('49行：==========' + app.globalData.userInfo.mobile);
     if (app.globalData.userInfo.userId) {
       if (!app.globalData.userInfo.mobile) { //是新用户，去注册页面
         wx.navigateTo({
@@ -57,7 +55,6 @@ Page({
         this.isCreateFunc();
       }
     } else {
-      console.log('测试进入85行==========');
       this.findByCode();
     }
   },
@@ -74,6 +71,9 @@ Page({
     this.setData({
       timer: null
     });
+  },
+  onPullDownRefresh: function () { //下拉刷新
+    this.isCreateFunc();
   },
   //查询菜
   getDish() {
@@ -104,6 +104,7 @@ Page({
       parentId: app.globalData.userInfo.userId
     };
     Api.inviteNum(_parms).then((res) => {
+      wx.stopPullDownRefresh();
       if (res.data.code == 0) {
         let isCreated = false;
         if (res.data.data.length > 0 && res.data.data[0]) {
