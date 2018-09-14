@@ -496,7 +496,7 @@ page{
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid #EBEBEB;
-  margin-bottom: 100rpx;
+  padding-bottom: 120rpx;
 }
 
 .quantNumber{
