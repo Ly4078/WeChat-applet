@@ -144,7 +144,7 @@ page{
 }
 
 .checkboxBtn-es{
-  zoom: 60%;
+  zoom: 66%;
   margin-right: 20rpx;
 }
 
