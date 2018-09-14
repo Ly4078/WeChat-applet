@@ -114,10 +114,10 @@
         <text>快递方式</text>
         <text>顺丰速运</text>
       </view>
-      <view class='inconformity'>
+      <view class='inconformity' wx:if="{{soDetail.expressCode}}">
          <text>快递单号</text>
-        <text wx:if="{{soDetail.expressCode}}">{{soDetail.expressCode}}</text>
-        <button class='copybut' bindtap='copykdCode' wx:if="{{soDetail.expressCode}}">复制</button>
+        <text>{{soDetail.expressCode}}</text>
+        <button class='copybut' bindtap='copykdCode'>复制</button>
       </view>
    
     </view>
