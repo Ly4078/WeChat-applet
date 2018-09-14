@@ -105,13 +105,13 @@ Page({
         let _list = res.data.data.list, logistics = this.data.logisticsList;
         if (_list && _list.length>0){
           for (let i = 0; i < _list.length; i++) {
-            if (_list[i].status = 1) {
+            if (_list[i].status == 1) {
               _list[i].status2 = '待付款';
-            } else if (_list[i].status = 2) {
+            } else if (_list[i].status == 2) {
               _list[i].status2 = '待收货';
-            } else if (_list[i].status = 3) {
+            } else if (_list[i].status == 3) {
               _list[i].status2 = '已完成';
-            } else if (_list[i].status = 10) {
+            } else if (_list[i].status == 10) {
               _list[i].status2 = '已取消';
             }
             logistics.push(_list[i]);

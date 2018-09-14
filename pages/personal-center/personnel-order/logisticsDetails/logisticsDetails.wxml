@@ -97,14 +97,10 @@
       </view>
     </view>
     <view class='payment-execute'>
-      <view class='payment-copy'>
-        <view class='payment-copyText'>
-          <text>订单编号</text>
-          <text>{{soDetail.orderCode}}</text>
-        </view>
-        <view class='payment-copyRight' bindtap='copyCode'>
-          <button>复制</button>
-        </view>
+      <view class='inconformity'>
+         <text>订单编号</text>
+        <text>{{soDetail.orderCode}}</text>
+        <button class='copybut' bindtap='copyCode'>复制</button>
       </view>
       <view class='inconformity'>
         <text>支付方式</text>
@@ -116,8 +112,14 @@
       </view>
       <view class='inconformity'>
         <text>快递方式</text>
-        <text>顺风速运</text>
+        <text>顺丰速运</text>
       </view>
+      <view class='inconformity'>
+         <text>快递单号</text>
+        <text wx:if="{{soDetail.expressCode}}">{{soDetail.expressCode}}</text>
+        <button class='copybut' bindtap='copykdCode' wx:if="{{soDetail.expressCode}}">复制</button>
+      </view>
+   
     </view>
   </view>
   <!-- 底部联系客服再次/购买 -->

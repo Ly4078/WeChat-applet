@@ -146,6 +146,22 @@ Page({
       }
     })
   },
+  //复制快递单号
+  copykdCode:function(){
+    wx.setClipboardData({
+      data: this.data.soDetail.expressCode,
+      success: function (res) {
+        wx.getClipboardData({
+          success: function (res) {
+            wx.showToast({
+              title: '复制成功！',
+              icon: 'none'
+            })
+          }
+        })
+      }
+    })
+  },
 
   examineLogistics: function() { //实时物流入口--
     wx.navigateTo({
