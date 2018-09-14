@@ -61,7 +61,7 @@
    </view>
    <view class='logistics-button'>
       <view class='logistics-nab'>共<text>{{item.orderItemOuts[0].goodsNum}}</text>件，实付款</view>
-      <view class='logistics-sum'><text>￥{{item.skuAmount}}</text></view>
+      <view class='logistics-sum'><text>￥{{item.realAmount}}</text></view>
    </view>
   </view>
 </template>
