@@ -35,7 +35,7 @@
       </view>
       <view class='equally'>
         <text>配送费</text>
-        <text>到付</text>
+        <text class='delicatese'>到付</text>
       </view>
       <view class='equally' bindtap='handbzf'>
         <text>包装费<text class='suoming'>（冰袋、保温内胆、加厚泡沫箱）</text><text class='interview'>？</text></text>

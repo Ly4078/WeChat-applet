@@ -37,7 +37,6 @@ page{
 }
 
 .submitLeft text{
-  margin-left: 10rpx;
   font-size: 30rpx;
   letter-spacing: 2rpx;
   vertical-align: middle;
@@ -163,6 +162,10 @@ page{
   font-size:28rpx;
   color:rgba(128,128,128,1);
   letter-spacing: 2rpx;
+}
+
+.delicatese{
+  color: #FC5E2D;
 }
 
 .equally:last-child{
