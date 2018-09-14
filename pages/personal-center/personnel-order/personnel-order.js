@@ -13,6 +13,7 @@ Page({
     logisticsList:[],//物流订单列表
     navbar: ['票劵订单', '物流订单'],
     shopping: 0,
+    lostr:0,
     commoditys:[
       {
         title:'全部订单',
@@ -35,29 +36,17 @@ Page({
     logId:'',
     elephant: 0
   },
-  navbarTap: function (e) { //顶部第一级tab栏
-    this.setData({
-      shopping: e.currentTarget.dataset.idx
-    })
-    if(this.data.shopping == 0){
+  
+  onShow: function () {
+    // this.getOrderList();
+    // this.getshopOrderList();
+    // this.getlogisticsList(this.data.lostr);
+    if (this.data.shopping == 0) {
       this.getOrderList();
       this.getshopOrderList();
-    }else if(this.data.shopping == 1){
-      this.getlogisticsList();
+    } else if (this.data.shopping == 1) {
+      this.getlogisticsList(this.data.lostr);
     }
-  },
-  distributionmag: function (e) { //物流订单tab
-    let id = e.currentTarget.id;
-    this.setData({
-      elephant: e.currentTarget.dataset.idx,
-      orpage:1,
-      logId:id
-    })
-    this.getlogisticsList(id);
-  },
-  onShow: function () {
-    this.getOrderList();
-    this.getshopOrderList();
   },
   onHide: function () {
     this.setData({
@@ -83,6 +72,27 @@ Page({
     if (this.data.currentTab == 2 || this.data.currentTab == '') {
       this.getshopOrderList();
     }
+  },
+  navbarTap: function (e) { //顶部第一级tab栏
+    this.setData({
+      shopping: e.currentTarget.dataset.idx
+    })
+    if (this.data.shopping == 0) {
+      this.getOrderList();
+      this.getshopOrderList();
+    } else if (this.data.shopping == 1) {
+      this.getlogisticsList();
+    }
+  },
+  distributionmag: function (e) { //物流订单tab
+    let id = e.currentTarget.id;
+    this.setData({
+      elephant: e.currentTarget.dataset.idx,
+      orpage: 1,
+      logId: id,
+      lostr: id
+    })
+    this.getlogisticsList(id);
   },
   // 查询物流订单列表
   getlogisticsList:function(val){
