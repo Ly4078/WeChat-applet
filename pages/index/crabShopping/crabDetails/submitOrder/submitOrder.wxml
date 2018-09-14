@@ -17,14 +17,14 @@
       </view>
       <view class='equally'>
         <text>配送方式</text>
-        <text class='delicatese'>顺丰速运</text>
+        <text>顺丰速运</text>
       </view>
       <view class='equally'>
         <text>配送费</text>
         <text class='delicatese'>到付</text>
       </view>
       <view class='equally' bindtap='handbzf'>
-        <text>包装费<text class='suoming'>（冰袋、保温内胆、加厚泡沫箱）</text><text class='interview'>？</text></text>
+        <text>包装费<text class='suoming'>（冰袋、保温内胆、加厚泡沫箱）？</text></text>
         <text class='delicatese'>￥{{current.bzf}}</text>
       </view>
       <view class='equally'>
@@ -57,7 +57,7 @@
       </view>
       <checkbox-group bindchange="checkboxChange">
         <label class="checkbox">
-          <checkbox value="1"  checked="{{isagree}}"/>
+          <checkbox class='checkboxBtn-es' value="1"  checked="{{isagree}}"/>
         </label>
       </checkbox-group>
     </view>

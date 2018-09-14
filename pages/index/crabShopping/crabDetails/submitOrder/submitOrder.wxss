@@ -143,6 +143,11 @@ page{
   align-items: center;
 }
 
+.checkboxBtn-es{
+  zoom: 60%;
+  margin-right: 20rpx;
+}
+
 .priceAmount text:nth-child(1){
   font-size:28rpx;
   color:rgba(255,67,67,1);
@@ -193,10 +198,11 @@ page{
   display: flex;
   align-items: center;
   padding-left: 30rpx;
+
 }
 
 .presentCommLeft view{
-  font-size:30rpx;
+  font-size:36rpx;
   color:rgba(25,25,25,1);
   font-weight: 600;
 }
@@ -204,6 +210,7 @@ page{
 .presentCommLeft view text{
   font-size:36rpx;
   color:rgba(255,67,67,1);
+  font-weight: 500;
 }
 
 .presentCommRight{
@@ -265,16 +272,4 @@ page{
   justify-content: center;
   align-items: center;
   color: #fff;
-}
-
-.interview{
-  width: 28rpx;
-  height: 28rpx;
-  background:rgba(177,177,177,1);
-  line-height:88rpx;
-  text-align: center; 
-  border-radius:50%;
-  color: #fff;
-  font-size:26rpx;
-  padding-left: 12rpx;
 }
