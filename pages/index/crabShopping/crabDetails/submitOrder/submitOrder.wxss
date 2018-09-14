@@ -5,10 +5,10 @@ page{
 .submitTop{
   width: 100%;
   height: 126rpx;
-  border-top: 1px solid #E0E0E0;
   background-color: #fff;
   display: flex;
   justify-content: center;
+  margin-top: 20rpx;
 }
 
 .submitCenter{
@@ -54,6 +54,8 @@ page{
   font-family:PingFangSC-Regular;
   font-weight:600;
   color:rgba(25,25,25,1);
+  display: flex;
+  align-items: center;
 }
 
 .compellation text{
@@ -72,7 +74,6 @@ page{
 .indentDetails{
   width: 100%;
   height: 532rpx;
-  margin-top: 20rpx;
   display: flex;
   justify-content: center;
   background-color: #fff;
@@ -149,7 +150,7 @@ page{
 
 .priceAmount text:nth-child(2){
   font-size:24rpx;
-  color:rgba(25,25,25,1);
+  color:#FC5E2D;
 }
 
 .equally{

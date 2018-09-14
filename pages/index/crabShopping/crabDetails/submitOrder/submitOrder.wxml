@@ -1,18 +1,4 @@
 <view class='submitWrap'>
-  <view class='submitTop' catchtap='additionSite'>
-    <view class='submitCenter'>
-      <!-- <image class='submitImg' src='/images/icon/location.png'></image> -->
-      <image class='AddTheAddress' src='/images/icon/AddTheAddresss.png'  wx:if="{{!chatName}}"></image>
-      <view class='submitLeft' wx:if="{{chatName}}">
-        <view class='compellation'>{{chatName}}<text>{{mobile}}</text></view>
-        <view class='compellationText'><text>{{area}}</text></view>
-      </view>
-      <view class='submitLeft'  wx:if="{{!chatName}}">
-        <text>添加地址</text>
-      </view>
-      <view><image class='submitRight' src='/images/icon/xialatupian.png'></image></view>
-    </view>
-  </view>
   <!-- 订单详情 -->
   <view class='indentDetails'>
     <view class='indentDetailsCtn'>
@@ -31,7 +17,7 @@
       </view>
       <view class='equally'>
         <text>配送方式</text>
-        <text>顺丰速运</text>
+        <text class='delicatese'>顺丰速运</text>
       </view>
       <view class='equally'>
         <text>配送费</text>
@@ -39,12 +25,27 @@
       </view>
       <view class='equally' bindtap='handbzf'>
         <text>包装费<text class='suoming'>（冰袋、保温内胆、加厚泡沫箱）</text><text class='interview'>？</text></text>
-        <text>￥{{current.bzf}}</text>
+        <text class='delicatese'>￥{{current.bzf}}</text>
       </view>
       <view class='equally'>
         <text>合计:</text>
-        <text>￥{{current.total}}</text>
+        <text class='delicatese'>￥{{current.total}}</text>
       </view>
+    </view>
+  </view>
+
+  <view class='submitTop' catchtap='additionSite'>
+    <view class='submitCenter'>
+      <!-- <image class='submitImg' src='/images/icon/location.png'></image> -->
+      <image class='AddTheAddress' src='/images/icon/AddTheAddresss.png'  wx:if="{{!chatName}}"></image>
+      <view class='submitLeft' wx:if="{{chatName}}">
+        <view class='compellation'>{{chatName}}<text>{{mobile}}</text></view>
+        <view class='compellationText'><text>{{area}}</text></view>
+      </view>
+      <view class='submitLeft'  wx:if="{{!chatName}}">
+        <text>添加地址</text>
+      </view>
+      <view><image class='submitRight' src='/images/icon/xialatupian.png'></image></view>
     </view>
   </view>
 
