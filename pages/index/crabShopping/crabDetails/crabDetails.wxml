@@ -23,7 +23,7 @@
     <view class='presentationacd'>
       <view class='presentationName'>
         <text>{{SelectedList.skuName}}</text>
-        <text>新品</text>
+        <view class='autoplayionacd'><text>新品</text></view>
       </view>
       <view class='quantity'>
         <view class='quantityLeft'>

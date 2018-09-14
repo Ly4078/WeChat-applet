@@ -36,15 +36,20 @@ page{
   padding-top: 20rpx;
   font-weight: 600;
   letter-spacing: 2rpx;
+  display: flex;
+  flex-wrap:wrap;
 }
 
-.presentationName text:nth-child(2){
+.autoplayionacd{
   font-size:20rpx;
   color:rgba(255,67,67,1);
   border: 1px solid rgba(255,67,67,1);
   padding: 0rpx 10rpx;
   margin-left: 10rpx;
   border-radius: 24rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .quantity{
