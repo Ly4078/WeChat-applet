@@ -881,6 +881,10 @@ Page({
       },
       fail: function() {
         console.log("拨打电话失败！")
+        wx.showToast({
+          title: '暂无商家联系电话',
+          icon: 'none',
+        })
       }
     })
   },

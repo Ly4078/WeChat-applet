@@ -1777,13 +1777,12 @@ Page({
   
   // 螃蟹进入商品详情
   crabPrtDetails: function (e) {
-    console.log("e:",e)
     let id = e.currentTarget.id, spuId = e.target.dataset.spuid;
-    console.log('id:', id, 'spuId:',spuId)
-    // return
-    wx.navigateTo({
-      url: 'crabShopping/crabDetails/crabDetails?id=' + id + '&spuId=' + spuId,
-    })
+    if(id && spuId){
+      wx.navigateTo({
+        url: 'crabShopping/crabDetails/crabDetails?id=' + id + '&spuId=' + spuId,
+      })
+    }
   },
   // 螃蟹进入商品详情
   crabPrtPackage: function (e) {
