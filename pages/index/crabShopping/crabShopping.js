@@ -22,8 +22,8 @@ Page({
     _build_url: GLOBAL_API_DOMAIN,
     listData:[],  //送货到家
     storeData:[], //品质好店
-    navbar: ['送货到家', '到店消费'],
-    oneTab: ["礼盒装", "邮购"],
+    navbar: ['平台邮购', '到店消费'],
+    oneTab: ["礼盒装", "散装"],
     currentTab: 0,
     tabId:0,
     spuval:2,
