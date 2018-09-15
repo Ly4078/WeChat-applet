@@ -94,9 +94,9 @@
 
   <!-- 享7生鲜 -->
   <block wx:for="{{crab}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
-    <template is="toFresh" data="{{item}}" />
+    <template is="toFresh" data="{{item}}"  wx:if="{{fresh2.spuId}}" />
   </block>
-  <view class='Resbanner secKillList'>
+  <view class='Resbanner secKillList' wx:if="{{fresh2.spuId}}">
     <image class='Resbimg' catchtap='crabSteamed' src="{{fresh1.imgUrl}}"></image>
     <view class='crabModels'>
       <image mode='scaleToFill' catchtap='crabPrtDetails' class='crabModels-img' src="{{fresh2.imgUrl}}" id='{{fresh2.id}}' data-spuId="{{fresh2.spuId}}"></image>
