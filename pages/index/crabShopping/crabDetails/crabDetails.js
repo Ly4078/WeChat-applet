@@ -9,7 +9,6 @@ Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
     issnap: false, //新用户
-    isfrst: true,
     isnew: false, //新用户
     // indicatorDots: true,  //是否显示面板指示点
     autoplay: true, //是否自动切换
@@ -117,8 +116,7 @@ Page({
     });
     let _crabImgUrl = app.globalData.txtObj.crabImgUrl, _ruleImg = app.globalData.txtObj.ruleImg;
     this.setData({
-      crabImgUrl: _crabImgUrl,
-      isfrst: true
+      crabImgUrl: _crabImgUrl
     })
     if (this.data.issku) {
       this.bargainDetails();
@@ -359,8 +357,7 @@ Page({
     this.setData({
       animationData: animation.export(),
       showModalStatus: true,
-      isguige: true,
-      isfrst: false
+      isguige: true
     })
     setTimeout(function () {
       animation.translateY(0).step()
@@ -469,18 +466,19 @@ Page({
   //立即购买
   originalPrice: function () {
     let _num = this.data.num, _issku = this.data.issku ? 1 : 2, _shopId = this.data.SelectedList.shopId;
-    this.setData({
-      showModalStatus: false
-    });
+    
     console.log('useriinfo:', app.globalData.userInfo);
     if (!app.globalData.userInfo.mobile) {
       wx.navigateTo({
         url: '../../../../pages/personal-center/securities-sdb/securities-sdb?back=1'
       })
     } else {
-      if (this.data.isfrst) {
+      if (!this.data.showModalStatus) {
         this.showModal();
       } else {
+        this.setData({
+          showModalStatus: false
+        });
         wx.navigateTo({
           url: 'submitOrder/submitOrder?spuId=' + this.data.spuId + '&id=' + this.data.id + '&num=' + _num + '&issku=' + _issku + '&shopId=' + _shopId
         })
