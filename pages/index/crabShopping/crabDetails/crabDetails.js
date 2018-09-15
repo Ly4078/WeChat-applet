@@ -9,16 +9,17 @@ Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
     issnap: false, //新用户
+    isfrst: true,
     isnew: false, //新用户
     // indicatorDots: true,  //是否显示面板指示点
     autoplay: true, //是否自动切换
     interval: 5000, //自动切换时间间隔
     duration: 1000, //滑动动画时长
     inputShowed: false,
-    isguige:true,//是否点击规格详情
-    isisbut:false,  //是否显示底按钮
-    issku:false,//是否是送货到家的菜
-    isspecifi:false,
+    isguige: true,//是否点击规格详情
+    isisbut: false,  //是否显示底按钮
+    issku: false,//是否是送货到家的菜
+    isspecifi: false,
     inputVal: "",
     num: 1, //数量默认是1
     id: '', //商品id
@@ -27,35 +28,35 @@ Page({
     page: 1,
     specificationData: [],
     dhcListData: [],
-    store_details:{},
-    SelectedList:{},
-    isAct:0,
-    city:'',    
+    store_details: {},
+    SelectedList: {},
+    isAct: 0,
+    city: '',
     shopId: '',
-    greensID: '',       
+    greensID: '',
     isShop: false,
     array: [{
-        placeName: '产地',
-        place: '阳澄湖'
-      },
-      {
-        placeName: '包装',
-        place: '礼盒装'
-      },
-      {
-        placeName: '规格',
-        place: ''
-      },
-      {
-        placeName: '邮费',
-        place: '到付'
-      }
+      placeName: '产地',
+      place: '阳澄湖'
+    },
+    {
+      placeName: '包装',
+      place: '礼盒装'
+    },
+    {
+      placeName: '规格',
+      place: ''
+    },
+    {
+      placeName: '邮费',
+      place: '到付'
+    }
     ],
     crabImgUrl: [],// 详情图列表
-    legined:[
+    legined: [
       {
-        p1:'正品保障',
-        p2:'正品保障，正宗阳澄湖到付'
+        p1: '正品保障',
+        p2: '正品保障，正宗阳澄湖到付'
       }, {
         p1: '邮费到付',
         p2: '不包邮、邮费到付'
@@ -69,9 +70,11 @@ Page({
     ]
   },
 
-  onLoad: function(options) {
+  onLoad: function (options) {
+    console.log('optons:', options)
+
     let _id = '', _spuId = '', _shopId = '', _greensID = '', isShop = false;
-    
+
     if (options.id) {
       _id = options.id;
     }
@@ -81,10 +84,10 @@ Page({
     if (options.greensID) {
       _greensID = options.greensID;
       this.setData({
-        issku:true,
-        num:1
+        issku: true,
+        num: 2
       })
-    }else{
+    } else {
       this.setData({
         issku: false
       })
@@ -92,11 +95,11 @@ Page({
     if (options.shopId) {
       _shopId = options.shopId;
     }
-    if(options.isShop) {
+    if (options.isShop) {
       isShop = options.isShop;
     }
     this.setData({
-      id: _id ? _id:this.data.id,
+      id: _id ? _id : this.data.id,
       spuId: _spuId ? _spuId : this.data.spuId,
       shopId: _shopId ? _shopId : this.data.shopId,
       greensID: _greensID ? _greensID : this.data.greensID,
@@ -106,23 +109,16 @@ Page({
   },
 
   onShow: function () {
-    wx.showLoading({
-      title: '加载中...'
-    });
-    let that = this;
     wx.request({
       url: this.data._build_url + 'version.txt',
       success: function (res) {
         app.globalData.txtObj = res.data;
-        that.crabinit();
       }
     });
-  },
-  //页面初始化
-  crabinit:function(){
     let _crabImgUrl = app.globalData.txtObj.crabImgUrl, _ruleImg = app.globalData.txtObj.ruleImg;
     this.setData({
-      crabImgUrl: _crabImgUrl
+      crabImgUrl: _crabImgUrl,
+      isfrst: true
     })
     if (this.data.issku) {
       this.bargainDetails();
@@ -136,27 +132,26 @@ Page({
         crabImgUrl: _crabImgUrl
       })
     } else {
-      if (this.data.spuId) {
-        this.geSkutlist();
-      } else {
-        this.getDetailBySkuId();
-      }
+      // if (this.data.spuId) {
+      //   this.geSkutlist();
+      // } else {
+      this.getDetailBySkuId();
+      // }
     }
 
     if (this.data.shopId) {
       this.getShopInfo();
     }
   },
-  bargainDetails:function(){   //品质好店-->店铺详情--列表
-    
+
+  bargainDetails: function () {   //品质好店-->店铺详情--列表
     if (!app.globalData.userInfo.mobile) {
-      wx.hideLoading();
       wx.navigateTo({
         url: '../../../../pages/personal-center/securities-sdb/securities-sdb?back=1'
       })
       return false
     }
-    let that = this, _array=[];
+    let that = this, _array = [];
     let _parms = {
       shopId: this.data.shopId,
       zanUserId: app.globalData.userInfo.userId,
@@ -165,7 +160,6 @@ Page({
       rows: 20,
     };
     Api.dhcList(_parms).then((res) => {  //列表
-      wx.hideLoading();
       if (res.data.code == 0 && res.data.data.list) {
         let _obj = res.data.data.list[0];
         this.setData({
@@ -176,7 +170,7 @@ Page({
           array[1].placeName = '品牌';
           array[1].place = '万蟹楼';
           array[2].place = _obj.skuName;
-          array = array.slice(0,3);
+          array = array.slice(0, 3);
           this.setData({
             array: array
           });
@@ -185,9 +179,10 @@ Page({
     })
   },
   //查询商品朝夕相处列表 即同一商品不同规格列表
-  geSkutlist:function(){
-    if (this.data.isspecifi){return }
-    let that = this, _array=[];
+  geSkutlist: function () {
+
+    if (this.data.isspecifi) { return }
+    let that = this, _array = [];
     let _parms = {
       spuType: 10,
       page: this.data.page,
@@ -195,31 +190,29 @@ Page({
       spuId: this.data.spuId
     };
     Api.crabList(_parms).then((res) => { //查询同类规格列表
-      wx.hideLoading();
       if (res.data.code == 0) {
         let _list = res.data.data.list;
         let _obj = _list[0];
-        for(let i =0;i<_list.length;i++){
-          if(that.data.id == _list[i].id){
-              that.getDetailBySkuId();
+        for (let i = 0; i < _list.length; i++) {
+          if (that.data.id == _list[i].id) {
+            that.getDetailBySkuId();
           }
         }
         this.setData({
           specificationData: _list,
-          isspecifi:true
+          isspecifi: true
         })
       }
     });
   },
   //查询单个详情
-  getDetailBySkuId:function(val){
-    if (this.data.isAct && !val){return}
-    let _array = [],that = this;
+  getDetailBySkuId: function (val) {
+    if (this.data.isAct && !val) { return }
+    let _array = [], that = this;
     Api.DetailBySkuId({ id: this.data.id }).then((res) => {
-      wx.hideLoading();
-      if(res.data.code == 0){
+      if (res.data.code == 0) {
         let _obj = res.data.data, _crabImgUrl = this.data.crabImgUrl;
-       
+
         _array = this.data.array;
         if (_obj.spuId == 1) {
           _array[1].place = '散装';
@@ -234,15 +227,17 @@ Page({
           _array[1].place = '礼盒装';
         }
         _array[2].place = _obj.skuName;
+        let _arr = [];
+        _arr.push(_obj);
 
-       
         this.setData({
           SelectedList: _obj,
+          specificationData: _arr,
           isAct: _obj.id,
           array: _array,
           spuId: _obj.spuId
         })
-        this.geSkutlist();
+        // this.geSkutlist();
       }
     })
   },
@@ -251,22 +246,20 @@ Page({
     let id = e.currentTarget.id;
     this.setData({
       isAct: id,
-      id:id
+      id: id
     });
     this.getDetailBySkuId('val');
   },
   //查询商家详情
-  getShopInfo: function() {
+  getShopInfo: function () {
     let that = this;
-    console.log('257行：===================' + this.data.shopId)
     wx.request({
       url: that.data._build_url + 'shop/get/' + this.data.shopId,
       header: {
         'content-type': 'application/json;Authorization'
       },
-      success: function(res) {
-        console.log('263行：===================' + res)
-        if(res.data.code == 0){
+      success: function (res) {
+        if (res.data.code == 0) {
           let _data = res.data.data;
           if (_data) {
             _data.popNum = utils.million(_data.popNum);
@@ -283,14 +276,14 @@ Page({
     })
   },
   //点击商家主页面按钮，跳转到商家详情页
-  handshopHome:function(e){
+  handshopHome: function (e) {
     const shopid = e.currentTarget.id;
     wx.navigateTo({
       url: '../../merchant-particulars/merchant-particulars?shopid=' + shopid + '&flag=1'
     })
   },
   //打开地图导航
-  openMap:function(){
+  openMap: function () {
     let that = this;
     wx.getLocation({
       type: 'gcj02',
@@ -313,9 +306,8 @@ Page({
   },
 
   //发起砍价
-  initiateCut:function(){
+  initiateCut: function () {
     if (!app.globalData.userInfo.mobile) {
-      wx.hideLoading();
       wx.navigateTo({
         url: '../../../../pages/personal-center/securities-sdb/securities-sdb?back=1'
       })
@@ -355,7 +347,7 @@ Page({
     })
   },
   //显弹出框
-  showModal: function() {
+  showModal: function () {
     let that = this;
     var animation = wx.createAnimation({ // 显示遮罩层
       duration: 200,
@@ -367,9 +359,10 @@ Page({
     this.setData({
       animationData: animation.export(),
       showModalStatus: true,
-      isguige: true
+      isguige: true,
+      isfrst: false
     })
-    setTimeout(function() {
+    setTimeout(function () {
       animation.translateY(0).step()
       this.setData({
         animationData: animation.export()
@@ -377,7 +370,7 @@ Page({
     }.bind(this), 200);
   },
   //查询保证--显弹出框
-  showmodalbz:function(){
+  showmodalbz: function () {
     let that = this;
     const animation = wx.createAnimation({ // 显示遮罩层
       duration: 200,
@@ -390,7 +383,7 @@ Page({
       animationData: animation.export(),
       showModalStatus: true,
       isguige: false,
-      isbut: true      
+      isbut: true
     })
     setTimeout(function () {
       animation.translateY(0).step()
@@ -398,7 +391,7 @@ Page({
         animationData: animation.export()
       })
     }.bind(this), 200);
-  },  
+  },
   //隐藏对话框
   hideModal: function () {
     // 隐藏遮罩层
@@ -421,30 +414,30 @@ Page({
       })
     }.bind(this), 200)
   },
- 
+
 
   //分享给好友
   onShareAppMessage: function () {
     let userInfo = app.globalData.userInfo;
-    if (this.data.issku){
+    if (this.data.issku) {
       return {
         title: this.data.SelectedList.skuName,
         path: '/pages/index/crabShopping/crabDetails/crabDetails?shopId=' + this.data.shopId + '&greensID=' + this.data.greensID + '&isShop=' + this.data.isShop,
         success: function (res) { }
       }
-    }else{
+    } else {
       return {
         title: this.data.SelectedList.skuName,
-        path: '/pages/index/crabShopping/crabDetails/crabDetails?shopId=' + this.data.shopId + '&spuId=' + this.data.spuId+'&id=' + this.data.SelectedList.id,
+        path: '/pages/index/crabShopping/crabDetails/crabDetails?spuId=' + this.data.spuId + '&id=' + this.data.SelectedList.id,
         success: function (res) { }
       }
     }
   },
 
   /* 点击减号地增减数量 */
-  bindMinus: function() {
+  bindMinus: function () {
     let num = this.data.num;
-    if(this.data.issku){return}
+    if (this.data.issku) { return }
     if (num > 1) {
       num--;
     }
@@ -456,7 +449,7 @@ Page({
     });
   },
   /* 点击加号 */
-  bindPlus: function() {
+  bindPlus: function () {
     let num = this.data.num;
     if (this.data.issku) { return }
     num++;
@@ -467,14 +460,14 @@ Page({
     });
   },
   /* 输入框事件 */
-  bindManual: function(e) {
+  bindManual: function (e) {
     var num = e.detail.value;
     this.setData({
       num: num
     });
   },
   //立即购买
-  originalPrice: function() {
+  originalPrice: function () {
     let _num = this.data.num, _issku = this.data.issku ? 1 : 2, _shopId = this.data.SelectedList.shopId;
     this.setData({
       showModalStatus: false
@@ -484,10 +477,15 @@ Page({
       wx.navigateTo({
         url: '../../../../pages/personal-center/securities-sdb/securities-sdb?back=1'
       })
-    }else{
-      wx.navigateTo({
-        url: 'submitOrder/submitOrder?spuId=' + this.data.spuId + '&id=' + this.data.id + '&num=' + _num + '&issku=' + _issku + '&shopId=' + _shopId
-      })
+    } else {
+      if (this.data.isfrst) {
+        this.showModal();
+      } else {
+        wx.navigateTo({
+          url: 'submitOrder/submitOrder?spuId=' + this.data.spuId + '&id=' + this.data.id + '&num=' + _num + '&issku=' + _issku + '&shopId=' + _shopId
+        })
+      }
+
     }
   },
   //点击弹框按钮
@@ -504,12 +502,12 @@ Page({
   },
 
   // 左下角返回首页
-  returnHomeArrive: function() {
+  returnHomeArrive: function () {
     wx.switchTab({
       url: '../../index',
-      success: function(res) {},
-      fail: function(res) {},
-      complete: function(res) {},
+      success: function (res) { },
+      fail: function (res) { },
+      complete: function (res) { },
     })
   }
 
