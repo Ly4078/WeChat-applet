@@ -26,7 +26,10 @@ Page({
     }).then((res) => {
       if (res.data.code == 0) {
         let _data = res.data.data;
+<<<<<<< Updated upstream
         wx.stopPullDownRefresh();
+=======
+>>>>>>> Stashed changes
         // 1待付款  2待收货  3已完成 10取消，
         if (_data.status == 1) {
           _data.status2 = '待付款';
@@ -58,7 +61,11 @@ Page({
       diff = '',
       h = '',
       m = '';
+<<<<<<< Updated upstream
     createTime = createTime.replace(/-/g, "/");//兼容IOS   IOS下不支持时间有(-)须替换成（/）
+=======
+    createTime = createTime.replace(/-/g, "/");//兼容IOS   IOS下不支付时间有(-)须替换成（/）
+>>>>>>> Stashed changes
     _createTime = (new Date(createTime)).getTime(); //结束时间
     _endTime = _createTime + oneDay;
     now = new Date().getTime();

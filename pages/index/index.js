@@ -1391,6 +1391,8 @@ Page({
         _obj[arr2[0]] = arr2[1];
       }
     }
+    console.log('id:',id);
+    console.log('_obj:',_obj);
     if (_linkUrl == 'lingquan') {
       wx.navigateTo({
         url: 'new-exclusive/new-exclusive',
@@ -1418,6 +1420,10 @@ Page({
     } else if (_obj.type == 3) { //店铺主页
       wx.navigateTo({
         url: 'merchant-particulars/merchant-particulars?shopid=' + _obj.shopId,
+      })
+    } else if (_obj.id) {// 生鲜商品详情
+      wx.navigateTo({
+        url: '../index/crabShopping/crabDetails/crabDetails?id=' + _obj.id + '&spuId=' + _obj.spuId,
       })
     }
   },

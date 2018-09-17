@@ -571,6 +571,10 @@ const ALL_API = {
   bargainCrab: {    //帮好友砍螃蟹
     method: 'POST',
     url: 'gold/helpfriendQg'
+  },
+  confirmCeceipt:{ //确认收货
+    method:'POST',
+    url:'orderInfo/confirmCeceipt'
   }
 }
 const Api = new MyHttp({}, ALL_API);
