@@ -17,8 +17,9 @@
             <view class='crabName'>
               <text>{{item.skuName}}</text>
             </view>
-            <view class='crabProduct'>
+            <view class='crabProduct originalCrabpis'>
               <text>新品</text>
+              <text class='originalCrab'>原价:￥{{item.marketPrice}}</text>
             </view>
             <view class='crabPrice'>
               <view class='crabPriceleft'>

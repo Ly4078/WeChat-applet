@@ -70,11 +70,12 @@ page{
   width: 92%;
   display: flex;
   flex-wrap:wrap;
+  padding-bottom: 20rpx;
 }
 
 .crabSingle{
   width: 336rpx;
-  height: 580rpx;
+  height: 568rpx;
   background-color: #fff;
   border-radius: 16rpx;
   margin-top: 20rpx;
@@ -111,6 +112,20 @@ page{
   margin: 6rpx 0rpx 20rpx 0rpx;
 }
 
+.originalCrabpis{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.originalCrabpis text:nth-child(2){
+  font-size:20rpx;
+  padding: 0rpx 0rpx;
+  color: #FF4343;
+  border: none;
+  text-decoration:line-through;  
+}
+
 .crabProduct text{
   border: 1px solid #FF4343;
   border-radius:24rpx;
@@ -129,6 +144,11 @@ page{
   width: 50%;
   font-size: 30rpx;
   color: #B1B1B1;
+}
+
+.originalCrab{
+  font-size: 24rpx;
+  color: #808080!important;
 }
 
 .crabPriceleft text{
