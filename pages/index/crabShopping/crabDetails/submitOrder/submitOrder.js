@@ -1,9 +1,8 @@
 var app = getApp();
 import Api from '../../../../../utils/config/api.js';
 import utils from '../../../../../utils/util.js';
-import {
-  GLOBAL_API_DOMAIN
-} from '../../../../../utils/config/config.js';
+import {GLOBAL_API_DOMAIN} from '../../../../../utils/config/config.js';
+// var utils = require('../../../../../utils/util.js');
 var rules = [];
 Page({
   data: {
@@ -29,7 +28,11 @@ Page({
     id: '',
     shopId: '',
     spuId: '',
-    orderId: ''
+    orderId: '',
+    remarks:'',//备注内容
+    date: '',  //默认日期
+    threeLater:'', //三天后
+    tenLater:''  //十天后
   },
   onLoad: function(options) {
     if (options.username) {
@@ -57,8 +60,22 @@ Page({
     app.globalData.OrderObj = options;
   },
   onShow: function(res) {
+    let _day = 60*60*24*1000;
+    let _today = new Date();
+    let _threeday = _today.getTime()+_day*3;
+    let _tenday = _today.getTime() + _day * 10;
+    _threeday = new Date(_threeday);
+    _tenday = new Date(_tenday);
+    _today = utils.dateConv(_today, '-');
+    _threeday = utils.dateConv(_threeday, '-');
+    _tenday = utils.dateConv(_tenday, '-');
+    this.setData({
+      threeLater: _threeday,
+      tenLater: _tenday,
+      date: _threeday
+    })
     let pages = getCurrentPages();
-    console.log('pages:=================' + JSON.stringify(pages[2]));
+    // console.log('pages:=================' + JSON.stringify(pages[2]));
     let options = pages[2].data;
     if (options.username && options.address && options.phone) {
       this.setData({
@@ -170,6 +187,22 @@ Page({
       })
     }
   },
+  //选择送货时间
+  bindDateChange:function(e){
+    console.log('picker发送选择改变，携带值为', e.detail.value)
+    this.setData({
+      date: e.detail.value
+    })
+    console.log('data:',this.data.date)
+  },
+  //监听备注输入
+  bindremarks:function(e){
+    let _value = e.detail.value;
+    this.setData({
+      remarks:_value
+    })
+    console.log('remarks:', this.data.remarks)
+  },
   //点击包装费疑问
   handbzf: function() {
     let str = '';
@@ -193,46 +226,49 @@ Page({
   submitSoid: function() {
     let that = this;
     if (this.data.isagree) {
-      if (!this.data.addressId) {
+      console.log('addressId:', this.data.addressId)
+      if (this.data.addressId) {
+        let _parms = {
+          userId: app.globalData.userInfo.userId,
+          userName: app.globalData.userInfo.userName,
+          shopId: this.data.shopId,
+          payType: 2,
+          orderAddressId: this.data.addressId,
+          sendTime: this.data.date,
+          orderItemList: [{
+            goodsSkuId: this.data.id,
+            goodsSpuId: this.data.spuId,
+            goodsNum: this.data.num,
+            shopId: this.data.shopId,
+            orderItemShopId: '0',
+            remark: this.data.remarks
+          }]
+        };
+        wx.request({
+          url: that.data._build_url + 'orderInfo/create',
+          data: JSON.stringify(_parms),
+          method: 'POST',
+          header: {
+            'content-type': 'application/json' // 默认值
+          },
+          success: function (res) {
+            if (res.data.code == 0) {
+              if (res.data.data) {
+                that.setData({
+                  orderId: res.data.data
+                })
+                console.log('订单生成成功，订单号；', res.data.data)
+                that.updataUser();
+              }
+            }
+          }
+        })
+      }else{
         wx.showToast({
           title: '请选择或添加收货地址',
           icon: 'none'
         })
-        return
       }
-      let _parms = {
-        userId: app.globalData.userInfo.userId,
-        userName: app.globalData.userInfo.userName,
-        shopId: this.data.shopId,
-        payType: 2,
-        orderAddressId: this.data.addressId,
-        orderItemList: [{
-          goodsSkuId: this.data.id,
-          goodsSpuId: this.data.spuId,
-          goodsNum: this.data.num,
-          shopId: this.data.shopId,
-          orderItemShopId: '0'
-        }]
-      };
-      wx.request({
-        url: that.data._build_url + 'orderInfo/create',
-        data: JSON.stringify(_parms),
-        method: 'POST',
-        header: {
-          'content-type': 'application/json' // 默认值
-        },
-        success: function(res) {
-          if (res.data.code == 0) {
-            if (res.data.data) {
-              that.setData({
-                orderId: res.data.data
-              })
-              console.log('订单生成成功，订单号；', res.data.data)
-              that.updataUser();
-            }
-          }
-        }
-      })
     } else {
       wx.showToast({
         title: '亲,请勾线顺丰到付哟!',
@@ -301,12 +337,6 @@ Page({
     })
   }
 })
-
-
-
-
-
-
 
 let data = {
   "__wxWebviewId__": 196,

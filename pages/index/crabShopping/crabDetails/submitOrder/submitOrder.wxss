@@ -8,7 +8,7 @@ page{
   background-color: #fff;
   display: flex;
   justify-content: center;
-  margin-top: 20rpx;
+  margin: 20rpx 0;
 }
 
 .submitCenter{
@@ -72,7 +72,6 @@ page{
 
 .indentDetails{
   width: 100%;
-  height: 532rpx;
   display: flex;
   justify-content: center;
   background-color: #fff;
@@ -167,6 +166,21 @@ page{
   font-size:28rpx;
   color:rgba(128,128,128,1);
   letter-spacing: 2rpx;
+}
+.equally input{
+  width: 75%;
+}
+.eqpicker{
+  width: 100%;
+  height: 88rpx;
+}
+.picker{
+  width: 100%;
+  height: 88rpx;
+  line-height: 88rpx;
+}
+.datenum{
+  float: right;
 }
 
 .delicatese{

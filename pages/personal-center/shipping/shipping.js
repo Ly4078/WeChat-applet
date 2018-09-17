@@ -77,12 +77,8 @@ Page({
     wx.navigateBack({//返回
       delta: 1
     })
-
-    // wx.navigateTo({
-    //   url: '../../index/crabShopping/crabDetails/submitOrder/submitOrder?username=' + _chatName + '&address=' + _area + '&phone=' + _mobile + '&addressId=' + addressId,
-    //   success: function (res) { },
-    //   fail: function (res) { },
-    //   complete: function (res) { },
-    // })
   }
 })
+
+
+
