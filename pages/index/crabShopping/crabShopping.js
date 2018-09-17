@@ -91,7 +91,8 @@ Page({
     this.commodityCrabList();
     console.log("tabId:",this.data.tabId)
   },
-  
+  //监听分享
+  onShareAppMessage: function () {},
   //查询送货到家列表
   commodityCrabList: function () {
     let that = this;

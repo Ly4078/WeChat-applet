@@ -74,7 +74,7 @@ page{
 
 .crabSingle{
   width: 336rpx;
-  height: 544rpx;
+  height: 580rpx;
   background-color: #fff;
   border-radius: 16rpx;
   margin-top: 20rpx;
@@ -94,9 +94,13 @@ page{
 .crabName{
   font-size:26rpx;
   letter-spacing: 2rpx;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
   overflow: hidden;
+  /* overflow: hidden;
   text-overflow:ellipsis;
-  white-space: nowrap;
+  white-space: nowrap; */
 }
 
 .crabWrapText{
