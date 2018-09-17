@@ -1478,7 +1478,7 @@ Page({
     return {
       title: '享7美食',
       path: 'pages/index/index',
-      imageUrl: 'https://xq-1256079679.file.myqcloud.com/test_242386103115353639_0.8.jpg',
+      imageUrl: 'https://xqmp4-1256079679.file.myqcloud.com/Colin_ajdlfadjfal.png',
       success: function (res) {
         // 转发成功
         console.log("res:", res)
