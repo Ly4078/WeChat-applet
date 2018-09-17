@@ -46,7 +46,8 @@
         <text>送货时间 </text>
          <text class='intervalBind'>（大于等于3天且小于10天)</text>
       </view>
-       <text class='datenum'>{{date}}</text>
+      <text class='datenum'>{{date}}</text>
+      <image class='submitRight' src='/images/icon/xialatupian.png'></image>
     </view>
   </picker>   
       </view>
