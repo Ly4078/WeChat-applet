@@ -19,6 +19,11 @@ page{
   align-items: center;
 }
 
+.intervalBind{
+  font-size:26rpx;
+  color:rgba(177,177,177,1);
+}
+
 .submitImg{
   width: 26rpx;
   height: 30rpx;
@@ -178,6 +183,9 @@ page{
   width: 100%;
   height: 88rpx;
   line-height: 88rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 .datenum{
   float: right;

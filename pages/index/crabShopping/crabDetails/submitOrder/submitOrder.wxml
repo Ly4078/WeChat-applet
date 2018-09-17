@@ -42,9 +42,13 @@
       <view class='equally'  bindtap='deliveryTime'>
         <picker mode="date" class='eqpicker' value="{{threeLater}}" start="{{threeLater}}" end="{{tenLater}}" bindchange="bindDateChange">
     <view class="picker">
-       送货时间 <text class='datenum'>{{date}}</text>
+      <view>
+        <text>送货时间 </text>
+         <text class='intervalBind'>（大于等于3天且小于10天)</text>
+      </view>
+       <text class='datenum'>{{date}}</text>
     </view>
-  </picker>
+  </picker>   
       </view>
       <view class='equally' bindtap='handbzf'>
         <text>包装费<text class='suoming'>（冰袋、保温内胆、加厚泡沫箱）？</text></text>
