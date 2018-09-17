@@ -67,11 +67,11 @@ Page({
         mobile: options.phone,
         addressId: options.addressId ? options.addressId : ''
       });
-      if (!this.data.chatName) {
-        this.getAddressList();
-      }
-      this.getDetailBySkuId();
     }
+    if (!this.data.chatName) {
+      this.getAddressList();
+    }
+    this.getDetailBySkuId();
   },
   //查询当前商品详情
   getDetailBySkuId: function(val) {
