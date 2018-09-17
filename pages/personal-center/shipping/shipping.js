@@ -14,9 +14,9 @@ Page({
   },
   //监听页面卸载
   onUnload:function(){
-    wx.navigateTo({
-      url: 'submitOrder/submitOrder'
-    })
+    // wx.navigateTo({
+    //   url: 'submitOrder/submitOrder'
+    // })
   },
   //查询已有收货地址
   getAddressList:function(){
@@ -66,13 +66,23 @@ Page({
         addressId = this.data.address[i].id;
       }
     }
- 
-
-    wx.redirectTo({
-      url: '../../index/crabShopping/crabDetails/submitOrder/submitOrder?username=' + _chatName + '&address=' + _area + '&phone=' + _mobile + '&addressId=' + addressId,
-      success: function (res) { },
-      fail: function (res) { },
-      complete: function (res) { },
+    let pages = getCurrentPages();//当前页面
+    let prevPage = pages[pages.length - 2];//上一页面
+    prevPage.setData({//直接给上移页面赋值
+      username: _chatName,
+      address: _area,
+      phone: _mobile,
+      addressId: addressId
+    });
+    wx.navigateBack({//返回
+      delta: 1
     })
+
+    // wx.navigateTo({
+    //   url: '../../index/crabShopping/crabDetails/submitOrder/submitOrder?username=' + _chatName + '&address=' + _area + '&phone=' + _mobile + '&addressId=' + addressId,
+    //   success: function (res) { },
+    //   fail: function (res) { },
+    //   complete: function (res) { },
+    // })
   }
 })

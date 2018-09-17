@@ -77,9 +77,9 @@ Page({
   },
   //监听页面卸载
   onUnload: function () {
-    wx.navigateTo({
-      url: "../../../../pages/personal-center/shipping/shipping"
-    })
+    // wx.navigateTo({
+    //   url: "../../../../pages/personal-center/shipping/shipping"
+    // })
   },
   //查询单个地址详情
   getAddress:function(){
