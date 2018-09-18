@@ -33,8 +33,9 @@
         <view class='quantityLeft'>
           <text>￥{{SelectedList.agioPrice?SelectedList.agioPrice:SelectedList.sellPrice}}</text>
           <text wx:if="{{isShop}}" class="quantityUnit">/两只</text>
-          <text wx:if="{{isShop}}" class='abandon'> 原价￥{{SelectedList.sellPrice}}</text>
-          <text wx:if="{{SelectedList.unit}}">／{{SelectedList.unit}}(裸蟹价)  </text>  <text class='abandon'>原价￥{{SelectedList.sellPrice}}</text>
+          <text wx:if="{{SelectedList.unit}}">／{{SelectedList.unit}}(裸蟹价)  </text>
+          <text  class='abandon'> 原价￥{{SelectedList.sellPrice}}</text>
+        
         </view>
         <view class='quantityRight'>
           <text>已售</text>
