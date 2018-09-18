@@ -34,14 +34,12 @@ Page({
     dshImg:''
   },
   onLoad: function (option) {
+    let that = this;
     this.setData({
       currentTab: option.currentTab //获取店铺详情页传过来的currentTab值
-    })
-  },
-  onShow: function () {
-    let that = this;
-    if (app.globalData.txtObj){
-      wx.request({ 
+    });
+    if (app.globalData.txtObj) {
+      wx.request({
         url: this.data._build_url + 'version.txt',
         success: function (res) {
           app.globalData.txtObj = res.data;
@@ -50,12 +48,12 @@ Page({
           })
         }
       })
-    }else{
+    } else {
       this.setData({
         dshImg: app.globalData.txtObj.dsh.imgUrl
       })
-    }
-    
+    };
+
     this.setData({
       listData: [],  //送货到家
       storeData: [],
@@ -67,7 +65,7 @@ Page({
       title: '加载中...'
     })
     if (this.data.currentTab == 0) {
-      if (this.data.listData.length<1){
+      if (this.data.listData.length < 1) {
         this.commodityCrabList();
       } else {
         wx.hideLoading();
@@ -76,6 +74,7 @@ Page({
       this.listForSkuAllocation();
     }
   },
+  onShow: function () {},
   //切换顶部tab
   navbarTap: function (e) {
     this.setData({

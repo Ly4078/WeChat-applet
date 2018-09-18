@@ -170,6 +170,7 @@ Page({
       })
     }
   },
+  //查询列表数据
   getfood: function(_type, data) {
     let that = this;
     if (app.globalData.isflag) {
