@@ -22,6 +22,7 @@ Page({
     _build_url: GLOBAL_API_DOMAIN,
     listData:[],  //送货到家
     storeData:[], //品质好店
+    storeFlag: true,    //品质好店节流阀
     navbar: ['平台邮购', '到店消费'],
     oneTab: ["礼盒装", "散装"],
     currentTab: 0,
@@ -39,7 +40,12 @@ Page({
   },
   onShow: function () {
     this.setData({
-      dshImg: app.globalData.txtObj.dsh.imgUrl
+      dshImg: app.globalData.txtObj.dsh.imgUrl,
+      listData: [],  //送货到家
+      storeData: [],
+      storeFlag: true,
+      page: 1,
+      _page: 1
     })
     wx.showLoading({
       title: '加载中...'
@@ -57,7 +63,12 @@ Page({
   //切换顶部tab
   navbarTap: function (e) {
     this.setData({
-      currentTab: e.currentTarget.dataset.idx
+      currentTab: e.currentTarget.dataset.idx,
+      listData: [],  //送货到家
+      storeData: [],
+      storeFlag: true,
+      page: 1,
+      _page: 1
     })
     if (this.data.currentTab == 0){
       if (this.data.listData.length == 0){
@@ -157,6 +168,15 @@ Page({
               storeData: _storeData,
             })
             console.log("storeData:", this.data.storeData)
+            if (_list.length < 10) {
+              this.setData({
+                storeFlag: false
+              });
+            }
+          } else {
+            this.setData({
+              storeFlag: false
+            });
           }
         }
       })
@@ -170,7 +190,10 @@ Page({
     })
     this.setData({
       page: 1,
-      _page:1
+      _page:1,
+      listData: [],  //送货到家
+      storeData: [],
+      storeFlag: false
     });
     if (this.data.currentTab == 0) {
       this.commodityCrabList();
@@ -180,19 +203,24 @@ Page({
   },
   //用户上拉触底加载更多
   onReachBottom:function(){
-    wx.showLoading({
-      title: '加载中...'
-    })
-    if(this.data.currentTab == 0){
+    if (this.data.currentTab == 0) {
+      wx.showLoading({
+        title: '加载中...'
+      })
       this.setData({
         page:this.data.page+1
       });
       this.commodityCrabList();
     }else if(this.data.currentTab == 1){
-      this.setData({
-        _page: this.data._page+1
-      });
-      this.listForSkuAllocation();
+      if (this.data.storeFlag) {
+        wx.showLoading({
+          title: '加载中...'
+        })
+        this.setData({
+          _page: this.data._page + 1
+        });
+        this.listForSkuAllocation();
+      }
     }
   },
 
