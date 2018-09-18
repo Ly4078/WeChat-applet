@@ -111,6 +111,10 @@ Page({
 
   onShow: function () {
     let _crabImgUrl = [], _ruleImg='',that = this;
+    app.globalData.Express.username = '';
+    app.globalData.Express.address = '';
+    app.globalData.Express.addressId = '';
+    app.globalData.Express.username = '';
     console.log('obj:', app.globalData.txtObj)
     if (app.globalData.txtObj) {
       wx.request({
@@ -133,8 +137,6 @@ Page({
       })
       that.crabInit();
     }
-
-   
   },
   //初始化
   crabInit:function(){

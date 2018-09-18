@@ -1,7 +1,7 @@
 <view>
   <!-- <view class="hd-title">我的收货地址</view> -->
-  <view wx:if="{{address.length>0}}" class="container" catchtap='backtrackwback' wx:for="{{address}}" wx:key="index">
-    <view class='itemli' bindtap='handli' id="{{item.id}}">
+  <view wx:if="{{address.length>0}}" class="container" catchtap='backtrackwback' wx:for="{{address}}" wx:key="index" >
+    <view class='itemli'  bindtap='handli' id="{{item.id}}">
       <view class='litop'>
         地址 :
         <text class="font-color-999">{{item.address}}</text>
@@ -23,8 +23,6 @@
   <view class='placeholder' wx:if="{{address.length<1}}">
     <image src="/images/icon/zhanweitu.png"></image>
   </view>
+  <button class='addnewaddress' catchtap='addnewaddress'>新增收货地址</button>
 
-  <view class='addShipping'>
-    <button class='download' catchtap='addnewaddress'>新增收货地址</button>
-  </view>
 </view>

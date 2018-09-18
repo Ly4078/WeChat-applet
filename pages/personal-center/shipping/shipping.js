@@ -65,6 +65,7 @@ Page({
   },
   // 返回提交订单页面
   handli:function(e){
+    console.log("handli:",e)
     let _id = e.currentTarget.id, _chatName = '', _area = '', _mobile='',addressId='';
     for (let i = 0;i< this.data.address.length;i++){
       if (_id * 1 == this.data.address[i].id*1){
