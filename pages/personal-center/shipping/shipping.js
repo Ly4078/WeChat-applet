@@ -33,6 +33,10 @@ Page({
         that.setData({
           address: _list
         })
+      } else {
+        that.setData({
+          address: []
+        })
       }
     })
   },

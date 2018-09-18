@@ -93,9 +93,9 @@ Page({
     // let pages = getCurrentPages();
     // let options = pages[2].data;
     this.setData({
-      chatName: app.globalData.Express.username,
-      area: app.globalData.Express.address,
-      mobile: app.globalData.Express.phone,
+      chatName: app.globalData.Express.username ? app.globalData.Express.username : '',
+      area: app.globalData.Express.address ? app.globalData.Express.address : '',
+      mobile: app.globalData.Express.phone ? app.globalData.Express.phone : '',
       addressId: app.globalData.Express.addressId ? app.globalData.Express.addressId : ''
     });
     if (!this.data.chatName) {
@@ -169,7 +169,7 @@ Page({
       userId: app.globalData.userInfo.userId
     }
     Api.AddressList(_parms).then((res) => {
-      if (res.data.code == 0) {
+      if (res.data.code == 0 && res.data.data.list) {
         let _list = res.data.data.list,
           actList = {};
         for (let i = 0; i < _list.length; i++) {
@@ -187,6 +187,13 @@ Page({
           area: _list[0].address,
           mobile: _list[0].mobile,
           addressId: _list[0].id
+        };
+      } else {
+        app.globalData.Express = {
+          chatName: '',
+          area: '',
+          mobile: '',
+          addressId: ''
         };
       }
     })
