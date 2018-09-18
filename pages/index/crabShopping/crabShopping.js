@@ -159,7 +159,7 @@ Page({
       let _parms = {
         Type: 1,
         page: this.data._page,
-        rows: 6,
+        rows: 8,
         locationX: app.globalData.userInfo.lng,
         locationY: app.globalData.userInfo.lat,
         city: app.globalData.userInfo.city
@@ -184,7 +184,7 @@ Page({
               storeData: _storeData,
             })
             console.log("storeData:", this.data.storeData)
-            if (_list.length < 6) {
+            if (_list.length < 8) {
               this.setData({
                 storeFlag: false
               });
