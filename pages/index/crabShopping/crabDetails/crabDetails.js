@@ -106,16 +106,35 @@ Page({
   },
 
   onShow: function () {
-    wx.request({
-      url: this.data._build_url + 'version.txt',
-      success: function (res) {
-        app.globalData.txtObj = res.data;
-      }
-    });
-    let _crabImgUrl = app.globalData.txtObj.crabImgUrl, _ruleImg = app.globalData.txtObj.ruleImg;
-    this.setData({
-      crabImgUrl: _crabImgUrl
-    })
+    let _crabImgUrl = [], _ruleImg='',that = this;
+    console.log('obj:', app.globalData.txtObj)
+    if (app.globalData.txtObj) {
+      wx.request({
+        url: this.data._build_url + 'version.txt',
+        success: function (res) {
+          app.globalData.txtObj = res.data;
+          _crabImgUrl = app.globalData.txtObj.crabImgUrl, _ruleImg = app.globalData.txtObj.ruleImg;
+          that.setData({
+            crabImgUrl: _crabImgUrl,
+            ruleImg: _ruleImg
+          })
+          that.crabInit();
+        }
+      })
+    } else {
+      _crabImgUrl = app.globalData.txtObj.crabImgUrl, _ruleImg = app.globalData.txtObj.ruleImg;
+      that.setData({
+        crabImgUrl: _crabImgUrl,
+        ruleImg: _ruleImg
+      })
+      that.crabInit();
+    }
+
+   
+  },
+  //初始化
+  crabInit:function(){
+    let _crabImgUrl = this.data.crabImgUrl, _ruleImg= _ruleImg;
     if (this.data.issku) {
       this.bargainDetails();
       _crabImgUrl = this.data.crabImgUrl;
@@ -123,23 +142,13 @@ Page({
       _crabImgUrl.shift();
       _crabImgUrl.pop();
       _crabImgUrl.unshift(_ruleImg);
-
       this.setData({
         crabImgUrl: _crabImgUrl
       })
     } else {
-      // if (this.data.spuId) {
-      //   this.geSkutlist();
-      // } else {
       this.getDetailBySkuId();
-      // }
-    }
-
-    if (this.data.shopId) {
-      this.getShopInfo();
     }
   },
-
   bargainDetails: function () {   //品质好店-->店铺详情--列表
     if (!app.globalData.userInfo.mobile) {
       wx.navigateTo({
@@ -159,8 +168,12 @@ Page({
       if (res.data.code == 0 && res.data.data.list) {
         let _obj = res.data.data.list[0];
         this.setData({
-          SelectedList: _obj
+          SelectedList: _obj,
+          shopId: _obj.shopId
         })
+        if (_obj.shopId) {
+          this.getShopInfo()
+        }
         if (this.data.isShop) {
           let array = this.data.array;
           array[1].placeName = '品牌';
@@ -176,7 +189,6 @@ Page({
   },
   //查询商品朝夕相处列表 即同一商品不同规格列表
   geSkutlist: function () {
-
     if (this.data.isspecifi) { return }
     let that = this, _array = [];
     let _parms = {
@@ -230,9 +242,9 @@ Page({
           _array[1].place = '礼盒装';
         }
         _array[2].place = _obj.skuName;
+        
         let _arr = [];
         _arr.push(_obj);
-// 
         this.setData({
           SelectedList: _obj,
           specificationData: _arr,
@@ -240,6 +252,7 @@ Page({
           array: _array,
           spuId: _obj.spuId
         })
+        
         // this.geSkutlist();
       }
     })

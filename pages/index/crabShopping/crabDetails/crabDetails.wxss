@@ -60,9 +60,8 @@ page{
   padding: 0rpx 10rpx;
   margin-left: 10rpx;
   border-radius: 24rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: inline-block;
+  margin-right: 20rpx;
 }
 
 .quantity{
@@ -79,6 +78,9 @@ page{
 }
 .abandon {
   text-decoration: line-through;
+  font-size:24rpx;
+  color:#808080;
+  margin-left: 10rpx;
 }
 
 .quantityLeft{

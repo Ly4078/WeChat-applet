@@ -55,9 +55,8 @@
       </view>
       <view class='equally' bindtap='deliveryTime'>
         <picker mode="date" class='eqpicker' value="{{threeLater}}" start="{{threeLater}}" end="{{tenLater}}" bindchange="bindDateChange">
-
           <view class="picker">
-            送货时间
+            送达时间
             <text class='datenum'>{{date}}</text>
           </view>
         </picker>

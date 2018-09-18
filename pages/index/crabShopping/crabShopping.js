@@ -12,7 +12,7 @@ var village_LBS = function (that) {   //获取用户经纬度
         longitude = res.longitude;
       app.globalData.userInfo.lat = latitude;
       app.globalData.userInfo.lng = longitude;
-      that.listForSkuAllocation();
+      that.requestCityName(latitude, longitude);
     },
   })
 }
@@ -39,8 +39,24 @@ Page({
     })
   },
   onShow: function () {
+    let that = this;
+    if (app.globalData.txtObj){
+      wx.request({ 
+        url: this.data._build_url + 'version.txt',
+        success: function (res) {
+          app.globalData.txtObj = res.data;
+          that.setData({
+            dshImg: app.globalData.txtObj.dsh.imgUrl
+          })
+        }
+      })
+    }else{
+      this.setData({
+        dshImg: app.globalData.txtObj.dsh.imgUrl
+      })
+    }
+    
     this.setData({
-      dshImg: app.globalData.txtObj.dsh.imgUrl,
       listData: [],  //送货到家
       storeData: [],
       storeFlag: true,
@@ -90,7 +106,6 @@ Page({
     } else if (id == 2) {
       val = 3;
     }
-    console.log("id:", id)
     this.setData({
       tabId:id,
       spuval:val,
@@ -100,7 +115,6 @@ Page({
     
    
     this.commodityCrabList();
-    console.log("tabId:",this.data.tabId)
   },
   //监听分享
   onShareAppMessage: function () {},
@@ -138,7 +152,7 @@ Page({
   //查询品质好店列表
   listForSkuAllocation: function () { 
     let that = this;
-    if (!app.globalData.userInfo.lat && !app.globalData.userInfo.lng) {
+    if (!app.globalData.userInfo.lat || !app.globalData.userInfo.lng || !app.globalData.userInfo.city) {
       wx.hideLoading();
       this.getlocation();
     } else {
@@ -155,8 +169,10 @@ Page({
           storeData:[]
         })
       };
+      console.log('_parms:', _parms)
       Api.listForSkuAllocation(_parms).then((res) => {
         wx.hideLoading();
+        console.log('res:',res);
         if (res.data.code == 0) {
           let _list = res.data.data.list, _storeData = this.data.storeData;
           if(_list && _list.length>0){
@@ -182,7 +198,28 @@ Page({
       })
     }
   },
-
+  requestCityName(lat, lng) { //获取当前城市
+    let that = this;
+    wx.request({
+      url: 'https://apis.map.qq.com/ws/geocoder/v1/?location=' + lat + "," + lng + "&key=4YFBZ-K7JH6-OYOS4-EIJ27-K473E-EUBV7",
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: (res) => {
+        if (res.data.status == 0) {
+          let _city = res.data.result.address_component.city;
+          if (_city != '十堰市' || city != '武汉市') {
+            app.globalData.userInfo.city = '十堰市';
+          } else {
+            app.globalData.userInfo.city = _city;
+          }
+          that.listForSkuAllocation();
+          app.globalData.picker = res.data.result.address_component;
+        }
+      }
+    })
+    
+  },
   //下拉刷新
   onPullDownRefresh:function(){
     wx.showLoading({
@@ -224,7 +261,8 @@ Page({
     }
   },
 
-  getlocation: function () { //获取用户位置
+  getlocation:function () { //获取用户位置
+    console.log('getlocation')
     let that = this,
       lat = '',
       lng = '';
@@ -235,7 +273,7 @@ Page({
         let longitude = res.longitude;
         app.globalData.userInfo.lat = latitude;
         app.globalData.userInfo.lng = longitude;
-        that.listForSkuAllocation();
+        that.requestCityName(latitude, longitude);
       },
       fail: function (res) {
         wx.getSetting({

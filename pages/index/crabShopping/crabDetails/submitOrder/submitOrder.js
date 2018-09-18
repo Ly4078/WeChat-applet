@@ -63,10 +63,17 @@ Page({
     app.globalData.OrderObj = options;
   },
   onShow: function(res) {
-    let _day = 60 * 60 * 24 * 1000;
-    let _today = new Date();
-    let _threeday = _today.getTime() + _day * 3;
-    let _tenday = _today.getTime() + _day * 10;
+    let _day = 60 * 60 * 24 * 1000, _today = '', hours = '', _threeday = '', _tenday='';
+    _today = new Date();
+    hours = _today.getHours();
+    if(hours >= 17){
+      _threeday = _today.getTime() + _day * 4;
+      _tenday = _today.getTime() + _day * 11;
+    }else{
+      _threeday = _today.getTime() + _day * 3;
+      _tenday = _today.getTime() + _day * 10;
+    }
+    
     _threeday = new Date(_threeday);
     _tenday = new Date(_tenday);
     _today = utils.dateConv(_today, '-');
