@@ -103,6 +103,22 @@ Page({
     }
     this.getDetailBySkuId();
   },
+  onHide() {
+    this.setData({
+      chatName: '',
+      area: '',
+      mobile: '',
+      addressId: ''
+    });
+  },
+  onUnload() {
+    this.setData({
+      chatName: '',
+      area: '',
+      mobile: '',
+      addressId: ''
+    });
+  },
   //查询当前商品详情
   getDetailBySkuId: function(val) {
     let that = this,
@@ -205,7 +221,7 @@ Page({
     })
   },
   //是否同意预售协议
-  checkboxChange: function (e) {
+  checkboxChange: function(e) {
     if (e.detail.value[0] == 1) {
       this.setData({
         isagree: true
@@ -284,7 +300,7 @@ Page({
           header: {
             'content-type': 'application/json' // 默认值
           },
-          success: function (res) {
+          success: function(res) {
             if (res.data.code == 0) {
               if (res.data.data) {
                 that.setData({
@@ -302,7 +318,7 @@ Page({
           icon: 'none'
         })
       }
-    }else{
+    } else {
       wx.showToast({
         title: '亲,请勾线顺丰到付哟!',
         icon: 'none'
