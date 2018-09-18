@@ -69,6 +69,9 @@ Page({
   },
 
   onLoad: function (options) {
+    wx.showLoading({
+      title: '加载中...'
+    })
     console.log('optons:', options)
 
     let _id = '', _spuId = '', _shopId = '', _greensID = '', isShop = false;
@@ -155,6 +158,7 @@ Page({
   },
   bargainDetails: function () {   //品质好店-->店铺详情--列表
     if (!app.globalData.userInfo.mobile) {
+      wx.hideLoading();
       wx.navigateTo({
         url: '../../../../pages/personal-center/securities-sdb/securities-sdb?back=1'
       })
@@ -169,6 +173,7 @@ Page({
       rows: 20,
     };
     Api.dhcList(_parms).then((res) => {  //列表
+      wx.hideLoading();
       if (res.data.code == 0 && res.data.data.list) {
         let _obj = res.data.data.list[0];
         this.setData({
@@ -219,6 +224,7 @@ Page({
   },
   //查询单个详情
   getDetailBySkuId: function (val) {
+    wx.hideLoading();
     if (this.data.isAct && !val) { return }
     let _array = [], that = this;
     Api.DetailBySkuId({ id: this.data.id }).then((res) => {
