@@ -158,7 +158,7 @@ Page({
       let _parms = {
         Type: 1,
         page: this.data._page,
-        rows: 10,
+        rows: 8,
         locationX: app.globalData.userInfo.lng,
         locationY: app.globalData.userInfo.lat,
         city: app.globalData.userInfo.city
@@ -183,7 +183,7 @@ Page({
               storeData: _storeData,
             })
             console.log("storeData:", this.data.storeData)
-            if (_list.length < 10) {
+            if (_list.length < 8) {
               this.setData({
                 storeFlag: false
               });
@@ -229,7 +229,7 @@ Page({
       _page:1,
       listData: [],  //送货到家
       storeData: [],
-      storeFlag: false
+      storeFlag: true
     });
     if (this.data.currentTab == 0) {
       this.commodityCrabList();
