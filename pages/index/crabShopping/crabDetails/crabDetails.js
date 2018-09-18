@@ -25,6 +25,7 @@ Page({
     spuId: '', //判断是礼盒装还是斤装
     minusStatus: 'disabled', // 使用data数据对象设置样式名
     page: 1,
+    _ruleDesc:'',
     specificationData: [],
     dhcListData: [],
     store_details: {},
@@ -57,11 +58,8 @@ Page({
         p1: '正品保障',
         p2: '正品保障，正宗阳澄湖到付'
       }, {
-        p1: '邮费到付',
-        p2: '不包邮、邮费到付'
-      }, {
         p1: '顺丰快递',
-        p2: '顺风极速送达'
+        p2: '顺丰极速送达'
       }, {
         p1: '发货时间',
         p2: '24小时之内发货'
@@ -210,7 +208,14 @@ Page({
     Api.DetailBySkuId({ id: this.data.id }).then((res) => {
       if (res.data.code == 0) {
         let _obj = res.data.data, _crabImgUrl = this.data.crabImgUrl;
-
+        for (let i = 0; i < _obj.goodsPromotionRules.length;i++){
+          if (_obj.goodsPromotionRules[i].ruleType == 2){
+            this.setData({
+              _ruleDesc: _obj.goodsPromotionRules[i].ruleDesc
+            })
+          }
+        };
+        console.log('_ruleDesc:', this.data._ruleDesc)
         _array = this.data.array;
         if (_obj.spuId == 1) {
           _array[1].place = '散装';
@@ -227,7 +232,7 @@ Page({
         _array[2].place = _obj.skuName;
         let _arr = [];
         _arr.push(_obj);
-
+// 
         this.setData({
           SelectedList: _obj,
           specificationData: _arr,

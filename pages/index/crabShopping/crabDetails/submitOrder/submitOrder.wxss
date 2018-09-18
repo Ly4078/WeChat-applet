@@ -198,6 +198,19 @@ page{
 .equally:last-child{
   border-bottom: 0rpx;
 }
+.manzen{
+  color:#FF4343;
+  font-size: 19rpx;
+  display: inline-block;
+  width: 56rpx;
+  height: 25rpx;
+  border-radius: 10rpx;
+  border: 1rpx solid #FF4343;
+  text-align: center;
+  line-break: 25rpx;
+  margin-left: 10rpx;
+  margin-right: 11rpx;
+}
 .suoming{
   color: #B1B1B1;
   font-size: 26rpx;

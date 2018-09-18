@@ -37,6 +37,9 @@
           <text>{{SelectedList.sellNum}}</text>
         </view>
       </view>
+      <view class='quantity youhui' wx:if="{{_ruleDesc}}">
+        <view>优惠  <text class='manzen'>满赠</text>{{_ruleDesc}}</view>
+      </view>
     </view>
   </view>
   <view class='alertingText' wx:if="{{issku}}">
@@ -60,7 +63,6 @@
     <view class='specification-cet'>
       <view class='specification-left safeguard'>
         <text><text class='dot'>·</text>正品保障</text>
-        <text><text class='dot'>·</text>邮费到付</text>
         <text><text class='dot'>·</text>顺丰快递</text>
         <text><text class='dot'>·</text>24小时发货</text>
       </view>

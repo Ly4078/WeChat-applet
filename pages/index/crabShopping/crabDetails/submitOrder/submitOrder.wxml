@@ -3,15 +3,21 @@
   <view class='submitTop' catchtap='additionSite'>
     <view class='submitCenter'>
       <!-- <image class='submitImg' src='/images/icon/location.png'></image> -->
-      <image class='AddTheAddress' src='/images/icon/AddTheAddresss.png'  wx:if="{{!chatName}}"></image>
+      <image class='AddTheAddress' src='/images/icon/AddTheAddresss.png' wx:if="{{!chatName}}"></image>
       <view class='submitLeft' wx:if="{{chatName}}">
-        <view class='compellation'>{{chatName}}<text>{{mobile}}</text></view>
-        <view class='compellationText'><text>{{area}}</text></view>
+        <view class='compellation'>{{chatName}}
+          <text>{{mobile}}</text>
+        </view>
+        <view class='compellationText'>
+          <text>{{area}}</text>
+        </view>
       </view>
-      <view class='submitLeft'  wx:if="{{!chatName}}">
+      <view class='submitLeft' wx:if="{{!chatName}}">
         <text>添加地址</text>
       </view>
-      <view><image class='submitRight' src='/images/icon/xialatupian.png'></image></view>
+      <view>
+        <image class='submitRight' src='/images/icon/xialatupian.png'></image>
+      </view>
     </view>
   </view>
 
@@ -23,13 +29,21 @@
           <image class='indentDetailsImg' src='{{current.skuPic}}'></image>
         </view>
         <view class='indentDetailsRight'>
-          <view class='presentName'><text>{{current.skuName}}</text></view>
-          <view class='presentNameSize'><text>已选：{{current.skuName}}</text></view>
+          <view class='presentName'>
+            <text>{{current.skuName}}</text>
+          </view>
+          <view class='presentNameSize'>
+            <text>已选：{{current.skuName}}</text>
+          </view>
           <view class='priceAmount'>
             <text>￥{{current.sellPrice}}</text>
             <text>×{{num}}</text>
           </view>
         </view>
+      </view>
+      <view class='equally' wx:if="{{_rules}}">
+        <view>优惠
+          <text class='manzen'>满赠</text>{{_rules}}</view>
       </view>
       <view class='equally'>
         <text>配送方式</text>
@@ -37,19 +51,16 @@
       </view>
       <view class='equally'>
         <text>配送费</text>
-        <text class='delicatese'>到付</text>
+        <text class='delicatese'>￥{{postage}}</text>
       </view>
-      <view class='equally'  bindtap='deliveryTime'>
+      <view class='equally' bindtap='deliveryTime'>
         <picker mode="date" class='eqpicker' value="{{threeLater}}" start="{{threeLater}}" end="{{tenLater}}" bindchange="bindDateChange">
-    <view class="picker">
-      <view>
-        <text>送货时间 </text>
-         <text class='intervalBind'>（大于等于3天且小于10天)</text>
-      </view>
-      <text class='datenum'>{{date}}</text>
-      <image class='submitRight' src='/images/icon/xialatupian.png'></image>
-    </view>
-  </picker>   
+
+          <view class="picker">
+            送货时间
+            <text class='datenum'>{{date}}</text>
+          </view>
+        </picker>
       </view>
       <view class='equally' bindtap='handbzf'>
         <text>包装费<text class='suoming'>（冰袋、保温内胆、加厚泡沫箱）？</text></text>
@@ -67,27 +78,12 @@
     </view>
   </view>
 
-
-
-  <!-- 预售协议 -->
-  <view class='agreement' wx:if="{{issku==2}}">
-    <view class='agreementInner'>
-      <view class='questionTExt'>
-        <text>同意顺丰到付</text>
-      </view>
-      <checkbox-group bindchange="checkboxChange">
-        <label class="checkbox">
-          <checkbox class='checkboxBtn-es' value="1"  checked="{{isagree}}"/>
-        </label>
-      </checkbox-group>
-    </view>
-  </view>
-
-
   <!-- 提交订单 -->
   <view class='presentComm'>
     <view class='presentCommLeft'>
-      <view>订单金额：<text>￥{{current.total}}</text></view>
+      <view>订单金额：
+        <text>￥{{current.total}}</text>
+      </view>
     </view>
     <view class='presentCommRight' bindtap='submitSoid'>
       <view>提交订单</view>
