@@ -29,6 +29,7 @@ page{
   margin-left: 10rpx;
   margin-right: 11rpx;
   margin-bottom: 10rpx;
+  line-height: 25rpx;
 }
 .presentation{
   width: 100%;

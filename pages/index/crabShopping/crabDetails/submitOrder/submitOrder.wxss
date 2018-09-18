@@ -210,6 +210,7 @@ page{
   line-break: 25rpx;
   margin-left: 10rpx;
   margin-right: 11rpx;
+  line-height: 25rpx;
 }
 .suoming{
   color: #B1B1B1;
