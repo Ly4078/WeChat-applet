@@ -929,15 +929,6 @@ Page({
                       success: (res) => {
                         if (res.authSetting['scope.userLocation']) {
                           village_LBS(that);
-
-                          // wx.getLocation({
-                          //   type: 'wgs84',
-                          //   success: function (res) {
-                          //     let latitude = res.latitude,
-                          //       longitude = res.longitude;
-                          //     that.requestCityName(latitude, longitude);
-                          //   }
-                          // })
                         } else {
                           let latitude = '',
                             longitude = '';
@@ -973,7 +964,7 @@ Page({
       success: (res) => {
         if (res.data.status == 0) {
           let _city = res.data.result.address_component.city;
-          // app.globalData.userInfo.city = _city;
+          app.globalData.userInfo.city = _city;
           if (this.data.isMpa){
             this.openmap();
           }else{
@@ -1397,6 +1388,7 @@ Page({
       rows: 10,
       businessCate: this.data.store_details.businessCate.split('/')[0].split(',')[0]
     }
+    console.log('_parms:', _parms)
     Api.shoplist(_parms).then((res) => {
       let data = res.data;
       if (data.code == 0) {
