@@ -51,13 +51,18 @@
       </view>
       <view class='equally'>
         <text>配送费</text>
-        <text class='delicatese'>￥{{postage}}</text>
+        <!-- <text class='delicatese'>￥{{postage}}</text> -->
+        <text>{{postage}}</text>
       </view>
       <view class='equally' bindtap='deliveryTime'>
         <picker mode="date" class='eqpicker' value="{{threeLater}}" start="{{threeLater}}" end="{{tenLater}}" bindchange="bindDateChange">
           <view class="picker">
-            送达时间
+            <view>
+              <text>送货时间 </text>
+              <text class='intervalBind'>（大于等于3天且小于10天)</text>
+            </view>
             <text class='datenum'>{{date}}</text>
+            <image class='submitRight' src='/images/icon/xialatupian.png'></image>
           </view>
         </picker>
       </view>
@@ -77,6 +82,20 @@
     </view>
   </view>
 
+  <!-- 预售协议 -->
+  <view class='agreement' wx:if="{{issku==2}}">
+    <view class='agreementInner'>
+      <view class='questionTExt'>
+        <text>同意顺丰到付</text>
+      </view>
+      <checkbox-group bindchange="checkboxChange">
+        <label class="checkbox">
+          <checkbox class='checkboxBtn-es' value="1"  checked="{{isagree}}"/>
+        </label>
+      </checkbox-group>
+    </view>
+  </view>
+  
   <!-- 提交订单 -->
   <view class='presentComm'>
     <view class='presentCommLeft'>

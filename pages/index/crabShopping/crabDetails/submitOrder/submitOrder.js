@@ -32,7 +32,8 @@ Page({
     spuId: '',
     orderId: '',
     _rules: '',
-    postage: 0, //配送费
+    isagree: false,
+    postage: "到付", //配送费
     remarks: '', //备注内容
     date: '', //默认日期
     threeLater: '', //三天后
@@ -58,7 +59,8 @@ Page({
       issku: options.issku,
       id: options.id,
       shopId: options.shopId,
-      spuId: options.spuId
+      spuId: options.spuId,
+      isagree: options.isagree ? options.isagree : false
     })
     app.globalData.OrderObj = options;
   },
@@ -195,7 +197,20 @@ Page({
       url: '../../../../personal-center/shipping/shipping',
     })
   },
-  //选择送货时间
+
+  //是否同意预售协议
+  checkboxChange: function (e) {
+    if (e.detail.value[0] == 1) {
+      this.setData({
+        isagree: true
+      })
+    } else {
+      this.setData({
+        isagree: false
+      })
+    }
+  },
+  //选择送达时间
   bindDateChange: function(e) {
     console.log('picker发送选择改变，携带值为', e.detail.value)
     this.setData({
@@ -209,7 +224,6 @@ Page({
     this.setData({
       remarks: _value
     })
-    console.log('remarks:', this.data.remarks)
   },
   //点击包装费疑问
   handbzf: function() {
@@ -233,51 +247,58 @@ Page({
   //点击提交订单
   submitSoid: function() {
     let that = this;
-    if (this.data.issoid) {
-      return
-    }
-    this.setData({
-      issoid: true
-    })
-    if (this.data.addressId) {
-      let _parms = {
-        userId: app.globalData.userInfo.userId,
-        userName: app.globalData.userInfo.userName,
-        shopId: this.data.shopId,
-        payType: 2,
-        orderAddressId: this.data.addressId,
-        sendTime: this.data.date,
-        orderItemList: [{
-          goodsSkuId: this.data.id,
-          goodsSpuId: this.data.spuId,
-          goodsNum: this.data.num,
+    if (this.data.isagree) {
+      if (this.data.issoid) {
+        return
+      }
+      this.setData({
+        issoid: true
+      })
+      if (this.data.addressId) {
+        let _parms = {
+          userId: app.globalData.userInfo.userId,
+          userName: app.globalData.userInfo.userName,
           shopId: this.data.shopId,
-          orderItemShopId: '0',
-          remark: this.data.remarks
-        }]
-      };
-      wx.request({
-        url: that.data._build_url + 'orderInfo/create',
-        data: JSON.stringify(_parms),
-        method: 'POST',
-        header: {
-          'content-type': 'application/json' // 默认值
-        },
-        success: function(res) {
-          if (res.data.code == 0) {
-            if (res.data.data) {
-              that.setData({
-                orderId: res.data.data
-              })
-              console.log('订单生成成功，订单号；', res.data.data)
-              that.updataUser();
+          payType: 2,
+          orderAddressId: this.data.addressId,
+          sendTime: this.data.date,
+          orderItemList: [{
+            goodsSkuId: this.data.id,
+            goodsSpuId: this.data.spuId,
+            goodsNum: this.data.num,
+            shopId: this.data.shopId,
+            orderItemShopId: '0',
+            remark: this.data.remarks
+          }]
+        };
+        wx.request({
+          url: that.data._build_url + 'orderInfo/create',
+          data: JSON.stringify(_parms),
+          method: 'POST',
+          header: {
+            'content-type': 'application/json' // 默认值
+          },
+          success: function (res) {
+            if (res.data.code == 0) {
+              if (res.data.data) {
+                that.setData({
+                  orderId: res.data.data
+                })
+                console.log('订单生成成功，订单号；', res.data.data)
+                that.updataUser();
+              }
             }
           }
-        }
-      })
-    } else {
+        })
+      } else {
+        wx.showToast({
+          title: '请选择或添加收货地址',
+          icon: 'none'
+        })
+      }
+    }else{
       wx.showToast({
-        title: '请选择或添加收货地址',
+        title: '亲,请勾线顺丰到付哟!',
         icon: 'none'
       })
     }
