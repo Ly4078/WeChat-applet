@@ -376,7 +376,7 @@ Page({
         if (res.confirm) {
           console.log('用户点击确定')
           Api.outAddress({id:that.data.addId}).then((res) => {
-            this.setData({
+            that.setData({
               isremove: false
             });
             if (res.data.code == 0) {
