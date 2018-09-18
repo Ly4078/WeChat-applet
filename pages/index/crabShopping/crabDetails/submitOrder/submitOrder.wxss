@@ -225,6 +225,10 @@ page{
   bottom: 0rpx;
   left: 0rpx;
 }
+.presentCommtop{
+  width: 100%;
+  height: 100rpx;
+}
 
 .presentCommLeft{
   width: 464rpx;

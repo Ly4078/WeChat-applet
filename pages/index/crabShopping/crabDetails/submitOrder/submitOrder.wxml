@@ -95,6 +95,7 @@
       </checkbox-group>
     </view>
   </view>
+  <view class='presentCommtop'></view>
   
   <!-- 提交订单 -->
   <view class='presentComm'>
