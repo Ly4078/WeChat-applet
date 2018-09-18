@@ -40,12 +40,12 @@ Page({
   },
   onLoad: function(options) {
     if (options.username) {
-      this.setData({
+      app.globalData.Express = {
         chatName: options.username,
         area: options.address,
         mobile: options.phone,
         addressId: options.addressId ? options.addressId : '',
-      })
+      };
     }
     if (options.id) {
       app.globalData.OrderObj = options;
@@ -63,17 +63,21 @@ Page({
     app.globalData.OrderObj = options;
   },
   onShow: function(res) {
-    let _day = 60 * 60 * 24 * 1000, _today = '', hours = '', _threeday = '', _tenday='';
+    let _day = 60 * 60 * 24 * 1000,
+      _today = '',
+      hours = '',
+      _threeday = '',
+      _tenday = '';
     _today = new Date();
     hours = _today.getHours();
-    if(hours >= 17){
+    if (hours >= 17) {
       _threeday = _today.getTime() + _day * 4;
       _tenday = _today.getTime() + _day * 11;
-    }else{
+    } else {
       _threeday = _today.getTime() + _day * 3;
       _tenday = _today.getTime() + _day * 10;
     }
-    
+
     _threeday = new Date(_threeday);
     _tenday = new Date(_tenday);
     _today = utils.dateConv(_today, '-');
@@ -84,17 +88,14 @@ Page({
       tenLater: _tenday,
       date: _threeday
     })
-    let pages = getCurrentPages();
-    // console.log('pages:=================' + JSON.stringify(pages[2]));
-    let options = pages[2].data;
-    if (options.username && options.address && options.phone) {
-      this.setData({
-        chatName: options.username,
-        area: options.address,
-        mobile: options.phone,
-        addressId: options.addressId ? options.addressId : ''
-      });
-    }
+    // let pages = getCurrentPages();
+    // let options = pages[2].data;
+    this.setData({
+      chatName: app.globalData.Express.username,
+      area: app.globalData.Express.address,
+      mobile: app.globalData.Express.phone,
+      addressId: app.globalData.Express.addressId ? app.globalData.Express.addressId : ''
+    });
     if (!this.data.chatName) {
       this.getAddressList();
     }
@@ -179,6 +180,12 @@ Page({
           mobile: _list[0].mobile,
           addressId: _list[0].id
         })
+        app.globalData.Express = {
+          chatName: _list[0].chatName,
+          area: _list[0].address,
+          mobile: _list[0].mobile,
+          addressId: _list[0].id
+        };
       }
     })
   },
@@ -188,7 +195,6 @@ Page({
       url: '../../../../personal-center/shipping/shipping',
     })
   },
-
   //选择送货时间
   bindDateChange: function(e) {
     console.log('picker发送选择改变，携带值为', e.detail.value)
@@ -208,7 +214,6 @@ Page({
   //点击包装费疑问
   handbzf: function() {
     let str = '';
-    console.log(rules)
     for (let i = 0; i < rules.length; i++) {
       str += rules[i].ruleDesc + ' ';
     }
@@ -276,7 +281,6 @@ Page({
         icon: 'none'
       })
     }
-
   },
   //更新用户信息
   updataUser: function() {

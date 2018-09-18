@@ -68,12 +68,13 @@ Page({
     }
     let pages = getCurrentPages();//当前页面
     let prevPage = pages[pages.length - 2];//上一页面
-    prevPage.setData({//直接给上移页面赋值
+    app.globalData.Express = {//直接给上移页面赋值
       username: _chatName,
       address: _area,
       phone: _mobile,
       addressId: addressId
-    });
+    };
+    console.log(_chatName)
     wx.navigateBack({//返回
       delta: 1
     })
