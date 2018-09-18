@@ -40,14 +40,14 @@ Page({
     tenLater: '' //十天后
   },
   onLoad: function(options) {
-    if (options.username) {
-      app.globalData.Express = {
-        chatName: options.username,
-        area: options.address,
-        mobile: options.phone,
-        addressId: options.addressId ? options.addressId : '',
-      };
-    }
+    // if (options.username) {
+    //   app.globalData.Express = {
+    //     chatName: options.username,
+    //     area: options.address,
+    //     mobile: options.phone,
+    //     addressId: options.addressId ? options.addressId : '',
+    //   };
+    // }
     if (options.id) {
       app.globalData.OrderObj = options;
     } else {
@@ -104,20 +104,20 @@ Page({
     this.getDetailBySkuId();
   },
   onHide() {
-    this.setData({
+    app.globalData.Express = {
       chatName: '',
       area: '',
       mobile: '',
       addressId: ''
-    });
+    };
   },
   onUnload() {
-    this.setData({
+    app.globalData.Express = {
       chatName: '',
       area: '',
       mobile: '',
       addressId: ''
-    });
+    };
   },
   //查询当前商品详情
   getDetailBySkuId: function(val) {
