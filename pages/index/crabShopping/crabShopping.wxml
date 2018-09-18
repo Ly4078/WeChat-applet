@@ -12,7 +12,8 @@
     <view class='crabCenter'>
       <view class='crabSingle' wx:if="{{listData.length>0}}" wx:for="{{listData}}" wx:key="item.id">
         <view catchtap='crabPrticulars' id='{{item.id}}' data-spuId="{{item.spuId}}">
-          <image class='crabImg' mode='scaleToFill' src='{{item.skuPic}}'></image>
+          <image wx:if="{{item.skuPic}}" class='crabImg' mode='scaleToFill' src='{{item.skuPic}}'></image>
+          <image wx:else class='crabImg' mode='scaleToFill' src='/images/icon/morentu.png'></image>
           <view class='crabWrapText'>
             <view class='crabName'>
               <text>{{item.skuName}}</text>
@@ -46,11 +47,13 @@
     <view class='storStyle'>
       <view class='storPprofileWrap' wx:if="{{storeData.length>0}}" wx:for="{{storeData}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}" catchtap='crabBargainirg' id='{{item.id}}' data-id="{{item.skuForTscOuts[0].id}}">
         <view >
-          <image class='storPprofile' mode='aspectFill' src='{{item.logoUrl}}'></image>
+          <image wx:if="{{item.logoUrl}}" class='storPprofile' mode='aspectFill' src='{{item.logoUrl}}'></image>
+          <image wx:else class='storPprofile' mode='aspectFill' src='/images/icon/morentu.png'></image>
           <view class='storShade'></view>
           <view class='bullfrog'>
             <view class='storShade-left'>
-              <image class='storShade-leftHead' src='{{item.logoUrl}}'></image>
+              <image wx:if="{{item.logoUrl}}" class='storShade-leftHead' src='{{item.logoUrl}}'></image>
+              <image wx:else class='storShade-leftHead' src='/images/icon/morentu.png'></image>
               <view>
                 <view class='storsNmae'>
                   <text>{{item.shopName}}</text>
