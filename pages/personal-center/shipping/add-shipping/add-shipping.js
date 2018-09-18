@@ -19,6 +19,8 @@ Page({
     animationAddressMenu: {},
     addressMenuIsShow: false,
     isNew:false,
+    isadd:false,
+    isremove:false,
     value: [0, 0, 0],
     preId:0,
     provinces: [],
@@ -263,6 +265,7 @@ Page({
 
   //点击确定保存按钮
   handAdd:function(){
+    let that = this;
     if (!this.data.chatName){
       wx.showToast({
         title: '请输入联系人姓名',
@@ -298,6 +301,12 @@ Page({
       })
       return;
     }
+    if(this.data.isadd){
+      return
+    }
+    that.setData({
+      isadd: true
+    });
     let _parms = {
       userId: app.globalData.userInfo.userId,
       dictProvinceId: this.data.areaIds[0],
@@ -312,6 +321,9 @@ Page({
     if(this.data.addId){ //更新
       _parms.id=this.data.addId;
       Api.upAddress(_parms).then((res) => {
+        that.setData({
+          isadd:false
+        });
         if (res.data.code == 0) {
           wx.showToast({
             title: '更新成功',
@@ -325,6 +337,9 @@ Page({
       })
     }else{  //新增
       Api.AddAddress(_parms).then((res) => {
+        that.setData({
+          isadd: false
+        });
         if (res.data.code == 0) {
           wx.showToast({
             title: '保存成功',
@@ -338,7 +353,6 @@ Page({
         }
       })
     }
-    
   },
   // 取消新增地址
   handColse: function() {
@@ -349,6 +363,12 @@ Page({
   //点击删除按钮
   handRemove: function() {
     let that = this;
+    if(this.data.isremove){
+      return
+    };
+    this.setData({
+      isremove:true
+    });
     wx.showModal({
       title: '温馨提示',
       content: '您确定要删除地址?',
@@ -356,6 +376,9 @@ Page({
         if (res.confirm) {
           console.log('用户点击确定')
           Api.outAddress({id:that.data.addId}).then((res) => {
+            this.setData({
+              isremove: false
+            });
             if (res.data.code == 0) {
               wx.showToast({
                 title: '删除成功',
