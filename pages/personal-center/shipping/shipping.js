@@ -28,7 +28,11 @@ Page({
       if(res.data.code == 0){
         let _list=res.data.data.list;
         for(let i=0;i<_list.length;i++){
-          _list[i].address = _list[i].dictProvince + _list[i].dictCity + _list[i].dictCounty + _list[i].detailAddress;
+          if (_list[i].dictCounty && _list[i].dictCounty != 'null'){
+            _list[i].address = _list[i].dictProvince + _list[i].dictCity + _list[i].dictCounty + _list[i].detailAddress;
+          }else{
+            _list[i].address = _list[i].dictProvince + _list[i].dictCity +_list[i].detailAddress;
+          }
         }
         that.setData({
           address: _list

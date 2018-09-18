@@ -146,7 +146,7 @@ Page({
     Api.findDictCounty(_parms).then((res) => {
       if (res.data.code == 0) {
         that.setData({
-          areas: res.data.data
+          areas: res.data.data ? res.data.data:1
         })
       }
     })
@@ -169,19 +169,20 @@ Page({
       preId: _arr[0],
       value:_arr
     });
-    console.log('valu11e:', this.data.value)
   },
   // 点击地区选择确定按钮
   citySure: function (e) {
-    let that = this, city = that.data.city, value = that.data.value;
-    console.log('value:', value)
+    let that = this, city = that.data.city, value = that.data.value, _countyCname = '', _countyCnameID=1;
     that.startAddressAnimation(false)
     // 将选择的城市信息显示到输入框
-    let _areaInfo = that.data.provinces[value[0]].provinceCname + ',' + that.data.citys[value[1]].cityCname + ',' + that.data.areas[value[2]].countyCname, _areaIds = [];
+    if (that.data.areas && that.data.areas.length > 0){
+      _countyCname = that.data.areas[value[2]].countyCname;
+      _countyCnameID = that.data.areas[value[2]].id;
+    }
+    let _areaInfo = that.data.provinces[value[0]].provinceCname + ',' + that.data.citys[value[1]].cityCname + ',' + _countyCname, _areaIds = [];
     _areaIds.push(that.data.provinces[value[0]].id);
     _areaIds.push(that.data.citys[value[1]].id);
-    _areaIds.push(that.data.areas[value[2]].id);
-    console.log('_areaIds:', _areaIds)
+    _areaIds.push(_countyCnameID);
     that.setData({
       areaInfo: _areaInfo,
       areaIds: _areaIds
@@ -321,9 +322,7 @@ Page({
     if(this.data.addId){ //更新
       _parms.id=this.data.addId;
       Api.upAddress(_parms).then((res) => {
-        that.setData({
-          isadd:false
-        });
+        
         if (res.data.code == 0) {
           wx.showToast({
             title: '更新成功',
@@ -332,14 +331,15 @@ Page({
             wx.redirectTo({
               url: '../../shipping/shipping'
             })
+            that.setData({
+              isadd: false
+            });
           }, 1500)
         }
       })
     }else{  //新增
       Api.AddAddress(_parms).then((res) => {
-        that.setData({
-          isadd: false
-        });
+        
         if (res.data.code == 0) {
           wx.showToast({
             title: '保存成功',
@@ -349,6 +349,9 @@ Page({
             wx.redirectTo({
               url: '../../shipping/shipping'
             })
+            that.setData({
+              isadd: false
+            });
           }, 1500)
         }
       })
@@ -376,9 +379,6 @@ Page({
         if (res.confirm) {
           console.log('用户点击确定')
           Api.outAddress({id:that.data.addId}).then((res) => {
-            that.setData({
-              isremove: false
-            });
             if (res.data.code == 0) {
               wx.showToast({
                 title: '删除成功',
@@ -387,6 +387,9 @@ Page({
                 wx.redirectTo({
                   url: '../../shipping/shipping'
                 })
+                that.setData({
+                  isremove: false
+                });
               }, 1500)
             }
           })
