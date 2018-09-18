@@ -1,5 +1,3 @@
-
-
 <view class="newUserModal" wx:if="{{issnap}}">
   <view class='drawer_screen'>
     <view class='sqtishi'>提示</view>
@@ -22,20 +20,18 @@
   <view class='presentation'>
     <view class='presentationacd'>
       <view class='presentationName'>
-       <view >
-       <text class='autoplayionacd'>新品</text>
-        <text>{{SelectedList.skuName}}</text>
-       </view>
-       
-       
+        <view>
+          <text class='autoplayionacd'>新品</text>
+          <text>{{SelectedList.skuName}}</text>
+        </view>
       </view>
       <view class='quantity'>
         <view class='quantityLeft'>
           <text>￥{{SelectedList.agioPrice?SelectedList.agioPrice:SelectedList.sellPrice}}</text>
           <text wx:if="{{isShop}}" class="quantityUnit">/两只</text>
           <text wx:if="{{SelectedList.unit}}">／{{SelectedList.unit}}(裸蟹价)  </text>
-          <text  class='abandon'> 原价￥{{SelectedList.sellPrice}}</text>
-        
+          <text class='abandon'> 原价￥{{SelectedList.sellPrice}}</text>
+
         </view>
         <view class='quantityRight'>
           <text>已售</text>
@@ -43,7 +39,8 @@
         </view>
       </view>
       <view class='quantity youhui' wx:if="{{_ruleDesc}}">
-        <view>优惠  <text class='manzen'>满赠</text>{{_ruleDesc}}</view>
+        <view>优惠
+          <text class='manzen'>满赠</text>{{_ruleDesc}}</view>
       </view>
     </view>
   </view>
@@ -123,7 +120,7 @@
     </view>
   </view>
 
-    <image class='imgUlrs'  wx:for="{{crabImgUrl}}" wx:for-item="item" wx:for-index="index" wx:key="{{index}}" mode="widthFix" src='{{item}}'></image>
+  <image class='imgUlrs' wx:for="{{crabImgUrl}}" wx:for-item="item" wx:for-index="index" wx:key="{{index}}" mode="widthFix" src='{{item}}'></image>
   <view class='bjjges'></view>
   <!-- 底部固定立即购买 -->
   <view class='pagebuttom' wx:if="{{!isbut}}">
@@ -143,10 +140,10 @@
       <view class='oritop'>¥{{SelectedList.sellPrice}}</view>
       <view class='oribut'>原价购买</view>
     </view> -->
-      <view wx:if="{{issku}}" class='immediatelydir' bindtap='initiateCut'>
-        <view class='directly'>最低：¥{{SelectedList.agioPrice}}</view>
-        <view class='directly'>发起砍价</view>
-      </view>
+    <view wx:if="{{issku}}" class='immediatelydir' bindtap='initiateCut'>
+      <view class='directly'>最低：¥{{SelectedList.agioPrice}}</view>
+      <view class='directly'>发起砍价</view>
+    </view>
   </view>
 
 

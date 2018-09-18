@@ -197,7 +197,6 @@ Page({
       url: '../../../../personal-center/shipping/shipping',
     })
   },
-
   //是否同意预售协议
   checkboxChange: function (e) {
     if (e.detail.value[0] == 1) {

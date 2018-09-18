@@ -53,6 +53,7 @@ Page({
     }
     ],
     crabImgUrl: [],// 详情图列表
+    ruleImg:'',
     legined: [
       {
         p1: '正品保障',
@@ -134,14 +135,17 @@ Page({
   },
   //初始化
   crabInit:function(){
-    let _crabImgUrl = this.data.crabImgUrl, _ruleImg= _ruleImg;
+    let _crabImgUrl = this.data.crabImgUrl, _ruleImg= this.data.ruleImg;
+    
     if (this.data.issku) {
       this.bargainDetails();
       _crabImgUrl = this.data.crabImgUrl;
       _crabImgUrl.shift();
       _crabImgUrl.shift();
-      _crabImgUrl.pop();
-      _crabImgUrl.unshift(_ruleImg);
+      if (_ruleImg){
+        _crabImgUrl.pop();
+        _crabImgUrl.unshift(_ruleImg);
+      }
       this.setData({
         crabImgUrl: _crabImgUrl
       })
