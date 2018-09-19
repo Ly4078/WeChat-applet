@@ -137,6 +137,8 @@ Page({
       })
       that.crabInit();
     }
+
+
   },
   //初始化
   crabInit:function(){
@@ -243,6 +245,7 @@ Page({
         _array = this.data.array;
         if (_obj.spuId == 1) {
           _array[1].place = '散装';
+          _array[3].place = '根据实际重量与发货距离,以物流公司统一计算价格为准';
           if (_crabImgUrl.length > 8) {
             _crabImgUrl.shift();
             _crabImgUrl.shift();
@@ -252,6 +255,7 @@ Page({
           }
         } else if (_obj.spuId == 2) {
           _array[1].place = '礼盒装';
+          _array[3].place = '顺丰包邮';
         }
         _array[2].place = _obj.skuName;
         

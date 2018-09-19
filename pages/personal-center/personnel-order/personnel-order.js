@@ -36,7 +36,11 @@ Page({
     logId:'',
     elephant: 0
   },
-  
+  onLoad() {
+    wx.showLoading({
+      title: '加载中...'
+    })
+  },
   onShow: function () {
     // this.getOrderList();
     // this.getshopOrderList();
@@ -49,6 +53,7 @@ Page({
     }
   },
   onHide: function () {
+    wx.hideLoading();
     this.setData({
       order_list: [],
       shoporderlist: [],
@@ -58,8 +63,14 @@ Page({
       currentTab: ''
     })
   },
+  onUnload() {
+    wx.hideLoading();
+  },
   //切换票券订单tab
   clickTab: function (event) {
+    wx.showLoading({
+      title: '加载中...'
+    })
     this.setData({
       order_list: [],
       shoporderlist: [],
@@ -74,6 +85,9 @@ Page({
     }
   },
   navbarTap: function (e) { //顶部第一级tab栏
+    wx.showLoading({
+      title: '加载中...'
+    })
     this.setData({
       shopping: e.currentTarget.dataset.idx
     })
@@ -85,6 +99,9 @@ Page({
     }
   },
   distributionmag: function (e) { //物流订单tab
+    wx.showLoading({
+      title: '加载中...'
+    })
     let id = e.currentTarget.id;
     this.setData({
       elephant: e.currentTarget.dataset.idx,
@@ -110,6 +127,7 @@ Page({
       })
     }
     Api.orderInfoList(_parms).then((res)=>{
+      wx.hideLoading();
       if(res.data.code == 0 ){
         // 1待付款  2待收货  3已完成 10取消，
         let _list = res.data.data.list, logistics = this.data.logisticsList;
@@ -149,6 +167,7 @@ Page({
       _parms.rows = 20
     }
     Api.somyorder(_parms).then((res) => {
+      wx.hideLoading();
       let data = res.data;
       if (data.code == 0 && data.data != null && data.data != "" && data.data != []) {
         let order_list = that.data.order_list;

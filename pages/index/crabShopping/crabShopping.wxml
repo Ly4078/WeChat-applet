@@ -4,7 +4,7 @@
 </view>
 
 <!--送货到家-->
-<view hidden="{{currentTab==1}}">
+<view class="crabListBox" hidden="{{currentTab==1}}">
   <view class='tabone'>
     <view  wx:for="{{oneTab}}" wx:key= "index" id='{{index}}' class="onetab {{tabId==index ? 'actonetab' : ''}}" bindtap="handonetab">{{item}}</view>
   </view>
@@ -52,7 +52,7 @@
 </view>
 
 <!--到店消费-->
-<view hidden="{{currentTab==0}}">
+<view class="crabListBox" hidden="{{currentTab==0}}">
   <image class='storeImg' src='{{dshImg}}'></image>
   <view class='storeWrapCrad'>
     <view class='storStyle'>

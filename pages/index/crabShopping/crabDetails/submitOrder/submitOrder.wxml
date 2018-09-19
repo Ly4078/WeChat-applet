@@ -83,7 +83,7 @@
   </view>
 
   <!-- 预售协议 -->
-  <view class='agreement' wx:if="{{issku==2}}">
+  <!-- <view class='agreement' wx:if="{{issku==2}}">
     <view class='agreementInner'>
       <view class='questionTExt'>
         <text>同意顺丰到付</text>
@@ -94,7 +94,7 @@
         </label>
       </checkbox-group>
     </view>
-  </view>
+  </view> -->
   <view class='presentCommtop'></view>
   
   <!-- 提交订单 -->

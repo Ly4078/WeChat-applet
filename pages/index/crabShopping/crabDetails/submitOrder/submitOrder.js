@@ -32,7 +32,8 @@ Page({
     spuId: '',
     orderId: '',
     _rules: '',
-    isagree: false,
+    // isagree: false,
+    isagree: true,
     postage: "到付", //配送费
     remarks: '', //备注内容
     date: '', //默认日期
@@ -40,6 +41,9 @@ Page({
     tenLater: '' //十天后
   },
   onLoad: function(options) {
+    wx.showLoading({
+      title: '加载中...'
+    })
     // if (options.username) {
     //   app.globalData.Express = {
     //     chatName: options.username,
@@ -59,8 +63,8 @@ Page({
       issku: options.issku,
       id: options.id,
       shopId: options.shopId,
-      spuId: options.spuId,
-      isagree: options.isagree ? options.isagree : false
+      spuId: options.spuId
+      // isagree: options.isagree ? options.isagree : false
     })
     app.globalData.OrderObj = options;
   },
@@ -104,6 +108,7 @@ Page({
     this.getDetailBySkuId();
   },
   onHide() {
+    wx.hideLoading();
     app.globalData.Express = {
       chatName: '',
       area: '',
@@ -112,6 +117,7 @@ Page({
     };
   },
   onUnload() {
+    wx.hideLoading();
     app.globalData.Express = {
       chatName: '',
       area: '',
@@ -128,6 +134,7 @@ Page({
     Api.DetailBySkuId({
       id: this.data.id
     }).then((res) => {
+      wx.hideLoading();
       if (res.data.code == 0) {
         let _obj = res.data.data,
           _bzf = 0,
@@ -185,6 +192,7 @@ Page({
       userId: app.globalData.userInfo.userId
     }
     Api.AddressList(_parms).then((res) => {
+      wx.hideLoading();
       if (res.data.code == 0 && res.data.data.list) {
         let _list = res.data.data.list,
           actList = {};
@@ -221,17 +229,17 @@ Page({
     })
   },
   //是否同意预售协议
-  checkboxChange: function(e) {
-    if (e.detail.value[0] == 1) {
-      this.setData({
-        isagree: true
-      })
-    } else {
-      this.setData({
-        isagree: false
-      })
-    }
-  },
+  // checkboxChange: function(e) {
+  //   if (e.detail.value[0] == 1) {
+  //     this.setData({
+  //       isagree: true
+  //     })
+  //   } else {
+  //     this.setData({
+  //       isagree: false
+  //     })
+  //   }
+  // },
   //选择送达时间
   bindDateChange: function(e) {
     console.log('picker发送选择改变，携带值为', e.detail.value)
@@ -269,7 +277,7 @@ Page({
   //点击提交订单
   submitSoid: function() {
     let that = this;
-    if (this.data.isagree) {
+    // if (this.data.isagree) {
       if (this.data.issoid) {
         return
       }
@@ -318,12 +326,12 @@ Page({
           icon: 'none'
         })
       }
-    } else {
-      wx.showToast({
-        title: '亲,请勾线顺丰到付哟!',
-        icon: 'none'
-      })
-    }
+    // } else {
+    //   wx.showToast({
+    //     title: '亲,请勾线顺丰到付哟!',
+    //     icon: 'none'
+    //   })
+    // }
   },
   //更新用户信息
   updataUser: function() {

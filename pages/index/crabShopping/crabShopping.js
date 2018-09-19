@@ -177,6 +177,7 @@ Page({
           if(_list && _list.length>0){
             for (let i = 0; i < _list.length; i++) {
               _list[i].distance = utils.transformLength(_list[i].distance);
+              _list[i].logoUrl = _list[i].logoUrl ? _list[i].logoUrl : _list[i].indexUrl;
               _storeData.push(_list[i]);
             };
             this.setData({

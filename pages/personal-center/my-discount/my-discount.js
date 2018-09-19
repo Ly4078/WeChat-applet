@@ -11,6 +11,9 @@ Page({
     isUsed: 0
   },
   onLoad: function(options) {
+    wx.showLoading({
+      title: '加载中...'
+    })
     if (options.cfrom == 'reg') {
       this.setData({
         isball: true
@@ -23,12 +26,16 @@ Page({
     });
     this.getTicketList();
   },
-  onHide: function() {
+  onHide: function () {
+    wx.hideLoading();
     this.setData({
       ticket_list: [],
       isUpdate: true,
       page: 1
     });
+  },
+  onUnload() {
+    wx.hideLoading();
   },
   toactlist() {
     wx.switchTab({
@@ -47,6 +54,7 @@ Page({
         rows: 8
       },
       success: function(res) {
+        wx.hideLoading();
         if (res.data.code == 0) {
           wx.hideLoading();
           if (res.data.data.list != null && res.data.data.list != [] && res.data.data.list != "") {
@@ -88,10 +96,16 @@ Page({
         } else {
           wx.hideLoading();
         }
+      },
+      fail(){
+        wx.hideLoading();
       }
     })
   },
   ticketType(e) { //不同类型的票券列表
+    wx.showLoading({
+      title: '加载中...'
+    })
     this.setData({
       ticket_list: [],
       page: 1,

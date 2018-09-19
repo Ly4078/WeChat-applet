@@ -203,17 +203,21 @@ page{
 .synopsisText{
   width: 100%;
   font-size:24rpx;
-  padding: 24rpx 0rpx 0rpx 20rpx;
+  padding: 24rpx 16rpx 0rpx 20rpx;
   letter-spacing: 2rpx;
+  display: flex;
+  flex-direction: row;
+  box-sizing: border-box;
 }
 
 .synopsisText text:nth-child(1){
   color:rgba(128,128,128,1);
+  width: 20%;
 }
 
 .synopsisText text:nth-child(2){
   color:rgba(25,25,25,1);
-  padding-left: 90rpx;
+  width: 80%;
 }
 
 .synopsisText:last-child{

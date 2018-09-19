@@ -448,8 +448,8 @@ Page({
           if (data.data.skuName.indexOf(Dis) > 0) {
             data.data.discount = true
           }
-          let current = res.currentTime;
-          let isDue = that.isDueFunc(current, data.expiryDate);
+          let current = data.currentTime;
+          let isDue = that.isDueFunc(current, data.data.expiryDate);
           if ((data.data.type == 4 || data.data.type == 5) && data.data.shopId != app.globalData.userInfo.shopId) {
             wx.showToast({
               title: '该菜不属于本店',
