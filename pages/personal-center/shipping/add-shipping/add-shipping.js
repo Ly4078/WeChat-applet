@@ -172,7 +172,7 @@ Page({
   },
   // 点击地区选择确定按钮
   citySure: function (e) {
-    let that = this, city = that.data.city, value = that.data.value, _countyCname = '', _countyCnameID=1;
+    let that = this, city = that.data.city, value = that.data.value, _countyCname = '', _countyCnameID='';
     that.startAddressAnimation(false)
     // 将选择的城市信息显示到输入框
     if (that.data.areas && that.data.areas.length > 0){
@@ -312,17 +312,18 @@ Page({
       userId: app.globalData.userInfo.userId,
       dictProvinceId: this.data.areaIds[0],
       dictCityId: this.data.areaIds[1],
-      dictCountyId: this.data.areaIds[2],
       dictAreaId: '1',
       detailAddress: this.data.detailAddress,
       chatName: this.data.chatName,
       mobile: this.data.mobile,
       isDefault: this.data.isDefault
     }
+    if (this.data.areaIds[2]){
+       _parms.dictCountyId = this.data.areaIds[2];
+    }
     if(this.data.addId){ //更新
       _parms.id=this.data.addId;
       Api.upAddress(_parms).then((res) => {
-        
         if (res.data.code == 0) {
           wx.showToast({
             title: '更新成功',

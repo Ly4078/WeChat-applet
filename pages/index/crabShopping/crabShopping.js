@@ -320,5 +320,15 @@ Page({
     wx.navigateTo({
       url: 'crabDetails/crabDetails?shopId=' + shopId + '&greensID=' + greensID + '&isShop=true'
     })
+  },
+
+  //点击购买券
+  buyVoucher:function(){
+    console.log('buyVoucher')
+  },
+
+  //点击兑换记录
+  handexchange:function(){
+    console.log('handexchange')
   }
 })
