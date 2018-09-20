@@ -85,7 +85,6 @@ Page({
       tenLater: _tenday,
       date: _threeday
     })
-    console.log('express:', app.globalData.Express)
     if (app.globalData.Express.id) {
       this.setData({
         actaddress: app.globalData.Express
@@ -388,7 +387,6 @@ Page({
         openId: app.globalData.userInfo.openId
       },
       that = this;
-    console.log("spuid:", that.data.current.spuId)
     if (that.data.current.spuId ==3) {
       Api.MallForCoupon(_parms).then((res) => {
         if (res.data.code == 0) {

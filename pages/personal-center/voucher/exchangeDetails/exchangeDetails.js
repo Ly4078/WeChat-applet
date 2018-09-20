@@ -92,7 +92,6 @@ Page({
           }else{
             _data.expressCode2 = _data.expressCode;
           }
-          console.log('_data:', _data)
           that.setData({
             current: _data
           })
