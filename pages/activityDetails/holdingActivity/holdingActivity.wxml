@@ -1,0 +1,57 @@
+<view class='holdingWrap'>
+  <image class='holdingImg' src='https://xqmp4-1256079679.file.myqcloud.com/Colin_fafadfasdafs.jpg'></image>
+  <image class='holdingStep' src='https://xqmp4-1256079679.file.myqcloud.com/Colin_twrqrwreqe.png'></image>
+  <view class='holFlow'>
+    <view class='holFlowCtn'>
+      <view class='holFlowTop'>
+        <view class='process'>
+          <view class='amount'><text>已邀请人数</text></view>
+          <view class='amountDig'><text class='amountDigText'>20</text>人</view>
+          <view class='invite'><button>立即邀请</button></view>
+        </view>
+        <view class='process'>
+          <view class='amount'><text>可兑换大闸蟹数</text></view>
+          <view class='amountDig'><text class='amountDigText'>2</text>只</view>
+          <view class='invite'><button>兑换</button></view>
+        </view>
+      </view>
+
+      <view class='market'>
+        <view class='marketTop'><text>可兑换门店</text></view>
+        <view class='markdistance'>
+        
+          <block wx:for="{{postList}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
+          <view class='illegality'>
+            <image class='settingimg' src='{{item.images}}'></image>
+            <view class='single'>
+              <view class='detail'>
+                <view><text>{{item.name}}</text></view>
+                <view><text>{{item.place}}</text></view>
+              </view>
+              <view class='small'>
+                <image class='smallImage' src='/images/icon/smallImageimgs.png'></image>
+              </view>
+            </view>
+          </view>
+          </block>
+        </view>
+      </view>
+
+      <view class='regulation'>
+        <view>————<text class='regulationText'>活动规则</text>————</view>
+      </view>
+      <view class='parcel'>
+        <view><text>1.</text></view>
+        <view class='parcelText'>
+          <text>每邀请7个用户注册成功，就可以到指定地点兑换1个阳澄湖大闸蟹；</text>
+        </view>
+      </view>
+      <view class='parcel'>
+        <view><text>1.</text></view>
+        <view class='parcelText'>
+          <text>每邀请7个用户注册成功，就可以到指定地点兑换1个阳澄湖大闸蟹；</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

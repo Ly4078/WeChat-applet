@@ -74,7 +74,8 @@
     "pages/index/flashSaleHome/secKillDetail/secKillDetail",
   "pages/personal-center/personnel-order/logisticsDetails/toTheLogistics/toTheLogistics",
     "pages/personal-center/personnel-order/logisticsDetails/logisticsDetails",
-    "pages/personal-center/personnel-order/personnel-order"
+    "pages/personal-center/personnel-order/personnel-order",
+    "pages/activityDetails/holdingActivity/holdingActivity"
   ],
   "window": {
     "backgroundTextStyle": "dark",
