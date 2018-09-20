@@ -591,6 +591,14 @@ const ALL_API = {
   findByGoodsSkuId:{  //查询收货地址是否在配送范围内
     method:'GET',
     url:'deliveryCost/findByGoodsSkuId'
+  },
+  useCoupon:{//礼品券兑换
+    method:'POST',
+    url:'orderCoupon/useCoupon'
+  },
+  orderCouponForSendAmount:{ //支付券运费 
+    method:'POST',
+    url:'wxpay/orderCouponForSendAmount'
   }
 }
 const Api = new MyHttp({}, ALL_API);

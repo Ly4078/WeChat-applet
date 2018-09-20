@@ -11,6 +11,7 @@ Page({
    */
   data: {
     listData:[],
+    actaddress:{},
     page:1
   },
 
@@ -92,7 +93,9 @@ Page({
     }
     Api.orderCoupon(_parms).then((res)=>{
       if(res.data.code == 0 ){
-        console.log('res:',res)
+        this.setData({
+          listData:res.data.data.list
+        })
       }
     })
   },
@@ -109,7 +112,7 @@ Page({
     console.log('id:', id);
     console.log('_skuName:', _skuName);
     wx.navigateTo({
-      url: '../../index/crabShopping/voucherDetails/voucherDetails?id=' + id + '&skuName=' + _skuName
+      url: '../../index/crabShopping/voucherDetails/voucherDetails?id=' + id + '&skuname=' + _skuName
     })
   },
   //点击购买券

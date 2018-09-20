@@ -85,6 +85,7 @@ Page({
       tenLater: _tenday,
       date: _threeday
     })
+    console.log('express:', app.globalData.Express)
     if (app.globalData.Express.id) {
       this.setData({
         actaddress: app.globalData.Express
@@ -96,7 +97,7 @@ Page({
   },
   onHide() {
     wx.hideLoading();
-    app.globalData.Express = {};
+    // app.globalData.Express = {};
   },
   onUnload() {
     app.globalData.Express = {};
@@ -385,7 +386,8 @@ Page({
         openId: app.globalData.userInfo.openId
       },
       that = this;
-    if (this.data.isvoucher) {
+    console.log("spuid:", that.data.current.spuId)
+    if (that.data.current.spuId ==3) {
       Api.MallForCoupon(_parms).then((res) => {
         if (res.data.code == 0) {
           that.setData({
@@ -404,8 +406,8 @@ Page({
         }
       })
     }
-
   },
+    //支付
   pay: function() {
     let _data = this.data.payObj,
       that = this;
@@ -418,14 +420,13 @@ Page({
       success: function(res) {
         if (that.data.current.spuId == 3) {
           wx.redirectTo({
-            url: '../../../../personal-center/voucher/exchangeDetails/exchangeDetails?soId=' + that.data.orderId,
+            url: '../../../../personal-center/voucher/exchangeDetails/exchangeDetails?id=' + that.data.orderId,
           })
         } else {
           wx.redirectTo({
             url: '../../../../personal-center/personnel-order/logisticsDetails/logisticsDetails?soId=' + that.data.orderId,
           })
         }
-
       },
       fail: function(res) {
         wx.showToast({

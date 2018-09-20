@@ -33,27 +33,28 @@ page{
   right:80rpx;
   top:50%;
 }
-.towbut{
+.itembut{
   float: right;
-  position: relative;
+  position: absolute;
   top:74%;
-  left:7%;
+  left:45%;
+}
+button{
+  border:2rpx solid #fff;
 }
 button[plain]{
-  border:2rpx solid #ffff;
+  border:2rpx solid #fff;
   color: #fff;
   height:56rpx;
   line-height: 50rpx;
   font-size: 28rpx;
 }
-.towbut view{
+.itembut view{
   float: right;
   width:150rpx;
   height:56rpx;
   line-height: 56rpx;
-  
   border-radius:8rpx;
-  
   font-size: 28rpx;
   text-align: center;
   margin:0 10rpx;

@@ -59,24 +59,19 @@ Page({
   },
   // 返回提交订单页面
   handli:function(e){
-    let _id = e.currentTarget.id, _chatName = '', _area = '', _mobile='',addressId='';
+    let _id = e.currentTarget.id, _chatName = '', _area = '', _mobile = '', addressId = '', addressOjb={};
     for (let i = 0;i< this.data.address.length;i++){
       if (_id * 1 == this.data.address[i].id*1){
         _chatName = this.data.address[i].chatName;
         _area = this.data.address[i].address;
         _mobile = this.data.address[i].mobile;
         addressId = this.data.address[i].id;
+        addressOjb = this.data.address[i]
       }
     }
+    app.globalData.Express = addressOjb;
     let pages = getCurrentPages();//当前页面
     let prevPage = pages[pages.length - 2];//上一页面
-    app.globalData.Express = {//直接给上移页面赋值
-      username: _chatName,
-      address: _area,
-      phone: _mobile,
-      addressId: addressId
-    };
-    console.log(_chatName)
     wx.navigateBack({//返回
       delta: 1
     })

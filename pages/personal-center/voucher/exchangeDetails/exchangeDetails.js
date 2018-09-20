@@ -1,10 +1,19 @@
+import Api from '../../../../utils/config/api.js';
+import {
+  GLOBAL_API_DOMAIN
+} from '../../../../utils/config/config.js';
+var utils = require('../../../../utils/util.js');
+var app = getApp();
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    
+    _build_url: GLOBAL_API_DOMAIN,
+    id:'',
+    current:{}
   },
 
   /**
@@ -12,6 +21,9 @@ Page({
    */
   onLoad: function (options) {
     console.log(options)
+    this.setData({
+      id:options.id
+    })
   },
 
   /**
@@ -25,7 +37,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    
+    this.getorderCoupon();
   },
 
   /**
@@ -61,5 +73,47 @@ Page({
    */
   onShareAppMessage: function () {
     
+  },
+
+  //查询券详情
+  getorderCoupon: function () {
+    let that = this;
+    wx.request({
+      url: this.data._build_url + 'orderCoupon/get/' + this.data.id,
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        console.log('res:', res)
+        if (res.data.code == 0) {
+          that.setData({
+            current: res.data.data
+          })
+          console.log("current:", that.data.current)
+        }
+      }
+    })
+  },
+  //点击复制
+  copyCode:function(e){
+    let id = e.currentTarget.id,_title="";
+    if(id == 1){
+      _title = this.data.current.goodsSku.skuCode;
+    }else if(id == 2){
+      _title = this.data.current.goodsSku.expressCode;
+    }
+    wx.setClipboardData({
+      data: _title,
+      success: function (res) {
+        wx.getClipboardData({
+          success: function (res) {
+            wx.showToast({
+              title: '复制成功！',
+              icon: 'none'
+            })
+          }
+        })
+      }
+    })
   }
 })

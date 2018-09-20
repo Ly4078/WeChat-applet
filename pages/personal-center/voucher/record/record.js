@@ -1,33 +1,19 @@
+import Api from '../../../../utils/config/api.js';
+import {
+  GLOBAL_API_DOMAIN
+} from '../../../../utils/config/config.js';
+var utils = require('../../../../utils/util.js');
+var app = getApp();
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    listData:[
-      {
-        imgUrl:'https://xqmp4-1256079679.file.myqcloud.com/text_504941838655318092.png',
-        skuName:'经典款 礼品卡',
-        info:'阳澄湖大闸蟹 4.0两公3.0两母 4对8只',
-        date:'2018-12-12 12:23',
-        stast:'已发货',
-        id:'1'
-      }, {
-        imgUrl: 'https://xqmp4-1256079679.file.myqcloud.com/text_504941838655318092.png',
-        skuName: '经典款 礼品卡',
-        info: '阳澄湖大闸蟹 4.0两公3.0两母 4对8只',
-        date: '2018-12-12 12:23',
-        stast: '已发货',
-        id: '2'
-      }, {
-        imgUrl: 'https://xqmp4-1256079679.file.myqcloud.com/text_504941838655318092.png',
-        skuName: '经典款 礼品卡',
-        info: '阳澄湖大闸蟹 4.0两公3.0两母 4对8只',
-        date: '2018-12-12 12:23',
-        stast: '未发货',
-        id: '3'
-      }
-    ]
+    _build_url: GLOBAL_API_DOMAIN,
+    listData:[],
+    page:1
   },
 
   /**
@@ -48,7 +34,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    
+    this.getorderCoupon();
   },
 
   /**
@@ -69,14 +55,20 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-    
+    this.setData({
+      page: 0
+    })
+    this.getorderCoupon();
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-    
+    this.setData({
+      page: this.data.page+1
+    })
+    this.getorderCoupon();
   },
 
   /**
@@ -85,7 +77,29 @@ Page({
   onShareAppMessage: function () {
     
   },
-
+  //查询兑换记录列表
+  getorderCoupon:function(){
+    let _parms = {
+      changerId: app.globalData.userInfo.userId,
+      browSort:1,
+      page:this.data.page,
+      rows:10
+    }
+    Api.orderCoupon(_parms).then((res)=>{
+      if(res.data.code == 0){
+        let _list = res.data.data.list;
+        for(let i=0;i<_list.length;i++){
+          let _arr = _list[i].goodsSkuName.split(" ");
+          _arr[0]+=" 礼品卡";
+          _list[i].p1 = _arr[0];
+          _list[i].p2 = _arr[1];
+        }
+       this.setData({
+         listData: _list
+       })
+      }
+    })
+  },
   //点击某个条目
   handItem:function(e){
     let id = e.currentTarget.id;

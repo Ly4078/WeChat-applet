@@ -1,12 +1,17 @@
-<view class='record' >
-  <view class='recordItme' wx:for="{{listData}}" wx:key="{{index}}" id="{{item.id}}" bindtap='handItem'>
+<view class='record'>
+  <view class='recordItme' wx:if="{{listData.length > 0}}" wx:for="{{listData}}" wx:key="{{index}}" id="{{item.id}}" bindtap='handItem'>
     <view class='itemleft'>
-      <image src="{{item.imgUrl}}"></image>
+      <image src="{{item.skuPic}}"></image>
     </view>
     <view class='itemright'>
-      <view class='irtop'>{{item.skuName}}<text>{{item.stast}}</text></view>
-      <view class='irmoe'>{{item.info}}</view>
-      <view class='irbut'>{{item.date}}</view>
+      <view class='irtop'>{{item.p1}}
+        <text>{{item.expressCode?'已发货':'待发货'}}</text>
+      </view>
+      <view class='irmoe'>{{item.p2}}</view>
+      <view class='irbut'>{{item.usedTime}}</view>
     </view>
+  </view>
+   <view wx:if="{{listData.length < 1}}" class='placeholder'>
+    <image src="/images/icon/zhanweitu.png"></image>
   </view>
 </view>

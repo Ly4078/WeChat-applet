@@ -1,14 +1,11 @@
 <view class='exdetails'>
   <image class='logisticsTopImg' src='/images/icon/logisticsTopImg.png'></image>
-
+  
   <view class='logisticsTopShould'>
     <view class='logisticsTopfront'>
-      <text>订单{{soDetail.status2}}</text>
+      <text>{{current.goodsSku.expressCode?'已发货':'待发货'}}</text>
     </view>
-    <view class='logisticsTopCount' wx:if="{{soDetail.status == 1}}">
-      <text>{{soDetail.Countdown}}后取消订单，请及时付款</text>
-    </view>
-    <view class='logisticsTopCount' wx:if="{{soDetail.status == 2}}">
+    <view class='logisticsTopCount' wx:if="{{current.goodsSku.expressCode}}">
       <text>您订购的商品已经发货，正在运送途中</text>
     </view>
   </view>
@@ -28,14 +25,14 @@
     <image class='expressageImgRight' src='/images/icon/home_arrow.png'></image>
   </view> -->
 <!-- 收货地址 -->
-<view class='expressage' wx:if="{{soDetail.orderAddressOut}}">
+<view class='expressage' wx:if="{{current.orderAddress}}">
   <image class='siteImg' src='/images/icon/expressagegouwuce.png'></image>
   <view class='yourself'>
-    <view class='expressageSiteName'>{{soDetail.orderAddressOut.chatName}}
-      <text>{{soDetail.orderAddressOut.mobile}}</text>
+    <view class='expressageSiteName'>{{current.orderAddress.chatName}}
+      <text>{{current.orderAddress.mobile}}</text>
     </view>
     <view class='expressageMsg'>
-      <text>{{soDetail.address}}</text>
+      <text>{{current.orderAddress.dictProvince}}{{current.orderAddress.dictCity}}{{current.orderAddress.dictCounty}}{{current.orderAddress.detailAddress}}</text>
     </view>
   </view>
 </view>
@@ -43,18 +40,18 @@
 <view class='handise'>
   <view class='handiseTop'>
     <view class='handiseTop-left'>
-      <image class='handiseTop-img' src='{{soDetail.orderItemOuts[0].goodsSkuPic}}'></image>
+      <image class='handiseTop-img' src="{{current.goodsSku.skuPic}}"></image>
     </view>
     <view class='handiseTop-right'>
       <view class='handiseTop-rightText'>
-        <text>阳澄湖大闸蟹礼盒装</text>
+        <text>阳澄湖大闸蟹</text>
       </view>
       <view class='handiseTop-rightCation'>
-        <text>{{soDetail.orderItemOuts[0].goodsSkuName}}</text>
+        <text>{{current.goodsSku.skuName}}</text>
       </view>
       <view class='handiseTop-rightBtn'>
-        <text>￥{{soDetail.orderItemOuts[0].goodsPrice}}</text>
-        <text class='dolphinNei'>×{{soDetail.orderItemOuts[0].goodsNum}}</text>
+        <text>￥{{current.goodsSku.sellPrice}}</text>
+        <text class='dolphinNei'>×{{current.goodsSku.miniNum}}</text>
       </view>
     </view>
   </view>
@@ -69,21 +66,19 @@
   <view class='payment-execute'>
     <view class='inconformity'>
       <text>商品券码</text>
-      <text>{{soDetail.orderCode}}</text>
-      <button class='copybut' bindtap='copyCode'>复制</button>
+      <text>{{current.goodsSku.skuCode}}</text>
+      <button class='copybut' id="1" bindtap='copyCode'>复制</button>
     </view>
 
-
-
-    <view class='inconformity'>
+    <view class='inconformity' wx:if="{{current.goodsSku.expressCode}}">
       <text>快递单号</text>
-      <text>{{soDetail.orderCode}}</text>
-      <button class='copybut' bindtap='copyCode'>复制</button>
+      <text>{{current.goodsSku.expressCode}}</text>
+      <button class='copybut' id="1" bindtap='copyCode'>复制</button>
     </view>
 
-    <view class='inconformity'>
+    <view class='inconformity' wx:if="{{current.goodsSku.updateTime}}">
       <text>兑换时间</text>
-      <text>{{soDetail.createTime}}</text>
+      <text>{{current.goodsSku.updateTime}}</text>
     </view>
 
   </view>

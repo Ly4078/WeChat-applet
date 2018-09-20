@@ -47,3 +47,6 @@ page{
   color: #B1B1B1;
   font-size: 20rpx;
 }
+.placeholder image {
+  left: 90%;
+}

@@ -1,14 +1,14 @@
 <!-- 礼品券 -->
 <view class='voucher' wx:if="{{listData.length>0}}">
   <view class='voucherItem' wx:for="{{listData}}" wx:key="item.id">
-    <view class='itemName'>{{item.skuName}}</view>
-    <view class='towbut'>
+    <view class='itemName'>{{item.goodsSkuName}}</view>
+    <view class='itembut'>
       <view class='butright'>
-        <button bindtap='share' plain="true" data-name="shareBtn" open-type="share" id="{{item.id}}" data-sku="{{item.skuName}}">
+        <button bindtap='share' plain="true" data-name="shareBtn" open-type="share" id="{{item.id}}" data-sku="{{item.goodsSkuName}}">
           <text>赠送好友</text>
         </button>
       </view>
-      <view class='butleft' id="{{item.id}}" data-index="{{item.skuName}}" bindtap='redeemNow'>立即兑换</view>
+      <view class='butleft' id="{{item.id}}" data-index="{{item.goodsSkuName}}" bindtap='redeemNow'>立即兑换</view>
     </view>
   </view>
   <view class='exbut'></view>

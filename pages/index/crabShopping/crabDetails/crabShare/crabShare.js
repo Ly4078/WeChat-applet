@@ -8,7 +8,6 @@ var app = getApp();
 var village_LBS = function(that) {
   wx.getLocation({
     success: function(res) {
-      console.log('13行：==============vill_res:', res)
       let latitude = res.latitude,
         longitude = res.longitude;
       app.globalData.userInfo.lat = latitude;
@@ -60,12 +59,7 @@ Page({
     });
   },
   onShow() {
-    // if (this.data._city){
-    //   app.globalData.userInfo.city = this.data._city;
-    // }
-    console.log("userInfo_show_apr:=============", app.globalData.userInfo);
     if (app.globalData.userInfo.userId) {
-      console.log("show_userid:=============", app.globalData.userInfo.userId);
       if (!app.globalData.userInfo.mobile) { //是新用户，去注册页面
         wx.navigateTo({
           url: '../../../../../pages/personal-center/securities-sdb/securities-sdb?back=1'
@@ -127,7 +121,6 @@ Page({
               })
             }
             let userInfo = app.globalData.userInfo;
-            console.log('130行：==============findByCode_userInfo:', userInfo);
             if (userInfo.userId && userInfo.lat && userInfo.lng && userInfo.city) {
               if (!that.data.groupId) {
                 that.createBargain()

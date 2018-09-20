@@ -15,9 +15,9 @@ Page({
     interval: 5000, //自动切换时间间隔
     duration: 1000, //滑动动画时长
     inputShowed: false,
-    isguige: true,//是否点击规格详情
-    isisbut: false,  //是否显示底按钮
-    issku: false,//是否是送货到家的菜
+    isguige: true, //是否点击规格详情
+    isisbut: false, //是否显示底按钮
+    issku: false, //是否是送货到家的菜
     isspecifi: false,
     inputVal: "",
     num: 1, //数量默认是1
@@ -25,7 +25,7 @@ Page({
     spuId: '', //判断是礼盒装还是斤装
     minusStatus: 'disabled', // 使用data数据对象设置样式名
     page: 1,
-    _ruleDesc:'',
+    _ruleDesc: '',
     specificationData: [],
     dhcListData: [],
     store_details: {},
@@ -36,45 +36,49 @@ Page({
     greensID: '',
     isShop: false,
     array: [{
-      placeName: '产地',
-      place: '阳澄湖'
-    },
-    {
-      placeName: '包装',
-      place: '礼盒装'
-    },
-    {
-      placeName: '规格',
-      place: ''
-    },
-    {
-      placeName: '邮费',
-      place: '到付'
-    }
-    ],
-    crabImgUrl: [],// 详情图列表
-    ruleImg:'',
-    legined: [
-      {
-        p1: '正品保障',
-        p2: '正宗阳澄湖大闸蟹，上海直发，所有阳澄湖大闸蟹均由阳澄湖核心产区直供,只只佩戴防伪指环'
-      }, {
-        p1: '顺丰快递',
-        p2: '顺丰极速送达'
-      }, {
-        p1: '发货时间',
-        p2: '24小时之内发货'
+        placeName: '产地',
+        place: '阳澄湖'
       },
-    ]
+      {
+        placeName: '包装',
+        place: '礼盒装'
+      },
+      {
+        placeName: '规格',
+        place: ''
+      },
+      {
+        placeName: '邮费',
+        place: '到付'
+      }
+    ],
+    crabImgUrl: [], // 详情图列表
+    ruleImg: '',
+    legined: [{
+      p1: '正品保障',
+      p2: '正宗阳澄湖大闸蟹，上海直发，所有阳澄湖大闸蟹均由阳澄湖核心产区直供,只只佩戴防伪指环'
+    }, {
+      p1: '顺丰快递',
+      p2: '顺丰极速送达'
+    }, {
+      p1: '发货时间',
+      p2: '24小时之内发货'
+    }, ]
   },
 
-  onLoad: function (options) {
+  onLoad: function(options) {
     wx.showLoading({
       title: '加载中...'
     })
 
-    let _id = '', _spuId = '', _shopId = '', _greensID = '', isShop = false;
-
+    let _id = '',
+      _spuId = '',
+      _shopId = '',
+      _greensID = '',
+      isShop = false;
+    let _crabImgUrl = [],
+      _ruleImg = '',
+      that = this;
     if (options.id) {
       _id = options.id;
     }
@@ -106,15 +110,11 @@ Page({
       isShop: isShop
     })
 
-  },
 
-  onShow: function () {
-    let _crabImgUrl = [], _ruleImg='',that = this;
-    app.globalData.Express = {};
-    if (app.globalData.txtObj) {
+    if (!app.globalData.txtObj) {
       wx.request({
         url: this.data._build_url + 'version.txt',
-        success: function (res) {
+        success: function(res) {
           app.globalData.txtObj = res.data;
           _crabImgUrl = app.globalData.txtObj.crabImgUrl, _ruleImg = app.globalData.txtObj.ruleImg;
           that.setData({
@@ -133,29 +133,38 @@ Page({
       that.crabInit();
     }
 
+  },
+
+  onShow: function() {
+    let _crabImgUrl = [],
+      _ruleImg = '',
+      that = this;
+    app.globalData.Express = {};
+
+
 
   },
   //初始化
-  crabInit:function(){
-    let _crabImgUrl = this.data.crabImgUrl, _ruleImg= this.data.ruleImg;
-    
+  crabInit: function() {
+    console.log('issku:', this.data.issku)
     if (this.data.issku) {
-      this.bargainDetails();
-      _crabImgUrl = this.data.crabImgUrl;
-      _crabImgUrl.shift();
-      _crabImgUrl.shift();
-      if (_ruleImg){
-        _crabImgUrl.pop();
-        _crabImgUrl.unshift(_ruleImg);
-      }
+      let _crabImgUrl = this.data.crabImgUrl,
+        _ruleImg = this.data.ruleImg;
+      _crabImgUrl = _crabImgUrl.slice(2);
+      _crabImgUrl.pop();
+      _crabImgUrl.unshift(_ruleImg);
       this.setData({
         crabImgUrl: _crabImgUrl
       })
+
+      this.bargainDetails();
+
+
     } else {
       this.getDetailBySkuId();
     }
   },
-  bargainDetails: function () {   //品质好店-->店铺详情--列表
+  bargainDetails: function() { //品质好店-->店铺详情--列表
     if (!app.globalData.userInfo.mobile) {
       wx.hideLoading();
       wx.navigateTo({
@@ -163,7 +172,8 @@ Page({
       })
       return false
     }
-    let that = this, _array = [];
+    let that = this,
+      _array = [];
     let _parms = {
       shopId: this.data.shopId,
       zanUserId: app.globalData.userInfo.userId,
@@ -171,7 +181,7 @@ Page({
       page: this.data.page,
       rows: 20,
     };
-    Api.dhcList(_parms).then((res) => {  //列表
+    Api.dhcList(_parms).then((res) => { //列表
       wx.hideLoading();
       if (res.data.code == 0 && res.data.data.list) {
         let _obj = res.data.data.list[0];
@@ -196,9 +206,12 @@ Page({
     })
   },
   //查询商品朝夕相处列表 即同一商品不同规格列表
-  geSkutlist: function () {
-    if (this.data.isspecifi) { return }
-    let that = this, _array = [];
+  geSkutlist: function() {
+    if (this.data.isspecifi) {
+      return
+    }
+    let that = this,
+      _array = [];
     let _parms = {
       spuType: 10,
       page: this.data.page,
@@ -222,15 +235,23 @@ Page({
     });
   },
   //查询单个详情
-  getDetailBySkuId: function (val) {
+  getDetailBySkuId: function(val) {
     wx.hideLoading();
-    if (this.data.isAct && !val) { return }
-    let _array = [], that = this;
-    Api.DetailBySkuId({ id: this.data.id }).then((res) => {
+    if (this.data.isAct && !val) {
+      return
+    }
+    let _array = [],
+      that = this,
+      _crabImgUrl = this.data.crabImgUrl,
+      _ruleImg = this.data.ruleImg;
+    Api.DetailBySkuId({
+      id: this.data.id
+    }).then((res) => {
       if (res.data.code == 0) {
-        let _obj = res.data.data, _crabImgUrl = this.data.crabImgUrl;
-        for (let i = 0; i < _obj.goodsPromotionRules.length;i++){
-          if (_obj.goodsPromotionRules[i].ruleType == 2){
+        let _obj = res.data.data,
+          _crabImgUrl = this.data.crabImgUrl;
+        for (let i = 0; i < _obj.goodsPromotionRules.length; i++) {
+          if (_obj.goodsPromotionRules[i].ruleType == 2) {
             this.setData({
               _ruleDesc: _obj.goodsPromotionRules[i].ruleDesc
             })
@@ -240,19 +261,14 @@ Page({
         if (_obj.spuId == 1) {
           _array[1].place = '散装';
           _array[3].place = '根据实际重量与发货距离,以物流公司统一计算价格为准';
-          if (_crabImgUrl.length > 8) {
-            _crabImgUrl.shift();
-            _crabImgUrl.shift();
-            that.setData({
-              crabImgUrl: _crabImgUrl
-            })
-          }
+          _crabImgUrl = _crabImgUrl.slice(2);
         } else if (_obj.spuId == 2) {
           _array[1].place = '礼盒装';
           _array[3].place = '顺丰包邮';
         }
         _array[2].place = _obj.skuName;
-        
+
+
         let _arr = [];
         _arr.push(_obj);
         this.setData({
@@ -260,15 +276,16 @@ Page({
           specificationData: _arr,
           isAct: _obj.id,
           array: _array,
+          crabImgUrl: _crabImgUrl,
           spuId: _obj.spuId
         })
-        
+
         // this.geSkutlist();
       }
     })
   },
   //弹窗里同种类选择不同规格
-  chooseLike: function (e) {
+  chooseLike: function(e) {
     let id = e.currentTarget.id;
     this.setData({
       isAct: id,
@@ -277,14 +294,14 @@ Page({
     this.getDetailBySkuId('val');
   },
   //查询商家详情
-  getShopInfo: function () {
+  getShopInfo: function() {
     let that = this;
     wx.request({
       url: that.data._build_url + 'shop/get/' + this.data.shopId,
       header: {
         'content-type': 'application/json;Authorization'
       },
-      success: function (res) {
+      success: function(res) {
         if (res.data.code == 0) {
           let _data = res.data.data;
           if (_data) {
@@ -302,18 +319,18 @@ Page({
     })
   },
   //点击商家主页面按钮，跳转到商家详情页
-  handshopHome: function (e) {
+  handshopHome: function(e) {
     const shopid = e.currentTarget.id;
     wx.navigateTo({
       url: '../../merchant-particulars/merchant-particulars?shopid=' + shopid + '&flag=1'
     })
   },
   //打开地图导航
-  openMap: function () {
+  openMap: function() {
     let that = this;
     wx.getLocation({
       type: 'gcj02',
-      success: function (res) {
+      success: function(res) {
         let latitude = res.latitude;
         let longitude = res.longitude;
         let storeDetails = that.data.store_details;
@@ -323,7 +340,7 @@ Page({
           scale: 18,
           name: storeDetails.shopName,
           address: storeDetails.address,
-          success: function (res) {
+          success: function(res) {
             console.log('打开地图成功')
           }
         })
@@ -332,7 +349,7 @@ Page({
   },
 
   //发起砍价
-  initiateCut: function () {
+  initiateCut: function() {
     if (!app.globalData.userInfo.mobile) {
       wx.navigateTo({
         url: '../../../../pages/personal-center/securities-sdb/securities-sdb?back=1'
@@ -373,7 +390,7 @@ Page({
     })
   },
   //显弹出框
-  showModal: function () {
+  showModal: function() {
     let that = this;
     var animation = wx.createAnimation({ // 显示遮罩层
       duration: 200,
@@ -387,7 +404,7 @@ Page({
       showModalStatus: true,
       isguige: true
     })
-    setTimeout(function () {
+    setTimeout(function() {
       animation.translateY(0).step()
       this.setData({
         animationData: animation.export()
@@ -395,7 +412,7 @@ Page({
     }.bind(this), 200);
   },
   //查询保证--显弹出框
-  showmodalbz: function () {
+  showmodalbz: function() {
     let that = this;
     const animation = wx.createAnimation({ // 显示遮罩层
       duration: 200,
@@ -410,7 +427,7 @@ Page({
       isguige: false,
       isbut: true
     })
-    setTimeout(function () {
+    setTimeout(function() {
       animation.translateY(0).step()
       this.setData({
         animationData: animation.export()
@@ -418,7 +435,7 @@ Page({
     }.bind(this), 200);
   },
   //隐藏对话框
-  hideModal: function () {
+  hideModal: function() {
     // 隐藏遮罩层
     var animation = wx.createAnimation({
       duration: 200,
@@ -431,7 +448,7 @@ Page({
       animationData: animation.export(),
       isbut: false
     })
-    setTimeout(function () {
+    setTimeout(function() {
       animation.translateY(0).step()
       this.setData({
         animationData: animation.export(),
@@ -442,27 +459,29 @@ Page({
 
 
   //分享给好友
-  onShareAppMessage: function () {
+  onShareAppMessage: function() {
     let userInfo = app.globalData.userInfo;
     if (this.data.issku) {
       return {
         title: this.data.SelectedList.skuName,
         path: '/pages/index/crabShopping/crabDetails/crabDetails?shopId=' + this.data.shopId + '&greensID=' + this.data.greensID + '&isShop=' + this.data.isShop,
-        success: function (res) { }
+        success: function(res) {}
       }
     } else {
       return {
         title: this.data.SelectedList.skuName,
         path: '/pages/index/crabShopping/crabDetails/crabDetails?spuId=' + this.data.spuId + '&id=' + this.data.SelectedList.id,
-        success: function (res) { }
+        success: function(res) {}
       }
     }
   },
 
   /* 点击减号地增减数量 */
-  bindMinus: function () {
+  bindMinus: function() {
     let num = this.data.num;
-    if (this.data.issku) { return }
+    if (this.data.issku) {
+      return
+    }
     if (num > 1) {
       num--;
     }
@@ -474,9 +493,11 @@ Page({
     });
   },
   /* 点击加号 */
-  bindPlus: function () {
+  bindPlus: function() {
     let num = this.data.num;
-    if (this.data.issku) { return }
+    if (this.data.issku) {
+      return
+    }
     num++;
     var minusStatus = num < 1 ? 'disabled' : 'normal';
     this.setData({
@@ -485,15 +506,17 @@ Page({
     });
   },
   /* 输入框事件 */
-  bindManual: function (e) {
+  bindManual: function(e) {
     var num = e.detail.value;
     this.setData({
       num: num
     });
   },
   //立即购买
-  originalPrice: function () {
-    let _num = this.data.num, _issku = this.data.issku ? 1 : 2, _shopId = this.data.SelectedList.shopId;
+  originalPrice: function() {
+    let _num = this.data.num,
+      _issku = this.data.issku ? 1 : 2,
+      _shopId = this.data.SelectedList.shopId;
     if (!app.globalData.userInfo.mobile) {
       wx.navigateTo({
         url: '../../../../pages/personal-center/securities-sdb/securities-sdb?back=1'
@@ -513,7 +536,7 @@ Page({
     }
   },
   //点击弹框按钮
-  closetel: function (e) {
+  closetel: function(e) {
     let id = e.target.id;
     this.setData({
       issnap: false
@@ -526,12 +549,12 @@ Page({
   },
 
   // 左下角返回首页
-  returnHomeArrive: function () {
+  returnHomeArrive: function() {
     wx.switchTab({
       url: '../../index',
-      success: function (res) { },
-      fail: function (res) { },
-      complete: function (res) { },
+      success: function(res) {},
+      fail: function(res) {},
+      complete: function(res) {},
     })
   }
 
