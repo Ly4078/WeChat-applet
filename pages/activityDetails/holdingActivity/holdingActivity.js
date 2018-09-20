@@ -84,7 +84,7 @@ Page({
   onShow: function() {
     if (app.globalData.userInfo.userId || app.globalData.userInfo.userId != null) {
       if (!app.globalData.userInfo.mobile) { //是新用户，去注册页面
-        this.closetel();
+        // this.closetel();
       } else {
         //回调
         this.inquireNum();
@@ -204,6 +204,11 @@ Page({
       })
     // }
   },
+  toIndex() {   //跳转至首页
+    wx.switchTab({
+      url: '../../index/index'
+    })
+  },
   findByCode: function() { //通过code查询进入的用户信息，判断是否是新用户
     let that = this;
     wx.login({
@@ -225,9 +230,7 @@ Page({
             }
 
             if (!data.mobile) { //是新用户，去注册页面
-              that.setData({
-                isnew: true
-              });
+              that.closetel();
             }
             let userInfo = app.globalData.userInfo;
             if (userInfo.userId && userInfo.lat && userInfo.lng && userInfo.city) {

@@ -8,6 +8,7 @@
 </view> -->
 
 <view class='holdingWrap'>
+  <image class="indexIcon" src="/images/icon/indexIcon.png" bindtap='toIndex'></image>
   <image class='holdingImg' src='https://xqmp4-1256079679.file.myqcloud.com/Colin_fweafjkwe.png'></image>
   <image class='holdingStep' src='https://xqmp4-1256079679.file.myqcloud.com/Colin_twrqrwreqe.png'></image>
   <view class='holFlow'>
