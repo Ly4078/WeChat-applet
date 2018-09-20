@@ -307,7 +307,7 @@ Page({
       this.setData({
         issoid: true
       })
-      if (this.data.actaddress.id || this.data.isvoucher) {
+      if (this.data.actaddress.id || this.data.isvoucher || this.data.current.spuId==3) {
         let _parms = {
           userId: app.globalData.userInfo.userId,
           userName: app.globalData.userInfo.userName,

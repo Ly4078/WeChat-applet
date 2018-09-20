@@ -3,9 +3,9 @@
   
   <view class='logisticsTopShould'>
     <view class='logisticsTopfront'>
-      <text>{{current.goodsSku.expressCode?'已发货':'待发货'}}</text>
+      <text>{{current.expressCode?'已发货':'待发货'}}</text>
     </view>
-    <view class='logisticsTopCount' wx:if="{{current.goodsSku.expressCode}}">
+    <view class='logisticsTopCount' wx:if="{{current.expressCode}}">
       <text>您订购的商品已经发货，正在运送途中</text>
     </view>
   </view>
@@ -70,10 +70,10 @@
       <button class='copybut' id="1" bindtap='copyCode'>复制</button>
     </view>
 
-    <view class='inconformity' wx:if="{{current.goodsSku.expressCode}}">
+    <view class='inconformity' wx:if="{{current.expressCode}}">
       <text>快递单号</text>
-      <text>{{current.goodsSku.expressCode}}</text>
-      <button class='copybut' id="1" bindtap='copyCode'>复制</button>
+      <text>{{current.expressCode2}}</text>
+      <button class='copybut copybutq' id="2" bindtap='copyCode'>复制</button>
     </view>
 
     <view class='inconformity' wx:if="{{current.goodsSku.updateTime}}">

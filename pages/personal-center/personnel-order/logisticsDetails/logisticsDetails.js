@@ -115,7 +115,9 @@ Page({
       orderId: this.data.soId,
       openId: app.globalData.userInfo.openId
     }, that = this;
+    console.log('_parms:', _parms)
     Api.shoppingMall(_parms).then((res) => {
+      console.log("fdaf:",res)
       if (res.data.code == 0) {
         wx.requestPayment({
           'timeStamp': res.data.data.timeStamp,
@@ -133,6 +135,11 @@ Page({
               duration: 1200
             })
           }
+        })
+      }else{
+        wx.showToast({
+          title: res.data.message,
+          icon:'none'
         })
       }
     })

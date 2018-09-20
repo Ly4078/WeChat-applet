@@ -86,6 +86,13 @@ Page({
         if (res.data.code == 0) {
           let _data = res.data.data;
           _data.goodsSku.sellPrice = _data.goodsSku.sellPrice.toFixed(2);
+          if (_data.expressCode.length > 14){
+            _data.expressCode2 = _data.expressCode.slice(0, 14);
+            _data.expressCode2+='...';
+          }else{
+            _data.expressCode2 = _data.expressCode;
+          }
+          console.log('_data:', _data)
           that.setData({
             current: _data
           })
@@ -99,7 +106,7 @@ Page({
     if(id == 1){
       _title = this.data.current.goodsSku.skuCode;
     }else if(id == 2){
-      _title = this.data.current.goodsSku.expressCode;
+      _title = this.data.current.expressCode;
     }
     wx.setClipboardData({
       data: _title,

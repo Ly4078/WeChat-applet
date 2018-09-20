@@ -296,6 +296,9 @@ page{
   right:42rpx;
   top:-13rpx;
 }
+.copybutq{
+  right:-3rpx;
+}
 
 .payment-copy{
   width: 100%;
