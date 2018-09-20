@@ -22,9 +22,6 @@
           <view wx:if="{{isnew}}" class='invite'>
             <button bindtap='share'>立即邀请</button>
           </view>
-          <view wx:if="{{isInvite}}" class='invite'>
-            <button bindtap='createCrab'>立即邀请</button>
-          </view>
           <view wx:else class='invite'>
             <button bindtap='share' plain="true" data-name="shareBtn" open-type="share">立即邀请</button>
           </view>

@@ -30,7 +30,7 @@ Page({
     shopId: '', //点击店Id
     postList: [{
         id: 0,
-        name: '中商优品汇超市',
+        name: '中商优品汇',
         place: '(中南店)',
         images: 'http://img.zcool.cn/community/01d3a75831f12aa801219c77f99003.jpg@1280w_1l_2o_100sh.jpg',
         locationX: '114.338306',
@@ -38,7 +38,7 @@ Page({
       },
       {
         id: 1,
-        name: '中商优品汇超市',
+        name: '中商优品汇',
         place: '(珞珈山店)',
         images: 'http://pic80.huitu.com/res/20160608/208798_20160608015617000200_1.jpg',
         locationX: '114.363386',
@@ -64,7 +64,7 @@ Page({
         id: 4,
         name: '中商平价',
         place: '(和平大道店)',
-        images: 'http://pic31.huitu.com/res/20150525/173433_20150525170809170200_1.jpg',
+        images: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1537462197451&di=14abc4488db7800cc28ebe0f29a49ed4&imgtype=0&src=http%3A%2F%2Fqcloud.dpfile.com%2Fpc%2FWtyHGebB4mrDUQXoy9DxF9ocUmQ0RGE8WBW8dAr0DR_dWX5GDHu8EgNRQXfjASs3TYGVDmosZWTLal1WbWRW3A.jpg',
         locationX: '114.323489',
         locationY: '30.577027'
       }
@@ -106,9 +106,12 @@ Page({
     Api.createCrab(_parms).then((res) => {
       if (res.data.code == 0) {
         wx.showToast({
-          title: '发起成功',
+          title: '发起成功,点击邀请好友吧',
           icon: 'none'
         })
+        this.setData({
+          isInvite: true
+        });
       } else {
 
       }
@@ -185,7 +188,11 @@ Page({
       })
       return false
     } else {
-      this.onShareAppMessage();
+      if (this.data.isInvite) {
+        this.onShareAppMessage();
+      } else {
+        this.createCrab();
+      }
     }
   },
   //分享给好友
