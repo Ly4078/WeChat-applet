@@ -78,6 +78,7 @@ page{
 .indentDetails{
   width: 100%;
   display: flex;
+  margin-top: 20rpx;
   justify-content: center;
   background-color: #fff;
 }

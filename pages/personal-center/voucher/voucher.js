@@ -10,21 +10,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    listData:[
-      {
-        skuName:'兑换券',
-        id:'1'
-      }, {
-        skuName: '兑换券',
-        id: '2'
-      }, {
-        skuName: '兑换券',
-        id: '3'
-      }, {
-        skuName: '兑换券',
-        id: '4'
-      }
-    ],
+    listData:[],
     page:1
   },
 

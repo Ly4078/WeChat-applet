@@ -85,7 +85,7 @@ Page({
       tenLater: _tenday,
       date: _threeday
     })
-    if (app.globalData.Express) {
+    if (app.globalData.Express.id) {
       this.setData({
         actaddress: app.globalData.Express
       });
@@ -154,7 +154,10 @@ Page({
           current: _obj,
           _rules: _rules
         })
-        this.getcalculateCost();
+        if (_obj.spuId !=3){
+          this.getcalculateCost();
+        }
+        
       }
     })
   },
@@ -193,10 +196,9 @@ Page({
           actaddress: _list[0]
         })
         app.globalData.Express = actaddress;
-        if (val) {
+        if (val && this.data.current.spuId != 3) {
           this.getcalculateCost();
         }
-
       } else {
         app.globalData.Express = {};
       }
@@ -229,9 +231,10 @@ Page({
     }
     Api.calculateCost(_parms).then((res) => {
       if (res.data.code == 0) {
-        if(res.data.data){
+        if (res.data.data){
           _obj = this.data.current;
           _obj.total = _obj.total * 1 + res.data.data;
+          _obj.total = _obj.total.toFixed(2);
           this.setData({
             errmsg:'',
             postage: res.data.data
@@ -240,15 +243,16 @@ Page({
             current: _obj
           })
         }else{
-          this.setData({
-            errmsg: res.data.message
-          })
-          wx.showToast({
-            title: res.data.message,
-            icon:'none'
-          })
+          if (this.data.current.spuId == 1){
+            this.setData({
+              errmsg: res.data.message
+            })
+            wx.showToast({
+              title: res.data.message,
+              icon: 'none'
+            })
+          }
         }
-       
       }
     })
   },
@@ -306,8 +310,6 @@ Page({
           userName: app.globalData.userInfo.userName,
           shopId: this.data.shopId,
           payType: 2,
-          orderAddressId: this.data.actaddress.id,
-          sendTime: this.data.date,
           orderItemList: [{
             goodsSkuId: this.data.id,
             goodsSpuId: this.data.spuId,
@@ -317,6 +319,10 @@ Page({
             remark: this.data.remarks
           }]
         };
+        if(this.data.current.spuId !=3){
+          _parms.orderAddressId=this.data.actaddress.id,
+          _parms.sendTime=this.data.date
+        }
         wx.request({
           url: that.data._build_url + 'orderInfo/create',
           data: JSON.stringify(_parms),
@@ -410,7 +416,7 @@ Page({
       'signType': 'MD5',
       'paySign': _data.paySign,
       success: function(res) {
-        if (that.data.isvoucher) {
+        if (that.data.current.spuId == 3) {
           wx.redirectTo({
             url: '../../../../personal-center/voucher/exchangeDetails/exchangeDetails?soId=' + that.data.orderId,
           })
