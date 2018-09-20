@@ -82,9 +82,12 @@ Page({
     });
   },
   onShow: function() {
-    if (app.globalData.userInfo.userId || app.globalData.userInfo.userId != null) {
+    if (app.globalData.userInfo.userId) {
+      console.log("86行:==============show_userid:", app.globalData.userInfo.userId);
       if (!app.globalData.userInfo.mobile) { //是新用户，去注册页面
-        // this.closetel();
+        wx.navigateTo({
+          url: '/pages/personal-center/securities-sdb/securities-sdb?back=1&inviter=' + this.data.inviter
+        })
       } else {
         //回调
         this.inquireNum();

@@ -383,9 +383,6 @@ Page({
       console.log('389行:res=============================:', res)
       if (res.data.code == 0) {
         console.log('res:', res)
-        wx.navigateBack({
-          data: 1
-        })
       }
     })
   }
