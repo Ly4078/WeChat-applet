@@ -212,6 +212,9 @@ Page({
       url: '../../index/index'
     })
   },
+  onPullDownRefresh: function () {
+    this.inquireNum();
+  },
   findByCode: function() { //通过code查询进入的用户信息，判断是否是新用户
     let that = this;
     wx.login({
