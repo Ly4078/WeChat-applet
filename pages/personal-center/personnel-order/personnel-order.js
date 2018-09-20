@@ -142,6 +142,7 @@ Page({
             } else if (_list[i].status == 10) {
               _list[i].status2 = '已取消';
             }
+            _list[i].realAmount = _list[i].realAmount.toFixed(2);
             logistics.push(_list[i]);
           }
           this.setData({
@@ -173,6 +174,8 @@ Page({
         let order_list = that.data.order_list;
         if (data.data.length && data.data.length > 0) {
           for (let i = 0; i < data.data.length; i++) {
+            data.data[i].soAmount = data.data[i].soAmount.toFixed(2);
+            data.data[i].unitPrice = data.data[i].unitPrice.toFixed(2);
             if (this.data.currentTab == 1 || !this.data.currentTab) {
               if (data.data[i].skuType != 3) {
                 order_list.push(data.data[i]);

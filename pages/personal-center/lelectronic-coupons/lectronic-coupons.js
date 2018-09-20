@@ -318,6 +318,7 @@ Page({
             getMonth = endTime.getMonth() + 1;
             _obj.endTime = endTime.getFullYear() + '-' + getMonth + '-' + endTime.getDate();
           }
+          _obj.soAmount = _obj.soAmount.toFixed(2);
           that.setData({
             ticketInfo: _obj,
             qrCodeArr: imgsArr,
@@ -432,6 +433,7 @@ Page({
         if (_obj.skuName && _obj.skuName.indexOf(dip) > 0) {
           _obj.dips = true
         }
+        _obj.soAmount = _obj.soAmount.toFixed(2);
         this.setData({
           ticketInfo:_obj,
           isticket: false

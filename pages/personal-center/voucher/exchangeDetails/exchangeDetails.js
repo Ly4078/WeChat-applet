@@ -20,7 +20,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log(options)
     this.setData({
       id:options.id
     })
@@ -84,12 +83,12 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success: function (res) {
-        console.log('res:', res)
         if (res.data.code == 0) {
+          let _data = res.data.data;
+          _data.goodsSku.sellPrice = _data.goodsSku.sellPrice.toFixed(2);
           that.setData({
-            current: res.data.data
+            current: _data
           })
-          console.log("current:", that.data.current)
         }
       }
     })

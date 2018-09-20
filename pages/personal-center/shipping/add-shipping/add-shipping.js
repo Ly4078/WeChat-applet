@@ -85,10 +85,13 @@ Page({
   },
   //查询单个地址详情
   getAddress:function(){
-    let that = this;
+    let that = this, _dictCounty="";
     Api.singleAddress({ Id: this.data.addId}).then((res)=>{
       if(res.data.code == 0){
         let _data = res.data.data,_arr =[];
+        if (_data.dictCounty == null || !_data.dictCounty) { } else {
+          _dictCounty = _data.dictCounty
+        }
         _arr.push(_data.dictProvinceId);
         _arr.push(_data.dictCityId);
         _arr.push(_data.dictCountyId);
@@ -97,7 +100,7 @@ Page({
           mobile: _data.mobile,
           mobileValue: _data.mobile,
           // postal: _data.postal,
-          areaInfo: _data.dictProvince+',' +_data.dictCity+','+_data.dictCounty,
+          areaInfo: _data.dictProvince + ',' + _data.dictCity + ',' +_dictCounty,
           areaIds: _arr,
           detailAddress: _data.detailAddress,
           isDefault: _data.isDefault,

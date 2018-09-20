@@ -43,6 +43,13 @@ Page({
         }
         
         _data.comTotal = _data.orderItemOuts[0].goodsPrice * _data.orderItemOuts[0].goodsNum;
+        _data.comTotal = _data.comTotal.toFixed(2);
+        _data.orderItemOuts[0].packingPrice = _data.orderItemOuts[0].packingPrice.toFixed(2);
+        if (_data.sendAmount && _data.sendAmount != null){
+          _data.sendAmount = _data.sendAmount.toFixed(2);
+        }
+        _data.realAmount = _data.realAmount.toFixed(2);
+        _data.orderItemOuts[0].goodsPrice = _data.orderItemOuts[0].goodsPrice.toFixed(2);
         that.setData({
           soDetail: _data
         })

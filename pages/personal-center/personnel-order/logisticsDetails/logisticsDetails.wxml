@@ -75,7 +75,7 @@
       </view>
     </view>
 
-    <view class='endAmount'>
+    <view class='endAmount' wx:if="{{soDetail.sendAmount && soDetail.sendAmount != null}}">
       <view class='endAmountNei'>
         <text>运费</text>
         <text class='dolphinNei'>￥{{soDetail.sendAmount}}</text>
