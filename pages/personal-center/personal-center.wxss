@@ -183,7 +183,7 @@ page{
   border-bottom-right-radius: 18rpx;
 }
 
-.myList:nth-child(2){
+.myList:nth-child(3){
   border-bottom-left-radius: 18rpx;
   border-bottom-right-radius: 18rpx;
 }
