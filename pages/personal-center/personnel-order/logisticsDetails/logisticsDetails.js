@@ -21,7 +21,7 @@ Page({
   },
   //查询单个订单详情
   getorderInfoDetail: function() {
-    let that = this;
+    let that = this, _dictCounty="";
     Api.orderInfoDetail({
       id: this.data.soId
     }).then((res) => {
@@ -40,7 +40,10 @@ Page({
           _data.status2 = '已取消';
         }
         if (_data.orderAddressOut){
-          _data.address = _data.orderAddressOut.dictProvince + _data.orderAddressOut.dictCity + _data.orderAddressOut.dictCounty + _data.orderAddressOut.detailAddress;
+          if (_data.orderAddressOut.dictCounty &&_data.orderAddressOut.dictCounty != null){
+            _dictCounty = _data.orderAddressOut.dictCounty
+          }
+          _data.address = _data.orderAddressOut.dictProvince + _data.orderAddressOut.dictCity + _dictCounty + _data.orderAddressOut.detailAddress;
         }
         
         _data.comTotal = _data.orderItemOuts[0].goodsPrice * _data.orderItemOuts[0].goodsNum;

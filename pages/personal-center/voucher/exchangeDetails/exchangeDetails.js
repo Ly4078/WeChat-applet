@@ -86,7 +86,7 @@ Page({
         if (res.data.code == 0) {
           let _data = res.data.data;
           _data.goodsSku.sellPrice = _data.goodsSku.sellPrice.toFixed(2);
-          if (_data.expressCode.length > 14){
+          if (_data.expressCode && _data.expressCode.length > 14){
             _data.expressCode2 = _data.expressCode.slice(0, 14);
             _data.expressCode2+='...';
           }else{

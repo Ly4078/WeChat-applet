@@ -18,6 +18,7 @@ button[plain]{
   border: none;
   color: #191919;
   font-size: 28rpx;
+  margin-top: 10rpx;
 }
 .vouchername {
   float: right;

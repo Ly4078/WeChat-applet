@@ -79,7 +79,7 @@ Page({
     console.log('id:', id, '_skuName:', _skuName)
     return {
       title: _skuName,
-      path: '/pages/personal-center/voucher/voucherDetails/voucherDetails?id=' + id + '&skuname=' + _skuName,
+      path: '/pages/index/crabShopping/voucherDetails/voucherDetails?id=' + id,
       success: function (res) { }
     }
   },

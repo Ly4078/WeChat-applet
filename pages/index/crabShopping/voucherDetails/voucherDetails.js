@@ -16,7 +16,6 @@ Page({
     payObj: {},
     isconvert: true,
     vouId: '', //券ID
-    vouSku: '',
     kaishi:'',
     errmsg:'',
     postage:0,
@@ -30,16 +29,9 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    console.log('options:', options)
-    let _arr = options.skuname.split(" ");
-    console.log('_arr:', _arr)
-    _arr[0] = "礼品券 | " + _arr[0];
     this.setData({
-      vouId: options.id,
-      vouSku: options.skuname,
-      kaishi: _arr[0]
+      vouId: options.id
     })
-    
     this.getorderCoupon();
   },
   //查询券详情
@@ -52,9 +44,14 @@ Page({
       },
       success: function(res) {
         console.log('res:', res)
+        let _data = res.data.data;
+        let _arr = _data.goodsSkuName.split(" ");
+        console.log('_arr:', _arr)
+        _arr[0] = "礼品券 | " + _arr[0];
         if (res.data.code == 0) {
           that.setData({
-            current: res.data.data
+            current: _data,
+            kaishi: _arr[0]
           })
           that.getcalculateCost();
         }
@@ -72,11 +69,11 @@ Page({
    */
   onShareAppMessage: function() {
     let id = this.data.vouId,
-      _skuName = this.data.vouSku;
+      _skuName = this.data.current.goodsSkuName;
     console.log('id:', id, '_skuName:', _skuName)
     return {
       title: _skuName,
-      path: '/pages/personal-center/voucher/voucherDetails/voucherDetails?id=' + id + '&skuname=' + _skuName,
+      path: '/pages/index/crabShopping/voucherDetails/voucherDetails?id=' + id,
       success: function(res) {}
     }
   },
