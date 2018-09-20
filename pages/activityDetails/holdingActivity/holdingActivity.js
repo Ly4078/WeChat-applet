@@ -27,12 +27,12 @@ Page({
     isMpa: false,
     userId: '',
     id: '', //菜id
-    shopId: '',   //点击店Id
+    shopId: '', //点击店Id
     postList: [{
         id: 0,
         name: '中商优品汇超市',
         place: '(中南店)',
-        images: 'https://xqmp4-1256079679.file.myqcloud.com/Colin_fafadfasdafs.jpg',
+        images: 'http://img.zcool.cn/community/01d3a75831f12aa801219c77f99003.jpg@1280w_1l_2o_100sh.jpg',
         locationX: '114.338306',
         locationY: '30.543187'
       },
@@ -40,7 +40,7 @@ Page({
         id: 1,
         name: '中商优品汇超市',
         place: '(珞珈山店)',
-        images: 'https://xqmp4-1256079679.file.myqcloud.com/Colin_fafadfasdafs.jpg',
+        images: 'http://pic80.huitu.com/res/20160608/208798_20160608015617000200_1.jpg',
         locationX: '114.363386',
         locationY: '30.53937'
       },
@@ -48,7 +48,7 @@ Page({
         id: 2,
         name: '中商平价',
         place: '(徐东店)',
-        images: 'https://xqmp4-1256079679.file.myqcloud.com/Colin_fafadfasdafs.jpg',
+        images: 'http://www.yiqiang-sw.com/Uploads/201608/579efbbf9f05d.jpg',
         locationX: '114.351814',
         locationY: '30.595577'
       },
@@ -56,7 +56,7 @@ Page({
         id: 3,
         name: '中商平价',
         place: '(光谷店)',
-        images: 'https://xqmp4-1256079679.file.myqcloud.com/Colin_fafadfasdafs.jpg',
+        images: 'http://pic32.photophoto.cn/20140709/0013026497125511_b.jpg',
         locationX: '114.437057',
         locationY: '30.510551'
       },
@@ -64,7 +64,7 @@ Page({
         id: 4,
         name: '中商平价',
         place: '(和平大道店)',
-        images: 'https://xqmp4-1256079679.file.myqcloud.com/Colin_fafadfasdafs.jpg',
+        images: 'http://pic31.huitu.com/res/20150525/173433_20150525170809170200_1.jpg',
         locationX: '114.323489',
         locationY: '30.577027'
       }
@@ -328,11 +328,11 @@ Page({
     })
   },
   //打开地图
-  openmap: function () {
+  openmap: function() {
     let that = this;
     wx.getLocation({
       type: 'gcj02',
-      success: function (res) {
+      success: function(res) {
         let latitude = res.latitude;
         let longitude = res.longitude;
         let postList = that.data.postList;
@@ -340,12 +340,12 @@ Page({
           if (postList[i].id == that.data.shopId) {
             console.log(postList[i].locationX)
             wx.openLocation({
-              longitude: postList[i].locationX*1,
+              longitude: postList[i].locationX * 1,
               latitude: postList[i].locationY * 1,
               scale: 18,
               name: postList[i].name,
               address: postList[i].name + postList[i].place,
-              success: function (res) {
+              success: function(res) {
                 console.log('打开地图成功')
               }
             })
