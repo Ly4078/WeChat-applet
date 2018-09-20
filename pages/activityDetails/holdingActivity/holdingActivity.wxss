@@ -78,6 +78,8 @@ page{
 .invite button{
   width:200rpx;
   height:78rpx;
+  line-height:78rpx;
+  border: 0;
   background:linear-gradient(0deg,rgba(251,50,26,1) 0%,rgba(255,107,101,1) 100%);
   border-radius:39rpx;
   box-shadow:0rpx 10rpx 16rpx 0rpx rgba(214,25,4,0.33);

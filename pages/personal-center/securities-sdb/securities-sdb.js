@@ -49,6 +49,11 @@ Page({
         shopId: options.shopId
       })
     }
+    if (options.inviter) {
+      this.setData({
+        inviter: options.inviter
+      });
+    }
     let q = decodeURIComponent(options.q)
     if (q) {
       if (utils.getQueryString(q, 'flag') == 6) {
@@ -278,6 +283,9 @@ Page({
               if (that.data.parentId) {
                 that.inviteNewUser();
               }
+              if (that.data.inviter) {
+                that.inviteCrab();
+              }
             }
           })
         } else {
@@ -364,6 +372,20 @@ Page({
       consle.log('369行：=========邀请是否成功' + res.data);
       if (res.data.code == 0) {
         consle.log('邀请成功：========='+res.data);
+      }
+    })
+  },
+  inviteCrab() {   //邀请新用户兑换螃蟹
+    let _parms = {
+      userId: this.data.inviter
+    };
+    Api.addInviteCrab(_parms).then((res) => {
+      console.log('389行:res=============================:', res)
+      if (res.data.code == 0) {
+        console.log('res:', res)
+        wx.navigateBack({
+          data: 1
+        })
       }
     })
   }

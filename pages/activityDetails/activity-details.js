@@ -129,6 +129,10 @@ Page({
       wx.navigateTo({
         url: 'video-list/video-list?id=' + actid,
       })
+    } else if (_type == 3) {
+      wx.navigateTo({
+        url: 'holdingActivity/holdingActivity'
+      })
     }
   },
   onReachBottom: function () {  //用户上拉触底

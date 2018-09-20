@@ -599,6 +599,22 @@ const ALL_API = {
   orderCouponForSendAmount:{ //支付券运费 
     method:'POST',
     url:'wxpay/orderCouponForSendAmount'
+  },
+  createCrab: {    //发起邀请新人送螃蟹
+    method: 'POST',
+    url:'pullUser/inUserPull'
+  },
+  inquireInviteNum: {    //查询邀请螃蟹人数
+    method: 'GET',
+    url: 'pullUser/getInfo'
+  },
+  emptyInviteNum: {    //清空邀请螃蟹人数
+    method: 'POST',
+    url: 'pullUser/upNums'
+  },
+  addInviteCrab: {    //螃蟹兑换增加新用户
+    method: 'POST',
+    url: 'pullUser/upNumsUp'
   }
 }
 const Api = new MyHttp({}, ALL_API);

@@ -1,41 +1,357 @@
+import Api from '../../../utils/config/api.js';
+var utils = require('../../../utils/util.js');
+import {
+  GLOBAL_API_DOMAIN
+} from '../../../utils/config/config.js';
+var app = getApp();
+
+
+var village_LBS = function(that) {
+  wx.getLocation({
+    success: function(res) {
+      console.log('vill_res:', res)
+      let latitude = res.latitude,
+        longitude = res.longitude;
+      app.globalData.userInfo.lat = latitude;
+      app.globalData.userInfo.lng = longitude;
+      that.requestCityName(latitude, longitude);
+    },
+  })
+}
+
 Page({
   data: {
-    
-  },
-  onLoad: function (options) {
-    let supermarket = [
-      {
-        name:'中商超市',
-        place:'(汉口店)',
-        images:'https://xqmp4-1256079679.file.myqcloud.com/Colin_fafadfasdafs.jpg'
+    _build_url: GLOBAL_API_DOMAIN,
+    issnap: false, //新用户
+    isnew: false, //新用户
+    isMpa: false,
+    userId: '',
+    id: '', //菜id
+    shopId: '',   //点击店Id
+    postList: [{
+        id: 0,
+        name: '中商优品汇超市',
+        place: '(中南店)',
+        images: 'https://xqmp4-1256079679.file.myqcloud.com/Colin_fafadfasdafs.jpg',
+        locationX: '114.338306',
+        locationY: '30.543187'
       },
       {
-        name: '中商超市',
-        place: '(武汉店)',
-        images: 'https://xqmp4-1256079679.file.myqcloud.com/Colin_fafadfasdafs.jpg'
+        id: 1,
+        name: '中商优品汇超市',
+        place: '(珞珈山店)',
+        images: 'https://xqmp4-1256079679.file.myqcloud.com/Colin_fafadfasdafs.jpg',
+        locationX: '114.363386',
+        locationY: '30.53937'
       },
       {
-        name: '中商超市',
-        place: '(汉阳店)',
-        images: 'https://xqmp4-1256079679.file.myqcloud.com/Colin_fafadfasdafs.jpg'
+        id: 2,
+        name: '中商平价',
+        place: '(徐东店)',
+        images: 'https://xqmp4-1256079679.file.myqcloud.com/Colin_fafadfasdafs.jpg',
+        locationX: '114.351814',
+        locationY: '30.595577'
       },
       {
-        name: '中商超市',
-        place: '(大洋店)',
-        images: 'https://xqmp4-1256079679.file.myqcloud.com/Colin_fafadfasdafs.jpg'
+        id: 3,
+        name: '中商平价',
+        place: '(光谷店)',
+        images: 'https://xqmp4-1256079679.file.myqcloud.com/Colin_fafadfasdafs.jpg',
+        locationX: '114.437057',
+        locationY: '30.510551'
       },
       {
-        name: '中商超市',
-        place: '(恩施店)',
-        images: 'https://xqmp4-1256079679.file.myqcloud.com/Colin_fafadfasdafs.jpg'
+        id: 4,
+        name: '中商平价',
+        place: '(和平大道店)',
+        images: 'https://xqmp4-1256079679.file.myqcloud.com/Colin_fafadfasdafs.jpg',
+        locationX: '114.323489',
+        locationY: '30.577027'
       }
-    ]
-
+    ],
+    inviteNum: 0, //邀请人数
+    crabNum: 0, //螃蟹数量
+    isInvite: false, //是否邀请过
+    _city: '',
+    _lat: '',
+    _lng: ''
+  },
+  onLoad: function(options) {
     this.setData({
-      postList: supermarket
+      inviter: options.inviter ? options.inviter : app.globalData.userInfo.userId
+    });
+  },
+  onShow: function() {
+    if (app.globalData.userInfo.userId || app.globalData.userInfo.userId != null) {
+      if (!app.globalData.userInfo.mobile) { //是新用户，去注册页面
+        this.setData({
+          isnew: true,
+          issnap: true
+        });
+      } else {
+        console.log('82行');
+        //回调
+        this.inquireNum();
+      }
+    } else {
+      console.log('87行');
+      this.findByCode();
+    }
+  },
+  createCrab() { //创建发起
+    let _parms = {
+      userId: app.globalData.userInfo.userId,
+      type: 2
+    };
+    Api.createCrab(_parms).then((res) => {
+      if (res.data.code == 0) {
+        wx.showToast({
+          title: '发起成功',
+          icon: 'none'
+        })
+      } else {
+
+      }
+    });
+  },
+  inquireNum() { //查询邀请螃蟹人数
+    let _parms = {
+      userId: app.globalData.userInfo.userId
+    };
+    Api.inquireInviteNum(_parms).then((res) => {
+      if (res.data.code == 0) {
+        if (res.data.data) {
+          let data = res.data.data;
+          //邀请满7个可以领取一只螃蟹. 达到14个可以灵丘2只. 21个人3只  30个人4只.
+          this.setData({
+            isInvite: true,
+            inviteNum: data.pullNum,
+            crabNum: Math.floor(data.pullNum / 3)
+          });
+        }
+      } else if (res.data.code == -1 && !res.data.data) {
+        this.setData({
+          isInvite: false,
+          inviteNum: 0
+        });
+      }
+    });
+  },
+  emptyNum() { //清空邀请螃蟹人数
+    let _parms = {
+      userId: app.globalData.userInfo.userId
+    };
+    Api.emptyInviteNum(_parms).then((res) => {
+      if (res.data.code == 0) {
+        this.inquireNum();
+      } else {
+        wx.showToast({
+          title: '网络原因,兑换失败',
+          icon: 'none'
+        })
+      }
+    });
+  },
+  exchange() { //兑换螃蟹
+    if (!app.globalData.userInfo.mobile) {
+      this.setData({
+        isnew: true,
+        issnap: true
+      })
+      return false
+    }
+    if (this.data.crabNum > 0) {
+      let _this = this;
+      wx.showModal({
+        content: '是否兑换螃蟹?',
+        complete(res) {
+          if (res.confirm) {
+            _this.emptyNum();
+          }
+        }
+      })
+    } else {
+      wx.showToast({
+        title: '您目前没有螃蟹可以兑换，邀请3位新用户即可获得一只螃蟹',
+        icon: 'none'
+      })
+    }
+  },
+  share() { //分享
+    if (!app.globalData.userInfo.mobile) {
+      this.setData({
+        isnew: true,
+        issnap: true
+      })
+      return false
+    } else {
+      this.onShareAppMessage();
+    }
+  },
+  //分享给好友
+  onShareAppMessage: function() {
+    return {
+      title: '邀请好友，换大闸蟹',
+      path: '/pages/activityDetails/holdingActivity/holdingActivity?inviter=' + this.data.inviter,
+      success: function(res) {}
+    }
+  },
+  closetel: function(e) { //跳转至新用户注册页面
+    let id = e.target.id;
+    this.setData({
+      issnap: false
+    })
+    if (id == 1) {
+      wx.navigateTo({
+        url: '/pages/personal-center/securities-sdb/securities-sdb?inviter=' + this.data.inviter + '&back=1'
+      })
+    }
+  },
+  findByCode: function() { //通过code查询进入的用户信息，判断是否是新用户
+    let that = this;
+    wx.login({
+      success: res => {
+        Api.findByCode({
+          code: res.code
+        }).then((res) => {
+          if (res.data.code == 0) {
+            let data = res.data.data;
+            app.globalData.userInfo.userId = data.id;
+            app.globalData.userInfo.lat = data.locationX;
+            app.globalData.userInfo.lng = data.locationY;
+            for (let key in data) {
+              for (let ind in app.globalData.userInfo) {
+                if (key == ind) {
+                  app.globalData.userInfo[ind] = data[key]
+                }
+              }
+            }
+
+            if (!data.mobile) { //是新用户，去注册页面
+              that.setData({
+                isnew: true
+              });
+            }
+            let userInfo = app.globalData.userInfo;
+            if (userInfo.userId && userInfo.lat && userInfo.lng && userInfo.city) {
+              // 回调
+            } else {
+              // that.getlocation();
+            }
+          } else {
+            that.findByCode();
+          }
+        })
+      }
     })
   },
-  onShow: function () {
-    
+  //打开地图导航
+  TencentMap: function(event) {
+    this.setData({
+      shopId: event.currentTarget.id
+    });
+    let that = this;
+    if (event && event.type == 'tap') {
+      this.setData({
+        isMpa: true
+      })
+    } else {
+      this.setData({
+        isMpa: false
+      })
+    }
+    wx.getLocation({
+      type: 'wgs84',
+      success: function(res) {
+        let latitude = res.latitude;
+        let longitude = res.longitude;
+        app.globalData.userInfo.lat = latitude;
+        app.globalData.userInfo.lng = longitude;
+        that.requestCityName(latitude, longitude);
+      },
+      fail: function(res) {
+        wx.getSetting({
+          success: (res) => {
+            if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其用户位置信息
+              wx.showModal({
+                title: '提示',
+                content: '授权获得更多功能和体验',
+                showCancel: false,
+                success: function(res) {
+                  if (res.confirm) {
+                    wx.openSetting({ //打开授权设置界面
+                      success: (res) => {
+                        if (res.authSetting['scope.userLocation']) {
+                          village_LBS(that);
+                        } else {
+                          let latitude = '',
+                            longitude = '';
+                          that.requestCityName(latitude, longitude);
+                        }
+                      }
+                    })
+                  }
+                }
+              })
+            } else {
+              that.openmap();
+            }
+          }
+        })
+      }
+    })
+
+
   },
+  //获取城市
+  requestCityName(lat, lng) { //获取当前城市
+    let that = this;
+    if (!lat && !lng) {
+      this.TencentMap();
+      return;
+    }
+    wx.request({
+      url: 'https://apis.map.qq.com/ws/geocoder/v1/?location=' + lat + "," + lng + "&key=4YFBZ-K7JH6-OYOS4-EIJ27-K473E-EUBV7",
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: (res) => {
+        if (res.data.status == 0) {
+          let _city = res.data.result.address_component.city;
+          app.globalData.userInfo.city = _city;
+          if (this.data.isMpa) {
+            this.openmap();
+          }
+
+        }
+      }
+    })
+  },
+  //打开地图
+  openmap: function () {
+    let that = this;
+    wx.getLocation({
+      type: 'gcj02',
+      success: function (res) {
+        let latitude = res.latitude;
+        let longitude = res.longitude;
+        let postList = that.data.postList;
+        for (let i = 0; i < postList.length; i++) {
+          if (postList[i].id == that.data.shopId) {
+            console.log(postList[i].locationX)
+            wx.openLocation({
+              longitude: postList[i].locationX*1,
+              latitude: postList[i].locationY * 1,
+              scale: 18,
+              name: postList[i].name,
+              address: postList[i].name + postList[i].place,
+              success: function (res) {
+                console.log('打开地图成功')
+              }
+            })
+          }
+        }
+      }
+    })
+  }
 })
