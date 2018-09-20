@@ -91,6 +91,7 @@ Page({
       })
     }
     Api.orderCoupon(_parms).then((res)=>{
+      wx.stopPullDownRefresh();
       if(res.data.code == 0){
         let _data = this.data.listData, _list = res.data.data.list;
         if (_list && _list.length>0){

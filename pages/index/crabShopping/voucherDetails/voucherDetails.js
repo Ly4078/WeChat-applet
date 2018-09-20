@@ -275,10 +275,7 @@ Page({
       }
     })
   },
-  //赠送好友
-  giveFriend: function() {
-    console.log('giveFriend')
-  },
+
   //点击立即兑换
   redeemNow: function() {
     if (this.data.errmsg){
@@ -293,9 +290,6 @@ Page({
         } else {
           this.seduseCoupon();
         }
-        this.setData({
-          isconvert: false
-        })
       }
     }
     
@@ -309,11 +303,22 @@ Page({
       sendTime: this.data.date,
       remark: this.data.remarks,
       id: this.data.current.id,
-      couponAddressId: this.data.actaddress.id,
       changerId: app.globalData.userInfo.userId,
       changerName: app.globalData.userInfo.userName,
       sendAmount: this.data.postage
     },that = this;
+    if (this.data.actaddress.id){
+      _parms.couponAddressId = this.data.actaddress.id
+    }else{
+      wx.showToast({
+        title: '请选择或添加一个收货地址',
+        icon:'none'
+      });
+      return;
+    }
+    this.setData({
+      isconvert: false
+    });
     Api.useCoupon(_parms).then((res) => {
       if (res.data.code == 0) {
         console.log('res:', res)
