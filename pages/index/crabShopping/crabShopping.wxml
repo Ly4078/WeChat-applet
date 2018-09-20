@@ -10,8 +10,7 @@
   </view>
   <view class='crabWrap'>
     <view class='crabCenter'>
-      <!-- 礼盒装  散装 -->
-      <view class='crabSingle' wx:if="{{spuval != 3 && listData.length>0}}" wx:for="{{listData}}" wx:key="item.id">
+      <view class='crabSingle' wx:if="{{listData.length>0}}" wx:for="{{listData}}" wx:key="item.id">
         <view catchtap='crabPrticulars' id='{{item.id}}' data-spuId="{{item.spuId}}">
           <image wx:if="{{item.skuPic}}" class='crabImg' mode='scaleToFill' src='{{item.skuPic}}'></image>
           <image wx:else class='crabImg' mode='scaleToFill' src='/images/icon/morentu.png'></image>
@@ -33,22 +32,12 @@
           </view>
         </view>
       </view>
-      <view class='placeholder' wx:if="{{spuval != 3 && listData.length<1}}">
+
+      <view class='placeholder' wx:if="{{listData.length<1}}">
         <image src="/images/icon/zhanweitu.png"></image>
       </view>
-
-      <!-- 礼品券 -->
-      <view class='voucher' wx:if="{{spuval == 3 && listData.length>0}}" >
-        <view class='voucherItem' wx:for="{{listData}}" wx:key="item.id"></view>
-      </view>
-      <!-- quanbj.png -->
-      <view class='placeholder' wx:if="{{spuval == 3 && listData.length<1}}">
-        <text class='buyvoucher' bindtap='buyVoucher'>购买礼品券</text>
-      </view>
-      
     </view>
   </view>
-  <view class='exchange'  wx:if="{{spuval == 3}}" bindtap='handexchange'>兑换记录</view>
 </view>
 
 <!--到店消费-->

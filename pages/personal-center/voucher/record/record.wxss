@@ -1,0 +1,49 @@
+page{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: #F5F5FA;
+}
+
+.recordItme{
+  width: 670rpx;
+  height: 114rpx;
+  padding: 28rpx 10rpx;
+  background: #fff;
+  margin-top: 20rpx;
+}
+.itemleft{
+  width: 170rpx;
+  height: 114rpx;
+  float: left;
+}
+.itemleft image{
+  width: 153rpx;
+  height: 82rpx;
+  margin-top: 16rpx;
+}
+.itemright{
+  float: left;
+  width: 470rpx;
+}
+.itemright view{
+  height: 40rpx;
+  line-height: 40rpx;
+}
+.irtop{
+  color: #191919;
+  font-size: 28rpx;
+}
+.irtop text{
+  color: #FC5E2D;
+  font-size: 24rpx;
+  float: right;
+}
+.irmoe{
+  color: #555;
+  font-size: 22rpx;
+}
+.irbut{
+  color: #B1B1B1;
+  font-size: 20rpx;
+}

@@ -548,6 +548,10 @@ const ALL_API = {
     method:'POST',
     url:'wxpay/doUnifiedOrderForShoppingMall'
   },
+  MallForCoupon: {//礼品券购买
+    method: 'POST',
+    url: 'wxpay/shoppingMallForCoupon'
+  },
   orderInfoList:{  //查询送货到家订单列表
     method:'GET',
     url:'orderInfo/list'
@@ -575,6 +579,18 @@ const ALL_API = {
   confirmCeceipt:{ //确认收货
     method:'POST',
     url:'orderInfo/confirmCeceipt'
+  },
+  orderCoupon:{  //查询我的礼品券列表
+    method:'GET',
+    url:'orderCoupon/list'
+  },
+  calculateCost:{//查询邮费
+    method:'POST',
+    url:'deliveryCost/calculateCost'
+  },
+  findByGoodsSkuId:{  //查询收货地址是否在配送范围内
+    method:'GET',
+    url:'deliveryCost/findByGoodsSkuId'
   }
 }
 const Api = new MyHttp({}, ALL_API);

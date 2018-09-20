@@ -3,16 +3,16 @@
   <view class='submitTop' catchtap='additionSite'>
     <view class='submitCenter'>
       <!-- <image class='submitImg' src='/images/icon/location.png'></image> -->
-      <image class='AddTheAddress' src='/images/icon/AddTheAddresss.png' wx:if="{{!chatName}}"></image>
-      <view class='submitLeft' wx:if="{{chatName}}">
-        <view class='compellation'>{{chatName}}
-          <text>{{mobile}}</text>
+      <image class='AddTheAddress' src='/images/icon/AddTheAddresss.png' wx:if="{{!actaddress.chatName}}"></image>
+      <view class='submitLeft' wx:if="{{actaddress.chatName}}">
+        <view class='compellation'>{{actaddress.chatName}}
+          <text>{{actaddress.mobile}}</text>
         </view>
         <view class='compellationText'>
-          <text>{{area}}</text>
+          <text>{{actaddress.address}}</text>
         </view>
       </view>
-      <view class='submitLeft' wx:if="{{!chatName}}">
+      <view class='submitLeft' wx:if="{{!actaddress.chatName}}">
         <text>添加地址</text>
       </view>
       <view>
@@ -49,10 +49,9 @@
         <text>配送方式</text>
         <text>顺丰速运</text>
       </view>
-      <view class='equally'>
+      <view class='equally' wx:if="{{postage}}">
         <text>配送费</text>
-        <!-- <text class='delicatese'>￥{{postage}}</text> -->
-        <text>{{postage}}</text>
+        <text class='delicatese'>￥{{postage}}</text>
       </view>
       <view class='equally' bindtap='deliveryTime'>
         <picker mode="date" class='eqpicker' value="{{threeLater}}" start="{{threeLater}}" end="{{tenLater}}" bindchange="bindDateChange">
@@ -82,21 +81,7 @@
     </view>
   </view>
 
-  <!-- 预售协议 -->
-  <!-- <view class='agreement' wx:if="{{issku==2}}">
-    <view class='agreementInner'>
-      <view class='questionTExt'>
-        <text>同意顺丰到付</text>
-      </view>
-      <checkbox-group bindchange="checkboxChange">
-        <label class="checkbox">
-          <checkbox class='checkboxBtn-es' value="1"  checked="{{isagree}}"/>
-        </label>
-      </checkbox-group>
-    </view>
-  </view> -->
   <view class='presentCommtop'></view>
-  
   <!-- 提交订单 -->
   <view class='presentComm'>
     <view class='presentCommLeft'>

@@ -74,6 +74,15 @@
         <image class='myListArrows' src='/images/icon/home_arrow.png'></image>
       </view>
     </view>
+    <view class='myList' catchtap='handVoucher'>
+      <view class='myList-single'>
+        <view>
+          <image class='myListImages' src='/images/icon/vouchericon.png'></image>
+          <text class='mylistText'>礼品券</text>
+        </view>
+        <image class='myListArrows' src='/images/icon/home_arrow.png'></image>
+      </view>
+    </view>
     <!-- <view class='myList'>
       <view class='myList-single' catchtap='infromation'>
         <view>

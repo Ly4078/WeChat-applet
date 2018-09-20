@@ -4,9 +4,9 @@ import {
 } from '../../../utils/config/config.js';
 var utils = require('../../../utils/util.js')
 var app = getApp()
-var village_LBS = function (that) {   //获取用户经纬度
+var village_LBS = function(that) { //获取用户经纬度
   wx.getLocation({
-    success: function (res) {
+    success: function(res) {
       console.log('vill_res:', res)
       let latitude = res.latitude,
         longitude = res.longitude;
@@ -20,28 +20,34 @@ var village_LBS = function (that) {   //获取用户经纬度
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
-    listData:[],  //送货到家
-    storeData:[], //品质好店
-    storeFlag: true,    //品质好店节流阀
+    listData: [], //送货到家
+    storeData: [], //品质好店
+    storeFlag: true, //品质好店节流阀
     navbar: ['平台邮购', '到店消费'],
-    oneTab: ["礼盒装", "散装"],
+    oneTab: ["礼盒装", "散装", "礼品券"],
     currentTab: 0,
-    tabId:0,
-    spuval:2,
+    tabId: 0,
+    spuval: 2,
     page: 1,
-    _page:1,
-    articleid:'',
-    dshImg:''
+    _page: 1,
+    articleid: '',
+    dshImg: ''
   },
-  onLoad: function (option) {
+  onLoad: function(option) {
     let that = this;
     this.setData({
       currentTab: option.currentTab //获取店铺详情页传过来的currentTab值
     });
+    if(option.spuval){
+      this.setData({
+        spuval: option.spuval,
+        tabId:option.spuval-1
+      })
+    }
     if (app.globalData.txtObj) {
       wx.request({
         url: this.data._build_url + 'version.txt',
-        success: function (res) {
+        success: function(res) {
           app.globalData.txtObj = res.data;
           that.setData({
             dshImg: app.globalData.txtObj.dsh.imgUrl
@@ -55,7 +61,7 @@ Page({
     };
 
     this.setData({
-      listData: [],  //送货到家
+      listData: [], //送货到家
       storeData: [],
       storeFlag: true,
       page: 1,
@@ -74,30 +80,31 @@ Page({
       this.listForSkuAllocation();
     }
   },
-  onShow: function () {},
+  onShow: function() {},
   //切换顶部tab
-  navbarTap: function (e) {
+  navbarTap: function(e) {
     this.setData({
       currentTab: e.currentTarget.dataset.idx,
-      listData: [],  //送货到家
+      listData: [], //送货到家
       storeData: [],
       storeFlag: true,
       page: 1,
       _page: 1
     })
-    if (this.data.currentTab == 0){
-      if (this.data.listData.length == 0){
+    if (this.data.currentTab == 0) {
+      if (this.data.listData.length == 0) {
         this.commodityCrabList();
       }
-    } else if (this.data.currentTab == 1){
-      if (this.data.storeData.length == 0){
+    } else if (this.data.currentTab == 1) {
+      if (this.data.storeData.length == 0) {
         this.listForSkuAllocation();
       }
     }
   },
   //点击二级目录
-  handonetab:function(e){
-    let id = e.currentTarget.id,val=2;
+  handonetab: function(e) {
+    let id = e.currentTarget.id,
+      val = 2;
     if (id == 0) {
       val == 2;
     } else if (id == 1) {
@@ -106,27 +113,27 @@ Page({
       val = 3;
     }
     this.setData({
-      tabId:id,
-      spuval:val,
+      tabId: id,
+      spuval: val,
       listData: [],
-      page:1
+      page: 1
     });
-    
-   
+
+
     this.commodityCrabList();
   },
   //监听分享
-  onShareAppMessage: function () {},
+  onShareAppMessage: function() {},
   //查询送货到家列表
-  commodityCrabList: function () {
+  commodityCrabList: function() {
     let that = this;
     let _parms = {
-      spuType:10,
+      spuType: 10,
       page: this.data.page,
       spuId: this.data.spuval,
       rows: 10
     };
-    if(this.data.page == 1){
+    if (this.data.page == 1) {
       this.setData({
         listData: [],
       })
@@ -134,9 +141,9 @@ Page({
     Api.crabList(_parms).then((res) => {
       let _listData = this.data.listData;
       wx.hideLoading();
-      if(res.data.code == 0){
+      if (res.data.code == 0) {
         let _list = res.data.data.list;
-        if(_list && _list.length>0){
+        if (_list && _list.length > 0) {
           for (let i = 0; i < _list.length; i++) {
             _listData.push(_list[i])
           }
@@ -149,7 +156,7 @@ Page({
   },
 
   //查询品质好店列表
-  listForSkuAllocation: function () { 
+  listForSkuAllocation: function() {
     let that = this;
     if (!app.globalData.userInfo.lat || !app.globalData.userInfo.lng || !app.globalData.userInfo.city) {
       wx.hideLoading();
@@ -163,18 +170,19 @@ Page({
         locationY: app.globalData.userInfo.lat,
         city: app.globalData.userInfo.city
       };
-      if (this.data._page == 1){
+      if (this.data._page == 1) {
         this.setData({
-          storeData:[]
+          storeData: []
         })
       };
       console.log('_parms:', _parms)
       Api.listForSkuAllocation(_parms).then((res) => {
         wx.hideLoading();
-        console.log('res:',res);
+        console.log('res:', res);
         if (res.data.code == 0) {
-          let _list = res.data.data.list, _storeData = this.data.storeData;
-          if(_list && _list.length>0){
+          let _list = res.data.data.list,
+            _storeData = this.data.storeData;
+          if (_list && _list.length > 0) {
             for (let i = 0; i < _list.length; i++) {
               _list[i].distance = utils.transformLength(_list[i].distance);
               _list[i].logoUrl = _list[i].logoUrl ? _list[i].logoUrl : _list[i].indexUrl;
@@ -218,17 +226,17 @@ Page({
         }
       }
     })
-    
+
   },
   //下拉刷新
-  onPullDownRefresh:function(){
+  onPullDownRefresh: function() {
     wx.showLoading({
       title: '加载中...'
     })
     this.setData({
       page: 1,
-      _page:1,
-      listData: [],  //送货到家
+      _page: 1,
+      listData: [], //送货到家
       storeData: [],
       storeFlag: true
     });
@@ -239,16 +247,16 @@ Page({
     }
   },
   //用户上拉触底加载更多
-  onReachBottom:function(){
+  onReachBottom: function() {
     if (this.data.currentTab == 0) {
       wx.showLoading({
         title: '加载中...'
       })
       this.setData({
-        page:this.data.page+1
+        page: this.data.page + 1
       });
       this.commodityCrabList();
-    }else if(this.data.currentTab == 1){
+    } else if (this.data.currentTab == 1) {
       if (this.data.storeFlag) {
         wx.showLoading({
           title: '加载中...'
@@ -261,21 +269,21 @@ Page({
     }
   },
 
-  getlocation:function () { //获取用户位置
+  getlocation: function() { //获取用户位置
     console.log('getlocation')
     let that = this,
       lat = '',
       lng = '';
     wx.getLocation({
       type: 'wgs84',
-      success: function (res) {
+      success: function(res) {
         let latitude = res.latitude;
         let longitude = res.longitude;
         app.globalData.userInfo.lat = latitude;
         app.globalData.userInfo.lng = longitude;
         that.requestCityName(latitude, longitude);
       },
-      fail: function (res) {
+      fail: function(res) {
         wx.getSetting({
           success: (res) => {
             if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其用户信息或位置信息
@@ -284,13 +292,13 @@ Page({
                 content: '更多体验需要你授权位置信息',
                 showCancel: false,
                 confirmText: '确认授权',
-                success: function (res) {
+                success: function(res) {
                   if (res.confirm) {
                     wx.openSetting({ //打开授权设置界面
                       success: (res) => {
                         if (res.authSetting['scope.userLocation']) {
                           village_LBS(that);
-                        } else{  //未授权
+                        } else { //未授权
 
                         }
                       }
@@ -305,31 +313,23 @@ Page({
     })
   },
 
- 
+
 
   // 进入菜品详情
-  crabPrticulars:function(e){
-    let id = e.currentTarget.id,spuId = e.currentTarget.dataset.spuid;
+  crabPrticulars: function(e) {
+    let id = e.currentTarget.id,
+      spuId = e.currentTarget.dataset.spuid;
     wx.navigateTo({
       url: 'crabDetails/crabDetails?id=' + id + '&spuId=' + spuId,
     })
   },
 
   //进入品质好店发起砍价
-  crabBargainirg:function(e){ 
-    let shopId = e.currentTarget.id, greensID = e.currentTarget.dataset.id;
+  crabBargainirg: function(e) {
+    let shopId = e.currentTarget.id,
+      greensID = e.currentTarget.dataset.id;
     wx.navigateTo({
       url: 'crabDetails/crabDetails?shopId=' + shopId + '&greensID=' + greensID + '&isShop=true'
     })
-  },
-
-  //点击购买券
-  buyVoucher:function(){
-    console.log('buyVoucher')
-  },
-
-  //点击兑换记录
-  handexchange:function(){
-    console.log('handexchange')
   }
 })

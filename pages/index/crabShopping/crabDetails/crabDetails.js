@@ -72,7 +72,6 @@ Page({
     wx.showLoading({
       title: '加载中...'
     })
-    console.log('optons:', options)
 
     let _id = '', _spuId = '', _shopId = '', _greensID = '', isShop = false;
 
@@ -111,11 +110,7 @@ Page({
 
   onShow: function () {
     let _crabImgUrl = [], _ruleImg='',that = this;
-    app.globalData.Express.username = '';
-    app.globalData.Express.address = '';
-    app.globalData.Express.addressId = '';
-    app.globalData.Express.username = '';
-    console.log('obj:', app.globalData.txtObj)
+    app.globalData.Express = {};
     if (app.globalData.txtObj) {
       wx.request({
         url: this.data._build_url + 'version.txt',
@@ -241,7 +236,6 @@ Page({
             })
           }
         };
-        console.log('_ruleDesc:', this.data._ruleDesc)
         _array = this.data.array;
         if (_obj.spuId == 1) {
           _array[1].place = '散装';
@@ -500,8 +494,6 @@ Page({
   //立即购买
   originalPrice: function () {
     let _num = this.data.num, _issku = this.data.issku ? 1 : 2, _shopId = this.data.SelectedList.shopId;
-    
-    console.log('useriinfo:', app.globalData.userInfo);
     if (!app.globalData.userInfo.mobile) {
       wx.navigateTo({
         url: '../../../../pages/personal-center/securities-sdb/securities-sdb?back=1'

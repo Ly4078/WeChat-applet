@@ -10,6 +10,7 @@ Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
     current: {},
+    payObj: {},
     username: '',
     phone: '',
     address: '',
@@ -21,20 +22,18 @@ Page({
     skuPic: '',
     total: 0,
     issoid: false,
+    isvoucher: false, //是否是券
     bzf: 0,
-    chatName: '',
-    addressId: '',
-    area: '',
-    mobile: '',
     isbox: 0,
     id: '',
     shopId: '',
+    errmsg:'',
     spuId: '',
     orderId: '',
     _rules: '',
-    // isagree: false,
-    isagree: true,
-    postage: "到付", //配送费
+    actaddress: {},
+    weight: '',
+    postage: 0, //配送费
     remarks: '', //备注内容
     date: '', //默认日期
     threeLater: '', //三天后
@@ -44,14 +43,7 @@ Page({
     wx.showLoading({
       title: '加载中...'
     })
-    // if (options.username) {
-    //   app.globalData.Express = {
-    //     chatName: options.username,
-    //     area: options.address,
-    //     mobile: options.phone,
-    //     addressId: options.addressId ? options.addressId : '',
-    //   };
-    // }
+
     if (options.id) {
       app.globalData.OrderObj = options;
     } else {
@@ -64,7 +56,6 @@ Page({
       id: options.id,
       shopId: options.shopId,
       spuId: options.spuId
-      // isagree: options.isagree ? options.isagree : false
     })
     app.globalData.OrderObj = options;
   },
@@ -94,36 +85,21 @@ Page({
       tenLater: _tenday,
       date: _threeday
     })
-    // let pages = getCurrentPages();
-    // let options = pages[2].data;
-    this.setData({
-      chatName: app.globalData.Express.username ? app.globalData.Express.username : '',
-      area: app.globalData.Express.address ? app.globalData.Express.address : '',
-      mobile: app.globalData.Express.phone ? app.globalData.Express.phone : '',
-      addressId: app.globalData.Express.addressId ? app.globalData.Express.addressId : ''
-    });
-    if (!this.data.chatName) {
+    if (app.globalData.Express) {
+      this.setData({
+        actaddress: app.globalData.Express
+      });
+    } else {
       this.getAddressList();
     }
     this.getDetailBySkuId();
   },
   onHide() {
     wx.hideLoading();
-    app.globalData.Express = {
-      chatName: '',
-      area: '',
-      mobile: '',
-      addressId: ''
-    };
+    app.globalData.Express = {};
   },
   onUnload() {
-    wx.hideLoading();
-    app.globalData.Express = {
-      chatName: '',
-      area: '',
-      mobile: '',
-      addressId: ''
-    };
+    app.globalData.Express = {};
   },
   //查询当前商品详情
   getDetailBySkuId: function(val) {
@@ -139,25 +115,38 @@ Page({
         let _obj = res.data.data,
           _bzf = 0,
           _rules = '',
+          zbzf = 0,
           _total = 0;
+        if (_obj.unit == '盒') {
+          this.setData({
+            isunit: false
+          })
+        }
         if (_obj.unit) {
           rules = _obj.goodsPromotionRules;
-          rules.sort(that.compareUp("ruleType"));
-          for (let i = 0; i < rules.length; i++) {
-            if (rules[i].ruleType == 2) {
-              if (this.data.num > rules[i].manNum * 1 - 0.5) {
-                man = Math.floor(this.data.num / rules[i].manNum);
+          if (rules.length > 0) {
+            rules.sort(that.compareUp("ruleType"));
+            for (let i = 0; i < rules.length; i++) {
+              if (rules[i].ruleType == 2) {
+                if (this.data.num > rules[i].manNum * 1 - 0.5) {
+                  man = Math.floor(this.data.num / rules[i].manNum);
+                }
+                _rules = rules[i].ruleDesc;
               }
-              _rules = rules[i].ruleDesc;
+              if (rules[i].ruleType == 3) {
+                _ceil = Math.ceil(this.data.num / rules[i].manNum);
+                _bzf += _ceil * rules[i].giftNum;
+                _bzf += man * rules[i].giftNum;
+                _obj.bzf = _bzf;
+              }
             }
-            if (rules[i].ruleType == 3) {
-              _ceil = Math.ceil(this.data.num / rules[i].manNum);
-              _bzf += _ceil * rules[i].giftNum;
-              _bzf += man * rules[i].giftNum;
-              _obj.bzf = _bzf;
-            }
+          } else {
+            this.setData({
+              isvoucher: true
+            })
           }
-          _total = this.data.num * _obj.sellPrice + _obj.bzf;
+          zbzf = _obj.bzf ? _obj.bzf : 0;
+          _total = this.data.num * _obj.sellPrice + zbzf;
           _total = _total.toFixed(2);
           _obj.total = _total;
         }
@@ -165,7 +154,7 @@ Page({
           current: _obj,
           _rules: _rules
         })
-        console.log('current:', this.data.current)
+        this.getcalculateCost();
       }
     })
   },
@@ -186,8 +175,9 @@ Page({
     }
   },
   //查询已有收货地址
-  getAddressList: function() {
-    let that = this;
+  getAddressList: function(val) {
+    let that = this,
+      actaddress = {};
     let _parms = {
       userId: app.globalData.userInfo.userId
     }
@@ -199,26 +189,16 @@ Page({
         for (let i = 0; i < _list.length; i++) {
           _list[i].address = _list[i].dictProvince + _list[i].dictCity + _list[i].dictCounty + _list[i].detailAddress;
         }
-
         this.setData({
-          chatName: _list[0].chatName,
-          area: _list[0].address,
-          mobile: _list[0].mobile,
-          addressId: _list[0].id
+          actaddress: _list[0]
         })
-        app.globalData.Express = {
-          chatName: _list[0].chatName,
-          area: _list[0].address,
-          mobile: _list[0].mobile,
-          addressId: _list[0].id
-        };
+        app.globalData.Express = actaddress;
+        if (val) {
+          this.getcalculateCost();
+        }
+
       } else {
-        app.globalData.Express = {
-          chatName: '',
-          area: '',
-          mobile: '',
-          addressId: ''
-        };
+        app.globalData.Express = {};
       }
     })
   },
@@ -228,25 +208,55 @@ Page({
       url: '../../../../personal-center/shipping/shipping',
     })
   },
-  //是否同意预售协议
-  // checkboxChange: function(e) {
-  //   if (e.detail.value[0] == 1) {
-  //     this.setData({
-  //       isagree: true
-  //     })
-  //   } else {
-  //     this.setData({
-  //       isagree: false
-  //     })
-  //   }
-  // },
+
+  //查询最费
+  getcalculateCost: function() {
+    if (!this.data.current) {
+      this.getDetailBySkuId('val');
+      return;
+    }
+    if (!this.data.actaddress.id) {
+      this.getAddressList('val');
+      return;
+    }
+    let _weight = this.data.current.realWeight * this.data.num,
+      _obj = {};
+    let _parms = {
+      dictProvinceId: this.data.actaddress.dictProvinceId,
+      dictCityId: this.data.actaddress.dictCityId,
+      weight: _weight,
+      tempateId: this.data.current.deliveryTemplateId
+    }
+    Api.calculateCost(_parms).then((res) => {
+      if (res.data.code == 0) {
+        if(res.data.data){
+          _obj = this.data.current;
+          _obj.total = _obj.total * 1 + res.data.data;
+          this.setData({
+            errmsg:'',
+            postage: res.data.data
+          })
+          this.setData({
+            current: _obj
+          })
+        }else{
+          this.setData({
+            errmsg: res.data.message
+          })
+          wx.showToast({
+            title: res.data.message,
+            icon:'none'
+          })
+        }
+       
+      }
+    })
+  },
   //选择送达时间
   bindDateChange: function(e) {
-    console.log('picker发送选择改变，携带值为', e.detail.value)
     this.setData({
       date: e.detail.value
     })
-    console.log('data:', this.data.date)
   },
   //监听备注输入
   bindremarks: function(e) {
@@ -277,20 +287,26 @@ Page({
   //点击提交订单
   submitSoid: function() {
     let that = this;
-    // if (this.data.isagree) {
+
+    if (this.data.errmsg){
+      wx.showToast({
+        title: this.data.errmsg,
+        icon:'none'
+      })
+    }else{
       if (this.data.issoid) {
         return
       }
       this.setData({
         issoid: true
       })
-      if (this.data.addressId) {
+      if (this.data.actaddress.id || this.data.isvoucher) {
         let _parms = {
           userId: app.globalData.userInfo.userId,
           userName: app.globalData.userInfo.userName,
           shopId: this.data.shopId,
           payType: 2,
-          orderAddressId: this.data.addressId,
+          orderAddressId: this.data.actaddress.id,
           sendTime: this.data.date,
           orderItemList: [{
             goodsSkuId: this.data.id,
@@ -308,13 +324,12 @@ Page({
           header: {
             'content-type': 'application/json' // 默认值
           },
-          success: function(res) {
+          success: function (res) {
             if (res.data.code == 0) {
               if (res.data.data) {
                 that.setData({
                   orderId: res.data.data
                 })
-                console.log('订单生成成功，订单号；', res.data.data)
                 that.updataUser();
               }
             }
@@ -326,12 +341,8 @@ Page({
           icon: 'none'
         })
       }
-    // } else {
-    //   wx.showToast({
-    //     title: '亲,请勾线顺丰到付哟!',
-    //     icon: 'none'
-    //   })
-    // }
+    }
+    
   },
   //更新用户信息
   updataUser: function() {
@@ -368,31 +379,58 @@ Page({
         openId: app.globalData.userInfo.openId
       },
       that = this;
-    Api.shoppingMall(_parms).then((res) => {
-      if (res.data.code == 0) {
-        wx.requestPayment({
-          'timeStamp': res.data.data.timeStamp,
-          'nonceStr': res.data.data.nonceStr,
-          'package': res.data.data.package,
-          'signType': 'MD5',
-          'paySign': res.data.data.paySign,
-          success: function(res) {
-            wx.redirectTo({
-              url: '../../../../personal-center/personnel-order/logisticsDetails/logisticsDetails?soId=' + that.data.orderId,
-            })
-          },
-          fail: function(res) {
-            wx.showToast({
-              icon: 'none',
-              title: '支付取消',
-              duration: 1200
-            })
-          },
-          complete: function(res) {
-            that.setData({
-              issoid: false
-            })
-          }
+    if (this.data.isvoucher) {
+      Api.MallForCoupon(_parms).then((res) => {
+        if (res.data.code == 0) {
+          that.setData({
+            payObj: res.data.data
+          })
+          that.pay();
+        }
+      })
+    } else {
+      Api.shoppingMall(_parms).then((res) => {
+        if (res.data.code == 0) {
+          that.setData({
+            payObj: res.data.data
+          })
+          that.pay();
+        }
+      })
+    }
+
+  },
+  pay: function() {
+    let _data = this.data.payObj,
+      that = this;
+    wx.requestPayment({
+      'timeStamp': _data.timeStamp,
+      'nonceStr': _data.nonceStr,
+      'package': _data.package,
+      'signType': 'MD5',
+      'paySign': _data.paySign,
+      success: function(res) {
+        if (that.data.isvoucher) {
+          wx.redirectTo({
+            url: '../../../../personal-center/voucher/exchangeDetails/exchangeDetails?soId=' + that.data.orderId,
+          })
+        } else {
+          wx.redirectTo({
+            url: '../../../../personal-center/personnel-order/logisticsDetails/logisticsDetails?soId=' + that.data.orderId,
+          })
+        }
+
+      },
+      fail: function(res) {
+        wx.showToast({
+          icon: 'none',
+          title: '支付取消',
+          duration: 1200
+        })
+      },
+      complete: function(res) {
+        that.setData({
+          issoid: false
         })
       }
     })

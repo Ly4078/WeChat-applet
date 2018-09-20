@@ -47,12 +47,7 @@ App({
       actInfoImg: ''  //活动详情图片
     },
     article: [],
-    Express: {    //收货人信息
-      username: '',
-      address: '',
-      phone: '',
-      addressId: ''
-    }
+    Express: {}    //收货人信息
   }
 })
 

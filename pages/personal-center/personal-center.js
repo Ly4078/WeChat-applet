@@ -399,6 +399,12 @@ Page({
       complete: function(res) {},
     })
   },
+  //礼品券
+  handVoucher:function(){
+    wx.navigateTo({
+      url: '../personal-center/voucher/voucher',
+    })
+  },
   VoucherCode: function() { //输入券码核销
     wx.navigateTo({
       url: '../personal-center/call-back/call-back?ent=ent'

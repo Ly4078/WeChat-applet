@@ -1,0 +1,12 @@
+<view class='record' >
+  <view class='recordItme' wx:for="{{listData}}" wx:key="{{index}}" id="{{item.id}}" bindtap='handItem'>
+    <view class='itemleft'>
+      <image src="{{item.imgUrl}}"></image>
+    </view>
+    <view class='itemright'>
+      <view class='irtop'>{{item.skuName}}<text>{{item.stast}}</text></view>
+      <view class='irmoe'>{{item.info}}</view>
+      <view class='irbut'>{{item.date}}</view>
+    </view>
+  </view>
+</view>
