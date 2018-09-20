@@ -22,8 +22,8 @@ var village_LBS = function(that) {
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
-    issnap: false, //新用户
-    isnew: false, //新用户
+    // issnap: false, //新用户
+    // isnew: false, //新用户
     isMpa: false,
     userId: '',
     id: '', //菜id
@@ -84,10 +84,7 @@ Page({
   onShow: function() {
     if (app.globalData.userInfo.userId || app.globalData.userInfo.userId != null) {
       if (!app.globalData.userInfo.mobile) { //是新用户，去注册页面
-        this.setData({
-          isnew: true,
-          issnap: true
-        });
+        this.closetel();
       } else {
         //回调
         this.inquireNum();
@@ -156,10 +153,7 @@ Page({
   },
   exchange() { //兑换螃蟹
     if (!app.globalData.userInfo.mobile) {
-      this.setData({
-        isnew: true,
-        issnap: true
-      })
+      this.closetel();
       return false
     }
     if (this.data.crabNum > 0) {
@@ -181,10 +175,7 @@ Page({
   },
   share() { //分享
     if (!app.globalData.userInfo.mobile) {
-      this.setData({
-        isnew: true,
-        issnap: true
-      })
+      this.closetel();
       return false
     } else {
       if (this.data.isInvite) {
@@ -203,15 +194,15 @@ Page({
     }
   },
   closetel: function(e) { //跳转至新用户注册页面
-    let id = e.target.id;
-    this.setData({
-      issnap: false
-    })
-    if (id == 1) {
+    // let id = e.target.id;
+    // this.setData({
+    //   issnap: false
+    // })
+    // if (id == 1) {
       wx.navigateTo({
         url: '/pages/personal-center/securities-sdb/securities-sdb?inviter=' + this.data.inviter + '&back=1'
       })
-    }
+    // }
   },
   findByCode: function() { //通过code查询进入的用户信息，判断是否是新用户
     let that = this;

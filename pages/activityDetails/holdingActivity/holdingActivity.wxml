@@ -1,14 +1,14 @@
-<view class="newUserModal" wx:if="{{issnap && isnew}}">
+<!-- <view class="newUserModal" wx:if="{{issnap && isnew}}">
   <view class='drawer_screen'>
     <view class='sqtishi'>提示</view>
     <view class='drphnumber'>获得更多体验,请移步[我的]-[新用户注册]</view>
     <button class='gettel sqgettel' bindtap='closetel' id='1'>确定</button>
     <button class='gettel colosetel' bindtap='closetel' id='2'>取消</button>
   </view>
-</view>
+</view> -->
 
 <view class='holdingWrap'>
-  <image class='holdingImg' src='https://xqmp4-1256079679.file.myqcloud.com/Colin_fafadfasdafs.jpg'></image>
+  <image class='holdingImg' src='https://xqmp4-1256079679.file.myqcloud.com/Colin_fweafjkwe.png'></image>
   <image class='holdingStep' src='https://xqmp4-1256079679.file.myqcloud.com/Colin_twrqrwreqe.png'></image>
   <view class='holFlow'>
     <view class='holFlowCtn'>
@@ -74,7 +74,7 @@
           <text>1.</text>
         </view>
         <view class='parcelText'>
-          <text>邀请好友注册达3人可到指定区域兑换1只正宗阳澄湖大闸蟹; 邀请人数达6人可兑换2只, 以此类推,最高可兑换4只.
+          <text>邀请好友注册达3人可到指定区域兑换1只正宗阳澄湖大闸蟹; 邀请人数达6人可兑换2只, 以此类推.
  </text>
         </view>
       </view>
