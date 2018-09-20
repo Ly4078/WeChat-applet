@@ -84,19 +84,27 @@ Page({
       browSort:1,
       page:this.data.page,
       rows:10
+    };
+    if (this.data.page == 1) {
+      this.setData({
+        listData: []
+      })
     }
     Api.orderCoupon(_parms).then((res)=>{
       if(res.data.code == 0){
-        let _list = res.data.data.list;
-        for(let i=0;i<_list.length;i++){
-          let _arr = _list[i].goodsSkuName.split(" ");
-          _arr[0]+=" 礼品卡";
-          _list[i].p1 = _arr[0];
-          _list[i].p2 = _arr[1];
+        let _data = this.data.listData, _list = res.data.data.list;
+        if (_list && _list.length>0){
+          for (let i = 0; i < _list.length; i++) {
+            let _arr = _list[i].goodsSkuName.split(" ");
+            _arr[0] += " 礼品卡";
+            _list[i].p1 = _arr[0];
+            _list[i].p2 = _arr[1];
+            _data.push(_list[i]);
+          }
+          this.setData({
+            listData: _data
+          })
         }
-       this.setData({
-         listData: _list
-       })
       }
     })
   },

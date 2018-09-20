@@ -118,8 +118,6 @@ Page({
       listData: [],
       page: 1
     });
-
-
     this.commodityCrabList();
   },
   //监听分享
@@ -135,7 +133,7 @@ Page({
     };
     if (this.data.page == 1) {
       this.setData({
-        listData: [],
+        listData: []
       })
     }
     Api.crabList(_parms).then((res) => {

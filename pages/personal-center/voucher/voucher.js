@@ -90,21 +90,27 @@ Page({
       isUsed:'0',
       page:this.data.page,
       rows:10
+    };
+    if(this.data.page ==1){
+      this.setData({
+        listData:[]
+      })
     }
     Api.orderCoupon(_parms).then((res)=>{
       if(res.data.code == 0 ){
-        this.setData({
-          listData:res.data.data.list
-        })
+        let _data = this.data.listData, _list = res.data.data.list;
+        if (_list && _list.length>0){
+          for (let i = 0; i < _list.length; i++) {
+            _data.push(_list[i])
+          }
+          this.setData({
+            listData: _data
+          })
+        }
       }
     })
   },
 
-    //赠送好友
-  giveFriend: function (e) {
-    let id = e.currentTarget.id;
-    console.log('id:', id)
-  },
   //立即兑换
   redeemNow: function (e) {
     console.log('e:', e)
@@ -124,7 +130,6 @@ Page({
 
   //点击兑换记录
   handexchange: function () {
-    console.log('handexchange')
     wx.navigateTo({
       url: '../voucher/record/record',
     })

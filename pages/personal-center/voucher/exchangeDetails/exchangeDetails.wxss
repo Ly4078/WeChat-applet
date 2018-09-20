@@ -211,6 +211,7 @@ page{
   display: flex;
   justify-content: center;
   padding-top: 20rpx;
+  padding-bottom: 15rpx;
 }
 
 .endAmount:nth-child(4){

@@ -188,10 +188,13 @@ Page({
     Api.AddressList(_parms).then((res) => {
       wx.hideLoading();
       if (res.data.code == 0 && res.data.data.list) {
-        let _list = res.data.data.list,
+        let _list = res.data.data.list, _dictCounty="",
           actList = {};
         for (let i = 0; i < _list.length; i++) {
-          _list[i].address = _list[i].dictProvince + _list[i].dictCity + _list[i].dictCounty + _list[i].detailAddress;
+          if (_list[i].dictCounty == null || !_list[i].dictCounty){}else{
+            _dictCounty = _list[i].dictCounty
+          }
+          _list[i].address = _list[i].dictProvince + _list[i].dictCity + _dictCounty + _list[i].detailAddress;
         }
         this.setData({
           actaddress: _list[0]
@@ -292,7 +295,6 @@ Page({
   //点击提交订单
   submitSoid: function() {
     let that = this;
-
     if (this.data.errmsg){
       wx.showToast({
         title: this.data.errmsg,
@@ -420,7 +422,8 @@ Page({
       success: function(res) {
         if (that.data.current.spuId == 3) {
           wx.redirectTo({
-            url: '../../../../personal-center/voucher/exchangeDetails/exchangeDetails?id=' + that.data.orderId,
+            url: 
+            '../../../../personal-center/voucher/voucher'
           })
         } else {
           wx.redirectTo({

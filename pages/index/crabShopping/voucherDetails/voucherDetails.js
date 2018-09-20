@@ -17,7 +17,9 @@ Page({
     isconvert: true,
     vouId: '', //券ID
     vouSku: '',
+    kaishi:'',
     errmsg:'',
+    postage:0,
     remarks: '', //备注内容
     date: '', //默认日期
     threeLater: '', //三天后
@@ -29,10 +31,15 @@ Page({
    */
   onLoad: function(options) {
     console.log('options:', options)
+    let _arr = options.skuname.split(" ");
+    console.log('_arr:', _arr)
+    _arr[0] = "礼品券 | " + _arr[0];
     this.setData({
       vouId: options.id,
-      // vouSku: options.skuname
+      vouSku: options.skuname,
+      kaishi: _arr[0]
     })
+    
     this.getorderCoupon();
   },
   //查询券详情
@@ -250,7 +257,7 @@ Page({
             _obj.total = _obj.total * 1 + res.data.data;
             _obj.total = _obj.total.toFixed(2);
             this.setData({
-              postage: res.data.data
+              postage: res.data.data.toFixed(2)
             })
             this.setData({
               current: _obj
@@ -277,7 +284,7 @@ Page({
   },
   //点击立即兑换
   redeemNow: function() {
-    if (this.dat.errmsg){
+    if (this.data.errmsg){
       wx.showToast({
         title: this.data.errmsg,
         icon:'none'

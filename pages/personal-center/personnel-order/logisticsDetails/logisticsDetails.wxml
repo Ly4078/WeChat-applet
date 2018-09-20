@@ -78,7 +78,7 @@
     <view class='endAmount'>
       <view class='endAmountNei'>
         <text>运费</text>
-        <text>到付</text>
+        <text class='dolphinNei'>￥{{soDetail.sendAmount}}</text>
       </view>
     </view>
     

@@ -8,7 +8,7 @@
         <text>{{item.expressCode?'已发货':'待发货'}}</text>
       </view>
       <view class='irmoe'>{{item.p2}}</view>
-      <view class='irbut'>{{item.usedTime}}</view>
+      <view class='irbut'>{{item.createTime}}</view>
     </view>
   </view>
    <view wx:if="{{listData.length < 1}}" class='placeholder'>
