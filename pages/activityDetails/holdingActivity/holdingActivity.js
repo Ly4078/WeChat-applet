@@ -89,12 +89,10 @@ Page({
           issnap: true
         });
       } else {
-        console.log('82行');
         //回调
         this.inquireNum();
       }
     } else {
-      console.log('87行');
       this.findByCode();
     }
   },
@@ -107,7 +105,8 @@ Page({
       if (res.data.code == 0) {
         wx.showToast({
           title: '发起成功,点击邀请好友吧',
-          icon: 'none'
+          icon: 'none',
+          duration: 2500
         })
         this.setData({
           isInvite: true
@@ -175,7 +174,7 @@ Page({
       })
     } else {
       wx.showToast({
-        title: '您目前没有螃蟹可以兑换，邀请3位新用户即可获得一只螃蟹',
+        title: '您目前没有螃蟹可以兑换，每邀请3位新用户可兑换一只螃蟹',
         icon: 'none'
       })
     }
@@ -353,7 +352,6 @@ Page({
               name: postList[i].name,
               address: postList[i].name + postList[i].place,
               success: function(res) {
-                console.log('打开地图成功')
               }
             })
           }

@@ -102,6 +102,7 @@ page{
   background:rgba(243,243,243,1);
   border-radius:16rpx;
   text-align: center;
+  line-height: 68rpx;
 }
 
 .marketTop text{
