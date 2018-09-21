@@ -128,6 +128,11 @@ page{
   /* border-bottom-left-radius: 16rpx; */
 }
 
+.single.active {
+  background:#ff6c24;
+  opacity:1;
+}
+
 .illegality{
   width:136rpx;
   height:138rpx;
