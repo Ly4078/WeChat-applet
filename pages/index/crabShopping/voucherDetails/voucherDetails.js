@@ -24,7 +24,29 @@ Page({
     remarks: '', //备注内容
     date: '', //默认日期
     threeLater: '', //三天后
-    tenLater: '' //十天后
+    tenLater: '', //十天后
+    shareimgs:[
+      {
+        name:"人气款",
+        imgUrl:"https://xqmp4-1256079679.file.myqcloud.com/test12312a_3.0.png"
+      },
+      {
+        name: "经典款",
+        imgUrl: "https://xqmp4-1256079679.file.myqcloud.com/test12312a_3.5.png"
+      }, 
+      {
+        name: "典藏款",
+        imgUrl: "https://xqmp4-1256079679.file.myqcloud.com/test12312a_4.0.png"
+      },
+      {
+        name: "尊享款",
+        imgUrl: "https://xqmp4-1256079679.file.myqcloud.com/test12312a_4.5.png"
+      },
+      {
+        name: "巨蟹款",
+        imgUrl: "https://xqmp4-1256079679.file.myqcloud.com/test12312a_5.0.png"
+      }
+    ]
   },
 
   /**
@@ -68,7 +90,7 @@ Page({
               _crabImgUrl = _crabImgUrl.slice(2);
             }
 
-            _data.sku = "公" + _data.maleWeight + " 母" + _data.femaleWeight + " 4对 " + _data.styleName + " | " + _data.otherMarkerPrice + "型";
+            _data.sku = "公" + _data.maleWeight + " 母" + _data.femaleWeight + " 4对 " + _data.styleName + " | " + _data.goodsSku.otherMarkerPrice + "型";
             that.setData({
               current: _data,
               crabImgUrl: _crabImgUrl,
@@ -94,10 +116,18 @@ Page({
    */
   onShareAppMessage: function() {
     let id = this.data.vouId,
-      _skuName = this.data.current.goodsSkuName;
-    console.log('id:', id, '_skuName:', _skuName)
+      _skuName = this.data.current.styleName,
+      _goodsSkuName = this.data.current.goodsSkuName,
+      _mgsUrl="",
+      _shareimgs = this.data.shareimgs;
+    for (let i = 0; i < _shareimgs.length;i++){
+      if (_skuName == _shareimgs[i].name){
+        _mgsUrl = _shareimgs[i].imgUrl;
+      }
+    }
     return {
-      title: _skuName,
+      title: _goodsSkuName,
+      imageUrl: _mgsUrl,
       path: '/pages/index/crabShopping/voucherDetails/voucherDetails?id=' + id,
       success: function(res) {}
     }
@@ -107,7 +137,6 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
-    console.log('onShow')
     let _day = 60 * 60 * 24 * 1000,
       _today = '',
       hours = '',
@@ -134,7 +163,6 @@ Page({
       date: _threeday
     })
 
-    console.log('express:', app.globalData.Express)
     if (app.globalData.Express.id) {
       this.setData({
         actaddress: app.globalData.Express
@@ -352,7 +380,6 @@ Page({
     });
     Api.useCoupon(_parms).then((res) => {
       if (res.data.code == 0) {
-        console.log('res:', res)
         wx.showToast({
           title: '兑换成功',
           icon: 'none'
@@ -408,8 +435,6 @@ Page({
   },
   //调起微信支付
   wxpayment: function() {
-    console.log("current:", this.data.current.id);
-    console.log("actaddress:", this.data.actaddress.id)
     let _parms = {
         orderCouponId: this.data.current.id,
         orderAddressId: this.data.actaddress.id,
@@ -419,7 +444,6 @@ Page({
         openId: app.globalData.userInfo.openId
       },
       that = this;
-    console.log('_parms:', _parms)
     Api.orderCouponForSendAmount(_parms).then((res) => {
       if (res.data.code == 0) {
         that.setData({

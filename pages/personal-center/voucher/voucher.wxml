@@ -7,7 +7,7 @@
 </view>
 <!-- quanbj.png -->
 <view class='placeholder' wx:if="{{listData.length<1}}">
-  <text class='buyvoucher' bindtap='buyVoucher'>购买礼品券</text>
+  <text class='buyvoucher' bindtap='buyVoucher'>购买提蟹券</text>
 </view>
 
 
