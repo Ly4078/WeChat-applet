@@ -296,6 +296,9 @@ page{
   right:42rpx;
   top:-13rpx;
 }
+.send{
+   color:rgba(252,94,45,1);
+}
 .copybutq{
   right:-3rpx;
 }

@@ -244,7 +244,7 @@ Page({
           _obj.total = _obj.total.toFixed(2);
           this.setData({
             errmsg:'',
-            postage: res.data.data
+            postage: res.data.data.toFixed(2)
           })
           this.setData({
             current: _obj

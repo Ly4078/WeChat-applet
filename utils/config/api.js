@@ -592,6 +592,10 @@ const ALL_API = {
     method:'GET',
     url:'deliveryCost/findByGoodsSkuId'
   },
+  CostforCoupon:{//查询提蟹券邮费
+    method:'POST',
+    url:'deliveryCost/calculateCostForCoupon'
+  },
   useCoupon:{//礼品券兑换
     method:'POST',
     url:'orderCoupon/useCoupon'

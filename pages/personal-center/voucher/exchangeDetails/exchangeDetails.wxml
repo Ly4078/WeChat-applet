@@ -76,9 +76,14 @@
       <button class='copybut copybutq' id="2" bindtap='copyCode'>复制</button>
     </view>
 
-    <view class='inconformity' wx:if="{{current.goodsSku.updateTime}}">
+    <view class='inconformity' wx:if="{{current.sendAmount}}">
+      <text>商品运费</text>
+      <text class='send'>￥{{current.sendAmount}}</text>
+    </view>
+
+    <view class='inconformity' wx:if="{{current.usedTime}}">
       <text>兑换时间</text>
-      <text>{{current.goodsSku.updateTime}}</text>
+      <text>{{current.usedTime}}</text>
     </view>
 
   </view>

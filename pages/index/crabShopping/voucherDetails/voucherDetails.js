@@ -170,14 +170,13 @@ Page({
       this.getcalculateCost();
     } else {
       if (app.globalData.userInfo.userId) {
-        if (app.globalData.userInfo.mobile) { //是新用户，去注册页面
+        if (app.globalData.userInfo.mobile) {
           this.getAddressList();
-        } else {
+        } else { //是新用户，去注册页面
           wx.navigateTo({
             url: '/pages/personal-center/securities-sdb/securities-sdb?back=1'
           })
         }
-
       } else {
         this.findByCode();
       }
@@ -286,7 +285,7 @@ Page({
       url: '/pages/index/index'
     })
   },
-  //查询最费
+  //查询提蟹券邮费
   getcalculateCost: function() {
     if (!this.data.current) {
       this.getDetailBySkuId('val');
@@ -304,7 +303,7 @@ Page({
       weight: _weight,
       tempateId: this.data.current.goodsSku.deliveryTemplateId
     }
-    Api.calculateCost(_parms).then((res) => {
+    Api.CostforCoupon(_parms).then((res) => {
       if (res.data.code == 0) {
         _obj = this.data.current;
         if (res.data.data) {
@@ -320,10 +319,10 @@ Page({
           this.setData({
             errmsg: res.data.message
           })
-          wx.showToast({
-            title: res.data.message,
-            icon: 'none'
-          })
+          // wx.showToast({
+          //   title: res.data.message,
+          //   icon: 'none'
+          // })
         }
       }
     })

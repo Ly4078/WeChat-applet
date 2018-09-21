@@ -65,7 +65,7 @@
           </view>
         </picker>
       </view>
-      <view class='equally' bindtap='handbzf'>
+      <view class='equally' bindtap='handbzf' wx:if="{{current.bzf}}">
         <text>包装费<text class='suoming'>（冰袋、保温内胆、加厚泡沫箱）？</text></text>
         <text class='delicatese'>￥{{current.bzf}}</text>
       </view>
