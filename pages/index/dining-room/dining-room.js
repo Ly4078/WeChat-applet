@@ -350,7 +350,19 @@ Page({
     }
     this.closemodel()
     this.getData()
+  },
+  //图片加载出错，替换为默认图片
+  imageError: function (e) {
+    let id = e.target.id;
+    let posts_key = this.data.posts_key;
+    for (let i = 0; i < posts_key.length; i++) {
+      if (posts_key[i].id == id) {
+        posts_key[i].logoUrl = "/images/icon/morentu.png";
+      }
+    }
+    this.setData({
+      posts_key: posts_key
+    });
   }
-
   //模态框 end
 })
