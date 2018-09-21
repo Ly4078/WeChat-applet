@@ -9,8 +9,8 @@
 
 <view class='holdingWrap'>
   <image class="indexIcon" src="/images/icon/indexIcon.png" bindtap='toIndex'></image>
-  <image class='holdingImg' src='https://xqmp4-1256079679.file.myqcloud.com/Colin_fweafjkwe.png'></image>
-  <image class='holdingStep' src='https://xqmp4-1256079679.file.myqcloud.com/Colin_twrqrwreqe.png'></image>
+  <image class='holdingImg' src='https://xqmp4-1256079679.file.myqcloud.com/Colin_feoajfiej.jpg'></image>
+  <image class='holdingStep' src='https://xqmp4-1256079679.file.myqcloud.com/Colin_pqeirjqiewjfw.png'></image>
   <view class='holFlow'>
     <view class='holFlowCtn'>
       <view class='holFlowTop'>
@@ -72,37 +72,30 @@
       </view>
       <view class='parcel'>
         <view>
-          <text>1.</text>
+          <text>1. </text>
+        </view>
+        <view class='parcel_top'>
+          <view class='parcelText'>
+          <text>活动时间及门店:</text>
         </view>
         <view class='parcelText'>
-          <text>邀请好友注册达3人可到指定区域兑换1只正宗阳澄湖大闸蟹; 邀请人数达6人可兑换2只, 以此类推.
- </text>
-        </view>
-      </view>
-      <view class='parcel'>
-        <view>
-          <text>2.</text>
+          <text>9月23号-10月30日 中商平价（徐东店）</text>
         </view>
         <view class='parcelText'>
-          <text>兑换地址:中商优品汇超市（中南店）、中商优品汇超市（珞珈山店）、中商平价（徐东店）、中商平价（光谷店）、中商平价（和平大道店）均可到指定区域兑换.</text>
+          <text>10月1日-10月30日中商优品汇超市（中南店）、中商优品汇超市（珞珈山店）、中商平价（徐东店）、中商平价(光谷店)、中商平价（和平大道店）均可到指定区域兑换</text>
+        </view>
         </view>
       </view>
-      <view class='parcel'>
-        <view>
-          <text>3.</text>
+      <block wx:for="{{specification}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
+        <view class='parcel'>
+          <view>
+            <text>{{item.numerical}}.</text>
+          </view>
+            <view class='parcelText'>
+              <text>{{item.detailses}}</text>
+            </view>
         </view>
-        <view class='parcelText'>
-          <text>现场兑换人员进行兑换，自己兑换无效.</text>
-        </view>
-      </view>
-      <view class='parcel'>
-        <view>
-          <text>4.</text>
-        </view>
-        <view class='parcelText'>
-          <text>活动时间：2018年9月23日——10月30日</text>
-        </view>
-      </view>
+      </block>
     </view>
   </view>
 </view>

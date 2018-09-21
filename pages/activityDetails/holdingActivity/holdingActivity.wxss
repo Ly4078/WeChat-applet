@@ -1,5 +1,5 @@
 page{
-  background:rgba(96,91,199,1);
+  background-color: #f8803e;
 }
 
 .holdingImg{
@@ -92,7 +92,7 @@ page{
   height:206rpx;
   background:rgba(255,255,255,1);
   border-radius:16rpx;
-  box-shadow:0rpx 10rpx 16rpx 0rpx rgba(63,59,149,0.6);
+  box-shadow:0rpx 10rpx 16rpx 0rpx rgba(213,96,32,0.6);
   margin-top: 30rpx;
 }
 
@@ -122,7 +122,7 @@ page{
   width:136rpx;
   height:138rpx;
   background:rgba(25,25,25,1);
-  opacity:0.8;
+  opacity:0.9;
   position: relative;
   z-index: 9999;
   /* border-bottom-left-radius: 16rpx; */
@@ -204,6 +204,15 @@ page{
 }
 
 .parcelText{
+  width: 95%;
+  letter-spacing: 2rpx;
+}
+
+.parcelText{
+  text-align: left;
+}
+
+.parcel_top{
   width: 95%;
   letter-spacing: 2rpx;
 }
