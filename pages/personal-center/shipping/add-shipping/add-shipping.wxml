@@ -5,7 +5,7 @@
   </view>
   <view class='ship_name'>
     <text>手机号:</text>
-    <input class='ship_focus' type='number' maxlength="11" value='{{mobileValue}}' placeholder="11位手机号"  bindblur="bindblurIpone"/>
+    <input class='ship_focus' type='number' maxlength="11" value='{{mobileValue}}' placeholder="11位手机号"  bindinput="bindblurIpone"/>
   </view>
 
   <!-- <view class='ship_name'>

@@ -219,27 +219,11 @@ Page({
     })
   },
   //手机号失焦
-  bindblurIpone: function(e) {
-    let RegExp = /^[1][3456789][0-9]{9}$/, _value = e.detail.value;
+  bindblurIpone: function (e) {
     this.setData({
-      mobileValue: _value
-    });
-    if (RegExp.test(_value)) { //校验手机号码 
-      this.setData({
-        mobile: _value
-      });
-      
-    }else{
-      this.setData({
-        mobileValue:'',
-        mobile: ''
-      })
-      wx.showToast({
-        title: '手机号输入错误',
-        icon: 'none'
-      })
-    }
-
+      mobileValue: e.detail.value,
+      mobile: e.detail.value
+    })
   },
   //邮政编码失焦
   bindblurPostal:function(e){
@@ -269,7 +253,7 @@ Page({
 
   //点击确定保存按钮
   handAdd:function(){
-    let that = this;
+    let that = this, RegExp = /^[1][3456789][0-9]{9}$/;
     if (!this.data.chatName){
       wx.showToast({
         title: '请输入联系人姓名',
@@ -283,6 +267,17 @@ Page({
         icon: 'none'
       })
       return;
+    }
+    if (!RegExp.test(this.data.mobile)) { //校验手机号码 
+      wx.showToast({
+        title: '手机号输入错误',
+        icon: 'none'
+      })
+      this.setData({
+        mobileValue:'',
+        mobile: ''
+      })
+      return false;
     }
     // if (!this.data.postal) {
     //   wx.showToast({
