@@ -14,11 +14,13 @@ Page({
     actaddress: {}, //当前选中收货地址信息
     current: {}, //券详情
     payObj: {},
+    crabImgUrl: [], // 详情图列表
     isconvert: true,
     vouId: '', //券ID
-    kaishi:'',
-    errmsg:'',
-    postage:0,
+    kaishi: '',
+    isfrst: false,
+    errmsg: '',
+    postage: 0,
     remarks: '', //备注内容
     date: '', //默认日期
     threeLater: '', //三天后
@@ -29,10 +31,21 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
+    let _crabImgUrl = [],
+      that = this;
     this.setData({
       vouId: options.id
     })
     this.getorderCoupon();
+    wx.request({
+      url: this.data._build_url + 'version.txt',
+      success: function(res) {
+        _crabImgUrl = res.data;
+        that.setData({
+          crabImgUrl: _crabImgUrl.crabImgUrl
+        })
+      }
+    })
   },
 
   //查询券详情
@@ -40,25 +53,33 @@ Page({
     wx.showLoading({
       title: '数据加载中。。。',
     })
-    let that = this;
+    let that = this, _crabImgUrl=[];
     wx.request({
       url: this.data._build_url + 'orderCoupon/get/' + this.data.vouId,
       header: {
         'content-type': 'application/json' // 默认值
       },
       success: function(res) {
-        console.log('res:', res)
-        let _data = res.data.data;
-        let _arr = _data.goodsSkuName.split(" ");
-        console.log('_arr:', _arr)
-        _arr[0] = "礼品券 | " + _arr[0];
         if (res.data.code == 0) {
-          that.setData({
-            current: _data,
-            kaishi: _arr[0]
-          })
-          that.getcalculateCost();
+          let _data = res.data.data;
+          if (_data) {
+            _crabImgUrl = that.data.crabImgUrl;
+            if (_data.goodsSku.realWeight != 0) {
+              _crabImgUrl = _crabImgUrl.slice(2);
+            }
+
+            _data.sku = "公" + _data.maleWeight + " 母" + _data.femaleWeight + " 4对 " + _data.styleName + " | " + _data.otherMarkerPrice + "型";
+            that.setData({
+              current: _data,
+              crabImgUrl: _crabImgUrl,
+            })
+            that.getcalculateCost();
+          }
+
         }
+      },
+      complete: function() {
+        wx.hideLoading();
       }
     })
   },
@@ -86,6 +107,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
+    console.log('onShow')
     let _day = 60 * 60 * 24 * 1000,
       _today = '',
       hours = '',
@@ -112,25 +134,26 @@ Page({
       date: _threeday
     })
 
+    console.log('express:', app.globalData.Express)
     if (app.globalData.Express.id) {
       this.setData({
         actaddress: app.globalData.Express
       });
       this.getcalculateCost();
     } else {
-      if (app.globalData.userInfo.userId){
+      if (app.globalData.userInfo.userId) {
         if (app.globalData.userInfo.mobile) { //是新用户，去注册页面
           this.getAddressList();
-        }else{
+        } else {
           wx.navigateTo({
             url: '/pages/personal-center/securities-sdb/securities-sdb?back=1'
           })
         }
-        
+
       } else {
-        this.findByCode(); 
+        this.findByCode();
       }
-      
+
     }
   },
 
@@ -161,7 +184,7 @@ Page({
   onReachBottom: function() {
 
   },
-  findByCode: function () { //通过code查询进入的用户信息，判断是否是新用户
+  findByCode: function() { //通过code查询进入的用户信息，判断是否是新用户
     let that = this;
     wx.login({
       success: res => {
@@ -230,7 +253,7 @@ Page({
       date: e.detail.value
     })
   },
-  toIndex() {   //跳转至首页
+  toIndex() { //跳转至首页
     wx.switchTab({
       url: '/pages/index/index'
     })
@@ -254,75 +277,73 @@ Page({
       tempateId: this.data.current.goodsSku.deliveryTemplateId
     }
     Api.calculateCost(_parms).then((res) => {
-      wx.hideLoading();
       if (res.data.code == 0) {
         _obj = this.data.current;
-        if (_obj.goodsSku.realWeight== 0){
-
-        }else {
-          if(res.data.data){
-            _obj.total = _obj.total * 1 + res.data.data;
-            _obj.total = _obj.total.toFixed(2);
-            this.setData({
-              postage: res.data.data.toFixed(2)
-            })
-            this.setData({
-              current: _obj
-            })
-            console.log('current11:', this.data.current)
-          }else{
-            this.setData({
-              errmsg:res.data.message
-            })
-            wx.showToast({
-              title: res.data.message,
-              icon:'none'
-            })
-          }
+        if (res.data.data) {
+          _obj.total = _obj.total * 1 + res.data.data;
+          _obj.total = _obj.total.toFixed(2);
+          this.setData({
+            postage: res.data.data.toFixed(2)
+          })
+          this.setData({
+            current: _obj
+          })
+        } else {
+          this.setData({
+            errmsg: res.data.message
+          })
+          wx.showToast({
+            title: res.data.message,
+            icon: 'none'
+          })
         }
-        
-        
       }
     })
   },
 
   //点击立即兑换
   redeemNow: function() {
-    if (this.data.errmsg){
-      wx.showToast({
-        title: this.data.errmsg,
-        icon:'none'
+    if (!this.data.isfrst) {
+      this.setData({
+        isfrst: true
       })
-    }else{
-      if (this.data.isconvert) {
-        if (this.data.postage) {
-          this.updataUser();
-        } else {
-          this.seduseCoupon();
+    } else {
+      if (this.data.errmsg) {
+        wx.showToast({
+          title: this.data.errmsg,
+          icon: 'none'
+        })
+      } else {
+        if (this.data.isconvert) {
+          if (this.data.postage) {
+            this.updataUser();
+          } else {
+            this.seduseCoupon();
+          }
         }
       }
     }
-    
   },
 
   //执行立即兑换
   seduseCoupon: function() {
     let _parms = {
-      shopId: 0,
-      shopName: '享7自营',
-      sendTime: this.data.date,
-      remark: this.data.remarks,
-      id: this.data.current.id,
-      changerId: app.globalData.userInfo.userId,
-      changerName: app.globalData.userInfo.userName,
-      sendAmount: this.data.postage
-    },that = this;
-    if (this.data.actaddress.id){
+        shopId: 0,
+        shopName: '享7自营',
+        sendTime: this.data.date,
+        remark: this.data.remarks,
+        id: this.data.current.id,
+        changerId: app.globalData.userInfo.userId,
+        changerName: app.globalData.userInfo.userName,
+        sendAmount: this.data.postage
+      },
+      that = this;
+    if (this.data.actaddress.id) {
       _parms.couponAddressId = this.data.actaddress.id
-    }else{
+    } else {
       wx.showToast({
         title: '请选择或添加一个收货地址',
-        icon:'none'
+        icon: 'none'
       });
       return;
     }
@@ -341,16 +362,18 @@ Page({
             url: '../../../../pages/personal-center/voucher/exchangeDetails/exchangeDetails?id=' + that.data.current.id,
           })
           this.setData({
-            isconvert: true
+            isconvert: true,
+            isfrst: false
           })
         }, 1500)
-      }else{
+      } else {
         this.setData({
-          isconvert: true
+          isconvert: true,
+          isfrst: false
         })
         wx.showToast({
           title: res.data.message,
-          icon:'none'
+          icon: 'none'
         })
       }
     })
@@ -388,13 +411,14 @@ Page({
     console.log("current:", this.data.current.id);
     console.log("actaddress:", this.data.actaddress.id)
     let _parms = {
-      orderCouponId: this.data.current.id,
-      orderAddressId: this.data.actaddress.id,
-      realWeight: this.data.current.goodsSku.realWeight,
-      templateId: this.data.current.goodsSku.deliveryTemplateId,
-      userId: app.globalData.userInfo.userId,
-      openId: app.globalData.userInfo.openId
-    },that = this;
+        orderCouponId: this.data.current.id,
+        orderAddressId: this.data.actaddress.id,
+        realWeight: this.data.current.goodsSku.realWeight,
+        templateId: this.data.current.goodsSku.deliveryTemplateId,
+        userId: app.globalData.userInfo.userId,
+        openId: app.globalData.userInfo.openId
+      },
+      that = this;
     console.log('_parms:', _parms)
     Api.orderCouponForSendAmount(_parms).then((res) => {
       if (res.data.code == 0) {

@@ -1,9 +1,16 @@
-<view class='vouchertop'>
-  <view class='vouchername'>{{kaishi}}</view>
-</view>
+
+<!-- 回到时首页 -->
 <image class="indexIcon" src="/images/icon/indexIcon.png" bindtap='toIndex'></image>
+
+<!-- 头部图片 -->
+<view class='vouchertop'>
+  <view class='topview'>
+    <view class='vouchername'>{{current.sku}}</view>
+  </view>
+</view>
+
 <!-- 收货地址 -->
-<view class='submitTop' catchtap='additionSite'>
+<view class='submitTop' catchtap='additionSite' wx:if="{{isfrst}}">
   <view class='submitCenter'>
     <!-- <image class='submitImg' src='/images/icon/location.png'></image> -->
     <image class='AddTheAddress' src='/images/icon/AddTheAddresss.png' wx:if="{{!actaddress.chatName}}"></image>
@@ -18,7 +25,7 @@
     <view class='submitLeft' wx:if="{{!actaddress.chatName}}">
       <text>添加地址</text>
     </view>
-    <view>
+    <view class='rightbuticon'>
       <image class='submitRight' src='/images/icon/xialatupian.png'></image>
     </view>
   </view>
@@ -27,7 +34,8 @@
 <!-- 订单详情 -->
 <view class='indentDetails'>
   <view class='indentDetailsCtn'>
-    <view class='equally' bindtap='deliveryTime'>
+<!-- 送达时间 -->
+    <view class='equally' bindtap='deliveryTime'  wx:if="{{isfrst}}">
       <picker mode="date" class='eqpicker' value="{{threeLater}}" start="{{threeLater}}" end="{{tenLater}}" bindchange="bindDateChange">
         <view class="picker">
           <view>
@@ -39,24 +47,52 @@
         </view>
       </picker>
     </view>
-    <view class='equally' wx:if="{{postage}}">
-        <text>配送费</text>
-        <text class='delicatese'>￥{{postage}}</text>
-      </view>
-    <view class='equally'>
+    <!-- 运费 -->
+    <view class='equally' wx:if="{{postage && isfrst}}">
+      <text>配送费</text>
+      <text class='delicatese'>￥{{postage}}</text>
+    </view>
+    <!-- 备注 -->
+    <view class='equally'  wx:if="{{isfrst}}">
       <text>商品备注:</text>
       <input name="input" bindinput="bindremarks" value='{{remarks}}' placeholder='选填内容'></input>
     </view>
+    
+
+    <!-- 按钮 -->
+  <view class='towanniu'>
+    <view class='anright'  bindtap='redeemNow'> 提货</view>
+    <view class='anleft' >
+      <button bindtap='share' plain="true" data-name="shareBtn" open-type="share">
+        <text>赠送好友</text>
+      </button>
+    </view>
+  </view>
+
+
+ <!-- 说明图片 -->
+    <view class='imgobjs'>
+      <text>————</text>
+      <text class='yudetail'>详情</text>
+      <text>————</text>
+    </view>
+    <image class='vouimgUlrs' wx:for="{{crabImgUrl}}" wx:key="{{index}}" mode="widthFix" src='{{item}}'></image>
+
   </view>
 </view>
 
+
+
+<!-- <view class='tihuo' bindtap='redeemNow'>提货</view> -->
+
+
 <!-- 底部按钮 -->
-<view class='voubut'>
-  <view class='leftbut' >
+
+<!-- <view class='voubut'>
+  <view class='leftbut'>
     <button bindtap='share' plain="true" data-name="shareBtn" open-type="share">
       <text>赠送好友</text>
     </button>
   </view>
-  <view class='rightbut' bindtap='redeemNow'>立即兑换</view>
-</view>
-
+  <view class='rightbut' bindtap='redeemNow'>提货</view>
+</view> -->

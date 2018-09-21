@@ -587,7 +587,6 @@ Page({
     }
   },
   // 初始化end
-
   activityBanner: function () { //获取活动banner图
     let that = this;
     Api.activityImg().then((res) => {
@@ -697,7 +696,6 @@ Page({
     };
     Api.secKillList(_parms).then((res) => {
       let data = res.data;
-      console.log('secKillList:',data)
       if (data.code == 0 && data.data.list) {
         this.setData({
           secKillList: data.data.list.slice(0, 3)
@@ -1413,9 +1411,12 @@ Page({
       wx.navigateTo({
         url: '../activityDetails/onehundred-dish/onehundred-dish?actid=' + _obj.actId,
       })
-    } else if (_obj.type == 2) { //视频活动
-      wx.navigateTo({
-        url: '../activityDetails/video-list/video-list?id=' + _obj.actId,
+    } else if (_obj.type == 2) { //换螃蟹活动
+      // wx.navigateTo({//十堰视频活动
+      //   url: '../activityDetails/video-list/video-list?id=' + _obj.actId,
+      // })
+      wx.navigateTo({//换螃蟹活动
+        url: '../activityDetails/holdingActivity/holdingActivity'
       })
     } else if (_obj.type == 3) { //店铺主页
       wx.navigateTo({
@@ -1786,7 +1787,6 @@ Page({
     console.log("e:",e)
     let id = e.currentTarget.id, spuId = e.target.dataset.spuid;
     console.log('id:', id, 'spuId:',spuId)
-    // return
     wx.navigateTo({
       url: 'crabShopping/crabDetails/crabDetails?id=' + id + '&spuId=' + spuId,
     })

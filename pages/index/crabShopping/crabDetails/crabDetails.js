@@ -132,7 +132,6 @@ Page({
       })
       that.crabInit();
     }
-
   },
 
   onShow: function() {
@@ -140,9 +139,6 @@ Page({
       _ruleImg = '',
       that = this;
     app.globalData.Express = {};
-
-
-
   },
   //初始化
   crabInit: function() {
@@ -156,10 +152,7 @@ Page({
       this.setData({
         crabImgUrl: _crabImgUrl
       })
-
       this.bargainDetails();
-
-
     } else {
       this.getDetailBySkuId();
     }

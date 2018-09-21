@@ -120,6 +120,7 @@
   </view>
 
   <image class='imgUlrs' wx:for="{{crabImgUrl}}" wx:for-item="item" wx:for-index="index" wx:key="{{index}}" mode="widthFix" src='{{item}}'></image>
+
   <view class='bjjges'></view>
   <!-- 底部固定立即购买 -->
   <view class='pagebuttom' wx:if="{{!isbut}}">

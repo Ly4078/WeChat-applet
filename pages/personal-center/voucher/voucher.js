@@ -81,6 +81,7 @@ Page({
     console.log('id:', id, '_skuName:', _skuName)
     return {
       title: _skuName,
+      imageUrl: 'https://xqmp4-1256079679.file.myqcloud.com/Colin_ajdlfadjfal.png',
       path: '/pages/index/crabShopping/voucherDetails/voucherDetails?id=' + id,
       success: function (res) { }
     }
@@ -89,7 +90,6 @@ Page({
   getorderCoupon:function(){
     let _parms = {
       userId: app.globalData.userInfo.userId,
-      isUsed:'0',
       page:this.data.page,
       rows:10
     };
@@ -105,7 +105,8 @@ Page({
         let _data = this.data.listData, _list = res.data.data.list;
         if (_list && _list.length>0){
           for (let i = 0; i < _list.length; i++) {
-            _data.push(_list[i])
+            _list[i].sku = "公" + _list[i].maleWeight + " 母" + _list[i].femaleWeight + " 4对 " + _list[i].styleName + " | " + _list[i].otherMarkerPrice+"型";
+            _data.push(_list[i]);
           }
           this.setData({
             listData: _data
@@ -118,12 +119,15 @@ Page({
   //立即兑换
   redeemNow: function (e) {
     console.log('e:', e)
-    let id = e.currentTarget.id, _skuName = e.currentTarget.dataset.index;
+    let id = e.currentTarget.id, _skuName = e.currentTarget.dataset.index, _isUsed = e.currentTarget.dataset.used;
     console.log('id:', id);
     console.log('_skuName:', _skuName);
-    wx.navigateTo({
-      url: '../../index/crabShopping/voucherDetails/voucherDetails?id=' + id + '&skuname=' + _skuName
-    })
+    console.log('_isUsed:', _isUsed);
+    if (_isUsed == 0){
+      wx.navigateTo({
+        url: '../../index/crabShopping/voucherDetails/voucherDetails?id=' + id + '&skuname=' + _skuName
+      })
+    }
   },
   //点击购买券
   buyVoucher: function () {
@@ -131,7 +135,6 @@ Page({
       url: '../../index/crabShopping/crabShopping?currentTab=0&spuval=3',
     })
   },
-
   //点击兑换记录
   handexchange: function () {
     wx.navigateTo({

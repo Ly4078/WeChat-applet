@@ -1,15 +1,7 @@
 <!-- 礼品券 -->
 <view class='voucher' wx:if="{{listData.length>0}}">
-  <view class='voucherItem' wx:for="{{listData}}" wx:key="item.id">
-    <view class='itemName'>{{item.goodsSkuName}}</view>
-    <view class='itembut'>
-      <view class='butright'>
-        <button bindtap='share' plain="true" data-name="shareBtn" open-type="share" id="{{item.id}}" data-sku="{{item.goodsSkuName}}">
-          <text>赠送好友</text>
-        </button>
-      </view>
-      <view class='butleft' id="{{item.id}}" data-index="{{item.goodsSkuName}}" bindtap='redeemNow'>立即兑换</view>
-    </view>
+  <view  wx:for="{{listData}}" wx:key="item.id" id="{{item.id}}" data-index="{{item.goodsSkuName}}" class="voucherItem {{item.isUsed == 0 ? 'ysyitem' : 'wsyitem'}}" data-used="{{item.isUsed}}" bindtap='redeemNow'>
+    <view class="itemName {{item.isUsed == 0 ? 'itemNamea' : 'itemNameb'}}">{{item.sku}}</view>
   </view>
   <view class='exbut'></view>
 </view>
@@ -20,3 +12,6 @@
 
 
 <view class='exchange' bindtap='handexchange'>兑换记录</view>
+
+
+
