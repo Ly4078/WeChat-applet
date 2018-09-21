@@ -24,7 +24,7 @@ Page({
     storeData: [], //品质好店
     storeFlag: true, //品质好店节流阀
     navbar: ['平台邮购', '到店消费'],
-    oneTab: ["礼盒装", "散装", "礼品券"],
+    oneTab: ["散装", "礼品券"],
     currentTab: 0,
     tabId: 0,
     spuval: 2,
