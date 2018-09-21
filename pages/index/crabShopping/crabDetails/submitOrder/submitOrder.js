@@ -91,6 +91,9 @@ Page({
       });
     } else {
       this.getAddressList();
+      this.setData({
+        actaddress: ''
+      });
     }
     this.getDetailBySkuId();
   },
@@ -204,6 +207,7 @@ Page({
         }
       } else {
         app.globalData.Express = {};
+        console.log('==============================无地址');
       }
     })
   },

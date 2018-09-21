@@ -20,6 +20,9 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    wx.showLoading({
+      title: '加载中...'
+    })
     this.setData({
       id:options.id
     })
@@ -43,14 +46,14 @@ Page({
    * 生命周期函数--监听页面隐藏
    */
   onHide: function () {
-    
+    wx.hideLoading();
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-    
+    wx.hideLoading();
   },
 
   /**
@@ -83,6 +86,7 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success: function (res) {
+        wx.hideLoading();
         if (res.data.code == 0) {
           let _data = res.data.data;
           _data.goodsSku.sellPrice = _data.goodsSku.sellPrice.toFixed(2);

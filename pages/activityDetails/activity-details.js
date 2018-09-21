@@ -15,6 +15,9 @@ Page({
     
   },
   onLoad: function () {
+    wx.showLoading({
+      title: '加载中...'
+    })
     let that = this;
     this.setData({
       actdata: [],
@@ -52,6 +55,12 @@ Page({
       })
     }
   },
+  onHide() {
+    wx.hideLoading();
+  },
+  onUnload() {
+    wx.hideLoading();
+  },
   againgetinfo: function () {
     let that = this;
     wx.getUserInfo({
@@ -81,12 +90,12 @@ Page({
       row: 8
     }
     wx.showLoading({
-      title: '更多数据加载中。。。',
+      title: '加载中...',
       mask: true
     })
     Api.actlist(_parms).then((res) => {
       let data = res.data;
-      wx.hideLoading()
+      wx.hideLoading();
       if (data.code == 0 && data.data.list != null && data.data.list != "" && data.data.list != []) {
         let actList = [];
         actList = that.data.actdata;

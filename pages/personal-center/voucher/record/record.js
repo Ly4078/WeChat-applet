@@ -20,7 +20,9 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    
+    wx.showLoading({
+      title: '加载中...'
+    })
   },
 
   /**
@@ -41,14 +43,14 @@ Page({
    * 生命周期函数--监听页面隐藏
    */
   onHide: function () {
-    
+    wx.hideLoading();
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-    
+    wx.hideLoading();
   },
 
   /**
@@ -92,6 +94,7 @@ Page({
     }
     Api.orderCoupon(_parms).then((res)=>{
       wx.stopPullDownRefresh();
+      wx.hideLoading();
       if(res.data.code == 0){
         let _data = this.data.listData, _list = res.data.data.list;
         if (_list && _list.length>0){

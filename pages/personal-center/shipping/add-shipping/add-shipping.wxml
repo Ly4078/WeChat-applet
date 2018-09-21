@@ -1,7 +1,7 @@
 <view class="ship_list">
   <view class='ship_name'>
     <text>联系人:</text>
-    <input class='ship_focus' type='text' value='{{chatName}}' placeholder="姓名" bindblur="bindblurName"/>
+    <input class='ship_focus' type='text' value='{{chatName}}' placeholder="姓名" bindinput="bindblurName"/>
   </view>
   <view class='ship_name'>
     <text>手机号:</text>
@@ -21,7 +21,7 @@
   </view>
   <view class='ship_name'>
     <text>详细地址:</text>
-    <input class='ship_focus' type='text' value='{{detailAddress}}' placeholder='需要填写街道楼栋楼层或门牌号信息' bindblur="bindblurAddress"></input>
+    <input class='ship_focus' type='text' value='{{detailAddress}}' placeholder='需要填写街道楼栋楼层或门牌号信息' bindinput="bindblurAddress"></input>
   </view>
   <view class='ship_name'>
     <view class='groups'>

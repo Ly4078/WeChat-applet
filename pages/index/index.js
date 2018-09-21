@@ -1797,6 +1797,23 @@ Page({
       url: 'crabShopping/crabDetails/crabDetails?id=' + 6 + '&spuId=' + 2,
     })
   },
-
-
+  //图片加载出错，替换为默认图片
+  imageError: function (e) {
+    let id = e.target.id;
+    let bargainList = this.data.bargainList, bargainListall = this.data.bargainListall;
+    for (let i = 0; i < bargainList.length; i++) {
+      if (bargainList[i].id == id) {
+        bargainList[i].picUrl = "/images/icon/morentu.png";
+      }
+    }
+    for (let i = 0; i < bargainListall.length; i++) {
+      if (bargainListall[i].id == id) {
+        bargainListall[i].picUrl = "/images/icon/morentu.png";
+      }
+    }
+    this.setData({
+      bargainList: bargainList,
+      bargainListall: bargainListall
+    });
+  }
 })

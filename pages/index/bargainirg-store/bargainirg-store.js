@@ -104,5 +104,17 @@ Page({
       page: 1
     });
     this.dishList();
+  },
+  //图片加载出错，替换为默认图片
+  imageError: function (e) {
+    let id = e.target.id, cuisineArray = this.data.cuisineArray;
+    for (let i = 0; i < cuisineArray.length; i++) {
+      if (cuisineArray[i].id == id) {
+        cuisineArray[i].picUrl = "/images/icon/morentu.png";
+      }
+    }
+    this.setData({
+      cuisineArray: cuisineArray
+    });
   }
 })

@@ -9,6 +9,17 @@ Page({
     _build_url: GLOBAL_API_DOMAIN,
     address:[]
   },
+  onLoad() {
+    wx.showLoading({
+      title: '加载中...'
+    })
+  },
+  onHide() {
+    wx.hideLoading();
+  },
+  onUnload() {
+    wx.hideLoading();
+  },
   onShow:function(){
     this.getAddressList();
   },
@@ -20,18 +31,23 @@ Page({
       userId: app.globalData.userInfo.userId
     }
     Api.AddressList(_parms).then((res) => {
+      wx.hideLoading();
       if(res.data.code == 0){
         let _list=res.data.data.list;
-        for(let i=0;i<_list.length;i++){
-          if (_list[i].dictCounty && _list[i].dictCounty != 'null'){
-            _list[i].address = _list[i].dictProvince + _list[i].dictCity + _list[i].dictCounty + _list[i].detailAddress;
-          }else{
-            _list[i].address = _list[i].dictProvince + _list[i].dictCity +_list[i].detailAddress;
+        if (_list) {
+          for (let i = 0; i < _list.length; i++) {
+            if (_list[i].dictCounty && _list[i].dictCounty != 'null') {
+              _list[i].address = _list[i].dictProvince + _list[i].dictCity + _list[i].dictCounty + _list[i].detailAddress;
+            } else {
+              _list[i].address = _list[i].dictProvince + _list[i].dictCity + _list[i].detailAddress;
+            }
           }
+          that.setData({
+            address: _list
+          })
+        } else {
+          app.globalData.Express = {};
         }
-        that.setData({
-          address: _list
-        })
       } else {
         that.setData({
           address: []

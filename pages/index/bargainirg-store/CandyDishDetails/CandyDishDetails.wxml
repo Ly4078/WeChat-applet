@@ -110,9 +110,7 @@
           <view class='ecommendation' id="{{item.id}}" data-shopId="{{item.shopId}}" catchtap='chilkDish'>
             <view class='ecommendationImg'>
               <image mode='scaleToFill' class='ecomt_images' wx:if="{{item.picUrl}}" src='{{item.picUrl}}'></image>
-              <image mode='scaleToFill' class='ecomt_images'  ex:else src='/images/icon/morentu.png'></image>
-
-             
+              <image mode='scaleToFill' class='ecomt_images'  wx:else src='/images/icon/morentu.png'></image>
             </view>
             <view class='bean'>
               <view class='beanLeft'>
