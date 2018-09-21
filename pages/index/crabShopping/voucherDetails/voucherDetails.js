@@ -34,8 +34,12 @@ Page({
     })
     this.getorderCoupon();
   },
+
   //查询券详情
   getorderCoupon: function() {
+    wx.showLoading({
+      title: '数据加载中。。。',
+    })
     let that = this;
     wx.request({
       url: this.data._build_url + 'orderCoupon/get/' + this.data.vouId,
@@ -226,6 +230,11 @@ Page({
       date: e.detail.value
     })
   },
+  toIndex() {   //跳转至首页
+    wx.switchTab({
+      url: '/pages/index/index'
+    })
+  },
   //查询最费
   getcalculateCost: function() {
     if (!this.data.current) {
@@ -245,6 +254,7 @@ Page({
       tempateId: this.data.current.goodsSku.deliveryTemplateId
     }
     Api.calculateCost(_parms).then((res) => {
+      wx.hideLoading();
       if (res.data.code == 0) {
         _obj = this.data.current;
         if (_obj.goodsSku.realWeight== 0){

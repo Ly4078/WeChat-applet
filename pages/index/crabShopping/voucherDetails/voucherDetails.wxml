@@ -1,7 +1,7 @@
 <view class='vouchertop'>
   <view class='vouchername'>{{kaishi}}</view>
 </view>
-
+<image class="indexIcon" src="/images/icon/indexIcon.png" bindtap='toIndex'></image>
 <!-- 收货地址 -->
 <view class='submitTop' catchtap='additionSite'>
   <view class='submitCenter'>

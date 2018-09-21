@@ -207,3 +207,12 @@ button[plain]{
   background:#FC5E2D;
   color: #fff;
 }
+
+.indexIcon {
+  position: fixed;
+  right: 20rpx;
+  bottom: 100rpx;
+  z-index: 1000;
+  width: 100rpx;
+  height: 100rpx;
+}

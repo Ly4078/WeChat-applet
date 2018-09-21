@@ -1,7 +1,7 @@
 <template name="cuisine">
   <view class='cutCuisine-shell' id="{{item.id}}" data-index="{{item.shopId}}" catchtap='candyDetails'>
-    <image class='cutCuisine-images' wx:if="{{item.picUrl || item.picUrl.length>1}}" src='{{item.picUrl}}'></image>
-    <image class='cutCuisine-images' wx:else src="/images/icon/morentu.png"></image>
+    <image class='cutCuisine-images' wx:if="{{item.picUrl}}" src='{{item.picUrl}}'></image>
+    <image class='cutCuisine-images' wx:else src='/images/icon/morentu.png'></image>
     <view class='cutCuisine-bottom'>
       <view class='cutCuisine-text'>
         <view class='name-sales'>

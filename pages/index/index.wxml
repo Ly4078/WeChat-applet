@@ -94,7 +94,7 @@
 
   <!-- 享7生鲜 -->
   <block wx:for="{{crab}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
-    <template is="toFresh" data="{{item}}"  wx:if="{{fresh2.spuId}}" />
+    <template is="toFresh" data="{{item}}" wx:if="{{fresh2.spuId}}" />
   </block>
   <view class='Resbanner secKillList' wx:if="{{fresh2.spuId}}">
     <image class='Resbimg' catchtap='crabSteamed' src="{{fresh1.imgUrl}}"></image>
@@ -112,7 +112,10 @@
     <view class='Resbanner secKillList'>
       <view class='resthree secKill_inner'>
         <view wx:for="{{secKillList}}" wx:key="index" class='RthreeItem' id='{{item.id}}' data-index="{{item.shopId}}">
-          <image class='Resimg' src="{{item.picUrl}}" bindtap='toSecKillDetail' id="{{item.id}}" data-shopid="{{item.shopId}}"></image>
+
+          <image class='Resimg' wx:if="{{item.picUrl}}" src="{{item.picUrl}}" bindtap='toSecKillDetail' id="{{item.id}}" data-shopid="{{item.shopId}}"></image>
+          <image wx:else class='Resimg' src='/images/icon/morentu.png' bindtap='toSecKillDetail' id="{{item.id}}" data-shopid="{{item.shopId}}"></image>
+
           <text class="secKillSkuName">{{item.skuName}}</text>
           <text class='Baragio'>¥{{item.agioPrice}}</text>
           <text class='BarinPrice'>¥{{item.sellPrice}}</text>
@@ -176,7 +179,8 @@
     <view class='resthree'>
       <view wx:for="{{bargainList}}" wx:key="index">
         <view class='RthreeItem' id='{{item.id}}' data-index="{{item.shopId}}" bindtap='candyDetails'>
-          <image class='Resimg' src="{{item.picUrl}}"></image>
+          <image class='Resimg' wx:if="{{item.picUrl}}" src="{{item.picUrl}}"></image>
+           <image class='Resimg' wx:else src='/images/icon/morentu.png' ></image>
           <text>{{item.skuName}}\n</text>
           <text class='Baragio'>¥{{item.agioPrice}}</text>
           <text class='BarinPrice'>¥{{item.sellPrice}}</text>
@@ -226,7 +230,7 @@
   </view>
 
   <!--新版修改结束  -->
-  
+
   <!--推荐餐厅 -->
   <!-- <template is="postItem" data="{{...item}}" /> -->
   <!--推荐餐厅  -->

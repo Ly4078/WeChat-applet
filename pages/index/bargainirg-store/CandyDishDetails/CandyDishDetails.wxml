@@ -8,7 +8,8 @@
 </view>
 
 <view class='shell'>
-  <image class='detailsImag' mode='scaleToFill' src='{{picUrl}}'></image>
+  <image class='detailsImag' mode='scaleToFill' wx:if="{{picUrl}}" src='{{picUrl}}'></image>
+  <image class='detailsImag' mode='scaleToFill' wx:else src='/images/icon/morentu.png'></image>
   <view class='information'>
     <view class='information-inner'>
       <view class='shopsTop'>
@@ -74,7 +75,8 @@
       <block wx:for="{{isBarg ? dishList : preDishList}}" wx:key="{{index}}" id="{{index}}" wx:for-index="idx">
         <view class='merchantROM'>
           <view class='merchantLeft' id="{{item.id}}" catchtap='dishesDiscounts'>
-            <image class='merchantImages' mode='scaleToFill' src='{{item.picUrl}}'></image>
+            <image class='merchantImages' mode='scaleToFill' wx:if="{{item.picUrl}}" src='{{item.picUrl}}'></image>
+            <image class='merchantImages' wx:else mode='scaleToFill'src='/images/icon/morentu.png'></image>
             <view class='acuisineMessage'>
               <text class='acuisineName'>{{item.skuName}}</text>
               <view class='lemon'>
@@ -107,7 +109,10 @@
         <block wx:for="{{hotDishList}}" wx:key="{{index}}" id="{{index}}" wx:for-index="idx">
           <view class='ecommendation' id="{{item.id}}" data-shopId="{{item.shopId}}" catchtap='chilkDish'>
             <view class='ecommendationImg'>
-              <image mode='scaleToFill' class='ecomt_images' src='{{item.picUrl}}'></image>
+              <image mode='scaleToFill' class='ecomt_images' wx:if="{{item.picUrl}}" src='{{item.picUrl}}'></image>
+              <image mode='scaleToFill' class='ecomt_images'  ex:else src='/images/icon/morentu.png'></image>
+
+             
             </view>
             <view class='bean'>
               <view class='beanLeft'>
