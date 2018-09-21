@@ -35,9 +35,12 @@ Page({
   },
   onLoad: function(option) {
     let that = this;
-    this.setData({
-      currentTab: option.currentTab //获取店铺详情页传过来的currentTab值
-    });
+    if (option.currentTab){
+      this.setData({
+        currentTab: option.currentTab 
+      });
+    }
+    
     if(option.spuval){
       this.setData({
         spuval: option.spuval,
