@@ -375,12 +375,14 @@ Page({
       content: '您确定要删除地址?',
       success: function(res) {
         if (res.confirm) {
-          console.log('用户点击确定')
           Api.outAddress({id:that.data.addId}).then((res) => {
             if (res.data.code == 0) {
               wx.showToast({
                 title: '删除成功',
               });
+              if (that.data.addId == app.globalData.Express.id){
+                app.globalData.Express={}
+              }
               setTimeout(() => {
                 wx.redirectTo({
                   url: '../../shipping/shipping'

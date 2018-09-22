@@ -134,6 +134,7 @@ Page({
     let that = this;
     let _parms = {
       spuType: 10,
+      isDeleted:0,
       page: this.data.page,
       spuId: this.data.spuval,
       rows: 10

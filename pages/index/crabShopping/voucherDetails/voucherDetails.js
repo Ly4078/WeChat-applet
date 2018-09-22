@@ -160,7 +160,8 @@ Page({
     this.setData({
       threeLater: _threeday,
       tenLater: _tenday,
-      date: _threeday
+      date: _threeday,
+      actaddress:{}
     })
 
     if (app.globalData.Express.id) {
@@ -310,20 +311,22 @@ Page({
           _obj.total = _obj.total * 1 + res.data.data;
           _obj.total = _obj.total.toFixed(2);
           this.setData({
+            errmsg:'',
             postage: res.data.data.toFixed(2)
           })
           this.setData({
             current: _obj
           })
-        } else {
-          this.setData({
-            errmsg: res.data.message
-          })
-          // wx.showToast({
-          //   title: res.data.message,
-          //   icon: 'none'
-          // })
-        }
+        } 
+      } else {
+        this.setData({
+          errmsg: res.data.message,
+          postage:''
+        })
+        wx.showToast({
+          title: res.data.message,
+          icon: 'none'
+        })
       }
     })
   },
@@ -354,6 +357,7 @@ Page({
 
   //执行立即兑换
   seduseCoupon: function() {
+    console.log('this.data.current:', this.data.current)
     let _parms = {
         shopId: 0,
         shopName: '享7自营',

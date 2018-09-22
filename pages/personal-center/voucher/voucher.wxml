@@ -1,6 +1,6 @@
 <!-- 礼品券 -->
 <view class='voucher' wx:if="{{listData.length>0}}">
-  <view  wx:for="{{listData}}" wx:key="item.id" id="{{item.id}}" data-index="{{item.goodsSkuName}}" class="voucherItem {{item.isUsed == 0 ? 'ysyitem' : 'wsyitem'}}" data-used="{{item.isUsed}}" bindtap='redeemNow'>
+  <view  wx:for="{{listData}}" wx:key="item.id" id="{{item.id}}" data-index="{{item.goodsSkuName}}" class="voucherItem {{item.isUsed == 0 ? 'ysyitem' : 'wsyitem'}}" data-used="{{item.isUsed}}" data-order="{{item.orderId}}" bindtap='redeemNow'>
     <view class="itemName {{item.isUsed == 0 ? 'itemNamea' : 'itemNameb'}}">{{item.sku}}</view>
   </view>
   <view class='exbut'></view>

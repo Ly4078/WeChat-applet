@@ -250,16 +250,19 @@ Page({
             current: _obj
           })
         }else{
-          if (this.data.current.spuId == 1){
-            this.setData({
-              errmsg: res.data.message
-            })
-            wx.showToast({
-              title: res.data.message,
-              icon: 'none'
-            })
-          }
+          // if (this.data.current.spuId == 1){
+            
+          // }
         }
+      }else{
+        this.setData({
+          errmsg: res.data.message,
+          postage: ''
+        })
+        wx.showToast({
+          title: res.data.message,
+          icon: 'none'
+        })
       }
     })
   },
