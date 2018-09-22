@@ -207,7 +207,9 @@ Page({
         }
       } else {
         app.globalData.Express = {};
-        console.log('==============================无地址');
+        this.setData({
+          postage:0
+        })
       }
     })
   },

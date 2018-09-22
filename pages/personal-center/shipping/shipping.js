@@ -41,6 +41,9 @@ Page({
             } else {
               _list[i].address = _list[i].dictProvince + _list[i].dictCity + _list[i].detailAddress;
             }
+            if (_list[i].id == app.globalData.Express.id) {
+              app.globalData.Express = _list[i]
+            }
           }
           that.setData({
             address: _list

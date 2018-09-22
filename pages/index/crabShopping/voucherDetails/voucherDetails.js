@@ -95,7 +95,7 @@ Page({
               current: _data,
               crabImgUrl: _crabImgUrl,
             })
-            that.getcalculateCost();
+            // that.getcalculateCost();
           }
 
         }
@@ -161,27 +161,12 @@ Page({
       threeLater: _threeday,
       tenLater: _tenday,
       date: _threeday,
-      actaddress:{}
+      actaddress:{},
+      postage:0
     })
-
-    if (app.globalData.Express.id) {
-      this.setData({
-        actaddress: app.globalData.Express
-      });
-      this.getcalculateCost();
-    } else {
-      if (app.globalData.userInfo.userId) {
-        if (app.globalData.userInfo.mobile) {
-          this.getAddressList();
-        } else { //是新用户，去注册页面
-          wx.navigateTo({
-            url: '/pages/personal-center/securities-sdb/securities-sdb?back=1'
-          })
-        }
-      } else {
-        this.findByCode();
-      }
-
+    console.log('isfrst:', this.data.isfrst)
+    if (this.data.isfrst) {
+      this.frestrue();
     }
   },
 
@@ -261,11 +246,14 @@ Page({
           actaddress: _list[0]
         })
         app.globalData.Express = this.data.actaddress;
-        if (val) {
+        // if (val) {
           this.getcalculateCost();
-        }
+        // }
       } else {
         app.globalData.Express = {};
+        this.setData({
+          postage: 0
+        })
       }
     })
   },
@@ -330,13 +318,36 @@ Page({
       }
     })
   },
+  //首次点击兑换
+  frestrue:function(){
+    if (app.globalData.Express.id) {
+      this.setData({
+        actaddress: app.globalData.Express
+      });
+      this.getcalculateCost();
+    } else {
+      if (app.globalData.userInfo.userId) {
+        if (app.globalData.userInfo.mobile) {
+          this.getAddressList();
+        } else { //是新用户，去注册页面
+          wx.navigateTo({
+            url: '/pages/personal-center/securities-sdb/securities-sdb?back=1'
+          })
+        }
+      } else {
+        this.findByCode();
+      }
 
+    }
+  },
+ 
   //点击立即兑换
   redeemNow: function() {
     if (!this.data.isfrst) {
       this.setData({
         isfrst: true
       })
+      this.frestrue();
     } else {
       if (this.data.errmsg) {
         wx.showToast({

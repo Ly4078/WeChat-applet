@@ -220,9 +220,10 @@ Page({
   },
   //分享给好友
   onShareAppMessage: function() {
+    // this.data.inviter,
     return {
       title: '邀请好友，换大闸蟹',
-      path: '/pages/activityDetails/holdingActivity/holdingActivity?inviter=' + this.data.inviter,
+      path: '/pages/activityDetails/holdingActivity/holdingActivity?inviter=' +  app.globalData.userInfo.userId,
       success: function(res) {}
     }
   },
