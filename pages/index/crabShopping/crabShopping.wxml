@@ -24,7 +24,7 @@
             </view>
             <view class='crabPrice'>
               <view class='crabPriceleft'>
-                <text>￥{{item.sellPrice}}</text>/{{item.unit}}</view>
+                <text>￥{{item.sellPrice}}</text><text wx:if="{{item.unit != '张'}}">/{{item.unit}}</text></view>
               <view class='crabPriceright'>已售
                 <text>{{item.sellNum}}</text>
               </view>

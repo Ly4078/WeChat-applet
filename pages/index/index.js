@@ -1314,11 +1314,7 @@ Page({
       url: 'flashSaleHome/flashSaleHome'
     })
   },
-  toFresh: function () {
-    wx.navigateTo({
-      url: 'crabShopping/crabShopping?currentTab=0'
-    })
-  },
+
 
   fooddetails: function (e) { //跳转美食墙内页
     const id = e.currentTarget.id
@@ -1781,14 +1777,18 @@ Page({
     })
   },
 
-  
+  //享7生鲜查看更多
+  toFresh: function () {
+    wx.navigateTo({
+      url: 'crabShopping/crabShopping?currentTab=0'
+    })
+  },
   // 螃蟹进入商品详情
   crabPrtDetails: function (e) {
-    console.log("e:",e)
     let id = e.currentTarget.id, spuId = e.target.dataset.spuid;
-    console.log('id:', id, 'spuId:',spuId)
     wx.navigateTo({
-      url: 'crabShopping/crabDetails/crabDetails?id=' + id + '&spuId=' + spuId,
+      url: 'crabShopping/crabShopping?currentTab=0' + '&spuval=' + spuId
+      // url: 'crabShopping/crabDetails/crabDetails?id=' + id + '&spuId=' + spuId,
     })
   },
   // 螃蟹进入商品详情

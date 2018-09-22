@@ -7,7 +7,6 @@ var app = getApp()
 var village_LBS = function(that) { //获取用户经纬度
   wx.getLocation({
     success: function(res) {
-      console.log('vill_res:', res)
       let latitude = res.latitude,
         longitude = res.longitude;
       app.globalData.userInfo.lat = latitude;
@@ -24,9 +23,10 @@ Page({
     storeData: [], //品质好店
     storeFlag: true, //品质好店节流阀
     navbar: ['平台邮购', '到店消费'],
-    oneTab: ["礼盒装", "散装", "提蟹券"],
+    // oneTab: ["礼盒装", "散装", "提蟹券"],
+    oneTab: ["提蟹券","散装"],
     currentTab: 0,
-    tabId: 2,
+    tabId: 0,
     spuval: 3,
     page: 1,
     _page: 1,
@@ -42,9 +42,15 @@ Page({
     }
     
     if(option.spuval){
+      let _val =0;
+      if (option.spuval ==3){
+        _val =0;
+      } else if (option.spuval == 1 ){
+        _val = 1;
+      }
       this.setData({
         spuval: option.spuval,
-        tabId:option.spuval-1
+        tabId: _val
       })
     }
     if (app.globalData.txtObj) {
@@ -107,13 +113,11 @@ Page({
   //点击二级目录
   handonetab: function(e) {
     let id = e.currentTarget.id,
-      val = 2;
+      val = 3;
     if (id == 0) {
-      val == 2;
+      val = 3;
     } else if (id == 1) {
       val = 1;
-    } else if (id == 2) {
-      val = 3;
     }
     this.setData({
       tabId: id,
@@ -176,10 +180,8 @@ Page({
           storeData: []
         })
       };
-      console.log('_parms:', _parms)
       Api.listForSkuAllocation(_parms).then((res) => {
         wx.hideLoading();
-        console.log('res:', res);
         if (res.data.code == 0) {
           let _list = res.data.data.list,
             _storeData = this.data.storeData;
@@ -192,7 +194,6 @@ Page({
             this.setData({
               storeData: _storeData,
             })
-            console.log("storeData:", this.data.storeData)
             if (_list.length < 8) {
               this.setData({
                 storeFlag: false
@@ -271,7 +272,6 @@ Page({
   },
 
   getlocation: function() { //获取用户位置
-    console.log('getlocation')
     let that = this,
       lat = '',
       lng = '';

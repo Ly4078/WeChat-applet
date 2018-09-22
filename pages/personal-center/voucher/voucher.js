@@ -76,9 +76,7 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function (e) {
-    console.log(e)
     let id = e.target.id, _skuName = e.target.dataset.sku;
-    console.log('id:', id, '_skuName:', _skuName)
     return {
       title: _skuName,
       imageUrl: 'https://xqmp4-1256079679.file.myqcloud.com/Colin_ajdlfadjfal.png',
@@ -118,11 +116,7 @@ Page({
 
   //立即兑换
   redeemNow: function (e) {
-    console.log('e:', e)
     let id = e.currentTarget.id, _skuName = e.currentTarget.dataset.index, _isUsed = e.currentTarget.dataset.used;
-    console.log('id:', id);
-    console.log('_skuName:', _skuName);
-    console.log('_isUsed:', _isUsed);
     if (_isUsed == 0){
       wx.navigateTo({
         url: '../../index/crabShopping/voucherDetails/voucherDetails?id=' + id + '&skuname=' + _skuName
