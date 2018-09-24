@@ -45,7 +45,7 @@
         <view>优惠
           <text class='manzen'>满赠</text>{{_rules}}</view>
       </view>
-      <view class='equally'>
+      <view class='equally'  wx:if="{{current.spuId != 3}}">
         <text>配送方式</text>
         <text>顺丰速运</text>
       </view>
@@ -53,7 +53,7 @@
         <text>配送费</text>
         <text class='delicatese'>￥{{postage}}</text>
       </view>
-      <view class='equally' bindtap='deliveryTime'>
+      <view class='equally' bindtap='deliveryTime' wx:if="{{current.spuId != 3}}">
         <picker mode="date" class='eqpicker' value="{{threeLater}}" start="{{threeLater}}" end="{{tenLater}}" bindchange="bindDateChange">
           <view class="picker">
             <view>
@@ -69,7 +69,7 @@
         <text>包装费<text class='suoming'>（冰袋、保温内胆、加厚泡沫箱）？</text></text>
         <text class='delicatese'>￥{{current.bzf}}</text>
       </view>
-      <view class='equally'>
+      <view class='equally'  wx:if="{{current.spuId != 3}}">
         <text>商品备注:</text>
         <input name="input" bindinput="bindremarks" value='{{remarks}}' placeholder='选填内容'></input>
         <!-- <text class='delicatese'>￥{{current.total}}</text> -->

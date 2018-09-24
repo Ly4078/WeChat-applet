@@ -276,3 +276,40 @@ button[plain]{
   background:#E1E1E1;
 }
 
+.modalcon{
+  width:456rpx;
+  height:446rpx;
+  background:rgba(255,255,255,1);
+  border-radius:16px;
+  position: relative;
+  left: 147rpx;
+  top: 300rpx;
+  text-align: center;
+}
+.lierr{
+  width: 92rpx;
+  height: 116rpx;
+  margin-top: 50rpx;
+}
+.liv1{
+  color: #191919;
+  font-size: 28rpx;
+  width: 100%;
+  text-align: center;
+  margin: 26rpx 0 17rpx 0;
+}
+.liv2{
+  color: #808080;
+  font-size: 24rpx;
+}
+.viewbuti{
+  width:230rpx;
+  height:66rpx;
+  line-height: 66rpx;
+  color: #fff;
+  font-size: 24rpx;
+  background:rgba(255,110,2,1);
+  border-radius:33rpx;
+  margin-top:45rpx;
+  margin-left:108rpx;
+}

@@ -89,6 +89,7 @@ Page({
     let _parms = {
       userId: app.globalData.userInfo.userId,
       page:this.data.page,
+      // isUsed:0,
       rows:10
     };
     if(this.data.page ==1){

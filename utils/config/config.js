@@ -8,5 +8,3 @@ var config = {
   GLOBAL_API_DOMAIN: BASEURL
 };
 module.exports = config;
-// pages / personal - center / voucher / voucher
-// pages / activityDetails / holdingActivity / holdingActivity

@@ -614,6 +614,7 @@ Page({
         this.setData({
           carousel: res.data.data
         })
+        console.log('carousel:', this.data.carousel)
       } else {
         this.getcarousel();
       }

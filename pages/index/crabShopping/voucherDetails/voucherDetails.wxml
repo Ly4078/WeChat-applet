@@ -1,4 +1,15 @@
 
+
+<!-- 模态弹框 -->
+<view class='modal_box' wx:if="{{isreceive}}" catchtap='closemodel'>
+  
+  <view class='modalcon'>
+    <image class='lierr' src='/images/icon/qinquerr.png'></image>
+    <view class='liv1'>领取失败</view>
+    <view class='liv2'>该提蟹券已经被领取</view>
+    <view class='viewbuti'>返回首页</view>
+  </view>
+</view>
 <!-- 回到时首页 -->
 <image class="indexIcon" src="/images/icon/indexIcon.png" bindtap='toIndex'></image>
 

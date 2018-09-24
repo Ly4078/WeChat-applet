@@ -70,7 +70,7 @@
   </view>  -->
 
 <view class="discoverTop">
-  <image src="{{topUrl}}" bindtap='tovideoact'></image>
+  <image src="https://xqmp4-1256079679.file.myqcloud.com/test12312a_text_270244996280679651_0.8.jpg" bindtap='tovideoact'></image>
 </view>
 <view class='discover' catchtap='close'>
   <view class="discoverTab">

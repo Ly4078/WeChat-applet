@@ -19,6 +19,8 @@ Page({
     vouId: '', //券ID
     kaishi: '',
     isfrst: false,
+    isshare:false,  //是否是点击分享进来的
+    isreceive:false,  //券是否已经被领取
     errmsg: '',
     postage: 0,
     remarks: '', //备注内容
@@ -53,23 +55,34 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
+    console.log("options:", options);
     let _crabImgUrl = [],
       that = this;
     this.setData({
       vouId: options.id
     })
+    if (options.isshare){
+      this.setData({
+        isshare: options.isshare
+      })
+    }
     this.getorderCoupon();
     wx.request({
       url: this.data._build_url + 'version.txt',
       success: function(res) {
-        _crabImgUrl = res.data;
+        _crabImgUrl = res.data.crabImgUrl;
+        _crabImgUrl.splice(1,1);
         that.setData({
-          crabImgUrl: _crabImgUrl.crabImgUrl
+          crabImgUrl: _crabImgUrl
         })
       }
     })
   },
-
+  closemodel:function(){
+    wx.switchTab({
+      url: '/pages/index/index'
+    })
+  },
   //查询券详情
   getorderCoupon: function() {
     wx.showLoading({
@@ -95,6 +108,34 @@ Page({
               current: _data,
               crabImgUrl: _crabImgUrl,
             })
+            if (that.data.isshare) {
+              if (_data.ownId){
+                if (_data.ownId == app.globalData.userInfo.userId){
+                  //点击自己已经领取的券，不做处理
+                }else{
+                  that.setData({
+                    isreceive: true
+                  })
+                }
+              }else{
+                if (_data.userId == app.globalData.userInfo.userId) {
+                  //自己点击 自己发出的券，不做处理
+                }else{
+                  wx.showModal({
+                    title: '提示',
+                    content: '是否确认领取此提蟹券?',
+                    success: function (res) {
+                      if (res.confirm) {
+                        console.log('用户点击确定')
+                        that.getsendCoupon();
+                      } else if (res.cancel) {
+                        console.log('用户点击取消')
+                      }
+                    }
+                  })
+                }
+              }
+            }
             // that.getcalculateCost();
           }
 
@@ -128,7 +169,7 @@ Page({
     return {
       title: _goodsSkuName,
       imageUrl: _mgsUrl,
-      path: '/pages/index/crabShopping/voucherDetails/voucherDetails?id=' + id,
+      path: '/pages/index/crabShopping/voucherDetails/voucherDetails?id=' + id+'&isshare=true',
       success: function(res) {}
     }
   },
@@ -164,7 +205,6 @@ Page({
       actaddress:{},
       postage:0
     })
-    console.log('isfrst:', this.data.isfrst)
     if (this.data.isfrst) {
       this.frestrue();
     }
@@ -197,7 +237,7 @@ Page({
   onReachBottom: function() {
 
   },
-  findByCode: function() { //通过code查询进入的用户信息，判断是否是新用户
+  findByCode: function(val) { //通过code查询进入的用户信息，判断是否是新用户
     let that = this;
     wx.login({
       success: res => {
@@ -220,6 +260,8 @@ Page({
               wx.navigateTo({
                 url: '/pages/personal-center/securities-sdb/securities-sdb?back=1'
               })
+            }else if(val){
+              that.getsendCoupon();
             }
           } else {
             that.findByCode();
@@ -228,7 +270,31 @@ Page({
       }
     })
   },
-
+  getsendCoupon:function(){  //领取提蟹券
+    if (!app.globalData.userInfo.userId){
+      this.findByCode("val")
+    }else{
+      let _parms = {
+        orderCouponCode: this.data.current.couponCode,
+        sendUserId: this.data.current.userId,
+        receiveUserId: app.globalData.userInfo.userId
+      };
+      Api.sendCoupon(_parms).then((res) => {
+        if (res.data.code == 0) {
+          wx.showToast({
+            title: '领取提蟹券成功',
+            icon: 'none'
+          })
+        } else {
+          wx.showToast({
+            title: '领取提蟹券失败',
+            icon: 'none'
+          })
+        }
+      })
+    }
+    
+  },
   //查询已有收货地址
   getAddressList: function(val) {
     let that = this;
@@ -368,7 +434,6 @@ Page({
 
   //执行立即兑换
   seduseCoupon: function() {
-    console.log('this.data.current:', this.data.current)
     let _parms = {
         shopId: 0,
         shopName: '享7自营',

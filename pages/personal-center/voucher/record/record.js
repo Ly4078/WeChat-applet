@@ -92,7 +92,7 @@ Page({
         listData: []
       })
     }
-    Api.orderCoupon(_parms).then((res)=>{
+    Api.dhCoupon(_parms).then((res)=>{
       wx.stopPullDownRefresh();
       wx.hideLoading();
       if(res.data.code == 0){

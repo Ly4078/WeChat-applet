@@ -136,6 +136,7 @@ Page({
     Api.hcllist().then((res) => {
       if (res.data.data) {
         let data = res.data.data;
+        console.log('data:',data)
         for (let i = 0; i < data.length; i++) {
           if (data[i].sortNum == 4) {
             this.setData({
