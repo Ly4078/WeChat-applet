@@ -30,13 +30,18 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 0,
+			"current": 1,
 			"list": [
 				{
 					"id": -1,
 					"name": "111",
 					"pathName": "pages/personal-center/voucher/voucher",
 					"query": "id=47&skuname=人气款提蟹券 阳澄湖大闸蟹 3.0公2.0母 4对8只"
+				},
+				{
+					"id": -1,
+					"name": "推荐",
+					"pathName": "pages/discover-plate/discover-plate"
 				}
 			]
 		}
