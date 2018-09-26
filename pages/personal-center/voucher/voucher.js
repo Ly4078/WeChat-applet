@@ -25,10 +25,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    wx.showLoading({
-      title: '加载中...'
-    })
-    // this.getlistCoupon();
+
   },
 
   /**
@@ -142,6 +139,9 @@ Page({
   },
   //查询我的礼品券列表数据 
   getorderCoupon: function () {
+    wx.showLoading({
+      title: '数据加载中...',
+    });
     let _parms = {
       userId: app.globalData.userInfo.userId,
       page: this.data.page,
@@ -178,6 +178,9 @@ Page({
   // 查询提蟹券赠送记录
   getlistCoupon:function(){
     let _parms ={},that = this;
+    wx.showLoading({
+      title: '数据加载中...',
+    });
     _parms = {
       row:10
     },that = this;
@@ -189,6 +192,7 @@ Page({
       _parms.receiveUserId = app.globalData.userInfo.userId;
     }
     Api.listCoupon(_parms).then((res)=>{
+      wx.hideLoading();
       if(res.data.code == 0){
         let _lists = res.data.data.list;
         if(_lists && _lists.length>0){

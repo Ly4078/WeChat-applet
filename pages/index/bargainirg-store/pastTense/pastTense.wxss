@@ -11,9 +11,7 @@ page{
   margin-bottom: 20rpx;
   border-top: 1px solid #EBEBEB;
 }
-.placeholder{
-  margin-top: 60%;
-}
+
 .preImages{
   width: 190rpx;
   height: 190rpx;
