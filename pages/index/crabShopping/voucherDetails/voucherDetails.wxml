@@ -1,22 +1,20 @@
-
-
 <!-- 模态弹框 -->
-<view class='modal_box' wx:if="{{isreceive}}" catchtap='closemodel'>
-  
+<view class='modal_boxs' wx:if="{{isreceive}}" catchtap='closemodel'>
   <view class='modalcon'>
     <image class='lierr' src='/images/icon/qinquerr.png'></image>
-    <view class='liv1'>领取失败</view>
+    <view class='liv1' wx:if="{{isshare}}">领取失败</view>
     <view class='liv2'>该提蟹券已经被领取</view>
     <view class='viewbuti'>返回首页</view>
   </view>
 </view>
 <!-- 回到时首页 -->
-<image class="indexIcon" src="/images/icon/indexIcon.png" bindtap='toIndex'></image>
+<image class="indexIcon" src="/images/icon/indexIcon.png" bindtap='toIndex' wx:else></image>
 
 <!-- 头部图片 -->
 <view class='vouchertop'>
   <view class='topview'>
-    <view class='vouchername'>{{current.sku}}</view>
+    <text class='vouchername'>{{current.sku}}</text>
+    <text class='voucode'>券号：{{current.couponCode}}</text>
   </view>
 </view>
 
@@ -45,8 +43,8 @@
 <!-- 订单详情 -->
 <view class='indentDetails'>
   <view class='indentDetailsCtn'>
-<!-- 送达时间 -->
-    <view class='equally' bindtap='deliveryTime'  wx:if="{{isfrst}}">
+    <!-- 送达时间 -->
+    <view class='equally' bindtap='deliveryTime' wx:if="{{isfrst}}">
       <picker mode="date" class='eqpicker' value="{{threeLater}}" start="{{threeLater}}" end="{{tenLater}}" bindchange="bindDateChange">
         <view class="picker">
           <view>
@@ -64,46 +62,35 @@
       <text class='delicatese'>￥{{postage}}</text>
     </view>
     <!-- 备注 -->
-    <view class='equally'  wx:if="{{isfrst}}">
+    <view class='equally' wx:if="{{isfrst}}">
       <text>商品备注:</text>
       <input name="input" bindinput="bindremarks" value='{{remarks}}' placeholder='选填内容'></input>
     </view>
-    
+
 
     <!-- 按钮 -->
-  <view class='towanniu'>
-    <view class='anright'  bindtap='redeemNow'> 提货</view>
-    <view class='anleft' >
-      <button bindtap='share' plain="true" data-name="shareBtn" open-type="share">
-        <text>赠送好友</text>
-      </button>
+    <view class='towanniu'>
+      <view class='anright' bindtap='redeemNow'> 提货</view>
+      <view class='anleft' wx:if="{{isgift}}">
+        <button plain="true" data-name="shareBtn" open-type="share">
+          <text>赠送好友</text>
+        </button>
+      </view>
+
+      <view class='anleft' wx:else bindtap='handGift'>
+        <button>
+          <text>赠送好友</text>
+        </button>
+      </view>
     </view>
-  </view>
 
 
- <!-- 说明图片 -->
+    <!-- 说明图片 -->
     <view class='imgobjs'>
       <text>————</text>
       <text class='yudetail'>详情</text>
       <text>————</text>
     </view>
     <image class='vouimgUlrs' wx:for="{{crabImgUrl}}" wx:key="{{index}}" mode="widthFix" src='{{item}}'></image>
-
   </view>
 </view>
-
-
-
-<!-- <view class='tihuo' bindtap='redeemNow'>提货</view> -->
-
-
-<!-- 底部按钮 -->
-
-<!-- <view class='voubut'>
-  <view class='leftbut'>
-    <button bindtap='share' plain="true" data-name="shareBtn" open-type="share">
-      <text>赠送好友</text>
-    </button>
-  </view>
-  <view class='rightbut' bindtap='redeemNow'>提货</view>
-</view> -->

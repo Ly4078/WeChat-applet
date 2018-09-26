@@ -1,17 +1,87 @@
-<!-- 礼品券 -->
-<view class='voucher' wx:if="{{listData.length>0}}">
-  <view  wx:for="{{listData}}" wx:key="item.id" id="{{item.id}}" data-index="{{item.goodsSkuName}}" class="voucherItem {{item.isUsed == 0 ? 'ysyitem' : 'wsyitem'}}" data-used="{{item.isUsed}}" data-order="{{item.orderId}}" bindtap='redeemNow'>
-    <view class="itemName {{item.isUsed == 0 ? 'itemNamea' : 'itemNameb'}}">{{item.sku}}</view>
+<!-- tabs -->
+<view class='topTabs'>
+  <view class="tabsItem {{ind == index?'actItem':''}}" wx:for="{{tabs}}" wx:key="index" id='{{index}}' bindtap='handtab'>{{item}}
+    <view class='tabline' wx:if="{{ind == index}}"></view>
   </view>
-  <view class='exbut'></view>
-</view>
-<!-- quanbj.png -->
-<view class='placeholder' wx:if="{{listData.length<1}}">
-  <text class='buyvoucher' bindtap='buyVoucher'>购买提蟹券</text>
 </view>
 
 
-<view class='exchange' bindtap='handexchange'>兑换记录</view>
+<!-- 礼品券 -->
+<view wx:if="{{ind == 0}}">
+  <view class='voucher' wx:if="{{listData.length>0}}">
+    <view wx:for="{{listData}}" wx:key="item.id" id="{{item.id}}" data-index="{{item.goodsSkuName}}" class="voucherItem {{item.isUsed == 0 ? 'ysyitem' : 'wsyitem'}}" data-used="{{item.isUsed}}" data-order="{{item.orderId}}" bindtap='redeemNow'>
+      <text class="itemName {{item.isUsed == 0 ? 'itemNamea' : 'itemNameb'}}">{{item.sku}}</text>
+      <text class="couCode {{item.isUsed == 0 ? 'codea' : 'codeb'}}">券号：{{item.couponCode}}</text>
+    </view>
+    <view class='exbut'></view>
+  </view>
+  <view class='placeholder' wx:if="{{listData.length<1}}">
+    <text class='buyvoucher' bindtap='buyVoucher'>购买提蟹券</text>
+  </view>
+  <view class='exchange' bindtap='handexchange'>兑换记录</view>
+</view>
+
+<!-- 记录 -->
+<view wx:if="{{ind ==1}}">
+  <view class='notes' wx:if="{{sendData.length>0}}">
+    <view wx:for="{{sendData}}" wx:key="index">
+      <view class='nodeItem'>
+        <view class='itemtop'>
+          <text class='topt1'>{{item.styleName}}-提蟹券</text>
+          <text class='topt2'>{{ind == 1?"已赠送":"已领取"}}</text>
+        </view>
+        <view class='itemcon'>
+          <view class='conitem'>
+            <view class='cileft'>券号</view>
+            <view class='ciright'>{{item.couponCode}}</view>
+          </view>
+          <view class='conitem'>
+            <view class='cileft'> {{ind == 1?"领取人":"赠送人"}}</view>
+            <view class='ciright' wx:if="{{ind == 1}}">{{item.receiveUserName}}</view>
+            <view class='ciright' wx:if="{{ind == 2}}">{{item.sendUserName}}</view>
+          </view>
+          <view class='conitem'>
+            <view class='cileft'>{{ind == 1?"赠送时间":"领取时间"}}</view>
+            <view class='ciright'>{{item.ocsCreateTime}}</view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view wx:if="{{sendData.length < 1}}" class='placeholder'>
+    <image src="/images/icon/zhanweitu.png"></image>
+  </view>
+</view>
 
 
-
+<!-- 记录 -->
+<view wx:if="{{ind ==2}}">
+  <view class='notes' wx:if="{{recData.length>0}}">
+    <view wx:for="{{recData}}" wx:key="index">
+      <view class='nodeItem'>
+        <view class='itemtop'>
+          <text class='topt1'>{{item.styleName}}-提蟹券</text>
+          <text class='topt2'>{{ind == 1?"已赠送":"已领取"}}</text>
+        </view>
+        <view class='itemcon'>
+          <view class='conitem'>
+            <view class='cileft'>券号</view>
+            <view class='ciright'>{{item.couponCode}}</view>
+          </view>
+          <view class='conitem'>
+            <view class='cileft'> {{ind == 1?"领取人":"赠送人"}}</view>
+            <view class='ciright' wx:if="{{ind == 1}}">{{item.receiveUserName}}</view>
+            <view class='ciright' wx:if="{{ind == 2}}">{{item.sendUserName}}</view>
+          </view>
+          <view class='conitem'>
+            <view class='cileft'>{{ind == 1?"赠送时间":"领取时间"}}</view>
+            <view class='ciright'>{{item.ocsCreateTime}}</view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view wx:if="{{recData.length < 1}}" class='placeholder'>
+    <image src="/images/icon/zhanweitu.png"></image>
+  </view>
+</view>

@@ -583,7 +583,6 @@ const ALL_API = {
   orderCoupon:{  //查询我的礼品券列表
     method:'GET',
     url:'orderCoupon/listForSend'
-    // url:'orderCoupon/list'
   },
   dhCoupon: {  //查询我的礼品券兑换记录列表
     method: 'GET',
@@ -628,6 +627,10 @@ const ALL_API = {
   sendCoupon:{//领取提蟹券
     method:'POST',
     url:'orderCoupon/sendCoupon'
+  },
+  listCoupon:{ //查询提蟹券赠送记录
+    method:'GET',
+    url:'orderCoupon/listCoupon'
   }
 }
 const Api = new MyHttp({}, ALL_API);

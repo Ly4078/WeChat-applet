@@ -10,7 +10,7 @@
 
 <view class="videoList">
   <view class="videoList_top">
-    <image class="top_banner" src="{{mainPic}}"></image>
+    <image class="top_banner" src="https://xqmp4-1256079679.file.myqcloud.com/test12312a_text_270244996280679651_0.8.jpg"></image>
     <view class="top_Info">
       <view class="top_instruction">{{actDesc}}</view>
       <view class="top_date">

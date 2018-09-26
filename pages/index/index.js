@@ -203,7 +203,7 @@ Page({
     wx.request({ //isflag
       url: this.data._build_url+'version.txt',
       success: function (res) {
-        console.log('version:',res)
+        // console.log('version:',res)
         app.globalData.txtObj = res.data;
         if (res.data.flag == 0) { //0显示  
           app.globalData.isflag = true;
@@ -516,7 +516,6 @@ Page({
 
   requestCityName(lat, lng) { //获取当前城市
     let that = this;
-    console.log('requestCityName:', lat, lng);
     if (!lat && !lng) {
       this.getUserlocation();
     } else {
@@ -539,7 +538,6 @@ Page({
                 app.globalData.userInfo.city = '十堰市';
               }
               app.globalData.oldcity = app.globalData.userInfo.city;
-              console.log('city:', app.globalData.userInfo.city);
               this.getCutDish();
               this.setData({
                 city: app.globalData.userInfo.city,
@@ -614,7 +612,7 @@ Page({
         this.setData({
           carousel: res.data.data
         })
-        console.log('carousel:', this.data.carousel)
+        // console.log('carousel:', this.data.carousel)
       } else {
         this.getcarousel();
       }
@@ -773,6 +771,7 @@ Page({
       reg3 = new RegExp("actId"),
       reg4 = new RegExp("type");
     let arr = this.data.bannthree;
+    console.log("arr:",arr)
     if (id == 1) {
       let str = arr[0].linkUrl;
       if (str == "ruzhu") { //进入下载APP页面
@@ -1386,8 +1385,8 @@ Page({
         _obj[arr2[0]] = arr2[1];
       }
     }
-    console.log('id:',id);
-    console.log('_obj:',_obj);
+    // console.log('id:',id);
+    // console.log('_obj:',_obj);
     if (_linkUrl == 'lingquan') {
       wx.navigateTo({
         url: 'new-exclusive/new-exclusive',

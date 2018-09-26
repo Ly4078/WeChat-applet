@@ -6,19 +6,28 @@ page{
 }
 .vouchertop {
   width: 694rpx;
-  height: 670rpx;
-  margin: 15rpx 28rpx;
+  height:458rpx;
   background-image:url(https://xqmp4-1256079679.file.myqcloud.com/test_lj20180921221720.png);
   background-repeat: no-repeat;
   background-size: 100% 100%;
   -moz-background-size: 100% 100%;
   position: relative;
+  left: 28rpx;
 }
 .topview{
- width: 704rpx;
+  width: 694rpx;
   height:458rpx;
 }
 button[plain]{
+  height: 86rpx;
+  line-height: 86rpx;
+  border: none;
+  border-radius: 86rpx;
+  background: #FC6232;
+  color: #fff;
+  font-size: 28rpx;
+}
+button{
   height: 86rpx;
   line-height: 86rpx;
   border: none;
@@ -36,6 +45,14 @@ button[plain]{
   color: #E4D08B;
   line-height: 40rpx;
   margin-right: 40rpx;
+}
+.voucode{
+  position: relative;
+  font-size: 28rpx;
+  color: #FEE48F;
+  top: 31rpx;
+  left: 39rpx;
+  text-shadow:0rpx 1rpx 1rpx rgba(0,0,0,1);
 }
 
 .submitTop {
@@ -276,14 +293,23 @@ button[plain]{
   background:#E1E1E1;
 }
 
+.modal_boxs{
+  width: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 5;
+  overflow: auto;
+  height: 100%;
+  background:rgba(245,245,250,1);
+}
 .modalcon{
   width:456rpx;
   height:446rpx;
-  background:rgba(255,255,255,1);
   border-radius:16px;
   position: relative;
   left: 147rpx;
-  top: 300rpx;
+  top: 170rpx;
   text-align: center;
 }
 .lierr{
@@ -310,6 +336,6 @@ button[plain]{
   font-size: 24rpx;
   background:rgba(255,110,2,1);
   border-radius:33rpx;
-  margin-top:45rpx;
+  margin-top:100rpx;
   margin-left:108rpx;
 }

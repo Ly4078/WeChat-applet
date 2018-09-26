@@ -514,7 +514,7 @@ Page({
     })
   },
   getmoredata: function() {
-    console.log("getmoredata")
+    // console.log("getmoredata")
     this.getstoredata();
     this.selectByShopId();
     this.recommendation();
@@ -719,7 +719,7 @@ Page({
       success: function(res) {
         let data = res.data;
         if (data.code == 0) {
-          console.log('list:', data.data.list);
+          // console.log('list:', data.data.list);
           that.setData({
             recommend_list: data.data.list ? data.data.list : []
           });
@@ -1388,7 +1388,6 @@ Page({
       rows: 10,
       businessCate: this.data.store_details.businessCate.split('/')[0].split(',')[0]
     }
-    console.log('_parms:', _parms)
     Api.shoplist(_parms).then((res) => {
       let data = res.data;
       if (data.code == 0) {

@@ -136,7 +136,6 @@ Page({
     Api.hcllist().then((res) => {
       if (res.data.data) {
         let data = res.data.data;
-        console.log('data:',data)
         for (let i = 0; i < data.length; i++) {
           if (data[i].sortNum == 4) {
             this.setData({
@@ -167,7 +166,7 @@ Page({
   tovideoact: function() { //去视频活动页面
     if (this.data.actId != '') {
       wx.navigateTo({
-        url: '../activityDetails/video-list/video-list?id=' + this.data.actId,
+        url: '../activityDetails/video-list/video-list?id=38' ,
       })
     }
   },

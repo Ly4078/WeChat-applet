@@ -25,7 +25,6 @@ Page({
       userId: app.globalData.userInfo.userId
     };
     Api.isNewUser(_parms).then((res) => {
-      console.log(res.data.code)
       if (res.data.code == 0) {
         that.setData({
           isNew: 1

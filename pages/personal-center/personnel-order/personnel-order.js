@@ -11,7 +11,7 @@ Page({
     currentTab: '', // 1待支付 2 已支付 3已核销 10取消, 订单状态 1待支付 2 已支付 3已核销 10取消
     shoporderlist: [],
     logisticsList:[],//物流订单列表
-    navbar: ['票劵订单', '物流订单'],
+    navbar: ['票劵订单', '实物订单'],
     shopping: 0,
     lostr:0,
     commoditys:[
@@ -92,6 +92,10 @@ Page({
       shopping: e.currentTarget.dataset.idx
     })
     if (this.data.shopping == 0) {
+      this.setData({
+        order_list:[],
+        shoporderlist:[]
+      })
       this.getOrderList();
       this.getshopOrderList();
     } else if (this.data.shopping == 1) {

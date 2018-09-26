@@ -8,7 +8,6 @@ page {
   background-color: #F5F5FA;
 }
 .myorder_tab {
-  font-weight: 600;
   display: flex;
   flex-direction: row;
   width: 100%;
@@ -29,7 +28,7 @@ page {
 .myorder_tab_list {
   height: 90rpx;
   line-height: 90rpx;
-  font-size: 30rpx;
+  font-size: 24rpx;
   display: inline-block;
   width: 33.33%;
   color: #808080;
