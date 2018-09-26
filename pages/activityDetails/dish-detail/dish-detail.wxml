@@ -44,7 +44,6 @@
   </view>
 </view>
 <view class='geduan'></view>
-<!-- <image class='houttishi' src='/images/icon/zhanweitu.png'></image> -->
 <view class="shopInfoBox">
   <view class="shopInfo">
     <view class="shopName"><text class="shopNameIcon"></text>{{shopName}}</view>
@@ -78,10 +77,6 @@
   <textarea class="commentArea" placeholder='请输入评论' focus="{{isComment}}" bindinput="getCommentVal" cursor-spacing="50rpx" show-confirm-bar="false" fixed="true"></textarea>
   <button class='fasong' form-type="reset" catchtap="setcmtadd">发送</button>
 </form>
-<!-- <view class='botton-comment' bindtap='showAreatext'>
-  <image class='comment-images' src='/images/icon/write.png'></image>
-  <text class='reviewyan'>写评论</text>
-</view> -->
 <view class='evaluate'>
   <view class='evaluateWrap'>
     <button class='evaluateSon sonButton' plain="true" data-name="shareBtn" open-type="share" bindtap='transpond'>
@@ -95,13 +90,8 @@
       </view>
     </view>
     <view class='evaluateSon' catchtap='castvote'>
-      <!-- <image class='evaluateImg' src='/images/icon/wenreviewed.png'></image> -->
       <text class='actzan'>{{sku>0?'投票':'已投票'}}</text>
     </view>
   </view>
 </view>
-<!-- <view class="floatBall" wx:if="{{shareFlag}}" bindtap='toArtList'>
-  <image src="/images/icon/actIcon.png"></image>
-</view> -->
 <image class='ball' wx:if="{{isball}}"  bindtap='toactlist' src='/images/icon/shouye.png'></image>
-<!-- </view>  -->

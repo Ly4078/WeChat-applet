@@ -131,19 +131,8 @@ Page({
                   sex: data.sex,
                   age: data.age,
                   height: data.height,
-                  // voteNum: data.voteNum ? data.voteNum : 0,
                   picUrls: data.picUrls ? data.picUrls : []
-                  // bgUrl: data.picUrl
                 });
-                // console.log(_nickName);
-                // console.log(data.userName);
-                // console.log(data.iconUrl);
-                // console.log(data.sex);
-                // console.log(data.age);
-                // console.log(data.height);
-                // console.log(data.voteNum);
-                // console.log(data.picUrls);
-                // console.log(data.picUrl);
               }
             }
           })

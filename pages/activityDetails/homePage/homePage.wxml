@@ -9,8 +9,6 @@
 </view>
 <view class="homePage">
   <view class="playerInfo">
-    <!-- <view class="playerInfoBack"></view>
-    <image class="playerInfoImg" src="{{bgUrl}}" mode="aspectFill"></image> -->
     <view class="info_inner">
       <view class="info_inner_l">
         <image src="{{iconUrl}}"></image>
@@ -43,17 +41,6 @@
     </view>
   </view>
   <view class="articles_published">
-    <!-- <view class="homePage_tab">
-      <view class="homePage_tab_l">
-        <text class="active">全部</text>
-        <text>视频</text>
-        <text>文章</text>
-      </view> 
-      <view class="homePage_tab_r">
-        <text>最新</text>
-        <image src="/images/icon/arrow.png"></image>
-      </view>
-    </view> -->
     <view class="homePage_list">
       <block wx:for="{{articleList}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
         <template is="homePageItem" data="{{item}}" />
