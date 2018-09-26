@@ -15,6 +15,7 @@ page{
 }
 .placeholder image{
   margin-top: 0;
+  top: 40%;
 }
 .enshrineLeft{
   width: 90%;

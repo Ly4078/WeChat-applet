@@ -57,7 +57,9 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    console.log("options:", options);
+    wx.showLoading({
+      title: '数据加载...',
+    });
     let _crabImgUrl = [],
       that = this;
     this.setData({
@@ -79,6 +81,7 @@ Page({
         that.setData({
           crabImgUrl: _crabImgUrl
         })
+        wx.hideLoading();
       }
     })
     if (app.globalData.userInfo.userId) {

@@ -20,9 +20,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    wx.showLoading({
-      title: '加载中...'
-    })
+    
   },
 
   /**
@@ -43,14 +41,14 @@ Page({
    * 生命周期函数--监听页面隐藏
    */
   onHide: function () {
-    wx.hideLoading();
+
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-    wx.hideLoading();
+
   },
 
   /**
@@ -81,6 +79,9 @@ Page({
   },
   //查询兑换记录列表
   getorderCoupon:function(){
+    wx.showLoading({
+      title: '加载中...'
+    });
     let _parms = {
       changerId: app.globalData.userInfo.userId,
       browSort:1,
