@@ -13,7 +13,9 @@ page{
   border: 1px solid #E0E0E0;
   position: relative;
 }
-
+.placeholder image{
+  margin-top: 0;
+}
 .enshrineLeft{
   width: 90%;
   height: 270rpx;

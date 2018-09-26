@@ -7,12 +7,32 @@ page{
 .vouchertop {
   width: 694rpx;
   height:458rpx;
-  background-image:url(https://xqmp4-1256079679.file.myqcloud.com/test_lj20180921221720.png);
+ 
   background-repeat: no-repeat;
   background-size: 100% 100%;
   -moz-background-size: 100% 100%;
   position: relative;
   left: 28rpx;
+}
+.vouchertopa{
+   background-image:url(https://xqmp4-1256079679.file.myqcloud.com/test_lj20180921221720.png);
+}
+.vouchertopb{
+   background-image:url(https://xqmp4-1256079679.file.myqcloud.com/test_vdf20180921222226.png);
+}
+.itemNamea{
+  color:  #E4D08B;
+  text-shadow:0rpx 1rpx 1rpx rgba(0,0,0,1);
+}
+.itemNameb{
+  color: #E3E3E6;
+  text-shadow:0rpx 1rpx 2rpx rgba(255,255,255,1);
+}
+.codea{
+  color: #FEE48F;
+}
+.codeb{
+  color: #7A7A7A;
 }
 .topview{
   width: 694rpx;
@@ -42,17 +62,15 @@ button{
   font-size: 24rpx;
   font-family: PingFangSC-Regular;
   font-weight: 400;
-  color: #E4D08B;
   line-height: 40rpx;
   margin-right: 40rpx;
 }
 .voucode{
   position: relative;
   font-size: 28rpx;
-  color: #FEE48F;
   top: 31rpx;
   left: 39rpx;
-  text-shadow:0rpx 1rpx 1rpx rgba(0,0,0,1);
+  text-shadow:0rpx 1rpx 1rpx rgb(230, 190, 190);
 }
 
 .submitTop {
@@ -338,4 +356,30 @@ button{
   border-radius:33rpx;
   margin-top:100rpx;
   margin-left:108rpx;
+}
+.isrecp1,.isrecp2{
+  text-align: center;
+  color: #808080;
+  font-size: 28rpx;
+  margin-top: 60rpx;
+}
+.isrecp1 text{
+  display: inline-block;
+  width:34rpx;
+  height:34rpx;
+  line-height: 34rpx;
+  background:linear-gradient(34deg,rgba(255,97,2,1) 0%,rgba(255,0,0,1) 100%);
+  border-radius:50%;
+  color: #fff;
+  margin: 0 20rpx;
+  font-weight: 600;
+}
+.isrecp2{
+  width:230rpx;
+  height:66rpx;
+  line-height: 66rpx;
+  color: #fff;
+  background:rgba(255,110,2,1);
+  border-radius:33rpx;
+  margin-left: 260rpx;
 }

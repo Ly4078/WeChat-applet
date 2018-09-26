@@ -11,7 +11,7 @@ Page({
     currentTab: '', // 1待支付 2 已支付 3已核销 10取消, 订单状态 1待支付 2 已支付 3已核销 10取消
     shoporderlist: [],
     logisticsList:[],//物流订单列表
-    navbar: ['票劵订单', '实物订单'],
+    navbar: ['实物订单','票劵订单',],
     shopping: 0,
     lostr:0,
     commoditys:[
@@ -46,10 +46,10 @@ Page({
     // this.getshopOrderList();
     // this.getlogisticsList(this.data.lostr);
     if (this.data.shopping == 0) {
+      this.getlogisticsList();
+    } else if (this.data.shopping == 1) {
       this.getOrderList();
       this.getshopOrderList();
-    } else if (this.data.shopping == 1) {
-      this.getlogisticsList(this.data.lostr);
     }
   },
   onHide: function () {
@@ -92,14 +92,14 @@ Page({
       shopping: e.currentTarget.dataset.idx
     })
     if (this.data.shopping == 0) {
+      this.getlogisticsList();
+    } else if (this.data.shopping == 1) {
       this.setData({
-        order_list:[],
-        shoporderlist:[]
+        order_list: [],
+        shoporderlist: []
       })
       this.getOrderList();
       this.getshopOrderList();
-    } else if (this.data.shopping == 1) {
-      this.getlogisticsList();
     }
   },
   distributionmag: function (e) { //物流订单tab
@@ -353,7 +353,7 @@ Page({
       page: this.data.page + 1,
       orpage:this.data.orpage +1
     });
-    if(this.data.shopping == 0){
+    if(this.data.shopping == 1){
       if (this.data.currentTab != 2 && this.data.reFresh) {
         wx.showLoading({
           title: '加载中..'
@@ -370,13 +370,13 @@ Page({
         this.getOrderList();
         this.getshopOrderList();
       }
-    }else if(this.data.shopping == 1){
+    }else if(this.data.shopping == 0){
       this.getlogisticsList(this.data.logId);
     }
   },
   //用户下拉刷新
   onPullDownRefresh: function () {
-    if (this.data.shopping == 0) {
+    if (this.data.shopping == 1) {
       this.setData({
         order_list: [],
         page: 1,
@@ -384,7 +384,7 @@ Page({
       });
       this.getOrderList();
       this.getshopOrderList();
-    } else if (this.data.shopping == 1) {
+    } else if (this.data.shopping == 0) {
       this.setData({
         logisticsList: [],
         orpage: 1,

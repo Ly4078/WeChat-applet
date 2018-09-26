@@ -1,20 +1,20 @@
 <!-- 模态弹框 -->
-<view class='modal_boxs' wx:if="{{isreceive}}" catchtap='closemodel'>
-  <view class='modalcon'>
+<view class='modal_boxs' wx:if="{{false}}" catchtap='closemodel'> -->
+ <view class='modalcon'>
     <image class='lierr' src='/images/icon/qinquerr.png'></image>
     <view class='liv1' wx:if="{{isshare}}">领取失败</view>
     <view class='liv2'>该提蟹券已经被领取</view>
     <view class='viewbuti'>返回首页</view>
-  </view>
+  </view> 
 </view>
 <!-- 回到时首页 -->
-<image class="indexIcon" src="/images/icon/indexIcon.png" bindtap='toIndex' wx:else></image>
+<image class="indexIcon" src="/images/icon/indexIcon.png" bindtap='toIndex' wx:if="{{!isreceive}}"></image>
 
 <!-- 头部图片 -->
-<view class='vouchertop'>
+<view class="vouchertop {{isreceive?'vouchertopb':'vouchertopa'}}">
   <view class='topview'>
-    <text class='vouchername'>{{current.sku}}</text>
-    <text class='voucode'>券号：{{current.couponCode}}</text>
+    <text class="vouchername {{isreceive?'itemNameb':'itemNamea'}}">{{current.sku}}</text>
+    <text class="voucode {{isreceive?'codeb':'codea'}}">券号：{{current.couponCode}}</text>
   </view>
 </view>
 
@@ -41,7 +41,7 @@
 </view>
 
 <!-- 订单详情 -->
-<view class='indentDetails'>
+<view class='indentDetails' wx:if="{{!isreceive}}">
   <view class='indentDetailsCtn'>
     <!-- 送达时间 -->
     <view class='equally' bindtap='deliveryTime' wx:if="{{isfrst}}">
@@ -93,4 +93,9 @@
     </view>
     <image class='vouimgUlrs' wx:for="{{crabImgUrl}}" wx:key="{{index}}" mode="widthFix" src='{{item}}'></image>
   </view>
+</view>
+
+<view class='norece' wx:if="{{isreceive}}">
+  <view class='isrecp1'><text>!</text>该提蟹券已经被领取</view>
+  <view class='isrecp2' bindtap='toIndex'>返回首页</view>
 </view>

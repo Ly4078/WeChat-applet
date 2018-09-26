@@ -628,6 +628,10 @@ const ALL_API = {
     method:'POST',
     url:'orderCoupon/sendCoupon'
   },
+  sendVersionCoupon: {//领取提蟹券 -- 修正版本
+    method: 'POST',
+    url: 'orderCoupon/sendVersionCoupon'
+  },
   listCoupon:{ //查询提蟹券赠送记录
     method:'GET',
     url:'orderCoupon/listCoupon'

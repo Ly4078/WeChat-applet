@@ -20,6 +20,8 @@ Page({
     kaishi: '',
     isfrst: false,
     isshare: false, //是否是点击分享进来的
+    versionNo:0,//分享上版本号
+    shareId:'',//分享人ID
     isreceive: false, //券是否已经被领取
     isgift: true, //能否赠送券给其他人
     errmsg: '',
@@ -55,7 +57,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    // console.log("options:", options);
+    console.log("options:", options);
     let _crabImgUrl = [],
       that = this;
     this.setData({
@@ -64,7 +66,8 @@ Page({
     if (options.isshare) {
       this.setData({
         isshare: options.isshare,
-        shareId: options.shareId
+        shareId: options.shareId,
+        versionNo: options.versionNo
       })
     }
 
@@ -115,6 +118,7 @@ Page({
               current: _data,
               crabImgUrl: _crabImgUrl,
             })
+            console.log("_data:", _data)
             if (_data.isUsed == 1) {
               wx.showModal({
                 title: '提示',
@@ -166,7 +170,14 @@ Page({
                 console.log("333333")
                 if(!val){
                   console.log("333333--111111")
-                  that.getsendCoupon(); //自动领取
+                  if (that.data.versionNo == _data.versionNo){
+                     that.getsendCoupon(); //自动领取
+                  }else{
+                    that.setData({
+                      isreceive: true
+                    })
+                  }
+                 
                 } else if (val == 1) {
                   console.log("333333--2222222")
                   wx.showModal({
@@ -181,6 +192,8 @@ Page({
                       }
                     }
                   })
+                }else if(val = 3){
+                  that.getsendCoupon(val);
                 }
               } else if (_data.ownId == app.globalData.userInfo.userId) {
                 console.log("44444-")
@@ -207,10 +220,9 @@ Page({
                 } else{
                   console.log("666666-")
                   that.setData({
-                  isreceive: true
-                })
+                    isreceive: true
+                  })
                 }
-                
               }
             } else if (_data.ownId == app.globalData.userInfo.userId || !_data.ownId) {
               if (val == 1) {
@@ -262,6 +274,7 @@ Page({
     let id = this.data.vouId,
       _skuName = this.data.current.styleName,
       _goodsSkuName = this.data.current.goodsSkuName,
+      _versionNo = this.data.current.versionNo,
       _mgsUrl = "",
       _shareimgs = this.data.shareimgs;
     for (let i = 0; i < _shareimgs.length; i++) {
@@ -272,7 +285,7 @@ Page({
     return {
       title: _goodsSkuName,
       imageUrl: _mgsUrl,
-      path: '/pages/index/crabShopping/voucherDetails/voucherDetails?id=' + id + '&isshare=true&shareId=' + app.globalData.userInfo.userId,
+      path: '/pages/index/crabShopping/voucherDetails/voucherDetails?id=' + id + '&isshare=true&shareId=' + app.globalData.userInfo.userId + '&versionNo=' + _versionNo,
       success: function (res) { }
     }
   },
@@ -376,25 +389,35 @@ Page({
     })
   },
   //领取提蟹券
-  getsendCoupon: function() {
-    let _parms = {
-      orderCouponCode: this.data.current.couponCode,
-      sendUserId: this.data.shareId,
-      receiveUserId: app.globalData.userInfo.userId
-    };
-    Api.sendCoupon(_parms).then((res) => {
-      if (res.data.code == 0) {
-        wx.showToast({
-          title: '领取提蟹券成功',
-          icon: 'none'
-        })
-      } else {
-        wx.showToast({
-          title: '领取提蟹券失败',
-          icon: 'none'
-        })
-      }
-    })
+  getsendCoupon: function(val) {
+    console.log('getsendCoupon')
+    console.log('valcopen:',val)
+    if(val){
+      let _parms = {                                              
+        orderCouponCode: this.data.current.couponCode,
+        sendUserId: this.data.shareId,
+        receiveUserId: app.globalData.userInfo.userId,
+        versionNo: this.data.current.versionNo
+      }, that = this;
+      console.log('_parms:', _parms)
+      Api.sendVersionCoupon(_parms).then((res) => {
+        console.log('getsendCoupon', res)
+        if (res.data.code == 0) {
+          that.getorderCoupon("a")
+          wx.showToast({
+            title: '领取提蟹券成功',
+            icon: 'none'
+          })
+        } else {
+          that.setData({
+            isreceive: true
+          })
+        }
+      })
+    }else{
+      this.getorderCoupon("3")
+    }
+    
   },
   //查询已有收货地址
   getAddressList: function(val) {

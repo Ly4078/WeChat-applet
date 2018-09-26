@@ -154,8 +154,8 @@ Page({
       })
     }
     Api.orderCoupon(_parms).then((res) => {
-      wx.stopPullDownRefresh();
       wx.hideLoading();
+      wx.stopPullDownRefresh();
       if (res.data.code == 0) {
         let _data = this.data.listData, _list = res.data.data.list;
         if (_list && _list.length > 0) {
@@ -193,6 +193,7 @@ Page({
     }
     Api.listCoupon(_parms).then((res)=>{
       wx.hideLoading();
+      wx.stopPullDownRefresh();
       if(res.data.code == 0){
         let _lists = res.data.data.list;
         if(_lists && _lists.length>0){
@@ -226,11 +227,11 @@ Page({
   //立即兑换
   redeemNow: function (e) {
     let id = e.currentTarget.id, _skuName = e.currentTarget.dataset.index, _isUsed = e.currentTarget.dataset.used, _orderId = e.target.dataset.order;
-    if (_isUsed == 0){
+    // if (_isUsed == 0){
       wx.navigateTo({
         url: '../../index/crabShopping/voucherDetails/voucherDetails?id=' + id + '&skuname=' + _skuName
       })
-    }
+    // }
   },
   //点击购买券
   buyVoucher: function () {
