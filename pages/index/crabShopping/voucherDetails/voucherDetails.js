@@ -267,7 +267,8 @@ Page({
   handGift: function() {
     wx.showToast({
       title: '不可赠送未领取的券',
-      icon: 'none'
+      icon: 'none',
+      duration: 3000
     })
   },
   /**
@@ -409,7 +410,8 @@ Page({
           that.getorderCoupon("a")
           wx.showToast({
             title: '领取提蟹券成功',
-            icon: 'none'
+            icon: 'none',
+            duration:3000
           })
         } else {
           that.setData({
@@ -600,7 +602,8 @@ Page({
       if (res.data.code == 0) {
         wx.showToast({
           title: '兑换成功',
-          icon: 'none'
+          icon: 'none',
+          duration: 3000
         })
         setTimeout(() => {
           wx.redirectTo({
@@ -696,7 +699,7 @@ Page({
         wx.showToast({
           icon: 'none',
           title: '支付取消',
-          duration: 1200
+          duration: 3000
         })
       },
       complete: function(res) {
