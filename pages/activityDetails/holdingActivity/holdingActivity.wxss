@@ -147,7 +147,6 @@ page{
 
 .single:nth-child(5){
   border-bottom-right-radius: 16rpx;
-
 }
 
 .detail{

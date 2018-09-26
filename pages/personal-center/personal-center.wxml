@@ -41,7 +41,7 @@
         <text class='messageTop'>订单</text>
       </view>
       <view class='messageWrap' catchtap='myTickets'>
-        <image class='coloursIcon' src='/images/icon/voucher.png'></image>
+        <image class='coloursIcon' src='/images/icon/dobeSKS.png'></image>
         <text class='messageTop'>优惠券</text>
       </view>
       <view class='messageWrap' catchtap='myMineMoney'>
