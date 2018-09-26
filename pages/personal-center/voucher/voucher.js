@@ -227,11 +227,11 @@ Page({
   //立即兑换
   redeemNow: function (e) {
     let id = e.currentTarget.id, _skuName = e.currentTarget.dataset.index, _isUsed = e.currentTarget.dataset.used, _orderId = e.target.dataset.order;
-    // if (_isUsed == 0){
+    if (_isUsed == 0){
       wx.navigateTo({
         url: '../../index/crabShopping/voucherDetails/voucherDetails?id=' + id + '&skuname=' + _skuName
       })
-    // }
+    }
   },
   //点击购买券
   buyVoucher: function () {
