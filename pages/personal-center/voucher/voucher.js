@@ -201,8 +201,12 @@ Page({
             // sendData: [],//赠送数据
             let _sendData = this.data.sendData;
             for(let i=0;i<_lists.length;i++){
-               _lists[i].receiveUserName =  _lists[i].receiveUserName.substr(0, 3) + "****" +  _lists[i].receiveUserName.substr(7);
-              _lists[i].sendUserName = _lists[i].sendUserName.substr(0, 3) + "****" + _lists[i].sendUserName.substr(7);
+              if (_lists[i].receiveUserName){
+                _lists[i].receiveUserName = _lists[i].receiveUserName.substr(0, 3) + "****" + _lists[i].receiveUserName.substr(7);
+              }
+              if (_lists[i].sendUserName){
+                _lists[i].sendUserName = _lists[i].sendUserName.substr(0, 3) + "****" + _lists[i].sendUserName.substr(7);
+              }
               _sendData.push(_lists[i]);
               that.setData({
                 sendData: _sendData
@@ -212,8 +216,12 @@ Page({
             // recData: []//收取数据
             let _recData = this.data.recData;
             for (let i = 0; i < _lists.length; i++) {
-              _lists[i].receiveUserName = _lists[i].receiveUserName.substr(0, 3) + "****" + _lists[i].receiveUserName.substr(7);
-              _lists[i].sendUserName = _lists[i].sendUserName.substr(0, 3) + "****" + _lists[i].sendUserName.substr(7);
+              if (_lists[i].receiveUserName) {
+                _lists[i].receiveUserName = _lists[i].receiveUserName.substr(0, 3) + "****" + _lists[i].receiveUserName.substr(7);
+              }
+              if (_lists[i].sendUserName) {
+                _lists[i].sendUserName = _lists[i].sendUserName.substr(0, 3) + "****" + _lists[i].sendUserName.substr(7);
+              }
               _recData.push(_lists[i]);
               that.setData({
                 recData: _recData

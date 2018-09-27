@@ -302,13 +302,15 @@ button{
   text-align: center;
   line-height: 86rpx;
   border-radius: 86rpx;
-  color: #191919;
+  /* color: #191919; */
   font-size: 30rpx;
   float: left;
   margin-left: 53rpx;
 }
 .anright{
-  background:#E1E1E1;
+  background:#fff;
+  color: #FC6232;
+  border: 1rpx solid #FC6232;
 }
 
 .modal_boxs{

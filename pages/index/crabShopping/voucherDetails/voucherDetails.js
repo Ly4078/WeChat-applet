@@ -84,178 +84,9 @@ Page({
         wx.hideLoading();
       }
     })
-    if (app.globalData.userInfo.userId) {
-      this.getorderCoupon();
-    } else {
-      this.findByCode();
-    }
+    
   },
-  //关闭弹框，返回首页
-  closemodel: function() {
-    wx.switchTab({
-      url: '/pages/index/index'
-    })
-  },
-  //查询券详情
-  getorderCoupon: function(val) {
-    wx.showLoading({
-      title: '数据加载中。。。',
-    })
-    let that = this,
-      _crabImgUrl = [];
-    wx.request({
-      url: this.data._build_url + 'orderCoupon/get/' + this.data.vouId,
-      header: {
-        'content-type': 'application/json' // 默认值
-      },
-      success: function(res) {
-        if (res.data.code == 0) {
-          let _data = res.data.data;
-          if (_data) {
-            _crabImgUrl = that.data.crabImgUrl;
-            if (_data.goodsSku.realWeight != 0) {
-              _crabImgUrl = _crabImgUrl.slice(2);
-            }
-            _data.sku = "公" + _data.maleWeight + " 母" + _data.femaleWeight + " 4对 " + _data.styleName + " | " + _data.goodsSku.otherMarkerPrice + "型";
-            that.setData({
-              current: _data,
-              crabImgUrl: _crabImgUrl,
-            })
-            console.log("_data:", _data)
-            if (_data.isUsed == 1) {
-              wx.showModal({
-                title: '提示',
-                showCancel: false,
-                content: '此券已被使用',
-                success: function(res) {
-                  if (res.confirm) {
-                    wx.switchTab({
-                      url: '/pages/index/index'
-                    })
-                  }
-                }
-              })
-            } else if (that.data.isshare) {
-              if (that.data.shareId == app.globalData.userInfo.userId) {
-                console.log("11111111")
-                if (_data.ownId == app.globalData.userInfo.userId || !_data.ownId) {
-                  console.log("11111111--111")
-                  //自己点击自己发出的券,未被人领取，不做处理
-                  if (val == 1) {
-                    console.log("11111111--222")
-                    that.sendredeemNow();
-                  }
-                }else if (_data.ownId != app.globalData.userInfo.userId) {
-                  console.log("222222-")
-                  //自己点击自己发出的券,已被人领取
-                  if (val == 1) {
-                    console.log("222222-1111111")
-                    wx.showModal({
-                      title: '提示',
-                      content: '此券已被他人领取，不可再提货',
-                      showCancel: false,
-                      success: function (res) {
-                        if (res.confirm) {
-                          console.log('用户点击确定')
-                        } else if (res.cancel) {
-                          console.log('用户点击取消')
-                        }
-                      }
-                    })
-                  }else{
-                    console.log("222222-222222222")
-                    that.setData({
-                      isreceive: true
-                    })
-                  }
-                } 
-              } else if (!_data.ownId || _data.ownId == that.data.shareId) {
-                console.log("333333")
-                if(!val){
-                  console.log("333333--111111")
-                  if (that.data.versionNo == _data.versionNo){
-                     that.getsendCoupon(); //自动领取
-                  }else{
-                    that.setData({
-                      isreceive: true
-                    })
-                  }
-                 
-                } else if (val == 1) {
-                  console.log("333333--2222222")
-                  wx.showModal({
-                    title: '提示',
-                    content: '此券已被他人领取，不可再提货',
-                    showCancel: false,
-                    success: function (res) {
-                      if (res.confirm) {
-                        console.log('用户点击确定')
-                      } else if (res.cancel) {
-                        console.log('用户点击取消')
-                      }
-                    }
-                  })
-                }else if(val = 3){
-                  that.getsendCoupon(val);
-                }
-              } else if (_data.ownId == app.globalData.userInfo.userId) {
-                console.log("44444-")
-                if (val == 1) {
-                  console.log("44444-1111111")
-                  that.sendredeemNow();
-                } 
-              } else {
-                console.log("5555555")
-                if (val == 1) {
-                  console.log("5555555--1111")
-                  wx.showModal({
-                    title: '提示',
-                    content: '此券已被他人领取，不可再提货',
-                    showCancel: false,
-                    success: function (res) {
-                      if (res.confirm) {
-                        console.log('用户点击确定')
-                      } else if (res.cancel) {
-                        console.log('用户点击取消')
-                      }
-                    }
-                  })
-                } else{
-                  console.log("666666-")
-                  that.setData({
-                    isreceive: true
-                  })
-                }
-              }
-            } else if (_data.ownId == app.globalData.userInfo.userId || !_data.ownId) {
-              if (val == 1) {
-                that.sendredeemNow();
-              } 
-            } else if (_data.ownId != app.globalData.userInfo.userId) {
-              if (val == 1) {
-                wx.showModal({
-                  title: '提示',
-                  content: '此券已被他人领取，不可再提货',
-                  showCancel:false,
-                  success: function (res) {
-                    if (res.confirm) {
-                      console.log('用户点击确定')
-                    } else if (res.cancel) {
-                      console.log('用户点击取消')
-                    }
-                  }
-                })
-              }
-            }
-            // that.getcalculateCost();
-          }
-        }
-      },
-      complete: function() {
-        wx.hideLoading();
-      }
-    })
-  },
+
 
   /**
    * 生命周期函数--监听页面初次渲染完成
@@ -325,16 +156,14 @@ Page({
       actaddress: {},
       postage: 0
     })
+    if (app.globalData.userInfo.userId && app.globalData.userInfo.mobile) {
+      this.getorderCoupon();
+    } else {
+      this.findByCode();
+    }
     if (this.data.isfrst) {
       this.frestrue();
     }
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function() {
-
   },
 
   /**
@@ -344,18 +173,171 @@ Page({
     app.globalData.Express = {};
   },
 
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function() {
-
+  //返回首页
+  closemodel: function () {
+    wx.switchTab({
+      url: '/pages/index/index'
+    })
   },
+  //查询券详情
+  getorderCoupon: function (val) {
+    wx.showLoading({
+      title: '数据加载中。。。',
+    })
+    let that = this,
+      _crabImgUrl = [];
+    wx.request({
+      url: this.data._build_url + 'orderCoupon/get/' + this.data.vouId,
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        if (res.data.code == 0) {
+          let _data = res.data.data;
+          if (_data) {
+            _crabImgUrl = that.data.crabImgUrl;
+            if (_data.goodsSku.realWeight != 0) {
+              _crabImgUrl = _crabImgUrl.slice(2);
+            }
+            _data.sku = "公" + _data.maleWeight + " 母" + _data.femaleWeight + " 4对 " + _data.styleName + " | " + _data.goodsSku.otherMarkerPrice + "型";
+            that.setData({
+              current: _data,
+              crabImgUrl: _crabImgUrl,
+            })
+            console.log("_data:", _data)
+            if (_data.isUsed == 1) {
+              wx.showModal({
+                title: '提示',
+                showCancel: false,
+                content: '此券已被使用',
+                success: function (res) {
+                  if (res.confirm) {
+                    wx.switchTab({
+                      url: '/pages/index/index'
+                    })
+                  }
+                }
+              })
+            } else if (that.data.isshare) {
+              if (that.data.shareId == app.globalData.userInfo.userId) {
+                console.log("11111111")
+                if (_data.ownId == app.globalData.userInfo.userId || !_data.ownId) {
+                  console.log("11111111--111")
+                  //自己点击自己发出的券,未被人领取，不做处理
+                  if (val == 1) {
+                    console.log("11111111--222")
+                    that.sendredeemNow();
+                  }
+                } else if (_data.ownId != app.globalData.userInfo.userId) {
+                  console.log("222222-")
+                  //自己点击自己发出的券,已被人领取
+                  if (val == 1) {
+                    console.log("222222-1111111")
+                    wx.showModal({
+                      title: '提示',
+                      content: '此券已被他人领取，不可再提货',
+                      showCancel: false,
+                      success: function (res) {
+                        if (res.confirm) {
+                          console.log('用户点击确定')
+                        } else if (res.cancel) {
+                          console.log('用户点击取消')
+                        }
+                      }
+                    })
+                  } else {
+                    console.log("222222-222222222")
+                    that.setData({
+                      isreceive: true
+                    })
+                  }
+                }
+              } else if (!_data.ownId || _data.ownId == that.data.shareId) {
+                console.log("333333")
+                if (!val) {
+                  console.log("333333--111111")
+                  if (that.data.versionNo == _data.versionNo) {
+                    that.getsendCoupon(); //自动领取
+                  } else {
+                    that.setData({
+                      isreceive: true
+                    })
+                  }
 
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function() {
-
+                } else if (val == 1) {
+                  console.log("333333--2222222")
+                  wx.showModal({
+                    title: '提示',
+                    content: '此券已被他人领取，不可再提货',
+                    showCancel: false,
+                    success: function (res) {
+                      if (res.confirm) {
+                        console.log('用户点击确定')
+                      } else if (res.cancel) {
+                        console.log('用户点击取消')
+                      }
+                    }
+                  })
+                } else if (val = 3) {
+                  that.getsendCoupon(val);
+                }
+              } else if (_data.ownId == app.globalData.userInfo.userId) {
+                console.log("44444-")
+                if (val == 1) {
+                  console.log("44444-1111111")
+                  that.sendredeemNow();
+                }
+              } else {
+                console.log("5555555")
+                if (val == 1) {
+                  console.log("5555555--1111")
+                  wx.showModal({
+                    title: '提示',
+                    content: '此券已被他人领取，不可再提货',
+                    showCancel: false,
+                    success: function (res) {
+                      if (res.confirm) {
+                        console.log('用户点击确定')
+                      } else if (res.cancel) {
+                        console.log('用户点击取消')
+                      }
+                    }
+                  })
+                } else {
+                  console.log("666666-")
+                  that.setData({
+                    isreceive: true
+                  })
+                }
+              }
+            } else if (_data.ownId == app.globalData.userInfo.userId || !_data.ownId) {
+              if (val == 1) {
+                that.sendredeemNow();
+              }
+            } else if (_data.ownId != app.globalData.userInfo.userId) {
+              if (val == 1) {
+                wx.showModal({
+                  title: '提示',
+                  content: '此券已被他人领取，不可再提货',
+                  showCancel: false,
+                  success: function (res) {
+                    if (res.confirm) {
+                      console.log('用户点击确定')
+                    } else if (res.cancel) {
+                      console.log('用户点击取消')
+                    }
+                  }
+                })
+              }
+            }
+            // that.getcalculateCost();
+          }
+        }
+      },
+      complete: function () {
+        wx.hideLoading();
+      }
+    })
   },
   //通过code查询进入的用户信息，判断是否是新用户
   findByCode: function(val) {
