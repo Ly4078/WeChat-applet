@@ -1,0 +1,137 @@
+.storeOrder {
+  background-color: #F5F5FA;
+  width: 100%;
+  height: 100%;
+}
+
+.storeOrder_top {
+  background-color: #fff;
+  margin-bottom: 20rpx;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.crabIcon {
+  width: 100%;
+  height: 750rpx;
+}
+
+.crabBox {
+  width: 100%;
+  padding: 20rpx 44rpx 20rpx 32rpx;
+  box-sizing: border-box;
+  border-top: 2rpx solid #EBEBEB;
+}
+
+.crabName {
+  color: #191919;
+  font-size: 30rpx;
+}
+
+.calculate {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.calculate_l {
+  color: #808080;
+  font-size: 24rpx;
+}
+
+.sellNum {
+  font-size: 20rpx;
+  margin: 20rpx 0 10rpx 0;
+}
+
+.discountPrice {
+  color: #FF4343;
+  font-size: 36rpx;
+}
+
+.originalPrice {
+  margin-left: 20rpx;
+  text-decoration: line-through;
+}
+
+.calculate_r {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+}
+
+.calculate_r image {
+  width: 50rpx;
+  height: 50rpx;
+}
+
+.calculate_r text {
+  color: #191919;
+  width: 60rpx;
+  height: 50rpx;
+  line-height: 50rpx;
+  text-align: center;
+}
+
+.description {
+  background-color: #fff;
+  color: #191919;
+  font-size: 20rpx;
+  padding: 0 42rpx 90rpx 28rpx;
+  width: 100%;
+  box-sizing: border-box;
+  letter-spacing: 1px;
+}
+
+.descri_header {
+  padding: 30rpx 0 28rpx 0;
+  font-size: 28rpx;
+  width: 100%;
+  text-align: center;
+  font-weight: 600;
+}
+
+.descri_item {
+  padding-bottom: 26rpx;
+  line-height: 34rpx;
+}
+
+.descri_tit {
+  font-weight: 600;
+}
+
+.descri_cont {
+  color: #808080;
+}
+
+.storeOrder_b {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 90rpx;
+  line-height: 90rpx;
+  border-top: 2rpx solid #EBEBEB;
+  background-color: #fff;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.orderNum {
+  color: #191919;
+  font-size: 24rpx;
+}
+
+.orderPrice {
+  font-size: 36rpx;
+  color: #FC5E2D;
+  padding: 0 30rpx 0 20rpx;
+}
+
+.orderBtn {
+  width: 244rpx;
+  color: #fff;
+  font-size: 36rpx;
+  background-color: #FC5E2D;
+  text-align: center;
+}

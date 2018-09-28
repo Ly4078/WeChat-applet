@@ -45,7 +45,7 @@ Page({
         isshop: true
       })
     }
-
+    
     if (!app.globalData.userInfo.unionId) {
       wx.login({
         success: res => {

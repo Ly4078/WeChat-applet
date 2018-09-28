@@ -21,8 +21,10 @@ Page({
     _build_url: GLOBAL_API_DOMAIN,
     listData: [], //送货到家
     storeData: [], //品质好店
+    marketList: [],//到店自提
     storeFlag: true, //品质好店节流阀
-    navbar: ['平台邮购', '到店消费'],
+    marketFlag: true,   //到店自提节流阀
+    navbar: ['平台邮购', '到店消费', '到店自提'],
     // oneTab: ["礼盒装", "散装", "提蟹券"],
     oneTab: ["提蟹券","散装"],
     currentTab: 0,
@@ -30,6 +32,7 @@ Page({
     spuval: 3,
     page: 1,
     _page: 1,
+    sPage: 1,
     articleid: '',
     dshImg: ''
   },
@@ -87,6 +90,8 @@ Page({
       }
     } else if (this.data.currentTab == 1) {
       this.listForSkuAllocation();
+    } else if (this.data.currentTab == 2) {
+      this.marketList();
     }
   },
   onShow: function() {},
@@ -96,9 +101,12 @@ Page({
       currentTab: e.currentTarget.dataset.idx,
       listData: [], //送货到家
       storeData: [],
+      marketList: [],
       storeFlag: true,
+      marketFlag: true,
       page: 1,
-      _page: 1
+      _page: 1,
+      sPage: 1
     })
     if (this.data.currentTab == 0) {
       if (this.data.listData.length == 0) {
@@ -108,6 +116,8 @@ Page({
       if (this.data.storeData.length == 0) {
         this.listForSkuAllocation();
       }
+    } else if (this.data.currentTab == 2) {
+      this.marketList();
     }
   },
   //点击二级目录
@@ -209,6 +219,53 @@ Page({
       })
     }
   },
+
+  //查询到店自提列表
+  marketList() {
+    let that = this;
+    if (!app.globalData.userInfo.lat || !app.globalData.userInfo.lng || !app.globalData.userInfo.city) {
+      wx.hideLoading();
+      this.getlocation();
+    } else {
+      let _parms = {
+        page: this.data.sPage,
+        rows: 5,
+        locationX: app.globalData.userInfo.lng,
+        locationY: app.globalData.userInfo.lat
+      };
+      if (this.data.sPage == 1) {
+        this.setData({
+          marketList: []
+        })
+      };
+      Api.superMarketUrl(_parms).then((res) => {
+        wx.hideLoading();
+        if (res.data.code == 0) {
+          let _list = res.data.data.list,
+            marketList = this.data.marketList;
+          if (_list && _list.length > 0) {
+            for (let i = 0; i < _list.length; i++) {
+              _list[i].distance = utils.transformLength(_list[i].distance);
+              _list[i].logoUrl = _list[i].logoUrl ? _list[i].logoUrl : _list[i].indexUrl;
+              marketList.push(_list[i]);
+            };
+            this.setData({
+              marketList: marketList,
+            })
+            if (_list.length < 5) {
+              this.setData({
+                marketFlag: false
+              });
+            }
+          } else {
+            this.setData({
+              marketFlag: false
+            });
+          }
+        }
+      })
+    }
+  },
   requestCityName(lat, lng) { //获取当前城市
     let that = this;
     wx.request({
@@ -239,14 +296,19 @@ Page({
     this.setData({
       page: 1,
       _page: 1,
+      sPage: 1,
       listData: [], //送货到家
       storeData: [],
-      storeFlag: true
+      marketList: [],
+      storeFlag: true,
+      marketFlag: true
     });
     if (this.data.currentTab == 0) {
       this.commodityCrabList();
     } else if (this.data.currentTab == 1) {
       this.listForSkuAllocation();
+    } else if (this.data.currentTab == 2) {
+      this.marketList();
     }
   },
   //用户上拉触底加载更多
@@ -268,6 +330,16 @@ Page({
           _page: this.data._page + 1
         });
         this.listForSkuAllocation();
+      }
+    } else if (this.data.currentTab == 2) {
+      if (this.data.marketFlag) {
+        wx.showLoading({
+          title: '加载中...'
+        })
+        this.setData({
+          sPage: this.data.sPage + 1
+        });
+        this.marketList();
       }
     }
   },
@@ -332,6 +404,12 @@ Page({
       greensID = e.currentTarget.dataset.id;
     wx.navigateTo({
       url: 'crabDetails/crabDetails?shopId=' + shopId + '&greensID=' + greensID + '&isShop=true'
+    })
+  },
+  toStoreDetail(e) {  //跳转至到店自提详情
+    let id = e.currentTarget.id, distance = e.currentTarget.dataset.distance;
+    wx.navigateTo({
+      url: 'superMarket/superMarket?id=' + id + '&distance=' + distance
     })
   }
 })

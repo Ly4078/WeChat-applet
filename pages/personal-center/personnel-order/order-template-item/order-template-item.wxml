@@ -43,7 +43,7 @@
 
 <!-- 物流订单 -->
 <template name="order_logistics">
-  <view class='logistics' catchtap='clickLogistics' id='{{item.id}}'>
+  <view class='logistics' catchtap='clickLogistics' id='{{item.id}}' data-sendType="{{item.sendType}}">
    <view class='logistics-top'>
     <view class='logistics-Left'>
       <text>{{item.createTime}}</text>
@@ -54,8 +54,8 @@
     <view class='logistics-center-left'>
       <image class='logistics-center-img' src='{{item.orderItemOuts[0].goodsSkuPic}}'></image>
     </view>
-    <view class='logistics-center-right'>
-      <view class='logistics-ctn-name'><text>阳澄湖大闸蟹礼盒装</text></view>
+    <view class='logistics-center-right {{item.sendType == 2 ? "store" : ""}}'>
+      <view wx:if="{{item.sendType != 2}}" class='logistics-ctn-name'><text>阳澄湖大闸蟹礼盒装</text></view>
       <view class='logistics-ctn-spn'><text>{{item.orderItemOuts[0].goodsSkuName}}</text></view>
     </view>
    </view>

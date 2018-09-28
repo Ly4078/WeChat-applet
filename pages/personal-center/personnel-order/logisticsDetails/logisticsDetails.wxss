@@ -246,7 +246,7 @@ page{
 
 .paymentMagic{
   width: 100%;
-  height: 345rpx;
+  height: 304rpx;
   margin-top: 20rpx;
   letter-spacing: 2rpx;
   background-color: #FFFFFF;

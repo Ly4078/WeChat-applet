@@ -1815,5 +1815,10 @@ Page({
       bargainList: bargainList,
       bargainListall: bargainListall
     });
+  },
+  toStore() {    //跳转至到店自提列表
+    wx.navigateTo({
+      url: 'crabShopping/crabShopping?currentTab=2'
+    })
   }
 })

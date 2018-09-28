@@ -1,0 +1,91 @@
+<view class='logisticsDWrap'>
+  <!-- 订单信息 -->
+  <view class='logisticsTop'>
+    <image class='logisticsTopImg' src='/images/icon/logisticsTopImg.png'></image>
+    <view class='logisticsTopShould'>
+      <view class='logisticsTopfront'>
+        <text>订单{{soDetail.status2}}</text>
+      </view>
+      <view class='logisticsTopCount'>
+        <text wx:if="{{soDetail.status == 1}}">{{soDetail.Countdown}}后取消订单，请及时付款</text>
+        <text wx:if="{{soDetail.status == 2}}">请在付款日期起的一个月内提货，过期失效</text>
+      </view>
+    </view>
+  </view>
+  <!-- 二维码信息 -->
+  <view class="qrCodeBox" wx:if="{{soDetail.qrcodeUrl}}">
+    <view class="qrCode_txt">请持提货码至</view>
+    <view class="storeName">{{soDetail.salePoint.salepointName}}</view>
+    <view class="qrCode_txt">提取商品</view>
+    <image class="qrCodeImg" src="{{soDetail.qrcodeUrl}}"></image>
+    <view>提货码：{{soDetail.orderCode}}</view>
+  </view>
+  <!-- 商品信息 -->
+  <view class='handise'>
+    <view class='handiseTop'>
+      <view class='handiseTop-left'>
+        <image class='handiseTop-img' src='{{soDetail.orderItemOuts[0].goodsSkuPic}}'></image>
+      </view>
+      <view class='handiseTop-right'>
+        <view class='handiseTop-rightText'>
+          <text>{{soDetail.orderItemOuts[0].goodsSkuName}}</text>
+        </view>
+        <view class='handiseTop-rightCation'>
+          <text>单位：只</text>
+        </view>
+        <view class='handiseTop-rightBtn'>
+          <text>￥{{soDetail.orderItemOuts[0].goodsPrice}}</text>
+          <text class='dolphinNei'>×{{soDetail.orderItemOuts[0].goodsNum}}</text>
+        </view>
+      </view>
+    </view>
+
+    <view class='endAmount'>
+      <view class='endAmountNei'>
+        <text>商品总额</text>
+        <text class='dolphinNei'>￥{{soDetail.comTotal}}</text>
+      </view>
+    </view>
+    
+    <view class='practicalPay'>
+      <view class='practicalPayAmount'>
+        <text>实付款：</text>
+        <text>￥{{soDetail.realAmount}}</text>
+      </view>
+    </view>
+  </view>
+  <!-- 支付订单信息 -->
+  <view class='paymentMagic'>
+    <view class='paymentHead'>
+      <view class='paymentHead-center'>
+        <text>订单详情</text>
+      </view>
+    </view>
+    <view class='payment-execute'>
+      <view class='inconformity'>
+         <text>订单编号</text>
+        <text>{{soDetail.orderCode}}</text>
+        <button class='copybut' bindtap='copyCode'>复制</button>
+      </view>
+      <view class='inconformity'>
+        <text>支付方式</text>
+        <text>微信支付</text>
+      </view>
+      <view class='inconformity'>
+        <text>下单时间</text>
+        <text>{{soDetail.createTime}}</text>
+      </view>
+      <view class='inconformity'>
+        <text>运输方式</text>
+        <text>到店自提</text>
+      </view>
+   
+    </view>
+  </view>
+  <!-- 底部联系客服再次/购买 -->
+  <view class='secondOrderLeader'>
+    <button open-type='contact'>联系客服</button>
+    <button bindtap='buyagain' wx:if="{{soDetail.status == 3 || soDetail.status == 10}}">再次购买</button>
+    <button bindtap='carryPay' wx:if="{{soDetail.status == 1}}">继续支付</button>
+  </view>
+</view>

@@ -293,3 +293,62 @@ page{
   border-radius: 24rpx;
   margin: 2rpx 4rpx;
 }
+
+.storeList {
+  width: 100%;
+  padding: 112rpx 28rpx 32rpx 28rpx;
+  box-sizing: border-box;
+}
+
+.store_item {
+  background-color: #fff;
+  border-radius: 16rpx;
+  overflow: hidden;
+  margin-bottom: 30rpx;
+  box-sizing: border-box;
+  border: 1rpx solid #CFCFCF;
+  /* box-shadow: 10px 10px 5px #CFCFCF; */
+}
+
+.storeIcon {
+  height: 390rpx;
+  width: 100%;
+}
+
+.storeIcon image {
+  height: 100%;
+  width: 100%;
+}
+
+.storeInfo {
+  padding: 10rpx 32rpx 18rpx 28rpx;
+  box-sizing: border-box;
+}
+
+.gray {
+  color: #808080;
+}
+
+.storeInfo_t {
+  display: flex;
+  justify-content: space-between;
+  font-size: 30rpx;
+  color: #191919;
+  padding-top: 4rpx;
+}
+
+.storeInfo_b {
+  width: 620rpx;
+  font-size: 26rpx;
+  padding-top: 6rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.salepointName {
+  width: 460rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

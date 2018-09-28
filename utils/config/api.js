@@ -635,6 +635,22 @@ const ALL_API = {
   listCoupon:{ //查询提蟹券赠送记录
     method:'GET',
     url:'orderCoupon/listCoupon'
+  },
+  superMarketUrl: {   //超市列表
+    method: 'GET',
+    url: 'salePoint/list'
+  },
+  storeSrabList: {   //到店提货螃蟹列表
+    method: 'GET',
+    url: 'salePoint/getGoodsListBySalePointId'
+  },
+  superMarketDetail: {   //超市详情
+    method: 'GET',
+    url: 'salePoint/getSalePointById'
+  },
+  superMarketPayment: {    //到店自提支付
+    method: 'POST',
+    url: 'wxpay/shoppingMallForMDZT'
   }
 }
 const Api = new MyHttp({}, ALL_API);

@@ -1,0 +1,24 @@
+@import "../../../../personal-center/personnel-order/logisticsDetails/logisticsDetails.wxss";
+.qrCodeBox {
+  color: #191919;
+  font-size: 30rpx;
+  text-align: center;
+  margin-bottom: 20rpx;
+  background-color: #fff;
+  padding: 30rpx 0 34rpx 0;
+}
+
+.qrCode_txt {
+  font-size: 24rpx;
+}
+
+.storeName {
+  color: #5578BA;
+  padding: 14rpx 0;
+}
+
+.qrCodeImg {
+  width: 266rpx;
+  height: 266rpx;
+  padding: 30rpx 0;
+}

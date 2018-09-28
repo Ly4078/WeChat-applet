@@ -1,0 +1,37 @@
+<view class="superMarket">
+  <view class="storeBox">
+    <view class="storeInfo">
+      <image class="storeUrl" src="/images/icon/ticket_txt.png"></image>
+      <view>
+        <view class="storeName">{{detailName}}</view>
+        <view class="storeAddress">
+          <view class="storeAddressIcon">
+            <image src="/images/icon/location.png"></image>
+          </view>
+          <text>{{address}} {{distance}}</text>
+        </view>
+      </view>
+    </view>
+    <view class="warning">
+      <text>注意：</text>
+      <text class="gray">购买完成后，请到指定提货点，向工作人员出示二维码</text>
+    </view>
+  </view>
+  <view class="crabList">
+    <view class="crab_item" wx:for="{{crabList}}" wx:key= "index">
+      <view class="crab_item_inner" id="{{item.id}}" bindtap='crabDetail'>
+        <image class="crabIcon" src="{{item.skuPic}}"></image>
+        <view class="crabInfo">
+          <view class="crabName">{{item.skuName}}</view>
+          <view class="crabData">
+            <view class="crabPrice">
+              <text>￥{{item.sellPrice}}</text>
+              <text class="priceUnit">/只</text>
+            </view>
+            <view class="priceUnit">已售{{item.sellNum}}</view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

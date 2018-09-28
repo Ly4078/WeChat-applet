@@ -1,0 +1,127 @@
+page, .superMarket {
+  background-color: #F5F5FA;
+  height: 100%;
+  width: 100%;
+}
+
+.gray {
+  color: #808080;
+}
+
+.storeBox {
+  background-color: #fff;
+  padding: 0 28rpx;
+  box-sizing: border-box;
+  border-top: 2rpx solid #F5F5FA;
+}
+
+.storeInfo {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  padding: 26rpx 0;
+  box-sizing: border-box;
+}
+
+.storeUrl {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 8rpx;
+  margin-right: 30rpx;
+}
+
+.storeName {
+  color: #191919;
+  font-size: 30rpx;
+  padding: 6rpx 0;
+}
+
+.storeAddress {
+  display: flex;
+  height: 50rpx;
+  line-height: 50rpx;
+}
+
+.storeAddressIcon {
+  display: flex;
+  align-items: center;
+  height: 50rpx;
+}
+
+.storeAddress image {
+  width: 26rpx;
+  height: 26rpx;
+  /* vertical-align: middle; */
+  margin-right: 8rpx;
+}
+
+.storeAddress text {
+  color: #808080;
+  font-size: 26rpx;
+}
+
+.warning {
+  font-size: 20rpx;
+  color: #191919;
+  padding-bottom: 8rpx;
+}
+
+.crabList {
+  padding: 20rpx 28rpx;
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.crab_item {
+  width: 50%;
+  margin-bottom: 20rpx;
+}
+
+.crab_item:nth-child(2n+1) {
+  padding-right: 10rpx;
+  box-sizing: border-box;
+}
+
+.crab_item:nth-child(2n) {
+  padding-left: 10rpx;
+  box-sizing: border-box;
+}
+
+.crab_item_inner {
+  background-color: #fff;
+  border-radius: 16rpx;
+  overflow: hidden;
+}
+
+.crabIcon {
+  width: 100%;
+  height: 340rpx;
+}
+
+.crabInfo {
+  padding: 20rpx 28rpx;
+  box-sizing: border-box;
+}
+
+.crabName {
+  color: #191919;
+  font-size: 26rpx;
+  margin-bottom: 24rpx;
+}
+
+.crabData {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.crabPrice {
+  color: #FF4343;
+  font-size: 30rpx;
+}
+
+.priceUnit {
+  color: #B1B1B1;
+  font-size: 20rpx;
+}

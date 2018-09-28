@@ -14,7 +14,7 @@ Page({
     username: '',
     phone: '',
     address: '',
-    issku: '',
+    issku: '',    //issku=3为到店自提
     num: '',
     sellPrice: '',
     skuName: '',
@@ -37,7 +37,10 @@ Page({
     remarks: '', //备注内容
     date: '', //默认日期
     threeLater: '', //三天后
-    tenLater: '' //十天后
+    tenLater: '', //十天后
+    distribution: '顺丰速运',    //配送方式
+    storeName: '',
+    address: ''
   },
   onLoad: function(options) {
     wx.showLoading({
@@ -53,47 +56,54 @@ Page({
       id: options.id,
       num: options.num,
       issku: options.issku,
-      id: options.id,
       shopId: options.shopId,
       spuId: options.spuId
     })
     app.globalData.OrderObj = options;
   },
   onShow: function(res) {
-    let _day = 60 * 60 * 24 * 1000,
-      _today = '',
-      hours = '',
-      _threeday = '',
-      _tenday = '';
-    _today = new Date();
-    hours = _today.getHours();
-    if (hours >= 17) {
-      _threeday = _today.getTime() + _day * 4;
-      _tenday = _today.getTime() + _day * 11;
-    } else {
-      _threeday = _today.getTime() + _day * 3;
-      _tenday = _today.getTime() + _day * 10;
-    }
+    if (this.data.issku != 3) {
+      let _day = 60 * 60 * 24 * 1000,
+        _today = '',
+        hours = '',
+        _threeday = '',
+        _tenday = '';
+      _today = new Date();
+      hours = _today.getHours();
+      if (hours >= 17) {
+        _threeday = _today.getTime() + _day * 4;
+        _tenday = _today.getTime() + _day * 11;
+      } else {
+        _threeday = _today.getTime() + _day * 3;
+        _tenday = _today.getTime() + _day * 10;
+      }
 
-    _threeday = new Date(_threeday);
-    _tenday = new Date(_tenday);
-    _today = utils.dateConv(_today, '-');
-    _threeday = utils.dateConv(_threeday, '-');
-    _tenday = utils.dateConv(_tenday, '-');
-    this.setData({
-      threeLater: _threeday,
-      tenLater: _tenday,
-      date: _threeday
-    })
-    if (app.globalData.Express.id) {
+      _threeday = new Date(_threeday);
+      _tenday = new Date(_tenday);
+      _today = utils.dateConv(_today, '-');
+      _threeday = utils.dateConv(_threeday, '-');
+      _tenday = utils.dateConv(_tenday, '-');
       this.setData({
-        actaddress: app.globalData.Express
-      });
-    } else {
-      this.getAddressList();
+        threeLater: _threeday,
+        tenLater: _tenday,
+        date: _threeday
+      })
+      if (app.globalData.Express.id) {
+        this.setData({
+          actaddress: app.globalData.Express
+        });
+      } else {
+        this.getAddressList();
+        this.setData({
+          actaddress: ''
+        });
+      }
+    } else if (this.data.issku == 3) {
       this.setData({
-        actaddress: ''
+        salepointId: app.globalData.OrderObj.salepointId,
+        distribution: '到店自提'
       });
+      this.marketDetail();
     }
     this.getDetailBySkuId();
   },
@@ -149,6 +159,8 @@ Page({
             })
           }
           zbzf = _obj.bzf ? _obj.bzf : 0;
+          //到店提货不需要运费
+          zbzf = this.data.issku == 3 ? 0 : zbzf;
           _total = this.data.num * _obj.sellPrice + zbzf;
           _total = _total.toFixed(2);
           _obj.total = _total;
@@ -157,10 +169,24 @@ Page({
           current: _obj,
           _rules: _rules
         })
-        if (_obj.spuId !=3){
+        if (_obj.spuId != 3 && this.data.issku != 3){
           this.getcalculateCost();
         }
         
+      }
+    })
+  },
+  marketDetail() {   //超市详细信息
+    let _parms = {
+      id: this.data.salepointId
+    };
+    Api.superMarketDetail(_parms).then((res) => {
+      if (res.data.code == 0) {
+        let data = res.data.data;
+        this.setData({
+          storeName: data.salepointName,
+          address: data.address
+        });
       }
     })
   },
@@ -220,7 +246,7 @@ Page({
     })
   },
 
-  //查询最费
+  //查询运费
   getcalculateCost: function() {
     if (!this.data.current) {
       this.getDetailBySkuId('val');
@@ -300,6 +326,50 @@ Page({
       }
     })
   },
+  //到店自提
+  superMarketOrder() {
+    let that = this;
+    if (this.data.issoid) {
+      return
+    }
+    this.setData({
+      issoid: true
+    })
+    let _parms = {
+      userId: app.globalData.userInfo.userId,
+      userName: app.globalData.userInfo.userName,
+      shopId: this.data.shopId,
+      payType: 2,
+      sendType: 2,    //到店自提
+      salepointId: this.data.salepointId,  //到店自提销售点id
+      orderItemList: [{
+        goodsSkuId: this.data.id,
+        goodsSpuId: this.data.spuId,
+        goodsNum: this.data.num,
+        shopId: this.data.shopId,
+        orderItemShopId: '0',
+        remark: this.data.remarks
+      }]
+    };
+    wx.request({
+      url: that.data._build_url + 'orderInfo/create',
+      data: JSON.stringify(_parms),
+      method: 'POST',
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        if (res.data.code == 0) {
+          if (res.data.data) {
+            that.setData({
+              orderId: res.data.data
+            })
+            that.updataUser();
+          }
+        }
+      }
+    })
+  },
   //点击提交订单
   submitSoid: function() {
     let that = this;
@@ -321,6 +391,7 @@ Page({
           userName: app.globalData.userInfo.userName,
           shopId: this.data.shopId,
           payType: 2,
+          sendType: 1,    //非自提
           orderItemList: [{
             goodsSkuId: this.data.id,
             goodsSpuId: this.data.spuId,
@@ -359,7 +430,6 @@ Page({
         })
       }
     }
-    
   },
   //更新用户信息
   updataUser: function() {
@@ -396,8 +466,17 @@ Page({
         openId: app.globalData.userInfo.openId
       },
       that = this;
-    if (that.data.current.spuId ==3) {
+    if (that.data.current.spuId == 3 && that.data.issku != 3) {
       Api.MallForCoupon(_parms).then((res) => {
+        if (res.data.code == 0) {
+          that.setData({
+            payObj: res.data.data
+          })
+          that.pay();
+        }
+      })
+    } else if (that.data.issku == 3) {
+      Api.superMarketPayment(_parms).then((res) => {
         if (res.data.code == 0) {
           that.setData({
             payObj: res.data.data
@@ -427,10 +506,15 @@ Page({
       'signType': 'MD5',
       'paySign': _data.paySign,
       success: function(res) {
-        if (that.data.current.spuId == 3) {
+        if (that.data.current.spuId == 3 && that.data.issku != 3) {
           wx.redirectTo({
             url: 
             '../../../../personal-center/voucher/voucher'
+          })
+        } else if (that.data.issku == 3) {
+          wx.redirectTo({
+            url:
+              '../../superMarket/orderDetail/orderDetail?soId=' + that.data.orderId
           })
         } else {
           wx.redirectTo({

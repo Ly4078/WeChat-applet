@@ -1126,3 +1126,8 @@ page {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+.toStoreBg {
+  width: 100%;
+  height: 220rpx;
+}

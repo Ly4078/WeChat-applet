@@ -195,6 +195,12 @@
   height: auto;
 }
 
+.logistics-center-right.store view {
+  margin-top: 0;
+  font-size:28rpx;
+  color:rgba(25,25,25,1);
+}
+
 .logistics-ctn-name{
   font-size:28rpx; 
   color:rgba(25,25,25,1);

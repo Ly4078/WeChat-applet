@@ -140,7 +140,7 @@ Page({
             if (_list[i].status == 1) {
               _list[i].status2 = '待付款';
             } else if (_list[i].status == 2) {
-              _list[i].status2 = '待收货';
+              _list[i].status2 = _list[i].sendType == 2 ? '待自提' : '待收货';
             } else if (_list[i].status == 3) {
               _list[i].status2 = '已完成';
             } else if (_list[i].status == 10) {
@@ -407,12 +407,15 @@ Page({
 
   // 物流订单-->订单详情
   clickLogistics:function(e){
-    let id = e.currentTarget.id;
-    wx.navigateTo({
-      url: 'logisticsDetails/logisticsDetails?soId='+id,
-      success: function(res) {},
-      fail: function(res) {},
-      complete: function(res) {},
-    })
+    let id = e.currentTarget.id, sendType = e.currentTarget.dataset.sendtype;
+    if (sendType == 2) {
+      wx.navigateTo({
+        url: '../../index/crabShopping/superMarket/orderDetail/orderDetail?soId=' + id
+      })
+    } else {
+      wx.navigateTo({
+        url: 'logisticsDetails/logisticsDetails?soId=' + id
+      })
+    }
   }
 })

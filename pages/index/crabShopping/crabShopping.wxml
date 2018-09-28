@@ -4,7 +4,7 @@
 </view>
 
 <!--平台邮购-->
-<view class="crabListBox" hidden="{{currentTab==1}}">
+<view class="crabListBox" hidden="{{currentTab==1 || currentTab==2}}">
   <view class='tabone'>
     <view  wx:for="{{oneTab}}" wx:key= "index" id='{{index}}' class="onetab {{tabId==index ? 'actonetab' : ''}}" bindtap="handonetab">{{item}}</view>
   </view>
@@ -40,7 +40,7 @@
 </view>
 
 <!--到店消费-->
-<view class="crabListBox" hidden="{{currentTab==0}}">
+<view class="crabListBox" hidden="{{currentTab==0 || currentTab==2}}">
   <image class='storeImg' src='{{dshImg}}'></image>
   <view class='storeWrapCrad'>
     <view class='storStyle'>
@@ -73,6 +73,23 @@
       <view class='placeholder' wx:if="{{storeData.length<1}}">
         <image src="/images/icon/zhanweitu.png"></image>
       </view>
+    </view>
+  </view>
+</view>
+
+<!-- 到店自提 -->
+<view class="storeList" hidden="{{currentTab==0 || currentTab==1}}">
+  <view wx:if="{{marketList.length>0}}" wx:for="{{marketList}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}" class="store_item" id="{{item.id}}" data-distance="{{item.distance}}" bindtap="toStoreDetail">
+    <view class="storeIcon">
+      <image wx:if="{{item.logoUrl}}" mode='aspectFill' src='{{item.logoUrl}}'></image>
+      <image wx:else mode='aspectFill' src='/images/icon/morentu.png'></image>
+    </view>
+    <view class="storeInfo">
+      <view class="storeInfo_t">
+        <view class="salepointName">{{item.salepointName}}</view>
+        <view class="gray">{{item.distance}}</view>
+      </view>
+      <view class="storeInfo_b gray">{{item.address}}</view>
     </view>
   </view>
 </view>

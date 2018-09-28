@@ -1,6 +1,6 @@
 <view class='submitWrap'>
   <!-- 收货地址 -->
-  <view class='submitTop' catchtap='additionSite' wx:if="{{current.spuId != 3}}">
+  <view class='submitTop' catchtap='additionSite' wx:if="{{current.spuId != 3 && issku != 3}}">
     <view class='submitCenter'>
       <!-- <image class='submitImg' src='/images/icon/location.png'></image> -->
       <image class='AddTheAddress' src='/images/icon/AddTheAddresss.png' wx:if="{{!actaddress.chatName}}"></image>
@@ -19,6 +19,12 @@
         <image class='submitRight' src='/images/icon/xialatupian.png'></image>
       </view>
     </view>
+  </view>
+
+  <!-- 到店自提地址 -->
+  <view class="storeBox" wx:if="{{issku == 3}}">
+    <view><text class="storeName_l">自提门店</text>{{storeName}}</view>
+    <view class="storeAddr">{{address}}</view>
   </view>
 
   <!-- 订单详情 -->
@@ -47,13 +53,13 @@
       </view>
       <view class='equally'  wx:if="{{current.spuId != 3}}">
         <text>配送方式</text>
-        <text>顺丰速运</text>
+        <text>{{distribution}}</text>
       </view>
-      <view class='equally' wx:if="{{postage}}">
+      <view class='equally' wx:if="{{postage && issku != 3}}">
         <text>配送费</text>
         <text class='delicatese'>￥{{postage}}</text>
       </view>
-      <view class='equally' bindtap='deliveryTime' wx:if="{{current.spuId != 3}}">
+      <view class='equally' bindtap='deliveryTime' wx:if="{{current.spuId != 3 && issku != 3}}">
         <picker mode="date" class='eqpicker' value="{{threeLater}}" start="{{threeLater}}" end="{{tenLater}}" bindchange="bindDateChange">
           <view class="picker">
             <view>
@@ -65,7 +71,7 @@
           </view>
         </picker>
       </view>
-      <view class='equally' bindtap='handbzf' wx:if="{{current.bzf}}">
+      <view class='equally' bindtap='handbzf' wx:if="{{current.bzf && issku != 3}}">
         <text>包装费<text class='suoming'>（冰袋、保温内胆、加厚泡沫箱）？</text></text>
         <text class='delicatese'>￥{{current.bzf}}</text>
       </view>
@@ -89,7 +95,10 @@
         <text>￥{{current.total}}</text>
       </view>
     </view>
-    <view class='presentCommRight' bindtap='submitSoid'>
+    <view wx:if="{{issku == 3}}" class='presentCommRight' bindtap='superMarketOrder'>
+      <view>提交订单</view>
+    </view>
+    <view wx:else class='presentCommRight' bindtap='submitSoid'>
       <view>提交订单</view>
     </view>
   </view>

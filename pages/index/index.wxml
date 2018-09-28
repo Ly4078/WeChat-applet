@@ -104,6 +104,11 @@
     </view>
   </view>
 
+  <!-- 到店自提 -->
+  <view>
+    <image bindtap='toStore' class="toStoreBg" src="https://xqmp4-1256079679.file.myqcloud.com/Colin_erywgegrerkgor.jpg"></image>
+  </view>
+
   <!-- 限量秒杀 -->
   <view wx:if="{{secKillList.length > 0}}">
     <block wx:for="{{secKillArr}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
@@ -180,7 +185,7 @@
       <view wx:for="{{bargainList}}" wx:key="index">
         <view class='RthreeItem' id='{{item.id}}' data-index="{{item.shopId}}" bindtap='candyDetails'>
           <image class='Resimg' wx:if="{{item.picUrl}}" src="{{item.picUrl}}"></image>
-           <image class='Resimg' wx:else src='/images/icon/morentu.png' ></image>
+          <image class='Resimg' wx:else src='/images/icon/morentu.png'></image>
           <text>{{item.skuName}}\n</text>
           <text class='Baragio'>¥{{item.agioPrice}}</text>
           <text class='BarinPrice'>¥{{item.sellPrice}}</text>

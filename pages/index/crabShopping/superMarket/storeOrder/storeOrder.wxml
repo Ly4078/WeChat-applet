@@ -1,0 +1,42 @@
+<view class="storeOrder">
+  <view class="storeOrder_top">
+    <image wx:if="{{skuPic}}" class="crabIcon" src="{{skuPic}}"></image>
+    <image wx:else class="crabIcon" src="/images/icon/morentu.png"></image>
+    <view class="crabBox">
+      <view class="crabName">{{skuName}}</view>
+      <view class="calculate">
+        <view class="calculate_l">
+          <view class="sellNum">已售{{sellNum}}</view>
+          <text class="discountPrice">￥{{sellPrice}}</text>
+          <text>/只</text>
+          <text class="originalPrice">￥{{marketPrice}}</text>
+        </view>
+        <view class="calculate_r">
+          <image bindtap='minus' src="/images/icon/subtract.png"></image>
+          <text>{{num}}</text>
+          <image bindtap='add' src="/images/icon/addNum.png"></image>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="description">
+    <view class="descri_header">购买须知</view>
+    <view class="descri_item">
+      <text class="descri_tit">自提说明：</text>
+      <text class="descri_cont">【选择商品】选择购买的商品和数量；【提交订单】在提交订单页面，选择“门店自提”配送方式，提交订单并支付；【门店自取】</text>
+    </view>
+    <view class="descri_item">
+      <text class="descri_tit">划线价格：</text>
+      <text class="descri_cont">划线的价格并非《中华人民共和国价格法》及《禁止价格欺诈行为的规定》等相关法律法规中所指商品“原价”的含义，仅为该商品</text>
+    </view>
+    <view class="descri_item">
+      <text class="descri_tit">未划线价格：</text>
+      <text class="descri_cont">未划线的价格指该商品在享7美食平台实时标价，具体成交价格根据商品参加的活动，或者您使用优惠券等发生变化，最终以订单</text>
+    </view>
+  </view>
+  <view class="storeOrder_b">
+    <view class="orderNum">共{{num}}件商品</view>
+    <view class="orderPrice">￥{{orderPrice}}</view>
+    <view class="orderBtn" bindtap='toBuy'>去结算</view>
+  </view>
+</view>
