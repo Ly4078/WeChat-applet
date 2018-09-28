@@ -45,7 +45,7 @@
           <view class='centerSwordWrap'>
             <image class='centerSword' src='/images/icon/house.png'></image>
             <text>{{shopName}}</text>
-            <text>已售<text>{{sellNum}}</text></text>
+            <!-- <text>已售<text>{{sellNum}}</text></text> -->
           </view>
           <view class='bargainBtn'>
             <view>￥
