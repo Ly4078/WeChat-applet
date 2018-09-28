@@ -140,7 +140,7 @@ Page({
             if (_list[i].status == 1) {
               _list[i].status2 = '待付款';
             } else if (_list[i].status == 2) {
-              _list[i].status2 = _list[i].sendType == 2 ? '待自提' : '待收货';
+              _list[i].status2 = '待收货';
             } else if (_list[i].status == 3) {
               _list[i].status2 = '已完成';
             } else if (_list[i].status == 10) {
