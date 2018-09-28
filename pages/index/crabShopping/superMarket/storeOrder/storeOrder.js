@@ -33,6 +33,12 @@ Page({
     });
   },
   onShow: function () {
+    if (!app.globalData.userInfo.mobile) { //是新用户，去注册页面
+      wx.navigateTo({
+        url: '../../../../personal-center/securities-sdb/securities-sdb?back=1'
+      })
+      return false;
+    }
     this.getDetailBySkuId();
   },
   onHide: function () {

@@ -135,6 +135,12 @@ Page({
   },
 
   onShow: function() {
+    if (!app.globalData.userInfo.mobile) {
+      wx.navigateTo({
+        url: '../../../../pages/personal-center/securities-sdb/securities-sdb?back=1'
+      })
+      return false
+    }
     let _crabImgUrl = [],
       _ruleImg = '',
       that = this;
@@ -157,13 +163,13 @@ Page({
     }
   },
   bargainDetails: function() { //品质好店-->店铺详情--列表
-    if (!app.globalData.userInfo.mobile) {
-      wx.hideLoading();
-      wx.navigateTo({
-        url: '../../../../pages/personal-center/securities-sdb/securities-sdb?back=1'
-      })
-      return false
-    }
+    // if (!app.globalData.userInfo.mobile) {
+    //   wx.hideLoading();
+    //   wx.navigateTo({
+    //     url: '../../../../pages/personal-center/securities-sdb/securities-sdb?back=1'
+    //   })
+    //   return false
+    // }
     let that = this,
       _array = [];
     let _parms = {
@@ -346,12 +352,12 @@ Page({
 
   //发起砍价
   initiateCut: function() {
-    if (!app.globalData.userInfo.mobile) {
-      wx.navigateTo({
-        url: '../../../../pages/personal-center/securities-sdb/securities-sdb?back=1'
-      })
-      return false
-    }
+    // if (!app.globalData.userInfo.mobile) {
+    //   wx.navigateTo({
+    //     url: '../../../../pages/personal-center/securities-sdb/securities-sdb?back=1'
+    //   })
+    //   return false
+    // }
     let _parms = {
       userId: app.globalData.userInfo.userId,
       skuId: this.data.SelectedList.id
@@ -514,9 +520,9 @@ Page({
       _issku = this.data.issku ? 1 : 2,
       _shopId = this.data.SelectedList.shopId;
     if (!app.globalData.userInfo.mobile) {
-      wx.navigateTo({
-        url: '../../../../pages/personal-center/securities-sdb/securities-sdb?back=1'
-      })
+      // wx.navigateTo({
+      //   url: '../../../../pages/personal-center/securities-sdb/securities-sdb?back=1'
+      // })
     } else {
       if (!this.data.showModalStatus) {
         this.showModal();
