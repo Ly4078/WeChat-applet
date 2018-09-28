@@ -15,7 +15,7 @@
   <!-- 二维码信息 -->
   <view class="qrCodeBox" wx:if="{{soDetail.qrcodeUrl}}">
     <view class="qrCode_txt">请持提货码至</view>
-    <view class="storeName">{{soDetail.salePoint.salepointName}}</view>
+    <view class="storeName">{{soDetail.salePoint.salepointName}} {{soDetail.salePoint.address}}</view>
     <view class="qrCode_txt">提取商品</view>
     <image class="qrCodeImg" src="{{soDetail.qrcodeUrl}}"></image>
     <view>提货码：{{soDetail.orderCode}}</view>

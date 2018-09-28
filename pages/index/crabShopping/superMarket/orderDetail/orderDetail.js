@@ -87,9 +87,9 @@ Page({
   },
   //点击再次购买按钮
   buyagain: function () {
-    let id = this.data.soDetail.orderItemOuts[0].goodsSkuSpecValues[0].id;
+    let id = this.data.soDetail.orderItemOuts[0].goodsSkuSpecValues[0].id, salepointId = this.data.soDetail.salepointId;
     wx.navigateTo({
-      url: '../../crabDetails/crabDetails?id=' + id
+      url: '../storeOrder/storeOrder?id=' + id + '&salepointId=' + salepointId
     })
   },
   //点击继续支付  -- 先更新openid
