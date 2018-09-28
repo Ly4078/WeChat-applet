@@ -7,24 +7,23 @@ page{
 
 .recordItme{
   width: 670rpx;
-  height: 114rpx;
-  padding: 28rpx 10rpx;
+  padding: 10rpx 10rpx 28rpx 10rpx;
   background: #fff;
   margin-top: 20rpx;
+  display: flex;
+  flex-direction: row;
 }
 .itemleft{
   width: 170rpx;
-  height: 114rpx;
-  float: left;
+  height: 153rpx;
 }
 .itemleft image{
   width: 153rpx;
-  height: 82rpx;
-  margin-top: 16rpx;
+  height: 153rpx;
 }
 .itemright{
-  float: left;
   width: 470rpx;
+  padding-top: 20rpx;
 }
 .itemright view{
   height: 40rpx;

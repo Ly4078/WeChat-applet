@@ -68,7 +68,7 @@ Page({
     });
   },
   minus() {   //点击减号
-    if (this.data.num > 0) {
+    if (this.data.num > 1) {
       let num = this.data.num - 1, sellPrice = this.data.sellPrice;
       this.setData({
         num: num,

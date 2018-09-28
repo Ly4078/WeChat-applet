@@ -6,7 +6,7 @@
       <view class='cutCuisine-text'>
         <view class='name-sales'>
           <text>{{item.skuName}}</text>
-          <text>已售{{item.sellNum}}</text>
+          <!-- <text>已售{{item.sellNum}}</text> -->
         </view>
         <view class='symbol-dst'>
           <view>

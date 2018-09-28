@@ -75,7 +75,7 @@
         <text>包装费<text class='suoming'>（冰袋、保温内胆、加厚泡沫箱）？</text></text>
         <text class='delicatese'>￥{{current.bzf}}</text>
       </view>
-      <view class='equally'  wx:if="{{current.spuId != 3}}">
+      <view class='equally'  wx:if="{{current.spuId != 3 && issku != 3}}">
         <text>商品备注:</text>
         <input name="input" bindinput="bindremarks" value='{{remarks}}' placeholder='选填内容'></input>
         <!-- <text class='delicatese'>￥{{current.total}}</text> -->

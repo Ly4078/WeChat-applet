@@ -24,7 +24,7 @@ Page({
     marketList: [],//到店自提
     storeFlag: true, //品质好店节流阀
     marketFlag: true,   //到店自提节流阀
-    navbar: ['平台邮购', '到店消费', '到店自提'],
+    navbar: ['平台邮购', '到店消费', '门店自提'],
     // oneTab: ["礼盒装", "散装", "提蟹券"],
     oneTab: ["提蟹券","散装"],
     currentTab: 0,

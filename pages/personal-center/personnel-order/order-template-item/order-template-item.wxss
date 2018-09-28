@@ -25,7 +25,7 @@
 
 .personnelTime_left {
   width: 70%;
-  color: #b1b1b1;
+  color: #808080;
 }
 
 .personnelTime_right {
@@ -139,7 +139,7 @@
   height: 62rpx;
   border-bottom: 1px solid #E0E0E0;
   font-size:24rpx;
-  color:rgba(177,177,177,1);
+  color:#808080;
   display: flex;
   justify-content: space-between;
   align-items: center;

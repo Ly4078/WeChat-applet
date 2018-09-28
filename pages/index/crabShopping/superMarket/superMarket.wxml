@@ -1,7 +1,7 @@
 <view class="superMarket">
   <view class="storeBox">
     <view class="storeInfo">
-      <image class="storeUrl" src="/images/icon/ticket_txt.png"></image>
+      <image class="storeUrl" src="{{storeUrl}}"></image>
       <view>
         <view class="storeName">{{detailName}}</view>
         <view class="storeAddress">

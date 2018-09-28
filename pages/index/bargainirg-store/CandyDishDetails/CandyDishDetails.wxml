@@ -24,7 +24,7 @@
           <text class='lowValue'>{{agioPrice}}</text>
           <text class='abandon'>原价：￥{{sellPrice}}</text>
         </view>
-        <text class='at-present'>已售{{sellNum}}份</text>
+        <!-- <text class='at-present'>已售{{sellNum}}份</text> -->
       </view>
       <image class='instructions' src='https://xqmp4-1256079679.file.myqcloud.com/text_461753568722106529.png'></image>
     </view>
@@ -82,7 +82,7 @@
               <view class='lemon'>
                 <image class='house' src='/images/icon/house.png'></image>
                 <text>{{item.shopName}}</text>
-                <text>已售{{item.sellNum}}</text>
+                <!-- <text>已售{{item.sellNum}}</text> -->
               </view>
               <view class='original-cmb'>
                 <text>￥{{item.agioPrice}}</text>
@@ -116,9 +116,9 @@
               <view class='beanLeft'>
                 <text>{{item.skuName}}</text>
               </view>
-              <view class='beanRight'>已售
+              <!-- <view class='beanRight'>已售
                 <text>{{item.sellNum}}</text>
-              </view>
+              </view> -->
             </view>
             <view class='horticulture'>
               <view class='hol-left'>

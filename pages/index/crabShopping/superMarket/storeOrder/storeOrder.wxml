@@ -9,7 +9,7 @@
           <view class="sellNum">已售{{sellNum}}</view>
           <text class="discountPrice">￥{{sellPrice}}</text>
           <text>/只</text>
-          <text class="originalPrice">￥{{marketPrice}}</text>
+          <!-- <text class="originalPrice">￥{{marketPrice}}</text> -->
         </view>
         <view class="calculate_r">
           <image bindtap='minus' src="/images/icon/subtract.png"></image>
@@ -23,15 +23,15 @@
     <view class="descri_header">购买须知</view>
     <view class="descri_item">
       <text class="descri_tit">自提说明：</text>
-      <text class="descri_cont">【选择商品】选择购买的商品和数量；【提交订单】在提交订单页面，选择“门店自提”配送方式，提交订单并支付；【门店自取】</text>
+      <text class="descri_cont">【选择商品】选择购买的商品和数量；【提交订单】在提交订单页面，选择“门店自提”配送方式，提交订单并支付；【门店自取】订单付款成功后，系统会下发提货二维码，也可以去我的订单中查看提货二维码</text>
     </view>
     <view class="descri_item">
       <text class="descri_tit">划线价格：</text>
-      <text class="descri_cont">划线的价格并非《中华人民共和国价格法》及《禁止价格欺诈行为的规定》等相关法律法规中所指商品“原价”的含义，仅为该商品</text>
+      <text class="descri_cont">划线的价格并非《中华人民共和国价格法》及《禁止价格欺诈行为的规定》等相关法律法规中所指商品“原价”的含义，仅为该商品的供应商指导价或建议零售价，并非商品原价</text>
     </view>
     <view class="descri_item">
       <text class="descri_tit">未划线价格：</text>
-      <text class="descri_cont">未划线的价格指该商品在享7美食平台实时标价，具体成交价格根据商品参加的活动，或者您使用优惠券等发生变化，最终以订单</text>
+      <text class="descri_cont">未划线的价格指该商品在享7美食平台实时标价，具体成交价格根据商品参加的活动，或者您使用优惠券等发生变化，最终以订单结算页面价格为准</text>
     </view>
   </view>
   <view class="storeOrder_b">

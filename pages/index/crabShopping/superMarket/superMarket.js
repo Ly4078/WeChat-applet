@@ -39,10 +39,13 @@ Page({
       if (res.data.code == 0) {
         let data = res.data.data;
         this.setData({
-          storeUrl: data.logoUrl,
+          storeUrl: data.indexUrl,
           detailName: data.salepointName,
           address: data.address
         });
+        wx.setNavigationBarTitle({
+          title: data.salepointName
+        })
       }
     })
   },
