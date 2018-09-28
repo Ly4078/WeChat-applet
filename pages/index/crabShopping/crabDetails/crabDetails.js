@@ -111,10 +111,23 @@ Page({
     })
 
 
+  },
+
+  onShow: function() {
+    // if (!app.globalData.userInfo.mobile) {
+    //   wx.navigateTo({
+    //     url: '../../../../pages/personal-center/securities-sdb/securities-sdb?back=1'
+    //   })
+    //   return false
+    // }
+    let _crabImgUrl = [],
+      _ruleImg = '',
+      that = this;
+    app.globalData.Express = {};
     if (!app.globalData.txtObj) {
       wx.request({
         url: this.data._build_url + 'version.txt',
-        success: function(res) {
+        success: function (res) {
           app.globalData.txtObj = res.data;
           _crabImgUrl = app.globalData.txtObj.crabImgUrl, _ruleImg = app.globalData.txtObj.ruleImg;
           that.setData({
@@ -133,19 +146,6 @@ Page({
       that.crabInit();
     }
   },
-
-  onShow: function() {
-    if (!app.globalData.userInfo.mobile) {
-      wx.navigateTo({
-        url: '../../../../pages/personal-center/securities-sdb/securities-sdb?back=1'
-      })
-      return false
-    }
-    let _crabImgUrl = [],
-      _ruleImg = '',
-      that = this;
-    app.globalData.Express = {};
-  },
   //初始化
   crabInit: function() {
     if (this.data.issku) {
@@ -163,13 +163,13 @@ Page({
     }
   },
   bargainDetails: function() { //品质好店-->店铺详情--列表
-    // if (!app.globalData.userInfo.mobile) {
-    //   wx.hideLoading();
-    //   wx.navigateTo({
-    //     url: '../../../../pages/personal-center/securities-sdb/securities-sdb?back=1'
-    //   })
-    //   return false
-    // }
+    if (!app.globalData.userInfo.mobile) {
+      wx.hideLoading();
+      wx.navigateTo({
+        url: '../../../../pages/personal-center/securities-sdb/securities-sdb?back=1'
+      })
+      return false
+    }
     let that = this,
       _array = [];
     let _parms = {
@@ -352,12 +352,12 @@ Page({
 
   //发起砍价
   initiateCut: function() {
-    // if (!app.globalData.userInfo.mobile) {
-    //   wx.navigateTo({
-    //     url: '../../../../pages/personal-center/securities-sdb/securities-sdb?back=1'
-    //   })
-    //   return false
-    // }
+    if (!app.globalData.userInfo.mobile) {
+      wx.navigateTo({
+        url: '../../../../pages/personal-center/securities-sdb/securities-sdb?back=1'
+      })
+      return false
+    }
     let _parms = {
       userId: app.globalData.userInfo.userId,
       skuId: this.data.SelectedList.id
@@ -520,9 +520,9 @@ Page({
       _issku = this.data.issku ? 1 : 2,
       _shopId = this.data.SelectedList.shopId;
     if (!app.globalData.userInfo.mobile) {
-      // wx.navigateTo({
-      //   url: '../../../../pages/personal-center/securities-sdb/securities-sdb?back=1'
-      // })
+      wx.navigateTo({
+        url: '../../../../pages/personal-center/securities-sdb/securities-sdb?back=1'
+      })
     } else {
       if (!this.data.showModalStatus) {
         this.showModal();
