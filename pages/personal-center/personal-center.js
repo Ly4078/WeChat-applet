@@ -51,7 +51,7 @@ Page({
     } 
     Api.getSalePointUserByUserId({ userId: app.globalData.userInfo.userId }).then((res) => {
       if (res.data.code == 0) {
-        if (res.data.data) {
+        if (res.data.data && res.data.data.length>0) {
           console.log('222222')
           that.setData({
             isshop: true,
