@@ -13,9 +13,7 @@ page {
 
 .setcode{
   width: 694rpx;
-  height: 112rpx;
-  background: #fff;
-  margin: 28rpx;
+  margin:0 28rpx;
 }
 .setcode input{
   width:100%;
@@ -25,8 +23,7 @@ page {
   background: #fff;
   color: #191919;
   text-align: center;
-  margin: 0;
-  padding: 0;
+  margin:28rpx 0;
 }
 .setcode inpu::after{
   border: none;

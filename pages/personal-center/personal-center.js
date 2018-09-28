@@ -18,6 +18,9 @@ Page({
     ismobile: true,
     istouqu: false,
     isshop: false,
+    isshopuser:false, //是否是商家核销员
+    iszhiying:false,//是否自营店核销员
+    qrdata:{},
     issnap: false,
     userType: '',
     accountBalance: '',
@@ -25,7 +28,6 @@ Page({
     picUrl: '',
   },
   onLoad: function() {
-    // console.log('app.globalData.userInfo:', app.globalData.userInfo)
     let that = this;
     this.setData({
       userType: app.globalData.userInfo.userType
@@ -40,12 +42,24 @@ Page({
   },
   onShow: function() {
     let that = this;
+    console.log("userInfo",app.globalData.userInfo)
     if (app.globalData.userInfo.shopId && app.globalData.userInfo.userType == 2) {
       this.setData({
-        isshop: true
+        isshop: true,
+        isshopuser:true
       })
-    }
-    
+    } 
+    Api.getSalePointUserByUserId({ userId: app.globalData.userInfo.userId }).then((res) => {
+      if (res.data.code == 0) {
+        if (res.data.data) {
+          console.log('222222')
+          that.setData({
+            isshop: true,
+            iszhiying: true
+          })
+        }
+      }
+    })
     if (!app.globalData.userInfo.unionId) {
       wx.login({
         success: res => {
@@ -136,11 +150,11 @@ Page({
     // 查询是否配置
     this.getPullUser();
   },
-  getPullUser:function(){
+  getPullUser: function() {
     let that = this;
     wx.request({
       url: this.data._build_url + 'pullUser/get/' + app.globalData.userInfo.userId,
-      success: function (res) {
+      success: function(res) {
         if (res.data.code == 0) {
           if (res.data.data) {
             let _userId = res.data.data.userId;
@@ -265,12 +279,13 @@ Page({
                         type: 'wgs84',
                         success: function(res) {
                           let latitude = res.latitude,
-                          longitude = res.longitude;
+                            longitude = res.longitude;
                           that.requestCityName(latitude, longitude);
                         }
                       })
-                    }else{
-                      let latitude = '',longitude = '';
+                    } else {
+                      let latitude = '',
+                        longitude = '';
                       that.requestCityName(latitude, longitude);
                     }
                   }
@@ -284,7 +299,7 @@ Page({
   },
   requestCityName(lat, lng) { //获取当前城市
     let that = this;
-    if(!lat && !lng){
+    if (!lat && !lng) {
       this.wxgetsetting();
       return;
     }
@@ -400,14 +415,15 @@ Page({
     })
   },
   //礼品券
-  handVoucher:function(){
+  handVoucher: function() {
     wx.navigateTo({
       url: '../personal-center/voucher/voucher',
     })
   },
   VoucherCode: function() { //输入券码核销
+    // isshopuser iszhiying
     wx.navigateTo({
-      url: '../personal-center/call-back/call-back?ent=ent'
+      url: '../personal-center/call-back/call-back?ent=ent&isshopuser=' + this.data.isshopuser+'&iszy='+this.data.iszhiying
     })
   },
   scanAqrCode: function(e) { //扫一扫核销
@@ -419,8 +435,9 @@ Page({
         let qrCodeArr = res.result.split('/');
         let qrCode = qrCodeArr[qrCodeArr.length - 1];
         that.setData({
+          qrdata:res,
           qrCode: qrCode
-        });
+        })
         that.getCodeState();
       },
       fail: (res) => {
@@ -442,20 +459,55 @@ Page({
   getCodeState: function() {
     let that = this;
     wx.request({
-      url: this.data._build_url + 'cp/getByCode/' + that.data.qrCode,
+      url: that.data.qrdata.result,
       success: function(res) {
         if (res.data.code == 0) {
           let data = res.data;
-          let Cts = "现金",
-            Dis = '折扣';
-          if (data.data.skuName.indexOf(Cts) > 0) {
-            data.data.discount = false
+          if (data.data.orderCode) {
+            if (that.data.isshopuser && !that.data.iszhiying){
+              wx.showToast({
+                title: '你不是自营核销员，无法核销该订单',
+                icon: 'none',
+                duration: 4000
+              })
+              return;
+            }
+            if (data.data.status == 2) {
+              that.setData({
+                iszhiying: true
+              })
+            } else {
+              wx.showToast({
+                title: '此券已被使用，不可再使用',
+                icon: 'none',
+                duration: 4000
+              })
+              return;
+            }
+          }else{
+            if (that.data.isshopuser && that.data.iszhiying){
+
+            }else  if (that.data.iszhiying && !that.data.isshopuser){
+              wx.showToast({
+                title: '你不是该商家销员，无法核销该订单',
+                icon: 'none',
+                duration: 4000
+              })
+              return;
+            }
           }
-          if (data.data.skuName.indexOf(Dis) > 0) {
-            data.data.discount = true
+          if (data.skuName){
+            let Cts = "现金",
+              Dis = '折扣';
+            if (data.data.skuName.indexOf(Cts) > 0) {
+              data.data.discount = false
+            }
+            if (data.data.skuName.indexOf(Dis) > 0) {
+              data.data.discount = true
+            }
           }
-          let current = data.currentTime;
-          let isDue = that.isDueFunc(current, data.data.expiryDate);
+         
+          let current = data.currentTime, isDue = that.isDueFunc(current, data.data.expiryDate);
           if ((data.data.type == 4 || data.data.type == 5) && data.data.shopId != app.globalData.userInfo.shopId) {
             wx.showToast({
               title: '该菜不属于本店',
@@ -492,13 +544,13 @@ Page({
                 })
               } else {
                 wx.navigateTo({
-                  url: '../personal-center/call-back/call-back?code=' + that.data.qrCode + '&type=' + data.data.type
+                  url: '../personal-center/call-back/call-back?code=' + that.data.qrCode + '&type=' + data.data.type+ '&ByCode='+that.data.qrdata.result
                 })
               }
             })
           } else {
             wx.navigateTo({
-              url: '../personal-center/call-back/call-back?code=' + that.data.qrCode + '&discount=' + data.data.discount
+              url: '../personal-center/call-back/call-back?code=' + that.data.qrCode + '&discount=' + data.data.discount + '&ByCode=' + that.data.qrdata.result
             })
             // wx.navigateTo({
             //   url: 'cancel-after-verification/cancel-after-verification?qrCode=' + that.data.qrCode + '&userId=' + app.globalData.userInfo.userId,

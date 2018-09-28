@@ -1,18 +1,28 @@
 
 <view class='verification'>
   <view class='setcode' wx:if="{{isent}}">
-    <input  class='fill'  type='number' bindinput="bindinputent" focus="{{true}}" value='{{_code}}' maxlength="12"  placeholder="请输入券码"></input>
+    <input  class='fill'  type='number' bindinput="bindinputent" bindfocus="bindfocus" focus="{{true}}" value='{{_code}}' maxlength="12"  placeholder="请输入券码" wx:if="{{isshopusers}}"></input>
+    <input  class='fill'  type='number' bindinput="bindinputentes" bindfocus="bindfocuses" focus="{{true}}" value='{{_codees}}' maxlength="13"  placeholder="请输提货码" wx:if="{{iszys}}"></input>
   </view>
 
   <view class='verification-inside'>
     <view class='inputBox'>
-      <text>{{tils}}:</text>
-      <text>{{customer}}</text>
+      <text>顾客信息:</text>
+      <text>{{hxData.userName}}</text>
     </view>
-    <view class='inputBox'>
-     <text>{{place}}:</text>
-      <text>{{bond}}</text>
+    <view class='inputBox' wx:if="{{!iszy}}">
+     <text>券信息:</text>
+     <text>{{hxData.skuName}}</text>
     </view>
+    <view class='inputBox' wx:if="{{iszy}}">
+     <text>商品信息:</text>
+     <text>{{hxData.orderItemOuts[0].goodsSkuName}}</text>
+    </view>
+    <view class='inputBox' wx:if="{{iszy}}">
+     <text>数量:</text>
+     <text>{{hxData.orderItemOuts[0].goodsNum+hxData.orderItemOuts[0].giftNum}}</text>
+    </view>
+
     <span catchtap='confirm' class="okBtn {{okhx?'look':''}}">确认核销</span>
   </view>
 </view>

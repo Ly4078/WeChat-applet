@@ -34,9 +34,9 @@
 			"list": [
 				{
 					"id": -1,
-					"name": "details",
-					"pathName": "pages/index/crabShopping/voucherDetails/voucherDetails",
-					"query": "id=45&skuname=人气款提蟹券 阳澄湖大闸蟹 3.0公2.0母 4对8只"
+					"name": "my",
+					"pathName": "pages/personal-center/personal-center",
+					"query": ""
 				}
 			]
 		}

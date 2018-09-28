@@ -651,6 +651,14 @@ const ALL_API = {
   superMarketPayment: {    //到店自提支付
     method: 'POST',
     url: 'wxpay/shoppingMallForMDZT'
+  },
+  getSalePointUserByUserId:{ //查询是否是自营店核销员
+    method:'GET',
+    url:'salePoint/getSalePointUserByUserId'
+  },
+  useOrderInfo:{ //核销自营订单券
+    method:'POST',
+    url:'orderInfo/useOrderInfo'
   }
 }
 const Api = new MyHttp({}, ALL_API);
