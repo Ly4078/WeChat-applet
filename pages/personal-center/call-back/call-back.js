@@ -24,7 +24,7 @@ Page({
     istihua:false,
     result: '',
     iszy: false, //j是否是自营
-    isshopusers:false,//是否是商家核销员
+    isshopuser:false,//是否是商家核销员
     iszys: false,//是否是自营核销员
     isconfirm: true
   },
@@ -33,16 +33,34 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    console.log("options:", options)
+    // console.log("options:", options)
     if (options.ent) {
       this.setData({
         isent: true,
-        okhx: false,
-        isshopusers: options.isshopuser,
-        iszys: options.iszy
+        okhx: false
       })
     }
-
+   
+    if (options.isshopuser == 'true'){
+      this.setData({
+        isshopuser:true
+      })
+    }else{
+      this.setData({
+        isshopuser: false
+      })
+    }
+   
+    if (options.iszy == 'true') {
+      this.setData({
+        iszys: true
+      })
+    } else {
+      this.setData({
+        iszys: false
+      })
+    }
+   
     if (options.code) {
       this.setData({
         result: options.ByCode,
@@ -56,7 +74,11 @@ Page({
     let actual = e.detail.value;
     if (actual.length == 10) {
       this.gettickets(actual);
-    }
+    } else if (actual.length == 0) {
+      this.setData({
+        okhx: false
+      })
+    } 
     this.setData({
       _code: actual,
       istihua:false
@@ -66,15 +88,20 @@ Page({
   bindfocus:function(){
     this.setData({
       _codees: '',
+      hxData: {},
+      okhx:false,
       istihua: false
     })
   },
   //实时获取输入的券码--提货码
   bindinputentes: function (e) {
     let actual = e.detail.value;
-    console.log(actual, actual.l)
     if (actual.length == 11) {
       this.gettickets(actual);
+    }else if(actual.length == 0){
+      this.setData({
+        okhx:false
+      })
     }
     this.setData({
       _codees: actual,
@@ -85,6 +112,8 @@ Page({
   bindfocuses: function () {
     this.setData({
       _code: '',
+      hxData:{},
+      okhx: false,
       istihua: true
     })
   },
@@ -101,7 +130,6 @@ Page({
     } else if (this.data.result) {
       _Url = this.data.result;
     }
-    console.log("_url:", _Url)
     wx.request({
       url: _Url,
       success: function(res) {
@@ -110,15 +138,31 @@ Page({
             let _data = res.data.data,
               _rele = "",
               lists = [];
-            console.log("_data_data:", _data);
             if (_data.orderCode) {
+              let current = res.data.currentTime, isDue = that.isDueFunc(current, _data.expiryDate);
+              if (isDue == 1) {
+                wx.showToast({
+                  title: '该票券已过期',
+                  icon: 'none',
+                  mmask: 'true',
+                  duration: 2000,
+                })
+                that.setData({
+                  okhx: false,
+                  _codees:''
+                })
+                return
+              } 
               if (that.data.isshopuser && !that.data.iszys) {
                 wx.showToast({
-                  title: '你不是自营核销员，无法核销该订单',
+                  title: '你不是自营店核销员，无法核销该订单',
                   icon: 'none',
                   duration: 4000
                 })
-                return;
+                that.setData({
+                  okhx:false
+                })
+                return
               }
               if (_data.status == 2) {
                 that.setData({
@@ -129,6 +173,9 @@ Page({
                   title: '此券已被使用，不可再使用',
                   icon: 'none',
                   duration: 4000
+                })
+                that.setData({
+                  okhx: false
                 })
                 if (that.data.isent){
                   that.setData({
@@ -146,7 +193,7 @@ Page({
             }else{
               if (that.data.iszys && that.data.isshopuser){
 
-              }else if (that.data.iszys && !that.data.isshopuser){
+              } else if (that.data.iszys && !that.data.isshopuser){
                 wx.showToast({
                   title: '你不是该商家销员，无法核销该订单',
                   icon: 'none',
@@ -154,6 +201,39 @@ Page({
                 })
                 return;
               }
+            }
+            if ((_data.type == 4 || _data.type == 5 || _data.type == 3) && _data.shopId != app.globalData.userInfo.shopId) {
+              wx.showToast({
+                title: '该菜不属于本店',
+                icon: 'none'
+              })
+              return false;
+            }
+            if (_data.isUsed == 1) {
+              wx.showToast({
+                title: '该票券已被使用',
+                icon: 'none',
+                mask: 'true',
+                duration: 2000,
+              })
+              return
+            }
+            if (_data.discount) {
+              let _parms = {
+                shopId: app.globalData.userInfo.shopId,
+                skuId: data.data.skuId
+              }
+              Api.searchForShopIdNew(_parms).then((res) => {
+                if (res.data.code == -1) {
+                  wx.showToast({
+                    title: res.data.message + ',不能核销此活动券',
+                    mask: 'true',
+                    icon: 'none',
+                    duration: 3000
+                  })
+                  return
+                }
+              })
             }
             if (_data.userName) {
               _data.userName = _data.userName.substr(0, 3) + "****" + _data.userName.substr(7);
@@ -192,12 +272,16 @@ Page({
             duration: 3000
           })
         }
-
-        // ===============================================
       }
     })
   },
-
+  isDueFunc: function (current, expiryDate) { //对比时间是否过期
+    let isDue = 0;
+    if (new Date(expiryDate + " 23:59:59").getTime() < current) {
+      isDue = 1;
+    }
+    return isDue;
+  },
 
   confirm: function() { //确认核销
     let that = this,

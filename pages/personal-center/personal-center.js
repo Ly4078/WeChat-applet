@@ -52,7 +52,7 @@ Page({
     Api.getSalePointUserByUserId({ userId: app.globalData.userInfo.userId }).then((res) => {
       if (res.data.code == 0) {
         if (res.data.data && res.data.data.length>0) {
-          console.log('222222')
+          console.log('自营店核销员')
           that.setData({
             isshop: true,
             iszhiying: true
@@ -466,7 +466,7 @@ Page({
           if (data.data.orderCode) {
             if (that.data.isshopuser && !that.data.iszhiying){
               wx.showToast({
-                title: '你不是自营核销员，无法核销该订单',
+                title: '你不是自营店核销员，无法核销该订单',
                 icon: 'none',
                 duration: 4000
               })
@@ -506,9 +506,8 @@ Page({
               data.data.discount = true
             }
           }
-         
           let current = data.currentTime, isDue = that.isDueFunc(current, data.data.expiryDate);
-          if ((data.data.type == 4 || data.data.type == 5) && data.data.shopId != app.globalData.userInfo.shopId) {
+          if ((data.data.type == 4 || data.data.type == 5 || data.data.type == 3) && data.data.shopId != app.globalData.userInfo.shopId) {
             wx.showToast({
               title: '该菜不属于本店',
               icon: 'none'
@@ -552,9 +551,6 @@ Page({
             wx.navigateTo({
               url: '../personal-center/call-back/call-back?code=' + that.data.qrCode + '&discount=' + data.data.discount + '&ByCode=' + that.data.qrdata.result
             })
-            // wx.navigateTo({
-            //   url: 'cancel-after-verification/cancel-after-verification?qrCode=' + that.data.qrCode + '&userId=' + app.globalData.userInfo.userId,
-            // })
           }
         } else {
 

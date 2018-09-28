@@ -1,7 +1,7 @@
 
 <view class='verification'>
   <view class='setcode' wx:if="{{isent}}">
-    <input  class='fill'  type='number' bindinput="bindinputent" bindfocus="bindfocus" focus="{{true}}" value='{{_code}}' maxlength="12"  placeholder="请输入券码" wx:if="{{isshopusers}}"></input>
+    <input  class='fill'  type='number' bindinput="bindinputent" bindfocus="bindfocus" focus="{{true}}" value='{{_code}}' maxlength="12"  placeholder="请输入券码" wx:if="{{isshopuser}}"></input>
     <input  class='fill'  type='number' bindinput="bindinputentes" bindfocus="bindfocuses" focus="{{true}}" value='{{_codees}}' maxlength="13"  placeholder="请输提货码" wx:if="{{iszys}}"></input>
   </view>
 
