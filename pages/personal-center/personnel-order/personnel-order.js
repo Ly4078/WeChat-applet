@@ -36,7 +36,8 @@ Page({
     logId:'',
     elephant: 0
   },
-  onLoad() {
+  onLoad: function (options) {
+    console.log("options:", options)
     wx.showLoading({
       title: '加载中...'
     })
@@ -45,6 +46,9 @@ Page({
     // this.getOrderList();
     // this.getshopOrderList();
     // this.getlogisticsList(this.data.lostr);
+    this.setData({
+      elephant:0
+    })
     if (this.data.shopping == 0) {
       this.getlogisticsList();
     } else if (this.data.shopping == 1) {
