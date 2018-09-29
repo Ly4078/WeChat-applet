@@ -103,7 +103,10 @@
 .descri_cont {
   color: #808080;
 }
-
+.storeOrder_bbj{
+   width: 100%;
+  height: 90rpx;
+}
 .storeOrder_b {
   position: fixed;
   bottom: 0;
@@ -134,4 +137,9 @@
   font-size: 36rpx;
   background-color: #FC5E2D;
   text-align: center;
+}
+.imgUlrs{
+  width:750rpx;
+  height:auto;
+  display: block;
 }

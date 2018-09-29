@@ -16,6 +16,7 @@ Page({
     pay: '',
     dishlist: [],
     hxData: {},
+    istow:true,
     okhx: true,
     _type: false,
     _code: '', //输入的券码
@@ -61,6 +62,11 @@ Page({
       })
     }
    
+    if(this.data.iszys && this.data.isshopuser){
+      this.setData({
+        istow:false
+      })
+    }
     if (options.code) {
       this.setData({
         result: options.ByCode,

@@ -11,11 +11,11 @@ var village_LBS = function(that) { //获取用户经纬度
         longitude = res.longitude;
       app.globalData.userInfo.lat = latitude;
       app.globalData.userInfo.lng = longitude;
+      that.marketList();
       that.requestCityName(latitude, longitude);
     },
   })
 }
-
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
@@ -37,6 +37,7 @@ Page({
     dshImg: ''
   },
   onLoad: function(option) {
+    console.log('option:', option)
     let that = this;
     if (option.currentTab){
       this.setData({
@@ -82,6 +83,7 @@ Page({
     wx.showLoading({
       title: '加载中...'
     })
+    console.log('sdf:', this.data.currentTab)
     if (this.data.currentTab == 0) {
       if (this.data.listData.length < 1) {
         this.commodityCrabList();
@@ -91,6 +93,7 @@ Page({
     } else if (this.data.currentTab == 1) {
       this.listForSkuAllocation();
     } else if (this.data.currentTab == 2) {
+      console.log('aaaaaa')
       this.marketList();
     }
   },
@@ -138,7 +141,14 @@ Page({
     this.commodityCrabList();
   },
   //监听分享
-  onShareAppMessage: function() {},
+  onShareAppMessage: function() {
+    let _title = this.data.navbar[this.data.currentTab];
+    return {
+      title: _title,
+      path: '/pages/index/crabShopping/crabShopping?currentTab=' + this.data.currentTab,
+      success: function (res) { }
+    }
+  },
   //查询送货到家列表
   commodityCrabList: function() {
     let that = this;
@@ -223,7 +233,9 @@ Page({
   //查询到店自提列表
   marketList() {
     let that = this;
+    console.log('bbbb')
     if (!app.globalData.userInfo.lat || !app.globalData.userInfo.lng || !app.globalData.userInfo.city) {
+      console.log("ccccc")
       wx.hideLoading();
       this.getlocation();
     } else {
@@ -238,7 +250,9 @@ Page({
           marketList: []
         })
       };
+      console.log("_pamms:",_parms)
       Api.superMarketUrl(_parms).then((res) => {
+        console.log("res:",res)
         wx.hideLoading();
         if (res.data.code == 0) {
           let _list = res.data.data.list,
@@ -351,10 +365,10 @@ Page({
     wx.getLocation({
       type: 'wgs84',
       success: function(res) {
-        let latitude = res.latitude;
-        let longitude = res.longitude;
+        let latitude = res.latitude,longitude = res.longitude;
         app.globalData.userInfo.lat = latitude;
         app.globalData.userInfo.lng = longitude;
+        that.marketList();
         that.requestCityName(latitude, longitude);
       },
       fail: function(res) {
@@ -372,8 +386,6 @@ Page({
                       success: (res) => {
                         if (res.authSetting['scope.userLocation']) {
                           village_LBS(that);
-                        } else { //未授权
-
                         }
                       }
                     })

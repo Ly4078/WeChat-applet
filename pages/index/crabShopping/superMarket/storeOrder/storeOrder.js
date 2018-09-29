@@ -11,6 +11,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    _build_url: GLOBAL_API_DOMAIN,
     id: '',
     skuPic: '',
     skuName: '',
@@ -33,7 +34,36 @@ Page({
     });
   },
   onShow: function () {
+    let _ruleImg = '', _crabImgUrl = [], that = this;
     this.getDetailBySkuId();
+    console.log("txtobj:", app.globalData.txtObj)
+    if (app.globalData.txtObj.ruleImg) {
+      console.log('111111')
+      _crabImgUrl = app.globalData.txtObj.crabImgUrl, _ruleImg = app.globalData.txtObj.ruleImg;
+      _crabImgUrl = _crabImgUrl.slice(2);
+      _crabImgUrl.pop();
+      _crabImgUrl.pop();
+      that.setData({
+        crabImgUrl: _crabImgUrl,
+        ruleImg: _ruleImg
+      })
+    } else {
+      console.log('222')
+      wx.request({
+        url: this.data._build_url + 'version.txt',
+        success: function (res) {
+          app.globalData.txtObj = res.data;
+          _crabImgUrl = app.globalData.txtObj.crabImgUrl, _ruleImg = app.globalData.txtObj.ruleImg;
+          _crabImgUrl = _crabImgUrl.slice(2);
+          _crabImgUrl.pop();
+          _crabImgUrl.pop();
+          that.setData({
+            crabImgUrl: _crabImgUrl,
+            ruleImg: _ruleImg
+          })
+        }
+      })
+    }
   },
   onHide: function () {
     wx.hideLoading();

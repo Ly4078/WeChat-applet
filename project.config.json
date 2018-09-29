@@ -30,8 +30,27 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": -1,
-			"list": []
+			"current": 2,
+			"list": [
+				{
+					"id": 0,
+					"name": "my",
+					"pathName": "pages/index/crabShopping/crabShopping",
+					"query": "currentTab=2"
+				},
+				{
+					"id": -1,
+					"name": "mys",
+					"pathName": "pages/index/crabShopping/superMarket/storeOrder/storeOrder",
+					"query": "id=24&salepointId=4"
+				},
+				{
+					"id": -1,
+					"name": "cal-back",
+					"pathName": "pages/personal-center/call-back/call-back",
+					"query": "ent=ent&isshopuser=true&iszy=true"
+				}
+			]
 		}
 	}
 }
