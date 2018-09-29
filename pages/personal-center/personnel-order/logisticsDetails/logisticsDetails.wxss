@@ -371,8 +371,13 @@ page{
   margin-right: 28rpx;
 }
 
-.secondOrderLeader button:nth-child(2){
-  color: #FFFFFF;
+.secondOrderLeader button:last-child{
+  color: #fff;
   background-color: #FC6232;
   border: none;
+}
+.cheng{
+  color: #fff!important;
+  background: #FC6232;
+  border: none!important;
 }

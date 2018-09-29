@@ -124,7 +124,9 @@
   </view>
   <!-- 底部联系客服再次/购买 -->
   <view class='secondOrderLeader'>
+   
     <button open-type='contact'>联系客服</button>
+    <button bindtap='nowuse' class='cheng' wx:if="{{soDetail.status == 3 || soDetail.status == 2}}" >立即使用</button>
     <button bindtap='buyagain' wx:if="{{soDetail.status == 3 || soDetail.status == 10}}">再次购买</button>
     <button bindtap='carryPay' wx:if="{{soDetail.status == 1}}">继续支付</button>
     <button bindtap='receipt' wx:if="{{soDetail.status == 2}}">确认收货</button>

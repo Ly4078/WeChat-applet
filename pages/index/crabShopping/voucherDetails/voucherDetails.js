@@ -57,6 +57,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
+    console.log("options:", options)
     wx.showLoading({
       title: '数据加载...',
     });
@@ -376,8 +377,6 @@ Page({
   },
   //领取提蟹券
   getsendCoupon: function(val) {
-    console.log('getsendCoupon')
-    console.log('valcopen:',val)
     if(val){
       let _parms = {                                              
         orderCouponCode: this.data.current.couponCode,

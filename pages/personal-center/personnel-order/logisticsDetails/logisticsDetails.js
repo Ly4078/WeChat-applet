@@ -88,6 +88,12 @@ Page({
       url: '../../../../pages/index/crabShopping/crabDetails/crabDetails?id=' + id
     })
   },
+  //点击立即使用--进入提蟹券详情页面
+  nowuse:function(){
+    wx.navigateTo({
+      url: "/pages/personal-center/voucher/voucher"
+    })
+  },
   //点击继续支付  -- 先更新openid
   carryPay:function(){
     let that = this;
