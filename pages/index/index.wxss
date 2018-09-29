@@ -1130,4 +1130,5 @@ page {
 .toStoreBg {
   width: 100%;
   height: 220rpx;
+  margin-top:20rpx;
 }

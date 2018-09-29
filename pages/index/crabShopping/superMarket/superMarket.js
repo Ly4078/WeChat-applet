@@ -20,6 +20,11 @@ Page({
       id: options.id,
       distance: options.distance
     });
+    if (options.isShare) {
+      this.setData({
+        isShare: options.isShare
+      });
+    }
   },
   onShow: function() {
     this.marketDetail();
@@ -111,6 +116,20 @@ Page({
         page: this.data.page + 1
       });
       this.crabList();
+    }
+  },
+  //跳转至首页
+  toIndex() {
+    wx.switchTab({
+      url: '/pages/index/index'
+    })
+  },
+  //分享给好友
+  onShareAppMessage: function () {
+    let title = this.data.detailName + this.data.address;
+    return {
+      title: title,
+      path: '/pages/index/crabShopping/superMarket/superMarket?id=' + this.data.id + '&distance=' + this.data.distance + '&isShare=true'
     }
   }
 })

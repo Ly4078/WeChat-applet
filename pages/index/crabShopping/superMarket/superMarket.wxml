@@ -1,3 +1,5 @@
+<!-- 回到时首页 -->
+<image class="indexIcon" src="/images/icon/indexIcon.png" bindtap='toIndex'></image>
 <view class="superMarket">
   <view class="storeBox">
     <view class="storeInfo">

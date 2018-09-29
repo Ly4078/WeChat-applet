@@ -125,3 +125,12 @@ page, .superMarket {
   color: #B1B1B1;
   font-size: 20rpx;
 }
+
+.indexIcon {
+  position: fixed;
+  right: 20rpx;
+  bottom: 100rpx;
+  z-index: 1000;
+  width: 100rpx;
+  height: 100rpx;
+}

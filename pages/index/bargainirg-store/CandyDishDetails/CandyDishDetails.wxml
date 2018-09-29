@@ -14,8 +14,8 @@
     <view class='information-inner'>
       <view class='shopsTop'>
         <text class='shopsTopLeft'>{{skuName}}</text>
-        <view class='shopsTopRight'>剩余
-          <text>{{stockNum}}</text>份</view>
+        <!-- <view class='shopsTopRight'>剩余
+          <text>{{stockNum}}</text>份</view> -->
       </view>
       <view class='shopsTop shopssecond'>
         <view class='shopsConter'>

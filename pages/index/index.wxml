@@ -92,6 +92,11 @@
     </view>
   </view>
 
+  <!-- 到店自提 -->
+  <view>
+    <image bindtap='toStore' class="toStoreBg" src="https://xqmp4-1256079679.file.myqcloud.com/Colin_erywgegrerkgor.jpg"></image>
+  </view>
+
   <!-- 享7生鲜 -->
   <block wx:for="{{crab}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
     <template is="toFresh" data="{{item}}" wx:if="{{fresh2.spuId}}" />
@@ -102,11 +107,6 @@
       <image mode='scaleToFill' catchtap='crabPrtDetails' class='crabModels-img' src="{{fresh2.imgUrl}}" id='{{fresh2.id}}' data-spuId="{{fresh2.spuId}}"></image>
       <image mode='scaleToFill' catchtap='crabPrtDetails' class='crabModels-img' src="{{fresh3.imgUrl}}" id='{{fresh3.id}}' data-spuId="{{fresh3.spuId}}"></image>
     </view>
-  </view>
-
-  <!-- 到店自提 -->
-  <view>
-    <image bindtap='toStore' class="toStoreBg" src="https://xqmp4-1256079679.file.myqcloud.com/Colin_erywgegrerkgor.jpg"></image>
   </view>
 
   <!-- 限量秒杀 -->

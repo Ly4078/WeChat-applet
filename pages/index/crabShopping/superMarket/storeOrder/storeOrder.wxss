@@ -143,3 +143,9 @@
   height:auto;
   display: block;
 }
+
+.instruction {
+  width: 100%;
+  height: 325rpx;
+  margin-bottom: 14rpx;
+}
