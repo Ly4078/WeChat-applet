@@ -21,10 +21,10 @@ Page({
     orderPrice: '',
     num: 1,
     shopId: '',
-    spuId: 1,    //判断是散装还是礼盒
-    salepointId: ''    //自提点id
+    spuId: 1, //判断是散装还是礼盒
+    salepointId: '' //自提点id
   },
-  onLoad: function (options) {
+  onLoad: function(options) {
     wx.showLoading({
       title: '加载中...'
     })
@@ -33,8 +33,10 @@ Page({
       salepointId: options.salepointId
     });
   },
-  onShow: function () {
-    let _ruleImg = '', _crabImgUrl = [], that = this;
+  onShow: function() {
+    let _ruleImg = '',
+      _crabImgUrl = [],
+      that = this;
     this.getDetailBySkuId();
     console.log("txtobj:", app.globalData.txtObj)
     if (app.globalData.txtObj.ruleImg) {
@@ -51,7 +53,7 @@ Page({
       console.log('222')
       wx.request({
         url: this.data._build_url + 'version.txt',
-        success: function (res) {
+        success: function(res) {
           app.globalData.txtObj = res.data;
           _crabImgUrl = app.globalData.txtObj.crabImgUrl, _ruleImg = app.globalData.txtObj.ruleImg;
           _crabImgUrl = _crabImgUrl.slice(2);
@@ -65,11 +67,11 @@ Page({
       })
     }
   },
-  onHide: function () {
+  onHide: function() {
     wx.hideLoading();
   },
   //查询单个详情
-  getDetailBySkuId: function (val) {
+  getDetailBySkuId: function(val) {
     let that = this;
     Api.DetailBySkuId({
       id: this.data.id
@@ -90,52 +92,68 @@ Page({
       }
     })
   },
-  add() {   //点击加号
-    let num = this.data.num + 1, sellPrice = this.data.sellPrice;
+  add() { //点击加号
+    let num = this.data.num + 1,
+      sellPrice = this.data.sellPrice;
     this.setData({
       num: num,
       orderPrice: (sellPrice * num).toFixed(2)
     });
   },
-  minus() {   //点击减号
+  minus() { //点击减号
     if (this.data.num > 1) {
-      let num = this.data.num - 1, sellPrice = this.data.sellPrice;
+      let num = this.data.num - 1,
+        sellPrice = this.data.sellPrice;
       this.setData({
         num: num,
         orderPrice: (sellPrice * num).toFixed(2)
       });
     }
   },
-  toBuy() {    //去下单
-    if (!app.globalData.userInfo.mobile) { //是新用户，去注册页面
-      wx.navigateTo({
-        url: '../../../../personal-center/securities-sdb/securities-sdb?back=1'
-      })
-      return false;
-    }
-    if(this.data.num <= 0) {
-      wx.showToast({
-        title: '请至少选择一只',
-        icon: 'none'
-      })
-      return false;
-    }
-    //issku=3为到店自提
-    wx.navigateTo({
-      url: '../../crabDetails/submitOrder/submitOrder?spuId=' + this.data.spuId + '&id=' + this.data.id + '&num=' + this.data.num + '&issku=3&shopId=' + this.data.shopId + '&salepointId=' + this.data.salepointId
+  toBuy: function() { //去下单
+    let that = this;
+    //通过code查询进入的用户信息，判断是否是新用户
+    wx.login({
+      success: res => {
+        Api.findByCode({
+          code: res.code
+        }).then((res) => {
+          if (res.data.code == 0) {
+            let data = res.data.data;
+            app.globalData.userInfo.userId = data.id;
+            app.globalData.userInfo.lat = data.locationX;
+            app.globalData.userInfo.lng = data.locationY;
+            for (let key in data) {
+              for (let ind in app.globalData.userInfo) {
+                if (key == ind) {
+                  app.globalData.userInfo[ind] = data[key]
+                }
+              }
+            }
+            if (!data.mobile) { //是新用户，去注册页面
+              wx.navigateTo({
+                url: '../../../../personal-center/securities-sdb/securities-sdb?back=1'
+              })
+              return false;
+            }
+            if (app.globalData.userInfo.userId) {
+              if (that.data.num <= 0) {
+                wx.showToast({
+                  title: '请至少选择一只',
+                  icon: 'none'
+                })
+                return false;
+              }
+              //issku=3为到店自提
+              wx.navigateTo({
+                url: '../../crabDetails/submitOrder/submitOrder?spuId=' + that.data.spuId + '&id=' + that.data.id + '&num=' + that.data.num + '&issku=3&shopId=' + that.data.shopId + '&salepointId=' + that.data.salepointId
+              })
+            }
+          } else {
+            that.findByCode();
+          }
+        })
+      }
     })
-  },
-  onPullDownRefresh: function () {
-    
-  },
-  onReachBottom: function () {
-    
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-    
   }
 })
