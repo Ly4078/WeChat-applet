@@ -32,6 +32,11 @@ Page({
       id: options.id,
       salepointId: options.salepointId
     });
+    if (options.isShare) {
+      this.setData({
+        isShare: options.isShare
+      });
+    }
   },
   onShow: function() {
     let _ruleImg = '',
@@ -155,5 +160,18 @@ Page({
         })
       }
     })
+  },
+  //跳转至首页
+  toIndex() {
+    wx.switchTab({
+      url: '/pages/index/index'
+    })
+  },
+  //分享给好友
+  onShareAppMessage: function () {
+    return {
+      title: this.data.skuName,
+      path: '/pages/index/crabShopping/superMarket/storeOrder/storeOrder?id=' + this.data.id + '&salepointId=' + this.data.salepointId + '&isShare=true'
+    }
   }
 })

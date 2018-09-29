@@ -1,4 +1,5 @@
 <view class="storeOrder">
+  <image class="indexIcon" src="/images/icon/indexIcon.png" bindtap='toIndex' wx:if="{{isShare}}"></image>
   <view class="storeOrder_top">
     <image wx:if="{{skuPic}}" class="crabIcon" src="{{skuPic}}"></image>
     <image wx:else class="crabIcon" src="/images/icon/morentu.png"></image>

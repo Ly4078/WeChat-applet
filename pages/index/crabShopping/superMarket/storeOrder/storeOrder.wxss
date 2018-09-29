@@ -149,3 +149,12 @@
   height: 325rpx;
   margin-bottom: 10rpx;
 }
+
+.indexIcon {
+  position: fixed;
+  right: 20rpx;
+  bottom: 120rpx;
+  z-index: 1000;
+  width: 100rpx;
+  height: 100rpx;
+}
