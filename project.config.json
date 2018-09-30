@@ -30,25 +30,13 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 2,
+			"current": 0,
 			"list": [
 				{
-					"id": 0,
+					"id": -1,
 					"name": "my",
-					"pathName": "pages/index/crabShopping/crabShopping",
-					"query": "currentTab=2"
-				},
-				{
-					"id": -1,
-					"name": "mys",
-					"pathName": "pages/index/crabShopping/superMarket/storeOrder/storeOrder",
-					"query": "id=24&salepointId=4"
-				},
-				{
-					"id": -1,
-					"name": "cal-back",
-					"pathName": "pages/personal-center/call-back/call-back",
-					"query": "ent=ent&isshopuser=true&iszy=true"
+					"pathName": "pages/personal-center/personnel-order/logisticsDetails/logisticsDetails",
+					"query": "soId=228"
 				}
 			]
 		}

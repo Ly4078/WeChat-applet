@@ -37,7 +37,7 @@ Page({
     dshImg: ''
   },
   onLoad: function(option) {
-    console.log('option:', option)
+    // console.log('option:', option)
     let that = this;
     if (option.currentTab){
       this.setData({
@@ -80,10 +80,6 @@ Page({
       page: 1,
       _page: 1
     })
-    wx.showLoading({
-      title: '加载中...'
-    })
-    console.log('sdf:', this.data.currentTab)
     if (this.data.currentTab == 0) {
       if (this.data.listData.length < 1) {
         this.commodityCrabList();
@@ -93,7 +89,6 @@ Page({
     } else if (this.data.currentTab == 1) {
       this.listForSkuAllocation();
     } else if (this.data.currentTab == 2) {
-      console.log('aaaaaa')
       this.marketList();
     }
   },
@@ -164,6 +159,9 @@ Page({
         listData: []
       })
     }
+    wx.showLoading({
+      title: '数据加载中...',
+    });
     Api.crabList(_parms).then((res) => {
       let _listData = this.data.listData;
       wx.hideLoading();
@@ -201,6 +199,9 @@ Page({
           storeData: []
         })
       };
+      wx.showLoading({
+        title: '数据加载中...',
+      });
       Api.listForSkuAllocation(_parms).then((res) => {
         wx.hideLoading();
         if (res.data.code == 0) {
@@ -233,9 +234,7 @@ Page({
   //查询到店自提列表
   marketList() {
     let that = this;
-    console.log('bbbb')
     if (!app.globalData.userInfo.lat || !app.globalData.userInfo.lng || !app.globalData.userInfo.city) {
-      console.log("ccccc")
       wx.hideLoading();
       this.getlocation();
     } else {
@@ -250,9 +249,10 @@ Page({
           marketList: []
         })
       };
-      console.log("_pamms:",_parms)
+      wx.showLoading({
+        title: '数据加载中...',
+      })
       Api.superMarketUrl(_parms).then((res) => {
-        console.log("res:",res)
         wx.hideLoading();
         if (res.data.code == 0) {
           let _list = res.data.data.list,
@@ -304,9 +304,6 @@ Page({
   },
   //下拉刷新
   onPullDownRefresh: function() {
-    wx.showLoading({
-      title: '加载中...'
-    })
     this.setData({
       page: 1,
       _page: 1,
@@ -328,18 +325,12 @@ Page({
   //用户上拉触底加载更多
   onReachBottom: function() {
     if (this.data.currentTab == 0) {
-      wx.showLoading({
-        title: '加载中...'
-      })
       this.setData({
         page: this.data.page + 1
       });
       this.commodityCrabList();
     } else if (this.data.currentTab == 1) {
       if (this.data.storeFlag) {
-        wx.showLoading({
-          title: '加载中...'
-        })
         this.setData({
           _page: this.data._page + 1
         });
@@ -347,9 +338,6 @@ Page({
       }
     } else if (this.data.currentTab == 2) {
       if (this.data.marketFlag) {
-        wx.showLoading({
-          title: '加载中...'
-        })
         this.setData({
           sPage: this.data.sPage + 1
         });

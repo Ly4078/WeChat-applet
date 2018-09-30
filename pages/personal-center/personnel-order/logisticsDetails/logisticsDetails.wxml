@@ -49,7 +49,7 @@
       </view>
       <view class='handiseTop-right'>
         <view class='handiseTop-rightText'>
-          <text>阳澄湖大闸蟹礼盒装</text>
+          <text>阳澄湖大闸蟹{{soDetail.units}}</text>
         </view>
         <view class='handiseTop-rightCation'>
           <text>{{soDetail.orderItemOuts[0].goodsSkuName}}</text>
@@ -116,17 +116,15 @@
       </view>
       <view class='inconformity' wx:if="{{soDetail.expressCode}}">
          <text>快递单号</text>
-        <text>{{soDetail.expressCode}}</text>
+        <text>{{soDetail.expressCode2}}</text>
         <button class='copybut' bindtap='copykdCode'>复制</button>
       </view>
-   
     </view>
   </view>
   <!-- 底部联系客服再次/购买 -->
   <view class='secondOrderLeader'>
-   
     <button open-type='contact'>联系客服</button>
-    <button bindtap='nowuse' class='cheng' wx:if="{{soDetail.status == 3 || soDetail.status == 2}}" >立即使用</button>
+    <button bindtap='nowuse' class='cheng' wx:if="{{soDetail.ust}}">立即使用</button>
     <button bindtap='buyagain' wx:if="{{soDetail.status == 3 || soDetail.status == 10}}">再次购买</button>
     <button bindtap='carryPay' wx:if="{{soDetail.status == 1}}">继续支付</button>
     <button bindtap='receipt' wx:if="{{soDetail.status == 2}}">确认收货</button>

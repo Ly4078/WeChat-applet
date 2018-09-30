@@ -634,7 +634,11 @@ Page({
       isDeleted: 0,
       rows: 10
     };
+    wx.showLoading({
+      title: '数据加载中...',
+    });
     Api.partakerList(_parms).then((res) => {
+      wx.hideLoading();
       if (res.data.code == 0) {
         let _list = res.data.data.list,
           _oldData = this.data.bargainListall,

@@ -219,6 +219,9 @@ Page({
   //同店推荐
   dishList() {
     //browSort 0附近 1销量 2价格
+    wx.showLoading({
+      title: '数据加载中...',
+    });
     let that = this;
     if (!app.globalData.userInfo.lat && !app.globalData.userInfo.lng){
       that.getlocation();
@@ -235,20 +238,24 @@ Page({
       rows: 10
     };
     Api.partakerList(_parms).then((res) => {
-      if (res.data.code == 0 && res.data.data.list && res.data.data.list != 'null') {
-        let list = res.data.data.list,
-          newList = [], preDishList = [];
-        for (let i = 0; i < list.length; i++) {
-          if (list[i].id != this.data.id) {
-            newList.push(list[i]);
+      wx.hideLoading();
+      if(res.data.code == 0){
+        if (res.data.data.list && res.data.data.list.length>0) {
+          let list = res.data.data.list,
+            newList = [], preDishList = [];
+          for (let i = 0; i < list.length; i++) {
+            if (list[i].id != this.data.id) {
+              newList.push(list[i]);
+            }
           }
+          preDishList = newList.length > 5 ? newList.slice(0, 4) : newList;
+          this.setData({
+            dishList: newList,
+            preDishList: preDishList
+          });
         }
-        preDishList = newList.length > 5 ? newList.slice(0, 4) : newList;
-        this.setData({
-          dishList: newList,
-          preDishList: preDishList
-        });
       }
+      
     })
   },
   //热门推荐
@@ -274,42 +281,49 @@ Page({
       page: this.data.page,
       rows: 6
     };
+    wx.showLoading({
+      title: '数据加载中...',
+    });
     Api.partakerList(_parms).then((res) => {
-      if (res.data.code == 0 && res.data.data.list && res.data.data.list != 'null') {
-        let list = res.data.data.list,
-          hotDishList = this.data.hotDishList;
-        if (list && list.length>0){
-          for (let i = 0; i < list.length; i++) {
-            for (let j = 0; j < hotDishList.length; j++) {
-              if (hotDishList[j].id == list[i].id) {
-                console.log(hotDishList[j].id)
-                hotDishList.splice(j, 1)
+      wx.hideLoading();
+      if (res.data.code == 0){
+        if (res.data.data.list && res.data.data.list.length > 0) {
+          let list = res.data.data.list,
+            hotDishList = this.data.hotDishList;
+          if (list && list.length > 0) {
+            for (let i = 0; i < list.length; i++) {
+              for (let j = 0; j < hotDishList.length; j++) {
+                if (hotDishList[j].id == list[i].id) {
+                  console.log(hotDishList[j].id)
+                  hotDishList.splice(j, 1)
+                }
               }
             }
-          }
 
-          for (let i = 0; i < list.length; i++) {
-            if (list[i].id != this.data.id) {
-              list[i].distance = utils.transformLength(list[i].distance);
-              hotDishList.push(list[i]);
+            for (let i = 0; i < list.length; i++) {
+              if (list[i].id != this.data.id) {
+                list[i].distance = utils.transformLength(list[i].distance);
+                hotDishList.push(list[i]);
+              }
+            }
+
+            this.setData({
+              hotDishList: hotDishList
+            });
+            if (list.length < 6) {
+              this.setData({
+                flag: false
+              });
             }
           }
 
+        } else {
           this.setData({
-            hotDishList: hotDishList
+            flag: false
           });
-          if (list.length < 6) {
-            this.setData({
-              flag: false
-            });
-          }
         }
-        
-      } else {
-        this.setData({
-          flag: false
-        });
       }
+      
     })
   },
   //点击跳转至砍价列表

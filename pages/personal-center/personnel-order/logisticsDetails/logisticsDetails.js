@@ -51,12 +51,25 @@ Page({
         if (_data.orderItemOuts[0].packingPrice){
           _data.orderItemOuts[0].packingPrice = _data.orderItemOuts[0].packingPrice.toFixed(2);
         }
-        
         if (_data.sendAmount && _data.sendAmount != null){
           _data.sendAmount = _data.sendAmount.toFixed(2);
         }
+        if (_data.orderItemOuts[0].unit == '盒'){
+          _data.units='礼盒装';
+        } else if (_data.orderItemOuts[0].unit == '斤'){
+          _data.units = '散装';
+        } else if (_data.orderItemOuts[0].unit == '张'){
+          if(_data.status == 2 || _data.status == 3){
+            _data.ust= true;
+          }
+        }
         _data.realAmount = _data.realAmount.toFixed(2);
         _data.orderItemOuts[0].goodsPrice = _data.orderItemOuts[0].goodsPrice.toFixed(2);
+        if (_data.expressCode && _data.expressCode.length*1>10){
+          console.log('111')
+          _data.expressCode2 = _data.expressCode.substring(0,10);
+        }
+        console.log('_data:', _data)
         that.setData({
           soDetail: _data
         })

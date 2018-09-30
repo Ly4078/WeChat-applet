@@ -22,7 +22,6 @@ Page({
     browSort: 2,
     cuisineArray: [],
     page: 1,
-    flag: true,   //节流阀
     scrollLeft: 0,
     choose_modal: ""
     
@@ -32,6 +31,9 @@ Page({
   },
   dishList() {     //砍菜列表
     //browSort 0附近 1销量 2价格
+    wx.showLoading({
+      title: '数据加载中...',
+    });
     let _parms = {
       zanUserId: app.globalData.userInfo.userId, 
       browSort: this.data.browSort,  
@@ -43,25 +45,21 @@ Page({
       rows: 8
     };
     Api.partakerList(_parms).then((res) => {
-      if (res.data.code == 0 && res.data.data.list && res.data.data.list != 'null') {
-        let list = res.data.data.list, cuisineArray = this.data.cuisineArray;
-        for(let i = 0; i < list.length; i++) {
-          list[i].distance = utils.transformLength(list[i].distance);
-          console.log(list[i])
-          cuisineArray.push(list[i]);
-        }
-        this.setData({
-          cuisineArray: cuisineArray
-        });
-        if(list.length < 6) {
+      wx.hideLoading();
+      if(res.data.code == 0){
+        if (res.data.data.list && res.data.data.list.length>0){
+          let list = res.data.data.list, cuisineArray = this.data.cuisineArray;
+          for (let i = 0; i < list.length; i++) {
+            list[i].distance = utils.transformLength(list[i].distance);
+            console.log(list[i])
+            cuisineArray.push(list[i]);
+          }
           this.setData({
-            flag: false
+            cuisineArray: cuisineArray
           });
+        }else{
+          // this.dishList();
         }
-      } else {
-        this.setData({
-          flag: false
-        });
       }
     })
   },
@@ -82,16 +80,13 @@ Page({
     //browSort 0附近 1销量 2价格    ---    navbar: ['价格', '附近', '销量'],
     this.setData({
       browSort: e.currentTarget.id,
-      flag: true,
       cuisineArray: [],
       page: 1
     })
     this.dishList();
   },
   onReachBottom: function () {  //用户上拉触底加载更多
-    if (!this.data.flag) {
-      return false;
-    }
+  
     this.setData({
       page: this.data.page + 1
     });
@@ -99,7 +94,6 @@ Page({
   },
   onPullDownRefresh: function () {
     this.setData({
-      flag: true,
       cuisineArray: [],
       page: 1
     });

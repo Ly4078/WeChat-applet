@@ -151,6 +151,11 @@ Page({
               _list[i].status2 = '已取消';
             }
             _list[i].realAmount = _list[i].realAmount.toFixed(2);
+            if (_list[i].orderItemOuts[0].unit == '只' || _list[i].orderItemOuts[0].unit == '斤'){
+              _list[i].units="散装";
+            } else if (_list[i].orderItemOuts[0].unit == '盒'){
+              _list[i].units = "礼盒装";
+            }
             logistics.push(_list[i]);
           }
           this.setData({
