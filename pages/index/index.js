@@ -791,11 +791,7 @@ Page({
         let _arr = str.split("&");
         let arr1 = _arr[0].split('='),
           arr2 = _arr[1].split('=');
-        if (arr2[1] == 1) {
-          wx.navigateTo({
-            url: '../activityDetails/onehundred-dish/onehundred-dish?actid=' + arr1[1],
-          })
-        } else if (arr2[1] == 2) {
+        if (arr2[1] == 2) {
           wx.navigateTo({
             url: '../activityDetails/video-list/video-list?id=' + arr[1],
           })
@@ -810,11 +806,7 @@ Page({
         let _arr = str.split("&");
         let arr1 = _arr[0].split('='),
           arr2 = _arr[1].split('=');
-        if (arr2[1] == 1) {
-          wx.navigateTo({
-            url: '../activityDetails/onehundred-dish/onehundred-dish?actid=' + arr1[1],
-          })
-        } else if (arr2[1] == 2) {
+        if (arr2[1] == 2) {
           let _linkUrl = arr[1].linkUrl;
           let aarr = _linkUrl.split("&"),
             _obj = {};
@@ -1407,11 +1399,7 @@ Page({
     //     url: '../personal-center/free-of-charge/free-of-charge?img=' + _linkUrl,
     //   })
     // } else 
-    if (_obj.type == 1) { //十堰食典
-      wx.navigateTo({
-        url: '../activityDetails/onehundred-dish/onehundred-dish?actid=' + _obj.actId,
-      })
-    } else if (_obj.type == 2) { //换螃蟹活动
+    if (_obj.type == 2) { //换螃蟹活动
       // wx.navigateTo({//十堰视频活动
       //   url: '../activityDetails/video-list/video-list?id=' + _obj.actId,
       // })
@@ -1439,11 +1427,7 @@ Page({
         _actName = _actlist[i].actName
       }
     }
-    if (_obj.type == 1) {
-      wx.navigateTo({
-        url: '../activityDetails/onehundred-dish/onehundred-dish?actid=' + _obj.id,
-      })
-    } else if (_obj.type == 2) {
+    if (_obj.type == 2) {
       wx.navigateTo({
         url: '../activityDetails/video-list/video-list?id=' + _obj.id,
       })

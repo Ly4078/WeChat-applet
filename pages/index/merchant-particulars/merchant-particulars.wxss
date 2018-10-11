@@ -1,8 +1,6 @@
 @import "./comment-template/comment-template.wxss";
 @import "../../commentsOnUp/commentsOnUp.wxss";
 @import "activity-item/activity-item.wxss";
-/* @import "../../activityDetails/onehundred-dish/dish-template/dish-template.wxss"; */
- @import "../../activityDetails/onehundred-dish/onehundred-dish.wxss"; 
 
 page {
   background-color: #ebebeb;

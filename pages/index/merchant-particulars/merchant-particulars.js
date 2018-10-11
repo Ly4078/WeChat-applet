@@ -21,10 +21,7 @@ var village_LBS = function (that) {
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
-    dishLish: [],
     city: '', //商家所在的城市
-    sku: 0, //可用票数
-    isclick: true,
     shopid: '', //商家ID
     store_details: {}, //店铺详情
     commentNum: 0, //评论数量
@@ -34,6 +31,7 @@ Page({
     merchantArt: [], //商家动态列表
     activity: [], //商家活动列表
     Bargainlist: [], //砍菜列表
+    sliceBargain: [],  //截取过的砍菜列表
     isBarg: false,
     allactivity: [],
     article_page: 1,
@@ -55,18 +53,13 @@ Page({
     // toView: 'list1',
     shopList: [],
     isFixed: false,
-    text: '十堰“100菜”菜评选 暨《十堰食典》汇编、美食天使赛事评选',
-    marqueePace: 1, //滚动速度
-    marqueeDistance: 0, //初始滚动距离
-    marqueeDistance2: 0,
-    marquee2copy_status: false,
-    marquee2_margin: 60,
     size: 14,
-    orientation: 'left', //滚动方向
-    interval: 50, // 时间间隔
     zanFlag: true //点赞节流阀
   },
   onLoad: function(options) {
+    wx.showLoading({
+      title: '加载中...'
+    })
     this.setData({
       shopid: options.shopid,
       comment_list: []
@@ -113,17 +106,9 @@ Page({
     if (!app.globalData.userInfo.mobile) {
       this.getinfouser();
     }
-    // 文本横向滚动条
-    var vm = this;
-    var length = vm.data.text.length * vm.data.size; //文字长度
-    var windowWidth = wx.getSystemInfoSync().windowWidth; // 屏幕宽度
-    vm.setData({
-      length: length,
-      windowWidth: windowWidth,
-      marquee2_margin: length < windowWidth ? windowWidth - length : vm.data.marquee2_margin //当文字长度小于屏幕长度时，需要增加补白
-    });
-    vm.antifriction(); // 水平一行字滚动完了再按照原来的方向滚动
-    vm.bearing(); // 第一个字消失后立即从右边出现
+  },
+  onHide() {
+    wx.hideLoading();
   },
   getinfouser: function() { //获取用户openId、sessionKey
     let that = this;
@@ -221,7 +206,6 @@ Page({
               that.setData({
                 voteUserId: app.globalData.userInfo.userId
               });
-              that.availableVote();
               if (!data.mobile) {
                 that.setData({
                   isnew: true
@@ -259,188 +243,6 @@ Page({
         }
       }
     })
-  },
-  getDishList() { //参赛菜品列表
-    let dateStr = new Date();
-    let milisecond = new Date(this.dateConv(dateStr)).getTime() + 86400000;
-    let _parms = {
-      shopId: this.data.shopid,
-      actId: 37,
-      beginTime: this.dateConv(dateStr),
-      endTime: this.dateConv(new Date(milisecond)),
-      voteUserId: app.globalData.userInfo.userId,
-      city: this.data.city,
-      page: 1,
-      rows: 6
-    };
-    Api.dishList(_parms).then((res) => {
-      let data = res.data;
-      if (data.code == 0) {
-        let list = data.data.list;
-        if (list != "null" && list != null && list != "" && list != []) {
-          this.setData({
-            dishLish: list
-          });
-        }
-      }
-    });
-  },
-  toDishDetail(e) { //跳转至菜品详情
-    if (!app.globalData.userInfo.mobile) {
-      this.setData({
-        issnap: true
-      })
-      return false
-    }
-    wx.navigateTo({
-      url: '../../activityDetails/dish-detail/dish-detail?actId=37&skuId=' + e.target.id
-    })
-  },
-  availableVote() {
-    let _parms = {
-      actId: 37,
-      userId: app.globalData.userInfo.userId
-    }
-    Api.availableVote(_parms).then((res) => {
-      let sku = 0;
-      if (res.data.code == 0) {
-        sku = res.data.data.sku;
-      }
-      this.setData({
-        sku: sku
-      });
-    });
-    if (!app.globalData.userInfo.mobile) {
-      this.setData({
-        sku: 0
-      });
-    }
-  },
-  castvote: function(e) { //对菜品投票
-    let that = this,
-      id = e.currentTarget.id;
-    if (!this.data.isclick) {
-      return false;
-    }
-    if (!app.globalData.userInfo.mobile) {
-      this.setData({
-        issnap: true
-      })
-      return false
-    }
-    let _parms = {
-      actId: 37,
-      userId: app.globalData.userInfo.userId,
-      skuId: id
-    };
-    if (this.data.sku <= 0) {
-      wx.showToast({
-        title: '请使用食典券后投票',
-        mask: 'true',
-        duration: 2000,
-        icon: 'none'
-      })
-      return false;
-    }
-    this.setData({
-      isclick: false
-    })
-    Api.voteAdd(_parms).then((res) => {
-      if (res.data.code == 0) {
-        wx.showToast({
-          title: '投票成功',
-          mask: 'true',
-          duration: 2000,
-          icon: 'none'
-        })
-        let _num = 0;
-        _num = that.data.sku - 1;
-        if (_num < 0) {
-          _num = 0;
-        }
-        let dishLish = that.data.dishLish;
-        for (let i = 0; i < dishLish.length; i++) {
-          dishLish[i].voteNum = dishLish[i].voteNum + 1;
-        }
-        that.setData({
-          sku: _num,
-          dishLish: dishLish
-        });
-      }
-      setTimeout(function() {
-        that.setData({
-          isclick: true
-        })
-      }, 1000)
-    });
-  },
-  payDish(e) { //购买活动菜
-    if (!app.globalData.userInfo.mobile) {
-      this.setData({
-        issnap: true
-      })
-      return false
-    }
-    let dishLish = this.data.dishLish,
-      id = e.target.dataset.index,
-      prSkuId = e.target.id,
-      skuId = 0,
-      manAmount = 0,
-      jianAmount = 0,
-      shopId = 0;
-    for (let i = 0; i < dishLish.length; i++) {
-      if (id == dishLish[i].id) {
-        manAmount = dishLish[i].manAmount;
-        jianAmount = dishLish[i].jianAmount;
-        shopId = dishLish[i].shopId;
-        skuId = dishLish[i].skuId;
-      }
-    }
-    wx.navigateTo({
-      url: '../voucher-details/voucher-details?id=' + prSkuId + "&skuId=" + skuId + "&sell=" + jianAmount + "&inp=" + manAmount + "&actId=37&shopId=" + shopId
-    })
-  },
-  antifriction: function() {
-    var vm = this;
-    var interval = setInterval(function() {
-      if (-vm.data.marqueeDistance < vm.data.length) {
-        vm.setData({
-          marqueeDistance: vm.data.marqueeDistance - vm.data.marqueePace,
-        });
-      } else {
-        clearInterval(interval);
-        vm.setData({
-          marqueeDistance: vm.data.windowWidth
-        });
-        vm.antifriction();
-      }
-    }, vm.data.interval);
-  },
-  bearing: function() {
-    var vm = this;
-    var interval = setInterval(function() {
-      if (-vm.data.marqueeDistance2 < vm.data.length) {
-        // 如果文字滚动到出现marquee2_margin=30px的白边，就接着显示
-        vm.setData({
-          marqueeDistance2: vm.data.marqueeDistance2 - vm.data.marqueePace,
-          marquee2copy_status: vm.data.length + vm.data.marqueeDistance2 <= vm.data.windowWidth + vm.data.marquee2_margin,
-        });
-      } else {
-        if (-vm.data.marqueeDistance2 >= vm.data.marquee2_margin) { // 当第二条文字滚动到最左边时
-          vm.setData({
-            marqueeDistance2: vm.data.marquee2_margin // 直接重新滚动
-          });
-          clearInterval(interval);
-          vm.bearing();
-        } else {
-          clearInterval(interval);
-          vm.setData({
-            marqueeDistance2: -vm.data.windowWidth
-          });
-          vm.bearing();
-        }
-      }
-    }, vm.data.interval);
   },
   selectForOne: function(val) {
     let _parms = {
@@ -521,7 +323,6 @@ Page({
     this.isCollected();
     this.merchantArt();
     this.getpackage();
-    this.availableVote();
     this.commentList();
     this.getsetget();
     this.hotDishList();
@@ -530,7 +331,6 @@ Page({
     this.setData({
       isBarg: !this.data.isBarg
     });
-    this.hotDishList();
   },
   hotDishList() { //拼价砍菜列表
     //browSort 0附近 1销量 2价格
@@ -547,18 +347,14 @@ Page({
     Api.partakerList(_parms).then((res) => {
       if (res.data.code == 0) {
         this.setData({
-          Bargainlist: []
+          Bargainlist: [],
+          sliceBargain: []
         });
-        let _list = res.data.data.list,
-          _oldData = this.data.Bargainlist,
-          arr = [];
+        let _list = res.data.data.list;
         if (_list && _list.length) {
-          arr = _oldData.concat(_list);
-          if (!this.data.isBarg) {
-            arr = arr.splice(0, 3);
-          }
           this.setData({
-            Bargainlist: arr
+            Bargainlist: _list,
+            sliceBargain: _list.slice(0, 3)
           })
         }
       }
@@ -616,6 +412,7 @@ Page({
         'content-type': 'application/json;Authorization'
       },
       success: function(res) {
+        wx.hideLoading();
         let _data = res.data.data;
         if (_data) {
           _data.popNum = utils.million(_data.popNum);
@@ -634,7 +431,6 @@ Page({
             });
           }
           that.shopList();
-          that.getDishList();
         }
       }
     })

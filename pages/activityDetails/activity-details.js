@@ -130,11 +130,7 @@ Page({
         _type = this.data.actdata[i].type;
       }
     }
-    if (_type == 1) {
-      wx.navigateTo({
-        url: 'onehundred-dish/onehundred-dish?actid=' + actid + '&_actName=' + _actName,
-      })
-    } else  if(_type == 2){
+    if(_type == 2){
       wx.navigateTo({
         url: 'video-list/video-list?id=' + actid,
       })

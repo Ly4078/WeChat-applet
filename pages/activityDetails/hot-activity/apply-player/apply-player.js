@@ -131,13 +131,7 @@ Page({
           duration: 2000,
           icon: 'none'
         })
-        if (_this.data.actId == 37) {
-          setTimeout(function () {
-            wx.redirectTo({
-              url: '../../onehundred-dish/onehundred-dish?actid=' + _this.data.actId + '&_actName=' + _this.data.actName + "&sortType=1" + "&switchTab=false"
-            })
-          }, 2000)
-        } else {
+        if (_this.data.actId != 37) {
           setTimeout(function () {
             wx.redirectTo({
               url: '../hot-activity?id=' + _this.data.actId + '&_actName=' + _this.data.actName

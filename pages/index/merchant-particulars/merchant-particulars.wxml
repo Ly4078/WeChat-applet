@@ -1,6 +1,5 @@
 <import src="comment-template/comment-template.wxml" />
 <import src="activity-item/activity-item.wxml" />
-<import src="../../activityDetails/onehundred-dish/dish-template/dish-template.wxml" />
 
 <view class="newUserModal loginuser" wx:if="{{istouqu}}" catchtouchmove='true'>
     <view class="drawer_screen"></view>
@@ -68,66 +67,6 @@
     <image class='crabSection-image' src='https://xqmp4-1256079679.file.myqcloud.com/Colin_crabSection-image.png'></image>
   </view>
 
-  <!-- 活动投票栏 -->
-  <view class='merchantVote' wx:if="{{dishLish.length > 0}}">
-    <view class='program'>【参与活动】</view>
-    <view class='voteGao'>
-      <view class="example">
-        <view class="marquee_box">
-          <view class="marquee_text" style="{{orientation}}:{{marqueeDistance}}px;font-size: {{size}}px;">
-            {{text}}
-          </view>
-        </view>
-      </view>
-    </view>
-    <view class='chairman'>
-      <scroll-view scroll-x="true" class='sliding'>
-        <!-- <block wx:for="{{dishLish}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
-          <template is="dishList" data="{{item}}"></template>
-        </block> -->
-        <view class="dish_list_item {{dishLish.length < 3 ? 'active' : ''}}" wx:for="{{dishLish}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
-          <view class="dish_list_inner">
-            <view class="list_item_top">
-              <view class="list_item_num">
-                <text class="list_item_num_l">{{item.skuCode}}号</text>
-                <text class="list_item_num_r">{{item.voteNum}}票</text>
-              </view>
-              <view class="list_item_vote" id="{{item.skuId}}" bindtap='castvote'>投票</view>
-              <image src="{{item.picUrl}}" mode="aspectFill" id="{{item.skuId}}" bindtap='toDishDetail'></image>
-            </view>
-            <view class="list_item_bottom">
-              <view class="list_item_info">
-                <view class="list_item_name">{{item.actSkuName}}</view>
-                <view>
-                  <text class="price_icon">￥</text>
-                  <text class="price_real">{{item.jianAmount}}</text>
-                  <text class="price_original">原价￥{{item.manAmount}}</text>
-                </view>
-              </view>
-              <button id="{{item.prSkuId}}" data-index="{{item.id}}" bindtap='payDish'>购买</button>
-            </view>
-          </view>
-        </view>
-      </scroll-view>
-    </view>
-  </view>
-
-  <!-- 商家参加的投票列表 -->
-  <view catchtap='storeActivity' wx:if="{{_shopCode}}">
-    <view class='currentTabButton'>
-      <image class='voteList' src='/images/icon/votehuodong.png'></image>
-      <image class='currentTabjiantou' src='/images/icon/home_arrow.png'></image>
-    </view>
-    <view class='currentTabButton distance-es'>
-      <view class='cuttenSerial'>
-        <text class='serial_number'>{{_shopCode}}号</text>
-        <view class='cuttentWrap'>
-          <text class='cuttentTabxiangq'>正在参加{{_actName}}</text>
-        </view>
-      </view>
-      <text class='vote-entrance'>投票</text>
-    </view>
-  </view>
   <!-- 主页 -->
   <view class='homepage'>
     <!--导航条-->
@@ -147,7 +86,7 @@
         </view>
       </view>
       <view class='scroll_box'>
-        <block wx:for="{{Bargainlist}}" wx:key="{{index}}">
+        <block wx:for="{{isBarg ? Bargainlist : sliceBargain}}" wx:key="{{index}}">
           <view class="anchor">
             <image class='anchor_img' mode="aspectFill" src='{{item.picUrl}}' id='{{item.id}}' data-index="{{item.shopId}}" bindtap='initiate'></image>
             <view class='Barbut'>

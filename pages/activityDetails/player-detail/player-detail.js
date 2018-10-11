@@ -176,17 +176,6 @@ Page({
       })
     }
   },
-  toArtList() {
-    if (!app.globalData.userInfo.mobile) {
-      this.setData({
-        issnap: true
-      })
-      return false
-    }
-    wx.redirectTo({
-      url: '../onehundred-dish/onehundred-dish?actid=' + this.data.actId
-    })
-  },
   playerDetail() {
     let _parms = {
       actId: this.data.actId,
