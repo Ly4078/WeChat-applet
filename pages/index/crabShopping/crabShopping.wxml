@@ -27,9 +27,6 @@
                 <text>￥{{item.sellPrice}}</text>
                 <text wx:if="{{item.unit != '张'}}">/{{item.unit}}</text>
               </view>
-              <!-- <view class='crabPriceright'>已售
-                <text>{{item.sellNum}}</text>
-              </view> -->
             </view>
           </view>
         </view>
@@ -47,31 +44,33 @@
   <view class='storeWrapCrad'>
     <view class='storStyle'>
       <view class='storPprofileWrap' wx:if="{{storeData.length>0}}" wx:for="{{storeData}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}" catchtap='crabBargainirg' id='{{item.id}}' data-id="{{item.skuForTscOuts[0].id}}">
-        <view>
-          <image wx:if="{{item.logoUrl}}" class='storPprofile' mode='aspectFill' src='{{item.logoUrl}}'></image>
-          <image wx:else class='storPprofile' mode='aspectFill' src='/images/icon/morentu.png'></image>
-          <view class='storShade'></view>
           <view class='bullfrog'>
             <view class='storShade-left'>
-              <image wx:if="{{item.logoUrl}}" class='storShade-leftHead' src='{{item.logoUrl}}'></image>
+              <image wx:if="{{item.logoUrl}}" class='storShade-leftHead' lazy-load='true' src='{{item.logoUrl}}'></image>
               <image wx:else class='storShade-leftHead' src='/images/icon/morentu.png'></image>
-              <view>
+              <view class='storsNmae_Text'>
                 <view class='storsNmae'>
                   <text>{{item.shopName}}</text>
                 </view>
-                <view>
-                  <image class='storLocation' src='/images/icon/bullfrog-imgas.png'></image>
-                  <text class='storLocationText'>{{item.distance}}</text>
+                <view class='cutOutCooking'>
+                  <image class='storLocation' src='/images/icon/hot.png'></image>
+                  <text class='storLocationText'>{{item.popNum}}</text>
+                  <text class='storCooking'>{{item.businessCate}}</text>
+                </view>
+                <view class='storsDishesWrap'>
+                  <text class='storsDishes'>{{item.skuName}}</text>
+                </view>
+                <view class='cutOutCooking'>
+                  <image class='storLocation' src='/images/icon/restaurant_ticket.png'></image>
+                  <text class='storLocationText'>{{item.ruleDescs}}</text>
                 </view>
               </view>
             </view>
             <view class='storShade-right'>
-              <button>立即预约</button>
+              <button>{{item.distance}}</button>
             </view>
           </view>
-        </view>
       </view>
-
       <view class='placeholder' wx:if="{{storeData.length<1}}">
         <image src="/images/icon/zhanweitu.png"></image>
       </view>

@@ -85,14 +85,6 @@
   color: #808080;
 }
 
-.navigationKb_Wrapp {
-  display: block;
-}
-
-.navigationKb_Wrapp {
-  display: block;
-}
-
 .navigationKb_img {
   width: 28rpx;
   height: 28rpx;
