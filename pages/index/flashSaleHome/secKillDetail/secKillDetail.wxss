@@ -25,7 +25,7 @@
 
 .shopsTopLeft{
   display: inline-block;
-  width: 480rpx;
+  /* width: 480rpx; */
   font-size:30rpx;
   font-family:PingFangSC-Medium;
   color:rgba(25,25,25,1);
@@ -37,7 +37,7 @@
 }
 
 .information-inner view{
-  font-size:30rpx;
+  font-size:25rpx;
   font-family:PingFangSC-Regular;
   color:rgba(252,94,45,1);
   letter-spacing: 2rpx;

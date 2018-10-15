@@ -137,43 +137,71 @@ Page({
       }
     }
   },
-  //查询我的礼品券列表数据 
-  getorderCoupon: function () {
-    wx.showLoading({
-      title: '数据加载中...',
-    });
-    let _parms = {
-      userId: app.globalData.userInfo.userId,
-      page: this.data.page,
-      // isUsed:0,
-      rows: 10
-    };
-    if (this.data.page == 1) {
-      this.setData({
-        listData: []
-      })
-    }
-    Api.orderCoupon(_parms).then((res) => {
-      wx.hideLoading();
-      wx.stopPullDownRefresh();
-      if (res.data.code == 0) {
-        let _data = this.data.listData, _list = res.data.data.list;
-        if (_list && _list.length > 0) {
-          for (let i = 0; i < _list.length; i++) {
-            _list[i].sku = "公" + _list[i].maleWeight + " 母" + _list[i].femaleWeight + " 4对 " + _list[i].styleName + " | " + _list[i].otherMarkerPrice + "型";
-            if (_list[i].ownId){
-              if (_list[i].ownId != app.globalData.userInfo.userId){
-                _list[i].isUsed = 1;
+  findByCode: function () {//通过code查询用户信息
+    let that = this;
+    wx.login({
+      success: res => {
+        Api.findByCode({
+          code: res.code
+        }).then((res) => {
+          if (res.data.code == 0) {
+            let _data = res.data.data;
+            for (let key in _data) {
+              for (let ind in app.globalData.userInfo) {
+                if (key == ind) {
+                  app.globalData.userInfo[ind] = _data[key]
+                }
               }
-            }
-            _data.push(_list[i]);
+              that.getorderCoupon();
+            };
+          } else {
+            that.findByCode();
           }
-          this.setData({
-            listData: _data
-          })
-        }
+        })
       }
     })
+  },
+  //查询我的礼品券列表数据 
+  getorderCoupon: function () {
+    if (!app.globalData.userInfo.userId){
+      this.findByCode();
+    }else{
+      wx.showLoading({
+        title: '数据加载中...',
+      });
+      let _parms = {
+        userId: app.globalData.userInfo.userId,
+        page: this.data.page,
+        // isUsed:0,
+        rows: 10
+      };
+      if (this.data.page == 1) {
+        this.setData({
+          listData: []
+        })
+      }
+      Api.orderCoupon(_parms).then((res) => {
+        wx.hideLoading();
+        wx.stopPullDownRefresh();
+        if (res.data.code == 0) {
+          let _data = this.data.listData, _list = res.data.data.list;
+          if (_list && _list.length > 0) {
+            for (let i = 0; i < _list.length; i++) {
+              _list[i].sku = "公" + _list[i].maleWeight + " 母" + _list[i].femaleWeight + " 4对 " + _list[i].styleName + " | " + _list[i].otherMarkerPrice + "型";
+              if (_list[i].ownId) {
+                if (_list[i].ownId != app.globalData.userInfo.userId) {
+                  _list[i].isUsed = 1;
+                }
+              }
+              _data.push(_list[i]);
+            }
+            this.setData({
+              listData: _data
+            })
+          }
+        }
+      })
+    }
   },
   // 查询提蟹券赠送记录
   getlistCoupon:function(){

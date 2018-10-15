@@ -13,8 +13,9 @@
     <view class='information-inner'>
       <view class='shopsTop'>
         <text class='shopsTopLeft'>{{skuName}}</text>
-        <view class='shopsTopRight'>剩余
-          <text>{{stockNum}}</text>份</view>
+        <view class='shopsTopRight'>当日仅售
+        <text>15</text>份</view>
+          <!-- <text>{{stockNum}}</text>份</view> -->
       </view>
       <view class='shopsTop shopssecond'>
         <view class='shopsConter'>
@@ -23,7 +24,7 @@
           </view>
           <text class='abandon'>￥{{sellPrice}}</text>
         </view>
-        <text class='at-present'>已售{{sellNum}}份</text>
+        <!-- <text class='at-present'>已售{{sellNum}}份</text> -->
       </view>
       <image class='instructions' src='/images/icon/secKill.png'></image>
     </view>

@@ -19,9 +19,9 @@
       </view>
       <view class='powerScroll'>
         <view class='buy-immediately' id="{{item.id}}">立即购买</view>
-        <view class='already'>
+        <!-- <view class='already'>
           <text class='already_text'>已售{{item.sellNum}}</text>
-        </view>
+        </view> -->
       </view>
     </view>
   </block>

@@ -243,7 +243,9 @@ Page({
     wx.request({
       url: that.data._build_url + 'so/getForOrder/' + that.data.soid,
       success: function (res) {
+        console.log('res:',res)
         let _skuNum = res.data.data.coupons;
+        console.log("1111")
         for (let i = 0; i < _skuNum.length; i++) {
           let ncard = ''
           for (var n = 0; n < _skuNum[i].couponCode.length; n = n + 4) {
@@ -251,8 +253,10 @@ Page({
           }
           _skuNum[i].couponCode = ncard.replace(/(\s*$)/g, "")
         }
+        console.log("2222")
         let data = res.data;
         if (data.code == 0) {
+         
           if (data.data.shopId){
             that.getshopInfo(data.data.shopId);
           }
@@ -274,17 +278,22 @@ Page({
               couponId: data.data.coupons[0].couponId
             });
           }
+          console.log("33333")
           for (let i = 0; i < that.data.couponsArr.length; i++) {
             imgsArr.push(that.data.couponsArr[i].qrcodeUrl);
-          }
+          } console.log("4444")
            data.data.userName =  data.data.userName.substr(0, 3) + "****" +  data.data.userName.substr(7);
+          console.log("55513123213")
            let _arr = data.data.createTime.split(' ');
            let _arr2 = _arr[0].split('-');
            _arr2[1] = _arr2[1]*1+3;
+          console.log("13123123")
+          console.log('_arr2:', _arr2)
            if (_arr2[1]>12){
-             _arr2 = _arr2[0]*1+1;
+             _arr2[0] = _arr2[0]*1+1;
              _arr2[1] = 12 -_arr2[1];
            }
+          console.log("44441111")
            data.data.endTime = _arr2[0] + '-' + _arr2[1] + '-' + _arr2[2];
           let dip = "食典", _obj = data.data, Cts = "现金", Dis = '平台', Dis2 = '折扣',Barg="砍价", secKill = "抢购", crab = "兑换";
            if (_obj.skuName && _obj.skuName.indexOf(dip) > 0) {
@@ -311,6 +320,7 @@ Page({
             getMonth = endTime.getMonth() + 1;
             _obj.endTime = endTime.getFullYear() + '-' + getMonth + '-' + endTime.getDate();
           }
+          console.log("666666666")
           if (_obj.skuName && _obj.skuName.indexOf(crab) > 0) {
             let endTime = '', createTime = data.data.createTime.substring(0, data.data.createTime.indexOf(' ')), getMonth = '';
             endTime = new Date(createTime).setDate(new Date(createTime).getDate() + 5);
@@ -318,6 +328,7 @@ Page({
             getMonth = endTime.getMonth() + 1;
             _obj.endTime = endTime.getFullYear() + '-' + getMonth + '-' + endTime.getDate();
           }
+          console.log("555555")
           _obj.soAmount = _obj.soAmount.toFixed(2);
           that.setData({
             ticketInfo: _obj,

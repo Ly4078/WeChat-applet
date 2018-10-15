@@ -42,65 +42,91 @@ Page({
       url: '../../index/index',
     })
   },
+
+  findByCode: function () {//通过code查询用户信息
+    let that = this;
+    wx.login({
+      success: res => {
+        Api.findByCode({
+          code: res.code
+        }).then((res) => {
+          if (res.data.code == 0) {
+            let _data = res.data.data;
+            for (let key in _data) {
+              for (let ind in app.globalData.userInfo) {
+                if (key == ind) {
+                  app.globalData.userInfo[ind] = _data[key]
+                }
+              }
+              that.getTicketList();
+            };
+          } else {
+            that.findByCode();
+          }
+        })
+      }
+    })
+  },
   //获取我的票券
   getTicketList: function() {
     let that = this;
-    wx.request({
-      url: that.data._build_url + 'cp/list',
-      data: {
-        userId: app.globalData.userInfo.userId,
-        isUsed: that.data.isUsed,
-        page: that.data.page,
-        rows: 8
-      },
-      success: function(res) {
-        wx.hideLoading();
-        if (res.data.code == 0) {
+    if (!app.globalData.userInfo.userId){
+      this.findByCode();
+    }else{
+      wx.request({
+        url: that.data._build_url + 'cp/list',
+        data: {
+          userId: app.globalData.userInfo.userId,
+          isUsed: that.data.isUsed,
+          page: that.data.page,
+          rows: 8
+        },
+        success: function (res) {
           wx.hideLoading();
-          if (res.data.data.list != null && res.data.data.list != [] && res.data.data.list != "") {
-            let ticketList = res.data.data.list,
-              ticketArr = that.data.ticket_list;
-            for (let i = 0; i < ticketList.length; i++) {
-              let Cts = "现金",
-                Dis = '折扣';
-              if (ticketList[i].skuName.indexOf(Cts) > 0) {
-                ticketList[i].cash = true
+          if (res.data.code == 0) {
+            wx.hideLoading();
+            if (res.data.data.list != null && res.data.data.list != [] && res.data.data.list != "") {
+              let ticketList = res.data.data.list,
+                ticketArr = that.data.ticket_list;
+              for (let i = 0; i < ticketList.length; i++) {
+                let Cts = "现金",
+                  Dis = '折扣';
+                if (ticketList[i].skuName.indexOf(Cts) > 0) {
+                  ticketList[i].cash = true
+                }
+                if (ticketList[i].skuName.indexOf(Dis) > 0) {
+                  ticketList[i].discount = true
+                }
+                ticketList[i]["isDue"] = that.isDueFunc(ticketList[0].expiryDate);
+                if (that.data.isUsed == 0) {
+                  ticketList[i].isgq = false;
+                } else if (that.data.isUsed == 1) {
+                  ticketList[i].isgq = true;
+                }
+                ticketArr.push(ticketList[i]);
               }
-              if (ticketList[i].skuName.indexOf(Dis) > 0) {
-                ticketList[i].discount = true
-              }
-              ticketList[i]["isDue"] = that.isDueFunc(ticketList[0].expiryDate);
-              if (that.data.isUsed == 0) {
-                ticketList[i].isgq = false;
-              } else if (that.data.isUsed == 1) {
-                ticketList[i].isgq = true;
-              }
-              ticketArr.push(ticketList[i]);
+              that.setData({
+                ticket_list: ticketArr
+              })
+            } else {
+              that.setData({
+                isUpdate: false
+              })
             }
-            that.setData({
-              ticket_list: ticketArr
-            })
           } else {
             that.setData({
               isUpdate: false
             })
           }
-        } else {
-          wx.hideLoading();
-          that.setData({
-            isUpdate: false
-          })
-        }
-        if (that.data.page == 1) {
-          wx.stopPullDownRefresh();
-        } else {
+          if (that.data.page == 1) {
+            wx.stopPullDownRefresh();
+          }
+        },
+        fail() {
           wx.hideLoading();
         }
-      },
-      fail(){
-        wx.hideLoading();
-      }
-    })
+      })
+    }
   },
   ticketType(e) { //不同类型的票券列表
     wx.showLoading({

@@ -32,10 +32,10 @@
           <text wx:if="{{SelectedList.unit != '张'}}">／{{SelectedList.unit}}(裸蟹价)  </text>
           <text class='abandon'> 原价￥{{SelectedList.marketPrice?SelectedList.marketPrice:SelectedList.sellPrice}}</text>
         </view>
-        <view class='quantityRight'>
+        <!-- <view class='quantityRight'>
           <text>已售</text>
           <text>{{SelectedList.sellNum}}</text>
-        </view>
+        </view> -->
       </view>
       <view class='quantity youhui' wx:if="{{_ruleDesc}}">
         <view>优惠

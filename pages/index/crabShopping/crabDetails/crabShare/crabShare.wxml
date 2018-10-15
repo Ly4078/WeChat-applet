@@ -40,11 +40,11 @@
               <image class='cuisineRight-xiaji' src='/images/icon/home_arrow.png'></image>
             </view>
           </view>
-          <view class='centerSwordWrap'>
+          <!-- <view class='centerSwordWrap'>
             <image class='centerSword' src='/images/icon/house.png'></image>
             <text>{{shopName}}</text>
             <text>已售<text>{{sellNum}}</text></text>
-          </view>
+          </view> -->
           <view class='bargainBtn'>
             <view>￥
               <text>底价</text>

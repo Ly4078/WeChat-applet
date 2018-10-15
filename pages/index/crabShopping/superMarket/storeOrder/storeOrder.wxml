@@ -7,7 +7,7 @@
       <view class="crabName">{{skuName}}</view>
       <view class="calculate">
         <view class="calculate_l">
-          <view class="sellNum">已售{{sellNum}}</view>
+          <!-- <view class="sellNum">已售{{sellNum}}</view> -->
           <text class="discountPrice">￥{{sellPrice}}</text>
           <text>/只</text>
           <!-- <text class="originalPrice">￥{{marketPrice}}</text> -->

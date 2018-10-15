@@ -16,6 +16,8 @@
         <text class='shopsTopLeft'>{{skuName}}</text>
         <!-- <view class='shopsTopRight'>剩余
           <text>{{stockNum}}</text>份</view> -->
+          <!-- <view class='shopsTopRight'>每天仅售
+          <text>15</text>份</view> -->
       </view>
       <view class='shopsTop shopssecond'>
         <view class='shopsConter'>

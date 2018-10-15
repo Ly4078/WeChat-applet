@@ -30,7 +30,7 @@
               <text>￥{{item.sellPrice}}</text>
               <text class="priceUnit">/只</text>
             </view>
-            <view class="priceUnit">已售{{item.sellNum}}</view>
+            <!-- <view class="priceUnit" wx:if="{{item.sellNum}}">已售{{item.sellNum}}</view> -->
           </view>
         </view>
       </view>
