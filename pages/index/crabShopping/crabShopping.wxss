@@ -251,7 +251,12 @@ page {
 .storsNmae_Text {
   width: 56%;
   height: 198rpx;
+}
+.storsNmae_Text1 {
   line-height: 50rpx;
+}
+.storsNmae_Text2 {
+  line-height: 66rpx;
 }
 
 .storsDishes{

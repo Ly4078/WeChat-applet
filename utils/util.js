@@ -40,7 +40,7 @@ function transformLength(len) {
     return len.toFixed(0) + "m";
   }
   else {
-    return (len / 1000).toFixed(2) + "km";
+    return (len / 1000).toFixed(1) + "km";
   }
 }
 

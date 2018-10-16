@@ -48,7 +48,7 @@
             <view class='storShade-left'>
               <image wx:if="{{item.logoUrl}}" class='storShade-leftHead' bindscrolltolower="loadMore" lazy-load='true' src='{{item.logoUrl}}'></image>
               <image wx:else class='storShade-leftHead' src='/images/icon/morentu.png'></image>
-              <view class='storsNmae_Text'>
+              <view class="storsNmae_Text {{item.ruleDescs.length>0? 'storsNmae_Text1' : 'storsNmae_Text2'}}" >
                 <view class='storsNmae'>
                   <text>{{item.shopName}}</text>
                 </view>
@@ -60,7 +60,7 @@
                 <view class='storsDishesWrap'>
                   <text class='storsDishes'>{{item.skuName}}</text>
                 </view>
-                <view class='cutOutCooking'>
+                <view class='cutOutCooking' wx:if="{{item.ruleDescs.length>0}}">
                   <image class='storLocation' src='/images/icon/restaurant_ticket.png'></image>
                   <text class='storLocationText'>{{item.ruleDescs}}</text>
                 </view>
