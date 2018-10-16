@@ -1,11 +1,8 @@
 <import src="index-item/index-item-template.wxml" />
 <import src="bargainirg-store/bargainirg-template/bargainirg-template.wxml" />
 
-<!--index.wxml-->
 <view class="container">
   <!--顶部 定位 搜索 卷  -->
-  <!-- <template is="locationSeek" data="{{...item}}" /> -->
-
   <view class="newUserModal" wx:if="{{issnap}}">
     <view class='drawer_screen'>
       <view class='sqtishi'>提示</view>
@@ -15,7 +12,6 @@
     </view>
   </view>
 
-  <!-- <view  catchtouchmove='true'> -->
   <view class="newUserModal loginuser" wx:if="{{istouqu}}" catchtouchmove='true'>
     <view class="drawer_screen"></view>
     <button class="newUserM_box" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">
@@ -65,7 +61,6 @@
 
 
   <!-- 轮播组件 -->
-  <!-- <template is="Allslideshow" data="{{...item}}" />  -->
   <swiper class="homePage_banner" indicator-dots="true" autoplay="true" circular="true" interval="5000" indicator-active-color="rgba(252, 94, 45,0.8)">
     <block wx:for="{{carousel}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
       <swiper-item>
@@ -73,16 +68,7 @@
       </swiper-item>
     </block>
   </swiper>
-  <!-- 分类 -->
-  <!-- <template is="allClassify" data="{{...item}}" />
-  <view wx:for="{{logs}}" wx:for-item="value" wx:key="{{index}}">
-    {{value.shopName}}
-  </view> -->
-  <!-- <button open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">获取手机号</button>    -->
-  <!-- 活动banner图 -->
-  <!-- <view class="activity" hidden="{{activityImg == '' || activityImg == null || activityImg == undefined}}">
-    <image src="{{activityImg}}"></image>
-  </view> -->
+
 
   <!-- 导航nav_one -->
   <view class='indexNavOne'>
@@ -130,50 +116,7 @@
     </view>
   </view>
 
-  <!-- 热门活动 -->
-  <!-- <block wx:for="{{Act}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
-    <template is="veoRes" data="{{item}}" />
-  </block>
-  <view class='scroll_box'>
-    <scroll-view scroll-x="true" class='scroll_activity'>
-      <block wx:for="{{actlist}}" wx:key="{{index}}" id="{{index}}" wx:for-index="idx">
-        <template is="hotActivityss" data="{{item}}" />
-      </block>
-    </scroll-view>
-  </view> -->
 
-  <!--短视频  -->
-  <!-- <block wx:if="{{isfile}}" wx:for="{{isfile?Vid:Vid2}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
-    <template is="veoRes" data="{{item}}" />
-  </block>
-  <view class='Resbanner Vidbanner' wx:if="{{isfile}}">
-    <image class='Resbimg' id='2' data-ind="2" bindtap='handbaoming' src="{{bannthree[1].imgUrl}}"></image>
-    <view class='resthree'>
-      <view wx:for="{{videolist}}" wx:key="index">
-        <view class='VthreeItem' id='{{item.id}}' bindtap='handViditem'>
-          <image class='vidimg' src="{{item.homePic}}"></image>
-          <text>{{item.title}}\n</text>
-        </view>
-      </view>
-    </view>
-  </view> -->
-
-  <!--精选餐厅  -->
-  <block wx:for="{{Res}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}" wx:if="{{false}}">
-    <template is="veoRes" data="{{item}}" />
-  </block>
-  <view class='Resbanner' wx:if="{{false}}">
-    <image class='Resbimg' id='1' data-ind="1" bindtap='handbaoming' src="{{bannthree[0].imgUrl}}"></image>
-    <view class='resthree'>
-      <view wx:for="{{hotshop}}" wx:key="index">
-        <view class='RthreeItem' id='{{item.id}}' bindtap='handResitem'>
-          <image class='Resimg' src="{{item.logoUrl}}"></image>
-          <text>{{item.shopName}}\n</text>
-          <text>人气餐厅</text>
-        </view>
-      </view>
-    </view>
-  </view>
 
   <!--拼菜砍价  -->
   <block wx:for="{{Bargain}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
@@ -208,109 +151,11 @@
     </view>
   </view>
 
-  <!--分类搜索商家菜品  -->
-  <view class='scroll_box' wx:if="{{false}}">
-    <scroll-view scroll-x="true" class='scroll_activity'>
-      <block wx:for="{{fooddatas}}" wx:key="{{index}}">
-        <text class='sortscrch {{actitem == item? "actsort" : ""}}' id='{{item}}' bindtap='handfood'>{{item}}</text>
-      </block>
-    </scroll-view>
-  </view>
-  <view class='shopboxs' wx:for="{{posts_key}}" wx:key="index">
-    <view class='shopbox {{item.ruleDescs.length < 1 ? "none" : ""}}' id="{{item.id}}" bindtap='handdish'>
-      <image class='shopimg' src='{{item.logoUrl}}'></image>
-      <view class='jubox'>
-        <text class='namebox'>{{item.shopName}}</text>
-        <text>{{item.inessCate}} | {{item.distance}}</text>
-      </view>
-      <view class='shopquan' wx:if="{{item.ruleDescs.length>0}}">
-        <image src='/images/icon/quanhuodong.png'></image>
-        <text wx:for="{{item.ruleDescs}}" wx:key="index">{{item}}；</text>
-      </view>
-    </view>
-  </view>
 
   <view class='toTop' wx:if="{{_page>1}}" bindtap='toTop'>
     <image src='/images/icon/toTop.png'></image>
   </view>
 
-  <!--新版修改结束  -->
-
-  <!--推荐餐厅 -->
-  <!-- <template is="postItem" data="{{...item}}" /> -->
-  <!--推荐餐厅  -->
-  <!-- <view class='scroll_box'>
-    <scroll-view scroll-x="true" class='scroll'>
-      <block wx:for="{{business}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
-        <template is="postItemss" data="{{item}}" />
-      </block>
-    </scroll-view>
-  </view> -->
-  <!--美食墙 -->
-  <!-- <template is="classify" data="{{...item}}" /> -->
-  <!--美食墙 -->
-  <!-- <view class='scroll_box'>
-    <scroll-view scroll-x="true" class='scroll element'>
-      <block wx:for="{{food}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
-        <template is="classifyss" data="{{item}}" />
-      </block>
-    </scroll-view>
-  </view> -->
-  <!--热门活动 -->
-  <!-- <template is="hotActivity" data="{{...item}}" />  -->
-  <!--热门活动  -->
-  <!-- <view class='scroll_box'>
-    <scroll-view scroll-x="true" class='scroll_activity'>
-      <block wx:for="{{actlist}}" wx:key="{{index}}" id="{{index}}" wx:for-index="idx">
-        <template is="hotActivityss" data="{{item}}" />
-      </block>
-    </scroll-view>
-  </view> -->
-  <!--趣享直播 -->
-  <!-- <template is="liveStreaming" data="{{...item}}" /> -->
-  <!--趣享直播  -->
-  <!-- <view class='scroll_box'>
-    <scroll-view scroll-x="true" class='scroll_anchor'>
-      <block wx:for="{{hotlive}}" wx:key="{{index}}">
-        <template is="liveStreamingss" data="{{item}}" />
-      </block>
-    </scroll-view>
-  </view> -->
-
-  <!-- 专题推荐 -->
-  <!-- <view class='recommend-topics' wx:if="{{isphoneNumber}}">
-    <text>专题推荐</text>
-  </view> -->
-  <view class='homepage' wx:if="{{false}}">
-    <!--tab导航条-->
-    <!-- <view class="navbar">
-      <text wx:for="{{navbar}}" wx:key="{{index}}" data-idx="{{index}}" class="item {{currentTab==index ? 'active' : ''}}" bindtap="navbarTap">{{item}}</text>
-    </view> -->
-    <!--菜系专题-->
-    <view hidden="{{currentTab!==0}}">
-      <!-- <swiper-item> -->
-      <block wx:for="{{restaurant}}" wx:key="{{index}}">
-        <template is="styleOfCookingTm" data="{{item}}" />
-      </block>
-      <!-- </swiper-item> -->
-    </view>
-    <!--服务专题-->
-    <view hidden="{{currentTab!==1}}">
-      <!-- <swiper-item> -->
-      <block wx:for="{{service}}" wx:for-item="item" wx:key="{{index}}">
-        <template is="CreateEmailAlerts" data="{{item}}" />
-      </block>
-      <!-- </swiper-item>. -->
-    </view>
-  </view>
-
   <view class='buttomBox'></view>
-  <!-- 底部动画 -->
 
-  <view class='bottomAnimation' wx:if="{{false}}">
-    <view class='bottomAnimationText'>
-      <image class='bottomAnimationImg' src='https://xqmp4-1256079679.file.myqcloud.com/text_10002730102299103.png'></image>
-      <text>共享美味新生活</text>
-    </view>
-  </view>
 </view>
