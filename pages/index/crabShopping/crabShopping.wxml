@@ -46,7 +46,7 @@
       <view class='storPprofileWrap' wx:if="{{storeData.length>0}}" wx:for="{{storeData}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}" catchtap='crabBargainirg' id='{{item.id}}' data-id="{{item.skuForTscOuts[0].id}}">
           <view class='bullfrog'>
             <view class='storShade-left'>
-              <image wx:if="{{item.logoUrl}}" class='storShade-leftHead' lazy-load='true' src='{{item.logoUrl}}'></image>
+              <image wx:if="{{item.logoUrl}}" class='storShade-leftHead' bindscrolltolower="loadMore" lazy-load='true' src='{{item.logoUrl}}'></image>
               <image wx:else class='storShade-leftHead' src='/images/icon/morentu.png'></image>
               <view class='storsNmae_Text'>
                 <view class='storsNmae'>
