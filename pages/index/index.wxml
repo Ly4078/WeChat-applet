@@ -3,6 +3,7 @@
 
 <view class="container">
   <!--顶部 定位 搜索 卷  -->
+  
   <view class="newUserModal" wx:if="{{issnap}}">
     <view class='drawer_screen'>
       <view class='sqtishi'>提示</view>
