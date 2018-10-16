@@ -279,6 +279,10 @@ Page({
   },
   // 查询提蟹券赠送记录
   getlistCoupon: function(types) {
+    if (!app.globalData.userInfo.userId) {
+        this.findByCode();
+        return
+      } 
     let _parms = {},
       that = this;
     wx.showLoading({
@@ -328,6 +332,10 @@ Page({
     })
   },
   getlistCouponReceive: function (types) {
+    if (!app.globalData.userInfo.userId) {
+      this.findByCode();
+      return
+    } 
     let _parms = {},
       that = this;
     wx.showLoading({
