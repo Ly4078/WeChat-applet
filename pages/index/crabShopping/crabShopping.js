@@ -205,27 +205,33 @@ Page({
       Api.listForSkuAllocation(_parms).then((res) => {
         wx.hideLoading();
         if (res.data.code == 0) {
-          let _list = res.data.data.list,
-            _storeData = this.data.storeData;
-          if (_list && _list.length > 0) {
+
+          if (res.data.data.list && res.data.data.list.length>0){
+            let _list = res.data.data.list,
+              _storeData = that.data.storeData;
             for (let i = 0; i < _list.length; i++) {
               _list[i].distance = utils.transformLength(_list[i].distance);
               _list[i].logoUrl = _list[i].logoUrl ? _list[i].logoUrl : _list[i].indexUrl;
               _storeData.push(_list[i]);
             };
-            this.setData({
+            that.setData({
               storeData: _storeData,
             })
-            if (_list.length < 8) {
-              this.setData({
-                storeFlag: false
-              });
-            }
-          } else {
-            this.setData({
-              storeFlag: false
-            });
+            // if (_list.length < 8) {
+            //   that.setData({
+            //     storeFlag: false
+            //   });
+            // }
+          }else{
+            // that.setData({
+            //   storeFlag: false
+            // });
+            wx.showToast({
+              title: '没有更多数据了',
+              icon:'none'
+            })
           }
+      
         }
       })
     }
