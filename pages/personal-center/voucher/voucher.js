@@ -41,7 +41,7 @@ Page({
     this.getorderCoupon(0);
     wx.showLoading({
       title: '加载中...',
-      // mask: true
+      mask: true
     })
   },
 
@@ -231,7 +231,7 @@ Page({
     } else {
       wx.showLoading({
         title: '数据加载中...',
-        // mask: true
+        mask: true
       });
       let _parms = {
         userId: app.globalData.userInfo.userId,
@@ -287,7 +287,7 @@ Page({
       that = this;
     wx.showLoading({
       title: '数据加载中...',
-      // mask: true
+      mask: true
     });
     _parms = {
       row: 10
@@ -340,7 +340,7 @@ Page({
       that = this;
     wx.showLoading({
       title: '数据加载中...',
-      // mask: true
+      mask: true
     });
     _parms = {
       row: 10
