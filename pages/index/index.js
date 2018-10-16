@@ -669,17 +669,18 @@ Page({
   },
 
   getdishDetail: function (Id, shopId) { //查询单个砍菜详情
-    let _parms = {
+    let that = this,_parms={},arr=[];
+    _parms = {
       Id: Id,
       zanUserId: app.globalData.userInfo.userId,
       shopId: shopId
     };
     Api.discountDetail(_parms).then((res) => {
       if (res.data.code == 0) {
-        let arr = this.data.bargainList;
-        if (res.data.data && res.data.data.isDeleted == 0) {
+        arr = this.data.bargainList;
+        if (res.data.data) {
           arr.push(res.data.data);
-          this.setData({
+          that.setData({
             bargainList: arr
           })
         }
@@ -687,7 +688,8 @@ Page({
     })
   },
   getsecKill() { //查询限量秒杀列表
-    let _parms = {
+    let _parms ={},that = this;
+    _parms = {
       zanUserId: app.globalData.userInfo.userId,
       browSort: 0,
       locationX: app.globalData.userInfo.lng,
@@ -698,15 +700,16 @@ Page({
       rows: 8
     };
     Api.secKillList(_parms).then((res) => {
-      let data = res.data;
-      if (data.code == 0 && data.data.list) {
-        this.setData({
-          secKillList: data.data.list.slice(0, 3)
-        });
-      } else {
-        this.setData({
-          secKillList: []
-        });
+      if(res.data.code == 0){
+        if(res.data.data.list.length>0){
+          that.setData({
+            secKillList: res.data.data.list.slice(0, 3)
+          });
+        }else{
+          that.setData({
+            secKillList: []
+          });
+        }
       }
     });
   },
