@@ -236,7 +236,7 @@ page {
 }
 
 .storShade-right {
-  width: 16%;
+  width: 17%;
   height: auto;
 }
 
@@ -244,12 +244,12 @@ page {
   width: 198rpx;
   height: 198rpx;
   border-radius: 8rpx;
-  margin: 0rpx 30rpx 0rpx 42rpx;
+  margin: 0rpx 30rpx 0rpx 30rpx;
   border: 1px solid #F5F5FA;
 }
 
 .storsNmae_Text {
-  width: 56%;
+  width: 57%;
   height: 198rpx;
 }
 .storsNmae_Text1 {
