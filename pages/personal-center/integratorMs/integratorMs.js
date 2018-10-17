@@ -5,7 +5,7 @@ import Api from '../../../utils/config/api.js'
 var utils = require('../../../utils/util.js')
 var app = getApp();
 
-Page({
+Page({ 
   data: {
     _build_url: GLOBAL_API_DOMAIN,
     speciesList:'',
