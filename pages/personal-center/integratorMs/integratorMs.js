@@ -15,7 +15,7 @@ Page({
     flag: true,
     isdata: false,
     total:0,
-    listDataPage:1,
+    pageTotal:1,
   },
   // 金币商城直通车
   goldPath: function () {
@@ -73,7 +73,7 @@ Page({
         this.setData({
           data: posts,
           total:res.data.data.total,
-          listDataPage: Math.ceil(res.data.data.total / 10)//总条数除以每页10条数据，获取数据总页数
+          pageTotal: Math.ceil(res.data.data.total / 10)//总条数除以每页10条数据，获取数据总页数
         },()=>{
           wx.hideLoading();
         })
@@ -100,7 +100,7 @@ Page({
     if (requesting){
       return
     }
-    if (this.data.listDataPage <= this.data.page){
+    if (this.data.pageTotal <= this.data.page){
       return 
     }
     if (this.data.flag) {

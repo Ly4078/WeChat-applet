@@ -18,7 +18,8 @@ Page({
     businessCate: '',
     browSort: '',
     searchValue:'',
-    timer:null
+    timer:null,
+    pageTotal:1
   },
 
   onLoad: function (options) {
@@ -90,7 +91,8 @@ Page({
             posts.push(_data[i])
           }
           that.setData({
-            posts_key: posts
+            posts_key: posts,
+            pageTotal:Math.ceil(res.data.data.total /8)
           },()=>{
             requesting = false
             wx.hideLoading();
@@ -120,7 +122,8 @@ Page({
               posts.push(_data[i])
             }
             that.setData({
-              posts_key: posts
+              posts_key: posts,
+              pageTotal: Math.ceil(res.data.data.total / 8)
             },()=>{
               requesting = false
               wx.hideLoading()
@@ -224,6 +227,9 @@ Page({
   onReachBottom: function () {  //用户上拉触底加载更多
     if (requesting){
       return false
+    }
+    if (this.data.pageTotal <= this.data.page){
+      return
     }
     if (!this.data.isclosure){
       return false
