@@ -1,7 +1,7 @@
 import Api from '../../../utils/config/api.js';
 var utils = require('../../../utils/util.js');
 let app = getApp()
-
+let requesting = false;
 Page({
   data: {
     posts_key: [],
@@ -74,10 +74,10 @@ Page({
     if (this.data.searchValue){
       _parms.searchKey=this.data.searchValue
     }
+    requesting = true
     if (this.data.businessCate == '川湘菜') {
       Api.listForChuangXiang(_parms).then((res) => {
         let that = this
-        wx.hideLoading();
         wx.stopPullDownRefresh();
         let data = res.data;
         if (data.code == 0 && data.data.list != null && data.data.list != "" && data.data.list != []) {
@@ -91,13 +91,21 @@ Page({
           }
           that.setData({
             posts_key: posts
+          },()=>{
+            requesting = false
+            wx.hideLoading();
           })
+        }else{
+          requesting = false
+          wx.hideLoading();
         }
+      },()=>{
+        requesting = false
+        wx.hideLoading()
       })
     } else {
       Api.shoplist(_parms).then((res) => {
         let that = this
-        wx.hideLoading()
         let data = res.data;
         if (data.code == 0){
           wx.stopPullDownRefresh();
@@ -113,13 +121,21 @@ Page({
             }
             that.setData({
               posts_key: posts
+            },()=>{
+              requesting = false
+              wx.hideLoading()
             })
           }else{
             this.setData({
               isclosure:false
             })
+            requesting = false
+            wx.hideLoading()
           }
         }
+      },()=>{
+        requesting = false
+        wx.hideLoading()
       })
     }
   },
@@ -141,7 +157,6 @@ Page({
           rows: 8
         }
         Api.shoplist(_parms).then((res) => {
-          wx.hideLoading()
           let data = res.data;
           if (data.code == 0) {
             if (data.data.list != null && data.data.list != "" && data.data.list != []) {
@@ -155,11 +170,14 @@ Page({
               }
               _this.setData({
                 posts_key: posts
+              },()=>{
+                wx.hideLoading()
               })
             }else{
               _this.setData({
                 searchValue: ''
               })
+              wx.hideLoading()
               wx.showToast({
                 title: '未搜索到相关信息',
                 icon: 'none',
@@ -167,7 +185,11 @@ Page({
                 duration: 2000
               })
             }
+          }else{
+            wx.hideLoading()
           }
+        },()=>{
+          wx.hideLoading()
         })
       }
     }, 500)
@@ -200,24 +222,35 @@ Page({
     })
   },
   onReachBottom: function () {  //用户上拉触底加载更多
+    if (requesting){
+      return false
+    }
     if (!this.data.isclosure){
       return false
     }
     let oldpage = this.data.page
     this.setData({
       page: this.data.page + 1
+    },()=>{
+      this.getData()
     });
 
-    this.getData()
+    
   },
   onPullDownRefresh: function () {
+    if (requesting){
+      return
+    }
     this.setData({
       posts_key: [],
       page: 1,
       searchValue:''
+    },()=>{
+      this.getData();
+      // this.getLocation();
     });
-    this.getData();
-    // this.getLocation();
+    
+    
   },
 
   getLocation:function(){
@@ -363,6 +396,15 @@ Page({
     this.setData({
       posts_key: posts_key
     });
-  }
+  },
   //模态框 end
+  // onPageScroll: function () {
+  //   //创建节点选择器
+  //   var query = wx.createSelectorQuery();
+  //   query.select('.page_row').boundingClientRect()
+  //   query.exec((res) => {
+  //     console.log(res);
+  //     // var listHeight = res[0].height; // 获取list高度
+  //   })
+  // }
 })

@@ -1,7 +1,6 @@
 <!--pages/index/dining-room/dining-room.wxml-->
 <import src="dining-room-tiem/dining-room-tiem-template.wxml" />
 <scroll-view scroll-y="{{isScroll}}">
-
   <view class='modal_box' wx:if="{{ismodel}}" catchtap='closemodel'>
     <!-- 附近 、美食、综合排序 -->
     <view class='white_box'>
@@ -38,9 +37,7 @@
     </view>
   </view>
 
-
-  <view class='page_row'>
-    <view class='dining_top'>
+ <view class='dining_top'>
       <view class="search" bindtap="seekTap">
         <view class="search_arr">
           <icon class="searchcion" size='20' type='search' catchtap="onSearchInp"></icon>
@@ -62,6 +59,8 @@
         </view>
       </view>
     </view>
+  <view class='page_row'>
+   
     <!-- 商家 -->
     <block wx:for="{{posts_key}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
       <template is="tpeMerchant" data="{{item}}" />
