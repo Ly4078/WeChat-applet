@@ -4,6 +4,7 @@ import {
 import Api from '../../../utils/config/api.js'
 var utils = require('../../../utils/util.js')
 var app = getApp();
+var requesting = false;
 
 Page({ 
   data: {
@@ -14,6 +15,7 @@ Page({
     flag: true,
     isdata: false,
     total:0,
+    listDataPage:1,
   },
   // 金币商城直通车
   goldPath: function () {
@@ -38,7 +40,6 @@ Page({
       });
     });
   },
-
   getTicketList: function () { //获取劵列表   入参:userId
     let _parms = {
       userId: app.globalData.userInfo.userId,   //userId     
@@ -46,11 +47,13 @@ Page({
       page: this.data.page,
       rows: 10
     };
+    requesting = true;
     Api.speciesList(_parms).then((res) => {
-      wx.hideLoading();
       if (res.data.code == 0) {
+        requesting = false;
         let _data = res.data.data.list;
         if (!_data){
+          wx.hideLoading();
           return false;
         }
         let posts = this.data.data;
@@ -69,13 +72,21 @@ Page({
         }
         this.setData({
           data: posts,
-          total:res.data.data.total
+          total:res.data.data.total,
+          listDataPage: Math.ceil(res.data.data.total / 10)//总条数除以每页10条数据，获取数据总页数
+        },()=>{
+          wx.hideLoading();
         })
       } else {
         this.setData({
           flag: false
         })
-      }
+        wx.hideLoading();
+        requesting = false;
+      } 
+    },()=>{
+      wx.hideLoading();
+      requesting = false;
     });
   },
   
@@ -86,23 +97,42 @@ Page({
   },
   //用户上拉触底
   onReachBottom: function () {
+    if (requesting){
+      return
+    }
+    if (this.data.listDataPage <= this.data.page){
+      return 
+    }
     if (this.data.flag) {
       wx.showLoading({
         title: '加载中..'
       })
       this.setData({
         page: this.data.page + 1
+      },()=>{
+        this.getTicketList();
       });
-      this.getTicketList();
+     
     }
   },
   //用户下拉刷新
   onPullDownRefresh: function () {
+    if (requesting) {
+      return
+    }
     this.setData({
       data: [],
       page: 1,
       flag: true
+    },()=>{
+      this.getTicketList();
     });
-    this.getTicketList();
+   
+  },
+  onHide: function () {
+    wx.hideLoading();
+  },
+  onUnload: function () {
+    wx.hideLoading();
   }
 })

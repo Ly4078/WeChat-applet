@@ -94,7 +94,6 @@ Page({
         istouqu: true
       })
     }
-
     if (app.globalData.userInfo.mobile) {
       // this.getbalance();
       this.setData({
