@@ -688,6 +688,11 @@ Page({
       }
     });
   },
+  toSeckillList() {
+    wx.navigateTo({
+      url: 'flashSaleHome/flashSaleHome'
+    })
+  },
   toSecKillDetail(e) { //跳转至菜品详情
     let curr = e.currentTarget;
     wx.navigateTo({
@@ -1273,6 +1278,88 @@ Page({
   toStore() { //跳转至到店自提列表
     wx.navigateTo({
       url: 'crabShopping/crabShopping?currentTab=2'
+    })
+  },
+  chartOfDisheses: function () { // 砍菜砍价详情
+    wx.navigateTo({
+      url: 'chartOfDisheses/chartOfDisheses',
+    })
+  },
+  //点击精选餐厅下的入驻图片
+  handbaoming(e) {
+    let id = e.currentTarget.id,
+      ind = e.currentTarget.dataset.ind;
+    let reg1 = new RegExp("shopId"),
+      reg2 = new RegExp("topicId"),
+      reg3 = new RegExp("actId"),
+      reg4 = new RegExp("type");
+    let arr = this.data.bannthree;
+    console.log("arr:", arr)
+    if (id == 1) {
+      let str = arr[0].linkUrl;
+      if (str == "ruzhu") { //进入下载APP页面
+        wx.navigateTo({
+          url: '../../pages/index/download-app/download?isshop=ind',
+        })
+      } else if (reg1.test(str)) { //进入某个店铺
+        let _arr = str.split("=");
+        wx.navigateTo({
+          url: 'merchant-particulars/merchant-particulars?shopid=' + _arr[1]
+        })
+      } else if (reg3.test(str) && reg4.test(str)) { //进入某个活动页面
+        let _arr = str.split("&");
+        let arr1 = _arr[0].split('='),
+          arr2 = _arr[1].split('=');
+        if (arr2[1] == 1) {
+          wx.navigateTo({
+            url: '../activityDetails/onehundred-dish/onehundred-dish?actid=' + arr1[1],
+          })
+        } else if (arr2[1] == 2) {
+          wx.navigateTo({
+            url: '../activityDetails/video-list/video-list?id=' + arr[1],
+          })
+        }
+      }
+    } else if (id == 2) {
+      let str = arr[1].linkUrl;
+      if (reg2.test(str)) { //去文章或视频详情页面
+        let _arr = str.split("=");
+        this.getoddtopic(_arr[1]);
+      } else if (reg3.test(str) && reg4.test(str)) { //去某一活动页面
+        let _arr = str.split("&");
+        let arr1 = _arr[0].split('='),
+          arr2 = _arr[1].split('=');
+        if (arr2[1] == 1) {
+          wx.navigateTo({
+            url: '../activityDetails/onehundred-dish/onehundred-dish?actid=' + arr1[1],
+          })
+        } else if (arr2[1] == 2) {
+          let _linkUrl = arr[1].linkUrl;
+          let aarr = _linkUrl.split("&"),
+            _obj = {};
+          for (let i in aarr) {
+            let arr2 = aarr[i].split("=");
+            _obj[arr2[0]] = arr2[1];
+          }
+          wx.navigateTo({
+            url: '../activityDetails/video-list/video-list?id=' + _obj.actId,
+          })
+        }
+      }
+    } else if (id == 3) { //点击商家广告位，进入指定商家页面
+      let str = arr[2].linkUrl;
+      if (reg1.test(str)) {
+        let _arr = str.split("=");
+        wx.navigateTo({
+          url: 'merchant-particulars/merchant-particulars?shopid=' + _arr[1]
+        })
+      }
+    }
+  },
+  // 螃蟹使用攻略
+  crabSteamed: function (e) {
+    wx.navigateTo({
+      url: 'crabShopping/crabShopping?currentTab=1'
     })
   }
 })
