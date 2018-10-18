@@ -165,7 +165,7 @@ Page({
     var nowTime = new Date().getTime();
     var beforeClickTime = wx.getStorageSync("beforeClickTime") || 0;
     // if (beforeClickTime){
-    console.log(nowTime - beforeClickTime)
+    // console.log(nowTime - beforeClickTime)
     wx.setStorageSync('beforeClickTime', nowTime)
     if ((nowTime - beforeClickTime) <= 300) {
       // wx.showToast({
@@ -178,7 +178,7 @@ Page({
     this.setData({
       ind: _ind
     },()=>{
-      console.log(swichrequestflag[_ind])
+      // console.log(swichrequestflag[_ind])
       if (swichrequestflag[_ind]) {
         return
       }
@@ -198,7 +198,7 @@ Page({
           }
         }
     });
-    console.log(swichrequestflag)
+    // console.log(swichrequestflag)
   },
   findByCode: function() { //通过code查询用户信息
     let that = this;

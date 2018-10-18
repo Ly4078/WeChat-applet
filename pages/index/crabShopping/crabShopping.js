@@ -11,19 +11,19 @@ var village_LBS = function(that) { //获取用户经纬度
         longitude = res.longitude;
       app.globalData.userInfo.lat = latitude;
       app.globalData.userInfo.lng = longitude;
-      that.marketList();
+      that.marketList(2);
       that.requestCityName(latitude, longitude);
     },
   })
 }
+var swichrequestflag = [false, false, false];
+
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
     listData: [], //送货到家
     storeData: [], //品质好店
     marketList: [],//到店自提
-    storeFlag: true, //品质好店节流阀
-    marketFlag: true,   //到店自提节流阀
     navbar: ['平台邮购', '到店消费', '门店自提'],
     // oneTab: ["礼盒装", "散装", "提蟹券"],
     oneTab: ["提蟹券","散装"],
@@ -34,7 +34,10 @@ Page({
     _page: 1,
     sPage: 1,
     articleid: '',
-    dshImg: ''
+    dshImg: '',
+    platFormPages: 1,
+    shopPages: 1,
+    marketPages: 1
   },
   onLoad: function(option) {
     // console.log('option:', option)
@@ -76,52 +79,63 @@ Page({
     this.setData({
       listData: [], //送货到家
       storeData: [],
-      storeFlag: true,
       page: 1,
       _page: 1
     })
     if (this.data.currentTab == 0) {
       if (this.data.listData.length < 1) {
-        this.commodityCrabList();
+        this.commodityCrabList(0);
       } else {
         wx.hideLoading();
       }
     } else if (this.data.currentTab == 1) {
-      this.listForSkuAllocation();
+      this.listForSkuAllocation(1);
     } else if (this.data.currentTab == 2) {
-      this.marketList();
+      this.marketList(2);
     }
   },
   onShow: function() {},
+  onHide() {
+    wx.hideLoading();
+  },
+  onUnload() {
+    wx.hideLoading();
+  },
   //切换顶部tab
   navbarTap: function(e) {
+    let oldIdx = this.data.currentTab, idx = e.currentTarget.dataset.idx;
     this.setData({
-      currentTab: e.currentTarget.dataset.idx,
-      listData: [], //送货到家
-      storeData: [],
-      marketList: [],
-      storeFlag: true,
-      marketFlag: true,
+      currentTab: idx,
       page: 1,
       _page: 1,
       sPage: 1
-    })
-    if (this.data.currentTab == 0) {
-      if (this.data.listData.length == 0) {
-        this.commodityCrabList();
+    }, () => {
+      console.log(swichrequestflag);
+      if (swichrequestflag[idx]) {
+        return;
       }
-    } else if (this.data.currentTab == 1) {
-      if (this.data.storeData.length == 0) {
-        this.listForSkuAllocation();
+      if (this.data.currentTab == 0) {
+        if (idx != oldIdx && this.data.listData.length == 0) {
+          this.commodityCrabList(0);
+        }
+      } else if (this.data.currentTab == 1) {
+        if (idx != oldIdx &&this.data.storeData.length == 0) {
+          this.listForSkuAllocation(1);
+        }
+      } else if (this.data.currentTab == 2) {
+        if (idx != oldIdx && this.data.marketList.length == 0) {
+          this.marketList(2);
+        }
       }
-    } else if (this.data.currentTab == 2) {
-      this.marketList();
-    }
+    });
   },
   //点击二级目录
-  handonetab: function(e) {
-    let id = e.currentTarget.id,
+  handonetab: function (e) {
+    let oldId = this.data.tabId, id = e.currentTarget.id,
       val = 3;
+    if (oldId == id) {
+      return false;
+    }
     if (id == 0) {
       val = 3;
     } else if (id == 1) {
@@ -133,7 +147,7 @@ Page({
       listData: [],
       page: 1
     });
-    this.commodityCrabList();
+    this.commodityCrabList(0);
   },
   //监听分享
   onShareAppMessage: function() {
@@ -144,8 +158,11 @@ Page({
       success: function (res) { }
     }
   },
-  //查询送货到家列表
-  commodityCrabList: function() {
+  //查询平台邮购列表
+  commodityCrabList: function (types) {
+    wx.showLoading({
+      title: '数据加载中...',
+    });
     let that = this;
     let _parms = {
       spuType: 10,
@@ -154,18 +171,15 @@ Page({
       spuId: this.data.spuval,
       rows: 10
     };
-    if (this.data.page == 1) {
-      this.setData({
-        listData: []
-      })
-    }
-    wx.showLoading({
-      title: '数据加载中...',
-    });
+    swichrequestflag[types] = true;
     Api.crabList(_parms).then((res) => {
       let _listData = this.data.listData;
-      wx.hideLoading();
       if (res.data.code == 0) {
+        if (this.data.page == 1) {
+          this.setData({
+            listData: []
+          })
+        }
         let _list = res.data.data.list;
         if (_list && _list.length > 0) {
           for (let i = 0; i < _list.length; i++) {
@@ -173,19 +187,31 @@ Page({
           }
           this.setData({
             listData: _listData,
+            platFormPages: Math.ceil(res.data.data.total / 10)
+          }, () => {
+            wx.hideLoading();
           })
+        } else {
+          wx.hideLoading();
         }
+        swichrequestflag[types] = false;
       }
+    }, () => {
+      wx.hideLoading();
+      swichrequestflag[types] = false;
     })
   },
 
-  //查询品质好店列表
-  listForSkuAllocation: function() {
+  //查询到店消费列表
+  listForSkuAllocation: function (types) {
     let that = this;
     if (!app.globalData.userInfo.lat || !app.globalData.userInfo.lng || !app.globalData.userInfo.city) {
       wx.hideLoading();
       this.getlocation();
     } else {
+      wx.showLoading({
+        title: '数据加载中...',
+      });
       let _parms = {
         Type: 1,
         page: this.data._page,
@@ -194,18 +220,14 @@ Page({
         locationY: app.globalData.userInfo.lat,
         city: app.globalData.userInfo.city
       };
-      if (this.data._page == 1) {
-        this.setData({
-          storeData: []
-        })
-      };
-      wx.showLoading({
-        title: '数据加载中...',
-      });
+      swichrequestflag[types] = true;
       Api.listForSkuAllocation(_parms).then((res) => {
-        wx.hideLoading();
         if (res.data.code == 0) {
-
+          if (this.data._page == 1) {
+            this.setData({
+              storeData: []
+            })
+          };
           if (res.data.data.list && res.data.data.list.length>0){
             let _list = res.data.data.list,
               _storeData = that.data.storeData;
@@ -216,51 +238,46 @@ Page({
             };
             that.setData({
               storeData: _storeData,
+              shopPages: Math.ceil(res.data.data.total / 10)
+            }, () => {
+              wx.hideLoading();
             })
-            // if (_list.length < 8) {
-            //   that.setData({
-            //     storeFlag: false
-            //   });
-            // }
-          }else{
-            // that.setData({
-            //   storeFlag: false
-            // });
-            wx.showToast({
-              title: '没有更多数据了',
-              icon:'none'
-            })
+          } else {
+            wx.hideLoading();
           }
-      
+          swichrequestflag[types] = false;
         }
+      }, () => {
+        wx.hideLoading();
+        swichrequestflag[types] = false;
       })
     }
   },
 
-  //查询到店自提列表
-  marketList() {
+  //查询门店自提列表
+  marketList(types) {
     let that = this;
     if (!app.globalData.userInfo.lat || !app.globalData.userInfo.lng || !app.globalData.userInfo.city) {
       wx.hideLoading();
       this.getlocation();
     } else {
+      wx.showLoading({
+        title: '数据加载中...',
+      });
       let _parms = {
         page: this.data.sPage,
         rows: 5,
         locationX: app.globalData.userInfo.lng,
         locationY: app.globalData.userInfo.lat
       };
-      if (this.data.sPage == 1) {
-        this.setData({
-          marketList: []
-        })
-      };
-      wx.showLoading({
-        title: '数据加载中...',
-      })
+      swichrequestflag[types] = true;
       Api.superMarketUrl(_parms).then((res) => {
-        wx.hideLoading();
         if (res.data.code == 0) {
+          if (this.data.sPage == 1) {
+            this.setData({
+              marketList: []
+            })
+          };
           let _list = res.data.data.list,
             marketList = this.data.marketList;
           if (_list && _list.length > 0) {
@@ -271,18 +288,18 @@ Page({
             };
             this.setData({
               marketList: marketList,
+              marketPages: Math.ceil(res.data.data.total / 10)
+            }, () => {
+              wx.hideLoading();
             })
-            if (_list.length < 5) {
-              this.setData({
-                marketFlag: false
-              });
-            }
           } else {
-            this.setData({
-              marketFlag: false
-            });
+            wx.hideLoading();
           }
+          swichrequestflag[types] = false;
         }
+      }, () => {
+        wx.hideLoading();
+        swichrequestflag[types] = false;
       })
     }
   },
@@ -301,7 +318,7 @@ Page({
           } else {
             app.globalData.userInfo.city = _city;
           }
-          that.listForSkuAllocation();
+          that.listForSkuAllocation(1);
           app.globalData.picker = res.data.result.address_component;
         }
       }
@@ -310,44 +327,71 @@ Page({
   },
   //下拉刷新
   onPullDownRefresh: function() {
-    this.setData({
-      page: 1,
-      _page: 1,
-      sPage: 1,
-      listData: [], //送货到家
-      storeData: [],
-      marketList: [],
-      storeFlag: true,
-      marketFlag: true
-    });
+    console.log(swichrequestflag)
     if (this.data.currentTab == 0) {
-      this.commodityCrabList();
+      if (swichrequestflag[0]) {
+        return;
+      }
+      this.setData({
+        page: 1,
+        listData: []
+      }, () => {
+        this.commodityCrabList(0);
+      });
     } else if (this.data.currentTab == 1) {
-      this.listForSkuAllocation();
+      if (swichrequestflag[1]) {
+        return;
+      }
+      this.setData({
+        _page: 1,
+        storeData: [],
+      }, () => {
+        this.listForSkuAllocation(1);
+      });
     } else if (this.data.currentTab == 2) {
-      this.marketList();
+      if (swichrequestflag[2]) {
+        return;
+      }
+      this.setData({
+        sPage: 1,
+        marketList: []
+      }, () => {
+        this.marketList(2);
+      });
     }
   },
   //用户上拉触底加载更多
   onReachBottom: function() {
     if (this.data.currentTab == 0) {
-      this.setData({
-        page: this.data.page + 1
-      });
-      this.commodityCrabList();
+      if (swichrequestflag[0]) {
+        return;
+      }
+      if (this.data.platFormPages > this.data.page) {
+        this.setData({
+          page: this.data.page + 1
+        }, () => {
+          this.commodityCrabList(0);
+        });
+      }
     } else if (this.data.currentTab == 1) {
-      if (this.data.storeFlag) {
+      if (swichrequestflag[1]) {
+        return;
+      }
+      if (this.data.shopPages > this.data._page) {
         this.setData({
           _page: this.data._page + 1
         });
-        this.listForSkuAllocation();
+        this.listForSkuAllocation(1);
       }
     } else if (this.data.currentTab == 2) {
-      if (this.data.marketFlag) {
+      if (swichrequestflag[2]) {
+        return;
+      }
+      if (this.data.marketPages > this.data.sPage) {
         this.setData({
           sPage: this.data.sPage + 1
         });
-        this.marketList();
+        this.marketList(2);
       }
     }
   },
@@ -362,7 +406,7 @@ Page({
         let latitude = res.latitude,longitude = res.longitude;
         app.globalData.userInfo.lat = latitude;
         app.globalData.userInfo.lng = longitude;
-        that.marketList();
+        that.marketList(2);
         that.requestCityName(latitude, longitude);
       },
       fail: function(res) {

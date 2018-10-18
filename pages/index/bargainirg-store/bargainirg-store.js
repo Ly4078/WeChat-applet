@@ -2,6 +2,7 @@ import Api from '../../../utils/config/api.js';
 var utils = require('../../../utils/util.js');
 var app = getApp()
 var that = null;
+var swichrequestflag = false;
 Page({
   data: {
     navbar: [
@@ -29,6 +30,12 @@ Page({
   onLoad: function(options) {
     this.dishList();
   },
+  onHide() {
+    wx.hideLoading();
+  },
+  onUnload() {
+    wx.hideLoading();
+  },
   dishList() {     //砍菜列表
     //browSort 0附近 1销量 2价格
     wx.showLoading({
@@ -44,24 +51,34 @@ Page({
       page: this.data.page,
       rows: 8
     };
+    swichrequestflag = true;
     Api.partakerList(_parms).then((res) => {
-      wx.hideLoading();
-      if(res.data.code == 0){
+      if (res.data.code == 0) {
+        if (this.data.page == 1) {
+          this.setData({
+            cuisineArray: []
+          });
+        }
         if (res.data.data.list && res.data.data.list.length>0){
           let list = res.data.data.list, cuisineArray = this.data.cuisineArray;
           for (let i = 0; i < list.length; i++) {
             list[i].distance = utils.transformLength(list[i].distance);
-            console.log(list[i])
             cuisineArray.push(list[i]);
           }
           this.setData({
             cuisineArray: cuisineArray
+          }, () => {
+            wx.hideLoading();
           });
-        }else{
-          // this.dishList();
+        } else {
+          wx.hideLoading();
         }
+        swichrequestflag = false;
       }
-    })
+    }, () => {
+      wx.hideLoading();
+      swichrequestflag = false;
+    });
   },
   occludeAds: function() {
     this.setData({
@@ -77,22 +94,33 @@ Page({
   },
   //顶部tab栏
   navbarTap: function (e) {
+    if (swichrequestflag) {
+      return;
+    }
     //browSort 0附近 1销量 2价格    ---    navbar: ['价格', '附近', '销量'],
+    let oldBrowSort = this.data.browSort;
     this.setData({
       browSort: e.currentTarget.id,
-      cuisineArray: [],
       page: 1
+    }, ()  => {
+      if (oldBrowSort != e.currentTarget.id) {
+        this.dishList();
+      }
     })
-    this.dishList();
   },
   onReachBottom: function () {  //用户上拉触底加载更多
-  
+    if (swichrequestflag) {
+      return;
+    }
     this.setData({
       page: this.data.page + 1
     });
     this.dishList();
   },
   onPullDownRefresh: function () {
+    if (swichrequestflag) {
+      return;
+    }
     this.setData({
       cuisineArray: [],
       page: 1
