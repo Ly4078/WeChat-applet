@@ -4,12 +4,14 @@ import {
 import Api from '../../../utils/config/api.js'
 var utils = require('../../../utils/util.js')
 var app = getApp();
+var requesting = false;
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
     likeType: 1,
     myList: [],
-    flag: true
+    flag: true,
+    pageTotal:1,
   },
   onLoad: function(options) {
     this.setData({
@@ -23,8 +25,10 @@ Page({
       page: 1,
       myList: [],
       flag: true
+    },()=>{
+      this.list();
     });
-    this.list();
+    
   },
   list() {
     // 注: 入参为userId(想要查看哪个用户的userId)和type(关注类型)----此是一个用户关注了哪些人
@@ -40,6 +44,7 @@ Page({
     } else if (likeType == 2) { //粉丝列表
       _parms.refId = app.globalData.userInfo.userId;
     }
+    requesting = true;
     Api.likeList(_parms).then((res) => {
       let data = res.data.data;
       if (res.data.code == 0) {
@@ -50,18 +55,24 @@ Page({
             myList.push(data.list[i]);
           }
           this.setData({
-            myList: myList
+            myList: myList,
+            pageTotal: Math.ceil(res.data.data.total / 10)
           });
+          requesting = false;
         } else {
           this.setData({
             flag: false
           });
+          requesting = false;
         }
       } else {
         this.setData({
           flag: false
         });
+        requesting = false;
       }
+    },()=>{
+      requesting = false;
     })
   },
   addLike(e) { //添加关注
@@ -143,18 +154,31 @@ Page({
     })
   },
   onPullDownRefresh: function() { //下拉刷新
+    if (requesting){
+      return
+    }
     this.setData({
       page: 1,
       myList: [],
       flag: true
+    },()=>{
+      this.list();
     });
-    this.list();
+   
   },
   onReachBottom: function() { //上拉加载
+    if (requesting) {
+      return
+    }
+    if (this.data.pageTotal <= (this.data.page || 1)){
+      return
+    }
     this.setData({
       page: this.data.page + 1
+    },()=>{
+      this.list();
     });
-    this.list();
+    
   },
   onShareAppMessage: function() {
 

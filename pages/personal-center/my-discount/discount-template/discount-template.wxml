@@ -8,7 +8,7 @@
 抢购券.type：5
 兑换券.type：6
   -->
-  <view class='securityWrap' id="{{item.soId}}" data-type="{{item.type}}" catchtap='immediateUse' wx:if="{{item.isDue != 1}}">
+  <view class='securityWrap' id="{{item.soId}}" data-type="{{item.type}}" catchtap='immediateUse' wx:if="{{item.isDue != 1  && (item.type == 4 || item.type == 5 || item.type == 6)?(item.dishSkuName==null?false:true):true}}">
     <view class='security-use'>
       <view class="security-top">
 

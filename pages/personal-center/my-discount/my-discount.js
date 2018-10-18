@@ -1,6 +1,7 @@
 import Api from '../../../utils/config/config.js';
 import {GLOBAL_API_DOMAIN} from '../../../utils/config/config.js';
 var app = getApp();
+let requesting = false;
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
@@ -73,6 +74,7 @@ Page({
     if (!app.globalData.userInfo.userId){
       this.findByCode();
     }else{
+      requesting = true 
       wx.request({
         url: that.data._build_url + 'cp/list',
         data: {
@@ -82,9 +84,7 @@ Page({
           rows: 8
         },
         success: function (res) {
-          wx.hideLoading();
           if (res.data.code == 0) {
-            wx.hideLoading();
             if (res.data.data.list != null && res.data.data.list != [] && res.data.data.list != "") {
               let ticketList = res.data.data.list,
                 ticketArr = that.data.ticket_list;
@@ -100,35 +100,52 @@ Page({
                 ticketList[i]["isDue"] = that.isDueFunc(ticketList[0].expiryDate);
                 if (that.data.isUsed == 0) {
                   ticketList[i].isgq = false;
+                  that.setData({
+                    yesPageTotal: Math.ceil(res.data.data.total /8)
+                  })
                 } else if (that.data.isUsed == 1) {
                   ticketList[i].isgq = true;
+                  that.setData({
+                    notPageTotal: Math.ceil(res.data.data.total / 8)
+                  })
                 }
                 ticketArr.push(ticketList[i]);
               }
               that.setData({
                 ticket_list: ticketArr
+              },()=>{
+                requesting = false
+                wx.hideLoading();
               })
             } else {
               that.setData({
                 isUpdate: false
               })
+              requesting = false
+              wx.hideLoading();
             }
           } else {
             that.setData({
               isUpdate: false
             })
+            requesting = false
+            wx.hideLoading();
           }
           if (that.data.page == 1) {
             wx.stopPullDownRefresh();
           }
         },
         fail() {
+          requesting = false
           wx.hideLoading();
         }
       })
     }
   },
   ticketType(e) { //不同类型的票券列表
+    if (requesting) {
+      return;
+    }
     wx.showLoading({
       title: '加载中...'
     })
@@ -139,8 +156,10 @@ Page({
     });
     this.setData({
       isUsed: e.currentTarget.id
+    },()=>{
+      this.getTicketList();
     });
-    this.getTicketList();
+    
   },
   //跳转至已过期
   toDueList: function() {
@@ -150,24 +169,54 @@ Page({
   },
   //用户上拉触底
   onReachBottom: function() {
+    if (requesting){
+      return;
+    }
+    var tabId = this.data.isUsed
+    if (tabId == 0) {
+      if (this.data.page >= this.data.yesPageTotal) {
+        return
+      }
+    } else if (tabId == 1) {
+      if (this.data.page >= this.data.notPageTotal) {
+        return
+      }
+    }
     if (this.data.isUpdate) {
       wx.showLoading({
         title: '加载中..'
       })
       this.setData({
         page: this.data.page + 1
+      },()=>{
+        this.getTicketList();
       });
-      this.getTicketList();
+      
     }
   },
   //用户下拉刷新
   onPullDownRefresh: function() {
+    if (requesting) {
+      return;
+    }
+    var tabId = this.data.isUsed
+    if (tabId == 0) {
+      if (this.data.page >= this.data.yesPageTotal){
+        return
+      }
+    } else if (tabId == 1 ) {
+      if (this.data.page >= this.data.notPageTotal) {
+        return
+      }
+    }
     this.setData({
       ticket_list: [],
       page: 1,
       isUpdate: true
+    },()=>{
+      this.getTicketList();
     });
-    this.getTicketList();
+    
   },
   immediateUse: function(e) {
     if (this.data.isUsed == 1) {
