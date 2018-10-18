@@ -155,7 +155,6 @@ Page({
     Api.orderInfoList(_parms).then((res)=>{
       
       if(res.data.code == 0 ){
-
         // 1待付款  2待收货  3已完成 10取消，
         let _list = res.data.data.list, logistics = this.data.orpage==1?[]:this.data.logisticsList;
         if (_list && _list.length>0){
