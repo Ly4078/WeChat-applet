@@ -140,7 +140,6 @@
 
   <!--商家广告位  -->
   <image class='Advertising' id="3" data-ind="3" bindtap="handbaoming" src="{{bannthree[2].imgUrl}}"></image>
-
   <!--拼菜砍价列表  -->
   <view>
     <view class="templateWrap {{showModal?'':'unders'}}">

@@ -149,7 +149,7 @@ Page({
       _parms.status = val 
     }
     if (!val && this.data.elephant !=0){
-      _parms.status = this.data.elephant
+      _parms.status = this.data.commoditys[this.data.elephant].id
     }
     requestTask[0] = true;
     Api.orderInfoList(_parms).then((res)=>{
