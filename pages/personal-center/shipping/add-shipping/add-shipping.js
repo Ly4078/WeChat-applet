@@ -1,6 +1,8 @@
 var address = require('../../../../utils/city.js');
 import Api from '../../../../utils/config/api.js';
-import { GLOBAL_API_DOMAIN } from '../../../../utils/config/config.js';
+import {
+  GLOBAL_API_DOMAIN
+} from '../../../../utils/config/config.js';
 var app = getApp();
 var animation;
 Page({
@@ -18,29 +20,31 @@ Page({
     _build_url: GLOBAL_API_DOMAIN,
     animationAddressMenu: {},
     addressMenuIsShow: false,
-    isNew:false,
-    isadd:false,
-    isremove:false,
+    isNew: false,
+    isadd: false,
+    isremove: false,
     value: [0, 0, 0],
-    preId:0,
+    preId: 0,
     provinces: [],
     citys: [],
     areas: [],
-    items: [
-      { name: 'CHN', value: '设置为默认地址', checked: 'true' }
-    ],
+    items: [{
+      name: 'CHN',
+      value: '设置为默认地址',
+      checked: 'true'
+    }],
     province: '',
     city: '',
     area: '',
-    addId:'',
-    chatName:'',
+    addId: '',
+    chatName: '',
     mobile: '',
-    mobileValue:'',
+    mobileValue: '',
     // postal:'',//邮编
     areaInfo: '', //地区
-    areaIds: [],//地区编码
-    detailAddress:'',//详细地址
-    isDefault:0
+    areaIds: [], //地区编码
+    detailAddress: '', //详细地址
+    isDefault: 0
   },
 
   /**
@@ -48,12 +52,12 @@ Page({
    */
   onLoad: function(options) {
     // 初始化动画变量
-    if(options.isnew){
+    if (options.isnew) {
       this.setData({
         isNew: true
       })
     };
-    if(options.id){
+    if (options.id) {
       this.setData({
         addId: options.id
       });
@@ -74,22 +78,26 @@ Page({
       areas: address.areas[address.citys[id][0].id],
     })
   },
-  onShow:function(){
+  onShow: function() {
     this.getprovince();
   },
   //监听页面卸载
-  onUnload: function () {
+  onUnload: function() {
     // wx.navigateTo({
     //   url: "../../../../pages/personal-center/shipping/shipping"
     // })
   },
   //查询单个地址详情
-  getAddress:function(){
-    let that = this, _dictCounty="";
-    Api.singleAddress({ Id: this.data.addId}).then((res)=>{
-      if(res.data.code == 0){
-        let _data = res.data.data,_arr =[];
-        if (_data.dictCounty == null || !_data.dictCounty) { } else {
+  getAddress: function() {
+    let that = this,
+      _dictCounty = "";
+    Api.singleAddress({
+      Id: this.data.addId
+    }).then((res) => {
+      if (res.data.code == 0) {
+        let _data = res.data.data,
+          _arr = [];
+        if (_data.dictCounty == null || !_data.dictCounty) {} else {
           _dictCounty = _data.dictCounty
         }
         _arr.push(_data.dictProvinceId);
@@ -100,7 +108,7 @@ Page({
           mobile: _data.mobile,
           mobileValue: _data.mobile,
           // postal: _data.postal,
-          areaInfo: _data.dictProvince + ',' + _data.dictCity + ',' +_dictCounty,
+          areaInfo: _data.dictProvince + ',' + _data.dictCity + ',' + _dictCounty,
           areaIds: _arr,
           detailAddress: _data.detailAddress,
           isDefault: _data.isDefault,
@@ -109,12 +117,15 @@ Page({
     })
   },
   //查询省级数据
-  getprovince:function(){
+  getprovince: function() {
     let that = this;
     wx.request({
-      url: this.data._build_url +'dict/findDictProvience',
-      success: function (res) {
-        if(res.data.code == 0){
+      url: this.data._build_url + 'dict/findDictProvience',
+      header: {
+        "Authorization": app.globalData.token
+      },
+      success: function(res) {
+        if (res.data.code == 0) {
           that.setData({
             provinces: res.data.data
           })
@@ -124,32 +135,34 @@ Page({
     })
   },
   //查询地市级数据 
-  getcity: function (provinceId,val){
+  getcity: function(provinceId, val) {
     let that = this;
-    Api.findDictCity({ provinceId: provinceId}).then((res)=>{
-      if(res.data.code ==0){
+    Api.findDictCity({
+      provinceId: provinceId
+    }).then((res) => {
+      if (res.data.code == 0) {
         that.setData({
           citys: res.data.data
         })
-        if(val){
+        if (val) {
           that.getcounty(res.data.data[val].id, provinceId);
-        }else{
+        } else {
           that.getcounty(res.data.data[0].id, provinceId);
         }
       }
     })
   },
   //查询县区级数据
-  getcounty: function (id, provinceId){
+  getcounty: function(id, provinceId) {
     let that = this;
     let _parms = {
       provinceId: provinceId,
-      cityId:id
+      cityId: id
     };
     Api.findDictCounty(_parms).then((res) => {
       if (res.data.code == 0) {
         that.setData({
-          areas: res.data.data ? res.data.data:1
+          areas: res.data.data ? res.data.data : 1
         })
       }
     })
@@ -167,22 +180,27 @@ Page({
   cityChange: function(e) {
     let _arr = e.detail.value;
     console.log('_arr:', _arr)
-    this.getcity(_arr[0] + 1,_arr[1]);
+    this.getcity(_arr[0] + 1, _arr[1]);
     this.setData({
       preId: _arr[0],
-      value:_arr
+      value: _arr
     });
   },
   // 点击地区选择确定按钮
-  citySure: function (e) {
-    let that = this, city = that.data.city, value = that.data.value, _countyCname = '', _countyCnameID='';
+  citySure: function(e) {
+    let that = this,
+      city = that.data.city,
+      value = that.data.value,
+      _countyCname = '',
+      _countyCnameID = '';
     that.startAddressAnimation(false)
     // 将选择的城市信息显示到输入框
-    if (that.data.areas && that.data.areas.length > 0){
+    if (that.data.areas && that.data.areas.length > 0) {
       _countyCname = that.data.areas[value[2]].countyCname;
       _countyCnameID = that.data.areas[value[2]].id;
     }
-    let _areaInfo = that.data.provinces[value[0]].provinceCname + ',' + that.data.citys[value[1]].cityCname + ',' + _countyCname, _areaIds = [];
+    let _areaInfo = that.data.provinces[value[0]].provinceCname + ',' + that.data.citys[value[1]].cityCname + ',' + _countyCname,
+      _areaIds = [];
     _areaIds.push(that.data.provinces[value[0]].id);
     _areaIds.push(that.data.citys[value[1]].id);
     _areaIds.push(_countyCnameID);
@@ -192,14 +210,14 @@ Page({
     })
   },
   // 点击地区选择取消按钮
-  cityCancel: function (e) {
+  cityCancel: function(e) {
     this.startAddressAnimation(false)
   },
-  hideCitySelected: function (e) {
+  hideCitySelected: function(e) {
     this.startAddressAnimation(false)
   },
   // 执行动画
-  startAddressAnimation: function (isShow) {
+  startAddressAnimation: function(isShow) {
     var that = this
     if (isShow) {
       that.animation.translateY(0 + 'vh').step()
@@ -211,34 +229,34 @@ Page({
       addressMenuIsShow: isShow,
     })
   },
- 
+
   //姓名失焦
-  bindblurName:function(e){
+  bindblurName: function(e) {
     this.setData({
       chatName: e.detail.value
     })
   },
   //手机号失焦
-  bindblurIpone: function (e) {
+  bindblurIpone: function(e) {
     this.setData({
       mobileValue: e.detail.value,
       mobile: e.detail.value
     })
   },
   //邮政编码失焦
-  bindblurPostal:function(e){
+  bindblurPostal: function(e) {
     this.setData({
       postal: e.detail.value
     })
   },
   //详细地址失焦
-  bindblurAddress:function(e){
+  bindblurAddress: function(e) {
     this.setData({
       detailAddress: e.detail.value
     })
   },
   //是否设置为默认地址
-  checkboxChange: function (e) {
+  checkboxChange: function(e) {
     if (e.detail.value[0] == 1) {
       this.setData({
         isDefault: 1
@@ -252,9 +270,10 @@ Page({
 
 
   //点击确定保存按钮
-  handAdd:function(){
-    let that = this, RegExp = /^[1][3456789][0-9]{9}$/;
-    if (!this.data.chatName){
+  handAdd: function() {
+    let that = this,
+      RegExp = /^[1][3456789][0-9]{9}$/;
+    if (!this.data.chatName) {
       wx.showToast({
         title: '请输入联系人姓名',
         icon: 'none'
@@ -274,7 +293,7 @@ Page({
         icon: 'none'
       })
       this.setData({
-        mobileValue:'',
+        mobileValue: '',
         mobile: ''
       })
       return false;
@@ -300,58 +319,77 @@ Page({
       })
       return;
     }
-    if(this.data.isadd){
+    if (this.data.isadd) {
       return
     }
     that.setData({
       isadd: true
     });
-    let _parms = {
-      // userId: app.globalData.userInfo.userId,
+    let _value = "", _parms = {};
+    _parms = {
       dictProvinceId: this.data.areaIds[0],
       dictCityId: this.data.areaIds[1],
       dictAreaId: '1',
       detailAddress: this.data.detailAddress,
       chatName: this.data.chatName,
       mobile: this.data.mobile,
-      isDefault: this.data.isDefault,
-      token: app.globalData.token
+      isDefault: this.data.isDefault
+    };
+    if (this.data.areaIds[2]) {
+      _parms.dictCountyId = this.data.areaIds[2];
     }
-    if (this.data.areaIds[2]){
-       _parms.dictCountyId = this.data.areaIds[2];
-    }
-    if(this.data.addId){ //更新
-      _parms.id=this.data.addId;
-      Api.upAddress(_parms).then((res) => {
-        if (res.data.code == 0) {
-          wx.showToast({
-            title: '更新成功',
-          });
-          setTimeout(() => {
-            wx.redirectTo({
-              url: '../../shipping/shipping'
-            })
-            that.setData({
-              isadd: false
+    for (var key in _parms) {
+      _value += key + '=' + _parms[key] + '&'
+    };
+    _value = _value.substring(0, _value.length - 1);
+    if (this.data.addId) { //更新
+      _value = _value + '&id=' + this.data.addId;
+      // _parms.id = this.data.addId;
+
+      wx.request({
+        url: this.data._build_url + 'orderAddress/upAddress?' + _value,
+        method: 'POST',
+        header: {
+          "Authorization": app.globalData.token
+        },
+        success: function (res) {
+          if (res.data.code == 0) {
+            wx.showToast({
+              title: '更新成功',
             });
-          }, 1500)
+            setTimeout(() => {
+              wx.redirectTo({
+                url: '../../shipping/shipping'
+              })
+              that.setData({
+                isadd: false
+              });
+            }, 1500)
+          }
         }
       })
-    }else{  //新增
-      Api.AddAddress(_parms).then((res) => {
-        if (res.data.code == 0) {
-          wx.showToast({
-            title: '保存成功',
-            icon: 'none'
-          });
-          setTimeout(() => {
-            wx.redirectTo({
-              url: '../../shipping/shipping'
-            })
-            that.setData({
-              isadd: false
+    } else { //新增
+      wx.request({
+        url: this.data._build_url + 'orderAddress/inAddress?' + _value,
+        method: 'POST',
+        header: {
+          "Authorization": app.globalData.token
+        },
+        success: function(res) {
+          if (res.data.code == 0) {
+            wx.showToast({
+              title: '保存成功',
+              icon: 'none'
             });
-          }, 1500)
+            setTimeout(() => {
+              wx.redirectTo({
+                url: '../../shipping/shipping'
+              })
+              that.setData({
+                isadd: false
+              });
+            }, 1500)
+          }
         }
       })
     }
@@ -365,33 +403,40 @@ Page({
   //点击删除按钮
   handRemove: function() {
     let that = this;
-    if(this.data.isremove){
+    if (this.data.isremove) {
       return
     };
     this.setData({
-      isremove:true
+      isremove: true
     });
     wx.showModal({
       title: '温馨提示',
       content: '您确定要删除地址?',
       success: function(res) {
         if (res.confirm) {
-          Api.outAddress({id:that.data.addId}).then((res) => {
-            if (res.data.code == 0) {
-              wx.showToast({
-                title: '删除成功',
-              });
-              if (that.data.addId == app.globalData.Express.id){
-                app.globalData.Express={}
-              }
-              setTimeout(() => {
-                wx.redirectTo({
-                  url: '../../shipping/shipping'
-                })
-                that.setData({
-                  isremove: false
+          wx.request({
+            url: that.data._build_url + 'orderAddress/outAddress?id=' + that.data.addId,
+            method: 'POST',
+            header: {
+              "Authorization": app.globalData.token
+            },
+            success: function (res) {
+              if (res.data.code == 0) {
+                wx.showToast({
+                  title: '删除成功',
                 });
-              }, 1500)
+                if (that.data.addId == app.globalData.Express.id) {
+                  app.globalData.Express = {}
+                }
+                setTimeout(() => {
+                  wx.redirectTo({
+                    url: '../../shipping/shipping'
+                  })
+                  that.setData({
+                    isremove: false
+                  });
+                }, 1500)
+              }
             }
           })
         } else if (res.cancel) {

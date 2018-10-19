@@ -14,7 +14,7 @@ Page({
     username: '',
     phone: '',
     address: '',
-    issku: '',    //issku=3为到店自提
+    issku: '', //issku=3为到店自提
     num: '',
     sellPrice: '',
     skuName: '',
@@ -27,7 +27,7 @@ Page({
     isbox: 0,
     id: '',
     shopId: '',
-    errmsg:'',
+    errmsg: '',
     spuId: '',
     orderId: '',
     _rules: '',
@@ -38,7 +38,7 @@ Page({
     date: '', //默认日期
     threeLater: '', //三天后
     tenLater: '', //十天后
-    distribution: '顺丰速运',    //配送方式
+    distribution: '顺丰速运', //配送方式
     storeName: '',
     address: ''
   },
@@ -169,14 +169,14 @@ Page({
           current: _obj,
           _rules: _rules
         })
-        if (_obj.spuId != 3 && this.data.issku != 3){
+        if (_obj.spuId != 3 && this.data.issku != 3) {
           this.getcalculateCost();
         }
-        
+
       }
     })
   },
-  marketDetail() {   //超市详细信息
+  marketDetail() { //超市详细信息
     let _parms = {
       id: this.data.salepointId,
       token: app.globalData.token
@@ -218,10 +218,11 @@ Page({
     Api.AddressList(_parms).then((res) => {
       wx.hideLoading();
       if (res.data.code == 0 && res.data.data.list) {
-        let _list = res.data.data.list, _dictCounty="",
+        let _list = res.data.data.list,
+          _dictCounty = "",
           actList = {};
         for (let i = 0; i < _list.length; i++) {
-          if (_list[i].dictCounty == null || !_list[i].dictCounty){}else{
+          if (_list[i].dictCounty == null || !_list[i].dictCounty) {} else {
             _dictCounty = _list[i].dictCounty
           }
           _list[i].address = _list[i].dictProvince + _list[i].dictCity + _dictCounty + _list[i].detailAddress;
@@ -236,7 +237,7 @@ Page({
       } else {
         app.globalData.Express = {};
         this.setData({
-          postage:0
+          postage: 0
         })
       }
     })
@@ -258,42 +259,50 @@ Page({
       this.getAddressList('val');
       return;
     }
-    let _weight = this.data.current.realWeight * this.data.num,
-      _obj = {};
-    let _parms = {
+    let _weight = this.data.current.realWeight * this.data.num;
+    let _obj = {}, _parms = {}, that = this, _val = '';
+    _parms = {
       dictProvinceId: this.data.actaddress.dictProvinceId,
       dictCityId: this.data.actaddress.dictCityId,
       weight: _weight,
-      tempateId: this.data.current.deliveryTemplateId,
-      token: app.globalData.token
+      tempateId: this.data.current.deliveryTemplateId
+    };
+    for (var key in _parms) {
+      _val += key + '=' + _parms[key] + '&';
     }
-    Api.calculateCost(_parms).then((res) => {
-      if (res.data.code == 0) {
-        if (res.data.data){
-          _obj = this.data.current;
-          _obj.total = _obj.total * 1 + res.data.data;
-          _obj.total = _obj.total.toFixed(2);
-          this.setData({
-            errmsg:'',
-            postage: res.data.data.toFixed(2)
-          })
-          this.setData({
-            current: _obj
-          })
-        }else{
-          // if (this.data.current.spuId == 1){
+    _val = _val.substring(0, _val.length -1);
+    wx.request({
+      url: that.data._build_url + 'deliveryCost/calculateCost?' + _val,
+      method: 'POST',
+      header: {
+        "Authorization": app.globalData.token
+      },
+      success: function(res) {
+        if (res.data.code == 0) {
+          if (res.data.data) {
+            _obj = that.data.current;
+            _obj.total = _obj.total * 1 + res.data.data;
+            _obj.total = _obj.total.toFixed(2);
+            that.setData({
+              errmsg: '',
+              postage: res.data.data.toFixed(2)
+            })
+            that.setData({
+              current: _obj
+            })
+          } else {
             
-          // }
+          }
+        } else {
+          that.setData({
+            errmsg: res.data.message,
+            postage: ''
+          })
+          wx.showToast({
+            title: res.data.message,
+            icon: 'none'
+          })
         }
-      }else{
-        this.setData({
-          errmsg: res.data.message,
-          postage: ''
-        })
-        wx.showToast({
-          title: res.data.message,
-          icon: 'none'
-        })
       }
     })
   },
@@ -344,8 +353,8 @@ Page({
       // userName: app.globalData.userInfo.userName,
       shopId: this.data.shopId,
       payType: 2,
-      sendType: 2,    //到店自提
-      salepointId: this.data.salepointId,  //到店自提销售点id
+      sendType: 2, //到店自提
+      salepointId: this.data.salepointId, //到店自提销售点id
       orderItemList: [{
         goodsSkuId: this.data.id,
         goodsSpuId: this.data.spuId,
@@ -362,7 +371,7 @@ Page({
       header: {
         "Authorization": app.globalData.token
       },
-      success: function (res) {
+      success: function(res) {
         if (res.data.code == 0) {
           if (res.data.data) {
             that.setData({
@@ -378,26 +387,26 @@ Page({
   //点击提交订单
   submitSoid: function() {
     let that = this;
-    if (this.data.errmsg){
+    if (this.data.errmsg) {
       wx.showToast({
         title: this.data.errmsg,
-        icon:'none'
+        icon: 'none'
       })
-    }else{
+    } else {
       if (this.data.issoid) {
         return
       }
       this.setData({
         issoid: true
       })
-      if (this.data.actaddress.id || this.data.isvoucher || this.data.current.spuId==3) {
+      if (this.data.actaddress.id || this.data.isvoucher || this.data.current.spuId == 3) {
         let _parms = {
           token: app.globalData.token,
           // userId: app.globalData.userInfo.userId,
           // userName: app.globalData.userInfo.userName,
           shopId: this.data.shopId,
           payType: 2,
-          sendType: 1,    //非自提
+          sendType: 1, //非自提
           orderItemList: [{
             goodsSkuId: this.data.id,
             goodsSpuId: this.data.spuId,
@@ -407,9 +416,9 @@ Page({
             remark: this.data.remarks
           }]
         };
-        if(this.data.current.spuId !=3){
-          _parms.orderAddressId=this.data.actaddress.id,
-          _parms.sendTime=this.data.date
+        if (this.data.current.spuId != 3) {
+          _parms.orderAddressId = this.data.actaddress.id,
+            _parms.sendTime = this.data.date
         }
         wx.request({
           url: that.data._build_url + 'orderInfo/create',
@@ -418,7 +427,7 @@ Page({
           header: {
             "Authorization": app.globalData.token
           },
-          success: function (res) {
+          success: function(res) {
             if (res.data.code == 0) {
               if (res.data.data) {
                 that.setData({
@@ -468,17 +477,19 @@ Page({
   },
   //调起微信支付
   wxpayment: function() {
-    let _parms = {},that= this,_value="";
+    let _parms = {},
+      that = this,
+      _value = "";
     _parms = {
-        orderId: this.data.orderId,
-        openId: app.globalData.userInfo.openId,
-        token: app.globalData.token
-      };
+      orderId: this.data.orderId,
+      openId: app.globalData.userInfo.openId,
+      token: app.globalData.token
+    };
     for (var key in _parms) {
       _value += key + "=" + _parms[key] + "&";
     }
     _value = _value.substring(0, _value.length - 1);
-   
+
 
 
 
@@ -490,7 +501,7 @@ Page({
           "Authorization": app.globalData.token
         },
         method: 'POST',
-        success: function (res) {
+        success: function(res) {
           if (res.data.code == 0) {
             that.setData({
               payObj: res.data.data
@@ -515,7 +526,7 @@ Page({
           "Authorization": app.globalData.token
         },
         method: 'POST',
-        success: function (res) {
+        success: function(res) {
           if (res.data.code == 0) {
             that.setData({
               payObj: res.data.data
@@ -541,7 +552,7 @@ Page({
           "Authorization": app.globalData.token
         },
         method: 'POST',
-        success: function (res) {
+        success: function(res) {
           if (res.data.code == 0) {
             that.setData({
               payObj: res.data.data
@@ -561,7 +572,7 @@ Page({
       })
     }
   },
-    //支付
+  //支付
   pay: function() {
     let _data = this.data.payObj,
       that = this;
@@ -574,13 +585,11 @@ Page({
       success: function(res) {
         if (that.data.current.spuId == 3 && that.data.issku != 3) {
           wx.redirectTo({
-            url: 
-            '../../../../personal-center/voucher/voucher'
+            url: '../../../../personal-center/voucher/voucher'
           })
         } else if (that.data.issku == 3) {
           wx.redirectTo({
-            url:
-              '../../superMarket/orderDetail/orderDetail?soId=' + that.data.orderId
+            url: '../../superMarket/orderDetail/orderDetail?soId=' + that.data.orderId
           })
         } else {
           wx.redirectTo({
