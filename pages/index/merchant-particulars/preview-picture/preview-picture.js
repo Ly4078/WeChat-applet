@@ -1,4 +1,5 @@
 import { GLOBAL_API_DOMAIN } from '../../../../utils/config/config.js';
+var app = getApp();
 Page({
   data: {
     _shopid: '',
@@ -18,6 +19,9 @@ Page({
     }
     wx.request({
       url: that.data._build_url + 'shop/get/' + this.data._shopid,
+      header: {
+        "Authorization": app.globalData.token
+      },
       success: function (res) {
         that.setData({
           carousel: res.data.data.shopTopPics
