@@ -81,23 +81,60 @@ Page({
           let _parms = {
             code: res.code
           }
-          Api.getOpenId(_parms).then((res) => {
-            app.globalData.userInfo.openId = res.data.data.openId;
-            app.globalData.userInfo.sessionKey = res.data.data.sessionKey;
-            if (res.data.data.unionId) {
-              app.globalData.userInfo.unionId = res.data.data.unionId;
-              that.getmyuserinfo();
-            } else {
-              that.setData({
-                istouqu: true
-              })
+          Api.findByCode({ code: res.code }).then((res) => {
+            if (res.data.code == 0) {
+              let _data = res.data.data;
+              if (_data.id && _data != null) {
+                for (let key in _data) {
+                  for (let ind in app.globalData.userInfo) {
+                    if (key == ind) {
+                      app.globalData.userInfo[ind] = _data[key]
+                    }
+                  }
+                };
+                app.globalData.userInfo.userId = _data.id;
+                if(!_data.unionId){
+                  that.setData({
+                    istouqu: true
+                  })
+                }
+                that.authlogin();
+              } 
             }
           })
         }
       }
     })
   },
-
+  authlogin: function (val) { //获取token
+    let that = this;
+    wx.request({
+      url: this.data._build_url + 'auth/login?userName=' + app.globalData.userInfo.userName,
+      method: "POST",
+      data: {},
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        if (res.data.code == 0) {
+          let _token = 'Bearer ' + res.data.data;
+          app.globalData.token = _token;
+          if(val){
+            if (that.data.referrer) { //推荐人
+              that.setpullUser();
+            }
+            if (that.data.parentId) {
+              that.inviteNewUser();
+            }
+            if (that.data.inviter) {
+              that.inviteCrab();
+            }
+          }
+        }
+        // console.log(app.globalData)
+      }
+    })
+  },
   againgetinfo: function() { //请求用户授权获取获取用户unionId
     let that = this;
     wx.getUserInfo({
@@ -135,7 +172,7 @@ Page({
         wx.request({ //从自己的服务器获取用户信息
           url: this.data._build_url + 'user/get/' + res.data.data,
           header: {
-            'content-type': 'application/json' // 默认值
+            "Authorization": app.globalData.token
           },
           success: function(res) {
             if (res.data.code == 0) {
@@ -214,8 +251,9 @@ Page({
     if (this.data.phoneNum) {
       let _parms = {
         shopMobile: that.data.phoneNum,
-        userId: app.globalData.userInfo.userId,
-        userName: app.globalData.userInfo.userName
+        // userId: app.globalData.userInfo.userId,
+        // userName: app.globalData.userInfo.userName,
+        token: app.globalData.token
       }
       Api.sendForRegister(_parms).then((res) => {
         if (res.data.code == 0) {
@@ -269,23 +307,18 @@ Page({
           let _parms = {
             shopMobile: this.data.phoneNum,
             SmsContent: this.data.verifyId,
-            userId: app.globalData.userInfo.userId,
-            userName: app.globalData.userInfo.userName
+            // userId: app.globalData.userInfo.userId,
+            // userName: app.globalData.userInfo.userName,
+            token: app.globalData.token
           }
           // return;
           Api.isVerify(_parms).then((res) => {
             if (res.data.code == 0) {
               app.globalData.userInfo.userId = res.data.data;
+              app.globalData.userInfo.mobile = that.data.phoneNum;
+              that.authlogin("1");
               that.getuserInfo();
-              if (that.data.referrer) { //推荐人
-                that.setpullUser();
-              }
-              if (that.data.parentId) {
-                that.inviteNewUser();
-              }
-              if (that.data.inviter) {
-                that.inviteCrab();
-              }
+              
             }
           })
         } else {
@@ -322,7 +355,7 @@ Page({
     wx.request({
       url: that.data._build_url + 'user/get/' + app.globalData.userInfo.userId,
       header: {
-        'content-type': 'application/json' // 默认值
+        "Authorization": app.globalData.token
       },
       success: function(res) {
         if (res.data.code == 0) {
@@ -352,7 +385,8 @@ Page({
 
   setpullUser: function() { //上传推荐人userId
     let _parms = {
-      userId: this.data.referrer
+      userId: this.data.referrer,
+      token: app.globalData.token
     };
     Api.setPullUser(_parms).then((res) => {
       if (res.data.code == 0) {
@@ -365,7 +399,8 @@ Page({
       parentId: this.data.parentId,
       skuId: this.data.skuId,
       shopId: this.data.shopId,
-      newUser: app.globalData.userInfo.userId
+      newUser: app.globalData.userInfo.userId,
+      token: app.globalData.token
     };
     console.log("368行：=========_parms", _parms);
     Api.inviteNewUser(_parms).then((res) => {
@@ -377,10 +412,10 @@ Page({
   },
   inviteCrab() {   //邀请新用户兑换螃蟹
     let _parms = {
-      userId: this.data.inviter
+      userId: this.data.inviter,
+      token: app.globalData.token
     };
     Api.addInviteCrab(_parms).then((res) => {
-      console.log('389行:res=============================:', res)
       if (res.data.code == 0) {
         console.log('res:', res)
       }

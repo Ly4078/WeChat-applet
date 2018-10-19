@@ -1,6 +1,7 @@
-
 import Api from '../../../utils/config/api.js';
-import { GLOBAL_API_DOMAIN } from '../../../utils/config/config.js';
+import {
+  GLOBAL_API_DOMAIN
+} from '../../../utils/config/config.js';
 var utils = require('../../../utils/util.js');
 let app = getApp()
 
@@ -11,67 +12,101 @@ Page({
    */
   data: {
     _build_url: GLOBAL_API_DOMAIN,
-    isgetnumber:true,
-    sessionkey:'',
-    phone:'',
-    Verify:'',
-    verifitime:'',
-    clock:''
+    isgetnumber: true,
+    sessionkey: '',
+    phone: '',
+    Verify: '',
+    verifitime: '',
+    clock: ''
   },
-  onLoad: function (options) {
-    this.getuseradd()
+  onLoad: function(options) {
+    this.findByCode()
   },
-  getuseradd: function () {  //获取用户userid
+  findByCode: function () { //通过code查询用户信息
     wx.login({
       success: res => {
-        let _code = res.code;
+        let _code = res.code,that = this;
         // console.log("code:", _code)
         // return false  //此处返回，获取的code是没有用过的，用于测试
         if (res.code) {
           let _parms = {
             code: res.code
           }
-          Api.useradd(_parms).then((res) => {
-            if (res.data.data) {
-              app.globalData.userInfo.userId = res.data.data
-              this.getuser()
+          Api.findByCode(_parms).then((res) => {
+            if (res.data.code == 0) {
+              let _data = res.data.data;
+              if (_data.id && _data != null) {
+                for (let key in _data) {
+                  for (let ind in app.globalData.userInfo) {
+                    if (key == ind) {
+                      app.globalData.userInfo[ind] = _data[key]
+                    }
+                  }
+                };
+                app.globalData.userInfo.userId = _data.id;
+                that.authlogin();
+                
+                // this.getuser()
+              }
             }
           })
         }
       }
     })
   },
-  getuser: function () { //从自己的服务器获取用户信息
+  authlogin: function () { //获取token
+    let that = this;
+    wx.request({
+      url: this.data._build_url + 'auth/login?userName=' + app.globalData.userInfo.userName,
+      method: "POST",
+      data: {},
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        if (res.data.code == 0) {
+          let _token = 'Bearer ' + res.data.data;
+          app.globalData.token = _token;
+          if (app.globalData.userInfo.mobile) {
+            wx.switchTab({
+              url: '../../index/index',
+            })
+          }
+          // that.getuserIdLater2();
+          // that.getdatamore();
+        }
+        console.log(app.globalData)
+      }
+    })
+  },
+  getuser: function() { //从自己的服务器获取用户信息
     let that = this
     wx.request({
       url: this.data._build_url + 'user/get/' + app.globalData.userInfo.userId,
       header: {
         'content-type': 'application/json' // 默认值
       },
-      success: function (res) {
+      success: function(res) {
         if (res.data.code == 0) {
-            let data = res.data.data;
-            app.globalData.userInfo.userType = data.userType,
-            app.globalData.userInfo.openId = data.openId,
-            app.globalData.userInfo.password = data.password,
-            app.globalData.userInfo.shopId = data.shopId ? data.shopId : '',
-            app.globalData.userInfo.userName = data.userName,
-            app.globalData.userInfo.nickName = data.nickName,
-            app.globalData.userInfo.loginTimes = data.loginTimes,
-            app.globalData.userInfo.iconUrl = data.iconUrl,
-            app.globalData.userInfo.sourceType = data.sourceType,
-            app.globalData.userInfo.sex = data.sex
-            if (data.mobile == '' || data.mobile == null){}else{
-              wx.switchTab({
-                url: '../../index/index',
-              })
-              return false
+          let data = res.data.data;
+          for (let key in data) {
+            for (let ind in app.globalData.userInfo) {
+              if (key == ind) {
+                app.globalData.userInfo[ind] = data[key]
+              }
             }
+          };
+          if (data.mobile == '' || data.mobile == null) {} else {
+            wx.switchTab({
+              url: '../../index/index',
+            })
+            return false
+          }
         }
       }
     })
   },
-  getPhoneNumber: function (e) { //获取用户授权的电话号码
+  getPhoneNumber: function(e) { //获取用户授权的电话号码
     let _detail = e.detail
     let that = this
     wx.login({
@@ -87,7 +122,8 @@ Page({
               let _pars = {
                 sessionKey: res.data.data.sessionKey,
                 ivData: msg.iv,
-                encrypData: msg.encryptedData
+                encrypData: msg.encryptedData,
+                token: app.globalData.token
               }
               Api.phoneAES(_pars).then((res) => {
                 if (res.data.code == 0) {
@@ -106,7 +142,7 @@ Page({
 
     this.getphone(_detail)
   },
-  getphone: function (msg) {//获取用户电话号码
+  getphone: function(msg) { //获取用户电话号码
     this.setData({
       isgetnumber: false
     })
@@ -115,16 +151,18 @@ Page({
       success: res => {
         if (res.code) {
           let _parms = {
-            code: res.code
+            code: res.code,
+            token: app.globalData.token
           }
           Api.getOpenId(_parms).then((res) => {
             if (res.data.code == 0) {
               app.globalData.userInfo.openId = res.data.data.openId,
-              app.globalData.userInfo.sessionKey = res.data.data.sessionKey
+                app.globalData.userInfo.sessionKey = res.data.data.sessionKey
               let _pars = {
                 sessionKey: res.data.data.sessionKey,
                 ivData: msg.iv,
-                encrypData: msg.encryptedData
+                encrypData: msg.encryptedData,
+                token: app.globalData.token
               }
               Api.phoneAES(_pars).then((res) => {
                 if (res.data.code == 0) {
@@ -140,29 +178,30 @@ Page({
       }
     })
   },
-  bindblur:function(e){  //输入框失去焦点  获取输入框内容
+  bindblur: function(e) { //输入框失去焦点  获取输入框内容
     let _phone = e.detail.value
-    if (/^1[1234567890]\d{9}$/.test(_phone)){
+    if (/^1[1234567890]\d{9}$/.test(_phone)) {
       this.setData({
         phone: _phone
       })
-    }else{
+    } else {
       wx.showToast({
         title: '电话号码有误，请重新输入',
         icon: 'none',
-        mask:true,
+        mask: true,
         duration: 1500
       })
     }
   },
-  getverification: function () {  //获取验证码
+  getverification: function() { //获取验证码
     // return false   //暂时不用手机短信验证，
     let that = this
-    if(this.data.phone){
+    if (this.data.phone) {
       let _parms = {
         shopMobile: this.data.phone,
-        userId: app.globalData.userInfo.userId,
-        userName: app.globalData.userInfo.userName
+        // userId: app.globalData.userInfo.userId,
+        // userName: app.globalData.userInfo.userName,
+        token: app.globalData.token
       }
       Api.sendForRegister(_parms).then((res) => {
         if (res.data.code == 0) {
@@ -173,14 +212,14 @@ Page({
             verifitime: time
           })
           let nowtime = new Date();
-          let setIn =  setInterval(function () {
+          let setIn = setInterval(function() {
             var leftTime = (new Date(that.data.verifitime) - new Date()); //计算剩余的毫秒数
-            var minutes = parseInt(leftTime / 1000 / 60 % 60, 10);//计算剩余的分钟 
-            var seconds = parseInt(leftTime / 1000 % 60, 10);//计算剩余的秒数 
+            var minutes = parseInt(leftTime / 1000 / 60 % 60, 10); //计算剩余的分钟 
+            var seconds = parseInt(leftTime / 1000 % 60, 10); //计算剩余的秒数 
             that.setData({
               clock: minutes + "分" + seconds + "秒"
             })
-            if ( minutes == '00' && seconds == '00') {
+            if (minutes == '00' && seconds == '00') {
               clearInterval(setIn);
             }
           }, 1000)
@@ -188,14 +227,14 @@ Page({
       })
     }
   },
-  smsbindblur:function(e){  //获取验证码框内容
+  smsbindblur: function(e) { //获取验证码框内容
     this.setData({
       Verify: e.detail.value
     })
   },
-  login:function(){  //点击立即注册
+  login: function() { //点击立即注册
     let that = this
-    if(this.data.phone == ''){
+    if (this.data.phone == '') {
       wx.showToast({
         title: '请输入电话号码',
         mask: true,
@@ -204,28 +243,31 @@ Page({
       })
       return false
     }
-    if (this.data.Verify){
+    if (this.data.Verify) {
       let _parms = {
         shopMobile: this.data.phone,
-        userId: app.globalData.userInfo.userId,
-        userName: app.globalData.userInfo.userName,
-        smsContent: this.data.Verify
-      }
+        // userId: app.globalData.userInfo.userId,
+        // userName: app.globalData.userInfo.userName,
+        smsContent: this.data.Verify,
+        token: app.globalData.token
+      },that = this;
       Api.isVerify(_parms).then((res) => {
         if (res.data.code == 0) {
+          app.globalData.userInfo.mobile = that.data.phone;
           wx.showToast({
             title: '注册成功!',
             icon: 'none',
-            mask:true,
+            mask: true,
             duration: 2000
           })
           that.setData({
-            clock:''
+            clock: ''
           })
-          wx.switchTab({
-            url: '../../index/index',
-          })
-        }else{
+          that.authlogin();//重新去获取token
+          // wx.switchTab({
+          //   url: '../../index/index',
+          // })
+        } else {
           wx.showToast({
             title: '验证码错误，请重新输入!',
             icon: 'none',
@@ -234,16 +276,16 @@ Page({
           })
           that.setData({
             clock: '',
-            Verify:''
+            Verify: ''
           })
         }
       })
-    }else{
+    } else {
       wx.showToast({
         title: '请输入验证码',
-        mask:true,
-        icon:'none',
-        duration:1500
+        mask: true,
+        icon: 'none',
+        duration: 1500
       })
     }
   }

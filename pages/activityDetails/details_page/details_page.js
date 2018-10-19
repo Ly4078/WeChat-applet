@@ -46,7 +46,8 @@ Page({
       userId: this.data.userid,
       actId: _activity,
       beginTime: "2018-5-1",
-      endTime: "2018-6-30"
+      endTime: "2018-6-30",
+      token: app.globalData.token
     }
     if (app.globalData.userInfo.userId){
       _parms.voteUserId=app.globalData.userInfo.userId
@@ -114,8 +115,9 @@ Page({
       actId: this.data.activity,
       beginTime: year + '-' + month + '-' + today,
       endTime: year + '-' + month + '-' + day,
-      userId: app.globalData.userInfo.userId,
-      playerUserId: _playUserId
+      // userId: app.globalData.userInfo.userId,
+      playerUserId: _playUserId,
+      token: app.globalData.token
     }
     if (this.data.groupCode) {
       _parms.shopId = this.data.shopId
@@ -181,9 +183,10 @@ Page({
       refId: this.data._refId,
       cmtType: '7',
       content: this.data.commentVal,
-      userId: app.globalData.userInfo.userId,
-      userName: app.globalData.userInfo.userName,
-      nickName: app.globalData.userInfo.nickName,
+      // userId: app.globalData.userInfo.userId,
+      // userName: app.globalData.userInfo.userName,
+      // nickName: app.globalData.userInfo.nickName,
+      token: app.globalData.token
     }
     Api.cmtadd(_parms).then((res) => {
       this.setData({
@@ -194,9 +197,10 @@ Page({
   },
   getcmtlist: function () {  //获取评论数据
     let _parms = {
-      zanUserId: app.globalData.userInfo.userId,
+      // zanUserId: app.globalData.userInfo.userId,
       cmtType: '7',
       refId: this.data._refId,   //选手ID
+      token: app.globalData.token
     }
     Api.cmtlist(_parms).then((res) => {
       let _data = res.data.data;
@@ -234,7 +238,8 @@ Page({
     let _parms = {
       refId: id,
       type: '4',
-      userId: app.globalData.userInfo.userId,
+      // userId: app.globalData.userInfo.userId,
+      token: app.globalData.token
     }
     Api.zanadd(_parms).then((res) => {
       if (res.data.code == 0) {

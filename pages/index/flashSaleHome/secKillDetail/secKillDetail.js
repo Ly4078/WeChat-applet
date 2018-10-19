@@ -44,6 +44,26 @@ Page({
     this.setData({
       timer: null
     });
+    if (app.globalData.userInfo.userId) {
+      if (app.globalData.userInfo.mobile) {
+        if (app.globalData.token) {
+          this.shopDetail();
+          this.getDish(); //查询菜详情
+          this.isCreateFunc();
+        } else {
+          this.authlogin();
+        }
+      } else {//是新用户，
+        wx.navigateTo({
+          url: '../../../../pages/personal-center/securities-sdb/securities-sdb?parentId=' + this.data.initiator + '&skuId=' + this.data.id + '&shopId=' + this.data.shopId
+        })
+      }
+    } else {
+      this.findByCode();
+    }
+
+
+    return
     this.shopDetail();
     if (app.globalData.userInfo.userId) {
       if (!app.globalData.userInfo.mobile) { //是新用户，去注册页面
@@ -75,12 +95,64 @@ Page({
   onPullDownRefresh: function () { //下拉刷新
     this.isCreateFunc();
   },
+  findByCode: function () { //通过code查询进入的用户信息，判断是否是新用户
+    let that = this;
+    wx.login({
+      success: res => {
+        Api.findByCode({
+          code: res.code
+        }).then((res) => {
+          if (res.data.code == 0) {
+            let data = res.data.data;
+            app.globalData.userInfo.userId = data.id;
+            for (let key in data) {
+              for (let ind in app.globalData.userInfo) {
+                if (key == ind) {
+                  app.globalData.userInfo[ind] = data[key]
+                }
+              }
+            }
+            if (!data.mobile) { //是新用户，去注册页面
+              wx.navigateTo({
+                url: '../../../../pages/personal-center/securities-sdb/securities-sdb?parentId=' + this.data.initiator + '&skuId=' + this.data.id + '&shopId=' + this.data.shopId
+              })
+            }else{
+              that.authlogin();
+            }
+          } else {
+            that.findByCode();
+          }
+        })
+      }
+    })
+  },
+  authlogin: function (val) { //获取token
+    let that = this;
+    wx.request({
+      url: this.data._build_url + 'auth/login?userName=' + app.globalData.userInfo.userName,
+      method: "POST",
+      data: {},
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        if (res.data.code == 0) {
+          let _token = 'Bearer ' + res.data.data;
+          app.globalData.token = _token;
+          that.shopDetail();
+          that.getDish(); //查询菜详情
+          that.isCreateFunc();
+        }
+      }
+    })
+  },
   //查询菜
   getDish() {
     let _parms = {
       Id: this.data.id,
       zanUserId: app.globalData.userInfo.userId,
-      shopId: this.data.shopId
+      shopId: this.data.shopId,
+      token: app.globalData.token
     };
     Api.secKillDetail(_parms).then((res) => {
       if (res.data.code == 0 && res.data.data) {
@@ -101,7 +173,8 @@ Page({
   isCreateFunc() { //判断之前是否创建过，并查看邀请了多少人注册
     let _parms = {
       skuId: this.data.id,
-      parentId: app.globalData.userInfo.userId
+      parentId: app.globalData.userInfo.userId,
+      token: app.globalData.token
     };
     Api.inviteNum(_parms).then((res) => {
       wx.stopPullDownRefresh();
@@ -132,6 +205,9 @@ Page({
     let _this = this;
     wx.request({
       url: _this.data._build_url + 'shop/get/' + _this.data.shopId,
+      header: {
+        "Authorization": app.globalData.token
+      },
       success: function(res) {
         if (res.data.code == 0 && res.data.data) {
           let data = res.data.data;
@@ -151,7 +227,8 @@ Page({
     let _parms = {
       parentId: app.globalData.userInfo.userId,
       skuId: this.data.id,
-      shopId: this.data.shopId
+      shopId: this.data.shopId,
+      token: app.globalData.token
     };
     Api.createSecKill(_parms).then((res) => {
       if (res.data.code == 0 && res.data.data) {
@@ -214,7 +291,7 @@ Page({
       wx.request({ //从自己的服务器获取用户信息
         url: _this.data._build_url + 'user/get/' + userArr[i].id,
         header: {
-          'content-type': 'application/json' // 默认值
+          "Authorization": app.globalData.token
         },
         success: function(res) {
           if (res.data.code == 0) {
@@ -270,41 +347,7 @@ Page({
       url: '../../merchant-particulars/merchant-particulars?shopid=' + this.data.shopId
     })
   },
-  findByCode: function() { //通过code查询进入的用户信息，判断是否是新用户
-    let that = this;
-    wx.login({
-      success: res => {
-        Api.findByCode({
-          code: res.code
-        }).then((res) => {
-          if (res.data.code == 0) {
-            let data = res.data.data;
-            app.globalData.userInfo.userId = data.id;
-            console.log('270行:===============' + data.id);
-            for (let key in data) {
-              for (let ind in app.globalData.userInfo) {
-                if (key == ind) {
-                  app.globalData.userInfo[ind] = data[key]
-                  console.log('275行:===============' + ind + '==value==' + app.globalData.userInfo[ind]);
-                }
-              }
-            }
-            if (!data.mobile) { //是新用户，去注册页面
-              wx.navigateTo({
-                url: '../../../../pages/personal-center/securities-sdb/securities-sdb?parentId=' + this.data.initiator + '&skuId=' + this.data.id + '&shopId=' + this.data.shopId
-              })
-            }
-            if (app.globalData.userInfo.userId) {
-              this.getDish(); //查询菜详情
-              this.isCreateFunc();
-            }
-          } else {
-            that.findByCode();
-          }
-        })
-      }
-    })
-  },
+
   // 左下角返回首页
   returnHomeArrive: function() {
     wx.switchTab({

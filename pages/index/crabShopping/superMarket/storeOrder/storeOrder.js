@@ -42,6 +42,25 @@ Page({
     let _ruleImg = '',
       _crabImgUrl = [],
       that = this;
+    if (app.globalData.userInfo.userId) {
+      if (app.globalData.userInfo.mobile) {
+        if (app.globalData.token) {
+          this.getTXT();
+          this.getDetailBySkuId();
+        } else {
+          this.authlogin();
+        }
+      } else {//是新用户，去注册页面
+        this.authlogin();
+        // wx.navigateTo({
+        //   url: '/pages/personal-center/securities-sdb/securities-sdb?back == 1'
+        // })
+      }
+    } else {
+      this.findByCode();
+    }
+
+    return
     this.getDetailBySkuId();
     console.log("txtobj:", app.globalData.txtObj)
     if (app.globalData.txtObj.ruleImg) {
@@ -75,11 +94,102 @@ Page({
   onHide: function() {
     wx.hideLoading();
   },
+  findByCode: function () { //通过code查询用户信息
+    let that = this;
+    wx.login({
+      success: res => {
+        Api.findByCode({
+          code: res.code
+        }).then((res) => {
+          if (res.data.code == 0) {
+            let data = res.data.data;
+            app.globalData.userInfo.userId = data.id;
+            for (let key in data) {
+              for (let ind in app.globalData.userInfo) {
+                if (key == ind) {
+                  app.globalData.userInfo[ind] = data[key]
+                }
+              }
+            }
+            if (!data.mobile) {
+              wx.navigateTo({
+                url: '/pages/personal-center/securities-sdb/securities-sdb?back == 1'
+              })
+            }else{
+              that.authlogin();//获取token
+            }
+          } else {
+            that.findByCode();
+          }
+        })
+      }
+    })
+  },
+  authlogin: function () { //获取token
+    let that = this;
+    wx.request({
+      url: this.data._build_url + 'auth/login?userName=' + app.globalData.userInfo.userName,
+      method: "POST",
+      data: {},
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        if (res.data.code == 0) {
+          let _token = 'Bearer ' + res.data.data;
+          app.globalData.token = _token;
+          that.getTXT();
+          that.getDetailBySkuId();
+          if (app.globalData.userInfo.mobile) {
+            // that.getTXT();
+            // that.getDetailBySkuId();
+          }
+        }
+      }
+    })
+  },
+  getTXT: function () {
+    let _crabImgUrl = [],
+      _ruleImg = '',
+      that = this;
+    app.globalData.Express = {};
+    if (app.globalData.txtObj.crabImgUrl) {
+      _crabImgUrl = app.globalData.txtObj.crabImgUrl, _ruleImg = app.globalData.txtObj.ruleImg;
+      _crabImgUrl = _crabImgUrl.slice(2);
+      _crabImgUrl.pop();
+      _crabImgUrl.pop();
+      that.setData({
+        crabImgUrl: _crabImgUrl,
+        ruleImg: _ruleImg
+      })
+    } else {
+      wx.request({
+        url: this.data._build_url + 'version.txt',
+        header: {
+          "Authorization": app.globalData.token
+        },
+        success: function (res) {
+          app.globalData.txtObj = res.data;
+          _crabImgUrl = app.globalData.txtObj.crabImgUrl, _ruleImg = app.globalData.txtObj.ruleImg;
+          _crabImgUrl = _crabImgUrl.slice(2);
+          _crabImgUrl.pop();
+          _crabImgUrl.pop();
+          that.setData({
+            crabImgUrl: _crabImgUrl,
+            ruleImg: _ruleImg
+          })
+        }
+      })
+    }
+  },
+ 
+
   //查询单个详情
   getDetailBySkuId: function(val) {
     let that = this;
     Api.DetailBySkuId({
-      id: this.data.id
+      id: this.data.id,
+      token: app.globalData.token
     }).then((res) => {
       wx.hideLoading();
       if (res.data.code == 0) {

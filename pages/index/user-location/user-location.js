@@ -195,8 +195,7 @@ Page({
     })
   },
   selectAddress: function (event) { //选择地点
-    const id = event.currentTarget.id;
-    const _data = this.data.resultPosition;
+    const id = event.currentTarget.id, _data = this.data.resultPosition;
     let lat = '', lng = '',city='';
     for (let i = 0; i < _data.length; i++) {
       if (id == _data[i].id) {

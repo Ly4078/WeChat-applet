@@ -62,7 +62,8 @@ Page({
         beginTime: this.data.today,
         endTime: this.data.tomorrow,
         voteUserId: this.data.voteUserId,
-        userId: this.data.userId
+        userId: this.data.userId,
+        token: app.globalData.token
       },
       that = this;
     Api.playerDetails(_parms).then((res) => {
@@ -105,7 +106,7 @@ Page({
           wx.request({ //从自己的服务器获取用户信息
             url: that.data._build_url + 'user/get/' + that.data.userId,
             header: {
-              'content-type': 'application/json' // 默认值
+              "Authorization": app.globalData.token
             },
             success: function(res) {
               if (res.data.code == 0) {
@@ -150,7 +151,8 @@ Page({
   },
   getactzanTotal() {
     let _parms = {
-      userId: this.data.userId
+      userId: this.data.userId,
+      token: app.globalData.token
     }
     Api.actzanTotal(_parms).then((res) => {
       if (res.data.code == 0) {
@@ -168,6 +170,7 @@ Page({
     let _parms = {
       userId: this.data.userId, //关注人userId
       type: 1,
+      token: app.globalData.token,
       viewUserId: this.data.voteUserId //当前用户的userId
     };
     Api.getLikeNum(_parms).then((res) => {
@@ -178,26 +181,29 @@ Page({
   },
   addLike() { //添加关注
     let that = this;
-    let _parms = {
-      userId: that.data.voteUserId,
-      refId: that.data.userId,
-      type: 1,
-    };
-    Api.addLike(_parms).then((res) => {
-      if (res.data.code == 0) {
-        that.setData({
-          likeNum: {
-            isCollected: 1,
-            fans: that.data.likeNum.fans + 1,
-            focus: that.data.likeNum.focus
-          }
-        });
-        wx.showToast({
-          icon: 'none',
-          title: '已关注'
-        })
+    wx.request({
+      url: this.data._build_url + 'userConcern/add?userId=' + that.data.voteUserId + '&refId=' + that.data.userId+'&type=1',
+      method: "POST",
+      data: {},
+      header: {
+        "Authorization": app.globalData.token
+      },
+      success: function (res) {
+        if (res.data.code == 0) {
+          that.setData({
+            likeNum: {
+              isCollected: 1,
+              fans: that.data.likeNum.fans + 1,
+              focus: that.data.likeNum.focus
+            }
+          });
+          wx.showToast({
+            icon: 'none',
+            title: '已关注'
+          })
+        }
       }
-    });
+    })
   },
   delLike() { //取消关注
     let that = this;
@@ -205,26 +211,29 @@ Page({
       title: '确定取消关注?',
       success: function(res) {
         if (res.confirm) {
-          let _parms = {
-            userId: that.data.voteUserId,
-            refId: that.data.userId,
-            type: 1
-          };
-          Api.delLike(_parms).then((res) => {
-            if (res.data.code == 0) {
-              that.setData({
-                likeNum: {
-                  isCollected: 0,
-                  fans: that.data.likeNum.fans < 1 ? 0 : that.data.likeNum.fans - 1,
-                  focus: that.data.likeNum.focus
-                }
-              });
-              wx.showToast({
-                icon: 'none',
-                title: '取消关注'
-              })
+          wx.request({
+            url: this.data._build_url + 'userConcern/delete?userId=' + that.data.voteUserId + '&refId=' + that.data.userId + '&type=1',
+            method: "POST",
+            data: {},
+            header: {
+              "Authorization": app.globalData.token
+            },
+            success: function (res) {
+              if (res.data.code == 0) {
+                that.setData({
+                  likeNum: {
+                    isCollected: 0,
+                    fans: that.data.likeNum.fans < 1 ? 0 : that.data.likeNum.fans - 1,
+                    focus: that.data.likeNum.focus
+                  }
+                });
+                wx.showToast({
+                  icon: 'none',
+                  title: '取消关注'
+                })
+              }
             }
-          });
+          })
         }
       }
     })
@@ -238,9 +247,10 @@ Page({
     if (app.globalData.isflag) {
       let _parms = {
         userId: this.data.userId,
-        zanUserId: app.globalData.userInfo.userId,
+        // zanUserId: app.globalData.userInfo.userId,
         page: this.data.page,
-        rows: 6
+        rows: 6,
+        token: app.globalData.token
       };
       Api.myArticleList(_parms).then((res) => {
         let data = res.data,
@@ -300,6 +310,9 @@ Page({
         if (res.confirm) {
           wx.request({
             url: that.data._build_url + 'topic/delete/' + id,
+            header: {
+              "Authorization": app.globalData.token
+            },
             method: 'GET',
             success: function (res) {
               that.setData({
@@ -357,7 +370,8 @@ Page({
       actId: this.data.actId,
       refId: id,
       type: '2',
-      userId: this.data.voteUserId
+      // userId: this.data.voteUserId,
+      token: app.globalData.token
     }
     Api.zanadd(_parms).then((res) => {
       if (res.data.code == 0) {
@@ -395,7 +409,8 @@ Page({
       actId: this.data.actId,
       refId: id,
       type: '2',
-      userId: this.data.voteUserId
+      // userId: this.data.voteUserId,
+      token: app.globalData.token
     }
     Api.zandelete(_parms).then((res) => {
       if (res.data.code == 0) {

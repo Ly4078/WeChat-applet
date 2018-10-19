@@ -155,6 +155,7 @@ Page({
       url: this.data._build_url + 'cp/get/' + this.data.couponId,
       success: function (res) {
         let data = res.data;
+        wx.hideLoading();
         if(res.data.code == 0){
           let arr = [],ticketArr=[];
           if (res.data.data){
@@ -171,7 +172,7 @@ Page({
               ticketArr.push(arr[i]);
             }
 
-            wx.hideLoading();
+            
             that.setData({
               ticket: ticketArr
             })
@@ -242,6 +243,9 @@ Page({
     let that = this;
     wx.request({
       url: that.data._build_url + 'so/getForOrder/' + that.data.soid,
+      header: {
+        "Authorization": app.globalData.token
+      },
       success: function (res) {
         console.log('res:',res)
         let _skuNum = res.data.data.coupons;

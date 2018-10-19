@@ -38,6 +38,7 @@ Page({
   * 生命周期函数--监听页面加载
   */
   onLoad: function (options) {
+    console.log('options:', options)
     if (options.userId) {
       this.setData({
         _userId: options.userId
@@ -62,22 +63,90 @@ Page({
   * 生命周期函数--监听页面显示
   */
   onShow: function () {
-    if (!app.globalData.userInfo.mobile) {
-      this.setData({
-        isball: true
-      })
-      this.getuserinfo();
+    let that = this;
+    if (app.globalData.userInfo.userId) {
+      if (app.globalData.userInfo.mobile) {
+        if (app.globalData.token) {
+          if (this.data.refId) {
+            this.gettopiclist(this.data.refId);
+            this.getfood();
+          }
+        } else {
+          this.authlogin();
+        }
+      } else {
+        wx.navigateTo({
+          url: '/pages/personal-center/registered/registered'
+        })
+      }
+    } else {
+      this.findByCode();
     }
-    if (this.data.refId) {
-      this.gettopiclist(this.data.refId);
-      this.getfood();
-    }
+    // console.log(app.globalData)
   },
   onHide: function () {
     this.setData({
       currentUrl: ''
     });
   },
+
+  findByCode: function () { //通过code查询用户信息
+    let that = this;
+    wx.login({
+      success: res => {
+        Api.findByCode({
+          code: res.code
+        }).then((res) => {
+          if (res.data.code == 0) {
+            wx.hideLoading();
+            let data = res.data.data;
+            app.globalData.userInfo.userId = data.id;
+            for (let key in data) {
+              for (let ind in app.globalData.userInfo) {
+                if (key == ind) {
+                  app.globalData.userInfo[ind] = data[key]
+                }
+              }
+            }
+            if (!data.mobile) {
+              wx.navigateTo({
+                url: '/pages/personal-center/registered/registered'
+              })
+            }
+            that.authlogin();//获取token
+          } else {
+            that.findByCode();
+          }
+        })
+      }
+    })
+  },
+  authlogin: function () { //获取token
+    let that = this;
+    wx.request({
+      url: this.data._build_url + 'auth/login?userName=' + app.globalData.userInfo.userName,
+      method: "POST",
+      data: {},
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        if (res.data.code == 0) {
+          let _token = 'Bearer ' + res.data.data;
+          app.globalData.token = _token;
+          if (app.globalData.userInfo.mobile) {
+            if (that.data.refId) {
+              that.gettopiclist(that.data.refId);
+              that.getfood();
+            }
+          }
+        }
+      }
+    })
+  },
+
+
+
   getuserif: function (val) {  //从自己的服务器获取用户信息
     let that = this;
     this.setData({
@@ -86,7 +155,7 @@ Page({
     wx.request({  //从自己的服务器获取用户信息
       url: this.data._build_url + 'user/get/' + val,
       header: {
-        'content-type': 'application/json' // 默认值
+        "Authorization": app.globalData.token
       },
       success: function (res) {
         if (res.data.code == 0) {
@@ -116,14 +185,20 @@ Page({
     })
   },
   getfood: function (_type, data) {
-    let that = this;
-    let _parms = {
+    
+    let that = this, _parms={};
+    _parms = {
       page: this.data.page,
       row: 8,
-      topicType:2
+      topicType: 2,
+      token: app.globalData.token
     }
     Api.topiclist(_parms).then((res) => {
+
+      // console.log('res:', res)
+      // return
       let _data = this.data.food,newData=[];
+     
       if (res.data.code == 0) {
         wx.hideLoading()
         if (res.data.data.list != null && res.data.data.list != "" && res.data.data.list != []) {
@@ -165,7 +240,8 @@ Page({
       id: id,
       zanUserId: app.globalData.userInfo.userId,
       zanUserName: app.globalData.userInfo.userName,
-      zanSourceType: '1'
+      zanSourceType: '1',
+      token: app.globalData.token
     },that=this;
     Api.getTopicByZan(_parms).then((res) => {
       if (res.data.code == 0) {
@@ -248,52 +324,56 @@ Page({
       this.setData({
         issnap: true
       })
-      return false
-    }
-    if (!this.data.commentVal) {
-      wx.showToast({
-        title: '请输入评论内容',
-        icon: 'none',
-        duration: 2000
-      })
+    }else{
+      if (!this.data.commentVal) {
+        wx.showToast({
+          title: '请输入评论内容',
+          icon: 'none',
+          duration: 2000
+        })
+        this.setData({
+          isComment: false
+        })
+        return false;
+      }
+      let _value = utils.utf16toEntities(this.data.commentVal)
       this.setData({
+        commentVal: _value,
         isComment: false
       })
-      return false;
-    } 
-    let _value = utils.utf16toEntities(this.data.commentVal)
-    this.setData({
-      commentVal: _value,
-      isComment: false
-    })
-    
-    let _parms = {
-      refId: this.data.refId,
-      cmtType: 2,
-      content: this.data.commentVal,
-      userId: app.globalData.userInfo.userId,
-      userName: app.globalData.userInfo.userName,
-      nickName: app.globalData.userInfo.nickName,
+
+      let _parms = {
+        refId: this.data.refId,
+        cmtType: "2",
+        content: this.data.commentVal,
+        // userId: app.globalData.userInfo.userId,
+        // userName: app.globalData.userInfo.userName,
+        // nickName: app.globalData.userInfo.nickName,
+        token: app.globalData.token
+      };
+      console.log('_parms:', _parms)
+      Api.cmtadd(_parms).then((res) => {
+        if (res.data.code == 0) {
+          this.setData({
+            commentVal: '',
+          })
+          this.getcmtlist();
+        } else {
+          wx.showToast({
+            title: '系统繁忙,请稍后再试',
+            icon: 'none'
+          })
+        }
+      })
     }
-    Api.cmtadd(_parms).then((res) => {
-      if (res.data.code == 0) {
-        this.setData({
-          commentVal: '',
-        })
-        this.getcmtlist();
-      } else {
-        wx.showToast({
-          title: '系统繁忙,请稍后再试',
-          icon: 'none'
-        })
-      }
-    })
   },
   getcmtlist: function (id) {  //获取评论数据
     let _parms = {
-      zanUserId: app.globalData.userInfo.userId,
+      // zanUserId: app.globalData.userInfo.userId,
+      token: app.globalData.token,
       cmtType: '2',
-      refId: this.data.refId
+      refId: this.data.refId,
+      token: app.globalData.token
     }
     Api.cmtlist(_parms).then((res) => {
       let _data = res.data.data;
@@ -328,8 +408,9 @@ Page({
     let _this = this;
     let _parms = {
       actId: this.data.actId,
-      userId: this.data.voteUserIdcastvote,
-      playerUserId: this.data.playerUserId
+      // userId: this.data.voteUserIdcastvote,
+      playerUserId: this.data.playerUserId,
+      token: app.globalData.token
     }
     Api.availableVote(_parms).then((res) => {
       this.setData({
@@ -379,7 +460,8 @@ Page({
     let _parms = {
       refId: id,
       type: 4,
-      userId: app.globalData.userInfo.userId,
+      // userId: app.globalData.userInfo.userId,
+      token: app.globalData.token
     }
     Api.zanadd(_parms).then((res) => {
       if (res.data.code == 0) {
@@ -414,7 +496,8 @@ Page({
     let _parms = {
       refId: id,
       type: 4,
-      userId: app.globalData.userInfo.userId,
+      // userId: app.globalData.userInfo.userId,
+      token: app.globalData.token
     }
     Api.zandelete(_parms).then((res) => {
       if (res.data.code == 0) {
@@ -455,91 +538,94 @@ Page({
     }
   },
   dianzanwz: function () {  //文章点赞
-    let that = this
-    let _details = this.data.videodata;
+    let that = this,_details = this.data.videodata;
     if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true,
         clickvideo: false
       })
-      return false
+    }else{
+      wx.request({
+        url: this.data._build_url + 'zan/add?refId=' + that.data.refId+'&type=2',
+        method:'POST',
+        header: {
+          "Authorization": app.globalData.token
+        },
+        success: function (res) {
+          console.log('res:',res)
+          setTimeout(function () {
+            that.setData({
+              isclick: true
+            })
+          }, 2000);
+          if (res.data.code == 0) {
+            wx.showToast({
+              mask: true,
+              icon: 'none',
+              title: '点赞成功'
+            }, 1500)
+            _details.isZan = 1
+            _details.zan = _details.zan + 1
+            let _zan = that.data.zan
+            _zan++
+            that.setData({
+              videodata: _details,
+              isdtzan: false,
+              voteNum: that.data.voteNum + 1,
+            })
+          }
+        }
+      })
     }
-    let _parms = {
-      refId: this.data.refId,
-      type: '2',
-      userId: app.globalData.userInfo.userId
-    }
-    Api.zanadd(_parms).then((res) => {
-      setTimeout(function() {
-        that.setData({
-          isclick: true
-        })
-      }, 2000);
-      if (res.data.code == 0) {
-        wx.showToast({
-          mask: true,
-          icon: 'none',
-          title: '点赞成功'
-        }, 1500)
-        _details.isZan = 1
-        _details.zan = _details.zan + 1
-        let _zan = this.data.zan
-        _zan++
-        that.setData({
-          videodata: _details,
-          isdtzan:false,
-          voteNum: that.data.voteNum+1,
-        })
-      }
-    })
   },
   quxiaozanwz: function () {  //文章取消点赞
-    let that = this
-    let _details = this.data.videodata;
-    if (!app.globalData.userInfo.mobile) {
+    let that = this, _details = this.data.videodata;
+    if (!app.globalData.userInfo.mobile){
       this.setData({
         issnap: true,
         clickvideo: false
       })
-      return false
-    }
-    let _parms = {
-      refId: _details.id,
-      type: '2',
-      userId: app.globalData.userInfo.userId
-    }
-    Api.zandelete(_parms).then((res) => {
-      setTimeout(function () {
-        that.setData({
-          isclick: true
-        })
-      }, 2000);
-      if (res.data.code == 0) {
-        wx.showToast({
-          mask: true,
-          icon: 'none',
-          title: '取消成功',
-        }, 1500)
-        _details.isZan = 0
-        _details.zan = _details.zan - 1
-        if (_details.zan < 0) {
-          _details.zan = 0
+    }else{
+      wx.request({ 
+        url: this.data._build_url + 'zan/delete?refId=' + that.data.refId + '&type=2',
+        method: 'POST',
+        header: {
+          "Authorization": app.globalData.token
+        },
+        success: function (res) {
+          setTimeout(function () {
+            that.setData({
+              isclick: true
+            })
+          }, 2000);
+          if (res.data.code == 0) {
+            wx.showToast({
+              mask: true,
+              icon: 'none',
+              title: '取消成功',
+            }, 1500)
+            _details.isZan = 0
+            _details.zan = _details.zan - 1
+            if (_details.zan < 0) {
+              _details.zan = 0
+            }
+            let _zan = that.data.zan;
+            _zan--;
+            that.data.voteNum--;
+            if (that.data.voteNum < 0) {
+              that.setData({
+                voteNum: 0
+              })
+            }
+            that.setData({
+              videodata: _details,
+              isdtzan: true,
+              voteNum: that.data.voteNum,
+            })
+          }
         }
-        let _zan = this.data.zan;
-        _zan--;
-        that.data.voteNum--;
-        if (that.data.voteNum<0){
-          this.setData({
-            voteNum:0
-          })
-        }
-        this.setData({
-          videodata: _details,
-          isdtzan: true,
-          voteNum: that.data.voteNum,
-        })
-      }
-    })
+      })
+    }
   },
   closetel: function (e) {
     let id = e.target.id;
@@ -558,92 +644,8 @@ Page({
       isshare: !this.data.isshare
     })
   },
-  getuserinfo() {  //获取用户openId、sessionKey
-    wx.login({
-      success: res => {
-        if (res.code) {
-          let _parms = {
-            code: res.code
-          }
-          let that = this;
-          Api.getOpenId(_parms).then((res) => {
-            app.globalData.userInfo.openId = res.data.data.openId;
-            app.globalData.userInfo.sessionKey = res.data.data.sessionKey;
-            if (res.data.data.unionId) {
-              app.globalData.userInfo.unionId = res.data.data.unionId;
-              that.getmyuserinfo();
-            } else {
-              that.findByCode();
-              wx.hideLoading();
-            }
-          })
-        }
-      }
-    })
-  },
-  getmyuserinfo: function () {  //创建用户，获取用户信息
-    console.log('getmyuserinfo')
-    let _parms = {
-      openId: app.globalData.userInfo.openId,
-      unionId: app.globalData.userInfo.unionId
-    }, that = this;
-    console.log('_parms:', _parms)
-    Api.addUserUnionId(_parms).then((res) => {
-      console.log('getmyuserinfo_res:',res)
-      if (res.data.data) {
-        app.globalData.userInfo.userId = res.data.data;
-        // that.getuserif(res.data.data);
-        wx.request({  //从自己的服务器获取用户信息
-          url: this.data._build_url + 'user/get/' + res.data.data,
-          header: {
-            'content-type': 'application/json' // 默认值
-          },
-          success: function (res) {
-            if (res.data.code == 0) {
-              let data = res.data.data;
-              console.log("userdata:",data)
-              if(data){
-                for (let key in data) {
-                  for (let ind in app.globalData.userInfo) {
-                    if (key == ind) {
-                      app.globalData.userInfo[ind] = data[key]
-                    }
-                  }
-                };
-                if (!data.mobile) {
-                  that.setData({
-                    isnew: true
-                  })
-                }
-              }
-            }
-          }
-        })
-      }
-    })
-  },
-  findByCode: function () {
-    console.log('findByCode123')
-    let that = this;
-    wx.login({
-      success: res => {
-        Api.findByCode({ code: res.code }).then((res) => {
-          console.log('findByCode_res:',res)
-          if (res.data.code == 0) {
-            if (res.data.data.unionId) {
-              app.globalData.userInfo.unionId = res.data.data.unionId;
-              that.getmyuserinfo();
-            } else {
-              wx.hideLoading();
-              that.setData({
-                istouqu: true
-              })
-            }
-          }
-        })
-      }
-    })
-  },
+
+
   againgetinfo: function () { //点击获取用户unionId
     console.log("againgetinfo")
     let that = this;
@@ -656,16 +658,13 @@ Page({
           encrypData: res.encryptedData
         }
         Api.phoneAES(_pars).then((resv) => {
-          console.log("againgetinfo_resv:",resv)
           if (resv.data.code == 0) {
             that.setData({
               istouqu: false
             })
             let _data = JSON.parse(resv.data.data);
-            console.log("_data123:",_data);
             app.globalData.userInfo.unionId = _data.unionId;
-            console.log("app.globalData.userInfo123:", app.globalData.userInfo)
-            that.getmyuserinfo();
+            
           }
         })
       }

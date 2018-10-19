@@ -22,11 +22,13 @@ Page({
   },
   getShareList: function() {
     let that = this;
+    // return
     wx.request({
-      url: that.data._build_url + 'fvs/list?userId=' + app.globalData.userInfo.userId + '&page=' + that.data.page + '&rows=5',
+      url: that.data._build_url + 'fvs/list?page=' + that.data.page + '&rows=5',
+      header: {
+        "Authorization": app.globalData.token
+      },
       success: function(res) {
-        console.log(res);
-        // console.log(that.data.posts_key);
         let data = res.data;
         if (data.code == 0 && data.data.list != null && data.data.list != "" && data.data.list != []) {
           let posts_key = that.data.posts_key;
@@ -36,16 +38,26 @@ Page({
               data: {
                 shopId: data.data.list[i].id
               },
+              header: {
+                "Authorization": app.globalData.token
+              },
               success: function (res) {
-                let list = res.data.data.list;
-                list = list.slice(0, 2);
-                data.data.list[i].dish = list;
+                if(res.data.code == 0){
+                  if(res.data.data.list && res.data.data.list.length>0){
+                    let list = res.data.data.list;
+                    list = list.slice(0, 2);
+                    data.data.list[i].dish = list;
+                  }
+                }
               }
             })
             wx.request({ //满减规则
               url: that.data._build_url + 'pnr/selectByShopId',
               data: {
                 shopId: data.data.list[i].id
+              },
+              header: {
+                "Authorization": app.globalData.token
               },
               success: function (res) {
                 let list = res.data.data;
@@ -60,7 +72,6 @@ Page({
               reFresh: true
             });
           }, 500)
-          
         } else {
           that.setData({
             reFresh: false

@@ -73,19 +73,6 @@ Page({
         versionNo: options.versionNo
       })
     }
-
-    wx.request({
-      url: this.data._build_url + 'version.txt',
-      success: function(res) {
-        _crabImgUrl = res.data.crabImgUrl;
-        _crabImgUrl.splice(1, 1);
-        that.setData({
-          crabImgUrl: _crabImgUrl
-        })
-        wx.hideLoading();
-      }
-    })
-    
   },
 
 
@@ -157,8 +144,20 @@ Page({
       actaddress: {},
       postage: 0
     })
-    if (app.globalData.userInfo.userId && app.globalData.userInfo.mobile) {
-      this.getorderCoupon();
+    if (app.globalData.userInfo.userId) {
+      if (app.globalData.userInfo.mobile){
+        if (app.globalData.token) {
+          this.getTXT();
+          this.getorderCoupon();
+        } else {
+          this.authlogin();
+        }
+      } else { //是新用户，去注册页面
+        this.authlogin();
+        // wx.navigateTo({
+        //   url: '/pages/personal-center/securities-sdb/securities-sdb?back=1'
+        // })
+      }
     } else {
       this.findByCode();
     }
@@ -173,7 +172,23 @@ Page({
   onUnload: function() {
     app.globalData.Express = {};
   },
-
+  getTXT:function(){  //查询配置文件
+    let _crabImgUrl=[],that = this;
+    wx.request({
+      url: this.data._build_url + 'version.txt',
+      header: {
+        "Authorization": app.globalData.token
+      },
+      success: function (res) {
+        wx.hideLoading();
+        _crabImgUrl = res.data.crabImgUrl;
+        _crabImgUrl.splice(1, 1);
+        that.setData({
+          crabImgUrl: _crabImgUrl
+        })
+      }
+    })
+  },
   //返回首页
   closemodel: function () {
     wx.switchTab({
@@ -190,7 +205,7 @@ Page({
     wx.request({
       url: this.data._build_url + 'orderCoupon/get/' + this.data.vouId,
       header: {
-        'content-type': 'application/json' // 默认值
+        "Authorization": app.globalData.token
       },
       success: function (res) {
         if (res.data.code == 0) {
@@ -207,6 +222,7 @@ Page({
             })
             console.log("_data:", _data)
             if (_data.isUsed == 1) {
+                console.log("bbbbbbbbb")
               wx.showModal({
                 title: '提示',
                 showCancel: false,
@@ -220,6 +236,7 @@ Page({
                 }
               })
             } else if (that.data.isshare) {
+              console.log("ccccccccccc")
               if (that.data.shareId == app.globalData.userInfo.userId) {
                 console.log("11111111")
                 if (_data.ownId == app.globalData.userInfo.userId || !_data.ownId) {
@@ -312,10 +329,12 @@ Page({
                 }
               }
             } else if (_data.ownId == app.globalData.userInfo.userId || !_data.ownId) {
+              console.log("eeeeeee")
               if (val == 1) {
                 that.sendredeemNow();
               }
             } else if (_data.ownId != app.globalData.userInfo.userId) {
+              console.log("aaaaaa")
               if (val == 1) {
                 wx.showModal({
                   title: '提示',
@@ -360,18 +379,45 @@ Page({
                 }
               }
             }
+            
             if (!data.mobile) { //是新用户，去注册页面
               wx.navigateTo({
                 url: '/pages/personal-center/securities-sdb/securities-sdb?back=1'
               })
             } else {
-              that.getorderCoupon();
-              // that.getsendCoupon();
+              if (app.globalData.token){
+                that.getTXT();
+                that.getorderCoupon();
+              }else{
+                that.authlogin();
+              }
             }
           } else {
             that.findByCode();
           }
         })
+      }
+    })
+  },
+  authlogin: function () { //获取token
+    let that = this;
+    wx.request({
+      url: this.data._build_url + 'auth/login?userName=' + app.globalData.userInfo.userName,
+      method: "POST",
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        if (res.data.code == 0) {
+          let _token = 'Bearer ' + res.data.data;
+          app.globalData.token = _token;
+          that.getTXT();
+          that.getorderCoupon();
+          if (app.globalData.userInfo.mobile) {
+            // that.getTXT();
+            // that.getorderCoupon();
+          }
+        }
       }
     })
   },
@@ -381,8 +427,9 @@ Page({
       let _parms = {                                              
         orderCouponCode: this.data.current.couponCode,
         sendUserId: this.data.shareId,
-        receiveUserId: app.globalData.userInfo.userId,
-        versionNo: this.data.current.versionNo
+        // receiveUserId: app.globalData.userInfo.userId,
+        versionNo: this.data.current.versionNo,
+        token: app.globalData.token
       }, that = this;
       console.log('_parms:', _parms)
       Api.sendVersionCoupon(_parms).then((res) => {
@@ -410,13 +457,13 @@ Page({
     }else{
       this.getorderCoupon("3")
     }
-    
   },
   //查询已有收货地址
   getAddressList: function(val) {
     let that = this;
     let _parms = {
-      userId: app.globalData.userInfo.userId
+      // userId: app.globalData.userInfo.userId,
+      token: app.globalData.token
     }
     Api.AddressList(_parms).then((res) => {
       if (res.data.code == 0 && res.data.data.list) {
@@ -460,6 +507,7 @@ Page({
   },
   //查询提蟹券邮费
   getcalculateCost: function() {
+    console.log("getcalculateCost:")
     if (!this.data.current) {
       this.getDetailBySkuId('val');
       return;
@@ -469,23 +517,69 @@ Page({
       return;
     }
     let _weight = this.data.current.goodsSku.realWeight * 1,
-      _obj = {};
-    let _parms = {
+      _obj = {}, _value = "", _parms={};
+    _parms = {
       dictProvinceId: this.data.actaddress.dictProvinceId,
       dictCityId: this.data.actaddress.dictCityId,
       weight: _weight,
-      tempateId: this.data.current.goodsSku.deliveryTemplateId
+      tempateId: this.data.current.goodsSku.deliveryTemplateId,
+      token: app.globalData.token
+    };
+    console.log("lll_parms:", _parms)
+
+
+    for (var key in _parms) {
+      _value += key + "=" + _parms[key] + "&";
     }
+    _value = _value.substring(0, _value.length - 1);
+    wx.request({
+      url: that.data._build_url + 'deliveryCost/calculateCostForCoupon?' + _value,
+      header: {
+        "Authorization": app.globalData.token
+      },
+      method: 'POST',
+      success: function (res) {
+        if (res.data.code == 0) {
+          _obj = this.data.current;
+          if (res.data.data) {
+            _obj.total = _obj.total * 1 + res.data.data;
+            _obj.total = _obj.total.toFixed(2);
+            console.log("_obj:", _obj)
+            this.setData({
+              errmsg: '',
+              postage: res.data.data.toFixed(2)
+            })
+            console.log('11:', this.data.postage)
+            this.setData({
+              current: _obj
+            })
+          }
+        } else {
+          this.setData({
+            errmsg: res.data.message,
+            postage: ''
+          })
+          wx.showToast({
+            title: res.data.message,
+            icon: 'none'
+          })
+        }
+      }
+    })
+    return
     Api.CostforCoupon(_parms).then((res) => {
+      console.log("resrqe:",res)
       if (res.data.code == 0) {
         _obj = this.data.current;
         if (res.data.data) {
           _obj.total = _obj.total * 1 + res.data.data;
           _obj.total = _obj.total.toFixed(2);
+          console.log("_obj:", _obj)
           this.setData({
             errmsg: '',
             postage: res.data.data.toFixed(2)
           })
+          console.log('11:', this.data.postage)
           this.setData({
             current: _obj
           })
@@ -526,7 +620,14 @@ Page({
 
   //点击立即兑换  1
   redeemNow: function() {
-    this.getorderCoupon('1');
+    if (app.globalData.userInfo.mobile) { 
+      this.getorderCoupon('1');
+    } else {//是新用户，去注册页面
+      wx.navigateTo({
+        url: '/pages/personal-center/securities-sdb/securities-sdb?back=1'
+      })
+    }
+    
   },
   //兑换提货  2
   sendredeemNow: function() {
@@ -544,7 +645,8 @@ Page({
       } else {
         if (this.data.isconvert) {
           if (this.data.postage) {
-            this.updataUser();
+            this.wxpayment()
+            // this.updataUser();
           } else {
             this.seduseCoupon();
           }
@@ -554,17 +656,21 @@ Page({
   },
   //执行立即兑换  3
   seduseCoupon: function() {
-    let _parms = {
+    let _parms = {}, that = this, _value="";
+    console.log('postage:', this.data.postage)
+    console.log('remarks:', this.data.remarks)
+    _parms = {
         shopId: 0,
         shopName: '享7自营',
         sendTime: this.data.date,
         remark: this.data.remarks,
         id: this.data.current.id,
-        changerId: app.globalData.userInfo.userId,
-        changerName: app.globalData.userInfo.userName,
-        sendAmount: this.data.postage
-      },
-      that = this;
+        // changerId: app.globalData.userInfo.userId,
+        // changerName: app.globalData.userInfo.userName,
+        sendAmount: this.data.postage,
+        token: app.globalData.token
+      };
+     
     if (this.data.actaddress.id) {
       _parms.couponAddressId = this.data.actaddress.id
     } else {
@@ -586,6 +692,46 @@ Page({
     this.setData({
       isconvert: false
     });
+
+    for (var key in _parms) {
+      _value += key + "=" + _parms[key] + "&";
+    }
+    _value = _value.substring(0, _value.length - 1);
+    wx.request({
+      url: that.data._build_url + 'orderCoupon/useCoupon?' + _value,
+      header: {
+        "Authorization": app.globalData.token
+      },
+      method: 'POST',
+      success: function (res) {
+        if (res.data.code == 0) {
+          wx.showToast({
+            title: '兑换成功',
+            icon: 'none',
+            duration: 3000
+          })
+          setTimeout(() => {
+            wx.redirectTo({
+              url: '../../../../pages/personal-center/voucher/exchangeDetails/exchangeDetails?id=' + that.data.current.id,
+            })
+            this.setData({
+              isconvert: true,
+              isfrst: false
+            })
+          }, 1500)
+        } else {
+          this.setData({
+            isconvert: true,
+            isfrst: false
+          })
+          wx.showToast({
+            title: res.data.message,
+            icon: 'none'
+          })
+        }
+      }
+    })
+    return
     Api.useCoupon(_parms).then((res) => {
       if (res.data.code == 0) {
         wx.showToast({
@@ -621,7 +767,8 @@ Page({
       success: res => {
         if (res.code) {
           let _parms = {
-            code: res.code
+            code: res.code,
+            token: app.globalData.token
           }
           Api.getOpenId(_parms).then((res) => {
             if (res.data.code == 0) {
@@ -649,8 +796,9 @@ Page({
         orderAddressId: this.data.actaddress.id,
         realWeight: this.data.current.goodsSku.realWeight,
         templateId: this.data.current.goodsSku.deliveryTemplateId,
-        userId: app.globalData.userInfo.userId,
-        openId: app.globalData.userInfo.openId
+        // userId: app.globalData.userInfo.userId,
+        openId: app.globalData.userInfo.openId,
+        token: app.globalData.token
       },
       that = this;
     Api.orderCouponForSendAmount(_parms).then((res) => {

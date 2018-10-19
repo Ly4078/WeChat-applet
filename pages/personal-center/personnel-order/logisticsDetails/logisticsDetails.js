@@ -139,7 +139,8 @@ Page({
   wxpayment: function () {
     let _parms = {
       orderId: this.data.soId,
-      openId: app.globalData.userInfo.openId
+      openId: app.globalData.userInfo.openId,
+      token: app.globalData.token
     }, that = this;
     
     if (this.data.soDetail.orderItemOuts[0].goodsSpuId == 3){

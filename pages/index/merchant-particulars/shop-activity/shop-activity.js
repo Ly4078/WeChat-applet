@@ -25,7 +25,8 @@ Page({
     let _parms = {
       shopId: this.data.shopId,
       page: this.data.page,
-      rows: 8
+      rows: 8,
+      token: app.globalData.token
     }
     if (this.data.switchFlag) {
       _parms.topicType = this.data.switchFlag;

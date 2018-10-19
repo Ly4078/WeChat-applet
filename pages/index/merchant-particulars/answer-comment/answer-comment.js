@@ -29,9 +29,10 @@ Page({
         refId: this.data.shopid,
         cmtType: '5',
         content: content,
-        userId: app.globalData.userInfo.userId,
-        userName: app.globalData.userInfo.userName,
-        nickName: app.globalData.userInfo.nickName
+        token: app.globalData.token,
+        // userId: app.globalData.userInfo.userId,
+        // userName: app.globalData.userInfo.userName,
+        // nickName: app.globalData.userInfo.nickName
       }
       Api.cmtadd(_parms).then((res) => {
         if (res.data.code == 0) {

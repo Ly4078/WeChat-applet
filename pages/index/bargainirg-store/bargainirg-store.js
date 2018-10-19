@@ -49,7 +49,8 @@ Page({
       city: app.globalData.userInfo.city,
       isDeleted: 0,
       page: this.data.page,
-      rows: 8
+      rows: 8,
+      token: app.globalData.token
     };
     swichrequestflag = true;
     Api.partakerList(_parms).then((res) => {

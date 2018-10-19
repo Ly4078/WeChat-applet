@@ -1,5 +1,5 @@
 import Api from '../../../utils/config/config.js';
-import {GLOBAL_API_DOMAIN} from '../../../utils/config/config.js';
+import { GLOBAL_API_DOMAIN } from '../../../utils/config/config.js';
 var app = getApp();
 let requesting = false;
 Page({
@@ -11,7 +11,7 @@ Page({
     isball: false,
     isUsed: 0
   },
-  onLoad: function(options) {
+  onLoad: function (options) {
     wx.showLoading({
       title: '加载中...'
     })
@@ -21,7 +21,7 @@ Page({
       })
     }
   },
-  onShow: function() {
+  onShow: function () {
     this.setData({
       page: 1
     });
@@ -69,14 +69,17 @@ Page({
     })
   },
   //获取我的票券
-  getTicketList: function() {
+  getTicketList: function () {
     let that = this;
-    if (!app.globalData.userInfo.userId){
+    if (!app.globalData.userInfo.userId) {
       this.findByCode();
-    }else{
-      requesting = true 
+    } else {
+      requesting = true
       wx.request({
         url: that.data._build_url + 'cp/list',
+        header: {
+          "Authorization": app.globalData.token
+        },
         data: {
           userId: app.globalData.userInfo.userId,
           isUsed: that.data.isUsed,
@@ -101,7 +104,7 @@ Page({
                 if (that.data.isUsed == 0) {
                   ticketList[i].isgq = false;
                   that.setData({
-                    yesPageTotal: Math.ceil(res.data.data.total /8)
+                    yesPageTotal: Math.ceil(res.data.data.total / 8)
                   })
                 } else if (that.data.isUsed == 1) {
                   ticketList[i].isgq = true;
@@ -113,7 +116,7 @@ Page({
               }
               that.setData({
                 ticket_list: ticketArr
-              },()=>{
+              }, () => {
                 requesting = false
                 wx.hideLoading();
               })
@@ -156,20 +159,20 @@ Page({
     });
     this.setData({
       isUsed: e.currentTarget.id
-    },()=>{
+    }, () => {
       this.getTicketList();
     });
-    
+
   },
   //跳转至已过期
-  toDueList: function() {
+  toDueList: function () {
     wx.navigateTo({
       url: 'expired-ticket/expired-ticket',
     })
   },
   //用户上拉触底
-  onReachBottom: function() {
-    if (requesting){
+  onReachBottom: function () {
+    if (requesting) {
       return;
     }
     var tabId = this.data.isUsed
@@ -188,23 +191,23 @@ Page({
       })
       this.setData({
         page: this.data.page + 1
-      },()=>{
+      }, () => {
         this.getTicketList();
       });
-      
+
     }
   },
   //用户下拉刷新
-  onPullDownRefresh: function() {
+  onPullDownRefresh: function () {
     if (requesting) {
       return;
     }
     var tabId = this.data.isUsed
     if (tabId == 0) {
-      if (this.data.page >= this.data.yesPageTotal){
+      if (this.data.page >= this.data.yesPageTotal) {
         return
       }
-    } else if (tabId == 1 ) {
+    } else if (tabId == 1) {
       if (this.data.page >= this.data.notPageTotal) {
         return
       }
@@ -213,12 +216,12 @@ Page({
       ticket_list: [],
       page: 1,
       isUpdate: true
-    },()=>{
+    }, () => {
       this.getTicketList();
     });
-    
+
   },
-  immediateUse: function(e) {
+  immediateUse: function (e) {
     if (this.data.isUsed == 1) {
       return false;
     }
@@ -235,7 +238,7 @@ Page({
     })
   },
   //对比时间是否过期
-  isDueFunc: function(expiryDate) {
+  isDueFunc: function (expiryDate) {
     //isDue=0 已过期 isDue=1未过期
     let currentT = new Date().getFullYear() + '-' + new Date().getMonth() + '-' + new Date().getDate() + " 23:59:59",
       isDue = 0;

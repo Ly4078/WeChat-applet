@@ -18,6 +18,8 @@
     <button class='gettel colosetel' bindtap='closetel' id='2'>取消</button>
   </view>
 </view>
+
+
 <view id="merchantBox" class="merchantBox">
   <view class="shopTop">
     <view class='detailsWrap'>
@@ -86,7 +88,7 @@
         </view>
       </view>
       <view class='scroll_box'>
-        <block wx:for="{{isBarg ? Bargainlist : sliceBargain}}" wx:key="{{index}}">
+        <block wx:for="{{Bargainlist}}" wx:key="{{index}}">
           <view class="anchor">
             <image class='anchor_img' mode="aspectFill" src='{{item.picUrl}}' id='{{item.id}}' data-index="{{item.shopId}}" bindtap='initiate'></image>
             <view class='Barbut'>

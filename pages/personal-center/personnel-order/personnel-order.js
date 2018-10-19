@@ -38,6 +38,7 @@ Page({
     elephant: 0
   },
   onLoad: function (options) {
+    // console.log("options:", options)
     wx.showLoading({
       title: '加载中...'
     })
@@ -141,9 +142,10 @@ Page({
   // 查询物流订单列表
   getlogisticsList:function(val){
     let _parms = {
-      userId: app.globalData.userInfo.userId,
+      // userId: app.globalData.userInfo.userId,
       row:10,
-      page:this.data.orpage
+      page: this.data.orpage,
+      token: app.globalData.token
     };
     if (val) {
       _parms.status = val 
@@ -201,7 +203,8 @@ Page({
       userId: app.globalData.userInfo.userId,
       page: this.data.page,
       rows: 8,
-      soType: 1
+      soType: 1,
+      token: app.globalData.token
     };
     if (this.data.currentTab) {
       _parms.soStatus = this.data.currentTab,
@@ -266,7 +269,8 @@ Page({
         userId: app.globalData.userInfo.userId,
         page: this.data.page,
         rows: 5,
-        soStatus: 3
+        soStatus: 3,
+        token: app.globalData.token
       };
       Api.somyorder(_parms).then((res) => {
 
@@ -300,7 +304,8 @@ Page({
       userId: app.globalData.userInfo.userId,
       page: this.data.page,
       rows: 8,
-      soStatus: '2'
+      soStatus: '2',
+      token: app.globalData.token
     };
 
     if (this.data.currentTab == 2 || this.data.currentTab == '') {
@@ -308,7 +313,8 @@ Page({
         userId: app.globalData.userInfo.userId,
         page: this.data.page,
         rows: 5,
-        soStatus: 3
+        soStatus: 3,
+        token: app.globalData.token
       };
       requestTask[2] = true;
       Api.somyorder(_parms).then((res) => {

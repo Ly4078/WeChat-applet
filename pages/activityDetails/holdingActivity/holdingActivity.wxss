@@ -119,7 +119,7 @@ page{
 }
 
 .single{
-  width:136rpx;
+  width:176rpx;
   height:138rpx;
   background:rgba(25,25,25,1);
   opacity:0.9;
@@ -134,7 +134,7 @@ page{
 }
 
 .illegality{
-  width:136rpx;
+  width:25%;
   height:138rpx;
   background:rgba(25,25,25,1);
   opacity:0.7;
@@ -173,7 +173,7 @@ page{
 }
 
 .settingimg{
-  width: 136rpx;
+  width: 176rpx;
   height: 138rpx;
   position: absolute;
   top: 0rpx;

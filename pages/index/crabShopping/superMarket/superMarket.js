@@ -6,6 +6,7 @@ var utils = require('../../../../utils/util.js')
 var app = getApp()
 Page({
   data: {
+    _build_url: GLOBAL_API_DOMAIN,
     id: '',
     storeUrl: '',
     detailName: '',
@@ -27,8 +28,21 @@ Page({
     }
   },
   onShow: function() {
-    this.marketDetail();
-    this.crabList();
+    let that = this;
+    if (app.globalData.userInfo.userId) {
+      if (app.globalData.userInfo.mobile) {
+        if (app.globalData.token) {
+          this.marketDetail();
+          this.crabList();
+        } else {
+          this.authlogin();
+        }
+      } else {
+        this.authlogin();
+      }
+    } else {
+      this.findByCode();
+    }
   },
   onHide: function() {
     wx.hideLoading();
@@ -36,9 +50,59 @@ Page({
   onUnload: function() {
     wx.hideLoading();
   },
+  findByCode: function () {//通过code查询用户信息
+    let that = this;
+    wx.login({
+      success: res => {
+        Api.findByCode({ code: res.code }).then((res) => {
+          if (res.data.code == 0) {
+            console.log("findByCoderes:", res)
+            let _data = res.data.data;
+            if (_data.id && _data != null) {
+              for (let key in _data) {
+                for (let ind in app.globalData.userInfo) {
+                  if (key == ind) {
+                    app.globalData.userInfo[ind] = _data[key]
+                  }
+                }
+              };
+              app.globalData.userInfo.userId = _data.id;
+              if (_data.mobile){
+                that.authlogin();
+              }else{
+                wx.navigateTo({
+                  url: '/pages/personal-center/securities-sdb/securities-sdb?back=1'
+                })
+              }
+            }
+          }
+        })
+      }
+    })
+  },
+  authlogin: function (val) { //获取token
+    let that = this;
+    wx.request({
+      url: this.data._build_url + 'auth/login?userName=' + app.globalData.userInfo.userName,
+      method: "POST",
+      data: {},
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        if (res.data.code == 0) {
+          let _token = 'Bearer ' + res.data.data;
+          app.globalData.token = _token;
+          that.marketDetail();
+          that.crabList();
+        }
+      }
+    })
+  },
   marketDetail() {   //超市详细信息
     let _parms = {
-      id: this.data.id
+      id: this.data.id,
+      token: app.globalData.token
     };
     Api.superMarketDetail(_parms).then((res) => {
       if (res.data.code == 0) {
@@ -58,7 +122,8 @@ Page({
     let _parms = {
       id: this.data.id,
       page: this.data.page,
-      rows: 6
+      rows: 6,
+      token: app.globalData.token
     };
     if (this.data.page == 1) {
       this.setData({

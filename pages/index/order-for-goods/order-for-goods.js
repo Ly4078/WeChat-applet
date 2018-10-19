@@ -1,9 +1,13 @@
-import Api from '/../../../utils/config/api.js'
+import Api from '/../../../utils/config/api.js';
+import {
+  GLOBAL_API_DOMAIN
+} from '../../../utils/config/config.js';
 var app = getApp();
 let minusStatus = '';
 Page({
   data: {
     // input默认是1  
+    _build_url: GLOBAL_API_DOMAIN,
     number: 1,
     minusStatus: 'disabled',
     paymentAmount: '',
@@ -238,7 +242,9 @@ Page({
   },
 
   confirmPayment: function(e) { //生成订单号
-    let that = this;
+    let that = this,
+      _value = "";
+    console.log('confirmPayment')
     if (that.data.issecond) {
       return false
     }
@@ -251,86 +257,131 @@ Page({
       })
     }, 3000)
     if (this.data.skutype == 4) {
-      let _parms = {
-          skuName: this.data.skuName,
-          skuType: 4,
-          stockNum: 999,
-          opreatorId: app.globalData.userInfo.userId,
-          opreatorName: app.globalData.userInfo.userName,
-          sellPrice: this.data.paymentAmount,
-          inPrice: 20,
-          agioPrice: this.data.paymentAmount
-        },
+      console.log('44444');
+      let _parmsss = {},
         _this = this;
-      Api.createBargainTick(_parms).then((res) => {
-        if (res.data.code == 0) {
-          _this.setData({
-            skuId: res.data.data //生成这一张券的id
-          });
-          let _parms = {
-            userId: app.globalData.userInfo.userId,
-            userName: app.globalData.userInfo.userName,
-            skuId: _this.data.skuId,
-            skuNum: _this.data.number,
-            shopId: _this.data.shopId,
-            payType: 2,
-            dishSkuId: _this.data.dishSkuId,
-            dishSkuName: _this.data.dishSkuName
-          };
-          Api.socreate(_parms).then((res) => {
-            if (res.data.code == 0) {
-              _this.updateuser(res.data.data);
-            } else {
-              wx.showToast({
-                title: res.data.message,
-                icon: 'none'
-              })
+      _parmsss = {
+        skuName: this.data.skuName,
+        skuType: 4,
+        stockNum: 999,
+        opreatorId: app.globalData.userInfo.userId,
+        opreatorName: app.globalData.userInfo.userName,
+        sellPrice: this.data.paymentAmount,
+        inPrice: 20,
+        agioPrice: this.data.paymentAmount
+      };
+      for (var key in _parmsss) {
+        _value += key + "=" + _parmsss[key] + "&";
+      }
+      _value = _value.substring(0, _value.length - 1);
+      wx.request({
+        url: that.data._build_url + 'sku/addSkuForKj?' + _value,
+        header: {
+          "Authorization": app.globalData.token
+        },
+        method: 'POST',
+        success: function(res) {
+          if (res.data.code == 0) {
+            _this.setData({
+              skuId: res.data.data //生成这一张券的id
+            });
+            let _parms = {},
+              _values = "";
+            _parms = {
+              // userId: app.globalData.userInfo.userId,
+              // userName: app.globalData.userInfo.userName,
+              skuId: _this.data.skuId,
+              skuNum: _this.data.number,
+              shopId: _this.data.shopId,
+              payType: 2,
+              dishSkuId: _this.data.dishSkuId,
+              dishSkuName: _this.data.dishSkuName,
+              token: app.globalData.token
+            };
+            for (var key in _parms) {
+              _values += key + "=" + _parms[key] + "&";
             }
-          });
-        } else {
-          wx.showToast({
-            title: '系统繁忙',
-            icon: 'none'
-          })
+            _values = _values.substring(0, _values.length - 1);
+            wx.request({
+              url: that.data._build_url + 'so/create?' + _values,
+              header: {
+                "Authorization": app.globalData.token
+              },
+              method: 'POST',
+              success: function(res) {
+                if (res.data.code == 0) {
+                  _this.updateuser(res.data.data);
+                } else {
+                  wx.showToast({
+                    title: res.data.message,
+                    icon: 'none'
+                  })
+                }
+              }
+            })
+          } else {
+            wx.showToast({
+              title: '系统繁忙',
+              icon: 'none'
+            })
+          }
         }
       })
     } else if (this.data.skutype == 8) {
-      let _parms = {
-          skuName: this.data.skuName,
-          skuType: 8,
-          stockNum: 999,
-          opreatorId: app.globalData.userInfo.userId,
-          opreatorName: app.globalData.userInfo.userName,
-          sellPrice: this.data.paymentAmount,
-          inPrice: 20,
-          agioPrice: this.data.paymentAmount
-        },
+      console.log('888888')
+      let _parms = {},
         _this = this;
+      _parms = {
+        skuName: this.data.skuName,
+        skuType: 8,
+        stockNum: 999,
+        opreatorId: app.globalData.userInfo.userId,
+        opreatorName: app.globalData.userInfo.userName,
+        sellPrice: this.data.paymentAmount,
+        inPrice: 20,
+        agioPrice: this.data.paymentAmount
+      };
       Api.addSecKill(_parms).then((res) => {
         if (res.data.code == 0) {
           _this.setData({
             skuId: res.data.data //生成这一张券的id
           });
-          let _parms = {
-            userId: app.globalData.userInfo.userId,
-            userName: app.globalData.userInfo.userName,
+          let _parms = {},
+            _values = "";
+          _parms = {
+            // userId: app.globalData.userInfo.userId,
+            // userName: app.globalData.userInfo.userName,
             skuId: _this.data.skuId,
             skuNum: _this.data.number,
             shopId: _this.data.shopId,
             payType: 2, //微信支付
             dishSkuId: _this.data.dishSkuId,
-            dishSkuName: _this.data.dishSkuName
+            dishSkuName: _this.data.dishSkuName,
+            token: app.globalData.token
           };
-          Api.socreate(_parms).then((res) => {
-            if (res.data.code == 0) {
-              _this.updateuser(res.data.data);
-            } else {
-              wx.showToast({
-                title: res.data.message,
-                icon: 'none'
-              })
+
+
+          for (var key in _parms) {
+            _values += key + "=" + _parms[key] + "&";
+          }
+          _values = _values.substring(0, _values.length - 1);
+          wx.request({
+            url: that.data._build_url + 'so/create?' + _values,
+            header: {
+              "Authorization": app.globalData.token
+            },
+            method: 'POST',
+            success: function(res) {
+              if (res.data.code == 0) {
+                _this.updateuser(res.data.data);
+              } else {
+                wx.showToast({
+                  title: res.data.message,
+                  icon: 'none'
+                })
+              }
             }
-          });
+          })
         } else {
           wx.showToast({
             title: '系统繁忙',
@@ -339,165 +390,205 @@ Page({
         }
       })
     } else if (this.data.skutype == 10) {
-      let _parms = {
-          skuName: this.data.skuName,
-          skuType: 10,
-          stockNum: 999,
-          opreatorId: app.globalData.userInfo.userId,
-          opreatorName: app.globalData.userInfo.userName,
-          sellPrice: this.data.paymentAmount,
-          inPrice: 20,
-          agioPrice: this.data.paymentAmount
+      console.log('101010')
+      let _parms = {},
+        _this = this,
+        _value = "";
+      _parms = {
+        skuName: this.data.skuName,
+        skuType: 10,
+        stockNum: 999,
+        opreatorId: app.globalData.userInfo.userId,
+        opreatorName: app.globalData.userInfo.userName,
+        sellPrice: this.data.paymentAmount,
+        inPrice: 20,
+        agioPrice: this.data.paymentAmount
+      };
+      for (var key in _parms) {
+        _value += key + "=" + _parms[key] + "&";
+      }
+      _value = _value.substring(0, _value.length - 1);
+      wx.request({
+        url: that.data._build_url + 'sku/addSkuForDh?' + _value,
+        header: {
+          "Authorization": app.globalData.token
         },
-        _this = this;
-      Api.addCrabTicket(_parms).then((res) => {
-        if (res.data.code == 0) {
-          _this.setData({
-            skuId: res.data.data //生成这一张券的id
-          });
-          let _parms = {
-            userId: app.globalData.userInfo.userId,
-            userName: app.globalData.userInfo.userName,
-            skuId: _this.data.skuId,
-            skuNum: _this.data.number,
-            shopId: _this.data.shopId,
-            payType: 2, //微信支付
-            dishSkuId: _this.data.dishSkuId,
-            dishSkuName: _this.data.dishSkuName
-          };
-          Api.socreate(_parms).then((res) => {
+        method: 'POST',
+        success: function(res) {
+          if (res.data.code == 0) {
+            _this.setData({
+              skuId: res.data.data //生成这一张券的id
+            });
+            let _parmss = {},
+              _values = "";
+            _parmss = {
+              // userId: app.globalData.userInfo.userId,
+              // userName: app.globalData.userInfo.userName,
+              skuId: _this.data.skuId,
+              skuNum: _this.data.number,
+              shopId: _this.data.shopId,
+              payType: 2, //微信支付
+              dishSkuId: _this.data.dishSkuId,
+              dishSkuName: _this.data.dishSkuName,
+              token: app.globalData.token
+            };
+            for (var key in _parmss) {
+              _values += key + "=" + _parmss[key] + "&";
+            }
+            _values = _values.substring(0, _values.length - 1);
+            wx.request({
+              url: that.data._build_url + 'so/create?' + _values,
+              header: {
+                "Authorization": app.globalData.token
+              },
+              method: 'POST',
+              success: function(res) {
+                if (res.data.code == 0) {
+                  _this.updateuser(res.data.data);
+                } else {
+                  wx.showToast({
+                    title: res.data.message,
+                    icon: 'none'
+                  })
+                }
+              }
+            })
+          } else {
+            wx.showToast({
+              title: '系统繁忙',
+              icon: 'none'
+            })
+          }
+        }
+      })
+    } else {
+      console.log("132131")
+      if (this.data.obj.soid && this.data.obj.soid != 'undefined' && this.data.obj.soid != '') {
+        that.payment(this.data.obj.soid);
+        that.updateuser();
+      } else {
+        console.log("else")
+        let _value = "",
+          _parms = {};
+        _parms = {
+          // userId: app.globalData.userInfo.userId,
+          // userName: app.globalData.userInfo.userName,
+          skuId: this.data.obj.id,
+          skuNum: this.data.number,
+          payType: 2
+        }
+        if (this.data.shopId) {
+          _parms.shopId = this.data.shopId;
+        }
+        for (var key in _parms) {
+          _value += key + "=" + _parms[key] + "&";
+        }
+        _value = _value.substring(0, _value.length - 1);
+        wx.request({
+          url: that.data._build_url + 'so/create?' + _value,
+          header: {
+            "Authorization": app.globalData.token
+          },
+          method: 'POST',
+          success: function(res) {
             if (res.data.code == 0) {
-              _this.updateuser(res.data.data);
+              that.updateuser(res.data.data);
             } else {
               wx.showToast({
                 title: res.data.message,
                 icon: 'none'
               })
             }
-          });
-        } else {
-          wx.showToast({
-            title: '系统繁忙',
-            icon: 'none'
-          })
-        }
-      })
-    } else {
-      if (this.data.obj.soid && this.data.obj.soid != 'undefined' && this.data.obj.soid != '') {
-        that.payment(this.data.obj.soid);
-        that.updateuser();
-        return;
-        if (that.data.paytype == 1) {
-          that.payment(this.data.obj.soid);
-          that.updateuser();
-        } else if (that.data.paytype == 2) {
-          wx.showToast({
-            title: '余额支付成功',
-            icon: 'none',
-            mask: true
-          })
-          setTimeout(function() {
-            wx.redirectTo({
-              url: '../../personal-center/my-discount/my-discount'
-            })
-          }, 2000)
-        }
-      } else {
-        let _parms = {
-          userId: app.globalData.userInfo.userId,
-          userName: app.globalData.userInfo.userName,
-          skuId: this.data.obj.id,
-          skuNum: this.data.number,
-          payType: '2'
-        }
-        if (this.data.shopId) {
-          _parms.shopId = this.data.shopId;
-        }
-        // if (that.data.paytype == 1) { //微信支付
-        //   _parms.payType = '2';
-        // } else if (that.data.paytype == 2) { //余额支付
-        //   _parms.payType = '1';
-        // }
-        Api.socreate(_parms).then((res) => {
-          if (res.data.code == 0) {
-            that.updateuser(res.data.data);
-            return;
-            if (that.data.paytype == 1) {
-              that.updateuser(res.data.data);
-            } else if (that.data.paytype == 2) {
-              wx.showToast({
-                title: '余额支付成功',
-                icon: 'none',
-                mask: true
-              })
-              setTimeout(function() {
-                wx.redirectTo({
-                  url: '../../personal-center/my-discount/my-discount'
-                })
-              }, 2000)
-            }
-          } else {
-            wx.showToast({
-              title: res.data.message,
-              icon: 'none'
-            })
           }
         })
       }
     }
   },
   updateuser: function(val) { //更新用户信息
-    let that = this;
-    let _parms = {
+    let that = this,
+      _value = "",
+      _parms = {};
+    _parms = {
       id: app.globalData.userInfo.userId,
       openId: app.globalData.userInfo.openId
     }
-    Api.updateuser(_parms).then((res) => {
-      that.payment(val);
+    for (var key in _parms) {
+      _value += key + "=" + _parms[key] + "&";
+    }
+    _value = _value.substring(0, _value.length - 1);
+    wx.request({
+      url: that.data._build_url + 'user/update?' + _value,
+      header: {
+        "Authorization": app.globalData.token
+      },
+      method: 'POST',
+      success: function(res) {
+        if (res.data.code == 0) {
+          that.payment(val);
+        }
+      }
     })
   },
   payment: function(soid) { //调起微信支付
-    let _pars = {
-        soId: soid,
-        openId: app.globalData.userInfo.openId
-      },
-      that = this;
+    console.log('payment')
+    let _pars = {},
+      that = this,
+      _value = "";
+    _pars = {
+      soId: soid,
+      openId: app.globalData.userInfo.openId,
+      token: app.globalData.token
+    };
     if (this.data.actId) {
       _pars['actId'] = this.data.actId;
       _pars['skuId'] = this.data.skuId;
       _pars['shopId'] = this.data.obj.shopId;
-      Api.doUnifiedOrderAct(_pars).then((res) => {
-        if (res.data.code == 0) {
-          wx.requestPayment({
-            'timeStamp': res.data.data.timeStamp,
-            'nonceStr': res.data.data.nonceStr,
-            'package': res.data.data.package,
-            'signType': 'MD5',
-            'paySign': res.data.data.paySign,
-            success: function(res) {
-              that.messagepush();
-              wx.redirectTo({
-                url: '../../personal-center/my-discount/my-discount'
-              })
-            },
-            fail: function(res) {
-              wx.showToast({
-                icon: 'none',
-                title: '支付取消',
-                duration: 1200
-              })
-            }
-          })
+      console.log('_pars:', _pars)
+      for (var key in _pars) {
+        _value += key + "=" + _pars[key] + "&";
+      }
+      _value = _value.substring(0, _value.length - 1);
+      wx.request({
+        url: that.data._build_url + 'wxpay/doUnifiedOrderForAct?' + _value,
+        header: {
+          "Authorization": app.globalData.token
+        },
+        method: 'POST',
+        success: function(res) {
+          if (res.data.code == 0) {
+            wx.requestPayment({
+              'timeStamp': res.data.data.timeStamp,
+              'nonceStr': res.data.data.nonceStr,
+              'package': res.data.data.package,
+              'signType': 'MD5',
+              'paySign': res.data.data.paySign,
+              success: function(res) {
+                that.messagepush();
+                wx.redirectTo({
+                  url: '../../personal-center/my-discount/my-discount'
+                })
+              },
+              fail: function(res) {
+                wx.showToast({
+                  icon: 'none',
+                  title: '支付取消',
+                  duration: 1200
+                })
+              }
+            })
+          }
         }
       })
     } else if (this.data.skutype == 4) {
-      let _parms = {
+      let _parms = {},
+        _value = "";
+      _parms = {
         soId: soid,
         openId: app.globalData.userInfo.openId,
         skuId: this.data.dishSkuId,
         shopId: this.data.shopId,
         type: 1
-      }
+      };
       //type=1原价购买，grounpId不传
       if (this.data.bargainType == 1) {
         _parms.type = 1;
@@ -505,71 +596,98 @@ Page({
         _parms.type = 2;
         _parms.groupId = this.data.groupId;
       }
-      Api.buyBargainTick(_parms).then((res) => {
-        if (res.data.code == 0) {
-          wx.requestPayment({
-            'timeStamp': res.data.data.timeStamp,
-            'nonceStr': res.data.data.nonceStr,
-            'package': res.data.data.package,
-            'signType': 'MD5',
-            'paySign': res.data.data.paySign,
-            success: function(res) {
-              wx.redirectTo({
-                url: '../../personal-center/my-discount/my-discount'
-              })
-            },
-            fail: function(res) {
-              wx.showToast({
-                icon: 'none',
-                title: '支付取消',
-                duration: 1200
-              })
-            }
-          })
-        } else {
-          wx.showToast({
-            title: res.data.message,
-            icon: 'none'
-          })
+
+      for (var key in _parms) {
+        _value += key + "=" + _parms[key] + "&";
+      }
+      _value = _value.substring(0, _value.length - 1);
+      wx.request({
+        url: that.data._build_url + 'wxpay/doUnifiedOrderForKj?' + _value,
+        header: {
+          "Authorization": app.globalData.token
+        },
+        method: 'POST',
+        success: function(res) {
+          if (res.data.code == 0) {
+            wx.requestPayment({
+              'timeStamp': res.data.data.timeStamp,
+              'nonceStr': res.data.data.nonceStr,
+              'package': res.data.data.package,
+              'signType': 'MD5',
+              'paySign': res.data.data.paySign,
+              success: function(res) {
+                wx.redirectTo({
+                  url: '../../personal-center/my-discount/my-discount'
+                })
+              },
+              fail: function(res) {
+                wx.showToast({
+                  icon: 'none',
+                  title: '支付取消',
+                  duration: 1200
+                })
+              }
+            })
+          } else {
+            wx.showToast({
+              title: res.data.message,
+              icon: 'none'
+            })
+          }
         }
-      });
+      })
     } else if (this.data.skutype == 8) {
-      let _parms = {
+      let _parms = {},
+        _value = "";
+      _parms = {
         soId: soid,
         openId: app.globalData.userInfo.openId,
         skuId: this.data.dishSkuId,
         shopId: this.data.shopId
+      };
+      for (var key in _parms) {
+        _value += key + "=" + _parms[key] + "&";
       }
-      Api.buySecKill(_parms).then((res) => {
-        if (res.data.code == 0) {
-          wx.requestPayment({
-            'timeStamp': res.data.data.timeStamp,
-            'nonceStr': res.data.data.nonceStr,
-            'package': res.data.data.package,
-            'signType': 'MD5',
-            'paySign': res.data.data.paySign,
-            success: function(res) {
-              wx.redirectTo({
-                url: '../../personal-center/my-discount/my-discount'
-              })
-            },
-            fail: function(res) {
-              wx.showToast({
-                icon: 'none',
-                title: '支付取消',
-                duration: 1200
-              })
-            }
-          })
-        } else {
-          wx.showToast({
-            title: res.data.message,
-            icon: 'none'
-          })
+      _value = _value.substring(0, _value.length - 1);
+      wx.request({
+        url: that.data._build_url + 'wxpay/doUnifiedOrderForQg?' + _value,
+        header: {
+          "Authorization": app.globalData.token
+        },
+        method: 'POST',
+        success: function(res) {
+          if (res.data.code == 0) {
+            wx.requestPayment({
+              'timeStamp': res.data.data.timeStamp,
+              'nonceStr': res.data.data.nonceStr,
+              'package': res.data.data.package,
+              'signType': 'MD5',
+              'paySign': res.data.data.paySign,
+              success: function(res) {
+                wx.redirectTo({
+                  url: '../../personal-center/my-discount/my-discount'
+                })
+              },
+              fail: function(res) {
+                wx.showToast({
+                  icon: 'none',
+                  title: '支付取消',
+                  duration: 1200
+                })
+              }
+            })
+          } else {
+            wx.showToast({
+              title: res.data.message,
+              icon: 'none'
+            })
+          }
         }
-      });
+      })
     } else if (this.data.skutype == 10) {
-      let _parms = {
+      let _parms = {},
+        _value = "";
+      _parms = {
         soId: soid,
         openId: app.globalData.userInfo.openId,
         skuId: this.data.dishSkuId,
@@ -582,56 +700,78 @@ Page({
         _parms.type = 2;
         _parms.groupId = this.data.groupId;
       }
-      Api.buyCrabTicket(_parms).then((res) => {
-        if (res.data.code == 0) {
-          wx.requestPayment({
-            'timeStamp': res.data.data.timeStamp,
-            'nonceStr': res.data.data.nonceStr,
-            'package': res.data.data.package,
-            'signType': 'MD5',
-            'paySign': res.data.data.paySign,
-            success: function(res) {
-              wx.redirectTo({
-                url: '../../personal-center/my-discount/my-discount'
-              })
-            },
-            fail: function(res) {
-              wx.showToast({
-                icon: 'none',
-                title: '支付取消',
-                duration: 1200
-              })
-            }
-          })
-        } else {
-          wx.showToast({
-            title: res.data.message,
-            icon: 'none'
-          })
+      for (var key in _parms) {
+        _value += key + "=" + _parms[key] + "&";
+      }
+      _value = _value.substring(0, _value.length - 1);
+      wx.request({
+        url: that.data._build_url + 'wxpay/doUnifiedOrderForDh?' + _value,
+        header: {
+          "Authorization": app.globalData.token
+        },
+        method: 'POST',
+        success: function(res) {
+          if (res.data.code == 0) {
+            wx.requestPayment({
+              'timeStamp': res.data.data.timeStamp,
+              'nonceStr': res.data.data.nonceStr,
+              'package': res.data.data.package,
+              'signType': 'MD5',
+              'paySign': res.data.data.paySign,
+              success: function(res) {
+                wx.redirectTo({
+                  url: '../../personal-center/my-discount/my-discount'
+                })
+              },
+              fail: function(res) {
+                wx.showToast({
+                  icon: 'none',
+                  title: '支付取消',
+                  duration: 1200
+                })
+              }
+            })
+          } else {
+            wx.showToast({
+              title: res.data.message,
+              icon: 'none'
+            })
+          }
         }
-      });
+      })
     } else {
-      Api.doUnifiedOrder(_pars).then((res) => {
-        if (res.data.code == 0) {
-          wx.requestPayment({
-            'timeStamp': res.data.data.timeStamp,
-            'nonceStr': res.data.data.nonceStr,
-            'package': res.data.data.package,
-            'signType': 'MD5',
-            'paySign': res.data.data.paySign,
-            success: function(res) {
-              wx.redirectTo({
-                url: '../../personal-center/my-discount/my-discount'
-              })
-            },
-            fail: function(res) {
-              wx.showToast({
-                icon: 'none',
-                title: '支付取消',
-                duration: 1200
-              })
-            }
-          })
+      for (var key in _pars) {
+        _value += key + "=" + _pars[key] + "&";
+      }
+      _value = _value.substring(0, _value.length - 1);
+      wx.request({
+        url: that.data._build_url + 'wxpay/doUnifiedOrder?' + _value,
+        header: {
+          "Authorization": app.globalData.token
+        },
+        method: 'POST',
+        success: function(res) {
+          if (res.data.code == 0) {
+            wx.requestPayment({
+              'timeStamp': res.data.data.timeStamp,
+              'nonceStr': res.data.data.nonceStr,
+              'package': res.data.data.package,
+              'signType': 'MD5',
+              'paySign': res.data.data.paySign,
+              success: function(res) {
+                wx.redirectTo({
+                  url: '../../personal-center/my-discount/my-discount'
+                })
+              },
+              fail: function(res) {
+                wx.showToast({
+                  icon: 'none',
+                  title: '支付取消',
+                  duration: 1200
+                })
+              }
+            })
+          }
         }
       })
     }

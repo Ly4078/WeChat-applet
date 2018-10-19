@@ -86,7 +86,8 @@ Page({
       id: this.data.actId,
       userId: app.globalData.userInfo.userId,
       userName: app.globalData.userInfo.userName,
-      sourceType: '1'
+      sourceType: '1',
+      token: app.globalData.token
     },that = this;
     Api.actdetail(_parms).then((res) => {
       let data = res.data;
@@ -122,7 +123,8 @@ Page({
   },
   videoData() {
     let _parms = {
-      actId: this.data.actId
+      actId: this.data.actId,
+      token: app.globalData.token
     },that = this;
     Api.videoData(_parms).then((res) => {
       let data = res.data;
@@ -175,9 +177,10 @@ Page({
     if (app.globalData.isflag) {
       let _parms = {
         actId: this.data.actId,
-        zanUserId: app.globalData.userInfo.userId,
+        // zanUserId: app.globalData.userInfo.userId,
         page: this.data.page,
-        rows: 6
+        rows: 6,
+        token: app.globalData.token
       }, that = this;
       if (!this.data.switchFlag) {
         _parms['sortType'] = 1;

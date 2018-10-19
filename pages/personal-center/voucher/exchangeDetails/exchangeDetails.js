@@ -80,7 +80,7 @@ Page({
     wx.request({
       url: this.data._build_url + 'orderCoupon/get/' + this.data.id,
       header: {
-        'content-type': 'application/json' // 默认值
+        "Authorization": app.globalData.token
       },
       success: function (res) {
         if (res.data.code == 0) {

@@ -82,7 +82,8 @@ Page({
     let _parms = {
       refId: _details.id,
       type: '6',
-      userId: app.globalData.userInfo.userId
+      token: app.globalData.token
+      // userId: app.globalData.userInfo.userId
     }
     Api.zanadd(_parms).then((res) => {
       if (res.data.code == 0) {
@@ -120,7 +121,8 @@ Page({
     let _parms = {
       refId: _details.id,
       type: '6',
-      userId: app.globalData.userInfo.userId
+      token: app.globalData.token
+      // userId: app.globalData.userInfo.userId
     }
     Api.zandelete(_parms).then((res) => {
       if (res.data.code == 0) {
@@ -243,9 +245,10 @@ Page({
         refId: that.data.option.id,
         cmtType: '6',
         content: content,
-        userId: app.globalData.userInfo.userId,
-        userName: app.globalData.userInfo.userName,
-        nickName: app.globalData.userInfo.nickName
+        token: app.globalData.token,
+        // userId: app.globalData.userInfo.userId,
+        // userName: app.globalData.userInfo.userName,
+        // nickName: app.globalData.userInfo.nickName
       }
       Api.cmtadd(_parms).then((res) => {
         if (res.data.code == 0) {

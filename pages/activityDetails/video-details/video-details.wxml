@@ -3,13 +3,6 @@
 
 
 <view class="videoBox">
-
-
-
-<!-- 
-  <video class='revious' muted='true' autoplay='true' src="{{reviousUrl}}"></video>
-  <video class='nextUrl' muted='true' autoplay='true' src="{{nextUrl}}"></video> -->
-
   <video class="boxVideo {{isComment?'showcom':''}}" controls="{{false}}" contain="fill" src='{{currentUrl?currentUrl:videoUrl}}' autoplay='true' loop='true' bindtouchstart="handletouchtart" bindtouchmove="handletouchmove" bindtouchend="handletouchend" height="100%" width="100%" >
 
     <cover-view class="newUserModal loginuser" wx:if="{{istouqu}}" catchtouchmove='true'>
@@ -45,7 +38,7 @@
       </cover-view>
       <!-- 点赞 -->
       <cover-view class='iconli' bindtap='handzan'>
-        <cover-image wx:if="!isdtzan" class="avatar" src="{{isdtzan?'/images/icon/baixin.png':'/images/icon/hongxin.png'}}" />
+        <cover-image class="avatar" src="{{isdtzan?'/images/icon/baixin.png':'/images/icon/hongxin.png'}}" />
         <cover-view class='icontxt'>{{voteNum?voteNum:'点赞'}}</cover-view>
       </cover-view>
       <!-- 评论 -->

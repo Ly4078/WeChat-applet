@@ -257,8 +257,8 @@ Page({
           url: that.data._build_url + 'img/uploadMp4',
           filePath: res.tempFilePath,
           name: 'file',
-          formData: {
-            'userName': app.globalData.userInfo.userName
+          header: {
+            "Authorization": app.globalData.token
           },
           success: function (res) {
             that.setData({
@@ -484,7 +484,8 @@ Page({
         userId: app.globalData.userInfo.userId,
         summary: _title,
         homePic: _coverimg ? _coverimg : this.data.defaimg,
-        userName: app.globalData.userInfo.userName
+        userName: app.globalData.userInfo.userName,
+        token: app.globalData.token
       }
       if (app.globalData.userInfo.nickName){
         _parms.nickName=app.globalData.userInfo.nickName
@@ -523,7 +524,8 @@ Page({
               that.addVideo({
                 actId: that.data.actId,
                 topicId: res.data.data,
-                userId: app.globalData.userInfo.userId
+                token: app.globalData.token
+                // userId: app.globalData.userInfo.userId
               });
             } else if (that.data.cfrom){
               wx.redirectTo({
@@ -596,8 +598,8 @@ Page({
           url: that.data._build_url + 'img/upload',
           filePath: tempFilePaths[0],
           name: 'file',
-          formData: {
-            'userName': app.globalData.userInfo.userName
+          header: {
+            "Authorization": app.globalData.token
           },
           success: function (res) {
             let article = getApp().globalData.article;  //获取全局变量

@@ -244,10 +244,11 @@ Page({
   articleList() {
     if (app.globalData.isflag) {
       let _parms = {
-        zanUserId: this.data.voteUserId,
+        // zanUserId: this.data.voteUserId,
         userId: this.data.userId,
         page: 1,
-        rows: 10
+        rows: 10,
+        token: app.globalData.token
       };
       Api.myArticleList(_parms).then((res) => {
         if (res.data.code == 0) {
@@ -325,7 +326,8 @@ Page({
       let _parms = {
         refId: id,
         type: 2,
-        userId: app.globalData.userInfo.userId
+        token: app.globalData.token
+        // userId: app.globalData.userInfo.userId
       }
       Api.zanadd(_parms).then((res) => {
         setTimeout(function() {
@@ -372,7 +374,8 @@ Page({
       let _parms = {
         refId: id,
         type: 2,
-        userId: app.globalData.userInfo.userId
+        token: app.globalData.token
+        // userId: app.globalData.userInfo.userId
       }
       Api.zandelete(_parms).then((res) => {
         setTimeout(function () {
@@ -429,9 +432,10 @@ Page({
     let _parms = {
       refId: this.data.refId,
       cmtType: 7,
-      zanUserId: this.data.voteUserId,
+      // zanUserId: this.data.voteUserId,
       page: 1,
-      rows: 5
+      rows: 5,
+      token: app.globalData.token
     };
     Api.cmtlist(_parms).then((res) => {
       if (res.data.code == 0) {
@@ -500,9 +504,10 @@ Page({
       refId: this.data.refId,
       cmtType: 7,
       content: utils.utf16toEntities(this.data.commentVal),
-      userId: this.data.voteUserId,
-      userName: app.globalData.userInfo.userName,
-      nickName: app.globalData.userInfo.nickName,
+      token: app.globalData.token,
+      // userId: this.data.voteUserId,
+      // userName: app.globalData.userInfo.userName,
+      // nickName: app.globalData.userInfo.nickName,
     }
     Api.cmtadd(_parms).then((res) => {
       if (res.data.code == 0) {
@@ -531,7 +536,7 @@ Page({
       let _this = this;
       let _parms = {
         actId: this.data.actId,
-        userId: this.data.voteUserId,
+        // userId: this.data.voteUserId,
         playerUserId: this.data.userId
       }
       Api.availableVote(_parms).then((res) => {
@@ -592,7 +597,8 @@ Page({
     let _parms = {
       refId: id,
       type: 4,
-      userId: this.data.voteUserId,
+      // userId: this.data.voteUserId,
+      token: app.globalData.token
     }
     Api.zanadd(_parms).then((res) => {
       if (res.data.code == 0) {
@@ -640,7 +646,8 @@ Page({
     let _parms = {
       refId: id,
       type: 4,
-      userId: this.data.voteUserId,
+      token: app.globalData.token
+      // userId: this.data.voteUserId,
     }
     Api.zandelete(_parms).then((res) => {
       if (res.data.code == 0) {

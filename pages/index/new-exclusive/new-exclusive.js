@@ -36,11 +36,12 @@ Page({
     if(this.data.isNew == 1) {
       let that = this
       let _parms = {
-        userId: app.globalData.userInfo.userId,
-        userName: app.globalData.userInfo.userName,
+        // userId: app.globalData.userInfo.userId,
+        // userName: app.globalData.userInfo.userName,
         payType: '2',
         skuId: '8',
-        skuNum: '1'
+        skuNum: '1',
+        token: app.globalData.token
       }
       Api.getFreeTicket(_parms).then((res) => {
         if (res.data.code == 0) {

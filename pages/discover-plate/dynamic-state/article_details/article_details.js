@@ -64,7 +64,8 @@ Page({
       id: id,
       zanUserId: app.globalData.userInfo.userId,
       zanUserName: app.globalData.userInfo.userName,
-      zanSourceType: '1'
+      zanSourceType: '1',
+      token: app.globalData.token
     }
     Api.getTopicByZan(_parms).then((res) => {
       if (res.data.code == 0) {
@@ -92,6 +93,9 @@ Page({
     let that = this;
     wx.request({
       url: this.data._build_url + 'user/get/' + id,
+      header: {
+        "Authorization": app.globalData.token
+      },
       success: function (res) {
         if (res.data.code == 0) {
           that.setData({
@@ -103,9 +107,10 @@ Page({
   },
   getcmtlist: function () {  //获取文章评论数据
     let _parms = {
-      zanUserId: app.globalData.userInfo.userId,
+      // zanUserId: app.globalData.userInfo.userId,
       cmtType: '2',
-      refId: this.data._id
+      refId: this.data._id,
+      token: app.globalData.token
     }
     Api.cmtlist(_parms).then((res) => {
       let _data = res.data.data;
@@ -165,9 +170,10 @@ Page({
       refId: this.data._id,
       cmtType: '2',
       content: this.data.commentVal,
-      userId: app.globalData.userInfo.userId,
-      userName: app.globalData.userInfo.userName,
-      nickName: app.globalData.userInfo.nickName,
+      // userId: app.globalData.userInfo.userId,
+      // userName: app.globalData.userInfo.userName,
+      // nickName: app.globalData.userInfo.nickName,
+      token: app.globalData.token
     }
     Api.cmtadd(_parms).then((res) => {
       this.setData({
@@ -213,7 +219,8 @@ Page({
     let _parms = {
       refId: _details.id,
       type: '2',
-      userId: app.globalData.userInfo.userId
+      // userId: app.globalData.userInfo.userId,
+      token: app.globalData.token
     }
     Api.zanadd(_parms).then((res) => {
       if (res.data.code == 0) {
@@ -246,7 +253,8 @@ Page({
     let _parms = {
       refId: _details.id,
       type: '2',
-      userId: app.globalData.userInfo.userId
+      // userId: app.globalData.userInfo.userId,
+      token: app.globalData.token
     }
     Api.zandelete(_parms).then((res) => {
       if (res.data.code == 0) {
@@ -287,7 +295,8 @@ Page({
     let _parms = {
       refId: id,
       type: '4',
-      userId: app.globalData.userInfo.userId,
+      // userId: app.globalData.userInfo.userId,
+      token: app.globalData.token
     }
     Api.zanadd(_parms).then((res) => {
       if (res.data.code == 0) {
@@ -323,7 +332,8 @@ Page({
     let _parms = {
       refId: id,
       type: '4',
-      userId: app.globalData.userInfo.userId,
+      // userId: app.globalData.userInfo.userId,
+      token: app.globalData.token
     }
     Api.zandelete(_parms).then((res) => {
       if (res.data.code == 0) {

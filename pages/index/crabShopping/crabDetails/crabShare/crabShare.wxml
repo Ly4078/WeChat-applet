@@ -29,7 +29,7 @@
         </view>
       </view>
       <view class='cuisine' id="{{dishData.id}}" data-shopid="{{dishData.shopId}}" catchtap='chilkDish'>
-        <image class='cuisineImages' src='{{picUrl}}'></image>
+        <image class='cuisineImages' src='{{dishData.picUrl}}'></image>
         <view class='cuisineRight'>
           <view class='cuisineRight-Top'>
             <view class='cuisineRight-text'>
@@ -40,11 +40,11 @@
               <image class='cuisineRight-xiaji' src='/images/icon/home_arrow.png'></image>
             </view>
           </view>
-          <!-- <view class='centerSwordWrap'>
+          <view class='centerSwordWrap'>
             <image class='centerSword' src='/images/icon/house.png'></image>
-            <text>{{shopName}}</text>
-            <text>已售<text>{{sellNum}}</text></text>
-          </view> -->
+            <text>{{dishData.shopName}}</text>
+            <!-- <text>已售<text>{{dishData.sellNum}}</text></text> -->
+          </view>
           <view class='bargainBtn'>
             <view>￥
               <text>底价</text>

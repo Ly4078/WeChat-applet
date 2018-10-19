@@ -28,7 +28,8 @@ Page({
   getAddressList:function(){
     let that = this;
     let _parms={
-      userId: app.globalData.userInfo.userId
+      // userId: app.globalData.userInfo.userId,
+      token: app.globalData.token
     }
     Api.AddressList(_parms).then((res) => {
       wx.hideLoading();

@@ -48,7 +48,8 @@ Page({
     let _parms = {
         userId: app.globalData.userInfo.userId,
         page: this.data.page,
-        rows: 5
+        rows: 5,
+        token: app.globalData.token
       },
       that = this;
     Api.bargainList(_parms).then((res) => {

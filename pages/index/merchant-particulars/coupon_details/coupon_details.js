@@ -98,11 +98,12 @@ Page({
       })
     } else {
       let _parms = {
-        userId: app.globalData.userInfo.userId,
-        userName: app.globalData.userInfo.userName,
+        // userId: app.globalData.userInfo.userId,
+        // userName: app.globalData.userInfo.userName,
         payType: '1',
         skuId: this.data.listagio.id,
-        skuNum: '1'
+        skuNum: '1',
+        token: app.globalData.token
       }
       Api.freeOrderForAgio(_parms).then((res) => {
         if (res.data.code == 0) {

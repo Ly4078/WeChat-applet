@@ -32,6 +32,9 @@ Page({
         page: that.data.page,
         rows: 8
       },
+      header: {
+        "Authorization": app.globalData.token
+      },
       success: function (res) {
         if (res.data.code == 0) {
           if (res.data.data.list != null && res.data.data.list != [] && res.data.data.list != "") {

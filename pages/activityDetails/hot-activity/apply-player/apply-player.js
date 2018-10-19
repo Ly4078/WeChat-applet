@@ -173,8 +173,8 @@ Page({
       url: _this.data._build_url + 'img/upload/multi',
       filePath: obj.tempFilePaths[i],
       name: 'file',
-      formData: {
-        'userName': app.globalData.userInfo.userName
+      header: {
+        "Authorization": app.globalData.token
       },
       success: (res) => {
         console.log(res);
@@ -274,8 +274,8 @@ Page({
           url: _this.data._build_url + 'img/uploadMp4',
           filePath: res.tempFilePath,
           name: 'file',
-          formData: {
-            'userName': app.globalData.userInfo.userName
+          header: {
+            "Authorization": app.globalData.token
           },
           success: (res) => {
             wx.hideLoading();

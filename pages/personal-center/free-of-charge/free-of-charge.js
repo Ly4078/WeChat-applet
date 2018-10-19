@@ -153,7 +153,8 @@ Page({
   },
   searchByUserId: function () {
     let _parms = {
-      userId: app.globalData.userInfo.userId
+      userId: app.globalData.userInfo.userId,
+      token: app.globalData.token
     }
     Api.searchByUserId(_parms).then((res) => {
       if (res.data.code == 0) {
@@ -259,7 +260,8 @@ Page({
     let that = this
     if (shop) {
       let _parms = {
-        shopName:shop
+        shopName:shop,
+        token: app.globalData.token
       }
       Api.searchByShopName(_parms).then((res) => {
         if (res.data.data) {
@@ -372,8 +374,8 @@ Page({
           url: that.data._build_url + 'img/upload',
           filePath: tempFilePaths[0],
           name: 'file',
-          formData: {
-            'userName': app.globalData.userInfo.userName
+          header: {
+            "Authorization": app.globalData.token
           },
           success: function (res) {
             let _data = JSON.parse(res.data)
@@ -439,7 +441,8 @@ Page({
       locationX: this.data.locationX,
       locationY: this.data.locationY,
       city: this.data.city,
-      userId: app.globalData.userInfo.userId
+      token: app.globalData.token
+      // userId: app.globalData.userInfo.userId
     }
     Api.merchantEnter(_parms).then((res) => {
       if (res.data.code == 0) {

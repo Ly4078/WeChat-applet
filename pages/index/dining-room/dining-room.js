@@ -44,7 +44,8 @@ Page({
   //通过shopcode查询商家信息
   getshopInfo: function (val) {
     let _parms = {
-      code: val
+      code: val,
+      token: app.globalData.token
     }
     Api.getByCode(_parms).then((res) => {
       if (res.data.code == 0) {
@@ -66,7 +67,8 @@ Page({
       locationY: app.globalData.userInfo.lat,
       city: app.globalData.userInfo.city,
       page: this.data.page ? this.data.page:1,
-      rows: 8
+      rows: 8,
+      token: app.globalData.token
     }
     if (this.data.businessCate) { //美食类别 
       _parms.businessCate = this.data.businessCate
@@ -174,7 +176,8 @@ Page({
           locationY: app.globalData.userInfo.lat,
           city: app.globalData.userInfo.city,
           page: 1,
-          rows: 8
+          rows: 8,
+          token: app.globalData.token
         }
         Api.shoplist(_parms).then((res) => {
           let data = res.data;

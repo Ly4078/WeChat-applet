@@ -79,7 +79,8 @@ Page({
       page:this.data.page,
       row:8,
       actId: this.data.actid,
-      voteUserId: app.globalData.userInfo.userId,
+      token: app.globalData.token
+      // voteUserId: app.globalData.userInfo.userId,
     }
     Api.actshoplist(_parms).then((res) => {
       wx.hideLoading()
@@ -120,7 +121,8 @@ Page({
     let _parms = {
       actId: this.data.actid,
       searchKey: this.data._value,
-      voteUserId: app.globalData.userInfo.userId,
+      token: app.globalData.token
+      // voteUserId: app.globalData.userInfo.userId,
     }
     Api.actshoplist(_parms).then((res) => {
       that.setData({
@@ -166,7 +168,7 @@ Page({
     let _parms = {
       actId: this.data.actid,
       shopId: stopid,
-      userId: app.globalData.userInfo.userId,
+      // userId: app.globalData.userInfo.userId,
       voteUserId: app.globalData.userInfo.userId
     }
     let arr = this.data.actlist

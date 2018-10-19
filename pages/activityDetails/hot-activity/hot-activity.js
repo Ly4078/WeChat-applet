@@ -141,10 +141,11 @@ Page({
       }
     } else {
       let _parms = {
-        userId: app.globalData.userInfo.userId,
+        // userId: app.globalData.userInfo.userId,
         actId: this.data.actId,
         beginTime: this.data.today,
-        endTime: this.data.tomorrow
+        endTime: this.data.tomorrow,
+        token: app.globalData.token
       }
       Api.isGetActCoupons(_parms).then((res) => {
         if (res.data.code != 0) {
@@ -167,11 +168,12 @@ Page({
   },
   getActCoupons: function (e) {     //领取活动券
     let _parms = {
-      userId: app.globalData.userInfo.userId,
-      userName: app.globalData.userInfo.userName,
+      // userId: app.globalData.userInfo.userId,
+      // userName: app.globalData.userInfo.userName,
       payType: 1,     //1、享7支付 2、微信支付 3、支付宝支付
       skuId: e.target.id,
-      skuNum: 1
+      skuNum: 1,
+      token: app.globalData.token
     }
     Api.getActCoupons(_parms).then((res) => {
       if (res.data.code == 0) {
@@ -240,12 +242,13 @@ Page({
   },
   shopList: function () {    //商家列表   "actshop/listNewAct"
     let _parms = {
-      voteUserId: app.globalData.userInfo.userId,
+      // voteUserId: app.globalData.userInfo.userId,
       actId: this.data.actId,
       beginTime: this.data.today,
       endTime: this.data.tomorrow,
       page: this.data.page,
-      rows: 6
+      rows: 6,
+      token: app.globalData.token
     },
       _this = this;
     if (this.data.type == 2) {   //判断是否分组
@@ -292,7 +295,8 @@ Page({
   },
   playerList: function () {   //选手列表   "actUser/listNewAct"
     let _parms = {
-      voteUserId: app.globalData.userInfo.userId,
+      // voteUserId: app.globalData.userInfo.userId,
+      token: app.globalData.token,
       actId: this.data.actId,
       beginTime: this.data.today,
       endTime: this.data.tomorrow,
@@ -354,13 +358,14 @@ Page({
       flag: true
     });
     let _parms = {
-      voteUserId: app.globalData.userInfo.userId,
+      // voteUserId: app.globalData.userInfo.userId,
       actId: this.data.actId,
       beginTime: this.data.today,
       endTime: this.data.tomorrow,
       searchKey: this.data.searchValue,
       page: this.data.searchPage,
-      rows: 6
+      rows: 6,
+      token: app.globalData.token
     },
       _this = this;
     if (this.data.type == 2) {   //判断是否分组
@@ -417,13 +422,14 @@ Page({
   },
   searchFlipover: function () {      //搜索分页
     let _parms = {
-      voteUserId: app.globalData.userInfo.userId,
+      // voteUserId: app.globalData.userInfo.userId,
       actId: this.data.actId,
       beginTime: this.data.today,
       endTime: this.data.tomorrow,
       searchKey: this.data.searchValue,
       page: this.data.searchPage,
-      rows: 6
+      rows: 6,
+      token: app.globalData.token
     },
       _this = this;
     if (this.data.type == 2) {   //判断是否分组
@@ -487,7 +493,7 @@ Page({
     if (this.data.actId == 36) {
       let playerUserId = e.currentTarget.dataset.index;
       let _parms = { 
-        userId: app.globalData.userInfo.userId,
+        // userId: app.globalData.userInfo.userId,
         actId: this.data.actId,
         playerUserId: playerUserId,
         beginTime: this.data.today,
@@ -534,7 +540,7 @@ Page({
         shopId = e.currentTarget.id;
       let _parms = {
         actId: this.data.actId,
-        userId: app.globalData.userInfo.userId,
+        // userId: app.globalData.userInfo.userId,
         beginTime: this.data.today,
         endTime: this.data.tomorrow,
       };

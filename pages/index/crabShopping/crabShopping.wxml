@@ -1,3 +1,4 @@
+
 <!--顶部导航条-->
 <view class="navbar">
   <text wx:for="{{navbar}}" data-idx="{{index}}" class="item {{currentTab==index ? 'active' : ''}}" wx:key="unique" bindtap="navbarTap">{{item}}</text>
@@ -27,6 +28,9 @@
                 <text>￥{{item.sellPrice}}</text>
                 <text wx:if="{{item.unit != '张'}}">/{{item.unit}}</text>
               </view>
+              <!-- <view class='crabPriceright'>已售
+                <text>{{item.sellNum}}</text>
+              </view> -->
             </view>
           </view>
         </view>
@@ -93,7 +97,6 @@
       <view class="storeInfo_b gray">{{item.address}}</view>
     </view>
   </view>
-
   <view class='placeholder' wx:if="{{marketList.length<1}}">
     <image src="/images/icon/zhanweitu.png"></image>
   </view>

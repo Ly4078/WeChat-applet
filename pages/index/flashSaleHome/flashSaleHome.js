@@ -57,7 +57,8 @@ Page({
       locationY: app.globalData.userInfo.lat,
       city: app.globalData.userInfo.city,
       page: this.data.page,
-      rows: 8
+      rows: 8,
+      token: app.globalData.token
     };
     swichrequestflag = true;
     Api.secKillList(_parms).then((res) => {

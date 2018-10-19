@@ -15,7 +15,7 @@
           <view class='recommended' catchtap='recommendation'>
             <text class='dishes' wx:for="{{item.dish}}" wx:key='index'>{{item.skuName}}</text>
           </view>
-          <view class='regulation'>
+          <view class='regulation' wx:if="{{item.reduction.length>0}}">
             <image class='ticket' src='/images/icon/restaurant_ticket.png'></image>
             <text class='reduction' wx:for='{{item.reduction}}' wx:key='index'>{{item.ruleDesc}}、</text>
           </view>

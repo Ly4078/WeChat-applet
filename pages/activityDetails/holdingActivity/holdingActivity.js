@@ -28,48 +28,49 @@ Page({
     userId: '',
     id: '', //菜id
     shopId: '', //点击店Id
-    postList: [{
+    postList: [
+      {
         id: 0,
         name: '中商优品汇',
         place: '(中南店)',
         images: 'http://img.zcool.cn/community/01d3a75831f12aa801219c77f99003.jpg@1280w_1l_2o_100sh.jpg',
-        locationX: '114.338306',
-        locationY: '30.543187'
+        locationX: '114.332370',
+        locationY: '30.536960'
       },
       {
         id: 1,
         name: '中商优品汇',
         place: '(珞珈山店)',
         images: 'http://pic80.huitu.com/res/20160608/208798_20160608015617000200_1.jpg',
-        locationX: '114.363386',
-        locationY: '30.53937'
+        locationX: '114.356820',
+        locationY: '30.533210'
       },
       {
         id: 2,
         name: '中商平价',
         place: '(徐东店)',
         images: 'http://www.yiqiang-sw.com/Uploads/201608/579efbbf9f05d.jpg',
-        locationX: '114.351814',
-        locationY: '30.595577'
+        locationX: '114.344740',
+        locationY: '30.590600'
       },
-      {
-        id: 3,
-        name: '中商平价',
-        place: '(光谷店)',
-        images: 'http://pic32.photophoto.cn/20140709/0013026497125511_b.jpg',
-        locationX: '114.437057',
-        locationY: '30.510551'
-      },
+      // {
+      //   id: 3,
+      //   name: '中商平价',
+      //   place: '(光谷店)',
+      //   images: 'http://pic32.photophoto.cn/20140709/0013026497125511_b.jpg',
+      //   locationX: '114.430460',
+      //   locationY: '30.504840'
+      // },
       {
         id: 4,
         name: '中商平价',
         place: '(和平大道店)',
         images: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1537462197451&di=14abc4488db7800cc28ebe0f29a49ed4&imgtype=0&src=http%3A%2F%2Fqcloud.dpfile.com%2Fpc%2FWtyHGebB4mrDUQXoy9DxF9ocUmQ0RGE8WBW8dAr0DR_dWX5GDHu8EgNRQXfjASs3TYGVDmosZWTLal1WbWRW3A.jpg',
-        locationX: '114.323489',
-        locationY: '30.577027'
+        locationX: '114.316950',
+        locationY: '30.571250'
       }
     ],
-    specification:[
+    specification: [
       {
         numerical: 2,
         detailses: '邀请好友注册享7美食会员达到3人，可以在活动指定门店享7美食专区免费兑换领取2.5两阳澄湖公蟹1只，邀请注册人数达到6人兑换领取2只，以此类推！'
@@ -113,23 +114,74 @@ Page({
   },
   onShow: function() {
     if (app.globalData.userInfo.userId) {
-      console.log("86行:==============show_userid:", app.globalData.userInfo.userId);
-      if (!app.globalData.userInfo.mobile) { //是新用户，去注册页面
-        wx.navigateTo({
-          url: '/pages/personal-center/securities-sdb/securities-sdb?back=1&inviter=' + this.data.inviter
-        })
-      } else {
-        //回调
-        this.inquireNum();
+      if (app.globalData.userInfo.mobile) { 
+        if (app.globalData.token) {
+          this.inquireNum();
+        } else {
+          this.authlogin();
+        }
+      } else {//是新用户，去注册页面
+        this.authlogin();
+        // wx.navigateTo({
+        //   url: '/pages/personal-center/securities-sdb/securities-sdb?back=1&inviter=' + this.data.inviter
+        // })
       }
     } else {
       this.findByCode();
     }
   },
+  findByCode: function () { //通过code查询用户信息
+    let that = this;
+    wx.login({
+      success: res => {
+        Api.findByCode({
+          code: res.code
+        }).then((res) => {
+          if (res.data.code == 0) {
+            let data = res.data.data;
+            app.globalData.userInfo.userId = data.id;
+            for (let key in data) {
+              for (let ind in app.globalData.userInfo) {
+                if (key == ind) {
+                  app.globalData.userInfo[ind] = data[key]
+                }
+              }
+            }
+            that.authlogin();//获取token
+          } else {
+            that.findByCode();
+          }
+        })
+      }
+    })
+  },
+  authlogin: function () { //获取token
+    let that = this;
+    wx.request({
+      url: this.data._build_url + 'auth/login?userName=' + app.globalData.userInfo.userName,
+      method: "POST",
+      data: {},
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        if (res.data.code == 0) {
+          let _token = 'Bearer ' + res.data.data;
+          app.globalData.token = _token;
+          if (app.globalData.userInfo.mobile){
+            that.inquireNum();
+          }else{
+            that.closetel();
+          }
+        }
+      }
+    })
+  },
   createCrab() { //创建发起
     let _parms = {
       userId: app.globalData.userInfo.userId,
-      type: 2
+      type: 2,
+      token: app.globalData.token
     };
     Api.createCrab(_parms).then((res) => {
       if (res.data.code == 0) {
@@ -148,7 +200,8 @@ Page({
   },
   inquireNum() { //查询邀请螃蟹人数
     let _parms = {
-      userId: app.globalData.userInfo.userId
+      userId: app.globalData.userInfo.userId,
+      token: app.globalData.token
     };
     Api.inquireInviteNum(_parms).then((res) => {
       if (res.data.code == 0) {
@@ -171,7 +224,8 @@ Page({
   },
   emptyNum() { //清空邀请螃蟹人数
     let _parms = {
-      userId: app.globalData.userInfo.userId
+      userId: app.globalData.userInfo.userId,
+      token: app.globalData.token
     };
     Api.emptyInviteNum(_parms).then((res) => {
       if (res.data.code == 0) {
@@ -223,64 +277,23 @@ Page({
     // this.data.inviter,
     return {
       title: '邀请好友，换大闸蟹',
-      path: '/pages/activityDetails/holdingActivity/holdingActivity?inviter=' +  app.globalData.userInfo.userId,
+      path: '/pages/activityDetails/holdingActivity/holdingActivity?inviter=' + app.globalData.userInfo.userId,
       success: function(res) {}
     }
   },
   closetel: function(e) { //跳转至新用户注册页面
-    // let id = e.target.id;
-    // this.setData({
-    //   issnap: false
-    // })
-    // if (id == 1) {
-      wx.navigateTo({
-        url: '/pages/personal-center/securities-sdb/securities-sdb?inviter=' + this.data.inviter + '&back=1'
-      })
+    wx.navigateTo({
+      url: '/pages/personal-center/securities-sdb/securities-sdb?inviter=' + this.data.inviter + '&back=1'
+    })
     // }
   },
-  toIndex() {   //跳转至首页
+  toIndex() { //跳转至首页
     wx.switchTab({
       url: '../../index/index'
     })
   },
-  onPullDownRefresh: function () {
+  onPullDownRefresh: function() {
     this.inquireNum();
-  },
-  findByCode: function() { //通过code查询进入的用户信息，判断是否是新用户
-    let that = this;
-    wx.login({
-      success: res => {
-        Api.findByCode({
-          code: res.code
-        }).then((res) => {
-          if (res.data.code == 0) {
-            let data = res.data.data;
-            app.globalData.userInfo.userId = data.id;
-            app.globalData.userInfo.lat = data.locationX;
-            app.globalData.userInfo.lng = data.locationY;
-            for (let key in data) {
-              for (let ind in app.globalData.userInfo) {
-                if (key == ind) {
-                  app.globalData.userInfo[ind] = data[key]
-                }
-              }
-            }
-
-            if (!data.mobile) { //是新用户，去注册页面
-              that.closetel();
-            }
-            let userInfo = app.globalData.userInfo;
-            if (userInfo.userId && userInfo.lat && userInfo.lng && userInfo.city) {
-              // 回调
-            } else {
-              // that.getlocation();
-            }
-          } else {
-            that.findByCode();
-          }
-        })
-      }
-    })
   },
   //打开地图导航
   TencentMap: function(event) {
@@ -382,8 +395,7 @@ Page({
               scale: 18,
               name: postList[i].name,
               address: postList[i].name + postList[i].place,
-              success: function(res) {
-              }
+              success: function(res) {}
             })
           }
         }

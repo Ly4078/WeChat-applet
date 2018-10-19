@@ -76,30 +76,28 @@ function extend(obj) {
 
 function MyHttp(defaultParams, ALL_API) {
 
-  let _build_url = GLOBAL_API_DOMAIN, resource = {},_token="",headers={};
-
+  let _build_url = GLOBAL_API_DOMAIN, resource = {}, _token = "", headers = {
+    'content-type': 'application/x-www-form-urlencoded;charset=utf-8;Authorization'
+  };
+  
   for (let actionName in ALL_API) {
     let _config = ALL_API[actionName];
-
     resource[actionName] = (pdata) => {
       // let _params_data = extend(defaultParams, pdata);
-
-      if (pdata && pdata.token){
+      if (pdata && pdata.token) {
         _token = pdata.token;
-        headers ={
+        headers = {
           "Authorization": _token
         }
         delete pdata.token;
-      }else{
-        headers={
-          'content-type': 'application/x-www-form-urlencoded;charset=utf-8;Authorization'
-        }
       }
-
       let _params_data = pdata;
+      
       return sendRrquest(_build_url + _config.url, _config.method, _params_data, headers);
     }
   }
+
+
 
   return resource;
 }

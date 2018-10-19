@@ -42,17 +42,19 @@ Page({
   },
   onShow: function() {
     let that = this;
-    console.log("userInfo",app.globalData.userInfo)
     if (app.globalData.userInfo.shopId && app.globalData.userInfo.userType == 2) {
       this.setData({
         isshop: true,
         isshopuser:true
       })
     } 
-    Api.getSalePointUserByUserId({ userId: app.globalData.userInfo.userId }).then((res) => {
+    let _parms = {
+      // userId: app.globalData.userInfo.userId,
+      token: app.globalData.token
+    }
+    Api.getSalePointUserByUserId(_parms).then((res) => {
       if (res.data.code == 0) {
         if (res.data.data && res.data.data.length>0) {
-          console.log('自营店核销员')
           that.setData({
             isshop: true,
             iszhiying: true
@@ -65,7 +67,8 @@ Page({
         success: res => {
           if (res.code) {
             let _parms = {
-              code: res.code
+              code: res.code,
+              token: app.globalData.token
             }
             Api.getOpenId(_parms).then((res) => {
               app.globalData.userInfo.openId = res.data.data.openId;
@@ -89,11 +92,12 @@ Page({
         istouqu: false
       })
     }
-    if (!app.globalData.userInfo.nickName && app.globalData.userInfo.mobile) {
+    if (!app.globalData.userInfo.nickName && !app.globalData.userInfo.mobile) {
       this.setData({
         istouqu: true
       })
     }
+
     if (app.globalData.userInfo.mobile) {
       // this.getbalance();
       this.setData({
@@ -119,6 +123,9 @@ Page({
         page: '1',
         rows: 1,
       },
+      header: {
+        "Authorization": app.globalData.token
+      },
       success: function(res) {
         let _total = res.data.data.total;
         _total = utils.million(_total);
@@ -131,8 +138,11 @@ Page({
     })
 
     wx.request({
-      url: that.data._build_url + 'fvs/list?userId=' + app.globalData.userInfo.userId + '&page=' + that.data.page + '&rows=10',
+      url: that.data._build_url + 'fvs/list?page=' + that.data.page + '&rows=10',
       method: 'GET',
+      header: {
+        "Authorization": app.globalData.token
+      },
       data: {
         userId: app.globalData.userInfo.userId,
         page: '1',
@@ -152,7 +162,10 @@ Page({
   getPullUser: function() {
     let that = this;
     wx.request({
-      url: this.data._build_url + 'pullUser/get/' + app.globalData.userInfo.userId,
+      url: this.data._build_url + 'pullUser/get',
+      header: {
+        "Authorization": app.globalData.token
+      },
       success: function(res) {
         if (res.data.code == 0) {
           if (res.data.data) {
@@ -212,6 +225,7 @@ Page({
     let _parms = {
       id: app.globalData.userInfo.userId,
       openId: app.globalData.userInfo.openId,
+      token: app.globalData.token
     }
     if (data.avatarUrl) {
       _parms.iconUrl = data.avatarUrl
@@ -348,10 +362,6 @@ Page({
     }
 
   },
-
-
-
-
   DynamicState: function(e) {
     wx.navigateTo({
       url: 'allDynamicState/allDynamicState',
@@ -459,6 +469,9 @@ Page({
     let that = this;
     wx.request({
       url: that.data.qrdata.result,
+      header: {
+        "Authorization": app.globalData.token
+      },
       success: function(res) {
         if (res.data.code == 0) {
           let data = res.data;
@@ -530,7 +543,8 @@ Page({
           } else if (data.data.discount) {
             let _parms = {
               shopId: app.globalData.userInfo.shopId,
-              skuId: data.data.skuId
+              skuId: data.data.skuId,
+              token: app.globalData.token
             }
             Api.searchForShopIdNew(_parms).then((res) => {
               if (res.data.code == -1) {

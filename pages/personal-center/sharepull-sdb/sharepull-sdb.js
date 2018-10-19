@@ -21,7 +21,10 @@ Page({
     console.log('_build_url:', this.data._build_url)
     let that = this,userId=app.globalData.userInfo.userId;
     wx.request({
-      url: this.data._build_url+'/pullUser/get/' + userId,
+      url: this.data._build_url+'/pullUser/get/',
+      header: {
+        "Authorization": app.globalData.token
+      },
       success: function (res) {
         if (res.data.code == 0) {
           that.setData({

@@ -123,8 +123,9 @@ Page({
       }
       let _parms = {
         shopMobile: that.data.phone,
-        userId: app.globalData.userInfo.userId,
-        userName: app.globalData.userInfo.userName
+        token: app.globalData.token
+        // userId: app.globalData.userInfo.userId,
+        // userName: app.globalData.userInfo.userName
       }
       Api.sendForRegister(_parms).then((res) => {
         if (res.data.code == 0) {
@@ -230,8 +231,9 @@ Page({
         let _parms = {
           shopMobile: this.data.phone,
           SmsContent: this.data.verify,
-          userId: app.globalData.userInfo.userId,
-          userName: app.globalData.userInfo.userName
+          token: app.globalData.token
+          // userId: app.globalData.userInfo.userId,
+          // userName: app.globalData.userInfo.userName
         }
         console.log("_parms:", _parms)
         Api.isVerify(_parms).then((res) => {
@@ -283,11 +285,12 @@ Page({
   },
   newUserToGet: function () {    //新用户跳转票券
     let _parms = {
-      userId: app.globalData.userInfo.userId,
-      userName: app.globalData.userInfo.userName,
+      // userId: app.globalData.userInfo.userId,
+      // userName: app.globalData.userInfo.userName,
       payType: '2',
       skuId: '8',
-      skuNum: '1'
+      skuNum: '1',
+      token: app.globalData.token
     }
     Api.getFreeTicket(_parms).then((res) => {
       if (res.data.code == 0) {

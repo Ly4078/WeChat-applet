@@ -4,9 +4,9 @@ import {
 } from '../../../utils/config/config.js';
 var utils = require('../../../utils/util.js')
 var app = getApp()
-var village_LBS = function(that) { //获取用户经纬度
+var village_LBS = function (that) { //获取用户经纬度
   wx.getLocation({
-    success: function(res) {
+    success: function (res) {
       let latitude = res.latitude,
         longitude = res.longitude;
       app.globalData.userInfo.lat = latitude;
@@ -26,7 +26,7 @@ Page({
     marketList: [],//到店自提
     navbar: ['平台邮购', '到店消费', '门店自提'],
     // oneTab: ["礼盒装", "散装", "提蟹券"],
-    oneTab: ["提蟹券","散装"],
+    oneTab: ["提蟹券", "散装"],
     currentTab: 0,
     tabId: 0,
     spuval: 3,
@@ -39,20 +39,20 @@ Page({
     shopPages: 1,
     marketPages: 1
   },
-  onLoad: function(option) {
+  onLoad: function (option) {
     // console.log('option:', option)
     let that = this;
-    if (option.currentTab){
+    if (option.currentTab) {
       this.setData({
-        currentTab: option.currentTab 
+        currentTab: option.currentTab
       });
     }
-    
-    if(option.spuval){
-      let _val =0;
-      if (option.spuval ==3){
-        _val =0;
-      } else if (option.spuval == 1 ){
+
+    if (option.spuval) {
+      let _val = 0;
+      if (option.spuval == 3) {
+        _val = 0;
+      } else if (option.spuval == 1) {
         _val = 1;
       }
       this.setData({
@@ -63,7 +63,10 @@ Page({
     if (app.globalData.txtObj) {
       wx.request({
         url: this.data._build_url + 'version.txt',
-        success: function(res) {
+        header: {
+          "Authorization": app.globalData.token
+        },
+        success: function (res) {
           app.globalData.txtObj = res.data;
           that.setData({
             dshImg: app.globalData.txtObj.dsh.imgUrl
@@ -94,7 +97,7 @@ Page({
       this.marketList(2);
     }
   },
-  onShow: function() {},
+  onShow: function () { },
   onHide() {
     wx.hideLoading();
   },
@@ -102,7 +105,7 @@ Page({
     wx.hideLoading();
   },
   //切换顶部tab
-  navbarTap: function(e) {
+  navbarTap: function (e) {
     let oldIdx = this.data.currentTab, idx = e.currentTarget.dataset.idx;
     this.setData({
       currentTab: idx,
@@ -119,7 +122,7 @@ Page({
           this.commodityCrabList(0);
         }
       } else if (this.data.currentTab == 1) {
-        if (idx != oldIdx &&this.data.storeData.length == 0) {
+        if (idx != oldIdx && this.data.storeData.length == 0) {
           this.listForSkuAllocation(1);
         }
       } else if (this.data.currentTab == 2) {
@@ -150,7 +153,7 @@ Page({
     this.commodityCrabList(0);
   },
   //监听分享
-  onShareAppMessage: function() {
+  onShareAppMessage: function () {
     let _title = this.data.navbar[this.data.currentTab];
     return {
       title: _title,
@@ -166,10 +169,11 @@ Page({
     let that = this;
     let _parms = {
       spuType: 10,
-      isDeleted:0,
+      isDeleted: 0,
       page: this.data.page,
       spuId: this.data.spuval,
-      rows: 10
+      rows: 10,
+      token: app.globalData.token
     };
     swichrequestflag[types] = true;
     Api.crabList(_parms).then((res) => {
@@ -218,7 +222,8 @@ Page({
         rows: 8,
         locationX: app.globalData.userInfo.lng,
         locationY: app.globalData.userInfo.lat,
-        city: app.globalData.userInfo.city
+        city: app.globalData.userInfo.city,
+        token: app.globalData.token
       };
       swichrequestflag[types] = true;
       Api.listForSkuAllocation(_parms).then((res) => {
@@ -228,7 +233,7 @@ Page({
               storeData: []
             })
           };
-          if (res.data.data.list && res.data.data.list.length>0){
+          if (res.data.data.list && res.data.data.list.length > 0) {
             let _list = res.data.data.list,
               _storeData = that.data.storeData;
             for (let i = 0; i < _list.length; i++) {
@@ -268,7 +273,8 @@ Page({
         page: this.data.sPage,
         rows: 5,
         locationX: app.globalData.userInfo.lng,
-        locationY: app.globalData.userInfo.lat
+        locationY: app.globalData.userInfo.lat,
+        token: app.globalData.token
       };
       swichrequestflag[types] = true;
       Api.superMarketUrl(_parms).then((res) => {
@@ -326,7 +332,7 @@ Page({
 
   },
   //下拉刷新
-  onPullDownRefresh: function() {
+  onPullDownRefresh: function () {
     console.log(swichrequestflag)
     if (this.data.currentTab == 0) {
       if (swichrequestflag[0]) {
@@ -361,7 +367,7 @@ Page({
     }
   },
   //用户上拉触底加载更多
-  onReachBottom: function() {
+  onReachBottom: function () {
     if (this.data.currentTab == 0) {
       if (swichrequestflag[0]) {
         return;
@@ -396,20 +402,20 @@ Page({
     }
   },
 
-  getlocation: function() { //获取用户位置
+  getlocation: function () { //获取用户位置
     let that = this,
       lat = '',
       lng = '';
     wx.getLocation({
       type: 'wgs84',
-      success: function(res) {
-        let latitude = res.latitude,longitude = res.longitude;
+      success: function (res) {
+        let latitude = res.latitude, longitude = res.longitude;
         app.globalData.userInfo.lat = latitude;
         app.globalData.userInfo.lng = longitude;
         that.marketList(2);
         that.requestCityName(latitude, longitude);
       },
-      fail: function(res) {
+      fail: function (res) {
         wx.getSetting({
           success: (res) => {
             if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其用户信息或位置信息
@@ -418,7 +424,7 @@ Page({
                 content: '更多体验需要你授权位置信息',
                 showCancel: false,
                 confirmText: '确认授权',
-                success: function(res) {
+                success: function (res) {
                   if (res.confirm) {
                     wx.openSetting({ //打开授权设置界面
                       success: (res) => {
@@ -440,7 +446,7 @@ Page({
 
 
   // 进入菜品详情
-  crabPrticulars: function(e) {
+  crabPrticulars: function (e) {
     let id = e.currentTarget.id,
       spuId = e.currentTarget.dataset.spuid;
     wx.navigateTo({
@@ -449,7 +455,7 @@ Page({
   },
 
   //进入品质好店发起砍价
-  crabBargainirg: function(e) {
+  crabBargainirg: function (e) {
     let shopId = e.currentTarget.id,
       greensID = e.currentTarget.dataset.id;
     wx.navigateTo({

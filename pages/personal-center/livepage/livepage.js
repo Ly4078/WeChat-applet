@@ -36,7 +36,8 @@ Page({
     let _parms = {
         type: 1,
         page: 1,
-        rows: 10
+        rows: 10,
+        token: app.globalData.token
       },
       likeType = this.data.likeType;
     if (likeType == 1) { //关注列表
@@ -79,27 +80,29 @@ Page({
     if (!this.data.isMine) {
       return false;
     }
-    let id = e.currentTarget.id,
-      that = this;
-    let _parms = {
-      userId: that.data.voteUserId,
-      refId: id,
-      type: 1,
-    };
-    Api.addLike(_parms).then((res) => {
-      if (res.data.code == 0) {
-        let myList = that.data.myList;
-        for (let i = 0; i < myList.length; i++) {
-          if (myList[i].refId == id) {
-            myList[i].isCollected = 1;
-            that.setData({
-              myList: myList
-            });
-            wx.showToast({
-              icon: 'none',
-              title: '已关注',
-            })
-            return false;
+    let id = e.currentTarget.id,that = this;
+    wx.request({
+      url: that.data._build_url + 'userConcern/add?userId=' + that.data.voteUserId + '&refId=' + id + '&type=1',
+      method: "POST",
+      data: {},
+      header: {
+        "Authorization": app.globalData.token
+      },
+      success: function (res) {
+        if (res.data.code == 0) {
+          let myList = that.data.myList;
+          for (let i = 0; i < myList.length; i++) {
+            if (myList[i].refId == id) {
+              myList[i].isCollected = 1;
+              that.setData({
+                myList: myList
+              });
+              wx.showToast({
+                icon: 'none',
+                title: '已关注',
+              })
+              return false;
+            }
           }
         }
       }
@@ -115,29 +118,32 @@ Page({
       title: '确定取消关注?',
       success: function(res) {
         if (res.confirm) {
-          let _parms = {
-            userId: that.data.voteUserId,
-            refId: id,
-            type: 1
-          };
-          Api.delLike(_parms).then((res) => {
-            if (res.data.code == 0) {
-              let myList = that.data.myList;
-              for (let i = 0; i < myList.length; i++) {
-                if (myList[i].refId == id) {
-                  myList[i].isCollected = 0;
-                  that.setData({
-                    myList: myList
-                  });
-                  wx.showToast({
-                    icon: 'none',
-                    title: '取消关注'
-                  })
-                  return false;
+          wx.request({
+            url: that.data._build_url + 'userConcern/delete?userId=' + that.data.voteUserId + '&refId=' +id + '&type=1',
+            method: "POST",
+            data: {},
+            header: {
+              "Authorization": app.globalData.token
+            },
+            success: function (res) {
+              if (res.data.code == 0) {
+                let myList = that.data.myList;
+                for (let i = 0; i < myList.length; i++) {
+                  if (myList[i].refId == id) {
+                    myList[i].isCollected = 0;
+                    that.setData({
+                      myList: myList
+                    });
+                    wx.showToast({
+                      icon: 'none',
+                      title: '取消关注'
+                    })
+                    return false;
+                  }
                 }
               }
             }
-          });
+          })
         }
       }
     })
@@ -178,9 +184,8 @@ Page({
     },()=>{
       this.list();
     });
-    
   },
   onShareAppMessage: function() {
-
+    this.list();
   }
 })

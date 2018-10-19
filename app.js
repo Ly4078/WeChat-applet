@@ -20,6 +20,7 @@ App({
   },
   globalData: {  //全局变量
     picker:{},
+    token:"",
     isflag:true,
     oldcity:'',
     OrderObj:{},

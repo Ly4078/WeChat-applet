@@ -35,7 +35,8 @@ Page({
     shopId: '',
     greensID: '',
     isShop: false,
-    array: [{
+    array: [
+      {
         placeName: '产地',
         place: '阳澄湖'
       },
@@ -116,19 +117,89 @@ Page({
   },
 
   onShow: function() {
-    // if (!app.globalData.userInfo.mobile) {
-    //   wx.navigateTo({
-    //     url: '../../../../pages/personal-center/securities-sdb/securities-sdb?back=1'
-    //   })
-    //   return false
-    // }
+    let that = this;
+    if (app.globalData.userInfo.userId) {
+      if (app.globalData.userInfo.mobile) {
+        if (app.globalData.token) {
+          this.getTXT();
+          this.crabInit();
+        } else {
+          this.authlogin();
+        }
+      } else {
+        this.authlogin();
+      }
+    } else {
+      this.findByCode();
+    }
+    // console.log(app.globalData)
+  },
+  findByCode: function () { //通过code查询用户信息
+    let that = this;
+    wx.login({
+      success: res => {
+        Api.findByCode({
+          code: res.code
+        }).then((res) => {
+          if (res.data.code == 0) {
+            let data = res.data.data;
+            app.globalData.userInfo.userId = data.id;
+            for (let key in data) {
+              for (let ind in app.globalData.userInfo) {
+                if (key == ind) {
+                  app.globalData.userInfo[ind] = data[key]
+                }
+              }
+            }
+            that.authlogin();//获取token
+          } else {
+            that.findByCode();
+          }
+        })
+      }
+    })
+  },
+  authlogin: function () { //获取token
+    let that = this;
+    wx.request({
+      url: this.data._build_url + 'auth/login?userName=' + app.globalData.userInfo.userName,
+      method: "POST",
+      data: {},
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        if (res.data.code == 0) {
+          let _token = 'Bearer ' + res.data.data;
+          app.globalData.token = _token;
+          console.log("crab__token:", _token);
+          that.getTXT();
+          if (app.globalData.userInfo.mobile) {
+            // that.getTXT();
+          } 
+        }
+      }
+    })
+  },
+  //初始化
+  getTXT:function(){
     let _crabImgUrl = [],
       _ruleImg = '',
       that = this;
     app.globalData.Express = {};
-    if (!app.globalData.txtObj) {
+    if (app.globalData.txtObj.crabImgUrl){
+      _crabImgUrl = app.globalData.txtObj.crabImgUrl, _ruleImg = app.globalData.txtObj.ruleImg;
+      that.setData({
+        crabImgUrl: _crabImgUrl,
+        ruleImg: _ruleImg
+      })
+      that.crabInit();
+    }else{
       wx.request({
         url: this.data._build_url + 'version.txt',
+        header: {
+          "Authorization": app.globalData.token
+        },
         success: function (res) {
           app.globalData.txtObj = res.data;
           _crabImgUrl = app.globalData.txtObj.crabImgUrl, _ruleImg = app.globalData.txtObj.ruleImg;
@@ -139,17 +210,11 @@ Page({
           that.crabInit();
         }
       })
-    } else {
-      _crabImgUrl = app.globalData.txtObj.crabImgUrl, _ruleImg = app.globalData.txtObj.ruleImg;
-      that.setData({
-        crabImgUrl: _crabImgUrl,
-        ruleImg: _ruleImg
-      })
-      that.crabInit();
     }
   },
-  //初始化
   crabInit: function() {
+    console.log("crabInit")
+    console.log('issku:', this.data.issku)
     if (this.data.issku) {
       let _crabImgUrl = this.data.crabImgUrl,
         _ruleImg = this.data.ruleImg;
@@ -165,128 +230,143 @@ Page({
     }
   },
   bargainDetails: function() { //品质好店-->店铺详情--列表
-    if (!app.globalData.userInfo.mobile) {
-      wx.hideLoading();
-      wx.navigateTo({
-        url: '../../../../pages/personal-center/securities-sdb/securities-sdb?back=1'
-      })
-      return false
-    }
-    let that = this,
-      _array = [];
-    let _parms = {
-      shopId: this.data.shopId,
-      zanUserId: app.globalData.userInfo.userId,
-      isDeleted: 0,
-      page: this.data.page,
-      rows: 20,
-    };
-    Api.dhcList(_parms).then((res) => { //列表
-      wx.hideLoading();
-      if (res.data.code == 0 && res.data.data.list) {
-        let _obj = res.data.data.list[0];
-        this.setData({
-          SelectedList: _obj,
-          shopId: _obj.shopId
-        })
-        if (_obj.shopId) {
-          this.getShopInfo()
-        }
-        if (this.data.isShop) {
-          let array = this.data.array;
-          array[1].placeName = '品牌';
-          array[1].place = '万蟹楼';
-          array[2].place = _obj.skuName;
-          array = array.slice(0, 3);
+    console.log('bargainDetails')
+    let that = this, _array = [];
+    // if (!app.globalData.userInfo.mobile) {
+    //   wx.hideLoading();
+    //   wx.navigateTo({
+    //     url: '../../../../pages/personal-center/securities-sdb/securities-sdb?back=1'
+    //   })
+    // }else{
+      let _parms = {
+        shopId: this.data.shopId,
+        zanUserId: app.globalData.userInfo.userId,
+        isDeleted: 0,
+        page: this.data.page,
+        rows: 20,
+        token: app.globalData.token
+      };
+      Api.dhcList(_parms).then((res) => { //列表
+        console.log('dhcList:', res)
+        wx.hideLoading();
+        if (res.data.code == 0 && res.data.data.list) {
+          let _obj = res.data.data.list[0];
           this.setData({
-            array: array
-          });
+            SelectedList: _obj,
+            shopId: _obj.shopId
+          })
+          if (_obj.shopId) {
+            this.getShopInfo()
+          }
+          if (this.data.isShop) {
+            let array = this.data.array;
+            array[1].placeName = '品牌';
+            array[1].place = '万蟹楼';
+            array[2].place = _obj.skuName;
+            array = array.slice(0, 3);
+            this.setData({
+              array: array
+            });
+          }
         }
-      }
-    })
+      })
+    // }
+    
+    
   },
   //查询商品朝夕相处列表 即同一商品不同规格列表
   geSkutlist: function() {
-    if (this.data.isspecifi) {
-      return
-    }
     let that = this,
+      _parms = {},
       _array = [];
-    let _parms = {
-      spuType: 10,
-      page: this.data.page,
-      rows: 20,
-      spuId: this.data.spuId
-    };
-    Api.crabList(_parms).then((res) => { //查询同类规格列表
-      if (res.data.code == 0) {
-        let _list = res.data.data.list;
-        let _obj = _list[0];
-        for (let i = 0; i < _list.length; i++) {
-          if (that.data.id == _list[i].id) {
-            that.getDetailBySkuId();
+    if (!this.data.isspecifi) {
+      _parms = {
+        spuType: 10,
+        page: this.data.page,
+        rows: 20,
+        spuId: this.data.spuId,
+        token: app.globalData.token
+      };
+      Api.crabList(_parms).then((res) => { //查询同类规格列表
+        if (res.data.code == 0) {
+          let _list = res.data.data.list;
+          let _obj = _list[0];
+          for (let i = 0; i < _list.length; i++) {
+            if (that.data.id == _list[i].id) {
+              that.getDetailBySkuId();
+            }
           }
+          this.setData({
+            specificationData: _list,
+            isspecifi: true
+          })
         }
-        this.setData({
-          specificationData: _list,
-          isspecifi: true
-        })
-      }
-    });
+      });
+    }
+    
+    
   },
   //查询单个详情
   getDetailBySkuId: function(val) {
-    wx.hideLoading();
-    if (this.data.isAct && !val) {
-      return
-    }
+    console.log("getDetailBySkuId:")
     let _array = [],
       that = this,
       _crabImgUrl = this.data.crabImgUrl,
+      _parms = {},
       _ruleImg = this.data.ruleImg;
-    Api.DetailBySkuId({
-      id: this.data.id
-    }).then((res) => {
-      if (res.data.code == 0) {
-        let _obj = res.data.data,
-          _crabImgUrl = this.data.crabImgUrl;
-        for (let i = 0; i < _obj.goodsPromotionRules.length; i++) {
-          if (_obj.goodsPromotionRules[i].ruleType == 2) {
-            this.setData({
-              _ruleDesc: _obj.goodsPromotionRules[i].ruleDesc
-            })
-          }
-        };
-        _array = this.data.array;
-        if (_obj.spuId == 1 || _obj.spuId == 3) {
-          _array[1].place = '散装';
-          _array[3].place = '根据实际重量与发货距离,以物流公司统一计算价格为准';
-          if (_obj.spuId == 3){
-            _array[1].place = '礼盒装';
-          }else{
-            _crabImgUrl = _crabImgUrl.slice(2);
-          }
-        } else if (_obj.spuId == 2) {
-          _array[1].place = '礼盒装';
-          _array[3].place = '顺丰包邮';
-        }
-        _array[2].place = _obj.skuName;
-
-
-        let _arr = [];
-        _arr.push(_obj);
-        this.setData({
-          SelectedList: _obj,
-          specificationData: _arr,
-          isAct: _obj.id,
-          array: _array,
-          crabImgUrl: _crabImgUrl,
-          spuId: _obj.spuId
-        })
-
-        // this.geSkutlist();
+    wx.hideLoading();
+    if (this.data.isAct && !val) {
+      console.log("isAct:")
+    }else{
+      _parms = {
+        id: this.data.id,
+        token: app.globalData.token
       }
-    })
+      Api.DetailBySkuId(_parms).then((res) => {
+        console.log("getDetailBySkuId:", res)
+        if (res.data.code == 0) {
+          let _obj = res.data.data,
+            _crabImgUrl = this.data.crabImgUrl;
+          for (let i = 0; i < _obj.goodsPromotionRules.length; i++) {
+            if (_obj.goodsPromotionRules[i].ruleType == 2) {
+              this.setData({
+                _ruleDesc: _obj.goodsPromotionRules[i].ruleDesc
+              })
+            }
+          };
+          _array = this.data.array;
+          if (_obj.spuId == 1 || _obj.spuId == 3) {
+            _array[1].place = '散装';
+            _array[3].place = '根据实际重量与发货距离,以物流公司统一计算价格为准';
+            if (_obj.spuId == 3) {
+              _array[1].place = '礼盒装';
+            } else {
+              _crabImgUrl = _crabImgUrl.slice(2);
+            }
+          } else if (_obj.spuId == 2) {
+            _array[1].place = '礼盒装';
+            _array[3].place = '顺丰包邮';
+          }
+          _array[2].place = _obj.skuName;
+
+
+          let _arr = [];
+          _arr.push(_obj);
+          this.setData({
+            SelectedList: _obj,
+            specificationData: _arr,
+            isAct: _obj.id,
+            array: _array,
+            crabImgUrl: _crabImgUrl,
+            spuId: _obj.spuId
+          })
+
+          // this.geSkutlist();
+        }
+      })
+    }
+    
+    
   },
   //弹窗里同种类选择不同规格
   chooseLike: function(e) {
@@ -303,7 +383,7 @@ Page({
     wx.request({
       url: that.data._build_url + 'shop/get/' + this.data.shopId,
       header: {
-        'content-type': 'application/json;Authorization'
+        "Authorization": app.globalData.token
       },
       success: function(res) {
         if (res.data.code == 0) {
@@ -345,7 +425,7 @@ Page({
           name: storeDetails.shopName,
           address: storeDetails.address,
           success: function(res) {
-            console.log('打开地图成功')
+            // console.log('打开地图成功')
           }
         })
       }
@@ -358,26 +438,28 @@ Page({
       wx.navigateTo({
         url: '../../../../pages/personal-center/securities-sdb/securities-sdb?back=1'
       })
-      return false
-    }
-    let _parms = {
-      userId: app.globalData.userInfo.userId,
-      skuId: this.data.SelectedList.id
-    };
-    Api.vegetables(_parms).then((res) => {
-      if (res.data.code == 0) {
-        if (res.data.data.length > 0) {
-          this.setData({
-            isbargain: true
-          });
-          this.toBargainList();
-        } else {
-          wx.navigateTo({
-            url: 'crabShare/crabShare?refId=' + this.data.SelectedList.id + '&shopId=' + this.data.SelectedList.shopId + '&skuMoneyMin=' + this.data.SelectedList.agioPrice + '&skuMoneyOut=' + this.data.SelectedList.sellPrice
-          })
+    }else{
+      let _parms = {
+        // userId: app.globalData.userInfo.userId,
+        skuId: this.data.SelectedList.id,
+        token: app.globalData.token
+      };
+      Api.vegetables(_parms).then((res) => {
+        if (res.data.code == 0) {
+          if (res.data.data.length > 0) {
+            this.setData({
+              isbargain: true
+            });
+            this.toBargainList();
+          } else {
+            wx.navigateTo({
+              url: 'crabShare/crabShare?refId=' + this.data.SelectedList.id + '&shopId=' + this.data.SelectedList.shopId + '&skuMoneyMin=' + this.data.SelectedList.agioPrice + '&skuMoneyOut=' + this.data.SelectedList.sellPrice
+            })
+          }
         }
-      }
-    });
+      });
+    }
+    
   },
   //点击跳转至砍价列表
   toBargainList() {

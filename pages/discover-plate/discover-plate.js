@@ -56,7 +56,8 @@ Page({
         success: res => {
           if (res.code) {
             let _parms = {
-              code: res.code
+              code: res.code,
+              token: app.globalData.token
             }
             Api.getOpenId(_parms).then((res) => {
               app.globalData.userInfo.openId = res.data.data.openId;
@@ -171,8 +172,9 @@ Page({
     }
   },
   //查询列表数据
-  getfood: function(_type, data) {
-    let that = this;
+  getfood: function() {
+    console.log('getfood')
+    let that = this,_parms={};
     if (app.globalData.isflag) {
       wx.showLoading({
         title: '数据加载中。。。',
@@ -181,56 +183,48 @@ Page({
       let _parms = {
         page: this.data.page,
         row: 8,
-        topicType: 2
+        topicType: 2,
+        token: app.globalData.token
       }
+     
       if (this.data.choicetype) {
         _parms.choiceType = this.data.choicetype
       }
+     
       if (this.data.sortype) {
         _parms.sortType = this.data.sortype
       }
+      console.log('1111')
       Api.topiclist(_parms).then((res) => {
-        let _data = this.data.food
+        console.log('res:', res)
+        let _data = that.data.food;
+       
         if (res.data.code == 0) {
           wx.hideLoading()
-          if (res.data.data.list != null && res.data.data.list != "" && res.data.data.list != []) {
+          if (res.data.data.list.length>0) {
             let footList = res.data.data.list;
-            for (let i = 0; i < footList.length; i++) {
-              if (footList[i].topicType == 1) { // topicType  1文章  2视频
-                footList[i].isimg = true;
-              } else if (footList[i].topicType == 2) {
-                // footList[i].content = JSON.parse(footList[i].content);
-                footList[i].isimg = false
-                footList[i].clickvideo = false
+            if(footList.length>0){
+              for (let i = 0; i < footList.length; i++) {
+                if (footList[i].topicType == 1) { // topicType  1文章  2视频
+                  footList[i].isimg = true;
+                } else if (footList[i].topicType == 2) {
+                  // footList[i].content = JSON.parse(footList[i].content);
+                  footList[i].isimg = false
+                  footList[i].clickvideo = false
+                }
+                footList[i].summary = utils.uncodeUtf16(footList[i].summary);
+                if (footList[i].nickName == "null" || footList[i].nickName == "undefined") {
+                  footList[i].nickName = "";
+                }
+                var myreg = /^[1][3,4,5,7,8][0-9]{9}$/,
+                  phone = footList[i].userName;
+                if (myreg.test(phone)) {
+                  footList[i].userName = phone.substring(0, 4) + '****' + phone.substring(phone.length - 3, phone.length);
+                }
+                _data.push(footList[i]);
               }
-              footList[i].summary = utils.uncodeUtf16(footList[i].summary);
-              // footList[i].content = utils.uncodeUtf16(footList[i].content);
-              // footList[i].timeDiffrence = utils.timeDiffrence(res.data.currentTime, footList[i].updateTime, footList[i].createTime)
-
-              // footList[i].hitNum = utils.million(footList[i].hitNum)
-              // footList[i].commentNum = utils.million(footList[i].commentNum)
-              // footList[i].transNum = utils.million(footList[i].transNum)
-              // if (!footList[i].nickName || footList[i].nickName == 'null') {
-              //   footList[i].nickName = '';
-              //   footList[i].userName = footList[i].userName.substr(0, 3) + "****" + footList[i].userName.substr(7);
-              // }
-
-              // if (footList[i].content[0].type != 'video' || footList[i].topicType == 1) { //文章
-              //   footList[i].isimg = true
-              // } else {  //视频
-              //   footList[i].isimg = false
-              //   footList[i].clickvideo = false
-              // }
-              if (footList[i].nickName == "null" || footList[i].nickName == "undefined") {
-                footList[i].nickName = "";
-              }
-              var myreg = /^[1][3,4,5,7,8][0-9]{9}$/,
-                phone = footList[i].userName;
-              if (myreg.test(phone)) {
-                footList[i].userName = phone.substring(0, 4) + '****' + phone.substring(phone.length - 3, phone.length);
-              }
-              _data.push(footList[i]);
             }
+            
             this.setData({
               food: _data
             })
@@ -386,6 +380,9 @@ Page({
     this.getfood();
     wx.request({
       url: that.data._build_url + 'zb/list/',
+      header: {
+        "Authorization": app.globalData.token
+      },
       success: function(res) {
         that.setData({
           hotlive: res.data.data.list

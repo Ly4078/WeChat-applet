@@ -33,6 +33,7 @@ Page({
   getTicketaBlancees: function () { //金币余额   入参:userId
     let _parmes = {
       userId: app.globalData.userInfo.userId,   //userId
+      token: app.globalData.token
     };
     Api.getTicketaBlance(_parmes).then((res) => {
       this.setData({
@@ -45,7 +46,8 @@ Page({
       userId: app.globalData.userInfo.userId,   //userId     
       type: 2,
       page: this.data.page,
-      rows: 10
+      rows: 10,
+      token: app.globalData.token
     };
     requesting = true;
     Api.speciesList(_parms).then((res) => {

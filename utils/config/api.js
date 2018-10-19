@@ -9,7 +9,7 @@ const ALL_API = {
   },
   addUserUnionId: {
     method: 'POST',
-    url: 'user/addUserUnionId'
+    url: 'auth/addUserUnionId'
   },
   addUserForVersion: { //新增用户
     method: 'POST',
@@ -17,11 +17,11 @@ const ALL_API = {
   },
   findByCode: { //通过code查询用户信息
     method: 'GET',
-    url: 'user/findByCode'
+    url: 'auth/findByCode'
   },
   getOpenId: {  //获取openId
     method: 'POST',
-    url: 'wxpay/getOpenId'
+    url: 'auth/getOpenId'
   },
   useradd: {
     method: 'POST',
@@ -210,7 +210,7 @@ const ALL_API = {
   },
   phoneAES: {  //解密用户手机号
     method: 'POST',
-    url: 'wxsign/phoneAES'
+    url: 'auth/phoneAES'
   },
   sendForRegister: {  //获取手机验证码
     method: 'POST',
@@ -255,10 +255,6 @@ const ALL_API = {
   hotActPlayerList: {    //活动选手列表
     method: 'GET',
     url: 'actUser/listNewAct'
-  },
-  searchShop: {      //搜索活动中的商家
-    method: 'GET',
-    url: 'actshop/listNewAct'
   },
   searchUser: {      //搜索活动中的选手
     method: 'GET',
@@ -335,6 +331,10 @@ const ALL_API = {
   doUnifiedOrderForShop: {  //商家订单支付
     method: 'POST',
     url: 'wxpay/doUnifiedOrderForShop'
+  },
+  authlogin:{ //获取token
+    method:'GET',
+    url:"auth/login"
   },
   selectForOne: {  //查询商家是否参加商家订单
     method: 'GET',

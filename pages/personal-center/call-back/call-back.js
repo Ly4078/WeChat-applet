@@ -138,6 +138,9 @@ Page({
     }
     wx.request({
       url: _Url,
+      header: {
+        "Authorization": app.globalData.token
+      },
       success: function(res) {
         if (res.data.code == 0) {
           if (res.data.data) {
@@ -227,7 +230,8 @@ Page({
             if (_data.discount) {
               let _parms = {
                 shopId: app.globalData.userInfo.shopId,
-                skuId: data.data.skuId
+                skuId: data.data.skuId,
+                token: app.globalData.token
               }
               Api.searchForShopIdNew(_parms).then((res) => {
                 if (res.data.code == -1) {
@@ -310,7 +314,8 @@ Page({
     if (this.data.iszy) {
       let _parms = {
         orderCode: that.data._codees ? that.data._codees : that.data.code,
-        hxUserId: app.globalData.userInfo.userId
+        // hxUserId: app.globalData.userInfo.userId,
+        token: app.globalData.token
       }
       Api.useOrderInfo(_parms).then((res) => {
         if (res.data.code == 0) {
@@ -341,8 +346,9 @@ Page({
         couponAmount: that.data.newamount, //电子券面额	BigDecimal
         userId: _hxData.userId, //消费人id	Long
         userName: _hxData.userName, //消费人账号	String
-        cashierId: app.globalData.userInfo.userId, //收银id	Long
-        cashierName: app.globalData.userInfo.userName //收银账号	String
+        // cashierId: app.globalData.userInfo.userId, //收银id	Long
+        // cashierName: app.globalData.userInfo.userName, //收银账号	String
+        token: app.globalData.token
       }
       // console.log("_parms:", _parms);
       Api.hxadd(_parms).then((res) => {

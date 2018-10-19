@@ -307,14 +307,15 @@ Page({
       isadd: true
     });
     let _parms = {
-      userId: app.globalData.userInfo.userId,
+      // userId: app.globalData.userInfo.userId,
       dictProvinceId: this.data.areaIds[0],
       dictCityId: this.data.areaIds[1],
       dictAreaId: '1',
       detailAddress: this.data.detailAddress,
       chatName: this.data.chatName,
       mobile: this.data.mobile,
-      isDefault: this.data.isDefault
+      isDefault: this.data.isDefault,
+      token: app.globalData.token
     }
     if (this.data.areaIds[2]){
        _parms.dictCountyId = this.data.areaIds[2];

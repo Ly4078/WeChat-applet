@@ -71,12 +71,7 @@ Page({
     this.getorderCoupon();
   },
 
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-    
-  },
+
   //查询兑换记录列表
   getorderCoupon:function(){
     wx.showLoading({
@@ -86,7 +81,8 @@ Page({
       changerId: app.globalData.userInfo.userId,
       browSort:1,
       page:this.data.page,
-      rows:10
+      rows:10,
+      token: app.globalData.token
     };
     if (this.data.page == 1) {
       this.setData({

@@ -47,8 +47,8 @@ Page({
           url: that.data._build_url + 'img/upload',
           filePath: tempFilePaths[0],
           name: 'file',
-          formData: {
-            'userName': app.globalData.userInfo.userName
+          header: {
+            "Authorization": app.globalData.token
           },
           success: function (res) {
             let _data = JSON.parse(res.data)
@@ -70,8 +70,8 @@ Page({
           url: _this.data._build_url + 'img/uploadMp4',
           filePath: res.tempFilePath,
           name: 'file',
-          formData: {
-            'userName': app.globalData.userInfo.userName
+          header: {
+            "Authorization": app.globalData.token
           },
           success: (res) => {
             wx.showToast({

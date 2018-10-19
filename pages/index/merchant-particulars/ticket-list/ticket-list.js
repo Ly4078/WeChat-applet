@@ -60,9 +60,10 @@ Page({
     let deff = 60 * 60 * 24 * 90 * 1000;
     let _parms = {
       shopId: options.shopid,
-      userId: app.globalData.userInfo.userId,
+      // userId: app.globalData.userInfo.userId,
       isUsed: '0',  //0可用  1不可用
-      finalAmount: options.val
+      finalAmount: options.val,
+      token: app.globalData.token
     }
     Api.listShopUser(_parms).then((res) => {
       if (res.data.code == 200045) {

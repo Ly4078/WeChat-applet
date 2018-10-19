@@ -48,7 +48,7 @@
           <block wx:for="{{postList}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
             <view class='illegality' id="{{item.id}}" bindtap='TencentMap'>
               <image class='settingimg' src='{{item.images}}'></image>
-              <view class='single {{idx == 2 ? "active" : ""}}'>
+              <view class='single'>
                 <view class='detail'>
                   <view>
                     <text>{{item.name}}</text>

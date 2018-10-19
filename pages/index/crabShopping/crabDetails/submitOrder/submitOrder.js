@@ -178,7 +178,8 @@ Page({
   },
   marketDetail() {   //超市详细信息
     let _parms = {
-      id: this.data.salepointId
+      id: this.data.salepointId,
+      token: app.globalData.token
     };
     Api.superMarketDetail(_parms).then((res) => {
       if (res.data.code == 0) {
@@ -211,7 +212,8 @@ Page({
     let that = this,
       actaddress = {};
     let _parms = {
-      userId: app.globalData.userInfo.userId
+      // userId: app.globalData.userInfo.userId,
+      token: app.globalData.token
     }
     Api.AddressList(_parms).then((res) => {
       wx.hideLoading();
@@ -262,7 +264,8 @@ Page({
       dictProvinceId: this.data.actaddress.dictProvinceId,
       dictCityId: this.data.actaddress.dictCityId,
       weight: _weight,
-      tempateId: this.data.current.deliveryTemplateId
+      tempateId: this.data.current.deliveryTemplateId,
+      token: app.globalData.token
     }
     Api.calculateCost(_parms).then((res) => {
       if (res.data.code == 0) {
@@ -336,8 +339,9 @@ Page({
       issoid: true
     })
     let _parms = {
-      userId: app.globalData.userInfo.userId,
-      userName: app.globalData.userInfo.userName,
+      token: app.globalData.token,
+      // userId: app.globalData.userInfo.userId,
+      // userName: app.globalData.userInfo.userName,
       shopId: this.data.shopId,
       payType: 2,
       sendType: 2,    //到店自提
@@ -356,7 +360,7 @@ Page({
       data: JSON.stringify(_parms),
       method: 'POST',
       header: {
-        'content-type': 'application/json' // 默认值
+        "Authorization": app.globalData.token
       },
       success: function (res) {
         if (res.data.code == 0) {
@@ -364,7 +368,8 @@ Page({
             that.setData({
               orderId: res.data.data
             })
-            that.updataUser();
+            that.wxpayment();
+            // that.updataUser();
           }
         }
       }
@@ -387,8 +392,9 @@ Page({
       })
       if (this.data.actaddress.id || this.data.isvoucher || this.data.current.spuId==3) {
         let _parms = {
-          userId: app.globalData.userInfo.userId,
-          userName: app.globalData.userInfo.userName,
+          token: app.globalData.token,
+          // userId: app.globalData.userInfo.userId,
+          // userName: app.globalData.userInfo.userName,
           shopId: this.data.shopId,
           payType: 2,
           sendType: 1,    //非自提
@@ -410,7 +416,7 @@ Page({
           data: JSON.stringify(_parms),
           method: 'POST',
           header: {
-            'content-type': 'application/json' // 默认值
+            "Authorization": app.globalData.token
           },
           success: function (res) {
             if (res.data.code == 0) {
@@ -418,7 +424,8 @@ Page({
                 that.setData({
                   orderId: res.data.data
                 })
-                that.updataUser();
+                that.wxpayment();
+                // that.updataUser();
               }
             }
           }
@@ -461,12 +468,38 @@ Page({
   },
   //调起微信支付
   wxpayment: function() {
-    let _parms = {
+    let _parms = {},that= this,_value="";
+    _parms = {
         orderId: this.data.orderId,
-        openId: app.globalData.userInfo.openId
-      },
-      that = this;
+        openId: app.globalData.userInfo.openId,
+        token: app.globalData.token
+      };
+    for (var key in _parms) {
+      _value += key + "=" + _parms[key] + "&";
+    }
+    _value = _value.substring(0, _value.length - 1);
+   
+
+
+
+
     if (that.data.current.spuId == 3 && that.data.issku != 3) {
+      wx.request({
+        url: that.data._build_url + 'wxpay/shoppingMallForCoupon?' + _value,
+        header: {
+          "Authorization": app.globalData.token
+        },
+        method: 'POST',
+        success: function (res) {
+          if (res.data.code == 0) {
+            that.setData({
+              payObj: res.data.data
+            })
+            that.pay();
+          }
+        }
+      })
+      return
       Api.MallForCoupon(_parms).then((res) => {
         if (res.data.code == 0) {
           that.setData({
@@ -476,6 +509,22 @@ Page({
         }
       })
     } else if (that.data.issku == 3) {
+      wx.request({
+        url: that.data._build_url + 'wxpay/shoppingMallForMDZT?' + _value,
+        header: {
+          "Authorization": app.globalData.token
+        },
+        method: 'POST',
+        success: function (res) {
+          if (res.data.code == 0) {
+            that.setData({
+              payObj: res.data.data
+            })
+            that.pay();
+          }
+        }
+      })
+      return
       Api.superMarketPayment(_parms).then((res) => {
         if (res.data.code == 0) {
           that.setData({
@@ -485,6 +534,23 @@ Page({
         }
       })
     } else {
+
+      wx.request({
+        url: that.data._build_url + 'wxpay/doUnifiedOrderForShoppingMall?' + _value,
+        header: {
+          "Authorization": app.globalData.token
+        },
+        method: 'POST',
+        success: function (res) {
+          if (res.data.code == 0) {
+            that.setData({
+              payObj: res.data.data
+            })
+            that.pay();
+          }
+        }
+      })
+      return
       Api.shoppingMall(_parms).then((res) => {
         if (res.data.code == 0) {
           that.setData({

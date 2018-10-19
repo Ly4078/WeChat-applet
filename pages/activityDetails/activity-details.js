@@ -87,6 +87,7 @@ Page({
     let that = this;
     let _parms = {
       page: this.data.page,
+      token: app.globalData.token,
       row: 8
     }
     wx.showLoading({

@@ -262,11 +262,12 @@ Page({
     }
     let _parms = {
       shopId: this.data.shopId,
-      userId: app.globalData.userInfo.userId,
+      // userId: app.globalData.userInfo.userId,
       isUsed: '0',
       finalAmount: _deff,
       page: 1,
-      rows: 100
+      rows: 100,
+      token: app.globalData.token
     }
     Api.listShopUser(_parms).then((res) => {
       if (res.data.code == 200045) {
@@ -325,7 +326,7 @@ Page({
   },
   //确认支付
   surepay: function () {
-    let that = this;
+    let that = this, _value="";
     if (that.data.ispay) {
       if (!app.globalData.userInfo.mobile) {
         that.setData({
@@ -336,11 +337,12 @@ Page({
           that.payment(that.data.soid)
         } else {
           let _parms = {
-            userId: app.globalData.userInfo.userId,
-            userName: app.globalData.userInfo.userName,
+            // userId: app.globalData.userInfo.userId,
+            // userName: app.globalData.userInfo.userName,
             payType: '2',
             soAmount: that.data.payment,
-            shopId: that.data.shopId
+            shopId: that.data.shopId,
+            token: app.globalData.token
           }
           if (that.data.seleced.skuId) {
             _parms.skuId = that.data.seleced.skuId;
@@ -359,9 +361,20 @@ Page({
               return false
             }
           }
-          Api.createForShop(_parms).then((res) => {
-            if (res.data.code == 0) {
-              that.updetauserinfo(res.data.data)
+          for (var key in _parms) {
+            _value += key + "=" + _parms[key] + "&";
+          }
+          _value = _value.substring(0, _value.length - 1);
+          wx.request({
+            url: this.data._build_url + 'so/createForShop?' + _value,
+            header: {
+              "Authorization": app.globalData.token
+            },
+            method: 'POST',
+            success: function (res) {
+              if (res.data.code == 0) {
+                that.updetauserinfo(res.data.data)
+              }
             }
           })
         }
@@ -369,17 +382,32 @@ Page({
     }
   },
   updetauserinfo:function (val) {  //更新用户信息
-    let _parms = {
+    let _parms = {}, that = this, _value="";
+    _parms = {
       id: app.globalData.userInfo.userId,
-      openId: app.globalData.userInfo.openId
-    }, that = this;
-    Api.updateuser(_parms).then((res) => {
-      that.payment(val)
+      openId: app.globalData.userInfo.openId,
+      token: app.globalData.token
+    };
+    for (var key in _parms) {
+      _value += key + "=" + _parms[key] + "&";
+    }
+    _value = _value.substring(0, _value.length - 1);
+    wx.request({
+      url: this.data._build_url + 'user/update?' + _value,
+      header: {
+        "Authorization": app.globalData.token
+      },
+      method: 'POST',
+      success: function (res) {
+        if (res.data.code == 0) {
+          that.payment(val)
+        }
+      }
     })
   },
   payment: function (soid) {  //调起支付
-    let that = this;
-    let _parms = {
+    let _parms = {}, that = this, _value="";
+    _parms = {
       soId: soid,
       openId: app.globalData.userInfo.openId,
       shopId: this.data.shopId
@@ -387,32 +415,44 @@ Page({
     if (this.data.seleced.id) {
       _parms.couponId = this.data.seleced.id
     }
-    Api.doUnifiedOrderForShop(_parms).then((res) => {
-      if (res.data.code == 0) {
-        wx.requestPayment({ //调起微信支付
-          'timeStamp': res.data.data.timeStamp,
-          'nonceStr': res.data.data.nonceStr,
-          'package': res.data.data.package,
-          'signType': 'MD5',
-          'paySign': res.data.data.paySign,
-          success: function (res) {
-            that.setData({
-              soid: ''
-            })
-            that.messagepush();
-            wx.redirectTo({
-              url: '../../../personal-center/lelectronic-coupons/lectronic-coupons?pay=pay' + '&soid=' + soid + '&myCount=1'
-            })
-            that.messagepush();
-          },
-          fail: function (res) {
-            wx.showToast({
-              icon: 'none',
-              title: '支付取消',
-              duration: 1200
-            })
-          }
-        })
+
+    for (var key in _parms) {
+      _value += key + "=" + _parms[key] + "&";
+    }
+    _value = _value.substring(0, _value.length - 1);
+    wx.request({
+      url: this.data._build_url + 'wxpay/doUnifiedOrderForShop?' + _value,
+      header: {
+        "Authorization": app.globalData.token
+      },
+      method: 'POST',
+      success: function (res) {
+        if (res.data.code == 0) {
+          wx.requestPayment({ //调起微信支付
+            'timeStamp': res.data.data.timeStamp,
+            'nonceStr': res.data.data.nonceStr,
+            'package': res.data.data.package,
+            'signType': 'MD5',
+            'paySign': res.data.data.paySign,
+            success: function (res) {
+              that.setData({
+                soid: ''
+              })
+              that.messagepush();
+              wx.redirectTo({
+                url: '../../../personal-center/lelectronic-coupons/lectronic-coupons?pay=pay' + '&soid=' + soid + '&myCount=1'
+              })
+              that.messagepush();
+            },
+            fail: function (res) {
+              wx.showToast({
+                icon: 'none',
+                title: '支付取消',
+                duration: 1200
+              })
+            }
+          })
+        }
       }
     })
   },

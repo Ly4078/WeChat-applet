@@ -7,7 +7,6 @@ var app = getApp();
 var village_LBS = function (that) {
   wx.getLocation({
     success: function (res) {
-      console.log('vill_res:', res)
       let latitude = res.latitude,
         longitude = res.longitude;
       app.globalData.userInfo.lat = latitude;
@@ -54,30 +53,91 @@ Page({
       id: options.id,
       _city: options.city ? options.city:''
     });
-
   },
   onShow() {
-    this.setData({
-      isBarg: false,
-      isbargain: false,
-      flag: true,
-      hotDishList: [],
-      page: 1
-    });
     if (!app.globalData.userInfo.city) {
       app.globalData.userInfo.city = '十堰市';
     }
-    if (app.globalData.userInfo.userId || app.globalData.userInfo.userId != null) {
-      this.getmoreData();
-      this.isbargain(false);
-      if (!app.globalData.userInfo.mobile) { //是新用户，去注册页面
+    if (app.globalData.userInfo.userId) {
+      if (app.globalData.userInfo.mobile) {
+        if (app.globalData.token) {
+          this.getmoreData();
+          this.isbargain(false);
+        } else {
+          this.authlogin();
+        }
+      } else {
         this.setData({
           isnew: true
         });
+        this.authlogin();
+        // wx.navigateTo({
+        //   url: '/pages/personal-center/registered/registered'
+        // })
       }
     } else {
       this.findByCode();
     }
+  },
+  findByCode: function () { //通过code查询用户信息
+    wx.showLoading({
+      title: '数据加载中....',
+    });
+    let that = this;
+    wx.login({
+      success: res => {
+        Api.findByCode({code: res.code}).then((res) => {
+          if (res.data.code == 0) {
+            let data = res.data.data;
+            app.globalData.userInfo.userId = data.id;
+            for (let key in data) {
+              for (let ind in app.globalData.userInfo) {
+                if (key == ind) {
+                  app.globalData.userInfo[ind] = data[key]
+                }
+              }
+            }
+            if (!data.mobile) { //是新用户，去注册页面
+              that.setData({
+                isnew: true
+              });
+              // wx.navigateTo({
+              //   url: '/pages/personal-center/registered/registered'
+              // })
+            }
+            let userInfo = app.globalData.userInfo;
+            if (userInfo.lat || userInfo.lng || userInfo.city) {
+              that.authlogin();//获取token
+            } else{
+              that.getlocation(); //获取位置信息
+            }
+          }
+        })
+      }
+    })
+  },
+  authlogin: function () { //获取token
+    let that = this;
+    wx.request({
+      url: this.data._build_url + 'auth/login?userName=' + app.globalData.userInfo.userName,
+      method: "POST",
+      data: {},
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        if (res.data.code == 0) {
+          let _token = 'Bearer ' + res.data.data;
+          app.globalData.token = _token;
+          that.isbargain(false);
+          that.getmoreData();
+          if (app.globalData.userInfo.mobile) {
+            // that.isbargain(false);
+            // that.getmoreData();
+          } 
+        }
+      }
+    })
   },
   getmoreData() { //查询 更多数据 
     this.dishDetail();
@@ -91,10 +151,10 @@ Page({
         });
         this.dishList();
         this.hotDishList();
+      }else{
+        this.getlocation();
       }
-    } else {
-      // this.getlocation();
-    }
+    } 
   },
   chilkDish(e) { //点击某个推荐菜
     let id = e.currentTarget.id,
@@ -126,7 +186,8 @@ Page({
       _sellPrice = e.currentTarget.dataset.sellprice;
     let _parms = {
       userId: app.globalData.userInfo.userId,
-      skuId: _refId
+      skuId: _refId,
+      token: app.globalData.token
     };
     Api.vegetables(_parms).then((res) => {
       if (res.data.data.length > 0) {
@@ -159,43 +220,48 @@ Page({
   },
   //查询单个砍价菜
   dishDetail() {
-    if (app.globalData.userInfo.userId == null || !app.globalData.userInfo.userId) {
-      this.findByCode();
-    } else {
-      let _parms = {
-        Id: this.data.id,
-        zanUserId: app.globalData.userInfo.userId,
-        shopId: this.data.shopId
-      };
-      Api.discountDetail(_parms).then((res) => {
-        if (res.data.code == 0 && res.data.data) {
-          let data = res.data.data;
-          let skuInfo = '';
-          if (data.skuInfo && data.skuInfo != 'null' && data.skuInfo != 'undefined') {
-            skuInfo = data.skuInfo.split('Œ');
-          }
-          this.setData({
-            picUrl: data.picUrl,
-            skuName: data.skuName,
-            skuInfo: skuInfo,
-            stockNum: data.stockNum,
-            agioPrice: data.agioPrice,
-            sellPrice: data.sellPrice,
-            sellNum: data.sellNum
-          });
-        } else {
-
+    wx.showLoading({
+      title: '数据加载中....',
+    });
+    let _parms = {
+      Id: this.data.id,
+      zanUserId: app.globalData.userInfo.userId,
+      shopId: this.data.shopId,
+      token: app.globalData.token
+    };
+    Api.discountDetail(_parms).then((res) => {
+      wx.hideLoading();
+      if (res.data.code == 0 && res.data.data) {
+        let data = res.data.data;
+        let skuInfo = '';
+        if (data.skuInfo && data.skuInfo != 'null' && data.skuInfo != 'undefined') {
+          skuInfo = data.skuInfo.split('Œ');
         }
-      })
-    }
-
+        this.setData({
+          picUrl: data.picUrl,
+          skuName: data.skuName,
+          skuInfo: skuInfo,
+          stockNum: data.stockNum,
+          agioPrice: data.agioPrice,
+          sellPrice: data.sellPrice,
+          sellNum: data.sellNum
+        });
+      } 
+    })
   },
   //查询商家信息
   shopDetail() {
+    wx.showLoading({
+      title: '数据加载中....',
+    });
     let _this = this;
     wx.request({
       url: _this.data._build_url + 'shop/get/' + _this.data.shopId,
+      header: {
+        "Authorization": app.globalData.token
+      },
       success: function(res) {
+        wx.hideLoading();
         if (res.data.code == 0 && res.data.data) {
           let data = res.data.data;
           _this.setData({
@@ -203,9 +269,7 @@ Page({
             address: data.address,
             popNum: data.popNum
           });
-        } else {
-
-        }
+        } 
       }
     });
 
@@ -223,108 +287,112 @@ Page({
       title: '数据加载中...',
     });
     let that = this;
-    if (!app.globalData.userInfo.lat && !app.globalData.userInfo.lng){
-      that.getlocation();
-      return;
-    }
-    let _parms = {
-      shopId: this.data.shopId,
-      zanUserId: app.globalData.userInfo.userId,
-      browSort: 0,
-      locationX: app.globalData.userInfo.lng,
-      locationY: app.globalData.userInfo.lat,
-      isDeleted: 0,
-      page: 1,
-      rows: 10
-    };
-    Api.partakerList(_parms).then((res) => {
-      wx.hideLoading();
-      if(res.data.code == 0){
-        if (res.data.data.list && res.data.data.list.length>0) {
-          let list = res.data.data.list,
-            newList = [], preDishList = [];
-          for (let i = 0; i < list.length; i++) {
-            if (list[i].id != this.data.id) {
-              newList.push(list[i]);
+    if (app.globalData.userInfo.lat && app.globalData.userInfo.lng){
+      let _parms = {
+        shopId: this.data.shopId,
+        zanUserId: app.globalData.userInfo.userId,
+        browSort: 0,
+        locationX: app.globalData.userInfo.lng,
+        locationY: app.globalData.userInfo.lat,
+        isDeleted: 0,
+        page: 1,
+        rows: 10,
+        token: app.globalData.token
+      };
+      Api.partakerList(_parms).then((res) => {
+        wx.hideLoading();
+        if (res.data.code == 0) {
+          if (res.data.data.list && res.data.data.list.length > 0) {
+            let list = res.data.data.list,
+              newList = [], preDishList = [];
+            for (let i = 0; i < list.length; i++) {
+              if (list[i].id != this.data.id) {
+                newList.push(list[i]);
+              }
             }
+            preDishList = newList.length > 5 ? newList.slice(0, 4) : newList;
+            this.setData({
+              dishList: newList,
+              preDishList: preDishList
+            });
           }
-          preDishList = newList.length > 5 ? newList.slice(0, 4) : newList;
-          this.setData({
-            dishList: newList,
-            preDishList: preDishList
-          });
         }
-      }
-      
-    })
+
+      })
+    } else{
+      that.getlocation();
+    }
+    
   },
   //热门推荐
   hotDishList() {
+    let that = this, _parms={};
     if(this.data.page == 1) {
       this.setData({
         flag: true,
         hotDishList: []
       });
     }
-    if (!app.globalData.userInfo.lat && !app.globalData.userInfo.lng) {
-      that.getlocation();
-      return;
-    }
-    //browSort 0附近 1销量 2价格
-    let _parms = {
-      zanUserId: app.globalData.userInfo.userId,
-      browSort: 1,
-      locationX: app.globalData.userInfo.lng,
-      locationY: app.globalData.userInfo.lat,
-      city: this.data._city ? this.data._city:app.globalData.userInfo.city,
-      isDeleted: 0,
-      page: this.data.page,
-      rows: 6
-    };
-    wx.showLoading({
-      title: '数据加载中...',
-    });
-    Api.partakerList(_parms).then((res) => {
-      wx.hideLoading();
-      if (res.data.code == 0){
-        if (res.data.data.list && res.data.data.list.length > 0) {
-          let list = res.data.data.list,
-            hotDishList = this.data.hotDishList;
-          if (list && list.length > 0) {
-            for (let i = 0; i < list.length; i++) {
-              for (let j = 0; j < hotDishList.length; j++) {
-                if (hotDishList[j].id == list[i].id) {
-                  console.log(hotDishList[j].id)
-                  hotDishList.splice(j, 1)
+    if (app.globalData.userInfo.lat && app.globalData.userInfo.lng) {
+      //browSort 0附近 1销量 2价格
+      _parms = {
+        zanUserId: app.globalData.userInfo.userId,
+        browSort: 1,
+        locationX: app.globalData.userInfo.lng,
+        locationY: app.globalData.userInfo.lat,
+        city: this.data._city ? this.data._city : app.globalData.userInfo.city,
+        isDeleted: 0,
+        page: this.data.page,
+        rows: 6,
+        token: app.globalData.token
+      };
+      wx.showLoading({
+        title: '数据加载中...',
+      });
+      Api.partakerList(_parms).then((res) => {
+        wx.hideLoading();
+        if (res.data.code == 0) {
+          wx.hideLoading();
+          if (res.data.data.list && res.data.data.list.length > 0) {
+            let list = res.data.data.list,
+              hotDishList = this.data.hotDishList;
+            if (list && list.length > 0) {
+              for (let i = 0; i < list.length; i++) {
+                for (let j = 0; j < hotDishList.length; j++) {
+                  if (hotDishList[j].id == list[i].id) {
+                  //   console.log(hotDishList[j].id)
+                    hotDishList.splice(j, 1)
+                  }
                 }
               }
-            }
 
-            for (let i = 0; i < list.length; i++) {
-              if (list[i].id != this.data.id) {
-                list[i].distance = utils.transformLength(list[i].distance);
-                hotDishList.push(list[i]);
+              for (let i = 0; i < list.length; i++) {
+                if (list[i].id != this.data.id) {
+                  list[i].distance = utils.transformLength(list[i].distance);
+                  hotDishList.push(list[i]);
+                }
+              }
+
+              this.setData({
+                hotDishList: hotDishList
+              });
+              if (list.length < 6) {
+                this.setData({
+                  flag: false
+                });
               }
             }
 
+          } else {
             this.setData({
-              hotDishList: hotDishList
+              flag: false
             });
-            if (list.length < 6) {
-              this.setData({
-                flag: false
-              });
-            }
           }
-
-        } else {
-          this.setData({
-            flag: false
-          });
         }
-      }
-      
-    })
+      })
+    }else{
+      that.getlocation();
+    }
   },
   //点击跳转至砍价列表
   toBargainList() {
@@ -343,8 +411,9 @@ Page({
   //是否发起过砍价
   isbargain(isHref) {
     let _parms = {
-      userId: app.globalData.userInfo.userId,
-      skuId: this.data.id
+      // userId: app.globalData.userInfo.userId,
+      skuId: this.data.id,
+      token: app.globalData.token
     };
     Api.vegetables(_parms).then((res) => {
       if (res.data.code == 0) {
@@ -365,12 +434,12 @@ Page({
       this.setData({
         issnap: true
       })
-      return false
+    }else{
+      let sellPrice = this.data.sellPrice;
+      wx.navigateTo({
+        url: '../../order-for-goods/order-for-goods?shopId=' + this.data.shopId + '&skuName=' + sellPrice + '元砍价券&sell=' + sellPrice + '&skutype=4&dishSkuId=' + this.data.id + '&dishSkuName=' + this.data.skuName + '&bargainType=1'
+      })
     }
-    let sellPrice = this.data.sellPrice;
-    wx.navigateTo({
-      url: '../../order-for-goods/order-for-goods?shopId=' + this.data.shopId + '&skuName=' + sellPrice + '元砍价券&sell=' + sellPrice + '&skutype=4&dishSkuId=' + this.data.id + '&dishSkuName=' + this.data.skuName + '&bargainType=1'
-    })
   },
   //查看全部砍价菜
   changeBar() {
@@ -384,26 +453,28 @@ Page({
       this.setData({
         issnap: true
       })
-      return false
-    }
-    let _parms = {
-      userId: app.globalData.userInfo.userId,
-      skuId: this.data.id
-    };
-    Api.vegetables(_parms).then((res) => {
-      if (res.data.code == 0) {
-        if (res.data.data.length > 0) {
-          this.setData({
-            isbargain: true
-          });
-          this.toBargainList();
-        } else {
-          wx.navigateTo({
-            url: '../AprogressBar/AprogressBar?refId=' + this.data.id + '&shopId=' + this.data.shopId + '&skuMoneyMin=' + this.data.agioPrice + '&skuMoneyOut=' + this.data.sellPrice
-          })
+    }else{
+      let _parms = {
+        userId: app.globalData.userInfo.userId,
+        skuId: this.data.id,
+        token: app.globalData.token
+      };
+      Api.vegetables(_parms).then((res) => {
+        if (res.data.code == 0) {
+          if (res.data.data.length > 0) {
+            this.setData({
+              isbargain: true
+            });
+            this.toBargainList();
+          } else {
+            wx.navigateTo({
+              url: '../AprogressBar/AprogressBar?refId=' + this.data.id + '&shopId=' + this.data.shopId + '&skuMoneyMin=' + this.data.agioPrice + '&skuMoneyOut=' + this.data.sellPrice
+            })
+          }
         }
-      }
-    });
+      });
+    }
+    
   },
   // 左上角返回首页
   returnHomeArrive: function() {
@@ -431,45 +502,6 @@ Page({
     });
     this.hotDishList();
     this.dishList();
-  },
-  findByCode: function() { //通过code查询进入的用户信息，判断是否是新用户
-    let that = this;
-    wx.login({
-      success: res => {
-        Api.findByCode({
-          code: res.code
-        }).then((res) => {
-          if (res.data.code == 0) {
-            let data = res.data.data;
-            app.globalData.userInfo.userId = data.id;
-            app.globalData.userInfo.lat = data.locationX;
-            app.globalData.userInfo.lng = data.locationY;
-            for (let key in data) {
-              for (let ind in app.globalData.userInfo) {
-                if (key == ind) {
-                  app.globalData.userInfo[ind] = data[key]
-                }
-              }
-            }
-
-            if (!data.mobile) { //是新用户，去注册页面
-              that.setData({
-                isnew: true
-              });
-            }
-            let userInfo = app.globalData.userInfo;
-            if (userInfo.userId && userInfo.lat && userInfo.lng && userInfo.city) {
-              // that.getmoreData();
-              that.isbargain(false);
-            } else {
-              that.getlocation();
-            }
-          } else {
-            that.findByCode();
-          }
-        })
-      }
-    })
   },
   getlocation: function() { //获取用户位置
     let that = this,
@@ -499,17 +531,6 @@ Page({
                       success: (res) => {
                         if (res.authSetting['scope.userLocation']) {
                           village_LBS(that);
-
-                          // wx.getLocation({
-                          //   type: 'wgs84',
-                          //   success: function(res) {
-                          //     let latitude = res.latitude,
-                          //       longitude = res.longitude;
-                          //     app.globalData.userInfo.lat = latitude;
-                          //     app.globalData.userInfo.lng = longitude;
-                          //     that.requestCityName(latitude, longitude);
-                          //   }
-                          // })
                         }else{
                           let latitude ='',longitude = '';
                           that.requestCityName(latitude, longitude);
@@ -536,7 +557,6 @@ Page({
         that.getmoreData();
         that.isbargain(false);
       } else {
-        return
         wx.request({
           url: 'https://apis.map.qq.com/ws/geocoder/v1/?location=' + lat + "," + lng + "&key=4YFBZ-K7JH6-OYOS4-EIJ27-K473E-EUBV7",
           header: {
