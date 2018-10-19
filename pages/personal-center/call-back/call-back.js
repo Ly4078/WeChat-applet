@@ -246,6 +246,7 @@ Page({
               })
             }
             if (_data.userName) {
+              _data.userName1 = _data.userName;
               _data.userName = _data.userName.substr(0, 3) + "****" + _data.userName.substr(7);
             }
             if (_data.promotionRules && _data.promotionRules.length > 0) {
@@ -317,6 +318,8 @@ Page({
         // hxUserId: app.globalData.userInfo.userId,
         token: app.globalData.token
       }
+
+      
       Api.useOrderInfo(_parms).then((res) => {
         if (res.data.code == 0) {
           wx.showModal({
@@ -335,7 +338,8 @@ Page({
       })
     } else {
       _hxData.shopAmount = this.data.amount;
-      let _parms = {
+      let _values = "", _parms={},that=this;
+      _parms = {
         soId: _hxData.soId, //订单id	Long
         shopId: app.globalData.userInfo.shopId ? app.globalData.userInfo.shopId : "", //商家id	Long
         shopName: app.globalData.userInfo.shopName ? app.globalData.userInfo.shopName : "", //店铺名称	Date
@@ -345,12 +349,56 @@ Page({
         skuId: _hxData.skuId, //商品id	Long
         couponAmount: that.data.newamount, //电子券面额	BigDecimal
         userId: _hxData.userId, //消费人id	Long
-        userName: _hxData.userName, //消费人账号	String
+        userName: _hxData.userName1, //消费人账号	String
         // cashierId: app.globalData.userInfo.userId, //收银id	Long
         // cashierName: app.globalData.userInfo.userName, //收银账号	String
-        token: app.globalData.token
       }
       // console.log("_parms:", _parms);
+
+      for (var key in _parms) {
+        _values += key + "=" + _parms[key] + "&";
+      }
+      _values = _values.substring(0, _values.length - 1);
+      wx.request({
+        url: that.data._build_url + 'hx/add?' + _values,
+        header: {
+          "Authorization": app.globalData.token
+        },
+        method: 'POST',
+        success: function (res) {
+          if (res.data.code == 0) {
+            wx.showModal({
+              title: '',
+              showCancel: false,
+              content: '核销成功',
+              success: function (res) {
+                if (res.confirm) {
+                  wx.switchTab({
+                    url: '../personal-center'
+                  })
+                }
+              }
+            })
+          } else {
+            wx.showModal({
+              title: '提示',
+              content: res.data.message,
+              success: function (res) {
+                if (res.confirm) {
+                  wx.switchTab({
+                    url: '../personal-center'
+                  })
+                } else if (res.cancel) {
+                  wx.switchTab({
+                    url: '../personal-center'
+                  })
+                }
+              }
+            })
+          }
+        }
+      })
+      return;
       Api.hxadd(_parms).then((res) => {
         if (res.data.code == 0) {
           wx.showModal({

@@ -221,12 +221,12 @@ Page({
     this.updatauser(e.detail.userInfo)
   },
   updatauser: function(data) { //更新用户信息
-    let that = this;
-    let _parms = {
+    let that = this, _values = "", _parms={};
+    _parms = {
       id: app.globalData.userInfo.userId,
       openId: app.globalData.userInfo.openId,
       token: app.globalData.token
-    }
+    };
     if (data.avatarUrl) {
       _parms.iconUrl = data.avatarUrl
     }
@@ -236,6 +236,25 @@ Page({
     if (data.gender) {
       _parms.sex = data.gender
     }
+    for (var key in _parms) {
+      _values += key + "=" + _parms[key] + "&";
+    }
+    _values = _values.substring(0, _values.length - 1);
+    wx.request({
+      url: that.data._build_url + 'user/update?' + _values,
+      header: {
+        "Authorization": app.globalData.token
+      },
+      method: 'POST',
+      success: function (res) {
+        if (res.data.code == 0) {
+          app.globalData.userInfo.nickName = data.nickName;
+          app.globalData.userInfo.iconUrl = data.avatarUrl;
+          that.getuserInfo();
+        }
+      }
+    })
+    return;
     Api.updateuser(_parms).then((res) => {
       if (res.data.code == 0) {
         app.globalData.userInfo.nickName = data.nickName;

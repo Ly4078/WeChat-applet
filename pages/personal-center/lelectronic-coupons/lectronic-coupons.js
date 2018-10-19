@@ -153,6 +153,9 @@ Page({
     }
     wx.request({
       url: this.data._build_url + 'cp/get/' + this.data.couponId,
+      header: {
+        "Authorization": app.globalData.token
+      },
       success: function (res) {
         let data = res.data;
         wx.hideLoading();
@@ -203,6 +206,7 @@ Page({
       let _parms = {
         userId: app.globalData.userInfo.userId,
         id: _id,
+        token: app.globalData.token
       };
       Api.getGold(_parms).then((res) => {
         if (res.data.code == 0) {
@@ -229,7 +233,8 @@ Page({
     let that = this;
     let _parms = {
       userId: app.globalData.userInfo.userId,
-      id: that.data.id
+      id: that.data.id,
+      token: app.globalData.token
     }
     Api.redpacket(_parms).then((res) => {
       if (res.data.code == 0) {
@@ -247,9 +252,7 @@ Page({
         "Authorization": app.globalData.token
       },
       success: function (res) {
-        console.log('res:',res)
         let _skuNum = res.data.data.coupons;
-        console.log("1111")
         for (let i = 0; i < _skuNum.length; i++) {
           let ncard = ''
           for (var n = 0; n < _skuNum[i].couponCode.length; n = n + 4) {
@@ -362,6 +365,9 @@ Page({
     wx.request({
       url: this.data._build_url + 'shop/get/' + val,
       header: {
+        "Authorization": app.globalData.token
+      },
+      header: {
         'content-type': 'application/json;Authorization'
       },
       success: function (res) {
@@ -436,12 +442,12 @@ Page({
     let _parms = {
       userId: app.globalData.userInfo.userId,
       id:soid,
-      soStatus:'2'
+      soStatus:'2',
+      token: app.globalData.token
     };
 
    
     Api.myorderForShop(_parms).then((res) => {
-   
       if (res.data.code == 0 || res.data.code == 200){
         let dip = "食典", _obj = res.data.data.list[0];
       
@@ -453,7 +459,6 @@ Page({
           ticketInfo:_obj,
           isticket: false
         })
-
       }
     })
     // let dish = '食典';
