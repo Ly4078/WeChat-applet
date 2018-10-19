@@ -8,7 +8,6 @@ var app = getApp();
 var village_LBS = function(that) {
   wx.getLocation({
     success: function(res) {
-      // console.log('vill_res:', res)
       let latitude = res.latitude,
         longitude = res.longitude;
       app.globalData.userInfo.lat = latitude;
@@ -97,9 +96,7 @@ Page({
     // if (this.data._city){
     //   app.globalData.userInfo.city = this.data._city;
     // }
-    // console.log("userInfo_show_apr:", app.globalData.userInfo);
     if (app.globalData.userInfo.userId) {
-      // console.log("show_userid:", app.globalData.userInfo.userId);
       if (!app.globalData.userInfo.mobile) { //是新用户，去注册页面
         wx.navigateTo({
           url: '../../../../pages/personal-center/securities-sdb/securities-sdb?back=1'
@@ -192,7 +189,6 @@ Page({
             that.getlocation();
           }
         }
-        // console.log(app.globalData)
       }
     })
   },
@@ -248,7 +244,6 @@ Page({
     } else {
       app.globalData.userInfo.lat = lat;
       app.globalData.userInfo.lng = lng;
-      // console.log('requestCityName:', lat, lng);
       if (app.globalData.userInfo.city || this.data._city) {
         that.dishDetail();
         that.hotDishList();
@@ -266,7 +261,6 @@ Page({
               };
               let _city = res.data.result.address_component.city;
               app.globalData.userInfo.city = _city;
-              // console.log('_city:', _city);
               that.dishDetail();
               that.hotDishList();
               that.bargain();
@@ -306,8 +300,6 @@ Page({
       _value += key + "=" + _parms[key] + "&";
     }
     _value = _value.substring(0, _value.length - 1);
-    console.log("_value:", _value)
-    console.log("gain:", _parms)
     wx.request({ //isflag
       url: this.data._build_url + 'gold/initiator?' + _value,
       header: {
@@ -315,7 +307,6 @@ Page({
       },
       method: 'POST',
       success: function(res) {
-        console.log("goldres:", res)
         if (res.data.code == 0) {
           wx.showToast({
             title: '发起成功',
@@ -343,7 +334,6 @@ Page({
       },
       _this = this;
     Api.bargainDetail(_parms).then((res) => {
-      console.log('res:', res)
       if (res.data.code == 0) {
         let code = res.data.code,
           data = res.data.data,
@@ -360,7 +350,6 @@ Page({
           if (_move == 500) {
             _move = +_move + 14;
           }
-          // console.log(_move)
           this.setData({
             move: _move - 14
           })
@@ -418,7 +407,6 @@ Page({
                 countDown = '';
               this.setData({
                 timer: setInterval(function() {
-                  console.log('倒计时');
                   if (minus == 0) {
                     clearInterval(_this.data.timer);
                     minus = 0;
@@ -537,7 +525,6 @@ Page({
     let _this = this,
       _value="",
       _parms = {};
-    console.log("userinfo:", app.globalData.userInfo)
     if (!app.globalData.userInfo.mobile) {
       wx.navigateTo({
         url: '../../../../pages/personal-center/securities-sdb/securities-sdb?back=1'
@@ -553,7 +540,6 @@ Page({
         groupId: this.data.groupId,
         token: app.globalData.token
       };
-      console.log("_parms:", _parms)
       Api.isHelpfriend(_parms).then((res) => {
         if (res.data.code == 0) {
           _this.setData({
@@ -592,7 +578,6 @@ Page({
    
   },
   tohelpfriend:function(){
-    console.log('tohelpfriend')
     let _parms = {}, that = this, _value="";
     _parms = {
       refId: this.data.refId,
@@ -621,7 +606,6 @@ Page({
             audioSrc: 'https://xqmp4-1256079679.file.myqcloud.com/test_kan.mp3'
           });
           setTimeout(function () {
-            console.log("dfafdsf")
             const innerAudioContext = wx.createInnerAudioContext();
             innerAudioContext.autoplay = true
             innerAudioContext.src = that.data.audioSrc;
@@ -674,7 +658,6 @@ Page({
   hotDishList() {
     //browSort 0附近 1销量 2价格
     let that = this, _parms={};
-    // console.log('userinfo:', app.globalData.userInfo);
     if (!app.globalData.userInfo.lng && !app.globalData.userInfo.lat) {
       that.getlocation();
     }else{
@@ -768,11 +751,11 @@ Page({
       desc: '享7美食',
       path: '/pages/index/bargainirg-store/AprogressBar/AprogressBar?refId=' + this.data.refId + '&shopId=' + this.data.shopId + '&skuMoneyOut=' + this.data.skuMoneyOut + '&skuMoneyMin=' + this.data.skuMoneyMin + '&initiator=' + initiator + '&groupId=' + this.data.groupId + '&lat=' + userInfo.lat + '&lng=' + userInfo.lng + '&city=' + userInfo.city,
       success: function(res) {
-        console.log('success')
+        // console.log('success')
       },
       fail: function(res) {
         // 分享失败
-        console.log('fail')
+        // console.log('fail')
       }
     }
   }

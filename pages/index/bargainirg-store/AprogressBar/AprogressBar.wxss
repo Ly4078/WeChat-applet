@@ -462,12 +462,31 @@ page {
 }
 
 .invitation-share-f {
-  margin-bottom: 20rpx;
+  /* margin-bottom: 20rpx; */
   background: #ffb20e;
   box-shadow: 0px 4px 0px 0px #db9603;
 }
 
 .invitation-share-s {
+  background: rgba(255, 85, 0, 1);
+  box-shadow: 0px 4px 0px 0px #d24702;
+}
+
+.otherBargain {
+  padding-top: 20rpx;
+  display: flex;
+  justify-content:center;
+}
+
+.otherBargain button {
+  width: 70%;
+  height: 70rpx;
+  border-radius: 35rpx;
+  font-size: 28rpx;
+  font-family: PingFangSC-Medium;
+  color: rgba(255, 255, 255, 1);
+  letter-spacing: 2rpx;
+  font-weight: 600;
   background: rgba(255, 85, 0, 1);
   box-shadow: 0px 4px 0px 0px #d24702;
 }

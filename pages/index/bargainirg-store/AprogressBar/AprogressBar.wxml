@@ -103,7 +103,12 @@
       <!-- 已经帮朋友砍完价 -->
       <view wx:if="{{!isMine && otherStatus == 2}}" class='invitation-share'>
         <button class='invitation-share-f'>已帮好友砍价，获得<text>{{getGoldNum}}</text>个金币</button>
-        <button class='invitation-share-s' id="{{dishData.id}}" data-shipid="{{dishData.shopId}}" catchtap='chilkDish'>发起砍价</button>
+        <!-- <button class='invitation-share-s' id="{{dishData.id}}" data-shipid="{{dishData.shopId}}" catchtap='chilkDish'>发起砍价</button> -->
+      </view>
+
+      <!-- 发起砍价按钮 -->
+      <view wx:if="{{!isMine && otherStatus != 1}}" class="otherBargain">
+        <button id="{{dishData.id}}" data-shipid="{{dishData.shopId}}" catchtap='chilkDish'>发起砍价</button>
       </view>
 
       <!--倒计时  -->

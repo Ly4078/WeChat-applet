@@ -360,7 +360,6 @@ Page({
               for (let i = 0; i < list.length; i++) {
                 for (let j = 0; j < hotDishList.length; j++) {
                   if (hotDishList[j].id == list[i].id) {
-                  //   console.log(hotDishList[j].id)
                     hotDishList.splice(j, 1)
                   }
                 }
