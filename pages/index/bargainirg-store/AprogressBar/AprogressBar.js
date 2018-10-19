@@ -220,7 +220,8 @@ Page({
                     wx.openSetting({ //打开授权设置界面
                       success: (res) => {
                         if (res.authSetting['scope.userLocation']) {
-                          village_LBS(that);
+                          // village_LBS(that);
+                          that.getlocation();
                         } else {
                           let latitude = '30.51597',
                             longitude = '114.34035';

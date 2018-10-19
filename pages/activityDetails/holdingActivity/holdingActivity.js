@@ -364,32 +364,31 @@ Page({
         })
       }
     })
-
-
   },
   //获取城市
   requestCityName(lat, lng) { //获取当前城市
     let that = this;
     if (!lat && !lng) {
       this.TencentMap();
-      return;
-    }
-    wx.request({
-      url: 'https://apis.map.qq.com/ws/geocoder/v1/?location=' + lat + "," + lng + "&key=4YFBZ-K7JH6-OYOS4-EIJ27-K473E-EUBV7",
-      header: {
-        'content-type': 'application/json' // 默认值
-      },
-      success: (res) => {
-        if (res.data.status == 0) {
-          let _city = res.data.result.address_component.city;
-          app.globalData.userInfo.city = _city;
-          if (this.data.isMpa) {
-            this.openmap();
-          }
+    }else{
+      wx.request({
+        url: 'https://apis.map.qq.com/ws/geocoder/v1/?location=' + lat + "," + lng + "&key=4YFBZ-K7JH6-OYOS4-EIJ27-K473E-EUBV7",
+        header: {
+          'content-type': 'application/json' // 默认值
+        },
+        success: (res) => {
+          if (res.data.status == 0) {
+            let _city = res.data.result.address_component.city;
+            app.globalData.userInfo.city = _city;
+            if (this.data.isMpa) {
+              this.openmap();
+            }
 
+          }
         }
-      }
-    })
+      })
+    }
+    
   },
   //打开地图
   openmap: function() {

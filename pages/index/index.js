@@ -7,8 +7,10 @@ var utils = require('../../utils/util.js')
 var app = getApp();
 
 var village_LBS = function (that) {
+  console.log('village_LBS')
   wx.getLocation({
     success: function (res) {
+      console.log('village_LBS_res:',res)
       let latitude = res.latitude;
       let longitude = res.longitude;
       that.requestCityName(latitude, longitude);
@@ -543,7 +545,8 @@ Page({
                     wx.openSetting({ //打开授权设置界面
                       success: (res) => {
                         if (res.authSetting['scope.userLocation']) {  //打开位置授权                
-                          village_LBS(that);
+                          that.getUserlocation();
+                          // village_LBS(that);
                       
                         }else {
                            let lat = '30.51597',

@@ -6,9 +6,9 @@ var utils = require('../../../utils/util.js')
 var app = getApp();
 
 
-var village_LBS = function (that) {
+var village_LBS = function(that) {
   wx.getLocation({
-    success: function (res) {
+    success: function(res) {
       console.log('vill_res:', res)
       let latitude = res.latitude,
         longitude = res.longitude;
@@ -66,7 +66,7 @@ Page({
     interval: 50, // 时间间隔
     zanFlag: true //点赞节流阀
   },
-  onLoad: function (options) {
+  onLoad: function(options) {
     console.log('options:', options)
     this.setData({
       shopid: options.shopid,
@@ -97,14 +97,14 @@ Page({
     // 分享功能
     wx.showShareMenu({
       withShareTicket: true,
-      success: function (res) { },
-      fail: function (res) {
+      success: function(res) {},
+      fail: function(res) {
         console.log(res)
       }
     });
     this.merchantInit();
   },
-  onShow: function () {
+  onShow: function() {
     let that = this;
     // this.merchantInit();
     this.commentList()
@@ -121,7 +121,7 @@ Page({
     vm.antifriction(); // 水平一行字滚动完了再按照原来的方向滚动
     vm.bearing(); // 第一个字消失后立即从右边出现
   },
-  merchantInit: function () { //初始化
+  merchantInit: function() { //初始化
     let that = this;
     if (app.globalData.userInfo.userId) {
       if (app.globalData.userInfo.mobile) {
@@ -146,7 +146,7 @@ Page({
       this.findByCode();
     }
   },
-  findByCode: function () { //通过code查询用户信息
+  findByCode: function() { //通过code查询用户信息
     let that = this;
     wx.login({
       success: res => {
@@ -166,13 +166,13 @@ Page({
             that.setData({
               voteUserId: app.globalData.userInfo.userId
             });
-            that.authlogin();//获取token
+            that.authlogin(); //获取token
             return;
             if (!data.mobile) {
               wx.navigateTo({
                 url: '/pages/personal-center/registered/registered'
               })
-            } else if (!res.data.data.unionId) {//用户unionId 如未获取到，则调用againgetinfo事件
+            } else if (!res.data.data.unionId) { //用户unionId 如未获取到，则调用againgetinfo事件
               that.setData({
                 istouqu: true
               })
@@ -180,7 +180,7 @@ Page({
             that.setData({
               voteUserId: app.globalData.userInfo.userId
             });
-            that.authlogin();//获取token
+            that.authlogin(); //获取token
           } else {
             that.findByCode();
           }
@@ -188,7 +188,7 @@ Page({
       }
     })
   },
-  authlogin: function () { //获取token
+  authlogin: function() { //获取token
     let that = this;
     wx.request({
       url: this.data._build_url + 'auth/login?userName=' + app.globalData.userInfo.userName,
@@ -197,7 +197,7 @@ Page({
       header: {
         'content-type': 'application/json' // 默认值
       },
-      success: function (res) {
+      success: function(res) {
         if (res.data.code == 0) {
           let _token = 'Bearer ' + res.data.data;
           app.globalData.token = _token;
@@ -212,11 +212,11 @@ Page({
       }
     })
   },
-  againgetinfo: function () { //点击获取用户unionId
+  againgetinfo: function() { //点击获取用户unionId
     let that = this;
     wx.getUserInfo({
       withCredentials: true,
-      success: function (res) {
+      success: function(res) {
         let _pars = {
           sessionKey: app.globalData.userInfo.sessionKey,
           ivData: res.iv,
@@ -243,7 +243,7 @@ Page({
     })
   },
 
-  getsetget: function () {
+  getsetget: function() {
     let that = this;
     wx.request({
       url: that.data._build_url + 'sku/listForAgio',
@@ -253,7 +253,7 @@ Page({
       header: {
         "Authorization": app.globalData.token
       },
-      success: function (res) {
+      success: function(res) {
         let data = res.data;
         if (data.code == 0) {
           let _data = data.data.list[0]
@@ -331,7 +331,7 @@ Page({
       });
     }
   },
-  castvote: function (e) { //对菜品投票
+  castvote: function(e) { //对菜品投票
     let that = this,
       id = e.currentTarget.id;
     if (!this.data.isclick) {
@@ -383,7 +383,7 @@ Page({
           dishLish: dishLish
         });
       }
-      setTimeout(function () {
+      setTimeout(function() {
         that.setData({
           isclick: true
         })
@@ -416,9 +416,9 @@ Page({
       url: '../voucher-details/voucher-details?id=' + prSkuId + "&skuId=" + skuId + "&sell=" + jianAmount + "&inp=" + manAmount + "&actId=37&shopId=" + shopId
     })
   },
-  antifriction: function () {
+  antifriction: function() {
     var vm = this;
-    var interval = setInterval(function () {
+    var interval = setInterval(function() {
       if (-vm.data.marqueeDistance < vm.data.length) {
         vm.setData({
           marqueeDistance: vm.data.marqueeDistance - vm.data.marqueePace,
@@ -432,9 +432,9 @@ Page({
       }
     }, vm.data.interval);
   },
-  bearing: function () {
+  bearing: function() {
     var vm = this;
-    var interval = setInterval(function () {
+    var interval = setInterval(function() {
       if (-vm.data.marqueeDistance2 < vm.data.length) {
         // 如果文字滚动到出现marquee2_margin=30px的白边，就接着显示
         vm.setData({
@@ -458,7 +458,7 @@ Page({
       }
     }, vm.data.interval);
   },
-  selectForOne: function (val) {
+  selectForOne: function(val) {
     let _parms = {
       shopId: val ? val : this.data.shopid,
       token: app.globalData.token
@@ -483,14 +483,14 @@ Page({
     })
   },
   //用户下拉刷新
-  onPullDownRefresh: function () {
+  onPullDownRefresh: function() {
     this.getstoredata();
     this.recommendation();
     this.isCollected();
     this.commentList();
   },
 
-  getmoredata: function () {
+  getmoredata: function() {
     // console.log("getmoredata")
     this.getstoredata();
     this.selectByShopId();
@@ -523,7 +523,7 @@ Page({
       token: app.globalData.token
     };
     Api.partakerList(_parms).then((res) => {
-      console.log("res:",res)
+      console.log("res:", res)
       if (res.data.code == 0) {
         this.setData({
           Bargainlist: []
@@ -596,7 +596,7 @@ Page({
       header: {
         "Authorization": app.globalData.token
       },
-      success: function (res) {
+      success: function(res) {
         let _data = res.data.data;
         if (_data) {
           _data.popNum = utils.million(_data.popNum);
@@ -620,7 +620,7 @@ Page({
       }
     })
   },
-  selectByShopId: function () { //获取商家活动列表
+  selectByShopId: function() { //获取商家活动列表
     let id = this.data.shopid;
     let that = this;
     let _parms = {
@@ -648,13 +648,13 @@ Page({
       }
     })
   },
-  onPageScroll: function () { //监听页面滑动
+  onPageScroll: function() { //监听页面滑动
     this.setData({
       isComment: false
     })
   },
   //商户动态上拉加载
-  onReachBottom: function () {
+  onReachBottom: function() {
     if (this.data._page != 1) {
       this.setData({
         _page: this.data._page + 1
@@ -671,7 +671,7 @@ Page({
     //   this.merchantArt();
     // }
   },
-  buynow: function (ev) { //点击立即购买
+  buynow: function(ev) { //点击立即购买
     let skuid = ev.currentTarget.id
     let _sell = '',
       _inp = '',
@@ -688,7 +688,7 @@ Page({
     })
   },
   //推荐菜列表
-  recommendation: function () {
+  recommendation: function() {
     let that = this;
     wx.request({
       url: that.data._build_url + 'sku/tsc',
@@ -700,7 +700,7 @@ Page({
         page: 1,
         rows: 3
       },
-      success: function (res) {
+      success: function(res) {
         let data = res.data;
         if (data.code == 0) {
           // console.log('list:', data.data.list);
@@ -711,14 +711,14 @@ Page({
       }
     })
   },
-  fooddetails: function (e) {
+  fooddetails: function(e) {
     let ind = e.currentTarget.id
     let shopId = this.data.shopid
     wx.navigateTo({
       url: 'food-details/food-details?id=' + ind + '&shopid=' + shopId
     })
   },
-  getpackage: function () { //套餐数据
+  getpackage: function() { //套餐数据
     let that = this;
     wx.request({
       url: that.data._build_url + 'sku/agioList',
@@ -728,7 +728,7 @@ Page({
       header: {
         "Authorization": app.globalData.token
       },
-      success: function (res) {
+      success: function(res) {
         let data = res.data;
         if (data.code == 0) {
           that.setData({
@@ -756,7 +756,7 @@ Page({
 
 
   },
-  liuynChange: function (e) {
+  liuynChange: function(e) {
     var that = this;
     that.setData({
       llbView: true,
@@ -765,19 +765,19 @@ Page({
     })
   },
   //餐厅推荐菜
-  recommendedRestaurant: function () {
+  recommendedRestaurant: function() {
     wx.navigateTo({
       url: 'recommendation/recommendation?id=' + this.data.store_details.id,
     })
   },
   //活动点赞
-  storeActivity: function () {
+  storeActivity: function() {
     wx.navigateTo({
       url: '../../activityDetails/hot-activity/hot-activity?id=' + this.data.actId
     })
   },
   //商家动态
-  merchantArt: function () {
+  merchantArt: function() {
     let that = this,
       _parms = {
         shopId: this.data.shopid,
@@ -814,7 +814,7 @@ Page({
     })
   },
   //跳转至文章详情
-  toArticleInfo: function (e) {
+  toArticleInfo: function(e) {
     const id = e.currentTarget.id
     let _data = this.data.merchantArt
     let zan = ''
@@ -834,40 +834,40 @@ Page({
     }
   },
   //分享给好友
-  onShareAppMessage: function () {
+  onShareAppMessage: function() {
     return {
       title: this.data.store_details.shopName,
       path: '/pages/index/merchant-particulars/merchant-particulars?shopid=' + this.data.shopid,
       imageUrl: this.data.store_details.logoUrl,
-      success: function (res) {
+      success: function(res) {
         wx.getShareInfo({
           shareTicket: res.shareTickets[0],
-          success: function (res) {
+          success: function(res) {
             console.log(res)
           },
-          fail: function (res) {
+          fail: function(res) {
             console.log(res)
           },
-          complete: function (res) {
+          complete: function(res) {
             console.log(res)
           }
         })
       },
-      fail: function (res) {
+      fail: function(res) {
         // 分享失败
         console.log(res)
       }
     }
   },
   // 电话号码功能
-  calling: function () {
+  calling: function() {
     let that = this;
     wx.makePhoneCall({
       phoneNumber: that.data.store_details.phone ? that.data.store_details.phone : that.data.store_details.mobile,
-      success: function () {
+      success: function() {
         console.log("拨打电话成功！")
       },
-      fail: function () {
+      fail: function() {
         console.log("拨打电话失败！")
         wx.showToast({
           title: '暂无商家联系电话',
@@ -876,13 +876,13 @@ Page({
       }
     })
   },
-  moreImages: function (event) {
+  moreImages: function(event) {
     wx.navigateTo({
       url: 'preview-picture/preview-picture?id=' + this.data.store_details.id,
     })
   },
   //打开地图导航
-  TencentMap: function (event) {
+  TencentMap: function(event) {
     console.log('event:', event)
     let that = this;
     if (event && event.type == 'tap') {
@@ -896,14 +896,14 @@ Page({
     }
     wx.getLocation({
       type: 'wgs84',
-      success: function (res) {
+      success: function(res) {
         let latitude = res.latitude;
         let longitude = res.longitude;
         app.globalData.userInfo.lat = latitude;
         app.globalData.userInfo.lng = longitude;
         that.requestCityName(latitude, longitude);
       },
-      fail: function (res) {
+      fail: function(res) {
         wx.getSetting({
           success: (res) => {
             if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其用户位置信息
@@ -911,7 +911,7 @@ Page({
                 title: '提示',
                 content: '授权获得更多功能和体验',
                 showCancel: false,
-                success: function (res) {
+                success: function(res) {
                   if (res.confirm) {
                     wx.openSetting({ //打开授权设置界面
                       success: (res) => {
@@ -942,44 +942,45 @@ Page({
     let that = this;
     if (!lat && !lng) {
       this.TencentMap();
-      return;
-    }
-    wx.request({
-      url: 'https://apis.map.qq.com/ws/geocoder/v1/?location=' + lat + "," + lng + "&key=4YFBZ-K7JH6-OYOS4-EIJ27-K473E-EUBV7",
-      header: {
-        'content-type': 'application/json' // 默认值
-      },
-      success: (res) => {
-        if (res.data.status == 0) {
-          let _city = res.data.result.address_component.city;
-          app.globalData.userInfo.city = _city;
-          if (this.data.isMpa) {
-            this.openmap();
-          } else {
-            this.shopList();
+    } else {
+      wx.request({
+        url: 'https://apis.map.qq.com/ws/geocoder/v1/?location=' + lat + "," + lng + "&key=4YFBZ-K7JH6-OYOS4-EIJ27-K473E-EUBV7",
+        header: {
+          'content-type': 'application/json' // 默认值
+        },
+        success: (res) => {
+          if (res.data.status == 0) {
+            let _city = res.data.result.address_component.city;
+            app.globalData.userInfo.city = _city;
+            if (this.data.isMpa) {
+              this.openmap();
+            } else {
+              this.shopList();
+            }
           }
-
         }
-      }
-    })
+      })
+    }
   },
   //打开地图
-  openmap: function () {
+  openmap: function() {
     let that = this;
     wx.getLocation({
       type: 'gcj02',
-      success: function (res) {
-        let latitude = res.latitude, longitude = res.longitude, storeDetails = that.data.store_details;
+      success: function(res) {
+        let latitude = res.latitude,
+          longitude = res.longitude,
+          storeDetails = that.data.store_details;
         wx.openLocation({
           longitude: storeDetails.locationX,
           latitude: storeDetails.locationY,
           scale: 18,
           name: storeDetails.shopName,
           address: storeDetails.address,
-          success: function (res) {
+          success: function(res) {
             console.log('打开地图成功')
           },
-          fail: function (res) {
+          fail: function(res) {
             console.log("打开地图失败")
           }
         })
@@ -995,7 +996,7 @@ Page({
   //   console.log(id)
   // },
   //评论列表
-  commentList: function () {
+  commentList: function() {
     let that = this;
     if (this.data.comment_list.length > 7) {
       return
@@ -1012,7 +1013,7 @@ Page({
       header: {
         "Authorization": app.globalData.token
       },
-      success: function (res) {
+      success: function(res) {
         let data = res.data;
         if (data.code == 0 && data.data.list != null && data.data.list != "") {
           if (res.data.code == 0) {
@@ -1045,14 +1046,14 @@ Page({
     })
   },
   //跳转至所有评论
-  jumpTotalComment: function () {
+  jumpTotalComment: function() {
     let that = this;
     wx.navigateTo({
       url: 'total-comment/total-comment?id=' + that.data.shopid + '&cmtType=5'
     })
   },
   //评论点赞
-  toLike: function (event) {
+  toLike: function(event) {
     let that = this
     if (app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
       this.setData({
@@ -1077,8 +1078,8 @@ Page({
         header: {
           "Authorization": app.globalData.token
         },
-        success: function (res) {
-          setTimeout(function () {
+        success: function(res) {
+          setTimeout(function() {
             that.setData({
               zanFlag: true
             });
@@ -1101,7 +1102,7 @@ Page({
     }
   },
   //取消点赞
-  cancelLike: function (event) {
+  cancelLike: function(event) {
     let that = this,
       id = event.currentTarget.id,
       cmtType = "",
@@ -1127,8 +1128,8 @@ Page({
         header: {
           "Authorization": app.globalData.token
         },
-        success: function (res) {
-          setTimeout(function () {
+        success: function(res) {
+          setTimeout(function() {
             that.setData({
               zanFlag: true
             });
@@ -1151,7 +1152,7 @@ Page({
     }
   },
   //查询是否收藏
-  isCollected: function () {
+  isCollected: function() {
     let that = this;
     wx.request({
       url: that.data._build_url + 'fvs/isCollected?shopId=' + that.data.shopid,
@@ -1159,7 +1160,7 @@ Page({
       header: {
         "Authorization": app.globalData.token
       },
-      success: function (res) {
+      success: function(res) {
         const data = res.data;
         if (data.code == 0) {
           that.setData({
@@ -1171,7 +1172,7 @@ Page({
     })
   },
   //收藏
-  onCollect: function (event) {
+  onCollect: function(event) {
     let that = this;
     if (app.globalData.userInfo.mobile == 'a' || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
       this.setData({
@@ -1185,7 +1186,7 @@ Page({
       header: {
         "Authorization": app.globalData.token
       },
-      success: function (res) {
+      success: function(res) {
         if (res.data.code == 0) {
           that.setData({
             isCollected: !that.data.isCollected
@@ -1200,7 +1201,7 @@ Page({
     })
   },
   //取消收藏
-  cancelCollect: function () {
+  cancelCollect: function() {
     let that = this;
     if (app.globalData.userInfo.mobile == 'a' || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
       this.setData({
@@ -1214,7 +1215,7 @@ Page({
       header: {
         "Authorization": app.globalData.token
       },
-      success: function (res) {
+      success: function(res) {
         if (res.data.code == 0) {
           that.setData({
             isCollected: !that.data.isCollected
@@ -1229,7 +1230,7 @@ Page({
     })
   },
   //显示发表评论框
-  showAreatext: function () {
+  showAreatext: function() {
     if (app.globalData.userInfo.mobile == undefined || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
       this.setData({
         issnap: true
@@ -1241,13 +1242,13 @@ Page({
     })
   },
   //获取评论输入框
-  getCommentVal: function (e) {
+  getCommentVal: function(e) {
     this.setData({
       commentVal: e.detail.value
     })
   },
   //发表评论
-  sendComment: function (e) {
+  sendComment: function(e) {
     let that = this;
     if (this.data.commentVal == "" || this.data.commentVal == undefined) {
       wx.showToast({
@@ -1277,22 +1278,22 @@ Page({
       })
     }
   },
-  onShareAppMessage: function (res) {
+  onShareAppMessage: function(res) {
     return {
       title: this.data.store_details.shopName,
       path: '',
       imageUrl: '',
-      success: function (res) {
+      success: function(res) {
         // 转发成功
         // console.log("res:", res)
       },
-      fail: function (res) {
+      fail: function(res) {
         // 转发失败
         console.log("res:", res)
       }
     }
   },
-  closetel: function (e) {//确定or取消
+  closetel: function(e) { //确定or取消
     let id = e.target.id;
     this.setData({
       issnap: false
@@ -1303,8 +1304,10 @@ Page({
       })
     }
   },
-  receive: function () {
-    let that = this, _parms = {}, _values="";
+  receive: function() {
+    let that = this,
+      _parms = {},
+      _values = "";
     if (!this.data.isAgio) {
       wx.navigateTo({
         url: '../../personal-center/my-discount/my-discount',
@@ -1327,7 +1330,7 @@ Page({
           "Authorization": app.globalData.token
         },
         method: 'POST',
-        success: function (res) {
+        success: function(res) {
           if (res.data.code == 0) {
             wx.showToast({
               title: '领取成功！',
@@ -1348,13 +1351,13 @@ Page({
       })
     }
   },
-  moreinfo: function (e) {
+  moreinfo: function(e) {
     let _id = e.currentTarget.id;
     wx.navigateTo({
       url: './coupon_details/coupon_details?id=' + _id + '&shopid=' + this.data.shopid,
     })
   },
-  clickactmore: function () {
+  clickactmore: function() {
     this.setData({
       isactmore: !this.data.isactmore,
       activity: []
@@ -1371,7 +1374,7 @@ Page({
       })
     }
   },
-  clickmore: function () {
+  clickmore: function() {
     this.setData({
       ismore: !this.data.ismore,
       newpackage: []
@@ -1388,7 +1391,7 @@ Page({
       })
     }
   },
-  gotouse: function () {
+  gotouse: function() {
     wx.navigateTo({
       url: '../voucher-details/voucher-details?cfrom=pack',
     })
@@ -1450,7 +1453,7 @@ Page({
       duration: 100
     })
   },
-  paymentPay: function () { //买单
+  paymentPay: function() { //买单
     if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
@@ -1480,12 +1483,12 @@ Page({
   onPageScroll() {
     this.queryMultipleNodes('#merchantBox');
   },
-  queryMultipleNodes: function (dom) {
+  queryMultipleNodes: function(dom) {
     var query = wx.createSelectorQuery(),
       that = this;
     query.select(dom).boundingClientRect()
     query.selectViewport().scrollOffset()
-    query.exec(function (res) {
+    query.exec(function(res) {
       let isFixed = false;
       if (res[1].scrollTop >= 330) {
         isFixed = true;
@@ -1498,7 +1501,7 @@ Page({
   bindscroll(e) {
     console.log(e);
   },
-  dateConv: function (dateStr) {
+  dateConv: function(dateStr) {
     let year = dateStr.getFullYear(),
       month = dateStr.getMonth() + 1,
       today = dateStr.getDate();
@@ -1507,7 +1510,7 @@ Page({
     return year + "-" + month + "-" + today;
   },
 
-  crabSection: function () {   //店铺螃蟹栏
+  crabSection: function() { //店铺螃蟹栏
     wx.navigateTo({
       url: '../crabShopping/crabShopping?currentTab=1',
     })
