@@ -1,6 +1,7 @@
 /**app.wxss**/
 .page_row{
   display: block;
+	
 }
 button{
   margin: 0;
