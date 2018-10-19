@@ -182,7 +182,7 @@ Page({
   addLike() { //添加关注
     let that = this;
     wx.request({
-      url: this.data._build_url + 'userConcern/add?userId=' + that.data.voteUserId + '&refId=' + that.data.userId+'&type=1',
+      url: that.data._build_url + 'userConcern/add?userId=' + that.data.voteUserId + '&refId=' + that.data.userId+'&type=1',
       method: "POST",
       data: {},
       header: {
@@ -211,10 +211,10 @@ Page({
       title: '确定取消关注?',
       success: function(res) {
         if (res.confirm) {
+          console.log(" this.data._build_url:", that.data._build_url)
           wx.request({
-            url: this.data._build_url + 'userConcern/delete?userId=' + that.data.voteUserId + '&refId=' + that.data.userId + '&type=1',
+            url: that.data._build_url + 'userConcern/delete?userId=' + that.data.voteUserId + '&refId=' + that.data.userId + '&type=1',
             method: "POST",
-            data: {},
             header: {
               "Authorization": app.globalData.token
             },

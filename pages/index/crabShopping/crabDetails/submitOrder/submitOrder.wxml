@@ -72,7 +72,8 @@
         </picker>
       </view>
       <view class='equally' bindtap='handbzf' wx:if="{{current.bzf && issku != 3}}">
-        <text>包装费<text class='suoming'>（冰袋、保温内胆、加厚泡沫箱）？</text></text>
+        <text>包装费<text class='suoming'>（冰袋、保温内胆、加厚泡沫箱）<text class='wenhao'>?</text>
+        </text></text>
         <text class='delicatese'>￥{{current.bzf}}</text>
       </view>
       <view class='equally'  wx:if="{{current.spuId != 3 && issku != 3}}">
