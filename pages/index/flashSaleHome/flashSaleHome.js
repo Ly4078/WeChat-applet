@@ -103,6 +103,9 @@ Page({
     Api.mySecKill(_parms).then((res) => {
       let data = res.data;
       if (data.code == 0 && data.data) {
+        this.setData({
+          aNearbyShop: []
+        });
         let list = data.data,
           aNearbyShop = this.data.aNearbyShop;
         for (let i = 0; i < list.length; i++) {
@@ -232,7 +235,7 @@ Page({
       let _this = this;
       clearInterval(_this.data.timer);
       this.setData({
-        timer: null,
+        timer: null
       });
       this.mySecKill();
     }
