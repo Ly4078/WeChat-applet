@@ -28,6 +28,9 @@ Page({
     let that = this;
     wx.request({
       url: that.data._build_url + 'cmt/list',
+      header: {
+        "Authorization": app.globalData.token
+      },
       data: {
         refId: that.data.id,
         cmtType: that.data.cmtType,
