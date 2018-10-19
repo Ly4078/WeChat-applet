@@ -21,7 +21,8 @@
       <view class='iconLogo-right'>
         <view class='logo-right-top'>
           <view class='logo-right-condition'>
-            <text>{{item.dishSkuName?item.dishSkuName:item.skuName}}</text>
+          <text wx:if="{{item.shopName}}">{{item.shopName}}</text>
+            <text wx:else>{{item.dishSkuName?item.dishSkuName:item.skuName}}</text>
           </view>
           <view class='roll-unused' wx:if="{{!item.shopName}}">
             <text>￥{{item.unitPrice}}</text>

@@ -42,6 +42,7 @@ Page({
     ]
   },
   onLoad: function (options) {
+    console.log("options:", options)
     let that = this;
     this.setData({
       optObj:options
@@ -438,19 +439,16 @@ Page({
   },
    //获取商家订单信息
   getshopOrderList: function (soid) {      
-    let that = this;
-    let _parms = {
+    let that = this, _parms={};
+    _parms = {
       userId: app.globalData.userInfo.userId,
       id:soid,
       soStatus:'2',
       token: app.globalData.token
     };
-
-   
     Api.myorderForShop(_parms).then((res) => {
       if (res.data.code == 0 || res.data.code == 200){
         let dip = "食典", _obj = res.data.data.list[0];
-      
         if (_obj.skuName && _obj.skuName.indexOf(dip) > 0) {
           _obj.dips = true
         }
@@ -461,12 +459,6 @@ Page({
         })
       }
     })
-    // let dish = '食典';
-    // if (that.data.ticketInfo.skuName.indexOf(dish) > 0) {
-    //   that.setData({
-    //     isDish: true
-    //   });
-    // }
   },
   tomyOrder:function(){ //去优惠券列表
     wx.redirectTo({

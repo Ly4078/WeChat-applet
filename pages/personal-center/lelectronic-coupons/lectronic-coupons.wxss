@@ -199,7 +199,7 @@ page {
   background-color: white;
   border-top: 1rpx dotted #e0e0e0;
   position: relative;
-  padding: 20rpx 36rpx 0 32rpx;
+  padding: 20rpx 36rpx 0 0rpx;
   box-sizing: border-box;
 }
 
@@ -250,6 +250,7 @@ page {
   height: 62rpx;
   border-bottom: 1px dotted #e0e0e0;
   line-height: 62rpx;
+  padding-left: 20rpx;
 }
 
 .order-for-colour {
@@ -261,6 +262,7 @@ page {
   display: flex;
   justify-content: space-between;
   letter-spacing: 4rpx;
+  padding-left: 20rpx;
 }
 
 .warm-prompt {
