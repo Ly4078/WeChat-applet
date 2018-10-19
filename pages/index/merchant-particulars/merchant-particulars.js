@@ -1304,40 +1304,49 @@ Page({
     }
   },
   receive: function () {
-    let that = this;
+    let that = this, _parms = {}, _values="";
     if (!this.data.isAgio) {
       wx.navigateTo({
         url: '../../personal-center/my-discount/my-discount',
       })
     } else {
-      let _parms = {
+      _parms = {
         // userId: app.globalData.userInfo.userId,
         // userName: app.globalData.userInfo.userName,
         payType: '1',
         skuId: this.data.listagio.id,
-        skuNum: '1',
-        token: app.globalData.token
+        skuNum: '1'
       }
-      Api.freeOrderForAgio(_parms).then((res) => {
-        if (res.data.code == 0) {
-          wx.showToast({
-            title: '领取成功！',
-            mask: 'true',
-            icon: 'none',
-          }, 1500)
-          that.setData({
-            isAgio: false
-          })
-        } else {
-          wx.showToast({
-            title: res.data.message,
-            mask: 'true',
-            icon: 'none',
-          }, 1500)
+      for (var key in _parms) {
+        _values += key + "=" + _parms[key] + "&";
+      }
+      _values = _values.substring(0, _values.length - 1);
+      wx.request({
+        url: that.data._build_url + 'so/freeOrderForAgio?' + _values,
+        header: {
+          "Authorization": app.globalData.token
+        },
+        method: 'POST',
+        success: function (res) {
+          if (res.data.code == 0) {
+            wx.showToast({
+              title: '领取成功！',
+              mask: 'true',
+              icon: 'none',
+            }, 1500)
+            that.setData({
+              isAgio: false
+            })
+          } else {
+            wx.showToast({
+              title: res.data.message,
+              mask: 'true',
+              icon: 'none',
+            }, 1500)
+          }
         }
       })
     }
-
   },
   moreinfo: function (e) {
     let _id = e.currentTarget.id;

@@ -117,23 +117,27 @@ Page({
 
     wx.request({
       url: that.data._build_url + 'topic/myList',
-      method: 'GET',
-      data: {
-        userId: app.globalData.userInfo.userId,
-        page: '1',
-        rows: 1,
-      },
       header: {
         "Authorization": app.globalData.token
       },
+      data: {
+        userId: app.globalData.userInfo.userId,
+        page: 1,
+        rows: 1,
+      },
       success: function(res) {
-        let _total = res.data.data.total;
-        _total = utils.million(_total);
-        if (app.globalData.isflag) {
-          that.setData({
-            sumTotal: _total
-          })
+        if(res.data.code == 0){
+          if (res.data.data.total){
+            let _total = res.data.data.total;
+            _total = utils.million(_total);
+            if (app.globalData.isflag) {
+              that.setData({
+                sumTotal: _total
+              })
+            }
+          }
         }
+        
       }
     })
 

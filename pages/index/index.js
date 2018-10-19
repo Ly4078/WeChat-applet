@@ -743,7 +743,7 @@ Page({
     };
     Api.secKillList(_parms).then((res) => {
       if (res.data.code == 0) {
-        if (res.data.data.list.length > 0) {
+        if (res.data.data.list && res.data.data.list.length > 0) {
           that.setData({
             secKillList: res.data.data.list.slice(0, 3)
           });

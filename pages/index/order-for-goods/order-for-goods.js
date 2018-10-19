@@ -536,10 +536,10 @@ Page({
       _value = "";
     _pars = {
       soId: soid,
-      openId: app.globalData.userInfo.openId,
-      token: app.globalData.token
+      openId: app.globalData.userInfo.openId
     };
     if (this.data.actId) {
+      console.log("actId")
       _pars['actId'] = this.data.actId;
       _pars['skuId'] = this.data.skuId;
       _pars['shopId'] = this.data.obj.shopId;
@@ -580,6 +580,7 @@ Page({
         }
       })
     } else if (this.data.skutype == 4) {
+      console.log("noactid")
       let _parms = {},
         _value = "";
       _parms = {
