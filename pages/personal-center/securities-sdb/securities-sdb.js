@@ -23,7 +23,8 @@ Page({
     istouqu: false,
     isBack: false,
     isabss: false,
-    referrer: ''
+    referrer: '',
+    inviter:""   //推荐人ID
   },
 
   /**
@@ -70,7 +71,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
-
+   
   },
 
   findByCode: function() { //通过code查询用户信息
@@ -106,12 +107,13 @@ Page({
       }
     })
   },
-  authlogin: function (val) { //获取token
+
+  authlogin: function () { //获取token
     let that = this;
+    console.log("userinfo:", app.globalData.userInfo)
     wx.request({
       url: this.data._build_url + 'auth/login?userName=' + app.globalData.userInfo.userName,
       method: "POST",
-      data: {},
       header: {
         'content-type': 'application/json' // 默认值
       },
@@ -119,19 +121,24 @@ Page({
         if (res.data.code == 0) {
           let _token = 'Bearer ' + res.data.data;
           app.globalData.token = _token;
-          if(val){
+          if (app.globalData.userInfo.mobile){
+            console.log('inviter:', that.data.inviter)
+            console.log('referrer:', that.data.referrer)
             if (that.data.referrer) { //推荐人
               that.setpullUser();
+            }else{
+              that.getuserInfo();
             }
             if (that.data.parentId) {
               that.inviteNewUser();
             }
             if (that.data.inviter) {
               that.inviteCrab();
+            }else{
+              that.getuserInfo();
             }
           }
         }
-        // console.log(app.globalData)
       }
     })
   },
@@ -168,6 +175,7 @@ Page({
       that = this;
     Api.addUserUnionId(_parms).then((res) => {
       if (res.data.data) {
+        console.log("data:",res.data.data)
         app.globalData.userInfo.userId = res.data.data;
         wx.request({ //从自己的服务器获取用户信息
           url: this.data._build_url + 'user/get/' + res.data.data,
@@ -249,7 +257,6 @@ Page({
       isabss: true
     })
     if (this.data.phoneNum) {
-
       wx.request({
         url: that.data._build_url + 'sms/sendForRegister?shopMobile=' + that.data.phoneNum,
         header: {
@@ -277,7 +284,6 @@ Page({
         duration: 2000
       })
     }
-
   },
 
   Countdown: function() { //倒计时
@@ -317,9 +323,8 @@ Page({
             if (res.data.code == 0) {
               app.globalData.userInfo.userId = res.data.data;
               app.globalData.userInfo.mobile = that.data.phoneNum;
-              that.authlogin("1");
-              that.getuserInfo();
-              
+              that.findByCode();
+              // that.authlogin("1");
             }
           })
         } else {
@@ -361,7 +366,6 @@ Page({
       success: function(res) {
         if (res.data.code == 0) {
           let data = res.data.data;
-          // if (val == 1) {
             for (let key in data) {
               for (let ind in app.globalData.userInfo) {
                 if (key == ind) {
@@ -369,7 +373,6 @@ Page({
                 }
               }
             };
-          // }
           if (that.data.isBack) {
             wx.navigateBack({
               data: 1
@@ -383,15 +386,19 @@ Page({
       }
     })
   },
-
   setpullUser: function() { //上传推荐人userId
-    let _parms = {
-      userId: this.data.referrer,
-      token: app.globalData.token
-    };
-    Api.setPullUser(_parms).then((res) => {
-      if (res.data.code == 0) {
+    let that = this;
+    wx.request({
+      url: that.data._build_url + 'pullUser/update?userId=' + that.data.inviter,
+      header: {
+        "Authorization": app.globalData.token
+      },
+      method: 'POST',
+      success: function (res) {
         console.log('res:', res)
+        if (res.data.code == 0) {
+          that.getuserInfo();
+        }
       }
     })
   },
@@ -411,14 +418,20 @@ Page({
       }
     })
   },
-  inviteCrab() {   //邀请新用户兑换螃蟹
-    let _parms = {
-      userId: this.data.inviter,
-      token: app.globalData.token
-    };
-    Api.addInviteCrab(_parms).then((res) => {
-      if (res.data.code == 0) {
-        console.log('res:', res)
+  inviteCrab() {   //邀请新用户兑换螃蟹 type =1
+    console.log('inviteCrab')
+    let that=this;
+    wx.request({
+      url: that.data._build_url + 'pullUser/upNumsUp?userId=' + that.data.inviter,
+      header: {
+        "Authorization": app.globalData.token
+      },
+      method: 'POST',
+      success: function (res) {
+        console.log('inviteCrab--res:',res)
+        if(res.data.code ==0){
+          that.getuserInfo();
+        }
       }
     })
   }

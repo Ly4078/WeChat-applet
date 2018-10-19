@@ -48,6 +48,7 @@ Page({
                   }
                 }
               }
+              that.authlogin();
               wx.hideLoading();
             }
           } else {
@@ -57,7 +58,29 @@ Page({
       }
     })
   },
- 
+  authlogin: function () { //获取token
+    let that = this;
+    wx.request({
+      url: this.data._build_url + 'auth/login?userName=' + app.globalData.userInfo.userName,
+      method: "POST",
+      data: {},
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        if (res.data.code == 0) {
+          let _token = 'Bearer ' + res.data.data;
+          app.globalData.token = _token;
+          if (app.globalData.userInfo.mobile){
+            that.newUserToGet();
+            wx.navigateBack({
+              data: 1
+            })
+          }
+        }
+      }
+    })
+  },
   numbindinput: function (e) {  //监听手机号输入框
     let _value = e.detail.value
     if(!_value){
@@ -238,36 +261,8 @@ Page({
         console.log("_parms:", _parms)
         Api.isVerify(_parms).then((res) => {
           if (res.data.code == 0) {
-            app.globalData.userInfo.userId = res.data.data
-            wx.request({  //从自己的服务器获取用户信息
-              url: this.data._build_url + 'user/get/' + res.data.data,
-              header: {
-                'content-type': 'application/json' // 默认值
-              },
-              success: function (res) {
-                if (res.data.code == 0) {
-                  let data = res.data.data;
-                  console.log("data:",data)
-                  for (let key in data) {
-                    for (let ind in app.globalData.userInfo) {
-                      if (key == ind) {
-                        app.globalData.userInfo[ind] = data[key]
-                      }
-                    }
-                  };
-                  console.log('data:',data)
-                  if (data.mobile) {
-                    that.newUserToGet();
-                    wx.navigateBack({
-                      data:1
-                    })
-                  }
-                  // wx.switchTab({
-                  //   url: '../personal-center'
-                  // })
-                }
-              }
-            })
+            app.globalData.userInfo.userId = res.data.data;
+            that.findByCode();
           }
         })
       } else {
@@ -284,16 +279,26 @@ Page({
     }
   },
   newUserToGet: function () {    //新用户跳转票券
-    let _parms = {
+    let _parms={},_value="",that=this;
+    _parms = {
       // userId: app.globalData.userInfo.userId,
       // userName: app.globalData.userInfo.userName,
       payType: '2',
       skuId: '8',
-      skuNum: '1',
-      token: app.globalData.token
+      skuNum: '1'
     }
-    Api.getFreeTicket(_parms).then((res) => {
-      if (res.data.code == 0) {
+
+    for (var key in _parms) {
+      _value += key + "=" + _parms[key] + "&";
+    }
+    _value = _value.substring(0, _value.length - 1);
+    wx.request({
+      url: that.data._build_url + 'so/freeOrder?' + _value,
+      header: {
+        "Authorization": app.globalData.token
+      },
+      method: 'POST',
+      success: function (res) {
         // wx.redirectTo({
         //   url: '../my-discount/my-discount?cfrom=reg'
         // });

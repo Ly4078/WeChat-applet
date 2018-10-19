@@ -92,7 +92,11 @@ function MyHttp(defaultParams, ALL_API) {
         delete pdata.token;
       }
       let _params_data = pdata;
-      
+      if (_config.url.indexOf("auth") != -1) {
+        headers = {
+          'content-type': 'application/x-www-form-urlencoded;charset=utf-8;Authorization'
+        };
+      }
       return sendRrquest(_build_url + _config.url, _config.method, _params_data, headers);
     }
   }

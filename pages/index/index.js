@@ -190,23 +190,23 @@ Page({
     updateManager.onUpdateFailed(function() {
       // 新的版本下载失败
     });
-    // this.findByCode();
-    // return;
-
+    // wx.login({
+    //   success: res => {
+    //     if (res.code) {
+    //       console.log("code:", res.code)
+    //     }
+    //   }
+    // });
+    // return
     this.indexinit();
-    // wx.showLoading({
-    //   title: '数据加载中...',
-    //   mask: true
-    // })
+
   },
   onShow: function () {},
   indexinit :function(){
     let that = this;
-    // console.log('globalData:',app.globalData)
     if (app.globalData.userInfo.userId) {
       if (app.globalData.userInfo.mobile) {
         if (app.globalData.token) {
-          // that.getuserIdLater2();
           that.getdatamore();
         } else {
           this.authlogin();
@@ -262,10 +262,15 @@ Page({
 
   // 初始化start
   findByCode: function () {//通过code查询用户信息
+    console.log('findByCode')
     let that = this;
+   
+    console.log("token:", app.globalData.token)
     wx.login({
       success: res => {
+        console.log("code:",res.code)
         Api.findByCode({code: res.code}).then((res) => {
+          console.log('res:',res)
           if (res.data.code == 0) {
             let _data = res.data.data;
             if (_data.id && _data != null) {
@@ -424,7 +429,6 @@ Page({
             that.isNewUser();
             that.getdatamore();
         }
-        // console.log(app.globalData)
       }
     })
   },
@@ -1388,6 +1392,7 @@ Page({
         Api.isVerify(_parms).then((res) => {
           console.log('isVerify__res:',res)
           if (res.data.code == 0) {
+            app.globalData.token = "";
             app.globalData.userInfo.userId = res.data.data;
             app.globalData.userInfo.mobile = that.data.phone;
             that.setData({
@@ -1400,27 +1405,28 @@ Page({
               isphoneNumber: false,
               phonetwo: ''
             })
-            wx.login({
-              success: res => {
-                Api.findByCode({ code: res.code }).then((res) => {
-                  if (res.data.code == 0) {
-                    console.log("findByCoderes:", res)
-                    let _data = res.data.data;
-                    if (_data.id && _data != null) {
-                      for (let key in _data) {
-                        for (let ind in app.globalData.userInfo) {
-                          if (key == ind) {
-                            app.globalData.userInfo[ind] = _data[key]
-                          }
-                        }
-                      };
-                      app.globalData.userInfo.userId = _data.id;
-                      that.authlogin();
-                    }
-                  } 
-                })
-              }
-            })
+            that.findByCode();
+            // wx.login({
+            //   success: res => {
+            //     Api.findByCode({ code: res.code }).then((res) => {
+            //       if (res.data.code == 0) {
+            //         console.log("findByCoderes:", res)
+            //         let _data = res.data.data;
+            //         if (_data.id && _data != null) {
+            //           for (let key in _data) {
+            //             for (let ind in app.globalData.userInfo) {
+            //               if (key == ind) {
+            //                 app.globalData.userInfo[ind] = _data[key]
+            //               }
+            //             }
+            //           };
+            //           app.globalData.userInfo.userId = _data.id;
+            //           that.authlogin();
+            //         }
+            //       } 
+            //     })
+            //   }
+            // })
           }
         })
       } else {

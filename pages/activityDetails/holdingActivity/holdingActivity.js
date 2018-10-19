@@ -154,6 +154,7 @@ Page({
     })
   },
   authlogin: function() { //获取token
+    console.log('authlogin')
     let that = this;
     wx.request({
       url: this.data._build_url + 'auth/login?userName=' + app.globalData.userInfo.userName,
@@ -169,6 +170,7 @@ Page({
           if (app.globalData.userInfo.mobile) {
             that.inquireNum();
           } else {
+            console.log('closetel')
             that.closetel();
           }
         }
