@@ -1,11 +1,11 @@
-  <view class="newUserModal loginuser" wx:if="{{istouqu}}" catchtouchmove='true'>
-   <view class="drawer_screen"></view>
-    <button class="newUserM_box" open-type="getUserInfo" bindgetuserinfo="againgetinfo">
-      <image class='loginimg' src='/images/icon/login.png'></image>
-    </button>
-  </view>
+<view class="newUserModal loginuser" wx:if="{{istouqu}}" catchtouchmove='true'>
+  <view class="drawer_screen"></view>
+  <button class="newUserM_box" open-type="getUserInfo" bindgetuserinfo="againgetinfo">
+    <image class='loginimg' src='/images/icon/login.png'></image>
+  </button>
+</view>
 
-  
+
 <view wx:if="{{actdata.length > 0}}">
   <block wx:for="{{actdata}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
     <view class='activity-particulars' id="{{item.id}}" catchtap='clickVote'>
@@ -29,4 +29,9 @@
 </view>
 <view class='placeholder' hidden="{{placeholderFlag}}">
   <image src="/images/icon/zhanweitu.png"></image>
+</view>
+<view class='loadingBox'>
+  <i-spin custom wx:if="{{loading}}">
+    <view class="loading"></view>
+  </i-spin>
 </view>

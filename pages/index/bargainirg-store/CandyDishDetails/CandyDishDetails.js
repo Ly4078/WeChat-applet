@@ -2,7 +2,7 @@ import Api from '../../../../utils/config/api.js';
 var utils = require('../../../../utils/util.js');
 import { GLOBAL_API_DOMAIN} from '../../../../utils/config/config.js';
 var app = getApp();
-
+let requesting = false;
 
 var village_LBS = function (that) {
   wx.getLocation({
@@ -346,13 +346,9 @@ Page({
         rows: 6,
         token: app.globalData.token
       };
-      wx.showLoading({
-        title: '数据加载中...',
-      });
+      requesting = true;
       Api.partakerList(_parms).then((res) => {
-        wx.hideLoading();
         if (res.data.code == 0) {
-          wx.hideLoading();
           if (res.data.data.list && res.data.data.list.length > 0) {
             let list = res.data.data.list,
               hotDishList = this.data.hotDishList;
@@ -374,7 +370,12 @@ Page({
               }
 
               this.setData({
-                hotDishList: hotDishList
+                hotDishList: hotDishList,
+                pageTotal: Math.ceil(res.data.data.total / 6),
+                loading: false
+              },()=>{
+                requesting = false
+                wx.hideLoading();
               });
               if (list.length < 6) {
                 this.setData({
@@ -385,10 +386,24 @@ Page({
 
           } else {
             this.setData({
-              flag: false
+              flag: false,
+              loading: false
             });
+            requesting = false
           }
+        }else{
+          wx.hideLoading();
+          requesting = false
+          this.setData({
+            loading: false
+          });
         }
+      },()=>{
+        wx.hideLoading();
+        requesting = false
+        this.setData({
+          loading: false
+        });
       })
     }else{
       that.getlocation();
@@ -489,10 +504,19 @@ Page({
     if (!this.data.flag) {
       return false;
     }
+    if (requesting){
+      return
+    }
+    if (this.data.pageTotal <= this.data.page){
+      return
+    }
     this.setData({
-      page: this.data.page + 1
+      page: this.data.page + 1,
+      loading: true
+    },()=>{
+      this.hotDishList();
     });
-    this.hotDishList();
+    
   },
   onPullDownRefresh: function() {  //下拉刷新 
     this.setData({

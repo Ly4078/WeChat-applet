@@ -85,6 +85,10 @@ Page({
       page: 1,
       _page: 1
     })
+    wx.showLoading({
+      title: '加载中...',
+      mask: true
+    })
     if (this.data.currentTab == 0) {
       if (this.data.listData.length < 1) {
         this.commodityCrabList(0);
@@ -163,9 +167,6 @@ Page({
   },
   //查询平台邮购列表
   commodityCrabList: function (types) {
-    wx.showLoading({
-      title: '数据加载中...',
-    });
     let that = this;
     let _parms = {
       spuType: 10,
@@ -191,16 +192,22 @@ Page({
           }
           this.setData({
             listData: _listData,
-            platFormPages: Math.ceil(res.data.data.total / 10)
+            platFormPages: Math.ceil(res.data.data.total / 10),
+            loading: false
           }, () => {
             wx.hideLoading();
           })
         } else {
           wx.hideLoading();
+          this.setData({loading: false})
         }
         swichrequestflag[types] = false;
+      }else{
+        this.setData({ loading: false })
+        wx.hideLoading();
       }
     }, () => {
+      this.setData({ loading: false })
       wx.hideLoading();
       swichrequestflag[types] = false;
     })
@@ -213,9 +220,6 @@ Page({
       wx.hideLoading();
       this.getlocation();
     } else {
-      wx.showLoading({
-        title: '数据加载中...',
-      });
       let _parms = {
         Type: 1,
         page: this.data._page,
@@ -243,17 +247,23 @@ Page({
             };
             that.setData({
               storeData: _storeData,
-              shopPages: Math.ceil(res.data.data.total / 10)
+              shopPages: Math.ceil(res.data.data.total / 8),
+              loading: false
             }, () => {
               wx.hideLoading();
             })
           } else {
             wx.hideLoading();
+            this.setData({loading: false})
           }
           swichrequestflag[types] = false;
+        }else{
+          wx.hideLoading();
+          this.setData({ loading: false })
         }
       }, () => {
         wx.hideLoading();
+        this.setData({ loading: false })
         swichrequestflag[types] = false;
       })
     }
@@ -266,9 +276,6 @@ Page({
       wx.hideLoading();
       this.getlocation();
     } else {
-      wx.showLoading({
-        title: '数据加载中...',
-      });
       let _parms = {
         page: this.data.sPage,
         rows: 5,
@@ -294,17 +301,23 @@ Page({
             };
             this.setData({
               marketList: marketList,
-              marketPages: Math.ceil(res.data.data.total / 10)
+              marketPages: Math.ceil(res.data.data.total / 5),
+              loading: false
             }, () => {
               wx.hideLoading();
             })
           } else {
+            this.setData({loading: false})
             wx.hideLoading();
           }
           swichrequestflag[types] = false;
+        }else{
+          this.setData({ loading: false })
+          wx.hideLoading();
         }
       }, () => {
         wx.hideLoading();
+        this.setData({ loading: false })
         swichrequestflag[types] = false;
       })
     }
@@ -374,7 +387,8 @@ Page({
       }
       if (this.data.platFormPages > this.data.page) {
         this.setData({
-          page: this.data.page + 1
+          page: this.data.page + 1,
+          loading: true
         }, () => {
           this.commodityCrabList(0);
         });
@@ -385,7 +399,8 @@ Page({
       }
       if (this.data.shopPages > this.data._page) {
         this.setData({
-          _page: this.data._page + 1
+          _page: this.data._page + 1,
+          loading: true
         });
         this.listForSkuAllocation(1);
       }
@@ -395,7 +410,8 @@ Page({
       }
       if (this.data.marketPages > this.data.sPage) {
         this.setData({
-          sPage: this.data.sPage + 1
+          sPage: this.data.sPage + 1,
+          loading: true
         });
         this.marketList(2);
       }

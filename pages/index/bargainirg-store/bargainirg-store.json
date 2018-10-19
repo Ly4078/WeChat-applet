@@ -1,3 +1,6 @@
 {
-  "navigationBarTitleText": "全部菜品"
+  "navigationBarTitleText": "全部菜品",
+  "usingComponents": {
+    "i-spin": "../../../dist/spin/index"
+  }
 }

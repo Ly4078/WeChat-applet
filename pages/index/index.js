@@ -193,6 +193,10 @@ Page({
     // this.findByCode();
     // return;
     // this.indexinit();
+    wx.showLoading({
+      title: '数据加载中...',
+      mask: true
+    })
   },
   onShow: function () {
     let that = this;
@@ -966,10 +970,7 @@ Page({
   getshoplist(val, keys) {
     let lat = '30.51597',
       lng = '114.34035'; //lat纬度   lng经度
-    wx.showLoading({
-      title: '数据加载中...',
-      mask: true
-    })
+ 
     if (app.globalData.userInfo.lng && app.globalData.userInfo.lat && app.globalData.userInfo.city){
       let _parms = {},that=this;
       _parms = {
@@ -1065,10 +1066,6 @@ Page({
       _shop = [],
       _parms = {},
       that = this;
-    wx.showLoading({
-      title: '数据加载中...',
-      mask: true
-    });
     _parms = {
       token: app.globalData.token
     };

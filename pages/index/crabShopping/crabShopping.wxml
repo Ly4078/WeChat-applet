@@ -102,3 +102,8 @@
   </view>
 
 </view>
+<view class='loadingBox'>
+      <i-spin custom wx:if="{{loading}}">
+        <view class="loading"></view>
+      </i-spin>
+</view>

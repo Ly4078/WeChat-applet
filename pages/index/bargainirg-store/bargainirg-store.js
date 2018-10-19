@@ -29,6 +29,10 @@ Page({
   },
   onLoad: function(options) {
     this.dishList();
+    wx.showLoading({
+      title: '加载中...',
+      mask: true
+    })
   },
   onHide() {
     wx.hideLoading();
@@ -38,9 +42,6 @@ Page({
   },
   dishList() {     //砍菜列表
     //browSort 0附近 1销量 2价格
-    wx.showLoading({
-      title: '数据加载中...',
-    });
     let _parms = {
       zanUserId: app.globalData.userInfo.userId, 
       browSort: this.data.browSort,  
@@ -67,17 +68,24 @@ Page({
             cuisineArray.push(list[i]);
           }
           this.setData({
-            cuisineArray: cuisineArray
+            cuisineArray: cuisineArray,
+            pageTotal: Math.ceil(res.data.data.total /8),
+            loading: false
           }, () => {
             wx.hideLoading();
           });
         } else {
+          this.setData({loading: false})
           wx.hideLoading();
         }
         swichrequestflag = false;
+      }else{
+        wx.hideLoading();
+        this.setData({ loading: false })
       }
     }, () => {
       wx.hideLoading();
+      this.setData({ loading: false })
       swichrequestflag = false;
     });
   },
@@ -110,11 +118,15 @@ Page({
     })
   },
   onReachBottom: function () {  //用户上拉触底加载更多
+    if (this.data.pageTotal <= this.data.page){
+      return
+    }
     if (swichrequestflag) {
       return;
     }
     this.setData({
-      page: this.data.page + 1
+      page: this.data.page + 1,
+      loading: true
     });
     this.dishList();
   },
@@ -126,6 +138,9 @@ Page({
       cuisineArray: [],
       page: 1
     });
+    wx.showLoading({
+      title: '加载中...',
+    })
     this.dishList();
   },
   //图片加载出错，替换为默认图片

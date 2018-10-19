@@ -47,3 +47,8 @@
     </view>
   </view>
 </view>
+ <view class='loadingBox' style="background-color:#78B6FC;">
+      <i-spin custom wx:if="{{loading}}">
+        <view class="loading"></view>
+      </i-spin>
+ </view>

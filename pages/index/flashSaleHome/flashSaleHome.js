@@ -47,9 +47,6 @@ Page({
     wx.hideLoading();
   },
   secKillList() { //附近美食
-    wx.showLoading({
-      title: '加载中...'
-    })
     let _parms = {
       zanUserId: app.globalData.userInfo.userId,
       browSort: 0,
@@ -79,16 +76,19 @@ Page({
         }
         this.setData({
           aNearbyShop: aNearbyShop,
-          listPages: listPages
+          listPages: listPages,
+          loading: false
         }, () => {
           wx.hideLoading();
           });
         swichrequestflag = false;
       } else {
+        this.setData({ loading: false})
         wx.hideLoading();
       }
     }, () => {
       wx.hideLoading();
+      this.setData({ loading: false })
       swichrequestflag = false;
     });
   },
@@ -241,11 +241,21 @@ Page({
     }
   },
   onReachBottom: function() { //上拉加载
-    this.setData({
-      page: this.data.page + 1
-    });
-    if (this.data.currentTab == 0 && this.data.listPages > 1) {
-      this.secKillList();
+    if (this.data.listPages <= this.data.page){
+      return
     }
+    if (this.data.currentTab == 0) {
+      this.setData({
+        page: this.data.page + 1,
+        loading: true
+      }, () => {
+        this.secKillList();
+      });
+      
+    }
+    
+    
+    
+   
   }
 })

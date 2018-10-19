@@ -1,3 +1,6 @@
 {
-  "navigationBarTitleText": "限量秒杀"
+  "navigationBarTitleText": "限量秒杀",
+  "usingComponents": {
+    "i-spin": "../../../dist/spin/index"
+  }
 }

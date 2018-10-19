@@ -34,6 +34,9 @@ Page({
         this.getshopInfo(utils.getQueryString(q, 'shopCode'));
       }
     }
+    wx.showLoading({
+      title: '加载中...',
+    })
     this.getData();
   },
   onShow: function () {
@@ -55,13 +58,7 @@ Page({
       }
     })
   },
-  getData: function (requestTypes){
-    if(!requestTypes){
-      wx.showLoading({
-        title: '数据加载中...',
-        mask: true
-      })
-    }
+  getData: function (){
     let _parms = {
       locationX: app.globalData.userInfo.lng,
       locationY: app.globalData.userInfo.lat,
@@ -260,7 +257,7 @@ Page({
       page: this.data.page + 1,
       loading: true
     },()=>{
-      this.getData(1)
+      this.getData()
     });
 
     
@@ -274,6 +271,9 @@ Page({
       page: 1,
       searchValue:''
     },()=>{
+      wx.showLoading({
+        title: '加载中...'
+      })
       this.getData();
       // this.getLocation();
     });

@@ -4,6 +4,7 @@ import {
 } from '/../../utils/config/config.js';
 var utils = require('../../utils/util.js');
 var app = getApp();
+let requesting = false;
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
@@ -179,10 +180,6 @@ Page({
   getfood: function() {
     let that = this,_parms={};
     if (app.globalData.isflag) {
-      wx.showLoading({
-        title: '数据加载中。。。',
-        mask: true
-      })
       let _parms = {
         page: this.data.page,
         row: 8,
@@ -197,11 +194,11 @@ Page({
       if (this.data.sortype) {
         _parms.sortType = this.data.sortype
       }
+      requesting = true;
       Api.topiclist(_parms).then((res) => {
         let _data = that.data.food;
-       
         if (res.data.code == 0) {
-          wx.hideLoading()
+          
           if (res.data.data.list && res.data.data.list.length>0) {
             let footList = res.data.data.list;
             if(footList.length>0){
@@ -227,15 +224,28 @@ Page({
             }
             
             this.setData({
-              food: _data
+              food: _data,
+              pageTotal:Math.ceil(res.data.data.total / 8),
+              loading: false
+            },()=>{
+              wx.hideLoading()
+              requesting = false;
             })
+           
           } else {
             this.setData({
-              flag: false
+              flag: false,
+              loading: false
             });
+            requesting = false;
+            wx.hideLoading()
           }
         } else {
           wx.hideLoading()
+          this.setData({
+            loading: false
+          });
+          requesting = false;
         }
         this.placeholderFlag = this.data.food.length < 1 ? false : true;
         if (that.data.page == 1) {
@@ -243,6 +253,13 @@ Page({
         } else {
           wx.hideLoading();
         }
+      },()=>{
+        wx.hideLoading()
+        requesting = false;
+        this.setData({
+          loading: false
+        });
+
       })
     }
   },
@@ -359,14 +376,21 @@ Page({
   onReachBottom: function() { //用户上拉触底
     let that = this
     if (this.data.flag) {
-      wx.showLoading({
-        title: '加载中..'
-      })
+      console.log(requesting)
+      if (requesting){
+        return
+      }
+      if (this.data.pageTotal <= this.data.page ){
+        return
+      }
       this.setData({
         ishotnew: false,
-        page: this.data.page + 1
+        page: this.data.page + 1,
+        loading: true
+      },()=>{
+        that.getfood();
       });
-      that.getfood();
+      
     }
   },
   onPullDownRefresh: function() { //用户下拉刷新

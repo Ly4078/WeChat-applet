@@ -1,6 +1,5 @@
-
-
 <import src="../activityDetails/homePage-item/homePage-item.wxml" />
+
 <view class="newUserModal loginuser" wx:if="{{istouqu}}" catchtouchmove='true'>
   <view class="drawer_screen"></view>
   <button class="newUserM_box" open-type="getUserInfo" bindgetuserinfo="againgetinfo">
@@ -36,6 +35,11 @@
       <template is="homePageItem" data="{{item}}" />
     </block>
   </view>
+      <view class='loadingBox'>
+      <i-spin custom wx:if="{{loading}}">
+        <view class="loading"></view>
+      </i-spin>
+    </view>
   <view wx:if="{{food.length == 0}}" class='merchant_none'>
     <image src="/images/icon/zhanweitu.png"></image>
   </view>

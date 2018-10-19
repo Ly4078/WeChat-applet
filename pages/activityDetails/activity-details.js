@@ -90,13 +90,8 @@ Page({
       token: app.globalData.token,
       row: 8
     }
-    wx.showLoading({
-      title: '加载中...',
-      mask: true
-    })
     Api.actlist(_parms).then((res) => {
       let data = res.data;
-      wx.hideLoading();
       if (data.code == 0 && data.data.list != null && data.data.list != "" && data.data.list != []) {
         let actList = [];
         actList = that.data.actdata;
@@ -107,11 +102,15 @@ Page({
         }
         // console.log("actList:", actList)
         that.setData({
-          actdata: actList
+          actdata: actList,
+          pageTotal: Math.ceil(res.data.data.total /8),
+          loading: false
         })
+        wx.hideLoading()
       } else {
         that.setData({
-          flag: false
+          flag: false,
+          loading: false
         });
       }
       this.placeholderFlag = this.data.actdata.length < 1 ? false : true;
@@ -119,7 +118,16 @@ Page({
         wx.stopPullDownRefresh()
       } else {
         wx.hideLoading();
+        that.setData({
+          loading: false
+        });
       }
+    },()=>{
+      wx.hideLoading();
+      that.setData({
+        flag: false,
+        loading: false
+      });
     })
   },
   clickVote: function (event) {
@@ -142,14 +150,18 @@ Page({
     }
   },
   onReachBottom: function () {  //用户上拉触底
+
     if (this.data.flag) {
-      wx.showLoading({
-        title: '加载中...'
-      })
-      this.setData({
-        page: this.data.page + 1
-      });
-      this.getcatdata();
+      if (this.data.page >= this.data.pageTotal){
+        return
+      }else{
+        this.setData({
+          page: this.data.page + 1,
+          loading: true
+        }, () => {
+          this.getcatdata();
+        });
+      }
     }
   },
   onPullDownRefresh: function () {    //用户下拉刷新

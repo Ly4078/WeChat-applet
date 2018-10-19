@@ -417,7 +417,7 @@
 .oldWrap{
   display: flex;
   flex-wrap:wrap;
-  padding-bottom: 86rpx;
+  /* padding-bottom: 86rpx; */
 }
 
 .ecommendation:nth-of-type(even){

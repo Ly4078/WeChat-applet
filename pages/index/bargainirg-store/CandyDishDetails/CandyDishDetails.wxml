@@ -16,7 +16,7 @@
         <text class='shopsTopLeft'>{{skuName}}</text>
         <!-- <view class='shopsTopRight'>剩余
           <text>{{stockNum}}</text>份</view> -->
-          <!-- <view class='shopsTopRight'>每天仅售
+        <!-- <view class='shopsTopRight'>每天仅售
           <text>15</text>份</view> -->
       </view>
       <view class='shopsTop shopssecond'>
@@ -78,7 +78,7 @@
         <view class='merchantROM'>
           <view class='merchantLeft' id="{{item.id}}" catchtap='dishesDiscounts'>
             <image class='merchantImages' mode='scaleToFill' wx:if="{{item.picUrl}}" src='{{item.picUrl}}'></image>
-            <image class='merchantImages' wx:else mode='scaleToFill'src='/images/icon/morentu.png'></image>
+            <image class='merchantImages' wx:else mode='scaleToFill' src='/images/icon/morentu.png'></image>
             <view class='acuisineMessage'>
               <text class='acuisineName'>{{item.skuName}}</text>
               <view class='lemon'>
@@ -112,7 +112,7 @@
           <view class='ecommendation' id="{{item.id}}" data-shopId="{{item.shopId}}" catchtap='chilkDish'>
             <view class='ecommendationImg'>
               <image mode='scaleToFill' class='ecomt_images' wx:if="{{item.picUrl}}" src='{{item.picUrl}}'></image>
-              <image mode='scaleToFill' class='ecomt_images'  wx:else src='/images/icon/morentu.png'></image>
+              <image mode='scaleToFill' class='ecomt_images' wx:else src='/images/icon/morentu.png'></image>
             </view>
             <view class='bean'>
               <view class='beanLeft'>
@@ -137,8 +137,15 @@
           </view>
         </block>
       </view>
+      
     </view>
+    
   </view>
+  <view class='loadingBox' style="margin-bottom:86rpx;">
+        <i-spin custom wx:if="{{loading}}">
+          <view class="loading"></view>
+        </i-spin>
+      </view>
 
   <!-- 底部tab功能键 -->
   <view class='function'>

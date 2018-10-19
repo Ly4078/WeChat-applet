@@ -800,7 +800,6 @@ button::after{
 }
 .loading{
     display: inline-block;
-    margin-right: 12px;
     vertical-align: middle;
     width: 50rpx;
     height: 50rpx;
