@@ -8,6 +8,7 @@ Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
     food: [],
+    list:[],
     page: 1,
     hotlive: [],
     flag: true,
@@ -103,6 +104,9 @@ Page({
     this.getfood();
     wx.request({
       url: that.data._build_url + 'zb/list/',
+      header: {
+        "Authorization": app.globalData.token
+      },
       success: function(res) {
         that.setData({
           hotlive: res.data.data.list
@@ -173,7 +177,6 @@ Page({
   },
   //查询列表数据
   getfood: function() {
-    console.log('getfood')
     let that = this,_parms={};
     if (app.globalData.isflag) {
       wx.showLoading({
@@ -194,14 +197,12 @@ Page({
       if (this.data.sortype) {
         _parms.sortType = this.data.sortype
       }
-      console.log('1111')
       Api.topiclist(_parms).then((res) => {
-        console.log('res:', res)
         let _data = that.data.food;
        
         if (res.data.code == 0) {
           wx.hideLoading()
-          if (res.data.data.list.length>0) {
+          if (res.data.data.list && res.data.data.list.length>0) {
             let footList = res.data.data.list;
             if(footList.length>0){
               for (let i = 0; i < footList.length; i++) {
@@ -244,7 +245,6 @@ Page({
         }
       })
     }
-
   },
   bindended: function(e) { //视频播放完成
     const id = e.currentTarget.id
