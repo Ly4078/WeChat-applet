@@ -1,4 +1,6 @@
-import { GLOBAL_API_DOMAIN } from '../../../utils/config/config.js';
+import {
+  GLOBAL_API_DOMAIN
+} from '../../../utils/config/config.js';
 import Api from '../../../utils/config/api.js';
 var utils = require('../../../utils/util.js');
 var app = getApp();
@@ -11,33 +13,33 @@ Page({
     istouqu: false,
     totalComment: 0,
     commentVal: '',
-    playerUserId:'',
-    videoUrl:'',
+    playerUserId: '',
+    videoUrl: '',
     comment_list: [],
     refId: 0,
-    assNum:'',
-    _actId:'',
-    _userId:'',
-    reviousUrl: '',//上一个视频
-    currentUrl:'',//当前播放的视频
-    nextUrl: '',//下一个视频 
-    isball:false,
-    isdtzan:false,
-    isclick:true,
-    isshare:false,
-    frenum:0,
-    videodata:[],
-    food:[],
-    page:1,
-    voteNum:0,
-    cotitle:'',
-    _iconUrl:'',
-    _nickName:''
+    assNum: '',
+    _actId: '',
+    _userId: '',
+    reviousUrl: '', //上一个视频
+    currentUrl: '', //当前播放的视频
+    nextUrl: '', //下一个视频 
+    isball: false,
+    isdtzan: false,
+    isclick: true,
+    isshare: false,
+    frenum: 0,
+    videodata: [],
+    food: [],
+    page: 1,
+    voteNum: 0,
+    cotitle: '',
+    _iconUrl: '',
+    _nickName: ''
   },
   /**
-  * 生命周期函数--监听页面加载
-  */
-  onLoad: function (options) {
+   * 生命周期函数--监听页面加载
+   */
+  onLoad: function(options) {
     console.log('options:', options)
     if (options.userId) {
       this.setData({
@@ -60,9 +62,9 @@ Page({
     }
   },
   /**
-  * 生命周期函数--监听页面显示
-  */
-  onShow: function () {
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function() {
     let that = this;
     if (app.globalData.userInfo.userId) {
       if (app.globalData.userInfo.mobile) {
@@ -84,13 +86,13 @@ Page({
     }
     // console.log(app.globalData)
   },
-  onHide: function () {
+  onHide: function() {
     this.setData({
       currentUrl: ''
     });
   },
 
-  findByCode: function () { //通过code查询用户信息
+  findByCode: function() { //通过code查询用户信息
     let that = this;
     wx.login({
       success: res => {
@@ -113,7 +115,7 @@ Page({
                 url: '/pages/personal-center/registered/registered'
               })
             }
-            that.authlogin();//获取token
+            that.authlogin(); //获取token
           } else {
             that.findByCode();
           }
@@ -121,7 +123,7 @@ Page({
       }
     })
   },
-  authlogin: function () { //获取token
+  authlogin: function() { //获取token
     let that = this;
     wx.request({
       url: this.data._build_url + 'auth/login?userName=' + app.globalData.userInfo.userName,
@@ -130,7 +132,7 @@ Page({
       header: {
         'content-type': 'application/json' // 默认值
       },
-      success: function (res) {
+      success: function(res) {
         if (res.data.code == 0) {
           let _token = 'Bearer ' + res.data.data;
           app.globalData.token = _token;
@@ -147,28 +149,30 @@ Page({
 
 
 
-  getuserif: function (val) {  //从自己的服务器获取用户信息
+  getuserif: function(val) { //从自己的服务器获取用户信息
     let that = this;
     this.setData({
-      _userId:val
+      _userId: val
     })
-    wx.request({  //从自己的服务器获取用户信息
+    wx.request({ //从自己的服务器获取用户信息
       url: this.data._build_url + 'user/get/' + val,
       header: {
         "Authorization": app.globalData.token
       },
-      success: function (res) {
+      success: function(res) {
         if (res.data.code == 0) {
-          let data = res.data.data, reg = /^1[34578][0-9]{9}$/, _nickName='';
+          let data = res.data.data,
+            reg = /^1[34578][0-9]{9}$/,
+            _nickName = '';
           if (data.nickName && reg.test(data.nickName)) {
             data.nickName = data.nickName.substr(0, 3) + "****" + data.nickName.substr(7)
           }
           if (data.userName && reg.test(data.userName)) {
             data.userName = data.userName.substr(0, 3) + "****" + data.userName.substr(7)
           }
-          if (data.nickName == 'null' || !data.nickName){
+          if (data.nickName == 'null' || !data.nickName) {
             _nickName = data.userName;
-          }else{
+          } else {
             _nickName = data.nickName;
           }
           that.setData({
@@ -184,9 +188,10 @@ Page({
       url: '../../index/index',
     })
   },
-  getfood: function (_type, data) {
-    
-    let that = this, _parms={};
+  getfood: function(_type, data) {
+
+    let that = this,
+      _parms = {};
     _parms = {
       page: this.data.page,
       row: 8,
@@ -194,11 +199,8 @@ Page({
       token: app.globalData.token
     }
     Api.topiclist(_parms).then((res) => {
-
-      // console.log('res:', res)
-      // return
-      let _data = this.data.food,newData=[];
-     
+      let _data = this.data.food,
+        newData = [];
       if (res.data.code == 0) {
         wx.hideLoading()
         if (res.data.data.list != null && res.data.data.list != "" && res.data.data.list != []) {
@@ -207,29 +209,29 @@ Page({
             if (footList[i].topicType == 1) { // topicType  1文章  2视频
             } else if (footList[i].topicType == 2) {
               footList[i].content = JSON.parse(footList[i].content);
-              if (footList[i].content[0].type == 'video'){
+              if (footList[i].content[0].type == 'video') {
                 newData.push(footList[i]);
               }
             }
           }
-          if (newData.length){
-            for (let i in newData){
+          if (newData.length) {
+            for (let i in newData) {
               _data.push(newData[i])
             }
             this.setData({
               food: _data
             })
-          }else{
+          } else {
             this.setData({
-              page:this.data.page+1
+              page: this.data.page + 1
             })
             this.getfood();
           }
-        } 
+        }
       }
     })
   },
-  gettopiclist: function (id) {  //获取文章内容数据
+  gettopiclist: function(id) { //获取文章内容数据
     if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
@@ -237,19 +239,20 @@ Page({
       return false
     }
     let _parms = {
-      id: id,
-      zanUserId: app.globalData.userInfo.userId,
-      zanUserName: app.globalData.userInfo.userName,
-      zanSourceType: '1',
-      token: app.globalData.token
-    },that=this;
+        id: id,
+        zanUserId: app.globalData.userInfo.userId,
+        zanUserName: app.globalData.userInfo.userName,
+        zanSourceType: '1',
+        token: app.globalData.token
+      },
+      that = this;
     Api.getTopicByZan(_parms).then((res) => {
       if (res.data.code == 0) {
         that.getcmtlist(id);
 
         let _data = res.data.data;
         that.getuserif(_data.userId)
-       
+
         _data.summary = utils.uncodeUtf16(_data.summary);
         _data.content = utils.uncodeUtf16(_data.content);
         _data.timeDiffrence = utils.timeDiffrence(res.data.currentTime, _data.updateTime, _data.createTime)
@@ -258,16 +261,16 @@ Page({
         _data.zan = utils.million(_data.zan);
         let _arr = _data.updateTime.split(' ');
         let arr = _arr[0].split('-');
-        _data.updateTime = arr[1] + '-' + arr[2]+' '+ _arr[1];
+        _data.updateTime = arr[1] + '-' + arr[2] + ' ' + _arr[1];
         let reg = /^1[34578][0-9]{9}$/;
         if (reg.test(_data.userName)) {
           _data.userName = _data.userName.substr(0, 3) + "****" + _data.userName.substr(7);
         }
-        if (_data.isZan==0){  //
+        if (_data.isZan == 0) { //
           that.setData({
-            isdtzan:true
+            isdtzan: true
           })
-        }else{
+        } else {
           that.setData({
             isdtzan: false
           })
@@ -277,17 +280,17 @@ Page({
           cotitle: utils.uncodeUtf16(_data.title),
           videodata: _data,
           playerUserId: _data.userId,
-          voteNum:_data.zan,
+          voteNum: _data.zan,
         })
       }
     })
   },
-  toplayer:function(){  //to个人主页
+  toplayer: function() { //to个人主页
     if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
       })
-    }else{
+    } else {
       wx.navigateTo({
         url: '../../activityDetails/homePage/homePage?actId=' + this.data._actId + '&userId=' + this.data._userId,
       })
@@ -298,13 +301,13 @@ Page({
       this.setData({
         issnap: true
       })
-    }else{
+    } else {
       this.setData({
         isComment: !this.data.isComment
       });
     }
   },
-  onPageScroll: function () {  //监听页面滑动
+  onPageScroll: function() { //监听页面滑动
     this.setData({
       isComment: false
     })
@@ -319,13 +322,54 @@ Page({
       commentVal: e.detail.value
     })
   },
-  setcmtadd: function () {  //新增评论
+  setcmtadd: function() { //新增评论
     if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
       })
-    }else{
-      if (!this.data.commentVal) {
+    } else {
+      if (this.data.commentVal) {
+        let _value = utils.utf16toEntities(this.data.commentVal),
+          that = this, _values ="";
+        this.setData({
+          commentVal: _value,
+          isComment: false
+        });
+        let _parms = {
+          refId: this.data.refId,
+          cmtType: "2",
+          content: this.data.commentVal,
+          // userId: app.globalData.userInfo.userId,
+          // userName: app.globalData.userInfo.userName,
+          // nickName: app.globalData.userInfo.nickName,
+          token: app.globalData.token
+        };
+
+        for (var key in _parms) {
+          _values += key + "=" + _parms[key] + "&";
+        }
+        _values = _values.substring(0, _values.length - 1);
+        wx.request({
+          url: that.data._build_url + 'cmt/add?' + _values,
+          header: {
+            "Authorization": app.globalData.token
+          },
+          method: 'POST',
+          success: function(res) {
+            if (res.data.code == 0) {
+              that.setData({
+                commentVal: '',
+              })
+              that.getcmtlist();
+            } else {
+              wx.showToast({
+                title: '系统繁忙,请稍后再试',
+                icon: 'none'
+              })
+            }
+          }
+        })
+      } else {
         wx.showToast({
           title: '请输入评论内容',
           icon: 'none',
@@ -334,47 +378,17 @@ Page({
         this.setData({
           isComment: false
         })
-        return false;
       }
-      let _value = utils.utf16toEntities(this.data.commentVal)
-      this.setData({
-        commentVal: _value,
-        isComment: false
-      })
-
-      let _parms = {
-        refId: this.data.refId,
-        cmtType: "2",
-        content: this.data.commentVal,
-        // userId: app.globalData.userInfo.userId,
-        // userName: app.globalData.userInfo.userName,
-        // nickName: app.globalData.userInfo.nickName,
-        token: app.globalData.token
-      };
-      console.log('_parms:', _parms)
-      Api.cmtadd(_parms).then((res) => {
-        if (res.data.code == 0) {
-          this.setData({
-            commentVal: '',
-          })
-          this.getcmtlist();
-        } else {
-          wx.showToast({
-            title: '系统繁忙,请稍后再试',
-            icon: 'none'
-          })
-        }
-      })
     }
   },
-  getcmtlist: function (id) {  //获取评论数据
+  getcmtlist: function(id) { //获取评论数据
     let _parms = {
       // zanUserId: app.globalData.userInfo.userId,
       token: app.globalData.token,
       cmtType: '2',
       refId: this.data.refId,
       token: app.globalData.token
-    }
+    };
     Api.cmtlist(_parms).then((res) => {
       let _data = res.data.data;
       _data.total = utils.million(_data.total)
@@ -392,13 +406,13 @@ Page({
         }
         this.setData({
           comment_list: _data.list,
-          totalComment:_data.list.length,
+          totalComment: _data.list.length,
           assNum: _data.list.length,
         })
       }
     })
   },
-  castvote: function () {  //選手投票
+  castvote: function() { //選手投票
     if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
@@ -438,7 +452,7 @@ Page({
     });
   },
 
-  toLike: function (e) {//评论点赞
+  toLike: function(e) { //评论点赞
     if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
@@ -451,7 +465,8 @@ Page({
       title: '',
       duration: 2000
     })
-    let id = e.currentTarget.id, ind = '';
+    let id = e.currentTarget.id,
+      ind = '';
     for (let i = 0; i < this.data.comment_list.length; i++) {
       if (this.data.comment_list[i].id == id) {
         ind = i;
@@ -469,7 +484,7 @@ Page({
           mask: true,
           icon: 'none',
           title: '点赞成功',
-          duration:2000
+          duration: 2000
         })
         var comment_list = this.data.comment_list;
         comment_list[ind].isZan = 1;
@@ -480,14 +495,15 @@ Page({
       }
     })
   },
-  cancelLike(e) {  //取消点赞
+  cancelLike(e) { //取消点赞
     if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
       })
       return false
     }
-    let id = e.currentTarget.id,ind = '';
+    let id = e.currentTarget.id,
+      ind = '';
     for (let i = 0; i < this.data.comment_list.length; i++) {
       if (this.data.comment_list[i].id == id) {
         ind = i;
@@ -519,8 +535,8 @@ Page({
       }
     })
   },
-  handzan:function(){
-    if(this.data.isclick){
+  handzan: function() {
+    if (this.data.isclick) {
       this.setData({
         isclick: false
       });
@@ -537,23 +553,23 @@ Page({
       }
     }
   },
-  dianzanwz: function () {  //文章点赞
-    let that = this,_details = this.data.videodata;
+  dianzanwz: function() { //文章点赞
+    let that = this,
+      _details = this.data.videodata;
     if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true,
         clickvideo: false
       })
-    }else{
+    } else {
       wx.request({
-        url: this.data._build_url + 'zan/add?refId=' + that.data.refId+'&type=2',
-        method:'POST',
+        url: this.data._build_url + 'zan/add?refId=' + that.data.refId + '&type=2',
+        method: 'POST',
         header: {
           "Authorization": app.globalData.token
         },
-        success: function (res) {
-          console.log('res:',res)
-          setTimeout(function () {
+        success: function(res) {
+          setTimeout(function() {
             that.setData({
               isclick: true
             })
@@ -578,22 +594,23 @@ Page({
       })
     }
   },
-  quxiaozanwz: function () {  //文章取消点赞
-    let that = this, _details = this.data.videodata;
-    if (!app.globalData.userInfo.mobile){
+  quxiaozanwz: function() { //文章取消点赞
+    let that = this,
+      _details = this.data.videodata;
+    if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true,
         clickvideo: false
       })
-    }else{
-      wx.request({ 
+    } else {
+      wx.request({
         url: this.data._build_url + 'zan/delete?refId=' + that.data.refId + '&type=2',
         method: 'POST',
         header: {
           "Authorization": app.globalData.token
         },
-        success: function (res) {
-          setTimeout(function () {
+        success: function(res) {
+          setTimeout(function() {
             that.setData({
               isclick: true
             })
@@ -627,7 +644,7 @@ Page({
       })
     }
   },
-  closetel: function (e) {
+  closetel: function(e) {
     let id = e.target.id;
     this.setData({
       issnap: false
@@ -638,20 +655,19 @@ Page({
       })
     }
   },
- 
-  handshare(){  //关闭打开模态框
+
+  handshare() { //关闭打开模态框
     this.setData({
       isshare: !this.data.isshare
     })
   },
 
 
-  againgetinfo: function () { //点击获取用户unionId
-    console.log("againgetinfo")
+  againgetinfo: function() { //点击获取用户unionId
     let that = this;
     wx.getUserInfo({
       withCredentials: true,
-      success: function (res) {
+      success: function(res) {
         let _pars = {
           sessionKey: app.globalData.userInfo.sessionKey,
           ivData: res.iv,
@@ -664,16 +680,16 @@ Page({
             })
             let _data = JSON.parse(resv.data.data);
             app.globalData.userInfo.unionId = _data.unionId;
-            
+
           }
         })
       }
     })
   },
-//滑动结束事件
-  handletouchend: function (event) {
+  //滑动结束事件
+  handletouchend: function(event) {
     // console.log("handletouchend:", event)
-    if (this.data.videoUrl){
+    if (this.data.videoUrl) {
       return false
     }
     var currentX = event.changedTouches[0].pageX
@@ -682,15 +698,14 @@ Page({
     var ty = currentY - this.data.lastY
     var text = ""
     //左右方向滑动
-    
+
     if (Math.abs(tx) > Math.abs(ty)) {
       if (tx < 0) {
         console.log("向左滑动");
-       
-      }
-      else if (tx > 0) {
+
+      } else if (tx > 0) {
         console.log("向右滑动")
-        
+
       }
 
     }
@@ -698,18 +713,21 @@ Page({
     else {
       if (ty < 0) {
         console.log("向上滑动")
-        this.setData({  //上一个视频
+        this.setData({ //上一个视频
           reviousUrl: this.data.currentUrl,
         })
 
-        let _Num = this.data.frenum*1+1;
+        let _Num = this.data.frenum * 1 + 1;
         if (_Num == this.data.food.length - 1) {
-          _Num= 0
+          _Num = 0
         }
-        let _curr = this.data.nextUrl ? this.data.nextUrl : this.data.food[_Num].content[0].value, _title = utils.uncodeUtf16(this.data.food[_Num].title), _userId = this.data.food[_Num].userId, _id = this.data.food[_Num].id;
+        let _curr = this.data.nextUrl ? this.data.nextUrl : this.data.food[_Num].content[0].value,
+          _title = utils.uncodeUtf16(this.data.food[_Num].title),
+          _userId = this.data.food[_Num].userId,
+          _id = this.data.food[_Num].id;
         this.getuserif(_userId);
         this.gettopiclist(_id);
-        this.setData({  //当前播放的视频
+        this.setData({ //当前播放的视频
           currentUrl: _curr,
           refId: this.data.food[_Num].id,
           cotitle: _title,
@@ -718,34 +736,35 @@ Page({
 
         _Num = _Num * 1 + 1;
 
-        this.setData({  //下一个视频 
+        this.setData({ //下一个视频 
           nextUrl: this.data.food[_Num].content[0].value
         })
 
-        if (_Num >= this.data.food.length-3){
+        if (_Num >= this.data.food.length - 3) {
           this.setData({
-            page:this.data.page+1
+            page: this.data.page + 1
           })
           this.getfood();
         }
-      }
-
-      else if (ty > 0) {
+      } else if (ty > 0) {
         console.log("向下滑动")
         let _Num = this.data.frenum * 1 - 1;
         if (_Num == 0) {
-          _Num=this.data.food.length - 1
+          _Num = this.data.food.length - 1
         }
         this.setData({
           frenum: _Num
         })
-        this.setData({  //下一个视频
+        this.setData({ //下一个视频
           nextUrl: this.data.currentUrl,
         })
-        let _curr = this.data.reviousUrl ? this.data.reviousUrl : this.data.food[_Num], _title = this.data.food[_Num].title, _userId = this.data.food[_Num].userId, _id = this.data.food[_Num].id;
+        let _curr = this.data.reviousUrl ? this.data.reviousUrl : this.data.food[_Num],
+          _title = this.data.food[_Num].title,
+          _userId = this.data.food[_Num].userId,
+          _id = this.data.food[_Num].id;
         this.getuserif(_userId);
         this.gettopiclist(_id);
-        this.setData({  //当前播放的视频
+        this.setData({ //当前播放的视频
           currentUrl: _curr,
           refId: this.data.food[_Num].id,
           cotitle: _title,
@@ -753,7 +772,7 @@ Page({
         })
         _Num = _Num * 1 - 1;
 
-        this.setData({  //下一个视频 
+        this.setData({ //下一个视频 
           reviousUrl: this.data.food[_Num].content[0].value,
         })
       }
@@ -768,7 +787,7 @@ Page({
   },
 
   //滑动开始事件
-  handletouchtart: function (event) {
+  handletouchtart: function(event) {
     // console.log("handletouchtart:",event)
     this.data.lastX = event.touches[0].pageX;
     this.data.lastY = event.touches[0].pageY;
@@ -776,15 +795,15 @@ Page({
       isComment: false
     })
   },
-    //滑动移动事件
-  handletouchmove: function (event) {
+  //滑动移动事件
+  handletouchmove: function(event) {
     // console.log("handletouchmove:",event)
     // this.data.currentGesture = 0;
     // console.log("没有滑动");
 
   },
 
-  onShareAppMessage: function (ops) {
+  onShareAppMessage: function(ops) {
     if (ops.from === 'button') {
       // 来自页面内转发按钮
       console.log(ops.target)
@@ -792,11 +811,11 @@ Page({
     return {
       title: '享7--视频动态',
       path: 'pages/activityDetails/video-details/video-details?id=' + this.data.refId,
-      success: function (res) {
+      success: function(res) {
         // 转发成功
         console.log("转发成功:" + JSON.stringify(res));
       },
-      fail: function (res) {
+      fail: function(res) {
         // 转发失败
         console.log("转发失败:" + JSON.stringify(res));
       }
@@ -804,5 +823,3 @@ Page({
   }
 
 })
-
-
