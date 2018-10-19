@@ -54,11 +54,13 @@ Page({
       }
     })
   },
-  getData: function () {
-    wx.showLoading({
-      title: '数据加载中...',
-      mask: true
-    })
+  getData: function (requestTypes){
+    if(!requestTypes){
+      wx.showLoading({
+        title: '数据加载中...',
+        mask: true
+      })
+    }
     let _parms = {
       locationX: app.globalData.userInfo.lng,
       locationY: app.globalData.userInfo.lat,
@@ -92,16 +94,23 @@ Page({
           }
           that.setData({
             posts_key: posts,
-            pageTotal:Math.ceil(res.data.data.total /8)
+            pageTotal:Math.ceil(res.data.data.total /8),
+            loading: false
           },()=>{
             requesting = false
             wx.hideLoading();
           })
         }else{
+          this.setData({
+            loading: false
+          })
           requesting = false
           wx.hideLoading();
         }
       },()=>{
+        this.setData({
+          loading: false
+        })
         requesting = false
         wx.hideLoading()
       })
@@ -123,20 +132,28 @@ Page({
             }
             that.setData({
               posts_key: posts,
-              pageTotal: Math.ceil(res.data.data.total / 8)
+              pageTotal: Math.ceil(res.data.data.total / 8),
+              loading: false
             },()=>{
+              this.setData({
+                loading: false
+              })
               requesting = false
               wx.hideLoading()
             })
           }else{
             this.setData({
-              isclosure:false
+              isclosure:false,
+              loading: false
             })
             requesting = false
             wx.hideLoading()
           }
         }
       },()=>{
+        this.setData({
+          loading: false
+        })
         requesting = false
         wx.hideLoading()
       })
@@ -220,6 +237,7 @@ Page({
   // },
   //点击列表跳转详情
   onTouchItem: function (event) {
+   
     wx.navigateTo({
       url: '../merchant-particulars/merchant-particulars?shopid=' + event.currentTarget.id,
     })
@@ -236,9 +254,10 @@ Page({
     }
     let oldpage = this.data.page
     this.setData({
-      page: this.data.page + 1
+      page: this.data.page + 1,
+      loading: true
     },()=>{
-      this.getData()
+      this.getData(1)
     });
 
     
