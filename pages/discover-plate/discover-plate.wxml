@@ -13,7 +13,7 @@
 <view class="newUserModal" wx:if="{{issnap}}">
   <view class='drawer_screen'>
     <view class='sqtishi'>提示</view>
-    <view class='drphnumber'>获得更多体验,请移步[我的]-[新用户注册]</view>
+    <view class='drphnumber'>注册登录后可以体验更多</view>
     <button class='gettel sqgettel' bindtap='closetel' id='1'>确定</button>
     <button class='gettel colosetel' bindtap='closetel' id='2'>取消</button>
   </view>

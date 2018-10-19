@@ -513,7 +513,6 @@ Page({
     wx.getLocation({
       type: 'wgs84',
       success: function (res) {
-        console.log("success:",res)
         let latitude = res.latitude,longitude = res.longitude;
         that.requestCityName(latitude, longitude);
       },

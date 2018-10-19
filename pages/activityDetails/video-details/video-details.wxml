@@ -23,7 +23,7 @@
     <cover-view class="newUserModal" wx:if="{{issnap && isnew}}">
       <cover-view class='drawer_screen'>
         <cover-view class='sqtishi'>提示</cover-view>
-        <cover-view class='drphnumber'>获得更多体验,请移步[我的]-[新用户注册]</cover-view>
+        <cover-view class='drphnumber'>注册登录后可以体验更多</cover-view>
         <cover-view class='gettel sqgettel' bindtap='closetel' id='1'>确定</cover-view>
         <cover-view class='gettel colosetel' bindtap='closetel' id='2'>取消</cover-view>
       </cover-view>
