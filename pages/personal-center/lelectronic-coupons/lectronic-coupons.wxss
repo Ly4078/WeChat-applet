@@ -202,6 +202,14 @@ page {
   padding: 20rpx 36rpx 0 0rpx;
   box-sizing: border-box;
 }
+.order-for-goods1 {
+  width: 100%;
+  background-color: white;
+  border-top: 1rpx dotted #e0e0e0;
+  position: relative;
+  padding: 20rpx 36rpx 0 0rpx;
+  box-sizing: border-box;
+}
 
 .order-for-goods::before, .order-for-goods::after {
   content: '';

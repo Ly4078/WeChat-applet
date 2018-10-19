@@ -192,13 +192,15 @@ Page({
     });
     // this.findByCode();
     // return;
-    // this.indexinit();
-    wx.showLoading({
-      title: '数据加载中...',
-      mask: true
-    })
+
+    this.indexinit();
+    // wx.showLoading({
+    //   title: '数据加载中...',
+    //   mask: true
+    // })
   },
-  onShow: function () {
+  onShow: function () {},
+  indexinit :function(){
     let that = this;
     // console.log('globalData:',app.globalData)
     if (app.globalData.userInfo.userId) {
@@ -678,6 +680,7 @@ Page({
         rows: 10,
         token: app.globalData.token
       };
+
       Api.partakerList(_parms).then((res) => {
         wx.hideLoading();
         if (res.data.code == 0) {

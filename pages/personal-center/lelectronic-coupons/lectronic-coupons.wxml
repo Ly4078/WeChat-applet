@@ -138,7 +138,7 @@
       </view>
     </view>
   </view>
-  <view class='warm-prompt'>
+  <view class='warm-prompt' wx:if="{{ticket.length>0}}">
     <text>^_^温馨提示:到店向商家出示劵码</text>
   </view>
 </view>
