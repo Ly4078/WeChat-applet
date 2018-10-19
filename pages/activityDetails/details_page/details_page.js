@@ -220,43 +220,7 @@ Page({
       }
     })
   },
-  toLike: function (event) {//评论点赞
-    let that = this
-    let id = event.currentTarget.id
-    let ind = ''
-    if (app.globalData.userInfo.mobile == 'a' || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
-      this.setData({
-        issnap: true
-      })
-      return false
-    }
-    for (let i = 0; i < this.data.cmtdata.list.length; i++) {
-      if (this.data.cmtdata.list[i].id == id) {
-        ind = i;
-      }
-    }
-    let _parms = {
-      refId: id,
-      type: '4',
-      // userId: app.globalData.userInfo.userId,
-      token: app.globalData.token
-    }
-    Api.zanadd(_parms).then((res) => {
-      if (res.data.code == 0) {
-        wx.showToast({
-          mask: true,
-          icon: 'none',
-          title: '点赞成功'
-        }, 1500)
-        var _cmtdata = that.data.cmtdata
-        _cmtdata.list[ind].isZan = 1;
-        _cmtdata.list[ind].zan++;
-        that.setData({
-          cmtdata: _cmtdata
-        });
-      }
-    })
-  },
+
   closetel: function (e) {
     let id = e.target.id;
     this.setData({

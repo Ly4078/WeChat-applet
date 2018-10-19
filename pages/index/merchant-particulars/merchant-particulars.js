@@ -107,7 +107,7 @@ Page({
   onShow: function () {
     let that = this;
     // this.merchantInit();
-
+    this.commentList()
     return;
 
     var vm = this;
@@ -497,7 +497,7 @@ Page({
     this.recommendation();
     this.isCollected();
     this.merchantArt();
-    this.getpackage();
+    // this.getpackage();
     this.availableVote();
     this.commentList();
     this.getsetget();

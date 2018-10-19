@@ -361,78 +361,77 @@ Page({
       this.setData({
         issnap: true
       })
-      return false
-    }
-    let articleList = this.data.articleList,
-      id = e.currentTarget.id,
-      that = this;
-    let _parms = {
-      actId: this.data.actId,
-      refId: id,
-      type: '2',
-      // userId: this.data.voteUserId,
-      token: app.globalData.token
-    }
-    Api.zanadd(_parms).then((res) => {
-      if (res.data.code == 0) {
-        wx.showToast({
-          mask: 'true',
-          duration: 2000,
-          icon: 'none',
-          title: '点赞成功'
-        });
-        for (let i = 0; i < articleList.length; i++) {
-          if (articleList[i].id == id) {
-            articleList[i].isZan = 1
-            articleList[i].zan = articleList[i].zan + 1;
-            this.setData({
-              articleList: articleList,
-              voteNum: that.data.voteNum ? that.data.voteNum + 1 : 1
-            })
+    }else{
+      let articleList = this.data.articleList,
+        id = e.currentTarget.id,
+        that = this;
 
-            return false;
+      wx.request({
+        url: this.data._build_url + 'zan/add?refId=' + that.data.refId + '&type=2&id=' + id,
+        method: 'POST',
+        header: {
+          "Authorization": app.globalData.token
+        },
+        success: function (res) {
+          if (res.data.code == 0) {
+            wx.showToast({
+              mask: 'true',
+              duration: 2000,
+              icon: 'none',
+              title: '点赞成功'
+            });
+            for (let i = 0; i < articleList.length; i++) {
+              if (articleList[i].id == id) {
+                articleList[i].isZan = 1
+                articleList[i].zan = articleList[i].zan + 1;
+                this.setData({
+                  articleList: articleList,
+                  voteNum: that.data.voteNum ? that.data.voteNum + 1 : 1
+                })
+              }
+            }
           }
         }
-      }
-    })
+      })
+    }
+    
   },
   quxiaozanwz: function(e) { //文章取消点赞
-    if (app.globalData.userInfo.mobile == undefined || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+    let articleList = this.data.articleList,
+      id = e.currentTarget.id, that = this;
+    if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
       })
-      return false
-    }
-    let articleList = this.data.articleList,
-      id = e.currentTarget.id;
-    let _parms = {
-      actId: this.data.actId,
-      refId: id,
-      type: '2',
-      // userId: this.data.voteUserId,
-      token: app.globalData.token
-    }
-    Api.zandelete(_parms).then((res) => {
-      if (res.data.code == 0) {
-        wx.showToast({
-          mask: 'true',
-          duration: 2000,
-          icon: 'none',
-          title: '取消成功'
-        });
-        for (let i = 0; i < articleList.length; i++) {
-          if (articleList[i].id == id) {
-            articleList[i].isZan = 0;
-            articleList[i].zan = articleList[i].zan > 0 ? articleList[i].zan - 1 : 0;
-            this.setData({
-              articleList: articleList,
-              voteNum: this.data.voteNum > 0 ? this.data.voteNum - 1 : 0
-            })
-            return false;
+    }else{
+      wx.request({
+        url: this.data._build_url + 'zan/delete?refId=' + id + '&type=2&actId=' + that.data.actId,
+        method: 'POST',
+        header: {
+          "Authorization": app.globalData.token
+        },
+        success: function (res) {
+          if (res.data.code == 0) {
+            wx.showToast({
+              mask: 'true',
+              duration: 2000,
+              icon: 'none',
+              title: '取消成功'
+            });
+            for (let i = 0; i < articleList.length; i++) {
+              if (articleList[i].id == id) {
+                articleList[i].isZan = 0;
+                articleList[i].zan = articleList[i].zan > 0 ? articleList[i].zan - 1 : 0;
+                that.setData({
+                  articleList: articleList,
+                  voteNum: that.data.voteNum > 0 ? that.data.voteNum - 1 : 0
+                })
+              }
+            }
           }
         }
-      }
-    })
+      })
+    }
   },
   toDetail(e) {
     if (app.globalData.userInfo.mobile == undefined || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {

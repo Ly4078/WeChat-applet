@@ -89,6 +89,9 @@ Page({
       wx.request({
         url: that.data._build_url + 'zan/add?refId=' + id + '&type=4&userId=' + app.globalData.userInfo.userId,
         method: "POST",
+        header: {
+          "Authorization": app.globalData.token
+        },
         success: function(res) {
           setTimeout(function() {
             that.setData({
@@ -129,6 +132,9 @@ Page({
       }
       wx.request({
         url: that.data._build_url + 'zan/delete?refId=' + id + '&type=4&userId=' + app.globalData.userInfo.userId,
+        header: {
+          "Authorization": app.globalData.token
+        },
         method: "POST",
         success: function (res) {
           setTimeout(function () {

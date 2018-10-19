@@ -382,31 +382,33 @@ Page({
           ind = i;
         }
       }
-      let _parms = {
-        refId: id,
-        type: 4,
-        token: app.globalData.token
-        // userId: this.data.voteUserId,
-      }
-      Api.zanadd(_parms).then((res) => {
-        setTimeout(function() {
-          that.setData({
-            voteFlag: true
-          });
-        }, 3000);
-        if (res.data.code == 0) {
-          wx.showToast({
-            mask: 'true',
-            duration: 2000,
-            icon: 'none',
-            title: '点赞成功'
-          })
-          var comment_list = this.data.comment_list;
-          comment_list[ind].isZan = 1;
-          comment_list[ind].zan++;
-          this.setData({
-            comment_list: comment_list
-          });
+
+      wx.request({
+        url: this.data._build_url + 'zan/add?refId=' + id + '&type=4',
+        method: 'POST',
+        header: {
+          "Authorization": app.globalData.token
+        },
+        success: function (res) {
+          setTimeout(function () {
+            that.setData({
+              voteFlag: true
+            });
+          }, 3000);
+          if (res.data.code == 0) {
+            wx.showToast({
+              mask: 'true',
+              duration: 2000,
+              icon: 'none',
+              title: '点赞成功'
+            })
+            var comment_list = this.data.comment_list;
+            comment_list[ind].isZan = 1;
+            comment_list[ind].zan++;
+            this.setData({
+              comment_list: comment_list
+            });
+          }
         }
       })
     }
@@ -417,50 +419,51 @@ Page({
       this.setData({
         issnap: true
       })
-      return false
-    }
-    if (this.data.voteFlag) {
-      this.setData({
-        voteFlag: false
-      });
-      let id = e.currentTarget.id;
-      let ind = '';
-      for (let i = 0; i < this.data.comment_list.length; i++) {
-        if (this.data.comment_list[i].id == id) {
-          ind = i;
-        }
-      }
-      let _parms = {
-        refId: id,
-        type: 4,
-        token: app.globalData.token
-        // userId: this.data.voteUserId,
-      }
-      Api.zandelete(_parms).then((res) => {
-        setTimeout(function() {
-          that.setData({
-            voteFlag: true
-          });
-        }, 3000);
-        if (res.data.code == 0) {
-          wx.showToast({
-            mask: 'true',
-            duration: 2000,
-            icon: 'none',
-            title: '点赞取消'
-          })
-          var comment_list = this.data.comment_list;
-          comment_list[ind].isZan = 0;
-          comment_list[ind].zan--;
-          if (comment_list[ind].zan <= 0) {
-            comment_list[ind].zan = 0;
+    }else{
+      if (this.data.voteFlag) {
+        this.setData({
+          voteFlag: false
+        });
+        let id = e.currentTarget.id, ind = '';
+        for (let i = 0; i < this.data.comment_list.length; i++) {
+          if (this.data.comment_list[i].id == id) {
+            ind = i;
           }
-          this.setData({
-            comment_list: comment_list
-          });
         }
-      })
+        wx.request({
+          url: this.data._build_url + 'zan/delete?refId=' + id + '&type=4',
+          method: 'POST',
+          header: {
+            "Authorization": app.globalData.token
+          },
+          success: function (res) {
+            setTimeout(function () {
+              that.setData({
+                voteFlag: true
+              });
+            }, 3000);
+            if (res.data.code == 0) {
+              wx.showToast({
+                mask: 'true',
+                duration: 2000,
+                icon: 'none',
+                title: '点赞取消'
+              })
+              var comment_list = that.data.comment_list;
+              comment_list[ind].isZan = 0;
+              comment_list[ind].zan--;
+              if (comment_list[ind].zan <= 0) {
+                comment_list[ind].zan = 0;
+              }
+              that.setData({
+                comment_list: comment_list
+              });
+            }
+          }
+        })
+      }
     }
+   
   },
   onShareAppMessage() {
     return {

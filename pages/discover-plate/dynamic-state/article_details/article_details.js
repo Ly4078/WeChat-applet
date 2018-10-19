@@ -207,38 +207,38 @@ Page({
     }
   },
   dianzanwz: function () {  //文章点赞
-    let that = this
-    let _details = this.data.details
+    let that = this, _details = this.data.details;
     if ( app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
       this.setData({
         issnap: true,
         clickvideo: false
       })
-      return false
+    }else{
+      wx.request({
+        url: that.data._build_url + 'zan/add?refId=' + _details.id + '&type=2',
+        method: 'POST',
+        header: {
+          "Authorization": app.globalData.token
+        },
+        success: function (res) {
+          if (res.data.code == 0) {
+            wx.showToast({
+              mask: true,
+              icon: 'none',
+              title: '点赞成功'
+            }, 1500)
+            _details.isZan = 1
+            _details.zan = _details.zan + 1
+            let _zan = that.data.zan
+            _zan++
+            that.setData({
+              details: _details,
+              zan: _zan
+            })
+          }
+        }
+      })
     }
-    let _parms = {
-      refId: _details.id,
-      type: '2',
-      // userId: app.globalData.userInfo.userId,
-      token: app.globalData.token
-    }
-    Api.zanadd(_parms).then((res) => {
-      if (res.data.code == 0) {
-        wx.showToast({
-          mask: true,
-          icon: 'none',
-          title: '点赞成功'
-        }, 1500)
-        _details.isZan = 1
-        _details.zan = _details.zan+1
-        let _zan = this.data.zan
-        _zan++
-        that.setData({
-          details: _details,
-          zan: _zan
-        })
-      }
-    })
   },
   quxiaozanwz: function () {  //文章取消点赞
     let that = this
@@ -250,69 +250,69 @@ Page({
       })
       return false
     }
-    let _parms = {
-      refId: _details.id,
-      type: '2',
-      // userId: app.globalData.userInfo.userId,
-      token: app.globalData.token
-    }
-    Api.zandelete(_parms).then((res) => {
-      if (res.data.code == 0) {
-        wx.showToast({
-          mask: true,
-          icon: 'none',
-          title: '取消成功',
-        }, 1500)
-        _details.isZan = 0
-        _details.zan = _details.zan - 1
-        if (_details.zan <0){
-          _details.zan = 0
+    wx.request({
+      url: this.data._build_url + 'zan/delete?refId=' + _details.id + '&type=2',
+      method: 'POST',
+      header: {
+        "Authorization": app.globalData.token
+      },
+      success: function (res) {
+        if (res.data.code == 0) {
+          wx.showToast({
+            mask: true,
+            icon: 'none',
+            title: '取消成功',
+          }, 1500)
+          _details.isZan = 0
+          _details.zan = _details.zan - 1
+          if (_details.zan < 0) {
+            _details.zan = 0
+          }
+          let _zan = that.data.zan;
+          _zan--;
+          that.setData({
+            details: _details,
+            zan: _zan
+          })
         }
-        let _zan = this.data.zan
-        _zan--
-        this.setData({
-          details: _details,
-          zan: _zan
-        })
       }
     })
   },
   toLike: function (event) {//评论点赞
-    let that = this
-    let id = event.currentTarget.id
-    let ind = ''
-    if (app.globalData.userInfo.mobile == 'a' || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+    let that = this,id = event.currentTarget.id, ind = '';
+    if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
       })
-      return false
-    }
-    for (let i = 0; i < this.data.cmtdata.list.length; i++) {
-      if (this.data.cmtdata.list[i].id == id) {
-        ind = i;
+    }else{
+      for (let i = 0; i < this.data.cmtdata.list.length; i++) {
+        if (this.data.cmtdata.list[i].id == id) {
+          ind = i;
+        }
       }
+      wx.request({
+        url: this.data._build_url + 'zan/add?refId=' + that.data.refId + '&type=4',
+        method: 'POST',
+        header: {
+          "Authorization": app.globalData.token
+        },
+        success: function (res) {
+          if (res.data.code == 0) {
+            wx.showToast({
+              mask: true,
+              icon: 'none',
+              title: '点赞成功'
+            }, 1500)
+            let _cmtdata = that.data.cmtdata
+            _cmtdata.list[ind].isZan = 1;
+            _cmtdata.list[ind].zan++;
+            that.setData({
+              cmtdata: _cmtdata
+            });
+          }
+        }
+      })
     }
-    let _parms = {
-      refId: id,
-      type: '4',
-      // userId: app.globalData.userInfo.userId,
-      token: app.globalData.token
-    }
-    Api.zanadd(_parms).then((res) => {
-      if (res.data.code == 0) {
-        wx.showToast({
-          mask: true,
-          icon: 'none',
-          title: '点赞成功'
-        }, 1500)
-        var _cmtdata = that.data.cmtdata
-        _cmtdata.list[ind].isZan = 1;
-        _cmtdata.list[ind].zan++;
-        that.setData({
-          cmtdata: _cmtdata
-        });
-      }
-    })
   },
   cancelLike: function (event) {  //评论取消点赞
     let that = this
@@ -322,34 +322,38 @@ Page({
       this.setData({
         issnap: true
       })
-      return false
-    }
-    for (let i = 0; i < this.data.cmtdata.list.length; i++) {
-      if (this.data.cmtdata.list[i].id == id) {
-        ind = i;
+    }else{
+      for (let i = 0; i < this.data.cmtdata.list.length; i++) {
+        if (this.data.cmtdata.list[i].id == id) {
+          ind = i;
+        }
       }
+
+      wx.request({
+        url: this.data._build_url + 'zan/delete?refId=' + id + '&type=4',
+        method: 'POST',
+        header: {
+          "Authorization": app.globalData.token
+        },
+        success: function (res) {
+          if (res.data.code == 0) {
+            wx.showToast({
+              mask: true,
+              icon: 'none',
+              title: '已取消'
+            }, 1500)
+            let _cmtdata = that.data.cmtdata
+            _cmtdata.list[ind].isZan = 0;
+            _cmtdata.list[ind].zan == 0 ? _cmtdata.list[ind].zan : _cmtdata.list[ind].zan--;
+            that.setData({
+              cmtdata: _cmtdata
+            });
+          }
+        }
+      })
     }
-    let _parms = {
-      refId: id,
-      type: '4',
-      // userId: app.globalData.userInfo.userId,
-      token: app.globalData.token
-    }
-    Api.zandelete(_parms).then((res) => {
-      if (res.data.code == 0) {
-        wx.showToast({
-          mask: true,
-          icon: 'none',
-          title: '已取消'
-        }, 1500)
-        let _cmtdata = that.data.cmtdata
-        _cmtdata.list[ind].isZan = 0;
-        _cmtdata.list[ind].zan == 0 ? _cmtdata.list[ind].zan : _cmtdata.list[ind].zan--;
-        that.setData({
-          cmtdata: _cmtdata
-        });
-      }
-    })
+    
+
   },
   closetel: function (e) {
     let id = e.target.id;

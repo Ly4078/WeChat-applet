@@ -323,34 +323,34 @@ Page({
       that.setData({
         likeFlag: false
       });
-      let _parms = {
-        refId: id,
-        type: 2,
-        token: app.globalData.token
-        // userId: app.globalData.userInfo.userId
-      }
-      Api.zanadd(_parms).then((res) => {
-        setTimeout(function() {
-          that.setData({
-            likeFlag: true
-          });
-        }, 3000);
-        if (res.data.code == 0) {
-          wx.showToast({
-            mask: 'true',
-            icon: 'none',
-            title: '点赞成功',
-            duration: 3000
-          })
-          for (let i = 0; i < article.length; i++) {
-            if (id == article[i].id) {
-              article[i].isZan++;
-              article[i].zan++;
-              this.setData({
-                article: article,
-                voteNum: this.data.voteNum + 1
-              })
-              return false;
+      wx.request({
+        url: that.data._build_url + 'zan/add?refId=' + id + '&type=2',
+        method: 'POST',
+        header: {
+          "Authorization": app.globalData.token
+        },
+        success: function (res) {
+          setTimeout(function () {
+            that.setData({
+              likeFlag: true
+            });
+          }, 3000);
+          if (res.data.code == 0) {
+            wx.showToast({
+              mask: 'true',
+              icon: 'none',
+              title: '点赞成功',
+              duration: 3000
+            })
+            for (let i = 0; i < article.length; i++) {
+              if (id == article[i].id) {
+                article[i].isZan++;
+                article[i].zan++;
+                that.setData({
+                  article: article,
+                  voteNum: that.data.voteNum + 1
+                })
+              }
             }
           }
         }
@@ -365,55 +365,57 @@ Page({
       this.setData({
         issnap: true
       })
-      return false
-    }
-    if (this.data.likeFlag) {
-      that.setData({
-        likeFlag: false
-      });
-      let _parms = {
-        refId: id,
-        type: 2,
-        token: app.globalData.token
-        // userId: app.globalData.userInfo.userId
-      }
-      Api.zandelete(_parms).then((res) => {
-        setTimeout(function () {
-          that.setData({
-            likeFlag: true
-          });
-        }, 3000);
-        if (res.data.code == 0) {
-          wx.showToast({
-            mask: 'true',
-            icon: 'none',
-            title: '取消成功',
-            duration: 3000
-          })
-          for (let i = 0; i < article.length; i++) {
-            if (id == article[i].id) {
-              article[i].isZan--;
-              article[i].zan--;
-              if (article[i].isZan <= 0) {
-                article[i].isZan = 0;
-              }
-              if (article[i].zan <= 0) {
-                article[i].zan = 0;
-              }
-              this.setData({
-                article: article,
-                voteNum: this.data.voteNum - 1
+    }else{
+      if (this.data.likeFlag) {
+        that.setData({
+          likeFlag: false
+        });
+        wx.request({
+          url: this.data._build_url + 'zan/delete?refId=' + id + '&type=2',
+          method: 'POST',
+          header: {
+            "Authorization": app.globalData.token
+          },
+          success: function (res) {
+            setTimeout(function () {
+              that.setData({
+                likeFlag: true
+              });
+            }, 3000);
+            if (res.data.code == 0) {
+              wx.showToast({
+                mask: 'true',
+                icon: 'none',
+                title: '取消成功',
+                duration: 3000
               })
-              if (this.data.voteNum <= 0) {
-                this.setData({
-                  voteNum: 0
-                })
+              for (let i = 0; i < article.length; i++) {
+                if (id == article[i].id) {
+                  article[i].isZan--;
+                  article[i].zan--;
+                  if (article[i].isZan <= 0) {
+                    article[i].isZan = 0;
+                  }
+                  if (article[i].zan <= 0) {
+                    article[i].zan = 0;
+                  }
+                  that.setData({
+                    article: article,
+                    voteNum: that.data.voteNum - 1
+                  })
+                  if (that.data.voteNum <= 0) {
+                    that.setData({
+                      voteNum: 0
+                    })
+                  }
+                }
               }
-              return false;
             }
           }
-        }
-      })
+        })
+
+    }
+    
     }
   },
   toDetails(e) {
@@ -587,38 +589,38 @@ Page({
     this.setData({
       voteFlag: false
     });
-    let id = e.currentTarget.id;
-    let ind = '';
+    let id = e.currentTarget.id,ind = '';
     for (let i = 0; i < this.data.comment_list.length; i++) {
       if (this.data.comment_list[i].id == id) {
         ind = i;
       }
     }
-    let _parms = {
-      refId: id,
-      type: 4,
-      // userId: this.data.voteUserId,
-      token: app.globalData.token
-    }
-    Api.zanadd(_parms).then((res) => {
-      if (res.data.code == 0) {
-        wx.showToast({
-          mask: 'true',
-          duration: 2000,
-          icon: 'none',
-          title: '点赞成功'
-        })
-        var comment_list = this.data.comment_list;
-        comment_list[ind].isZan = 1;
-        comment_list[ind].zan++;
-        this.setData({
-          comment_list: comment_list
-        });
-        setTimeout(function() {
+    wx.request({
+      url: this.data._build_url + 'zan/add?refId=' + id + '&type=4',
+      method: 'POST',
+      header: {
+        "Authorization": app.globalData.token
+      },
+      success: function (res) {
+        if (res.data.code == 0) {
+          wx.showToast({
+            mask: 'true',
+            duration: 2000,
+            icon: 'none',
+            title: '点赞成功'
+          })
+          var comment_list = that.data.comment_list;
+          comment_list[ind].isZan = 1;
+          comment_list[ind].zan++;
           that.setData({
-            voteFlag: true
+            comment_list: comment_list
           });
-        }, 1000);
+          setTimeout(function () {
+            that.setData({
+              voteFlag: true
+            });
+          }, 1000);
+        }
       }
     })
   },
@@ -636,41 +638,42 @@ Page({
     this.setData({
       voteFlag: false
     });
-    let id = e.currentTarget.id;
-    let ind = '';
+    let id = e.currentTarget.id,ind = '';
     for (let i = 0; i < this.data.comment_list.length; i++) {
       if (this.data.comment_list[i].id == id) {
         ind = i;
       }
     }
-    let _parms = {
-      refId: id,
-      type: 4,
-      token: app.globalData.token
-      // userId: this.data.voteUserId,
-    }
-    Api.zandelete(_parms).then((res) => {
-      if (res.data.code == 0) {
-        wx.showToast({
-          mask: 'true',
-          duration: 2000,
-          icon: 'none',
-          title: '点赞取消'
-        })
-        var comment_list = this.data.comment_list;
-        comment_list[ind].isZan = 0;
-        comment_list[ind].zan--;
-        if (comment_list[ind].zan <= 0) {
-          comment_list[ind].zan = 0;
-        }
-        this.setData({
-          comment_list: comment_list
-        });
-        setTimeout(function() {
+
+    wx.request({
+      url: this.data._build_url + 'zan/delete?refId=' +id + '&type=4',
+      method: 'POST',
+      header: {
+        "Authorization": app.globalData.token
+      },
+      success: function (res) {
+        if (res.data.code == 0) {
+          wx.showToast({
+            mask: 'true',
+            duration: 2000,
+            icon: 'none',
+            title: '点赞取消'
+          })
+          var comment_list = that.data.comment_list;
+          comment_list[ind].isZan = 0;
+          comment_list[ind].zan--;
+          if (comment_list[ind].zan <= 0) {
+            comment_list[ind].zan = 0;
+          }
           that.setData({
-            voteFlag: true
+            comment_list: comment_list
           });
-        }, 1000);
+          setTimeout(function () {
+            that.setData({
+              voteFlag: true
+            });
+          }, 1000);
+        }
       }
     })
   },

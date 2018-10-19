@@ -1,3 +1,4 @@
+
 import Api from '/../../../../utils/config/api.js';
 import { GLOBAL_API_DOMAIN } from '/../../../../utils/config/config.js';
 var utils = require('../../../../utils/util.js')
@@ -65,85 +66,73 @@ Page({
     }
   },
   dianzanwz: function (e) {  //推荐菜点赞
+    let that = this, _details = this.data.foodData;
     if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
       })
-      return false
-    }
-    let that = this
-    let _details = this.data.foodData
-    if (!app.globalData.userInfo.mobile) {
-      this.setData({
-        issnap: true
+    } else {
+      wx.request({
+        url: that.data._build_url + 'zan/add?refId=' + _details.id + '&type=6',
+        method: "POST",
+        header: {
+          "Authorization": app.globalData.token
+        },
+        success: function (res) {
+          if (res.data.code == 0) {
+            wx.showToast({
+              mask: true,
+              icon: 'none',
+              title: '点赞成功'
+            }, 1500)
+            _details.isZan = 1;
+            _details.zan = _details.zan + 1;
+            let _zan = that.data.zan;
+            _zan++;
+            that.setData({
+              foodData: _details,
+              zan: _zan
+            })
+          }
+        }
       })
-      return false
     }
-    let _parms = {
-      refId: _details.id,
-      type: '6',
-      token: app.globalData.token
-      // userId: app.globalData.userInfo.userId
-    }
-    Api.zanadd(_parms).then((res) => {
-      if (res.data.code == 0) {
-        wx.showToast({
-          mask: true,
-          icon: 'none',
-          title: '点赞成功'
-        }, 1500)
-        _details.isZan = 1
-        _details.zan = _details.zan + 1
-        let _zan = this.data.zan
-        _zan++
-        that.setData({
-          foodData: _details,
-          zan: _zan
-        })
-      }
-    })
   },
   quxiaozanwz: function () {  //推荐菜取消点赞
+    let that = this, _details = this.data.foodData;
     if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
       })
-      return false
-    }
-    let that = this
-    let _details = this.data.foodData
-    if (!app.globalData.userInfo.mobile) {
-      this.setData({
-        issnap: true
-      })
-      return false
-    }
-    let _parms = {
-      refId: _details.id,
-      type: '6',
-      token: app.globalData.token
-      // userId: app.globalData.userInfo.userId
-    }
-    Api.zandelete(_parms).then((res) => {
-      if (res.data.code == 0) {
-        wx.showToast({
-          mask: true,
-          icon: 'none',
-          title: '取消成功',
-        }, 1500)
-        _details.isZan = 0
-        _details.zan = _details.zan - 1
-        if (_details.zan < 0) {
-          _details.zan = 0
+    }else{
+      wx.request({
+        url: that.data._build_url + 'zan/delete?refId=' + _details.id + '&type=6',
+        method: "POST",
+        header: {
+          "Authorization": app.globalData.token
+        },
+        success: function (res) {
+          if (res.data.code == 0) {
+            wx.showToast({
+              mask: true,
+              icon: 'none',
+              title: '取消成功',
+            }, 1500)
+            _details.isZan = 0
+            _details.zan = _details.zan - 1
+            if (_details.zan < 0) {
+              _details.zan = 0
+            }
+            let _zan = that.data.zan
+            _zan--
+            that.setData({
+              foodData: _details,
+              zan: _zan
+            })
+          }
         }
-        let _zan = this.data.zan
-        _zan--
-        this.setData({
-          foodData: _details,
-          zan: _zan
-        })
-      }
-    })
+      })
+    }
   },
   toLike: function (event) { //评论点赞
     let that = this
@@ -162,6 +151,9 @@ Page({
     wx.request({
       url: that.data._build_url + 'zan/add?refId=' + id + '&type=4&userId=' + app.globalData.userInfo.userId,
       method: "POST",
+      header: {
+        "Authorization": app.globalData.token
+      },
       success: function (res) {
         if (res.data.code == 0) {
           wx.showToast({
@@ -198,6 +190,9 @@ Page({
     wx.request({
       url: that.data._build_url + 'zan/delete?refId=' + id + '&type=4&userId=' + app.globalData.userInfo.userId,
       method: "POST",
+      header: {
+        "Authorization": app.globalData.token
+      },
       success: function (res) {
         if (res.data.code == 0) {
           wx.showToast({
@@ -240,31 +235,41 @@ Page({
         icon: 'none'
       }, 1500)
     } else {
-      let content = utils.utf16toEntities(that.data.commentVal);
-      let _parms = {
+      let content = utils.utf16toEntities(that.data.commentVal), _values = "", _parms = {};
+      _parms = {
         refId: that.data.option.id,
         cmtType: '6',
         content: content,
-        token: app.globalData.token,
-        // userId: app.globalData.userInfo.userId,
-        // userName: app.globalData.userInfo.userName,
-        // nickName: app.globalData.userInfo.nickName
       }
-      Api.cmtadd(_parms).then((res) => {
-        if (res.data.code == 0) {
-          that.setData({
-            isComment: false,
-            commentVal: ""
-          })
-          that.commentList()
+      for (var key in _parms) {
+        _values += key + "=" + _parms[key] + "&";
+      }
+      _values = _values.substring(0, _values.length - 1);
+      wx.request({
+        url: that.data._build_url + 'cmt/add?' + _values,
+        header: {
+          "Authorization": app.globalData.token
+        },
+        method: 'POST',
+        success: function (res) {
+          if (res.data.code == 0) {
+            that.setData({
+              isComment: false,
+              commentVal: ""
+            })
+            that.commentList()
+          }
         }
-      })
+      });
     }
   },
   commentList: function () {//评论列表
     let that = this;
     wx.request({
       url: that.data._build_url + 'cmt/list',
+      header: {
+        "Authorization": app.globalData.token
+      },
       data: {
         refId: that.data.option.id,
         cmtType:6,
