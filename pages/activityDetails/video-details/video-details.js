@@ -236,54 +236,55 @@ Page({
       this.setData({
         issnap: true
       })
-      return false
-    }
-    let _parms = {
+    }else{
+      let _parms = {
         id: id,
         zanUserId: app.globalData.userInfo.userId,
         zanUserName: app.globalData.userInfo.userName,
         zanSourceType: '1',
         token: app.globalData.token
       },
-      that = this;
-    Api.getTopicByZan(_parms).then((res) => {
-      if (res.data.code == 0) {
-        that.getcmtlist(id);
+        that = this;
+      Api.getTopicByZan(_parms).then((res) => {
+        if (res.data.code == 0) {
+          that.getcmtlist(id);
 
-        let _data = res.data.data;
-        that.getuserif(_data.userId)
+          let _data = res.data.data;
+          that.getuserif(_data.userId)
 
-        _data.summary = utils.uncodeUtf16(_data.summary);
-        _data.content = utils.uncodeUtf16(_data.content);
-        _data.timeDiffrence = utils.timeDiffrence(res.data.currentTime, _data.updateTime, _data.createTime)
-        _data.content = JSON.parse(_data.content);
-        _data.hitNum = utils.million(_data.hitNum);
-        _data.zan = utils.million(_data.zan);
-        let _arr = _data.updateTime.split(' ');
-        let arr = _arr[0].split('-');
-        _data.updateTime = arr[1] + '-' + arr[2] + ' ' + _arr[1];
-        let reg = /^1[34578][0-9]{9}$/;
-        if (reg.test(_data.userName)) {
-          _data.userName = _data.userName.substr(0, 3) + "****" + _data.userName.substr(7);
-        }
-        if (_data.isZan == 0) { //
+          _data.summary = utils.uncodeUtf16(_data.summary);
+          _data.content = utils.uncodeUtf16(_data.content);
+          _data.timeDiffrence = utils.timeDiffrence(res.data.currentTime, _data.updateTime, _data.createTime)
+          _data.content = JSON.parse(_data.content);
+          _data.hitNum = utils.million(_data.hitNum);
+          _data.zan = utils.million(_data.zan);
+          let _arr = _data.updateTime.split(' ');
+          let arr = _arr[0].split('-');
+          _data.updateTime = arr[1] + '-' + arr[2] + ' ' + _arr[1];
+          let reg = /^1[34578][0-9]{9}$/;
+          if (reg.test(_data.userName)) {
+            _data.userName = _data.userName.substr(0, 3) + "****" + _data.userName.substr(7);
+          }
+          if (_data.isZan == 0) { //
+            that.setData({
+              isdtzan: true
+            })
+          } else {
+            that.setData({
+              isdtzan: false
+            })
+          }
           that.setData({
-            isdtzan: true
-          })
-        } else {
-          that.setData({
-            isdtzan: false
+            currentUrl: _data.content[0].value ? _data.content[0].value : videoUrl,
+            cotitle: utils.uncodeUtf16(_data.title),
+            videodata: _data,
+            playerUserId: _data.userId,
+            voteNum: _data.zan,
           })
         }
-        that.setData({
-          currentUrl: _data.content[0].value ? _data.content[0].value : videoUrl,
-          cotitle: utils.uncodeUtf16(_data.title),
-          videodata: _data,
-          playerUserId: _data.userId,
-          voteNum: _data.zan,
-        })
-      }
-    })
+      })
+    }
+    
   },
   toplayer: function() { //to个人主页
     if (!app.globalData.userInfo.mobile) {
@@ -417,39 +418,39 @@ Page({
       this.setData({
         issnap: true
       })
-      return false
-    }
-    let _this = this;
-    let _parms = {
-      actId: this.data.actId,
-      // userId: this.data.voteUserIdcastvote,
-      playerUserId: this.data.playerUserId,
-      token: app.globalData.token
-    }
-    Api.availableVote(_parms).then((res) => {
-      this.setData({
-        availableNum: res.data.data.user
-      });
-      if (this.data.availableNum <= 0) {
-        wx.showToast({
-          title: '今天票数已用完,请明天再来',
-          icon: 'none'
-        })
-        return false;
+    }else{
+      let _this = this, _parms = {};
+      _parms = {
+        actId: this.data.actId,
+        // userId: this.data.voteUserIdcastvote,
+        playerUserId: this.data.playerUserId,
+        token: app.globalData.token
       }
-      Api.voteAdd(_parms).then((res) => {
-        if (res.data.code == 0) {
+      Api.availableVote(_parms).then((res) => {
+        this.setData({
+          availableNum: res.data.data.user
+        });
+        if (this.data.availableNum <= 0) {
           wx.showToast({
-            title: '投票成功',
+            title: '今天票数已用完,请明天再来',
             icon: 'none'
           })
-          _this.setData({
-            availableNum: _this.data.availableNum - 1,
-            voteNum: _this.data.voteNum + 1
-          });
+          return false;
         }
+        Api.voteAdd(_parms).then((res) => {
+          if (res.data.code == 0) {
+            wx.showToast({
+              title: '投票成功',
+              icon: 'none'
+            })
+            _this.setData({
+              availableNum: _this.data.availableNum - 1,
+              voteNum: _this.data.voteNum + 1
+            });
+          }
+        });
       });
-    });
+    }
   },
 
   toLike: function(e) { //评论点赞
@@ -457,83 +458,109 @@ Page({
       this.setData({
         issnap: true
       })
-      return false
-    }
-    wx.showToast({
-      mask: true,
-      icon: 'none',
-      title: '',
-      duration: 2000
-    })
-    let id = e.currentTarget.id,
-      ind = '';
-    for (let i = 0; i < this.data.comment_list.length; i++) {
-      if (this.data.comment_list[i].id == id) {
-        ind = i;
+    }else{
+      wx.showToast({
+        mask: true,
+        icon: 'none',
+        title: '',
+        duration: 2000
+      })
+      let id = e.currentTarget.id,
+        ind = '', _parms = {}, _values="",that=this;
+      for (let i = 0; i < this.data.comment_list.length; i++) {
+        if (this.data.comment_list[i].id == id) {
+          ind = i;
+        }
       }
-    }
-    let _parms = {
-      refId: id,
-      type: 4,
-      // userId: app.globalData.userInfo.userId,
-      token: app.globalData.token
-    }
-    Api.zanadd(_parms).then((res) => {
-      if (res.data.code == 0) {
-        wx.showToast({
-          mask: true,
-          icon: 'none',
-          title: '点赞成功',
-          duration: 2000
-        })
-        var comment_list = this.data.comment_list;
-        comment_list[ind].isZan = 1;
-        comment_list[ind].zan++;
-        this.setData({
-          comment_list: comment_list
-        });
+      _parms = {
+        refId: id,
+        type: 4,
+        // userId: app.globalData.userInfo.userId,
+        token: app.globalData.token
+      };
+    
+      for (var key in _parms) {
+        _values += key + "=" + _parms[key] + "&";
       }
-    })
+      _values = _values.substring(0, _values.length - 1);
+      wx.request({
+        url: that.data._build_url + 'zan/add?' + _values,
+        header: {
+          "Authorization": app.globalData.token
+        },
+        method: 'POST',
+        success: function (res) {
+          console.log('likceres:',res)
+          if (res.data.code == 0) {
+            wx.showToast({
+              mask: true,
+              icon: 'none',
+              title: '点赞成功',
+              duration: 2000
+            })
+            let comment_list = that.data.comment_list;
+            comment_list[ind].isZan = 1;
+            comment_list[ind].zan++;
+            that.setData({
+              comment_list: comment_list
+            });
+          }
+        }
+      })
+    }
   },
   cancelLike(e) { //取消点赞
     if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
       })
-      return false
-    }
-    let id = e.currentTarget.id,
-      ind = '';
-    for (let i = 0; i < this.data.comment_list.length; i++) {
-      if (this.data.comment_list[i].id == id) {
-        ind = i;
-      }
-    }
-    let _parms = {
-      refId: id,
-      type: 4,
-      // userId: app.globalData.userInfo.userId,
-      token: app.globalData.token
-    }
-    Api.zandelete(_parms).then((res) => {
-      if (res.data.code == 0) {
-        wx.showToast({
-          mask: 'true',
-          duration: 2000,
-          icon: 'none',
-          title: '点赞取消'
-        })
-        var comment_list = this.data.comment_list;
-        comment_list[ind].isZan = 0;
-        comment_list[ind].zan--;
-        if (comment_list[ind].zan <= 0) {
-          comment_list[ind].zan = 0;
+    }else{
+      let id = e.currentTarget.id,
+        ind = '', _parms = {}, _values="",that=this;
+      for (let i = 0; i < this.data.comment_list.length; i++) {
+        if (this.data.comment_list[i].id == id) {
+          ind = i;
         }
-        this.setData({
-          comment_list: comment_list
-        });
       }
-    })
+      _parms = {
+        refId: id,
+        type: 4,
+        // userId: app.globalData.userInfo.userId,
+        token: app.globalData.token
+      }
+
+      for (var key in _parms) {
+        _values += key + "=" + _parms[key] + "&";
+      }
+      _values = _values.substring(0, _values.length - 1);
+      wx.request({
+        url: that.data._build_url + 'zan/add?' + _values,
+        header: {
+          "Authorization": app.globalData.token
+        },
+        method: 'POST',
+        success: function (res) {
+          if (res.data.code == 0) {
+          wx.showToast({
+            mask: 'true',
+            duration: 2000,
+            icon: 'none',
+            title: '点赞取消'
+          })
+          let comment_list = that.data.comment_list;
+          comment_list[ind].isZan = 0;
+          comment_list[ind].zan--;
+          if (comment_list[ind].zan <= 0) {
+            comment_list[ind].zan = 0;
+          }
+          that.setData({
+            comment_list: comment_list
+          });
+        }
+        }
+      })
+    }
+    
   },
   handzan: function() {
     if (this.data.isclick) {

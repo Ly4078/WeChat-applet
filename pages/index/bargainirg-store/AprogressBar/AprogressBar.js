@@ -226,16 +226,12 @@ Page({
                         if (res.authSetting['scope.userLocation']) {
                           village_LBS(that);
                         } else {
-                          let latitude = '',
-                            longitude = '';
+                          let latitude = '30.51597',
+                            longitude = '114.34035';
                           that.requestCityName(latitude, longitude);
                         }
                       }
                     })
-                  } else if (res.cancel) {
-                    let latitude = '',
-                      longitude = '';
-                    that.requestCityName(latitude, longitude);
                   }
                 }
               })

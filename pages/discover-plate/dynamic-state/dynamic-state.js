@@ -417,7 +417,12 @@ Page({
     } else if (ind == '提交') {
       let sum = [];
       let _content = JSON.stringify(this.data.content);
-      let _con = utils.utf16toEntities(_content)
+      let _con = utils.utf16toEntities(_content);
+      _con = _con.replace(/\"/g, "%22");
+      _con = _con.replace(/\[/g, "%5b");
+      _con = _con.replace(/\]/g, "%5d");
+      _con = _con.replace(/\}/g, "%7d");
+      _con = _con.replace(/\{/g, "%7b");
       let _title = this.data.title;
       let _coverimg = this.data.coverimg;
       let _covervideo = this.data.covervideo;
@@ -477,15 +482,16 @@ Page({
       this.setData({
         isfirst: false
       })
-      let _parms = {
+      let _values = "", _parms={};
+      console.log('_con:', _con)
+      _parms = {
         title: _title,
         content: _con,
         topicType: that.data.iswzsp,
         userId: app.globalData.userInfo.userId,
         summary: _title,
         homePic: _coverimg ? _coverimg : this.data.defaimg,
-        userName: app.globalData.userInfo.userName,
-        token: app.globalData.token
+        userName: app.globalData.userInfo.userName
       }
       if (app.globalData.userInfo.nickName){
         _parms.nickName=app.globalData.userInfo.nickName
@@ -496,48 +502,60 @@ Page({
       wx.showLoading({
         title: '正在提交...',
       })
-      Api.topicadd(_parms).then((res) => {
-        if (res.data.code == 0) {
-          setTimeout(function () {
-            wx.hideLoading();
-            wx.showToast({
-              title: '提交成功',
-              icon: 'none',
-              duration: 1500
-            })
-            that.setData({
-              content: []
-            })
-            if (that.data.actId && that.data.acfrom == 2) {
-              getApp().globalData.article = [];
-              that.data.title = '';
-              that.covervideo = '';
-              that.data.coverimg = '';
-              wx.navigateBack({
-                delta: 1
+
+      for (var key in _parms) {
+        _values += key + "=" + _parms[key] + "&";
+      }
+      _values = _values.substring(0, _values.length - 1);
+      wx.request({
+        url: that.data._build_url + 'topic/add?' + _values,
+        header: {
+          "Authorization": app.globalData.token
+        },
+        method: 'POST',
+        success: function (res) {
+          if (res.data.code == 0) {
+            setTimeout(function () {
+              wx.hideLoading();
+              wx.showToast({
+                title: '提交成功',
+                icon: 'none',
+                duration: 1500
               })
-            } else if (that.data.actId && that.data.acfrom == 1) {
-              getApp().globalData.article = [];
-              that.data.title = '';
-              that.covervideo = '';
-              that.data.coverimg = '';
-              that.addVideo({
-                actId: that.data.actId,
-                topicId: res.data.data,
-                token: app.globalData.token
-                // userId: app.globalData.userInfo.userId
-              });
-            } else if (that.data.cfrom){
-              wx.redirectTo({
-                url: '../../activityDetails/video-list/video-list'
+              that.setData({
+                content: []
               })
-            } else {
-              wx.switchTab({
-                url: '../../discover-plate/discover-plate'
-              })
-            }
-            wx.clearStorage()
-          }, 1500)
+              if (that.data.actId && that.data.acfrom == 2) {
+                getApp().globalData.article = [];
+                that.data.title = '';
+                that.covervideo = '';
+                that.data.coverimg = '';
+                wx.navigateBack({
+                  delta: 1
+                })
+              } else if (that.data.actId && that.data.acfrom == 1) {
+                getApp().globalData.article = [];
+                that.data.title = '';
+                that.covervideo = '';
+                that.data.coverimg = '';
+                that.addVideo({
+                  actId: that.data.actId,
+                  topicId: res.data.data,
+                  token: app.globalData.token
+                  // userId: app.globalData.userInfo.userId
+                });
+              } else if (that.data.cfrom) {
+                wx.redirectTo({
+                  url: '../../activityDetails/video-list/video-list'
+                })
+              } else {
+                wx.switchTab({
+                  url: '../../discover-plate/discover-plate'
+                })
+              }
+              wx.clearStorage()
+            }, 1500)
+          }
         }
       })
     } else if (ind == '退出编辑') {

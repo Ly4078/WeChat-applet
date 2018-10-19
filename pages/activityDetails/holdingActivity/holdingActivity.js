@@ -28,8 +28,7 @@ Page({
     userId: '',
     id: '', //菜id
     shopId: '', //点击店Id
-    postList: [
-      {
+    postList: [{
         id: 0,
         name: '中商优品汇',
         place: '(中南店)',
@@ -70,8 +69,7 @@ Page({
         locationY: '30.571250'
       }
     ],
-    specification: [
-      {
+    specification: [{
         numerical: 2,
         detailses: '邀请好友注册享7美食会员达到3人，可以在活动指定门店享7美食专区免费兑换领取2.5两阳澄湖公蟹1只，邀请注册人数达到6人兑换领取2只，以此类推！'
       },
@@ -114,13 +112,13 @@ Page({
   },
   onShow: function() {
     if (app.globalData.userInfo.userId) {
-      if (app.globalData.userInfo.mobile) { 
+      if (app.globalData.userInfo.mobile) {
         if (app.globalData.token) {
           this.inquireNum();
         } else {
           this.authlogin();
         }
-      } else {//是新用户，去注册页面
+      } else { //是新用户，去注册页面
         this.authlogin();
         // wx.navigateTo({
         //   url: '/pages/personal-center/securities-sdb/securities-sdb?back=1&inviter=' + this.data.inviter
@@ -130,7 +128,7 @@ Page({
       this.findByCode();
     }
   },
-  findByCode: function () { //通过code查询用户信息
+  findByCode: function() { //通过code查询用户信息
     let that = this;
     wx.login({
       success: res => {
@@ -147,7 +145,7 @@ Page({
                 }
               }
             }
-            that.authlogin();//获取token
+            that.authlogin(); //获取token
           } else {
             that.findByCode();
           }
@@ -155,7 +153,7 @@ Page({
       }
     })
   },
-  authlogin: function () { //获取token
+  authlogin: function() { //获取token
     let that = this;
     wx.request({
       url: this.data._build_url + 'auth/login?userName=' + app.globalData.userInfo.userName,
@@ -164,13 +162,13 @@ Page({
       header: {
         'content-type': 'application/json' // 默认值
       },
-      success: function (res) {
+      success: function(res) {
         if (res.data.code == 0) {
           let _token = 'Bearer ' + res.data.data;
           app.globalData.token = _token;
-          if (app.globalData.userInfo.mobile){
+          if (app.globalData.userInfo.mobile) {
             that.inquireNum();
-          }else{
+          } else {
             that.closetel();
           }
         }
@@ -223,41 +221,55 @@ Page({
     });
   },
   emptyNum() { //清空邀请螃蟹人数
-    let _parms = {
+    let _parms = {},
+      _values = "",
+      that = this;
+    _parms = {
       userId: app.globalData.userInfo.userId,
       token: app.globalData.token
     };
-    Api.emptyInviteNum(_parms).then((res) => {
-      if (res.data.code == 0) {
-        this.inquireNum();
-      } else {
-        wx.showToast({
-          title: '网络原因,兑换失败',
-          icon: 'none'
-        })
+    for (var key in _parms) {
+      _values += key + "=" + _parms[key] + "&";
+    }
+    _values = _values.substring(0, _values.length - 1);
+    wx.request({
+      url: that.data._build_url + 'pullUser/upNums?' + _values,
+      header: {
+        "Authorization": app.globalData.token
+      },
+      method: 'POST',
+      success: function(res) {
+        if (res.data.code == 0) {
+          that.inquireNum();
+        } else {
+          wx.showToast({
+            title: '网络原因,兑换失败',
+            icon: 'none'
+          })
+        }
       }
-    });
+    })
   },
   exchange() { //兑换螃蟹
     if (!app.globalData.userInfo.mobile) {
       this.closetel();
-      return false
-    }
-    if (this.data.crabNum > 0) {
-      let _this = this;
-      wx.showModal({
-        content: '是否兑换螃蟹?',
-        complete(res) {
-          if (res.confirm) {
-            _this.emptyNum();
-          }
-        }
-      })
     } else {
-      wx.showToast({
-        title: '您目前没有螃蟹可以兑换，每邀请3位新用户可兑换一只螃蟹',
-        icon: 'none'
-      })
+      if (this.data.crabNum > 0) {
+        let _this = this;
+        wx.showModal({
+          content: '是否兑换螃蟹?',
+          complete(res) {
+            if (res.confirm) {
+              _this.emptyNum();
+            }
+          }
+        })
+      } else {
+        wx.showToast({
+          title: '您目前没有螃蟹可以兑换，每邀请3位新用户可兑换一只螃蟹',
+          icon: 'none'
+        })
+      }
     }
   },
   share() { //分享
