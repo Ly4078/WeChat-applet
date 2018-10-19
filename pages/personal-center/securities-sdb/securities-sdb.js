@@ -249,25 +249,26 @@ Page({
       isabss: true
     })
     if (this.data.phoneNum) {
-      let _parms = {
-        shopMobile: that.data.phoneNum,
-        // userId: app.globalData.userInfo.userId,
-        // userName: app.globalData.userInfo.userName,
-        token: app.globalData.token
-      }
-      Api.sendForRegister(_parms).then((res) => {
-        if (res.data.code == 0) {
-          that.setData({
-            verifyId: res.data.data.verifyId,
-            veridyTime: res.data.data.veridyTime
-          })
-          that.Countdown();
 
-          that.setData({
-            isclick: false
-          })
+      wx.request({
+        url: that.data._build_url + 'sms/sendForRegister?shopMobile=' + that.data.phoneNum,
+        header: {
+          "Authorization": app.globalData.token
+        },
+        method: 'POST',
+        success: function (res) {
+          if (res.data.code == 0) {
+            that.setData({
+              verifyId: res.data.data.verifyId,
+              veridyTime: res.data.data.veridyTime
+            })
+            that.Countdown();
+            that.setData({
+              isclick: false
+            })
+          }
         }
-      })
+      }) 
     } else {
       wx.showToast({
         title: '请输入电话号码',

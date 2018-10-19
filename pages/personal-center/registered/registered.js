@@ -95,7 +95,7 @@ Page({
     })
   },
   submitphone: function () {  //获取验证码
-    let that = this, sett=null;
+    let that = this, sett = null, RegExp = /^[1][3456789][0-9]{9}$/;;
     if (!this.data.phone) {
       that.closephone();
       wx.showToast({
@@ -113,7 +113,6 @@ Page({
       return false
     }
     
-    let RegExp = /^[1][3456789][0-9]{9}$/;
     if (RegExp.test(this.data.phone)) {
       that.setData({
         goto: true
@@ -121,25 +120,26 @@ Page({
       if (this.data.settime) {
         clearInterval(that.data.settime)
       }
-      let _parms = {
-        shopMobile: that.data.phone,
-        token: app.globalData.token
-        // userId: app.globalData.userInfo.userId,
-        // userName: app.globalData.userInfo.userName
-      }
-      Api.sendForRegister(_parms).then((res) => {
-        if (res.data.code == 0) {
-          that.setData({
-            verifyId: res.data.data.verifyId,
-            veridyTime: res.data.data.veridyTime
-          })
-          sett = setInterval(function () {
-            that.remaining();
-          }, 1000)
-          that.setData({
-            settime: sett,
-            isclick: false
-          })
+      wx.request({
+        url: that.data._build_url + 'sms/sendForRegister?shopMobile=' + that.data.phone,
+        header: {
+          "Authorization": app.globalData.token
+        },
+        method: 'POST',
+        success: function (res) {
+          if (res.data.code == 0) {
+            that.setData({
+              verifyId: res.data.data.verifyId,
+              veridyTime: res.data.data.veridyTime
+            })
+            sett = setInterval(function () {
+              that.remaining();
+            }, 1000)
+            that.setData({
+              settime: sett,
+              isclick: false
+            })
+          }
         }
       })
     } else {
