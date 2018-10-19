@@ -111,7 +111,8 @@ Page({
         return
       } else {
         this.setData({
-          page: this.data.page + 1
+          page: this.data.page + 1,
+          loading: true
         }, () => {
           this.getorderCoupon(0);
         });
@@ -124,7 +125,8 @@ Page({
         return
       } else {
         this.setData({
-          sendpage: this.data.sendpage + 1
+          sendpage: this.data.sendpage + 1,
+          loading: true
         }, () => {
           this.getlistCoupon(1);
         });
@@ -137,7 +139,8 @@ Page({
         return
       } else {
         this.setData({
-          recpage: this.data.recpage + 1
+          recpage: this.data.recpage + 1,
+          loading: true
         }, () => {
           this.getlistCouponReceive(2);
         });
@@ -185,15 +188,26 @@ Page({
       if (_ind == 0) {
         if (this.data.listData.length > 0) {
         } else {
-
+          wx.showLoading({
+            title: '加载中...',
+            mask: true
+          })
           this.getorderCoupon(0);
         }
       } else if (_ind == 1) {
         if (this.data.sendData.length > 0) { } else {
+          wx.showLoading({
+            title: '加载中...',
+            mask: true
+          })
           this.getlistCoupon(1);
         }
       } else if (_ind == 2) {
         if (this.data.recData.length > 0) { } else {
+          wx.showLoading({
+            title: '加载中...',
+            mask: true
+          })
           this.getlistCouponReceive(2);
         }
       }
@@ -229,10 +243,6 @@ Page({
     if (!app.globalData.userInfo.userId) {
       this.findByCode();
     } else {
-      wx.showLoading({
-        title: '数据加载中...',
-        mask: true
-      });
       let _parms = {
         userId: app.globalData.userInfo.userId,
         page: this.data.page,
@@ -262,17 +272,21 @@ Page({
             }
             this.setData({
               listData: _data.concat(_list),
-              pageTotal: Math.ceil(res.data.data.total / 10)
+              pageTotal: Math.ceil(res.data.data.total / 10),
+              loading: false
             }, () => {
               wx.hideLoading();
             })
           } else {
+            this.setData({loading: false})
             wx.hideLoading();
           }
           swichrequestflag[types] = false
         }
+        this.setData({ loading: false })
       }, () => {
         wx.hideLoading();
+        this.setData({ loading: false })
         swichrequestflag[types] = false
       })
     }
@@ -285,10 +299,6 @@ Page({
     }
     let _parms = {},
       that = this;
-    wx.showLoading({
-      title: '数据加载中...',
-      mask: true
-    });
     _parms = {
       row: 10
     }, that = this;
@@ -315,19 +325,22 @@ Page({
 
           that.setData({
             sendData: _sendData.concat(_lists),
-            sendTotal: Math.ceil(res.data.data.total / 10)
+            sendTotal: Math.ceil(res.data.data.total / 10),
+            loading: false
 
           }, () => {
             wx.hideLoading();
           })
         } else {
           wx.hideLoading();
+          this.setData({loading: false})
         }
         swichrequestflag[types] = false
       }
-
+      this.setData({ loading: false })
     }, () => {
       wx.hideLoading();
+      this.setData({ loading: false })
       swichrequestflag[types] = false
     })
   },
@@ -338,10 +351,6 @@ Page({
     }
     let _parms = {},
       that = this;
-    wx.showLoading({
-      title: '数据加载中...',
-      mask: true
-    });
     _parms = {
       row: 10
     }, that = this;
@@ -366,16 +375,20 @@ Page({
           that.setData({
             recData: _recData.concat(_lists),
             recTotal: Math.ceil(res.data.data.total / 10),
+            loading: false
           }, () => {
             wx.hideLoading();
           })
         } else {
+          this.setData({ loading: false })
           wx.hideLoading();
         }
         swichrequestflag[types] = false
       }
+      this.setData({ loading: false })
 
     }, () => {
+      this.setData({loading: false})
       wx.hideLoading();
       swichrequestflag[types] = false
     })

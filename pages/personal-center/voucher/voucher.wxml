@@ -13,13 +13,22 @@
       <text class="itemName {{item.isUsed == 0 ? 'itemNamea' : 'itemNameb'}}">{{item.sku}}</text>
       <text class="couCode {{item.isUsed == 0 ? 'codea' : 'codeb'}}">券号：{{item.couponCode}}</text>
     </view>
+    
+    <view class='loadingBox'>
+      <i-spin custom wx:if="{{loading}}">
+        <view class="loading"></view>
+      </i-spin>
+    </view>
     <view class='exbut'></view>
   </view>
+
   <view class='placeholder' wx:if="{{listData.length<1}}">
     <text class='buyvoucher' bindtap='buyVoucher'>购买提蟹券</text>
   </view>
   <view class='exchange' bindtap='handexchange'>兑换记录</view>
+
 </view>
+
 
 <!-- 记录 -->
 <view wx:if="{{ind ==1}}">
@@ -48,6 +57,11 @@
       </view>
     </view>
   </view>
+  <view class='loadingBox'>
+      <i-spin custom wx:if="{{loading}}">
+        <view class="loading"></view>
+      </i-spin>
+    </view>
   <view wx:if="{{sendData.length < 1}}" class='placeholder'>
     <image src="/images/icon/zhanweitu.png"></image>
   </view>
@@ -81,7 +95,13 @@
       </view>
     </view>
   </view>
+  <view class='loadingBox'>
+      <i-spin custom wx:if="{{loading}}">
+        <view class="loading"></view>
+      </i-spin>
+    </view>
   <view wx:if="{{recData.length < 1}}" class='placeholder'>
     <image src="/images/icon/zhanweitu.png"></image>
   </view>
+
 </view>

@@ -1,4 +1,7 @@
 
 {
-  "navigationBarTitleText": "关注列表"
+  "navigationBarTitleText": "关注列表",
+  "usingComponents": {
+    "i-spin": "../../../dist/spin/index"
+  }
 }
