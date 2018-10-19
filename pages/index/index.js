@@ -371,8 +371,8 @@ Page({
   },
 
   isNewUser: function () {//查询新用户是否已经领券
-    let that = this;
-    let _parms = {
+    let that = this, _parms = {};
+    _parms = {
       userId: app.globalData.userInfo.userId,
       token: app.globalData.token
     };
@@ -389,10 +389,11 @@ Page({
     })
   },
   getuserIdLater: function () { //获取到userId之后要执行的事件1
-    let _parms = {
+    let that = this, _parms = {};
+    _parms = {
       openId: app.globalData.userInfo.openId,
       unionId: app.globalData.userInfo.unionId
-    }, that = this;
+    };
     Api.addUserUnionId(_parms).then((res) => {
       // if(res.data.code = 0){
         if (res.data.data.mobile){
@@ -493,7 +494,7 @@ Page({
     } else {
       this.getUserlocation();
     };
-    that.isNewUser();
+    // that.isNewUser();
     if (userInfo && userInfo.mobile) {
       that.setData({
         isfirst: false,
@@ -512,14 +513,17 @@ Page({
     wx.getLocation({
       type: 'wgs84',
       success: function (res) {
-        let latitude = res.latitude;
-        let longitude = res.longitude;
+        console.log("success:",res)
+        let latitude = res.latitude,longitude = res.longitude;
         that.requestCityName(latitude, longitude);
       },
       fail: function (res) {
+        console.log("fail:", res)
         wx.getSetting({
           success: (res) => {
+            console.log("setting__res:",res)
             if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其位置信息
+             console.log("111111")
               wx.showModal({
                 title: '提示',
                 content: '更多体验需要你授权位置信息',
@@ -531,17 +535,23 @@ Page({
                       success: (res) => {
                         if (res.authSetting['scope.userLocation']) {  //打开位置授权                
                           village_LBS(that);
-                          // })
-                        } else {
-                          that.getCutDish();
+                      
+                        }else {
+                           let lat = '30.51597',
+      lng = '114.34035';
+                          that.requestCityName(lat, lng);
+                          // that.getCutDish();
                         }
-                      }
+                      },
+                      complete:(res=>{
+                        console.log("121323")
+                      })
                     })
-                  } else if (res.cancel) {
-                    that.getCutDish();
                   }
                 }
               })
+            }else{
+              that.getCutDish();
             }
           }
         })
@@ -551,9 +561,6 @@ Page({
 
   requestCityName(lat, lng) { //获取当前城市
     let that = this;
-    if (!lat && !lng) {
-      this.getUserlocation();
-    } else {
       app.globalData.userInfo.lat = lat;
       app.globalData.userInfo.lng = lng;
       if (app.globalData.userInfo.city) {
@@ -582,7 +589,7 @@ Page({
           }
         })
       }
-    }
+    
 
   },
 
@@ -655,48 +662,49 @@ Page({
     this.setData({
       city: this.data.city ? this.data.city : app.globalData.userInfo.city
     })
-    let _parms = {
-      zanUserId: app.globalData.userInfo.userId,
-      browSort: 2,
-      locationX: app.globalData.userInfo.lng,
-      locationY: app.globalData.userInfo.lat,
-      city: app.globalData.userInfo.city,
-      page: this.data._page,
-      isDeleted: 0,
-      rows: 10,
-      token:app.globalData.token
-    };
-    wx.showLoading({
-      title: '数据加载中...',
-    });
-    Api.partakerList(_parms).then((res) => {
-      wx.hideLoading();
-      if (res.data.code == 0) {
-        let _list = res.data.data.list,
-          _oldData = this.data.bargainListall,
-          arr = [];
-        if (_list && _list.length > 0) {
-
-          for (let i = 0; i < _list.length; i++) {
-            for (let j = 0; j < _oldData.length; j++) {
-              if (_oldData[j].id == _list[i].id) {
-                _oldData.splice(j, 1)
+    if (app.globalData.userInfo.lng && app.globalData.userInfo.lat){
+      let _parms = {},that=this;
+      _parms = {
+        zanUserId: app.globalData.userInfo.userId,
+        browSort: 2,
+        locationX: app.globalData.userInfo.lng,
+        locationY: app.globalData.userInfo.lat,
+        city: app.globalData.userInfo.city,
+        page: this.data._page,
+        isDeleted: 0,
+        rows: 10,
+        token: app.globalData.token
+      };
+      wx.showLoading({
+        title: '数据加载中...',
+      });
+      Api.partakerList(_parms).then((res) => {
+        wx.hideLoading();
+        if (res.data.code == 0) {
+          let _list = res.data.data.list,
+            _oldData = this.data.bargainListall,
+            arr = [];
+          if (_list && _list.length > 0) {
+            for (let i = 0; i < _list.length; i++) {
+              for (let j = 0; j < _oldData.length; j++) {
+                if (_oldData[j].id == _list[i].id) {
+                  _oldData.splice(j, 1)
+                }
               }
             }
+            for (let i = 0; i < _list.length; i++) {
+              _list[i].distance = utils.transformLength(_list[i].distance);
+              _oldData.push(_list[i])
+            }
+            this.setData({
+              bargainListall: _oldData
+            })
+
           }
-
-          for (let i = 0; i < _list.length; i++) {
-            _list[i].distance = utils.transformLength(_list[i].distance);
-            _oldData.push(_list[i])
-          }
-
-          this.setData({
-            bargainListall: _oldData
-          })
-
         }
-      }
-    })
+      })
+    }
+    
   },
   getdishDetail: function(Id, shopId) { //查询单个砍菜详情
     let that = this,
@@ -959,70 +967,71 @@ Page({
       title: '数据加载中...',
       mask: true
     })
-    let _parms = {
-      locationX: app.globalData.userInfo.lng ? app.globalData.userInfo.lng : lng,
-      locationY: app.globalData.userInfo.lat ? app.globalData.userInfo.lat : lat,
-      city: app.globalData.userInfo.city,
-      page: this.data._page,
-      rows: 8,
-      token: app.globalData.token
-    }
-    if (val && val != '全部') { //美食类别 
-      if (val == '人气') {
-        _parms.browSort = 2
-      } else if (val == '附近') {
-
-      } else {
-        _parms.businessCate = val;
+    if (app.globalData.userInfo.lng && app.globalData.userInfo.lat && app.globalData.userInfo.city){
+      let _parms = {},that=this;
+      _parms = {
+        locationX: app.globalData.userInfo.lng ? app.globalData.userInfo.lng : lng,
+        locationY: app.globalData.userInfo.lat ? app.globalData.userInfo.lat : lat,
+        city: app.globalData.userInfo.city,
+        page: this.data._page,
+        rows: 8,
+        token: app.globalData.token
       }
+      if (val && val != '全部') { //美食类别 
+        if (val == '人气') {
+          _parms.browSort = 2
+        } else if (val == '附近') {
 
-      this.setData({
-        posts_key: []
+        } else {
+          _parms.businessCate = val;
+        }
+
+        this.setData({
+          posts_key: []
+        })
+      }
+      if (keys) {
+        _parms.browSort = 2
+      }
+      Api.shoplist(_parms).then((res) => {
+        let that = this,
+          data = res.data;
+        wx.hideLoading();
+        if (data.code == 0) {
+          if (data.data.list != null && data.data.list != "" && data.data.list != []) {
+            wx.stopPullDownRefresh()
+            let posts = this.data.posts_key;
+            let _data = data.data.list
+            for (let i = 0; i < _data.length; i++) {
+              let _arr = _data[i].businessCate.split('/');
+              _data[i].inessCate = _arr[0];
+              _data[i].distance = utils.transformLength(_data[i].distance);
+              _data[i].activity = _data[i].ruleDescs ? _data[i].ruleDescs.join(',') : '';
+              posts.push(_data[i])
+            }
+            that.setData({
+              posts_key: posts
+            })
+            let _arrn = posts.slice(0, 3);
+            let newarr = _arrn.concat();
+            for (let i in newarr) {
+              let _str = newarr[i].shopName;
+              if (_str.length > 7) {
+                _str = _str.slice(0, 7);
+                newarr[i].shopName = _str + '...';
+              }
+            }
+            that.setData({
+              hotshop: newarr,
+            });
+          } else {
+            this.setData({
+              isclosure: false
+            })
+          }
+        }
       })
     }
-    if (keys) {
-      _parms.browSort = 2
-    }
-    Api.shoplist(_parms).then((res) => {
-      let that = this,
-        data = res.data;
-      wx.hideLoading();
-      if (data.code == 0) {
-        if (data.data.list != null && data.data.list != "" && data.data.list != []) {
-          wx.stopPullDownRefresh()
-          let posts = this.data.posts_key;
-          let _data = data.data.list
-          for (let i = 0; i < _data.length; i++) {
-            let _arr = _data[i].businessCate.split('/');
-            _data[i].inessCate = _arr[0];
-            _data[i].distance = utils.transformLength(_data[i].distance);
-            _data[i].activity = _data[i].ruleDescs ? _data[i].ruleDescs.join(',') : '';
-            posts.push(_data[i])
-          }
-          that.setData({
-            posts_key: posts
-          })
-          let _arrn = posts.slice(0, 3);
-          let newarr = _arrn.concat();
-          for (let i in newarr) {
-            let _str = newarr[i].shopName;
-            if (_str.length > 7) {
-              _str = _str.slice(0, 7);
-              newarr[i].shopName = _str + '...';
-            }
-          }
-          that.setData({
-            hotshop: newarr,
-          });
-        } else {
-          this.setData({
-            isclosure: false
-          })
-        }
-      }
-    })
-
-
   },
   //回到顶部
   toTop() {
@@ -1047,14 +1056,15 @@ Page({
   gettoplistFor: function () { //加载分类数据
     let _list = [],
       _shop = [],
+      _parms = {},
       that = this;
     wx.showLoading({
       title: '数据加载中...',
       mask: true
-    })
-    let _parms = {
+    });
+    _parms = {
       token: app.globalData.token
-    }
+    };
     Api.listForHomePage(_parms).then((res) => {
       if (res.data.code == 0) {
         _list = res.data.data;
@@ -1104,58 +1114,10 @@ Page({
             })
           }
         });
-      } else {
-        // this.gettoplistFor();
       }
     })
   },
 
-
-  getdata: function () { // 获取推荐餐厅数据
-    let lat = '30.51597',
-      lng = '114.34035';
-    let _parms = {
-      locationX: app.globalData.userInfo.lng ? app.globalData.userInfo.lng : lng,
-      locationY: app.globalData.userInfo.lat ? app.globalData.userInfo.lat : lat,
-      token: app.globalData.token
-    }
-    Api.shoptop(_parms).then((res) => {
-      if (res.data.data) {
-        this.setData({
-          business: res.data.data
-        })
-      } else {
-        this.getdata();
-      }
-    })
-  },
-  gettopic: function () { // 美食墙
-    let _parms = {
-      token: app.globalData.token
-    }
-    Api.topictop(_parms).then((res) => {
-      if (res.data.data) {
-        let _data = res.data.data;
-        let reg = /^1[34578][0-9]{9}$/;
-        for (let i = 0; i < _data.length; i++) {
-          _data[i].summary = utils.uncodeUtf16(_data[i].summary);
-          _data[i].content = utils.uncodeUtf16(_data[i].content);
-          if (reg.test(_data[i].userName)) {
-            _data[i].userName = _data[i].userName.substr(0, 3) + "****" + _data[i].userName.substr(7);
-          }
-          if (reg.test(_data[i].nickName)) {
-            _data[i].nickName = _data[i].nickName.substr(0, 3) + "****" + _data[i].nickName.substr(7);
-          }
-        }
-        this.setData({
-          food: res.data.data
-        })
-        wx.hideLoading();
-      } else {
-        this.gettopic();
-      };
-    })
-  },
   getactlist() { //获取热门活动数据
     let _parms = {
       token: app.globalData.token
@@ -1170,24 +1132,7 @@ Page({
       }
     })
   },
-  gethotlive() { //获取热门直播数据
-    let that = this;
-    wx.request({
-      url: that.data._build_url + 'zb/top/',
-      header: {
-        "Authorization": app.globalData.token
-      },
-      success: function (res) {
-        if (res.data.data) {
-          that.setData({
-            hotlive: res.data.data
-          })
-        } else {
-          that.gethotlive();
-        }
-      }
-    })
-  },
+
   userLocation: function () { // 用户定位
     wx.navigateTo({
       url: 'user-location/user-location',
@@ -1284,11 +1229,10 @@ Page({
   },
   numbindinput: function(e) { //监听号码输入框
     let _value = e.detail.value,
-      that = this;
+      that = this, RegExp = /^[1][3456789][0-9]{9}$/;
     if (!_value) {
       this.closephone()
     }
-    let RegExp = /^[1][3456789][0-9]{9}$/;
     if (RegExp.test(_value)) {
       this.setData({
         isclose: true,
