@@ -1,4 +1,4 @@
-import Api from '../../../../utils/config/api.js';  //每个有请求的JS文件都要写这个，注意路径
+import Api from '../../../../utils/config/api.js';  
 import { GLOBAL_API_DOMAIN } from '../../../../utils/config/config.js';
 var utils = require('../../../../utils/util.js')
 var app = getApp();
