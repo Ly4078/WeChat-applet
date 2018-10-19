@@ -115,21 +115,24 @@ Page({
                 ticketArr.push(ticketList[i]);
               }
               that.setData({
-                ticket_list: ticketArr
+                ticket_list: ticketArr,
+                loading: false
               }, () => {
                 requesting = false
                 wx.hideLoading();
               })
             } else {
               that.setData({
-                isUpdate: false
+                isUpdate: false,
+                loading: false
               })
               requesting = false
               wx.hideLoading();
             }
           } else {
             that.setData({
-              isUpdate: false
+              isUpdate: false,
+              loading: false
             })
             requesting = false
             wx.hideLoading();
@@ -139,6 +142,7 @@ Page({
           }
         },
         fail() {
+          this.setData({ loading: false})
           requesting = false
           wx.hideLoading();
         }
@@ -186,11 +190,9 @@ Page({
       }
     }
     if (this.data.isUpdate) {
-      wx.showLoading({
-        title: '加载中..'
-      })
       this.setData({
-        page: this.data.page + 1
+        page: this.data.page + 1,
+        loading: true
       }, () => {
         this.getTicketList();
       });

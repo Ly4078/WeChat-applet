@@ -28,6 +28,9 @@ Page({
   onLoad:function(){
     this.getTicketaBlancees(); //金币余额
     this.getTicketList(); //获取劵列表
+    wx.showLoading({
+      title: '加载中',
+    })
   },
 
   getTicketaBlancees: function () { //金币余额   入参:userId
@@ -75,19 +78,24 @@ Page({
         this.setData({
           data: posts,
           total:res.data.data.total,
+          loading: false,
           pageTotal: Math.ceil(res.data.data.total / 10)//总条数除以每页10条数据，获取数据总页数
         },()=>{
           wx.hideLoading();
         })
       } else {
         this.setData({
-          flag: false
+          flag: false,
+          loading: false
         })
         wx.hideLoading();
         requesting = false;
       } 
     },()=>{
       wx.hideLoading();
+      this.setData({
+        loading: false
+      })
       requesting = false;
     });
   },
@@ -106,11 +114,9 @@ Page({
       return 
     }
     if (this.data.flag) {
-      wx.showLoading({
-        title: '加载中..'
-      })
       this.setData({
-        page: this.data.page + 1
+        page: this.data.page + 1,
+        loading: true
       },()=>{
         this.getTicketList();
       });

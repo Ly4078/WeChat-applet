@@ -90,7 +90,7 @@ page {
 }
 
 .discountBox {
-  padding: 20rpx 28rpx;
+  padding: 20rpx 28rpx 0 28rpx;
   box-sizing: border-box;
   width: 100%;
 }

@@ -1,4 +1,7 @@
 {
   "navigationBarTitleText": "金币",
-  "enablePullDownRefresh": true
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "i-spin": "../../../dist/spin/index"
+  }
 }

@@ -12,6 +12,11 @@
     <template is="discountList" data="{{item}}"></template>
   </block>
 </view>
+<view class='loadingBox'>
+      <i-spin custom wx:if="{{loading}}">
+      <view class="loading"></view>
+      </i-spin>
+</view>
 <!-- <view class='already-past-wrap' bindtap="toDueList">
   <view class='already-past-due'>
     <text>查看过期/已用劵</text>active

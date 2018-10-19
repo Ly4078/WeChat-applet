@@ -179,20 +179,24 @@ Page({
             logistics.push(_list[i]);
           }
           this.setData({
-            logisticsList: logistics
+            logisticsList: logistics,
+            loading: false
           },()=>{
             requestTask[0] = false;
             wx.hideLoading();
           });
         }else{
+          this.setData({loading: false})
           requestTask[0] = false;
           wx.hideLoading();
         }
       }else{
+        this.setData({ loading: false })
         requestTask[0] = false;
         wx.hideLoading();
       }
     },()=>{
+      this.setData({ loading: false })
       requestTask[0] = false;
       wx.hideLoading();
     })
@@ -233,12 +237,16 @@ Page({
           }
           that.setData({
             order_list: order_list,
-            reFresh: true
+            reFresh: true,
+            loading: false
           },()=>{
             requestTask[1] = false;
             wx.hideLoading();
           });
         } else {
+          this.setData({
+            loading: false
+          })
           requestTask[1] = false;
           wx.hideLoading();
           if (this.data.currentTab == 1) {
@@ -255,7 +263,8 @@ Page({
 
       } else {
         that.setData({
-          reFresh: false
+          reFresh: false,
+          loading: false
         });
         requestTask[1] = false;
         wx.hideLoading();
@@ -263,6 +272,9 @@ Page({
     },()=>{
       requestTask[1] = false;
       wx.hideLoading();
+      this.setData({
+        loading: false
+      })
     });
     if (this.data.currentTab == 2) {
       let _parms = {
@@ -283,11 +295,13 @@ Page({
           }
           that.setData({
             order_list: order_list,
-            completed: true
+            completed: true,
+            loading: false
           });
         } else {
           that.setData({
-            completed: false
+            completed: false,
+            loading: false
           });
         }
       });
@@ -326,14 +340,16 @@ Page({
           }
           that.setData({
             shoporderlist: shoplist,
-            completed: true
+            completed: true,
+            loading: false
           },()=>{
             requestTask[2] = false;
             wx.hideLoading();
           });
         } else {
           that.setData({
-            completed: false
+            completed: false,
+            loading: false
           });
           requestTask[2] = false;
           wx.hideLoading();
@@ -341,6 +357,9 @@ Page({
       },()=>{
         requestTask[2] = false;
         wx.hideLoading();
+        this.setData({
+          loading: false
+        })
       });
     }
     if (that.data.page == 1) {
@@ -425,7 +444,8 @@ Page({
     }
     this.setData({
       page: this.data.page + 1,
-      orpage:this.data.orpage +1
+      orpage:this.data.orpage +1,
+      loading: true
     });
     if(this.data.shopping == 1){
       if (this.data.currentTab != 2 && this.data.reFresh) {

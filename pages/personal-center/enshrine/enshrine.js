@@ -69,12 +69,14 @@ Page({
           setTimeout(function () {
             that.setData({
               posts_key: posts_key,
-              reFresh: true
+              reFresh: true,
+              loading: false
             });
           }, 500)
         } else {
           that.setData({
-            reFresh: false
+            reFresh: false,
+            loading: false
           });
         }
         if (that.data.page == 1) {
@@ -82,6 +84,11 @@ Page({
         } else {
           wx.hideLoading();
         }
+      },
+      fail () {
+        this.setData({
+          loading: false
+        })
       }
     });
   },
@@ -96,13 +103,13 @@ Page({
   //用户上拉触底
   onReachBottom: function () {
     if (this.data.reFresh) {
-      wx.showLoading({
-        title: '加载中..'
-      })
       this.setData({
-        page: this.data.page + 1
+        page: this.data.page + 1,
+        loading: true
+      },()=>{
+        this.getShareList();
       });
-      this.getShareList();
+      
     }
   },
   //用户下拉刷新

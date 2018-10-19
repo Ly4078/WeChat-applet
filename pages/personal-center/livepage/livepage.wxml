@@ -21,6 +21,11 @@
     </view>
   </view>
 </view>
+ <view class='loadingBox'>
+      <i-spin custom wx:if="{{loading}}">
+      <view class="loading"></view>
+      </i-spin>
+</view>
  <view wx:if="{{myList.length < 1}}" class="noneBox">
   <image src="/images/icon/zhanweitu.png"></image>
 </view> 

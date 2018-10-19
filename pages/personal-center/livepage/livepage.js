@@ -35,7 +35,7 @@ Page({
     // 注:入参为type和refId--------------此是看一个用户被哪些人关注
     let _parms = {
         type: 1,
-        page: 1,
+        page:this.data.page?this.data.page:1,
         rows: 10,
         token: app.globalData.token
       },
@@ -57,22 +57,28 @@ Page({
           }
           this.setData({
             myList: myList,
-            pageTotal: Math.ceil(res.data.data.total / 10)
+            pageTotal: Math.ceil(res.data.data.total / 10),
+            loading: false
           });
           requesting = false;
         } else {
           this.setData({
-            flag: false
+            flag: false,
+            loading: false
           });
           requesting = false;
         }
       } else {
         this.setData({
-          flag: false
+          flag: false,
+          loading: false
         });
         requesting = false;
       }
     },()=>{
+      this.setData({
+        loading: false
+      })
       requesting = false;
     })
   },
@@ -180,7 +186,8 @@ Page({
       return
     }
     this.setData({
-      page: this.data.page + 1
+      page: this.data.page + 1,
+      loading: true
     },()=>{
       this.list();
     });
