@@ -66,23 +66,24 @@ Page({
       hotDishList: [],
       page: 1
     });
-
+    let that = this;
     if (app.globalData.userInfo.userId) {
       if (app.globalData.userInfo.mobile) {
         if (app.globalData.token) {
+          if (app.globalData.userInfo.lat && app.globalData.userInfo.lng) {
+            if (that.data._city || app.globalData.userInfo.city) {
+              this.hotDishList();
+            }
+          } else {
+            this.getlocation();
+          }
           this.dishDetail(); //查询菜详情
           if (this.data.groupId) {
             this.bargain();
           } else {
             this.createBargain();
           }
-          if (app.globalData.userInfo.lat && app.globalData.userInfo.lng) {
-            if (this.data._city || app.globalData.userInfo.city) {
-              this.hotDishList();
-            }
-          } else {
-            this.getlocation();
-          }
+          
         } else {
           this.authlogin();
         }

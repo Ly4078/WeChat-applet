@@ -173,7 +173,6 @@ Page({
         if (res.data.code == 0) {
           let _token = 'Bearer ' + res.data.data;
           app.globalData.token = _token;
-          console.log("crab__token:", _token);
           that.getTXT();
           if (app.globalData.userInfo.mobile) {
             // that.getTXT();
@@ -188,34 +187,37 @@ Page({
       _ruleImg = '',
       that = this;
     app.globalData.Express = {};
-    if (app.globalData.txtObj.crabImgUrl){
-      _crabImgUrl = app.globalData.txtObj.crabImgUrl, _ruleImg = app.globalData.txtObj.ruleImg;
-      that.setData({
-        crabImgUrl: _crabImgUrl,
-        ruleImg: _ruleImg
-      })
-      that.crabInit();
+    if (this.data.crabImgUrl.length>0){
+
     }else{
-      wx.request({
-        url: this.data._build_url + 'version.txt',
-        header: {
-          "Authorization": app.globalData.token
-        },
-        success: function (res) {
-          app.globalData.txtObj = res.data;
-          _crabImgUrl = app.globalData.txtObj.crabImgUrl, _ruleImg = app.globalData.txtObj.ruleImg;
-          that.setData({
-            crabImgUrl: _crabImgUrl,
-            ruleImg: _ruleImg
-          })
-          that.crabInit();
-        }
-      })
+      if (app.globalData.txtObj.crabImgUrl) {
+        _crabImgUrl = app.globalData.txtObj.crabImgUrl, _ruleImg = app.globalData.txtObj.ruleImg;
+        that.setData({
+          crabImgUrl: _crabImgUrl,
+          ruleImg: _ruleImg
+        })
+        that.crabInit();
+      } else {
+        wx.request({
+          url: this.data._build_url + 'version.txt',
+          header: {
+            "Authorization": app.globalData.token
+          },
+          success: function (res) {
+            app.globalData.txtObj = res.data;
+            _crabImgUrl = app.globalData.txtObj.crabImgUrl, _ruleImg = app.globalData.txtObj.ruleImg;
+            that.setData({
+              crabImgUrl: _crabImgUrl,
+              ruleImg: _ruleImg
+            })
+            that.crabInit();
+          }
+        })
+      }
     }
+    
   },
   crabInit: function() {
-    console.log("crabInit")
-    console.log('issku:', this.data.issku)
     if (this.data.issku) {
       let _crabImgUrl = this.data.crabImgUrl,
         _ruleImg = this.data.ruleImg;
@@ -231,14 +233,7 @@ Page({
     }
   },
   bargainDetails: function() { //品质好店-->店铺详情--列表
-    console.log('bargainDetails')
     let that = this, _array = [];
-    // if (!app.globalData.userInfo.mobile) {
-    //   wx.hideLoading();
-    //   wx.navigateTo({
-    //     url: '../../../../pages/personal-center/securities-sdb/securities-sdb?back=1'
-    //   })
-    // }else{
       let _parms = {
         shopId: this.data.shopId,
         zanUserId: app.globalData.userInfo.userId,
@@ -248,7 +243,6 @@ Page({
         token: app.globalData.token
       };
       Api.dhcList(_parms).then((res) => { //列表
-        console.log('dhcList:', res)
         wx.hideLoading();
         if (res.data.code == 0 && res.data.data.list) {
           let _obj = res.data.data.list[0];
@@ -309,7 +303,6 @@ Page({
   },
   //查询单个详情
   getDetailBySkuId: function(val) {
-    console.log("getDetailBySkuId:")
     let _array = [],
       that = this,
       _crabImgUrl = this.data.crabImgUrl,
@@ -317,14 +310,12 @@ Page({
       _ruleImg = this.data.ruleImg;
     wx.hideLoading();
     if (this.data.isAct && !val) {
-      console.log("isAct:")
     }else{
       _parms = {
         id: this.data.id,
         token: app.globalData.token
       }
       Api.DetailBySkuId(_parms).then((res) => {
-        console.log("getDetailBySkuId:", res)
         if (res.data.code == 0) {
           let _obj = res.data.data,
             _crabImgUrl = this.data.crabImgUrl;

@@ -717,9 +717,7 @@ Page({
         _page: this.data._page + 1,
         loading: true
       })
-      console.log('_parms:', _parms)
       Api.partakerList(_parms).then((res) => {
-        console.log("partakerListresres:",res)
         if (res.data.code == 0) {
           let _list = res.data.data.list,
             _oldData = this.data.bargainListall,

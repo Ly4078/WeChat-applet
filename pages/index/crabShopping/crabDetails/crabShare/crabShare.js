@@ -64,8 +64,9 @@ Page({
     if (app.globalData.userInfo.userId) {
       if (app.globalData.userInfo.mobile) {
         if (app.globalData.token) {
+          this.dishDetail(); //查询菜详情
           if (this.data.groupId) {
-            this.dishDetail(); //查询菜详情
+           
             this.bargain();
           } else {
             this.createBargain();
@@ -157,6 +158,7 @@ Page({
       }
     })
   },
+
   authlogin: function () { //获取token
     let that = this;
     wx.request({
@@ -240,7 +242,7 @@ Page({
       app.globalData.userInfo.lng = lng;
       console.log('212行：==============requestCityName:', lat, lng);
       if (app.globalData.userInfo.city || this.data._city) {
-        that.dishDetail();
+
         that.bargain();
       } else {
         wx.request({
@@ -256,7 +258,7 @@ Page({
               let _city = res.data.result.address_component.city;
               app.globalData.userInfo.city = _city;
               console.log('229行：==============_city:', _city);
-              that.dishDetail(); 
+       
               that.bargain();
             }
           }
