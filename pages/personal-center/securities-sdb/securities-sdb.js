@@ -74,7 +74,7 @@ Page({
    
   },
 
-  findByCode: function() { //通过code查询用户信息
+  findByCode: function(val) { //通过code查询用户信息
     let that = this;
     wx.login({
       success: res => {
@@ -99,7 +99,7 @@ Page({
                     istouqu: true
                   })
                 }
-                that.authlogin();
+                that.authlogin(val);
               } 
             }
           })
@@ -108,7 +108,7 @@ Page({
     })
   },
 
-  authlogin: function () { //获取token
+  authlogin: function (val) { //获取token
     let that = this;
     console.log("userinfo:", app.globalData.userInfo)
     wx.request({
@@ -137,7 +137,37 @@ Page({
             }else{
               that.getuserInfo();
             }
+            if(val){
+              that.freeOrder();
+            }
           }
+        }
+      }
+    })
+  },
+  freeOrder:function(){
+    let _parms = {}, _value="";
+    _parms = {
+      userId: app.globalData.userInfo.userId,
+      userName: app.globalData.userInfo.userName,
+      payType: 2,
+      skuId: 8,
+      skuNum: 1
+    }
+    for (var key in _parms) {
+      _value += key + "=" + _parms[key] + "&";
+    }
+    _value = _value.substring(0, _value.length - 1);
+
+    wx.request({
+      url: this.data._build_url + 'so/freeOrder?' + _value,
+      header: {
+        "Authorization": app.globalData.token
+      },
+      method: 'POST',
+      success: function (res) {
+        if(res.data.code == 0){
+          console.log("领取成功")
         }
       }
     })
@@ -314,17 +344,13 @@ Page({
           let _parms = {
             shopMobile: this.data.phoneNum,
             SmsContent: this.data.verifyId,
-            // userId: app.globalData.userInfo.userId,
-            // userName: app.globalData.userInfo.userName,
             token: app.globalData.token
           }
-          // return;
           Api.isVerify(_parms).then((res) => {
             if (res.data.code == 0) {
               app.globalData.userInfo.userId = res.data.data;
               app.globalData.userInfo.mobile = that.data.phoneNum;
-              that.findByCode();
-              // that.authlogin("1");
+              that.findByCode("1");
             }
           })
         } else {

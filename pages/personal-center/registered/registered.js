@@ -29,7 +29,7 @@ Page({
       this.findByCode();
     }
   },
-  findByCode: function () { //通过code查询用户信息
+  findByCode: function (val) { //通过code查询用户信息
     let that = this;
     wx.login({
       success: res => {
@@ -48,7 +48,7 @@ Page({
                   }
                 }
               }
-              that.authlogin();
+              that.authlogin(val);
               wx.hideLoading();
             }
           } else {
@@ -58,7 +58,7 @@ Page({
       }
     })
   },
-  authlogin: function () { //获取token
+  authlogin: function (val) { //获取token
     let that = this;
     wx.request({
       url: this.data._build_url + 'auth/login?userName=' + app.globalData.userInfo.userName,
@@ -72,21 +72,23 @@ Page({
           let _token = 'Bearer ' + res.data.data;
           app.globalData.token = _token;
           if (app.globalData.userInfo.mobile){
-            that.newUserToGet();
-            wx.navigateBack({
-              data: 1
-            })
+            if(val){
+              that.newUserToGet();
+            }else{
+              wx.navigateBack({
+                data: 1
+              })
+            }
           }
         }
       }
     })
   },
   numbindinput: function (e) {  //监听手机号输入框
-    let _value = e.detail.value
+    let _value = e.detail.value, that = this, RegExp = /^[1][3456789][0-9]{9}$/;
     if(!_value){
       this.closephone();
     }
-    let RegExp = /^[1][3456789][0-9]{9}$/;
     if (RegExp.test(_value)) {
       this.setData({
         isclose: true,
@@ -262,7 +264,7 @@ Page({
         Api.isVerify(_parms).then((res) => {
           if (res.data.code == 0) {
             app.globalData.userInfo.userId = res.data.data;
-            that.findByCode();
+            that.findByCode('1');
           }
         })
       } else {
@@ -299,9 +301,9 @@ Page({
       },
       method: 'POST',
       success: function (res) {
-        // wx.redirectTo({
-        //   url: '../my-discount/my-discount?cfrom=reg'
-        // });
+        wx.navigateBack({
+          data: 1
+        })
       }
     })
   },

@@ -41,6 +41,7 @@ Page({
     userGiftFlag: false, //新用户礼包是否隐藏
     isphoneNumber: false, //是否拿到手机号
     isfirst: false,
+    loading: false,
     isopen: false,
     item: '',
     selAddress: '',
@@ -196,23 +197,27 @@ Page({
     // let userInfo = wx.getStorageSync('userInfo') || {};
     // userInfo.city = userInfo.city ? userInfo.city:'十堰市'
     // app.globalData.userInfo = userInfo
-    this.setData({
-      bannthree,
-      carousel,
-      fresh1: txtObj.fresh1 ? txtObj.fresh1 : '',
-      fresh2: txtObj.fresh2 ? txtObj.fresh2 : '',
-      fresh3: txtObj.fresh3 ? txtObj.fresh3 : '',
-      syhotdish:txtObj.sydish,
-      whhotdish: txtObj.whdish
-    },()=>{
-      this.getCutDish();
-    })
+    if (carousel.length>0){
+      this.setData({
+        bannthree,
+        carousel,
+        fresh1: txtObj.fresh1 ? txtObj.fresh1 : '',
+        fresh2: txtObj.fresh2 ? txtObj.fresh2 : '',
+        fresh3: txtObj.fresh3 ? txtObj.fresh3 : '',
+        syhotdish: txtObj.sydish,
+        whhotdish: txtObj.whdish
+      }, () => {
+        this.getCutDish();
+      })
+    }
+    
     this.indexinit();
 
 
   },
   onShow: function () {
     let that = this;
+    this.setData({ loading: false })
     if (app.globalData.userInfo.city) {
       this.setData({
         city: app.globalData.userInfo.city
@@ -234,7 +239,6 @@ Page({
       this.setData({ bargainListall: [] })
       this.getCutDish();
     }
-
   },
   indexinit: function () {
     let that = this;
@@ -408,20 +412,22 @@ Page({
   },
 
   isNewUser: function () {//查询新用户是否已经领券
-    let that = this, _parms = {};
-    _parms = {
-      userId: app.globalData.userInfo.userId,
-      token: app.globalData.token
-    };
-    Api.isNewUser(_parms).then((res) => {
-      if (res.data.code == 0) {
-        that.setData({
-          isNew: true
-        })
-      } else {
-        that.setData({
-          isNew: false
-        })
+    let that = this;
+    wx.request({
+      url: that.data._build_url + 'sku/isNewUser?userId=' + app.globalData.userInfo.userId,
+      header: {
+        "Authorization": app.globalData.token
+      },
+      success: function (res) {
+        if (res.data.code == 0) {
+          that.setData({
+            isNew: true
+          })
+        } else {
+          that.setData({
+            isNew: false
+          })
+        }
       }
     })
   },
@@ -432,11 +438,11 @@ Page({
       unionId: app.globalData.userInfo.unionId
     };
     Api.addUserUnionId(_parms).then((res) => {
-      // if(res.data.code = 0){
-      if (res.data.data.mobile) {
+      if(res.data.code = 0){
+      // if (res.data.data.mobile) {
         that.authlogin();
-      }
       // }
+      }
     })
   },
   authlogin: function () { //获取token
@@ -534,7 +540,7 @@ Page({
     if (userInfo && userInfo.mobile) {
       that.setData({
         isfirst: false,
-        isNew: false
+        // isNew: false
       })
     } else {
       that.setData({
@@ -612,8 +618,8 @@ Page({
               app.globalData.userInfo.city = '十堰市';
             }
             app.globalData.oldcity = app.globalData.userInfo.city;
-            this.getCutDish();
-            this.setData({
+            that.getCutDish();
+            that.setData({
               city: app.globalData.userInfo.city
             })
             app.globalData.picker = res.data.result.address_component;
@@ -679,7 +685,7 @@ Page({
     let _parms = {
       token: app.globalData.token
     }
-    Api.hcllist().then((res) => {
+    Api.hcllist(_parms).then((res) => {
       if (res.data.data) {
         wx.setStorageSync('carousel', res.data.data)
         this.setData({
@@ -691,11 +697,11 @@ Page({
 
   hotDishList() { //拼价砍菜列表
     //browSort 0附近 1销量 2价格
+    let _parms = {}, that = this;
     this.setData({
       city: this.data.city ? this.data.city : app.globalData.userInfo.city
     })
     if (app.globalData.userInfo.lng && app.globalData.userInfo.lat) {
-      let _parms = {}, that = this;
       _parms = {
         zanUserId: app.globalData.userInfo.userId,
         browSort: 2,
@@ -707,9 +713,13 @@ Page({
         rows: 10,
         token: app.globalData.token
       };
-
+      this.setData({
+        _page: this.data._page + 1,
+        loading: true
+      })
+      console.log('_parms:', _parms)
       Api.partakerList(_parms).then((res) => {
-        wx.hideLoading();
+        console.log("partakerListresres:",res)
         if (res.data.code == 0) {
           let _list = res.data.data.list,
             _oldData = this.data.bargainListall,
@@ -741,8 +751,9 @@ Page({
       }, () => {
         this.setData({ loading: false })
       })
+    }else{
+      that.getUserlocation();
     }
-
   },
   getdishDetail: function (Id, shopId) { //查询单个砍菜详情
     let that = this,
@@ -1078,13 +1089,14 @@ Page({
     })
   },
   onReachBottom: function () { //用户上拉触底加载更多
+
     if (this.data.pageTotal <= this.data._page) {//当前页码大于等于数据总页码
       return
     }
-    this.setData({
-      _page: this.data._page + 1,
-      loading: true
-    })
+    // this.setData({
+    //   _page: this.data._page + 1,
+    //   loading: true
+    // })
     // this.getshoplist();
     this.hotDishList();
     if (!this.data.alltopics) {
@@ -1486,8 +1498,7 @@ Page({
       userName: app.globalData.userInfo.userName,
       payType: 2,
       skuId: 8,
-      skuNum: 1,
-      token: app.globalData.token
+      skuNum: 1
     }
     for (var key in _parms) {
       _value += key + "=" + _parms[key] + "&";

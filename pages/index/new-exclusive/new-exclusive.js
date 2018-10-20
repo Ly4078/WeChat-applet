@@ -7,54 +7,48 @@ Page({
   data: {
     isNew: 0
   },
-  onLoad: function (options) {
-   
-  },
-  onReady: function () {
-    
-  },
-  onShow: function () {
+  onShow:function(){
     this.isNewUser();
-  },
-  onHide: function () {
-    
   },
   isNewUser: function () {   //判断是否新用户
     let that = this;
-    let _parms = {
-      userId: app.globalData.userInfo.userId
-    };
-    Api.isNewUser(_parms).then((res) => {
-      if (res.data.code == 0) {
-        that.setData({
-          isNew: 1
-        });
+    wx.request({
+      url: that.data._build_url + 'sku/isNewUser?userId=' + app.globalData.userInfo.userId,
+      header: {
+        "Authorization": app.globalData.token
+      },
+      success: function (res) {
+        if (res.data.code == 0) {
+          that.setData({
+            isNew: 1
+          });
+        }
       }
     })
   },
   toReceive: function() {  //点击领取新人专享
     if(this.data.isNew == 1) {
-      let that = this
-      let _parms = {
-        // userId: app.globalData.userInfo.userId,
-        // userName: app.globalData.userInfo.userName,
-        payType: '2',
-        skuId: '8',
-        skuNum: '1',
-        token: app.globalData.token
-      }
-      Api.getFreeTicket(_parms).then((res) => {
-        if (res.data.code == 0) {
-          wx.navigateTo({
-            url: '../../personal-center/my-discount/my-discount?id=' + res.data.data + '&isPay=1'
-          })
-        }else{
-          wx.showToast({
-            title: '您已不是新用户！',
-            icon: 'none'
-          })
+      let that = this, _parms={};
+      wx.request({
+        url: that.data._build_url + 'so/freeOrder?payType=2&skuId=8&skuNum=1',
+        header: {
+          "Authorization": app.globalData.token
+        },
+        method: 'POST',
+        success: function (res) {
+          if (res.data.code == 0) {
+            wx.navigateTo({
+              url: '../../personal-center/my-discount/my-discount?id=' + res.data.data + '&isPay=1'
+            })
+          } else {
+            wx.showToast({
+              title: '您已不是新用户！',
+              icon: 'none'
+            })
+          }
         }
       })
+
     } else if (this.data.isNew == 0) {
       wx.showToast({
         title: '您已不是新用户！',
