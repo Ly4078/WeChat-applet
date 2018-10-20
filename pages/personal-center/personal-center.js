@@ -74,12 +74,10 @@ Page({
                 if (res.data.code == 0) {
                   app.globalData.userInfo.openId = res.data.data.openId;
                   app.globalData.userInfo.sessionKey = res.data.data.sessionKey;
-                  console.log("sessionkey:", app.globalData.userInfo.sessionKey);
                   if (res.data.data.unionId) {
                     app.globalData.userInfo.unionId = res.data.data.unionId;
                     that.setData({
                       istouqu: false
-                      //  istouqu: true
                     })
                   } else {
                     that.setData({
@@ -97,11 +95,7 @@ Page({
         istouqu: false
       })
     }
-    if (!app.globalData.userInfo.nickName && !app.globalData.userInfo.mobile) {
-      this.setData({
-        istouqu: true
-      })
-    }
+
 
     if (app.globalData.userInfo.mobile) {
       // this.getbalance();
@@ -212,14 +206,9 @@ Page({
 
 
         wx.request({
-          url: that.data._build_url + 'auth/phoneAES',
+          url: that.data._build_url + 'auth/phoneAES?sessionKey=' + _sessionKey + '&ivData=' + _ivData + '&encrypData='+_encrypData,
           header: {
             'content-type': 'application/json' // 默认值
-          },
-          data:{
-            sessionKey: _sessionKey,
-            ivData: _ivData,
-            encrypData: _encrypData
           },
           method: 'POST',
           success: function (resv) {
@@ -233,20 +222,6 @@ Page({
             }
           }
         })
-        return
-        Api.phoneAES(_pars).then((resv) => {
-          if (resv.data.code == 0) {
-            that.setData({
-              istouqu: false
-            })
-            let _data = JSON.parse(resv.data.data);
-            app.globalData.userInfo.unionId = _data.unionId;
-          }
-        })
-
-        return
-
-        
       }
     })
   },

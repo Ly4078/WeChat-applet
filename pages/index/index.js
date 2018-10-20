@@ -312,19 +312,22 @@ Page({
     wx.login({
       success: res => {
         if (res.code) {
-          let _parms = {
-            code: res.code
-          }
-          Api.getOpenId(_parms).then((res) => {
-            app.globalData.userInfo.openId = res.data.data.openId;
-            app.globalData.userInfo.sessionKey = res.data.data.sessionKey;
-            if (res.data.data.unionId) {
-              app.globalData.userInfo.unionId = res.data.data.unionId;
-              that.createNewUser();
-            } else {
-              that.setData({
-                istouqu: true
-              })
+          wx.request({
+            url: that.data._build_url + 'auth/getOpenId?code=' + res.code,
+            method: 'POST',
+            success: function (res) {
+              if(res.data.code == 0){
+                app.globalData.userInfo.openId = res.data.data.openId;
+                app.globalData.userInfo.sessionKey = res.data.data.sessionKey;
+                if (res.data.data.unionId) {
+                  app.globalData.userInfo.unionId = res.data.data.unionId;
+                  that.createNewUser();
+                } else {
+                  that.setData({
+                    istouqu: true
+                  })
+                }
+              }
             }
           })
         }
@@ -358,29 +361,30 @@ Page({
   },
 
   createNewUser: function () { 
-    let _parms = {
-      openId: app.globalData.userInfo.openId,
-      unionId: app.globalData.userInfo.unionId
-    }, that = this;
-    Api.addUserUnionId(_parms).then((res) => {
-      if (res.data.code == 0) {
-        let data = res.data.data;
-        for (let key in data) {
-          for (let ind in app.globalData.userInfo) {
-            if (key == ind) {
-              app.globalData.userInfo[ind] = data[key]
+    let that=this;
+    wx.request({
+      url: that.data._build_url + 'auth/addUserUnionId?openId=' +app.globalData.userInfo.openId + '&unionId=' + app.globalData.userInfo.unionId,
+      method: 'POST',
+      success: function (res) {
+        if (res.data.code == 0) {
+          let data = res.data.data;
+          for (let key in data) {
+            for (let ind in app.globalData.userInfo) {
+              if (key == ind) {
+                app.globalData.userInfo[ind] = data[key]
+              }
             }
+          };
+          app.globalData.userInfo.userId = res.data.data.id;
+          that.authlogin();
+          if (!res.data.data.mobile) {
+            that.setData({
+              isfirst: true,
+              isNew: true
+            })
           }
-        };
-        app.globalData.userInfo.userId = res.data.data.id;
-        that.authlogin();
-        if (!res.data.data.mobile) {
-          that.setData({
-            isfirst: true,
-            isNew: true
-          })
+          that.getuserIdLater();
         }
-        that.getuserIdLater();
       }
     })
   },
