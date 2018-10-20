@@ -7,10 +7,8 @@ var utils = require('../../utils/util.js')
 var app = getApp();
 
 var village_LBS = function (that) {
-  console.log('village_LBS')
   wx.getLocation({
     success: function (res) {
-      console.log('village_LBS_res:',res)
       let latitude = res.latitude;
       let longitude = res.longitude;
       that.requestCityName(latitude, longitude);
@@ -73,50 +71,50 @@ Page({
     isfile: false,
     iskancai: false,
     navs: [{
-        img: 'https://xqmp4-1256079679.file.myqcloud.com/text_701070039850928092.png',
-        id: 1,
-        name: '砍价'
-      },
-      {
-        img: '/images/icon/navcaiting.png',
-        id: 2,
-        name: '餐厅'
-        // }, {
-        //   img: '/images/icon/navruzhu.png',
-        //   id: 3,
-        //   name: '活动'
-      }, {
-        img: '/images/icon/navshiping.png',
-        id: 4,
-        name: '短视频'
-      }, {
-        img: '/images/icon/navhuodong.png',
-        id: 5,
-        name: '商家入驻'
-      }
+      img: 'https://xqmp4-1256079679.file.myqcloud.com/text_701070039850928092.png',
+      id: 1,
+      name: '砍价'
+    },
+    {
+      img: '/images/icon/navcaiting.png',
+      id: 2,
+      name: '餐厅'
+      // }, {
+      //   img: '/images/icon/navruzhu.png',
+      //   id: 3,
+      //   name: '活动'
+    }, {
+      img: '/images/icon/navshiping.png',
+      id: 4,
+      name: '短视频'
+    }, {
+      img: '/images/icon/navhuodong.png',
+      id: 5,
+      name: '商家入驻'
+    }
     ],
     navs2: [{
-        img: 'https://xqmp4-1256079679.file.myqcloud.com/text_701070039850928092.png',
-        id: 1,
-        name: '砍价'
-      },
-      {
-        img: '/images/icon/navcaiting.png',
-        id: 2,
-        name: '餐厅'
-        // }, {
-        //   img: '/images/icon/navruzhu.png',
-        //   id: 3,
-        //   name: '活动'
-      }, {
-        img: '/images/icon/navshiping.png',
-        id: 4,
-        name: '微生活'
-      }, {
-        img: '/images/icon/navhuodong.png',
-        id: 5,
-        name: '商家入驻'
-      }
+      img: 'https://xqmp4-1256079679.file.myqcloud.com/text_701070039850928092.png',
+      id: 1,
+      name: '砍价'
+    },
+    {
+      img: '/images/icon/navcaiting.png',
+      id: 2,
+      name: '餐厅'
+      // }, {
+      //   img: '/images/icon/navruzhu.png',
+      //   id: 3,
+      //   name: '活动'
+    }, {
+      img: '/images/icon/navshiping.png',
+      id: 4,
+      name: '微生活'
+    }, {
+      img: '/images/icon/navhuodong.png',
+      id: 5,
+      name: '商家入驻'
+    }
     ],
     Res: [{
       img: '/images/icon/jxcanting.png',
@@ -177,33 +175,53 @@ Page({
       shopname: "恩施印像",
     }]
   },
-  onLoad: function(options) {
+  onLoad: function (options) {
     let that = this;
     //版本更新
     const updateManager = wx.getUpdateManager();
-    updateManager.onCheckForUpdate(function(res) {
+    updateManager.onCheckForUpdate(function (res) {
       // 请求完新版本信息的回调
       // console.log(res.hasUpdate)
     });
-    updateManager.onUpdateReady(function() {
+    updateManager.onUpdateReady(function () {
       // 新的版本已经下载好，调用 applyUpdate 应用新版本并重启
       updateManager.applyUpdate()
     });
-    updateManager.onUpdateFailed(function() {
+    updateManager.onUpdateFailed(function () {
       // 新的版本下载失败
     });
-
+    let carousel = wx.getStorageSync("carousel") || [];
+    let bannthree = wx.getStorageSync("bannthree") || [];
+    let txtObj = wx.getStorageSync('txtObj') || {};
+    // let userInfo = wx.getStorageSync('userInfo') || {};
+    // userInfo.city = userInfo.city ? userInfo.city:'十堰市'
+    // app.globalData.userInfo = userInfo
+    this.setData({
+      bannthree,
+      carousel,
+      fresh1: txtObj.fresh1 ? txtObj.fresh1 : '',
+      fresh2: txtObj.fresh2 ? txtObj.fresh2 : '',
+      fresh3: txtObj.fresh3 ? txtObj.fresh3 : '',
+      syhotdish:txtObj.sydish,
+      whhotdish: txtObj.whdish
+    },()=>{
+      this.getCutDish();
+    })
     this.indexinit();
+
 
   },
   onShow: function () {
     let that = this;
-    if (app.globalData.userInfo.city){
+    if (app.globalData.userInfo.city) {
       this.setData({
         city: app.globalData.userInfo.city
       })
+      let userInfo = wx.getStorageSync('userInfo')
+      userInfo = app.globalData.userInfo;
+      wx.setStorageSync('userInfo', userInfo)
     }
-   
+
     if (this.data.verifyId && this.data.phone && this.data.phonetwo) {
       this.setData({
         userGiftFlag: false,
@@ -213,11 +231,12 @@ Page({
       })
     }
     if (app.globalData.userInfo.lat && app.globalData.userInfo.lng) {
-      this.setData({ bargainListall:[]})
+      this.setData({ bargainListall: [] })
       this.getCutDish();
     }
+
   },
-  indexinit :function(){
+  indexinit: function () {
     let that = this;
     if (app.globalData.userInfo.userId) {
       if (app.globalData.userInfo.mobile) {
@@ -280,7 +299,7 @@ Page({
     let that = this;
     wx.login({
       success: res => {
-        Api.findByCode({code: res.code}).then((res) => {
+        Api.findByCode({ code: res.code }).then((res) => {
           if (res.data.code == 0) {
             let _data = res.data.data;
             if (_data.id && _data != null) {
@@ -293,8 +312,8 @@ Page({
               };
               app.globalData.userInfo.userId = _data.id;
               that.authlogin();
-            } 
-            if (!_data.id){
+            }
+            if (!_data.id) {
               if (app.globalData.userInfo.openId && app.globalData.userInfo.unionId) {
                 that.createNewUser();
               } else {
@@ -359,7 +378,6 @@ Page({
       }
     })
   },
-
   createNewUser: function () { 
     let that=this;
     wx.request({
@@ -415,13 +433,13 @@ Page({
     };
     Api.addUserUnionId(_parms).then((res) => {
       // if(res.data.code = 0){
-        if (res.data.data.mobile){
-          that.authlogin();
-        }
+      if (res.data.data.mobile) {
+        that.authlogin();
+      }
       // }
     })
   },
-  authlogin:function(){ //获取token
+  authlogin: function () { //获取token
     let that = this;
     wx.request({
       url: this.data._build_url + 'auth/login?userName=' + app.globalData.userInfo.userName,
@@ -431,25 +449,25 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success: function (res) {
-        if(res.data.code == 0){
+        if (res.data.code == 0) {
           let _token = 'Bearer ' + res.data.data;
           app.globalData.token = _token;
-            that.isNewUser();
-            that.getdatamore();
+          that.isNewUser();
+          that.getdatamore();
         }
       }
     })
   },
   getdatamore: function () {//请求配置数据
     let that = this;
-    wx.request({ 
+    wx.request({
       url: this.data._build_url + 'version.txt',
-      header:{
+      header: {
         "Authorization": app.globalData.token
       },
       success: function (res) {
-        // console.log('version:',res)
         app.globalData.txtObj = res.data;
+        wx.setStorageSync("txtObj", res.data)
         if (res.data.flag == 0) { //0显示  
           app.globalData.isflag = true;
           that.setData({
@@ -531,16 +549,13 @@ Page({
     wx.getLocation({
       type: 'wgs84',
       success: function (res) {
-        let latitude = res.latitude,longitude = res.longitude;
+        let latitude = res.latitude, longitude = res.longitude;
         that.requestCityName(latitude, longitude);
       },
       fail: function (res) {
-        console.log("fail:", res)
         wx.getSetting({
           success: (res) => {
-            console.log("setting__res:",res)
             if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其位置信息
-             console.log("111111")
               wx.showModal({
                 title: '提示',
                 content: '更多体验需要你授权位置信息',
@@ -553,22 +568,21 @@ Page({
                         if (res.authSetting['scope.userLocation']) {  //打开位置授权                
                           that.getUserlocation();
                           // village_LBS(that);
-                      
-                        }else {
-                           let lat = '30.51597',
-      lng = '114.34035';
+
+                        } else {
+                          let lat = '30.51597',
+                            lng = '114.34035';
                           that.requestCityName(lat, lng);
                           // that.getCutDish();
                         }
                       },
-                      complete:(res=>{
-                        console.log("121323")
+                      complete: (res => {
                       })
                     })
                   }
                 }
               })
-            }else{
+            } else {
               that.getCutDish();
             }
           }
@@ -579,34 +593,35 @@ Page({
 
   requestCityName(lat, lng) { //获取当前城市
     let that = this;
-      app.globalData.userInfo.lat = lat;
-      app.globalData.userInfo.lng = lng;
-      if (app.globalData.userInfo.city) {
-        this.getCutDish();
-      } else {
-        wx.request({
-          url: 'https://apis.map.qq.com/ws/geocoder/v1/?location=' + lat + "," + lng + "&key=4YFBZ-K7JH6-OYOS4-EIJ27-K473E-EUBV7",
-          header: {
-            'content-type': 'application/json' // 默认值
-          },
-          success: (res) => {
-            if (res.data.status == 0) {
-              let _city = res.data.result.address_component.city;
-              if (_city == '十堰市') {
-                app.globalData.userInfo.city = _city;
-              } else {
-                app.globalData.userInfo.city = '十堰市';
-              }
-              app.globalData.oldcity = app.globalData.userInfo.city;
-              this.getCutDish();
-              this.setData({
-                city: app.globalData.userInfo.city
-              })
-              app.globalData.picker = res.data.result.address_component;
+    app.globalData.userInfo.lat = lat;
+    app.globalData.userInfo.lng = lng;
+    if (app.globalData.userInfo.city) {
+      this.getCutDish();
+    } else {
+      wx.request({
+        url: 'https://apis.map.qq.com/ws/geocoder/v1/?location=' + lat + "," + lng + "&key=4YFBZ-K7JH6-OYOS4-EIJ27-K473E-EUBV7",
+        header: {
+          'content-type': 'application/json' // 默认值
+        },
+        success: (res) => {
+          if (res.data.status == 0) {
+            let _city = res.data.result.address_component.city;
+            if (_city == '十堰市') {
+              app.globalData.userInfo.city = _city;
+            } else {
+              app.globalData.userInfo.city = '十堰市';
             }
+            app.globalData.oldcity = app.globalData.userInfo.city;
+            this.getCutDish();
+            this.setData({
+              city: app.globalData.userInfo.city
+            })
+            app.globalData.picker = res.data.result.address_component;
+            wx.setStorageSync('userInfo', app.globalData.userInfo)
           }
-        })
-      }
+        }
+      })
+    }
   },
 
   getCutDish: function () {// 获取砍菜数据
@@ -666,10 +681,11 @@ Page({
     }
     Api.hcllist().then((res) => {
       if (res.data.data) {
+        wx.setStorageSync('carousel', res.data.data)
         this.setData({
           carousel: res.data.data
         })
-      } 
+      }
     })
   },
 
@@ -678,8 +694,8 @@ Page({
     this.setData({
       city: this.data.city ? this.data.city : app.globalData.userInfo.city
     })
-    if (app.globalData.userInfo.lng && app.globalData.userInfo.lat){
-      let _parms = {},that=this;
+    if (app.globalData.userInfo.lng && app.globalData.userInfo.lat) {
+      let _parms = {}, that = this;
       _parms = {
         zanUserId: app.globalData.userInfo.userId,
         browSort: 2,
@@ -716,19 +732,19 @@ Page({
               loading: false
             })
 
-          }else{
-            this.setData({loading: false})
+          } else {
+            this.setData({ loading: false })
           }
-        }else{
-            this.setData({ loading: false })
+        } else {
+          this.setData({ loading: false })
         }
-      },()=>{
-            this.setData({ loading: false })
+      }, () => {
+        this.setData({ loading: false })
       })
     }
-    
+
   },
-  getdishDetail: function(Id, shopId) { //查询单个砍菜详情
+  getdishDetail: function (Id, shopId) { //查询单个砍菜详情
     let that = this,
       _parms = {},
       arr = [];
@@ -871,7 +887,7 @@ Page({
       })
     }
   },
-  onPullDownRefresh: function() { //下拉刷新
+  onPullDownRefresh: function () { //下拉刷新
     this.setData({
       bargainList: [], //砍价拼菜
       bargainListall: [], //拼菜砍价
@@ -984,9 +1000,9 @@ Page({
   getshoplist(val, keys) {
     let lat = '30.51597',
       lng = '114.34035'; //lat纬度   lng经度
- 
-    if (app.globalData.userInfo.lng && app.globalData.userInfo.lat && app.globalData.userInfo.city){
-      let _parms = {},that=this;
+
+    if (app.globalData.userInfo.lng && app.globalData.userInfo.lat && app.globalData.userInfo.city) {
+      let _parms = {}, that = this;
       _parms = {
         locationX: app.globalData.userInfo.lng ? app.globalData.userInfo.lng : lng,
         locationY: app.globalData.userInfo.lat ? app.globalData.userInfo.lat : lat,
@@ -1062,7 +1078,7 @@ Page({
     })
   },
   onReachBottom: function () { //用户上拉触底加载更多
-    if (this.data.pageTotal <= this.data._page){//当前页码大于等于数据总页码
+    if (this.data.pageTotal <= this.data._page) {//当前页码大于等于数据总页码
       return
     }
     this.setData({
@@ -1094,6 +1110,7 @@ Page({
           that.setData({
             bannthree: listarr
           })
+          wx.setStorageSync('bannthree', listarr)//商家广告位-砍价拼菜banner图
         }
         return false;
         let _parms = {
@@ -1163,7 +1180,7 @@ Page({
   },
 
 
-  toNewExclusive: function(e) { //跳转至新人专享页面
+  toNewExclusive: function (e) { //跳转至新人专享页面
     let id = e.currentTarget.id,
       _linkUrl = '',
       _type = '',
@@ -1212,28 +1229,25 @@ Page({
   },
 
   //监听页面分享
-  onShareAppMessage: function(res) {
+  onShareAppMessage: function (res) {
     if (res.from === 'button') {
       // 来自页面内转发按钮
-      console.log(res.target)
     }
     return {
       title: '享7美食',
       path: 'pages/index/index',
       imageUrl: 'https://xqmp4-1256079679.file.myqcloud.com/Colin_ajdlfadjfal.png',
-      success: function(res) {
+      success: function (res) {
         // 转发成功
-        console.log("res:", res)
       },
-      fail: function(res) {
+      fail: function (res) {
         // 转发失败
-        console.log("res:", res)
       }
     }
   },
 
   //  注册start
-  closetel: function(e) { //新用户提示按钮选项
+  closetel: function (e) { //新用户提示按钮选项
     let id = e.target.id;
     clearInterval(this.data.settime)
     this.setData({
@@ -1245,7 +1259,7 @@ Page({
       })
     }
   },
-  numbindinput: function(e) { //监听号码输入框
+  numbindinput: function (e) { //监听号码输入框
     let _value = e.detail.value,
       that = this, RegExp = /^[1][3456789][0-9]{9}$/;
     if (!_value) {
@@ -1269,7 +1283,7 @@ Page({
       })
     }
   },
-  closephone: function() { //手机号置空
+  closephone: function () { //手机号置空
     clearInterval(this.data.settime)
     this.setData({
       phone: '',
@@ -1280,7 +1294,7 @@ Page({
       settime: null
     })
   },
-  submitphone: function() { //获取验证码
+  submitphone: function () { //获取验证码
     let that = this,
       sett = null;
     if (!this.data.phone) {
@@ -1311,7 +1325,7 @@ Page({
         token: app.globalData.token
       }
 
-      wx.request({ 
+      wx.request({
         url: this.data._build_url + 'sms/sendForRegister?shopMobile=' + that.data.phone,
         header: {
           "Authorization": app.globalData.token
@@ -1319,7 +1333,6 @@ Page({
         method: 'POST',
         success: function (res) {
           if (res.data.code == 0) {
-            // console.log('res.data.data:', res.data.data)
             that.setData({
               verifyId: res.data.data.verifyId,
               veridyTime: res.data.data.veridyTime,
@@ -1335,7 +1348,7 @@ Page({
         }
       })
 
-    
+
     } else {
       wx.showToast({
         title: '电话号码输入有误，请重新输入',
@@ -1357,7 +1370,7 @@ Page({
   },
   remaining: function (val) { //倒计时
     let _vertime = this.data.veridyTime.replace(/\-/ig, "\/"),
-      rema = 60,that=this;
+      rema = 60, that = this;
     rema = utils.reciprocal(_vertime);
     if (rema == 'no' || rema == 'yes' || !rema) {
       clearInterval(this.data.settime)
@@ -1397,7 +1410,6 @@ Page({
           })
         }
         Api.isVerify(_parms).then((res) => {
-          console.log('isVerify__res:',res)
           if (res.data.code == 0) {
             app.globalData.token = "";
             app.globalData.userInfo.userId = res.data.data;
@@ -1459,7 +1471,7 @@ Page({
     }
   },
   newUserToGet: function () { //新用户跳转票券
-    let that = this, _value = "", _parms={};
+    let that = this, _value = "", _parms = {};
     if (!app.globalData.userInfo.mobile) {
       this.setData({
         isphoneNumber: true
@@ -1483,7 +1495,7 @@ Page({
     _value = _value.substring(0, _value.length - 1);
 
     wx.request({
-      url: this.data._build_url + 'so/freeOrder?'+_value,
+      url: this.data._build_url + 'so/freeOrder?' + _value,
       header: {
         "Authorization": app.globalData.token
       },
@@ -1527,7 +1539,7 @@ Page({
         wx.showToast({
           title: res.data.message,
           mask: 'true',
-          icon: 'none'   
+          icon: 'none'
         })
       }
     })
@@ -1548,7 +1560,6 @@ Page({
       reg3 = new RegExp("actId"),
       reg4 = new RegExp("type");
     let arr = this.data.bannthree;
-    console.log("arr:", arr)
     if (id == 1) {
       let str = arr[0].linkUrl;
       if (str == "ruzhu") { //进入下载APP页面
@@ -1637,7 +1648,7 @@ Page({
   },
   //图片加载出错，替换为默认图片
   imageError: function (e) {
-    let id = e.target.id,bargainList = this.data.bargainList, bargainListall = this.data.bargainListall;
+    let id = e.target.id, bargainList = this.data.bargainList, bargainListall = this.data.bargainListall;
     for (let i = 0; i < bargainList.length; i++) {
       if (bargainList[i].id == id) {
         bargainList[i].picUrl = "/images/icon/morentu.png";
@@ -1672,7 +1683,6 @@ Page({
       reg3 = new RegExp("actId"),
       reg4 = new RegExp("type");
     let arr = this.data.bannthree;
-    console.log("arr:", arr)
     if (id == 1) {
       let str = arr[0].linkUrl;
       if (str == "ruzhu") { //进入下载APP页面
