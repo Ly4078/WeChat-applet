@@ -585,8 +585,7 @@ Page({
       parentId: this.data.initiator,
       // userId: app.globalData.userInfo.userId,
       shopId : this.data.shopId,
-      groupId: this.data.groupId,
-      token: app.globalData.token
+      groupId: this.data.groupId
     };
     for (var key in _parms) {
       _value += key + "=" + _parms[key] + "&";
@@ -694,15 +693,18 @@ Page({
                 flag: false
               });
             }
-          } this.setData({
-            flag: false
-          });
+          } else {
+            this.setData({
+              flag: false
+            });
+          }
         }
       })
     }
     
   },
   onReachBottom: function() { //用户上拉触底加载更多
+    console.log(this.data.flag);
     if (!this.data.flag) {
       return false;
     }
