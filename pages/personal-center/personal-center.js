@@ -62,26 +62,31 @@ Page({
         }
       }
     })
-    if (!app.globalData.userInfo.unionId) {
+    console.log("userInfo111:", app.globalData.userInfo)
+    if (!app.globalData.userInfo.unionId || !app.globalData.userInfo.sessionKey) {
       wx.login({
         success: res => {
           if (res.code) {
-            let _parms = {
-              code: res.code,
-              token: app.globalData.token
-            }
-            Api.getOpenId(_parms).then((res) => {
-              app.globalData.userInfo.openId = res.data.data.openId;
-              app.globalData.userInfo.sessionKey = res.data.data.sessionKey;
-              if (res.data.data.unionId) {
-                app.globalData.userInfo.unionId = res.data.data.unionId;
-                that.setData({
-                  istouqu: false
-                })
-              } else {
-                that.setData({
-                  istouqu: true
-                })
+            wx.request({
+              url: that.data._build_url + 'auth/getOpenId?code=' + res.code,
+              method: 'POST',
+              success: function (res) {
+                if (res.data.code == 0) {
+                  app.globalData.userInfo.openId = res.data.data.openId;
+                  app.globalData.userInfo.sessionKey = res.data.data.sessionKey;
+                  console.log("sessionkey:", app.globalData.userInfo.sessionKey);
+                  if (res.data.data.unionId) {
+                    app.globalData.userInfo.unionId = res.data.data.unionId;
+                    that.setData({
+                      istouqu: false
+                      //  istouqu: true
+                    })
+                  } else {
+                    that.setData({
+                      istouqu: true
+                    })
+                  }
+                }
               }
             })
           }
@@ -101,12 +106,13 @@ Page({
     if (app.globalData.userInfo.mobile) {
       // this.getbalance();
       this.setData({
-        ismobile: false
+        ismobile: false,
+        istouqu: false
       })
     }
-    let _nickName = ''
+
+    let _nickName = '', reg = /^1[34578][0-9]{9}$/;
     _nickName = app.globalData.userInfo.nickName ? app.globalData.userInfo.nickName : app.globalData.userInfo.userName;
-    let reg = /^1[34578][0-9]{9}$/;
     if (reg.test(_nickName)) {
       _nickName = _nickName.substr(0, 3) + "****" + _nickName.substr(7);
     }
@@ -161,7 +167,8 @@ Page({
       }
     })
     // 查询是否配置
-    this.getPullUser();
+    that.getPullUser();
+   
   },
   getPullUser: function() {
     let that = this;
@@ -184,17 +191,49 @@ Page({
       }
     })
   },
-  againgetinfo: function() {
-    let that = this;
+  againgetinfo: function() {  //解密加密信息
+    let that = this, _values = "", _parms={};
+    console.log("userInfo:", app.globalData.userInfo)
     wx.getUserInfo({
       withCredentials: true,
       success: function(res) {
         that.updatauser(res.userInfo);
-        let _pars = {
-          sessionKey: app.globalData.userInfo.sessionKey,
-          ivData: res.iv,
-          encrypData: res.encryptedData
-        }
+        
+          let _sessionKey=app.globalData.userInfo.sessionKey,
+          _ivData=res.iv,_encrypData=res.encryptedData;
+        
+  
+        _sessionKey = _sessionKey.replace(/\=/g, "%3d");
+        _ivData = _ivData.replace(/\=/g, "%3d");
+        _ivData = _ivData.replace(/\+/g, "%2b");
+        _encrypData = _encrypData.replace(/\=/g, "%3d");
+        _encrypData = _encrypData.replace(/\+/g, "%2b");
+        _encrypData = _encrypData.replace(/\//g, "%2f");
+
+
+        wx.request({
+          url: that.data._build_url + 'auth/phoneAES',
+          header: {
+            'content-type': 'application/json' // 默认值
+          },
+          data:{
+            sessionKey: _sessionKey,
+            ivData: _ivData,
+            encrypData: _encrypData
+          },
+          method: 'POST',
+          success: function (resv) {
+            console.log('res:',resv)
+            if (resv.data.code == 0) {
+              that.setData({
+                istouqu: false
+              })
+              let _data = JSON.parse(resv.data.data);
+              app.globalData.userInfo.unionId = _data.unionId;
+            }
+          }
+        })
+        return
         Api.phoneAES(_pars).then((resv) => {
           if (resv.data.code == 0) {
             that.setData({
@@ -204,6 +243,10 @@ Page({
             app.globalData.userInfo.unionId = _data.unionId;
           }
         })
+
+        return
+
+        
       }
     })
   },
@@ -589,7 +632,6 @@ Page({
             })
           }
         } else {
-
           wx.showToast({
             title: res.data.message,
             mask: 'true',

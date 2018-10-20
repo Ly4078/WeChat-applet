@@ -192,18 +192,31 @@ Page({
     updateManager.onUpdateFailed(function() {
       // 新的版本下载失败
     });
-    // wx.login({
-    //   success: res => {
-    //     if (res.code) {
-    //       console.log("code:", res.code)
-    //     }
-    //   }
-    // });
-    // return
+
     this.indexinit();
 
   },
-  onShow: function () {},
+  onShow: function () {
+    let that = this;
+    if (app.globalData.userInfo.city){
+      this.setData({
+        city: app.globalData.userInfo.city
+      })
+    }
+   
+    if (this.data.verifyId && this.data.phone && this.data.phonetwo) {
+      this.setData({
+        userGiftFlag: false,
+        isNew: true,
+        isfirst: true,
+        isphoneNumber: true
+      })
+    }
+    if (app.globalData.userInfo.lat && app.globalData.userInfo.lng) {
+      this.setData({ bargainListall:[]})
+      this.getCutDish();
+    }
+  },
   indexinit :function(){
     let that = this;
     if (app.globalData.userInfo.userId) {
@@ -264,15 +277,10 @@ Page({
 
   // 初始化start
   findByCode: function () {//通过code查询用户信息
-    console.log('findByCode')
     let that = this;
-   
-    console.log("token:", app.globalData.token)
     wx.login({
       success: res => {
-        console.log("code:",res.code)
         Api.findByCode({code: res.code}).then((res) => {
-          console.log('res:',res)
           if (res.data.code == 0) {
             let _data = res.data.data;
             if (_data.id && _data != null) {
@@ -293,12 +301,6 @@ Page({
                 that.getOpendId();
               }
             }
-          } else {
-            // that.findByCode();
-            // wx.hideLoading();
-            // that.setData({
-            //   istouqu: true
-            // })
           }
         })
       }
@@ -601,8 +603,6 @@ Page({
           }
         })
       }
-    
-
   },
 
   getCutDish: function () {// 获取砍菜数据
@@ -1245,17 +1245,17 @@ Page({
     let _value = e.detail.value,
       that = this, RegExp = /^[1][3456789][0-9]{9}$/;
     if (!_value) {
-      this.closephone()
+      that.closephone()
     }
     if (RegExp.test(_value)) {
-      this.setData({
+      that.setData({
         isclose: true,
         phonetwo: _value,
         phone: _value
       })
     } else {
       clearInterval(that.data.settime);
-      this.setData({
+      that.setData({
         phonetwo: _value,
         phone: '',
         isclose: false,
@@ -1353,17 +1353,17 @@ Page({
   },
   remaining: function (val) { //倒计时
     let _vertime = this.data.veridyTime.replace(/\-/ig, "\/"),
-      rema = 60;
+      rema = 60,that=this;
     rema = utils.reciprocal(_vertime);
     if (rema == 'no' || rema == 'yes' || !rema) {
       clearInterval(this.data.settime)
-      this.setData({
+      that.setData({
         rematime: '获取验证码',
         goto: false,
         isclick: true
       })
     } else {
-      this.setData({
+      that.setData({
         rematime: rema
       })
     }
@@ -1409,27 +1409,6 @@ Page({
               phonetwo: ''
             })
             that.findByCode();
-            // wx.login({
-            //   success: res => {
-            //     Api.findByCode({ code: res.code }).then((res) => {
-            //       if (res.data.code == 0) {
-            //         console.log("findByCoderes:", res)
-            //         let _data = res.data.data;
-            //         if (_data.id && _data != null) {
-            //           for (let key in _data) {
-            //             for (let ind in app.globalData.userInfo) {
-            //               if (key == ind) {
-            //                 app.globalData.userInfo[ind] = _data[key]
-            //               }
-            //             }
-            //           };
-            //           app.globalData.userInfo.userId = _data.id;
-            //           that.authlogin();
-            //         }
-            //       } 
-            //     })
-            //   }
-            // })
           }
         })
       } else {
