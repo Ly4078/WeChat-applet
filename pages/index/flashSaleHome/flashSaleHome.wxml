@@ -47,7 +47,7 @@
     </view>
   </view>
 </view>
- <view class='loadingBox' style="background-color:#78B6FC;" wx:if="{{aNearbyShop.length>0}}">
+ <view class='loadingBox' style="background-color:#78B6FC;" wx:if="{{aNearbyShop.length>0 && currentTab == 0}}">
       <i-spin custom wx:if="{{loading}}">
         <view class="loading"></view>
       </i-spin>

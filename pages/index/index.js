@@ -219,6 +219,9 @@ Page({
 
   },
   onShow: function () {
+    wx.setNavigationBarTitle({
+      title: '首页'   //页面标题为路由参数
+    })
     let that = this;
     this.setData({ loading: false,_page:1 })
     if (app.globalData.userInfo.city) {
