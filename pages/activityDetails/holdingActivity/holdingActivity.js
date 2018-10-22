@@ -224,8 +224,9 @@ Page({
   emptyNum() { //清空邀请螃蟹人数
     console.log('emptyNum')
     let that = this;
+    let params = encodeURI(that.data._build_url + 'pullUser/upNums?userId=' + app.globalData.userInfo.userId)
     wx.request({
-      url: that.data._build_url + 'pullUser/upNums?userId=' + app.globalData.userInfo.userId,
+      url: params,
       header: {
         "Authorization": app.globalData.token
       },
