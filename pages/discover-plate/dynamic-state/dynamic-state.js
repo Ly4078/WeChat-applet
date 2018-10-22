@@ -544,6 +544,9 @@ Page({
                   token: app.globalData.token
                   // userId: app.globalData.userInfo.userId
                 });
+                wx.navigateBack({
+                  delta: 1
+                })
               } else if (that.data.cfrom) {
                 wx.redirectTo({
                   url: '../../activityDetails/video-list/video-list'
