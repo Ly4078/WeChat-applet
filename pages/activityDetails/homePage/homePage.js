@@ -239,8 +239,10 @@ Page({
     })
   },
   toLikeList(e) {  //跳转至关注列表
+    console.log(e.currentTarget.id)
+    const id = e.currentTarget.id;
     wx.navigateTo({
-      url: '../../personal-center/livepage/livepage?likeType=' + e.currentTarget.id + '&userId=' + this.data.userId
+      url: '../../personal-center/livepage/livepage?likeType=' + e.currentTarget.id + '&userId=' + this.data.userId+'&id='+id
     })
   },
   article() { //文章列表

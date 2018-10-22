@@ -246,8 +246,7 @@ Page({
     let that = this, _values = "", _parms={};
     _parms = {
       id: app.globalData.userInfo.userId,
-      openId: app.globalData.userInfo.openId,
-      token: app.globalData.token
+      openId: app.globalData.userInfo.openId
     };
     if (data.avatarUrl) {
       _parms.iconUrl = data.avatarUrl
@@ -274,14 +273,6 @@ Page({
           app.globalData.userInfo.iconUrl = data.avatarUrl;
           that.getuserInfo();
         }
-      }
-    })
-    return;
-    Api.updateuser(_parms).then((res) => {
-      if (res.data.code == 0) {
-        app.globalData.userInfo.nickName = data.nickName;
-        app.globalData.userInfo.iconUrl = data.avatarUrl;
-        that.getuserInfo();
       }
     })
   },
@@ -314,70 +305,71 @@ Page({
   },
   wxgetsetting: function() { //若用户之前没用授权其用户信息，则调整此函数请求用户授权
     let that = this
-    if (!app.globalData.userInfo.mobile) {
-      return false
-    }
-    wx.getSetting({
-      success: (res) => {
-        if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其用户位置信息
-          wx.showModal({
-            title: '提示',
-            content: '授权获得更多功能和体验',
-            showCancel: false,
-            success: function(res) {
-              if (res.confirm) {
-                wx.openSetting({ //打开授权设置界面
-                  success: (res) => {
-                    if (res.authSetting['scope.userLocation']) {
-                      wx.getLocation({
-                        type: 'wgs84',
-                        success: function(res) {
-                          let latitude = res.latitude,
-                            longitude = res.longitude;
-                          that.requestCityName(latitude, longitude);
-                        }
-                      })
-                    } else {
-                      let latitude = '30.51597',
-                        longitude = '114.34035';
-                      that.requestCityName(latitude, longitude);
+    if (app.globalData.userInfo.mobile) {
+      wx.getSetting({
+        success: (res) => {
+          if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其用户位置信息
+            wx.showModal({
+              title: '提示',
+              content: '授权获得更多功能和体验',
+              showCancel: false,
+              success: function(res) {
+                if (res.confirm) {
+                  wx.openSetting({ //打开授权设置界面
+                    success: (res) => {
+                      if (res.authSetting['scope.userLocation']) {
+                        wx.getLocation({
+                          type: 'wgs84',
+                          success: function(res) {
+                            let latitude = res.latitude,
+                              longitude = res.longitude;
+                            that.requestCityName(latitude, longitude);
+                          }
+                        })
+                      } else {
+                        let latitude = '30.51597',
+                          longitude = '114.34035';
+                        that.requestCityName(latitude, longitude);
+                      }
                     }
-                  }
-                })
+                  })
+                }
               }
-            }
-          })
+            })
+          }
         }
-      }
-    })
+      })
+    }
   },
   requestCityName(lat, lng) { //获取当前城市
     let that = this;
     if (!lat && !lng) {
       this.wxgetsetting();
-      return;
-    }
-    app.globalData.userInfo.lat = lat
-    app.globalData.userInfo.lng = lng
-    wx.request({
-      url: 'https://apis.map.qq.com/ws/geocoder/v1/?location=' + lat + "," + lng + "&key=4YFBZ-K7JH6-OYOS4-EIJ27-K473E-EUBV7",
-      header: {
-        'content-type': 'application/json' // 默认值
-      },
-      success: (res) => {
-        if (res.data.status == 0) {
-          let _city = res.data.result.address_component.city;
-          app.globalData.userInfo.city = _city;
-          this.setData({
-            city: _city,
-            alltopics: [],
-            restaurant: [],
-            service: []
-          })
-          // app.globalData.userInfo.city = res.data.result.address_component.city
+    }else{
+      app.globalData.userInfo.lat = lat;
+      app.globalData.userInfo.lng = lng;
+      wx.request({
+        url: 'https://apis.map.qq.com/ws/geocoder/v1/?location=' + lat + "," + lng + "&key=4YFBZ-K7JH6-OYOS4-EIJ27-K473E-EUBV7",
+        header: {
+          'content-type': 'application/json' // 默认值
+        },
+        success: (res) => {
+          if (res.data.status == 0) {
+            let _city = res.data.result.address_component.city;
+            app.globalData.userInfo.city = _city;
+            this.setData({
+              city: _city,
+              alltopics: [],
+              restaurant: [],
+              service: []
+            })
+            // app.globalData.userInfo.city = res.data.result.address_component.city
+          }
         }
-      }
-    })
+      })
+    }
+    
+    
   },
   calling: function() { //享7客户电话
     wx.makePhoneCall({
@@ -395,7 +387,6 @@ Page({
       this.setData({
         issnap: true
       })
-      return false
     } else {
       wx.navigateTo({
         url: '../../pages/index/download-app/download?isshop=ind',
@@ -565,7 +556,7 @@ Page({
               title: '该菜不属于本店',
               icon: 'none'
             })
-            return false;
+            return;
           }
           if (data.data.isUsed == 1) {
             wx.showToast({

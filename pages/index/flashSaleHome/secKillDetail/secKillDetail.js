@@ -47,11 +47,11 @@ Page({
     if (app.globalData.userInfo.userId) {
       if (app.globalData.userInfo.mobile) {
         if (app.globalData.token) {
-          this.shopDetail();
-          this.getDish(); //查询菜详情
-          this.isCreateFunc();
+          _this.shopDetail();
+          _this.getDish(); //查询菜详情
+          _this.isCreateFunc();
         } else {
-          this.authlogin();
+          _this.authlogin();
         }
       } else {//是新用户，
         wx.navigateTo({
@@ -59,23 +59,7 @@ Page({
         })
       }
     } else {
-      this.findByCode();
-    }
-
-
-    return
-    this.shopDetail();
-    if (app.globalData.userInfo.userId) {
-      if (!app.globalData.userInfo.mobile) { //是新用户，去注册页面
-        wx.navigateTo({
-          url: '../../../../pages/personal-center/securities-sdb/securities-sdb?parentId=' + this.data.initiator + '&skuId=' + this.data.id + '&shopId=' + this.data.shopId
-        })
-      } else {
-        this.getDish(); //查询菜详情
-        this.isCreateFunc();
-      }
-    } else {
-      this.findByCode();
+      _this.findByCode();
     }
   },
   onHide() {
@@ -171,12 +155,14 @@ Page({
     })
   },
   isCreateFunc() { //判断之前是否创建过，并查看邀请了多少人注册
+    console.log('isCreateFunc')
     let _parms = {
       skuId: this.data.id,
       parentId: app.globalData.userInfo.userId,
       token: app.globalData.token
     };
     Api.inviteNum(_parms).then((res) => {
+      console.log('res:',res)
       wx.stopPullDownRefresh();
       if (res.data.code == 0) {
         let isCreated = false;

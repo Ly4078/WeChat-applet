@@ -213,9 +213,8 @@ Page({
         this.getCutDish();
       })
     }
-    
-    this.indexinit();
 
+    this.indexinit();
 
   },
   onShow: function () {
@@ -223,7 +222,7 @@ Page({
       title: '首页'   //页面标题为路由参数
     })
     let that = this;
-    this.setData({ loading: false,_page:1 })
+    this.setData({ loading: false })
     if (app.globalData.userInfo.city) {
       this.setData({
         city: app.globalData.userInfo.city
@@ -243,6 +242,7 @@ Page({
     }
     if (app.globalData.changeCity){
       app.globalData.changeCity=false;
+      this.setData({ _page: 1 })
       this.getCutDish();
     }
     // if (app.globalData.userInfo.lat && app.globalData.userInfo.lng) {
@@ -290,8 +290,7 @@ Page({
         this.setData({
           city: app.globalData.userInfo.city,
           bargainListall: [],
-          bargainList: [],
-          _page: 1
+          bargainList: []
         })
       }
     }
@@ -663,6 +662,7 @@ Page({
       this.setData({
         bargainList: []
       });
+     
       for (let i = 0; i < this.data.hotdish.length; i++) {
         let _hotdish = this.data.hotdish[i];
         this.getdishDetail(_hotdish.dishId, _hotdish.shopId);
@@ -768,28 +768,33 @@ Page({
 
     let that = this,
       _parms = {},
+      _arr=[],
       arr = [];
-    if (that.data.bargainList.length>0){
-
-    }else{
-      _parms = {
-        Id: Id,
-        zanUserId: app.globalData.userInfo.userId,
-        shopId: shopId,
-        token: app.globalData.token
-      };
-      Api.discountDetail(_parms).then((res) => {
-        if (res.data.code == 0) {
-          arr = that.data.bargainList;
-          if (res.data.data) {
-            arr.push(res.data.data);
+   
+    _parms = {
+      Id: Id,
+      zanUserId: app.globalData.userInfo.userId,
+      shopId: shopId,
+      token: app.globalData.token
+    };
+    Api.discountDetail(_parms).then((res) => {
+      if (res.data.code == 0) {
+        arr = that.data.bargainList;
+        if (res.data.data) {
+          arr.push(res.data.data);
+          if (arr.length > 3) {
+            _arr = arr.slice(0, 3);
+            that.setData({
+              bargainList: _arr
+            })
+          } else {
             that.setData({
               bargainList: arr
             })
           }
         }
-      })
-    }
+      }
+    })
   },
   getsecKill() { //查询限量秒杀列表
     let _parms = {},
@@ -921,7 +926,9 @@ Page({
     this.getCutDish();
   },
   onReachBottom: function () { //用户上拉触底加载更多
-    if (this.data.pageTotal <= this.data._page) {//当前页码大于等于数据总页码
+    console.log("pageTotal:", this.data.pageTotal)
+    console.log("_page:", this.data._page)
+    if (this.data.pageTotal < this.data._page) {//当前页码大于等于数据总页码
 
     }else{
       // this.getshoplist();

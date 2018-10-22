@@ -603,8 +603,7 @@ Page({
       parentId: this.data.initiator,
       userId: app.globalData.userInfo.userId,
       groupId: this.data.groupId,
-      shopId : _this.data.shopId,
-      token: app.globalData.token
+      shopId : _this.data.shopId
     };
     for (var key in _parms) {
       _value += key + "=" + _parms[key] + "&";

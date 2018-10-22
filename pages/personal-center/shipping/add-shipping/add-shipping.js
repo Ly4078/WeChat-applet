@@ -341,8 +341,11 @@ Page({
       _value = _value + '&id=' + this.data.addId;
       // _parms.id = this.data.addId;
       console.log('_value111:', _value)
+      let url = "", _Url="";
+      url = that.data._build_url + 'orderAddress/upAddress?' + _value;
+      _Url = encodeURI(url);
       wx.request({
-        url: that.data._build_url + 'orderAddress/upAddress?' + _value,
+        url: _Url,
         method: 'POST',
         header: {
           "Authorization": app.globalData.token
@@ -352,6 +355,7 @@ Page({
           if (res.data.code == 0) {
             wx.showToast({
               title: '更新成功',
+              icon:'none'
             });
             setTimeout(() => {
               wx.redirectTo({
@@ -366,8 +370,11 @@ Page({
       })
     } else { //新增
       console.log('_value222:', _value)
+      let url = "", _Url = "";
+      url = that.data._build_url + 'orderAddress/inAddress?' + _value;
+      _Url = encodeURI(url);
       wx.request({
-        url: that.data._build_url + 'orderAddress/inAddress?' + _value,
+        url: _Url,
         method: 'POST',
         header: {
           "Authorization": app.globalData.token
