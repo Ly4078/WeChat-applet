@@ -229,7 +229,7 @@ page {
 }
 
 .storShade-left {
-  width: 84%;
+  width: 83%;
   height: auto;
   display: flex;
   align-items: center;
