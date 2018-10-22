@@ -2,7 +2,7 @@
   <!-- 收货地址 -->
   <view class='submitTop' catchtap='additionSite' wx:if="{{current.spuId != 3 && issku != 3}}">
     <view class='submitCenter'>
-      <!-- <image class='submitImg' src='/images/icon/location.png'></image> -->
+
       <image class='AddTheAddress' src='/images/icon/AddTheAddresss.png' wx:if="{{!actaddress.chatName}}"></image>
       <view class='submitLeft' wx:if="{{actaddress.chatName}}">
         <view class='compellation'>{{actaddress.chatName}}

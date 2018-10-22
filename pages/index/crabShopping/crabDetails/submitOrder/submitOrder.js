@@ -386,6 +386,7 @@ Page({
   },
   //点击提交订单
   submitSoid: function() {
+    console.log("submitSoid")
     let that = this;
     if (this.data.errmsg) {
       wx.showToast({
@@ -418,8 +419,9 @@ Page({
         };
         if (this.data.current.spuId != 3) {
           _parms.orderAddressId = this.data.actaddress.id,
-            _parms.sendTime = this.data.date
+          _parms.sendTime = this.data.date
         }
+        console.log("_parms:", _parms)
         wx.request({
           url: that.data._build_url + 'orderInfo/create',
           data: JSON.stringify(_parms),
@@ -428,6 +430,7 @@ Page({
             "Authorization": app.globalData.token
           },
           success: function(res) {
+            console.log('res:',res)
             if (res.data.code == 0) {
               if (res.data.data) {
                 that.setData({
@@ -477,23 +480,19 @@ Page({
   },
   //调起微信支付
   wxpayment: function() {
+    console.log('wxpayment')
     let _parms = {},
       that = this,
       _value = "";
     _parms = {
       orderId: this.data.orderId,
-      openId: app.globalData.userInfo.openId,
-      token: app.globalData.token
+      openId: app.globalData.userInfo.openId
     };
     for (var key in _parms) {
       _value += key + "=" + _parms[key] + "&";
     }
     _value = _value.substring(0, _value.length - 1);
-
-
-
-
-
+    console.log("_value:",_value)
     if (that.data.current.spuId == 3 && that.data.issku != 3) {
       wx.request({
         url: that.data._build_url + 'wxpay/shoppingMallForCoupon?' + _value,
@@ -502,21 +501,13 @@ Page({
         },
         method: 'POST',
         success: function(res) {
+          console.log("_valueres:", res)
           if (res.data.code == 0) {
             that.setData({
               payObj: res.data.data
             })
             that.pay();
           }
-        }
-      })
-      return
-      Api.MallForCoupon(_parms).then((res) => {
-        if (res.data.code == 0) {
-          that.setData({
-            payObj: res.data.data
-          })
-          that.pay();
         }
       })
     } else if (that.data.issku == 3) {
@@ -535,17 +526,7 @@ Page({
           }
         }
       })
-      return
-      Api.superMarketPayment(_parms).then((res) => {
-        if (res.data.code == 0) {
-          that.setData({
-            payObj: res.data.data
-          })
-          that.pay();
-        }
-      })
     } else {
-
       wx.request({
         url: that.data._build_url + 'wxpay/doUnifiedOrderForShoppingMall?' + _value,
         header: {
@@ -561,19 +542,11 @@ Page({
           }
         }
       })
-      return
-      Api.shoppingMall(_parms).then((res) => {
-        if (res.data.code == 0) {
-          that.setData({
-            payObj: res.data.data
-          })
-          that.pay();
-        }
-      })
     }
   },
   //支付
   pay: function() {
+    console.log('pay')
     let _data = this.data.payObj,
       that = this;
     wx.requestPayment({
@@ -583,6 +556,7 @@ Page({
       'signType': 'MD5',
       'paySign': _data.paySign,
       success: function(res) {
+        console.log('payres:',res)
         if (that.data.current.spuId == 3 && that.data.issku != 3) {
           wx.redirectTo({
             url: '../../../../personal-center/voucher/voucher'

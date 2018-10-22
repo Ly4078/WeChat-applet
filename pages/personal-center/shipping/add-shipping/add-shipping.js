@@ -298,13 +298,7 @@ Page({
       })
       return false;
     }
-    // if (!this.data.postal) {
-    //   wx.showToast({
-    //     title: '请输入邮编',
-    //     icon: 'none'
-    //   })
-    //   return;
-    // }
+
     if (!this.data.areaIds) {
       wx.showToast({
         title: '请选择地区',
@@ -342,12 +336,13 @@ Page({
       _value += key + '=' + _parms[key] + '&'
     };
     _value = _value.substring(0, _value.length - 1);
-    if (this.data.addId) { //更新
+    console.log('_value:', _value)
+    if (that.data.addId) { //更新
       _value = _value + '&id=' + this.data.addId;
       // _parms.id = this.data.addId;
 
       wx.request({
-        url: this.data._build_url + 'orderAddress/upAddress?' + _value,
+        url: that.data._build_url + 'orderAddress/upAddress?' + _value,
         method: 'POST',
         header: {
           "Authorization": app.globalData.token
@@ -370,7 +365,7 @@ Page({
       })
     } else { //新增
       wx.request({
-        url: this.data._build_url + 'orderAddress/inAddress?' + _value,
+        url: that.data._build_url + 'orderAddress/inAddress?' + _value,
         method: 'POST',
         header: {
           "Authorization": app.globalData.token
@@ -390,7 +385,8 @@ Page({
               });
             }, 1500)
           }
-        }
+        },
+        complete: function (res) { console.log('res', res)}
       })
     }
   },

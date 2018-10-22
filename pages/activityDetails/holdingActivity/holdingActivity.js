@@ -223,24 +223,15 @@ Page({
     });
   },
   emptyNum() { //清空邀请螃蟹人数
-    let _parms = {},
-      _values = "",
-      that = this;
-    _parms = {
-      userId: app.globalData.userInfo.userId,
-      token: app.globalData.token
-    };
-    for (var key in _parms) {
-      _values += key + "=" + _parms[key] + "&";
-    }
-    _values = _values.substring(0, _values.length - 1);
+    let that = this;
     wx.request({
-      url: that.data._build_url + 'pullUser/upNums?' + _values,
+      url: that.data._build_url + 'pullUser/upNums?userId=' + app.globalData.userInfo.userId,
       header: {
         "Authorization": app.globalData.token
       },
       method: 'POST',
       success: function(res) {
+        console.log('res:',res)
         if (res.data.code == 0) {
           that.inquireNum();
         } else {

@@ -22,6 +22,7 @@ Page({
     city: "",
     phone: '',
     phonetwo: '',
+    _token:'',
     verify: '', //输入的验证码
     verifyId: '', //后台返回的短信验证码
     veridyTime: '', //短信发送时间
@@ -194,6 +195,7 @@ Page({
     let carousel = wx.getStorageSync("carousel") || [];
     let bannthree = wx.getStorageSync("bannthree") || [];
     let txtObj = wx.getStorageSync('txtObj') || {};
+    let _token = wx.getStorageSync('token') || {};
     // let userInfo = wx.getStorageSync('userInfo') || {};
     // userInfo.city = userInfo.city ? userInfo.city:'十堰市'
     // app.globalData.userInfo = userInfo
@@ -201,6 +203,7 @@ Page({
       this.setData({
         bannthree,
         carousel,
+        _token,
         fresh1: txtObj.fresh1 ? txtObj.fresh1 : '',
         fresh2: txtObj.fresh2 ? txtObj.fresh2 : '',
         fresh3: txtObj.fresh3 ? txtObj.fresh3 : '',
@@ -458,6 +461,7 @@ Page({
         if (res.data.code == 0) {
           let _token = 'Bearer ' + res.data.data;
           app.globalData.token = _token;
+          wx.setStorageSync('token', _token)
           that.isNewUser();
           that.getdatamore();
         }
@@ -1162,18 +1166,23 @@ Page({
       }
     })
   },
-
   getactlist() { //获取热门活动数据
-    let _parms = {
-      token: app.globalData.token
-    }
-    Api.actlist(_parms).then((res) => {
-      if (res.data.data.list) {
-        this.setData({
-          actlist: res.data.data.list.slice(0, 10)
-        })
-      } else {
-        this.getactlist();
+    let that=this;
+    wx.request({
+      url: that.data._build_url + 'act/list',
+      header: {
+        "Authorization": app.globalData.token
+      },
+      success: function (res) {
+        if(res.data.code == 0){
+          if (res.data.data.list && res.data.data.list.length>0) {
+            that.setData({
+              actlist: res.data.data.list.slice(0, 10)
+            })
+          } else {
+            that.getactlist();
+          }
+        }
       }
     })
   },

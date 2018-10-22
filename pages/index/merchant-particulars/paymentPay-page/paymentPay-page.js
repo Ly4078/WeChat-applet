@@ -341,8 +341,7 @@ Page({
             // userName: app.globalData.userInfo.userName,
             payType: '2',
             soAmount: that.data.payment,
-            shopId: that.data.shopId,
-            token: app.globalData.token
+            shopId: that.data.shopId
           }
           if (that.data.seleced.skuId) {
             _parms.skuId = that.data.seleced.skuId;
@@ -385,8 +384,7 @@ Page({
     let _parms = {}, that = this, _value="";
     _parms = {
       id: app.globalData.userInfo.userId,
-      openId: app.globalData.userInfo.openId,
-      token: app.globalData.token
+      openId: app.globalData.userInfo.openId
     };
     for (var key in _parms) {
       _value += key + "=" + _parms[key] + "&";

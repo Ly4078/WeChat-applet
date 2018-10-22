@@ -26,6 +26,7 @@ Page({
     isgift: true, //能否赠送券给其他人
     errmsg: '',
     postage: 0,
+    _token:'',
     remarks: '', //备注内容
     date: '', //默认日期
     threeLater: '', //三天后
@@ -58,6 +59,9 @@ Page({
    */
   onLoad: function(options) {
     console.log("options:", options)
+    let _token = wx.getStorageSync('token') || {};
+    this.setData({_token});
+    
     wx.showLoading({
       title: '数据加载...',
     });
@@ -154,9 +158,6 @@ Page({
         }
       } else { //是新用户，去注册页面
         this.authlogin();
-        // wx.navigateTo({
-        //   url: '/pages/personal-center/securities-sdb/securities-sdb?back=1'
-        // })
       }
     } else {
       this.findByCode();
@@ -522,11 +523,8 @@ Page({
       dictProvinceId: this.data.actaddress.dictProvinceId,
       dictCityId: this.data.actaddress.dictCityId,
       weight: _weight,
-      tempateId: this.data.current.goodsSku.deliveryTemplateId,
-      token: app.globalData.token
+      tempateId: this.data.current.goodsSku.deliveryTemplateId
     };
-    console.log("lll_parms:", _parms)
-
 
     for (var key in _parms) {
       _value += key + "=" + _parms[key] + "&";
@@ -667,8 +665,7 @@ Page({
         id: this.data.current.id,
         // changerId: app.globalData.userInfo.userId,
         // changerName: app.globalData.userInfo.userName,
-        sendAmount: this.data.postage,
-        token: app.globalData.token
+        sendAmount: this.data.postage
       };
      
     if (this.data.actaddress.id) {
@@ -791,16 +788,16 @@ Page({
   },
   //调起微信支付
   wxpayment: function() {
-    let _parms = {
-        orderCouponId: this.data.current.id,
-        orderAddressId: this.data.actaddress.id,
-        realWeight: this.data.current.goodsSku.realWeight,
-        templateId: this.data.current.goodsSku.deliveryTemplateId,
-        // userId: app.globalData.userInfo.userId,
-        openId: app.globalData.userInfo.openId,
-        token: app.globalData.token
-      },
-      that = this;
+    let _parms={},that=this;
+    _parms = {
+      orderCouponId: this.data.current.id,
+      orderAddressId: this.data.actaddress.id,
+      realWeight: this.data.current.goodsSku.realWeight,
+      templateId: this.data.current.goodsSku.deliveryTemplateId,
+      // userId: app.globalData.userInfo.userId,
+      openId: app.globalData.userInfo.openId,
+      token: app.globalData.token
+    };
     Api.orderCouponForSendAmount(_parms).then((res) => {
       if (res.data.code == 0) {
         that.setData({
