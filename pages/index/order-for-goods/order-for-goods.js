@@ -34,14 +34,6 @@ Page({
       this.setData({
         skuName: options.skuName
       })
-      // let arr = this.data.items
-      // arr[0].checked = true;
-      // arr[1].checked = false;
-      // arr[1].disabled = true;
-      // this.setData({
-      //   paytype: 1,
-      //   items: arr
-      // })
     }
     if (options.skutype == 3) {
       this.setData({
@@ -295,8 +287,7 @@ Page({
               shopId: _this.data.shopId,
               payType: 2,
               dishSkuId: _this.data.dishSkuId,
-              dishSkuName: _this.data.dishSkuName,
-              token: app.globalData.token
+              dishSkuName: _this.data.dishSkuName
             };
             for (var key in _parms) {
               _values += key + "=" + _parms[key] + "&";
@@ -356,8 +347,7 @@ Page({
             shopId: _this.data.shopId,
             payType: 2, //微信支付
             dishSkuId: _this.data.dishSkuId,
-            dishSkuName: _this.data.dishSkuName,
-            token: app.globalData.token
+            dishSkuName: _this.data.dishSkuName
           };
 
 
@@ -393,6 +383,8 @@ Page({
       console.log('101010')
       let _parms = {},
         _this = this,
+        url="",
+        _Url="",
         _value = "";
       _parms = {
         skuName: this.data.skuName,
@@ -408,13 +400,18 @@ Page({
         _value += key + "=" + _parms[key] + "&";
       }
       _value = _value.substring(0, _value.length - 1);
+     
+      url = that.data._build_url + 'sku/addSkuForDh?' + _value;
+      _Url = encodeURI(url);
       wx.request({
-        url: that.data._build_url + 'sku/addSkuForDh?' + _value,
+        url: _Url,
         header: {
-          "Authorization": app.globalData.token
+          "Authorization": app.globalData.token,
+          "Content-Type": "json"
         },
         method: 'POST',
         success: function(res) {
+          console.log("res111:",res)
           if (res.data.code == 0) {
             _this.setData({
               skuId: res.data.data //生成这一张券的id
@@ -429,20 +426,24 @@ Page({
               shopId: _this.data.shopId,
               payType: 2, //微信支付
               dishSkuId: _this.data.dishSkuId,
-              dishSkuName: _this.data.dishSkuName,
-              token: app.globalData.token
+              dishSkuName: _this.data.dishSkuName
             };
             for (var key in _parmss) {
               _values += key + "=" + _parmss[key] + "&";
             }
             _values = _values.substring(0, _values.length - 1);
+            console.log("_values:", _values)
+            let url="",_Url="";
+            url = that.data._build_url + 'so/create?' + _values;
+            _Url = encodeURI(url);
             wx.request({
-              url: that.data._build_url + 'so/create?' + _values,
+              url: _Url,
               header: {
                 "Authorization": app.globalData.token
               },
               method: 'POST',
               success: function(res) {
+                console.log("res222:", res)
                 if (res.data.code == 0) {
                   _this.updateuser(res.data.data);
                 } else {
@@ -505,6 +506,7 @@ Page({
     }
   },
   updateuser: function(val) { //更新用户信息
+    console.log('updateuser:',val)
     let that = this,
       _value = "",
       _parms = {};
@@ -523,6 +525,7 @@ Page({
       },
       method: 'POST',
       success: function(res) {
+        console.log('updateuserres:', res)
         if (res.data.code == 0) {
           that.payment(val);
         }
@@ -530,7 +533,7 @@ Page({
     })
   },
   payment: function(soid) { //调起微信支付
-    console.log('payment')
+    console.log('payment:',soid)
     let _pars = {},
       that = this,
       _value = "";

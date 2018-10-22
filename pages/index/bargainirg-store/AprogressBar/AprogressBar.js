@@ -527,6 +527,7 @@ Page({
     let _this = this,
       _value="",
       _parms = {};
+    console.log('helpfriend')
     if (!app.globalData.userInfo.mobile) {
       wx.navigateTo({
         url: '../../../../pages/personal-center/securities-sdb/securities-sdb?back=1'
@@ -542,13 +543,13 @@ Page({
         groupId: this.data.groupId,
         token: app.globalData.token
       };
+      console.log('_parms:', _parms)
       Api.isHelpfriend(_parms).then((res) => {
         if (res.data.code == 0) {
           _this.setData({
             otherStatus: 1
           });
           _this.tohelpfriend();
-
         } else if (code == 200065) {
           this.setData({
             otherStatus: 2
@@ -580,6 +581,7 @@ Page({
    
   },
   tohelpfriend:function(){
+    console.log('tohelpfriend')
     let _parms = {}, that = this, _value="";
     _parms = {
       refId: this.data.refId,
@@ -592,6 +594,7 @@ Page({
       _value += key + "=" + _parms[key] + "&";
     }
     _value = _value.substring(0, _value.length - 1);
+    console.log('_value:', _value)
     wx.request({ 
       url: this.data._build_url + 'gold/helpfriend?' + _value,
       header: {
@@ -599,6 +602,7 @@ Page({
       },
       method: 'POST',
       success: function (res) {
+        console.log('tohelpfriend-res:',res)
         if (res.data.code == 0) {
           that.setData({
             showModal: true,

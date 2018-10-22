@@ -21,8 +21,10 @@ Page({
       { name: '烏魯木齊', open: '0' }
     ]
   },
-  onShow() {
+  onLoad(){
     this.wxgetsetting()
+  },
+  onShow() {
     this.setData({
       resultPosition: []
     })
@@ -34,65 +36,38 @@ Page({
         if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其用户信息或位置信息
           wx.showModal({
             title: '提示',
-            content: '享7要你的位置信息，快去授权',
+            content: '更多体验需要你授权位置信息',
             success: function (res) {
               if (res.confirm) {
                 wx.openSetting({  //打开授权设置界面
                   success: (res) => {
                     if (res.authSetting['scope.userLocation']) {
-                      wx.getLocation({
-                        type: 'wgs84',
-                        success: function (res) {
-                          let latitude = res.latitude
-                          let longitude = res.longitude
-                          that.requestCityName(latitude, longitude)
-                        }
-                      })
-                    }
-                    if (res.authSetting['scope.userInfo']) {
-                      wx.getUserInfo({
-                        success: res => {
-                          if (res.userInfo) {
-                            that.setData({
-                              iconUrl: res.userInfo.avatarUrl,
-                              nickName: res.userInfo.nickName,
-                            })
-                            that.updatauser(res.userInfo)
-                          }
-                        }
-                      })
+                      that.getLoaction();
+                      // wx.getLocation({
+                        // type: 'wgs84',
+                        // success: function (res) {
+                          // let latitude = res.latitude
+                          // let longitude = res.longitude
+                          // that.requestCityName(latitude, longitude)
+                        // }
+                      // })
+                    }else{
+                      let lat = '30.51597',
+                        lng = '114.34035';
+                      that.requestCityName(lat, lng);
                     }
                   }
                 })
               }
             }
           })
+        }else{
+          that.getLoaction();
         }
       }
     })
   },
-  // requestCityName(lat, lng) {//获取当前城市
-  //   app.globalData.userInfo.lat = lat;
-  //   app.globalData.userInfo.lng = lng;
-  //   wx.request({
-  //     url: 'https://apis.map.qq.com/ws/geocoder/v1/?location=' + lat + "," + lng + "&key=4YFBZ-K7JH6-OYOS4-EIJ27-K473E-EUBV7",
-  //     header: {
-  //       'content-type': 'application/json' // 默认值
-  //     },
-  //     success: (res) => {
-  //       this.getmoredata()
-  //       if (res.data.status == 0) {
-  //         this.setData({
-  //           city: res.data.result.address_component.city,
-  //           alltopics: [],
-  //           restaurant: [],
-  //           service: []
-  //         })
-  //         app.globalData.userInfo.city = res.data.result.address_component.city
-  //       }
-  //     }
-  //   })
-  // },
+
   updatauser: function (data) { //更新用户信息
     let that = this
     let _parms = {
@@ -126,11 +101,10 @@ Page({
     wx.getLocation({
       type: 'wgs84',
       success: (res) => {
-        let lat = res.latitude;
-        let lng = res.longitude;
+        let lat = res.latitude,lng = res.longitude;
         app.globalData.userInfo.lat = lat;
         app.globalData.userInfo.lng = lng;
-        this.requestCityName(lat, lng)
+        that.requestCityName(lat, lng)
         that.setData({
           latlng: res
         })
@@ -163,7 +137,6 @@ Page({
     })
   },
   dangqian: function () {  //点击当前位置
-  
     let _data = this.data.latlng;
     wx.setStorageSync('lat', _data.latitude);
     wx.setStorageSync('lng', _data.longitude);
@@ -176,27 +149,26 @@ Page({
     })
   },
   searchAddress(e) {  //输入搜索
-    let value = e.detail.value;
+    let value = e.detail.value, that = this;
     if (!value) {
       wx.showToast({
         title: '请输入地址',
         icon: 'none',
         duration: 1500
       })
-      return false;
+    }else{
+      wx.request({
+        url: 'https://apis.map.qq.com/ws/place/v1/suggestion?keyword=' + value + "&key=4YFBZ-K7JH6-OYOS4-EIJ27-K473E-EUBV7",
+        header: {
+          'content-type': 'application/json' // 默认值
+        },
+        success: (res) => {
+          that.setData({
+            resultPosition: res.data.data
+          })
+        }
+      })
     }
-    let that = this;
-    wx.request({
-      url: 'https://apis.map.qq.com/ws/place/v1/suggestion?keyword=' + value + "&key=4YFBZ-K7JH6-OYOS4-EIJ27-K473E-EUBV7",
-      header: {
-        'content-type': 'application/json' // 默认值
-      },
-      success: (res) => {
-        that.setData({
-          resultPosition: res.data.data
-        })
-      }
-    })
   },
   selectAddress: function (event) { //选择地点
     const id = event.currentTarget.id, _data = this.data.resultPosition;

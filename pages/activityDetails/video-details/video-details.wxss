@@ -425,3 +425,14 @@
 
 /*
   */
+
+
+  .closetk{
+    float: right;
+    width: 40rpx;
+    height: 40rpx;
+  }
+  .closeimg{
+    width: 40rpx;
+    height: 40rpx;
+  }

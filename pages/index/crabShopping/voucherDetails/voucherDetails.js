@@ -426,14 +426,14 @@ Page({
   //领取提蟹券
   getsendCoupon: function(val) {
     if(val){
-      let _parms = {                                              
+      let _parms={},that=this;
+      _parms = {                                              
         orderCouponCode: this.data.current.couponCode,
         sendUserId: this.data.shareId,
         // receiveUserId: app.globalData.userInfo.userId,
         versionNo: this.data.current.versionNo,
         token: app.globalData.token
-      }, that = this;
-      console.log('_parms:', _parms)
+      };
       Api.sendVersionCoupon(_parms).then((res) => {
         console.log('getsendCoupon', res)
         if (res.data.code == 0) {
@@ -510,6 +510,7 @@ Page({
   //查询提蟹券邮费
   getcalculateCost: function() {
     console.log("getcalculateCost:")
+    let that = this;
     if (!this.data.current) {
       this.getDetailBySkuId('val');
       return;
@@ -519,7 +520,7 @@ Page({
       return;
     }
     let _weight = this.data.current.goodsSku.realWeight * 1,
-      _obj = {}, _value = "", _parms={};
+      _obj = {}, _value = "", _parms={},url="",_Url="";
     _parms = {
       dictProvinceId: this.data.actaddress.dictProvinceId,
       dictCityId: this.data.actaddress.dictCityId,
@@ -531,30 +532,34 @@ Page({
       _value += key + "=" + _parms[key] + "&";
     }
     _value = _value.substring(0, _value.length - 1);
+    console.log("_value:", _value)
+    url = this.data._build_url + 'deliveryCost/calculateCostForCoupon?' + _value;
+    _Url = encodeURI(url);
     wx.request({
-      url: that.data._build_url + 'deliveryCost/calculateCostForCoupon?' + _value,
+      url: _Url,
       header: {
         "Authorization": app.globalData.token
       },
       method: 'POST',
       success: function (res) {
+        console.log("resres:",res)
         if (res.data.code == 0) {
-          _obj = this.data.current;
+          _obj = that.data.current;
           if (res.data.data) {
             _obj.total = _obj.total * 1 + res.data.data;
             _obj.total = _obj.total.toFixed(2);
             console.log("_obj:", _obj)
-            this.setData({
+            that.setData({
               errmsg: '',
               postage: res.data.data.toFixed(2)
             })
-            console.log('11:', this.data.postage)
-            this.setData({
+            console.log('11:', that.data.postage)
+            that.setData({
               current: _obj
             })
           }
         } else {
-          this.setData({
+          that.setData({
             errmsg: res.data.message,
             postage: ''
           })
@@ -789,31 +794,49 @@ Page({
   },
   //调起微信支付
   wxpayment: function() {
-    let _parms={},that=this;
+    let _parms = {}, that = this, _value="",url="",_Url="";
     _parms = {
       orderCouponId: this.data.current.id,
       orderAddressId: this.data.actaddress.id,
       realWeight: this.data.current.goodsSku.realWeight,
       templateId: this.data.current.goodsSku.deliveryTemplateId,
       // userId: app.globalData.userInfo.userId,
-      openId: app.globalData.userInfo.openId,
-      token: app.globalData.token
+      openId: app.globalData.userInfo.openId
     };
-    Api.orderCouponForSendAmount(_parms).then((res) => {
-      if (res.data.code == 0) {
-        that.setData({
-          payObj: res.data.data
-        })
-        that.pay();
-      } else {
-        that.setData({
-          isconvert: true
-        })
-        wx.showToast({
-          title: res.data.message,
-          icon: 'none'
-        })
+    for (var key in _parms) {
+      _value += key + "=" + _parms[key] + "&";
+    }
+    _value = _value.substring(0, _value.length - 1);
+    url = that.data._build_url + 'wxpay/orderCouponForSendAmount?' + _value;
+    _Url = encodeURI(url);
+    wx.request({
+      url: _Url,
+      method: 'POST',
+      header: {
+        "Authorization": app.globalData.token
+      },
+      success: function (res) {
+        if (res.data.code == 0) {
+          that.setData({
+            payObj: res.data.data
+          })
+          that.pay();
+        } else {
+          that.setData({
+            isconvert: true
+          })
+          wx.showToast({
+            title: res.data.message,
+            icon: 'none'
+          })
+        }
       }
+    })
+
+
+    return
+    Api.orderCouponForSendAmount(_parms).then((res) => {
+      
     })
   },
   //支付

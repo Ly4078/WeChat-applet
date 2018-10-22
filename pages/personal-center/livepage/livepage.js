@@ -12,13 +12,24 @@ Page({
     myList: [],
     flag: true,
     pageTotal:1,
+    id:''
   },
   onLoad: function(options) {
     this.setData({
       likeType: options.likeType,
       voteUserId: options.userId,
+      id:options.id,
       isMine: options.userId == app.globalData.userInfo.userId ? true : false
     });
+    if(options.id == 1){
+      wx.setNavigationBarTitle({
+        title: '关注列表'
+      })
+    }else if(options.id == 2){
+      wx.setNavigationBarTitle({
+        title: '粉丝列表'
+      })
+    }
   },
   onShow: function() {
     this.setData({

@@ -254,21 +254,23 @@ Page({
         "Authorization": app.globalData.token
       },
       success: function(res) {
-        let data = res.data;
-        if (data.code == 0) {
-          let _data = data.data.list[0]
-          if (_data.isAgio) { //已领取
+        if (res.data.code == 0) {
+          let data = res.data;
+          if(res.data.data.list && res.data.data.list.length>0){
+            let _data = data.data.list[0];
+            if (_data.isAgio) { //已领取
+              that.setData({
+                isAgio: false
+              })
+            } else { //未领取
+              that.setData({
+                isAgio: true
+              })
+            }
             that.setData({
-              isAgio: false
-            })
-          } else { //未领取
-            that.setData({
-              isAgio: true
-            })
+              listagio: _data
+            });
           }
-          that.setData({
-            listagio: _data
-          });
         }
       }
     })
@@ -482,13 +484,14 @@ Page({
       }
     })
   },
-  //用户下拉刷新
-  onPullDownRefresh: function() {
-    this.getstoredata();
-    this.recommendation();
-    this.isCollected();
-    this.commentList();
-  },
+  // //用户下拉刷新
+  // onPullDownRefresh: function() {
+  //   console.log("onPullDownRefresh")
+  //   this.getstoredata();
+  //   this.recommendation();
+  //   this.isCollected();
+  //   this.commentList();
+  // },
 
   getmoredata: function() {
     // console.log("getmoredata")
@@ -597,6 +600,7 @@ Page({
         "Authorization": app.globalData.token
       },
       success: function(res) {
+        wx.startPullDownRefresh()
         let _data = res.data.data;
         if (_data) {
           _data.popNum = utils.million(_data.popNum);
@@ -701,8 +705,10 @@ Page({
         rows: 3
       },
       success: function(res) {
-        let data = res.data;
-        if (data.code == 0) {
+        wx.startPullDownRefresh()
+        if (res.data.code == 0) {
+
+          let data = res.data;
           // console.log('list:', data.data.list);
           that.setData({
             recommend_list: data.data.list ? data.data.list : []
@@ -861,16 +867,23 @@ Page({
   },
   // 电话号码功能
   calling: function() {
-    let that = this;
-    wx.makePhoneCall({
-      phoneNumber: that.data.store_details.phone ? that.data.store_details.phone : that.data.store_details.mobile,
-      success: function() {
-        console.log("拨打电话成功！")
-      },
-      fail: function() {
-        console.log("拨打电话失败！")
-      }
-    })
+    let that = this,tell="";
+    tell = that.data.store_details.phone ? that.data.store_details.phone : that.data.store_details.mobile;
+    if(tell){
+      wx.makePhoneCall({
+        phoneNumber: tell,
+        success: function () {
+          console.log("拨打电话成功！")
+        },
+        fail: function () {
+          console.log("拨打电话失败！")
+        }
+      })
+    }else{
+      wx.showToast({
+        title: '高家没有设置联系电话',
+      })
+    }
   },
   moreImages: function(event) {
     wx.navigateTo({
@@ -1010,9 +1023,11 @@ Page({
         "Authorization": app.globalData.token
       },
       success: function(res) {
-        let data = res.data;
-        if (data.code == 0 && data.data.list != null && data.data.list != "") {
-          if (res.data.code == 0) {
+        wx.stopPullDownRefresh();
+        if(res.data.code == 0){
+          const data = res.data;
+          if(res.data.data){
+            let data = res.data;
             if (res.data.data && res.data.data.list) {
               let _data = res.data.data.list,
                 reg = /^1[34578][0-9]{9}$/;
@@ -1030,15 +1045,12 @@ Page({
                 comment_list: _data
               })
             }
-
           }
           that.setData({
             commentNum: res.data.data.total
           })
-          wx.stopPullDownRefresh();
         }
       }
-
     })
   },
   //跳转至所有评论
@@ -1157,8 +1169,8 @@ Page({
         "Authorization": app.globalData.token
       },
       success: function(res) {
-        const data = res.data;
-        if (data.code == 0) {
+        if (res.data.code == 0) {
+          const data = res.data;
           that.setData({
             isCollected: data.data
           })
@@ -1407,8 +1419,9 @@ Page({
       token: app.globalData.token
     }
     Api.shoplist(_parms).then((res) => {
-      let data = res.data;
-      if (data.code == 0) {
+      
+      if (res.data.code == 0) {
+        let data = res.data;
         if (data.data.list != null && data.data.list != "" && data.data.list != []) {
           let _data = data.data.list,
             _dataSub = [];

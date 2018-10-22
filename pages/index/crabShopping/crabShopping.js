@@ -47,6 +47,7 @@ Page({
         currentTab: option.currentTab
       });
     }
+   
 
     if (option.spuval) {
       let _val = 0;
@@ -60,9 +61,13 @@ Page({
         tabId: _val
       })
     }
-    if (app.globalData.txtObj) {
+    let txtObj = wx.getStorageSync('txtObj') || {};
+    if (txtObj){
+      app.globalData.txtObj = txtObj;
+    }
+    if (!app.globalData.txtObj) {
       wx.request({
-        url: this.data._build_url + 'version.txt',
+        url: that.data._build_url + 'version.txt',
         header: {
           "Authorization": app.globalData.token
         },

@@ -22,7 +22,7 @@
 
 
   <!-- 新用户弹窗 -->
-  <view class="newUserModal" wx:if="{{userGiftFlag || isNew || isfirst}}" catchtouchmove='true'>
+  <!-- <view class="newUserModal" wx:if="{{userGiftFlag || isNew || isfirst}}" catchtouchmove='true'>
     <view class="drawer_screen"></view>
     <view wx:if="{{isphoneNumber}}" class="newUserM_box getphone gettels">
       <view class='nubtitle'>快速注册</view>
@@ -46,7 +46,7 @@
     </view>
 
     <image class="newuser_cancel" src="/images/icon/cancel.png" bindtap='userGiftCancle'></image>
-  </view>
+  </view> -->
 
   <!-- 头部搜索   -->
   <view class='headSeek'>

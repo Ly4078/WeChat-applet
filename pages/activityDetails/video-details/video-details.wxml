@@ -65,7 +65,8 @@
     <!-- 评论列表 -->
     <cover-view class="comment" wx:if="{{isComment}}">
       <cover-view class='comtotal'>{{totalComment}}条评论</cover-view>
-      <cover-image class='comclose' src="https://xqmp4-1256079679.file.myqcloud.com/text_571384624394205621.png" bindtap="showArea"></cover-image>
+
+      <cover-image class='comclose' src="/images/icon/sloce.png" bindtap="showArea"></cover-image>
 
       <cover-view class="comment_list">
         <cover-view class='listcom' wx:for="{{comment_list}}" wx:key="{{index}}">
