@@ -11,3 +11,7 @@
 .friendBargain {
   margin-bottom: 50rpx;
 }
+
+.invitation-share-s {
+  margin-top: 20rpx;
+}
