@@ -218,6 +218,7 @@ Page({
 
   },
   onShow: function () {
+    this.getOpendId();
     wx.setNavigationBarTitle({
       title: '首页'   //页面标题为路由参数
     })
@@ -351,6 +352,7 @@ Page({
               if(res.data.code == 0){
                 app.globalData.userInfo.openId = res.data.data.openId;
                 app.globalData.userInfo.sessionKey = res.data.data.sessionKey;
+                console.log("sessionKey:", res.data.data.sessionKey.length)
                 if (res.data.data.unionId) {
                   app.globalData.userInfo.unionId = res.data.data.unionId;
                   that.createNewUser();

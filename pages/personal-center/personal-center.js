@@ -62,7 +62,7 @@ Page({
         }
       }
     })
-    console.log("userInfo111:", app.globalData.userInfo)
+    // console.log("userInfo111:", app.globalData.userInfo)
     if (!app.globalData.userInfo.unionId || !app.globalData.userInfo.sessionKey) {
       wx.login({
         success: res => {
@@ -240,10 +240,12 @@ Page({
     })
   },
   bindGetUserInfo: function(e) {
+    console.log(e.detail.userInfo)
     this.updatauser(e.detail.userInfo)
   },
   updatauser: function(data) { //更新用户信息
-    let that = this, _values = "", _parms={};
+    console.log("updatauser")
+    let that = this, _values = "", _parms={},url="",_Url="";
     _parms = {
       id: app.globalData.userInfo.userId,
       openId: app.globalData.userInfo.openId
@@ -261,8 +263,10 @@ Page({
       _values += key + "=" + _parms[key] + "&";
     }
     _values = _values.substring(0, _values.length - 1);
+    url = that.data._build_url + 'user/update?' + _values;
+    _Url = encodeURI(url);
     wx.request({
-      url: that.data._build_url + 'user/update?' + _values,
+      url: _Url,
       header: {
         "Authorization": app.globalData.token
       },
@@ -299,7 +303,7 @@ Page({
         }
       },
       complete: res => {
-        this.wxgetsetting()
+        // this.wxgetsetting()
       }
     })
   },
@@ -327,9 +331,9 @@ Page({
                           }
                         })
                       } else {
-                        let latitude = '30.51597',
-                          longitude = '114.34035';
-                        that.requestCityName(latitude, longitude);
+                        // let latitude = '30.51597',
+                        //   longitude = '114.34035';
+                        // that.requestCityName(latitude, longitude);
                       }
                     }
                   })

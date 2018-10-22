@@ -167,14 +167,16 @@ Page({
     })
   },
   getLikeNum() { //获取关注数据
-    let _parms = {
+    let _parms={},that=this;
+    _parms = {
       userId: this.data.userId, //关注人userId
       type: 1,
       token: app.globalData.token,
       viewUserId: this.data.voteUserId //当前用户的userId
     };
     Api.getLikeNum(_parms).then((res) => {
-      this.setData({
+      console.log('likeNumres:',res)
+      that.setData({
         likeNum: res.data.data
       });
     });

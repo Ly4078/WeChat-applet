@@ -142,6 +142,7 @@ Page({
         "Authorization": app.globalData.token
       },
       success: function(res) {
+        console.log("res:",res)
         if (res.data.code == 0) {
           if (res.data.data) {
             let _data = res.data.data,
@@ -149,6 +150,7 @@ Page({
               lists = [];
             if (_data.orderCode) {
               let current = res.data.currentTime, isDue = that.isDueFunc(current, _data.expiryDate);
+              console.log("isDue:", isDue)
               if (isDue == 1) {
                 wx.showToast({
                   title: '该票券已过期',
@@ -162,6 +164,8 @@ Page({
                 })
                 return
               } 
+              console.log("isshopuser:", that.data.isshopuser)
+              console.log("iszys:", that.data.iszys)
               if (that.data.isshopuser && !that.data.iszys) {
                 wx.showToast({
                   title: '你不是自营店核销员，无法核销该订单',
@@ -199,6 +203,7 @@ Page({
                 }
                 return;
               }
+              console.log('okhx:', that.data.okhx)
             }else{
               if (that.data.iszys && that.data.isshopuser){
 
@@ -258,7 +263,7 @@ Page({
             that.setData({
               hxData: _data,
               okhx: true,
-              newamount: _data.couponAmount,
+              newamount: _data.couponAmount ? _data.couponAmount:'0',
               dishlist: lists
             })
           } else {
@@ -295,12 +300,15 @@ Page({
   },
 
   confirm: function() { //确认核销
+  
     let that = this,
       _hxData = this.data.hxData;
     if (!this.data.isconfirm) {
       return false
     }
+    console.log('confirm')
     if (!this.data.okhx) {
+      console.log("111")
       wx.showToast({
         title: '不符合核销条件，请重新输入',
         icon: 'none',
@@ -313,6 +321,35 @@ Page({
       isconfirm: false
     })
     if (this.data.iszy) {
+      let _value = that.data._codees ? that.data._codees : that.data.code,url="",_Url="";
+
+      url = that.data._build_url + 'orderInfo/useOrderInfo?orderCode=' + _value;
+      _Url=encodeURI(url);
+      wx.request({
+        url: _Url,
+        header: {
+          "Authorization": app.globalData.token
+        },
+        method: 'POST',
+        success: function (res) {
+          if (res.data.code == 0) {
+            wx.showModal({
+              title: '',
+              showCancel: false,
+              content: '核销成功',
+              success: function (res) {
+                if (res.confirm) {
+                  wx.switchTab({
+                    url: '../personal-center'
+                  })
+                }
+              }
+            })
+          }
+        }
+      })
+
+      return
       let _parms = {
         orderCode: that.data._codees ? that.data._codees : that.data.code,
         // hxUserId: app.globalData.userInfo.userId,

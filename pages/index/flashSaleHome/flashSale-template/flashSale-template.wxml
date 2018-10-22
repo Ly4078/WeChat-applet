@@ -26,7 +26,7 @@
           </view>
           <view class='accuracyQay'>
             <!-- <text class='accuracyQay-text'>剩余<text>{{item.stockNum}}</text>份</text>  -->
-            <text class='accuracyQay-text'>当日仅售<text>15</text>份</text>
+            <text class='accuracyQay-text'>当日仅售<text>{{item.stockNum}}</text>份</text>
             <view class='actualaccurac' style="width: {{item.widthRate + 'rpx'}};"></view>
           </view>
         </view>
