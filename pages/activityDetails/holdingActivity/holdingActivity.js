@@ -22,8 +22,6 @@ var village_LBS = function(that) {
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
-    // issnap: false, //新用户
-    // isnew: false, //新用户
     isMpa: false,
     userId: '',
     id: '', //菜id
@@ -111,6 +109,7 @@ Page({
     });
   },
   onShow: function() {
+    console.log('onShow:',app.globalData.userInfo)
     if (app.globalData.userInfo.userId) {
       if (app.globalData.userInfo.mobile) {
         if (app.globalData.token) {
@@ -178,25 +177,25 @@ Page({
     })
   },
   createCrab() { //创建发起
-    let _parms = {
-      userId: app.globalData.userInfo.userId,
-      type: 2,
-      token: app.globalData.token
-    };
-    Api.createCrab(_parms).then((res) => {
-      if (res.data.code == 0) {
-        wx.showToast({
-          title: '发起成功,点击邀请好友吧',
-          icon: 'none',
-          duration: 2500
-        })
-        this.setData({
-          isInvite: true
-        });
-      } else {
-
+    let _parms={},that=this;
+    console.log('createCrab--')
+    wx.request({
+      url: that.data._build_url + 'pullUser/inUserPull?type=2&userId=' + app.globalData.userInfo.userId,
+      header: {
+        "Authorization": app.globalData.token
+      },
+      method: 'POST',
+      success: function (res) {
+        if(res.data.code == 0){
+          wx.showToast({
+            title: '发起成功,点击邀请好友吧',
+            icon: 'none',
+            duration: 2500
+          })
+          that.onShareAppMessage();
+        }
       }
-    });
+    })
   },
   inquireNum() { //查询邀请螃蟹人数
     let _parms = {
@@ -223,6 +222,7 @@ Page({
     });
   },
   emptyNum() { //清空邀请螃蟹人数
+    console.log('emptyNum')
     let that = this;
     wx.request({
       url: that.data._build_url + 'pullUser/upNums?userId=' + app.globalData.userInfo.userId,
@@ -231,7 +231,7 @@ Page({
       },
       method: 'POST',
       success: function(res) {
-        console.log('res:',res)
+        console.log('emptyNum---res:',res)
         if (res.data.code == 0) {
           that.inquireNum();
         } else {
@@ -244,15 +244,17 @@ Page({
     })
   },
   exchange() { //兑换螃蟹
+    console.log('exchange')
+    let _this = this;
     if (!app.globalData.userInfo.mobile) {
       this.closetel();
     } else {
       if (this.data.crabNum > 0) {
-        let _this = this;
         wx.showModal({
           content: '是否兑换螃蟹?',
           complete(res) {
             if (res.confirm) {
+              console.log('confirm')
               _this.emptyNum();
             }
           }
@@ -266,31 +268,36 @@ Page({
     }
   },
   share() { //分享
+    console.log('share:', app.globalData.userInfo.mobile)
     if (!app.globalData.userInfo.mobile) {
+      console.log('share111')
       this.closetel();
-      return false
     } else {
+      this.createCrab();
+      return
       if (this.data.isInvite) {
+        console.log('share2222')
         this.onShareAppMessage();
       } else {
-        this.createCrab();
+        console.log('share3333')
       }
     }
   },
   //分享给好友
   onShareAppMessage: function() {
-    // this.data.inviter,
+    console.log("onShareAppMessageuserId:", app.globalData.userInfo.userId)
     return {
       title: '邀请好友，换大闸蟹',
       path: '/pages/activityDetails/holdingActivity/holdingActivity?inviter=' + app.globalData.userInfo.userId,
-      success: function(res) {}
+      success: function(res) {
+        console.log('successres:',res)
+      }
     }
   },
   closetel: function(e) { //跳转至新用户注册页面
     wx.navigateTo({
       url: '/pages/personal-center/securities-sdb/securities-sdb?inviter=' + this.data.inviter + '&back=1'
     })
-    // }
   },
   toIndex() { //跳转至首页
     wx.switchTab({
@@ -318,8 +325,7 @@ Page({
     wx.getLocation({
       type: 'wgs84',
       success: function(res) {
-        let latitude = res.latitude;
-        let longitude = res.longitude;
+        let latitude = res.latitude,longitude = res.longitude;
         app.globalData.userInfo.lat = latitude;
         app.globalData.userInfo.lng = longitude;
         that.requestCityName(latitude, longitude);

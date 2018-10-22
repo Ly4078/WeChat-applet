@@ -19,6 +19,7 @@ App({
     wx.stopPullDownRefresh()
   },
   globalData: {  //全局变量
+    changeCity:false,
     picker:{},
     token:"",
     isflag:true,

@@ -336,11 +336,11 @@ Page({
       _value += key + '=' + _parms[key] + '&'
     };
     _value = _value.substring(0, _value.length - 1);
-    console.log('_value:', _value)
+   
     if (that.data.addId) { //更新
       _value = _value + '&id=' + this.data.addId;
       // _parms.id = this.data.addId;
-
+      console.log('_value111:', _value)
       wx.request({
         url: that.data._build_url + 'orderAddress/upAddress?' + _value,
         method: 'POST',
@@ -348,6 +348,7 @@ Page({
           "Authorization": app.globalData.token
         },
         success: function (res) {
+           console.log('res222:', res)
           if (res.data.code == 0) {
             wx.showToast({
               title: '更新成功',
@@ -364,6 +365,7 @@ Page({
         }
       })
     } else { //新增
+      console.log('_value222:', _value)
       wx.request({
         url: that.data._build_url + 'orderAddress/inAddress?' + _value,
         method: 'POST',
@@ -371,6 +373,7 @@ Page({
           "Authorization": app.globalData.token
         },
         success: function(res) {
+          console.log('res222:', res)
           if (res.data.code == 0) {
             wx.showToast({
               title: '保存成功',

@@ -220,7 +220,7 @@ Page({
   },
   onShow: function () {
     let that = this;
-    this.setData({ loading: false })
+    this.setData({ loading: false,_page:1 })
     if (app.globalData.userInfo.city) {
       this.setData({
         city: app.globalData.userInfo.city
@@ -238,10 +238,14 @@ Page({
         isphoneNumber: true
       })
     }
-    if (app.globalData.userInfo.lat && app.globalData.userInfo.lng) {
-      this.setData({ bargainListall: [] })
+    if (app.globalData.changeCity){
+      app.globalData.changeCity=false;
       this.getCutDish();
     }
+    // if (app.globalData.userInfo.lat && app.globalData.userInfo.lng) {
+    //   this.setData({ bargainListall: [] })
+    //   this.getCutDish();
+    // }
   },
   indexinit: function () {
     let that = this;
@@ -758,26 +762,31 @@ Page({
     }
   },
   getdishDetail: function (Id, shopId) { //查询单个砍菜详情
+
     let that = this,
       _parms = {},
       arr = [];
-    _parms = {
-      Id: Id,
-      zanUserId: app.globalData.userInfo.userId,
-      shopId: shopId,
-      token: app.globalData.token
-    };
-    Api.discountDetail(_parms).then((res) => {
-      if (res.data.code == 0) {
-        arr = this.data.bargainList;
-        if (res.data.data) {
-          arr.push(res.data.data);
-          that.setData({
-            bargainList: arr
-          })
+    if (that.data.bargainList.length>0){
+
+    }else{
+      _parms = {
+        Id: Id,
+        zanUserId: app.globalData.userInfo.userId,
+        shopId: shopId,
+        token: app.globalData.token
+      };
+      Api.discountDetail(_parms).then((res) => {
+        if (res.data.code == 0) {
+          arr = that.data.bargainList;
+          if (res.data.data) {
+            arr.push(res.data.data);
+            that.setData({
+              bargainList: arr
+            })
+          }
         }
-      }
-    })
+      })
+    }
   },
   getsecKill() { //查询限量秒杀列表
     let _parms = {},
@@ -908,72 +917,17 @@ Page({
     })
     this.getCutDish();
   },
-  // onReachBottom: function() { //用户上拉触底加载更多
-  //   this.setData({
-  //     _page: this.data._page + 1
-  //   })
-  //   let _parms = {
-  //     page: 1,
-  //     row: 5,
-  //     topicType: 2,
-  //     token: app.globalData.token
-  //   }
-  //   Api.topiclist(_parms).then((res) => {
-  //     if (res.data.code == 0) {
-  //       wx.hideLoading()
-  //       if (res.data.data.list != null && res.data.data.list != "" && res.data.data.list != []) {
-  //         let footList = res.data.data.list;
-  //         for (let i = 0; i < footList.length; i++) {
-  //           footList[i].summary = utils.uncodeUtf16(footList[i].summary);
-  //           footList[i].content = utils.uncodeUtf16(footList[i].content);
-  //           footList[i].timeDiffrence = utils.timeDiffrence(res.data.currentTime, footList[i].updateTime, footList[i].createTime)
-  //           if (footList[i].content) {
-  //             footList[i].content = JSON.parse(footList[i].content)
-  //           }
-  //           footList[i].hitNum = utils.million(footList[i].hitNum)
-  //           footList[i].commentNum = utils.million(footList[i].commentNum)
-  //           footList[i].transNum = utils.million(footList[i].transNum)
-  //           if (!footList[i].nickName || footList[i].nickName == 'null') {
-  //             footList[i].nickName = '';
-  //             footList[i].userName = footList[i].userName.substr(0, 3) + "****" + footList[i].userName.substr(7);
-  //           }
+  onReachBottom: function () { //用户上拉触底加载更多
+    if (this.data.pageTotal <= this.data._page) {//当前页码大于等于数据总页码
 
-  //           if (footList[i].content[0].type != 'video' || footList[i].topicType == 1) { //文章
-  //             footList[i].isimg = true;
-  //           } else { //视频
-  //             footList[i].isimg = false;
-  //             footList[i].clickvideo = false;
-  //             vodeoarr.push(footList[i]); //视频
-  //           }
-  //           // _data.push(footList[i]);
-  //         }
-  //         vodeoarr = vodeoarr.slice(0, 3);
-  //         for (let i in vodeoarr) {
-  //           let _str = vodeoarr[i].title;
-  //           if (_str.length > 6) {
-  //             _str = _str.slice(0, 6);
-  //             vodeoarr[i].title = _str + '...';
-  //           }
-  //         }
-  //         this.setData({
-  //           videolist: vodeoarr
-  //         })
-  //       } else {
-  //         this.setData({
-  //           flag: false
-  //         });
-  //       }
-  //     } else {
-  //       wx.hideLoading()
-  //     }
-  //     this.placeholderFlag = this.data.food.length < 1 ? false : true;
-  //     if (that.data.page == 1) {
-  //       wx.stopPullDownRefresh();
-  //     } else {
-  //       wx.hideLoading();
-  //     }
-  //   })
-  // },
+    }else{
+      // this.getshoplist();
+      this.hotDishList();
+      if (!this.data.alltopics) {
+        this.gettoplistFor()
+      }
+    }
+  },
   getoddtopic: function (id) { //获取单个文章内容数据
     let _parms = {
       id: id,
@@ -1090,21 +1044,7 @@ Page({
       _page: 1
     })
   },
-  onReachBottom: function () { //用户上拉触底加载更多
 
-    if (this.data.pageTotal <= this.data._page) {//当前页码大于等于数据总页码
-      return
-    }
-    // this.setData({
-    //   _page: this.data._page + 1,
-    //   loading: true
-    // })
-    // this.getshoplist();
-    this.hotDishList();
-    if (!this.data.alltopics) {
-      this.gettoplistFor()
-    }
-  },
   gettoplistFor: function () { //加载分类数据
     let _list = [],
       _shop = [],

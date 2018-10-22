@@ -445,8 +445,8 @@ Page({
     })
   },
   inviteCrab() {   //邀请新用户兑换螃蟹 type =1
-    console.log('inviteCrab')
     let that=this;
+    console.log('inviteCrab:', this.data.inviter)
     wx.request({
       url: that.data._build_url + 'pullUser/upNumsUp?userId=' + that.data.inviter,
       header: {

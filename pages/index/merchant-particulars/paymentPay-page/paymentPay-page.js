@@ -467,7 +467,6 @@ Page({
       ios: '享七收款' + paynum + '元',
       shopId: that.data.shopId
     }
-    console.log('_parms:', _parms)
 
     Api.pushSoByShop(_parms).then((res) => {
       if(res.data.code == 0){

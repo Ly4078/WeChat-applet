@@ -57,11 +57,12 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
+  
   onLoad: function(options) {
     console.log("options:", options)
     let _token = wx.getStorageSync('token') || {};
     this.setData({_token});
-    
+
     wx.showLoading({
       title: '数据加载...',
     });

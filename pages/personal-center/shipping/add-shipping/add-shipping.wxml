@@ -7,11 +7,6 @@
     <text>手机号:</text>
     <input class='ship_focus' type='number' maxlength="11" value='{{mobileValue}}' placeholder="11位手机号"  bindinput="bindblurIpone"/>
   </view>
-
-  <!-- <view class='ship_name'>
-    <text>邮政编码:</text>
-    <input class='ship_focus happen' type='number' maxlength="6" value='{{postal}}' placeholder="6位邮政编码" bindblur="bindblurPostal" />
-  </view> -->
   <view class='ship_area'>
     <text>选择地区:</text>
     <!--要显示的省-市-区-->

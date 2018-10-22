@@ -71,28 +71,28 @@ Page({
       }
     })
   },
-  requestCityName(lat, lng) {//获取当前城市
-    app.globalData.userInfo.lat = lat;
-    app.globalData.userInfo.lng = lng;
-    wx.request({
-      url: 'https://apis.map.qq.com/ws/geocoder/v1/?location=' + lat + "," + lng + "&key=4YFBZ-K7JH6-OYOS4-EIJ27-K473E-EUBV7",
-      header: {
-        'content-type': 'application/json' // 默认值
-      },
-      success: (res) => {
-        this.getmoredata()
-        if (res.data.status == 0) {
-          this.setData({
-            city: res.data.result.address_component.city,
-            alltopics: [],
-            restaurant: [],
-            service: []
-          })
-          app.globalData.userInfo.city = res.data.result.address_component.city
-        }
-      }
-    })
-  },
+  // requestCityName(lat, lng) {//获取当前城市
+  //   app.globalData.userInfo.lat = lat;
+  //   app.globalData.userInfo.lng = lng;
+  //   wx.request({
+  //     url: 'https://apis.map.qq.com/ws/geocoder/v1/?location=' + lat + "," + lng + "&key=4YFBZ-K7JH6-OYOS4-EIJ27-K473E-EUBV7",
+  //     header: {
+  //       'content-type': 'application/json' // 默认值
+  //     },
+  //     success: (res) => {
+  //       this.getmoredata()
+  //       if (res.data.status == 0) {
+  //         this.setData({
+  //           city: res.data.result.address_component.city,
+  //           alltopics: [],
+  //           restaurant: [],
+  //           service: []
+  //         })
+  //         app.globalData.userInfo.city = res.data.result.address_component.city
+  //       }
+  //     }
+  //   })
+  // },
   updatauser: function (data) { //更新用户信息
     let that = this
     let _parms = {
@@ -138,6 +138,8 @@ Page({
     })
   },
   requestCityName(latitude, longitude) {//获取当前位置
+    app.globalData.userInfo.lat = latitude;
+    app.globalData.userInfo.lng = longitude;
     let that = this;
     wx.request({
       url: 'https://apis.map.qq.com/ws/geocoder/v1/?location=' + latitude + "," + longitude + "&key=4YFBZ-K7JH6-OYOS4-EIJ27-K473E-EUBV7",
@@ -151,7 +153,7 @@ Page({
         that.setData({
           currentSite: res.data.result.address
         })
-       
+        app.globalData.changeCity=true;
         setTimeout(function(){
           wx.switchTab({  //跳转到 tabBar 页面，并关闭其他所有非 tabBar 页面
             url: '../../index/index'
@@ -168,6 +170,7 @@ Page({
     app.globalData.userInfo.lat = _data.latitude;
     app.globalData.userInfo.lng = _data.longitude;
     // app.globalData.userInfo.city = city;
+    app.globalData.changeCity = true;
     wx.switchTab({  //跳转到 tabBar 页面，并关闭其他所有非 tabBar 页面
       url: '../../index/index'
     })
@@ -208,6 +211,7 @@ Page({
     app.globalData.userInfo.lat = lat;
     app.globalData.userInfo.lng = lng;
     app.globalData.userInfo.city = city;
+    app.globalData.changeCity = true;
     // console.log(" app.globalData.userInfo：", app.globalData.userInfo)
     wx.switchTab({  //跳转到 tabBar 页面，并关闭其他所有非 tabBar 页面
       url: '../../index/index'
