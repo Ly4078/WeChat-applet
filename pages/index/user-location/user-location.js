@@ -212,8 +212,8 @@ Page({
         city = _data[i].city;
       }
     }
-    app.globalData.userInfo.lat = lat;
-    app.globalData.userInfo.lng = lng;
+    // app.globalData.userInfo.lat = lat;
+    // app.globalData.userInfo.lng = lng;
     app.globalData.userInfo.city = city;
     app.globalData.changeCity = true;
     // console.log(" app.globalData.userInfo：", app.globalData.userInfo)

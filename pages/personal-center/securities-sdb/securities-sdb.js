@@ -284,13 +284,17 @@ Page({
 
   getVerificationCode() { //点击获取验证码
     let that = this;
+    console.log("getVerificationCode")
     if (this.data.isabss) {
       return
     }
+    console.log('1111')
     this.setData({
       isabss: true
     })
+    console.log('22222')
     if (this.data.phoneNum) {
+      console.log('333')
       wx.request({
         url: that.data._build_url + 'sms/sendForRegister?shopMobile=' + that.data.phoneNum,
         header: {
@@ -298,6 +302,7 @@ Page({
         },
         method: 'POST',
         success: function (res) {
+          console.log('4444:',res)
           if (res.data.code == 0) {
             that.setData({
               verifyId: res.data.data.verifyId,
