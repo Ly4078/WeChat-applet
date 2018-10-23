@@ -22,12 +22,13 @@ Page({
     ]
   },
   onLoad(){
-    this.wxgetsetting()
+   
   },
   onShow() {
     this.setData({
       resultPosition: []
     })
+    this.wxgetsetting()
   },
   wxgetsetting: function () {  //若用户之前没用授权位置信息，则调整此函数请求用户授权
     let that = this
@@ -51,18 +52,12 @@ Page({
                           // that.requestCityName(latitude, longitude)
                         // }
                       // })
-                    }else{
-                      let lat = '30.51597',
-                        lng = '114.34035';
-                      that.requestCityName(lat, lng);
                     }
                   }
                 })
               }
             }
           })
-        }else{
-          that.getLoaction();
         }
       }
     })

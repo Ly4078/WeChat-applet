@@ -143,8 +143,7 @@ Page({
     })
   },
   getcodedetail: function () { //获取票券详情
-    let that = this;
-    let freq = this.data.frequency;
+    let that = this,freq = this.data.frequency;
     ++freq
     this.setData({
       frequency: freq
@@ -153,16 +152,17 @@ Page({
       clearInterval(that.data.timer)
     }
     wx.request({
-      url: this.data._build_url + 'cp/get/' + this.data.couponId,
+      url: this.data._build_url + 'cp/get/' + that.data.couponId,
       header: {
         "Authorization": app.globalData.token
       },
       success: function (res) {
-        let data = res.data;
+        console.log('131231:re',res)
         wx.hideLoading();
         if(res.data.code == 0){
           let arr = [],ticketArr=[];
           if (res.data.data){
+            let data = res.data;
             arr.push(res.data.data);
 
             for (let i = 0; i < arr.length; i++) {
@@ -186,6 +186,7 @@ Page({
               });
             }
             if (res.data.data.isUsed && res.data.data.isUsed != 0) {
+              console.log('1111')
               let _id = res.data.data.id;
               that.getgold(_id);
               clearInterval(that.data.timer);
@@ -203,31 +204,37 @@ Page({
     });
   },
   getgold: function (_id){  //券核销完成后给金币
+    console.log("getgold:",_id)
+    let that=this,url="",_Url="";
     if (this.data.isGold) {
-      let _parms = {
-        userId: app.globalData.userInfo.userId,
-        id: _id,
-        token: app.globalData.token
-      };
-      Api.getGold(_parms).then((res) => {
-        if (res.data.code == 0) {
-          this.setData({
-            isGold: false
-          });
-          wx.showModal({
-            title: '',
-            showCancel: false,
-            content: '已使用，获得' + res.data.data + '个金币',
-            success: function (res) {
-              if (res.confirm) {
-                // console.log('用户点击确定')
-              } else if (res.cancel) {
-                // console.log('用户点击取消')
+      url = that.data._build_url + 'account/ingold?userId=' + app.globalData.userInfo.userId + '&id=' + _id;
+      _Url = encodeURI(url);
+      wx.request({
+        url: _Url,
+        method: 'POST',
+        header: {
+          "Authorization": app.globalData.token
+        },
+        success: function (res) {
+          if (res.data.code == 0) {
+            that.setData({
+              isGold: false
+            });
+            wx.showModal({
+              title: '',
+              showCancel: false,
+              content: '已使用，获得' + res.data.data + '个金币',
+              success: function (res) {
+                if (res.confirm) {
+                  // console.log('用户点击确定')
+                } else if (res.cancel) {
+                  // console.log('用户点击取消')
+                }
               }
-            }
-          })
+            })
+          }
         }
-      });
+      })
     }
   },
   getredpacket:function () {//获取可领取的随机红包金额
@@ -253,110 +260,114 @@ Page({
         "Authorization": app.globalData.token
       },
       success: function (res) {
-        let _skuNum = res.data.data.coupons;
-        for (let i = 0; i < _skuNum.length; i++) {
-          let ncard = ''
-          for (var n = 0; n < _skuNum[i].couponCode.length; n = n + 4) {
-            ncard += _skuNum[i].couponCode.substring(n, n + 4) + " ";
-          }
-          _skuNum[i].couponCode = ncard.replace(/(\s*$)/g, "")
-        }
-        console.log("2222")
-        let data = res.data;
-        if (data.code == 0) {
-         
-          if (data.data.shopId){
-            that.getshopInfo(data.data.shopId);
-          }
-          let imgsArr = [];
-          if (that.data.myCount == 1) {
-            let couponsArr = [];
-            for (let i = 0; i < data.data.coupons.length; i++) {
-              if (data.data.coupons[i].isUsed == 0) {
-                couponsArr.push(data.data.coupons[i]);
-              }
+        if(res.data.code == 0){
+          let _skuNum = res.data.data.coupons;
+          for (let i = 0; i < _skuNum.length; i++) {
+            let ncard = ''
+            for (var n = 0; n < _skuNum[i].couponCode.length; n = n + 4) {
+              ncard += _skuNum[i].couponCode.substring(n, n + 4) + " ";
             }
+            _skuNum[i].couponCode = ncard.replace(/(\s*$)/g, "")
+          }
+
+
+          console.log("2222")
+          let data = res.data;
+
+            if (data.data.shopId) {
+              that.getshopInfo(data.data.shopId);
+            }
+            let imgsArr = [];
+            if (that.data.myCount == 1) {
+              let couponsArr = [];
+              for (let i = 0; i < data.data.coupons.length; i++) {
+                if (data.data.coupons[i].isUsed == 0) {
+                  couponsArr.push(data.data.coupons[i]);
+                }
+              }
+              that.setData({
+                couponsArr: couponsArr,
+                couponId: data.data.coupons[0].couponId
+              });
+            } else {
+              that.setData({
+                couponsArr: data.data.coupons,
+                couponId: data.data.coupons[0].couponId
+              });
+            }
+            console.log("33333")
+            for (let i = 0; i < that.data.couponsArr.length; i++) {
+              imgsArr.push(that.data.couponsArr[i].qrcodeUrl);
+            } console.log("4444")
+            data.data.userName = data.data.userName.substr(0, 3) + "****" + data.data.userName.substr(7);
+            console.log("55513123213")
+            let _arr = data.data.createTime.split(' ');
+            let _arr2 = _arr[0].split('-');
+            _arr2[1] = _arr2[1] * 1 + 3;
+            console.log("13123123")
+            console.log('_arr2:', _arr2)
+            if (_arr2[1] > 12) {
+              _arr2[0] = _arr2[0] * 1 + 1;
+              _arr2[1] = 12 - _arr2[1];
+            }
+            console.log("44441111")
+            data.data.endTime = _arr2[0] + '-' + _arr2[1] + '-' + _arr2[2];
+            let dip = "食典", _obj = data.data, Cts = "现金", Dis = '平台', Dis2 = '折扣', Barg = "砍价", secKill = "抢购", crab = "兑换";
+            if (_obj.skuName && _obj.skuName.indexOf(dip) > 0) {
+              _obj.dips = true
+            }
+            if (_obj.skuName && _obj.skuName.indexOf(Cts) > 0) {
+              _obj.cash = true
+            }
+            if (_obj.skuName && _obj.skuName.indexOf(Barg) > 0) {
+              _obj.Barg = true
+              let endTime = '', createTime = data.data.createTime.substring(0, data.data.createTime.indexOf(' ')), getMonth = '';
+              endTime = new Date(createTime).setMonth(new Date(createTime).getMonth() + 1);
+              endTime = new Date(endTime);
+              getMonth = endTime.getMonth() + 1;
+              _obj.endTime = endTime.getFullYear() + '-' + getMonth + '-' + endTime.getDate();
+            }
+            if (_obj.skuName && _obj.skuName.indexOf(Dis) > 0 || _obj.skuName && _obj.skuName.indexOf(Dis2) > 0) {
+              _obj.discount = true
+            }
+            if (_obj.skuName && _obj.skuName.indexOf(secKill) > 0) {
+              let endTime = '', createTime = data.data.createTime.substring(0, data.data.createTime.indexOf(' ')), getMonth = '';
+              endTime = new Date(createTime).setDate(new Date(createTime).getDate() + 7);
+              endTime = new Date(endTime);
+              getMonth = endTime.getMonth() + 1;
+              _obj.endTime = endTime.getFullYear() + '-' + getMonth + '-' + endTime.getDate();
+            }
+            console.log("666666666")
+            if (_obj.skuName && _obj.skuName.indexOf(crab) > 0) {
+              let endTime = '', createTime = data.data.createTime.substring(0, data.data.createTime.indexOf(' ')), getMonth = '';
+              endTime = new Date(createTime).setDate(new Date(createTime).getDate() + 5);
+              endTime = new Date(endTime);
+              getMonth = endTime.getMonth() + 1;
+              _obj.endTime = endTime.getFullYear() + '-' + getMonth + '-' + endTime.getDate();
+            }
+            console.log("555555")
+            _obj.soAmount = _obj.soAmount.toFixed(2);
             that.setData({
-              couponsArr: couponsArr,
-              couponId: data.data.coupons[0].couponId
+              ticketInfo: _obj,
+              qrCodeArr: imgsArr,
+              _skuNum: _skuNum
             });
-          } else {
-            that.setData({
-              couponsArr: data.data.coupons,
-              couponId: data.data.coupons[0].couponId
-            });
-          }
-          console.log("33333")
-          for (let i = 0; i < that.data.couponsArr.length; i++) {
-            imgsArr.push(that.data.couponsArr[i].qrcodeUrl);
-          } console.log("4444")
-           data.data.userName =  data.data.userName.substr(0, 3) + "****" +  data.data.userName.substr(7);
-          console.log("55513123213")
-           let _arr = data.data.createTime.split(' ');
-           let _arr2 = _arr[0].split('-');
-           _arr2[1] = _arr2[1]*1+3;
-          console.log("13123123")
-          console.log('_arr2:', _arr2)
-           if (_arr2[1]>12){
-             _arr2[0] = _arr2[0]*1+1;
-             _arr2[1] = 12 -_arr2[1];
-           }
-          console.log("44441111")
-           data.data.endTime = _arr2[0] + '-' + _arr2[1] + '-' + _arr2[2];
-          let dip = "食典", _obj = data.data, Cts = "现金", Dis = '平台', Dis2 = '折扣',Barg="砍价", secKill = "抢购", crab = "兑换";
-           if (_obj.skuName && _obj.skuName.indexOf(dip) > 0) {
-             _obj.dips = true
-           }
-           if (_obj.skuName && _obj.skuName.indexOf(Cts) > 0) {
-             _obj.cash = true
-           }
-          if (_obj.skuName && _obj.skuName.indexOf(Barg) > 0) {
-            _obj.Barg = true
-            let endTime = '', createTime = data.data.createTime.substring(0, data.data.createTime.indexOf(' ')), getMonth = '';
-            endTime = new Date(createTime).setMonth(new Date(createTime).getMonth() + 1);
-            endTime = new Date(endTime);
-            getMonth = endTime.getMonth() + 1;
-            _obj.endTime = endTime.getFullYear() + '-' + getMonth + '-' + endTime.getDate();
-          }
-          if (_obj.skuName && _obj.skuName.indexOf(Dis) > 0 || _obj.skuName && _obj.skuName.indexOf(Dis2) > 0) {
-            _obj.discount = true
-          }
-          if (_obj.skuName && _obj.skuName.indexOf(secKill) > 0) {
-            let endTime = '', createTime = data.data.createTime.substring(0, data.data.createTime.indexOf(' ')), getMonth = '';
-            endTime = new Date(createTime).setDate(new Date(createTime).getDate() + 7);
-            endTime = new Date(endTime);
-            getMonth = endTime.getMonth() + 1;
-            _obj.endTime = endTime.getFullYear() + '-' + getMonth + '-' + endTime.getDate();
-          }
-          console.log("666666666")
-          if (_obj.skuName && _obj.skuName.indexOf(crab) > 0) {
-            let endTime = '', createTime = data.data.createTime.substring(0, data.data.createTime.indexOf(' ')), getMonth = '';
-            endTime = new Date(createTime).setDate(new Date(createTime).getDate() + 5);
-            endTime = new Date(endTime);
-            getMonth = endTime.getMonth() + 1;
-            _obj.endTime = endTime.getFullYear() + '-' + getMonth + '-' + endTime.getDate();
-          }
-          console.log("555555")
-          _obj.soAmount = _obj.soAmount.toFixed(2);
-          that.setData({
-            ticketInfo: _obj,
-            qrCodeArr: imgsArr,
-            _skuNum: _skuNum
-          });
-          // let dish = '食典';
-          // if (that.data.ticketInfo.skuName.indexOf(dish) > 0) {
-          //   that.setData({
-          //     isDish: true
-          //   });
-          // }
-        }
-        that.getcodedetail();
-        let int = setInterval(function () {
+            // let dish = '食典';
+            // if (that.data.ticketInfo.skuName.indexOf(dish) > 0) {
+            //   that.setData({
+            //     isDish: true
+            //   });
+            // }
+ 
           that.getcodedetail();
-        }, 2000);
-        that.setData({
-          timer: int
-        });
+          let int = setInterval(function () {
+            that.getcodedetail();
+          }, 2000);
+          that.setData({
+            timer: int
+          });
+
+        }
       }
     });
   },
@@ -372,11 +383,15 @@ Page({
         'content-type': 'application/json;Authorization'
       },
       success: function (res) {
-        let _data = res.data.data;
-        _data.address = _data.address.replace(/\-/g, "");
-        that.setData({
-          store: _data
-        })
+        if(res.data.code == 0){
+          let _data = res.data.data;
+          if (_data.address){
+            _data.address = _data.address.replace(/\-/g, "");
+          }
+          that.setData({
+            store: _data
+          })
+        }
       }
     })
   },
@@ -405,7 +420,6 @@ Page({
         url: '../../index/voucher-details/voucher-details?cfrom=pack',
       })
     } else if (this.data.ticket[0].type == 3){
-      
       
     }
   },

@@ -18,17 +18,19 @@ Page({
     this.setData({
       likeType: options.likeType,
       voteUserId: options.userId,
-      id:options.id,
+      id: options.id ? options.id:'',
       isMine: options.userId == app.globalData.userInfo.userId ? true : false
     });
-    if(options.id == 1){
-      wx.setNavigationBarTitle({
-        title: '关注列表'
-      })
-    }else if(options.id == 2){
-      wx.setNavigationBarTitle({
-        title: '粉丝列表'
-      })
+    if(options.id){
+      if (options.id == 1) {
+        wx.setNavigationBarTitle({
+          title: '关注列表'
+        })
+      } else if (options.id == 2) {
+        wx.setNavigationBarTitle({
+          title: '粉丝列表'
+        })
+      }
     }
   },
   onShow: function() {
@@ -44,17 +46,17 @@ Page({
   list() {
     // 注: 入参为userId(想要查看哪个用户的userId)和type(关注类型)----此是一个用户关注了哪些人
     // 注:入参为type和refId--------------此是看一个用户被哪些人关注
-    let _parms = {
+    let _parms = {}, likeType = this.data.likeType, that = this, reg = /^1[34578][0-9]{9}$/;
+    _parms = {
         type: 1,
         page:this.data.page?this.data.page:1,
         rows: 10,
         token: app.globalData.token
-      },
-      likeType = this.data.likeType;
+      };
     if (likeType == 1) { //关注列表
-      _parms.userId = app.globalData.userInfo.userId;
+      _parms.userId = this.data.voteUserId;
     } else if (likeType == 2) { //粉丝列表
-      _parms.refId = app.globalData.userInfo.userId;
+      _parms.refId = this.data.voteUserId;
     }
     requesting = true;
     Api.likeList(_parms).then((res) => {
@@ -64,6 +66,9 @@ Page({
           let myList = this.data.myList;
           for (let i = 0; i < data.list.length; i++) {
             data.list[i].isCollected = 1;
+            if (data.list[i].userName && reg.test(data.list[i].userName)) {
+              data.list[i].userName = data.list[i].userName.substr(0, 3) + "****" + data.list[i].userName.substr(7);
+            }
             myList.push(data.list[i]);
           }
           this.setData({

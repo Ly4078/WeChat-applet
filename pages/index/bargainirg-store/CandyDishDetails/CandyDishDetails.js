@@ -463,26 +463,27 @@ Page({
   },
   //发起砍价
   sponsorVgts: function() {
+    let that = this, _parms = {};
     if (!app.globalData.userInfo.mobile) {
-      this.setData({
+        that.setData({
         issnap: true
       })
     }else{
-      let _parms = {
+      _parms = {
         userId: app.globalData.userInfo.userId,
-        skuId: this.data.id,
+        skuId: that.data.id,
         token: app.globalData.token
       };
       Api.vegetables(_parms).then((res) => {
         if (res.data.code == 0) {
           if (res.data.data.length > 0) {
-            this.setData({
+            that.setData({
               isbargain: true
             });
-            this.toBargainList();
+            that.toBargainList();
           } else {
             wx.navigateTo({
-              url: '../AprogressBar/AprogressBar?refId=' + this.data.id + '&shopId=' + this.data.shopId + '&skuMoneyMin=' + this.data.agioPrice + '&skuMoneyOut=' + this.data.sellPrice
+              url: '../AprogressBar/AprogressBar?refId=' + that.data.id + '&shopId=' + that.data.shopId + '&skuMoneyMin=' + that.data.agioPrice + '&skuMoneyOut=' + that.data.sellPrice
             })
           }
         }

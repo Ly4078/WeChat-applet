@@ -426,7 +426,7 @@ Page({
   //领取提蟹券
   getsendCoupon: function(val) {
     if(val){
-      let _parms={},that=this;
+      let _parms = {}, that = this, _value="",url="",_Url="";
       _parms = {                                              
         orderCouponCode: this.data.current.couponCode,
         sendUserId: this.data.shareId,
@@ -434,26 +434,41 @@ Page({
         versionNo: this.data.current.versionNo,
         token: app.globalData.token
       };
-      Api.sendVersionCoupon(_parms).then((res) => {
-        console.log('getsendCoupon', res)
-        if (res.data.code == 0) {
-          that.getorderCoupon("a");
-          wx.showModal({
-            title: '提示',
-            content: '领取提蟹券成功',
-            showCancel:false,
-            success: function (res) {
-              if (res.confirm) {
-                console.log('用户点击确定')
-              } else if (res.cancel) {
-                console.log('用户点击取消')
+
+      for (var key in _parms) {
+        _value += key + "=" + _parms[key] + "&";
+      }
+      _value = _value.substring(0, _value.length - 1);
+      console.log("_value:", _value)
+      url = that.data._build_url + 'orderCoupon/sendVersionCoupon?' + _value;
+      _Url = encodeURI(url);
+      wx.request({
+        url: _Url,
+        header: {
+          "Authorization": app.globalData.token
+        },
+        method: 'POST',
+        success: function (res) {
+          console.log('getsendCoupo1n', res)
+          if (res.data.code == 0) {
+            that.getorderCoupon("a");
+            wx.showModal({
+              title: '提示',
+              content: '领取提蟹券成功',
+              showCancel: false,
+              success: function (res) {
+                if (res.confirm) {
+                  console.log('用户点击确定')
+                } else if (res.cancel) {
+                  console.log('用户点击取消')
+                }
               }
-            }
-          })
-        } else {
-          that.setData({
-            isreceive: true
-          })
+            })
+          } else {
+            that.setData({
+              isreceive: true
+            })
+          }
         }
       })
     }else{

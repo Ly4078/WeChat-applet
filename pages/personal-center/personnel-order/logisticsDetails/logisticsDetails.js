@@ -1,7 +1,9 @@
 import Api from '../../../../utils/config/api.js';
+import { GLOBAL_API_DOMAIN } from '../../../../utils/config/config.js';
 var app = getApp();
 Page({
   data: {
+    _build_url: GLOBAL_API_DOMAIN,
     soId: '',
     id:'',
     Countdown: '',
@@ -109,26 +111,43 @@ Page({
   },
   //点击继续支付  -- 先更新openid
   carryPay:function(){
-    let that = this;
+    let that = this, _Url = "", url = "", urll="",_Urll="";
     wx.login({
       success: res => {
         if (res.code) {
-          let _parms = {
-            code: res.code
-          }
-          Api.getOpenId(_parms).then((res) => {
-            if (res.data.code == 0) {
-              app.globalData.userInfo.openId = res.data.data.openId;
-              app.globalData.userInfo.sessionKey = res.data.data.sessionKey;
-              let _obj = {
-                id: app.globalData.userInfo.userId,
-                openId: app.globalData.userInfo.openId
-              };
-              Api.updateuser(_obj).then((res) => {
-                if (res.data.code == 0) {
-                  that.wxpayment()
-                }
-              })
+          url = that.data._build_url+'auth/getOpenId?code='+res.code;
+          _Url=encodeURI(url);
+          wx.request({
+            url: _Url,
+            header: {
+              "Authorization": app.globalData.token
+            },
+            method: 'POST',
+            success: function (res) {
+              if (res.data.code == 0) {
+                app.globalData.userInfo.openId = res.data.data.openId;
+                app.globalData.userInfo.sessionKey = res.data.data.sessionKey;
+                urll = that.data._build_url + 'user/update?id=' + app.globalData.userInfo.userId + '&openId=' + app.globalData.userInfo.openId;
+                _Urll = encodeURI(urll);
+                wx.request({
+                  url: _Urll,
+                  header: {
+                    "Authorization": app.globalData.token
+                  },
+                  method: 'POST',
+                  success: function (res) {
+                    if (res.data.code == 0) {
+                      that.wxpayment()
+                    }
+                  }
+                })
+                return
+                Api.updateuser(_obj).then((res) => {
+                  if (res.data.code == 0) {
+                    that.wxpayment()
+                  }
+                })
+              }
             }
           })
         }
@@ -137,33 +156,57 @@ Page({
   },  
   //调起微信支付
   wxpayment: function () {
-    let _parms = {
+    let _parms = {}, that = this, _value="",url="",_Url="";
+    _parms = {
       orderId: this.data.soId,
-      openId: app.globalData.userInfo.openId,
-      token: app.globalData.token
-    }, that = this;
+      openId: app.globalData.userInfo.openId
+    };
     
+    for (var key in _parms) {
+      _value += key + "=" + _parms[key] + "&";
+    }
+    _value = _value.substring(0, _value.length - 1);
+
     if (this.data.soDetail.orderItemOuts[0].goodsSpuId == 3){
-      Api.MallForCoupon(_parms).then((res) => {
-        if (res.data.code == 0) {
-          that.setData({
-            payObj: res.data.data
-          })
-          that.pay();
+      url = this.data._build_url + 'wxpay/shoppingMallForCoupon?' + _value;
+      _Url = encodeURI(url);
+      wx.request({
+        url: _Url,
+        header: {
+          "Authorization": app.globalData.token
+        },
+        method: 'POST',
+        success: function (res) {
+          if (res.data.code == 0) {
+            that.setData({
+              payObj: res.data.data
+            })
+            that.pay();
+          }
         }
       })
+
     }else{
-      Api.shoppingMall(_parms).then((res) => {
-        if (res.data.code == 0) {
-          that.setData({
-            payObj: res.data.data
-          })
-          that.pay();
-        } else {
-          wx.showToast({
-            title: res.data.message,
-            icon: 'none'
-          })
+      url = this.data._build_url + 'wxpay/doUnifiedOrderForShoppingMall?' + _value;
+      _Url = encodeURI(url);
+      wx.request({
+        url: _Url,
+        header: {
+          "Authorization": app.globalData.token
+        },
+        method: 'POST',
+        success: function (res) {
+          if (res.data.code == 0) {
+            that.setData({
+              payObj: res.data.data
+            })
+            that.pay();
+          } else {
+            wx.showToast({
+              title: res.data.message,
+              icon: 'none'
+            })
+          }
         }
       })
     }
@@ -232,12 +275,20 @@ Page({
   },
   //确认收货
   receipt:function(){
-    let that = this;
-    Api.confirmCeceipt({ id: this.data.soId}).then((res)=>{
-      if(res.data.code == 0){
-        that.getorderInfoDetail();
+    let that = this, url="",_Url="";
+    url = this.data._build_url + 'orderInfo/confirmCeceipt?id=' + this.data.soId;
+    _Url = encodeURI(url);
+    wx.request({
+      url: _Url,
+      header: {
+        "Authorization": app.globalData.token
+      },
+      method: 'POST',
+      success: function (res) {
+        if (res.data.code == 0) {
+          that.getorderInfoDetail();
+        }
       }
     })
   }
-
 })

@@ -251,7 +251,10 @@ Page({
     if (this.data.skutype == 4) {
       console.log('44444');
       let _parmsss = {},
-        _this = this;
+      url="",
+      _Url="",
+        _this = this,
+        that=this;
       _parmsss = {
         skuName: this.data.skuName,
         skuType: 4,
@@ -266,18 +269,24 @@ Page({
         _value += key + "=" + _parmsss[key] + "&";
       }
       _value = _value.substring(0, _value.length - 1);
+      url = that.data._build_url + 'sku/addSkuForKj?' + _value;
+      _Url = encodeURI(url);
+      console.log('_Url')
       wx.request({
-        url: that.data._build_url + 'sku/addSkuForKj?' + _value,
+        url: _Url,
         header: {
           "Authorization": app.globalData.token
         },
         method: 'POST',
         success: function(res) {
+          console.log("0000:",res)
           if (res.data.code == 0) {
             _this.setData({
               skuId: res.data.data //生成这一张券的id
             });
             let _parms = {},
+              urll="",
+              _Urll="",
               _values = "";
             _parms = {
               // userId: app.globalData.userInfo.userId,
@@ -293,13 +302,16 @@ Page({
               _values += key + "=" + _parms[key] + "&";
             }
             _values = _values.substring(0, _values.length - 1);
+            urll = that.data._build_url + 'so/create?' + _values;
+            _Urll=encodeURI(urll);
             wx.request({
-              url: that.data._build_url + 'so/create?' + _values,
+              url: _Urll ,
               header: {
                 "Authorization": app.globalData.token
               },
               method: 'POST',
               success: function(res) {
+                console.log("111:",res)
                 if (res.data.code == 0) {
                   _this.updateuser(res.data.data);
                 } else {
@@ -321,6 +333,9 @@ Page({
     } else if (this.data.skutype == 8) {
       console.log('888888')
       let _parms = {},
+        _value="",
+        url="",
+        _Url="",
         _this = this;
       _parms = {
         skuName: this.data.skuName,
@@ -332,14 +347,83 @@ Page({
         inPrice: 20,
         agioPrice: this.data.paymentAmount
       };
+      for (var key in _parms) {
+        _value += key + "=" + _parms[key] + "&";
+      }
+      _value = _value.substring(0, _value.length - 1);
+      url = that.data._build_url + 'sku/addSkuForQg?' + _value;
+      _Url = encodeURI(url);
+      console.log('_Url88', _Url)
+      wx.request({
+        url: _Url,
+        header: {
+          "Authorization": app.globalData.token
+        },
+        method: 'POST',
+        success: function (res) {
+          console.log('_Url88res', res)
+          if (res.data.code == 0) {
+            _this.setData({
+              skuId: res.data.data //生成这一张券的id
+            });
+            let _parmss = {},
+              urll="",
+              _Urll="",
+              _values = "";
+            _parmss = {
+              // userId: app.globalData.userInfo.userId,
+              // userName: app.globalData.userInfo.userName,
+              skuId: _this.data.skuId,
+              skuNum: _this.data.number,
+              shopId: _this.data.shopId,
+              payType: 2, //微信支付
+              dishSkuId: _this.data.dishSkuId,
+              dishSkuName: _this.data.dishSkuName
+            };
+
+
+            for (var key in _parmss) {
+              _values += key + "=" + _parmss[key] + "&";
+            }
+            _values = _values.substring(0, _values.length - 1);
+            urll = that.data._build_url + 'so/create?' + _values;
+            _Urll=encodeURI(urll);
+            wx.request({
+              url: _Urll,
+              header: {
+                "Authorization": app.globalData.token
+              },
+              method: 'POST',
+              success: function (res) {
+                console.log("12313res:",res)
+                if (res.data.code == 0) {
+                  _this.updateuser(res.data.data);
+                } else {
+                  wx.showToast({
+                    title: res.data.message,
+                    icon: 'none'
+                  })
+                }
+              }
+            })
+          } else {
+            wx.showToast({
+              title: '系统繁忙',
+              icon: 'none'
+            })
+          }
+        }
+      })
+
+      return
       Api.addSecKill(_parms).then((res) => {
         if (res.data.code == 0) {
           _this.setData({
             skuId: res.data.data //生成这一张券的id
           });
-          let _parms = {},
+          let _parmss = {},
             _values = "";
-          _parms = {
+          _parmss = {
             // userId: app.globalData.userInfo.userId,
             // userName: app.globalData.userInfo.userName,
             skuId: _this.data.skuId,
@@ -351,8 +435,8 @@ Page({
           };
 
 
-          for (var key in _parms) {
-            _values += key + "=" + _parms[key] + "&";
+          for (var key in _parmss) {
+            _values += key + "=" + _parmss[key] + "&";
           }
           _values = _values.substring(0, _values.length - 1);
           wx.request({

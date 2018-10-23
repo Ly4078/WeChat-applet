@@ -291,6 +291,23 @@ Page({
     }
   },
   toBuy() { //买菜
+    let _this = this;
+
+    // let sellPrice = this.data.agioPrice; //折后价
+    // wx.navigateTo({
+    //   url: '../../order-for-goods/order-for-goods?shopId=' + this.data.shopId + '&skuName=' + sellPrice + '元抢购券&sell=' + sellPrice + '&skutype=8&dishSkuId=' + this.data.id + '&dishSkuName=' + this.data.skuName
+    // })
+    // return
+
+
+
+
+    if (!app.globalData.userInfo.mobile) {
+      this.setData({
+        issnap: true
+      })
+      return false
+    }
     if (this.data.stockNum <= 0) {
       wx.showToast({
         title: '该菜品已售罄',
@@ -298,13 +315,7 @@ Page({
       })
       return false;
     }
-    let _this = this;
-    if (!app.globalData.userInfo.mobile) {
-      this.setData({
-        issnap: true
-      })
-      return false
-    }
+   
     if (this.data.peoPleNum >= 2) {
       let sellPrice = this.data.agioPrice; //折后价
       wx.navigateTo({
