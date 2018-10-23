@@ -309,8 +309,7 @@ Page({
     })
   },
   getPhoneNumber: function (e) { //获取用户授权的电话号码
-    let that = this
-    let msg = e.detail
+    let that = this,msg = e.detail;
     this.setData({
       isphoneNumber: false
     })
@@ -324,24 +323,35 @@ Page({
             code: res.code
           }
           Api.getOpenId(_parms).then((res) => {
-            app.globalData.userInfo.openId = res.data.data.openId
-            app.globalData.userInfo.sessionKey = res.data.data.sessionKey
+            app.globalData.userInfo.openId = res.data.data.openId;
+            app.globalData.userInfo.sessionKey = res.data.data.sessionKey;
             if (res.data.code == 0) {
-              let _pars = {
-                sessionKey: res.data.data.sessionKey,
-                ivData: msg.iv,
-                encrypData: msg.encryptedData
-              }
-              Api.phoneAES(_pars).then((res) => {
-                if (res.data.code == 0) {
-                  let _data = JSON.parse(res.data.data)
-                  // console.log("_data:", _data)
-                  app.globalData.userInfo.mobile = _data.phoneNumber,
-                    this.setData({
-                      isphoneNumber: false,
-                      issnap: false
-                    })
-                  // this.getuseradd()
+              let _sessionKey = app.globalData.userInfo.sessionKey,
+                _ivData = res.iv, _encrypData = res.encryptedData;
+              _sessionKey = _sessionKey.replace(/\=/g, "%3d");
+              _ivData = _ivData.replace(/\=/g, "%3d");
+              _ivData = _ivData.replace(/\+/g, "%2b");
+              _encrypData = _encrypData.replace(/\=/g, "%3d");
+              _encrypData = _encrypData.replace(/\+/g, "%2b");
+              _encrypData = _encrypData.replace(/\//g, "%2f");
+
+              wx.request({
+                url: that.data._build_url + 'auth/phoneAES?sessionKey=' + _sessionKey + '&ivData=' + _ivData + '&encrypData=' + _encrypData,
+                header: {
+                  'content-type': 'application/json' // 默认值
+                },
+                method: 'POST',
+                success: function (resv) {
+                  if (resv.data.code == 0) {
+                    let _data = JSON.parse(resv.data.data)
+                    // console.log("_data:", _data)
+                    app.globalData.userInfo.mobile = _data.phoneNumber,
+                      that.setData({
+                        isphoneNumber: false,
+                        issnap: false
+                      })
+                    // this.getuseradd()
+                  }
                 }
               })
             }

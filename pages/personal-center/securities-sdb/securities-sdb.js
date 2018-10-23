@@ -170,20 +170,31 @@ Page({
     wx.getUserInfo({
       withCredentials: true,
       success: function(res) {
-        let _pars = {
-          sessionKey: app.globalData.userInfo.sessionKey,
-          ivData: res.iv,
-          encrypData: res.encryptedData
-        }
-        Api.phoneAES(_pars).then((resv) => {
-          if (resv.data.code == 0) {
-            that.setData({
-              istouqu: false
-            })
-            let _data = JSON.parse(resv.data.data);
-            app.globalData.userInfo.unionId = _data.unionId;
-            app.globalData.userInfo.openId = _data.openId;
-            that.getmyuserinfo();
+        let _sessionKey = app.globalData.userInfo.sessionKey,
+          _ivData = res.iv, _encrypData = res.encryptedData;
+        _sessionKey = _sessionKey.replace(/\=/g, "%3d");
+        _ivData = _ivData.replace(/\=/g, "%3d");
+        _ivData = _ivData.replace(/\+/g, "%2b");
+        _encrypData = _encrypData.replace(/\=/g, "%3d");
+        _encrypData = _encrypData.replace(/\+/g, "%2b");
+        _encrypData = _encrypData.replace(/\//g, "%2f");
+
+        wx.request({
+          url: that.data._build_url + 'auth/phoneAES?sessionKey=' + _sessionKey + '&ivData=' + _ivData + '&encrypData=' + _encrypData,
+          header: {
+            'content-type': 'application/json' // 默认值
+          },
+          method: 'POST',
+          success: function (resv) {
+            if (resv.data.code == 0) {
+              that.setData({
+                istouqu: false
+              })
+              let _data = JSON.parse(resv.data.data);
+              app.globalData.userInfo.unionId = _data.unionId;
+              app.globalData.userInfo.openId = _data.openId;
+              that.getmyuserinfo();
+            }
           }
         })
       }

@@ -26,7 +26,7 @@ Page({
         icon: 'none'
       }, 1500)
     } else {
-      let content = utils.utf16toEntities(this.data.value), that = this, _parms = {}, _values="";
+      let content = utils.utf16toEntities(this.data.value), that = this, _parms = {}, _values="",url="",_Url="";
       _parms = {
         refId: this.data.shopid,
         cmtType: '5',
@@ -41,8 +41,10 @@ Page({
         _values += key + "=" + _parms[key] + "&";
       }
       _values = _values.substring(0, _values.length - 1);
+      url = that.data._build_url + 'cmt/add?' + _values;
+      _Url = encodeURI(url);
       wx.request({
-        url: that.data._build_url + 'cmt/add?' + _values,
+        url: _Url,
         header: {
           "Authorization": app.globalData.token
         },

@@ -217,26 +217,37 @@ Page({
     wx.getUserInfo({
       withCredentials: true,
       success: function(res) {
-        let _pars = {
-          sessionKey: app.globalData.userInfo.sessionKey,
-          ivData: res.iv,
-          encrypData: res.encryptedData
-        }
-        Api.phoneAES(_pars).then((resv) => {
-          if (resv.data.code == 0) {
-            that.setData({
-              istouqu: false
-            })
-            let _data = JSON.parse(resv.data.data);
-            app.globalData.userInfo.unionId = _data.unionId;
-            let _obj = {
-              unionId: _data.unionId
+        let _sessionKey = app.globalData.userInfo.sessionKey,
+          _ivData = res.iv, _encrypData = res.encryptedData;
+        _sessionKey = _sessionKey.replace(/\=/g, "%3d");
+        _ivData = _ivData.replace(/\=/g, "%3d");
+        _ivData = _ivData.replace(/\+/g, "%2b");
+        _encrypData = _encrypData.replace(/\=/g, "%3d");
+        _encrypData = _encrypData.replace(/\+/g, "%2b");
+        _encrypData = _encrypData.replace(/\//g, "%2f");
+
+        wx.request({
+          url: that.data._build_url + 'auth/phoneAES?sessionKey=' + _sessionKey + '&ivData=' + _ivData + '&encrypData=' + _encrypData,
+          header: {
+            'content-type': 'application/json' // 默认值
+          },
+          method: 'POST',
+          success: function (resv) {
+            if (resv.data.code == 0) {
+              that.setData({
+                istouqu: false
+              })
+              let _data = JSON.parse(resv.data.data);
+              app.globalData.userInfo.unionId = _data.unionId;
+              // let _obj = {
+              //   unionId: _data.unionId
+              // }
+              // Api.updateuser(_obj).then((res) => {
+              //   if (res.data.code == 0) {
+              //     console.log('更新保存unionId成功')
+              //   }
+              // })
             }
-            Api.updateuser(_obj).then((res) => {
-              if (res.data.code == 0) {
-                console.log('更新保存unionId成功')
-              }
-            })
           }
         })
       }
@@ -927,9 +938,9 @@ Page({
                         if (res.authSetting['scope.userLocation']) {
                           village_LBS(that);
                         } else {
-                          let latitude = '',
-                            longitude = '';
-                          that.requestCityName(latitude, longitude);
+                          // let latitude = '',
+                          //   longitude = '';
+                          // that.requestCityName(latitude, longitude);
                         }
                       }
                     })
@@ -959,8 +970,8 @@ Page({
         },
         success: (res) => {
           if (res.data.status == 0) {
-            let _city = res.data.result.address_component.city;
-            app.globalData.userInfo.city = _city;
+            // let _city = res.data.result.address_component.city;
+            // app.globalData.userInfo.city = _city;
             if (this.data.isMpa) {
               this.openmap();
             } else {

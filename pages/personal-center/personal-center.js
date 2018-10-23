@@ -123,7 +123,7 @@ Page({
       data: {
         userId: app.globalData.userInfo.userId,
         page: 1,
-        rows: 1,
+        rows: 1
       },
       success: function(res) {
         if(res.data.code == 0){
@@ -153,11 +153,13 @@ Page({
         rows: 1,
       },
       success: function(res) {
-        let _total = res.data.data.total
-        _total = utils.million(_total)
-        that.setData({
-          collectTotal: _total
-        })
+        if(res.data.code == 0){
+          let _total = res.data.data.total;
+          _total = utils.million(_total)
+          that.setData({
+            collectTotal: _total
+          })
+        }
       }
     })
     // 查询是否配置
@@ -254,7 +256,7 @@ Page({
       _parms.iconUrl = data.avatarUrl
     }
     if (data.nickName) {
-      _parms.nickName = data.nickName
+      _parms.nickName = utils.utf16toEntities(data.nickName);
     }
     if (data.gender) {
       _parms.sex = data.gender
