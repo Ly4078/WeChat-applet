@@ -505,12 +505,9 @@ Page({
     })
   },
   //判断二维码是否可以跳转
-<<<<<<< Updated upstream
-  getCodeState: function () {
-=======
+
   getCodeState: function() {
     console.log('getCodeState')
->>>>>>> Stashed changes
     let that = this;
     wx.request({
       url: that.data.qrdata.result,
