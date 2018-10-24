@@ -121,6 +121,7 @@ Page({
   crabList() {
     let _parms = {
       id: this.data.id,
+      sendType:2,
       page: this.data.page,
       rows: 6,
       token: app.globalData.token

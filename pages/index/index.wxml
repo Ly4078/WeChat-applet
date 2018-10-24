@@ -20,12 +20,12 @@
     </button>
   </view>
 
-<!-- <view class='modal_box' wx:if="{{isshowlocation}}">
+<view class='modal_box' wx:if="{{isshowlocation}}">
   <view class='weizhi'>
     更多体验需要你授权位置信息
     <button bindtap="openSetting">确定</button>
   </view>
-</view> -->
+</view>
 
   <!-- 新用户弹窗 -->
   <!-- <view class="newUserModal" wx:if="{{userGiftFlag || isNew || isfirst}}" catchtouchmove='true'>

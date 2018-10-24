@@ -37,7 +37,6 @@ Page({
         ismobile: false
       })
     };
-
     this.getuserInfo();
   },
   onShow: function () {

@@ -32,7 +32,7 @@ Page({
    */
   onLoad: function(options) {
     // console.log('options:', options)
-    this.findByCode();
+   
     if (options.back == 1) {
       this.setData({
         isBack: true
@@ -71,7 +71,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
-   
+    this.findByCode();
   },
 
   findByCode: function(val) { //通过code查询用户信息
@@ -79,9 +79,6 @@ Page({
     wx.login({
       success: res => {
         if (res.code) {
-          let _parms = {
-            code: res.code
-          }
           Api.findByCode({ code: res.code }).then((res) => {
             if (res.data.code == 0) {
               let _data = res.data.data;
@@ -94,6 +91,8 @@ Page({
                   }
                 };
                 app.globalData.userInfo.userId = _data.id;
+                let userInfo = app.globalData.userInfo;
+                wx.setStorageSync('userInfo', userInfo)
                 if(!_data.unionId){
                   that.setData({
                     istouqu: true
@@ -120,6 +119,9 @@ Page({
         if (res.data.code == 0) {
           let _token = 'Bearer ' + res.data.data;
           app.globalData.token = _token;
+          let userInfo = app.globalData.userInfo;
+          wx.setStorageSync('userInfo', userInfo)
+          wx.setStorageSync('token', _token)
           if (app.globalData.userInfo.mobile){
             if (that.data.referrer) { //推荐人
               that.setpullUser();
@@ -193,6 +195,8 @@ Page({
               let _data = JSON.parse(resv.data.data);
               app.globalData.userInfo.unionId = _data.unionId;
               app.globalData.userInfo.openId = _data.openId;
+              let userInfo = app.globalData.userInfo;
+              wx.setStorageSync('userInfo', userInfo)
               that.getmyuserinfo();
             }
           }
