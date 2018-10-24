@@ -454,7 +454,7 @@ Page({
         }
       }
       if (leftIndex == 1) {
-        if (!swichrequestflag[0] && that.data.sendpage < that.data.sendTotal) {
+        if (!swichrequestflag[1] && that.data.sendpage < that.data.sendTotal) {
           that.setData({
             loading: true,
             sendpage: that.data.sendpage + 1
@@ -464,7 +464,7 @@ Page({
         }
       }
       if (leftIndex == 2) {
-        if (!swichrequestflag[0] && that.data.recpage < that.data.recTotal) {
+        if (!swichrequestflag[2] && that.data.recpage < that.data.recTotal) {
           that.setData({
             loading: true,
             recpage: that.data.recpage + 1

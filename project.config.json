@@ -9,7 +9,7 @@
 		"nodeModules": true
 	},
 	"compileType": "miniprogram",
-	"libVersion": "1.9.93",
+	"libVersion": "2.2.2",
 	"appid": "wxf91e2a026658e78e",
 	"projectname": "miniApps2",
 	"isGameTourist": false,
