@@ -327,18 +327,11 @@ Page({
     wx.navigateTo({
       url: '../free-of-charge/get-address/get-address?deaddress=' + that.data.deaddress
     })
-    // wx.chooseLocation({
-    //   success: function (res) {
-    //     that.requestCityName(res.latitude, res.longitude)
-    //     that.setData({
-    //       locationX: res.longitude,
-    //       locationY: res.latitude
-    //     })
-    //   }
-    // })
   },
   requestCityName: function (lat, lng) {//通过经纬度获取当前城市名称
-    let that = this
+    let that = this;
+    app.globalData.userInfo.lat = lat;
+    app.globalData.userInfo.lng = lng;
     wx.request({
       url: 'https://apis.map.qq.com/ws/geocoder/v1/?location=' + lat + "," + lng + "&key=4YFBZ-K7JH6-OYOS4-EIJ27-K473E-EUBV7",
       header: {

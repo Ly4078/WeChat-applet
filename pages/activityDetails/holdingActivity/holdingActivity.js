@@ -110,7 +110,11 @@ Page({
     });
   },
   onShow: function() {
+
     console.log('onShow:',app.globalData.userInfo)
+    this.setData({
+      isshowlocation: false
+    })
     if (app.globalData.userInfo.userId) {
       if (app.globalData.userInfo.mobile) {
         if (app.globalData.token) {
@@ -390,17 +394,17 @@ Page({
         success: (res) => {
           if (res.data.status == 0) {
             let _city = res.data.result.address_component.city;
-            if (_city == '十堰市' || _city == '武汉市') {
+            if (_city == '十堰市') {
               app.globalData.userInfo.city = _city;
             } else {
               app.globalData.userInfo.city = '十堰市';
             }
             app.globalData.picker = res.data.result.address_component;
+            let userInfo = app.globalData.userInfo;
             wx.setStorageSync('userInfo', userInfo);
             if (this.data.isMpa) {
               this.openmap();
             }
-
           }
         }
       })

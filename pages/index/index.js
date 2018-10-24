@@ -228,7 +228,8 @@ Page({
     })
     let that = this;
     this.setData({
-      loading: false
+      loading: false,
+      isshowlocation: false
     })
     if (app.globalData.userInfo.city) {
       this.setData({
@@ -252,14 +253,9 @@ Page({
       this.setData({
         _page: 1
       })
-      this.getCutDish();
+      // this.getCutDish();
     }
-    // if (app.globalData.userInfo.lat && app.globalData.userInfo.lng) {
-    //   this.setData({ bargainListall: [] })
-    //   this.getCutDish();
-    // }
   },
-
   indexinit: function() {
     let that = this;
     if (app.globalData.userInfo.userId) {
@@ -670,14 +666,15 @@ Page({
         success: (res) => {
           if (res.data.status == 0) {
             let _city = res.data.result.address_component.city;
-            if (_city == '十堰市' || _city == '武汉市') {
+            if (_city == '十堰市') {
               app.globalData.userInfo.city = _city;
             } else {
               app.globalData.userInfo.city = '十堰市';
             }
             app.globalData.oldcity = app.globalData.userInfo.city;
             app.globalData.picker = res.data.result.address_component;
-            wx.setStorageSync('userInfo', app.globalData.userInfo);
+            let userInfo = app.globalData.userInfo;
+            wx.setStorageSync('userInfo', userInfo);
             that.getCutDish();
             that.setData({
               city: app.globalData.userInfo.city
@@ -694,7 +691,8 @@ Page({
     let that = this;
     this.setData({
       bargainList: [],
-      bargainListall: []
+      bargainListall: [],
+      _page:1
     })
     if (app.globalData.userInfo.city == '十堰市') {
       this.setData({

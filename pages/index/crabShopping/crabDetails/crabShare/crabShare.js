@@ -89,33 +89,6 @@ Page({
     } else {
       this.findByCode();
     }
-
-
-
-
-    return;
-    if (app.globalData.userInfo.userId) {
-      if (!app.globalData.userInfo.mobile) { //是新用户，去注册页面
-        wx.navigateTo({
-          url: '../../../../../pages/personal-center/securities-sdb/securities-sdb?back=1'
-        })
-      }
-      
-      if (this.data.groupId) {
-        this.bargain();
-      } else {
-        this.createBargain();
-      }
-      if (app.globalData.userInfo.lat && app.globalData.userInfo.lng) {
-        if (this.data._city || app.globalData.userInfo.city) {
-          // this.hotDishList();     //推荐列表
-        }
-      } else {
-        this.getlocation();
-      }
-    } else {
-      this.findByCode();
-    }
   },
   onHide() {
     let _this = this;
@@ -201,31 +174,8 @@ Page({
         wx.getSetting({
           success: (res) => {
             if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其用户信息或位置信息
-              wx.showModal({
-                title: '提示',
-                content: '更多体验需要你授权位置信息',
-                showCancel: false,
-                confirmText: '确认授权',
-                success: function(res) {
-                  if (res.confirm) {
-                    wx.openSetting({ //打开授权设置界面
-                      success: (res) => {
-                        if (res.authSetting['scope.userLocation']) {
-                          // village_LBS(that);
-                          that.getlocation();
-                        } else {
-                          let latitude = '30.51597',
-                            longitude = '114.34035';
-                          that.requestCityName(latitude, longitude);
-                        }
-                      }
-                    })
-                  } else if (res.cancel) {
-                    let latitude = '',
-                      longitude = '';
-                    that.requestCityName(latitude, longitude);
-                  }
-                }
+              that.setData({
+                isshowlocation: true
               })
             }
           }
@@ -256,7 +206,7 @@ Page({
                 that.createBargain()
               };
               let _city = res.data.result.address_component.city;
-              if (_city == "十堰市" || _city == "武汉市") {
+              if (_city == "十堰市") {
                 app.globalData.userInfo.city = _city;
               } else {
                 app.globalData.userInfo.city = "十堰市";

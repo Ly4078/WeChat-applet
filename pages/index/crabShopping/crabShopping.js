@@ -41,7 +41,7 @@ Page({
     marketPages: 1
   },
   onLoad: function (option) {
-    // console.log('option:', option)
+    console.log('option:', option)
     let that = this;
     if (option.currentTab) {
       this.setData({
@@ -49,7 +49,6 @@ Page({
       });
     }
    
-
     if (option.spuval) {
       let _val = 0;
       if (option.spuval == 3) {
@@ -91,49 +90,111 @@ Page({
       page: 1,
       _page: 1
     })
-    wx.showLoading({
-      title: '加载中...',
-      mask: true
+  },
+  onShow: function () {
+    this.setData({
+      isshowlocation: false
     })
-    if (this.data.currentTab == 0) {
-      if (this.data.listData.length < 1) {
-        this.commodityCrabList(0);
-      } else {
-        wx.hideLoading();
-      }
-    } else if (this.data.currentTab == 1) {
-      this.listForSkuAllocation(1);
-    } else if (this.data.currentTab == 2) {
-      this.marketList(2);
+    console.log('onShow')
+    let _token = wx.getStorageSync('token') || {};
+    let userInfo = wx.getStorageSync('userInfo') || {};
+    app.globalData.userInfo=userInfo;
+  
+    if(_token){
+      console.log("_token:", _token)
+      app.globalData.token=_token;
+      // if (userInfo.lat && userInfo.lng && userInfo.city){
+      //   this.getlisdtaa();
+      // }else{
+        this.getUserlocation();
+      // }
+    }else{
+      this.findByCode();
     }
-    this.getUserlocation();
   },
-  onShow: function () { },
-  onHide() {
-    wx.hideLoading();
+  // 初始化start
+  findByCode: function () { //通过code查询用户信息
+    let that = this;
+    wx.login({
+      success: res => {
+        Api.findByCode({
+          code: res.code
+        }).then((res) => {
+          if (res.data.code == 0) {
+            let _data = res.data.data;
+            if (_data.id && _data != null) {
+              for (let key in _data) {
+                for (let ind in app.globalData.userInfo) {
+                  if (key == ind) {
+                    app.globalData.userInfo[ind] = _data[key]
+                  }
+                }
+              };
+              app.globalData.userInfo.userId = _data.id;
+              let userInfo = app.globalData.userInfo;
+              wx.setStorageSync('userInfo', userInfo);
+            }
+            if (_data.id) {
+              that.authlogin();
+            }else{
+              wx.navigateTo({
+                url: '/pages/personal-center/securities-sdb/securities-sdb?back=1'
+              })
+            }
+          }
+        })
+      }
+    })
   },
-  onUnload() {
-    wx.hideLoading();
+
+  authlogin: function () { //获取token
+    console.log('authlogin')
+    let that = this;
+    wx.request({
+      url: this.data._build_url + 'auth/login?userName=' + app.globalData.userInfo.userName,
+      method: "POST",
+      data: {},
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        if (res.data.code == 0) {
+          let _token = 'Bearer ' + res.data.data;
+          app.globalData.token = _token;
+          wx.setStorageSync('token', _token);
+          that.getUserlocation();
+        }
+      }
+    })
   },
   getUserlocation: function () { //获取用户位置经纬度
+    console.log('getUserlocation')
     let that = this;
-    // let lat = '32.6226',
-    //   lng = '110.77877';
-    // that.requestCityName(lat, lng);
-    // return
     wx.getLocation({
       type: 'wgs84',
       success: function (res) {
+        console.log("success213:r",res)
         let latitude = res.latitude,
           longitude = res.longitude;
         that.requestCityName(latitude, longitude);
       },
       fail: function (res) {
+        console.log("fail234234:r", res)
         wx.getSetting({
           success: (res) => {
             if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其位置信息          
               that.setData({
                 isshowlocation: true
+              })
+            }else{
+              wx.getLocation({
+                type: 'wgs84',
+                success: function (res) {
+                  console.log("success1111111:r", res)
+                  let latitude = res.latitude,
+                    longitude = res.longitude;
+                  that.requestCityName(latitude, longitude);
+                }
               })
             }
           }
@@ -143,7 +204,6 @@ Page({
   },
   openSetting() {//打开授权设置界面
     let that = this;
-
     that.setData({
       isshowlocation: false
     })
@@ -225,8 +285,8 @@ Page({
   },
   //查询平台邮购列表
   commodityCrabList: function (types) {
-    let that = this;
-    let _parms = {
+    let that = this, _parms = {};
+    _parms = {
       spuType: 10,
       isDeleted: 0,
       sendType:1,
@@ -235,10 +295,12 @@ Page({
       rows: 10,
       token: app.globalData.token
     };
+    console.log('_parms:', _parms)
     swichrequestflag[types] = true;
     Api.crabList(_parms).then((res) => {
-      let _listData = this.data.listData;
+        console.log('rewrwres:',res)
       if (res.data.code == 0) {
+        let _listData = this.data.listData;
         if (this.data.page == 1) {
           this.setData({
             listData: []
@@ -395,19 +457,61 @@ Page({
         if (res.data.status == 0) {
           if (res.data.result.address_component.city){
             let _city = res.data.result.address_component.city;
-            if (_city == '十堰市' || _city == '武汉市') {
+            if (_city == '十堰市') {
               app.globalData.userInfo.city = _city;
             } else {
               app.globalData.userInfo.city = '十堰市';
             }
             app.globalData.picker = res.data.result.address_component;
-            wx.setStorageSync('userInfo', userInfo);
+           
             let userInfo = app.globalData.userInfo;
-            that.listForSkuAllocation(1);
+            wx.setStorageSync('userInfo', userInfo);
+            console.log("12312312")
+            that.getlisdtaa();
           }
         }
       }
     })
+  },
+  getlisdtaa: function () {
+    let that = this;
+    console.log('getlisdtaa', this.data.currentTab)
+    if (this.data.currentTab == 0) {
+      console.log('2424242423')
+      this.setData({
+        page: 1,
+        listData: []
+      }, () => {
+        this.commodityCrabList(0);
+      });
+    } else if (this.data.currentTab == 1) {
+      this.setData({
+        _page: 1,
+        storeData: [],
+      }, () => {
+        this.listForSkuAllocation(1);
+      });
+    } else if (this.data.currentTab == 2) {
+      this.setData({
+        sPage: 1,
+        marketList: []
+      }, () => {
+        this.marketList(2);
+      });
+    }
+
+
+    // if (this.data.currentTab == 0) {
+    //   if (this.data.listData.length < 1) {
+    //     this.commodityCrabList(0);
+    //   } else {
+    //     wx.hideLoading();
+    //   }
+    // } else if (this.data.currentTab == 1) {
+    //   this.listForSkuAllocation(1);
+    // } else if (this.data.currentTab == 2) {
+    //   this.marketList(2);
+    // }
   },
   //下拉刷新
   onPullDownRefresh: function () {
@@ -498,29 +602,11 @@ Page({
       },
       fail: function (res) {
         wx.getSetting({
+          // 更多体验需要你授权位置信息
           success: (res) => {
             if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其用户信息或位置信息
-              wx.showModal({
-                title: '提示',
-                content: '更多体验需要你授权位置信息',
-                showCancel: false,
-                confirmText: '确认授权',
-                success: function (res) {
-                  if (res.confirm) {
-                    wx.openSetting({ //打开授权设置界面
-                      success: (res) => {
-                        if (res.authSetting['scope.userLocation']) {
-                          // village_LBS(that);
-                          that.getlocation();
-                        }else{
-                          let latitude = '30.51597',
-                            longitude = '114.34035';
-                          that.requestCityName(latitude, longitude);
-                        }
-                      }
-                    })
-                  }
-                }
+              that.setData({
+                isshowlocation: true
               })
             }
           }

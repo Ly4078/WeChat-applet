@@ -78,6 +78,7 @@ Page({
         actId: options.actId
       })
     }
+    
     if (options.shopName && options.shopCode) {
       let _Name = options.shopName;
       if (options.groupCode) {
@@ -103,6 +104,7 @@ Page({
         console.log(res)
       }
     });
+
     this.merchantInit();
     this.getUserlocation();
   },
@@ -541,7 +543,6 @@ Page({
       token: app.globalData.token
     };
     Api.partakerList(_parms).then((res) => {
-      console.log("res:", res)
       if (res.data.code == 0) {
         this.setData({
           Bargainlist: []
@@ -557,7 +558,6 @@ Page({
           this.setData({
             Bargainlist: arr
           })
-          console.log("Bargainlist:", this.data.Bargainlist)
         }
       }
     })
@@ -912,7 +912,6 @@ Page({
   },
   openSetting() {//打开授权设置界面
     let that = this;
-    console.log('openSetting')
     that.setData({
       isshowlocation: false
     })
@@ -929,7 +928,6 @@ Page({
             },
           })
         } else {
-          console.log("nono")
           that.setData({
             isshowlocation: true
           })
@@ -1031,6 +1029,7 @@ Page({
               app.globalData.userInfo.city = '十堰市';
             }
             app.globalData.picker = res.data.result.address_component;
+            let userInfo = app.globalData.userInfo;
             wx.setStorageSync('userInfo', userInfo);
             if (this.data.isMpa) {
               this.openmap();

@@ -433,7 +433,7 @@
   bottom: 0rpx;
   left: 0rpx;
   right: 0rpx;
-  z-index: 999;
+  z-index: 19;
   background-color: white;
   letter-spacing: 1rpx;
 }

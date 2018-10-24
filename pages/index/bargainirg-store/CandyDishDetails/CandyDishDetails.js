@@ -57,6 +57,7 @@ Page({
     this.getUserlocation();
   },
   onShow() {
+    this.getUserlocation();
     if (!app.globalData.userInfo.city) {
       app.globalData.userInfo.city = '十堰市';
     }
@@ -187,11 +188,8 @@ Page({
               let latitude = res.latitude,
                 longitude = res.longitude;
               that.requestCityName(latitude, longitude);
-            },
+            }
           })
-          // let lat = '32.6226',
-          //   lng = '110.77877';
-          // that.requestCityName(lat, lng);
         }
       }
     })
@@ -601,27 +599,8 @@ Page({
         wx.getSetting({
           success: (res) => {
             if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其用户信息或位置信息
-              wx.showModal({
-                title: '提示',
-                content: '更多体验需要你授权位置信息',
-                showCancel:false,
-                confirmText: '确认授权',
-                success: function(res) {
-                  if (res.confirm) {
-                    wx.openSetting({ //打开授权设置界面
-                      success: (res) => {
-                        if (res.authSetting['scope.userLocation']) {
-                          // village_LBS(that);
-                          that.getlocation();
-                        }else{
-                          let latitude = '30.51597',
-                            longitude = '114.34035';
-                          that.requestCityName(latitude, longitude);
-                        }
-                      }
-                    })
-                  }
-                }
+              that.setData({
+                isshowlocation: true
               })
             }
           }

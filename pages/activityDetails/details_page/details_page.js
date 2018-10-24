@@ -68,14 +68,12 @@ Page({
           video: _vides
         })
       }
-
       if (_data.isVote == 0) {
         this.setData({
           poll: '投票',
           isVote: 0
         })
       } else {
-        
         this.setData({
           poll: '已投票',
           isVote: 1

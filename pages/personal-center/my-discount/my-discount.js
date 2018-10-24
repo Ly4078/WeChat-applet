@@ -39,6 +39,8 @@ Page({
     let index = e.currentTarget.dataset.idx;
     let that = this;
     this.setData({
+      page: 1,
+      ticket_list: [],
       currentIndex: index
     },()=>{
         if(index ==0){
@@ -66,10 +68,7 @@ Page({
             if (!that.data.recData.length >= 1) {
               that.getlistCouponReceive(2)
             }
-            
           }
-
-
         }else if(index ==1){
           if (!that.data.ticket_list.length>=1){
             if (requesting){
@@ -109,6 +108,9 @@ Page({
           }
          }
     })
+
+    this.getTicketList();
+
   },
   onShow: function() {
 

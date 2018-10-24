@@ -30,12 +30,18 @@ button{
 .weizhi{
   width: 80%;
   margin-left: 10%;
-  margin-top: 30%;
+  margin-top: 60%;
   text-align: center;
   height: 100rpx;
   line-height: 100rpx;
   background: #fff;
 }
+.weizhi button{
+  border-radius: 0;
+  color: #fff;
+  background:#FF4411;
+}
+
 .loginimg{
   width:500rpx;
   height:606rpx;
@@ -610,7 +616,9 @@ button{
   z-index: 20;
   overflow: auto;
   height: 100%;
-  background:rgba(0,0,0,0.44)!important;background-color: #000;filter:Alpha(opacity=50);
+  background:rgba(0,0,0,0.54)!important;
+  background-color: #000;
+  filter:Alpha(opacity=50);
 }
 .doing{
   background: #fff;

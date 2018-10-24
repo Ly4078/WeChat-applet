@@ -63,12 +63,15 @@ Page({
     this.getUserlocation();
   },
   onShow() {
+    let that = this;
     this.setData({
       flag: true,
       hotDishList: [],
-      page: 1
+      page: 1,
+      isshowlocation:false
     });
-    let that = this;
+    
+    this.getUserlocation();
     if (app.globalData.userInfo.userId) {
       if (app.globalData.userInfo.mobile) {
         if (app.globalData.token) {
@@ -268,27 +271,8 @@ Page({
         wx.getSetting({
           success: (res) => {
             if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其用户信息或位置信息
-              wx.showModal({
-                title: '提示',
-                content: '更多体验需要你授权位置信息',
-                showCancel: false,
-                confirmText: '确认授权',
-                success: function(res) {
-                  if (res.confirm) {
-                    wx.openSetting({ //打开授权设置界面
-                      success: (res) => {
-                        if (res.authSetting['scope.userLocation']) {
-                          // village_LBS(that);
-                          that.getlocation();
-                        } else {
-                          let latitude = '30.51597',
-                            longitude = '114.34035';
-                          that.requestCityName(latitude, longitude);
-                        }
-                      }
-                    })
-                  }
-                }
+              that.setData({
+                isshowlocation: true
               })
             }
           }

@@ -644,8 +644,8 @@ const ALL_API = {
   },
   storeSrabList: {   //到店提货螃蟹列表
     method: 'GET',
-    // url: 'salePoint/getGoodsListBySalePointId'
-    url:'salePoint/getGoodsListBySalePointIdNew'
+    url: 'salePoint/getGoodsListBySalePointId'
+    // url:'salePoint/getGoodsListBySalePointIdNew'
   },
   superMarketDetail: {   //超市详情
     method: 'GET',
