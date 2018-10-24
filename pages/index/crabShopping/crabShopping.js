@@ -21,6 +21,7 @@ var swichrequestflag = [false, false, false];
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
+    isshowlocation:false,
     listData: [], //送货到家
     storeData: [], //品质好店
     marketList: [],//到店自提
@@ -105,6 +106,7 @@ Page({
     } else if (this.data.currentTab == 2) {
       this.marketList(2);
     }
+    this.getUserlocation();
   },
   onShow: function () { },
   onHide() {
@@ -112,6 +114,57 @@ Page({
   },
   onUnload() {
     wx.hideLoading();
+  },
+  getUserlocation: function () { //获取用户位置经纬度
+    let that = this;
+    // let lat = '32.6226',
+    //   lng = '110.77877';
+    // that.requestCityName(lat, lng);
+    // return
+    wx.getLocation({
+      type: 'wgs84',
+      success: function (res) {
+        let latitude = res.latitude,
+          longitude = res.longitude;
+        that.requestCityName(latitude, longitude);
+      },
+      fail: function (res) {
+        wx.getSetting({
+          success: (res) => {
+            if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其位置信息          
+              that.setData({
+                isshowlocation: true
+              })
+            }
+          }
+        })
+      }
+    })
+  },
+  openSetting() {//打开授权设置界面
+    let that = this;
+
+    that.setData({
+      isshowlocation: false
+    })
+    wx.openSetting({
+      success: (res) => {
+        if (res.authSetting['scope.userLocation']) {
+          wx.getLocation({
+            success: function (res) {
+              let latitude = res.latitude,
+                longitude = res.longitude;
+              that.requestCityName(latitude, longitude);
+            },
+          })
+        } else {
+          console.log("nono")
+          that.setData({
+            isshowlocation: true
+          })
+        }
+      }
+    })
   },
   //切换顶部tab
   navbarTap: function (e) {
@@ -329,6 +382,7 @@ Page({
     }
   },
   requestCityName(lat, lng) { //获取当前城市
+    console.log("requestCityName")
     let that = this;
     app.globalData.userInfo.lat = lat;
     app.globalData.userInfo.lng = lng;
@@ -339,18 +393,21 @@ Page({
       },
       success: (res) => {
         if (res.data.status == 0) {
-          let _city = res.data.result.address_component.city;
-          if (_city == '十堰市' || city == '武汉市') {
-            app.globalData.userInfo.city = _city;
-          } else {
-            app.globalData.userInfo.city = '十堰市';
+          if (res.data.result.address_component.city){
+            let _city = res.data.result.address_component.city;
+            if (_city == '十堰市' || _city == '武汉市') {
+              app.globalData.userInfo.city = _city;
+            } else {
+              app.globalData.userInfo.city = '十堰市';
+            }
+            app.globalData.picker = res.data.result.address_component;
+            wx.setStorageSync('userInfo', userInfo);
+            let userInfo = app.globalData.userInfo;
+            that.listForSkuAllocation(1);
           }
-          that.listForSkuAllocation(1);
-          app.globalData.picker = res.data.result.address_component;
         }
       }
     })
-
   },
   //下拉刷新
   onPullDownRefresh: function () {

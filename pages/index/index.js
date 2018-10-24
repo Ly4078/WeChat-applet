@@ -7,8 +7,10 @@ var utils = require('../../utils/util.js')
 var app = getApp();
 
 var village_LBS = function(that) {
+  console.log('village_LBS')
   wx.getLocation({
     success: function(res) {
+      console.log('village_LBSres',res)
       let latitude = res.latitude;
       let longitude = res.longitude;
       that.requestCityName(latitude, longitude);
@@ -220,6 +222,7 @@ Page({
   },
   onShow: function() {
     this.getOpendId();
+    this.getUserlocation();
     wx.setNavigationBarTitle({
       title: '首页' //页面标题为路由参数
     })
@@ -569,7 +572,7 @@ Page({
     if (userInfo.lat && userInfo.lng && userInfo.city) {
       this.getCutDish();
     } else {
-      this.getUserlocation();
+     
     };
     // that.isNewUser();
     if (userInfo && userInfo.mobile) {
@@ -594,9 +597,12 @@ Page({
         success: (res) => {
           if (res.authSetting['scope.userLocation']) {  
             // that.getUserlocation();
-            // village_LBS(that);
+            village_LBS(that);
+            return
+            console.log('12313213')
             wx.getLocation({
               success: function(res) {
+                console.log('12313213res:',res)
                 let latitude = res.latitude,
                   longitude = res.longitude;
                 that.requestCityName(latitude, longitude);
@@ -649,6 +655,7 @@ Page({
   },
 
   requestCityName(lat, lng) { //获取当前城市
+    console.log('requestCityName')
     let that = this;
     app.globalData.userInfo.lat = lat;
     app.globalData.userInfo.lng = lng;
@@ -663,7 +670,7 @@ Page({
         success: (res) => {
           if (res.data.status == 0) {
             let _city = res.data.result.address_component.city;
-            if (_city == '十堰市') {
+            if (_city == '十堰市' || _city == '武汉市') {
               app.globalData.userInfo.city = _city;
             } else {
               app.globalData.userInfo.city = '十堰市';
@@ -683,6 +690,7 @@ Page({
   },
 
   getCutDish: function() { // 获取砍菜数据
+    console.log('getCutDish')
     let that = this;
     this.setData({
       bargainList: [],

@@ -173,20 +173,21 @@ Page({
     })
     wx.openSetting({
       success: (res) => {
-        if (res.authSetting['scope.userLocation']) { //打开位置授权          
+        if (!res.authSetting['scope.userLocation']) { //打开位置授权          
           // that.getUserlocation();
           // village_LBS(that);
           console.log('userLocation')
+          
+          that.setData({
+            isshowlocation: true
+          })
+        } else {
           wx.getLocation({
             success: function (res) {
               let latitude = res.latitude,
                 longitude = res.longitude;
               that.requestCityName(latitude, longitude);
             },
-          })
-        } else {
-          that.setData({
-            isshowlocation: true
           })
           // let lat = '32.6226',
           //   lng = '110.77877';

@@ -4,6 +4,13 @@
   <text wx:for="{{navbar}}" data-idx="{{index}}" class="item {{currentTab==index ? 'active' : ''}}" wx:key="unique" bindtap="navbarTap">{{item}}</text>
 </view>
 
+<view class='modal_box' wx:if="{{isshowlocation}}">
+  <view class='weizhi'>
+    更多体验需要你授权位置信息
+    <button bindtap="openSetting">确定</button>
+  </view>
+</view>
+
 <!--平台邮购-->
 <view class="crabListBox" hidden="{{currentTab==1 || currentTab==2}}">
   <view class='tabone'>
