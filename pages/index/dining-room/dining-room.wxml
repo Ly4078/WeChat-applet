@@ -1,6 +1,14 @@
 <!--pages/index/dining-room/dining-room.wxml-->
 <import src="dining-room-tiem/dining-room-tiem-template.wxml" />
 
+
+<view class='modal_box  modal_box11' wx:if="{{isshowlocation}}">
+  <view class='weizhi'>
+    更多体验需要你授权位置信息
+    <button bindtap="openSetting">确定</button>
+  </view>
+</view>
+
 <!-- <scroll-view scroll-y="{{isScroll}}"> -->
   <view class='modal_box' wx:if="{{ismodel}}" catchtap='closemodel'>
     <!-- 附近 、美食、综合排序 -->

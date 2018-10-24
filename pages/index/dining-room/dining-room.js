@@ -38,6 +38,7 @@ Page({
       title: '加载中...',
     })
     this.getData();
+    this.getUserlocation();
   },
   onShow: function () {
     this.setData({
@@ -217,29 +218,95 @@ Page({
       timer: _timer
     });
    
-    // Api.shoplist(_parms).then((res) => {
-    //   if (res.data.code == 0 && res.data.data.list != [] && res.data.data.list != '') {
-    //     this.setData({
-    //       posts_key: res.data.data.list
-    //     });
-    //   }
-    // })
   },
-  // onSearchInp: function () {
-  //   let _parms = {
-  //     searchKey: this.data.searchValue
-  //   }
-  //   Api.shoplist(_parms).then((res) => {
-  //     this.setData({
-  //       posts_key: res.data.data.list
-  //     });
-  //   })
-  // },
+
   //点击列表跳转详情
   onTouchItem: function (event) {
    
     wx.navigateTo({
       url: '../merchant-particulars/merchant-particulars?shopid=' + event.currentTarget.id,
+    })
+  },
+  getUserlocation: function () { //获取用户位置经纬度
+    let that = this;
+    wx.getLocation({
+      type: 'wgs84',
+      success: function (res) {
+        let latitude = res.latitude,
+          longitude = res.longitude;
+        that.requestCityName(latitude, longitude);
+      },
+      fail: function (res) {
+        wx.getSetting({
+          success: (res) => {
+            if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其位置信息          
+              that.setData({
+                isshowlocation: true
+              })
+
+            } else {
+              that.getCutDish();
+            }
+          }
+        })
+      }
+    })
+  },
+  openSetting() {//打开授权设置界面
+    let that = this;
+    that.setData({
+      isshowlocation: false
+    })
+    wx.openSetting({
+      success: (res) => {
+        if (res.authSetting['scope.userLocation']) { //打开位置授权          
+          // that.getUserlocation();
+          // village_LBS(that);
+          console.log('userLocation')
+          wx.getLocation({
+            success: function (res) {
+              let latitude = res.latitude,
+                longitude = res.longitude;
+              that.requestCityName(latitude, longitude);
+            },
+          })
+        } else {
+          that.setData({
+            isshowlocation: true
+          })
+          // let lat = '32.6226',
+          //   lng = '110.77877';
+          // that.requestCityName(lat, lng);
+        }
+      }
+    })
+  },
+  //获取城市
+  requestCityName(lat, lng) { //获取当前城市
+    let that = this;
+    app.globalData.userInfo.lat = lat;
+    app.globalData.userInfo.lng = lng;
+    wx.request({
+      url: 'https://apis.map.qq.com/ws/geocoder/v1/?location=' + lat + "," + lng + "&key=4YFBZ-K7JH6-OYOS4-EIJ27-K473E-EUBV7",
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: (res) => {
+        if (res.data.status == 0) {
+          let _city = res.data.result.address_component.city;
+          if (_city == '十堰市') {
+            app.globalData.userInfo.city = _city;
+          } else {
+            app.globalData.userInfo.city = '十堰市';
+          }
+          app.globalData.oldcity = app.globalData.userInfo.city;
+          wx.setStorageSync('userInfo', app.globalData.userInfo);
+          that.setData({
+            page:1
+          })
+          that.getData();
+        }
+      }
     })
   },
   onReachBottom: function () {  //用户上拉触底加载更多

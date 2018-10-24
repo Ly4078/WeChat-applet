@@ -20,6 +20,7 @@ var village_LBS = function(that) {
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
+    isshowlocation:false,
     initiator: '', //发起人Id
     showModal: false,
     instruct: false,
@@ -59,6 +60,7 @@ Page({
       _lat: options.lat ? options.lat : '',
       _lng: options.lng ? options.lng : '',
     });
+    this.getUserlocation();
   },
   onShow() {
     this.setData({
@@ -193,6 +195,61 @@ Page({
       }
     })
   },
+  getUserlocation: function () { //获取用户位置经纬度
+    let that = this;
+    wx.getLocation({
+      type: 'wgs84',
+      success: function (res) {
+        let latitude = res.latitude,
+          longitude = res.longitude;
+        that.requestCityName(latitude, longitude);
+      },
+      fail: function (res) {
+        wx.getSetting({
+          success: (res) => {
+            if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其位置信息          
+              that.setData({
+                isshowlocation: true
+              })
+
+            } else {
+              that.getCutDish();
+            }
+          }
+        })
+      }
+    })
+  },
+  openSetting() {//打开授权设置界面
+    let that = this;
+    that.setData({
+      isshowlocation: false
+    })
+    wx.openSetting({
+      success: (res) => {
+        if (res.authSetting['scope.userLocation']) { //打开位置授权          
+          // that.getUserlocation();
+          // village_LBS(that);
+          console.log('userLocation')
+          wx.getLocation({
+            success: function (res) {
+              let latitude = res.latitude,
+                longitude = res.longitude;
+              that.requestCityName(latitude, longitude);
+            },
+          })
+        } else {
+          that.setData({
+            isshowlocation: true
+          })
+          // let lat = '32.6226',
+          //   lng = '110.77877';
+          // that.requestCityName(lat, lng);
+        }
+      }
+    })
+  },
+
   getlocation: function() { //获取用户位置
     let that = this,
       lat = '',
@@ -262,7 +319,13 @@ Page({
                 that.createBargain()
               };
               let _city = res.data.result.address_component.city;
-              app.globalData.userInfo.city = _city;
+              if (_city == '十堰市') {
+                app.globalData.userInfo.city = _city;
+              } else {
+                app.globalData.userInfo.city = '十堰市';
+              }
+              app.globalData.oldcity = app.globalData.userInfo.city;
+              wx.setStorageSync('userInfo', app.globalData.userInfo);
               that.dishDetail();
               that.hotDishList();
               that.bargain();

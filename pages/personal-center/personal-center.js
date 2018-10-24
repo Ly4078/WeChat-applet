@@ -477,8 +477,11 @@ Page({
       onlyFromCamera: true,
       scanType: "qrCode",
       success: (res) => {
+        console.log('success:',res)
         let qrCodeArr = res.result.split('/');
+        console.log('qrCodeArr:', qrCodeArr);
         let qrCode = qrCodeArr[qrCodeArr.length - 1];
+        console.log('qrCode:', qrCode);
         that.setData({
           qrdata: res,
           qrCode: qrCode
@@ -486,6 +489,7 @@ Page({
         that.getCodeState();
       },
       fail: (res) => {
+        console.log('fail:', res)
         wx.showToast({
           title: '扫码失败',
           mask: 'true',
@@ -501,7 +505,12 @@ Page({
     })
   },
   //判断二维码是否可以跳转
+<<<<<<< Updated upstream
   getCodeState: function () {
+=======
+  getCodeState: function() {
+    console.log('getCodeState')
+>>>>>>> Stashed changes
     let that = this;
     wx.request({
       url: that.data.qrdata.result,

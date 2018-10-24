@@ -20,6 +20,7 @@ Page({
     currentSite: "",
     latlng: [],
     resultPosition: [],
+    isshowlocation:false,
     hotcity: [
       { name: '武汉', open: '1' },
       { name: '十堰', open: '1' },
@@ -55,47 +56,47 @@ Page({
         wx.getSetting({
           success: (res) => {
             if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其用户信息或位置信息
-              wx.showModal({
-                title: '提示',
-                content: '更多体验需要你授权位置信息',
-                showCancel: false,
-                success: function (res) {
-                  if (res.confirm) {
-                    wx.openSetting({  //打开授权设置界面
-                      success: (res) => {
-                        if (res.authSetting['scope.userLocation']) {
-                          console.log('1321312312')
-                          village_LBS(that);
+            that.setData({
+              isshowlocation: true
+            })
 
-                          // that.getLoaction();
-                          // wx.getLocation({
-                          //   type: 'wgs84',
-                          //   success: function (res) {
-                          //     console.log('111res:',res)
-                          //     let latitude = res.latitude, longitude = res.longitude;
-                          //     that.requestCityName(latitude, longitude)
-                          //   },
-                          //   fail:function(res){
-                          //     console.log('failres:',res)
-                          //   }
-                          // })
-                        }
-                      }
-                    })
-                  }
-                }
-              })
             }
           }
         })
       }
     })
+  },
+  openSetting() {//打开授权设置界面
+    let that = this;
+    that.setData({
+      isshowlocation: false
+    })
+    wx.openSetting({
+      success: (res) => {
+        if (res.authSetting['scope.userLocation']) { //打开位置授权          
+          
+          // that.getUserlocation();
+          // village_LBS(that);
+          wx.getLocation({
+            success: function (res) {
+              let latitude = res.latitude,
+                longitude = res.longitude;
+              that.requestCityName(latitude, longitude);
+            },
+          })
+        } else {
+  
+        //   let lat = '32.6226',
+        //     lng = '110.77877';
+        //   that.requestCityName(lat, lng);
+        }
+      }
+    })
     
   },
-
   updatauser: function (data) { //更新用户信息
-    let that = this
-    let _parms = {
+    let that = this, _parms = {};
+    _parms = {
       id: app.globalData.userInfo.userId,
       openId: app.globalData.userInfo.openId,
     }
@@ -122,7 +123,7 @@ Page({
     this.getLoaction();
   },
   getLoaction() { //获取当前定位
-    let that = this
+    let that = this;
     wx.getLocation({
       type: 'wgs84',
       success: (res) => {

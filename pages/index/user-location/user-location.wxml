@@ -9,6 +9,13 @@
   </view>
 </view>
 
+<view class='modal_box' wx:if="{{isshowlocation}}">
+  <view class='weizhi'>
+    更多体验需要你授权位置信息
+    <button bindtap="openSetting">确定</button>
+  </view>
+</view>
+
 <view wx:if="{{resultPosition.length>0}}">
   <view class="dqtitle">搜索地址</view>
   <block wx:for="{{resultPosition}}" wx:key="key">

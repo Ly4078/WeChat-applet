@@ -1132,3 +1132,13 @@ page {
   height: 220rpx;
   margin-top:20rpx;
 }
+
+.weizhi{
+  width: 80%;
+  margin-left: 10%;
+  margin-top: 30%;
+  text-align: center;
+  height: 100rpx;
+  line-height: 100rpx;
+  background: #fff;
+}

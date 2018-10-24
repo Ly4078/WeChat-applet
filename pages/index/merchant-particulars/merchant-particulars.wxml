@@ -8,6 +8,12 @@
     </button>
   </view>
 
+<view class='modal_box' wx:if="{{isshowlocation}}">
+  <view class='weizhi'>
+    更多体验需要你授权位置信息
+    <button bindtap="openSetting">确定</button>
+  </view>
+</view>
 
 <view class="newUserModal" wx:if="{{issnap && isnew}}">
   <view class='drawer_screen'>

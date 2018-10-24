@@ -7,6 +7,13 @@
   </view>
 </view>
 
+<view class='modal_box' wx:if="{{isshowlocation}}">
+  <view class='weizhi'>
+    更多体验需要你授权位置信息
+    <button bindtap="openSetting">确定</button>
+  </view>
+</view>
+
 <view class='shell'>
   <image class='detailsImag' mode='scaleToFill' wx:if="{{picUrl}}" src='{{picUrl}}'></image>
   <image class='detailsImag' mode='scaleToFill' wx:else src='/images/icon/morentu.png'></image>

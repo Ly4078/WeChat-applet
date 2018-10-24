@@ -27,6 +27,15 @@ button{
   margin-left: -313rpx; 
   border-radius: 3px; 
 }
+.weizhi{
+  width: 80%;
+  margin-left: 10%;
+  margin-top: 30%;
+  text-align: center;
+  height: 100rpx;
+  line-height: 100rpx;
+  background: #fff;
+}
 .loginimg{
   width:500rpx;
   height:606rpx;
@@ -598,7 +607,7 @@ button{
   position: fixed;
   left: 0;
   top: 0;
-  z-index: 5;
+  z-index: 20;
   overflow: auto;
   height: 100%;
   background:rgba(0,0,0,0.44)!important;background-color: #000;filter:Alpha(opacity=50);

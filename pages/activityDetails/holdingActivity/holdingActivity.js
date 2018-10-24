@@ -23,6 +23,7 @@ Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
     isMpa: false,
+    isshowlocation:false,
     userId: '',
     id: '', //菜id
     shopId: '', //点击店Id
@@ -335,26 +336,10 @@ Page({
         wx.getSetting({
           success: (res) => {
             if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其用户位置信息
-              wx.showModal({
-                title: '提示',
-                content: '授权获得更多功能和体验',
-                showCancel: false,
-                success: function(res) {
-                  if (res.confirm) {
-                    wx.openSetting({ //打开授权设置界面
-                      success: (res) => {
-                        if (res.authSetting['scope.userLocation']) {
-                          village_LBS(that);
-                        } else {
-                          let latitude = '',
-                            longitude = '';
-                          that.requestCityName(latitude, longitude);
-                        }
-                      }
-                    })
-                  }
-                }
+              that.setData({
+                isshowlocation:true
               })
+
             } else {
               that.openmap();
             }
@@ -362,6 +347,34 @@ Page({
         })
       }
     })
+  },
+  openSetting() {//打开授权设置界面
+    let that = this;
+      that.setData({
+        isshowlocation: false
+      })
+
+      wx.openSetting({
+        success: (res) => {
+          if (res.authSetting['scope.userLocation']) { //打开位置授权          
+            // that.getUserlocation();
+            // village_LBS(that);
+            console.log('userLocation')
+            wx.getLocation({
+              success: function (res) {
+                let latitude = res.latitude,
+                  longitude = res.longitude;
+                that.requestCityName(latitude, longitude);
+              },
+            })
+          } else {
+            // let lat = '32.6226',
+            //   lng = '110.77877';
+            // that.requestCityName(lat, lng);
+          }
+        }
+      })
+
   },
   //获取城市
   requestCityName(lat, lng) { //获取当前城市
