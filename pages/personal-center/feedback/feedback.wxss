@@ -1,0 +1,56 @@
+page{
+  background: #F0EFF4;
+}
+
+.headCenter{
+  width: 92%;
+}
+
+.heaTop{
+  width: 100%;
+  height: 80rpx;
+  display: flex;
+  align-items: center;
+  padding-left: 30rpx;
+}
+
+.list{
+  width: 100%;
+  background-color: #ffffff;
+  display: flex;
+  justify-content: center;
+  border-bottom: 1px solid #F5F5FA;
+}
+
+.list:last-child{
+  margin-top: 20rpx;
+}
+
+.headline{
+  font-size: 28rpx;
+}
+
+.single{
+  width: 100%;
+  height: 80rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 28rpx;
+}
+
+.singleImg{
+  width: 12rpx;
+  height: 22rpx;
+}
+
+.singleImages{
+  width: 34rpx;
+  height: 34rpx;
+  vertical-align: middle;
+  padding-right: 18rpx;
+}
+
+.tickling{
+  vertical-align: middle;
+}

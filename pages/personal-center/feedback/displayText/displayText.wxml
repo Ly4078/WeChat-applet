@@ -1,0 +1,39 @@
+<view class='family' wx:for="{{explain}}" wx:for-item="item" wx:for-index="idx" wx:key="{{id}}">
+  <view class='Contentes'>
+    <view class='caption'>
+      <text>{{item.headline}}</text>
+    </view>
+    <view class='matter'>
+      <text>{{item.content}}</text>
+    </view>
+  </view>
+</view>
+
+
+<!-- <view>
+  <view class='submission'>
+    <view class='elasticity'>
+      <view class='subTop'><text>意见与建议</text></view>
+      <view class="section">
+        <textarea class='textarea' placeholder="请填写10个字以上的问题描述以便我们更好的帮助" placeholder-style="color:gray;" maxlength='140' />
+        <view class='number'><text>10/140</text></view>
+      </view>
+      <view class='uploading'><text>相关截图 (选填)</text><text>0/4</text></view>
+    </view>
+  </view>
+  <view class='uploading-img'>
+    <image class='addition-img' src='/images/icon/add.png'></image>
+  </view>
+  <view class='cell-phone'>
+    <view><text>输入有效联系方式以便开发者联系您   (选填)</text></view>
+  </view>
+  <view class='cell-cell'>
+    <view class='method'><text>联系方式</text> </view>
+    <view class="sectionmax">
+      <input maxlength="11" type="number" placeholder="邮箱/手机号" />
+    </view>
+  </view>
+  <view class='presentSub'>
+    <button class='button' type="submit" bindtap="primary"> 提交反馈</button>
+  </view>
+</view> -->

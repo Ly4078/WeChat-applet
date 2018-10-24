@@ -14,6 +14,7 @@ Page({
     actaddress: {}, //当前选中收货地址信息
     current: {}, //券详情
     payObj: {},
+    txtObj:{},
     crabImgUrl: [], // 详情图列表
     isconvert: true,
     vouId: '', //券ID
@@ -61,11 +62,10 @@ Page({
   onLoad: function(options) {
     console.log("options:", options)
     let _token = wx.getStorageSync('token') || {};
-    this.setData({_token});
-
-    wx.showLoading({
-      title: '数据加载...',
-    });
+    let userInfo = wx.getStorageSync('userInfo') || {};
+    let txtObj = wx.getStorageSync('txtObj') || {};
+    app.globalData.userInfo = userInfo;
+    this.setData({ _token, txtObj});
     let _crabImgUrl = [],
       that = this;
     this.setData({
@@ -126,6 +126,7 @@ Page({
       _today = '',
       hours = '',
       _threeday = '',
+      that = this,
       _tenday = '';
     _today = new Date();
     hours = _today.getHours();
@@ -158,10 +159,22 @@ Page({
           this.authlogin();
         }
       } else { //是新用户，去注册页面
-        this.authlogin();
+        wx.navigateTo({
+          url: '/pages/personal-center/securities-sdb/securities-sdb?back=1'
+        })
+        // this.authlogin();
       }
     } else {
       this.findByCode();
+    }
+    if (this.data.txtObj) {
+      let _crabImgUrl = [];
+      app.globalData.txtObj=this.data.txtObj;
+      _crabImgUrl = this.data.txtObj.crabImgUrl;
+      _crabImgUrl.splice(1, 1);
+      that.setData({
+        crabImgUrl: _crabImgUrl
+      })
     }
     if (this.data.isfrst) {
       this.frestrue();
@@ -177,12 +190,13 @@ Page({
   getTXT:function(){  //查询配置文件
     let _crabImgUrl=[],that = this;
     wx.request({
-      url: this.data._build_url + 'version.txt',
+      url: that.data._build_url + 'version.txt',
       header: {
         "Authorization": app.globalData.token
       },
       success: function (res) {
-        wx.hideLoading();
+        wx.setStorageSync("txtObj", res.data);
+        app.globalData.txtObj = res.data;
         _crabImgUrl = res.data.crabImgUrl;
         _crabImgUrl.splice(1, 1);
         that.setData({
@@ -413,16 +427,15 @@ Page({
         if (res.data.code == 0) {
           let _token = 'Bearer ' + res.data.data;
           app.globalData.token = _token;
-          that.getTXT();
-          that.getorderCoupon();
           if (app.globalData.userInfo.mobile) {
-            // that.getTXT();
-            // that.getorderCoupon();
-          }
+            that.getTXT();
+            that.getorderCoupon();
+          } 
         }
       }
     })
   },
+
   //领取提蟹券
   getsendCoupon: function(val) {
     if(val){
@@ -627,9 +640,9 @@ Page({
         if (app.globalData.userInfo.mobile) {
           this.getAddressList();
         } else { //是新用户，去注册页面
-          wx.navigateTo({
-            url: '/pages/personal-center/securities-sdb/securities-sdb?back=1'
-          })
+          // wx.navigateTo({
+          //   url: '/pages/personal-center/securities-sdb/securities-sdb?back=1'
+          // })
         }
       } else {
         this.findByCode();
@@ -642,9 +655,9 @@ Page({
     if (app.globalData.userInfo.mobile) { 
       this.getorderCoupon('1');
     } else {//是新用户，去注册页面
-      wx.navigateTo({
-        url: '/pages/personal-center/securities-sdb/securities-sdb?back=1'
-      })
+      // wx.navigateTo({
+      //   url: '/pages/personal-center/securities-sdb/securities-sdb?back=1'
+      // })
     }
     
   },

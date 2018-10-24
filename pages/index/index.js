@@ -352,7 +352,6 @@ Page({
               if(res.data.code == 0){
                 app.globalData.userInfo.openId = res.data.data.openId;
                 app.globalData.userInfo.sessionKey = res.data.data.sessionKey;
-                console.log("sessionKey:", res.data.data.sessionKey.length)
                 if (res.data.data.unionId) {
                   app.globalData.userInfo.unionId = res.data.data.unionId;
                   that.createNewUser();
@@ -370,24 +369,35 @@ Page({
   },
 
   bindGetUserInfo: function () { //点击安全弹框获取用户openId和unionId
-    let that = this;
+    let that = this,url="",_Url="";
     wx.getUserInfo({
       withCredentials: true,
       success: function (res) {
-        let _parms = {
-          sessionKey: app.globalData.userInfo.sessionKey,
-          ivData: res.iv,
-          encrypData: res.encryptedData
-        }
-        Api.phoneAES(_parms).then((resv) => {
-          if (resv.data.code == 0) {
-            that.setData({
-              istouqu: false
-            })
-            let _data = JSON.parse(resv.data.data);
-            app.globalData.userInfo.unionId = _data.unionId;
-            app.globalData.userInfo.openId = _data.openId;
-            that.createNewUser();
+        let _sessionKey = app.globalData.userInfo.sessionKey,
+          _ivData = res.iv, _encrypData = res.encryptedData;
+        _sessionKey = _sessionKey.replace(/\=/g, "%3d");
+        _ivData = _ivData.replace(/\=/g, "%3d");
+        _ivData = _ivData.replace(/\+/g, "%2b");
+        _encrypData = _encrypData.replace(/\=/g, "%3d");
+        _encrypData = _encrypData.replace(/\+/g, "%2b");
+        _encrypData = _encrypData.replace(/\//g, "%2f");
+        
+        wx.request({
+          url: that.data._build_url + 'auth/phoneAES?sessionKey=' + _sessionKey + '&ivData=' + _ivData + '&encrypData=' + _encrypData,
+          header: {
+            'content-type': 'application/json' // 默认值
+          },
+          method: 'POST',
+          success: function (resv) {
+            if (resv.data.code == 0) {
+              that.setData({
+                istouqu: false
+              })
+              let _data = JSON.parse(resv.data.data);
+              app.globalData.userInfo.unionId = _data.unionId;
+              app.globalData.userInfo.openId = _data.openId;
+              that.createNewUser();
+            }
           }
         })
       }
@@ -584,12 +594,18 @@ Page({
                     wx.openSetting({ //打开授权设置界面
                       success: (res) => {
                         if (res.authSetting['scope.userLocation']) {  //打开位置授权                
-                          that.getUserlocation();
+                          // that.getUserlocation();
                           // village_LBS(that);
+                          wx.getLocation({
+                            success: function (res) {
+                              let latitude = res.latitude,longitude = res.longitude;
+                              that.requestCityName(latitude, longitude);
+                            },
+                          })
 
                         } else {
-                          let lat = '30.51597',
-                            lng = '114.34035';
+                          let lat = '32.6226',
+                            lng = '110.77877';
                           that.requestCityName(lat, lng);
                           // that.getCutDish();
                         }
@@ -691,21 +707,21 @@ Page({
   },
 
   getcarousel: function () { //轮播图
-    let that = this;
+    let that = this, _parms = {};
     if (!this.data.carousel) {
-      return false
-    }
-    let _parms = {
-      token: app.globalData.token
-    }
-    Api.hcllist(_parms).then((res) => {
-      if (res.data.data) {
-        wx.setStorageSync('carousel', res.data.data)
-        this.setData({
-          carousel: res.data.data
-        })
+    }else{
+      _parms = {
+        token: app.globalData.token
       }
-    })
+      Api.hcllist(_parms).then((res) => {
+        if (res.data.data) {
+          wx.setStorageSync('carousel', res.data.data)
+          this.setData({
+            carousel: res.data.data
+          })
+        }
+      })
+    }
   },
 
   hotDishList() { //拼价砍菜列表

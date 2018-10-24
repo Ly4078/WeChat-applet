@@ -331,27 +331,28 @@ Page({
     } else {
       if (this.data.commentVal) {
         let _value = utils.utf16toEntities(this.data.commentVal),
-          that = this, _values ="";
+          that = this, _values = "", url = "", _Url = "", _parms = {};
         this.setData({
           commentVal: _value,
           isComment: false
         });
-        let _parms = {
+        _parms = {
           refId: this.data.refId,
           cmtType: "2",
           content: this.data.commentVal,
           // userId: app.globalData.userInfo.userId,
           // userName: app.globalData.userInfo.userName,
           // nickName: app.globalData.userInfo.nickName,
-          token: app.globalData.token
         };
 
         for (var key in _parms) {
           _values += key + "=" + _parms[key] + "&";
         }
         _values = _values.substring(0, _values.length - 1);
+        url = that.data._build_url + 'cmt/add?' + _values;
+        _Url = encodeURI(url);
         wx.request({
-          url: that.data._build_url + 'cmt/add?' + _values,
+          url: _Url,
           header: {
             "Authorization": app.globalData.token
           },
@@ -474,9 +475,9 @@ Page({
       }
       _parms = {
         refId: id,
-        type: 4,
+        type: 4
         // userId: app.globalData.userInfo.userId,
-        token: app.globalData.token
+        // token: app.globalData.token
       };
     
       for (var key in _parms) {
@@ -524,9 +525,9 @@ Page({
       }
       _parms = {
         refId: id,
-        type: 4,
+        type: 4
         // userId: app.globalData.userInfo.userId,
-        token: app.globalData.token
+        // token: app.globalData.token
       }
 
       for (var key in _parms) {
@@ -695,19 +696,31 @@ Page({
     wx.getUserInfo({
       withCredentials: true,
       success: function(res) {
-        let _pars = {
-          sessionKey: app.globalData.userInfo.sessionKey,
-          ivData: res.iv,
-          encrypData: res.encryptedData
-        }
-        Api.phoneAES(_pars).then((resv) => {
-          if (resv.data.code == 0) {
-            that.setData({
-              istouqu: false
-            })
-            let _data = JSON.parse(resv.data.data);
-            app.globalData.userInfo.unionId = _data.unionId;
+        let _sessionKey = app.globalData.userInfo.sessionKey,
+          _ivData = res.iv, _encrypData = res.encryptedData;
+        _sessionKey = _sessionKey.replace(/\=/g, "%3d");
+        _ivData = _ivData.replace(/\=/g, "%3d");
+        _ivData = _ivData.replace(/\+/g, "%2b");
+        _encrypData = _encrypData.replace(/\=/g, "%3d");
+        _encrypData = _encrypData.replace(/\+/g, "%2b");
+        _encrypData = _encrypData.replace(/\//g, "%2f");
 
+
+        wx.request({
+          url: that.data._build_url + 'auth/phoneAES?sessionKey=' + _sessionKey + '&ivData=' + _ivData + '&encrypData=' + _encrypData,
+          header: {
+            'content-type': 'application/json' // 默认值
+          },
+          method: 'POST',
+          success: function (resv) {
+            if (resv.data.code == 0) {
+              that.setData({
+                istouqu: false
+              })
+              let _data = JSON.parse(resv.data.data);
+              app.globalData.userInfo.unionId = _data.unionId;
+
+            }
           }
         })
       }

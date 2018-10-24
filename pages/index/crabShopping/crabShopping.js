@@ -329,6 +329,8 @@ Page({
   },
   requestCityName(lat, lng) { //获取当前城市
     let that = this;
+    app.globalData.userInfo.lat = lat;
+    app.globalData.userInfo.lng = lng;
     wx.request({
       url: 'https://apis.map.qq.com/ws/geocoder/v1/?location=' + lat + "," + lng + "&key=4YFBZ-K7JH6-OYOS4-EIJ27-K473E-EUBV7",
       header: {
@@ -337,10 +339,10 @@ Page({
       success: (res) => {
         if (res.data.status == 0) {
           let _city = res.data.result.address_component.city;
-          if (_city != '十堰市' || city != '武汉市') {
-            app.globalData.userInfo.city = '十堰市';
-          } else {
+          if (_city == '十堰市' || city == '武汉市') {
             app.globalData.userInfo.city = _city;
+          } else {
+            app.globalData.userInfo.city = '十堰市';
           }
           that.listForSkuAllocation(1);
           app.globalData.picker = res.data.result.address_component;

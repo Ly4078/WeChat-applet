@@ -52,6 +52,9 @@ Page({
             }
             if (reg.test(_data[i].nickName)) {
               _data[i].nickName = _data[i].nickName.substr(0, 3) + "****" + _data[i].nickName.substr(7);
+            }else{
+              console.log("nickName:",_data[i].nickName)
+              console.log("nickName:", _data[i])
             }
             comment_list.push(_data[i]);
           }

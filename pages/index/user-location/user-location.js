@@ -2,6 +2,19 @@
 import { GLOBAL_API_DOMAIN } from '../../../utils/config/config.js';
 import Api from '../../../utils/config/api.js'
 var app = getApp();
+
+var village_LBS = function (that) {
+  wx.getLocation({
+    success: function (res) {
+      console.log("aaaares:",res)
+      let latitude = res.latitude;
+      let longitude = res.longitude;
+      that.requestCityName(latitude, longitude);
+    },
+  })
+}
+
+
 Page({
   data: {
     currentSite: "",
@@ -31,36 +44,53 @@ Page({
     this.wxgetsetting()
   },
   wxgetsetting: function () {  //若用户之前没用授权位置信息，则调整此函数请求用户授权
-    let that = this
-    wx.getSetting({
-      success: (res) => {
-        if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其用户信息或位置信息
-          wx.showModal({
-            title: '提示',
-            content: '更多体验需要你授权位置信息',
-            success: function (res) {
-              if (res.confirm) {
-                wx.openSetting({  //打开授权设置界面
-                  success: (res) => {
-                    if (res.authSetting['scope.userLocation']) {
-                      that.getLoaction();
-                      // wx.getLocation({
-                        // type: 'wgs84',
-                        // success: function (res) {
-                          // let latitude = res.latitude
-                          // let longitude = res.longitude
-                          // that.requestCityName(latitude, longitude)
-                        // }
-                      // })
-                    }
+    let that = this;
+    wx.getLocation({
+      type: 'wgs84',
+      success: function (res) {
+        // let latitude = res.latitude, longitude = res.longitude;
+        // that.requestCityName(latitude, longitude);
+      },
+      fail: function (res) {
+        wx.getSetting({
+          success: (res) => {
+            if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其用户信息或位置信息
+              wx.showModal({
+                title: '提示',
+                content: '更多体验需要你授权位置信息',
+                showCancel: false,
+                success: function (res) {
+                  if (res.confirm) {
+                    wx.openSetting({  //打开授权设置界面
+                      success: (res) => {
+                        if (res.authSetting['scope.userLocation']) {
+                          console.log('1321312312')
+                          village_LBS(that);
+
+                          // that.getLoaction();
+                          // wx.getLocation({
+                          //   type: 'wgs84',
+                          //   success: function (res) {
+                          //     console.log('111res:',res)
+                          //     let latitude = res.latitude, longitude = res.longitude;
+                          //     that.requestCityName(latitude, longitude)
+                          //   },
+                          //   fail:function(res){
+                          //     console.log('failres:',res)
+                          //   }
+                          // })
+                        }
+                      }
+                    })
                   }
-                })
-              }
+                }
+              })
             }
-          })
-        }
+          }
+        })
       }
     })
+    
   },
 
   updatauser: function (data) { //更新用户信息
@@ -107,22 +137,29 @@ Page({
     })
   },
   requestCityName(latitude, longitude) {//获取当前位置
+    let that = this;
+    console.log('requestCityName:', latitude, longitude)
     app.globalData.userInfo.lat = latitude;
     app.globalData.userInfo.lng = longitude;
-    let that = this;
+   
     wx.request({
       url: 'https://apis.map.qq.com/ws/geocoder/v1/?location=' + latitude + "," + longitude + "&key=4YFBZ-K7JH6-OYOS4-EIJ27-K473E-EUBV7",
       header: {
         'content-type': 'application/json' // 默认值
       },
       success: (res) => {
-        console.log('res:',res);
-        app.globalData.userInfo.city = res.data.result.address_component.city;
-        
+        console.log('cityres:',res);
+        let _city = res.data.result.address_component.city;
+        if (_city == '十堰市' || _city == '武汉市') {
+          app.globalData.userInfo.city = _city;
+        } else {
+          app.globalData.userInfo.city = '十堰市';
+        }
         that.setData({
           currentSite: res.data.result.address
         })
         app.globalData.changeCity=true;
+        console.log('2132131')
         setTimeout(function(){
           wx.switchTab({  //跳转到 tabBar 页面，并关闭其他所有非 tabBar 页面
             url: '../../index/index'
@@ -175,8 +212,8 @@ Page({
         city = _data[i].city;
       }
     }
-    app.globalData.userInfo.lat = lat;
-    app.globalData.userInfo.lng = lng;
+    // app.globalData.userInfo.lat = lat;
+    // app.globalData.userInfo.lng = lng;
     app.globalData.userInfo.city = city;
     app.globalData.changeCity = true;
     // console.log(" app.globalData.userInfo：", app.globalData.userInfo)

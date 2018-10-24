@@ -591,7 +591,12 @@ Page({
           success: (res) => {
             if (res.data.status == 0) {
               let _city = res.data.result.address_component.city;
-              app.globalData.userInfo.city = _city;
+              if (_city == "十堰市" || _city == "武汉市"){
+                app.globalData.userInfo.city = _city;
+              }else{
+                app.globalData.userInfo.city = "十堰市";
+              }
+              
               that.getmoreData();
               that.isbargain(false);
             }
