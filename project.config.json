@@ -31,13 +31,20 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 0,
+			"current": 1,
 			"list": [
 				{
 					"id": -1,
 					"name": "my",
 					"pathName": "pages/personal-center/personnel-order/logisticsDetails/logisticsDetails",
 					"query": "soId=228"
+				},
+				{
+					"id": -1,
+					"name": "moni",
+					"pathName": "pages/index/index",
+					"query": "name=black",
+					"scene": "1007"
 				}
 			]
 		}

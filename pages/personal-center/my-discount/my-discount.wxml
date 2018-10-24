@@ -1,30 +1,156 @@
 <import src="discount-template/discount-template.wxml" />
-<view class="discountTab">
-  <view class="{{isUsed == 0 ? 'active' : ''}}" id="0" bindtap='ticketType'>
-    <text>待使用</text>
-  </view>
-  <view class="{{isUsed == 1 ? 'active' : ''}}" id="1" bindtap='ticketType'>
-    <text>已使用</text>
-  </view>
+
+<view class="navbar">
+  <text wx:for="{{navbar}}" data-idx="{{index}}" class="item {{currentIndex==index ? 'active' : ''}}" wx:key="unique" bindtap="navbarTap">{{item}}</text>
 </view>
-<view class="discountBox">
-  <block wx:for="{{ticket_list}}" wx:key="index">
-    <template is="discountList" data="{{item}}"></template>
-  </block>
-</view>
-<view class='loadingBox'>
+
+<view wx:if="{{currentIndex==0}}">
+  <view class='topTabs'>
+    <view class="tabsItem {{ind == index?'actItem':''}}" data-index="{{index}}" wx:for="{{tabs}}" wx:key="index" id='{{index}}' bindtap='handtab'>{{item}}
+      <view class='tabline' wx:if="{{ind == index}}"></view>
+    </view>
+  </view>
+
+
+  <!-- 礼品券 -->
+  <view wx:if="{{ind == 0}}">
+    <view class='voucher' wx:if="{{listData.length>0}}">
+      <view wx:for="{{listData}}" wx:key="item.id" id="{{item.id}}" data-index="{{item.goodsSkuName}}" class="voucherItem {{item.isUsed == 0 ? 'ysyitem' : 'wsyitem'}}" data-used="{{item.isUsed}}" data-order="{{item.orderId}}" bindtap='redeemNow'>
+        <text class="itemName {{item.isUsed == 0 ? 'itemNamea' : 'itemNameb'}}">{{item.sku}}</text>
+        <text class="couCode {{item.isUsed == 0 ? 'codea' : 'codeb'}}">券号：{{item.couponCode}}</text>
+      </view>
+
+      <view class='loadingBox'>
+        <i-spin custom wx:if="{{loading}}">
+          <view class="loading"></view>
+        </i-spin>
+      </view>
+      <view class='exbut'></view>
+    </view>
+
+    <!-- <view class='placeholder' > -->
+      <text wx:if="{{listData.length<1}}" class='buyvoucher' bindtap='buyVoucher'>购买提蟹券</text>
+    <!-- </view> -->
+    <view class='exchange' bindtap='handexchange'>兑换记录</view>
+
+  </view>
+
+
+  <!-- 记录 -->
+  <view wx:if="{{ind ==1}}">
+    <view class='notes' wx:if="{{sendData.length>0}}">
+      <view wx:for="{{sendData}}" wx:key="index">
+        <view class='nodeItem'>
+          <view class='itemtop'>
+            <text class='topt1'>{{item.styleName}}-提蟹券</text>
+            <text class='topt2'>{{ind == 1?"已赠送":"已领取"}}</text>
+          </view>
+          <view class='itemcon'>
+            <view class='conitem'>
+              <view class='cileft'>券号</view>
+              <view class='ciright'>{{item.couponCode}}</view>
+            </view>
+            <view class='conitem'>
+              <view class='cileft'> {{ind == 1?"领取人":"赠送人"}}</view>
+              <view class='ciright' wx:if="{{ind == 1}}">{{item.receiveUserName}}</view>
+              <view class='ciright' wx:if="{{ind == 2}}">{{item.sendUserName}}</view>
+            </view>
+            <view class='conitem'>
+              <view class='cileft'>{{ind == 1?"赠送时间":"领取时间"}}</view>
+              <view class='ciright'>{{item.ocsCreateTime}}</view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class='loadingBox'>
       <i-spin custom wx:if="{{loading}}">
-      <view class="loading"></view>
+        <view class="loading"></view>
       </i-spin>
+    </view>
+    <view wx:if="{{sendData.length < 1}}" class='placeholder'>
+      <image src="/images/icon/zhanweitu.png"></image>
+    </view>
+  </view>
+
+
+  <!-- 记录 -->
+  <view wx:if="{{ind ==2}}">
+    <view class='notes' wx:if="{{recData.length>0}}">
+      <view wx:for="{{recData}}" wx:key="index">
+        <view class='nodeItem'>
+          <view class='itemtop'>
+            <text class='topt1'>{{item.styleName}}-提蟹券</text>
+            <text class='topt2'>{{ind == 1?"已赠送":"已领取"}}</text>
+          </view>
+          <view class='itemcon'>
+            <view class='conitem'>
+              <view class='cileft'>券号</view>
+              <view class='ciright'>{{item.couponCode}}</view>
+            </view>
+            <view class='conitem'>
+              <view class='cileft'> {{ind == 1?"领取人":"赠送人"}}</view>
+              <view class='ciright' wx:if="{{ind == 1}}">{{item.receiveUserName}}</view>
+              <view class='ciright' wx:if="{{ind == 2}}">{{item.sendUserName}}</view>
+            </view>
+            <view class='conitem'>
+              <view class='cileft'>{{ind == 1?"赠送时间":"领取时间"}}</view>
+              <view class='ciright'>{{item.ocsCreateTime}}</view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class='loadingBox'>
+      <i-spin custom wx:if="{{loading}}">
+        <view class="loading"></view>
+      </i-spin>
+    </view>
+    <view wx:if="{{recData.length < 1}}" class='placeholder'>
+      <image src="/images/icon/zhanweitu.png"></image>
+    </view>
+
+  </view>
+
+
 </view>
+
+<view wx:if="{{currentIndex==1}}">
+  <view class="discountTab">
+    <view class="{{isUsed == 0 ? 'active' : ''}}" id="0" bindtap='ticketType'>
+      <text>待使用</text>
+    </view>
+    <view class="{{isUsed == 1 ? 'active' : ''}}" id="1" bindtap='ticketType'>
+      <text>已使用</text>
+    </view>
+  </view>
+  <view class="discountBox">
+    <block wx:for="{{ticket_list}}" wx:key="index">
+      <template is="discountList" data="{{item}}"></template>
+    </block>
+  </view>
+  <view class='placeholder' wx:if="{{ticket_list.length<1}}">
+    <image src="/images/icon/zhanweitu.png"></image>
+  </view>
+  <view class='loadingBox'>
+  <i-spin custom wx:if="{{loading}}">
+    <view class="loading"></view>
+  </i-spin>
+</view>
+</view>
+
+
+
+
+
+
+
+
 <!-- <view class='already-past-wrap' bindtap="toDueList">
   <view class='already-past-due'>
     <text>查看过期/已用劵</text>active
   </view>
 </view> -->
-<view class='placeholder' wx:if="{{ticket_list.length<1}}">
-  <image src="/images/icon/zhanweitu.png"></image>
-</view>
+
 
 <image class='ball' wx:if="{{isball}}" bindtap='toactlist' src='/images/icon/shouye.png'></image>
-

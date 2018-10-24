@@ -1,0 +1,94 @@
+<view class='exdetails'>
+  <image class='logisticsTopImg' src='/images/icon/logisticsTopImg.png'></image>
+  
+  <view class='logisticsTopShould'>
+    <view class='logisticsTopfront'>
+      <text>{{current.expressCode?'已发货':'待发货'}}</text>
+    </view>
+    <view class='logisticsTopCount' wx:if="{{current.expressCode}}">
+      <text>您订购的商品已经发货，正在运送途中</text>
+    </view>
+  </view>
+</view>
+
+<!-- 物流信息 -->
+<!-- <view class='expressage' catchtap='examineLogistics'>
+    <image class='expressageImg' src='/images/icon/expressagecheche.png'></image>
+    <view class='expressageText'>
+      <view class='expressageSite'>
+        <text>快递离开上海正在发往十堰</text>
+      </view>
+      <view class='expressageTime'>
+        <text>2018-09-09 20:04</text>
+      </view>
+    </view>
+    <image class='expressageImgRight' src='/images/icon/home_arrow.png'></image>
+  </view> -->
+<!-- 收货地址 -->
+<view class='expressage' wx:if="{{current.orderAddress}}">
+  <image class='siteImg' src='/images/icon/expressagegouwuce.png'></image>
+  <view class='yourself'>
+    <view class='expressageSiteName'>{{current.orderAddress.chatName}}
+      <text>{{current.orderAddress.mobile}}</text>
+    </view>
+    <view class='expressageMsg'>
+      <text>{{current.orderAddress.dictProvince}}{{current.orderAddress.dictCity}}{{current.orderAddress.dictCounty}}{{current.orderAddress.detailAddress}}</text>
+    </view>
+  </view>
+</view>
+<!-- 商品信息 -->
+<view class='handise'>
+  <view class='handiseTop'>
+    <view class='handiseTop-left'>
+      <image class='handiseTop-img' src="{{current.goodsSku.skuPic}}"></image>
+    </view>
+    <view class='handiseTop-right'>
+      <view class='handiseTop-rightText'>
+        <text>阳澄湖大闸蟹</text>
+      </view>
+      <view class='handiseTop-rightCation'>
+        <text>{{current.goodsSku.skuName}}</text>
+      </view>
+      <view class='handiseTop-rightBtn'>
+        <text>￥{{current.goodsSku.sellPrice}}</text>
+        <text class='dolphinNei'>×{{current.goodsSku.miniNum}}</text>
+      </view>
+    </view>
+  </view>
+</view>
+<!-- 支付订单信息 -->
+<view class='paymentMagic'>
+  <view class='paymentHead'>
+    <view class='paymentHead-center'>
+      <text>兑换详情</text>
+    </view>
+  </view>
+  <view class='payment-execute'>
+    <view class='inconformity'>
+      <text>商品券码</text>
+      <text>{{current.goodsSku.skuCode}}</text>
+      <button class='copybut' id="1" bindtap='copyCode'>复制</button>
+    </view>
+
+    <view class='inconformity' wx:if="{{current.expressCode}}">
+      <text>快递单号</text>
+      <text>{{current.expressCode2}}</text>
+      <button class='copybut copybutq' id="2" bindtap='copyCode'>复制</button>
+    </view>
+
+    <view class='inconformity' wx:if="{{current.sendAmount}}">
+      <text>商品运费</text>
+      <text class='send'>￥{{current.sendAmount}}</text>
+    </view>
+
+    <view class='inconformity' wx:if="{{current.usedTime}}">
+      <text>兑换时间</text>
+      <text>{{current.usedTime}}</text>
+    </view>
+
+  </view>
+</view>
+<!-- 底部联系客服再次/购买 -->
+<view class='secondOrderLeader'>
+  <button open-type='contact'>联系客服</button>
+</view>
