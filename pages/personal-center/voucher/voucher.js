@@ -223,6 +223,7 @@ Page({
         }).then((res) => {
           if (res.data.code == 0) {
             let _data = res.data.data;
+            app.globalData.userInfo.userId = _data.id;
             for (let key in _data) {
               for (let ind in app.globalData.userInfo) {
                 if (key == ind) {

@@ -12,6 +12,7 @@ var village_LBS = function(that) {
         longitude = res.longitude;
       app.globalData.userInfo.lat = latitude;
       app.globalData.userInfo.lng = longitude;
+      console.log("req133333333")
       that.requestCityName(latitude, longitude);
     },
   })
@@ -48,6 +49,14 @@ Page({
     _lng: ''
   },
   onLoad: function(options) {
+    let _token = wx.getStorageSync('token') || {};
+    let userInfo = wx.getStorageSync('userInfo') || {};
+    if(userInfo){
+      app.globalData.userId = userInfo;
+    }
+    if(_token){
+      app.globalData.token = _token;
+    }
     this.setData({
       refId: options.refId, //菜品Id
       shopId: options.shopId, //商家Id
@@ -60,7 +69,7 @@ Page({
       _lat: options.lat ? options.lat : '',
       _lng: options.lng ? options.lng : '',
     });
-    this.getUserlocation();
+    // this.getUserlocation();
   },
   onShow() {
     let that = this;
@@ -71,17 +80,21 @@ Page({
       isshowlocation:false
     });
     
-    this.getUserlocation();
+  
     if (app.globalData.userInfo.userId) {
       if (app.globalData.userInfo.mobile) {
         if (app.globalData.token) {
+          
           if (app.globalData.userInfo.lat && app.globalData.userInfo.lng) {
             if (that.data._city || app.globalData.userInfo.city) {
+              console.log("3213213213")
               this.hotDishList();
             }
           } else {
+            console.log("aaaaa")
             this.getlocation();
           }
+          console.log("bbbbb")
           this.dishDetail(); //查询菜详情
           if (this.data.groupId) {
             this.bargain();
@@ -90,34 +103,13 @@ Page({
           }
           
         } else {
-          this.authlogin();
+          // this.authlogin();
         }
       } else {
         this.authlogin();
       }
     } else {
-      this.findByCode();
-    }
-    return
-    // if (this.data._city){
-    //   app.globalData.userInfo.city = this.data._city;
-    // }
-    if (app.globalData.userInfo.userId) {
-      if (!app.globalData.userInfo.mobile) { //是新用户，去注册页面
-        wx.navigateTo({
-          url: '../../../../pages/personal-center/securities-sdb/securities-sdb?back=1'
-        })
-      }
-      
-      
-      if (app.globalData.userInfo.lat && app.globalData.userInfo.lng) {
-        if (this.data._city || app.globalData.userInfo.city) {
-          this.hotDishList();
-        }
-      } else {
-        this.getlocation();
-      }
-    } else {
+      // this.getUserlocation();
       this.findByCode();
     }
   },
@@ -189,9 +181,11 @@ Page({
           }
           if (app.globalData.userInfo.lat && app.globalData.userInfo.lng) {
             if (that.data._city || app.globalData.userInfo.city) {
+              console.log("1231231321")
               that.hotDishList();
             }
           } else {
+            that.getUserlocation();
             that.getlocation();
           }
         }
@@ -205,6 +199,7 @@ Page({
       success: function (res) {
         let latitude = res.latitude,
           longitude = res.longitude;
+        console.log("req222")
         that.requestCityName(latitude, longitude);
       },
       fail: function (res) {
@@ -238,6 +233,7 @@ Page({
             success: function (res) {
               let latitude = res.latitude,
                 longitude = res.longitude;
+              console.log("222req")
               that.requestCityName(latitude, longitude);
             },
           })
@@ -245,9 +241,7 @@ Page({
           that.setData({
             isshowlocation: true
           })
-          // let lat = '32.6226',
-          //   lng = '110.77877';
-          // that.requestCityName(lat, lng);
+
         }
       }
     })
@@ -264,6 +258,7 @@ Page({
         let longitude = res.longitude;
         app.globalData.userInfo.lat = latitude;
         app.globalData.userInfo.lng = longitude;
+        console.log("req1111")
         that.requestCityName(latitude, longitude);
       },
 
@@ -289,6 +284,7 @@ Page({
       app.globalData.userInfo.lng = lng;
       if (app.globalData.userInfo.city || this.data._city) {
         that.dishDetail();
+        console.log("111112312321")
         that.hotDishList();
         that.bargain();
       } else {
@@ -311,6 +307,7 @@ Page({
               app.globalData.oldcity = app.globalData.userInfo.city;
               wx.setStorageSync('userInfo', app.globalData.userInfo);
               that.dishDetail();
+              console.log("11111")
               that.hotDishList();
               that.bargain();
             }
@@ -765,7 +762,7 @@ Page({
     });
     this.hotDishList();
   },
-  onPullDownRefresh: function() {
+  onPullDownRefresh: function() { //下拉刷新 
     this.setData({
       flag: true,
       hotDishList: [],

@@ -7,10 +7,8 @@ var utils = require('../../utils/util.js')
 var app = getApp();
 
 var village_LBS = function(that) {
-  console.log('village_LBS')
   wx.getLocation({
     success: function(res) {
-      console.log('village_LBSres',res)
       let latitude = res.latitude;
       let longitude = res.longitude;
       that.requestCityName(latitude, longitude);
@@ -213,7 +211,10 @@ Page({
         syhotdish: txtObj.sydish,
         whhotdish: txtObj.whdish
       }, () => {
-        this.getCutDish();
+        if (_token){
+          app.globalData.token=_token;
+          this.getCutDish();
+        }
       })
     }
 
@@ -271,7 +272,7 @@ Page({
           isNew: true
         })
         if (app.globalData.token) {
-          console.log("token:", app.globalData.token)
+          // console.log("token:", app.globalData.token)
           // that.getuserIdLater2();
           that.getdatamore();
         } else {
@@ -324,6 +325,7 @@ Page({
           if (res.data.code == 0) {
             let _data = res.data.data;
             if (_data.id && _data != null) {
+              app.globalData.userInfo.userId = _data.id;
               for (let key in _data) {
                 for (let ind in app.globalData.userInfo) {
                   if (key == ind) {
@@ -331,9 +333,10 @@ Page({
                   }
                 }
               };
-              app.globalData.userInfo.userId = _data.id;
               that.authlogin();
             }
+            let userInfo = app.globalData.userInfo;
+            wx.setStorageSync('userInfo', userInfo);
             if (!_data.id) {
               if (app.globalData.userInfo.openId && app.globalData.userInfo.unionId) {
                 that.createNewUser();
@@ -506,7 +509,7 @@ Page({
       },
       success: function(res) {
         app.globalData.txtObj = res.data;
-        wx.setStorageSync("txtObj", res.data)
+        wx.setStorageSync("txtObj", res.data);
         if (res.data.flag == 0) { //0显示  
           app.globalData.isflag = true;
           that.setData({
@@ -592,20 +595,8 @@ Page({
       wx.openSetting({ 
         success: (res) => {
           if (res.authSetting['scope.userLocation']) {  
-            // that.getUserlocation();
             village_LBS(that);
-            return
-            console.log('12313213')
-            wx.getLocation({
-              success: function(res) {
-                console.log('12313213res:',res)
-                let latitude = res.latitude,
-                  longitude = res.longitude;
-                that.requestCityName(latitude, longitude);
-              },
-            })
           } else {
-            console.log("nono")
             that.setData({
               isshowlocation: true
             })
@@ -651,7 +642,6 @@ Page({
   },
 
   requestCityName(lat, lng) { //获取当前城市
-    console.log('requestCityName')
     let that = this;
     app.globalData.userInfo.lat = lat;
     app.globalData.userInfo.lng = lng;
@@ -687,7 +677,6 @@ Page({
   },
 
   getCutDish: function() { // 获取砍菜数据
-    console.log('getCutDish')
     let that = this;
     this.setData({
       bargainList: [],
@@ -820,12 +809,10 @@ Page({
     }
   },
   getdishDetail: function(Id, shopId) { //查询单个砍菜详情
-
     let that = this,
       _parms = {},
       _arr = [],
       arr = [];
-
     _parms = {
       Id: Id,
       zanUserId: app.globalData.userInfo.userId,
@@ -981,8 +968,6 @@ Page({
     this.getCutDish();
   },
   onReachBottom: function() { //用户上拉触底加载更多
-    console.log("pageTotal:", this.data.pageTotal)
-    console.log("_page:", this.data._page)
     if (this.data.pageTotal < this.data._page) { //当前页码大于等于数据总页码
 
     } else {

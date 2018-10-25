@@ -22,7 +22,7 @@ Page({
     ind: 0,
     currentIndex: 0,
     navbar: ['提蟹券', '优惠券', ],
-    tabs: ["提蟹券", "赠送记录", "领取记录"]
+    tabs: ["我的票券", "赠送记录", "领取记录"]
   },
   onLoad: function(options) {
     wx.showLoading({
@@ -142,6 +142,7 @@ Page({
         }).then((res) => {
           if (res.data.code == 0) {
             let _data = res.data.data;
+            app.globalData.userInfo.userId = _data.id;
             for (let key in _data) {
               for (let ind in app.globalData.userInfo) {
                 if (key == ind) {
@@ -567,10 +568,11 @@ Page({
     let id = e.currentTarget.id,
       _skuName = e.currentTarget.dataset.index,
       _isUsed = e.currentTarget.dataset.used,
+      _type = e.currentTarget.dataset.type,
       _orderId = e.target.dataset.order;
     if (_isUsed == 0) {
       wx.navigateTo({
-        url: '../../index/crabShopping/voucherDetails/voucherDetails?id=' + id + '&skuname=' + _skuName
+        url: '../../index/crabShopping/voucherDetails/voucherDetails?id=' + id + '&skuname=' + _skuName+'&type='+_type
       })
     }
   },

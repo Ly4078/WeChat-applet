@@ -41,6 +41,7 @@ Page({
               app.globalData.userInfo.userId = data.id;
               app.globalData.userInfo.lat = data.locationX;
               app.globalData.userInfo.lng = data.locationY;
+              app.globalData.userInfo.userId = _data.id;
               for (let key in data) {
                 for (let ind in app.globalData.userInfo) {
                   if (key == ind) {

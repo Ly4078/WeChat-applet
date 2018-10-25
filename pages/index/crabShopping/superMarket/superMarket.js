@@ -56,9 +56,9 @@ Page({
       success: res => {
         Api.findByCode({ code: res.code }).then((res) => {
           if (res.data.code == 0) {
-            console.log("findByCoderes:", res)
             let _data = res.data.data;
-            if (_data.id && _data != null) {
+            if ( _data && _data.id ) {
+              app.globalData.userInfo.userId = _data.id;
               for (let key in _data) {
                 for (let ind in app.globalData.userInfo) {
                   if (key == ind) {
@@ -66,7 +66,8 @@ Page({
                   }
                 }
               };
-              app.globalData.userInfo.userId = _data.id;
+              let userInfo = app.globalData.userInfo;
+              wx.setStorageSync('userInfo', userInfo);
               if (_data.mobile){
                 that.authlogin();
               }else{

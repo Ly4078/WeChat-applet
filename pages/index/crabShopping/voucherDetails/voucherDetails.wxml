@@ -3,18 +3,45 @@
  <view class='modalcon'>
     <image class='lierr' src='/images/icon/qinquerr.png'></image>
     <view class='liv1' wx:if="{{isshare}}">领取失败</view>
-    <view class='liv2'>该提蟹券已经被领取</view>
+    <view class='liv2' wx:if="{{qtype == 1}}">该提蟹券已经被领取</view>
+    <view class='liv2' wx:if="{{qtype == 2}}">该提货券已经被领取</view>
     <view class='viewbuti'>返回首页</view>
   </view> 
 </view>
+
 <!-- 回到时首页 -->
 <image class="indexIcon" src="/images/icon/indexIcon.png" bindtap='toIndex' wx:if="{{!isreceive}}"></image>
 
+<!-- 展示提货券二维码 -->
+<view class='modal_box' wx:if="{{isshowticode}}" bindtap='closemodal'>
+  <view class='whitebox'>
+    <view class='boxt1'>请持提货码至</view>
+    <view class='boxt2'>
+   <image class='mapicon'  src="/images/icon/mapicon.png" ></image>{    <!--{current.salePoint.salepointName}} -->{{current.couponCode}}
+    </view>
+    <view class='boxt3'>提取商品</view>
+    <image class='qrcode' src="{{current.qrcodeUrl}}"></image>
+    <view class='boxt4'>提货码：{{current.couponCode}}</view>
+  </view>
+  <image class='closeimg' src="/images/icon/cancel.png" bindtap='closemodal'></image>
+</view>
+
 <!-- 头部图片 -->
-<view class="vouchertop {{isreceive?'vouchertopb':'vouchertopa'}}">
+<view class="vouchertop {{isreceive?'vouchertopb':'vouchertopa'}}" wx:if="{{qtype == 1}}">
   <view class='topview'>
     <text class="vouchername {{isreceive?'itemNameb':'itemNamea'}}">{{current.sku}}</text>
     <text class="voucode {{isreceive?'codeb':'codea'}}">券号：{{current.couponCode}}</text>
+  </view>
+</view>
+
+<view class="vouchertop {{isreceive?'thqsitem':'thqitem'}}" wx:if="{{qtype == 2}}">
+  <view class='topview'>
+    <text class="thname {{isreceive?'codeb':'codea'}}">提货券</text>
+        <text class='thhx'>__</text>
+        <text class="thguige {{isreceive?'codeb':'codea'}}">{{current.orderItemOuts[0].goodsSkuName}} {{current.orderItemOuts[0].giftNum+current.orderItemOuts[0].goodsNum}}只</text>
+        <text class="thshop {{isreceive?'codeb':'codea'}}">提货门店:{{current.salePoint.salepointName}}</text>
+        <text class="thCode {{isreceive?'codeb':'codea'}}">券码：{{current.couponCode}}</text>
+        <text class="thdate {{isreceive?'codeb':'codea'}}">有效期:{{current.expiryDate}}</text>
   </view>
 </view>
 
@@ -96,6 +123,7 @@
 </view>
 
 <view class='norece' wx:if="{{isreceive}}">
-  <view class='isrecp1'><text>!</text>该提蟹券已经被领取</view>
+  <view class='isrecp1' wx:if="{{qtype == 1}}"><text>!</text>该提蟹券已经被领取</view>
+  <view class='isrecp1' wx:if="{{qtype == 2}}"><text>!</text>该提货券已经被领取</view>
   <view class='isrecp2' bindtap='toIndex'>返回首页</view>
 </view>

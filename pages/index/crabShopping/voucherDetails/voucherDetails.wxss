@@ -20,6 +20,12 @@ page{
 .vouchertopb{
    background-image:url(https://xqmp4-1256079679.file.myqcloud.com/test_vdf20180921222226.png);
 }
+.thqitem{
+   background-image:url(https://xqmp4-1256079679.file.myqcloud.com/13971489895_aa0000.png);
+}
+.thqsitem{
+   background-image:url(https://xqmp4-1256079679.file.myqcloud.com/13971489895_aa1111.png);
+}
 .itemNamea{
   color:  #E4D08B;
   text-shadow:0rpx 1rpx 1rpx rgba(0,0,0,1);
@@ -33,6 +39,48 @@ page{
 }
 .codeb{
   color: #7A7A7A;
+}
+.thname{
+  position: absolute;
+  top: 48rpx;
+  left: 29rpx;
+  color: #fff;
+  font-size: 50rpx;
+}
+.thhx{
+  position: absolute;
+  top: 60rpx;
+  left: 31rpx;
+  font-size: 60rpx;
+  color: #fff;
+}
+.thguige{
+  position: absolute;
+  top: 248rpx;
+  left: 30rpx;
+  color: #fff;
+  font-size: 34rpx;
+}
+.thCode{
+  position: absolute;
+  top: 388rpx;
+  left: 32rpx;
+  color: #fff;
+  font-size: 24rpx;
+}
+.thshop{
+  position: absolute;
+  top: 315rpx;
+  left: 29rpx;
+  color: #fff;
+  font-size: 24rpx;
+}
+.thdate{
+  position: absolute;
+  top: 388rpx;
+  left: 436rpx;
+  color: #fff;
+  font-size: 24rpx;
 }
 .topview{
   width: 694rpx;
@@ -275,7 +323,7 @@ button{
   position: fixed;
   right: 20rpx;
   bottom: 100rpx;
-  z-index: 1000;
+  z-index: 15;
   width: 100rpx;
   height: 100rpx;
 }
@@ -384,4 +432,44 @@ button{
   background:rgba(255,110,2,1);
   border-radius:33rpx;
   margin-left: 260rpx;
+}
+.modal_boxvou{
+  position: relative;
+}
+.whitebox{
+  width:532rpx;
+  height:470rpx;
+  padding: 50rpx 0;
+  background:rgba(255,255,255,1);
+  border-radius:16px;
+  margin-top: 240rpx;
+  margin-left: 110rpx;
+  text-align: center;
+  color: #191919;
+}
+.closeimg{
+  width:70rpx;
+  height:70rpx;
+  margin-top: 53rpx;
+  margin-left: 338rpx;
+}
+.boxt1, .boxt2, .boxt3{
+  width: 100%;
+  height: 50rpx;
+  line-height: 50rpx;
+  font-size: 30rpx;
+}
+.boxt2{
+  color: #5578BA;
+}
+.boxt4{
+  font-size: 30rpx;
+}
+.qrcode{
+  width:266rpx;
+  height:266rpx;
+}
+.mapicon{
+  width: 25rpx;
+  height: 25rpx;
 }

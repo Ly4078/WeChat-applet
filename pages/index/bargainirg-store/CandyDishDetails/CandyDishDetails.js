@@ -74,9 +74,6 @@ Page({
           isnew: true
         });
         this.authlogin();
-        // wx.navigateTo({
-        //   url: '/pages/personal-center/registered/registered'
-        // })
       }
     } else {
       this.findByCode();
@@ -104,9 +101,6 @@ Page({
               that.setData({
                 isnew: true
               });
-              // wx.navigateTo({
-              //   url: '/pages/personal-center/registered/registered'
-              // })
             }
             let userInfo = app.globalData.userInfo;
             if (userInfo.lat || userInfo.lng || userInfo.city) {

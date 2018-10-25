@@ -192,6 +192,12 @@ page {
 .wsyitem{
    background-image:url(https://xqmp4-1256079679.file.myqcloud.com/test_vdf20180921222226.png);
 }
+.thqitem{
+   background-image:url(https://xqmp4-1256079679.file.myqcloud.com/13971489895_aa0000.png);
+}
+.thqsitem{
+   background-image:url(https://xqmp4-1256079679.file.myqcloud.com/13971489895_aa1111.png);
+}
 .itemName{
   font-size: 24rpx;
   line-height:40rpx;
@@ -217,6 +223,48 @@ page {
 }
 .codea{
   color: #FEE48F;
+}
+.thname{
+  position: absolute;
+  top: 48rpx;
+  left: 29rpx;
+  color: #fff;
+  font-size: 50rpx;
+}
+.thshop{
+  position: absolute;
+  top: 315rpx;
+  left: 29rpx;
+  color: #fff;
+  font-size: 24rpx;
+}
+.thhx{
+  position: absolute;
+  top: 60rpx;
+  left: 31rpx;
+  font-size: 60rpx;
+  color: #fff;
+}
+.thguige{
+  position: absolute;
+  top: 248rpx;
+  left: 30rpx;
+  color: #fff;
+  font-size: 34rpx;
+}
+.thCode{
+  position: absolute;
+  top: 388rpx;
+  left: 32rpx;
+  color: #fff;
+  font-size: 24rpx;
+}
+.thdate{
+  position: absolute;
+  top: 388rpx;
+  left: 436rpx;
+  color: #fff;
+  font-size: 24rpx;
 }
 .codeb{
   color: #7A7A7A;

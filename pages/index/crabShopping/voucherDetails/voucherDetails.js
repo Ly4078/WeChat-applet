@@ -17,6 +17,8 @@ Page({
     txtObj:{},
     crabImgUrl: [], // 详情图列表
     isconvert: true,
+    isshowticode:false,
+    ismyqrcode:true,
     vouId: '', //券ID
     kaishi: '',
     isfrst: false,
@@ -26,8 +28,10 @@ Page({
     isreceive: false, //券是否已经被领取
     isgift: true, //能否赠送券给其他人
     errmsg: '',
-    postage: 0,
     _token:'',
+    txtObj:{},
+    postage: 0,
+    qtype:"",
     remarks: '', //备注内容
     date: '', //默认日期
     threeLater: '', //三天后
@@ -64,12 +68,24 @@ Page({
     let _token = wx.getStorageSync('token') || {};
     let userInfo = wx.getStorageSync('userInfo') || {};
     let txtObj = wx.getStorageSync('txtObj') || {};
-    app.globalData.userInfo = userInfo;
-    this.setData({ _token, txtObj});
+    
+   
+   
+    if (userInfo){
+      app.globalData.userInfo = userInfo;
+    }
+    if(_token){
+      app.globalData.token = _token;
+    }
+    if(txtObj){
+      this.setData({ txtObj });
+      app.globalData.txtObj = txtObj;
+    }
     let _crabImgUrl = [],
       that = this;
     this.setData({
-      vouId: options.id
+      vouId: options.id,
+      qtype:options.type
     })
     if (options.isshare) {
       this.setData({
@@ -99,9 +115,11 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function() {
+    console.log('onShareAppMessage', this.data.current)
     let id = this.data.vouId,
       _skuName = this.data.current.styleName,
       _goodsSkuName = this.data.current.goodsSkuName,
+      _type = this.data.qtype,
       _versionNo = this.data.current.versionNo,
       _mgsUrl = "",
       _shareimgs = this.data.shareimgs;
@@ -113,7 +131,7 @@ Page({
     return {
       title: _goodsSkuName,
       imageUrl: _mgsUrl,
-      path: '/pages/index/crabShopping/voucherDetails/voucherDetails?id=' + id + '&isshare=true&shareId=' + app.globalData.userInfo.userId + '&versionNo=' + _versionNo,
+      path: '/pages/index/crabShopping/voucherDetails/voucherDetails?id=' + id + '&isshare=true&shareId=' + app.globalData.userInfo.userId + '&versionNo=' + _versionNo+'&type='+_type,
       success: function (res) { }
     }
   },
@@ -167,15 +185,15 @@ Page({
     } else {
       this.findByCode();
     }
-    if (this.data.txtObj) {
-      let _crabImgUrl = [];
-      app.globalData.txtObj=this.data.txtObj;
-      _crabImgUrl = this.data.txtObj.crabImgUrl;
-      _crabImgUrl.splice(1, 1);
-      that.setData({
-        crabImgUrl: _crabImgUrl
-      })
-    }
+    // if (this.data.txtObj) {
+    //   let _crabImgUrl = [];
+    //   app.globalData.txtObj=this.data.txtObj;
+    //   _crabImgUrl = this.data.txtObj.crabImgUrl;
+    //   _crabImgUrl.splice(1, 1);
+    //   that.setData({
+    //     crabImgUrl: _crabImgUrl
+    //   })
+    // }
     if (this.data.isfrst) {
       this.frestrue();
     }
@@ -189,21 +207,46 @@ Page({
   },
   getTXT:function(){  //查询配置文件
     let _crabImgUrl=[],that = this;
-    wx.request({
-      url: that.data._build_url + 'version.txt',
-      header: {
-        "Authorization": app.globalData.token
-      },
-      success: function (res) {
-        wx.setStorageSync("txtObj", res.data);
-        app.globalData.txtObj = res.data;
-        _crabImgUrl = res.data.crabImgUrl;
+    if (that.data.txtObj) {
+      app.globalData.txtObj = that.data.txtObj;
+      _crabImgUrl = that.data.txtObj.crabImgUrl;
+      if(that.data.qtype == 1){
         _crabImgUrl.splice(1, 1);
         that.setData({
           crabImgUrl: _crabImgUrl
         })
+      }else if(that.data.qtype == 2){
+        _crabImgUrl.splice(0, 2);
+        _crabImgUrl.splice(_crabImgUrl.length-1);
+        that.setData({
+          crabImgUrl: _crabImgUrl
+        })
       }
-    })
+    }else{
+      wx.request({
+        url: that.data._build_url + 'version.txt',
+        header: {
+          "Authorization": app.globalData.token
+        },
+        success: function (res) {
+          wx.setStorageSync("txtObj", res.data);
+          app.globalData.txtObj = res.data;
+          _crabImgUrl = res.data.crabImgUrl;
+          if (that.data.qtype == 1) {
+            _crabImgUrl.splice(1, 1);
+            that.setData({
+              crabImgUrl: _crabImgUrl
+            })
+          } else if (that.data.qtype == 2) {
+            _crabImgUrl.splice(0, 2);
+            _crabImgUrl.splice(_crabImgUrl.length - 1);
+            that.setData({
+              crabImgUrl: _crabImgUrl
+            })
+          }
+        }
+      })
+    }
   },
   //返回首页
   closemodel: function () {
@@ -236,6 +279,7 @@ Page({
               current: _data,
               crabImgUrl: _crabImgUrl,
             })
+
             console.log("_data:", _data)
             if (_data.isUsed == 1) {
                 console.log("bbbbbbbbb")
@@ -258,13 +302,19 @@ Page({
                 if (_data.ownId == app.globalData.userInfo.userId || !_data.ownId) {
                   console.log("11111111--111")
                   //自己点击自己发出的券,未被人领取，不做处理
+                  if(that.data.qtype == 2){
+                    that.setData({ ismyqrcode:true})
+                  }
                   if (val == 1) {
                     console.log("11111111--222")
                     that.sendredeemNow();
                   }
                 } else if (_data.ownId != app.globalData.userInfo.userId) {
                   console.log("222222-")
-                  //自己点击自己发出的券,已被人领取
+                  //自己点击自己发出的券,已被他人领取
+                  if (that.data.qtype == 2) {
+                    that.setData({ ismyqrcode: true })
+                  }
                   if (val == 1) {
                     console.log("222222-1111111")
                     wx.showModal({
@@ -439,7 +489,7 @@ Page({
   //领取提蟹券
   getsendCoupon: function(val) {
     if(val){
-      let _parms = {}, that = this, _value="",url="",_Url="";
+      let _parms = {}, that = this, _value = "", url = "", _Url = "",_txt = "";
       _parms = {                                              
         orderCouponCode: this.data.current.couponCode,
         sendUserId: this.data.shareId,
@@ -465,9 +515,14 @@ Page({
           console.log('getsendCoupo1n', res)
           if (res.data.code == 0) {
             that.getorderCoupon("a");
+            if(that.data.qtype == 1){
+              _txt = '领取提蟹券成功';
+            }else{
+              _txt = '领取提货券成功';
+            }
             wx.showModal({
               title: '提示',
-              content: '领取提蟹券成功',
+              content: _txt,
               showCancel: false,
               success: function (res) {
                 if (res.confirm) {
@@ -649,7 +704,10 @@ Page({
       }
     }
   },
-
+  closemodal(){
+    this.setData({ isshowticode:false});
+    this.getorderCoupon();
+  },
   //点击立即兑换  1
   redeemNow: function() {
     if (app.globalData.userInfo.mobile) { 
@@ -659,10 +717,20 @@ Page({
       //   url: '/pages/personal-center/securities-sdb/securities-sdb?back=1'
       // })
     }
-    
   },
   //兑换提货  2
   sendredeemNow: function() {
+    if (this.data.qtype == 2) {
+      if (this.data.ismyqrcode) {
+        this.setData({ isshowticode: true });
+      } else {
+        wx.showToast({
+          title: '该提货券已被领取',
+          icon: 'none'
+        })
+      }
+      return
+    }
     if (!this.data.isfrst) {
       this.setData({
         isfrst: true

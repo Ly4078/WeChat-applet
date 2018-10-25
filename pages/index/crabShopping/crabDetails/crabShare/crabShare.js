@@ -59,8 +59,6 @@ Page({
   },
   onShow() {
     let that = this;
-    console.log("globalData:", app.globalData)
-    console.log("groupId:", this.data.groupId)
     if (app.globalData.userInfo.userId) {
       if (app.globalData.userInfo.mobile) {
         if (app.globalData.token) {
@@ -145,7 +143,6 @@ Page({
         if (res.data.code == 0) {
           let _token = 'Bearer ' + res.data.data;
           app.globalData.token = _token;
-          console.log("crab__token:", _token);
           that.dishDetail(); //查询菜详情
           if (that.data.groupId) {
             that.bargain();
@@ -190,7 +187,6 @@ Page({
     } else {
       app.globalData.userInfo.lat = lat;
       app.globalData.userInfo.lng = lng;
-      console.log('212行：==============requestCityName:', lat, lng);
       if (app.globalData.userInfo.city || this.data._city) {
 
         that.bargain();
@@ -399,16 +395,13 @@ Page({
   //查询砍价菜详情
   dishDetail() {
     let that = this, _parms={};
-    console.log("dishDetail")
     _parms = {
       Id: this.data.refId,
       zanUserId: this.data.initiator ? this.data.initiator : app.globalData.userInfo.userId,
       shopId: this.data.shopId,
       token: app.globalData.token
     };
-    console.log('412行：============' + _parms);
     Api.crabDishDetail(_parms).then((res) => {
-      console.log("res:",res);
       if(res.data.code == 0){
         if(res.data.data){
           let data = res.data.data;
@@ -445,7 +438,6 @@ Page({
       token: app.globalData.token
     };
     Api.isBargainCrab(_parms).then((res) => {
-      console.log('448行：===================' + res.data.code);
       let code = res.data.code,
         otherStatus = 1;
       if (code == 0) {
@@ -467,7 +459,6 @@ Page({
   },
   //帮好友砍价
   helpfriend() {
-    console.log('helpfriend')
     let _this = this, _parms = {};
     if (!app.globalData.userInfo.mobile) {
       wx.navigateTo({
@@ -481,9 +472,7 @@ Page({
         groupId: this.data.groupId,
         token: app.globalData.token
       };
-      console.log("_parms:", _parms)
       Api.isBargainCrab(_parms).then((res) => {
-        console.log('res:',res)
         if (res.data.code == 0) {
           _this.setData({
             otherStatus: 1
@@ -548,7 +537,6 @@ Page({
     }
   },
   tobargainCrab:function(){//帮好友砍螃蟹
-    console.log('tohelpfriend')
     let _parms = {}, _this = this, _value = "";
     _parms = {
       refId: this.data.refId,

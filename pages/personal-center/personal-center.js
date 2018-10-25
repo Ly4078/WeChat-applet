@@ -253,7 +253,8 @@ Page({
       _parms.iconUrl = data.avatarUrl
     }
     if (data.nickName) {
-      _parms.nickName = data.nickName
+      // _parms.nickName = data.nickName;
+      _parms.nickName = utils.utf16toEntities(data.nickName);
     }
     if (data.gender) {
       _parms.sex = data.gender
@@ -510,7 +511,6 @@ Page({
     })
   },
   //判断二维码是否可以跳转
-
   getCodeState: function() {
     console.log('getCodeState')
     let that = this;

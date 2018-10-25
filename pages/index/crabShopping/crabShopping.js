@@ -95,13 +95,11 @@ Page({
     this.setData({
       isshowlocation: false
     })
-    console.log('onShow')
     let _token = wx.getStorageSync('token') || {};
     let userInfo = wx.getStorageSync('userInfo') || {};
     app.globalData.userInfo=userInfo;
   
     if(_token){
-      console.log("_token:", _token)
       app.globalData.token=_token;
       // if (userInfo.lat && userInfo.lng && userInfo.city){
       //   this.getlisdtaa();
@@ -123,6 +121,7 @@ Page({
           if (res.data.code == 0) {
             let _data = res.data.data;
             if (_data.id && _data != null) {
+              app.globalData.userInfo.userId = _data.id;
               for (let key in _data) {
                 for (let ind in app.globalData.userInfo) {
                   if (key == ind) {
@@ -130,7 +129,6 @@ Page({
                   }
                 }
               };
-              app.globalData.userInfo.userId = _data.id;
               let userInfo = app.globalData.userInfo;
               wx.setStorageSync('userInfo', userInfo);
             }
@@ -148,7 +146,6 @@ Page({
   },
 
   authlogin: function () { //获取token
-    console.log('authlogin')
     let that = this;
     wx.request({
       url: this.data._build_url + 'auth/login?userName=' + app.globalData.userInfo.userName,
@@ -168,18 +165,15 @@ Page({
     })
   },
   getUserlocation: function () { //获取用户位置经纬度
-    console.log('getUserlocation')
     let that = this;
     wx.getLocation({
       type: 'wgs84',
       success: function (res) {
-        console.log("success213:r",res)
         let latitude = res.latitude,
           longitude = res.longitude;
         that.requestCityName(latitude, longitude);
       },
       fail: function (res) {
-        console.log("fail234234:r", res)
         wx.getSetting({
           success: (res) => {
             if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其位置信息          
@@ -190,7 +184,6 @@ Page({
               wx.getLocation({
                 type: 'wgs84',
                 success: function (res) {
-                  console.log("success1111111:r", res)
                   let latitude = res.latitude,
                     longitude = res.longitude;
                   that.requestCityName(latitude, longitude);
@@ -218,7 +211,6 @@ Page({
             },
           })
         } else {
-          console.log("nono")
           that.setData({
             isshowlocation: true
           })
@@ -235,7 +227,7 @@ Page({
       _page: 1,
       sPage: 1
     }, () => {
-      console.log(swichrequestflag);
+      // console.log(swichrequestflag);
       if (swichrequestflag[idx]) {
         return;
       }
@@ -295,10 +287,8 @@ Page({
       rows: 10,
       token: app.globalData.token
     };
-    console.log('_parms:', _parms)
     swichrequestflag[types] = true;
     Api.crabList(_parms).then((res) => {
-        console.log('rewrwres:',res)
       if (res.data.code == 0) {
         let _listData = this.data.listData;
         if (this.data.page == 1) {
@@ -444,7 +434,6 @@ Page({
     }
   },
   requestCityName(lat, lng) { //获取当前城市
-    console.log("requestCityName")
     let that = this;
     app.globalData.userInfo.lat = lat;
     app.globalData.userInfo.lng = lng;
@@ -457,16 +446,15 @@ Page({
         if (res.data.status == 0) {
           if (res.data.result.address_component.city){
             let _city = res.data.result.address_component.city;
-            if (_city == '十堰市') {
-              app.globalData.userInfo.city = _city;
-            } else {
-              app.globalData.userInfo.city = '十堰市';
-            }
+            // if (_city == '十堰市') {
+            //   app.globalData.userInfo.city = _city;
+            // } else {
+            //   app.globalData.userInfo.city = '十堰市';
+            // }
             app.globalData.picker = res.data.result.address_component;
            
             let userInfo = app.globalData.userInfo;
             wx.setStorageSync('userInfo', userInfo);
-            console.log("12312312")
             that.getlisdtaa();
           }
         }
@@ -475,9 +463,7 @@ Page({
   },
   getlisdtaa: function () {
     let that = this;
-    console.log('getlisdtaa', this.data.currentTab)
     if (this.data.currentTab == 0) {
-      console.log('2424242423')
       this.setData({
         page: 1,
         listData: []
@@ -515,7 +501,7 @@ Page({
   },
   //下拉刷新
   onPullDownRefresh: function () {
-    console.log(swichrequestflag)
+    // console.log(swichrequestflag)
     if (this.data.currentTab == 0) {
       if (swichrequestflag[0]) {
         return;
