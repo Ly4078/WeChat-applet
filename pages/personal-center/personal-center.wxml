@@ -164,15 +164,15 @@
         </view>
       </view>
     </view>
-    <!-- <view class='myList myList_wo'>
+    <view class='myList myList_wo'>
       <view class='myList-single' catchtap='feedback'>
         <view>
           <image class='myListImages' src='/images/icon/juxinges.png'></image>
-          <text class='mylistText'>意见反馈</text>
+          <text class='mylistText'>帮助与反馈</text>
         </view>
         <image class='myListArrows' src='/images/icon/home_arrow.png'></image>
       </view>
-    </view> -->
+    </view>
     <view class='myList myList_wo'>
       <view class='myList-single' catchtap='aboutMe'>
         <view>

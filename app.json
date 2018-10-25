@@ -1,6 +1,5 @@
 {
   "pages": [
-   
     "pages/index/index",
     "pages/index/crabShopping/crabDetails/submitOrder/submitOrder",   
     "pages/index/crabShopping/crabDetails/crabDetails",
@@ -42,6 +41,7 @@
     "pages/personal-center/my-discount/my-discount",
     "pages/personal-center/my-discount/expired-ticket/expired-ticket",
     "pages/personal-center/registered/registered",
+    "pages/personal-center/popularize/popularize",
     "pages/discover-plate/discover-plate",
     "pages/index/voucher-details/voucher-details",
     "pages/index/user-location/user-location",
