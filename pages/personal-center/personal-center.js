@@ -37,7 +37,6 @@ Page({
         ismobile: false
       })
     };
-
     this.getuserInfo();
   },
   onShow: function () {
@@ -360,14 +359,20 @@ Page({
         success: (res) => {
           if (res.data.status == 0) {
             let _city = res.data.result.address_component.city;
-            app.globalData.userInfo.city = _city;
+            if (_city == '十堰市') {
+              app.globalData.userInfo.city = _city;
+            } else {
+              app.globalData.userInfo.city = '十堰市';
+            }
+            app.globalData.picker = res.data.result.address_component;
+            let userInfo = app.globalData.userInfo;
+            wx.setStorageSync('userInfo', userInfo);
             this.setData({
               city: _city,
               alltopics: [],
               restaurant: [],
               service: []
             })
-            // app.globalData.userInfo.city = res.data.result.address_component.city
           }
         }
       })
@@ -477,8 +482,11 @@ Page({
       onlyFromCamera: true,
       scanType: "qrCode",
       success: (res) => {
+        console.log('success:',res)
         let qrCodeArr = res.result.split('/');
+        console.log('qrCodeArr:', qrCodeArr);
         let qrCode = qrCodeArr[qrCodeArr.length - 1];
+        console.log('qrCode:', qrCode);
         that.setData({
           qrdata: res,
           qrCode: qrCode
@@ -486,6 +494,7 @@ Page({
         that.getCodeState();
       },
       fail: (res) => {
+        console.log('fail:', res)
         wx.showToast({
           title: '扫码失败',
           mask: 'true',
@@ -501,7 +510,9 @@ Page({
     })
   },
   //判断二维码是否可以跳转
-  getCodeState: function () {
+
+  getCodeState: function() {
+    console.log('getCodeState')
     let that = this;
     wx.request({
       url: that.data.qrdata.result,

@@ -19,29 +19,105 @@ Page({
     browSort: '',
     searchValue:'',
     timer:null,
-    pageTotal:1
+    pageTotal:1,
+    _val:""
   },
 
   onLoad: function (options) {
+    let _val = "";
     if (options.cate) {
       this.data.businessCate = options.cate
     }
+    let _token = wx.getStorageSync('token') || {};
+
+    app.globalData.token = _token;
+
+
     //在此函数中获取扫描普通链接二维码参数
     let q = decodeURIComponent(options.q)
     if (q) {
       if (utils.getQueryString(q, 'flag') == 1){
-        console.log(utils.getQueryString(q, 'shopCode'))
-        this.getshopInfo(utils.getQueryString(q, 'shopCode'));
+        // console.log(utils.getQueryString(q, 'shopCode'))
+        _val = utils.getQueryString(q, 'shopCode');
+        // this.getshopInfo(utils.getQueryString(q, 'shopCode'));
       }
     }
-    wx.showLoading({
-      title: '加载中...',
-    })
-    this.getData();
+    
+    if(_val){
+      this.setData({ _val})
+    }
+    if (_token){
+      if(_val){
+        this.getshopInfo(_val);
+      }
+      this.getData();
+      this.getUserlocation();
+    }else{
+      this.findByCode();
+    }
+   
   },
   onShow: function () {
     this.setData({
-      isclosure: true
+      isclosure: true,
+      isshowlocation: false
+    })
+  },
+
+  // 初始化start
+  findByCode: function () { //通过code查询用户信息
+    let that = this;
+    wx.login({
+      success: res => {
+        Api.findByCode({
+          code: res.code
+        }).then((res) => {
+          if (res.data.code == 0) {
+            let _data = res.data.data;
+            if (_data.id && _data != null) {
+              for (let key in _data) {
+                for (let ind in app.globalData.userInfo) {
+                  if (key == ind) {
+                    app.globalData.userInfo[ind] = _data[key]
+                  }
+                }
+              };
+              app.globalData.userInfo.userId = _data.id;
+             
+            }
+            if (!_data.id) {
+              if (app.globalData.userInfo.openId && app.globalData.userInfo.unionId) {
+                that.createNewUser();
+              } 
+            }else{
+              that.authlogin();
+            }
+          }
+        })
+      }
+    })
+  },
+  authlogin: function () { //获取token
+    let that = this;
+    wx.request({
+      url: this.data._build_url + 'auth/login?userName=' + app.globalData.userInfo.userName,
+      method: "POST",
+      data: {},
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        if (res.data.code == 0) {
+          let _token = 'Bearer ' + res.data.data;
+          app.globalData.token = _token;
+          wx.setStorageSync('token', _token);
+          that.getData();
+          that.getUserlocation();
+          if (that.data._val){
+            that.getshopInfo(_val);
+          }
+        }
+      }
     })
   },
   //通过shopcode查询商家信息
@@ -59,14 +135,18 @@ Page({
     })
   },
   getData: function (){
-    let _parms = {
+    let that = this, _parms = {};
+    _parms = {
       locationX: app.globalData.userInfo.lng,
       locationY: app.globalData.userInfo.lat,
       city: app.globalData.userInfo.city,
       page: this.data.page ? this.data.page:1,
       rows: 8,
       token: app.globalData.token
-    }
+    };
+    wx.showLoading({
+      title: '加载中...',
+    })
     if (this.data.businessCate) { //美食类别 
       _parms.businessCate = this.data.businessCate
     }
@@ -79,32 +159,32 @@ Page({
     requesting = true
     if (this.data.businessCate == '川湘菜') {
       Api.listForChuangXiang(_parms).then((res) => {
-        let that = this
+        wx.hideLoading();
         wx.stopPullDownRefresh();
-        let data = res.data;
-        if (data.code == 0 && data.data.list != null && data.data.list != "" && data.data.list != []) {
-          let posts = this.data.posts_key;
-          let _data = data.data.list
-          for (let i = 0; i < _data.length; i++) {
-            console.log("_data[i].distance:", _data[i].distance)
-            _data[i].distance = utils.transformLength(_data[i].distance);
-            _data[i].activity = _data[i].ruleDescs ? _data[i].ruleDescs.join(',') : '';
-            posts.push(_data[i])
+        if(res.data.code == 0){
+          if(res.data.data.list.length>0){
+            let data = res.data;
+            let posts = this.data.posts_key;
+            let _data = data.data.list
+            for (let i = 0; i < _data.length; i++) {
+              _data[i].distance = utils.transformLength(_data[i].distance);
+              _data[i].activity = _data[i].ruleDescs ? _data[i].ruleDescs.join(',') : '';
+              posts.push(_data[i])
+            }
+            that.setData({
+              posts_key: posts,
+              pageTotal: Math.ceil(res.data.data.total / 8),
+              loading: false
+            }, () => {
+              requesting = false
+              wx.hideLoading();
+            })
           }
-          that.setData({
-            posts_key: posts,
-            pageTotal:Math.ceil(res.data.data.total /8),
-            loading: false
-          },()=>{
-            requesting = false
-            wx.hideLoading();
-          })
         }else{
           this.setData({
             loading: false
           })
-          requesting = false
-          wx.hideLoading();
+          requesting = false;
         }
       },()=>{
         this.setData({
@@ -217,29 +297,94 @@ Page({
       timer: _timer
     });
    
-    // Api.shoplist(_parms).then((res) => {
-    //   if (res.data.code == 0 && res.data.data.list != [] && res.data.data.list != '') {
-    //     this.setData({
-    //       posts_key: res.data.data.list
-    //     });
-    //   }
-    // })
   },
-  // onSearchInp: function () {
-  //   let _parms = {
-  //     searchKey: this.data.searchValue
-  //   }
-  //   Api.shoplist(_parms).then((res) => {
-  //     this.setData({
-  //       posts_key: res.data.data.list
-  //     });
-  //   })
-  // },
+
   //点击列表跳转详情
   onTouchItem: function (event) {
    
     wx.navigateTo({
       url: '../merchant-particulars/merchant-particulars?shopid=' + event.currentTarget.id,
+    })
+  },
+  getUserlocation: function () { //获取用户位置经纬度
+    let that = this;
+    wx.getLocation({
+      type: 'wgs84',
+      success: function (res) {
+        let latitude = res.latitude,
+          longitude = res.longitude;
+        that.requestCityName(latitude, longitude);
+      },
+      fail: function (res) {
+        wx.getSetting({
+          success: (res) => {
+            if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其位置信息          
+              that.setData({
+                isshowlocation: true
+              })
+
+            } else {
+              that.getCutDish();
+            }
+          }
+        })
+      }
+    })
+  },
+  openSetting() {//打开授权设置界面
+    let that = this;
+    that.setData({
+      isshowlocation: false
+    })
+    wx.openSetting({
+      success: (res) => {
+        if (res.authSetting['scope.userLocation']) { //打开位置授权          
+          // that.getUserlocation();
+          // village_LBS(that);
+          wx.getLocation({
+            success: function (res) {
+              let latitude = res.latitude,
+                longitude = res.longitude;
+              that.requestCityName(latitude, longitude);
+            },
+          })
+        } else {
+          that.setData({
+            isshowlocation: true
+          })
+          // let lat = '32.6226',
+          //   lng = '110.77877';
+          // that.requestCityName(lat, lng);
+        }
+      }
+    })
+  },
+  //获取城市
+  requestCityName(lat, lng) { //获取当前城市
+    let that = this;
+    app.globalData.userInfo.lat = lat;
+    app.globalData.userInfo.lng = lng;
+    wx.request({
+      url: 'https://apis.map.qq.com/ws/geocoder/v1/?location=' + lat + "," + lng + "&key=4YFBZ-K7JH6-OYOS4-EIJ27-K473E-EUBV7",
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: (res) => {
+        if (res.data.status == 0) {
+          let _city = res.data.result.address_component.city;
+          if (_city == '十堰市') {
+            app.globalData.userInfo.city = _city;
+          } else {
+            app.globalData.userInfo.city = '十堰市';
+          }
+          app.globalData.oldcity = app.globalData.userInfo.city;
+          wx.setStorageSync('userInfo', app.globalData.userInfo);
+          that.setData({
+            page:1
+          })
+          that.getData();
+        }
+      }
     })
   },
   onReachBottom: function () {  //用户上拉触底加载更多
@@ -325,7 +470,6 @@ Page({
     })
   },
   nearby: function () {  //附近
-    console.log("nearby")
     this.setData({
       isnearby: true,
       isfood: false,
@@ -333,7 +477,6 @@ Page({
     })
   },
   goodfood: function () {  //美食
-    console.log("goodfood")
     this.setData({
       isnearby: false,
       isfood: true,
@@ -341,7 +484,6 @@ Page({
     })
   },
   sorting: function () {   //综合排序
-    console.log("sorting")
     this.setData({
       isnearby: false,
       isfood: false,

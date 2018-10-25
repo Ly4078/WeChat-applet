@@ -486,7 +486,8 @@ const ALL_API = {
   },
   crabList: {      //享7生鲜--送货到家(螃蟹规格列表)
     method: 'GET',
-    url: 'goodsSku/list'
+    // url: 'goodsSku/list'
+    url: 'goodsSku/listNew'
   },
   listForSkuAllocation: {      //享7生鲜--品质好店(螃蟹列表)
     method: 'GET',
@@ -582,7 +583,8 @@ const ALL_API = {
   },
   orderCoupon:{  //查询我的礼品券列表
     method:'GET',
-    url:'orderCoupon/listForSend'
+    // url:'orderCoupon/listForSend'
+    url:'orderCoupon/listForSendNew'
   },
   dhCoupon: {  //查询我的礼品券兑换记录列表
     method: 'GET',
@@ -643,6 +645,7 @@ const ALL_API = {
   storeSrabList: {   //到店提货螃蟹列表
     method: 'GET',
     url: 'salePoint/getGoodsListBySalePointId'
+    // url:'salePoint/getGoodsListBySalePointIdNew'
   },
   superMarketDetail: {   //超市详情
     method: 'GET',

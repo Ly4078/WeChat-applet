@@ -9,7 +9,7 @@
 		"nodeModules": true
 	},
 	"compileType": "miniprogram",
-	"libVersion": "1.9.93",
+	"libVersion": "2.2.2",
 	"appid": "wxf91e2a026658e78e",
 	"projectname": "miniApps2",
 	"isGameTourist": false,
@@ -31,15 +31,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 0,
-			"list": [
-				{
-					"id": -1,
-					"name": "my",
-					"pathName": "pages/personal-center/personnel-order/logisticsDetails/logisticsDetails",
-					"query": "soId=228"
-				}
-			]
+			"list": []
 		}
 	}
 }

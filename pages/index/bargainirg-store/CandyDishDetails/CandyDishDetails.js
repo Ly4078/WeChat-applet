@@ -20,6 +20,7 @@ var village_LBS = function (that) {
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
+    isshowlocation:false,
     issnap: false, //新用户
     isnew: false, //新用户
     shopId: '', //店铺id
@@ -53,8 +54,10 @@ Page({
       id: options.id,
       _city: options.city ? options.city:''
     });
+    this.getUserlocation();
   },
   onShow() {
+    this.getUserlocation();
     if (!app.globalData.userInfo.city) {
       app.globalData.userInfo.city = '十堰市';
     }
@@ -135,6 +138,58 @@ Page({
             // that.isbargain(false);
             // that.getmoreData();
           } 
+        }
+      }
+    })
+  },
+  getUserlocation: function () { //获取用户位置经纬度
+    let that = this;
+    wx.getLocation({
+      type: 'wgs84',
+      success: function (res) {
+        let latitude = res.latitude,
+          longitude = res.longitude;
+        that.requestCityName(latitude, longitude);
+      },
+      fail: function (res) {
+        wx.getSetting({
+          success: (res) => {
+            if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其位置信息          
+              that.setData({
+                isshowlocation: true
+              })
+
+            } else {
+              that.getCutDish();
+            }
+          }
+        })
+      }
+    })
+  },
+  openSetting() {//打开授权设置界面
+    let that = this;
+    that.setData({
+      isshowlocation: false
+    })
+    wx.openSetting({
+      success: (res) => {
+        if (!res.authSetting['scope.userLocation']) { //打开位置授权          
+          // that.getUserlocation();
+          // village_LBS(that);
+          console.log('userLocation')
+          
+          that.setData({
+            isshowlocation: true
+          })
+        } else {
+          wx.getLocation({
+            success: function (res) {
+              let latitude = res.latitude,
+                longitude = res.longitude;
+              that.requestCityName(latitude, longitude);
+            }
+          })
         }
       }
     })
@@ -544,27 +599,8 @@ Page({
         wx.getSetting({
           success: (res) => {
             if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其用户信息或位置信息
-              wx.showModal({
-                title: '提示',
-                content: '更多体验需要你授权位置信息',
-                showCancel:false,
-                confirmText: '确认授权',
-                success: function(res) {
-                  if (res.confirm) {
-                    wx.openSetting({ //打开授权设置界面
-                      success: (res) => {
-                        if (res.authSetting['scope.userLocation']) {
-                          // village_LBS(that);
-                          that.getlocation();
-                        }else{
-                          let latitude = '30.51597',
-                            longitude = '114.34035';
-                          that.requestCityName(latitude, longitude);
-                        }
-                      }
-                    })
-                  }
-                }
+              that.setData({
+                isshowlocation: true
               })
             }
           }
@@ -591,11 +627,14 @@ Page({
           success: (res) => {
             if (res.data.status == 0) {
               let _city = res.data.result.address_component.city;
-              if (_city == "十堰市" || _city == "武汉市"){
+              if (_city == '十堰市') {
                 app.globalData.userInfo.city = _city;
-              }else{
-                app.globalData.userInfo.city = "十堰市";
+              } else {
+                app.globalData.userInfo.city = '十堰市';
               }
+              app.globalData.oldcity = app.globalData.userInfo.city;
+              app.globalData.picker = res.data.result.address_component;
+              wx.setStorageSync('userInfo', app.globalData.userInfo);
               
               that.getmoreData();
               that.isbargain(false);

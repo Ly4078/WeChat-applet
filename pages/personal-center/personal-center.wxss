@@ -168,7 +168,6 @@ page{
   background-color: white;
   line-height: 100rpx;
   border-bottom: 1rpx solid #e0e0e0;
-  
   width: 694rpx;
   margin-left: 28rpx;
 }

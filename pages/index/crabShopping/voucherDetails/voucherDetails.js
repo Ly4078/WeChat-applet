@@ -860,12 +860,6 @@ Page({
         }
       }
     })
-
-
-    return
-    Api.orderCouponForSendAmount(_parms).then((res) => {
-      
-    })
   },
   //支付
   pay: function() {

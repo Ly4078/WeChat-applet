@@ -6,9 +6,11 @@ import {
 var utils = require('../../utils/util.js')
 var app = getApp();
 
-var village_LBS = function (that) {
+var village_LBS = function(that) {
+  console.log('village_LBS')
   wx.getLocation({
-    success: function (res) {
+    success: function(res) {
+      console.log('village_LBSres',res)
       let latitude = res.latitude;
       let longitude = res.longitude;
       that.requestCityName(latitude, longitude);
@@ -22,7 +24,8 @@ Page({
     city: "",
     phone: '',
     phonetwo: '',
-    _token:'',
+    _token: '',
+    isshowlocation: false, //是否显示请求位置授权弹框
     verify: '', //输入的验证码
     verifyId: '', //后台返回的短信验证码
     veridyTime: '', //短信发送时间
@@ -73,50 +76,50 @@ Page({
     isfile: false,
     iskancai: false,
     navs: [{
-      img: 'https://xqmp4-1256079679.file.myqcloud.com/text_701070039850928092.png',
-      id: 1,
-      name: '砍价'
-    },
-    {
-      img: '/images/icon/navcaiting.png',
-      id: 2,
-      name: '餐厅'
-      // }, {
-      //   img: '/images/icon/navruzhu.png',
-      //   id: 3,
-      //   name: '活动'
-    }, {
-      img: '/images/icon/navshiping.png',
-      id: 4,
-      name: '短视频'
-    }, {
-      img: '/images/icon/navhuodong.png',
-      id: 5,
-      name: '商家入驻'
-    }
+        img: 'https://xqmp4-1256079679.file.myqcloud.com/text_701070039850928092.png',
+        id: 1,
+        name: '砍价'
+      },
+      {
+        img: '/images/icon/navcaiting.png',
+        id: 2,
+        name: '餐厅'
+        // }, {
+        //   img: '/images/icon/navruzhu.png',
+        //   id: 3,
+        //   name: '活动'
+      }, {
+        img: '/images/icon/navshiping.png',
+        id: 4,
+        name: '短视频'
+      }, {
+        img: '/images/icon/navhuodong.png',
+        id: 5,
+        name: '商家入驻'
+      }
     ],
     navs2: [{
-      img: 'https://xqmp4-1256079679.file.myqcloud.com/text_701070039850928092.png',
-      id: 1,
-      name: '砍价'
-    },
-    {
-      img: '/images/icon/navcaiting.png',
-      id: 2,
-      name: '餐厅'
-      // }, {
-      //   img: '/images/icon/navruzhu.png',
-      //   id: 3,
-      //   name: '活动'
-    }, {
-      img: '/images/icon/navshiping.png',
-      id: 4,
-      name: '微生活'
-    }, {
-      img: '/images/icon/navhuodong.png',
-      id: 5,
-      name: '商家入驻'
-    }
+        img: 'https://xqmp4-1256079679.file.myqcloud.com/text_701070039850928092.png',
+        id: 1,
+        name: '砍价'
+      },
+      {
+        img: '/images/icon/navcaiting.png',
+        id: 2,
+        name: '餐厅'
+        // }, {
+        //   img: '/images/icon/navruzhu.png',
+        //   id: 3,
+        //   name: '活动'
+      }, {
+        img: '/images/icon/navshiping.png',
+        id: 4,
+        name: '微生活'
+      }, {
+        img: '/images/icon/navhuodong.png',
+        id: 5,
+        name: '商家入驻'
+      }
     ],
     Res: [{
       img: '/images/icon/jxcanting.png',
@@ -177,19 +180,19 @@ Page({
       shopname: "恩施印像",
     }]
   },
-  onLoad: function (options) {
+  onLoad: function(options) {
     let that = this;
     //版本更新
     const updateManager = wx.getUpdateManager();
-    updateManager.onCheckForUpdate(function (res) {
+    updateManager.onCheckForUpdate(function(res) {
       // 请求完新版本信息的回调
       // console.log(res.hasUpdate)
     });
-    updateManager.onUpdateReady(function () {
+    updateManager.onUpdateReady(function() {
       // 新的版本已经下载好，调用 applyUpdate 应用新版本并重启
       updateManager.applyUpdate()
     });
-    updateManager.onUpdateFailed(function () {
+    updateManager.onUpdateFailed(function() {
       // 新的版本下载失败
     });
     let carousel = wx.getStorageSync("carousel") || [];
@@ -199,7 +202,7 @@ Page({
     // let userInfo = wx.getStorageSync('userInfo') || {};
     // userInfo.city = userInfo.city ? userInfo.city:'十堰市'
     // app.globalData.userInfo = userInfo
-    if (carousel.length>0){
+    if (carousel.length > 0) {
       this.setData({
         bannthree,
         carousel,
@@ -217,13 +220,17 @@ Page({
     this.indexinit();
 
   },
-  onShow: function () {
+  onShow: function() {
     this.getOpendId();
+    this.getUserlocation();
     wx.setNavigationBarTitle({
-      title: '首页'   //页面标题为路由参数
+      title: '首页' //页面标题为路由参数
     })
     let that = this;
-    this.setData({ loading: false })
+    this.setData({
+      loading: false,
+      isshowlocation: false
+    })
     if (app.globalData.userInfo.city) {
       this.setData({
         city: app.globalData.userInfo.city
@@ -241,17 +248,15 @@ Page({
         isphoneNumber: true
       })
     }
-    if (app.globalData.changeCity){
-      app.globalData.changeCity=false;
-      this.setData({ _page: 1 })
-      this.getCutDish();
+    if (app.globalData.changeCity) {
+      app.globalData.changeCity = false;
+      this.setData({
+        _page: 1
+      })
+      // this.getCutDish();
     }
-    // if (app.globalData.userInfo.lat && app.globalData.userInfo.lng) {
-    //   this.setData({ bargainListall: [] })
-    //   this.getCutDish();
-    // }
   },
-  indexinit: function () {
+  indexinit: function() {
     let that = this;
     if (app.globalData.userInfo.userId) {
       if (app.globalData.userInfo.mobile) {
@@ -260,7 +265,7 @@ Page({
         } else {
           this.authlogin();
         }
-      } else {//是新用户，
+      } else { //是新用户，
         that.setData({
           isfirst: true,
           isNew: true
@@ -297,7 +302,7 @@ Page({
     }
   },
 
-  onHide: function () {
+  onHide: function() {
     let that = this;
     // clearInterval(that.data.settime);
     that.setData({
@@ -309,11 +314,13 @@ Page({
 
 
   // 初始化start
-  findByCode: function () {//通过code查询用户信息
+  findByCode: function() { //通过code查询用户信息
     let that = this;
     wx.login({
       success: res => {
-        Api.findByCode({ code: res.code }).then((res) => {
+        Api.findByCode({
+          code: res.code
+        }).then((res) => {
           if (res.data.code == 0) {
             let _data = res.data.data;
             if (_data.id && _data != null) {
@@ -340,7 +347,7 @@ Page({
     })
   },
 
-  getOpendId: function () {
+  getOpendId: function() {
     let that = this;
     wx.login({
       success: res => {
@@ -348,8 +355,8 @@ Page({
           wx.request({
             url: that.data._build_url + 'auth/getOpenId?code=' + res.code,
             method: 'POST',
-            success: function (res) {
-              if(res.data.code == 0){
+            success: function(res) {
+              if (res.data.code == 0) {
                 app.globalData.userInfo.openId = res.data.data.openId;
                 app.globalData.userInfo.sessionKey = res.data.data.sessionKey;
                 if (res.data.data.unionId) {
@@ -368,27 +375,30 @@ Page({
     })
   },
 
-  bindGetUserInfo: function () { //点击安全弹框获取用户openId和unionId
-    let that = this,url="",_Url="";
+  bindGetUserInfo: function() { //点击安全弹框获取用户openId和unionId
+    let that = this,
+      url = "",
+      _Url = "";
     wx.getUserInfo({
       withCredentials: true,
-      success: function (res) {
+      success: function(res) {
         let _sessionKey = app.globalData.userInfo.sessionKey,
-          _ivData = res.iv, _encrypData = res.encryptedData;
+          _ivData = res.iv,
+          _encrypData = res.encryptedData;
         _sessionKey = _sessionKey.replace(/\=/g, "%3d");
         _ivData = _ivData.replace(/\=/g, "%3d");
         _ivData = _ivData.replace(/\+/g, "%2b");
         _encrypData = _encrypData.replace(/\=/g, "%3d");
         _encrypData = _encrypData.replace(/\+/g, "%2b");
         _encrypData = _encrypData.replace(/\//g, "%2f");
-        
+
         wx.request({
           url: that.data._build_url + 'auth/phoneAES?sessionKey=' + _sessionKey + '&ivData=' + _ivData + '&encrypData=' + _encrypData,
           header: {
             'content-type': 'application/json' // 默认值
           },
           method: 'POST',
-          success: function (resv) {
+          success: function(resv) {
             if (resv.data.code == 0) {
               that.setData({
                 istouqu: false
@@ -403,12 +413,12 @@ Page({
       }
     })
   },
-  createNewUser: function () { 
-    let that=this;
+  createNewUser: function() {
+    let that = this;
     wx.request({
-      url: that.data._build_url + 'auth/addUserUnionId?openId=' +app.globalData.userInfo.openId + '&unionId=' + app.globalData.userInfo.unionId,
+      url: that.data._build_url + 'auth/addUserUnionId?openId=' + app.globalData.userInfo.openId + '&unionId=' + app.globalData.userInfo.unionId,
       method: 'POST',
-      success: function (res) {
+      success: function(res) {
         if (res.data.code == 0) {
           let data = res.data.data;
           for (let key in data) {
@@ -432,14 +442,14 @@ Page({
     })
   },
 
-  isNewUser: function () {//查询新用户是否已经领券
+  isNewUser: function() { //查询新用户是否已经领券
     let that = this;
     wx.request({
       url: that.data._build_url + 'sku/isNewUser?userId=' + app.globalData.userInfo.userId,
       header: {
         "Authorization": app.globalData.token
       },
-      success: function (res) {
+      success: function(res) {
         if (res.data.code == 0) {
           that.setData({
             isNew: true
@@ -452,21 +462,22 @@ Page({
       }
     })
   },
-  getuserIdLater: function () { //获取到userId之后要执行的事件1
-    let that = this, _parms = {};
+  getuserIdLater: function() { //获取到userId之后要执行的事件1
+    let that = this,
+      _parms = {};
     _parms = {
       openId: app.globalData.userInfo.openId,
       unionId: app.globalData.userInfo.unionId
     };
     Api.addUserUnionId(_parms).then((res) => {
-      if(res.data.code = 0){
-      // if (res.data.data.mobile) {
+      if (res.data.code = 0) {
+        // if (res.data.data.mobile) {
         that.authlogin();
-      // }
+        // }
       }
     })
   },
-  authlogin: function () { //获取token
+  authlogin: function() { //获取token
     let that = this;
     wx.request({
       url: this.data._build_url + 'auth/login?userName=' + app.globalData.userInfo.userName,
@@ -475,7 +486,7 @@ Page({
       header: {
         'content-type': 'application/json' // 默认值
       },
-      success: function (res) {
+      success: function(res) {
         if (res.data.code == 0) {
           let _token = 'Bearer ' + res.data.data;
           app.globalData.token = _token;
@@ -486,14 +497,14 @@ Page({
       }
     })
   },
-  getdatamore: function () {//请求配置数据
+  getdatamore: function() { //请求配置数据
     let that = this;
     wx.request({
       url: this.data._build_url + 'version.txt',
       header: {
         "Authorization": app.globalData.token
       },
-      success: function (res) {
+      success: function(res) {
         app.globalData.txtObj = res.data;
         wx.setStorageSync("txtObj", res.data)
         if (res.data.flag == 0) { //0显示  
@@ -551,12 +562,13 @@ Page({
       }
     })
   },
-  getuserIdLater2: function () {  //获取到userId之后要执行的事件2
-    let that = this, userInfo = app.globalData.userInfo;
+  getuserIdLater2: function() { //获取到userId之后要执行的事件2
+    let that = this,
+      userInfo = app.globalData.userInfo;
     if (userInfo.lat && userInfo.lng && userInfo.city) {
       this.getCutDish();
     } else {
-      this.getUserlocation();
+     
     };
     // that.isNewUser();
     if (userInfo && userInfo.mobile) {
@@ -571,52 +583,65 @@ Page({
       })
     }
   },
-
-  getUserlocation: function () { //获取用户位置经纬度
+  openSetting() {//打开授权设置界面
     let that = this;
+    
+    that.setData({
+      isshowlocation: false
+    })
+      wx.openSetting({ 
+        success: (res) => {
+          if (res.authSetting['scope.userLocation']) {  
+            // that.getUserlocation();
+            village_LBS(that);
+            return
+            console.log('12313213')
+            wx.getLocation({
+              success: function(res) {
+                console.log('12313213res:',res)
+                let latitude = res.latitude,
+                  longitude = res.longitude;
+                that.requestCityName(latitude, longitude);
+              },
+            })
+          } else {
+            console.log("nono")
+            that.setData({
+              isshowlocation: true
+            })
+           
+          //   let lat = '32.6226',
+          //     lng = '110.77877';
+          //   that.requestCityName(lat, lng);
+
+          }
+        }
+      })
+  
+  },
+  getUserlocation: function() { //获取用户位置经纬度
+    let that = this;
+    // let lat = '32.6226',
+    //   lng = '110.77877';
+    // that.requestCityName(lat, lng);
+    // return
     wx.getLocation({
       type: 'wgs84',
-      success: function (res) {
-        let latitude = res.latitude, longitude = res.longitude;
+      success: function(res) {
+        let latitude = res.latitude,
+          longitude = res.longitude;
         that.requestCityName(latitude, longitude);
       },
-      fail: function (res) {
+      fail: function(res) {
         wx.getSetting({
           success: (res) => {
-            if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其位置信息
-              wx.showModal({
-                title: '提示',
-                content: '更多体验需要你授权位置信息',
-                showCancel: false,
-                confirmText: '确认授权',
-                success: function (res) {
-                  if (res.confirm) {
-                    wx.openSetting({ //打开授权设置界面
-                      success: (res) => {
-                        if (res.authSetting['scope.userLocation']) {  //打开位置授权                
-                          // that.getUserlocation();
-                          // village_LBS(that);
-                          wx.getLocation({
-                            success: function (res) {
-                              let latitude = res.latitude,longitude = res.longitude;
-                              that.requestCityName(latitude, longitude);
-                            },
-                          })
-
-                        } else {
-                          let lat = '32.6226',
-                            lng = '110.77877';
-                          that.requestCityName(lat, lng);
-                          // that.getCutDish();
-                        }
-                      },
-                      complete: (res => {
-                      })
-                    })
-                  }
-                }
+            if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其位置信息          
+              that.setData({
+                isshowlocation: true
               })
+
             } else {
+         
               that.getCutDish();
             }
           }
@@ -626,6 +651,7 @@ Page({
   },
 
   requestCityName(lat, lng) { //获取当前城市
+    console.log('requestCityName')
     let that = this;
     app.globalData.userInfo.lat = lat;
     app.globalData.userInfo.lng = lng;
@@ -646,23 +672,27 @@ Page({
               app.globalData.userInfo.city = '十堰市';
             }
             app.globalData.oldcity = app.globalData.userInfo.city;
+            app.globalData.picker = res.data.result.address_component;
+            let userInfo = app.globalData.userInfo;
+            wx.setStorageSync('userInfo', userInfo);
             that.getCutDish();
             that.setData({
               city: app.globalData.userInfo.city
             })
-            app.globalData.picker = res.data.result.address_component;
-            wx.setStorageSync('userInfo', app.globalData.userInfo)
+            
           }
         }
       })
     }
   },
 
-  getCutDish: function () {// 获取砍菜数据
+  getCutDish: function() { // 获取砍菜数据
+    console.log('getCutDish')
     let that = this;
     this.setData({
       bargainList: [],
-      bargainListall: []
+      bargainListall: [],
+      _page:1
     })
     if (app.globalData.userInfo.city == '十堰市') {
       this.setData({
@@ -680,7 +710,7 @@ Page({
       this.setData({
         bargainList: []
       });
-     
+
       for (let i = 0; i < this.data.hotdish.length; i++) {
         let _hotdish = this.data.hotdish[i];
         this.getdishDetail(_hotdish.dishId, _hotdish.shopId);
@@ -690,7 +720,7 @@ Page({
     }
   },
   // 初始化end
-  activityBanner: function () { //获取活动banner图
+  activityBanner: function() { //获取活动banner图
     let that = this;
     Api.activityImg().then((res) => {
       if (res.data.code == 0) {
@@ -706,10 +736,10 @@ Page({
     })
   },
 
-  getcarousel: function () { //轮播图
-    let that = this, _parms = {};
-    if (!this.data.carousel) {
-    }else{
+  getcarousel: function() { //轮播图
+    let that = this,
+      _parms = {};
+    if (!this.data.carousel) {} else {
       _parms = {
         token: app.globalData.token
       }
@@ -726,7 +756,8 @@ Page({
 
   hotDishList() { //拼价砍菜列表
     //browSort 0附近 1销量 2价格
-    let _parms = {}, that = this;
+    let _parms = {},
+      that = this;
     this.setData({
       city: this.data.city ? this.data.city : app.globalData.userInfo.city
     })
@@ -770,25 +801,31 @@ Page({
             })
 
           } else {
-            this.setData({ loading: false })
+            this.setData({
+              loading: false
+            })
           }
         } else {
-          this.setData({ loading: false })
+          this.setData({
+            loading: false
+          })
         }
       }, () => {
-        this.setData({ loading: false })
+        this.setData({
+          loading: false
+        })
       })
-    }else{
+    } else {
       that.getUserlocation();
     }
   },
-  getdishDetail: function (Id, shopId) { //查询单个砍菜详情
+  getdishDetail: function(Id, shopId) { //查询单个砍菜详情
 
     let that = this,
       _parms = {},
-      _arr=[],
+      _arr = [],
       arr = [];
-   
+
     _parms = {
       Id: Id,
       zanUserId: app.globalData.userInfo.userId,
@@ -935,7 +972,7 @@ Page({
       })
     }
   },
-  onPullDownRefresh: function () { //下拉刷新
+  onPullDownRefresh: function() { //下拉刷新
     this.setData({
       bargainList: [], //砍价拼菜
       bargainListall: [], //拼菜砍价
@@ -943,12 +980,12 @@ Page({
     })
     this.getCutDish();
   },
-  onReachBottom: function () { //用户上拉触底加载更多
+  onReachBottom: function() { //用户上拉触底加载更多
     console.log("pageTotal:", this.data.pageTotal)
     console.log("_page:", this.data._page)
-    if (this.data.pageTotal < this.data._page) {//当前页码大于等于数据总页码
+    if (this.data.pageTotal < this.data._page) { //当前页码大于等于数据总页码
 
-    }else{
+    } else {
       // this.getshoplist();
       this.hotDishList();
       if (!this.data.alltopics) {
@@ -956,7 +993,7 @@ Page({
       }
     }
   },
-  getoddtopic: function (id) { //获取单个文章内容数据
+  getoddtopic: function(id) { //获取单个文章内容数据
     let _parms = {
       id: id,
       zanUserId: app.globalData.userInfo.userId,
@@ -997,7 +1034,8 @@ Page({
       lng = '114.34035'; //lat纬度   lng经度
 
     if (app.globalData.userInfo.lng && app.globalData.userInfo.lat && app.globalData.userInfo.city) {
-      let _parms = {}, that = this;
+      let _parms = {},
+        that = this;
       _parms = {
         locationX: app.globalData.userInfo.lng ? app.globalData.userInfo.lng : lng,
         locationY: app.globalData.userInfo.lat ? app.globalData.userInfo.lat : lat,
@@ -1073,7 +1111,7 @@ Page({
     })
   },
 
-  gettoplistFor: function () { //加载分类数据
+  gettoplistFor: function() { //加载分类数据
     let _list = [],
       _shop = [],
       _parms = {},
@@ -1092,7 +1130,7 @@ Page({
           that.setData({
             bannthree: listarr
           })
-          wx.setStorageSync('bannthree', listarr)//商家广告位-砍价拼菜banner图
+          wx.setStorageSync('bannthree', listarr) //商家广告位-砍价拼菜banner图
         }
         return false;
         let _parms = {
@@ -1135,15 +1173,15 @@ Page({
     })
   },
   getactlist() { //获取热门活动数据
-    let that=this;
+    let that = this;
     wx.request({
       url: that.data._build_url + 'act/list',
       header: {
         "Authorization": app.globalData.token
       },
-      success: function (res) {
-        if(res.data.code == 0){
-          if (res.data.data.list && res.data.data.list.length>0) {
+      success: function(res) {
+        if (res.data.code == 0) {
+          if (res.data.data.list && res.data.data.list.length > 0) {
             that.setData({
               actlist: res.data.data.list.slice(0, 10)
             })
@@ -1155,19 +1193,19 @@ Page({
     })
   },
 
-  userLocation: function () { // 用户定位
+  userLocation: function() { // 用户定位
     wx.navigateTo({
       url: 'user-location/user-location',
     })
   },
-  seekTap: function () { //用户搜索
+  seekTap: function() { //用户搜索
     wx.navigateTo({
       url: 'user-seek/user-seek',
     })
   },
 
 
-  toNewExclusive: function (e) { //跳转至新人专享页面
+  toNewExclusive: function(e) { //跳转至新人专享页面
     let id = e.currentTarget.id,
       _linkUrl = '',
       _type = '',
@@ -1208,7 +1246,7 @@ Page({
       wx.navigateTo({
         url: 'merchant-particulars/merchant-particulars?shopid=' + _obj.shopId,
       })
-    } else if (_obj.id) {// 生鲜商品详情
+    } else if (_obj.id) { // 生鲜商品详情
       wx.navigateTo({
         url: '../index/crabShopping/crabDetails/crabDetails?id=' + _obj.id + '&spuId=' + _obj.spuId,
       })
@@ -1216,7 +1254,7 @@ Page({
   },
 
   //监听页面分享
-  onShareAppMessage: function (res) {
+  onShareAppMessage: function(res) {
     if (res.from === 'button') {
       // 来自页面内转发按钮
     }
@@ -1224,17 +1262,17 @@ Page({
       title: '享7美食',
       path: 'pages/index/index',
       imageUrl: 'https://xqmp4-1256079679.file.myqcloud.com/Colin_ajdlfadjfal.png',
-      success: function (res) {
+      success: function(res) {
         // 转发成功
       },
-      fail: function (res) {
+      fail: function(res) {
         // 转发失败
       }
     }
   },
 
   //  注册start
-  closetel: function (e) { //新用户提示按钮选项
+  closetel: function(e) { //新用户提示按钮选项
     let id = e.target.id;
     clearInterval(this.data.settime)
     this.setData({
@@ -1246,9 +1284,10 @@ Page({
       })
     }
   },
-  numbindinput: function (e) { //监听号码输入框
+  numbindinput: function(e) { //监听号码输入框
     let _value = e.detail.value,
-      that = this, RegExp = /^[1][3456789][0-9]{9}$/;
+      that = this,
+      RegExp = /^[1][3456789][0-9]{9}$/;
     if (!_value) {
       that.closephone()
     }
@@ -1270,7 +1309,7 @@ Page({
       })
     }
   },
-  closephone: function () { //手机号置空
+  closephone: function() { //手机号置空
     clearInterval(this.data.settime)
     this.setData({
       phone: '',
@@ -1281,7 +1320,7 @@ Page({
       settime: null
     })
   },
-  submitphone: function () { //获取验证码
+  submitphone: function() { //获取验证码
     let that = this,
       sett = null;
     if (!this.data.phone) {
@@ -1318,14 +1357,14 @@ Page({
           "Authorization": app.globalData.token
         },
         method: 'POST',
-        success: function (res) {
+        success: function(res) {
           if (res.data.code == 0) {
             that.setData({
               verifyId: res.data.data.verifyId,
               veridyTime: res.data.data.veridyTime,
               goto: false
             })
-            sett = setInterval(function () {
+            sett = setInterval(function() {
               that.remaining();
             }, 1000)
             that.setData({
@@ -1349,15 +1388,16 @@ Page({
       })
     }
   },
-  yzmbindblur: function (e) { //监听获取输入的验证码
+  yzmbindblur: function(e) { //监听获取输入的验证码
     let _value = e.detail.value
     this.setData({
       verify: _value
     })
   },
-  remaining: function (val) { //倒计时
+  remaining: function(val) { //倒计时
     let _vertime = this.data.veridyTime.replace(/\-/ig, "\/"),
-      rema = 60, that = this;
+      rema = 60,
+      that = this;
     rema = utils.reciprocal(_vertime);
     if (rema == 'no' || rema == 'yes' || !rema) {
       clearInterval(this.data.settime)
@@ -1372,7 +1412,7 @@ Page({
       })
     }
   },
-  submitverify: function () { // 注册时确定
+  submitverify: function() { // 注册时确定
     let that = this;
     if (this.data.phone && this.data.verify) {
       if (this.data.verify == this.data.verifyId) {
@@ -1438,12 +1478,12 @@ Page({
       });
     }
   },
-  closebut: function () { //注册取消
+  closebut: function() { //注册取消
     this.setData({
       isphoneNumber: false
     })
   },
-  userGiftCancle: function () { //新用户领取代金券
+  userGiftCancle: function() { //新用户领取代金券
     this.setData({
       userGiftFlag: false,
       isfirst: false,
@@ -1457,8 +1497,10 @@ Page({
       })
     }
   },
-  newUserToGet: function () { //新用户跳转票券
-    let that = this, _value = "", _parms = {};
+  newUserToGet: function() { //新用户跳转票券
+    let that = this,
+      _value = "",
+      _parms = {};
     if (!app.globalData.userInfo.mobile) {
       this.setData({
         isphoneNumber: true
@@ -1486,7 +1528,7 @@ Page({
         "Authorization": app.globalData.token
       },
       method: 'POST',
-      success: function (res) {
+      success: function(res) {
         if (res.data.code == 0) {
           that.userGiftCancle()
           wx.navigateTo({
@@ -1532,7 +1574,7 @@ Page({
   },
 
   // 螃蟹使用攻略
-  crabSteamed: function (e) {
+  crabSteamed: function(e) {
     wx.navigateTo({
       url: 'crabShopping/crabShopping?currentTab=1'
     })
@@ -1607,34 +1649,37 @@ Page({
       }
     }
   },
-  chartOfDisheses: function () { // 砍菜砍价详情
+  chartOfDisheses: function() { // 砍菜砍价详情
     wx.navigateTo({
       url: 'chartOfDisheses/chartOfDisheses',
     })
   },
   //享7生鲜查看更多
-  toFresh: function () {
+  toFresh: function() {
     wx.navigateTo({
       url: 'crabShopping/crabShopping?currentTab=0'
     })
   },
   // 螃蟹进入商品详情
-  crabPrtDetails: function (e) {
-    let id = e.currentTarget.id, spuId = e.target.dataset.spuid;
+  crabPrtDetails: function(e) {
+    let id = e.currentTarget.id,
+      spuId = e.target.dataset.spuid;
     wx.navigateTo({
       url: 'crabShopping/crabShopping?currentTab=0' + '&spuval=' + spuId
       // url: 'crabShopping/crabDetails/crabDetails?id=' + id + '&spuId=' + spuId,
     })
   },
   // 螃蟹进入商品详情
-  crabPrtPackage: function (e) {
+  crabPrtPackage: function(e) {
     wx.navigateTo({
       url: 'crabShopping/crabDetails/crabDetails?id=' + 6 + '&spuId=' + 2,
     })
   },
   //图片加载出错，替换为默认图片
-  imageError: function (e) {
-    let id = e.target.id, bargainList = this.data.bargainList, bargainListall = this.data.bargainListall;
+  imageError: function(e) {
+    let id = e.target.id,
+      bargainList = this.data.bargainList,
+      bargainListall = this.data.bargainListall;
     for (let i = 0; i < bargainList.length; i++) {
       if (bargainList[i].id == id) {
         bargainList[i].picUrl = "/images/icon/morentu.png";
@@ -1650,12 +1695,12 @@ Page({
       bargainListall: bargainListall
     });
   },
-  toStore() {    //跳转至到店自提列表
+  toStore() { //跳转至到店自提列表
     wx.navigateTo({
       url: 'crabShopping/crabShopping?currentTab=2'
     })
   },
-  chartOfDisheses: function () { // 砍菜砍价详情
+  chartOfDisheses: function() { // 砍菜砍价详情
     wx.navigateTo({
       url: 'chartOfDisheses/chartOfDisheses',
     })
@@ -1731,7 +1776,7 @@ Page({
     }
   },
   // 螃蟹使用攻略
-  crabSteamed: function (e) {
+  crabSteamed: function(e) {
     wx.navigateTo({
       url: 'crabShopping/crabShopping?currentTab=1'
     })

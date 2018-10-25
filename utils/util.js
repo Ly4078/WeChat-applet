@@ -183,11 +183,13 @@ let getQueryString = function (url, name) {  //识别普通二维码，跳转到
   var reg = new RegExp('(^|&|/?)' + name + '=([^&|/?]*)(&|/?|$)', 'i')
   var r = url.substr(1).match(reg)
   if (r != null) {
-    console.log("r = " + r)
-    console.log("r[2] = " + r[2])
+    // console.log("r = " + r)
+    // console.log("r[2] = " + r[2])
     return r[2]
+  }else{
+    return null;
   }
-  return null;
+  
 }
 
 
