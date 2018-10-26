@@ -256,6 +256,12 @@ Page({
               url: '/images/icon/add.png'
             }]
           });
+        } else {
+          wx.showToast({
+            title: '上传失败',
+            icon: 'none',
+            duration: 2000
+          })
         }
         wx.hideLoading();
       }
