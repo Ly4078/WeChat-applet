@@ -70,28 +70,7 @@ Page({
         tabId: _val
       })
     }
-    let txtObj = wx.getStorageSync('txtObj') || {};
-    if (txtObj){
-      app.globalData.txtObj = txtObj;
-    }
-    if (!app.globalData.txtObj) {
-      wx.request({
-        url: that.data._build_url + 'version.txt',
-        header: {
-          "Authorization": app.globalData.token
-        },
-        success: function (res) {
-          app.globalData.txtObj = res.data;
-          that.setData({
-            dshImg: app.globalData.txtObj.dsh.imgUrl
-          })
-        }
-      })
-    } else {
-      this.setData({
-        dshImg: app.globalData.txtObj.dsh.imgUrl
-      })
-    };
+    
 
     this.setData({
       listData: [], //送货到家
@@ -104,22 +83,29 @@ Page({
     this.setData({
       isshowlocation: false
     })
-
+    let txtObj = wx.getStorageSync('txtObj') || {};
+    if (txtObj.dsh) {
+      if (!this.data.dshImg){
+        app.globalData.txtObj = txtObj;
+        this.setData({
+          dshImg: txtObj.dsh.imgUrl
+        })
+      }
+    }
     let _token = wx.getStorageSync('token') || {};
     let userInfo = wx.getStorageSync('userInfo') || {};
     app.globalData.userInfo=userInfo;
   
     if(_token){
-
-
       app.globalData.token=_token;
       if (userInfo.lat && userInfo.lng && userInfo.city){
         this.getlisdtaa();
       }else{
         this.getUserlocation();
       }
-
-
+      if (!this.data.dshImg) {
+        this.getTXT();
+      }
     }else{
       this.findByCode();
     }
@@ -151,7 +137,7 @@ Page({
               that.authlogin();
             }else{
               wx.navigateTo({
-                url: '/pages/personal-center/securities-sdb/securities-sdb?back=1'
+                url: '/pages/init/init?isback=1'
               })
             }
           }
@@ -161,7 +147,6 @@ Page({
   },
 
   authlogin: function () { //获取token
-
     let that = this;
     wx.request({
       url: this.data._build_url + 'auth/login?userName=' + app.globalData.userInfo.userName,
@@ -176,23 +161,23 @@ Page({
           app.globalData.token = _token;
           wx.setStorageSync('token', _token);
           that.getUserlocation();
+          if (this.data.dshImg){
+            that.getTXT();
+          }
         }
       }
     })
   },
   getUserlocation: function () { //获取用户位置经纬度
-    console.log('getUserlocation')
     let that = this;
     wx.getLocation({
       type: 'wgs84',
       success: function (res) {
-        console.log("success213:r",res)
         let latitude = res.latitude,
           longitude = res.longitude;
         that.requestCityName(latitude, longitude);
       },
       fail: function (res) {
-        console.log("fail234234:r", res)
         wx.getSetting({
           success: (res) => {
             if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其位置信息          
@@ -234,6 +219,20 @@ Page({
             isshowlocation: true
           })
         }
+      }
+    })
+  },
+  getTXT: function () {  //获取配置文件
+    wx.request({
+      url: that.data._build_url + 'version.txt',
+      header: {
+        "Authorization": app.globalData.token
+      },
+      success: function (res) {
+        app.globalData.txtObj = res.data;
+        that.setData({
+          dshImg: app.globalData.txtObj.dsh.imgUrl
+        })
       }
     })
   },
@@ -456,6 +455,7 @@ Page({
     }
   },
   requestCityName(lat, lng) { //获取当前城市
+    console.log('requestCityName')
     let that = this;
     app.globalData.userInfo.lat = lat;
     app.globalData.userInfo.lng = lng;
@@ -488,7 +488,6 @@ Page({
     let that = this;
     console.log('getlisdtaa', this.data.currentTab)
     if (this.data.currentTab == 0) {
-
       this.setData({
         page: 1,
         listData: []

@@ -39,7 +39,9 @@ Page({
         success: function (res) {
           if (res.data.code == 0) {
             wx.navigateTo({
-              url: '../../personal-center/my-discount/my-discount?id=' + res.data.data + '&isPay=1'
+              url: "/pages/personal-center/my-discount/my-discount?let=let"
+              // url: '../../personal-center/my-discount/my-discount?id=' + res.data.data + '&isPay=1'
+
             })
           } else {
             wx.showToast({

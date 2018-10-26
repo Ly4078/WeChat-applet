@@ -21,7 +21,10 @@ App({
     const userInfo = wx.getStorageSync("userInfo");
     var mobile = String(userInfo.mobile);
     if (mobile.length < 11) {
-      if (options.path == 'pages/personal-center/securities-sdb/securities-sdb' || options.path == 'pages/init/init' || options.path =='pages/activityDetails/holdingActivity/holdingActivity') {} else {
+      if (options.path == 'pages/personal-center/securities-sdb/securities-sdb' || options.path == 'pages/init/init' || options.path == 'pages/activityDetails/holdingActivity/holdingActivity' || options.path == 'pages/index/flashSaleHome/secKillDetail/secKillDetail' ) {} else {
+        if (options.query.isback || options.query.isback==1){
+          return
+        }
         wx.reLaunch({
           url: '/pages/init/init',
         })

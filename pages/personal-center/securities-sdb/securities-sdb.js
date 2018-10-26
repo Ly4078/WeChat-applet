@@ -73,11 +73,6 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
-
-    wx.showLoading({
-      title: '请稍候...',
-      mask: 'true'
-    })
     this.findByCode();
   },
 
@@ -102,15 +97,19 @@ Page({
                   }
                 }
               };
+              if (!_data.sessionKey){
+                that.getOpendId();
+              }
               let userInfo = app.globalData.userInfo;
               wx.setStorageSync('userInfo', userInfo)
-              if (!_data.unionId) {
-                that.setData({
-                  istouqu: true
-                })
+              // if (!_data.unionId) {
+              //   that.setData({
+              //     istouqu: true
+              //   })
+              // }
+              if (app.globalData.userInfo.userName){
+                that.authlogin(val);
               }
-              that.authlogin(val);
-
             }
           })
         }
@@ -131,7 +130,6 @@ Page({
         if (res.data.code == 0) {
           let _token = 'Bearer ' + res.data.data;
           app.globalData.token = _token;
-          wx.hideLoading();
           console.log("token:", app.globalData.token)
           wx.setStorageSync('token', _token)
           if (val == 2) {
@@ -160,6 +158,33 @@ Page({
               }
             }
           }
+        }
+      }
+    })
+  },
+  getOpendId: function () {
+    let that = this;
+    wx.login({
+      success: res => {
+        if (res.code) {
+          wx.request({
+            url: that.data._build_url + 'auth/getOpenId?code=' + res.code,
+            method: 'POST',
+            success: function (res) {
+              if (res.data.code == 0) {
+                app.globalData.userInfo.openId = res.data.data.openId;
+                app.globalData.userInfo.sessionKey = res.data.data.sessionKey;
+                if (res.data.data.unionId) {
+                  app.globalData.userInfo.unionId = res.data.data.unionId;
+                  that.createNewUser();
+                } else {
+                  that.setData({
+                    istouqu: true
+                  })
+                }
+              }
+            }
+          })
         }
       }
     })
@@ -194,14 +219,41 @@ Page({
       }
     })
   },
+  createNewUser: function () {  //创建用户
+    let that = this;
+    wx.request({
+      url: that.data._build_url + 'auth/addUserUnionId?openId=' + app.globalData.userInfo.openId + '&unionId=' + app.globalData.userInfo.unionId,
+      method: 'POST',
+      success: function (res) {
+        if (res.data.code == 0) {
+          let data = res.data.data;
+          for (let key in data) {
+            for (let ind in app.globalData.userInfo) {
+              if (key == ind) {
+                app.globalData.userInfo[ind] = data[key]
+              }
+            }
+          };
+          app.globalData.userInfo.userId = res.data.data.id;
+          that.authlogin();
+        }
+      }
+    })
+  },
+
   againgetinfo: function() { //请求用户授权获取获取用户unionId
     let that = this;
     wx.getUserInfo({
       withCredentials: true,
       success: function(res) {
+        console.log('agg:',res)
+
         let _sessionKey = app.globalData.userInfo.sessionKey,
           _ivData = res.iv,
           _encrypData = res.encryptedData;
+        console.log("_sessionKey:", _sessionKey)
+        console.log("_ivData:", _ivData)
+        console.log("_encrypData:", _encrypData)
         _sessionKey = _sessionKey.replace(/\=/g, "%3d");
         _ivData = _ivData.replace(/\=/g, "%3d");
         _ivData = _ivData.replace(/\+/g, "%2b");
@@ -224,8 +276,10 @@ Page({
               app.globalData.userInfo.unionId = _data.unionId;
               app.globalData.userInfo.openId = _data.openId;
               let userInfo = app.globalData.userInfo;
-              wx.setStorageSync('userInfo', userInfo)
-              that.getmyuserinfo();
+              wx.setStorageSync('userInfo', userInfo);
+              that.createNewUser();
+              // that.findByCode();
+              // that.getmyuserinfo();
             }
           }
         })
@@ -259,7 +313,7 @@ Page({
               if (data.mobile) {
                 if (that.data.isBack) {
                   wx.navigateBack({
-                    data: 1
+                    delta: 1
                   })
                 } else {
                   wx.switchTab({
@@ -457,7 +511,7 @@ Page({
           };
           if (that.data.isBack) {
             wx.navigateBack({
-              data: 1
+              delta: 1
             })
           } else {
             wx.switchTab({

@@ -652,7 +652,7 @@ Page({
               success: function(res) {
                 that.messagepush();
                 wx.redirectTo({
-                  url: '../../personal-center/my-discount/my-discount'
+                  url: '../../personal-center/my-discount/my-discount?let=let'
                 })
               },
               fail: function(res) {
@@ -705,7 +705,7 @@ Page({
               'paySign': res.data.data.paySign,
               success: function(res) {
                 wx.redirectTo({
-                  url: '../../personal-center/my-discount/my-discount'
+                  url: '../../personal-center/my-discount/my-discount?let=let'
                 })
               },
               fail: function(res) {
@@ -753,7 +753,7 @@ Page({
               'paySign': res.data.data.paySign,
               success: function(res) {
                 wx.redirectTo({
-                  url: '../../personal-center/my-discount/my-discount'
+                  url: '../../personal-center/my-discount/my-discount?let=let'
                 })
               },
               fail: function(res) {
@@ -808,7 +808,7 @@ Page({
               'paySign': res.data.data.paySign,
               success: function(res) {
                 wx.redirectTo({
-                  url: '../../personal-center/my-discount/my-discount'
+                  url: '../../personal-center/my-discount/my-discount?let=let'
                 })
               },
               fail: function(res) {
@@ -848,7 +848,7 @@ Page({
               'paySign': res.data.data.paySign,
               success: function(res) {
                 wx.redirectTo({
-                  url: '../../personal-center/my-discount/my-discount'
+                  url: '../../personal-center/my-discount/my-discount?let=let'
                 })
               },
               fail: function(res) {

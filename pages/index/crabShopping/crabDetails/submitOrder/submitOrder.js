@@ -533,7 +533,8 @@ Page({
       success: function(res) {
         if (that.data.current.spuId == 3 && that.data.issku != 3) {
           wx.redirectTo({
-            url: '../../../../personal-center/voucher/voucher'
+            url:'pages/personal-center/my-discount/my-discount'
+            // url: '../../../../personal-center/voucher/voucher'
           })
         } else if (that.data.issku == 3) {
           wx.redirectTo({

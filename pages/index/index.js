@@ -181,6 +181,7 @@ Page({
   },
   onLoad: function(options) {
     let that = this;
+
     //版本更新
     const updateManager = wx.getUpdateManager();
     updateManager.onCheckForUpdate(function(res) {
@@ -202,7 +203,6 @@ Page({
     // userInfo.city = userInfo.city ? userInfo.city:'十堰市'
     // app.globalData.userInfo = userInfo
     if(txtObj.length>0){
-      console.log("txtObj:", txtObj)
       this.setData({
         fresh1: txtObj ? txtObj.fresh1 : '',
         fresh2: txtObj ? txtObj.fresh2 : '',
@@ -215,14 +215,25 @@ Page({
       bannthree,
       carousel
     },()=>{
-      that.indexinit();
+      
     });
    
   },
   onShow: function() {
     // this.getOpendId();
     let that = this;
-    
+    that.indexinit();
+    if (app.globalData.userInfo.city) {
+      if (app.globalData.userInfo.city != app.globalData.oldcity) {
+        app.globalData.oldcity = app.globalData.userInfo.city;
+        that.setData({
+          city: app.globalData.userInfo.city,
+          bargainListall: [],
+          bargainList: [],
+          _page:1
+        })
+      }
+    }
     that.getUserlocation();
     this.setData({
       loading: false,
@@ -287,16 +298,7 @@ Page({
         isphoneNumber: true
       })
     }
-    if (app.globalData.userInfo.city) {
-      if (app.globalData.userInfo.city != app.globalData.oldcity) {
-        app.globalData.oldcity = app.globalData.userInfo.city;
-        that.setData({
-          city: app.globalData.userInfo.city,
-          bargainListall: [],
-          bargainList: []
-        })
-      }
-    }
+    
   },
 
   onHide: function() {
@@ -558,7 +560,7 @@ Page({
         that.getuserIdLater2();
         that.activityBanner();
         that.getcarousel();
-        that.getactlist();
+        // that.getactlist();
         that.gettoplistFor();
       }
     })
@@ -689,11 +691,13 @@ Page({
     }
 
     if (app.globalData.userInfo.lat && app.globalData.userInfo.lng) {
+     
+      this.setData({
+        bargainList: [],
+        _page:1
+      });
       this.hotDishList();
       this.getsecKill();
-      this.setData({
-        bargainList: []
-      });
 
       for (let i = 0; i < this.data.hotdish.length; i++) {
         let _hotdish = this.data.hotdish[i];
@@ -706,24 +710,29 @@ Page({
   // 初始化end
   activityBanner: function() { //获取活动banner图
     let that = this;
-    Api.activityImg().then((res) => {
-      if (res.data.code == 0) {
-        if (res.data.data && res.data.data[9] && res.data.data[9].imgUrl) {
-          let imgUrl = res.data.data[9].imgUrl;
-          if (imgUrl != '' && imgUrl != null && imgUrl != undefined) {
-            that.setData({
-              activityImg: imgUrl
-            })
+    if (this.data.activityImg.length>0){
+    
+    }else{
+      Api.activityImg().then((res) => {
+        if (res.data.code == 0) {
+          if (res.data.data && res.data.data[9] && res.data.data[9].imgUrl) {
+            let imgUrl = res.data.data[9].imgUrl;
+            if (imgUrl != '' && imgUrl != null && imgUrl != undefined) {
+              that.setData({
+                activityImg: imgUrl
+              })
+            }
           }
         }
-      }
-    })
+      })
+    }
+    
   },
 
   getcarousel: function() { //轮播图
     let that = this,
       _parms = {};
-    if (!this.data.carousel) {} else {
+    if (this.data.carousel.length>0) {} else {
       _parms = {
         token: app.globalData.token
       }
@@ -1166,7 +1175,7 @@ Page({
               actlist: res.data.data.list.slice(0, 10)
             })
           } else {
-            that.getactlist();
+            // that.getactlist();
           }
         }
       }

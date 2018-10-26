@@ -322,11 +322,12 @@ Page({
       return false;
     }
    
-    if (this.data.peoPleNum >= 2) {
+   
       let sellPrice = this.data.agioPrice; //折后价
       wx.navigateTo({
         url: '../../order-for-goods/order-for-goods?shopId=' + this.data.shopId + '&skuName=' + sellPrice + '元抢购券&sell=' + sellPrice + '&skutype=8&dishSkuId=' + this.data.id + '&dishSkuName=' + this.data.skuName
       })
+    if (this.data.peoPleNum >= 2) {
     } else if (!this.data.isCreated) {
       wx.showModal({
         title: '是否发起邀请',

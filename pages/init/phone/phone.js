@@ -153,7 +153,7 @@ Page({
           app.globalData.currentScene.query == ''
           if (that.data.isBack) {
             wx.navigateBack({
-              data: 2
+              delta: 2
             })
           } else {
             wx.reLaunch({ //以拥有手机号码直接跳转

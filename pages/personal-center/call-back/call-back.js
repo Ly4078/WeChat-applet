@@ -91,6 +91,7 @@ Page({
 
 
     let actual = e.detail.value, ms = 0, _timer = null, _this = this;
+    console.log('actual:', actual)
     if (actual.length == 0) {
       this.setData({
         okhx: false
@@ -106,7 +107,9 @@ Page({
     _this.setData({
       timer: _timer,
       _code: actual,
-      istihua: false
+      istihua: false,
+      okhx: false,
+      isconfirm: true
     });
   },
   //聚焦--券码
@@ -121,11 +124,6 @@ Page({
   //实时获取输入的券码--提货码
   bindinputentes: function (e) {
     let actual = e.detail.value, ms = 0, _timer = null, _this = this;
-    if (actual.length == 0) {
-      this.setData({
-        okhx: false
-      })
-    }
     clearInterval(this.data.timer);;
     _timer = setInterval(function () {
       ms += 50;
@@ -136,7 +134,9 @@ Page({
     _this.setData({
       timer: _timer,
       _codees: actual,
-      istihua: true
+      istihua: true,
+      okhx: false,
+      isconfirm: true
     });
   },
   //聚焦--提货码
@@ -286,17 +286,21 @@ Page({
               _data.userName = _data.userName.substr(0, 3) + "****" + _data.userName.substr(7);
             }
             if (_data.promotionRules && _data.promotionRules.length > 0) {
-              _rele = _data.promotionRules[0].ruleDesc;
+              if (_data.promotionRules[0].ruleDesc){
+                _rele = _data.promotionRules[0].ruleDesc;
+              }
             }
             if (_data.orderItemOuts && _data.orderItemOuts.length > 0) {
               lists = _data.orderItemOuts;
             }
+            console.log('1123213123')
             that.setData({
               hxData: _data,
               okhx: true,
               newamount: _data.couponAmount ? _data.couponAmount:'0',
               dishlist: lists
             })
+            console.log('okhx:',that.data.okhx)
           } else {
             wx.showToast({
               title: '券码错误，请重新输入！',
@@ -304,14 +308,8 @@ Page({
               icon: 'none',
               duration: 3000
             })
-            that.setData({
-              _code: ''
-            })
           }
         } else {
-          that.setData({
-            _code: ''
-          })
           wx.showToast({
             title: '券码错误，请重新输入！',
             mask: 'true',
@@ -386,8 +384,8 @@ Page({
       })
     } else {
       console.log('12313')
-      _hxData.shopAmount = this.data.amount;
-      let _values = "", _parms={},that=this,url="",_Url="";
+      _hxData.shopAmount = that.data.amount ? that.data.amount:0;
+      let _values = "", _parms={},url="",_Url="";
       _parms = {
         soId: _hxData.soId, //订单id	Long
         shopId: app.globalData.userInfo.shopId ? app.globalData.userInfo.shopId : "", //商家id	Long
@@ -403,17 +401,18 @@ Page({
         // cashierName: app.globalData.userInfo.userName, //收银账号	String
       }
       // console.log("_parms:", _parms);
-
+      console.log('_parms:', _parms)
       for (var key in _parms) {
         _values += key + "=" + _parms[key] + "&";
       }
       _values = _values.substring(0, _values.length - 1);
-
-      if (_hxData.type == 1) {
-        url = that.data._build_url + 'hx/add?' + _values;
-      } else if (_hxData.type == 2) {
+      console.log('_values:', _values)
+      if (_hxData.type == 2) {
+       
         console.log('12313')
         url = that.data._build_url + 'orderCoupon/hxCoupon?shopId=0&shopName=享七自营&salepointId=' + _hxData.salePoint.id + '&id=' + _hxData.id;
+      } else {
+        url = that.data._build_url + 'hx/add?' + _values;
       }
       _Url = encodeURI(url);
       wx.request({

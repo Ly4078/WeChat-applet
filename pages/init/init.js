@@ -252,7 +252,7 @@ Page({
           app.globalData.currentScene.query == ''
           if (that.data.isBack) {
             wx.navigateBack({
-              data: 1
+              delta: 1
             })
           } else {
             wx.reLaunch({ //以拥有手机号码直接跳转

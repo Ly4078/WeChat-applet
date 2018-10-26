@@ -52,7 +52,6 @@ Page({
           }
           _data.address = _data.orderAddressOut.dictProvince + _data.orderAddressOut.dictCity + _dictCounty + _data.orderAddressOut.detailAddress;
         }
-
         _data.comTotal = _data.orderItemOuts[0].goodsPrice * _data.orderItemOuts[0].goodsNum;
         _data.comTotal = _data.comTotal.toFixed(2);
         if (_data.orderItemOuts[0].packingPrice) {
@@ -138,7 +137,13 @@ Page({
   //调起微信支付
   wxpayment: function () {
     let _parms = {},that=this,url="",_Url="";
-    url = this.data._build_url + 'wxpay/shoppingMallForMDZT?orderId=' + this.data.soId + '&openId=' + app.globalData.userInfo.openId;
+
+    if (that.data.soDetail.shopId == 0) {
+      url = this.data._build_url + '/wxpay/shoppingMallForCoupon?orderId=' + this.data.soId+'&openId='+app.globalData.userInfo.openId
+    } else {
+      url = this.data._build_url + 'wxpay/shoppingMallForMDZT?orderId=' + this.data.soId + '&openId=' + app.globalData.userInfo.openId;
+    }
+    
     _Url = encodeURI(url);
     wx.request({
       url: _Url,

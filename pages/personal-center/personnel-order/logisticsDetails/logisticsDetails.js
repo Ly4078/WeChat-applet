@@ -106,7 +106,7 @@ Page({
   //点击立即使用--进入提蟹券详情页面
   nowuse:function(){
     wx.navigateTo({
-      url: "/pages/personal-center/voucher/voucher"
+      url: "/pages/personal-center/my-discount/my-discount"
     })
   },
   //点击继续支付  -- 先更新openid
@@ -167,7 +167,7 @@ Page({
     }
     _value = _value.substring(0, _value.length - 1);
 
-    if (this.data.soDetail.orderItemOuts[0].goodsSpuId == 3){
+   
       url = this.data._build_url + 'wxpay/shoppingMallForCoupon?' + _value;
       _Url = encodeURI(url);
       wx.request({
@@ -185,7 +185,7 @@ Page({
           }
         }
       })
-
+    if (this.data.soDetail.orderItemOuts[0].goodsSpuId == 3) {
     }else{
       url = this.data._build_url + 'wxpay/doUnifiedOrderForShoppingMall?' + _value;
       _Url = encodeURI(url);
