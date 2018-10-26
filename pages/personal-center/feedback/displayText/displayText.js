@@ -9,6 +9,8 @@ Page({
     _build_url: GLOBAL_API_DOMAIN,
     id: '',
     text: '',
+    textLen: 0,
+    imgNum: 0,
     phone: '',
     flag: true,
     explain: [{
@@ -100,7 +102,8 @@ Page({
   },
   textInp(e) { //文字输入
     this.setData({
-      text: e.detail.value
+      text: e.detail.value,
+      textLen: e.detail.value.length
     });
   },
   teleInp(e) { //电话号码
@@ -134,7 +137,8 @@ Page({
           success: function(res) {
             let imgArr = [],
               _data = {},
-              _img = '';
+              _img = '',
+              imgNum = 0;
             imgArr = that.data.imgArr;
             _data = JSON.parse(res.data);
             _img = _data.data.smallPicUrl;
@@ -144,9 +148,13 @@ Page({
             });
             if (imgArr.length > 4) {
               imgArr = imgArr.slice(0, imgArr.length - 1);
+              imgNum = 4;
+            } else {
+              imgNum = imgArr.length - 1
             }
             that.setData({
-              imgArr: imgArr
+              imgArr: imgArr,
+              imgNum: imgNum
             });
             wx.hideLoading();
             that.setData({
@@ -163,11 +171,15 @@ Page({
     })
   },
   primary(e) { //提交
+    if (!this.data.flag) {
+      return false;
+    }
     let imgArr = [],
       text = '',
       phone = '',
       _param = {},
-      str = '';
+      str = '',
+      that = this;
     imgArr = this.data.imgArr;
     text = this.data.text;
     phone = this.data.phone;
@@ -230,12 +242,15 @@ Page({
         if (res.data.code == 0) {
           wx.showToast({
             title: '上传成功',
-            icon: 'none'
+            icon: 'none',
+            duration: 2000
           })
-          this.setData({
+          that.setData({
             text: '',
             phone: '',
             flag: true,
+            textLen: 0,
+            imgNum: 0,
             imgArr: [{
               id: 1,
               url: '/images/icon/add.png'

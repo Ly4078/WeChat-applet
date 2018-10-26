@@ -125,26 +125,26 @@
           <image class='myListImages' src='/images/icon/bargainirg_kj.png'></image>
           <view class='mylistText'>我的砍菜</view>
         </view>
-        <view class='myList' catchtap='handVoucher'>
-          <image class='myListImages' src='/images/icon/vouchericon.png'></image>
-          <view class='mylistText'>提蟹券</view>
-        </view>
         <view class='myList' catchtap='contact'>
           <image class='myListImages' src='/images/icon/customer_service.png'></image>
           <view class='mylistText'>联系客服</view>
         </view>
-
         <view class='myList myList_wo' catchtap='feedback'>
           <image class='myListImages' src='/images/icon/juxinges.png'></image>
           <view class='mylistText'>问题反馈</view>
         </view>
+        <view class='myList'></view>
+        <!-- <view class='myList' catchtap='handVoucher'>
+          <image class='myListImages' src='/images/icon/vouchericon.png'></image>
+          <view class='mylistText'>提蟹券</view>
+        </view> -->
 
       </view>
     </view>
   </view>
 
 
-  <view class="mylistBox">
+  <view class="mylistBox" wx:if="{{isshop || userId}}">
     <view class="mylistBox_inner">
       <view class="myListTit">
         <view>我的工具</view>
@@ -159,16 +159,16 @@
           <image class='myListImages' src='/images/icon/quanma.png'></image>
           <view class='mylistText'>券码核销</view>
         </view>
-        <view class='myList'></view>
-        <view class='myList'></view>
-        <view class='myList myList_sue' catchtap='popularize'>
-          <image class='myListImages' src='/images/icon/kui.png'></image>
-          <view class='mylistText'>享7推广</view>
-        </view>
-         <view class='myList dividual-lk {{!userId?"impressiones":""}}' catchtap='dividualLogin'>
+        <view wx:if="{{userId}}" class='myList dividual-lk' catchtap='dividualLogin'>
           <image class='myListImages' src='/images/icon/impression-sefa.png'></image>
           <view class='mylistText'>分享注册</view>
-        </view> 
+        </view>
+        <view wx:else class='myList'></view>
+        <view class='myList'></view>
+        <!-- <view class='myList myList_sue' catchtap='popularize'>
+          <image class='myListImages' src='/images/icon/kui.png'></image>
+          <view class='mylistText'>享7推广</view>
+        </view> -->
 
         <!-- <view class='myList sectionList' hidden="{{isshop}}" catchtap='enterEntrance'>
           <image class='myListImages' src='/images/icon/merchants_join.png'></image>

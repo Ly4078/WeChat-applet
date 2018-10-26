@@ -14,10 +14,10 @@
     <view class='elasticity'>
       <view class='subTop'><text>意见与建议</text></view>
       <view class="section">
-        <textarea class='textarea' bindinput='textInp' placeholder="请填写10个字以上的问题描述以便我们更好的帮助" placeholder-style="color:gray;" maxlength='140' />
-        <view class='number'><text>10/140</text></view>
+        <textarea class='textarea' bindinput='textInp' placeholder="请填写10个字以上的问题描述以便我们更好的帮助" placeholder-style="color:gray;" maxlength='140' value="{{text}}" />
+        <view class='number'><text>{{textLen}}/140</text></view>
       </view>
-      <view class='uploading'><text>相关截图 (选填)</text><text>0/4</text></view>
+      <view class='uploading'><text>相关截图 (选填)</text><text>{{imgNum}}/4</text></view>
     </view>
   </view>
   <view class='uploading-img'>
@@ -29,7 +29,7 @@
   <view class='cell-cell'>
     <view class='method'><text>邮箱/手机号</text> </view>
     <view class="sectionmax">
-      <input bindinput='teleInp' maxlength="40" placeholder="邮箱/手机号" />
+      <input bindinput='teleInp' maxlength="40" placeholder="邮箱/手机号" value="{{phone}}" />
     </view>
   </view>
   <view class='presentSub'>

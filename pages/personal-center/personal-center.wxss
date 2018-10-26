@@ -298,7 +298,6 @@ button::after{
 }
 
 .dividual-lk{
-  margin-top: 20rpx;
   border-bottom-left-radius: 18rpx;
   border-bottom-right-radius: 18rpx;
   border-top-left-radius: 18rpx;

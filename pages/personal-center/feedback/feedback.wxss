@@ -22,7 +22,7 @@ page{
   border-bottom: 1px solid #F5F5FA;
 }
 
-.list:last-child{
+.listTop {
   margin-top: 20rpx;
 }
 

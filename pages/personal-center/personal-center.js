@@ -661,7 +661,7 @@ Page({
   },
   feedback: function (e) { //意见反馈
     wx.navigateTo({
-      url: 'feedback/feedback',
+      url: 'feedback/feedback'
     })
   },
   aboutMe: function (e) { //关于我们

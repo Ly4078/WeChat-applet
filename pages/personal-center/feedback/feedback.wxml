@@ -1,21 +1,21 @@
 <view class='Wrap'>
-  <view class='heaTop'><text class='headline'>请选择反馈内容</text></view>
-  <view class='list' wx:for="{{issueArray}}" wx:for-item="item" wx:key="{{id}}" id="{{item.id}}" bindtap='particulars'>
-    <view class='headCenter'>
-      <view class='single'>
-        <text>{{item.issueName}}</text>
-        <image class='singleImg' src='/images/icon/home_arrow.png'></image>
-      </view>
-    </view>
-  </view>
-
-  <view class='list' id="15" bindtap='particulars'>
+  <view class='list listTop' id="15" bindtap='particulars'>
     <view class='headCenter'>
       <view class='single'>
         <view>
           <image class='singleImages' src='/images/icon/juxinges.png'></image>
           <text class='tickling'>问题反馈与功能建议</text>
         </view>
+        <image class='singleImg' src='/images/icon/home_arrow.png'></image>
+      </view>
+    </view>
+  </view>
+
+  <view class='heaTop'><text class='headline'>请选择反馈内容</text></view>
+  <view class='list' wx:for="{{issueArray}}" wx:for-item="item" wx:key="{{id}}" id="{{item.id}}" bindtap='particulars'>
+    <view class='headCenter'>
+      <view class='single'>
+        <text>{{item.issueName}}</text>
         <image class='singleImg' src='/images/icon/home_arrow.png'></image>
       </view>
     </view>
