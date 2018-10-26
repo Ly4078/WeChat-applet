@@ -80,6 +80,7 @@ Page({
     })
   },
   onShow: function () {
+    let that = this;
     this.setData({
       isshowlocation: false
     })

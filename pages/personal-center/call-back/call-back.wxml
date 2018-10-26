@@ -18,7 +18,7 @@
      <text>商品信息:</text>
      <text>{{hxData.orderItemOuts[0].goodsSkuName}}</text>
     </view>
-    <view class='inputBox'>
+    <view class='inputBox' wx:if="{{hxData.orderItemOuts[0].goodsNum+hxData.orderItemOuts[0].giftNum}}">
      <text>数量:</text>
      <text>{{hxData.orderItemOuts[0].goodsNum+hxData.orderItemOuts[0].giftNum?hxData.orderItemOuts[0].goodsNum+hxData.orderItemOuts[0].giftNum:''}}</text>
     </view>

@@ -101,7 +101,7 @@ Page({
                 that.getOpendId();
               }
               let userInfo = app.globalData.userInfo;
-              wx.setStorageSync('userInfo', userInfo)
+              wx.setStorageSync('userInfo', userInfo);
               // if (!_data.unionId) {
               //   that.setData({
               //     istouqu: true
@@ -118,7 +118,7 @@ Page({
   },
 
   authlogin: function(val) { //获取token
-    console.log('authlogin')
+    console.log('authlogin',val)
     let that = this;
     wx.request({
       url: this.data._build_url + 'auth/login?userName=' + app.globalData.userInfo.userName,

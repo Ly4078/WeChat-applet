@@ -25,9 +25,12 @@ App({
         if (options.query.isback || options.query.isback==1){
           return
         }
-        wx.reLaunch({
-          url: '/pages/init/init',
-        })
+        if (options.path == 'pages/index/index'){
+          wx.reLaunch({
+            url: '/pages/init/init',
+          })
+        }
+        
       }
     }
   },
