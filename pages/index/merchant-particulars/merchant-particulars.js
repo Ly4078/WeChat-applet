@@ -194,7 +194,8 @@ Page({
             return;
             if (!data.mobile) {
               wx.navigateTo({
-                url: '/pages/personal-center/securities-sdb/securities-sdb?back=1'
+                url: '/pages/init/init?back=1'
+                // url: '/pages/personal-center/securities-sdb/securities-sdb?back=1'
               })
             } else if (!res.data.data.unionId) { //用户unionId 如未获取到，则调用againgetinfo事件
               that.setData({
@@ -1371,7 +1372,8 @@ Page({
     })
     if (id == 1) {
       wx.navigateTo({
-        url: '/pages/personal-center/securities-sdb/securities-sdb?back=1'
+        url: '/pages/init/init?back=1'
+        // url: '/pages/personal-center/securities-sdb/securities-sdb?back=1'
       })
     }
   },

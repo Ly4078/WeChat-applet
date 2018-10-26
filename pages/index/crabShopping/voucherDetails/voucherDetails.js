@@ -186,7 +186,8 @@ Page({
         }
       } else { //是新用户，去注册页面
         wx.navigateTo({
-          url: '/pages/personal-center/securities-sdb/securities-sdb?back=1'
+          url: '/pages/init/init?back=1'
+          // url: '/pages/personal-center/securities-sdb/securities-sdb?back=1'
         })
         // this.authlogin();
       }
@@ -445,7 +446,8 @@ Page({
             
             if (!data.mobile) { //是新用户，去注册页面
               wx.navigateTo({
-                url: '/pages/personal-center/securities-sdb/securities-sdb?back=1'
+                url: '/pages/init/init?back=1'
+                // url: '/pages/personal-center/securities-sdb/securities-sdb?back=1'
               })
             } else {
               if (app.globalData.token){

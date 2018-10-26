@@ -19,7 +19,8 @@
   </view> -->
   <view class='evaluate-maximum'>
     <view class='evaluate_l'>
-      <image class='evaluateImages' mode="aspectFill" src='{{item.userPic}}'></image>
+      <image wx:if="{{item.userPic}}" class='evaluateImages'  mode="aspectFill" src='{{item.userPic}}'></image>
+      <image wx:else class='evaluateImages' mode="aspectFill" src='https://xq-1256079679.file.myqcloud.com/test_图层 24_0.8.jpg'></image>
     </view>
     <view class="evaluate_r">
       <view class="evaluate_r_top">

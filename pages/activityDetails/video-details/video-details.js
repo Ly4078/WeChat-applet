@@ -78,7 +78,8 @@ Page({
         }
       } else {
         wx.navigateTo({
-          url: '/pages/personal-center/securities-sdb/securities-sdb?back=1'
+          url: '/pages/init/init?back=1'
+          // url: '/pages/personal-center/securities-sdb/securities-sdb?back=1'
         })
       }
     } else {
@@ -112,7 +113,8 @@ Page({
             }
             if (!data.mobile) {
               wx.navigateTo({
-                url: '/pages/personal-center/securities-sdb/securities-sdb?back=1'
+                url: '/pages/init/init?back=1'
+                // url: '/pages/personal-center/securities-sdb/securities-sdb?back=1'
               })
             }
             that.authlogin(); //获取token
@@ -679,7 +681,8 @@ Page({
     })
     if (id == 1) {
       wx.navigateTo({
-        url: '/pages/personal-center/securities-sdb/securities-sdb?back=1'
+        url: '/pages/init/init?back=1'
+        // url: '/pages/personal-center/securities-sdb/securities-sdb?back=1'
       })
     }
   },

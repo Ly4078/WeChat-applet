@@ -153,6 +153,7 @@ Page({
     };
     wx.showLoading({
       title: '加载中...',
+      mask: true,
     })
     if (this.data.businessCate) { //美食类别 
       _parms.businessCate = this.data.businessCate
@@ -166,7 +167,7 @@ Page({
     requesting = true
     if (this.data.businessCate == '川湘菜') {
       Api.listForChuangXiang(_parms).then((res) => {
-        wx.hideLoading();
+       
         wx.stopPullDownRefresh();
         if(res.data.code == 0){
           if(res.data.data.list.length>0){
@@ -184,6 +185,7 @@ Page({
               loading: false
             }, () => {
               requesting = false;
+              wx.hideLoading();
             })
           }
         }else{
@@ -191,17 +193,18 @@ Page({
             loading: false
           })
           requesting = false;
+          wx.hideLoading();
         }
       },()=>{
         this.setData({
           loading: false
         })
         requesting = false;
+        wx.hideLoading();
       })
     } else {
       Api.shoplist(_parms).then((res) => {
         let that = this;
-        wx.hideLoading();
         wx.stopPullDownRefresh();
         if (res.data.code == 0){
           if(res.data.data.list && res.data.data.list.length>0){
@@ -221,6 +224,7 @@ Page({
                 loading: false
               })
               requesting = false;
+              wx.hideLoading();
             })
           }else{
             this.setData({
@@ -228,6 +232,7 @@ Page({
               loading: false
             })
             requesting = false;
+            wx.hideLoading();
           }
         }
       },()=>{
@@ -235,6 +240,7 @@ Page({
           loading: false
         })
         requesting = false;
+        wx.hideLoading();
       })
     }
   },

@@ -72,7 +72,8 @@ Page({
                 that.authlogin();
               }else{
                 wx.navigateTo({
-                  url: '/pages/personal-center/securities-sdb/securities-sdb?back=1'
+                  url: '/pages/init/init?back=1'
+                  // url: '/pages/personal-center/securities-sdb/securities-sdb?back=1'
                 })
               }
             }
