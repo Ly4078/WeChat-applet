@@ -335,8 +335,13 @@ Page({
     })
     if (this.data.iszy) {
       let _value = that.data._codees ? that.data._codees : that.data.code,url="",_Url="";
-
-      url = that.data._build_url + 'orderInfo/useOrderInfo?orderCode=' + _value;
+      if (_hxData.type == 1){
+        url = that.data._build_url + 'orderInfo/useOrderInfo?orderCode=' + _value;
+      } else if (_hxData.type == 2){
+        console.log('12313')
+        url = that.data._build_url + 'orderCoupon/hxCoupon?shopId=0&shopName=享七自营&salepointId=' + _hxData.salePoint.id+'&id='+_hxData.id;
+      }
+      
       _Url=encodeURI(url);
       wx.request({
         url: _Url,
@@ -361,34 +366,10 @@ Page({
           }
         }
       })
-
-      return
-      let _parms = {
-        orderCode: that.data._codees ? that.data._codees : that.data.code,
-        // hxUserId: app.globalData.userInfo.userId,
-        token: app.globalData.token
-      }
-
-      
-      Api.useOrderInfo(_parms).then((res) => {
-        if (res.data.code == 0) {
-          wx.showModal({
-            title: '',
-            showCancel: false,
-            content: '核销成功',
-            success: function(res) {
-              if (res.confirm) {
-                wx.switchTab({
-                  url: '../personal-center'
-                })
-              }
-            }
-          })
-        }
-      })
     } else {
+      console.log('12313')
       _hxData.shopAmount = this.data.amount;
-      let _values = "", _parms={},that=this;
+      let _values = "", _parms={},that=this,url="",_Url="";
       _parms = {
         soId: _hxData.soId, //订单id	Long
         shopId: app.globalData.userInfo.shopId ? app.globalData.userInfo.shopId : "", //商家id	Long
@@ -409,8 +390,16 @@ Page({
         _values += key + "=" + _parms[key] + "&";
       }
       _values = _values.substring(0, _values.length - 1);
+
+      if (_hxData.type == 1) {
+        url = that.data._build_url + 'hx/add?' + _values;
+      } else if (_hxData.type == 2) {
+        console.log('12313')
+        url = that.data._build_url + 'orderCoupon/hxCoupon?shopId=0&shopName=享七自营&salepointId=' + _hxData.salePoint.id + '&id=' + _hxData.id;
+      }
+      _Url = encodeURI(url);
       wx.request({
-        url: that.data._build_url + 'hx/add?' + _values,
+        url: _Url,
         header: {
           "Authorization": app.globalData.token
         },

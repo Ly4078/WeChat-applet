@@ -73,13 +73,10 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
-    console.log("onShowonShowonShow")
-
     wx.showLoading({
       title: '请稍候...',
       mask:'true'
     })
-
     this.findByCode();
   },
 
@@ -132,17 +129,12 @@ Page({
           let _token = 'Bearer ' + res.data.data;
           app.globalData.token = _token;
           console.log("token:", app.globalData.token)
-          let userInfo = app.globalData.userInfo;
-          wx.setStorageSync('userInfo', userInfo)
           wx.setStorageSync('token', _token)
-
           if(val == 2){
             that.getVerificationCode();
           }else{
             if (app.globalData.userInfo.mobile) {
               if (that.data.referrer) { //推荐人
-                console.log("referrer:", that.data.referrer)
-                console.log('isscan:', that.data.isscan)
                 // that.setpullUser();
                 if (that.data.isscan) {
                   console.log("1111111111")
@@ -316,8 +308,8 @@ Page({
 
   getVerificationCode() { //点击获取验证码
     let that = this;
-    if (!app.globalData.token){
-      that.findByCode("2")
+    if (app.globalData.token.length<5){
+      that.findByCode("2");
       return
     }
     console.log("getVerificationCode")
@@ -349,6 +341,8 @@ Page({
               isclick: false,
               isabss:false
             })
+          }else{
+            that.findByCode("2");
           }
         }
       }) 

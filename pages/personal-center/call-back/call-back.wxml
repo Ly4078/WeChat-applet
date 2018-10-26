@@ -20,7 +20,7 @@
     </view>
     <view class='inputBox'>
      <text>数量:</text>
-     <text>{{hxData.orderItemOuts[0].goodsNum+hxData.orderItemOuts[0].giftNum}}</text>
+     <text>{{hxData.orderItemOuts[0].goodsNum+hxData.orderItemOuts[0].giftNum?hxData.orderItemOuts[0].goodsNum+hxData.orderItemOuts[0].giftNum:''}}</text>
     </view>
 
     <span catchtap='confirm' class="okBtn {{okhx?'look':''}}">确认核销</span>

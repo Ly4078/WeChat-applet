@@ -19,13 +19,13 @@ App({
     const userInfo = wx.getStorageSync("userInfo");
     var mobile = String(userInfo.mobile);
       if ( mobile.length < 11){
-      if (options.path == 'pages/personal-center/securities-sdb/securities-sdb' || options.path=='pages/init/init'){
-        return
+        if (options.path == 'pages/personal-center/securities-sdb/securities-sdb' || options.path=='pages/init/init'){
+        }else{
+          wx.reLaunch({
+            url: '/pages/init/init',
+          })
+        }
       }
-      wx.reLaunch({
-        url: '/pages/init/init',
-      })
-    }
   },
   onPullDownRefresh: function () {
     wx.stopPullDownRefresh()

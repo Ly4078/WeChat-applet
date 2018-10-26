@@ -171,13 +171,13 @@ page {
   margin-left: 30%;
 }
 .voucher{
-  width: 704rpx;
+  width: 94%;
   height:458rpx;
   padding-top: 200rpx;
-  margin-left: 28rpx;
+  margin-left: 3%;
 }
 .voucherItem{
-  width: 704rpx;
+  width: 705rpx;
   height:458rpx;
   margin-bottom: 30rpx;
   border-radius:16rpx;
