@@ -78,7 +78,8 @@ Page({
           let _token = 'Bearer ' + res.data.data;
           app.globalData.token = _token;
           let userInfo = wx.getStorageSync("userInfo")
-          userInfo.token = _token
+          userInfo.token = _token;
+          wx.setStorageSync('token', _token)
           wx.setStorageSync('userInfo', userInfo);
           if (userInfo.mobile && userInfo.mobile.length >= 11) {
             wx.showModal({

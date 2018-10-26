@@ -12,8 +12,6 @@ Page({
     isgetCode: false,
     timer: null
   },
-
-
   onLoad: function(options) {
     let that = this;
     var _parms = app.globalData.currentScene.query,
@@ -53,7 +51,6 @@ Page({
         }
       },
       fail: res => {
-        // session_key 已经失效，需要重新执行登录流程
         this.wxLogin()
       }
     })
@@ -91,7 +88,6 @@ Page({
     wx.getUserInfo({
       withCredentials: true,
       success: function(res) {
-
         let sessionKey = that.data.loginData.sessionKey
         if (isPhoneLogin) {
           app.globalData.sessionKey = sessionKey;
@@ -110,7 +106,6 @@ Page({
         })
       }
     })
-
   },
   createNewUser: function(sessionKey, ivData, encrypData) {
     let that = this;
@@ -125,7 +120,6 @@ Page({
             app.globalData.userInfo.userId = res.data.data.id
             that.authlogin(res.data.data.userName)
           }
-
         }
       }
     })
@@ -145,7 +139,8 @@ Page({
           let _token = 'Bearer ' + res.data.data;
           app.globalData.token = _token;
           let userInfo = wx.getStorageSync("userInfo")
-          userInfo.token = _token
+          userInfo.token = _token;
+          wx.setStorageSync('token', _token)
           wx.setStorageSync('userInfo', userInfo);
           if (userInfo.mobile && userInfo.mobile.length >= 11) {
             that.updatauser(that.data.wechatUserInfo.userInfo);
@@ -236,7 +231,6 @@ Page({
         }
       }
     })
-
   },
   BindwechatPhone: function(phone) {
     let that = this;
@@ -273,5 +267,4 @@ Page({
       getPhone: false
     })
   }
-
 })
