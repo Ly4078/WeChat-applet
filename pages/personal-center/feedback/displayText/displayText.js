@@ -264,9 +264,10 @@ Page({
           })
         }
         wx.hideLoading();
+      },
+      fail: function (res) {
+        wx.hideLoading();
       }
-    }, () => {
-      wx.hideLoading();
     });
   }
 })
