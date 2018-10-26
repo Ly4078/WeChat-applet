@@ -121,7 +121,7 @@ Page({
         }).then((res) => {
           if (res.data.code == 0) {
             let _data = res.data.data;
-            if (_data.id && _data != null) {
+            if (_data.id) {
               app.globalData.userInfo.userId = _data.id;
               for (let key in _data) {
                 for (let ind in app.globalData.userInfo) {
@@ -133,8 +133,6 @@ Page({
 
               let userInfo = app.globalData.userInfo;
               wx.setStorageSync('userInfo', userInfo);
-            }
-            if (_data.id) {
               that.authlogin();
             }else{
               wx.navigateTo({
