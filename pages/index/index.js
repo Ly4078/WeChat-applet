@@ -9,6 +9,7 @@ var app = getApp();
 var village_LBS = function(that) {
   wx.getLocation({
     success: function(res) {
+      console.log('village_LBS:', res)
       let latitude = res.latitude;
       let longitude = res.longitude;
       that.requestCityName(latitude, longitude);
@@ -202,23 +203,22 @@ Page({
     // userInfo.city = userInfo.city ? userInfo.city:'十堰市'
     // app.globalData.userInfo = userInfo
 
-      this.setData({
-        bannthree,
-        carousel,
-        fresh1: txtObj ? txtObj.fresh1 : '',
-        fresh2: txtObj ? txtObj.fresh2 : '',
-        fresh3: txtObj ? txtObj.fresh3 : '',
-        syhotdish: txtObj ? txtObj.sydish:{},
-        whhotdish: txtObj ? txtObj.whdish:{}
-      },()=>{
-        that.indexinit();
-      });
-    
+    this.setData({
+      bannthree,
+      carousel,
+      fresh1: txtObj ? txtObj.fresh1 : '',
+      fresh2: txtObj ? txtObj.fresh2 : '',
+      fresh3: txtObj ? txtObj.fresh3 : '',
+      syhotdish: txtObj ? txtObj.sydish : {},
+      whhotdish: txtObj ? txtObj.whdish : {}
+    });
+
   },
   onShow: function() {
     // this.getOpendId();
-   
+    console.log("onShow")
     let that = this;
+    that.indexinit();
     this.setData({
       loading: false,
       isshowlocation: false
@@ -335,7 +335,7 @@ Page({
               } else {
                 that.getOpendId();
               }
-            } else if (!userInfo.lat || !userInfo.lng || !userInfo.city){
+            } else if (!userInfo.lat || !userInfo.lng || !userInfo.city) {
               that.getUserlocation();
             }
           }
@@ -565,7 +565,7 @@ Page({
     if (userInfo.lat && userInfo.lng && userInfo.city) {
       this.getCutDish();
     } else {
-     
+
     };
     // that.isNewUser();
     if (userInfo && userInfo.mobile) {
@@ -580,14 +580,16 @@ Page({
       })
     }
   },
-  openSetting() {//打开授权设置界面
+  openSetting() { //打开授权设置界面
+    console.log('openSetting')
     let that = this;
     that.setData({
       isshowlocation: false
     })
-    wx.openSetting({ 
+    wx.openSetting({
       success: (res) => {
-        if (res.authSetting['scope.userLocation']) {  
+        if (res.authSetting['scope.userLocation']) {
+          console.log('11111')
           village_LBS(that);
         } else {
           that.setData({
@@ -620,7 +622,7 @@ Page({
               })
 
             } else {
-         
+
               that.getCutDish();
             }
           }
@@ -631,6 +633,7 @@ Page({
 
   requestCityName(lat, lng) { //获取当前城市
     let that = this;
+    console.log("requestCityName")
     app.globalData.userInfo.lat = lat;
     app.globalData.userInfo.lng = lng;
     if (app.globalData.userInfo.city) {
@@ -657,7 +660,6 @@ Page({
             that.setData({
               city: app.globalData.userInfo.city
             })
-            
           }
         }
       })
@@ -669,7 +671,7 @@ Page({
     this.setData({
       bargainList: [],
       bargainListall: [],
-      _page:1
+      _page: 1
     })
     if (app.globalData.userInfo.city == '十堰市') {
       this.setData({

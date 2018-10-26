@@ -10,10 +10,16 @@ Page({
     _build_url: GLOBAL_API_DOMAIN,
     getPhone: false,
     isgetCode: false,
+    isBack:false,
     timer: null
   },
   onLoad: function(options) {
     let that = this;
+    if(options.isback){
+      this.setData({
+        isBack:true
+      })
+    }
     var _parms = app.globalData.currentScene.query,
       _values = '',
       valus = '';
@@ -128,8 +134,9 @@ Page({
         if (isPhoneLogin) {
           app.globalData.sessionKey = sessionKey;
           app.globalData.loginData = res;
+
           wx.navigateTo({
-            url: 'phone/phone',
+            url: 'phone/phone?isback=' + that.data.isBack?'1':'0',
           })
           return
         }
@@ -232,9 +239,15 @@ Page({
           app.globalData.userInfo.nickName = data.nickName;
           app.globalData.userInfo.iconUrl = data.avatarUrl;
           app.globalData.currentScene.query == ''
-          wx.reLaunch({ //以拥有手机号码直接跳转
-            url: that.data.navigetToUrl ? that.data.navigetToUrl : '/pages/index/index',
-          })
+          if (that.data.isBack){
+            wx.navigateBack({
+              data: 1
+            })
+          }else{
+            wx.reLaunch({ //以拥有手机号码直接跳转
+              url: that.data.navigetToUrl ? that.data.navigetToUrl : '/pages/index/index',
+            })
+          }
         }
       }
     })
@@ -262,7 +275,7 @@ Page({
         } else {
           wx.hideLoading()
           wx.navigateTo({
-            url: 'phone/phone?types=2',
+            url: 'phone/phone?types=2&isback=' + that.data.isBack ? '1' : '0',
           })
         }
       }

@@ -29,9 +29,8 @@ Page({
       this.data.businessCate = options.cate
     }
     let _token = wx.getStorageSync('token') || {};
-
     let userInfo = wx.getStorageSync('userInfo') || {};
-    console.log('userInfo:', userInfo)
+    // console.log('userInfo:', userInfo)
     app.globalData.token = _token;
     app.globalData.userInfo = userInfo
     app.globalData.token = _token;
@@ -201,14 +200,12 @@ Page({
       })
     } else {
       Api.shoplist(_parms).then((res) => {
-        let that = this
-        let data = res.data;
-        if (data.code == 0){
-          wx.stopPullDownRefresh();
-          if (data.data.list != null && data.data.list != "" && data.data.list != []) {
-            wx.stopPullDownRefresh()
-            let posts = this.data.posts_key;
-            let _data = data.data.list
+        let that = this;
+        wx.hideLoading();
+        wx.stopPullDownRefresh();
+        if (res.data.code == 0){
+          if(res.data.data.list && res.data.data.list.length>0){
+            let posts = this.data.posts_key,_data = res.data.data.list;
             for (let i = 0; i < _data.length; i++) {
               _data[i].distance = utils.transformLength(_data[i].distance);
               _data[i].activity = _data[i].ruleDescs ? _data[i].ruleDescs.join(',') : '';

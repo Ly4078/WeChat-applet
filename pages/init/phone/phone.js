@@ -13,6 +13,7 @@ Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
     second: 60,
+    isBack:false,
     text: '获取验证码'
   },
 
@@ -35,7 +36,8 @@ Page({
       path = '';
     }
     this.setData({
-      navigetToUrl: path
+      navigetToUrl: path,
+      isBack: options.isback=='1'?true:false
     })
     let loginData = app.globalData.loginData;
     let sessionKey = app.globalData.sessionKey;
@@ -149,9 +151,15 @@ Page({
           app.globalData.userInfo.nickName = data.nickName;
           app.globalData.userInfo.iconUrl = data.avatarUrl;
           app.globalData.currentScene.query == ''
-          wx.reLaunch({ //以拥有手机号码直接跳转
-            url: that.data.navigetToUrl ? that.data.navigetToUrl : '/pages/index/index',
-          })
+          if (that.data.isBack) {
+            wx.navigateBack({
+              data: 2
+            })
+          } else {
+            wx.reLaunch({ //以拥有手机号码直接跳转
+              url: that.data.navigetToUrl ? that.data.navigetToUrl : '/pages/index/index',
+            })
+          }
         }
       }
     })
