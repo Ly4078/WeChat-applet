@@ -129,10 +129,12 @@ page{
   background-color: #ffffff;
   display: flex;
   flex-direction: row;
+  padding-right: 10rpx;
+  box-sizing: border-box;
 }
 
 .addition-img{
-  width: 170rpx;
-  height: 170rpx;
+  width: 165rpx;
+  height: 165rpx;
   padding-left: 18rpx;
 }

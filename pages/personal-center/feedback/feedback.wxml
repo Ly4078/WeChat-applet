@@ -1,6 +1,6 @@
 <view class='Wrap'>
   <view class='heaTop'><text class='headline'>请选择反馈内容</text></view>
-  <view class='list' wx:for="{{issueArray}}" wx:for-item="item" wx:for-index="idx" wx:key="{{id}}" bindtap='particulars'>
+  <view class='list' wx:for="{{issueArray}}" wx:for-item="item" wx:key="{{id}}" id="{{item.id}}" bindtap='particulars'>
     <view class='headCenter'>
       <view class='single'>
         <text>{{item.issueName}}</text>
@@ -9,7 +9,7 @@
     </view>
   </view>
 
-  <view  class='list'>
+  <view class='list' id="15" bindtap='particulars'>
     <view class='headCenter'>
       <view class='single'>
         <view>

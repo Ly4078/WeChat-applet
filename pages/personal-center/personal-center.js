@@ -26,6 +26,7 @@ Page({
     accountBalance: '',
     userId: '',
     picUrl: '',
+    isShow: false   //是否联系客服
   },
   onLoad: function () {
     let that = this;
@@ -378,8 +379,6 @@ Page({
         }
       })
     }
-
-
   },
   calling: function () { //享7客户电话
     wx.makePhoneCall({
@@ -391,6 +390,9 @@ Page({
         console.log("拨打电话失败！")
       }
     })
+  },
+  onlineCall() {
+
   },
   enterEntrance: function (event) { //点击免费入驻
     if (!app.globalData.userInfo.mobile) {
@@ -414,9 +416,26 @@ Page({
       url: 'my-discount/my-discount',
     })
   },
-  carefulness: function (event) { //订单
+  popularize() {   //享七推广
+    wx.showToast({
+      title: '该功能正在开发中',
+      icon: 'none'
+    })
+    // wx.navigateTo({
+    //   url: 'popularize/popularize',
+    // })
+  },
+  carefulness: function (e) { //订单
+    let id = e.currentTarget.id;
+    if(id == 10) {
+      wx.showToast({
+        title: '该功能正在开发中',
+        icon: 'none'
+      })
+      return false;
+    }
     wx.navigateTo({
-      url: 'personnel-order/personnel-order',
+      url: 'personnel-order/personnel-order?elephant=' + id
     })
   },
   infromation: function (event) { //收货地址
@@ -471,6 +490,16 @@ Page({
       url: '../personal-center/voucher/voucher',
     })
   },
+  hiddenCall() {  //隐藏电话弹窗
+    this.setData({
+      isShow: false
+    });
+  },
+  contact() {   //联系客服
+    this.setData({
+      isShow: !this.data.isShow
+    });
+  },
   VoucherCode: function () { //输入券码核销
     // isshopuser iszhiying
     wx.navigateTo({
@@ -507,7 +536,7 @@ Page({
   },
   registered: function () { //用户注册
     wx.navigateTo({
-      url: '/pages/personal-center/securities-sdb/securities-sdb?back=1'
+      url: '../personal-center/registered/registered'
     })
   },
   //判断二维码是否可以跳转
@@ -647,7 +676,7 @@ Page({
     })
     if (id == 1) {
       wx.redirectTo({
-        url: '/pages/personal-center/securities-sdb/securities-sdb?back=1'
+        url: '/pages/personal-center/registered/registered'
       })
     }
   },

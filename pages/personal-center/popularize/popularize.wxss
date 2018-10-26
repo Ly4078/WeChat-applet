@@ -1,1 +1,190 @@
-/* pages/personal-center/popularize/popularize.wxss */
+
+.deepred {
+  color: #FF3838;
+}
+
+.red {
+  color: #F93D28;
+}
+
+.gray {
+  color: #808080;
+}
+
+.f24 {
+  font-size: 24rpx;
+}
+
+.f28 {
+  font-size: 28rpx;
+}
+
+.f40 {
+  font-size: 40rpx;
+}
+
+.w600 {
+  font-weight: 600;
+}
+
+page{
+  background:rgba(94,104,199,1);
+}
+
+.sharepull {
+  color: #191919;
+  padding-bottom: 24rpx;
+}
+
+.sharepullTop{
+  width: 100%;
+  height: 774rpx;
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+.sharepullImages{
+  width: 100%;
+  height: 100%;
+}
+
+.dimensional{
+  width: 489rpx;
+  height: 489rpx;
+  position: absolute;
+  top: 122rpx;
+  left: 134rpx;
+}
+
+.picture{
+  width:180rpx;
+  height:70rpx;
+  line-height:70rpx;
+  background:rgba(252,94,45,1);
+  border-radius:10rpx;
+  font-size:30rpx;
+  font-family:PingFangSC-Regular;
+  color:rgba(255,255,255,1);
+  letter-spacing: 2rpx;
+  position: absolute;
+  bottom:62rpx;
+  left:290rpx;
+}
+
+.explain {
+  display: flex;
+  justify-content: center;
+}
+
+.explain_inner text {
+  display: block;
+  color: #B2B9F7;
+}
+
+.explain_inner text:first-child {
+  margin-bottom: 14rpx;
+}
+
+.statistics, .order {
+  width: 100%;
+  padding: 0 28rpx;
+  box-sizing: border-box;
+}
+
+/* 统计 */
+.statistics {
+  margin: 30rpx 0 20rpx 0;
+}
+
+.statistics_inner {
+  width: 100%;
+  background-color: #fff;
+  border-radius: 16rpx;
+}
+
+.statistics_top, .order_top {
+  border-top-left-radius: 16rpx;
+  border-top-right-radius: 16rpx;
+  box-sizing: border-box;
+  padding: 0 24rpx;
+  height: 64rpx;
+  line-height: 64rpx;
+  display: flex;
+  justify-content: space-between;
+  background-color: #F5F5FA;
+}
+
+.statistics_top image {
+  width: 14rpx;
+  height: 24rpx;
+  margin-left: 10rpx;
+}
+
+.statistics_bot {
+  display: flex;
+  height: 144rpx;
+}
+
+.statistics_bot > view {
+  width: 33.33%;
+  text-align: center;
+  padding-top: 30rpx;
+  box-sizing: border-box;
+}
+
+.statistics_bot text {
+  display: block;
+}
+
+.statistics_bot_f {
+  position: relative;
+
+}
+
+.cuttingLine  {
+  width: 2rpx;
+  height: 110rpx;
+  background-color: #EBEBEB;
+  position: absolute;
+  right: 0;
+  top: 18rpx;
+}
+
+/* 订单 */
+.order_inner {
+  width: 100%;
+  background-color: #fff;
+  border-radius: 16rpx;
+}
+
+.order_bot {
+  width: 100%;
+  padding: 44rpx 0 26rpx 20rpx;
+  box-sizing: border-box;
+}
+
+.list_tit, .list_item {
+  display: flex;
+  text-align: center;
+}
+
+.list_item {
+  margin-top: 20rpx;
+}
+
+.list_f {
+  width: 15%;
+}
+
+.list_s {
+  width: 40%;
+}
+
+.list_t {
+  width: 20%;
+}
+
+.list_h {
+  width: 25%;
+}

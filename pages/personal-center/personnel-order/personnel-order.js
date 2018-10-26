@@ -42,15 +42,18 @@ Page({
     wx.showLoading({
       title: '加载中...'
     })
+    this.setData({
+      elephant: options.elephant
+    })
   },
   onShow: function () {
     // this.getOrderList();
     // this.getshopOrderList();
     // this.getlogisticsList(this.data.lostr);
     this.abcdeewq();
-    this.setData({
-      elephant:0
-    })
+    // this.setData({
+    //   elephant:0
+    // })
     if (this.data.shopping == 0) {
       this.getlogisticsList();
     } else if (this.data.shopping == 1) {
@@ -111,6 +114,8 @@ Page({
       title: '加载中...'
     })
     this.setData({
+      page: 1,
+      orpage: 1,
       shopping: e.currentTarget.dataset.idx
     })
     if (this.data.shopping == 0) {

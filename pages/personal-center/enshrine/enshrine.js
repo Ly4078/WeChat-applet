@@ -24,7 +24,7 @@ Page({
     let that = this;
     // return
     wx.request({
-      url: that.data._build_url + 'fvs/list?page=' + that.data.page + '&rows=5',
+      url: that.data._build_url + 'fvs/getSCForList?page=' + that.data.page + '&rows=5',
       header: {
         "Authorization": app.globalData.token
       },
@@ -33,39 +33,48 @@ Page({
         if (data.code == 0 && data.data.list != null && data.data.list != "" && data.data.list != []) {
           let posts_key = that.data.posts_key;
           for (let i = 0; i < data.data.list.length; i++) {
-            wx.request({ //推荐菜
-              url: that.data._build_url + 'sku/tsc',
-              data: {
-                shopId: data.data.list[i].id
-              },
-              header: {
-                "Authorization": app.globalData.token
-              },
-              success: function (res) {
-                if(res.data.code == 0){
-                  if(res.data.data.list && res.data.data.list.length>0){
-                    let list = res.data.data.list;
-                    list = list.slice(0, 2);
-                    data.data.list[i].dish = list;
-                  }
-                }
-              }
-            })
-            wx.request({ //满减规则
-              url: that.data._build_url + 'pnr/selectByShopId',
-              data: {
-                shopId: data.data.list[i].id
-              },
-              header: {
-                "Authorization": app.globalData.token
-              },
-              success: function (res) {
-                let list = res.data.data;
-                data.data.list[i].reduction = list;
-              }
-            })
+            let ruleDescs = data.data.list[i].ruleDescs;
+            if (ruleDescs && ruleDescs != [null] && ruleDescs != 'null') {
+              data.data.list[i].ruleDescs = ruleDescs.slice(0,2);
+            } else {
+              data.data.list[i].ruleDescs = [];
+            }
             posts_key.push(data.data.list[i]);
           }
+          // for (let i = 0; i < data.data.list.length; i++) {
+          //   wx.request({ //推荐菜
+          //     url: that.data._build_url + 'sku/tsc',
+          //     data: {
+          //       shopId: data.data.list[i].id
+          //     },
+          //     header: {
+          //       "Authorization": app.globalData.token
+          //     },
+          //     success: function (res) {
+          //       if(res.data.code == 0){
+          //         if(res.data.data.list && res.data.data.list.length>0){
+          //           let list = res.data.data.list;
+          //           list = list.slice(0, 2);
+          //           data.data.list[i].dish = list;
+          //         }
+          //       }
+          //     }
+          //   })
+          //   wx.request({ //满减规则
+          //     url: that.data._build_url + 'pnr/selectByShopId',
+          //     data: {
+          //       shopId: data.data.list[i].id
+          //     },
+          //     header: {
+          //       "Authorization": app.globalData.token
+          //     },
+          //     success: function (res) {
+          //       let list = res.data.data;
+          //       data.data.list[i].reduction = list;
+          //     }
+          //   })
+          //   posts_key.push(data.data.list[i]);
+          // }
           setTimeout(function () {
             that.setData({
               posts_key: posts_key,

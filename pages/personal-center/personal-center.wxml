@@ -15,9 +15,25 @@
   </view>
 </view>
 
-<view>
-  <view class='centreWrap'>
-    <view class='centreTopName'>
+<view class="personal_center">
+  <!-- 遮罩 -->
+  <view class="shadowBox" hidden="{{!isShow}}" catchtap="hiddenCall">
+    <view class='shadow_inner'>
+      <view class="shadow_list onlineCall" catchtap='onlineCall'>
+        <image class='myListImages' src='/images/icon/find_article_wechat.png'></image>
+        <text class='mylistText'>在线电话</text>
+        <button class="cs_button" open-type="contact" session-from="weapp">
+        </button>
+      </view>
+      <view class="shadow_list" catchtap='calling'>
+        <image class='myListImages' src='/images/icon/customer_service.png'></image>
+        <text class='mylistText'>客服电话</text>
+      </view>
+      <view class="shadow_time">服务时间：9:00--18:00</view>
+    </view>
+  </view>
+  <view class="personal_Top">
+    <view class='centreWrap'>
       <view class='theNameof'>
         <button wx:if="{{canIUse}}" class='suerinfo' open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">
           <image class='centreImages' wx:if="{{ismobile}}" src='{{iconUrl}}'></image>
@@ -26,145 +42,143 @@
         <view wx:else>请升级微信版本</view>
         <text class='centreText' catchtap='wxgetsetting'>{{nickName}}</text>
       </view>
-    </view>
-    <view class='TopRight'>
-      <button catchtap='personal'>个人主页</button>
-    </view>
-    <image class='background' src='https://xq-1256079679.file.myqcloud.com/text_267089724441584708_0.8.jpg'></image>
-  </view>
-
-  <!-- 动态 收藏 钱包 关注 -->
-  <view class='variances'>
-    <view class='messageCase'>
-      <view class='messageWrap' bindtap='carefulness'>
-        <image class='coloursIcon' src='/images/icon/formicon.png'></image>
-        <text class='messageTop'>订单</text>
+      <view class='TopRight'>
+        <button catchtap='personal'>个人主页</button>
       </view>
+    </view>
+    <!-- 动态 收藏 钱包 关注 -->
+    <view class='variances'>
       <view class='messageWrap' catchtap='myTickets'>
-        <image class='coloursIcon' src='/images/icon/dobeSKS.png'></image>
+        <text class='messageTop'>2</text>
         <text class='messageTop'>券包</text>
       </view>
+      <view class='messageWrap' catchtap='enshrineClick'>
+        <text class='messageTop'>2</text>
+        <text class='messageTop'>收藏</text>
+      </view>
       <view class='messageWrap' catchtap='myMineMoney'>
-        <image class='coloursIcon' src='/images/icon/notecase.png'></image>
+        <text class='messageTop'>2</text>
         <text class='messageTop'>金币</text>
       </view>
       <view class='messageWrap' catchtap='personalCenter'>
-        <image class='coloursIcon' src='/images/icon/attention.png'></image>
+        <text class='messageTop'>2</text>
         <text class='messageTop'>关注</text>
       </view>
     </view>
   </view>
 
-  <view class='mylistWrap'>
-    <view class='myList' catchtap='enshrineClick'>
-      <view class='myList-single'>
-        <view>
-          <image class='myListImages' src='/images/icon/enshrine.png'></image>
-          <text class='mylistText'>收藏</text>
+  <view class="mylistBox">
+    <view class="mylistBox_inner">
+      <view class="myListTit" id="" bindtap='carefulness'>
+        <view>我的订单</view>
+        <view class="myListTit_r">
+          <text>全部订单</text>
+          <image class='myListArrows' src='/images/icon/home_arrow.png'></image>
         </view>
-        <image class='myListArrows' src='/images/icon/home_arrow.png'></image>
+      </view>
+      <view class='mylistWrap'>
+        <view class='myList' id="1" catchtap='carefulness'>
+          <image class='myListImages' src='/images/icon/p1.png'></image>
+          <view class='mylistText'>待付款</view>
+        </view>
+        <view class='myList' id="2" catchtap='carefulness'>
+          <image class='myListImages' src='/images/icon/p2.png'></image>
+          <view class='mylistText'>待收货</view>
+        </view>
+        <view class='myList' id="3" catchtap='carefulness'>
+          <image class='myListImages' src='/images/icon/p3.png'></image>
+          <view class='mylistText'>已完成</view>
+        </view>
+        <view class='myList' id="10" catchtap='carefulness'>
+          <image class='myListImages' src='/images/icon/p4.png'></image>
+          <view class='mylistText'>退款/售后</view>
+        </view>
+        <!-- <view class='myList'>
+          <view class='myList-single' catchtap='infromation'>
+            <view>
+              <image class='myListImages' src='/images/icon/message.png'></image>
+              <text class='mylistText'>收货地址</text>
+            </view>
+            <image class='myListArrows' src='/images/icon/home_arrow.png'></image>
+          </view>
+        </view>
+        <view class='myList'>
+          <view class='myList-single' catchtap='remittance'>
+            <view>
+              <image class='myListImages' src='/images/icon/remittance.png'></image>
+              <text class='mylistText'>兑换记录</text>
+            </view>
+            <image class='myListArrows' src='/images/icon/home_arrow.png'></image>
+          </view>
+        </view> -->
       </view>
     </view>
-    <view class='myList' catchtap='continuousAs'>
-      <view class='myList-single'>
-        <view>
+  </view>
+
+  <view class="mylistBox">
+    <view class="mylistBox_inner">
+      <view class="myListTit">
+        <view>我的服务</view>
+      </view>
+      <view class='mylistWrap'>
+        <view class='myList' catchtap='continuousAs'>
           <image class='myListImages' src='/images/icon/bargainirg_kj.png'></image>
-          <text class='mylistText'>我的砍菜</text>
+          <view class='mylistText'>我的砍菜</view>
         </view>
-        <image class='myListArrows' src='/images/icon/home_arrow.png'></image>
-      </view>
-    </view>
-    <view class='myList' catchtap='handVoucher'>
-      <view class='myList-single'>
-        <view>
+        <view class='myList' catchtap='handVoucher'>
           <image class='myListImages' src='/images/icon/vouchericon.png'></image>
-          <text class='mylistText'>提蟹券</text>
+          <view class='mylistText'>提蟹券</view>
         </view>
-        <image class='myListArrows' src='/images/icon/home_arrow.png'></image>
+        <view class='myList' catchtap='contact'>
+          <image class='myListImages' src='/images/icon/customer_service.png'></image>
+          <view class='mylistText'>联系客服</view>
+        </view>
+
+        <view class='myList myList_wo' catchtap='feedback'>
+          <image class='myListImages' src='/images/icon/juxinges.png'></image>
+          <view class='mylistText'>问题反馈</view>
+        </view>
+
       </view>
     </view>
-
   </view>
 
-  <view class='mylistWrap'>
-    <view class='myList' hidden="{{!isshop}}">
-      <view class='myList-single' catchtap='scanAqrCode'>
-        <view>
+
+  <view class="mylistBox">
+    <view class="mylistBox_inner">
+      <view class="myListTit">
+        <view>我的工具</view>
+      </view>
+
+      <view class='mylistWrap'>
+        <view class='myList' hidden="{{!isshop}}" catchtap='scanAqrCode'>
           <image class='myListImages' src='/images/icon/saoma.png'></image>
-          <text class='mylistText'>扫码核销</text>
+          <view class='mylistText'>扫码核销</view>
         </view>
-        <image class='myListArrows' src='/images/icon/home_arrow.png'></image>
-      </view>
-    </view>
-    <view class='myList myList_sue' hidden="{{!isshop}}">
-      <view class='myList-single' catchtap='VoucherCode'>
-        <view>
+        <view class='myList myList_sue' hidden="{{!isshop}}" catchtap='VoucherCode'>
           <image class='myListImages' src='/images/icon/quanma.png'></image>
-          <text class='mylistText'>券码核销</text>
+          <view class='mylistText'>券码核销</view>
         </view>
-        <image class='myListArrows' src='/images/icon/home_arrow.png'></image>
-      </view>
-    </view>
-  </view>
-
-  <view class='mylistWrap'>
-    <view class='myList sectionList' hidden="{{isshop}}">
-      <view class='myList-single' catchtap='enterEntrance'>
-        <view>
+        <view class='myList myList_sue' catchtap='popularize'>
+          <image class='myListImages' src='/images/icon/kui.png'></image>
+          <view class='mylistText'>享7推广</view>
+        </view>
+        <!-- <view class='myList sectionList' hidden="{{isshop}}" catchtap='enterEntrance'>
           <image class='myListImages' src='/images/icon/merchants_join.png'></image>
           <text class='mylistText'>免费入驻</text>
-        </view>
-        <image class='myListArrows' src='/images/icon/home_arrow.png'></image>
-      </view>
-    </view>
+        </view> -->
 
-
-
-    <view class='myList sectionList'>
-      <view class='myList-single'>
-        <view>
-          <image class='myListImages' src='/images/icon/find_article_wechat.png'></image>
-          <text class='mylistText'>在线客服</text>
-          <button class="cs_button" open-type="contact" session-from="weapp">
-          </button>
-        </view>
-        <view>
-          <text class='TextTime'> 09:00--18:00 </text>
-          <image class='myListArrows' src='/images/icon/home_arrow.png'></image>
-        </view>
-      </view>
-    </view>
-
-    <view class='myList sectionList'>
-      <view class='myList-single' catchtap='calling'>
-        <view>
-          <image class='myListImages' src='/images/icon/customer_service.png'></image>
-          <text class='mylistText'>客服电话</text>
-        </view>
-        <view>
-          <text class='TextTime'>027-59728176  (09:00--18:00)</text>
-          <image class='myListArrows' src='/images/icon/home_arrow.png'></image>
-        </view>
-      </view>
-    </view>
-    <view class='myList myList_wo'>
-      <view class='myList-single' catchtap='aboutMe'>
-        <view>
+        <!-- <view class='myList myList_wo' catchtap='aboutMe'>
           <image class='myListImages' src='/images/icon/guanyuwome.png'></image>
-          <text class='mylistText'>关于我们</text>
-        </view>
-        <image class='myListArrows' src='/images/icon/home_arrow.png'></image>
-      </view>
-    </view>
+          <view class='mylistText'>关于我们</view>
+        </view> -->
 
-    <view class='myList dividual-lk {{!userId?"impressiones":""}}'>
-      <view class='myList-single' catchtap='dividualLogin'>
-        <view>
+        <view class='myList dividual-lk {{!userId?"impressiones":""}}' catchtap='dividualLogin'>
           <image class='myListImages' src='/images/icon/impression-sefa.png'></image>
-          <text class='mylistText'>分享注册</text>
+          <view class='mylistText'>分享注册</view>
         </view>
-        <image class='myListArrows' src='/images/icon/home_arrow.png'></image>
       </view>
     </view>
   </view>
+
 </view>
