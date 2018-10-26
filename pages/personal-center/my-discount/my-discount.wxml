@@ -97,10 +97,16 @@
     <view class='notes' wx:if="{{recData.length>0}}">
       <view wx:for="{{recData}}" wx:key="index">
         <view class='nodeItem'>
-          <view class='itemtop'>
+        
+          <view class='itemtop' wx:if="{{item.type == 1}}">
             <text class='topt1'>{{item.styleName}}-提蟹券</text>
             <text class='topt2'>{{ind == 1?"已赠送":"已领取"}}</text>
           </view>
+          <view class='itemtop' wx:if="{{item.type == 2}}">
+            <text class='topt1'>{{item.goodsSkuName}}-提货券</text>
+            <text class='topt2'>{{ind == 1?"已赠送":"已领取"}}</text>
+          </view>
+
           <view class='itemcon'>
             <view class='conitem'>
               <view class='cileft'>券号</view>

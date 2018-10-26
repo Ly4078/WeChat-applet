@@ -13,7 +13,7 @@
             <text class='hotClassify'>{{item.businessCate}}</text>
           </view>
           <view class='recommended' catchtap='recommendation'>
-            <text class='dishes'>{{item.skuName}}</text>
+            <text class='dishes' wx:if="{{item.skuName.length>0}}">{{item.skuName}}</text>
           </view>
           <view class='regulation' wx:if="{{item.ruleDescs.length>0}}">
             <image class='ticket' src='/images/icon/restaurant_ticket.png'></image>

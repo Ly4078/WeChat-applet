@@ -28,7 +28,12 @@ Page({
     wx.showLoading({
       title: '加载中...'
     })
-    this.getorderCoupon(0);
+    if (options.let){
+      this.getTicketList();
+      this.setData({ currentIndex:1})
+    }else{
+      this.getorderCoupon(0);
+    }
     if (options.cfrom == 'reg') {
       this.setData({
         isball: true
@@ -36,8 +41,7 @@ Page({
     }
   },
   navbarTap: function(e) {
-    let index = e.currentTarget.dataset.idx;
-    let that = this;
+    let index = e.currentTarget.dataset.idx, that = this;
     this.setData({
       page: 1,
       ticket_list: [],
@@ -329,7 +333,11 @@ Page({
     if (!app.globalData.userInfo.userId) {
       this.findByCode();
     } else {
-      requesting = true
+      requesting = true;
+      wx.showLoading({
+        title: '数据加载中...',
+        mask:true
+      })
       wx.request({
         url: that.data._build_url + 'cp/list',
         header: {
@@ -342,13 +350,15 @@ Page({
           rows: 8
         },
         success: function(res) {
+          console.log("1111:",res)
           if (res.data.code == 0) {
-            if (res.data.data.list != null && res.data.data.list != [] && res.data.data.list != "") {
+            if(res.data.data.list && res.data.data.list.length>0){
               let ticketList = res.data.data.list,
                 ticketArr = that.data.ticket_list;
               for (let i = 0; i < ticketList.length; i++) {
                 let Cts = "现金",
                   Dis = '折扣';
+                  console.log("aaaaa")
                 if (ticketList[i].skuName.indexOf(Cts) > 0) {
                   ticketList[i].cash = true
                 }
@@ -356,6 +366,7 @@ Page({
                   ticketList[i].discount = true
                 }
                 ticketList[i]["isDue"] = that.isDueFunc(ticketList[0].expiryDate);
+                console.log("bbbbbb")
                 if (that.data.isUsed == 0) {
                   ticketList[i].isgq = false;
                   that.setData({
@@ -368,7 +379,9 @@ Page({
                   })
                 }
                 ticketArr.push(ticketList[i]);
+                console.log("ticketArr:", ticketArr)
               }
+              console.log("cccc")
               that.setData({
                 ticket_list: ticketArr,
                 loading: false

@@ -13,11 +13,12 @@
 <image class="indexIcon" src="/images/icon/indexIcon.png" bindtap='toIndex' wx:if="{{!isreceive}}"></image>
 
 <!-- 展示提货券二维码 -->
-<view class='modal_box' wx:if="{{isshowticode}}" bindtap='closemodal'>
+<view class='modal_box' wx:if="{{isshowticode}}">
   <view class='whitebox'>
     <view class='boxt1'>请持提货码至</view>
-    <view class='boxt2'>
-   <image class='mapicon'  src="/images/icon/mapicon.png" ></image>{    <!--{current.salePoint.salepointName}} -->{{current.couponCode}}
+    <view class='boxt2' bindtap='TencentMap'>
+   <image class='mapicon' src="/images/icon/mapicon.png" ></image>
+   {{current.salePoint.salepointName}}
     </view>
     <view class='boxt3'>提取商品</view>
     <image class='qrcode' src="{{current.qrcodeUrl}}"></image>

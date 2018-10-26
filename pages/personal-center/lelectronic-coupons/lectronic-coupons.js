@@ -476,7 +476,7 @@ Page({
   },
   tomyOrder:function(){ //去优惠券列表
     wx.redirectTo({
-      url: '../my-discount/my-discount'
+      url: '../my-discount/my-discount?let=let'
     })
   }
 })

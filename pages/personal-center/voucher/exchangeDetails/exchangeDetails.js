@@ -94,8 +94,10 @@ Page({
           }
           if (_data.goodsSku.spuId == 3){
             if (_data.changerId == app.globalData.userInfo.userId){
-              _data.sendAmount = 30;
-              _data.sendAmount = _data.sendAmount.toFixed(2);
+              if(_data.type == 1){
+                _data.sendAmount = 30;
+                _data.sendAmount = _data.sendAmount.toFixed(2);
+              }
             }
           }
           that.setData({

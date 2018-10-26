@@ -98,7 +98,12 @@ Page({
         if (_list && _list.length>0){
           for (let i = 0; i < _list.length; i++) {
             let _arr = _list[i].goodsSkuName.split(" ");
-            _arr[0] += " 礼品卡";
+            if(_list[i].type == 1){
+              _arr[0] += " 礼品卡";
+            }else if(_list[i].type == 2){
+              _arr[0] += " 提货券";
+            }
+            
             _list[i].p1 = _arr[0];
             _list[i].p2 = _arr[1];
             _data.push(_list[i]);

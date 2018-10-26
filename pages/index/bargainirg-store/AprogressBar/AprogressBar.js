@@ -80,7 +80,7 @@ Page({
       isshowlocation:false
     });
     
-    this.getUserlocation();
+    // this.getUserlocation();
 
     if (app.globalData.userInfo.userId) {
       if (app.globalData.userInfo.mobile) {
@@ -90,6 +90,8 @@ Page({
             if (that.data._city || app.globalData.userInfo.city) {
               console.log("3213213213")
               this.hotDishList();
+            }else{
+              this.getUserlocation();
             }
           } else {
             console.log("aaaaa")
@@ -729,7 +731,6 @@ Page({
         token: app.globalData.token
       };
       Api.partakerList(_parms).then((res) => {
-        wx.hideLoading();
         if(res.data.code == 0){
           if(res.data.data.list.length>0){
             let list = res.data.data.list,
@@ -746,11 +747,15 @@ Page({
                 flag: false
               });
             }
+            wx.hideLoading();
           } else {
             this.setData({
               flag: false
             });
+            wx.hideLoading();
           }
+        }else{
+          wx.hideLoading();
         }
       })
     }
