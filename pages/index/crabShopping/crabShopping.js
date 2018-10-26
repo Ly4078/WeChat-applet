@@ -50,11 +50,13 @@ Page({
       });
     }
 
+
     if (option.shareCity){
       this.setData({
         shareCity: option.shareCity
       })
     }
+
 
     if (option.spuval) {
       let _val = 0;
@@ -109,12 +111,14 @@ Page({
   
     if(_token){
 
+
       app.globalData.token=_token;
       if (userInfo.lat && userInfo.lng && userInfo.city){
         this.getlisdtaa();
       }else{
         this.getUserlocation();
       }
+
 
     }else{
       this.findByCode();
@@ -132,7 +136,6 @@ Page({
             let _data = res.data.data;
             if (_data.id && _data != null) {
               app.globalData.userInfo.userId = _data.id;
-
               for (let key in _data) {
                 for (let ind in app.globalData.userInfo) {
                   if (key == ind) {
@@ -285,9 +288,10 @@ Page({
   //监听分享
   onShareAppMessage: function () {
     let _title = this.data.navbar[this.data.currentTab];
+    let _shareCity = this.data.shareCity ? this.data.shareCity : app.globalData.userInfo.city;
     return {
       title: _title,
-      path: '/pages/index/crabShopping/crabShopping?currentTab=' + this.data.currentTab +'&shareCity='+app.globalData.userInfo.userId,
+      path: '/pages/index/crabShopping/crabShopping?currentTab=' + this.data.currentTab + '&shareCity=' + _shareCity,
       success: function (res) { }
     }
   },
@@ -355,7 +359,7 @@ Page({
         rows: 8,
         locationX: app.globalData.userInfo.lng,
         locationY: app.globalData.userInfo.lat,
-        city: this.data.shareCity ?shareCity:app.globalData.userInfo.city,
+        city: this.data.shareCity ?this.data.shareCity:app.globalData.userInfo.city,
         token: app.globalData.token
       };
       swichrequestflag[types] = true;
@@ -484,7 +488,6 @@ Page({
     let that = this;
     console.log('getlisdtaa', this.data.currentTab)
     if (this.data.currentTab == 0) {
-      console.log('2424242423')
 
       this.setData({
         page: 1,

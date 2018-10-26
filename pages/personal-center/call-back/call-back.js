@@ -100,18 +100,26 @@ Page({
   },
   //实时获取输入的券码--提货码
   bindinputentes: function (e) {
-    let actual = e.detail.value;
-    if (actual.length == 11) {
-      this.gettickets(actual);
-    }else if(actual.length == 0){
+    let actual = e.detail.value, ms = 0, _timer = null, _this = this;
+    if (actual.length == 0) {
       this.setData({
-        okhx:false
+        okhx: false
       })
     }
-    this.setData({
+    clearInterval(this.data.timer);;
+    _timer = setInterval(function () {
+      ms += 50;
+      if (ms == 100) {
+        _this.gettickets(actual);
+      }
+    }, 500)
+    _this.setData({
+      timer: _timer,
       _codees: actual,
-      istihua:true
-    })
+      istihua: true
+    });
+
+    
   },
   //聚焦--提货码
   bindfocuses: function () {
@@ -126,15 +134,21 @@ Page({
   gettickets: function(val) {
     let that = this,
       _Url = "";
+    console.log("istihua:", this.data.istihua)
     if (val) {
       if(this.data.istihua){
-        _Url = "https://www.hbxq001.cn/orderInfo/getDetailByOrderCode/"+val
+        // _Url = "https://www.hbxq001.cn/orderInfo/getDetailByOrderCode/"+val;
+
+        _Url = "https://www.xiang7.net/orderCoupon/getByCode/" + val;
       }else{
         _Url = "https://www.hbxq001.cn/cp/getByCode/" + val;
+        // 
       }
     } else if (this.data.result) {
+      console.log('result:', this.data.result)
       _Url = this.data.result;
     }
+    console.log("_Url:", _Url)
     wx.request({
       url: _Url,
       header: {

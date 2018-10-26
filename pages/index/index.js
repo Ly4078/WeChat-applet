@@ -335,6 +335,8 @@ Page({
               } else {
                 that.getOpendId();
               }
+            } else if (!userInfo.lat || !userInfo.lng || !userInfo.city){
+              that.getUserlocation();
             }
           }
         })

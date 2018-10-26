@@ -12,7 +12,6 @@ var village_LBS = function(that) {
       console.log('vill_res:', res)
       let latitude = res.latitude,
         longitude = res.longitude;
-      
       that.requestCityName(latitude, longitude);
     },
   })
@@ -80,11 +79,13 @@ Page({
         actId: options.actId
       })
     }
+
     if (options.shareCity){
       this.setData({
         shareCity: options.shareCity
       })
     }
+
     if (options.shopName && options.shopCode) {
       let _Name = options.shopName;
       if (options.groupCode) {
@@ -318,7 +319,7 @@ Page({
       beginTime: this.dateConv(dateStr),
       endTime: this.dateConv(new Date(milisecond)),
       voteUserId: app.globalData.userInfo.userId,
-      city: this.data.city,
+      city: this.data.shareCity ? this.data.shareCity:this.data.city,
       page: 1,
       rows: 6,
       token: app.globalData.token
@@ -874,9 +875,11 @@ Page({
   },
   //分享给好友
   onShareAppMessage: function() {
+    let _shareCity = this.data.shareCity ? this.data.shareCity : app.globalData.userInfo.city;
+    console.log('_shareCity:', _shareCity)
     return {
       title: this.data.store_details.shopName,
-      path: '/pages/index/merchant-particulars/merchant-particulars?shopid=' + this.data.shopid + '&shareCity=' + app.globalData.userInfo.city,
+      path: '/pages/index/merchant-particulars/merchant-particulars?shopid=' + this.data.shopid + '&shareCity=' + _shareCity,
       imageUrl: this.data.store_details.logoUrl,
       success: function(res) {
         wx.getShareInfo({
@@ -1361,21 +1364,6 @@ Page({
       })
     }
   },
-  onShareAppMessage: function(res) {
-    return {
-      title: this.data.store_details.shopName,
-      path: '',
-      imageUrl: '',
-      success: function(res) {
-        // 转发成功
-        // console.log("res:", res)
-      },
-      fail: function(res) {
-        // 转发失败
-        console.log("res:", res)
-      }
-    }
-  },
   closetel: function(e) { //确定or取消
     let id = e.target.id;
     this.setData({
@@ -1480,6 +1468,7 @@ Page({
     })
   },
   shopList() { //商家推荐列表
+  let that = this;
     if (!app.globalData.userInfo.lng && !app.globalData.userInfo.lat) {
       this.TencentMap();
       return;
@@ -1487,7 +1476,7 @@ Page({
     let _parms = {
       locationX: app.globalData.userInfo.lng,
       locationY: app.globalData.userInfo.lat,
-      city: app.globalData.userInfo.city,
+      city: this.data.shareCity ? this.data.shareCity:app.globalData.userInfo.city,
       page: this.data._page,
       rows: 10,
       businessCate: this.data.store_details.businessCate.split('/')[0].split(',')[0],

@@ -78,6 +78,7 @@ Page({
           }
         }
     })
+
   },
   handtab: function(e) {
     let index = e.currentTarget.dataset.index;

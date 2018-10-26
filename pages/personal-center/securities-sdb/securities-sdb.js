@@ -74,10 +74,12 @@ Page({
    */
   onShow: function() {
     console.log("onShowonShowonShow")
+
     wx.showLoading({
       title: '请稍候...',
       mask:'true'
     })
+
     this.findByCode();
   },
 
@@ -133,7 +135,7 @@ Page({
           let userInfo = app.globalData.userInfo;
           wx.setStorageSync('userInfo', userInfo)
           wx.setStorageSync('token', _token)
-          wx.hideLoading();
+
           if(val == 2){
             that.getVerificationCode();
           }else{
@@ -314,7 +316,6 @@ Page({
 
   getVerificationCode() { //点击获取验证码
     let that = this;
-
     if (!app.globalData.token){
       that.findByCode("2")
       return

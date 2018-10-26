@@ -152,6 +152,9 @@ Page({
       rows: 8,
       token: app.globalData.token
     };
+    wx.showLoading({
+      title: '加载中...',
+    })
     if (this.data.businessCate) { //美食类别 
       _parms.businessCate = this.data.businessCate
     }
@@ -164,7 +167,7 @@ Page({
     requesting = true
     if (this.data.businessCate == '川湘菜') {
       Api.listForChuangXiang(_parms).then((res) => {
-
+        wx.hideLoading();
         wx.stopPullDownRefresh();
         if(res.data.code == 0){
           if(res.data.data.list.length>0){
@@ -257,11 +260,9 @@ Page({
           token: app.globalData.token
         }
         Api.shoplist(_parms).then((res) => {
-          let data = res.data;
-          if (data.code == 0) {
-            if (data.data.list != null && data.data.list != "" && data.data.list != []) {
-              let posts = [];
-              let _data = data.data.list
+          if (res.data.code == 0) {
+            if(res.data.data.list && res.data.data.list.length>0){
+              let posts = [], _data =res.data.data.list;
               for (let i = 0; i < _data.length; i++) {
                 _data[i].distance = utils.transformLength(_data[i].distance);
                 _data[i].activity = _data[i].ruleDescs ? _data[i].ruleDescs.join(',') : '';
@@ -332,7 +333,7 @@ Page({
     })
     wx.openSetting({
       success: (res) => {
-        if (res.authSetting['scope.userLocation']) { //打开位置授权          
+        if (res.authSetting['scope.userLocation']) { //打开位置授权  
           wx.getLocation({
             success: function (res) {
               let latitude = res.latitude,
