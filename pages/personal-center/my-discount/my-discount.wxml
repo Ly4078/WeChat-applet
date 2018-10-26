@@ -171,4 +171,4 @@
 </view> -->
 
 
-<image class='ball' wx:if="{{isball}}" bindtap='toactlist' src='/images/icon/shouye.png'></image>
+<image class='ball' wx:if="{{isball}}" bindtap='toindex' src='/images/icon/shouye.png'></image>

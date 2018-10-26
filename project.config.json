@@ -31,27 +31,8 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 2,
-			"list": [
-				{
-					"id": -1,
-					"name": "111",
-					"pathName": "pages/index/crabShopping/voucherDetails/voucherDetails",
-					"query": "id=128&skuname=阳澄湖大闸蟹3.0两公&type=2"
-				},
-				{
-					"id": -1,
-					"name": "222",
-					"pathName": "pages/personal-center/my-discount/my-discount",
-					"query": "id=128&skuname=阳澄湖大闸蟹3.0两公&type=2"
-				},
-				{
-					"id": -1,
-					"name": "333",
-					"pathName": "pages/index/bargainirg-store/AprogressBar/AprogressBar",
-					"query": "id=128&skuname=阳澄湖大闸蟹3.0两公&type=2"
-				}
-			]
+			"current": -1,
+			"list": []
 		}
 	}
 }

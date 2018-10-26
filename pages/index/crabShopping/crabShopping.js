@@ -38,7 +38,8 @@ Page({
     dshImg: '',
     platFormPages: 1,
     shopPages: 1,
-    marketPages: 1
+    marketPages: 1,
+    shareCity:""
   },
   onLoad: function (option) {
     console.log('option:', option)
@@ -48,7 +49,13 @@ Page({
         currentTab: option.currentTab
       });
     }
-   
+
+    if (option.shareCity){
+      this.setData({
+        shareCity: option.shareCity
+      })
+    }
+
     if (option.spuval) {
       let _val = 0;
       if (option.spuval == 3) {
@@ -95,17 +102,20 @@ Page({
     this.setData({
       isshowlocation: false
     })
+
     let _token = wx.getStorageSync('token') || {};
     let userInfo = wx.getStorageSync('userInfo') || {};
     app.globalData.userInfo=userInfo;
   
     if(_token){
+
       app.globalData.token=_token;
-      // if (userInfo.lat && userInfo.lng && userInfo.city){
-      //   this.getlisdtaa();
-      // }else{
+      if (userInfo.lat && userInfo.lng && userInfo.city){
+        this.getlisdtaa();
+      }else{
         this.getUserlocation();
-      // }
+      }
+
     }else{
       this.findByCode();
     }
@@ -122,6 +132,7 @@ Page({
             let _data = res.data.data;
             if (_data.id && _data != null) {
               app.globalData.userInfo.userId = _data.id;
+
               for (let key in _data) {
                 for (let ind in app.globalData.userInfo) {
                   if (key == ind) {
@@ -129,6 +140,7 @@ Page({
                   }
                 }
               };
+
               let userInfo = app.globalData.userInfo;
               wx.setStorageSync('userInfo', userInfo);
             }
@@ -146,6 +158,7 @@ Page({
   },
 
   authlogin: function () { //获取token
+
     let that = this;
     wx.request({
       url: this.data._build_url + 'auth/login?userName=' + app.globalData.userInfo.userName,
@@ -165,15 +178,18 @@ Page({
     })
   },
   getUserlocation: function () { //获取用户位置经纬度
+    console.log('getUserlocation')
     let that = this;
     wx.getLocation({
       type: 'wgs84',
       success: function (res) {
+        console.log("success213:r",res)
         let latitude = res.latitude,
           longitude = res.longitude;
         that.requestCityName(latitude, longitude);
       },
       fail: function (res) {
+        console.log("fail234234:r", res)
         wx.getSetting({
           success: (res) => {
             if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其位置信息          
@@ -271,7 +287,7 @@ Page({
     let _title = this.data.navbar[this.data.currentTab];
     return {
       title: _title,
-      path: '/pages/index/crabShopping/crabShopping?currentTab=' + this.data.currentTab,
+      path: '/pages/index/crabShopping/crabShopping?currentTab=' + this.data.currentTab +'&shareCity='+app.globalData.userInfo.userId,
       success: function (res) { }
     }
   },
@@ -287,8 +303,10 @@ Page({
       rows: 10,
       token: app.globalData.token
     };
+    console.log('_parms:', _parms)
     swichrequestflag[types] = true;
     Api.crabList(_parms).then((res) => {
+
       if (res.data.code == 0) {
         let _listData = this.data.listData;
         if (this.data.page == 1) {
@@ -337,7 +355,7 @@ Page({
         rows: 8,
         locationX: app.globalData.userInfo.lng,
         locationY: app.globalData.userInfo.lat,
-        city: app.globalData.userInfo.city,
+        city: this.data.shareCity ?shareCity:app.globalData.userInfo.city,
         token: app.globalData.token
       };
       swichrequestflag[types] = true;
@@ -446,15 +464,16 @@ Page({
         if (res.data.status == 0) {
           if (res.data.result.address_component.city){
             let _city = res.data.result.address_component.city;
-            // if (_city == '十堰市') {
-            //   app.globalData.userInfo.city = _city;
-            // } else {
-            //   app.globalData.userInfo.city = '十堰市';
-            // }
+            if (_city == '十堰市') {
+              app.globalData.userInfo.city = _city;
+            } else {
+              app.globalData.userInfo.city = '十堰市';
+            }
             app.globalData.picker = res.data.result.address_component;
            
             let userInfo = app.globalData.userInfo;
             wx.setStorageSync('userInfo', userInfo);
+
             that.getlisdtaa();
           }
         }
@@ -463,7 +482,10 @@ Page({
   },
   getlisdtaa: function () {
     let that = this;
+    console.log('getlisdtaa', this.data.currentTab)
     if (this.data.currentTab == 0) {
+      console.log('2424242423')
+
       this.setData({
         page: 1,
         listData: []
@@ -574,6 +596,7 @@ Page({
   },
 
   getlocation: function () { //获取用户位置
+    console.log("getlocation")
     let that = this,
       lat = '',
       lng = '';
@@ -627,3 +650,6 @@ Page({
     })
   }
 })
+
+
+

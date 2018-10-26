@@ -30,8 +30,11 @@ Page({
     }
     let _token = wx.getStorageSync('token') || {};
 
+    let userInfo = wx.getStorageSync('userInfo') || {};
+    console.log('userInfo:', userInfo)
     app.globalData.token = _token;
-
+    app.globalData.userInfo = userInfo
+    app.globalData.token = _token;
 
     //在此函数中获取扫描普通链接二维码参数
     let q = decodeURIComponent(options.q)
@@ -46,16 +49,21 @@ Page({
     if(_val){
       this.setData({ _val})
     }
+
     if (_token){
       if(_val){
         this.getshopInfo(_val);
       }
-      this.getData();
-      this.getUserlocation();
+      if(userInfo.lng && userInfo.lat && userInfo.city){
+        this.getData();
+      }else{
+        console.log("bbbbbb")
+        this.getUserlocation();
+      }
     }else{
       this.findByCode();
     }
-   
+
   },
   onShow: function () {
     this.setData({
@@ -144,9 +152,6 @@ Page({
       rows: 8,
       token: app.globalData.token
     };
-    wx.showLoading({
-      title: '加载中...',
-    })
     if (this.data.businessCate) { //美食类别 
       _parms.businessCate = this.data.businessCate
     }
@@ -159,7 +164,7 @@ Page({
     requesting = true
     if (this.data.businessCate == '川湘菜') {
       Api.listForChuangXiang(_parms).then((res) => {
-        wx.hideLoading();
+
         wx.stopPullDownRefresh();
         if(res.data.code == 0){
           if(res.data.data.list.length>0){
@@ -176,8 +181,7 @@ Page({
               pageTotal: Math.ceil(res.data.data.total / 8),
               loading: false
             }, () => {
-              requesting = false
-              wx.hideLoading();
+              requesting = false;
             })
           }
         }else{
@@ -190,8 +194,7 @@ Page({
         this.setData({
           loading: false
         })
-        requesting = false
-        wx.hideLoading()
+        requesting = false;
       })
     } else {
       Api.shoplist(_parms).then((res) => {
@@ -217,24 +220,21 @@ Page({
               this.setData({
                 loading: false
               })
-              requesting = false
-              wx.hideLoading()
+              requesting = false;
             })
           }else{
             this.setData({
               isclosure:false,
               loading: false
             })
-            requesting = false
-            wx.hideLoading()
+            requesting = false;
           }
         }
       },()=>{
         this.setData({
           loading: false
         })
-        requesting = false
-        wx.hideLoading()
+        requesting = false;
       })
     }
   },
@@ -270,14 +270,11 @@ Page({
               }
               _this.setData({
                 posts_key: posts
-              },()=>{
-                wx.hideLoading()
               })
             }else{
               _this.setData({
                 searchValue: ''
               })
-              wx.hideLoading()
               wx.showToast({
                 title: '未搜索到相关信息',
                 icon: 'none',
@@ -285,11 +282,7 @@ Page({
                 duration: 2000
               })
             }
-          }else{
-            wx.hideLoading()
           }
-        },()=>{
-          wx.hideLoading()
         })
       }
     }, 500)
@@ -313,6 +306,7 @@ Page({
       success: function (res) {
         let latitude = res.latitude,
           longitude = res.longitude;
+        console.log('22222')
         that.requestCityName(latitude, longitude);
       },
       fail: function (res) {
@@ -339,12 +333,11 @@ Page({
     wx.openSetting({
       success: (res) => {
         if (res.authSetting['scope.userLocation']) { //打开位置授权          
-          // that.getUserlocation();
-          // village_LBS(that);
           wx.getLocation({
             success: function (res) {
               let latitude = res.latitude,
                 longitude = res.longitude;
+              console.log('1111')
               that.requestCityName(latitude, longitude);
             },
           })
@@ -352,15 +345,13 @@ Page({
           that.setData({
             isshowlocation: true
           })
-          // let lat = '32.6226',
-          //   lng = '110.77877';
-          // that.requestCityName(lat, lng);
         }
       }
     })
   },
   //获取城市
   requestCityName(lat, lng) { //获取当前城市
+    console.log('requestCityName')
     let that = this;
     app.globalData.userInfo.lat = lat;
     app.globalData.userInfo.lng = lng;
@@ -416,9 +407,6 @@ Page({
       page: 1,
       searchValue:''
     },()=>{
-      wx.showLoading({
-        title: '加载中...'
-      })
       this.getData();
       // this.getLocation();
     });

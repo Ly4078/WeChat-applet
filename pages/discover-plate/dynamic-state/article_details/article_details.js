@@ -318,7 +318,7 @@ Page({
     let that = this
     let id = event.currentTarget.id
     let ind = ''
-    if (app.globalData.userInfo.mobile == 'a' || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+    if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
       })
@@ -352,8 +352,6 @@ Page({
         }
       })
     }
-    
-
   },
   closetel: function (e) {
     let id = e.target.id;
@@ -362,7 +360,7 @@ Page({
     })
     if (id == 1) {
       wx.redirectTo({
-        url: '/pages/personal-center/registered/registered'
+        url: '/pages/personal-center/securities-sdb/securities-sdb?back=1'
       })
     }
   },

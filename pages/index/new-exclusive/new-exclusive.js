@@ -5,6 +5,7 @@ var utils = require('../../../utils/util.js')
 let app = getApp()
 Page({
   data: {
+    _build_url: GLOBAL_API_DOMAIN,
     isNew: 0
   },
   onShow:function(){

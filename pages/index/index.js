@@ -179,6 +179,7 @@ Page({
     }]
   },
   onLoad: function(options) {
+    console.log("onLoad")
     let that = this;
     //版本更新
     const updateManager = wx.getUpdateManager();
@@ -196,7 +197,7 @@ Page({
     let carousel = wx.getStorageSync("carousel") || [];
     let bannthree = wx.getStorageSync("bannthree") || [];
     let txtObj = wx.getStorageSync('txtObj') || {};
-    let _token = wx.getStorageSync('userInfo').token || '';
+    // let _token = wx.getStorageSync('userInfo').token || '';
     // let userInfo = wx.getStorageSync('userInfo') || {};
     // userInfo.city = userInfo.city ? userInfo.city:'十堰市'
     // app.globalData.userInfo = userInfo
@@ -204,30 +205,17 @@ Page({
       this.setData({
         bannthree,
         carousel,
-        _token,
-        fresh1: txtObj.fresh1 ? txtObj.fresh1 : '',
-        fresh2: txtObj.fresh2 ? txtObj.fresh2 : '',
-        fresh3: txtObj.fresh3 ? txtObj.fresh3 : '',
-        syhotdish: txtObj.sydish,
-        whhotdish: txtObj.whdish
-      }, () => {
-        if (_token){
-          app.globalData.token=_token;
-          that.getCutDish();
-          this.indexinit();
-        }
-      })
-
-
-   
-
+        fresh1: txtObj ? txtObj.fresh1 : '',
+        fresh2: txtObj ? txtObj.fresh2 : '',
+        fresh3: txtObj ? txtObj.fresh3 : '',
+        syhotdish: txtObj ? txtObj.sydish:{},
+        whhotdish: txtObj ? txtObj.whdish:{}
+      });
+    that.indexinit();
   },
   onShow: function() {
-    this.getOpendId();
-    this.getUserlocation();
-    wx.setNavigationBarTitle({
-      title: '首页' //页面标题为路由参数
-    })
+    // this.getOpendId();
+   
     let that = this;
     this.setData({
       loading: false,
@@ -263,9 +251,10 @@ Page({
     if (app.globalData.userInfo.userId) {
       if (app.globalData.userInfo.mobile) {
         if (app.globalData.token) {
+          that.getUserlocation();
           that.getdatamore();
         } else {
-          this.authlogin();
+          that.authlogin();
         }
       } else { //是新用户，
         that.setData({
@@ -277,15 +266,15 @@ Page({
           // that.getuserIdLater2();
           that.getdatamore();
         } else {
-          this.authlogin();
+          that.authlogin();
         }
       }
     } else {
-      this.findByCode();
+      that.findByCode();
     }
     // return;
     if (this.data.verifyId && this.data.phone && this.data.phonetwo) {
-      this.setData({
+      that.setData({
         userGiftFlag: false,
         isNew: true,
         isfirst: true,
@@ -295,7 +284,7 @@ Page({
     if (app.globalData.userInfo.city) {
       if (app.globalData.userInfo.city != app.globalData.oldcity) {
         app.globalData.oldcity = app.globalData.userInfo.city;
-        this.setData({
+        that.setData({
           city: app.globalData.userInfo.city,
           bargainListall: [],
           bargainList: []
@@ -589,28 +578,22 @@ Page({
   },
   openSetting() {//打开授权设置界面
     let that = this;
-    
     that.setData({
       isshowlocation: false
     })
-      wx.openSetting({ 
-        success: (res) => {
-          if (res.authSetting['scope.userLocation']) {  
-            village_LBS(that);
-          } else {
-            that.setData({
-              isshowlocation: true
-            })
-           
-          //   let lat = '32.6226',
-          //     lng = '110.77877';
-          //   that.requestCityName(lat, lng);
-
-          }
+    wx.openSetting({ 
+      success: (res) => {
+        if (res.authSetting['scope.userLocation']) {  
+          village_LBS(that);
+        } else {
+          that.setData({
+            isshowlocation: true
+          })
         }
-      })
-  
+      }
+    })
   },
+
   getUserlocation: function() { //获取用户位置经纬度
     let that = this;
     // let lat = '32.6226',
@@ -1266,7 +1249,7 @@ Page({
     })
     if (id == 1) {
       wx.navigateTo({
-        url: '/pages/personal-center/registered/registered'
+        url: '/pages/personal-center/securities-sdb/securities-sdb?back=1'
       })
     }
   },

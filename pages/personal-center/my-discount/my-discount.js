@@ -109,30 +109,22 @@ Page({
          }
     })
 
+
     this.getTicketList();
 
   },
   onShow: function() {
 
-    this.getorderCoupon(0);
-  },
-  onHide: function() {
-    wx.hideLoading();
-    this.setData({
-      ticket_list: [],
-      isUpdate: true,
-      page: 1
-    });
+    // this.getorderCoupon(0);
   },
   onUnload() {
     wx.hideLoading();
   },
-  toactlist() {
+  toindex() { //去首页
     wx.switchTab({
       url: '../../index/index',
     })
   },
-
   findByCode: function() { //通过code查询用户信息
     let that = this;
     wx.login({
@@ -281,14 +273,13 @@ Page({
       this.findByCode();
       return
     }
-    let _parms = {},
-      that = this;
+    let _parms = {}, that = this;
     _parms = {
-      row: 10
-    }, that = this;
+      row: 10,
+      page: this.data.recpage,
+      receiveUserId: app.globalData.userInfo.userId
+    };
 
-    _parms.page = this.data.recpage;
-    _parms.receiveUserId = app.globalData.userInfo.userId;
     swichrequestflag[types] = true
     Api.listCoupon(_parms).then((res) => {
       wx.stopPullDownRefresh();
@@ -564,7 +555,7 @@ Page({
     return isDue;
   },
    //立即兑换
-  redeemNow: function (e) {
+  redeemNow: function (e) {  //点击某张票券
     let id = e.currentTarget.id,
       _skuName = e.currentTarget.dataset.index,
       _isUsed = e.currentTarget.dataset.used,

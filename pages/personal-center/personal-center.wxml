@@ -42,7 +42,7 @@
       </view>
       <view class='messageWrap' catchtap='myTickets'>
         <image class='coloursIcon' src='/images/icon/dobeSKS.png'></image>
-        <text class='messageTop'>优惠券</text>
+        <text class='messageTop'>券包</text>
       </view>
       <view class='messageWrap' catchtap='myMineMoney'>
         <image class='coloursIcon' src='/images/icon/notecase.png'></image>
@@ -83,24 +83,7 @@
         <image class='myListArrows' src='/images/icon/home_arrow.png'></image>
       </view>
     </view>
-    <!-- <view class='myList'>
-      <view class='myList-single' catchtap='infromation'>
-        <view>
-          <image class='myListImages' src='/images/icon/message.png'></image>
-          <text class='mylistText'>收货地址</text>
-        </view>
-        <image class='myListArrows' src='/images/icon/home_arrow.png'></image>
-      </view>
-    </view>
-    <view class='myList'>
-      <view class='myList-single' catchtap='remittance'>
-        <view>
-          <image class='myListImages' src='/images/icon/remittance.png'></image>
-          <text class='mylistText'>兑换记录</text>
-        </view>
-        <image class='myListArrows' src='/images/icon/home_arrow.png'></image>
-      </view>
-    </view> -->
+
   </view>
 
   <view class='mylistWrap'>
@@ -162,15 +145,6 @@
           <text class='TextTime'>027-59728176  (09:00--18:00)</text>
           <image class='myListArrows' src='/images/icon/home_arrow.png'></image>
         </view>
-      </view>
-    </view>
-    <view class='myList myList_wo'>
-      <view class='myList-single' catchtap='feedback'>
-        <view>
-          <image class='myListImages' src='/images/icon/juxinges.png'></image>
-          <text class='mylistText'>帮助与反馈</text>
-        </view>
-        <image class='myListArrows' src='/images/icon/home_arrow.png'></image>
       </view>
     </view>
     <view class='myList myList_wo'>

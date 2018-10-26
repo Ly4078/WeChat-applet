@@ -1,7 +1,10 @@
+<!--pages/main/index.wxml-->
+
+
+
 <view class='sharepull'>
   <view class='sharepullTop'>
-    <image class='sharepullImages'  src='https://xqmp4-1256079679.file.myqcloud.com/text_880301006914381206.png'></image>
-    <image class='dimensional' src='{{picUrl}}'></image>
+    <canvas  hidden="{{canvasHidden}}" style="width: 617rpx;height: 720rpx;background:#fff;margin-top:30rpx;border-radius:20rpx;" canvas-id="mycanvas"/>
   <button class='picture' catchtap='saveImgToPhotosAlbumTap'>保存图片</button>
   </view>
   
@@ -19,3 +22,15 @@
     </view>
   </view>
 </view>
+
+
+
+
+
+
+
+
+
+
+
+

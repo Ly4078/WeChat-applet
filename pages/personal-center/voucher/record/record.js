@@ -13,7 +13,8 @@ Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
     listData:[],
-    page:1
+    page:1,
+    databack:false
   },
 
   /**
@@ -103,7 +104,8 @@ Page({
             _data.push(_list[i]);
           }
           this.setData({
-            listData: _data
+            listData: _data,
+            databack:false
           })
         }
       }

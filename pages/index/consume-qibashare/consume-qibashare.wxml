@@ -1,6 +1,6 @@
 <!--pages/index/consume-qibashare/consume-qibashare.wxml-->
 <view>
-  <image class='popularityImages' src='/images/icon/xiangqijuan1.png'></image>
+  <image class='popularityImages' src='https://xqmp4-1256079679.file.myqcloud.com/13971489895_xiangqijuan1.png'></image>
   <block wx:for="{{information}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
     <view class='consumeWrap consumeone' id="{{item.id}}" catchtap='particulars'>
       <image class='consumeLogo' src='/images/icon/xiangqiLGBL.gif'></image>

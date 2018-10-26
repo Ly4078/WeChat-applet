@@ -24,7 +24,6 @@ Page({
     isent: false,
     istihua:false,
     result: '',
-    iszy: false, //j是否是自营
     isshopuser:false,//是否是商家核销员
     iszys: false,//是否是自营核销员
     isconfirm: true
@@ -177,7 +176,7 @@ Page({
                 })
                 return
               }
-              if (_data.status == 2) {
+              if (_data.status == 2 || _data.shopId == 0) {
                 that.setData({
                   iszy: true
                 })

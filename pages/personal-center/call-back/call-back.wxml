@@ -10,15 +10,15 @@
       <text>顾客信息:</text>
       <text>{{hxData.userName}}</text>
     </view>
-    <view class='inputBox' wx:if="{{!iszy}}">
+    <view class='inputBox' wx:if="{{hxData.skuName}}">
      <text>券信息:</text>
      <text>{{hxData.skuName}}</text>
     </view>
-    <view class='inputBox' wx:if="{{iszy}}">
+    <view class='inputBox' wx:if="{{hxData.orderItemOuts[0].goodsSkuName}}">
      <text>商品信息:</text>
      <text>{{hxData.orderItemOuts[0].goodsSkuName}}</text>
     </view>
-    <view class='inputBox' wx:if="{{iszy}}">
+    <view class='inputBox'>
      <text>数量:</text>
      <text>{{hxData.orderItemOuts[0].goodsNum+hxData.orderItemOuts[0].giftNum}}</text>
     </view>

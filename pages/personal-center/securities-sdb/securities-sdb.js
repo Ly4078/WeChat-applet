@@ -74,8 +74,10 @@ Page({
    */
   onShow: function() {
     console.log("onShowonShowonShow")
-    let _token = wx.getStorageSync('token') || {};
-    if (_token) { app.globalData.token = _token;}
+    wx.showLoading({
+      title: '请稍候...',
+      mask:'true'
+    })
     this.findByCode();
   },
 
@@ -127,9 +129,11 @@ Page({
         if (res.data.code == 0) {
           let _token = 'Bearer ' + res.data.data;
           app.globalData.token = _token;
+          console.log("token:", app.globalData.token)
           let userInfo = app.globalData.userInfo;
           wx.setStorageSync('userInfo', userInfo)
           wx.setStorageSync('token', _token)
+          wx.hideLoading();
           if(val == 2){
             that.getVerificationCode();
           }else{
@@ -227,7 +231,6 @@ Page({
       }
     })
   },
-
   getmyuserinfo: function() { //从自己的服务器获取用户信息
     let _parms = {
         openId: app.globalData.userInfo.openId,
@@ -311,6 +314,7 @@ Page({
 
   getVerificationCode() { //点击获取验证码
     let that = this;
+
     if (!app.globalData.token){
       that.findByCode("2")
       return
@@ -378,6 +382,7 @@ Page({
   },
 
   registered: function() { //点击注册（领红包）按钮  ,核验验证码
+    console.log('registered')
     let that = this;
     if (this.data.phoneNum) {
       if (this.data.codeNum) {
@@ -388,6 +393,7 @@ Page({
             token: app.globalData.token
           }
           Api.isVerify(_parms).then((res) => {
+            console.log("registeredres:",res)
             if (res.data.code == 0) {
               app.globalData.userInfo.userId = res.data.data;
               app.globalData.userInfo.mobile = that.data.phoneNum;

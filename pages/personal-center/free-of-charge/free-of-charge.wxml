@@ -4,7 +4,7 @@
   <button class='sign' bindtap='signtable' wx:if="{{_shopid}}">去入驻</button>
 </view>
 <view wx:else>
-   <image class='bannerTop' src='/images/icon/banner1.png'></image> 
+   <image class='bannerTop' src='https://xqmp4-1256079679.file.myqcloud.com/13971489895_banner1.png'></image> 
   <view class='prompt'>
     <text class='prompt_text'>{{prompt}}</text>
   </view>

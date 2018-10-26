@@ -507,7 +507,7 @@ Page({
   },
   registered: function () { //用户注册
     wx.navigateTo({
-      url: '../personal-center/registered/registered'
+      url: '/pages/personal-center/securities-sdb/securities-sdb?back=1'
     })
   },
   //判断二维码是否可以跳转
@@ -647,7 +647,7 @@ Page({
     })
     if (id == 1) {
       wx.redirectTo({
-        url: '/pages/personal-center/registered/registered'
+        url: '/pages/personal-center/securities-sdb/securities-sdb?back=1'
       })
     }
   },

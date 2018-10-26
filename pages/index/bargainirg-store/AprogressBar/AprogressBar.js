@@ -80,7 +80,8 @@ Page({
       isshowlocation:false
     });
     
-  
+    this.getUserlocation();
+
     if (app.globalData.userInfo.userId) {
       if (app.globalData.userInfo.mobile) {
         if (app.globalData.token) {
@@ -324,7 +325,7 @@ Page({
     })
     if (id == 1) {
       wx.navigateTo({
-        url: '/pages/personal-center/registered/registered'
+        url: '/pages/personal-center/securities-sdb/securities-sdb?back=1'
       })
     }
   },

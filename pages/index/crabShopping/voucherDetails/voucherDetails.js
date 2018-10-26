@@ -4,6 +4,18 @@ import {
 } from '../../../../utils/config/config.js';
 var utils = require('../../../../utils/util.js');
 var app = getApp();
+
+var village_LBS = function (that) {
+  wx.getLocation({
+    success: function (res) {
+      let latitude = res.latitude;
+      let longitude = res.longitude;
+      that.requestCityName(latitude, longitude);
+    },
+  })
+}
+
+
 Page({
 
   /**
@@ -11,6 +23,7 @@ Page({
    */
   data: {
     _build_url: GLOBAL_API_DOMAIN,
+    isshowlocation:false,
     actaddress: {}, //当前选中收货地址信息
     current: {}, //券详情
     payObj: {},
@@ -65,24 +78,6 @@ Page({
   
   onLoad: function(options) {
     console.log("options:", options)
-    let _token = wx.getStorageSync('token') || {};
-    let userInfo = wx.getStorageSync('userInfo') || {};
-    let txtObj = wx.getStorageSync('txtObj') || {};
-    
-   
-   
-    if (userInfo){
-      app.globalData.userInfo = userInfo;
-    }
-    if(_token){
-      app.globalData.token = _token;
-    }
-    if(txtObj){
-      this.setData({ txtObj });
-      app.globalData.txtObj = txtObj;
-    }
-    let _crabImgUrl = [],
-      that = this;
     this.setData({
       vouId: options.id,
       qtype:options.type
@@ -115,7 +110,6 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function() {
-    console.log('onShareAppMessage', this.data.current)
     let id = this.data.vouId,
       _skuName = this.data.current.styleName,
       _goodsSkuName = this.data.current.goodsSkuName,
@@ -140,6 +134,20 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
+    let _token = wx.getStorageSync('token') || {};
+    let userInfo = wx.getStorageSync('userInfo') || {};
+    let txtObj = wx.getStorageSync('txtObj') || {};
+
+    if (userInfo) {
+      app.globalData.userInfo = userInfo;
+    }
+    if (_token) {
+      app.globalData.token = _token;
+    }
+    if (txtObj) {
+      this.setData({ txtObj });
+      app.globalData.txtObj = txtObj;
+    }
     let _day = 60 * 60 * 24 * 1000,
       _today = '',
       hours = '',
@@ -185,15 +193,6 @@ Page({
     } else {
       this.findByCode();
     }
-    // if (this.data.txtObj) {
-    //   let _crabImgUrl = [];
-    //   app.globalData.txtObj=this.data.txtObj;
-    //   _crabImgUrl = this.data.txtObj.crabImgUrl;
-    //   _crabImgUrl.splice(1, 1);
-    //   that.setData({
-    //     crabImgUrl: _crabImgUrl
-    //   })
-    // }
     if (this.data.isfrst) {
       this.frestrue();
     }
@@ -280,9 +279,7 @@ Page({
               crabImgUrl: _crabImgUrl,
             })
 
-            console.log("_data:", _data)
             if (_data.isUsed == 1) {
-                console.log("bbbbbbbbb")
               wx.showModal({
                 title: '提示',
                 showCancel: false,
@@ -704,7 +701,107 @@ Page({
       }
     }
   },
-  closemodal(){
+  //打开地图导
+  TencentMap: function () {
+    let that = this;
+    wx.getLocation({
+      type: 'wgs84',
+      success: function (res) {
+        let latitude = res.latitude;
+        let longitude = res.longitude;
+        app.globalData.userInfo.lat = latitude;
+        app.globalData.userInfo.lng = longitude;
+        that.openmap();
+        that.requestCityName(latitude, longitude);
+      },
+      fail: function (res) {
+        wx.getSetting({
+          success: (res) => {
+            if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其用户位置信息
+              that.setData({
+                isshowlocation: true,
+                isshowticode:false
+              })
+            } else {
+              that.openmap();
+            }
+          }
+        })
+      }
+    })
+  },
+  openSetting() {//打开授权设置界面
+    let that = this;
+    that.setData({
+      isshowlocation: false
+    })
+    wx.openSetting({
+      success: (res) => {
+        if (res.authSetting['scope.userLocation']) {
+          village_LBS(that);
+        } else {
+          that.setData({
+            isshowlocation: true
+          })
+        }
+      }
+    })
+  },
+  openmap(){  //打开地图
+    let that = this;
+    wx.getLocation({
+      type: 'wgs84',
+      success: function (res) {
+        let latitude = res.latitude,
+          longitude = res.longitude,
+          storeDetails = that.data.current.salePoint;
+        wx.openLocation({
+          longitude: storeDetails.locationX,
+          latitude: storeDetails.locationY,
+          scale: 18,
+          name: storeDetails.shopName,
+          address: storeDetails.address,
+          success: function (res) {
+            console.log('打开地图成功')
+          },
+          fail: function (res) {
+            console.log("打开地图失败")
+          }
+        })
+      }
+    })
+  },
+  requestCityName(lat, lng) { //获取当前城市
+    let that = this;
+    app.globalData.userInfo.lat = lat;
+    app.globalData.userInfo.lng = lng;
+    if (app.globalData.userInfo.city) {
+      
+    } else {
+      wx.request({
+        url: 'https://apis.map.qq.com/ws/geocoder/v1/?location=' + lat + "," + lng + "&key=4YFBZ-K7JH6-OYOS4-EIJ27-K473E-EUBV7",
+        header: {
+          'content-type': 'application/json' // 默认值
+        },
+        success: (res) => {
+          if (res.data.status == 0) {
+            let _city = res.data.result.address_component.city;
+            if (_city == '十堰市' || _city == '武汉市') {
+              app.globalData.userInfo.city = _city;
+            } else {
+              app.globalData.userInfo.city = '十堰市';
+            }
+            app.globalData.oldcity = app.globalData.userInfo.city;
+            app.globalData.picker = res.data.result.address_component;
+            let userInfo = app.globalData.userInfo;
+            wx.setStorageSync('userInfo', userInfo);
+            console.log('userInfo:', userInfo)
+          }
+        }
+      })
+    }
+  },
+  closemodal(){ //关闭弹框
     this.setData({ isshowticode:false});
     this.getorderCoupon();
   },

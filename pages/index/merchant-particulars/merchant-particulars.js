@@ -12,6 +12,7 @@ var village_LBS = function(that) {
       console.log('vill_res:', res)
       let latitude = res.latitude,
         longitude = res.longitude;
+      
       that.requestCityName(latitude, longitude);
     },
   })
@@ -65,7 +66,8 @@ Page({
     size: 14,
     orientation: 'left', //滚动方向
     interval: 50, // 时间间隔
-    zanFlag: true //点赞节流阀
+    zanFlag: true, //点赞节流阀
+    shareCity:""
   },
   onLoad: function(options) {
     console.log('options:', options)
@@ -78,7 +80,11 @@ Page({
         actId: options.actId
       })
     }
-    
+    if (options.shareCity){
+      this.setData({
+        shareCity: options.shareCity
+      })
+    }
     if (options.shopName && options.shopCode) {
       let _Name = options.shopName;
       if (options.groupCode) {
@@ -106,13 +112,24 @@ Page({
     });
 
     this.merchantInit();
-    this.getUserlocation();
+   
   },
   onShow: function() {
     let that = this;
     // this.merchantInit();
     this.commentList();
    
+    let _token = wx.getStorageSync('token') || {};
+    let userInfo = wx.getStorageSync('userInfo') || {};
+    // app.globalData.userInfo = userInfo;
+    console.log('userInfo:', userInfo)
+    if (!userInfo.lat || !userInfo.lng || !userInfo.city){
+      console.log(1111)
+      this.getUserlocation();
+    }else{
+      
+    }
+    
     return;
 
     var vm = this;
@@ -176,7 +193,7 @@ Page({
             return;
             if (!data.mobile) {
               wx.navigateTo({
-                url: '/pages/personal-center/registered/registered'
+                url: '/pages/personal-center/securities-sdb/securities-sdb?back=1'
               })
             } else if (!res.data.data.unionId) { //用户unionId 如未获取到，则调用againgetinfo事件
               that.setData({
@@ -607,34 +624,35 @@ Page({
     });
   },
   getstoredata() { //获取店铺详情数据   
-    let id = this.data.shopid;
-    let that = this;
+    let id = this.data.shopid, that = this;
     wx.request({
       url: that.data._build_url + 'shop/get/' + id,
       header: {
         "Authorization": app.globalData.token
       },
       success: function(res) {
-        wx.startPullDownRefresh()
-        let _data = res.data.data;
-        if (_data) {
-          _data.popNum = utils.million(_data.popNum);
-          if (_data.address.indexOf('-') > 0) {
-            _data.address = _data.address.replace(/-/g, "");
-          }
-          that.setData({
-            store_details: _data,
-            store_images: _data.shopTopPics.length,
-            storeType: _data.businessCate ? _data.businessCate.split(',') : [],
-            city: _data.city
-          })
-          if (_data.otherService != "null" && _data.otherService) {
+        wx.startPullDownRefresh();
+        if(res.data.code == 0){
+          if (res.data.data) {
+            let _data = res.data.data;
+            _data.popNum = utils.million(_data.popNum);
+            if (_data.address.indexOf('-') > 0) {
+              _data.address = _data.address.replace(/-/g, "");
+            }
             that.setData({
-              service: _data.otherService ? _data.otherService.split(',') : []
-            });
+              store_details: _data,
+              store_images: _data.shopTopPics.length,
+              storeType: _data.businessCate ? _data.businessCate.split(',') : [],
+              city: _data.city
+            })
+            if (_data.otherService != "null" && _data.otherService) {
+              that.setData({
+                service: _data.otherService ? _data.otherService.split(',') : []
+              });
+            }
+            that.shopList();
+            that.getDishList();
           }
-          that.shopList();
-          that.getDishList();
         }
       }
     })
@@ -858,7 +876,7 @@ Page({
   onShareAppMessage: function() {
     return {
       title: this.data.store_details.shopName,
-      path: '/pages/index/merchant-particulars/merchant-particulars?shopid=' + this.data.shopid,
+      path: '/pages/index/merchant-particulars/merchant-particulars?shopid=' + this.data.shopid + '&shareCity=' + app.globalData.userInfo.city,
       imageUrl: this.data.store_details.logoUrl,
       success: function(res) {
         wx.getShareInfo({
@@ -918,12 +936,11 @@ Page({
     wx.openSetting({
       success: (res) => {
         if (res.authSetting['scope.userLocation']) {
-          // that.getUserlocation();
-          // village_LBS(that);
           wx.getLocation({
             success: function (res) {
               let latitude = res.latitude,
                 longitude = res.longitude;
+                console.log('aaaaaaa')
               that.requestCityName(latitude, longitude);
             },
           })
@@ -931,11 +948,6 @@ Page({
           that.setData({
             isshowlocation: true
           })
-
-          //   let lat = '32.6226',
-          //     lng = '110.77877';
-          //   that.requestCityName(lat, lng);
-
         }
       }
     })
@@ -961,16 +973,16 @@ Page({
         let longitude = res.longitude;
         app.globalData.userInfo.lat = latitude;
         app.globalData.userInfo.lng = longitude;
+        console.log('bbbbbb')
         that.requestCityName(latitude, longitude);
       },
       fail: function(res) {
         wx.getSetting({
           success: (res) => {
             if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其用户位置信息
-            that.setData({
-              isshowlocation:true
-            })
-
+              that.setData({
+                isshowlocation:true
+              })
             } else {
               this.openmap();
             }
@@ -981,15 +993,12 @@ Page({
   },
   getUserlocation: function () { //获取用户位置经纬度
     let that = this;
-    // let lat = '32.6226',
-    //   lng = '110.77877';
-    // that.requestCityName(lat, lng);
-    // return
     wx.getLocation({
       type: 'wgs84',
       success: function (res) {
         let latitude = res.latitude,
           longitude = res.longitude;
+        console.log('ccccc')
         that.requestCityName(latitude, longitude);
       },
       fail: function (res) {
@@ -999,10 +1008,6 @@ Page({
               that.setData({
                 isshowlocation: true
               })
-
-            } else {
-
-              
             }
           }
         })
@@ -1023,11 +1028,11 @@ Page({
         success: (res) => {
           if (res.data.status == 0) {
             let _city = res.data.result.address_component.city;
-            // if (_city == '十堰市' || _city == '武汉市') {
-            //   app.globalData.userInfo.city = _city;
-            // } else {
-            //   app.globalData.userInfo.city = '十堰市';
-            // }
+            if (_city == '十堰市' || _city == '武汉市') {
+              app.globalData.userInfo.city = _city;
+            } else {
+              app.globalData.userInfo.city = '十堰市';
+            }
             app.globalData.picker = res.data.result.address_component;
             let userInfo = app.globalData.userInfo;
             wx.setStorageSync('userInfo', userInfo);
@@ -1378,7 +1383,7 @@ Page({
     })
     if (id == 1) {
       wx.navigateTo({
-        url: '/pages/personal-center/registered/registered'
+        url: '/pages/personal-center/securities-sdb/securities-sdb?back=1'
       })
     }
   },
