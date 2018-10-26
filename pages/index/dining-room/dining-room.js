@@ -48,20 +48,8 @@ Page({
     if(_val){
       this.setData({ _val})
     }
-
-    if (_token){
-      if(_val){
-        this.getshopInfo(_val);
-      }
-      if(userInfo.lng && userInfo.lat && userInfo.city){
-        this.getData();
-      }else{
-        console.log("bbbbbb")
-        this.getUserlocation();
-      }
-    }else{
-      this.findByCode();
-    }
+   
+    
 
   },
   onShow: function () {
@@ -69,6 +57,22 @@ Page({
       isclosure: true,
       isshowlocation: false
     })
+    if (app.globalData.userInfo.userId) {
+      let userInfo = app.globalData.userInfo;
+      if (app.globalData.token) {
+        if (this.data._val) {
+          this.getshopInfo(this.data._val);
+        }
+        if (userInfo.lng && userInfo.lat && userInfo.city) {
+          this.getData();
+        } else {
+          console.log("bbbbbb")
+          this.getUserlocation();
+        }
+      } else {
+        this.findByCode();
+      }
+    }
   },
 
   // 初始化start
@@ -81,7 +85,8 @@ Page({
         }).then((res) => {
           if (res.data.code == 0) {
             let _data = res.data.data;
-            if (_data.id && _data != null) {
+            if (_data.id) {
+              app.globalData.userInfo.userId = _data.id;
               for (let key in _data) {
                 for (let ind in app.globalData.userInfo) {
                   if (key == ind) {
@@ -89,15 +94,11 @@ Page({
                   }
                 }
               };
-              app.globalData.userInfo.userId = _data.id;
-             
-            }
-            if (!_data.id) {
-              if (app.globalData.userInfo.openId && app.globalData.userInfo.unionId) {
-                that.createNewUser();
-              } 
-            }else{
               that.authlogin();
+            }else{
+              wx.navigateTo({
+                url: '/pages/init/init?isback=1'
+              })
             }
           }
         })

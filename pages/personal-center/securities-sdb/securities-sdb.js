@@ -23,9 +23,9 @@ Page({
     istouqu: false,
     isBack: false,
     isabss: false,
-    isscan:false,
+    isscan: false,
     referrer: '',
-    inviter:""   //推荐人ID
+    inviter: "" //推荐人ID
   },
 
   /**
@@ -33,7 +33,7 @@ Page({
    */
   onLoad: function(options) {
     console.log('options:', options)
-   
+
     if (options.back == 1) {
       this.setData({
         isBack: true
@@ -62,7 +62,7 @@ Page({
         let _ref = utils.getQueryString(q, 'userId');
         this.setData({
           referrer: _ref,
-          isscan:true
+          isscan: true
         })
       }
     }
@@ -73,10 +73,10 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
-   
+
     wx.showLoading({
       title: '请稍候...',
-      mask:'true'
+      mask: 'true'
     })
     this.findByCode();
   },
@@ -87,28 +87,30 @@ Page({
     wx.login({
       success: res => {
         if (res.code) {
-          Api.findByCode({ code: res.code }).then((res) => {
-            console.log('findByCoderes',res)
+          Api.findByCode({
+            code: res.code
+          }).then((res) => {
+            console.log('findByCoderes', res)
             if (res.data.code == 0) {
               let _data = res.data.data;
-              if (_data.id && _data != null) {
-                app.globalData.userInfo.userId = _data.id;
-                for (let key in _data) {
-                  for (let ind in app.globalData.userInfo) {
-                    if (key == ind) {
-                      app.globalData.userInfo[ind] = _data[key]
-                    }
+
+              app.globalData.userInfo.userId = _data.id ? _data.id : '';
+              for (let key in _data) {
+                for (let ind in app.globalData.userInfo) {
+                  if (key == ind) {
+                    app.globalData.userInfo[ind] = _data[key]
                   }
-                };
-                let userInfo = app.globalData.userInfo;
-                wx.setStorageSync('userInfo', userInfo)
-                if(!_data.unionId){
-                  that.setData({
-                    istouqu: true
-                  })
                 }
-                that.authlogin(val);
-              } 
+              };
+              let userInfo = app.globalData.userInfo;
+              wx.setStorageSync('userInfo', userInfo)
+              if (!_data.unionId) {
+                that.setData({
+                  istouqu: true
+                })
+              }
+              that.authlogin(val);
+
             }
           })
         }
@@ -116,7 +118,7 @@ Page({
     })
   },
 
-  authlogin: function (val) { //获取token
+  authlogin: function(val) { //获取token
     console.log('authlogin')
     let that = this;
     wx.request({
@@ -125,16 +127,16 @@ Page({
       header: {
         'content-type': 'application/json' // 默认值
       },
-      success: function (res) {
+      success: function(res) {
         if (res.data.code == 0) {
           let _token = 'Bearer ' + res.data.data;
           app.globalData.token = _token;
           wx.hideLoading();
           console.log("token:", app.globalData.token)
           wx.setStorageSync('token', _token)
-          if(val == 2){
+          if (val == 2) {
             that.getVerificationCode();
-          }else{
+          } else {
             if (app.globalData.userInfo.mobile) {
               if (that.data.referrer) { //推荐人
                 // that.setpullUser();
@@ -162,8 +164,10 @@ Page({
       }
     })
   },
-  freeOrder:function(){
-    let _parms = {}, _value="",that=this;
+  freeOrder: function() {
+    let _parms = {},
+      _value = "",
+      that = this;
     _parms = {
       userId: app.globalData.userInfo.userId,
       userName: app.globalData.userInfo.userName,
@@ -182,8 +186,8 @@ Page({
         "Authorization": app.globalData.token
       },
       method: 'POST',
-      success: function (res) {
-        if(res.data.code == 0){
+      success: function(res) {
+        if (res.data.code == 0) {
           console.log("领取成功")
           that.getuserInfo();
         }
@@ -196,7 +200,8 @@ Page({
       withCredentials: true,
       success: function(res) {
         let _sessionKey = app.globalData.userInfo.sessionKey,
-          _ivData = res.iv, _encrypData = res.encryptedData;
+          _ivData = res.iv,
+          _encrypData = res.encryptedData;
         _sessionKey = _sessionKey.replace(/\=/g, "%3d");
         _ivData = _ivData.replace(/\=/g, "%3d");
         _ivData = _ivData.replace(/\+/g, "%2b");
@@ -210,7 +215,7 @@ Page({
             'content-type': 'application/json' // 默认值
           },
           method: 'POST',
-          success: function (resv) {
+          success: function(resv) {
             if (resv.data.code == 0) {
               that.setData({
                 istouqu: false
@@ -256,7 +261,7 @@ Page({
                   wx.navigateBack({
                     data: 1
                   })
-                }else{
+                } else {
                   wx.switchTab({
                     url: '../../index/index'
                   })
@@ -280,7 +285,7 @@ Page({
       this.setData({
         phoneNum: _value,
         isClick: true,
-        isabss:false
+        isabss: false
       })
     } else {
       this.setData({
@@ -310,7 +315,7 @@ Page({
 
   getVerificationCode() { //点击获取验证码
     let that = this;
-    if (app.globalData.token.length<5){
+    if (app.globalData.token.length < 5) {
       that.findByCode("2");
       return
     }
@@ -331,8 +336,8 @@ Page({
           "Authorization": app.globalData.token
         },
         method: 'POST',
-        success: function (res) {
-          console.log('4444:',res)
+        success: function(res) {
+          console.log('4444:', res)
           if (res.data.code == 0) {
             that.setData({
               verifyId: res.data.data.verifyId,
@@ -341,13 +346,13 @@ Page({
             that.Countdown();
             that.setData({
               isclick: false,
-              isabss:false
+              isabss: false
             })
-          }else{
+          } else {
             that.findByCode("2");
           }
         }
-      }) 
+      })
     } else {
       wx.showToast({
         title: '请输入电话号码',
@@ -390,13 +395,15 @@ Page({
             token: app.globalData.token
           }
           Api.isVerify(_parms).then((res) => {
-            console.log("registeredres:",res)
+            console.log("registeredres:", res)
             if (res.data.code == 0) {
               app.globalData.userInfo.userId = res.data.data;
               app.globalData.userInfo.mobile = that.data.phoneNum;
               let userInfo = app.globalData.userInfo;
               wx.setStorageSync('userInfo', userInfo);
-              that.setData({ isscan:false});
+              that.setData({
+                isscan: false
+              });
               that.findByCode("1");
             }
           })
@@ -430,7 +437,7 @@ Page({
   },
 
   getuserInfo: function(val) { //从自己的服务器获取用户信息
-    console.log('getuserInfo:',val)
+    console.log('getuserInfo:', val)
     let that = this;
     wx.request({
       url: that.data._build_url + 'user/get/' + app.globalData.userInfo.userId,
@@ -441,13 +448,13 @@ Page({
         console.log('getuserInfores:', res)
         if (res.data.code == 0) {
           let data = res.data.data;
-            for (let key in data) {
-              for (let ind in app.globalData.userInfo) {
-                if (key == ind) {
-                  app.globalData.userInfo[ind] = data[key]
-                }
+          for (let key in data) {
+            for (let ind in app.globalData.userInfo) {
+              if (key == ind) {
+                app.globalData.userInfo[ind] = data[key]
               }
-            };
+            }
+          };
           if (that.data.isBack) {
             wx.navigateBack({
               data: 1
@@ -469,8 +476,8 @@ Page({
         "Authorization": app.globalData.token
       },
       method: 'POST',
-      success: function (res) {
-        console.log("pulluserres:",res)
+      success: function(res) {
+        console.log("pulluserres:", res)
         if (res.data.code == 0) {
           that.getuserInfo();
         }
@@ -478,7 +485,11 @@ Page({
     })
   },
   inviteNewUser() { //邀请新用户参与秒杀
-    let _parms = {}, that = this, url = "", _Url = "", _value="";
+    let _parms = {},
+      that = this,
+      url = "",
+      _Url = "",
+      _value = "";
     _parms = {
       parentId: that.data.parentId,
       skuId: that.data.skuId,
@@ -497,23 +508,23 @@ Page({
         "Authorization": app.globalData.token
       },
       method: 'POST',
-      success: function (res) {
+      success: function(res) {
         if (res.data.code == 0) {
           that.getuserInfo();
         }
       }
     })
   },
-  inviteCrab() {   //邀请新用户兑换螃蟹 type =1
-    let that=this;
+  inviteCrab() { //邀请新用户兑换螃蟹 type =1
+    let that = this;
     wx.request({
-      url: that.data._build_url + 'pullUser/upNumsUp?userId=' + that.data.inviter, 
+      url: that.data._build_url + 'pullUser/upNumsUp?userId=' + that.data.inviter,
       header: {
         "Authorization": app.globalData.token
       },
       method: 'POST',
-      success: function (res) {
-        if(res.data.code ==0){
+      success: function(res) {
+        if (res.data.code == 0) {
           that.getuserInfo();
         }
       }

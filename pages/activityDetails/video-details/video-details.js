@@ -78,7 +78,7 @@ Page({
         }
       } else {
         wx.navigateTo({
-          url: '/pages/init/init?back=1'
+          url: '/pages/init/init?isback=1'
           // url: '/pages/personal-center/securities-sdb/securities-sdb?back=1'
         })
       }
@@ -103,21 +103,29 @@ Page({
           if (res.data.code == 0) {
             wx.hideLoading();
             let data = res.data.data;
-            app.globalData.userInfo.userId = data.id;
-            for (let key in data) {
-              for (let ind in app.globalData.userInfo) {
-                if (key == ind) {
-                  app.globalData.userInfo[ind] = data[key]
+
+            if(data.id){
+              app.globalData.userInfo.userId = data.id;
+              for (let key in data) {
+                for (let ind in app.globalData.userInfo) {
+                  if (key == ind) {
+                    app.globalData.userInfo[ind] = data[key]
+                  }
                 }
               }
-            }
-            if (!data.mobile) {
+              if (!data.mobile) {
+                wx.navigateTo({
+                  url: '/pages/init/init?isback=1'
+                  // url: '/pages/personal-center/securities-sdb/securities-sdb?back=1'
+                })
+              }
+              that.authlogin(); //获取token
+            }else{
               wx.navigateTo({
-                url: '/pages/init/init?back=1'
-                // url: '/pages/personal-center/securities-sdb/securities-sdb?back=1'
+                url: '/pages/init/init?isback=1'
               })
             }
-            that.authlogin(); //获取token
+            
           } else {
             that.findByCode();
           }
@@ -681,7 +689,7 @@ Page({
     })
     if (id == 1) {
       wx.navigateTo({
-        url: '/pages/init/init?back=1'
+        url: '/pages/init/init?isback=1'
         // url: '/pages/personal-center/securities-sdb/securities-sdb?back=1'
       })
     }

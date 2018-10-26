@@ -186,7 +186,7 @@ Page({
         }
       } else { //是新用户，去注册页面
         wx.navigateTo({
-          url: '/pages/init/init?back=1'
+          url: '/pages/init/init?isback=1'
           // url: '/pages/personal-center/securities-sdb/securities-sdb?back=1'
         })
         // this.authlogin();
@@ -433,29 +433,34 @@ Page({
         }).then((res) => {
           if (res.data.code == 0) {
             let data = res.data.data;
-            app.globalData.userInfo.userId = data.id;
-            app.globalData.userInfo.lat = data.locationX;
-            app.globalData.userInfo.lng = data.locationY;
-            for (let key in data) {
-              for (let ind in app.globalData.userInfo) {
-                if (key == ind) {
-                  app.globalData.userInfo[ind] = data[key]
+            if(data.id){
+              app.globalData.userInfo.userId = data.id;
+              app.globalData.userInfo.lat = data.locationX ? data.locationX:'';
+              app.globalData.userInfo.lng = data.locationY ? data.locationY:'';
+              for (let key in data) {
+                for (let ind in app.globalData.userInfo) {
+                  if (key == ind) {
+                    app.globalData.userInfo[ind] = data[key]
+                  }
                 }
               }
-            }
-            
-            if (!data.mobile) { //是新用户，去注册页面
-              wx.navigateTo({
-                url: '/pages/init/init?back=1'
-                // url: '/pages/personal-center/securities-sdb/securities-sdb?back=1'
-              })
-            } else {
-              if (app.globalData.token){
-                that.getTXT();
-                that.getorderCoupon();
-              }else{
-                that.authlogin();
+              if (!data.mobile) { //是新用户，去注册页面
+                wx.navigateTo({
+                  url: '/pages/init/init?isback=1'
+                  // url: '/pages/personal-center/securities-sdb/securities-sdb?back=1'
+                })
+              } else {
+                if (app.globalData.token) {
+                  that.getTXT();
+                  that.getorderCoupon();
+                } else {
+                  that.authlogin();
+                }
               }
+            }else{
+              wx.navigateTo({
+                url: '/pages/init/init?isback=1'
+              })
             }
           } else {
             that.findByCode();

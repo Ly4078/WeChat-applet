@@ -55,7 +55,7 @@ Page({
         }
       } else {//是新用户，
         wx.navigateTo({
-          url: '../../../../pages/personal-center/securities-sdb/securities-sdb?parentId=' + this.data.initiator + '&skuId=' + this.data.id + '&shopId=' + this.data.shopId
+          url: '/pages/personal-center/securities-sdb/securities-sdb?parentId=' + this.data.initiator + '&skuId=' + this.data.id + '&shopId=' + this.data.shopId
         })
       }
     } else {
@@ -88,20 +88,26 @@ Page({
         }).then((res) => {
           if (res.data.code == 0) {
             let data = res.data.data;
-            app.globalData.userInfo.userId = data.id;
-            for (let key in data) {
-              for (let ind in app.globalData.userInfo) {
-                if (key == ind) {
-                  app.globalData.userInfo[ind] = data[key]
+            if(data.id){
+              app.globalData.userInfo.userId = data.id;
+              for (let key in data) {
+                for (let ind in app.globalData.userInfo) {
+                  if (key == ind) {
+                    app.globalData.userInfo[ind] = data[key]
+                  }
                 }
               }
-            }
-            if (!data.mobile) { //是新用户，去注册页面
+              if (!data.mobile) { //是新用户，去注册页面
+                wx.navigateTo({
+                  url: '../../../../pages/personal-center/securities-sdb/securities-sdb?parentId=' + this.data.initiator + '&skuId=' + this.data.id + '&shopId=' + this.data.shopId
+                })
+              } else {
+                that.authlogin();
+              }
+            }else{
               wx.navigateTo({
                 url: '../../../../pages/personal-center/securities-sdb/securities-sdb?parentId=' + this.data.initiator + '&skuId=' + this.data.id + '&shopId=' + this.data.shopId
               })
-            }else{
-              that.authlogin();
             }
           } else {
             that.findByCode();

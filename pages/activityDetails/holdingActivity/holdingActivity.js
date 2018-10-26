@@ -141,15 +141,21 @@ Page({
         }).then((res) => {
           if (res.data.code == 0) {
             let data = res.data.data;
-            app.globalData.userInfo.userId = data.id;
-            for (let key in data) {
-              for (let ind in app.globalData.userInfo) {
-                if (key == ind) {
-                  app.globalData.userInfo[ind] = data[key]
+            if(data.id){
+              app.globalData.userInfo.userId = data.id;
+              for (let key in data) {
+                for (let ind in app.globalData.userInfo) {
+                  if (key == ind) {
+                    app.globalData.userInfo[ind] = data[key]
+                  }
                 }
               }
+              that.authlogin(); //获取token
+            }else{
+              wx.navigateTo({
+                url: '/pages/personal-center/securities-sdb/securities-sdb?inviter=' + this.data.inviter + '&back=1'
+              })
             }
-            that.authlogin(); //获取token
           } else {
             that.findByCode();
           }
@@ -304,6 +310,15 @@ Page({
     wx.navigateTo({
       url: '/pages/personal-center/securities-sdb/securities-sdb?inviter=' + this.data.inviter + '&back=1'
     })
+
+    return;
+    app.globalData.currentScene.path = '/pages/activityDetails/holdingActivity/holdingActivity';
+    app.globalData.currentScene.query = {};
+    app.globalData.currentScene.query.inviter = this.data.inviter;
+    wx.reLaunch({
+      url: '/pages/init/init',
+    })
+    
   },
   toIndex() { //跳转至首页
     wx.switchTab({

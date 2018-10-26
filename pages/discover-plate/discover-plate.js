@@ -211,8 +211,11 @@ Page({
       requesting = true;
       Api.topiclist(_parms).then((res) => {
         let _data = that.data.food;
+        wx.startPullDownRefresh();
+        that.setData({
+          loading: false
+        });
         if (res.data.code == 0) {
-          
           if (res.data.data.list && res.data.data.list.length>0) {
             let footList = res.data.data.list;
             if(footList.length>0){
@@ -422,9 +425,12 @@ Page({
         "Authorization": app.globalData.token
       },
       success: function(res) {
-        that.setData({
-          hotlive: res.data.data.list
-        })
+        wx.stopPullDownRefresh();
+        if(res.data.code  == 0){
+          that.setData({
+            hotlive: res.data.data.list
+          })
+        }
       }
     })
   },
@@ -498,7 +504,7 @@ Page({
     })
     if (id == 1) {
       wx.navigateTo({
-        url: '/pages/init/init?back=1'
+        url: '/pages/init/init?isback=1'
         // url: '/pages/personal-center/securities-sdb/securities-sdb?back=1'
       })
     }

@@ -151,7 +151,7 @@ Page({
             }
             if (!data.mobile) { //是新用户，去注册页面
               wx.navigateTo({
-                url: '/pages/init/init?back=1'
+                url: '/pages/init/init?isback=1'
                 // url: '../../../../pages/personal-center/securities-sdb/securities-sdb?back=1'
               })
             }else{
@@ -328,7 +328,7 @@ Page({
     })
     if (id == 1) {
       wx.navigateTo({
-        url: '/pages/init/init?back=1'
+        url: '/pages/init/init?isback=1'
         // url: '/pages/personal-center/securities-sdb/securities-sdb?back=1'
       })
     }
@@ -579,7 +579,7 @@ Page({
     console.log('helpfriend')
     if (!app.globalData.userInfo.mobile) {
       wx.navigateTo({
-        url: '/pages/init/init?back=1'
+        url: '/pages/init/init?isback=1'
         // url: '../../../../pages/personal-center/securities-sdb/securities-sdb?back=1'
       })
       // this.setData({

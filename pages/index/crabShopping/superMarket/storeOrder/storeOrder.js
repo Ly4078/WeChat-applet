@@ -103,21 +103,28 @@ Page({
         }).then((res) => {
           if (res.data.code == 0) {
             let data = res.data.data;
-            app.globalData.userInfo.userId = data.id;
-            for (let key in data) {
-              for (let ind in app.globalData.userInfo) {
-                if (key == ind) {
-                  app.globalData.userInfo[ind] = data[key]
+            if(dat.id){
+              app.globalData.userInfo.userId = data.id;
+              for (let key in data) {
+                for (let ind in app.globalData.userInfo) {
+                  if (key == ind) {
+                    app.globalData.userInfo[ind] = data[key]
+                  }
                 }
               }
-            }
-            if (!data.mobile) {
+              if (!data.mobile) {
+                wx.navigateTo({
+                  url: '/pages/init/init?isback=1'
+                  // url: '/pages/personal-center/securities-sdb/securities-sdb?back == 1'
+                })
+              } else {
+                that.authlogin();//获取token
+              }
+            }else{
               wx.navigateTo({
-                url: '/pages/init/init?back=1'
+                url: '/pages/init/init?isback=1'
                 // url: '/pages/personal-center/securities-sdb/securities-sdb?back == 1'
               })
-            }else{
-              that.authlogin();//获取token
             }
           } else {
             that.findByCode();
@@ -248,7 +255,7 @@ Page({
             }
             if (!data.mobile) { //是新用户，去注册页面
               wx.navigateTo({
-                url: '/pages/init/init?back=1'
+                url: '/pages/init/init?isback=1'
                 // url: '../../../../personal-center/securities-sdb/securities-sdb?back=1'
               })
               return false;

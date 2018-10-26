@@ -360,7 +360,7 @@ Page({
     })
     if (id == 1) {
       wx.redirectTo({
-        url: '/pages/init/init?back=1'
+        url: '/pages/init/init?isback=1'
         // url: '/pages/personal-center/securities-sdb/securities-sdb?back=1'
       })
     }

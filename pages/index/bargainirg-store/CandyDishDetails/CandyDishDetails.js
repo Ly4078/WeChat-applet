@@ -80,33 +80,38 @@ Page({
     }
   },
   findByCode: function () { //通过code查询用户信息
-    wx.showLoading({
-      title: '数据加载中....',
-    });
     let that = this;
     wx.login({
       success: res => {
         Api.findByCode({code: res.code}).then((res) => {
           if (res.data.code == 0) {
+            console.log("fdsfdsres:",res)
             let data = res.data.data;
-            app.globalData.userInfo.userId = data.id;
-            for (let key in data) {
-              for (let ind in app.globalData.userInfo) {
-                if (key == ind) {
-                  app.globalData.userInfo[ind] = data[key]
+            if (data.id){
+              app.globalData.userInfo.userId = data.id;
+              for (let key in data) {
+                for (let ind in app.globalData.userInfo) {
+                  if (key == ind) {
+                    app.globalData.userInfo[ind] = data[key]
+                  }
                 }
               }
-            }
-            if (!data.mobile) { //是新用户，去注册页面
-              that.setData({
-                isnew: true
-              });
-            }
-            let userInfo = app.globalData.userInfo;
-            if (userInfo.lat || userInfo.lng || userInfo.city) {
-              that.authlogin();//获取token
-            } else{
-              that.getlocation(); //获取位置信息
+              if (!data.mobile) { //是新用户，去注册页面
+                that.setData({
+                  isnew: true
+                });
+              }
+              let userInfo = app.globalData.userInfo;
+              if (userInfo.lat || userInfo.lng || userInfo.city) {
+                that.authlogin();//获取token
+              } else {
+                that.getlocation(); //获取位置信息
+              }
+            }else{
+              wx.navigateTo({
+                url: '/pages/init/init?isback=1'
+                // url: '/pages/personal-center/securities-sdb/securities-sdb?back=1'
+              })
             }
           }
         })
@@ -154,7 +159,7 @@ Page({
               })
 
             } else {
-              that.getCutDish();
+              // that.getCutDish();
             }
           }
         })
@@ -332,11 +337,12 @@ Page({
   //同店推荐
   dishList() {
     //browSort 0附近 1销量 2价格
-    wx.showLoading({
-      title: '数据加载中...',
-    });
+    
     let that = this;
     if (app.globalData.userInfo.lat && app.globalData.userInfo.lng){
+      wx.showLoading({
+        title: '数据加载中...',
+      });
       let _parms = {
         shopId: this.data.shopId,
         zanUserId: app.globalData.userInfo.userId,
@@ -637,8 +643,6 @@ Page({
         })
       }
     }
-    
-    
   },
   closetel: function(e) {
     let id = e.target.id;
@@ -647,7 +651,8 @@ Page({
     })
     if (id == 1) {
       wx.navigateTo({
-        url: '/pages/personal-center/securities-sdb/securities-sdb?back=1'
+        url: '/pages/init/init?isback=1'
+        // url: '/pages/personal-center/securities-sdb/securities-sdb?back=1'
       })
     }
   },

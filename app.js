@@ -21,7 +21,7 @@ App({
     const userInfo = wx.getStorageSync("userInfo");
     var mobile = String(userInfo.mobile);
     if (mobile.length < 11) {
-      if (options.path == 'pages/personal-center/securities-sdb/securities-sdb' || options.path == 'pages/init/init') {} else {
+      if (options.path == 'pages/personal-center/securities-sdb/securities-sdb' || options.path == 'pages/init/init' || options.path =='pages/activityDetails/holdingActivity/holdingActivity') {} else {
         wx.reLaunch({
           url: '/pages/init/init',
         })
