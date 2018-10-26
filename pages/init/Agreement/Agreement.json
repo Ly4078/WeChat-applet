@@ -1,3 +1,4 @@
 {
-  "enablePullDownRefresh": false
+  "enablePullDownRefresh": false,
+  "navigationBarTitleText": "用户协议"
 }
