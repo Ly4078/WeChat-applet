@@ -1,0 +1,47 @@
+.content {
+  width: 600rpx;
+  margin: 80rpx auto 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.content .login-item {
+  display: flex;
+  padding: 15rpx 0;
+  flex-direction: row;
+  margin: 20rpx 0;
+  align-items: center;
+  border-bottom: 1rpx solid #ccc;
+}
+
+.content .login-item input {
+  flex: 1;
+  font-size: 34rpx;
+  color: #333;
+}
+
+.content .login-item .getCode {
+  font-size: 30rpx;
+  background: #b1b1b1;
+  color: #fff;
+  padding: 18rpx 20rpx;
+  border-radius: 10rpx;
+  transition: .5s all;
+}
+
+.content .login-item .getCode.active {
+  background: #fc5e2d;
+}
+
+.content .item {
+  margin-top: 150rpx;
+}
+
+.content .item button {
+  color: #fff;
+  font-size: 34rpx;
+  background: #fc5e2d;
+  border-radius: 80rpx;
+  padding: 5rpx 0;
+}
+

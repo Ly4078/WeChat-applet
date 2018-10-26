@@ -1,0 +1,39 @@
+<view class='container' wx:if="{{isgetCode}}">
+  <view class="content">
+    <view class="logo">
+      <image src="/images/icon/login/login.png"></image>
+    </view>
+    <view class="loginButton">
+      <button class="wechatLogin" bindgetuserinfo='bindgetuserinfo' open-type="getUserInfo">
+        <image src="/images/icon/login/wechat.png"></image>
+        <text>微信一键登录</text>
+      </button>
+      <button data-types="phoneLogin" class="phoneLogin" bindgetuserinfo='bindgetuserinfo' open-type="getUserInfo">
+        <image src="/images/icon/login/phone.png"></image>
+        <text>手机号登录</text>
+      </button>
+    </view>
+  </view>
+
+  <view class="Terms">
+    <text>登录即代表你同意享7美食</text>
+    <text catchtap='showProtocol' class="protocol">服务协议</text>
+  </view>
+
+
+
+
+</view>
+
+<view class="getPhone" wx:if="{{getPhone}}">
+  <view class="shadow"></view>
+  <view class="box">
+    <icon type="success" size="40"></icon>
+    <text>微信授权成功</text>
+    <text class="mini">授权绑定手机号</text>
+    <view class="select">
+      <button catchtap='hideThis'>取消</button>
+      <button bindgetphonenumber="bindgetphonenumber" open-type='getPhoneNumber' class="allow">允许</button>
+    </view>
+  </view>
+</view>

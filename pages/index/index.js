@@ -196,11 +196,11 @@ Page({
     let carousel = wx.getStorageSync("carousel") || [];
     let bannthree = wx.getStorageSync("bannthree") || [];
     let txtObj = wx.getStorageSync('txtObj') || {};
-    let _token = wx.getStorageSync('token') || {};
+    let _token = wx.getStorageSync('userInfo').token || '';
     // let userInfo = wx.getStorageSync('userInfo') || {};
     // userInfo.city = userInfo.city ? userInfo.city:'十堰市'
     // app.globalData.userInfo = userInfo
-    if (carousel.length > 0) {
+
       this.setData({
         bannthree,
         carousel,
@@ -213,12 +213,13 @@ Page({
       }, () => {
         if (_token){
           app.globalData.token=_token;
-          this.getCutDish();
+          that.getCutDish();
+          this.indexinit();
         }
       })
-    }
 
-    this.indexinit();
+
+   
 
   },
   onShow: function() {

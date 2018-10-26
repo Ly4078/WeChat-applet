@@ -13,7 +13,18 @@ App({
     sessionKey: ''
   },
   onLaunch: function (options) {
-    let q = decodeURIComponent(options.query.q)
+    let q = decodeURIComponent(options.query.q);
+    this.globalData.currentScene.path = options.path;
+    this.globalData.currentScene.query = options.query
+    const userInfo = wx.getStorageSync("userInfo");
+    if (!userInfo.id && !userInfo.mobile){
+      if (options.path == 'pages/personal-center/securities-sdb/securities-sdb' || options.path=='pages/init/init'){
+        return
+      }
+      wx.reLaunch({
+        url: '/pages/init/init',
+      })
+    }
   },
   onPullDownRefresh: function () {
     wx.stopPullDownRefresh()
@@ -26,6 +37,7 @@ App({
     oldcity:'',
     OrderObj:{},
     txtObj:{},
+    currentScene:{},
     userInfo: {
       id:'',
       openId: '',
