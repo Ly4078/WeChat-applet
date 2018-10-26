@@ -160,13 +160,20 @@ Page({
       url: that.data._build_url + 'auth/addUserUnionIdAndPhoneAES?sessionKey=' + sessionKey.replace(/\+/g, "%2b").replace(/\=/g, "%3d") + '&encrypData=' + encrypData.replace(/\+/g, "%2b").replace(/\=/g, "%3d") + '&ivData=' + ivData.replace(/\+/g, "%2b").replace(/\=/g, "%3d"),
       method: 'POST',
       success: function(res) {
-        if (res.data.data) {
+        if (res.data.data != null) {
           if (res.data.data.userName) {
             wx.setStorageSync('userInfo', res.data.data)
             app.globalData.userInfo = res.data.data;
             app.globalData.userInfo.userId = res.data.data.id
             that.authlogin(res.data.data.userName)
           }
+        }else{
+          wx.hideLoading();
+          wx.showToast({
+            title: '系统异常，请重新登录',
+            icon:'none'
+          });
+          that.wxLogin();
         }
       }
     })
