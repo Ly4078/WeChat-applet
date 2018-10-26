@@ -144,7 +144,7 @@ Page({
           wx.setStorageSync('userInfo', userInfo);
           if (userInfo.mobile && userInfo.mobile.length >= 11) {
             that.updatauser(that.data.wechatUserInfo.userInfo);
-          } else {
+          } else { 
             that.setData({
               getPhone: true
             })
