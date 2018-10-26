@@ -134,10 +134,14 @@ Page({
         if (isPhoneLogin) {
           app.globalData.sessionKey = sessionKey;
           app.globalData.loginData = res;
-
+          console.log('run')
+          var isisBack = that.data.isBack ? '1' : '0'
           wx.navigateTo({
-            url: 'phone/phone?isback=' + that.data.isBack?'1':'0',
+            url: 'phone/phone?isback=' + isisBack ,
           })
+          // wx.navigateTo({
+          //   url: 'phone/phone?isback=' + that.data.isBack?'1':'0',
+          // })
           return
         }
         wx.showLoading({
@@ -253,6 +257,7 @@ Page({
     })
   },
   bindgetphonenumber: function(e) { //拉取微信手机号码
+    let that = this;
     this.setData({
       getPhone: false
     });
@@ -260,7 +265,12 @@ Page({
     wx.showLoading({
       title: '加载中...',
     })
-    this.AES(e.detail.encryptedData, e.detail.iv) //解析加密信息
+    if (!e.detail.encryptedData || !e.detail.iv){
+      wx.hideLoading();
+    }else{
+      that.AES(e.detail.encryptedData, e.detail.iv) //解析加密信息
+    }
+    
   },
   AES: function(encryptedData, iv) {
     let that = this;
@@ -274,8 +284,9 @@ Page({
           that.BindwechatPhone(data.purePhoneNumber)
         } else {
           wx.hideLoading()
+          var isisBack = that.data.isBack ? '1' : '0'
           wx.navigateTo({
-            url: 'phone/phone?types=2&isback=' + that.data.isBack ? '1' : '0',
+            url: 'phone/phone?types=2&isback=' + isisBack,
           })
         }
       }

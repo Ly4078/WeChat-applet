@@ -44,7 +44,7 @@ Page({
     if (options.types == 2) { //用户点击微信一键登录，但是没有获取到微信手机号码
       return
     } else {
-      that.createNewUser(sessionKey, loginData.iv, loginData.encryptedData)
+      that.createNewUser(sessionKey, loginData.iv, loginData.encryptedData,1)
     }
 
   },
@@ -84,7 +84,7 @@ Page({
           wx.setStorageSync('token', _token)
           wx.setStorageSync('userInfo', userInfo);
           var mobile = String(userInfo.mobile);
-          if (mobile.length >= 11) {
+          if (mobile.length >= 11 && types=='1') {
             wx.showModal({
               title: '提示',
               content: '您已经绑定过手机号码!',
@@ -246,7 +246,7 @@ Page({
         wx.setStorageSync('userInfo', res.data.data)
         app.globalData.userInfo = res.data.data;
         app.globalData.userInfo.userId = res.data.data.id;
-        that.authlogin(res.data.data.userName, 2)
+        that.authlogin(res.data.data.userName,2)
       } else {
         let loginData = app.globalData.loginData;
         let sessionKey = app.globalData.sessionKey;
