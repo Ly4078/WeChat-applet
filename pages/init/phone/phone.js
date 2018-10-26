@@ -81,7 +81,8 @@ Page({
           userInfo.token = _token;
           wx.setStorageSync('token', _token)
           wx.setStorageSync('userInfo', userInfo);
-          if (userInfo.mobile && userInfo.mobile.length >= 11) {
+          var mobile = String(userInfo.mobile);
+          if (mobile.length >= 11) {
             wx.showModal({
               title: '提示',
               content: '您已经绑定过手机号码!',

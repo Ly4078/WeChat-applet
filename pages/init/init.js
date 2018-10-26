@@ -45,7 +45,8 @@ Page({
           code: res.code
         }).then((res) => {
           if (res.data.code == 0) {
-            if (res.data.data.unionId && res.data.data.id && res.data.data.mobile && res.data.data.userName) {
+            var mobile = String(res.data.data.mobile);
+            if (mobile.length>=11  &&  res.data.data.unionId && res.data.data.id &&   res.data.data.userName) {
               wx.setStorageSync('userInfo', res.data.data)
               app.globalData.userInfo = res.data.data;
               app.globalData.userInfo.userId = res.data.data.id;
@@ -174,7 +175,8 @@ Page({
           userInfo.token = _token;
           wx.setStorageSync('token', _token)
           wx.setStorageSync('userInfo', userInfo);
-          if (userInfo.mobile && userInfo.mobile.length >= 11) {
+          var mobile = String(userInfo.mobile);
+          if (mobile.length>=11) {
             that.updatauser(that.data.wechatUserInfo);
           } else { 
             that.setData({

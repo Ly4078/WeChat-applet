@@ -210,8 +210,10 @@ Page({
         fresh3: txtObj ? txtObj.fresh3 : '',
         syhotdish: txtObj ? txtObj.sydish:{},
         whhotdish: txtObj ? txtObj.whdish:{}
+      },()=>{
+        that.indexinit();
       });
-    that.indexinit();
+    
   },
   onShow: function() {
     // this.getOpendId();

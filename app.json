@@ -1,7 +1,7 @@
 {
   "pages": [
     "pages/index/index",
-		"pages/init/init",
+    "pages/init/init",
     "pages/init/phone/phone",
     "pages/init/Agreement/Agreement",
     "pages/index/crabShopping/crabDetails/submitOrder/submitOrder",   
