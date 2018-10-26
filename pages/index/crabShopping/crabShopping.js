@@ -85,19 +85,22 @@ Page({
       isshowlocation: false
     })
     let txtObj = wx.getStorageSync('txtObj') || {};
+    console.log('txtObj:', txtObj)
     if (txtObj.dsh) {
       if (!this.data.dshImg){
         app.globalData.txtObj = txtObj;
+        console.log("11111")
         this.setData({
           dshImg: txtObj.dsh.imgUrl
         })
       }
     }
-    let _token = wx.getStorageSync('token') || {};
+    let _token = wx.getStorageSync('token') || "";
     let userInfo = wx.getStorageSync('userInfo') || {};
     app.globalData.userInfo=userInfo;
   
-    if(_token){
+    if(_token.length>5){
+      console.log('_token:', _token)
       app.globalData.token=_token;
       if (userInfo.lat && userInfo.lng && userInfo.city){
         this.getlisdtaa();
@@ -105,6 +108,7 @@ Page({
         this.getUserlocation();
       }
       if (!this.data.dshImg) {
+        console.log('aaaaaaa')
         this.getTXT();
       }
     }else{
@@ -160,7 +164,8 @@ Page({
           app.globalData.token = _token;
           wx.setStorageSync('token', _token);
           that.getUserlocation();
-          if (this.data.dshImg){
+          if (that.data.dshImg){
+            console.log('bbbb')
             that.getTXT();
           }
         }
@@ -222,13 +227,16 @@ Page({
     })
   },
   getTXT: function () {  //获取配置文件
+    let that = this;
     wx.request({
       url: that.data._build_url + 'version.txt',
       header: {
         "Authorization": app.globalData.token
       },
       success: function (res) {
+        console.log('res:',res)
         app.globalData.txtObj = res.data;
+        console.log("txt:", app.globalData.txtObj)
         that.setData({
           dshImg: app.globalData.txtObj.dsh.imgUrl
         })

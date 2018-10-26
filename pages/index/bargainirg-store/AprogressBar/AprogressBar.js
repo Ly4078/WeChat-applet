@@ -49,12 +49,12 @@ Page({
     _lng: ''
   },
   onLoad: function(options) {
-    let _token = wx.getStorageSync('token') || {};
+    let _token = wx.getStorageSync('token') || "";
     let userInfo = wx.getStorageSync('userInfo') || {};
     if(userInfo){
       app.globalData.userId = userInfo;
     }
-    if(_token){
+    if(_token.length>5){
       app.globalData.token = _token;
     }
     this.setData({

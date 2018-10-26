@@ -120,15 +120,13 @@ Page({
     // this.merchantInit();
     this.commentList();
    
-    let _token = wx.getStorageSync('token') || {};
+    let _token = wx.getStorageSync('token') || "";
     let userInfo = wx.getStorageSync('userInfo') || {};
     // app.globalData.userInfo = userInfo;
     console.log('userInfo:', userInfo)
     if (!userInfo.lat || !userInfo.lng || !userInfo.city){
       console.log(1111)
       this.getUserlocation();
-    }else{
-      
     }
     
     return;

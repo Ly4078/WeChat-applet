@@ -134,14 +134,14 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
-    let _token = wx.getStorageSync('token') || {};
+    let _token = wx.getStorageSync('token') || "";
     let userInfo = wx.getStorageSync('userInfo') || {};
     let txtObj = wx.getStorageSync('txtObj') || {};
 
     if (userInfo) {
       app.globalData.userInfo = userInfo;
     }
-    if (_token) {
+    if (_token.length>5) {
       app.globalData.token = _token;
     }
     if (txtObj) {

@@ -28,12 +28,11 @@ Page({
     if (options.cate) {
       this.data.businessCate = options.cate
     }
-    let _token = wx.getStorageSync('token') || {};
+    let _token = wx.getStorageSync('token') || "";
     let userInfo = wx.getStorageSync('userInfo') || {};
     // console.log('userInfo:', userInfo)
-    app.globalData.token = _token;
+    app.globalData.token = _token.length > 5 ? _token:"";
     app.globalData.userInfo = userInfo
-    app.globalData.token = _token;
 
     //在此函数中获取扫描普通链接二维码参数
     let q = decodeURIComponent(options.q)

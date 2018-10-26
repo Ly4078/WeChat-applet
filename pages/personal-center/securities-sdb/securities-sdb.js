@@ -88,7 +88,6 @@ Page({
             console.log('findByCoderes', res)
             if (res.data.code == 0) {
               let _data = res.data.data;
-
               app.globalData.userInfo.userId = _data.id ? _data.id : '';
               for (let key in _data) {
                 for (let ind in app.globalData.userInfo) {
@@ -458,7 +457,8 @@ Page({
               that.setData({
                 isscan: false
               });
-              that.findByCode("1");
+              this.authlogin();
+              // that.findByCode("1");
             }
           })
         } else {
