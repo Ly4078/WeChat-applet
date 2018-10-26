@@ -163,7 +163,6 @@
           <image class='myListImages' src='/images/icon/impression-sefa.png'></image>
           <view class='mylistText'>分享注册</view>
         </view>
-        <view wx:else class='myList'></view>
         <view class='myList'></view>
         <!-- <view class='myList myList_sue' catchtap='popularize'>
           <image class='myListImages' src='/images/icon/kui.png'></image>

@@ -149,9 +149,10 @@ page{
 }
 
 .myList {
-  flex-grow: 1;
-  width: 694rpx;
+  /* flex-grow: 1; */
+  /* width: 694rpx; */
   text-align: center;
+  width: 25%;
 }
 
 .myList:nth-child(1){

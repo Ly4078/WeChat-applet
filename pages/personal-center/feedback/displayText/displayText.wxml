@@ -24,7 +24,7 @@
     <image wx:for="{{imgArr}}" wx:key="{{index}}" id="{{item.id}}" bindtap='addImg' class='addition-img' src='{{item.url}}'></image>
   </view>
   <view class='cell-phone'>
-    <view><text>输入有效联系方式以便开发者联系您   (选填)</text></view>
+    <view><text>输入有效联系方式以便开发者联系您</text></view>
   </view>
   <view class='cell-cell'>
     <view class='method'><text>邮箱/手机号</text> </view>
