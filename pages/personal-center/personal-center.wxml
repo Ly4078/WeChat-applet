@@ -49,19 +49,19 @@
     <!-- 动态 收藏 钱包 关注 -->
     <view class='variances'>
       <view class='messageWrap' catchtap='myTickets'>
-        <text class='messageTop'>2</text>
+        <image src='/images/icon/myTicket.png'></image>
         <text class='messageTop'>券包</text>
       </view>
       <view class='messageWrap' catchtap='enshrineClick'>
-        <text class='messageTop'>2</text>
+        <image src='/images/icon/myStar.png'></image>
         <text class='messageTop'>收藏</text>
       </view>
       <view class='messageWrap' catchtap='myMineMoney'>
-        <text class='messageTop'>2</text>
+        <image src='/images/icon/myCircle.png'></image>
         <text class='messageTop'>金币</text>
       </view>
       <view class='messageWrap' catchtap='personalCenter'>
-        <text class='messageTop'>2</text>
+        <image src='/images/icon/myHeart.png'></image>
         <text class='messageTop'>关注</text>
       </view>
     </view>
@@ -159,10 +159,17 @@
           <image class='myListImages' src='/images/icon/quanma.png'></image>
           <view class='mylistText'>券码核销</view>
         </view>
-        <view class='myList myList_sue' catchtap='popularize'>
+        <view class='myList'></view>
+        <view class='myList'></view>
+        <!-- <view class='myList myList_sue' catchtap='popularize'>
           <image class='myListImages' src='/images/icon/kui.png'></image>
           <view class='mylistText'>享7推广</view>
-        </view>
+        </view> -->
+        <!-- <view class='myList dividual-lk {{!userId?"impressiones":""}}' catchtap='dividualLogin'>
+          <image class='myListImages' src='/images/icon/impression-sefa.png'></image>
+          <view class='mylistText'>分享注册</view>
+        </view> -->
+
         <!-- <view class='myList sectionList' hidden="{{isshop}}" catchtap='enterEntrance'>
           <image class='myListImages' src='/images/icon/merchants_join.png'></image>
           <text class='mylistText'>免费入驻</text>
@@ -173,10 +180,6 @@
           <view class='mylistText'>关于我们</view>
         </view> -->
 
-        <view class='myList dividual-lk {{!userId?"impressiones":""}}' catchtap='dividualLogin'>
-          <image class='myListImages' src='/images/icon/impression-sefa.png'></image>
-          <view class='mylistText'>分享注册</view>
-        </view>
       </view>
     </view>
   </view>
