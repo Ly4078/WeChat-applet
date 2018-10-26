@@ -10,14 +10,14 @@ Page({
     _build_url: GLOBAL_API_DOMAIN,
     getPhone: false,
     isgetCode: false,
-    isBack:false,
+    isBack: false,
     timer: null
   },
   onLoad: function(options) {
     let that = this;
-    if(options.isback){
+    if (options.isback) {
       this.setData({
-        isBack:true
+        isBack: true
       })
     }
     var _parms = app.globalData.currentScene.query,
@@ -43,7 +43,7 @@ Page({
       that.wxLogin();
     }, 290000)
   },
-  findByCode: function () {
+  findByCode: function() {
     let that = this;
     wx.login({
       success: res => {
@@ -51,22 +51,22 @@ Page({
           code: res.code
         }).then((res) => {
           if (res.data.code == 0) {
+            wx.setStorageSync('userInfo', res.data.data)
+            app.globalData.userInfo = res.data.data;
+            app.globalData.userInfo.userId = res.data.data.id;
             var mobile = String(res.data.data.mobile);
-            if (mobile.length>=11  &&  res.data.data.unionId && res.data.data.id &&   res.data.data.userName) {
-              console.log('进来了')
-              wx.setStorageSync('userInfo', res.data.data)
-              app.globalData.userInfo = res.data.data;
-              app.globalData.userInfo.userId = res.data.data.id;
+            if (mobile.length >= 11 && res.data.data.unionId && res.data.data.id && res.data.data.userName) {
+
               var wechatUserInfo = {};
-              wechatUserInfo.nickName = res.data.data.nickName ;
+              wechatUserInfo.nickName = res.data.data.nickName;
               wechatUserInfo.avatarUrl = res.data.data.iconUrl;
               wechatUserInfo.gender = res.data.data.sex;
               that.setData({
                 wechatUserInfo: wechatUserInfo
-              },()=>{
+              }, () => {
                 that.authlogin(res.data.data.userName)
               })
-             
+
             } else {
               that.checksession();
             }
@@ -83,7 +83,7 @@ Page({
       success: res => {
         const userinfo = wx.getStorageSync('userInfo');
         var mobile = String(userinfo.mobile);
-        if (mobile.length>=11) {
+        if (mobile.length >= 11) {
           app.globalData.currentScene.query == ''
           wx.reLaunch({ //以拥有手机号码直接跳转
             url: that.data.navigetToUrl ? that.data.navigetToUrl : '/pages/index/index',
@@ -137,7 +137,7 @@ Page({
           console.log('run')
           var isisBack = that.data.isBack ? '1' : '0'
           wx.navigateTo({
-            url: 'phone/phone?isback=' + isisBack ,
+            url: 'phone/phone?isback=' + isisBack,
           })
           // wx.navigateTo({
           //   url: 'phone/phone?isback=' + that.data.isBack?'1':'0',
@@ -189,9 +189,9 @@ Page({
           wx.setStorageSync('token', _token)
           wx.setStorageSync('userInfo', userInfo);
           var mobile = String(userInfo.mobile);
-          if (mobile.length>=11) {
+          if (mobile.length >= 11) {
             that.updatauser(that.data.wechatUserInfo);
-          } else { 
+          } else {
             that.setData({
               getPhone: true
             })
@@ -243,11 +243,11 @@ Page({
           app.globalData.userInfo.nickName = data.nickName;
           app.globalData.userInfo.iconUrl = data.avatarUrl;
           app.globalData.currentScene.query == ''
-          if (that.data.isBack){
+          if (that.data.isBack) {
             wx.navigateBack({
               data: 1
             })
-          }else{
+          } else {
             wx.reLaunch({ //以拥有手机号码直接跳转
               url: that.data.navigetToUrl ? that.data.navigetToUrl : '/pages/index/index',
             })
@@ -265,12 +265,12 @@ Page({
     wx.showLoading({
       title: '加载中...',
     })
-    if (!e.detail.encryptedData || !e.detail.iv){
+    if (!e.detail.encryptedData || !e.detail.iv) {
       wx.hideLoading();
-    }else{
+    } else {
       that.AES(e.detail.encryptedData, e.detail.iv) //解析加密信息
     }
-    
+
   },
   AES: function(encryptedData, iv) {
     let that = this;
