@@ -31,10 +31,43 @@ Page({
     that.setData({
       navigetToUrl: path
     })
-    that.checksession();
+    that.findByCode();
+    // that.checksession();
     that.timer = setInterval(function() { //sessionkey五分钟失效,再次获取
       that.wxLogin();
     }, 290000)
+  },
+  findByCode: function () {
+    let that = this;
+    wx.login({
+      success: res => {
+        Api.findByCode({
+          code: res.code
+        }).then((res) => {
+          if (res.data.code == 0) {
+            if (res.data.data.unionId && res.data.data.id && res.data.data.mobile && res.data.data.userName) {
+              wx.setStorageSync('userInfo', res.data.data)
+              app.globalData.userInfo = res.data.data;
+              app.globalData.userInfo.userId = res.data.data.id;
+              var wechatUserInfo = {};
+              wechatUserInfo.nickName = res.data.data.nickName ;
+              wechatUserInfo.avatarUrl = res.data.data.iconUrl;
+              wechatUserInfo.gender = res.data.data.sex;
+              that.setData({
+                wechatUserInfo: wechatUserInfo
+              },()=>{
+                that.authlogin(res.data.data.userName)
+              })
+             
+            } else {
+              that.checksession();
+            }
+          } else {
+            that.findByCode();
+          }
+        })
+      }
+    })
   },
   checksession: function() {
     let that = this;
@@ -126,9 +159,8 @@ Page({
   },
   authlogin: function(userName) { //获取token
     let that = this;
-    let userInfo = wx.getStorageSync("userInfo")
     wx.request({
-      url: this.data._build_url + 'auth/login?userName=' + userName,
+      url: that.data._build_url + 'auth/login?userName=' + userName,
       method: "POST",
       data: {},
       header: {
@@ -143,7 +175,7 @@ Page({
           wx.setStorageSync('token', _token)
           wx.setStorageSync('userInfo', userInfo);
           if (userInfo.mobile && userInfo.mobile.length >= 11) {
-            that.updatauser(that.data.wechatUserInfo.userInfo);
+            that.updatauser(that.data.wechatUserInfo);
           } else { 
             that.setData({
               getPhone: true
