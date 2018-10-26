@@ -103,9 +103,9 @@ Page({
           if (types == 2) {
             that.updatauser(app.globalData.loginData.userInfo)
           }
-          if (types == 3) {
-            that.isVerity();
-          }
+          // if (types == 3) {
+          //   that.isVerity();
+          // }
         }
       }
     })
@@ -242,12 +242,17 @@ Page({
       title: '登录中...',
     })
     Api.isVerify(_parms).then((res) => {
-      if (res.data.data) {
+      if (res.data.code==0) {
         wx.setStorageSync('userInfo', res.data.data)
         app.globalData.userInfo = res.data.data;
         app.globalData.userInfo.userId = res.data.data.id;
         that.authlogin(res.data.data.userName,2)
       } else {
+        wx.hideLoading();
+        wx.showToast({
+          title: '验证码错误',
+          icon:'none'
+        })
         let loginData = app.globalData.loginData;
         let sessionKey = app.globalData.sessionKey;
         that.createNewUser(sessionKey, loginData.iv, loginData.encryptedData, 3)
@@ -304,7 +309,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
-
+    
   },
 
   /**
