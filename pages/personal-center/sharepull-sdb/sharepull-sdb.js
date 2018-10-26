@@ -113,6 +113,7 @@ Page({
   // 保存图片
   saveImgToPhotosAlbumTap: function () {
     let imgUrl = this.data.imagePath;
+    console.log('imgUrl:', imgUrl)
     wx.downloadFile({
       url: imgUrl,
       success: function (res) {

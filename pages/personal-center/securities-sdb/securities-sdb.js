@@ -73,6 +73,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
+   
     wx.showLoading({
       title: '请稍候...',
       mask:'true'
@@ -128,6 +129,7 @@ Page({
         if (res.data.code == 0) {
           let _token = 'Bearer ' + res.data.data;
           app.globalData.token = _token;
+          wx.hideLoading();
           console.log("token:", app.globalData.token)
           wx.setStorageSync('token', _token)
           if(val == 2){
