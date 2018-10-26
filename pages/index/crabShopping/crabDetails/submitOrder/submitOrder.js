@@ -43,7 +43,7 @@ Page({
     address: ''
   },
   onLoad: function(options) {
-    console.log('options:', options)
+    // console.log('options:', options)
     wx.showLoading({
       title: '加载中...'
     })
@@ -106,6 +106,7 @@ Page({
       });
       this.marketDetail();
     }
+    this.setData({ issoid: false})
     this.getDetailBySkuId();
   },
   onHide() {
@@ -493,16 +494,13 @@ Page({
     }
     _value = _value.substring(0, _value.length - 1);
     if (that.data.issku != 3){
-      console.log("11111")
       url = that.data._build_url + 'wxpay/shoppingMallForCoupon?' + _value;
       _Url = encodeURI(url);
     } else if (that.data.issku == 3){
-      console.log("222222")
       url = that.data._build_url + 'wxpay/shoppingMallForCoupon?' + _value;
       // url = that.data._build_url + 'wxpay/shoppingMallForMDZT?' + _value;
       _Url = encodeURI(url);
     }else {
-      console.log("333333")
       url = that.data._build_url + 'wxpay/doUnifiedOrderForShoppingMall?' + _value;
       _Url = encodeURI(url);
     }
@@ -521,60 +519,6 @@ Page({
         }
       }
     })
-    return
-
-
-    if (that.data.current.spuId == 3 && that.data.issku != 3) {
-      console.log('111111111')
-      wx.request({
-        url: _Url,
-        header: {
-          "Authorization": app.globalData.token
-        },
-        method: 'POST',
-        success: function(res) {
-          if (res.data.code == 0) {
-            that.setData({
-              payObj: res.data.data
-            })
-            that.pay();
-          }
-        }
-      })
-    } else if (that.data.issku == 3) {
-      console.log('22222')
-      wx.request({
-        url: that.data._build_url + 'wxpay/shoppingMallForMDZT?' + _value,
-        header: {
-          "Authorization": app.globalData.token
-        },
-        method: 'POST',
-        success: function(res) {
-          if (res.data.code == 0) {
-            that.setData({
-              payObj: res.data.data
-            })
-            that.pay();
-          }
-        }
-      })
-    } else {
-      wx.request({
-        url: that.data._build_url + 'wxpay/doUnifiedOrderForShoppingMall?' + _value,
-        header: {
-          "Authorization": app.globalData.token
-        },
-        method: 'POST',
-        success: function(res) {
-          if (res.data.code == 0) {
-            that.setData({
-              payObj: res.data.data
-            })
-            that.pay();
-          }
-        }
-      })
-    }
   },
   //支付
   pay: function() {

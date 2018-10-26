@@ -109,9 +109,12 @@ Page({
         "Authorization": app.globalData.token
       },
       success: function(res) {
-        that.setData({
-          hotlive: res.data.data.list
-        })
+        wx.startPullDownRefresh();
+        if(res.data.code == 0){
+          that.setData({
+            hotlive: res.data.data.list
+          })
+        }
       }
     })
     this.getcarousel();

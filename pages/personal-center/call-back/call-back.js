@@ -76,18 +76,38 @@ Page({
   },
   //实时获取输入的券码--券码
   bindinputent: function(e) {
-    let actual = e.detail.value;
-    if (actual.length == 10) {
-      this.gettickets(actual);
-    } else if (actual.length == 0) {
+    // let actual = e.detail.value;
+    // if (actual.length == 10) {
+    //   this.gettickets(actual);
+    // } else if (actual.length == 0) {
+    //   this.setData({
+    //     okhx: false
+    //   })
+    // } 
+    // this.setData({
+    //   _code: actual,
+    //   istihua:false
+    // })
+
+
+    let actual = e.detail.value, ms = 0, _timer = null, _this = this;
+    if (actual.length == 0) {
       this.setData({
         okhx: false
       })
-    } 
-    this.setData({
+    }
+    clearInterval(this.data.timer);;
+    _timer = setInterval(function () {
+      ms += 50;
+      if (ms == 100) {
+        _this.gettickets(actual);
+      }
+    }, 1000)
+    _this.setData({
+      timer: _timer,
       _code: actual,
-      istihua:false
-    })
+      istihua: false
+    });
   },
   //聚焦--券码
   bindfocus:function(){
@@ -112,14 +132,12 @@ Page({
       if (ms == 100) {
         _this.gettickets(actual);
       }
-    }, 500)
+    }, 1500)
     _this.setData({
       timer: _timer,
       _codees: actual,
       istihua: true
     });
-
-    
   },
   //聚焦--提货码
   bindfocuses: function () {

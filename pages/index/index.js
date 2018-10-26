@@ -180,7 +180,6 @@ Page({
     }]
   },
   onLoad: function(options) {
-    console.log("onLoad")
     let that = this;
     //版本更新
     const updateManager = wx.getUpdateManager();
@@ -202,23 +201,27 @@ Page({
     // let userInfo = wx.getStorageSync('userInfo') || {};
     // userInfo.city = userInfo.city ? userInfo.city:'十堰市'
     // app.globalData.userInfo = userInfo
-
+    if(txtObj.length>0){
+      console.log("txtObj:", txtObj)
+      this.setData({
+        fresh1: txtObj ? txtObj.fresh1 : '',
+        fresh2: txtObj ? txtObj.fresh2 : '',
+        fresh3: txtObj ? txtObj.fresh3 : '',
+        syhotdish: txtObj ? txtObj.sydish : {},
+        whhotdish: txtObj ? txtObj.whdish : {}
+      }); 
+    }
     this.setData({
       bannthree,
-      carousel,
-      fresh1: txtObj ? txtObj.fresh1 : '',
-      fresh2: txtObj ? txtObj.fresh2 : '',
-      fresh3: txtObj ? txtObj.fresh3 : '',
-      syhotdish: txtObj ? txtObj.sydish : {},
-      whhotdish: txtObj ? txtObj.whdish : {}
+      carousel
     });
-
+    that.indexinit();
   },
   onShow: function() {
     // this.getOpendId();
-    console.log("onShow")
     let that = this;
-    that.indexinit();
+    
+    that.getUserlocation();
     this.setData({
       loading: false,
       isshowlocation: false
@@ -245,7 +248,6 @@ Page({
       this.setData({
         _page: 1
       })
-      // this.getCutDish();
     }
   },
   indexinit: function() {
@@ -564,9 +566,7 @@ Page({
       userInfo = app.globalData.userInfo;
     if (userInfo.lat && userInfo.lng && userInfo.city) {
       this.getCutDish();
-    } else {
-
-    };
+    }
     // that.isNewUser();
     if (userInfo && userInfo.mobile) {
       that.setData({
@@ -601,11 +601,14 @@ Page({
   },
 
   getUserlocation: function() { //获取用户位置经纬度
-    let that = this;
+    let that = this,_userInfo=app.globalData.userInfo;
     // let lat = '32.6226',
     //   lng = '110.77877';
     // that.requestCityName(lat, lng);
     // return
+    if (_userInfo.lat && _userInfo.lat && _userInfo.city){
+      return
+    }
     wx.getLocation({
       type: 'wgs84',
       success: function(res) {
