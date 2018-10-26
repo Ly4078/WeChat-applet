@@ -47,6 +47,7 @@ Page({
           if (res.data.code == 0) {
             var mobile = String(res.data.data.mobile);
             if (mobile.length>=11  &&  res.data.data.unionId && res.data.data.id &&   res.data.data.userName) {
+              console.log('进来了')
               wx.setStorageSync('userInfo', res.data.data)
               app.globalData.userInfo = res.data.data;
               app.globalData.userInfo.userId = res.data.data.id;
@@ -74,8 +75,9 @@ Page({
     let that = this;
     wx.checkSession({
       success: res => {
-        const userinfo = wx.getStorageSync('userInfo')
-        if (userinfo) {
+        const userinfo = wx.getStorageSync('userInfo');
+        var mobile = String(userinfo.mobile);
+        if (mobile.length>=11) {
           app.globalData.currentScene.query == ''
           wx.reLaunch({ //以拥有手机号码直接跳转
             url: that.data.navigetToUrl ? that.data.navigetToUrl : '/pages/index/index',

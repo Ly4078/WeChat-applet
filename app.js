@@ -18,7 +18,7 @@ App({
     this.globalData.currentScene.query = options.query
     const userInfo = wx.getStorageSync("userInfo");
     var mobile = String(userInfo.mobile);
-      if (!userInfo.id && mobile.length < 11){
+      if ( mobile.length < 11){
       if (options.path == 'pages/personal-center/securities-sdb/securities-sdb' || options.path=='pages/init/init'){
         return
       }
