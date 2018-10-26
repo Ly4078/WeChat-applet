@@ -137,14 +137,12 @@ Page({
           success: function(res) {
             let imgArr = [],
               _data = {},
-              _img = '',
               imgNum = 0;
             imgArr = that.data.imgArr;
             _data = JSON.parse(res.data);
-            _img = _data.data.smallPicUrl;
-            imgArr.splice(imgArr.length - 2, 0, {
-              id: '',
-              url: _img
+            imgArr.splice(imgArr.length - 1, 0, {
+              id: _data.data.id,
+              url: _data.data.smallPicUrl
             });
             if (imgArr.length > 4) {
               imgArr = imgArr.slice(0, imgArr.length - 1);
@@ -228,17 +226,19 @@ Page({
       icon: 'none'
     })
     for (let i = 0; i < imgArr.length; i++) {
-      str += imgArr[i].url + ',';
+      str += imgArr[i].id + ',';
     }
     str = str.substring(0, str.length - 1);
     _param = 'content=' + text + '&picIds=' + str + '&phone=' + phone;
+    let _url = encodeURI(this.data._build_url + 'useropinion/add?' + _param);
     wx.request({
-      url: this.data._build_url + 'useropinion/add?' + _param,
+      url: _url,
       header: {
         "Authorization": app.globalData.token
       },
       method: 'POST',
       success: function(res) {
+        console.log(res);
         if (res.data.code == 0) {
           wx.showToast({
             title: '上传成功',
