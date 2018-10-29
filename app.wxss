@@ -23,9 +23,9 @@ button{
   position: fixed; 
   top: 20%; 
   left: 50%; 
-  z-index: 1001; 
   margin-left: -313rpx; 
   border-radius: 3px; 
+  z-index: 9999;
 }
 .weizhi{
   width: 80%;
@@ -34,6 +34,7 @@ button{
   text-align: center;
   height: 100rpx;
   line-height: 100rpx;
+  
   background: #fff;
 }
 .weizhi button{

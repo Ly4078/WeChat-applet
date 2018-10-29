@@ -10,7 +10,7 @@
       <text>顾客信息:</text>
       <text>{{hxData.userName}}</text>
     </view>
-    <view class='inputBox'>
+    <view class='inputBox' wx:if="{{!iszy}}" hidden='{{!hxData.skuName}}'>
      <text>券信息:</text>
      <text>{{hxData.skuName}}</text>
     </view>

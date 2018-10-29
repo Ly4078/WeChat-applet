@@ -15,6 +15,7 @@ App({
     sessionKey: ''
   },
   onLaunch: function(options) {
+    console.log("options:", options)
     let q = decodeURIComponent(options.query.q);
     this.globalData.currentScene.path = options.path;
     this.globalData.currentScene.query = options.query
@@ -30,7 +31,6 @@ App({
             url: '/pages/init/init',
           })
         }
-        
       }
     }
   },

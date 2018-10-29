@@ -85,8 +85,7 @@ Page({
     if (app.globalData.userInfo.userId) {
       if (app.globalData.userInfo.mobile) {
         if (app.globalData.token) {
-          
-          if (app.globalData.userInfo.lat && app.globalData.userInfo.lng) {
+          if (app.globalData.userInfo.lat && app.globalData.userInfo.lng ) {
             if (that.data._city || app.globalData.userInfo.city) {
               console.log("3213213213")
               this.hotDishList();
@@ -112,7 +111,6 @@ Page({
         this.authlogin();
       }
     } else {
-      // this.getUserlocation();
       this.findByCode();
     }
   },
@@ -189,39 +187,14 @@ Page({
               that.hotDishList();
             }
           } else {
-            that.getUserlocation();
+            // that.getUserlocation();
             that.getlocation();
           }
         }
       }
     })
   },
-  getUserlocation: function () { //获取用户位置经纬度
-    let that = this;
-    wx.getLocation({
-      type: 'wgs84',
-      success: function (res) {
-        let latitude = res.latitude,
-          longitude = res.longitude;
-        console.log("req222")
-        that.requestCityName(latitude, longitude);
-      },
-      fail: function (res) {
-        wx.getSetting({
-          success: (res) => {
-            if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其位置信息          
-              that.setData({
-                isshowlocation: true
-              })
-
-            } else {
-              that.getCutDish();
-            }
-          }
-        })
-      }
-    })
-  },
+  
   openSetting() {//打开授权设置界面
     let that = this;
     that.setData({
@@ -251,6 +224,32 @@ Page({
     })
   },
 
+  getUserlocation: function () { //获取用户位置经纬度
+    let that = this;
+    wx.getLocation({
+      type: 'wgs84',
+      success: function (res) {
+        let latitude = res.latitude,
+          longitude = res.longitude;
+        console.log("req222")
+        that.requestCityName(latitude, longitude);
+      },
+      fail: function (res) {
+        wx.getSetting({
+          success: (res) => {
+            if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其位置信息          
+              that.setData({
+                isshowlocation: true
+              })
+
+            } else {
+              that.getCutDish();
+            }
+          }
+        })
+      }
+    })
+  },
   getlocation: function() { //获取用户位置
     let that = this,
       lat = '',

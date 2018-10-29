@@ -117,7 +117,6 @@ Page({
   },
 
   authlogin: function(val) { //获取token
-    console.log('authlogin',val)
     let that = this;
     wx.request({
       url: this.data._build_url + 'auth/login?userName=' + app.globalData.userInfo.userName,
@@ -126,6 +125,7 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success: function(res) {
+        console.log('12321321res:',res)
         if (res.data.code == 0) {
           let _token = 'Bearer ' + res.data.data;
           app.globalData.token = _token;
@@ -135,15 +135,13 @@ Page({
             that.getVerificationCode();
           } else {
             if (app.globalData.userInfo.mobile) {
+              console.log("parentId:", that.data.parentId)
               if (that.data.referrer) { //推荐人
-                // that.setpullUser();
                 if (that.data.isscan) {
-                  console.log("1111111111")
                   wx.switchTab({
                     url: '../../index/index'
                   })
                 } else {
-                  console.log("222220000000000")
                   that.setpullUser();
                 }
               } else if (that.data.parentId) {
@@ -151,7 +149,7 @@ Page({
               } else if (that.data.inviter) {
                 that.inviteCrab();
               } else if (val) {
-                that.freeOrder();
+                that.freeOrder(); //获取免费票券
               } else {
                 that.getuserInfo();
               }
@@ -188,7 +186,7 @@ Page({
       }
     })
   },
-  freeOrder: function() {
+  freeOrder: function () {//获取免费票券
     let _parms = {},
       _value = "",
       that = this;
@@ -239,7 +237,6 @@ Page({
       }
     })
   },
-
   againgetinfo: function() { //请求用户授权获取获取用户unionId
     let that = this;
     wx.getUserInfo({
@@ -450,8 +447,16 @@ Page({
           Api.isVerify(_parms).then((res) => {
             console.log("registeredres:", res)
             if (res.data.code == 0) {
-              app.globalData.userInfo.userId = res.data.data;
-              app.globalData.userInfo.mobile = that.data.phoneNum;
+              
+              let data = res.data.data;
+              for (let key in data) {
+                for (let ind in app.globalData.userInfo) {
+                  if (key == ind) {
+                    app.globalData.userInfo[ind] = data[key]
+                  }
+                }
+              };
+              app.globalData.userInfo.userId = res.data.data.id;
               let userInfo = app.globalData.userInfo;
               wx.setStorageSync('userInfo', userInfo);
               that.setData({
@@ -491,7 +496,6 @@ Page({
   },
 
   getuserInfo: function(val) { //从自己的服务器获取用户信息
-    console.log('getuserInfo:', val)
     let that = this;
     wx.request({
       url: that.data._build_url + 'user/get/' + app.globalData.userInfo.userId,
@@ -532,13 +536,14 @@ Page({
       method: 'POST',
       success: function(res) {
         console.log("pulluserres:", res)
-        if (res.data.code == 0) {
+        // if (res.data.code == 0) {
           that.getuserInfo();
-        }
+        // }
       }
     })
   },
   inviteNewUser() { //邀请新用户参与秒杀
+    console.log('inviteNewUser')
     let _parms = {},
       that = this,
       url = "",
@@ -563,9 +568,10 @@ Page({
       },
       method: 'POST',
       success: function(res) {
-        if (res.data.code == 0) {
+        console.log("aaaaares:",res)
+        // if (res.data.code == 0) {
           that.getuserInfo();
-        }
+        // }
       }
     })
   },
@@ -578,9 +584,9 @@ Page({
       },
       method: 'POST',
       success: function(res) {
-        if (res.data.code == 0) {
+        // if (res.data.code == 0) {
           that.getuserInfo();
-        }
+        // }
       }
     })
   }

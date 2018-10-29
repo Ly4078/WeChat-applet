@@ -20,6 +20,7 @@ Page({
     shopName: '',
     address: '',
     initiator: '', //发起人
+    yuaninitiator: '', //发起人
     newList: [], //邀请新人列表
     timer: null, //倒计时
     countDown: '',
@@ -298,16 +299,6 @@ Page({
   },
   toBuy() { //买菜
     let _this = this;
-
-    // let sellPrice = this.data.agioPrice; //折后价
-    // wx.navigateTo({
-    //   url: '../../order-for-goods/order-for-goods?shopId=' + this.data.shopId + '&skuName=' + sellPrice + '元抢购券&sell=' + sellPrice + '&skutype=8&dishSkuId=' + this.data.id + '&dishSkuName=' + this.data.skuName
-    // })
-    // return
-
-
-
-
     if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
@@ -361,28 +352,29 @@ Page({
       complete: function(res) {},
     })
   },
-  inviteOthers() {
+  inviteOthers() {  //点击邀请好友
     if (this.data.stockNum <= 0) {
       wx.showToast({
         title: '该菜品已售罄',
         icon: 'none'
       })
-      return false;
-    }
-    if (this.data.isCreated) {
-      this.onShareAppMessage();
-    } else {
-      //创建一个秒杀菜
-      this.createSecKill();
+    }else{
+      this.setData({
+        yuaninitiator: this.data.initiator ? this.data.initiator : app.globalData.userInfo.userId
+      })
+      if (this.data.isCreated) {
+        this.onShareAppMessage();
+      } else {
+        //创建一个秒杀菜
+        this.createSecKill();
+      }
     }
   },
   //分享给好友
   onShareAppMessage: function() {
-    let initiator = this.data.initiator ? this.data.initiator : app.globalData.userInfo.userId;
-    let userInfo = app.globalData.userInfo;
     return {
       title: this.data.skuName,
-      path: '/pages/index/flashSaleHome/secKillDetail/secKillDetail?initiator=' + initiator + '&shopId=' + this.data.shopId + '&id=' + this.data.id,
+      path: '/pages/index/flashSaleHome/secKillDetail/secKillDetail?initiator=' + this.data.yuaninitiator + '&shopId=' + this.data.shopId + '&id=' + this.data.id,
       success: function(res) {
 
       },

@@ -157,6 +157,7 @@ Page({
   },
   //查询我的礼品券列表数据 
   getorderCoupon: function(types) {
+    let that = this;
     if (!app.globalData.userInfo.userId) {
       this.findByCode();
     } else {
@@ -174,6 +175,10 @@ Page({
       swichrequestflag[types] = true
       Api.orderCoupon(_parms).then((res) => {
         wx.stopPullDownRefresh();
+        wx.hideLoading();
+        that.setData({
+          loading: false
+        })
         if (res.data.code == 0) {
           let _data = this.data.pxpage == 1 ? [] : this.data.listData,
             _list = res.data.data.list;
@@ -191,14 +196,68 @@ Page({
               listData: _data.concat(_list),
               pageTotal: Math.ceil(res.data.data.total / 10),
               loading: false
-            }, () => {
-              wx.hideLoading();
             })
           } else {
             this.setData({
               loading: false
             })
             wx.hideLoading();
+          }
+          swichrequestflag[types] = false
+        }
+      }, () => {
+        wx.hideLoading();
+        that.setData({
+          loading: false
+        })
+        swichrequestflag[types] = false
+      })
+    }
+  },
+  // 查询提蟹券赠送记录
+  getlistCoupon: function(types) {
+    let _parms = {},
+      that = this;
+    if (!app.globalData.userInfo.userId) {
+      this.findByCode();
+    }else{
+      _parms = {
+        row: 10
+      };
+      _parms.page = this.data.sendpage;
+      _parms.sendUserId = app.globalData.userInfo.userId;
+      swichrequestflag[types] = true
+      Api.listCoupon(_parms).then((res) => {
+        wx.stopPullDownRefresh();
+        if (res.data.code == 0) {
+          let _lists = res.data.data.list;
+          if (_lists && _lists.length > 0) {
+            for (let i = 0; i < _lists.length; i++) {
+              if (_lists[i].receiveUserName) {
+                _lists[i].receiveUserName = _lists[i].receiveUserName.substr(0, 3) + "****" + _lists[i].receiveUserName.substr(7);
+              }
+              if (_lists[i].sendUserName) {
+                _lists[i].sendUserName = _lists[i].sendUserName.substr(0, 3) + "****" + _lists[i].sendUserName.substr(7);
+              }
+              // _sendData.push(_lists[i]);
+
+            }
+            let _sendData = this.data.sendpage == 1 ? [] : this.data.sendData;
+
+
+            that.setData({
+              sendData: _sendData.concat(_lists),
+              sendTotal: Math.ceil(res.data.data.total / 10),
+              loading: false
+
+            }, () => {
+              wx.hideLoading();
+            })
+          } else {
+            wx.hideLoading();
+            this.setData({
+              loading: false
+            })
           }
           swichrequestflag[types] = false
         }
@@ -214,118 +273,56 @@ Page({
       })
     }
   },
-  // 查询提蟹券赠送记录
-  getlistCoupon: function(types) {
-    if (!app.globalData.userInfo.userId) {
-      this.findByCode();
-      return
-    }
-    let _parms = {},
-      that = this;
-    _parms = {
-      row: 10
-    }, that = this;
-    _parms.page = this.data.sendpage;
-    _parms.sendUserId = app.globalData.userInfo.userId;
-    swichrequestflag[types] = true
-    Api.listCoupon(_parms).then((res) => {
-      wx.stopPullDownRefresh();
-      if (res.data.code == 0) {
-        let _lists = res.data.data.list;
-        if (_lists && _lists.length > 0) {
-          for (let i = 0; i < _lists.length; i++) {
-            if (_lists[i].receiveUserName) {
-              _lists[i].receiveUserName = _lists[i].receiveUserName.substr(0, 3) + "****" + _lists[i].receiveUserName.substr(7);
-            }
-            if (_lists[i].sendUserName) {
-              _lists[i].sendUserName = _lists[i].sendUserName.substr(0, 3) + "****" + _lists[i].sendUserName.substr(7);
-            }
-            // _sendData.push(_lists[i]);
-
-          }
-          let _sendData = this.data.sendpage == 1 ? [] : this.data.sendData;
-
-
-          that.setData({
-            sendData: _sendData.concat(_lists),
-            sendTotal: Math.ceil(res.data.data.total / 10),
-            loading: false
-
-          }, () => {
-            wx.hideLoading();
-          })
-        } else {
-          wx.hideLoading();
-          this.setData({
-            loading: false
-          })
-        }
-        swichrequestflag[types] = false
-      }
-      this.setData({
-        loading: false
-      })
-    }, () => {
-      wx.hideLoading();
-      this.setData({
-        loading: false
-      })
-      swichrequestflag[types] = false
-    })
-  },
   getlistCouponReceive: function(types) {
+    let _parms = {}, that = this;
     if (!app.globalData.userInfo.userId) {
       this.findByCode();
-      return
-    }
-    let _parms = {}, that = this;
-    _parms = {
-      row: 10,
-      page: this.data.recpage,
-      receiveUserId: app.globalData.userInfo.userId
-    };
+    }else{
+      _parms = {
+        row: 10,
+        page: this.data.recpage,
+        receiveUserId: app.globalData.userInfo.userId
+      };
 
-    swichrequestflag[types] = true
-    Api.listCoupon(_parms).then((res) => {
-      wx.stopPullDownRefresh();
-      if (res.data.code == 0) {
-        let _lists = res.data.data.list;
-        if (_lists && _lists.length > 0) {
-          for (let i = 0; i < _lists.length; i++) {
-            if (_lists[i].receiveUserName) {
-              _lists[i].receiveUserName = _lists[i].receiveUserName.substr(0, 3) + "****" + _lists[i].receiveUserName.substr(7);
+      swichrequestflag[types] = true
+      Api.listCoupon(_parms).then((res) => {
+        wx.stopPullDownRefresh();
+        wx.hideLoading();
+        that.setData({
+          loading: false
+        })
+        if (res.data.code == 0) {
+          let _lists = res.data.data.list;
+          if (_lists && _lists.length > 0) {
+            for (let i = 0; i < _lists.length; i++) {
+              if (_lists[i].receiveUserName) {
+                _lists[i].receiveUserName = _lists[i].receiveUserName.substr(0, 3) + "****" + _lists[i].receiveUserName.substr(7);
+              }
+              if (_lists[i].sendUserName) {
+                _lists[i].sendUserName = _lists[i].sendUserName.substr(0, 3) + "****" + _lists[i].sendUserName.substr(7);
+              }
             }
-            if (_lists[i].sendUserName) {
-              _lists[i].sendUserName = _lists[i].sendUserName.substr(0, 3) + "****" + _lists[i].sendUserName.substr(7);
-            }
-          }
-          let _recData = this.data.recpage == 1 ? [] : this.data.recData;
-          that.setData({
-            recData: _recData.concat(_lists),
-            recTotal: Math.ceil(res.data.data.total / 10),
-            loading: false
-          }, () => {
+            let _recData = this.data.recpage == 1 ? [] : this.data.recData;
+            that.setData({
+              recData: _recData.concat(_lists),
+              recTotal: Math.ceil(res.data.data.total / 10),
+              loading: false
+            })
+          } else {
+            this.setData({
+              loading: false
+            })
             wx.hideLoading();
-          })
-        } else {
-          this.setData({
-            loading: false
-          })
-          wx.hideLoading();
+          }
+          swichrequestflag[types] = false
         }
+      }, () => {
+        this.setData({
+          loading: false
+        })
         swichrequestflag[types] = false
-      }
-      this.setData({
-        loading: false
       })
-
-    }, () => {
-      this.setData({
-        loading: false
-      })
-      wx.hideLoading();
-      swichrequestflag[types] = false
-    })
+    }
   },
   //获取我的票券
   getTicketList: function() {
@@ -351,6 +348,11 @@ Page({
         },
         success: function(res) {
           console.log("1111:",res)
+          wx.hideLoading();
+          that.setData({
+            isUpdate: false,
+            loading: false
+          })
           if (res.data.code == 0) {
             if(res.data.data.list && res.data.data.list.length>0){
               let ticketList = res.data.data.list,
@@ -387,7 +389,7 @@ Page({
                 loading: false
               }, () => {
                 requesting = false
-                wx.hideLoading();
+               
               })
             } else {
               that.setData({
@@ -398,12 +400,7 @@ Page({
               wx.hideLoading();
             }
           } else {
-            that.setData({
-              isUpdate: false,
-              loading: false
-            })
             requesting = false
-            wx.hideLoading();
           }
           if (that.data.page == 1) {
             wx.stopPullDownRefresh();

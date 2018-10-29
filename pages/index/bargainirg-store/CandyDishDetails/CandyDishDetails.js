@@ -54,12 +54,13 @@ Page({
       id: options.id,
       _city: options.city ? options.city:''
     });
-    this.getUserlocation();
+    // this.getUserlocation();
   },
   onShow() {
-    this.getUserlocation();
-    if (!app.globalData.userInfo.city) {
-      app.globalData.userInfo.city = '十堰市';
+    // this.getUserlocation();
+    if (!app.globalData.userInfo.city && !app.globalData.userInfo.lat && app.globalData.userInfo.lng) {
+      // app.globalData.userInfo.city = '十堰市';
+      this.getUserlocation();
     }
     if (app.globalData.userInfo.userId) {
       if (app.globalData.userInfo.mobile) {
@@ -160,6 +161,7 @@ Page({
 
             } else {
               // that.getCutDish();
+              that.dishList();
             }
           }
         })
@@ -174,6 +176,7 @@ Page({
     wx.openSetting({
       success: (res) => {
         if (!res.authSetting['scope.userLocation']) { //打开位置授权          
+
           // that.getUserlocation();
           // village_LBS(that);
           console.log('userLocation')
@@ -182,13 +185,7 @@ Page({
             isshowlocation: true
           })
         } else {
-          wx.getLocation({
-            success: function (res) {
-              let latitude = res.latitude,
-                longitude = res.longitude;
-              that.requestCityName(latitude, longitude);
-            }
-          })
+          village_LBS(that);
         }
       }
     })

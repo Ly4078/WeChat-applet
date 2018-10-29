@@ -112,12 +112,12 @@ Page({
       }
     });
 
-    this.merchantInit();
+    // this.merchantInit();
    
   },
   onShow: function() {
     let that = this;
-    // this.merchantInit();
+    this.merchantInit();
     this.commentList();
    
     let _token = wx.getStorageSync('token') || "";

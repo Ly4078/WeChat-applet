@@ -109,7 +109,8 @@ Page({
       _code: actual,
       istihua: false,
       okhx: false,
-      isconfirm: true
+      isconfirm: true,
+      hxData:[]
     });
   },
   //聚焦--券码
@@ -136,7 +137,8 @@ Page({
       _codees: actual,
       istihua: true,
       okhx: false,
-      isconfirm: true
+      isconfirm: true,
+      hxData:[]
     });
   },
   //聚焦--提货码

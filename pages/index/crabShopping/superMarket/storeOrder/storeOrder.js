@@ -25,9 +25,7 @@ Page({
     salepointId: '' //自提点id
   },
   onLoad: function(options) {
-    wx.showLoading({
-      title: '加载中...'
-    })
+
     this.setData({
       id: options.id,
       salepointId: options.salepointId
@@ -42,53 +40,21 @@ Page({
     let _ruleImg = '',
       _crabImgUrl = [],
       that = this;
+    console.log("userInfo:", app.globalData.userInfo)
     if (app.globalData.userInfo.userId) {
       if (app.globalData.userInfo.mobile) {
         if (app.globalData.token) {
+          console.log('show_token:', app.globalData.token)
           this.getTXT();
           this.getDetailBySkuId();
         } else {
           this.authlogin();
         }
-      } else {//是新用户，去注册页面
+      } else {
         this.authlogin();
-        // wx.navigateTo({
-        //   url: '/pages/personal-center/securities-sdb/securities-sdb?back == 1'
-        // })
       }
     } else {
       this.findByCode();
-    }
-
-    return
-    this.getDetailBySkuId();
-    console.log("txtobj:", app.globalData.txtObj)
-    if (app.globalData.txtObj.ruleImg) {
-      console.log('111111')
-      _crabImgUrl = app.globalData.txtObj.crabImgUrl, _ruleImg = app.globalData.txtObj.ruleImg;
-      _crabImgUrl = _crabImgUrl.slice(2);
-      _crabImgUrl.pop();
-      _crabImgUrl.pop();
-      that.setData({
-        crabImgUrl: _crabImgUrl,
-        ruleImg: _ruleImg
-      })
-    } else {
-      console.log('222')
-      wx.request({
-        url: this.data._build_url + 'version.txt',
-        success: function(res) {
-          app.globalData.txtObj = res.data;
-          _crabImgUrl = app.globalData.txtObj.crabImgUrl, _ruleImg = app.globalData.txtObj.ruleImg;
-          _crabImgUrl = _crabImgUrl.slice(2);
-          _crabImgUrl.pop();
-          _crabImgUrl.pop();
-          that.setData({
-            crabImgUrl: _crabImgUrl,
-            ruleImg: _ruleImg
-          })
-        }
-      })
     }
   },
   onHide: function() {
@@ -102,8 +68,10 @@ Page({
           code: res.code
         }).then((res) => {
           if (res.data.code == 0) {
-            let data = res.data.data;
-            if(dat.id){
+            console.log('res:',res)
+           
+            if (res.data.data.id){
+              let data = res.data.data;
               app.globalData.userInfo.userId = data.id;
               for (let key in data) {
                 for (let ind in app.globalData.userInfo) {
@@ -115,7 +83,6 @@ Page({
               if (!data.mobile) {
                 wx.navigateTo({
                   url: '/pages/init/init?isback=1'
-                  // url: '/pages/personal-center/securities-sdb/securities-sdb?back == 1'
                 })
               } else {
                 that.authlogin();//获取token
@@ -123,7 +90,6 @@ Page({
             }else{
               wx.navigateTo({
                 url: '/pages/init/init?isback=1'
-                // url: '/pages/personal-center/securities-sdb/securities-sdb?back == 1'
               })
             }
           } else {
@@ -135,6 +101,7 @@ Page({
   },
   authlogin: function () { //获取token
     let that = this;
+    console.log("authlogin:")
     wx.request({
       url: this.data._build_url + 'auth/login?userName=' + app.globalData.userInfo.userName,
       method: "POST",
@@ -146,11 +113,13 @@ Page({
         if (res.data.code == 0) {
           let _token = 'Bearer ' + res.data.data;
           app.globalData.token = _token;
-          that.getTXT();
-          that.getDetailBySkuId();
           if (app.globalData.userInfo.mobile) {
-            // that.getTXT();
-            // that.getDetailBySkuId();
+            that.getTXT();
+            that.getDetailBySkuId();
+          }else{
+            wx.navigateTo({
+              url: '/pages/init/init?isback=1'
+            })
           }
         }
       }
@@ -242,35 +211,38 @@ Page({
           code: res.code
         }).then((res) => {
           if (res.data.code == 0) {
-            let data = res.data.data;
-            app.globalData.userInfo.userId = data.id;
-            app.globalData.userInfo.lat = data.locationX;
-            app.globalData.userInfo.lng = data.locationY;
-            for (let key in data) {
-              for (let ind in app.globalData.userInfo) {
-                if (key == ind) {
-                  app.globalData.userInfo[ind] = data[key]
+            if(res.data.data.id){
+              let data = res.data.data;
+              app.globalData.userInfo.userId = data.id;
+              app.globalData.userInfo.lat = data.locationX;
+              app.globalData.userInfo.lng = data.locationY;
+              for (let key in data) {
+                for (let ind in app.globalData.userInfo) {
+                  if (key == ind) {
+                    app.globalData.userInfo[ind] = data[key]
+                  }
                 }
               }
-            }
-            if (!data.mobile) { //是新用户，去注册页面
+              if (!data.mobile) { //是新用户，去注册页面
+                wx.navigateTo({
+                  url: '/pages/init/init?isback=1'
+                })
+              } else if (app.globalData.userInfo.userId) {
+                if (that.data.num <= 0) {
+                  wx.showToast({
+                    title: '请至少选择一只',
+                    icon: 'none'
+                  })
+                  return false;
+                }
+                //issku=3为到店自提
+                wx.navigateTo({
+                  url: '../../crabDetails/submitOrder/submitOrder?spuId=' + that.data.spuId + '&id=' + that.data.id + '&num=' + that.data.num + '&issku=3&shopId=' + that.data.shopId + '&salepointId=' + that.data.salepointId
+                })
+              }
+            }else{
               wx.navigateTo({
                 url: '/pages/init/init?isback=1'
-                // url: '../../../../personal-center/securities-sdb/securities-sdb?back=1'
-              })
-              return false;
-            }
-            if (app.globalData.userInfo.userId) {
-              if (that.data.num <= 0) {
-                wx.showToast({
-                  title: '请至少选择一只',
-                  icon: 'none'
-                })
-                return false;
-              }
-              //issku=3为到店自提
-              wx.navigateTo({
-                url: '../../crabDetails/submitOrder/submitOrder?spuId=' + that.data.spuId + '&id=' + that.data.id + '&num=' + that.data.num + '&issku=3&shopId=' + that.data.shopId + '&salepointId=' + that.data.salepointId
               })
             }
           } else {

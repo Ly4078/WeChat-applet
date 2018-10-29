@@ -1323,7 +1323,7 @@ page {
 
 
 .modal_boxpuls{
-  pointer-events: none;
+  z-index: 99999;
 }
 
 .newUserModal {

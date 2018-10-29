@@ -20,39 +20,12 @@
     </button>
   </view>
 
-<view class='modal_box' wx:if="{{isshowlocation}}">
-  <view class='weizhi'>
-    更多体验需要你授权位置信息
-    <button bindtap="openSetting">确定</button>
+  <view class='modal_box' wx:if="{{isshowlocation}}">
+    <view class='weizhi'>
+      更多体验需要你授权位置信息
+      <button bindtap="openSetting">确定</button>
+    </view>
   </view>
-</view>
-
-  <!-- 新用户弹窗 -->
-  <!-- <view class="newUserModal" wx:if="{{userGiftFlag || isNew || isfirst}}" catchtouchmove='true'>
-    <view class="drawer_screen"></view>
-    <view wx:if="{{isphoneNumber}}" class="newUserM_box getphone gettels">
-      <view class='nubtitle'>快速注册</view>
-      <view class='setphone'>
-        <input type="number" value="{{phonetwo}}" maxlength="11" focus='true' placeholder="输入手机号" bindinput="numbindinput"></input>
-        <image class="clphone" bindtap='closephone' src="https://xqmp4-1256079679.file.myqcloud.com/text_359631370815683703.png"></image>
-      </view>
-      <view class='setcode'>
-        <input type="number" maxlength="4" placeholder="输入验证码" bindinput="yzmbindblur"></input>
-        <button bindtap='submitphone' class='{{rematime == "获取验证码"?"nobut":"actbut"}}'>{{rematime}}</button>
-      </view>
-      <view class='twobut'>
-        <view class='closebut' bindtap='closebut'>取消</view>
-        <view class='cfimbut' bindtap='submitverify'>确定</view>
-      </view>
-    </view>
-
-    <view wx:else class="newUserM_box">
-      <image class="user_present" src="https://xqmp4-1256079679.file.myqcloud.com/test_211362532181670312.png" bindtap='newUserToGet'></image>
-      <image class="newUserM_gif" src="/images/icon/xiangqiLGBL.gif"></image>
-    </view>
-
-    <image class="newuser_cancel" src="/images/icon/cancel.png" bindtap='userGiftCancle'></image>
-  </view> -->
 
   <!-- 头部搜索   -->
   <view class='headSeek'>
@@ -123,8 +96,6 @@
     </view>
   </view>
 
-
-
   <!--拼菜砍价  -->
   <block wx:for="{{Bargain}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
     <template is="veoRes" data="{{item}}" />
@@ -146,6 +117,7 @@
 
   <!--商家广告位  -->
   <image class='Advertising' id="3" data-ind="3" bindtap="handbaoming" src="{{bannthree[2].imgUrl}}"></image>
+
   <!--拼菜砍价列表  -->
   <view>
     <view class="templateWrap {{showModal?'':'unders'}}">
@@ -162,7 +134,7 @@
     </view>
   </view>
 
-
+<!-- 回到顶部 -->
   <view class='toTop' wx:if="{{_page>1}}" bindtap='toTop'>
     <image src='/images/icon/toTop.png'></image>
   </view>

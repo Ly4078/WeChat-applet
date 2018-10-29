@@ -375,12 +375,9 @@ Page({
   getshopInfo(val){
     let that = this;
     wx.request({
-      url: this.data._build_url + 'shop/get/' + val,
+      url: that.data._build_url + 'shop/get/' + val,
       header: {
         "Authorization": app.globalData.token
-      },
-      header: {
-        'content-type': 'application/json;Authorization'
       },
       success: function (res) {
         if(res.data.code == 0){
