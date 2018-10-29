@@ -38,7 +38,7 @@ Page({
         ismobile: false
       })
     };
-    this.getuserInfo();
+    // this.getuserInfo();
   },
   onShow: function () {
     let that = this;
@@ -291,7 +291,6 @@ Page({
             nickName: res.userInfo.nickName
           })
           let data = res.userInfo;
-
           delete data.city;
           for (let key in data) {
             for (let ind in app.globalData.userInfo) {

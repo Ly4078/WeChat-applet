@@ -1,9 +1,11 @@
+
 <template name="tpeMerchant">
   <view class='shopWrap' id="{{item.id}}" catchtap="onTouchItem">
     <view class='navigationPractical'>
       <view class='practical_left1'>
-        <image wx:if="{{item.logoUrl}}" class='practicalImg' mode="aspectFill" src="{{item.logoUrl}}" id='{{item.id}}' binderror='imageError'></image>
-        <image wx:else class='practicalImg' mode="aspectFill" src="/images/icon/morentu.png"></image>
+        <image wx:if="{{item.logoUrl}}" lazy-load='true' class='practicalImg' mode="aspectFill" src="{{item.logoUrl}}" id='{{item.id}}' binderror='imageError'></image>
+     
+        <image wx:else class='practicalImg'  lazy-load='true' mode="aspectFill" src="/images/icon/morentu.png"></image>
       </view>
       <view class='practical_right1'>
         <view class='elsk'>

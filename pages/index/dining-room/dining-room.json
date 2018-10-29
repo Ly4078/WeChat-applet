@@ -1,5 +1,6 @@
 {
   "navigationBarTitleText": "餐厅列表",
+
   "usingComponents": {
     "i-spin": "../../../dist/spin/index"
   }

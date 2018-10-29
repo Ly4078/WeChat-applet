@@ -19,11 +19,14 @@ Page({
     browSort: '',
     searchValue:'',
     timer:null,
+    posts_key:[],
     pageTotal:1,
-    _val:""
+    _val:"",
+    showSkeleton:true
   },
 
   onLoad: function (options) {
+
     let _val = "";
     if (options.cate) {
       this.data.businessCate = options.cate
@@ -47,11 +50,6 @@ Page({
     if(_val){
       this.setData({ _val})
     }
-   
-    
-
-  },
-  onShow: function () {
     this.setData({
       isclosure: true,
       isshowlocation: false
@@ -72,6 +70,11 @@ Page({
         this.findByCode();
       }
     }
+    
+
+  },
+  onShow: function () {
+  
   },
 
   // 初始化start
@@ -141,7 +144,8 @@ Page({
       }
     })
   },
-  getData: function (){
+  getData: function (types){
+    console.log(types)
     let that = this, _parms = {};
     _parms = {
       locationX: app.globalData.userInfo.lng,
@@ -151,10 +155,14 @@ Page({
       rows: 8,
       token: app.globalData.token
     };
-    wx.showLoading({
-      title: '加载中...',
-      mask: true,
-    })
+   
+    if(types !='1'){
+      wx.showLoading({
+        title: '加载中...',
+        mask: true,
+      })
+    }
+    
     if (this.data.businessCate) { //美食类别 
       _parms.businessCate = this.data.businessCate
     }
@@ -167,12 +175,11 @@ Page({
     requesting = true
     if (this.data.businessCate == '川湘菜') {
       Api.listForChuangXiang(_parms).then((res) => {
-       
         wx.stopPullDownRefresh();
         if(res.data.code == 0){
           if(res.data.data.list.length>0){
             let data = res.data;
-            let posts = this.data.posts_key;
+            let posts = that.data.posts_key;
             let _data = data.data.list
             for (let i = 0; i < _data.length; i++) {
               _data[i].distance = utils.transformLength(_data[i].distance);
@@ -182,7 +189,8 @@ Page({
             that.setData({
               posts_key: posts,
               pageTotal: Math.ceil(res.data.data.total / 8),
-              loading: false
+              loading: false,
+              showSkeleton:false
             }, () => {
               requesting = false;
               wx.hideLoading();
@@ -218,7 +226,8 @@ Page({
             that.setData({
               posts_key: posts,
               pageTotal: Math.ceil(res.data.data.total / 8),
-              loading: false
+              loading: false,
+              showSkeleton: false
             },()=>{
               this.setData({
                 loading: false
@@ -310,7 +319,7 @@ Page({
       success: function (res) {
         let latitude = res.latitude,
           longitude = res.longitude;
-        console.log('22222')
+
         that.requestCityName(latitude, longitude);
       },
       fail: function (res) {
@@ -341,7 +350,6 @@ Page({
             success: function (res) {
               let latitude = res.latitude,
                 longitude = res.longitude;
-              console.log('1111')
               that.requestCityName(latitude, longitude);
             },
           })
@@ -397,7 +405,7 @@ Page({
       page: this.data.page + 1,
       loading: true
     },()=>{
-      this.getData()
+      this.getData(1)
     });
 
     
@@ -558,7 +566,7 @@ Page({
     this.setData({
       posts_key: posts_key
     });
-  },
+  }
   //模态框 end
   // onPageScroll: function () {
   //   //创建节点选择器

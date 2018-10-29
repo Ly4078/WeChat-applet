@@ -1,6 +1,5 @@
 Component({
     externalClasses: ['i-class'],
-
     properties: {
         // small || default || large
         size: {

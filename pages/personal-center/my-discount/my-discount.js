@@ -334,10 +334,6 @@ Page({
       this.findByCode();
     } else {
       requesting = true;
-      wx.showLoading({
-        title: '数据加载中...',
-        mask:true
-      })
       wx.request({
         url: that.data._build_url + 'cp/list',
         header: {
