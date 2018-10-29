@@ -5,8 +5,10 @@ var app = getApp();
 let requesting = false;
 
 var village_LBS = function (that) {
+  console.log('village_LBS')
   wx.getLocation({
     success: function (res) {
+      console.log('village_LBSres:',res)
       let latitude = res.latitude,
         longitude = res.longitude;
       app.globalData.userInfo.lat = latitude;
@@ -58,9 +60,11 @@ Page({
   },
   onShow() {
     // this.getUserlocation();
-    if (!app.globalData.userInfo.city && !app.globalData.userInfo.lat && app.globalData.userInfo.lng) {
+    console.log('userInfo:', app.globalData.userInfo)
+    if (!app.globalData.userInfo.city && !app.globalData.userInfo.lat && !app.globalData.userInfo.lng) {
       // app.globalData.userInfo.city = '十堰市';
       this.getUserlocation();
+
     }
     if (app.globalData.userInfo.userId) {
       if (app.globalData.userInfo.mobile) {
@@ -176,15 +180,11 @@ Page({
     wx.openSetting({
       success: (res) => {
         if (!res.authSetting['scope.userLocation']) { //打开位置授权          
-
-          // that.getUserlocation();
-          // village_LBS(that);
-          console.log('userLocation')
-          
           that.setData({
             isshowlocation: true
           })
         } else {
+          console.log('11111')
           village_LBS(that);
         }
       }

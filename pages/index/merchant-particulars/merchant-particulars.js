@@ -622,7 +622,7 @@ Page({
         "Authorization": app.globalData.token
       },
       success: function(res) {
-        wx.startPullDownRefresh();
+        wx.stopPullDownRefresh();
         if(res.data.code == 0){
           if (res.data.data) {
             let _data = res.data.data;
@@ -729,9 +729,8 @@ Page({
         rows: 3
       },
       success: function(res) {
-        wx.startPullDownRefresh()
+        wx.stopPullDownRefresh();
         if (res.data.code == 0) {
-
           let data = res.data;
           // console.log('list:', data.data.list);
           that.setData({

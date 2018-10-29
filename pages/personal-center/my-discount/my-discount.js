@@ -25,6 +25,7 @@ Page({
     tabs: ["我的票券", "赠送记录", "领取记录"]
   },
   onLoad: function(options) {
+    console.log("options:", options)
     wx.showLoading({
       title: '加载中...'
     })
@@ -157,6 +158,7 @@ Page({
   },
   //查询我的礼品券列表数据 
   getorderCoupon: function(types) {
+    console.log('getorderCoupon')
     let that = this;
     if (!app.globalData.userInfo.userId) {
       this.findByCode();
@@ -174,8 +176,9 @@ Page({
       }
       swichrequestflag[types] = true
       Api.orderCoupon(_parms).then((res) => {
-        wx.stopPullDownRefresh();
+        // wx.stopPullDownRefresh();
         wx.hideLoading();
+        console.log("fgetorderCoupon---res:",res)
         that.setData({
           loading: false
         })
@@ -447,6 +450,7 @@ Page({
     let bigIndex = that.data.currentIndex //顶部tab索引
     let leftIndex = that.data.ind//提蟹券索引
     let rightIndex = that.data.isUsed//优惠券索引
+    console.log(bigIndex, leftIndex, rightIndex)
     if (bigIndex ==0){//tab指向提蟹券
       if (leftIndex==0){
         if (!swichrequestflag[0] && that.data.pxpage < that.data.pageTotal){
@@ -480,21 +484,28 @@ Page({
       }
 
     } else if (bigIndex ==1){//tab指向优惠券
+    console.log('1111')
       if (requesting) {
         return;
       }
-      var tabId = this.data.isUsed
+      var tabId = this.data.isUsed;
+      console.log("tabId:", tabId)
       if (tabId == 0) {
+        console.log('12222222')
         if (this.data.page >= this.data.yesPageTotal) {
+          console.log('122222221111111')
           return
         }
       }
       if (tabId == 1) {
+        console.log('333333')
         if (this.data.page >= this.data.notPageTotal) {
+          console.log('333333111111')
           return
         }
       }
-      if (this.data.isUpdate) {
+      // if (this.data.isUpdate) {
+        console.log("555555")
         this.setData({
           page: this.data.page + 1,
           loading: true
@@ -502,17 +513,10 @@ Page({
           this.getTicketList();
         });
 
-      }
+      // }else{
+      //   console.log("4444444444")
+      // }
     }
-
-
-
-
-
-
-
-
-    
    
   },
   //用户下拉刷新
@@ -520,7 +524,7 @@ Page({
     if (requesting) {
       return;
     }
-    var tabId = this.data.isUsed
+    var tabId = this.data.isUsed;
     if (tabId == 0) {
       if (this.data.page >= this.data.yesPageTotal) {
         return

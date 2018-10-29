@@ -45,7 +45,9 @@ Page({
     this.setData({
       timer: null
     });
+
     if (app.globalData.userInfo.userId) {
+      
       if (app.globalData.userInfo.mobile) {
         if (app.globalData.token) {
           _this.shopDetail();
@@ -56,7 +58,7 @@ Page({
         }
       } else {//是新用户，
         wx.navigateTo({
-          url: '/pages/personal-center/securities-sdb/securities-sdb?parentId=' + this.data.initiator + '&skuId=' + this.data.id + '&shopId=' + this.data.shopId
+          url: '/pages/personal-center/securities-sdb/securities-sdb?parentId=' + this.data.initiator+ '&skuId=' + this.data.id + '&shopId=' + this.data.shopId
         })
       }
     } else {
@@ -80,7 +82,8 @@ Page({
   onPullDownRefresh: function () { //下拉刷新
     this.isCreateFunc();
   },
-  findByCode: function () { //通过code查询进入的用户信息，判断是否是新用户
+  //通过code查询进入的用户信息，判断是否是新用户
+  findByCode: function () { 
     let that = this;
     wx.login({
       success: res => {
@@ -100,14 +103,14 @@ Page({
               }
               if (!data.mobile) { //是新用户，去注册页面
                 wx.navigateTo({
-                  url: '../../../../pages/personal-center/securities-sdb/securities-sdb?parentId=' + this.data.initiator + '&skuId=' + this.data.id + '&shopId=' + this.data.shopId
+                  url: '../../../../pages/personal-center/securities-sdb/securities-sdb?parentId=' + this.data.initiator  + '&skuId=' + this.data.id + '&shopId=' + this.data.shopId
                 })
               } else {
                 that.authlogin();
               }
             }else{
               wx.navigateTo({
-                url: '../../../../pages/personal-center/securities-sdb/securities-sdb?parentId=' + this.data.initiator + '&skuId=' + this.data.id + '&shopId=' + this.data.shopId
+                url: '../../../../pages/personal-center/securities-sdb/securities-sdb?parentId=' + this.data.initiator  + '&skuId=' + this.data.id + '&shopId=' + this.data.shopId
               })
             }
           } else {
@@ -117,7 +120,8 @@ Page({
       }
     })
   },
-  authlogin: function (val) { //获取token
+  //获取token
+  authlogin: function (val) { 
     let that = this;
     wx.request({
       url: this.data._build_url + 'auth/login?userName=' + app.globalData.userInfo.userName,
@@ -161,7 +165,8 @@ Page({
       }
     })
   },
-  isCreateFunc() { //判断之前是否创建过，并查看邀请了多少人注册
+  //判断之前是否创建过，并查看邀请了多少人注册
+  isCreateFunc() { 
     console.log('isCreateFunc')
     let _parms = {
       skuId: this.data.id,
@@ -208,12 +213,9 @@ Page({
             shopName: data.shopName,
             address: data.address
           });
-        } else {
-
-        }
+        } 
       }
     });
-
   },
   //发起秒杀菜
   createSecKill() {
@@ -372,9 +374,10 @@ Page({
   },
   //分享给好友
   onShareAppMessage: function() {
+    let _initiator= app.globalData.userInfo.userId;
     return {
       title: this.data.skuName,
-      path: '/pages/index/flashSaleHome/secKillDetail/secKillDetail?initiator=' + this.data.yuaninitiator + '&shopId=' + this.data.shopId + '&id=' + this.data.id,
+      path: '/pages/index/flashSaleHome/secKillDetail/secKillDetail?back=1&initiator=' + _initiator + '&shopId=' + this.data.shopId + '&id=' + this.data.id,
       success: function(res) {
 
       },

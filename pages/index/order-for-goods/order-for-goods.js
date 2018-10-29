@@ -236,7 +236,6 @@ Page({
   confirmPayment: function(e) { //生成订单号
     let that = this,
       _value = "";
-    console.log('confirmPayment')
     if (that.data.issecond) {
       return false
     }
@@ -249,7 +248,6 @@ Page({
       })
     }, 3000)
     if (this.data.skutype == 4) {
-      console.log('44444');
       let _parmsss = {},
       url="",
       _Url="",
@@ -271,7 +269,6 @@ Page({
       _value = _value.substring(0, _value.length - 1);
       url = that.data._build_url + 'sku/addSkuForKj?' + _value;
       _Url = encodeURI(url);
-      console.log('_Url')
       wx.request({
         url: _Url,
         header: {
@@ -279,7 +276,6 @@ Page({
         },
         method: 'POST',
         success: function(res) {
-          console.log("0000:",res)
           if (res.data.code == 0) {
             _this.setData({
               skuId: res.data.data //生成这一张券的id
@@ -311,7 +307,6 @@ Page({
               },
               method: 'POST',
               success: function(res) {
-                console.log("111:",res)
                 if (res.data.code == 0) {
                   _this.updateuser(res.data.data);
                 } else {
@@ -331,7 +326,6 @@ Page({
         }
       })
     } else if (this.data.skutype == 8) {
-      console.log('888888')
       let _parms = {},
         _value="",
         url="",
@@ -353,7 +347,6 @@ Page({
       _value = _value.substring(0, _value.length - 1);
       url = that.data._build_url + 'sku/addSkuForQg?' + _value;
       _Url = encodeURI(url);
-      console.log('_Url88', _Url)
       wx.request({
         url: _Url,
         header: {
@@ -361,7 +354,6 @@ Page({
         },
         method: 'POST',
         success: function (res) {
-          console.log('_Url88res', res)
           if (res.data.code == 0) {
             _this.setData({
               skuId: res.data.data //生成这一张券的id
@@ -395,7 +387,6 @@ Page({
               },
               method: 'POST',
               success: function (res) {
-                console.log("12313res:",res)
                 if (res.data.code == 0) {
                   _this.updateuser(res.data.data);
                 } else {
@@ -464,7 +455,6 @@ Page({
         }
       })
     } else if (this.data.skutype == 10) {
-      console.log('101010')
       let _parms = {},
         _this = this,
         url="",
@@ -495,7 +485,6 @@ Page({
         },
         method: 'POST',
         success: function(res) {
-          console.log("res111:",res)
           if (res.data.code == 0) {
             _this.setData({
               skuId: res.data.data //生成这一张券的id
@@ -516,7 +505,6 @@ Page({
               _values += key + "=" + _parmss[key] + "&";
             }
             _values = _values.substring(0, _values.length - 1);
-            console.log("_values:", _values)
             let url="",_Url="";
             url = that.data._build_url + 'so/create?' + _values;
             _Url = encodeURI(url);
@@ -527,7 +515,6 @@ Page({
               },
               method: 'POST',
               success: function(res) {
-                console.log("res222:", res)
                 if (res.data.code == 0) {
                   _this.updateuser(res.data.data);
                 } else {
@@ -547,12 +534,10 @@ Page({
         }
       })
     } else {
-      console.log("132131")
       if (this.data.obj.soid && this.data.obj.soid != 'undefined' && this.data.obj.soid != '') {
         that.payment(this.data.obj.soid);
         that.updateuser();
       } else {
-        console.log("else")
         let _value = "",
           _parms = {};
         _parms = {
@@ -590,7 +575,6 @@ Page({
     }
   },
   updateuser: function(val) { //更新用户信息
-    console.log('updateuser:',val)
     let that = this,
       _value = "",
       _parms = {};
@@ -609,7 +593,6 @@ Page({
       },
       method: 'POST',
       success: function(res) {
-        console.log('updateuserres:', res)
         if (res.data.code == 0) {
           that.payment(val);
         }
@@ -617,7 +600,6 @@ Page({
     })
   },
   payment: function(soid) { //调起微信支付
-    console.log('payment:',soid)
     let _pars = {},
       that = this,
       _value = "";
@@ -626,11 +608,9 @@ Page({
       openId: app.globalData.userInfo.openId
     };
     if (this.data.actId) {
-      console.log("actId")
       _pars['actId'] = this.data.actId;
       _pars['skuId'] = this.data.skuId;
       _pars['shopId'] = this.data.obj.shopId;
-      console.log('_pars:', _pars)
       for (var key in _pars) {
         _value += key + "=" + _pars[key] + "&";
       }
@@ -667,7 +647,6 @@ Page({
         }
       })
     } else if (this.data.skutype == 4) {
-      console.log("noactid")
       let _parms = {},
         _value = "";
       _parms = {

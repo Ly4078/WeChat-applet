@@ -32,7 +32,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    console.log('options:', options)
+    // console.log('options:', options)
 
     if (options.back == 1) {
       this.setData({
@@ -77,7 +77,6 @@ Page({
   },
 
   findByCode: function(val) { //通过code查询用户信息
-    console.log('findByCode')
     let that = this;
     wx.login({
       success: res => {
@@ -85,7 +84,6 @@ Page({
           Api.findByCode({
             code: res.code
           }).then((res) => {
-            console.log('findByCoderes', res)
             if (res.data.code == 0) {
               let _data = res.data.data;
               app.globalData.userInfo.userId = _data.id ? _data.id : '';
@@ -125,17 +123,14 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success: function(res) {
-        console.log('12321321res:',res)
         if (res.data.code == 0) {
           let _token = 'Bearer ' + res.data.data;
           app.globalData.token = _token;
-          console.log("token:", app.globalData.token)
           wx.setStorageSync('token', _token)
           if (val == 2) {
             that.getVerificationCode();
           } else {
             if (app.globalData.userInfo.mobile) {
-              console.log("parentId:", that.data.parentId)
               if (that.data.referrer) { //推荐人
                 if (that.data.isscan) {
                   wx.switchTab({
@@ -247,9 +242,6 @@ Page({
         let _sessionKey = app.globalData.userInfo.sessionKey,
           _ivData = res.iv,
           _encrypData = res.encryptedData;
-        console.log("_sessionKey:", _sessionKey)
-        console.log("_ivData:", _ivData)
-        console.log("_encrypData:", _encrypData)
         _sessionKey = _sessionKey.replace(/\=/g, "%3d");
         _ivData = _ivData.replace(/\=/g, "%3d");
         _ivData = _ivData.replace(/\+/g, "%2b");
@@ -369,17 +361,13 @@ Page({
       that.findByCode("2");
       return
     }
-    console.log("getVerificationCode")
     if (this.data.isabss) {
       return
     }
-    console.log('1111')
     this.setData({
       isabss: true
     })
-    console.log('22222')
     if (this.data.phoneNum) {
-      console.log('333')
       wx.request({
         url: that.data._build_url + 'sms/sendForRegister?shopMobile=' + that.data.phoneNum,
         header: {
@@ -387,7 +375,6 @@ Page({
         },
         method: 'POST',
         success: function(res) {
-          console.log('4444:', res)
           if (res.data.code == 0) {
             that.setData({
               verifyId: res.data.data.verifyId,
@@ -434,7 +421,6 @@ Page({
   },
 
   registered: function() { //点击注册（领红包）按钮  ,核验验证码
-    console.log('registered')
     let that = this;
     if (this.data.phoneNum) {
       if (this.data.codeNum) {
@@ -445,7 +431,6 @@ Page({
             token: app.globalData.token
           }
           Api.isVerify(_parms).then((res) => {
-            console.log("registeredres:", res)
             if (res.data.code == 0) {
               
               let data = res.data.data;
@@ -503,7 +488,6 @@ Page({
         "Authorization": app.globalData.token
       },
       success: function(res) {
-        console.log('getuserInfores:', res)
         if (res.data.code == 0) {
           let data = res.data.data;
           for (let key in data) {
@@ -535,7 +519,6 @@ Page({
       },
       method: 'POST',
       success: function(res) {
-        console.log("pulluserres:", res)
         // if (res.data.code == 0) {
           that.getuserInfo();
         // }
@@ -543,7 +526,6 @@ Page({
     })
   },
   inviteNewUser() { //邀请新用户参与秒杀
-    console.log('inviteNewUser')
     let _parms = {},
       that = this,
       url = "",
@@ -568,7 +550,6 @@ Page({
       },
       method: 'POST',
       success: function(res) {
-        console.log("aaaaares:",res)
         // if (res.data.code == 0) {
           that.getuserInfo();
         // }
@@ -584,9 +565,11 @@ Page({
       },
       method: 'POST',
       success: function(res) {
-        // if (res.data.code == 0) {
+        if (res.data.code == 0) {
           that.getuserInfo();
-        // }
+        }else{
+          that.getuserInfo();
+        }
       }
     })
   }

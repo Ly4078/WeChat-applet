@@ -43,14 +43,7 @@ Page({
       ishotnew: false
     })
   },
-  onHide: function() {
-    let _data = this.data.food
-    for (let i = 0; i < _data.length; i++) {
-      this.setData({
-        food: _data
-      })
-    }
-  },
+
   onLoad: function(options) {
     let that = this;
     if (!app.globalData.userInfo.unionId) {
@@ -109,7 +102,7 @@ Page({
         "Authorization": app.globalData.token
       },
       success: function(res) {
-        wx.startPullDownRefresh();
+        wx.stopPullDownRefresh();
         if(res.data.code == 0){
           that.setData({
             hotlive: res.data.data.list
@@ -117,7 +110,7 @@ Page({
         }
       }
     })
-    this.getcarousel();
+    // this.getcarousel();
   },
   againgetinfo: function() {
     let that = this;
@@ -210,12 +203,12 @@ Page({
       }
       requesting = true;
       Api.topiclist(_parms).then((res) => {
-        let _data = that.data.food;
-        wx.startPullDownRefresh();
+        wx.stopPullDownRefresh();
         that.setData({
           loading: false
         });
         if (res.data.code == 0) {
+          let _data = that.data.food;
           if (res.data.data.list && res.data.data.list.length>0) {
             let footList = res.data.data.list;
             if(footList.length>0){
@@ -258,7 +251,6 @@ Page({
             wx.hideLoading()
           }
         } else {
-          wx.hideLoading()
           this.setData({
             loading: false
           });
@@ -267,16 +259,12 @@ Page({
         this.placeholderFlag = this.data.food.length < 1 ? false : true;
         if (that.data.page == 1) {
           wx.stopPullDownRefresh();
-        } else {
-          wx.hideLoading();
-        }
+        } 
       },()=>{
-        wx.hideLoading()
         requesting = false;
         this.setData({
           loading: false
         });
-
       })
     }
   },
@@ -407,7 +395,6 @@ Page({
       },()=>{
         that.getfood();
       });
-      
     }
   },
   onPullDownRefresh: function() { //用户下拉刷新
@@ -418,21 +405,7 @@ Page({
       page: 1,
       flag: true
     });
-    this.getfood();
-    wx.request({
-      url: that.data._build_url + 'zb/list/',
-      header: {
-        "Authorization": app.globalData.token
-      },
-      success: function(res) {
-        wx.stopPullDownRefresh();
-        if(res.data.code  == 0){
-          that.setData({
-            hotlive: res.data.data.list
-          })
-        }
-      }
-    })
+    that.getfood();
   },
   topall: function() { //选择全部
     this.setData({
@@ -444,7 +417,7 @@ Page({
       choicetype: ''
     })
     let _type = ''
-    this.getfood()
+    // this.getfood()
   },
   topbus: function() { //选择商家
     this.setData({

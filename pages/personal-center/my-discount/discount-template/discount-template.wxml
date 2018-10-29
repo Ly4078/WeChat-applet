@@ -71,7 +71,7 @@
         <view>
           <text wx:if="{{item.isDue == 1}}">已过期</text>
           <text wx:if="{{item.isUsed == 1 && item.isDue == 0}}">已使用</text>
-          <text class='daishiyong' wx:else>待使用</text>
+          <text class='daishiyong' wx:if="{{item.isUsed == 0 && item.isDue == 0}}">待使用</text>
         </view>
       </view>
     </view>
