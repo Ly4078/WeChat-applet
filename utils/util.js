@@ -1,10 +1,14 @@
 var config = require('./config/config.js');
-import { myStore } from './tools/store';
-import { tools } from './tools/tools';
+import {
+  myStore
+} from './tools/store';
+import {
+  tools
+} from './tools/tools';
 
-function getNowFormatDate(){  //yyyy-MM-dd HH:MM:SS”
+function getNowFormatDate() { //yyyy-MM-dd HH:MM:SS”
   var date = new Date();
-  var seperator1 = "/"; 
+  var seperator1 = "/";
   var seperator2 = ":";
   var month = date.getMonth() + 1;
   var strDate = date.getDate();
@@ -14,9 +18,9 @@ function getNowFormatDate(){  //yyyy-MM-dd HH:MM:SS”
   if (strDate >= 0 && strDate <= 9) {
     strDate = "0" + strDate;
   }
-  var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
-    + " " + date.getHours() + seperator2 + date.getMinutes()
-    + seperator2 + date.getSeconds();
+  var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate +
+    " " + date.getHours() + seperator2 + date.getMinutes() +
+    seperator2 + date.getSeconds();
   return currentdate;
 }
 
@@ -38,15 +42,14 @@ function transformLength(len) {
   }
   if (len < 1000) {
     return len.toFixed(0) + "m";
-  }
-  else {
+  } else {
     return (len / 1000).toFixed(1) + "km";
   }
 }
 
-function utf16toEntities(str) {  //将emoji表情转为字符进行存储 
+function utf16toEntities(str) { //将emoji表情转为字符进行存储 
   var patt = /[\ud800-\udbff][\udc00-\udfff]/g; // 检测utf16字符正则 
-  str = str.replace(patt, function (char) {
+  str = str.replace(patt, function(char) {
     var H, L, code;
     if (char.length === 2) {
       H = char.charCodeAt(0); // 取出高位 
@@ -60,9 +63,9 @@ function utf16toEntities(str) {  //将emoji表情转为字符进行存储
   return str;
 }
 
-function uncodeUtf16(str) {  //反解开EMOJI编码后的字符串   与上对应使用
+function uncodeUtf16(str) { //反解开EMOJI编码后的字符串   与上对应使用
   var reg = /\&#.*?;/g;
-  var result = str.replace(reg, function (char) {
+  var result = str.replace(reg, function(char) {
     var H, L, code;
     if (char.length == 9) {
       code = parseInt(char.match(/[0-9]+/g));
@@ -76,9 +79,11 @@ function uncodeUtf16(str) {  //反解开EMOJI编码后的字符串   与上对�
   return result;
 }
 
-function timeDiffrence(current, updateTime, createTime) {      //文章发布时间 
-  let createT = '', timestamp = 0, str = '暂无';
-  updateTime = updateTime?updateTime.replace(/-/g, "/"):''; 
+function timeDiffrence(current, updateTime, createTime) { //文章发布时间 
+  let createT = '',
+    timestamp = 0,
+    str = '暂无';
+  updateTime = updateTime ? updateTime.replace(/-/g, "/") : '';
   updateTime = updateTime ? updateTime : createTime;
   if (updateTime != null && updateTime != '') {
     createT = new Date(updateTime).getTime();
@@ -100,59 +105,58 @@ function timeDiffrence(current, updateTime, createTime) {      //文章发布时
   return str;
 }
 
-function reciprocal(cleartime){  //倒计时
-  if (!cleartime){
+function reciprocal(cleartime) { //倒计时
+  if (!cleartime) {
     return 'no'
     return false
   }
   cleartime = new Date(cleartime);
   // cleartime = cleartime ? cleartime.replace(/-/g, "/") : '';
-  let start = cleartime.getTime(); 
-  start = start+ 1*60*1000;
+  let start = cleartime.getTime();
+  start = start + 1 * 60 * 1000;
   let date = new Date();
   let now = date.getTime();
-  let leftTime = start - now; 
-  let  d, h, m, s;
+  let leftTime = start - now;
+  let d, h, m, s;
   if (leftTime >= 0) {
-    d = Math.floor(leftTime / 1000 / 60 / 60 / 24);  //天
-    h = Math.floor(leftTime / 1000 / 60 / 60 % 24);  //时
-    m = Math.floor(leftTime / 1000 / 60 % 60);  //分
-    s = Math.floor(leftTime / 1000 % 60);  //秒
-    if(s!=0){
+    d = Math.floor(leftTime / 1000 / 60 / 60 / 24); //天
+    h = Math.floor(leftTime / 1000 / 60 / 60 % 24); //时
+    m = Math.floor(leftTime / 1000 / 60 % 60); //分
+    s = Math.floor(leftTime / 1000 % 60); //秒
+    if (s != 0) {
       return s + '秒后重发'
     }
-  } else{
+  } else {
     return 'yes'
   }
 }
 
-function million(num){    //数字过万处理
+function million(num) { //数字过万处理
   return num > 9999 ? (Math.floor(num / 1000) / 10) + '万+' : num
 }
 
-function dateConv(dateStr,type) {  //   yyyy/mm/dd
+function dateConv(dateStr, type) { //   yyyy/mm/dd
   let year = dateStr.getFullYear(),
     month = dateStr.getMonth() + 1,
     today = dateStr.getDate();
   month = month > 9 ? month : "0" + month;
   today = today > 9 ? today : "0" + today;
-  if(type == '-'){
+  if (type == '-') {
     return year + "-" + month + "-" + today;
-  }else{
+  } else {
     return year + "/" + month + "/" + today;
   }
 }
- // 升序排序
+// 升序排序
 function compareUp(propertyName) {
   if ((typeof data[0][propertyName]) != "number") { // 属性值为非数字
-    return function (object1, object2) {
+    return function(object1, object2) {
       var value1 = object1[propertyName];
       var value2 = object2[propertyName];
       return value1.localeCompare(value2);
     }
-  }
-  else {
-    return function (object1, object2) { // 属性值为数字
+  } else {
+    return function(object1, object2) { // 属性值为数字
       var value1 = object1[propertyName];
       var value2 = object2[propertyName];
       return value1 - value2;
@@ -160,16 +164,15 @@ function compareUp(propertyName) {
   }
 }
 // 降序排序
-function compareDown(propertyName) { 
+function compareDown(propertyName) {
   if ((typeof data[0][propertyName]) != "number") { // 属性值为非数字
-    return function (object1, object2) {
+    return function(object1, object2) {
       var value1 = object1[propertyName];
       var value2 = object2[propertyName];
       return value2.localeCompare(value1);
     }
-  }
-  else {
-    return function (object1, object2) { // 属性值为数字
+  } else {
+    return function(object1, object2) { // 属性值为数字
       var value1 = object1[propertyName];
       var value2 = object2[propertyName];
       return value2 - value1;
@@ -177,7 +180,7 @@ function compareDown(propertyName) {
   }
 }
 
-let getQueryString = function (url, name) {  //识别普通二维码，跳转到指定商家页面
+let getQueryString = function(url, name) { //识别普通二维码，跳转到指定商家页面
   // console.log("url = " + url)
   // console.log("name = " + name)
   var reg = new RegExp('(^|&|/?)' + name + '=([^&|/?]*)(&|/?|$)', 'i')
@@ -186,10 +189,9 @@ let getQueryString = function (url, name) {  //识别普通二维码，跳转到
     // console.log("r = " + r)
     // console.log("r[2] = " + r[2])
     return r[2]
-  }else{
+  } else {
     return null;
   }
-  
 }
 
 
