@@ -12,22 +12,35 @@
 <view wx:if="{{id == 15}}">
   <view class='submission'>
     <view class='elasticity'>
-      <view class='subTop'><text>意见与建议</text></view>
+      <view class='subTop'>
+        <text>意见与建议</text>
+      </view>
       <view class="section">
         <textarea class='textarea' bindinput='textInp' placeholder="请填写10个字以上的问题描述以便我们更好的帮助" placeholder-style="color:gray;" maxlength='140' value="{{text}}" />
-        <view class='number'><text>{{textLen}}/140</text></view>
+        <view class='number'>
+          <text>{{textLen}}/140</text>
+        </view>
       </view>
-      <view class='uploading'><text>相关截图 (选填)</text><text>{{imgNum}}/4</text></view>
+      <view class='uploading'>
+        <text>相关截图 (选填)</text>
+        <text>{{imgNum}}/4</text>
+      </view>
     </view>
   </view>
   <view class='uploading-img'>
-    <image wx:for="{{imgArr}}" wx:key="{{index}}" id="{{item.id}}" bindtap='addImg' class='addition-img' src='{{item.url}}'></image>
+    <view class="imgBox" wx:for="{{imgArr}}" wx:key="{{index}}">
+      <image wx:if="{{item.id != 1}}" id="{{item.id}}" bindtap='deleteImg' class='deleteIcon' src="/images/icon/whiteDel.png"></image>
+      <image class='addition-img' id="{{item.id}}" bindtap='addImg' src='{{item.url}}'></image>
+    </view>
   </view>
   <view class='cell-phone'>
-    <view><text>输入有效联系方式以便开发者联系您</text></view>
+    <view>
+      <text>输入有效联系方式以便开发者联系您</text>
+    </view>
   </view>
   <view class='cell-cell'>
-    <view class='method'><text>邮箱/手机号</text> </view>
+    <view class='method'>
+      <text>邮箱/手机号</text> </view>
     <view class="sectionmax">
       <input bindinput='teleInp' maxlength="40" placeholder="邮箱/手机号" value="{{phone}}" />
     </view>

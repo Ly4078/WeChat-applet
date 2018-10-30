@@ -133,8 +133,24 @@ page{
   box-sizing: border-box;
 }
 
-.addition-img{
+.imgBox {
   width: 165rpx;
   height: 165rpx;
   padding-left: 18rpx;
+  position: relative;
+}
+
+.deleteIcon {
+  height: 40rpx;
+  width: 40rpx;
+  position: absolute;
+  right: -15rpx;
+  top: -15rpx;
+  border-radius: 50%;
+  background-color: #7e7a7a;
+}
+
+.addition-img{
+  width: 165rpx;
+  height: 165rpx;
 }

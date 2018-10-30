@@ -168,6 +168,18 @@ Page({
       }
     })
   },
+  deleteImg(e) {   //删除图片
+    let id = e.target.id;
+    let imgArr = this.data.imgArr, arr = [];
+    for (let i = 0; i < imgArr.length; i++) {
+      if (id != imgArr[i].id) {
+        arr.push(imgArr[i]);
+      }
+    }
+    this.setData({
+      imgArr: arr
+    });
+  },
   primary(e) { //提交
     if (!this.data.flag) {
       return false;
