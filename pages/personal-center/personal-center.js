@@ -114,7 +114,7 @@ Page({
       iconUrl: app.globalData.userInfo.iconUrl,
       nickName: _nickName
     })
-
+return
     wx.request({
       url: that.data._build_url + 'topic/myList',
       header: {
@@ -126,6 +126,7 @@ Page({
         rows: 1,
       },
       success: function (res) {
+        console.log('1312231:',res)
         if (res.data.code == 0) {
           if (res.data.data.total) {
             let _total = res.data.data.total;

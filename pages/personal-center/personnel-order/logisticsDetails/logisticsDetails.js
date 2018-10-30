@@ -8,7 +8,8 @@ Page({
     id:'',
     Countdown: '',
     soDetail: {},
-    payObj:{}
+    payObj:{},
+    ispay:true
   },
   onLoad: function(options) {
     this.setData({
@@ -111,52 +112,62 @@ Page({
   },
   //点击继续支付  -- 先更新openid
   carryPay:function(){
+    console.log('carryPay')
     let that = this, _Url = "", url = "", urll="",_Urll="";
-    wx.login({
-      success: res => {
-        if (res.code) {
-          url = that.data._build_url+'auth/getOpenId?code='+res.code;
-          _Url=encodeURI(url);
-          wx.request({
-            url: _Url,
-            header: {
-              "Authorization": app.globalData.token
-            },
-            method: 'POST',
-            success: function (res) {
-              if (res.data.code == 0) {
-                app.globalData.userInfo.openId = res.data.data.openId;
-                app.globalData.userInfo.sessionKey = res.data.data.sessionKey;
-                urll = that.data._build_url + 'user/update?id=' + app.globalData.userInfo.userId + '&openId=' + app.globalData.userInfo.openId;
-                _Urll = encodeURI(urll);
-                wx.request({
-                  url: _Urll,
-                  header: {
-                    "Authorization": app.globalData.token
-                  },
-                  method: 'POST',
-                  success: function (res) {
-                    if (res.data.code == 0) {
-                      that.wxpayment()
+    if (this.data.ispay){
+      that.setData({
+        ispay: false
+      })
+      setTimeout(()=>{
+        that.setData({
+          ispay:true
+        })
+      },2000)
+
+      wx.login({
+        success: res => {
+          if (res.code) {
+            url = that.data._build_url + 'auth/getOpenId?code=' + res.code;
+            _Url = encodeURI(url);
+            wx.request({
+              url: _Url,
+              header: {
+                "Authorization": app.globalData.token
+              },
+              method: 'POST',
+              success: function (res) {
+                if (res.data.code == 0) {
+                  app.globalData.userInfo.openId = res.data.data.openId;
+                  app.globalData.userInfo.sessionKey = res.data.data.sessionKey;
+
+
+                  urll = that.data._build_url + 'user/update?id=' + app.globalData.userInfo.userId + '&openId=' + app.globalData.userInfo.openId;
+                  _Urll = encodeURI(urll);
+                  wx.request({
+                    url: _Urll,
+                    header: {
+                      "Authorization": app.globalData.token
+                    },
+                    method: 'POST',
+                    success: function (res) {
+                      if (res.data.code == 0) {
+                        that.wxpayment()
+                      }
                     }
-                  }
-                })
-                return
-                Api.updateuser(_obj).then((res) => {
-                  if (res.data.code == 0) {
-                    that.wxpayment()
-                  }
-                })
+                  })
+                }
               }
-            }
-          })
+            })
+          }
         }
-      }
-    })
+      })
+    }
+    
   },  
   //调起微信支付
   wxpayment: function () {
-    let _parms = {}, that = this, _value="",url="",_Url="";
+    console.log('wxpayment')
+    let _parms = {}, that = this, _value = "", url = "", _Url = "";;
     _parms = {
       orderId: this.data.soId,
       openId: app.globalData.userInfo.openId
@@ -166,50 +177,33 @@ Page({
       _value += key + "=" + _parms[key] + "&";
     }
     _value = _value.substring(0, _value.length - 1);
-
-   
-      url = this.data._build_url + 'wxpay/shoppingMallForCoupon?' + _value;
-      _Url = encodeURI(url);
-      wx.request({
-        url: _Url,
-        header: {
-          "Authorization": app.globalData.token
-        },
-        method: 'POST',
-        success: function (res) {
-          if (res.data.code == 0) {
-            that.setData({
-              payObj: res.data.data
-            })
-            that.pay();
-          }
-        }
-      })
-    if (this.data.soDetail.orderItemOuts[0].goodsSpuId == 3) {
-    }else{
-      url = this.data._build_url + 'wxpay/doUnifiedOrderForShoppingMall?' + _value;
-      _Url = encodeURI(url);
-      wx.request({
-        url: _Url,
-        header: {
-          "Authorization": app.globalData.token
-        },
-        method: 'POST',
-        success: function (res) {
-          if (res.data.code == 0) {
-            that.setData({
-              payObj: res.data.data
-            })
-            that.pay();
-          } else {
-            wx.showToast({
-              title: res.data.message,
-              icon: 'none'
-            })
-          }
-        }
-      })
+  
+    if (that.data.soDetail.orderAddressOut && that.data.soDetail.orderAddressOut.id) {
+      url = that.data._build_url + 'wxpay/doUnifiedOrderForShoppingMall?' + _value;
+    } else {
+      url = that.data._build_url + 'wxpay/shoppingMallForCoupon?' + _value;
     }
+    _Url = encodeURI(url);
+    wx.request({
+      url: _Url,
+      header: {
+        "Authorization": app.globalData.token
+      },
+      method: 'POST',
+      success: function (res) {
+        if (res.data.code == 0) {
+          that.setData({
+            payObj: res.data.data
+          })
+          that.pay();
+        } else {
+          wx.showToast({
+            title: res.data.message,
+            icon: 'none'
+          })
+        }
+      }
+    })
   },
   pay:function(){
     let _data = this.data.payObj,

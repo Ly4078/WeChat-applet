@@ -152,7 +152,7 @@ Page({
     // let userInfo = wx.getStorageSync('userInfo') || {};
     // userInfo.city = userInfo.city ? userInfo.city:'十堰市'
     // app.globalData.userInfo = userInfo
-    if (txtObj.sydish.length>0){
+    if (txtObj.sydish && txtObj.sydish.length>0){
       this.setData({
         fresh1: txtObj ? txtObj.fresh1 : '',
         fresh2: txtObj ? txtObj.fresh2 : '',

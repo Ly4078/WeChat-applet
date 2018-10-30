@@ -155,6 +155,7 @@ Page({
       rows: 8,
       token: app.globalData.token
     };
+
    
     if(types !='1'){
       wx.showLoading({
@@ -162,7 +163,7 @@ Page({
         mask: true,
       })
     }
-    
+
     if (this.data.businessCate) { //美食类别 
       _parms.businessCate = this.data.businessCate
     }
@@ -193,7 +194,6 @@ Page({
               showSkeleton:false
             }, () => {
               requesting = false;
-              wx.hideLoading();
             })
           }
         }else{
@@ -201,14 +201,12 @@ Page({
             loading: false
           })
           requesting = false;
-          wx.hideLoading();
         }
       },()=>{
         this.setData({
           loading: false
         })
         requesting = false;
-        wx.hideLoading();
       })
     } else {
       Api.shoplist(_parms).then((res) => {
@@ -233,7 +231,6 @@ Page({
                 loading: false
               })
               requesting = false;
-              wx.hideLoading();
             })
           }else{
             this.setData({
@@ -241,7 +238,6 @@ Page({
               loading: false
             })
             requesting = false;
-            wx.hideLoading();
           }
         }
       },()=>{
@@ -249,7 +245,6 @@ Page({
           loading: false
         })
         requesting = false;
-        wx.hideLoading();
       })
     }
   },

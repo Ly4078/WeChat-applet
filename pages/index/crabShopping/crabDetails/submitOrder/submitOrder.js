@@ -493,17 +493,12 @@ Page({
       _value += key + "=" + _parms[key] + "&";
     }
     _value = _value.substring(0, _value.length - 1);
-    if (that.data.issku != 3){
-      url = that.data._build_url + 'wxpay/shoppingMallForCoupon?' + _value;
-      _Url = encodeURI(url);
-    } else if (that.data.issku == 3){
-      url = that.data._build_url + 'wxpay/shoppingMallForCoupon?' + _value;
-      // url = that.data._build_url + 'wxpay/shoppingMallForMDZT?' + _value;
-      _Url = encodeURI(url);
-    }else {
+    if (that.data.current.spuId != 3 && that.data.issku != 3){
       url = that.data._build_url + 'wxpay/doUnifiedOrderForShoppingMall?' + _value;
-      _Url = encodeURI(url);
+    }else{
+      url = that.data._build_url + 'wxpay/shoppingMallForCoupon?' + _value;
     }
+    _Url = encodeURI(url);
     wx.request({
       url: _Url,
       header: {
