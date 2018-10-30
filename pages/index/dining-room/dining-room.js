@@ -156,14 +156,6 @@ Page({
       token: app.globalData.token
     };
 
-   
-    if(types !='1'){
-      wx.showLoading({
-        title: '加载中...',
-        mask: true,
-      })
-    }
-
     if (this.data.businessCate) { //美食类别 
       _parms.businessCate = this.data.businessCate
     }

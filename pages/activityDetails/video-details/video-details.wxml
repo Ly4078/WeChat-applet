@@ -10,7 +10,7 @@
       <cover-view class="drawer_screen"></cover-view>
       <cover-view class='videoModal'>
         <button class="newUserM_box" open-type="getUserInfo" bindgetuserinfo="againgetinfo">
-          <cover-image class='loginimg' src='/images/icon/login.png'></cover-image>
+          <cover-image class='loginimg' src='https://xqmp4-1256079679.file.myqcloud.com/13971489895_login.png'></cover-image>
         </button>
       </cover-view>
 

@@ -3,7 +3,7 @@
 <view class="newUserModal loginuser" wx:if="{{istouqu}}" catchtouchmove='true'>
     <view class="drawer_screen"></view>
     <button class="newUserM_box" open-type="getUserInfo" bindgetuserinfo="againgetinfo">
-      <image class='loginimg' src='/images/icon/login.png'></image>
+      <image class='loginimg' src='https://xqmp4-1256079679.file.myqcloud.com/13971489895_login.png'></image>
     </button>
   </view>
   
