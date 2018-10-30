@@ -114,7 +114,6 @@ Page({
       iconUrl: app.globalData.userInfo.iconUrl,
       nickName: _nickName
     })
-return
     wx.request({
       url: that.data._build_url + 'topic/myList',
       header: {
