@@ -1,0 +1,47 @@
+<view class=''>
+  <view class='tripodsTop'>
+    <image class='tripods' mode='scaleToFill' src='https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1540552853724&di=0a4d6e521b7fe03b32f7b6c5e2d7395f&imgtype=0&src=http%3A%2F%2Fimg18.3lian.com%2Fd%2Ffile%2F201710%2F09%2F7484e80c55fc5dab5d2b4b81fc0b5fc6.png'></image>
+    <view class='share'><image class='shareImg' src='/images/icon/theColor.png'></image></view>
+  </view>
+  <view class='detailsCen'>
+    <view class='detailssmall'><text>武当山</text></view>
+    <view class='detailsDse'><text>距您2.3km</text></view>
+  </view>
+  <view class='synopsisText'>
+    <view class='synopsisTcen'>
+      <view class='priceRuling'>
+        <view class='priceRuling-left'>
+          <text class='toponymy'>武当山 成人票</text>
+          <view class='ruling'><text>￥1.1</text><text>￥2.1</text></view>
+        </view>
+        <view class='priceRuling-right'><button>立即抢购</button></view>
+      </view>
+      <view class='businessTime'>时间：<text class='quantum'>周二至周日 9:00-18:00</text></view>
+      <view class='businessTime site'>地址：
+        <view class='quantum'>
+          <image class='quantumimg' src='/images/icon/expressagegouwuce.png'></image>
+          <text> 十堰市丹江口市太和街道永乐路13号十堰市丹江口市太和街道永乐路13号</text>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class='plainText'>
+    <view class='plainText-center'>
+      <view class='plainText-center-top'>
+        <view class='lump'></view><text>景点介绍</text>
+      </view>
+      <view class='kernel'>武当山，中国道教圣地，又名太和山、谢罗山、参上山、仙室山，古有“太岳”、“玄岳”、“大岳”之称。位于湖北西北部十堰市丹江口市境内。东接闻名古城襄阳市，西靠车城十堰市 ，南望原始森林神农架，北临高峡平湖 丹江口水库。</view>
+    </view>
+  </view>
+
+  <view class='plainText'>
+    <view class='plainText-center'>
+      <view class='plainText-center-top'>
+        <view class='lump'></view><text>购买须知</text>
+      </view>
+      <view class='kernel'>该景区可能有存在高风险的游玩项目，携程建议您购买相关保险。出行前，建议您仔细阅读旅游安全的相关内容。抵达景区后，也请您不要忽略景区内的游玩提示或安全提示类信息。
+武汉欢乐谷实行“一票通玩”制，但园区餐饮、交通、雨衣及投币游戏等需要另外付费。(1)游客每人限享受一种优惠政策，拥有享受多重折扣资格的，按最低折扣计算惠票入园。(2)1.1米（不含1.1米）以下儿童、65周岁（含65周岁）以上长者、残疾人入园须有安全监护能力的购票成人陪同入园。入园禁止携带	食品、饮料 .(3)请凭身份证或者华侨城短信内二维码验证入园，具体操作在景区闸机口会有提示，为防止因临时网络问题造成二维码无法打开的情况，请提前将华侨城短信内二维码保存，若身份证与二维码均未能成功入园，请凭携程短信至游客中心处理。(3)如遇雨雪天气，欢乐谷园区内部分室外项目会无法对外开放，雨雪天气过后视项目运行情况部分开放，具体时间请以景区官方通知为准。
+</view>
+    </view>
+  </view>
+</view>
