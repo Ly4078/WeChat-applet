@@ -800,12 +800,6 @@ Page({
       url: 'recommendation/recommendation?id=' + this.data.store_details.id,
     })
   },
-  //活动点赞
-  storeActivity: function() {
-    wx.navigateTo({
-      url: '../../activityDetails/hot-activity/hot-activity?id=' + this.data.actId
-    })
-  },
   //商家动态
   merchantArt: function() {
     let that = this,

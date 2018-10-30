@@ -1,3 +1,0 @@
-<view class='eventDetails'>
-  <image class='eventDetails_img' src='{{infoUrl}}' mode="widthFix"></image>
-</view>
