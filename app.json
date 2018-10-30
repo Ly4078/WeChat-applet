@@ -1,9 +1,6 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/init/init",
-    "pages/init/phone/phone",
-    "pages/init/Agreement/Agreement",
     "pages/activityDetails/tourismAndHotel/touristHotelDils/touristHotelDils",
     "pages/activityDetails/tourismAndHotel/tourismAndHotel",
     "pages/index/crabShopping/crabDetails/submitOrder/submitOrder",
@@ -25,7 +22,6 @@
     "pages/index/download-app/download",
     "pages/activityDetails/details-like/details-like",
     "pages/activityDetails/act-info/act-info",
-    "pages/personal-center/allDynamicState/allDynamicState",
     "pages/index/merchant-particulars/merchant-particulars",
     "pages/index/merchant-particulars/total-comment/total-comment",
     "pages/index/merchant-particulars/preview-picture/preview-picture",
@@ -42,8 +38,6 @@
     "pages/personal-center/lelectronic-coupons/lectronic-coupons",
     "pages/personal-center/my-discount/my-discount",
     "pages/personal-center/my-discount/expired-ticket/expired-ticket",
-    "pages/personal-center/registered/registered",
-    "pages/personal-center/popularize/popularize",
     "pages/discover-plate/discover-plate",
     "pages/index/voucher-details/voucher-details",
     "pages/index/user-location/user-location",

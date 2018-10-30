@@ -67,7 +67,7 @@
     <cover-view class="comment" wx:if="{{isComment}}">
       <cover-view class='comtotal'>{{totalComment}}条评论</cover-view>
 
-      <cover-image class='comclose' src="/images/icon/sloce.png" bindtap="showArea"></cover-image>
+      <cover-image class='comclose' src="/images/icon/sloceE.png" bindtap="showArea"></cover-image>
 
       <cover-view class="comment_list">
         <cover-view class='listcom' wx:for="{{comment_list}}" wx:key="{{index}}">

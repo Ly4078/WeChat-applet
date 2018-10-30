@@ -62,7 +62,6 @@ Page({
         }
       }
     })
-    // console.log("userInfo111:", app.globalData.userInfo)
     if (!app.globalData.userInfo.unionId || !app.globalData.userInfo.sessionKey) {
       wx.login({
         success: res => {
@@ -125,7 +124,6 @@ Page({
         rows: 1,
       },
       success: function (res) {
-        console.log('1312231:',res)
         if (res.data.code == 0) {
           if (res.data.data.total) {
             let _total = res.data.data.total;
@@ -187,7 +185,6 @@ Page({
   },
   againgetinfo: function () {  //解密加密信息
     let that = this, _values = "", _parms = {};
-    console.log("userInfo:", app.globalData.userInfo)
     wx.getUserInfo({
       withCredentials: true,
       success: function (res) {
@@ -212,7 +209,6 @@ Page({
           },
           method: 'POST',
           success: function (resv) {
-            console.log('res:', resv)
             if (resv.data.code == 0) {
               that.setData({
                 istouqu: false
@@ -240,7 +236,6 @@ Page({
     })
   },
   bindGetUserInfo: function (e) {
-    console.log(e.detail.userInfo)
     this.updatauser(e.detail.userInfo)
   },
   updatauser: function (data) { //更新用户信息
@@ -405,24 +400,10 @@ Page({
     }
 
   },
-  DynamicState: function (e) {
-    wx.navigateTo({
-      url: 'allDynamicState/allDynamicState',
-    })
-  },
   myTickets: function (event) {
     wx.navigateTo({
       url: 'my-discount/my-discount',
     })
-  },
-  popularize() {   //享七推广
-    wx.showToast({
-      title: '该功能正在开发中',
-      icon: 'none'
-    })
-    // wx.navigateTo({
-    //   url: 'popularize/popularize',
-    // })
   },
   carefulness: function (e) { //订单
     let id = e.currentTarget.id;
@@ -511,11 +492,8 @@ Page({
       onlyFromCamera: true,
       scanType: "qrCode",
       success: (res) => {
-        console.log('success:',res)
         let qrCodeArr = res.result.split('/');
-        console.log('qrCodeArr:', qrCodeArr);
         let qrCode = qrCodeArr[qrCodeArr.length - 1];
-        console.log('qrCode:', qrCode);
         that.setData({
           qrdata: res,
           qrCode: qrCode
@@ -523,7 +501,6 @@ Page({
         that.getCodeState();
       },
       fail: (res) => {
-        console.log('fail:', res)
         wx.showToast({
           title: '扫码失败',
           mask: 'true',
@@ -535,12 +512,11 @@ Page({
   },
   registered: function () { //用户注册
     wx.navigateTo({
-      url: '../personal-center/registered/registered'
+      url: '/pages/personal-center/securities-sdb/securities-sdb?isback=1'
     })
   },
   //判断二维码是否可以跳转
   getCodeState: function() {
-    console.log('getCodeState')
     let that = this;
     wx.request({
       url: that.data.qrdata.result,
@@ -675,7 +651,7 @@ Page({
     })
     if (id == 1) {
       wx.redirectTo({
-        url: '/pages/personal-center/registered/registered'
+        url: '/pages/personal-center/securities-sdb/securities-sdb?isback=1'
       })
     }
   },
