@@ -221,9 +221,14 @@ Page({
       number: number
     });
   },
-
-  determine: function(e) { //点击确认支付按钮
-    let that = this
+  formSubmit:function(e){
+    console.log('e', e);
+    console.log("fromid:", e.detail.formId);
+    this.determine();
+  },
+  determine: function() { //点击确认支付按钮
+    console.log('determine')
+    let that = this;
     if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true

@@ -54,10 +54,22 @@
     </radio-group>
   </view>
 
-  <form report-submit="true">
+
+  <form bindsubmit="formSubmit" report-submit="true">
+
+    <button formType="submit">
+      <view class='affirm'>
+      <text>确认支付</text>
+      <text class='affirmNumber'>￥{{paymentAmount}}</text>
+    </view>
+    </button>
+
+  </form>
+
+  <!-- <form report-submit="true">
     <view class='affirm' catchtap='determine'>
       <text>确认支付</text>
       <text class='affirmNumber'>￥{{paymentAmount}}</text>
     </view>
-  </form>
+  </form> -->
 </view>
