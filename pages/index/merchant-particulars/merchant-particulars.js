@@ -564,7 +564,8 @@ Page({
             arr = arr.splice(0, 3);
           }
           this.setData({
-            Bargainlist: arr
+            Bargainlist: arr,
+            foodTotal:res.data.data.total
           })
         }
       }
@@ -1515,6 +1516,7 @@ Page({
       scrollTop: 0,
       duration: 100
     })
+    this.onShow();
   },
   paymentPay: function() { //买单
     if (!app.globalData.userInfo.mobile) {

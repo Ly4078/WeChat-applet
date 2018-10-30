@@ -132,6 +132,7 @@ page{
   width: 198rpx;
   height: 202rpx;
   border-radius: 8rpx;
+  background: #ebebeb;
 }
 
 .dq_popularity {
