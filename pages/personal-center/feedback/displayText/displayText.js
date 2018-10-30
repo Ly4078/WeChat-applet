@@ -170,11 +170,21 @@ Page({
   },
   deleteImg(e) {   //删除图片
     let id = e.target.id;
+    let flag = true;
     let imgArr = this.data.imgArr, arr = [];
     for (let i = 0; i < imgArr.length; i++) {
       if (id != imgArr[i].id) {
         arr.push(imgArr[i]);
       }
+      if (imgArr[i].id ==1){
+        flag = false;
+      }
+    }
+    if (flag){
+      arr.push({
+        id:1,
+        url:'/images/icon/add.png'
+      })
     }
     this.setData({
       imgArr: arr
@@ -254,7 +264,6 @@ Page({
         if (res.data.code == 0) {
           wx.showToast({
             title: '上传成功',
-            icon: 'none',
             duration: 2000
           })
           that.setData({
@@ -268,11 +277,16 @@ Page({
               url: '/images/icon/add.png'
             }]
           });
+          wx.hideLoading();
+          setTimeout(function(){
+            wx.navigateBack({
+              delta: 1
+            })
+          },2000)
         } else {
           wx.showToast({
             title: '上传失败',
             icon: 'none',
-            duration: 2000
           })
         }
         wx.hideLoading();

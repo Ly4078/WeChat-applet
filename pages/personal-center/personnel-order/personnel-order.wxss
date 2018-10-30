@@ -106,7 +106,7 @@ page {
   float: left;
   flex: auto;
   text-align: center;
-  line-height: 80rpx;
+  line-height: 90rpx;
 }
 .commoditys .item.active{
   color: #FC5E2D;

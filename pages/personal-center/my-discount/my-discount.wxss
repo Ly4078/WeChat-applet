@@ -106,7 +106,7 @@ page {
   width: 100%;
   z-index:99;
   flex-direction: row;
-  height: 88rpx;
+  height: 97rpx;
   line-height: 88rpx;
   background-color: #fff;
   box-sizing: border-box;
