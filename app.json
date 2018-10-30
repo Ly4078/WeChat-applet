@@ -17,11 +17,9 @@
     "pages/personal-center/aboutMe/aboutMe",
     "pages/personal-center/aboutMe/officialWebsite/officialWebsite",
     "pages/index/merchant-particulars/recommendation/recommendation",
-    "pages/index/consume-qibashare/consume-qibashare",
     "pages/personal-center/call-back/call-back",
     "pages/personal-center/livepage/livepage",
     "pages/index/download-app/download",
-    "pages/personal-center/free-of-charge/free-of-charge",
     "pages/activityDetails/details-like/details-like",
     "pages/activityDetails/act-info/act-info",
     "pages/personal-center/allDynamicState/allDynamicState",
@@ -29,7 +27,6 @@
     "pages/index/merchant-particulars/total-comment/total-comment",
     "pages/index/merchant-particulars/preview-picture/preview-picture",
     "pages/index/merchant-particulars/food-details/food-details",
-    "pages/index/merchant-particulars/coupon_details/coupon_details",
     "pages/index/merchant-particulars/shop-activity/shop-activity",
     "pages/index/merchant-particulars/answer-comment/answer-comment",
     "pages/personal-center/personal-center",
@@ -55,8 +52,6 @@
     "pages/activityDetails/hot-activity/apply-shop/apply-shop",
     "pages/activityDetails/hot-activity/apply-player/apply-player",
     "pages/activityDetails/details_page/details_page",
-    "pages/personal-center/free-of-charge/category/category",
-    "pages/personal-center/free-of-charge/get-address/get-address",
     "pages/activityDetails/hot-activity/eventDetails/eventDetails",
     "pages/index/merchant-particulars/paymentPay-page/paymentPay-page",
     "pages/index/merchant-particulars/ticket-list/ticket-list",
@@ -66,8 +61,6 @@
     "pages/activityDetails/homePage-item/homePage-item",
     "pages/activityDetails/video-list/video-list",
     "pages/personal-center/integratorMs/integratorMs",
-    "pages/golSdhopping/golSdhopping",
-    "pages/golSdhopping/commodityDetails/commodityDetails",
     "pages/personal-center/shipping/add-shipping/add-shipping",
     "pages/personal-center/shipping/shipping",
     "pages/personal-center/voucher/voucher",
@@ -133,5 +126,4 @@
       }
     ]
   }
-  
 }

@@ -79,10 +79,6 @@ Page({
         img: '/images/icon/navcaiting.png',
         id: 2,
         name: '餐厅'
-        // }, {
-        //   img: '/images/icon/navruzhu.png',
-        //   id: 3,
-        //   name: '活动'
       }, {
         img: '/images/icon/navshiping.png',
         id: 4,

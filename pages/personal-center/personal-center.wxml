@@ -93,24 +93,6 @@
           <image class='myListImages' src='/images/icon/p4.png'></image>
           <view class='mylistText'>退款/售后</view>
         </view>
-        <!-- <view class='myList'>
-          <view class='myList-single' catchtap='infromation'>
-            <view>
-              <image class='myListImages' src='/images/icon/message.png'></image>
-              <text class='mylistText'>收货地址</text>
-            </view>
-            <image class='myListArrows' src='/images/icon/home_arrow.png'></image>
-          </view>
-        </view>
-        <view class='myList'>
-          <view class='myList-single' catchtap='remittance'>
-            <view>
-              <image class='myListImages' src='/images/icon/remittance.png'></image>
-              <text class='mylistText'>兑换记录</text>
-            </view>
-            <image class='myListArrows' src='/images/icon/home_arrow.png'></image>
-          </view>
-        </view> -->
       </view>
     </view>
   </view>
@@ -134,11 +116,6 @@
           <view class='mylistText'>帮助与反馈</view>
         </view>
         <view class='myList'></view>
-        <!-- <view class='myList' catchtap='handVoucher'>
-          <image class='myListImages' src='/images/icon/vouchericon.png'></image>
-          <view class='mylistText'>提蟹券</view>
-        </view> -->
-
       </view>
     </view>
   </view>
@@ -164,21 +141,10 @@
           <view class='mylistText'>分享注册</view>
         </view>
         <view class='myList'></view>
-        <!-- <view class='myList myList_sue' catchtap='popularize'>
-          <image class='myListImages' src='/images/icon/kui.png'></image>
-          <view class='mylistText'>享7推广</view>
-        </view> -->
-
-        <!-- <view class='myList sectionList' hidden="{{isshop}}" catchtap='enterEntrance'>
-          <image class='myListImages' src='/images/icon/merchants_join.png'></image>
-          <text class='mylistText'>免费入驻</text>
-        </view> -->
-
         <!-- <view class='myList myList_wo' catchtap='aboutMe'>
           <image class='myListImages' src='/images/icon/guanyuwome.png'></image>
           <view class='mylistText'>关于我们</view>
         </view> -->
-
       </view>
     </view>
   </view>

@@ -12,9 +12,6 @@
   <view class='lectronic-wrap' wx:if="{{!ticketInfo.shopName}}">
     <view class='lectronic-top'>
       <view class='lectronic-left'>
-        <!-- <view class='lectronic-wrap-im'>
-          <image class='lectronic-images' src='/images/icon/xiangqiLGBL.gif'></image>
-        </view> -->
         <view class='lectronic-text'>
           <text>{{ticketInfo.dishSkuName?ticketInfo.dishSkuName:ticketInfo.skuName}}</text>
         </view>
@@ -22,28 +19,7 @@
       <view hidden="{{isHidden}}" class='lectronic-right' catchtap='sublevelSum'>
         使用须知
       </view>
-      <!-- <view class='lectronic-right' wx:if="{{isticket}}">
-        <text wx:if="{{ticket[0]}}">
-          <text wx:if="{{ticket[0].isUsed == 0}}">待使用</text>
-          <text wx:else>已使用</text>
-        </text>
-      </view> -->
-      <!-- <view class='lectronic-right' wx:else>
-        <text>已完成</text>
-      </view> -->
     </view>
-    <!-- <view catchtap='sublevelSum' wx:if="{{ticket[0].type != 3}}">
-      <view class='restrict-time' wx:if="{{isticket}}">
-        <view class='restrict-caution'>
-          <text wx:if="{{isticket}}">有限期至:</text>
-          <text wx:if="{{isticket}}">{{ticket[0].expiryDate}}</text>
-        </view>
-        <view class='restric-page-down' wx:if="{{isticket}}">
-          <text class='restric-page-text' id="{{ticketInfo.id}}">使用详情</text>
-          <image class='restrict-Images' src='/images/icon/home_arrow.png'></image>
-        </view>
-      </view>
-    </view>  -->
   </view>
 
   <view class='lectronic-wrap' wx:if="{{ticketInfo.shopName}}">
@@ -52,8 +28,6 @@
   </view>
 
   <view class='qr-code'>
-    <!-- <view class='rollMessage'>享7劵</view> -->
-    <!-- <view class="goldBox" wx:if="{{isUsed == 1}}">已使用，获得了{{goldNum}}个金币</view> -->
     <block wx:for="{{ticket}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
       <image src='{{item.qrcodeUrl}}' class='codingImages' data-index='{{idx}}' bindtap='previewImg'></image>
       <view class='coding-code {{idx > 2 && qrCodeFlag ? "hide" : ""}}'>
@@ -81,17 +55,10 @@
 
   <view class='order-for-goods'>
     <view class='order-for-nei'>
-      <!-- <view class='order-for-text'>
-        <text>订单详情</text>
-      </view> -->
       <view class='order-for-colour'>
         <text>订单号</text>
         <text>{{ticketInfo.soId?ticketInfo.soId:ticketInfo.id}}</text>
       </view>
-      <!-- <view class='order-for-colour' wx:if="{{store.shopName}}">
-        <text>商家名称</text>
-        <text>{{store.shopName}}</text>
-      </view> -->
       <view class='order-for-colour'>
         <text>付款时间</text>
         <text>{{ticketInfo.paidTime ? ticketInfo.paidTime : ticketInfo.updateTime}}</text>
@@ -100,14 +67,6 @@
         <text>手机号</text>
         <text>{{ticketInfo.userName}}</text>
       </view>
-      <!-- <view class='order-for-colour'>
-        <text>下单时间</text>
-        <text>{{ticketInfo.createTime}}</text>
-      </view> -->
-      <!-- <view class='order-for-colour'>
-        <text>付款方式</text>
-        <text>{{ticketInfo.payType=='2' ? '微信支付' :'余额支付'}}</text>
-      </view> -->
       <view class='order-for-colour'>
         <text>数量</text>
         <text>{{ticketInfo.skuNum?ticketInfo.skuNum:1}}</text>
@@ -117,13 +76,6 @@
         <text>￥<text>{{ticketInfo.soAmount}}</text></text>
       </view>
     </view>
-    <!-- <view class="order-for-source">
-      <view>适用门店</view>
-      <view class="source-r">
-        <text>靓靓蒸虾</text>
-        <image src="/images/icon/home_arrow.png"></image>
-      </view>
-    </view> -->
   </view>
 
   <!-- 食店券商家 -->
@@ -163,18 +115,6 @@
         </view>
       </view>
     </view>
-    <!-- <view catchtap='sublevelSum1' wx:if="{{ticket[0].type != 3}}">
-      <view class='restrict-time' wx:if="{{isticket}}">
-        <view class='restrict-caution1'>
-          <text wx:if="{{isticket}}">有限期至:</text>
-          <text wx:if="{{isticket}}">{{ticket[0].expiryDate}}</text>
-        </view>
-        <view class='restric-page-down1' wx:if="{{isticket}}">
-          <text class='restric-page-text1' id="{{ticketInfo.id}}">使用详情</text>
-          <image class='restrict-Images1' src='/images/icon/home_arrow.png'></image>
-        </view>
-      </view>
-    </view>  -->
   </view>
 
   <view class='lectronic-wrap1' wx:if="{{ticketInfo.shopName}}">
@@ -183,8 +123,6 @@
   </view>
 
   <view class='qr-code1' wx:if="{{isticket}}">
-    <!-- <view class='rollMessage'>享7劵</view> -->
-    <!-- <view class="goldBox" wx:if="{{isUsed == 1}}">已使用，获得了{{goldNum}}个金币</view> -->
     <block wx:for="{{ticket}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
       <image src='{{item.qrcodeUrl}}' class='codingImages1' data-index='{{idx}}' bindtap='previewImg'></image>
       <view class='coding-code1 coding-code {{idx > 2 && qrCodeFlag ? "hide" : ""}}'>
@@ -267,18 +205,6 @@
   </view>
 </view>
 
-
-
-
-
-
-
-
-
-
-
-
-
 <view class='modal_box' wx:if="{{ismoldel}}" bindtap='clickmolbox'>
   <view class='envelope'>
     <image bindtap='closemob' class='close' src='https://xqmp4-1256079679.file.myqcloud.com/text_571384624394205621.png'></image>
@@ -293,7 +219,6 @@
     </view>
     <view class='caikai' wx:if="{{redfirst == 1}}" catchtap='clickcur'>拆开</view>
     <view class='wallet' wx:else catchtap='gowallet'>已放入钱包
-      <image src='/images/icon/right.png'></image>
     </view>
   </view>
 </view>
