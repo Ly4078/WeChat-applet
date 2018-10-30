@@ -1,7 +1,7 @@
 <view class='container' wx:if="{{isgetCode}}">
   <view class="content">
     <view class="logo">
-      <image src="https://xqmp4-1256079679.file.myqcloud.com/13971489895_login.png"></image>
+      <image src="/images/icon/login/login.jpg"></image>
     </view>
     <view class="loginButton">
       <button class="wechatLogin" bindgetuserinfo='bindgetuserinfo' open-type="getUserInfo">
