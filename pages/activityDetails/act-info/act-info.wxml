@@ -1,3 +1,0 @@
-<view class="act_info">
-  <image class="act_info_img" mode="widthFix" src="{{imgUrl}}"></image>
-</view>
