@@ -42,6 +42,15 @@ Page({
     that.timer = setInterval(function() { //sessionkey五分钟失效,再次获取
       that.wxLogin();
     }, 290000)
+    setTimeout(function(){
+      if (!that.data.isgetCode){
+        wx.showToast({
+          title: '网络连接失败，请重新进入',
+          icon:'none',
+          duration:5000
+        })
+      }
+    },3000)
   },
   findByCode: function() {
     let that = this;

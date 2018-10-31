@@ -31,7 +31,6 @@
     "pages/index/merchant-particulars/answer-comment/answer-comment",
     "pages/personal-center/personal-center",
     "pages/discover-plate/dynamic-state/dynamic-state",
-    
     "pages/discover-plate/dynamic-state/article_details/article_details",
     "pages/index/new-exclusive/new-exclusive",
     "pages/index/order-for-goods/order-for-goods",
@@ -68,7 +67,7 @@
     "pages/personal-center/integratorMs/available-m/available-m",
     "pages/index/flashSaleHome/flashSaleHome",
     "pages/index/flashSaleHome/secKillDetail/secKillDetail",
-    "pages/personal-center/personnel-order/logisticsDetails/toTheLogistics/toTheLogistics",
+    "pages/personal-center/personnel-order/order-requesRefund/order-requesRefund","pages/personal-center/personnel-order/logisticsDetails/toTheLogistics/toTheLogistics",
     "pages/personal-center/personnel-order/logisticsDetails/logisticsDetails",
     "pages/personal-center/personnel-order/personnel-order",
     "pages/personal-center/popularize/popularize",

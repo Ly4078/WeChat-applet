@@ -10,6 +10,7 @@
         <text class="active" wx:if="{{item.soStatus == 1}}">待付款</text>
         <text wx:if="{{item.soStatus == 2}}">已完成</text>
         <text wx:if="{{item.soStatus == 3}}">已完成</text>
+
         <text wx:if="{{item.soStatus == 10}}">已取消</text>
       </view>
     </view>
@@ -49,7 +50,7 @@
     <view class='logistics-Left'>
       <text>{{item.createTime}}</text>
     </view>
-    <view class='logistics-right'><text>{{item.status2}}</text></view>
+    <view class='logistics-right'><text style="color:{{item.status==4?'#FC5E2D':''}}">{{item.status2}}</text></view>
    </view>
    <view class='logistics-center'>
     <view class='logistics-center-left'>

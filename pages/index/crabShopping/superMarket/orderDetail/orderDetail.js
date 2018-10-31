@@ -45,6 +45,10 @@ Page({
           _data.status2 = '已完成';
         } else if (_data.status == 10) {
           _data.status2 = '已取消';
+        } else if (_data.status == 4) {
+          _data.status2 = '退款申请中';
+        } else if (_data.status == 5) {
+          _data.status2 = '已退款';
         }
         if (_data.orderAddressOut) {
           if (_data.orderAddressOut.dictCounty && _data.orderAddressOut.dictCounty != null) {
@@ -197,5 +201,11 @@ Page({
         })
       }
     })
-  }
+  }, 
+  toRefund: function () {
+    let that = this;
+    wx.navigateTo({
+      url: "/pages/personal-center/personnel-order/order-requesRefund/order-requesRefund?orderNumber=" + that.data.soDetail.orderCode,
+    })
+  },
 })

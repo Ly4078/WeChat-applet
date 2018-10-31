@@ -37,9 +37,11 @@
 <!--物流订单-->
 <view hidden="{{shopping==1}}">
   <!--导航条-->
-  <view class="commoditys">
-    <view wx:for="{{commoditys}}" data-idx="{{index}}" id='{{item.id}}' class="item {{elephant==index ? 'active' : ''}}" wx:key="unique" bindtap="distributionmag">{{item.title}}</view>
-  </view>
+    <scroll-view scroll-x scroll-with-animation scroll-into-view="{{toView}}" class="commoditys">
+
+    <view wx:for="{{commoditys}}" data-idx="{{index}}" id="{{item.toview ||''}}" data-subid='{{item.id}}' class="item {{elephant==index ? 'active' : ''}}" wx:key="unique" bindtap="distributionmag">{{item.title}}</view>
+
+  </scroll-view>
   <view class='ditybj'></view>
   <!--全部订单-->
   <view>
@@ -54,7 +56,7 @@
   </view>
 </view>
 <view class='loadingBox'>
-      <i-spin custom wx:if="{{loading}}">
-      <view class="loading"></view>
-      </i-spin>
+  <i-spin custom wx:if="{{loading}}">
+    <view class="loading"></view>
+  </i-spin>
 </view>

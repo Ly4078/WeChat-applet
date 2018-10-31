@@ -1,0 +1,21 @@
+<view class="containers">
+  <view class="title">选择退款原因</view>
+  <view class="body">
+    <radio-group class="radio-group" bindchange="radioChange">
+      <view class="reasonList" wx:for="{{items}}" wx:key="{{index}}">
+        <label class="radio">
+          <text>{{item.reason}}</text>
+          <radio  value="{{item.reason}}" checked="{{item.checked}}" />
+        </label>
+      </view>
+    </radio-group>
+    <view class="other">
+      <textarea bindinput='setmsg' show-confirm-bar="false" maxlength='100' class="detail" placeholder='(选填)补充退款详细信息...'></textarea>
+    </view>
+  </view>
+  <view class="tips">
+      <view >温馨提示: </view>
+      <view >申请提交后已付金额会在1-3个工作日自动原路退回</view>
+  </view>
+  <view catchtap='submit' class="submit {{isCheck?'active':''}}">申请退款</view>
+</view>

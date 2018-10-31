@@ -22,3 +22,9 @@
   height: 266rpx;
   padding: 30rpx 0;
 }
+.Refund{
+  font-size: 30rpx;
+  color:#969696;
+  flex:1;
+  margin: 0 20rpx;
+}

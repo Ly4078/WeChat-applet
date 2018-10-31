@@ -408,9 +408,8 @@ Page({
   carefulness: function (e) { //订单
     let id = e.currentTarget.id;
     if(id == 10) {
-      wx.showToast({
-        title: '该功能正在开发中',
-        icon: 'none'
+      wx.navigateTo({
+        url: 'personnel-order/personnel-order?toview=tuikuan&elephant=' + 5
       })
       return false;
     }

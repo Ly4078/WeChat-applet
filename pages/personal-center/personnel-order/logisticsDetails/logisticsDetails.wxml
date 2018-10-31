@@ -30,7 +30,7 @@
     <image class='expressageImgRight' src='/images/icon/home_arrow.png'></image>
   </view> -->
   <!-- 收货地址 -->
-  <view class='expressage' wx:if="{{soDetail.orderAddressOut}}">
+  <view class='expressage' wx:if="{{soDetail.orderAddressOut && soDetail.status !=4 && soDetail.status != 5}}">
     <image class='siteImg' src='/images/icon/expressagegouwuce.png'></image>
     <view class='yourself'>
       <view class='expressageSiteName'>{{soDetail.orderAddressOut.chatName}}
@@ -123,6 +123,7 @@
   </view>
   <!-- 底部联系客服再次/购买 -->
   <view class='secondOrderLeader'>
+    <view catchtap='toRefund' wx:if="{{soDetail.status == 2}}" class="Refund">申请退款</view>
     <button open-type='contact'>联系客服</button>
     <button bindtap='nowuse' class='cheng' wx:if="{{soDetail.ust}}">立即使用</button>
     <button bindtap='buyagain' wx:if="{{soDetail.status == 3 || soDetail.status == 10}}">再次购买</button>

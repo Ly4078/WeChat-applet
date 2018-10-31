@@ -6,6 +6,7 @@ Page({
     order_list: [],
     page: 1,
     orpage:1,
+    toView:'',
     reFresh: true,
     completed: true,
     isfirst: false,
@@ -32,7 +33,11 @@ Page({
       }, {
         title: '已取消',
         id: '10'
-      },
+      }, {
+        title: '退款',
+        id: '4',
+        toview:'tuikuan'
+      }
     ],
     logId:'',
     elephant: 0
@@ -43,8 +48,14 @@ Page({
       title: '加载中...'
     })
     this.setData({
-      elephant: options.elephant
+      elephant: options.elephant,
+      toView: options.toview ? options.toview:''
     })
+    // if (options.toview){
+    //   wx.setNavigationBarTitle({
+    //     title: '退款/售后',
+    //   })
+    // }
   },
   onShow: function () {
     // this.getOrderList();
@@ -147,7 +158,7 @@ Page({
     wx.showLoading({
       title: '加载中...'
     })
-    let id = e.currentTarget.id;
+    let id = e.currentTarget.dataset.subid;
     this.setData({
       elephant: e.currentTarget.dataset.idx,
       orpage: 1,
@@ -187,6 +198,10 @@ Page({
               _list[i].status2 = '已完成';
             } else if (_list[i].status == 10) {
               _list[i].status2 = '已取消';
+            } else if (_list[i].status == 4) {
+              _list[i].status2 = '退款申请中';
+            } else if (_list[i].status == 5) {
+              _list[i].status2 = '已退款';
             }
             _list[i].realAmount = _list[i].realAmount.toFixed(2);
             if (_list[i].orderItemOuts[0].unit == '只' || _list[i].orderItemOuts[0].unit == '斤'){
