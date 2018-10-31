@@ -114,7 +114,10 @@
           <image class='myListImages' src='/images/icon/juxinges.png'></image>
           <view class='mylistText'>帮助与反馈</view>
         </view>
-        <view class='myList'></view>
+        <view class='myList myList_wo' catchtap='aboutMe'>
+          <image class='myListImages' src='/images/icon/guanyuwome.png'></image>
+          <view class='mylistText'>关于我们</view>
+        </view>
       </view>
     </view>
   </view>
@@ -140,10 +143,6 @@
           <view class='mylistText'>分享注册</view>
         </view>
         <view class='myList'></view>
-        <!-- <view class='myList myList_wo' catchtap='aboutMe'>
-          <image class='myListImages' src='/images/icon/guanyuwome.png'></image>
-          <view class='mylistText'>关于我们</view>
-        </view> -->
       </view>
     </view>
   </view>
