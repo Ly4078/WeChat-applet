@@ -176,7 +176,7 @@ Page({
       if (id != imgArr[i].id) {
         arr.push(imgArr[i]);
       }
-      if (imgArr[i].id ==1){
+      if (imgArr[i].id == 1){
         flag = false;
       }
     }
@@ -187,7 +187,8 @@ Page({
       })
     }
     this.setData({
-      imgArr: arr
+      imgArr: arr,
+      imgNum: arr.length - 1
     });
   },
   primary(e) { //提交
