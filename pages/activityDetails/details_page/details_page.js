@@ -1,4 +1,4 @@
-// pages/personal-center/allDynamicState/allDynamicState.js
+// pages/activityDetails/details_page/details_page.js
 Page({
 
   /**

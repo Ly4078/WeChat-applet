@@ -6,10 +6,6 @@ var utils = require('../../../../utils/util.js');
 var app = getApp();
 
 Page({
-
-  /**
-   * 页面的初始数据
-   */
   data: {
     _build_url: GLOBAL_API_DOMAIN,
     listData:[],
@@ -18,38 +14,10 @@ Page({
   },
 
   /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function (options) {
-    
-  },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-    
-  },
-
-  /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
     this.getorderCoupon();
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
   },
 
   /**
@@ -62,9 +30,6 @@ Page({
     this.getorderCoupon();
   },
 
-  /**
-   * 页面上拉触底事件的处理函数
-   */
   onReachBottom: function () {
     this.setData({
       page: this.data.page+1
