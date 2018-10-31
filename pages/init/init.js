@@ -62,8 +62,13 @@ Page({
               wechatUserInfo.avatarUrl = res.data.data.iconUrl;
               wechatUserInfo.gender = res.data.data.sex;
               that.setData({
-                wechatUserInfo: wechatUserInfo
+                wechatUserInfo: wechatUserInfo,
+                isgetCode:true
               }, () => {
+                wx.showLoading({
+                  title: '自动登录中...',
+                  mask:true
+                })
                 that.authlogin(res.data.data.userName)
               })
 
