@@ -1,4 +1,3 @@
-// pages/personal-center/popularize/popularize.js
 Page({
 
   /**

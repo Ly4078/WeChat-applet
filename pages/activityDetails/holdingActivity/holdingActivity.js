@@ -27,7 +27,8 @@ Page({
     userId: '',
     id: '', //菜id
     shopId: '', //点击店Id
-    postList: [{
+    postList: [
+      {
         id: 0,
         name: '中商优品汇',
         place: '(中南店)',
@@ -35,14 +36,14 @@ Page({
         locationX: '114.332370',
         locationY: '30.536960'
       },
-      {
-        id: 1,
-        name: '中商优品汇',
-        place: '(珞珈山店)',
-        images: 'http://pic80.huitu.com/res/20160608/208798_20160608015617000200_1.jpg',
-        locationX: '114.356820',
-        locationY: '30.533210'
-      },
+      // {
+      //   id: 1,
+      //   name: '中商优品汇',
+      //   place: '(珞珈山店)',
+      //   images: 'http://pic80.huitu.com/res/20160608/208798_20160608015617000200_1.jpg',
+      //   locationX: '114.356820',
+      //   locationY: '30.533210'
+      // },
       {
         id: 2,
         name: '中商平价',
@@ -51,14 +52,14 @@ Page({
         locationX: '114.344740',
         locationY: '30.590600'
       },
-      // {
-      //   id: 3,
-      //   name: '中商平价',
-      //   place: '(光谷店)',
-      //   images: 'http://pic32.photophoto.cn/20140709/0013026497125511_b.jpg',
-      //   locationX: '114.430460',
-      //   locationY: '30.504840'
-      // },
+      {
+        id: 3,
+        name: '中商平价',
+        place: '(光谷店)',
+        images: 'http://pic32.photophoto.cn/20140709/0013026497125511_b.jpg',
+        locationX: '114.430460',
+        locationY: '30.504840'
+      },
       {
         id: 4,
         name: '中商平价',
