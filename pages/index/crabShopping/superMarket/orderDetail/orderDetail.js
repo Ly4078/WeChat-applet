@@ -2,6 +2,7 @@ import Api from '../../../../../utils/config/api.js';
 import {
   GLOBAL_API_DOMAIN
 } from '../../../../../utils/config/config.js';
+var utils = require('../../../../../utils/util.js');
 var app = getApp();
 Page({
   data: {
@@ -100,7 +101,11 @@ Page({
     })
   },
   //点击继续支付  -- 先更新openid
-  carryPay: function () {
+  formSubmit: function (e) {
+    let _formId = e.detail.formId;
+    console.log("_formId:", _formId);
+
+    
     let that = this, url = "", _Url = "", urll="",_Urll="";
     wx.login({
       success: res => {
@@ -137,6 +142,7 @@ Page({
         }
       }
     })
+    utils.addFormIdCache(_formId); 
   },
   //调起微信支付
   wxpayment: function () {

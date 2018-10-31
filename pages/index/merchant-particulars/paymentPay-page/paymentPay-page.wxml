@@ -36,7 +36,11 @@
       </view>
     </view>
   </view>
-  <view class='countersign'><button  class="{{ispay?'btn':'nobtn'}}" bindtap='surepay'>确认支付￥{{payment}}</button></view>
+  <view class='countersign'>
+  <form bindsubmit="formSubmit" report-submit="true">
+  <button  class="{{ispay?'btn':'nobtn'}}" formType="submit" >确认支付￥{{payment}}</button>
+   </form>
+  </view>
 </view>
 
 <view class="newUserModal" wx:if="{{issnap}}">

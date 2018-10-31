@@ -23,7 +23,8 @@
 
   <!-- 到店自提地址 -->
   <view class="storeBox" wx:if="{{issku == 3}}">
-    <view><text class="storeName_l">自提门店</text>{{storeName}}</view>
+    <view>
+      <text class="storeName_l">自提门店</text>{{storeName}}</view>
     <view class="storeAddr">{{address}}</view>
   </view>
 
@@ -51,7 +52,7 @@
         <view>优惠
           <text class='manzen'>满赠</text>{{_rules}}</view>
       </view>
-      <view class='equally'  wx:if="{{current.spuId != 3}}">
+      <view class='equally' wx:if="{{current.spuId != 3}}">
         <text>配送方式</text>
         <text>{{distribution}}</text>
       </view>
@@ -73,10 +74,11 @@
       </view>
       <view class='equally' bindtap='handbzf' wx:if="{{current.bzf && issku != 3}}">
         <text>包装费<text class='suoming'>（冰袋、保温内胆、加厚泡沫箱）<text class='wenhao'>?</text>
-        </text></text>
+        </text>
+        </text>
         <text class='delicatese'>￥{{current.bzf}}</text>
       </view>
-      <view class='equally'  wx:if="{{current.spuId != 3 && issku != 3}}">
+      <view class='equally' wx:if="{{current.spuId != 3 && issku != 3}}">
         <text>商品备注:</text>
         <input name="input" bindinput="bindremarks" value='{{remarks}}' placeholder='选填内容'></input>
         <!-- <text class='delicatese'>￥{{current.total}}</text> -->
@@ -96,11 +98,23 @@
         <text>￥{{current.total}}</text>
       </view>
     </view>
+
+    <form bindsubmit="formSubmit" report-submit="true">
+      <button formType="submit">
+        <view class='presentCommRight sss'>
+          <view>提交订单</view>
+        </view>
+      </button>
+    </form>
+    <!-- 
     <view wx:if="{{issku == 3}}" class='presentCommRight sss' bindtap='superMarketOrder'>
       <view>提交订单</view>
     </view>
+
+
     <view wx:else class='presentCommRight bbb' bindtap='submitSoid'>
       <view>提交订单</view>
-    </view>
+    </view> -->
+
   </view>
 </view>

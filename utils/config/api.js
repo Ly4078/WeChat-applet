@@ -661,6 +661,10 @@ const ALL_API = {
   useOrderInfo:{ //核销自营订单券
     method:'POST',
     url:'orderInfo/useOrderInfo'
+  },
+  addFormIdCache:{  //缓存formId
+    method:'GET',
+    url:'msg/addFormIdCache'
   }
 }
 const Api = new MyHttp({}, ALL_API);

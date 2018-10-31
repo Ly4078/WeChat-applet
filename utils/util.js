@@ -196,6 +196,22 @@ let getQueryString = function(url, name) { //识别普通二维码，跳转到�
 
 
 
+// 以下   业务事件
+let addFormIdCache = function(formId){  //上传fromId
+  let url = config.GLOBAL_API_DOMAIN + 'msg/addFormIdCache?formId=' + formId, _token = _token = wx.getStorageSync('token') || '';
+  wx.request({
+    url: url,
+    header: {
+      "Authorization": _token
+    },
+    success:(res)=>{
+      console.log('res:',res)
+    }
+  })
+}
+
+
+
 module.exports = {
   calcDistance: calcDistance,
   transformLength: transformLength,
@@ -210,5 +226,6 @@ module.exports = {
   getQueryString: getQueryString,
   dateConv: dateConv,
   compareUp: compareUp,
-  compareDown: compareDown
+  compareDown: compareDown,
+  addFormIdCache: addFormIdCache
 }

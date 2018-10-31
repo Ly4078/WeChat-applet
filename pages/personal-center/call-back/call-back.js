@@ -76,22 +76,7 @@ Page({
   },
   //实时获取输入的券码--券码
   bindinputent: function(e) {
-    // let actual = e.detail.value;
-    // if (actual.length == 10) {
-    //   this.gettickets(actual);
-    // } else if (actual.length == 0) {
-    //   this.setData({
-    //     okhx: false
-    //   })
-    // } 
-    // this.setData({
-    //   _code: actual,
-    //   istihua:false
-    // })
-
-
     let actual = e.detail.value, ms = 0, _timer = null, _this = this;
-    console.log('actual:', actual)
     if (actual.length == 0) {
       this.setData({
         okhx: false
@@ -118,7 +103,6 @@ Page({
     this.setData({
       _codees: '',
       hxData: {},
-      okhx:false,
       istihua: false
     })
   },
@@ -146,7 +130,6 @@ Page({
     this.setData({
       _code: '',
       hxData:{},
-      okhx: false,
       istihua: true
     })
   },
@@ -154,28 +137,21 @@ Page({
   gettickets: function(val) {
     let that = this,
       _Url = "";
-    console.log("istihua:", this.data.istihua)
     if (val) {
       if(this.data.istihua){
-        // _Url = "https://www.hbxq001.cn/orderInfo/getDetailByOrderCode/"+val;
-
         _Url = "https://www.xiang7.net/orderCoupon/getByCode/" + val;
       }else{
         _Url = "https://www.hbxq001.cn/cp/getByCode/" + val;
-        // 
       }
     } else if (this.data.result) {
-      console.log('result:', this.data.result)
       _Url = this.data.result;
     }
-    console.log("_Url:", _Url)
     wx.request({
       url: _Url,
       header: {
         "Authorization": app.globalData.token
       },
       success: function(res) {
-        console.log("res:",res)
         if (res.data.code == 0) {
           if (res.data.data) {
             let _data = res.data.data,
@@ -183,7 +159,6 @@ Page({
               lists = [];
             if (_data.orderCode) {
               let current = res.data.currentTime, isDue = that.isDueFunc(current, _data.expiryDate);
-              console.log("isDue:", isDue)
               if (isDue == 1) {
                 wx.showToast({
                   title: '该票券已过期',
@@ -197,8 +172,6 @@ Page({
                 })
                 return
               } 
-              console.log("isshopuser:", that.data.isshopuser)
-              console.log("iszys:", that.data.iszys)
               if (that.data.isshopuser && !that.data.iszys) {
                 wx.showToast({
                   title: '你不是自营店核销员，无法核销该订单',
@@ -236,7 +209,6 @@ Page({
                 }
                 return;
               }
-              console.log('okhx:', that.data.okhx)
             }else{
               if (that.data.iszys && that.data.isshopuser){
 
@@ -295,14 +267,12 @@ Page({
             if (_data.orderItemOuts && _data.orderItemOuts.length > 0) {
               lists = _data.orderItemOuts;
             }
-            console.log('1123213123')
             that.setData({
               hxData: _data,
               okhx: true,
               newamount: _data.couponAmount ? _data.couponAmount:'0',
               dishlist: lists
             })
-            console.log('okhx:',that.data.okhx)
           } else {
             wx.showToast({
               title: '券码错误，请重新输入！',
@@ -337,9 +307,7 @@ Page({
     if (!this.data.isconfirm) {
       return false
     }
-    console.log('confirm')
     if (!this.data.okhx) {
-      console.log("111")
       wx.showToast({
         title: '不符合核销条件，请重新输入',
         icon: 'none',
@@ -356,7 +324,6 @@ Page({
       if (_hxData.type == 1){
         url = that.data._build_url + 'orderInfo/useOrderInfo?orderCode=' + _value;
       } else if (_hxData.type == 2){
-        console.log('12313')
         url = that.data._build_url + 'orderCoupon/hxCoupon?shopId=0&shopName=享七自营&salepointId=' + _hxData.salePoint.id+'&id='+_hxData.id;
       }
       
@@ -385,7 +352,6 @@ Page({
         }
       })
     } else {
-      console.log('12313')
       _hxData.shopAmount = that.data.amount ? that.data.amount:0;
       let _values = "", _parms={},url="",_Url="";
       _parms = {
@@ -402,21 +368,25 @@ Page({
         // cashierId: app.globalData.userInfo.userId, //收银id	Long
         // cashierName: app.globalData.userInfo.userName, //收银账号	String
       }
-      // console.log("_parms:", _parms);
-      console.log('_parms:', _parms)
       for (var key in _parms) {
         _values += key + "=" + _parms[key] + "&";
       }
+     
       _values = _values.substring(0, _values.length - 1);
-      console.log('_values:', _values)
       if (_hxData.type == 2) {
-       
-        console.log('12313')
-        url = that.data._build_url + 'orderCoupon/hxCoupon?shopId=0&shopName=享七自营&salepointId=' + _hxData.salePoint.id + '&id=' + _hxData.id;
+        let _salepointId = "";
+        if (_hxData.salePoint && _hxData.salePoint.id){
+          _salepointId = _hxData.salePoint.id
+        } else if (_hxData.salepointId){
+          _salepointId = _hxData.salepointId;
+        }
+        url = that.data._build_url + 'orderCoupon/hxCoupon?shopId=0&shopName=享七自营&salepointId=' + _salepointId + '&id=' + _hxData.id;
       } else {
         url = that.data._build_url + 'hx/add?' + _values;
       }
       _Url = encodeURI(url);
+
+      
       wx.request({
         url: _Url,
         header: {

@@ -1,7 +1,9 @@
 import Api from '/../../../utils/config/api.js';
+
 import {
   GLOBAL_API_DOMAIN
 } from '../../../utils/config/config.js';
+var utils = require('../../../utils/util.js');
 var app = getApp();
 let minusStatus = '';
 Page({
@@ -222,9 +224,10 @@ Page({
     });
   },
   formSubmit:function(e){
-    console.log('e', e);
-    console.log("fromid:", e.detail.formId);
+    let _formId = e.detail.formId;
+    console.log("_formId:", _formId);
     this.determine();
+    utils.addFormIdCache(_formId); 
   },
   determine: function() { //点击确认支付按钮
     console.log('determine')

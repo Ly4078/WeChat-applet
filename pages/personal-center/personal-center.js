@@ -57,12 +57,16 @@ Page({
         if (res.data.data && res.data.data.length > 0) {
           that.setData({
             isshop: true,
-            iszhiying: true
+            iszhiying: true,
+            isshopuser: true
           })
         }
       }
     })
-    if (!app.globalData.userInfo.unionId || !app.globalData.userInfo.sessionKey) {
+
+    console.log("userInfo111:", app.globalData.userInfo)
+    if (!app.globalData.userInfo.unionId) {
+
       wx.login({
         success: res => {
           if (res.code) {
@@ -398,12 +402,20 @@ Page({
         url: '../../pages/index/download-app/download?isshop=ind',
       })
     }
-
   },
-  myTickets: function (event) {
+
+  DynamicState: function (e) {
+    wx.navigateTo({
+      url: 'allDynamicState/allDynamicState',
+    })
+  },
+  submit: function (e) {
+    let _formId = e.detail.formId;
     wx.navigateTo({
       url: 'my-discount/my-discount',
-    })
+    });
+    console.log('utils:', utils)
+    utils.addFormIdCache(_formId); 
   },
   carefulness: function (e) { //订单
     let id = e.currentTarget.id;

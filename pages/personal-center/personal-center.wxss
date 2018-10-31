@@ -120,6 +120,7 @@ page{
   display: block;
   letter-spacing: 4rpx;
   font-weight: 600;
+  color: #fff;
 }
 
 .messageWrap {
@@ -129,6 +130,17 @@ page{
   color: #fff;
 }
 
+.messageWrap button ,.botton-hover{
+  background: none;
+  color: none;
+}
+.messageWrap:nth-child(1){
+  width: 8%;
+}
+
+.messageWrap:nth-child(1) .messageTop{
+  margin-top: -18rpx;
+}
 .messageWrap image {
   height: 56rpx;
   width: 56rpx;

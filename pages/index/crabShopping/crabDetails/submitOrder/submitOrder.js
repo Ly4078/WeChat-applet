@@ -340,6 +340,16 @@ Page({
       }
     })
   },
+  formSubmit:function(e){
+    let _formId = e.detail.formId;
+    console.log("_formId:", _formId);
+    if (this.data.issku == 3){
+      this.superMarketOrder();
+    }else{
+      this.submitSoid();
+    }
+    utils.addFormIdCache(_formId); 
+  },
   //到店自提
   superMarketOrder() {
     let that = this;

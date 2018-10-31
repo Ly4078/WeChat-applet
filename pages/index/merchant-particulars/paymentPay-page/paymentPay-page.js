@@ -326,8 +326,9 @@ Page({
     })
   },
   //确认支付
-  surepay: function () {
-    let that = this, _value="";
+  formSubmit: function (e) {
+    let that = this, _value = "",_formId = e.detail.formId;
+    console.log("_formId:", _formId);
     if (that.data.ispay) {
       if (!app.globalData.userInfo.mobile) {
         that.setData({
@@ -380,6 +381,7 @@ Page({
         }
       }
     }
+    utils.addFormIdCache(_formId); 
   },
   updetauserinfo:function (val) {  //更新用户信息
     let _parms = {}, that = this, _value="";

@@ -11,7 +11,9 @@
       <input type='number' placeholder="请输入验证码" maxlength="4" adjust-position="tuer" bindinput="changeCode" value='{{codeNum}}'></input>
     </view>
     <view class='cell-phoneWrap'>
-      <button class='cell-phone-bun' bindtap='registered'>领红包</button>
+      <form bindsubmit="formSubmit" report-submit="true">
+        <button class='cell-phone-bun' formType="submit" >领红包</button>
+      </form>
     </view>
   </view>
 </view>

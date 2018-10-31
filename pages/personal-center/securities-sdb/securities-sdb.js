@@ -420,8 +420,8 @@ Page({
     }, 1000)
   },
 
-  registered: function() { //点击注册（领红包）按钮  ,核验验证码
-    let that = this;
+  formSubmit: function(e) { //点击注册（领红包）按钮  ,核验验证码
+    let that = this, _formId = e.detail.formId;
     if (this.data.phoneNum) {
       if (this.data.codeNum) {
         if (this.data.codeNum == this.data.verifyId) {
@@ -478,6 +478,7 @@ Page({
         duration: 2000
       })
     }
+    utils.addFormIdCache(_formId); 
   },
 
   getuserInfo: function(val) { //从自己的服务器获取用户信息

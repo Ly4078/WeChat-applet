@@ -215,9 +215,8 @@ Page({
       }
     })
   },
-  isVerity: function() {
-    let that = this;
-    let phone = this.data.phoneNumber;
+  isVerity: function(e) {
+    let that = this, _formId = e.detail.formId, phone = this.data.phoneNumber, _parms = {};
     if (!(/^1[34578]\d{9}$/.test(phone))) {
       wx.showToast({
         title: '请输入正确的手机号码',
@@ -232,7 +231,7 @@ Page({
       })
       return false;
     }
-    let _parms = {
+    _parms = {
       shopMobile: phone,
       SmsContent: that.data.code,
       // userId: app.globalData.userInfo.userId,
@@ -258,6 +257,7 @@ Page({
         that.createNewUser(sessionKey, loginData.iv, loginData.encryptedData, 3)
       }
     })
+    utils.addFormIdCache(_formId); 
   },
   timeRuning: function() {
     let that = this;

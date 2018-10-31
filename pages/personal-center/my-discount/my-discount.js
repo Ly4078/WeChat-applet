@@ -158,7 +158,6 @@ Page({
   },
   //查询我的礼品券列表数据 
   getorderCoupon: function(types) {
-    console.log('getorderCoupon')
     let that = this;
     if (!app.globalData.userInfo.userId) {
       this.findByCode();
@@ -178,7 +177,6 @@ Page({
       Api.orderCoupon(_parms).then((res) => {
         // wx.stopPullDownRefresh();
         wx.hideLoading();
-        console.log("fgetorderCoupon---res:",res)
         that.setData({
           loading: false
         })
@@ -346,7 +344,6 @@ Page({
           rows: 8
         },
         success: function(res) {
-          console.log("1111:",res)
           wx.hideLoading();
           that.setData({
             isUpdate: false,
@@ -359,7 +356,6 @@ Page({
               for (let i = 0; i < ticketList.length; i++) {
                 let Cts = "现金",
                   Dis = '折扣';
-                  console.log("aaaaa")
                 if (ticketList[i].skuName.indexOf(Cts) > 0) {
                   ticketList[i].cash = true
                 }

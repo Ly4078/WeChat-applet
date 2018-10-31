@@ -11,7 +11,9 @@
       <view catchtap='sendCode' class="getCode {{phoneLength?'active':''}}">{{text}}</view>
     </view>
     <view class="item">
-      <button catchtap='isVerity' class=" submit">登录</button>
+     <form bindsubmit="formSubmit" report-submit="true">
+      <button catchtap='isVerity' formType="submit" class=" submit">登录</button>
+      </form>
     </view>
   </view>
 
