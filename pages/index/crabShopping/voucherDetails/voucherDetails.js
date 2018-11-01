@@ -813,7 +813,8 @@ Page({
     this.getorderCoupon();
   },
   //点击立即兑换  1
-  redeemNow: function() {
+  submit: function(e) {
+    let _formId = e.detail.formId;
     if (app.globalData.userInfo.mobile) { 
       this.getorderCoupon('1');
     } else {//是新用户，去注册页面
@@ -821,6 +822,7 @@ Page({
       //   url: '/pages/personal-center/securities-sdb/securities-sdb?back=1'
       // })
     }
+    utils.addFormIdCache(_formId); 
   },
   //兑换提货  2
   sendredeemNow: function() {

@@ -28,6 +28,7 @@ page{
   letter-spacing: 3rpx;
   background:rgba(255,174,149,1);
   color: #ffffff;
+  border: none;
 }
 
 .navbar .item.active{

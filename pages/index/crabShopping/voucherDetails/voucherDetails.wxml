@@ -98,7 +98,12 @@
 
     <!-- 按钮 -->
     <view class='towanniu'>
-      <view class='anright' bindtap='redeemNow'> 提货</view>
+    
+      <view class='anright'>
+        <form bindsubmit="submit" report-submit='true' >
+          <button form-type="submit" type="default" class='anright'>提货 </button>
+        </form>
+      </view>
       <view class='anleft' wx:if="{{isgift}}">
         <button plain="true" data-name="shareBtn" open-type="share">
           <text>赠送好友</text>

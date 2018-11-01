@@ -2,6 +2,7 @@ import Api from '../../../utils/config/api.js';
 import {
   GLOBAL_API_DOMAIN
 } from '../../../utils/config/config.js';
+var utils = require('../../../utils/util.js')
 var app = getApp();
 let requesting = false;
 let swichrequestflag = [false, false, false];
@@ -41,9 +42,12 @@ Page({
       })
     }
   },
-  navbarTap: function(e) {
-    let index = e.currentTarget.dataset.idx, that = this;
-    this.setData({
+  submit: function(e) {
+    console.log('navbarTap:',e)
+    let index = e.currentTarget.dataset.idx, that = this, _formId = e.detail.formId;
+    console.log('index:',index)
+    console.log("formid:",_formId)
+    that.setData({
       page: 1,
       ticket_list: [],
       currentIndex: index
@@ -83,7 +87,7 @@ Page({
           }
         }
     })
-
+    utils.addFormIdCache(_formId); 
   },
   handtab: function(e) {
     let index = e.currentTarget.dataset.index;
@@ -533,8 +537,8 @@ Page({
     }, () => {
       this.getTicketList();
     });
-
   },
+
   immediateUse: function(e) {
     if (this.data.isUsed == 1) {
       return false;

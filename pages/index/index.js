@@ -27,6 +27,7 @@ Page({
     business: [], //商家列表，推荐餐厅
     alltopics: [],
     currentTab: 0,
+    isformid:true,
     issnap: false, //是否是临时用户
     loading: false,
     istouqu: false,
@@ -220,7 +221,15 @@ Page({
       that.findByCode();
     }
   },
-
+  submit:function(e){
+    console.log('submit')
+    let _formId = e.detail.formId;
+    this.setData({
+      isformid:false
+    })
+    console.log('utils:', utils)
+    utils.addFormIdCache(_formId); 
+  },
   // 初始化start
   findByCode: function() { //通过code查询用户信息
     let that = this;

@@ -1,7 +1,10 @@
 <import src="discount-template/discount-template.wxml" />
 
 <view class="navbar">
-  <text wx:for="{{navbar}}" data-idx="{{index}}" class="item {{currentIndex==index ? 'active' : ''}}" wx:key="unique" bindtap="navbarTap">{{item}}</text>
+  <form bindsubmit="submit" report-submit='true' wx:for="{{navbar}}" data-idx="{{index}}" wx:key="unique">
+    <button form-type="submit" type="default"  class="item {{currentIndex==index ? 'active' : ''}}">{{item}}
+    </button>
+  </form>
 </view>
 
 <view wx:if="{{currentIndex==0}}">
@@ -17,20 +20,22 @@
     <view class='voucher' wx:if="{{listData.length>0}}">
       <view wx:for="{{listData}}" wx:key="{{index}}">
 
-        <view wx:if="{{item.type == 1}}" wx:key="item.id" id="{{item.id}}" data-index="{{item.goodsSkuName}}" class="voucherItem {{item.isUsed == 0 ? 'ysyitem' : 'wsyitem'}}" data-used="{{item.isUsed}}" data-type="{{item.type}}" data-order="{{item.orderId}}" bindtap='redeemNow'>
+        <view wx:if="{{item.type == 1}}" wx:key="item.id" id="{{item.id}}" data-index="{{item.goodsSkuName}}" class="voucherItem {{item.isUsed == 0 ? 'ysyitem' : 'wsyitem'}}" data-used="{{item.isUsed}}" data-type="{{item.type}}" data-order="{{item.orderId}}"
+          bindtap='redeemNow'>
 
           <text class="itemName {{item.isUsed == 0 ? 'itemNamea' : 'itemNameb'}}">{{item.sku}}</text>
           <text class="couCode {{item.isUsed == 0 ? 'codea' : 'codeb'}}">券号：{{item.couponCode}}</text>
         </view>
 
-        <view wx:if="{{item.type == 2}}" wx:key="item.id" id="{{item.id}}" data-index="{{item.goodsSkuName}}" class="voucherItem {{item.isUsed == 0 ? 'thqitem' : 'thqsitem'}}" data-used="{{item.isUsed}}" data-type="{{item.type}}" data-order="{{item.orderId}}" bindtap='redeemNow'>
+        <view wx:if="{{item.type == 2}}" wx:key="item.id" id="{{item.id}}" data-index="{{item.goodsSkuName}}" class="voucherItem {{item.isUsed == 0 ? 'thqitem' : 'thqsitem'}}" data-used="{{item.isUsed}}" data-type="{{item.type}}" data-order="{{item.orderId}}"
+          bindtap='redeemNow'>
 
-        <text class="thname {{item.isUsed == 0 ? 'codea' : 'codeb'}}">提货券</text>
-        <text class="thhx {{item.isUsed == 0 ? 'codea' : 'codeb'}}">__</text>
-        <text class="thguige {{item.isUsed == 0 ? 'codea' : 'codeb'}}">{{item.orderItemOuts[0].goodsSkuName}} {{item.orderItemOuts[0].giftNum+item.orderItemOuts[0].goodsNum}}只</text>
-        <text class="thshop {{item.isUsed == 0 ? 'codea' : 'codeb'}}">提货门店:{{item.salePoint.salepointName}}</text>
-        <text class="thCode {{item.isUsed == 0 ? 'codea' : 'codeb'}}">券码：{{item.couponCode}}</text>
-        <text class="thdate {{item.isUsed == 0 ? 'codea' : 'codeb'}}">有效期:{{item.expiryDate}}</text>
+          <text class="thname {{item.isUsed == 0 ? 'codea' : 'codeb'}}">提货券</text>
+          <text class="thhx {{item.isUsed == 0 ? 'codea' : 'codeb'}}">__</text>
+          <text class="thguige {{item.isUsed == 0 ? 'codea' : 'codeb'}}">{{item.orderItemOuts[0].goodsSkuName}} {{item.orderItemOuts[0].giftNum+item.orderItemOuts[0].goodsNum}}只</text>
+          <text class="thshop {{item.isUsed == 0 ? 'codea' : 'codeb'}}">提货门店:{{item.salePoint.salepointName}}</text>
+          <text class="thCode {{item.isUsed == 0 ? 'codea' : 'codeb'}}">券码：{{item.couponCode}}</text>
+          <text class="thdate {{item.isUsed == 0 ? 'codea' : 'codeb'}}">有效期:{{item.expiryDate}}</text>
         </view>
 
       </view>
@@ -97,7 +102,7 @@
     <view class='notes' wx:if="{{recData.length>0}}">
       <view wx:for="{{recData}}" wx:key="index">
         <view class='nodeItem'>
-        
+
           <view class='itemtop' wx:if="{{item.type == 1}}">
             <text class='topt1'>{{item.styleName}}-提蟹券</text>
             <text class='topt2'>{{ind == 1?"已赠送":"已领取"}}</text>

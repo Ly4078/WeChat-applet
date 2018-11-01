@@ -13,6 +13,14 @@
     </view>
   </view>
 
+
+    <form bindsubmit="submit" class="newUserModal" report-submit='true' wx:if="{{isformid}}">
+      <button form-type="submit"></button>
+    </form>
+
+
+
+
   <view class="newUserModal loginuser" wx:if="{{istouqu}}" catchtouchmove='true'>
     <view class="drawer_screen"></view>
     <button class="newUserM_box" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">
@@ -134,7 +142,7 @@
     </view>
   </view>
 
-<!-- 回到顶部 -->
+  <!-- 回到顶部 -->
   <view class='toTop' wx:if="{{_page>1}}" bindtap='toTop'>
     <image src='/images/icon/toTop.png'></image>
   </view>
