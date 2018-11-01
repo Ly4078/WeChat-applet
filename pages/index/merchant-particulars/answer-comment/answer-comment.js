@@ -31,10 +31,6 @@ Page({
         refId: this.data.shopid,
         cmtType: '5',
         content: content,
-        // token: app.globalData.token,
-        // userId: app.globalData.userInfo.userId,
-        // userName: app.globalData.userInfo.userName,
-        // nickName: app.globalData.userInfo.nickName
       }
 
       for (var key in _parms) {

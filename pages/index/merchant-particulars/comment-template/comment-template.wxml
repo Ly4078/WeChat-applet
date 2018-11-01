@@ -1,22 +1,4 @@
 <template name="commentItem">
-  <!-- <view class='evaluate-maximum'>
-    <view class='evaluate-wrap'>
-      <view>
-        <image class='evaluateImages' mode="aspectFill" src='{{item.userPic}}'></image>
-        <text class='evaluateText'>{{item.nickName == 'null'?item.userName:item.nickName}}</text>
-      </view>
-      <view wx:if="{{item.isZan == 0}}" bindtap="toLike" id="{{item.id}}">
-        <text class='evaluaterightTx'>{{item.zan}}</text>
-        <image class='evaluateright' src='/images/icon/zanGray.png'></image>
-      </view>
-      <view wx:else bindtap="cancelLike" id="{{item.id}}">
-        <text class='evaluaterightTx'>{{item.zan}}</text>
-        <image class='evaluateright' src="/images/icon/zanNew.png"></image>
-      </view>
-    </view>
-    <text class='introduce-details'>{{item.content}}</text>
-    <view class='carry-out-data'>{{item.createTime}}</view>
-  </view> -->
   <view class='evaluate-maximum'>
     <view class='evaluate_l'>
       <image wx:if="{{item.userPic}}" class='evaluateImages'  mode="aspectFill" src='{{item.userPic}}'></image>

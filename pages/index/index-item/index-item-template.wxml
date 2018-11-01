@@ -28,7 +28,7 @@
 </template>
 <!-- 限量秒杀 -->
 
-<!-- 精选餐厅/短视频 -->
+<!-- 砍价拼菜 -->
 <template name="veoRes">
   <view class='wrap_recommend veoRes_recommend' id='{{item.id}}' catchtap='handVeoRes'>
     <view class='recommend'>
@@ -41,4 +41,4 @@
     </view>
   </view>
 </template>
-<!-- 精选餐厅/短视频 -->
+<!-- 砍价拼菜 -->

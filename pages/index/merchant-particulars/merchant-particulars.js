@@ -9,14 +9,12 @@ var app = getApp();
 var village_LBS = function(that) {
   wx.getLocation({
     success: function(res) {
-      console.log('vill_res:', res)
       let latitude = res.latitude,
         longitude = res.longitude;
       that.requestCityName(latitude, longitude);
     },
   })
 }
-
 
 Page({
   data: {
@@ -69,7 +67,6 @@ Page({
     shareCity:""
   },
   onLoad: function(options) {
-    console.log('options:', options)
     this.setData({
       shopid: options.shopid,
       comment_list: []
@@ -108,7 +105,7 @@ Page({
       withShareTicket: true,
       success: function(res) {},
       fail: function(res) {
-        console.log(res)
+
       }
     });
 
@@ -123,9 +120,7 @@ Page({
     let _token = wx.getStorageSync('token') || "";
     let userInfo = wx.getStorageSync('userInfo') || {};
     // app.globalData.userInfo = userInfo;
-    console.log('userInfo:', userInfo)
     if (!userInfo.lat || !userInfo.lng || !userInfo.city){
-      console.log(1111)
       this.getUserlocation();
     }
     
@@ -509,17 +504,7 @@ Page({
       }
     })
   },
-  // //用户下拉刷新
-  // onPullDownRefresh: function() {
-  //   console.log("onPullDownRefresh")
-  //   this.getstoredata();
-  //   this.recommendation();
-  //   this.isCollected();
-  //   this.commentList();
-  // },
-
   getmoredata: function() {
-    // console.log("getmoredata")
     this.getstoredata();
     this.selectByShopId();
     this.recommendation();
@@ -733,7 +718,6 @@ Page({
         wx.stopPullDownRefresh();
         if (res.data.code == 0) {
           let data = res.data;
-          // console.log('list:', data.data.list);
           that.setData({
             recommend_list: data.data.list ? data.data.list : []
           });
@@ -860,7 +844,6 @@ Page({
   //分享给好友
   onShareAppMessage: function() {
     let _shareCity = this.data.shareCity ? this.data.shareCity : app.globalData.userInfo.city;
-    console.log('_shareCity:', _shareCity)
     return {
       title: this.data.store_details.shopName,
       path: '/pages/index/merchant-particulars/merchant-particulars?shopid=' + this.data.shopid + '&shareCity=' + _shareCity,
@@ -869,19 +852,16 @@ Page({
         wx.getShareInfo({
           shareTicket: res.shareTickets[0],
           success: function(res) {
-            console.log(res)
           },
           fail: function(res) {
-            console.log(res)
           },
           complete: function(res) {
-            console.log(res)
+
           }
         })
       },
       fail: function(res) {
         // 分享失败
-        console.log(res)
       }
     }
   },
@@ -906,7 +886,6 @@ Page({
     }
   },
   moreImages: function(event) {
-    console.log('moreImages')
     if (!this.data.isshowlocation){
       wx.navigateTo({
         url: 'preview-picture/preview-picture?id=' + this.data.store_details.id,
@@ -927,7 +906,6 @@ Page({
             success: function (res) {
               let latitude = res.latitude,
                 longitude = res.longitude;
-                console.log('aaaaaaa')
               that.requestCityName(latitude, longitude);
             },
           })
@@ -942,7 +920,6 @@ Page({
   },
   //打开地图导航
   TencentMap: function(event) {
-    console.log('event:', event)
     let that = this;
     if (event && event.type == 'tap') {
       this.setData({
@@ -960,7 +937,6 @@ Page({
         let longitude = res.longitude;
         app.globalData.userInfo.lat = latitude;
         app.globalData.userInfo.lng = longitude;
-        console.log('bbbbbb')
         that.requestCityName(latitude, longitude);
       },
       fail: function(res) {
@@ -985,7 +961,6 @@ Page({
       success: function (res) {
         let latitude = res.latitude,
           longitude = res.longitude;
-        console.log('ccccc')
         that.requestCityName(latitude, longitude);
       },
       fail: function (res) {
@@ -1049,23 +1024,13 @@ Page({
           name: storeDetails.shopName,
           address: storeDetails.address,
           success: function(res) {
-            console.log('打开地图成功')
           },
           fail: function(res) {
-            console.log("打开地图失败")
           }
         })
       }
     })
   },
-  // tab栏
-  // navbarTap: function(e) {
-  //   let id = e.currentTarget.id;
-  //   this.setData({
-  //     toView: id
-  //   })
-  //   console.log(id)
-  // },
   //评论列表
   commentList: function() {
     let that = this;
@@ -1299,55 +1264,7 @@ Page({
       }
     })
   },
-  //显示发表评论框
-  showAreatext: function() {
-    if (app.globalData.userInfo.mobile == undefined || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
-      this.setData({
-        issnap: true
-      })
-      return false
-    }
-    this.setData({
-      isComment: true
-    })
-  },
-  //获取评论输入框
-  getCommentVal: function(e) {
-    this.setData({
-      commentVal: e.detail.value
-    })
-  },
-  //发表评论
-  sendComment: function(e) {
-    let that = this;
-    if (this.data.commentVal == "" || this.data.commentVal == undefined) {
-      wx.showToast({
-        mask: true,
-        title: '请先输入评论',
-        icon: 'none'
-      }, 1500)
-    } else {
-      let content = utils.utf16toEntities(that.data.commentVal);
-      let _parms = {
-        refId: that.data.shopid,
-        cmtType: '5',
-        content: content,
-        // userId: app.globalData.userInfo.userId,
-        // userName: app.globalData.userInfo.userName,
-        // nickName: app.globalData.userInfo.nickName,
-        token: app.globalData.token
-      }
-      Api.cmtadd(_parms).then((res) => {
-        if (res.data.code == 0) {
-          that.setData({
-            isComment: false,
-            commentVal: ""
-          })
-          that.commentList()
-        }
-      })
-    }
-  },
+  
   closetel: function(e) { //确定or取消
     let id = e.target.id;
     this.setData({

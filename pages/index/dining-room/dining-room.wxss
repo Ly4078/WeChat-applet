@@ -1,14 +1,3 @@
-page{
-    /* -webkit-transform: translateZ(0);
-   -moz-transform: translateZ(0);
-   -ms-transform: translateZ(0);
-   -o-transform: translateZ(0);
-   transform: translateZ(0); */
-   /* transform:translate3d(0,0,0);
-	-webkit-transform:translate3d(0,0,0);
-	-o-transform:translate3d(0,0,0);
-	-moz-transform:translate3d(0,0,0); */
-}
 .withouttishiWrap {
   width: 100%;
   height: 530rpx;
@@ -219,14 +208,6 @@ page{
   align-items: center;
 }
 
-.trade_site_address {
-  display: inline-block;
-  width: 260rpx;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-}
-
 .trade_site_distance {
   display: block;
   color: #808080;
@@ -250,20 +231,6 @@ page{
   border: 1rpx solid #B0B0B0;
   color: #808080;
   padding: 0 4rpx;
-}
-
-.trade_guangu {
-  padding: 0rpx 10rpx 0rpx 0rpx;
-}
-
-.navigationButtom {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-}
-
-.navigationKb_left {
-  width: 35%;
 }
 
 .navigationKb_right {
@@ -315,7 +282,6 @@ page{
 }
 
 .nearby, .food, .sorting {
-  /* height: 540rpx; */
   max-height: 540rpx;
   width: 100%;
   overflow-y: scroll;
@@ -329,25 +295,4 @@ page{
   color: #191919;
   padding-left: 29rpx;
   border-bottom: 1px solid #ebebeb;
-}
-
-scroll-view {
-  height: 100%;
-}
-
-.no_noder {
-  width: 100%;
-  height: 100%;
-  text-align: center;
-  position: relative;
-}
-
-.no_noder image {
-  width: 312rpx;
-  height: 203rpx;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  margin-left: -156rpx;
-  margin-top: -130rpx;
 }
