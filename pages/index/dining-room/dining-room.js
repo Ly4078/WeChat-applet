@@ -212,6 +212,7 @@ Page({
               _data[i].activity = _data[i].ruleDescs ? _data[i].ruleDescs.join(',') : '';
               _data[i].businessCate = _data[i].businessCate.split('/')[0].split(',')[0];
               posts.push(_data[i])
+              console.log('posts:', posts)
             }
             that.setData({
               posts_key: posts,

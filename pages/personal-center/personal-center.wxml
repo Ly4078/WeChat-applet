@@ -47,15 +47,27 @@
     </view>
     <!-- 动态 收藏 钱包 关注 -->
     <view class='variances'>
-      
-      <view class='messageWrap'>
+
+
+
+<!--       
+      <view class='messageWrap' >
         <form bindsubmit="submit" report-submit='true' >
+
           <button form-type="submit" type="default" size="mini">
             <image src='/images/icon/myTicket.png'></image>
             <text class='messageTop'>券包</text>
           </button>
         </form>
+
+      </view>  -->
+
+      <view class='messageWrap' catchtap='todiscount'>
+        <image src='/images/icon/myTicket.png'></image>
+        <text class='messageTop'>券包</text>
       </view>
+
+
       
       <view class='messageWrap' catchtap='enshrineClick'>
         <image src='/images/icon/myStar.png'></image>

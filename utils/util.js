@@ -191,24 +191,25 @@ let getQueryString = function(url, name) { //识别普通二维码，跳转到�
     return r[2]
   } else {
     return null;
-  }
+  } 
 }
 
-
-
-// 以下   业务事件
-let addFormIdCache = function(formId){  //上传fromId
-  let url = config.GLOBAL_API_DOMAIN + 'msg/addFormIdCache?formId=' + formId, _token = _token = wx.getStorageSync('token') || '';
+// 以下，业务事件
+let addFormIdCache = function(formId){
+  let url = config.GLOBAL_API_DOMAIN + 'msg/addFormIdCache?formId=' + formId, _token = wx.getStorageSync('token') || '';;
+  console.log("url:", url)
+  console.log("_token:", _token)
   wx.request({
     url: url,
     header: {
       "Authorization": _token
     },
-    success:(res)=>{
-      console.log('res:',res)
+    success: (res) => {
+      console.log('FormIdres:',res)
     }
   })
 }
+
 
 
 

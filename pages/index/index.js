@@ -3,7 +3,7 @@ import Api from '/../../utils/config/api.js';
 import {
   GLOBAL_API_DOMAIN
 } from '/../../utils/config/config.js';
-var utils = require('../../utils/util.js')
+var utils = require('../../utils/util.js');
 var app = getApp();
 
 var village_LBS = function(that) {
@@ -517,7 +517,6 @@ Page({
 
   requestCityName(lat, lng) { //获取当前城市
     let that = this;
-    console.log("requestCityName")
     app.globalData.userInfo.lat = lat;
     app.globalData.userInfo.lng = lng;
     if (app.globalData.userInfo.city) {

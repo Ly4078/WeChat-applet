@@ -138,7 +138,7 @@ page{
   width: 8%;
 }
 
-.messageWrap:nth-child(1) .messageTop{
+.messageWrap:nth-child(1) form .messageTop{
   margin-top: -18rpx;
 }
 .messageWrap image {

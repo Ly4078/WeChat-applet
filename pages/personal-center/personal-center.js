@@ -411,11 +411,14 @@ Page({
   },
   submit: function (e) {
     let _formId = e.detail.formId;
-    wx.navigateTo({
-      url: 'my-discount/my-discount',
-    });
+    this.todiscount();
     console.log('utils:', utils)
     utils.addFormIdCache(_formId); 
+  },
+  todiscount:function(){
+    wx.navigateTo({
+      url: 'my-discount/my-discount'
+    });
   },
   carefulness: function (e) { //订单
     let id = e.currentTarget.id;

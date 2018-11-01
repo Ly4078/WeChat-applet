@@ -332,6 +332,7 @@ Page({
   //获取我的票券
   getTicketList: function() {
     let that = this;
+    let _token = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1NDE2Njg3MTAsImNyZWF0ZWQiOjE1NDEwNjM5MTAyNjEsInN1YiI6IjE1OTI2MTk3NTQ2In0.SSeAYcAqePu6DnP3zGzwI3xmeY_7FLTRKXccWR9kZ2_e0_RC8hvNH40U4hTqynhS5sbjcesBg0IKLv2N1RFFDw";
     if (!app.globalData.userInfo.userId) {
       this.findByCode();
     } else {
@@ -342,7 +343,7 @@ Page({
           "Authorization": app.globalData.token
         },
         data: {
-          userId: app.globalData.userInfo.userId,
+          // userId: app.globalData.userInfo.userId,
           isUsed: that.data.isUsed,
           page: that.data.page,
           rows: 8
