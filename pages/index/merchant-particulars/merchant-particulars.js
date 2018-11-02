@@ -675,15 +675,6 @@ Page({
       })
     }
     this.shopList();
-    // if (this.data.currentTab == 1 && this.data.reFresh) {
-    //   wx.showLoading({
-    //     title: '加载中..'
-    //   })
-    //   this.setData({
-    //     article_page: this.data.article_page + 1
-    //   });
-    //   this.merchantArt();
-    // }
   },
   buynow: function(ev) { //点击立即购买
     let skuid = ev.currentTarget.id
@@ -1273,7 +1264,6 @@ Page({
     if (id == 1) {
       wx.navigateTo({
         url: '/pages/init/init?isback=1'
-        // url: '/pages/personal-center/securities-sdb/securities-sdb?back=1'
       })
     }
   },

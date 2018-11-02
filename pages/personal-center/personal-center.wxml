@@ -18,7 +18,7 @@
   <!-- 遮罩 -->
   <view class="shadowBox" hidden="{{!isShow}}" catchtap="hiddenCall">
     <view class='shadow_inner'>
-      <view class="shadow_list onlineCall" catchtap='onlineCall'>
+      <view class="shadow_list onlineCall">
         <image class='myListImages' src='/images/icon/find_article_wechat.png'></image>
         <text class='mylistText'>在线电话</text>
         <button class="cs_button" open-type="contact" session-from="weapp">

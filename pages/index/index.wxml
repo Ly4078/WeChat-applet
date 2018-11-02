@@ -60,7 +60,7 @@
 
   <!-- 导航nav_one -->
   <view class='indexNavOne'>
-    <view wx:for="{{isfile?navs:navs2}}" wx:key="index" class='navitem' id="{{item.id}}" bindtap='handnavOne'>
+    <view wx:for="{{navs}}" wx:key="index" class='navitem' id="{{item.id}}" bindtap='handnavOne'>
       <image class="img{{index+1}}" src='{{item.img}}'></image>
       <view class="navitem_txt">{{item.name}}</view>
     </view>

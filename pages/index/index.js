@@ -9,7 +9,6 @@ var app = getApp();
 var village_LBS = function(that) {
   wx.getLocation({
     success: function(res) {
-      console.log('village_LBS:', res)
       let latitude = res.latitude;
       let longitude = res.longitude;
       that.requestCityName(latitude, longitude);
@@ -27,7 +26,7 @@ Page({
     business: [], //商家列表，推荐餐厅
     alltopics: [],
     currentTab: 0,
-    isformid:true,
+    isformid: true,
     issnap: false, //是否是临时用户
     loading: false,
     istouqu: false,
@@ -71,40 +70,12 @@ Page({
         name: '商家入驻'
       }
     ],
-    navs2: [{
-        img: 'https://xqmp4-1256079679.file.myqcloud.com/text_701070039850928092.png',
-        id: 1,
-        name: '砍价'
-      },
-      {
-        img: '/images/icon/navcaiting.png',
-        id: 2,
-        name: '餐厅'
-      }, {
-        img: '/images/icon/navshiping.png',
-        id: 4,
-        name: '微生活'
-      }, {
-        img: '/images/icon/navhuodong.png',
-        id: 5,
-        name: '商家入驻'
-      }
-    ],
     Res: [{
       img: '/images/icon/jxcanting.png',
       name: '精选餐厅',
       id: 1
     }],
-    Vid: [{
-      img: '/images/icon/duansp.png',
-      name: '短视频',
-      id: 2
-    }],
-    Vid2: [{
-      img: '/images/icon/duansp.png',
-      name: '微生活',
-      id: 2
-    }],
+
     Act: [{
       img: '/images/icon/home_sign.png',
       name: '热门活动',
@@ -149,20 +120,19 @@ Page({
     // let userInfo = wx.getStorageSync('userInfo') || {};
     // userInfo.city = userInfo.city ? userInfo.city:'十堰市'
     // app.globalData.userInfo = userInfo
-    if (txtObj.sydish && txtObj.sydish.length>0){
+    if (txtObj.sydish && txtObj.sydish.length > 0) {
       this.setData({
         fresh1: txtObj ? txtObj.fresh1 : '',
         fresh2: txtObj ? txtObj.fresh2 : '',
         fresh3: txtObj ? txtObj.fresh3 : '',
         syhotdish: txtObj ? txtObj.sydish : {},
         whhotdish: txtObj ? txtObj.whdish : {}
-      }); 
+      });
     }
     this.setData({
       bannthree,
       carousel
     });
-
   },
   onShow: function() {
     let that = this;
@@ -174,7 +144,7 @@ Page({
           city: app.globalData.userInfo.city,
           bargainListall: [],
           bargainList: [],
-          _page:1
+          _page: 1
         })
       }
     }
@@ -210,7 +180,6 @@ Page({
           that.authlogin();
         }
       } else { //是新用户，
-     
         if (app.globalData.token) {
           that.getdatamore();
         } else {
@@ -221,14 +190,12 @@ Page({
       that.findByCode();
     }
   },
-  submit:function(e){
-    console.log('submit')
+  submit: function(e) {
     let _formId = e.detail.formId;
     this.setData({
-      isformid:false
+      isformid: false
     })
-    console.log('utils:', utils)
-    utils.addFormIdCache(_formId); 
+    utils.addFormIdCache(_formId);
   },
   // 初始化start
   findByCode: function() { //通过code查询用户信息
@@ -268,7 +235,7 @@ Page({
     })
   },
 
-  getOpendId: function() {  //获取用户unionid
+  getOpendId: function() { //获取用户unionid
     let that = this;
     wx.login({
       success: res => {
@@ -334,7 +301,7 @@ Page({
       }
     })
   },
-  createNewUser: function() {   //创建新用户 userID
+  createNewUser: function() { //创建新用户 userID
     let that = this;
     wx.request({
       url: that.data._build_url + 'auth/addUserUnionId?openId=' + app.globalData.userInfo.openId + '&unionId=' + app.globalData.userInfo.unionId,
@@ -366,9 +333,7 @@ Page({
     };
     Api.addUserUnionId(_parms).then((res) => {
       if (res.data.code = 0) {
-        // if (res.data.data.mobile) {
         that.authlogin();
-        // }
       }
     })
   },
@@ -403,13 +368,19 @@ Page({
         wx.setStorageSync("txtObj", res.data);
         if (res.data.flag == 0) { //0显示  
           app.globalData.isflag = true;
+          let _navs = that.data.navs;
+          _navs[2].name = "短视频";
           that.setData({
-            isfile: true
+            isfile: true,
+            navs: _navs
           })
         } else if (res.data.flag == 1) { //1不显示
           app.globalData.isflag = false;
+          let _navs = that.data.navs;
+          _navs[2].name = "微生活";
           that.setData({
-            isfile: false
+            isfile: false,
+            navs: _navs
           })
         }
         if (res.data.fresh1) {
@@ -464,7 +435,6 @@ Page({
     }
   },
   openSetting() { //打开授权设置界面
-    console.log('openSetting')
     let that = this;
     that.setData({
       isshowlocation: false
@@ -472,7 +442,6 @@ Page({
     wx.openSetting({
       success: (res) => {
         if (res.authSetting['scope.userLocation']) {
-          console.log('11111')
           village_LBS(that);
         } else {
           that.setData({
@@ -484,12 +453,13 @@ Page({
   },
 
   getUserlocation: function() { //获取用户位置经纬度
-    let that = this,_userInfo=app.globalData.userInfo;
+    let that = this,
+      _userInfo = app.globalData.userInfo;
     // let lat = '32.6226',
     //   lng = '110.77877';
     // that.requestCityName(lat, lng);
     // return
-    if (_userInfo.lat && _userInfo.lat && _userInfo.city){
+    if (_userInfo.lat && _userInfo.lat && _userInfo.city) {
       return
     }
     wx.getLocation({
@@ -573,7 +543,7 @@ Page({
     if (app.globalData.userInfo.lat && app.globalData.userInfo.lng) {
       this.setData({
         bargainList: [],
-        _page:1
+        _page: 1
       });
       this.hotDishList();
       this.getsecKill();
@@ -589,9 +559,9 @@ Page({
   // 初始化end
   activityBanner: function() { //获取活动banner图
     let that = this;
-    if (this.data.activityImg.length>0){
-    
-    }else{
+    if (this.data.activityImg.length > 0) {
+
+    } else {
       Api.activityImg().then((res) => {
         if (res.data.code == 0) {
           if (res.data.data && res.data.data[9] && res.data.data[9].imgUrl) {
@@ -610,7 +580,7 @@ Page({
   getcarousel: function() { //轮播图
     let that = this,
       _parms = {};
-    if (this.data.carousel.length>0) {} else {
+    if (this.data.carousel.length > 0) {} else {
       _parms = {
         token: app.globalData.token
       }
@@ -674,7 +644,7 @@ Page({
               loading: false
             })
 
-          } 
+          }
         }
       })
     } else {
@@ -830,7 +800,7 @@ Page({
       }
     }
   },
- 
+
   //回到顶部
   toTop() {
     wx.pageScrollTo({
@@ -852,54 +822,16 @@ Page({
     };
     Api.listForHomePage(_parms).then((res) => {
       if (res.data.code == 0) {
-        _list = res.data.data;
-        if (!_list) {
+        if (!res.data.data && res.data.data.length > 0) {
           that.gettoplistFor();
         } else {
           // bannthree
-          let listarr = _list.slice(0, 3);
+          let listarr = res.data.data.slice(0, 3);
           that.setData({
             bannthree: listarr
           })
           wx.setStorageSync('bannthree', listarr) //商家广告位-砍价拼菜banner图
         }
-        return false;
-        let _parms = {
-          locationX: app.globalData.userInfo.lng,
-          locationY: app.globalData.userInfo.lat,
-          browSort: 2,
-          page: 1,
-          token: app.globalData.token
-        }
-        Api.shoplistForHomePage(_parms).then((res) => {
-          if (res.data.code == 0) {
-            wx.hideLoading()
-            let arr = [];
-            _shop = res.data.data;
-            for (let i = 0; i < _list.length; i++) {
-              for (let j in _shop) {
-                if (j == _list[i].type) {
-                  let obj = {
-                    img: _list[i],
-                    cate: that.data.sort[i],
-                    data: _shop[j]
-                  }
-                  arr.push(obj)
-                }
-              }
-            };
-            let [...newarr] = arr;
-            that.setData({
-              alltopics: newarr
-            })
-          } else {
-            wx.hideLoading()
-            wx.showToast({
-              title: res.data.message,
-              icon: 'none',
-            })
-          }
-        });
       }
     })
   },
@@ -914,7 +846,6 @@ Page({
       url: 'user-seek/user-seek',
     })
   },
-
 
   toNewExclusive: function(e) { //跳转至新人专享页面
     let id = e.currentTarget.id,
@@ -985,18 +916,16 @@ Page({
   //  注册start
   closetel: function(e) { //新用户提示按钮选项
     let id = e.target.id;
-    // clearInterval(this.data.settime)
     this.setData({
       issnap: false
     })
     if (id == 1) {
       wx.navigateTo({
         url: '/pages/init/init?isback=1'
-        // url: '/pages/personal-center/securities-sdb/securities-sdb?back=1'
       })
     }
   },
-  
+
   // 螃蟹使用攻略
   crabSteamed: function(e) {
     wx.navigateTo({
@@ -1012,7 +941,7 @@ Page({
       reg3 = new RegExp("actId"),
       reg4 = new RegExp("type"),
       arr = this.data.bannthree;
-    
+
     if (id == 3) { //点击商家广告位，进入指定商家页面
       let str = arr[2].linkUrl;
       if (reg1.test(str)) {
@@ -1042,7 +971,7 @@ Page({
       url: 'crabShopping/crabShopping?currentTab=0' + '&spuval=' + spuId
     })
   },
-  
+
   toStore() { //跳转至到店自提列表
     wx.navigateTo({
       url: 'crabShopping/crabShopping?currentTab=2'
