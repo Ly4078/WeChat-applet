@@ -13,7 +13,7 @@ Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
     second: 60,
-    isBack:false,
+    isBack: false,
     text: '获取验证码'
   },
 
@@ -23,7 +23,8 @@ Page({
   onLoad: function(options) {
     var _parms = app.globalData.currentScene.query,
       _values = '',
-      valus = '',that = this;
+      valus = '',
+      that = this;
     for (var key in _parms) {
       _values += key + "=" + _parms[key] + "&";
     }
@@ -37,14 +38,14 @@ Page({
     }
     this.setData({
       navigetToUrl: path,
-      isBack: options.isback=='1'?true:false
+      isBack: options.isback == '1' ? true : false
     })
     let loginData = app.globalData.loginData;
     let sessionKey = app.globalData.sessionKey;
     if (options.types == 2) { //用户点击微信一键登录，但是没有获取到微信手机号码
       return
     } else {
-      that.createNewUser(sessionKey, loginData.iv, loginData.encryptedData,1)
+      that.createNewUser(sessionKey, loginData.iv, loginData.encryptedData, 1)
     }
 
   },
@@ -84,7 +85,7 @@ Page({
           wx.setStorageSync('token', _token)
           wx.setStorageSync('userInfo', userInfo);
           var mobile = String(userInfo.mobile);
-          if (mobile.length >= 11 && types=='1') {
+          if (mobile.length >= 11 && types == '1') {
             wx.showModal({
               title: '提示',
               content: '您已经绑定过手机号码!',
@@ -169,7 +170,7 @@ Page({
     let that = this;
     let phone = this.data.phoneNumber;
     let second = that.data.second;
-    let vaild_rule = /^(13[0-9]|14[5-9]|15[012356789]|166|17[0-8]|18[0-9]|19[8-9])[0-9]{8}$/;
+    let vaild_rule  = /^[1][3456789][0-9]{9}$/;;
     if (!vaild_rule.test(phone)) {
       wx.showToast({
         title: '请输入正确的手机号码',
@@ -217,7 +218,10 @@ Page({
     })
   },
   isVerity: function(e) {
-    let that = this, _formId = e.detail.formId, phone = this.data.phoneNumber, _parms = {};
+    let that = this,
+      _formId = e.detail.formId,
+      phone = this.data.phoneNumber,
+      _parms = {};
     let vaild_rule = /^(13[0-9]|14[5-9]|15[012356789]|166|17[0-8]|18[0-9]|19[8-9])[0-9]{8}$/;
     if (!vaild_rule.test(phone)) {
       wx.showToast({
@@ -243,23 +247,23 @@ Page({
       title: '登录中...',
     })
     Api.isVerify(_parms).then((res) => {
-      if (res.data.code==0) {
+      if (res.data.code == 0) {
         wx.setStorageSync('userInfo', res.data.data)
         app.globalData.userInfo = res.data.data;
         app.globalData.userInfo.userId = res.data.data.id;
-        that.authlogin(res.data.data.userName,2)
+        that.authlogin(res.data.data.userName, 2)
       } else {
         wx.hideLoading();
         wx.showToast({
           title: '验证码错误',
-          icon:'none'
+          icon: 'none'
         })
         let loginData = app.globalData.loginData;
         let sessionKey = app.globalData.sessionKey;
         that.createNewUser(sessionKey, loginData.iv, loginData.encryptedData, 3)
       }
     })
-    utils.addFormIdCache(_formId); 
+    utils.addFormIdCache(_formId);
   },
   timeRuning: function() {
     let that = this;
@@ -311,7 +315,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
-    
+
   },
 
   /**
