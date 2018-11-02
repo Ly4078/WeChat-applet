@@ -169,7 +169,8 @@ Page({
     let that = this;
     let phone = this.data.phoneNumber;
     let second = that.data.second;
-    if (!(/^1[34578]\d{9}$/.test(phone))) {
+    let vaild_rule = /^(13[0-9]|14[5-9]|15[012356789]|166|17[0-8]|18[0-9]|19[8-9])[0-9]{8}$/;
+    if (!vaild_rule.test(phone)) {
       wx.showToast({
         title: '请输入正确的手机号码',
         icon: "none"
@@ -217,7 +218,8 @@ Page({
   },
   isVerity: function(e) {
     let that = this, _formId = e.detail.formId, phone = this.data.phoneNumber, _parms = {};
-    if (!(/^1[34578]\d{9}$/.test(phone))) {
+    let vaild_rule = /^(13[0-9]|14[5-9]|15[012356789]|166|17[0-8]|18[0-9]|19[8-9])[0-9]{8}$/;
+    if (!vaild_rule.test(phone)) {
       wx.showToast({
         title: '请输入正确的手机号码',
         icon: "none"
