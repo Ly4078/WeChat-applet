@@ -370,7 +370,7 @@ Page({
         }
       }
       wx.request({
-        url: this.data._build_url + 'zan/add?refId=' + that.data.refId + '&type=4',
+        url: this.data._build_url + 'zan/add?refId=' + id + '&type=4',
         method: 'POST',
         header: {
           "Authorization": app.globalData.token

@@ -545,7 +545,7 @@ Page({
       }
       _values = _values.substring(0, _values.length - 1);
       wx.request({
-        url: that.data._build_url + 'zan/add?' + _values,
+        url: that.data._build_url + 'zan/delete?' + _values,
         header: {
           "Authorization": app.globalData.token
         },
