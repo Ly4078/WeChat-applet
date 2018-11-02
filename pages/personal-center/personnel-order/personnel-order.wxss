@@ -30,7 +30,7 @@ page {
   line-height: 90rpx;
   font-size: 24rpx;
   display: inline-block;
-  width: 33.33%;
+  width: 20%;
   color: #808080;
   box-sizing: border-box;
 }

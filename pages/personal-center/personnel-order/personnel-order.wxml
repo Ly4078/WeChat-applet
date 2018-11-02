@@ -14,6 +14,7 @@
       <view class="myorder_tab_list {{currentTab=='1' ? 'on' : ''}}" data-current="1" bindtap="clickTab">待付款</view>
       <view class="myorder_tab_list {{currentTab=='2' ? 'on' : ''}}" data-current="2" bindtap="clickTab">已完成</view>
       <view class="myorder_tab_list {{currentTab=='10' ? 'on' : ''}}" data-current="10" bindtap="clickTab">已取消</view>
+       <view class="myorder_tab_list {{currentTab=='4' ? 'on' : ''}}" data-current="4" bindtap="clickTab">退款</view>
     </view>
   </view>
   <view class='zhanwei'></view>

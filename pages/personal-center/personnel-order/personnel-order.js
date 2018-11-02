@@ -177,10 +177,20 @@ Page({
       token: app.globalData.token
     };
     if (val) {
-      _parms.status = val 
+      if (this.data.elephant ==5){
+        _parms.otherStatus = val 
+      }else{
+        _parms.status = val 
+      }
+     
     }
     if (!val && this.data.elephant !=0){
-      _parms.status = this.data.commoditys[this.data.elephant].id
+      if (this.data.elephant == 5) {
+        _parms.otherStatus = this.data.commoditys[this.data.elephant].id
+      }else{
+        _parms.status = this.data.commoditys[this.data.elephant].id
+      }
+     
     }
     requestTask[0] = true;
     Api.orderInfoList(_parms).then((res)=>{
@@ -244,8 +254,14 @@ Page({
       token: app.globalData.token
     };
     if (this.data.currentTab) {
-      _parms.soStatus = this.data.currentTab,
-        _parms.rows = 20
+      if (this.data.currentTab ==4){
+        _parms.otherStatus = this.data.currentTab,
+          _parms.rows = 20
+      }else{
+        _parms.soStatus = this.data.currentTab,
+          _parms.rows = 20
+      }
+      
     }
     if (this.data.currentTab == 1 || !this.data.currentTab) {
       _parms.rows = 20
