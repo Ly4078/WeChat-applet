@@ -137,8 +137,8 @@ Page({
     vm.antifriction(); // 水平一行字滚动完了再按照原来的方向滚动
     vm.bearing(); // 第一个字消失后立即从右边出现
   },
-
-  merchantInit: function() { //初始化
+  //初始化
+  merchantInit: function() { 
     let that = this;
     if (app.globalData.userInfo.userId) {
       if (app.globalData.userInfo.mobile) {
@@ -163,7 +163,8 @@ Page({
       this.findByCode();
     }
   },
-  findByCode: function() { //通过code查询用户信息
+  //通过code查询用户信息
+  findByCode: function() { 
     let that = this;
     wx.login({
       success: res => {
@@ -197,7 +198,8 @@ Page({
       }
     })
   },
-  authlogin: function() { //获取token
+   //获取token
+  authlogin: function() {
     let that = this;
     wx.request({
       url: this.data._build_url + 'auth/login?userName=' + app.globalData.userInfo.userName,
@@ -221,7 +223,8 @@ Page({
       }
     })
   },
-  againgetinfo: function() { //点击获取用户unionId
+  //点击获取用户unionId
+  againgetinfo: function() { 
     let that = this;
     wx.getUserInfo({
       withCredentials: true,
@@ -262,7 +265,7 @@ Page({
       }
     })
   },
-
+  //查询是否已领取免费券
   getsetget: function() {
     let that = this;
     wx.request({
@@ -295,7 +298,8 @@ Page({
       }
     })
   },
-  getDishList() { //参赛菜品列表
+  //参赛菜品列表
+  getDishList() { 
     let dateStr = new Date();
     let milisecond = new Date(this.dateConv(dateStr)).getTime() + 86400000;
     let _parms = {
@@ -321,7 +325,8 @@ Page({
       }
     });
   },
-  toDishDetail(e) { //跳转至菜品详情
+  //跳转至菜品详情
+  toDishDetail(e) { 
     if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
@@ -332,6 +337,7 @@ Page({
       url: '../../activityDetails/dish-detail/dish-detail?actId=37&skuId=' + e.target.id
     })
   },
+  //数量
   availableVote() {
     let _parms = {
       actId: 37,
@@ -353,7 +359,8 @@ Page({
       });
     }
   },
-  castvote: function(e) { //对菜品投票
+  //对菜品投票
+  castvote: function(e) { 
     let that = this,
       id = e.currentTarget.id;
     if (!this.data.isclick) {
@@ -438,6 +445,7 @@ Page({
       url: '../voucher-details/voucher-details?id=' + prSkuId + "&skuId=" + skuId + "&sell=" + jianAmount + "&inp=" + manAmount + "&actId=37&shopId=" + shopId
     })
   },
+  //获取页面参数
   antifriction: function() {
     var vm = this;
     var interval = setInterval(function() {
@@ -454,6 +462,7 @@ Page({
       }
     }, vm.data.interval);
   },
+  //页面参数
   bearing: function() {
     var vm = this;
     var interval = setInterval(function() {
@@ -480,6 +489,7 @@ Page({
       }
     }, vm.data.interval);
   },
+  //查询是否支持买单
   selectForOne: function(val) {
     let _parms = {
       shopId: val ? val : this.data.shopid,
@@ -516,7 +526,8 @@ Page({
     this.getsetget();
     this.hotDishList();
   },
-  changeBar() { //点击拼菜展开
+  //点击拼菜展开
+  changeBar() { 
     this.setData({
       isBarg: !this.data.isBarg
     });
@@ -524,7 +535,8 @@ Page({
   },
   hotDishList() { //拼价砍菜列表
     //browSort 0附近 1销量 2价格
-    let _parms = {
+    let _parms = {},that=this;
+    _parms = {
       zanUserId: app.globalData.userInfo.userId,
       browSort: 1,
       isDeleted: 0,
@@ -537,18 +549,18 @@ Page({
     };
     Api.partakerList(_parms).then((res) => {
       if (res.data.code == 0) {
-        this.setData({
+        that.setData({
           Bargainlist: []
         });
         let _list = res.data.data.list,
-          _oldData = this.data.Bargainlist,
+          _oldData = that.data.Bargainlist,
           arr = [];
         if (_list && _list.length) {
           arr = _oldData.concat(_list);
-          if (!this.data.isBarg) {
+          if (!that.data.isBarg) {
             arr = arr.splice(0, 3);
           }
-          this.setData({
+          that.setData({
             Bargainlist: arr,
             foodTotal:res.data.data.total
           })
@@ -569,36 +581,38 @@ Page({
       this.setData({
         issnap: true
       })
-      return false
-    }
-    let _refId = e.currentTarget.id,
-      _shopId = e.currentTarget.dataset.shopid,
-      _agioPrice = e.currentTarget.dataset.agioprice,
-      _sellPrice = e.currentTarget.dataset.sellprice;
-    let _parms = {
-      // userId: app.globalData.userInfo.userId,
-      skuId: _refId,
-      token: app.globalData.token
-    };
-    Api.vegetables(_parms).then((res) => {
-      if (res.data.data.length > 0) {
-        wx.showModal({
-          title: '您已发起了砍价，是否查看状态',
-          content: '',
-          complete(e) {
-            if (e.confirm) {
-              wx.navigateTo({
-                url: '../bargainirg-store/pastTense/pastTense'
-              });
+    }else{
+      let _refId = e.currentTarget.id,
+        _shopId = e.currentTarget.dataset.shopid,
+        _agioPrice = e.currentTarget.dataset.agioprice,
+        _sellPrice = e.currentTarget.dataset.sellprice,
+        _parms = {};
+      _parms = {
+        // userId: app.globalData.userInfo.userId,
+        skuId: _refId,
+        token: app.globalData.token
+      };
+      Api.vegetables(_parms).then((res) => {
+        if (res.data.data.length > 0) {
+          wx.showModal({
+            title: '您已发起了砍价，是否查看状态',
+            content: '',
+            complete(e) {
+              if (e.confirm) {
+                wx.navigateTo({
+                  url: '../bargainirg-store/pastTense/pastTense'
+                });
+              }
             }
-          }
-        })
-      } else {
-        wx.navigateTo({
-          url: '../bargainirg-store/AprogressBar/AprogressBar?refId=' + _refId + '&shopId=' + _shopId + '&skuMoneyMin=' + _agioPrice + '&skuMoneyOut=' + _sellPrice
-        })
-      }
-    });
+          })
+        } else {
+          wx.navigateTo({
+            url: '../bargainirg-store/AprogressBar/AprogressBar?refId=' + _refId + '&shopId=' + _shopId + '&skuMoneyMin=' + _agioPrice + '&skuMoneyOut=' + _sellPrice
+          })
+        }
+      });
+    }
+    
   },
   getstoredata() { //获取店铺详情数据   
     let id = this.data.shopid, that = this;
@@ -635,9 +649,8 @@ Page({
     })
   },
   selectByShopId: function() { //获取商家活动列表
-    let id = this.data.shopid;
-    let that = this;
-    let _parms = {
+    let id = this.data.shopid,that = this,_parms={};
+    _parms = {
       shopId: id,
       token: app.globalData.token
     }
@@ -677,10 +690,9 @@ Page({
     this.shopList();
   },
   buynow: function(ev) { //点击立即购买
-    let skuid = ev.currentTarget.id
-    let _sell = '',
+    let skuid = ev.currentTarget.id, _sell = '',
       _inp = '',
-      _rule = ''
+      _rule = '';
     for (let i = 0; i < this.data.activity.length; i++) {
       if (skuid == this.data.activity[i].skuId) {
         _sell = this.data.activity[i].sellPrice;
@@ -716,14 +728,16 @@ Page({
       }
     })
   },
-  fooddetails: function(e) {
+  //查看推荐菜详情
+  fooddetails: function(e) { 
     let ind = e.currentTarget.id
     let shopId = this.data.shopid
     wx.navigateTo({
       url: 'food-details/food-details?id=' + ind + '&shopid=' + shopId
     })
   },
-  getpackage: function() { //套餐数据
+  //套餐数据
+  getpackage: function() { 
     let that = this;
     wx.request({
       url: that.data._build_url + 'sku/agioList',
@@ -760,14 +774,6 @@ Page({
 
 
 
-  },
-  liuynChange: function(e) {
-    var that = this;
-    that.setData({
-      llbView: true,
-      pid: e.currentTarget.dataset.id,
-      to_user_id: e.currentTarget.dataset.user
-    })
   },
   //餐厅推荐菜
   recommendedRestaurant: function() {
@@ -872,10 +878,11 @@ Page({
       })
     }else{
       wx.showToast({
-        title: '高家没有设置联系电话',
+        title: '商家没有设置联系电话',
       })
     }
   },
+  //查看店铺图片
   moreImages: function(event) {
     if (!this.data.isshowlocation){
       wx.navigateTo({
@@ -885,7 +892,8 @@ Page({
       this.openSetting();
     }
   },
-  openSetting() {//打开授权设置界面
+  //打开授权设置界面
+  openSetting() {
     let that = this;
     that.setData({
       isshowlocation: false
@@ -909,7 +917,7 @@ Page({
     })
 
   },
-  //打开地图导航
+  //打开地图导航，先查询是否已授权位置
   TencentMap: function(event) {
     let that = this;
     if (event && event.type == 'tap') {
@@ -945,7 +953,8 @@ Page({
       }
     })
   },
-  getUserlocation: function () { //获取用户位置经纬度
+   //获取用户位置经纬度
+  getUserlocation: function () {
     let that = this;
     wx.getLocation({
       type: 'wgs84',
@@ -968,7 +977,7 @@ Page({
     })
   },
   //获取城市
-  requestCityName(lat, lng) { //获取当前城市
+  requestCityName(lat, lng) { 
     let that = this;
     if (!lat && !lng) {
       this.TencentMap();
@@ -999,7 +1008,7 @@ Page({
       })
     }
   },
-  //打开地图
+  //打开地图，已授权位置
   openmap: function() {
     let that = this;
     wx.getLocation({
@@ -1081,7 +1090,7 @@ Page({
   //评论点赞
   toLike: function(event) {
     let that = this
-    if (app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+    if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
       })
@@ -1133,7 +1142,7 @@ Page({
       id = event.currentTarget.id,
       cmtType = "",
       index = "";
-    if (app.globalData.userInfo.mobile == 'a' || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+    if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
       })
@@ -1197,66 +1206,44 @@ Page({
       }
     })
   },
-  //收藏
+  //收藏  / 取消收藏
   onCollect: function(event) {
-    let that = this;
-    if (app.globalData.userInfo.mobile == 'a' || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+    let that = this, url = "", _title="";
+    if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
       })
-      return false
-    }
-    wx.request({
-      url: that.data._build_url + 'fvs/add?shopId=' + that.data.shopid,
-      method: "POST",
-      header: {
-        "Authorization": app.globalData.token
-      },
-      success: function(res) {
-        if (res.data.code == 0) {
-          that.setData({
-            isCollected: !that.data.isCollected
-          })
-          wx.showToast({
-            mask: true,
-            icon: 'none',
-            title: "收藏成功"
-          }, 1500)
-        }
+    }else{
+      if (this.data.isCollected) {
+        url = that.data._build_url + 'fvs/add?shopId=' + that.data.shopid;
+        _title = '已取消';
+      } else {
+        url = that.data._build_url + 'fvs/delete?shopId=' + that.data.shopid;
+        _title = '收藏成功';
       }
-    })
-  },
-  //取消收藏
-  cancelCollect: function() {
-    let that = this;
-    if (app.globalData.userInfo.mobile == 'a' || app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
-      this.setData({
-        issnap: true
+      wx.request({
+        url: url,
+        method: "POST",
+        header: {
+          "Authorization": app.globalData.token
+        },
+        success: function (res) {
+          if (res.data.code == 0) {
+            that.setData({
+              isCollected: !that.data.isCollected
+            })
+            wx.showToast({
+              mask: true,
+              icon: 'none',
+              title: _title
+            }, 1500)
+          }
+        }
       })
-      return false
     }
-    wx.request({
-      url: that.data._build_url + 'fvs/delete?shopId=' + that.data.shopid,
-      method: "POST",
-      header: {
-        "Authorization": app.globalData.token
-      },
-      success: function(res) {
-        if (res.data.code == 0) {
-          that.setData({
-            isCollected: !that.data.isCollected
-          })
-          wx.showToast({
-            mask: true,
-            icon: 'none',
-            title: "已取消"
-          }, 1500)
-        }
-      }
-    })
   },
-  
-  closetel: function(e) { //确定or取消
+  //确定or取消   未注册用户
+  closetel: function(e) {
     let id = e.target.id;
     this.setData({
       issnap: false
@@ -1267,6 +1254,7 @@ Page({
       })
     }
   },
+  //领取/使用免费券
   receive: function() {
     let that = this,
       _parms = {},
@@ -1314,12 +1302,14 @@ Page({
       })
     }
   },
+  //券
   moreinfo: function(e) {
     let _id = e.currentTarget.id;
     wx.navigateTo({
       url: './coupon_details/coupon_details?id=' + _id + '&shopid=' + this.data.shopid,
     })
   },
+  //查看全部
   clickactmore: function() {
     this.setData({
       isactmore: !this.data.isactmore,
@@ -1337,6 +1327,7 @@ Page({
       })
     }
   },
+  //查看部分
   clickmore: function() {
     this.setData({
       ismore: !this.data.ismore,
@@ -1354,13 +1345,15 @@ Page({
       })
     }
   },
+  //去代金券页面
   gotouse: function() {
     wx.navigateTo({
       url: '../voucher-details/voucher-details?cfrom=pack',
     })
   },
-  shopList() { //商家推荐列表
-  let that = this;
+  //商家推荐列表
+  shopList() { 
+    let that = this;
     if (!app.globalData.userInfo.lng && !app.globalData.userInfo.lat) {
       this.TencentMap();
       return;
@@ -1395,7 +1388,8 @@ Page({
       }
     })
   },
-  toShopDetail(e) { //跳转至店铺详情
+  //跳转至店铺详情
+  toShopDetail(e) { 
     let that = this;
     this.setData({
       shopid: e.currentTarget.id,
@@ -1419,7 +1413,8 @@ Page({
     })
     this.onShow();
   },
-  paymentPay: function() { //买单
+  //买单
+  paymentPay: function() { 
     if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
@@ -1430,12 +1425,14 @@ Page({
       })
     }
   },
+  //查看全部动态
   toActivity() {
     wx.navigateTo({
       url: 'shop-activity/shop-activity?shopid=' + this.data.shopid,
     })
   },
-  toComment() { //去评论
+  //去评论
+  toComment() { 
     if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
@@ -1446,9 +1443,11 @@ Page({
       url: 'answer-comment/answer-comment?shopid=' + this.data.shopid + '&actId=' + this.data.actId
     })
   },
+  //页面滚动
   onPageScroll() {
     this.queryMultipleNodes('#merchantBox');
   },
+  //页面滚动
   queryMultipleNodes: function(dom) {
     var query = wx.createSelectorQuery(),
       that = this;
@@ -1464,9 +1463,7 @@ Page({
       });
     })
   },
-  bindscroll(e) {
-    console.log(e);
-  },
+  //时间转换
   dateConv: function(dateStr) {
     let year = dateStr.getFullYear(),
       month = dateStr.getMonth() + 1,
@@ -1475,8 +1472,8 @@ Page({
     today = today > 9 ? today : "0" + today;
     return year + "-" + month + "-" + today;
   },
-
-  crabSection: function() { //店铺螃蟹栏
+//店铺螃蟹栏
+  crabSection: function() { 
     wx.navigateTo({
       url: '../crabShopping/crabShopping?currentTab=1',
     })

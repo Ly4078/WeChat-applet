@@ -39,7 +39,7 @@
           <view class='detailsName-genre'>
             <view class="details-NameBox">
               <text class='details-Name'>{{store_details.shopName}}</text>
-              <image wx:if="{{isCollected}}" src="/images/icon/yellowstar.png" catchtap="cancelCollect"></image>
+              <image wx:if="{{isCollected}}" src="/images/icon/yellowstar.png" catchtap="onCollect"></image>
               <image wx:else src="/images/icon/blackstar.png" catchtap="onCollect"></image>
             </view>
             <view class='details-form'>
