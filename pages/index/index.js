@@ -20,7 +20,6 @@ Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
     city: "",
-    _token: '',
     isshowlocation: false, //是否显示请求位置授权弹框
     carousel: [], //轮播图
     business: [], //商家列表，推荐餐厅
@@ -45,8 +44,6 @@ Page({
     syhotdish: [],
     hotdish: [],
     bannthree: [],
-    isfile: false,
-    iskancai: false,
     navs: [{
         img: 'https://xqmp4-1256079679.file.myqcloud.com/text_701070039850928092.png',
         id: 1,
@@ -75,7 +72,6 @@ Page({
       name: '精选餐厅',
       id: 1
     }],
-
     Act: [{
       img: '/images/icon/home_sign.png',
       name: '热门活动',
@@ -99,7 +95,6 @@ Page({
   },
   onLoad: function(options) {
     let that = this;
-
     //版本更新
     const updateManager = wx.getUpdateManager();
     updateManager.onCheckForUpdate(function(res) {
@@ -371,7 +366,6 @@ Page({
           let _navs = that.data.navs;
           _navs[2].name = "短视频";
           that.setData({
-            isfile: true,
             navs: _navs
           })
         } else if (res.data.flag == 1) { //1不显示
@@ -379,7 +373,6 @@ Page({
           let _navs = that.data.navs;
           _navs[2].name = "微生活";
           that.setData({
-            isfile: false,
             navs: _navs
           })
         }
@@ -394,7 +387,6 @@ Page({
           let _Bargain = that.data.Bargain;
           _Bargain[0].name = '拼菜砍价';
           that.setData({
-            iskancai: true,
             Bargain: _Bargain
           })
         } else if (res.data.kancai == 1) { //砍价1不显示
@@ -403,7 +395,6 @@ Page({
           _Bargain[0].name = '精选美食';
           _navs = _navs.slice(1, 4);
           that.setData({
-            iskancai: false,
             Bargain: _Bargain,
             navs: _navs
           })
