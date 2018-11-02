@@ -211,7 +211,7 @@ Page({
     })
   },
   setcmtadd: function() { //新增文章评论
-    let _values = "", _parms = {},that = this;
+    let _values = "", _parms = {},that = this, _url = '';
     if (!this.data.commentVal) {
       wx.showToast({
         title: '请输入评论内容',
@@ -237,13 +237,13 @@ Page({
       // nickName: app.globalData.userInfo.nickName,
 
     }
-
     for (var key in _parms) {
       _values += key + "=" + _parms[key] + "&";
     }
     _values = _values.substring(0, _values.length - 1);
+    _url = encodeURI(that.data._build_url + 'cmt/add?' + _values);
     wx.request({
-      url: that.data._build_url + 'cmt/add?' + _values,
+      url: _url,
       header: {
         "Authorization": app.globalData.token
       },

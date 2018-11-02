@@ -74,7 +74,7 @@
     "pages/personal-center/personnel-order/personnel-order",
     "pages/personal-center/popularize/popularize",
     "pages/activityDetails/holdingActivity/holdingActivity",
-    "pages/productCategory/productCategory"
+    "pages/index/productCategory/productCategory"
   ],
   "window": {
     "backgroundTextStyle": "dark",
@@ -96,13 +96,6 @@
         "text": "首页",
         "iconPath": "images/icon/home_tab_home.png",
         "selectedIconPath": "images/icon/home_tab_homeed.png"
-      },
-      {
-        "selectedColor": "#FF4411",
-        "pagePath": "pages/productCategory/productCategory",
-        "text": "分类",
-        "iconPath": "images/icon/home_tab_huodong.png",
-        "selectedIconPath": "images/icon/home_tab_huodonged.png"
       },
       {
         "selectedColor": "#FF4411",

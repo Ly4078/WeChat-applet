@@ -65,6 +65,14 @@ Page({
         img: '/images/icon/navhuodong.png',
         id: 5,
         name: '商家入驻'
+      }, {
+        img: '/images/icon/home.png',
+        id: 6,
+        name: '酒店'
+      }, {
+        img: '/images/icon/mountain.png',
+        id: 7,
+        name: '景点'
       }
     ],
     Res: [{
@@ -729,6 +737,10 @@ Page({
     } else if (id == 5) { //商家入驻  APP下载
       wx.navigateTo({
         url: '../../pages/index/download-app/download?isshop=ind',
+      })
+    } else if (id == 6 || id == 7) { //酒店景点
+      wx.navigateTo({
+        url: '../../pages/index/productCategory/productCategory',
       })
     }
   },
