@@ -273,3 +273,10 @@ page {
   margin-top:20rpx;
 }
 
+
+.tomsg{
+  width: 40rpx;
+  height: 40rpx;
+  background: red;
+}
+

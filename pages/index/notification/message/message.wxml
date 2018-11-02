@@ -1,0 +1,8 @@
+<!--pages/index/notification/message/message.wxml-->
+
+<view class='msgbox' wx:for="{{data}}" wx:key="{{index}}" id="{{item.id}}" bindtap='handItem'>
+   
+  <view class='msgtitle'><text class='reddot' wx:if="{{item.isread}}"></text>{{item.title}}</view>
+  <view class='msgdate'>{{item.date}}</view>
+  <view class='msgcontent'>{{item.content}}</view>
+</view>

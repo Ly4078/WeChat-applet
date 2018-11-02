@@ -10,6 +10,8 @@
     "pages/index/crabShopping/crabDetails/crabDetails",
     "pages/index/crabShopping/voucherDetails/voucherDetails",
     "pages/index/crabShopping/crabShopping",
+    "pages/index/notification/notification",
+    "pages/index/notification/message/message",
     "pages/index/crabShopping/superMarket/superMarket",
     "pages/index/crabShopping/superMarket/storeOrder/storeOrder",
     "pages/index/crabShopping/superMarket/orderDetail/orderDetail",

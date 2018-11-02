@@ -45,6 +45,7 @@
     <view class="usingTheVolumeBox" bindtap="seekTap">
       <image class="usingTheVolume" src="/images/icon/home_bar_search.png"></image>
     </view>
+    <!-- <view class='tomsg' bindtap='tomsg'></view> -->
   </view>
 
 

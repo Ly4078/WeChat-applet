@@ -1,0 +1,13 @@
+<!--pages/index/notification/notification.wxml-->
+
+<view class='notifBbox' wx:for="{{data}}" wx:key="{{index}}" id="{{index}}" bindtap='handItem'>
+  <view class='num'>{{item.news}}</view>
+  <image src="{{item.imgUrl}}" class='notifleft'></image>
+  <view class='notifright'>
+    <view class='notifttop'><text>{{item.name}}</text><text>{{item.date}}</text></view>
+    <view class='notiftbot'>{{item.content}}</view>
+  </view>
+</view>
+
+
+

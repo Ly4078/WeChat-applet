@@ -988,5 +988,12 @@ Page({
     wx.navigateTo({
       url: 'crabShopping/crabShopping?currentTab=1'
     })
+  },
+
+  //去消息通知页面
+  tomsg:function(){
+    wx.navigateTo({
+      url: '/pages/index/notification/notification',
+    })
   }
 })

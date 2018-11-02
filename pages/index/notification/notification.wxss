@@ -1,0 +1,65 @@
+/* pages/index/notification/notification.wxss */
+page{
+  background-color: #F5F5FA;
+  width: 100%;
+  height: 100%;
+}
+
+.notifBbox{
+  width: 704rpx;
+  height: 74rpx;
+  padding: 23rpx;
+  background: #fff;
+  border: 1rpx solid #F5F5FA;
+  position: relative;
+}
+.notifleft{
+  width: 66rpx;
+  height: 66rpx;
+  margin: 4rpx;
+  float: left;
+}
+.notifright{
+  color: #191919;
+  font-size: 30rpx;
+  margin-left:36rpx;
+  width:590rpx;
+  float: right;
+  overflow: hidden;
+}
+.notifttop ,.notiftbot{
+  width: 100%;
+  height: 37rpx;
+  line-height: 37rpx;
+}
+.notifttop text:nth-child(1){
+  float: left;
+  font-size: 30rpx;
+}
+.notifttop text:nth-child(2){
+  float: right;
+  color: #808080;
+  font-size: 22rpx;
+}
+.notiftbot{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 24rpx;
+  color: #555;
+  text-align: left;
+}
+.num{
+  position: absolute;
+  width: 34rpx;
+  height: 34rpx;
+  top:15rpx;
+  left: 75rpx;
+  border-radius: 50%;
+  border: 1rpx solid #fff;
+  color: #fff;
+  background: #EA2121;
+  font-size: 20rpx;
+  text-align: center;
+  line-height: 34rpx;
+}
