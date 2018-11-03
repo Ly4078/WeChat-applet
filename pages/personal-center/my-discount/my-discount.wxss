@@ -27,9 +27,10 @@ page{
   line-height: 80rpx;
   letter-spacing: 3rpx;
   background:rgba(255,174,149,1);
-  color: #ffffff;
-  border: none;
+  color: #fff;
+  border-radius: 0;
 }
+
 
 .navbar .item.active{
   color: #ffffff;

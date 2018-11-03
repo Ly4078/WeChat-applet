@@ -442,7 +442,6 @@ Page({
         });
         this.hotDishList();
         this.getsecKill();
-
         for (let i = 0; i < this.data.hotdish.length; i++) {
           let _hotdish = this.data.hotdish[i];
           this.getdishDetail(_hotdish.dishId, _hotdish.shopId);

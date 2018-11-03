@@ -1,7 +1,7 @@
 <import src="discount-template/discount-template.wxml" />
 
 <view class="navbar">
-  <form bindsubmit="submit" report-submit='true' wx:for="{{navbar}}" data-idx="{{index}}" wx:key="unique">
+  <form bindsubmit="submit" report-submit='true' wx:for="{{navbar}}" data-idx="{{index}}" wx:key="index">
     <button form-type="submit" type="default"  class="item {{currentIndex==index ? 'active' : ''}}">{{item}}
     </button>
   </form>
@@ -47,11 +47,8 @@
       <view class='exbut'></view>
     </view>
 
-    <!-- <view class='placeholder' > -->
     <text wx:if="{{listData.length<1}}" class='buyvoucher' bindtap='buyVoucher'>购买提蟹券</text>
-    <!-- </view> -->
     <view class='exchange' bindtap='handexchange'>兑换记录</view>
-
   </view>
 
 
