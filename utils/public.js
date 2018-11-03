@@ -28,7 +28,6 @@ let authlogin = function (userName) { //获取token
       if (res.data.code == 0) {
         let _token = 'Bearer ' + res.data.data;
         wx.setStorageSync('token', _token);
-        console.log("token:", _token)
         return _token;;
       }
     }

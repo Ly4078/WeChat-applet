@@ -430,6 +430,8 @@ Page({
       method: 'POST',
       success: function (res) {
         if (res.data.code == 0) {
+          let arr = res.data.data.package.split("=");
+          Public.addFormIdCache(arr[1]);
           wx.requestPayment({ //调起微信支付
             'timeStamp': res.data.data.timeStamp,
             'nonceStr': res.data.data.nonceStr,

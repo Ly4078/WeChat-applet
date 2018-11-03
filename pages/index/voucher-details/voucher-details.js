@@ -2,6 +2,7 @@
 import Api from '../../../utils/config/api.js';
 import { GLOBAL_API_DOMAIN } from '../../../utils/config/config.js';
 var utils = require('../../../utils/util.js');
+import Public from '../../../utils/public.js';
 let app = getApp()
 Page({
   data: {
@@ -49,8 +50,9 @@ Page({
       }
     }
   },
-  immediatelyBuy:function(){
-    let data = this.data.obj, parameter = '';
+  formSubmit:function(e){
+    let data = this.data.obj, parameter = '',_formId = e.detail.formId;
+    Public.addFormIdCache(_formId); 
     parameter = '?id=' + data.id + "&sell=" + data.sell + "&inp=" + data.inp + "&rule=" + data.rule + '&num=' + data.num + '&soid=' + data.soid;
     if (this.data.sostatus == 1) {
       parameter += '&sostatus=1'

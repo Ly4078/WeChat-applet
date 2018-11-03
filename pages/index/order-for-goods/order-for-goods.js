@@ -632,6 +632,8 @@ Page({
         method: 'POST',
         success: function(res) {
           if (res.data.code == 0) {
+            let arr = res.data.data.package.split("=");
+            Public.addFormIdCache(arr[1]);
             wx.requestPayment({
               'timeStamp': res.data.data.timeStamp,
               'nonceStr': res.data.data.nonceStr,
@@ -685,6 +687,8 @@ Page({
         method: 'POST',
         success: function(res) {
           if (res.data.code == 0) {
+            let arr = res.data.data.package.split("=");
+            Public.addFormIdCache(arr[1]);
             wx.requestPayment({
               'timeStamp': res.data.data.timeStamp,
               'nonceStr': res.data.data.nonceStr,
@@ -733,6 +737,8 @@ Page({
         method: 'POST',
         success: function(res) {
           if (res.data.code == 0) {
+            let arr = res.data.data.package.split("=");
+            Public.addFormIdCache(arr[1]);
             wx.requestPayment({
               'timeStamp': res.data.data.timeStamp,
               'nonceStr': res.data.data.nonceStr,
@@ -788,6 +794,8 @@ Page({
         method: 'POST',
         success: function(res) {
           if (res.data.code == 0) {
+            let arr = res.data.data.package.split("=");
+            Public.addFormIdCache(arr[1]);
             wx.requestPayment({
               'timeStamp': res.data.data.timeStamp,
               'nonceStr': res.data.data.nonceStr,
@@ -828,6 +836,8 @@ Page({
         method: 'POST',
         success: function(res) {
           if (res.data.code == 0) {
+            let arr = res.data.data.package.split("=");
+            Public.addFormIdCache(arr[1]);
             wx.requestPayment({
               'timeStamp': res.data.data.timeStamp,
               'nonceStr': res.data.data.nonceStr,

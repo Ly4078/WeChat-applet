@@ -25,8 +25,12 @@
         <!-- <text class='discount-number'>{{sell/obj.inp*10}}折</text> -->
       </view>
     </view>
-    <view class='countersign-right' catchtap='immediatelyBuy' >
-      <button class='countersign-right-text'>立即购买</button>
+    <view class='countersign-right'>
+      <form bindsubmit="formSubmit" report-submit="true">
+
+    <button formType="submit" class='countersign-right-text'>立即购买</button>
+    </form>
+      <!-- <button class='countersign-right-text'>立即购买</button> -->
     </view>
   </view>
 </view>
