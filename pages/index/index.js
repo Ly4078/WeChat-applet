@@ -222,14 +222,14 @@ Page({
               if(_data.mobile){
                 that.authlogin();
               }else{
-                wx.navigateTo({
-                  url: '/pages/init/init?isback=1'
-                })
+                // wx.navigateTo({
+                //   url: '/pages/init/init?isback=1'
+                // })
               }
             }else{
-              wx.navigateTo({
-                url: '/pages/init/init?isback=1'
-              })
+              // wx.navigateTo({
+              //   url: '/pages/init/init?isback=1'
+              // })
             }
           }
         })

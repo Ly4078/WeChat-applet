@@ -15,7 +15,8 @@ Page({
   },
   onLoad: function(options) {
     let that = this;
-    if (options.isback) {
+    if (options.isback ) {
+      console.log('options.isback', options)
       this.setData({
         isBack: true
       })
