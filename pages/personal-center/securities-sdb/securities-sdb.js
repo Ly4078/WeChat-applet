@@ -446,7 +446,7 @@ Page({
               let userInfo = app.globalData.userInfo;
               wx.setStorageSync('userInfo', userInfo);
               that.setData({
-                isscan: false
+                isscan:   false
               });
               this.authlogin();
               // that.findByCode("1");
