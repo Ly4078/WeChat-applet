@@ -1233,10 +1233,11 @@ Page({
       })
     }else{
       if (this.data.isCollected) {
-        url = that.data._build_url + 'fvs/add?shopId=' + that.data.shopid;
+        url = that.data._build_url + 'fvs/delete?shopId=' + that.data.shopid;
         _title = '已取消';
       } else {
-        url = that.data._build_url + 'fvs/delete?shopId=' + that.data.shopid;
+        
+        url = that.data._build_url + 'fvs/add?shopId=' + that.data.shopid;
         _title = '收藏成功';
       }
       wx.request({
