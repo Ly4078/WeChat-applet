@@ -28,7 +28,6 @@ Page({
     actaddress: {}, //当前选中收货地址信息
     current: {}, //券详情
     payObj: {},
-    txtObj:{},
     crabImgUrl: [], // 详情图列表
     isconvert: true,
     isshowticode:false,

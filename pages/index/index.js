@@ -124,7 +124,7 @@ Page({
     // let userInfo = wx.getStorageSync('userInfo') || {};
     // userInfo.city = userInfo.city ? userInfo.city:'十堰市'
     // app.globalData.userInfo = userInfo
-    if (txtObj.sydish && txtObj.sydish.length > 0) {
+    if (Object.keys(txtObj).length != 0) {
       this.setData({
         fresh1: txtObj ? txtObj.fresh1 : '',
         fresh2: txtObj ? txtObj.fresh2 : '',
@@ -757,6 +757,7 @@ Page({
           _type = this.data.carousel[k].type
       }
     }
+    
     if (_linkUrl.indexOf('&') >= 0) {
       let arr = _linkUrl.split("&");
       for (let i in arr) {

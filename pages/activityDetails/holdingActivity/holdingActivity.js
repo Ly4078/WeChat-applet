@@ -112,7 +112,7 @@ Page({
     });
   },
   onShow: function() {
-    console.log('onShow:',app.globalData.userInfo)
+    // console.log('onShow:',app.globalData.userInfo)
     this.setData({
       isshowlocation: false
     })
