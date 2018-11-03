@@ -6,8 +6,9 @@
   <view class='myList'>
     <view class='myList-single'>
       <view class="myList_left">
-        <image class='myListImages' src='/images/icon/weixinggzh.png'></image>
+        
         <text class='mylistText'>微信公众号</text>
+        <image class='myListImages' src='/images/icon/weixinggzh.png'></image>
       </view>
       <text class='officialAccounts '>享7美食</text>
     </view>
@@ -15,8 +16,9 @@
   <view class='myList'>
     <view class='myList-single'>
       <view class="myList_left">
-        <image class='myListImages' src='/images/icon/dianziyouxa.png'></image>
+        
         <text class='mylistText'>电子邮箱</text>
+        <image class='myListImages' src='/images/icon/dianziyouxa.png'></image>
       </view>
       <text class='officialAccounts '>xiangqi2018boss@163.com</text>
     </view>
@@ -24,8 +26,9 @@
   <view class='myList'>
     <view class='myList-single'>
       <view class="myList_left">
-        <image class='myListImages' src='/images/icon/guanfangwz.png'></image>
+        
         <text class='mylistText'>官方网站</text>
+        <image class='myListImages' src='/images/icon/guanfangwz.png'></image>
       </view>
       <text class='officialAccounts '>http://www.xiang7.net/</text>
     </view>
@@ -33,8 +36,9 @@
   <view class='myList'>
     <view class='myList-single'>
       <view class="myList_left">
-        <image class='myListImages' src='/images/icon/womendzbq.png'></image>
+        
         <text class='mylistText'>我们坐标</text>
+        <image class='myListImages' src='/images/icon/womendzbq.png'></image>
       </view>
       <text class='officialAccounts '>见下方</text>
     </view>

@@ -1,6 +1,5 @@
 <import src="index-item/index-item-template.wxml" />
 <import src="bargainirg-store/bargainirg-template/bargainirg-template.wxml" />
-
 <view class="container">
   <!--顶部 定位 搜索 卷  -->
 
@@ -14,9 +13,9 @@
   </view>
 
 
-    <form bindsubmit="submit" class="newUserModal" report-submit='true' wx:if="{{isformid}}">
-      <button form-type="submit"></button>
-    </form>
+  <form bindsubmit="submit" class="newUserModal" report-submit='true' wx:if="{{isformid}}">
+    <button form-type="submit"></button>
+  </form>
 
 
 

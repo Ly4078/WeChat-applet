@@ -19,7 +19,8 @@
   <view class="shadowBox" hidden="{{!isShow}}" catchtap="hiddenCall">
     <view class='shadow_inner'>
       <view class="shadow_list onlineCall">
-        <image class='myListImages' src='/images/icon/find_article_wechat.png'></image>
+        <!-- <image class='myListImages' src='/images/icon/find_article_wechat.png'></image> -->
+        <image class='myListImages' src='https://6862-hbxq-miniprogram-3d90cb-1256079679.tcb.qcloud.la/icon/find_article_wechat.png?sign=acb83a8d0274e95cb458313dda53d71c&t=1541213544'></image>
         <text class='mylistText'>在线电话</text>
         <button class="cs_button" open-type="contact" session-from="weapp">
         </button>
