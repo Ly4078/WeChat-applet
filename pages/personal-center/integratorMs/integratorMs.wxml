@@ -4,10 +4,11 @@
       <image class='moneySign' src='https://xqmp4-1256079679.file.myqcloud.com/text_142718858044706124.png'></image>
       <view class='signText' catchtap='heaven'>
         <text class='available'>可用金币</text>
-        <image class='gramophone' src='/images/icon/understand.png'></image>
+        <!-- <image class='gramophone' src='/images/icon/understand.png'></image> -->
+        <image class='gramophone' src='https://lg-hh967l0u-1256079679.cos.ap-shanghai.myqcloud.com/understand.png'></image>
         <text class='number'>{{aggregate.data?aggregate.data:0}}</text>
       </view>
-      <view class='signRight'>
+      <view class='signRight'>  
         <button class='sinButton' bindtap='goldPath'>金币商城</button>
       </view>
     </view>
