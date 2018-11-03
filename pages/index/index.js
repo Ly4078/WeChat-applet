@@ -715,7 +715,7 @@ Page({
       _shop = [],
       _parms = {},
       that = this;
-    _parms = {
+      _parms = {
       token: app.globalData.token
     };
     Api.listForHomePage(_parms).then((res) => {

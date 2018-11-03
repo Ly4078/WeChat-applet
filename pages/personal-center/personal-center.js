@@ -246,7 +246,6 @@ Page({
     this.updatauser(e.detail.userInfo)
   },
   updatauser: function(data) { //更新用户信息
-    console.log("updatauser")
     let that = this,
       _values = "",
       _parms = {},
@@ -487,7 +486,6 @@ Page({
     });
   },
   VoucherCode: function() { //输入券码核销
-    // isshopuser iszhiying
     wx.navigateTo({
       url: '../personal-center/call-back/call-back?ent=ent&isshopuser=' + this.data.isshopuser + '&iszy=' + this.data.iszhiying
     })
@@ -534,7 +532,6 @@ Page({
                 icon: 'none',
                 duration: 4000
               })
-              return;
             }
             if (data.data.status == 2) {
               that.setData({
@@ -549,25 +546,34 @@ Page({
               return;
             }
           } else {
-            if (that.data.isshopuser && that.data.iszhiying) {
+            // if (that.data.isshopuser && that.data.iszhiying) {
 
-            } else if (that.data.iszhiying && !that.data.isshopuser) {
-              wx.showToast({
-                title: '你不是该商家销员，无法核销该订单',
-                icon: 'none',
-                duration: 4000
-              })
-              return;
-            } else if (!that.data.iszys) {
-              that.setData({
-                okhx: false
-              })
-              wx.showToast({
-                title: '你不是自营店销员，无法核销该订单',
-                icon: 'none',
-                duration: 4000
-              })
-              return
+            // } else if (that.data.iszhiying && !that.data.isshopuser) {
+            //   wx.showToast({
+            //     title: '你不是该商家销员，无法核销该订单',
+            //     icon: 'none',
+            //     duration: 4000
+            //   })
+            //   return;
+            // } 
+            if (data.data.salePoint){  //自营店
+              if (!that.data.iszhiying) {
+                wx.showToast({
+                  title: '你不是自营店核销员，无法核销该订单',
+                  icon: 'none',
+                  duration: 4000
+                })
+                return
+              }
+            }else{  //商家
+              if (app.globalData.userInfo.shopId != data.data.shopId){
+                wx.showToast({
+                  title: '你不是该商家销员，无法核销该订单',
+                  icon: 'none',
+                  duration: 4000
+                })
+                return
+              }
             }
           }
           if (data.skuName) {
@@ -619,13 +625,13 @@ Page({
                 })
               } else {
                 wx.navigateTo({
-                  url: '../personal-center/call-back/call-back?code=' + that.data.qrCode + '&type=' + data.data.type + '&ByCode=' + that.data.qrdata.result
+                  url: '../personal-center/call-back/call-back?code=' + that.data.qrCode + '&type=' + data.data.type + '&ByCode=' + that.data.qrdata.result + '&iszy=' + that.data.iszhiying
                 })
               }
             })
           } else {
             wx.navigateTo({
-              url: '../personal-center/call-back/call-back?code=' + that.data.qrCode + '&discount=' + data.data.discount + '&ByCode=' + that.data.qrdata.result
+              url: '../personal-center/call-back/call-back?code=' + that.data.qrCode + '&discount=' + data.data.discount + '&ByCode=' + that.data.qrdata.result + '&iszy=' + that.data.iszhiying
             })
           }
         } else {

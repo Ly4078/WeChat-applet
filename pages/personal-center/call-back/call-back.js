@@ -33,7 +33,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    console.log("options:", options)
+    // console.log("options:", options)
     if (options.ent) {
       this.setData({
         isent: true,
@@ -60,7 +60,6 @@ Page({
         iszys: false
       })
     }
-   console.log("iszys:",this.data.iszys)
     if(this.data.iszys && this.data.isshopuser){
       this.setData({
         istow:false
@@ -152,7 +151,6 @@ Page({
         "Authorization": app.globalData.token
       },
       success: function(res) {
-        console.log('ddfd:',res)
         if (res.data.code == 0) {
           if (res.data.data) {
             let _data = res.data.data,
@@ -174,11 +172,9 @@ Page({
                 })
                 return
               } 
-              console.log('iszys111:', that.data.iszys)
-              console.log("isshopuser:", that.data.isshopuser)
               if (that.data.isshopuser && that.data.iszys) {
                 wx.showToast({
-                  title: '你不是自营店核销员，无法核销该订单',
+                  title: '你不是自营店核销员，无法核销该订单sss',
                   icon: 'none',
                   duration: 4000
                 })
@@ -215,29 +211,46 @@ Page({
                 return;
               }
             }else{
-              console.log('iszys111:', that.data.iszys)
-              console.log("isshopuser:", that.data.isshopuser)
-              if (that.data.iszys && that.data.isshopuser){
-                console.log('1111')
-              } else if (that.data.iszys && !that.data.isshopuser){
-                console.log('222')
-                wx.showToast({
-                  title: '你不是该商家销员，无法核销该订单',
-                  icon: 'none',
-                  duration: 4000
-                })
-                return;
-              } else if (!that.data.iszys){
-                that.setData({
-                  okhx: false
-                })
-                wx.showToast({
-                  title: '你不是自营店销员，无法核销该订单',
-                  icon: 'none',
-                  duration: 4000
-                })
+              // if (that.data.iszys && that.data.isshopuser){
+              //   console.log('1111')
+              // } else if (that.data.iszys && !that.data.isshopuser){
+              //   console.log('222')
+              //   that.setData({
+              //     okhx: false
+              //   })
+              //   wx.showToast({
+              //     title: '你不是该商家销员，无法核销该订单',
+              //     icon: 'none',
+              //     duration: 4000
+              //   })
+              //   return;
+              // } 
+              
+              if (_data.salePoint) {  //自营店
+                if (!that.data.iszys) {
+                  that.setData({
+                    okhx: false
+                  })
+                  wx.showToast({
+                    title: '111你不是自营店销员，无法核销该订单',
+                    icon: 'none',
+                    duration: 4000
+                  })
+                  return
+                }
+              } else {  //商家
+                if (app.globalData.userInfo.shopId != _data.shopId) {
+                  that.setData({
+                    okhx: false
+                  })
+                  wx.showToast({
+                    title: '你不是该商家销员，无法核销该订单',
+                    icon: 'none',
+                    duration: 4000
+                  })
+                  return
+                }
               }
-              return
             }
             if ((_data.type == 4 || _data.type == 5 || _data.type == 3) && _data.shopId != app.globalData.userInfo.shopId) {
               wx.showToast({
