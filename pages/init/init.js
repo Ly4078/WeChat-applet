@@ -65,11 +65,11 @@ Page({
             app.globalData.userInfo.userId = res.data.data.id;
             var mobile = String(res.data.data.mobile);
             if (mobile.length >= 11 && res.data.data.unionId && res.data.data.id && res.data.data.userName) {
-
               var wechatUserInfo = {};
-              wechatUserInfo.nickName = res.data.data.nickName;
-              wechatUserInfo.avatarUrl = res.data.data.iconUrl;
-              wechatUserInfo.gender = res.data.data.sex;
+              wechatUserInfo.userInfo = {};
+              wechatUserInfo.userInfo.nickName = res.data.data.nickName;
+              wechatUserInfo.userInfo.avatarUrl = res.data.data.iconUrl;
+              wechatUserInfo.userInfo.gender = res.data.data.sex;
               that.setData({
                 wechatUserInfo: wechatUserInfo,
                 isgetCode:true
@@ -82,7 +82,7 @@ Page({
               })
 
             } else {
-              that.checksession();
+              that.wxLogin();
             }
           } else {
             that.findByCode();
@@ -113,6 +113,9 @@ Page({
   },
   wxLogin: function() {
     let that = this;
+    wx.showLoading({
+      title: '加载中...',
+    })
     wx.login({
       success: res => {
         if (res.code) {
@@ -120,6 +123,7 @@ Page({
             url: that.data._build_url + 'auth/getOpenId?code=' + res.code,
             method: 'POST',
             success: function(res) {
+              wx.hideLoading();
               if (res.data.code == 0) {
                 that.setData({
                   isgetCode: true,
@@ -144,11 +148,10 @@ Page({
     wx.getUserInfo({
       withCredentials: true,
       success: function(res) {
-        let sessionKey = that.data.loginData.sessionKey
+        let sessionKey = that.data.loginData.sessionKey;
+        app.globalData.sessionKey = sessionKey;
+        app.globalData.loginData = res;
         if (isPhoneLogin) {
-          app.globalData.sessionKey = sessionKey;
-          app.globalData.loginData = res;
-          console.log('run')
           var isisBack = that.data.isBack ? '1' : '0'
           wx.navigateTo({
             url: 'phone/phone?isback=' + isisBack,
@@ -233,14 +236,14 @@ Page({
       id: app.globalData.userInfo.userId,
       openId: app.globalData.userInfo.openId
     };
-    if (data.avatarUrl) {
-      _parms.iconUrl = data.avatarUrl
+    if (data.userInfo.avatarUrl) {
+      _parms.iconUrl = data.userInfo.avatarUrl
     }
-    if (data.nickName) {
-      _parms.nickName = utils.utf16toEntities(data.nickName);
+    if (data.userInfo.nickName) {
+      _parms.nickName = utils.utf16toEntities(data.userInfo.nickName);
     }
-    if (data.gender) {
-      _parms.sex = data.gender
+    if (data.userInfo.gender) {
+      _parms.sex = data.userInfo.gender
     }
     for (var key in _parms) {
       _values += key + "=" + _parms[key] + "&";
@@ -258,11 +261,11 @@ Page({
         if (res.data.code == 0) {
           wx.hideLoading()
           let userInfo = wx.getStorageSync("userInfo")
-          userInfo.nickName = data.nickName;
-          userInfo.iconUrl = data.avatarUrl
+          userInfo.nickName = data.userInfo.nickName;
+          userInfo.iconUrl = data.userInfo.avatarUrl
           wx.setStorageSync("userInfo", userInfo)
-          app.globalData.userInfo.nickName = data.nickName;
-          app.globalData.userInfo.iconUrl = data.avatarUrl;
+          app.globalData.userInfo.nickName = data.userInfo.nickName;
+          app.globalData.userInfo.iconUrl = data.userInfo.avatarUrl;
           app.globalData.currentScene.query == ''
           if (that.data.isBack) {
             wx.navigateBack({
