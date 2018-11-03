@@ -65,15 +65,16 @@ Page({
         img: '/images/icon/navhuodong.png',
         id: 5,
         name: '商家入驻'
-      }, {
-        img: '/images/icon/home.png',
-        id: 6,
-        name: '酒店'
-      }, {
-        img: '/images/icon/mountain.png',
-        id: 7,
-        name: '景点'
-      }
+      },
+      //  {
+      //   img: '/images/icon/home.png',
+      //   id: 6,
+      //   name: '酒店'
+      // }, {
+      //   img: '/images/icon/mountain.png',
+      //   id: 7,
+      //   name: '景点'
+      // }
     ],
     Res: [{
       img: '/images/icon/jxcanting.png',
@@ -243,7 +244,6 @@ Page({
     setTimeout(()=>{
       let _token = wx.getStorageSync("token") || "";
       app.globalData.token=_token;
-      console.log(_token.length)
       if (_token.length>2) {
         that.getdatamore();
       } else {
@@ -259,7 +259,6 @@ Page({
         "Authorization": app.globalData.token
       },
       success: function(res) {
-        console.log('res:',res)
         app.globalData.txtObj = res.data;
         wx.setStorageSync("txtObj", res.data);
         if (res.data.flag == 0) { //0显示  
@@ -590,7 +589,6 @@ Page({
       rows: 8,
       token: app.globalData.token
     };
-    console.log("_parms:",_parms)
     Api.secKillList(_parms).then((res) => {
       if (res.data.code == 0) {
         if (res.data.data.list && res.data.data.list.length > 0) {

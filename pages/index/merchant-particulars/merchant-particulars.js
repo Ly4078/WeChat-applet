@@ -929,6 +929,9 @@ Page({
         isMpa: false
       })
     }
+    if (app.globalData.userInfo.lat && app.globalData.userInfo.lng){
+      that.openmap();
+    }
     wx.getLocation({
       type: 'wgs84',
       success: function(res) {
@@ -946,7 +949,7 @@ Page({
                 isshowlocation:true
               })
             } else {
-              this.openmap();
+              that.openmap();
             }
           }
         })
@@ -999,9 +1002,9 @@ Page({
             let userInfo = app.globalData.userInfo;
             wx.setStorageSync('userInfo', userInfo);
             if (this.data.isMpa) {
-              this.openmap();
+              that.openmap();
             } else {
-              this.shopList();
+              that.shopList();
             }
           }
         }
@@ -1010,7 +1013,22 @@ Page({
   },
   //打开地图，已授权位置
   openmap: function() {
-    let that = this;
+    let that = this,storeDetails = that.data.store_details;;
+
+    wx.openLocation({
+      longitude: storeDetails.locationX,
+      latitude: storeDetails.locationY,
+      scale: 18,
+      name: storeDetails.shopName,
+      address: storeDetails.address,
+      success: function (res) {
+      },
+      fail: function (res) {
+      }
+    })
+
+
+    return
     wx.getLocation({
       type: 'gcj02',
       success: function(res) {

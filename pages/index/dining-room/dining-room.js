@@ -54,6 +54,8 @@ Page({
       isclosure: true,
       isshowlocation: false
     })
+  },
+  onShow: function () {
     if (app.globalData.userInfo.userId) {
       let userInfo = app.globalData.userInfo;
       if (app.globalData.token) {
@@ -63,18 +65,12 @@ Page({
         if (userInfo.lng && userInfo.lat && userInfo.city) {
           this.getData();
         } else {
-          console.log("bbbbbb")
           this.getUserlocation();
         }
       } else {
         this.findByCode();
       }
     }
-    
-
-  },
-  onShow: function () {
-  
   },
 
   // 初始化start
@@ -317,8 +313,6 @@ Page({
                 isshowlocation: true
               })
 
-            } else {
-              that.getCutDish();
             }
           }
         })
