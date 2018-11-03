@@ -6,8 +6,6 @@ page{
 .personal_Top {
   height: 318rpx;
   background: linear-gradient(to bottom, #FC8E2D, #FC5E2D);
-  /* border-bottom-left-radius: 40rpx;
-  border-bottom-right-radius: 40rpx; */
 }
 .centreWrap {
   display: flex;
@@ -35,23 +33,6 @@ page{
   align-items: center;
 }
 
-.TextTime{
-  font-size: 28rpx;
-  color: #808080;
-  padding-right: 20rpx;
-}
-
-.chname {
-  margin: 0 125rpx;
-  width: 500rpx;
-  height: 50rpx;
-  border: 1rpx solid #b1b1b1;
-}
-
-.inputname {
-  float: left;
-}
-
 .centreImages {
   width: 111rpx;
   height: 111rpx;
@@ -73,7 +54,6 @@ page{
 
 .TopRight{
   width: 21%;
-  /* height: 180rpx; */
   position: relative;
   z-index: 100;
   overflow: hidden;
@@ -103,12 +83,6 @@ page{
   font-size: 36rpx;
   font-weight: 600;
   font-family: Adobe Heiti Std R;
-}
-
-.halving-line {
-  width: 1rpx;
-  height: 66rpx;
-  padding-top: 10rpx;
 }
 
 .variances{
@@ -161,8 +135,6 @@ page{
 }
 
 .myList {
-  /* flex-grow: 1; */
-  /* width: 694rpx; */
   text-align: center;
   width: 25%;
 }
@@ -187,11 +159,6 @@ page{
   border-bottom-right-radius: 18rpx;
 }
 
-.sectionList{
-  border-bottom-left-radius: 0rpx!important;
-  border-bottom-right-radius:0rpx!important;
-}
-
 .myList_wo{
   border-bottom-left-radius: 18rpx;
   border-bottom-right-radius:18rpx;
@@ -200,16 +167,6 @@ page{
 .myListImages {
   width: 48rpx;
   height: 48rpx;
-}
-
-.sectionList:nth-child(2){
-  border-bottom-left-radius: 0rpx;
-  border-bottom-right-radius: 0rpx;
-}
-
-.sectionList:nth-child(4){
-  border-bottom-left-radius: 18rpx;
-  border-bottom-right-radius: 18rpx;
 }
 
 .myListArrows {
@@ -257,57 +214,9 @@ page{
   border-bottom-right-radius: 16rpx;
 }
 
-.customer-service {
-  width: 50rpx;
-  height: 58rpx;
-  background-color: #FFF;
-  border-radius: 50%;
-  line-height: 70rpx;
-   margin-right: 30rpx; 
-   margin-top: 10rpx; 
-   z-index: 99;
-   opacity: 0.001;
-}
-
-.wicket {
-  width:53rpx;
-}
-
-.telephone-Wrap {
-  width: 75%;
-  text-align: right;
-}
-
-.telephone-Wrap text{
-  font-size: 28rpx;
-  color: #191919;
-  vertical-align: middle;
-  padding-right: 10rpx;
-}
-
-.immobilization{
-  vertical-align: middle;
-  position: absolute;
-  right: 49rpx;
-  top: 4rpx; 
-  font-size: 30rpx;
-  color: #191919;
-}
 button::after{
   border: none;
   background: none;
-}
-.wxreg{
-  width: 154rpx;
-  height: 154rpx;
-  margin-left: 298rpx;
-  border-radius: 50%;
-}
-.contacta{
-  width: 480rpx;
-  background: none;
-  font-size: 30rpx;
-  color: #191919;
 }
 
 .dividual-lk{
@@ -315,10 +224,6 @@ button::after{
   border-bottom-right-radius: 18rpx;
   border-top-left-radius: 18rpx;
   border-top-right-radius: 18rpx;
-}
-
-.impressiones{
-  display: none;
 }
 
 .personal_center {
