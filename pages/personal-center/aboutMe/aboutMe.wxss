@@ -71,7 +71,7 @@ page{
 .mylistText {
   font-size: 28rpx;
   padding-top: 0;
-  margin-right:10rpx;
+  margin-right:15rpx;
 }
 
 .myList_left {
