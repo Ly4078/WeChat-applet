@@ -59,7 +59,7 @@ Page({
           that.setData({
             isshop: true,
             iszhiying: true,
-            isshopuser: true
+            // isshopuser: true
           })
         }
       }
@@ -156,11 +156,13 @@ Page({
         rows: 1,
       },
       success: function(res) {
-        let _total = res.data.data.total
-        _total = utils.million(_total)
-        that.setData({
-          collectTotal: _total
-        })
+        if(res.data.code == 0){
+          let _total = res.data.data.total
+          _total = utils.million(_total)
+          that.setData({
+            collectTotal: _total
+          })
+        }
       }
     })
     // 查询是否配置
