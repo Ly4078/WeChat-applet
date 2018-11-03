@@ -57,9 +57,9 @@ Page({
       if (res.data.code == 0) {
         if (res.data.data && res.data.data.length > 0) {
           that.setData({
-            isshop: true,
+            // isshop: true,
             iszhiying: true,
-            // isshopuser: true
+            isshopuser: true
           })
         }
       }
@@ -558,6 +558,16 @@ Page({
                 duration: 4000
               })
               return;
+            } else if (!that.data.iszys) {
+              that.setData({
+                okhx: false
+              })
+              wx.showToast({
+                title: '你不是自营店销员，无法核销该订单',
+                icon: 'none',
+                duration: 4000
+              })
+              return
             }
           }
           if (data.skuName) {

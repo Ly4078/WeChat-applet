@@ -138,14 +138,14 @@ Page({
     let _token = wx.getStorageSync('token') || "";
     let userInfo = wx.getStorageSync('userInfo') || {};
     let txtObj = wx.getStorageSync('txtObj') || {};
-
+    
     if (userInfo) {
       app.globalData.userInfo = userInfo;
     }
     if (_token.length>5) {
       app.globalData.token = _token;
     }
-    if (txtObj) {
+    if (Object.keys(txtObj).length != 0) {
       this.setData({ txtObj });
       app.globalData.txtObj = txtObj;
     }
@@ -188,7 +188,6 @@ Page({
       } else { //是新用户，去注册页面
         wx.navigateTo({
           url: '/pages/init/init?isback=1'
-          // url: '/pages/personal-center/securities-sdb/securities-sdb?back=1'
         })
         // this.authlogin();
       }
@@ -208,7 +207,8 @@ Page({
   },
   getTXT:function(){  //查询配置文件
     let _crabImgUrl=[],that = this;
-    if (that.data.txtObj) {
+
+    if (Object.keys(this.data.txtObj).length != 0) {
       app.globalData.txtObj = that.data.txtObj;
       _crabImgUrl = that.data.txtObj.crabImgUrl;
       if(that.data.qtype == 1){

@@ -35,7 +35,7 @@
       <text class="descri_cont">未划线的价格指该商品在享7美食平台实时标价，具体成交价格根据商品参加的活动，或者您使用优惠券等发生变化，最终以订单结算页面价格为准</text>
     </view>
   </view> -->
-  <image class="instruction" src="/images/icon/https://xqmp4-1256079679.file.myqcloud.com/15827245422_instruction.png"></image>
+  <image class="instruction" src="https://xqmp4-1256079679.file.myqcloud.com/15827245422_instruction.png"></image>
   <image class='imgUlrs' wx:for="{{crabImgUrl}}" wx:for-item="item" wx:for-index="index" wx:key="{{index}}" mode="widthFix" src='{{item}}'></image>
   <view class='storeOrder_bbj'></view>
   <view class="storeOrder_b">

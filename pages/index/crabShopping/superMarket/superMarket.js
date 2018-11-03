@@ -133,6 +133,9 @@ Page({
         crabList: []
       })
     };
+    wx.showLoading({
+      title: '数据加载中...',
+    });
     Api.storeSrabList(_parms).then((res) => {
       wx.hideLoading();
       if (res.data.code == 0) {

@@ -315,8 +315,11 @@ Page({
     };
     console.log('_parms:', _parms)
     swichrequestflag[types] = true;
+    wx.showLoading({
+      title: '数据加载中...',
+    })
     Api.crabList(_parms).then((res) => {
-
+      wx.hideLoading();
       if (res.data.code == 0) {
         let _listData = this.data.listData;
         if (this.data.page == 1) {
@@ -369,7 +372,11 @@ Page({
         token: app.globalData.token
       };
       swichrequestflag[types] = true;
+      wx.showLoading({
+        title: '数据加载中...',
+      })
       Api.listForSkuAllocation(_parms).then((res) => {
+        wx.hideLoading();
         if (res.data.code == 0) {
           if (this.data._page == 1) {
             this.setData({
@@ -422,8 +429,12 @@ Page({
         locationY: app.globalData.userInfo.lat,
         token: app.globalData.token
       };
+      wx.showLoading({
+        title: '数据加载中...',
+      })
       swichrequestflag[types] = true;
       Api.superMarketUrl(_parms).then((res) => {
+        wx.hideLoading();
         if (res.data.code == 0) {
           if (this.data.sPage == 1) {
             this.setData({

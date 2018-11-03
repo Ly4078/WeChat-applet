@@ -12,6 +12,6 @@
     </view>
   </view>
    <view wx:if="{{listData.length < 1}}" class='placeholder' >
-    <image src="/images/icon/zhanweitu.png" wx:if="{{databack}}"></image>
+    <image src="/images/icon/zhanweitu.png"></image>
   </view>
 </view>

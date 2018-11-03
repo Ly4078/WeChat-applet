@@ -13,11 +13,14 @@ Page({
   },
 
   onLoad: function (options) {
+    // console.log("options:", options)
     this.setData({
       id:options.id
     })
   },
-
+  onShow:function(){
+    this.getorderCoupon();
+  },
   //查询券详情
   getorderCoupon: function () {
     let that = this;

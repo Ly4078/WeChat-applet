@@ -77,6 +77,8 @@ Page({
             listData: _data,
             databack:false
           })
+        }else{
+
         }
       }
     })
@@ -84,6 +86,7 @@ Page({
   //点击某个条目
   handItem:function(e){
     let id = e.currentTarget.id;
+    console.log("id:",id)
     wx.navigateTo({
       url: '../../voucher/exchangeDetails/exchangeDetails?id='+id,
     })
