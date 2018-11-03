@@ -493,7 +493,6 @@ Page({
     if (id == 1) {
       wx.navigateTo({
         url: '/pages/init/init?isback=1'
-        // url: '/pages/personal-center/securities-sdb/securities-sdb?back=1'
       })
     }
   }

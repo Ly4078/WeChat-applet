@@ -176,7 +176,6 @@ Page({
             inputValue: e.detail.value,
             ispay: true
           })
-
           _this.getvoucher();
           clearInterval(_timer)
         }

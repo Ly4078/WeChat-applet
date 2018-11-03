@@ -203,6 +203,7 @@ Page({
   },
   // 初始化start
   findByCode: function() { //通过code查询用户信息
+    console.log('findByCode')
     let that = this;
     wx.login({
       success: res => {
@@ -223,14 +224,14 @@ Page({
               if(_data.mobile){
                 that.authlogin();
               }else{
-                // wx.navigateTo({
-                //   url: '/pages/init/init?isback=1'
-                // })
+                wx.navigateTo({
+                  url: '/pages/init/init?isback=1'
+                })
               }
             }else{
-              // wx.navigateTo({
-              //   url: '/pages/init/init?isback=1'
-              // })
+              wx.navigateTo({
+                url: '/pages/init/init?isback=1'
+              })
             }
           }
         })
@@ -494,7 +495,7 @@ Page({
     let _parms = {},
       that = this;
     this.setData({
-      city: this.data.city ? this.data.city : app.globalData.userInfo.city
+      city: app.globalData.userInfo.city
     })
     if (app.globalData.userInfo.lng && app.globalData.userInfo.lat) {
       _parms = {

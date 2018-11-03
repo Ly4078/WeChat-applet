@@ -46,8 +46,7 @@ Page({
   submit: function(e) {
     console.log('navbarTap:',e)
     let index = e.currentTarget.dataset.idx, that = this, _formId = e.detail.formId;
-    console.log('index:',index)
-    console.log("formid:",_formId)
+
     that.setData({
       page: 1,
       ticket_list: [],
@@ -178,6 +177,9 @@ Page({
           listData: []
         })
       }
+      wx.showLoading({
+        title: '数据加载中...',
+      })
       swichrequestflag[types] = true
       Api.orderCoupon(_parms).then((res) => {
         // wx.stopPullDownRefresh();
@@ -232,9 +234,13 @@ Page({
       };
       _parms.page = this.data.sendpage;
       _parms.sendUserId = app.globalData.userInfo.userId;
+      wx.showLoading({
+        title: '数据加载中...',
+      })
       swichrequestflag[types] = true
       Api.listCoupon(_parms).then((res) => {
         wx.stopPullDownRefresh();
+        wx.hideLoading();
         if (res.data.code == 0) {
           let _lists = res.data.data.list;
           if (_lists && _lists.length > 0) {
@@ -289,7 +295,9 @@ Page({
         page: this.data.recpage,
         receiveUserId: app.globalData.userInfo.userId
       };
-
+      wx.showLoading({
+        title: '数据加载中...',
+      })
       swichrequestflag[types] = true
       Api.listCoupon(_parms).then((res) => {
         wx.stopPullDownRefresh();
@@ -333,6 +341,9 @@ Page({
   //获取我的票券
   getTicketList: function() {
     let that = this;
+    wx.showLoading({
+      title: '数据加载中...',
+    });
     let _token = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1NDE2Njg3MTAsImNyZWF0ZWQiOjE1NDEwNjM5MTAyNjEsInN1YiI6IjE1OTI2MTk3NTQ2In0.SSeAYcAqePu6DnP3zGzwI3xmeY_7FLTRKXccWR9kZ2_e0_RC8hvNH40U4hTqynhS5sbjcesBg0IKLv2N1RFFDw";
     if (!app.globalData.userInfo.userId) {
       this.findByCode();

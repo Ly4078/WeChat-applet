@@ -176,7 +176,7 @@ page {
   width: 94%;
   height:458rpx;
   padding-top: 200rpx;
-  margin-left: 3%;
+  margin-left: 2%;
 }
 .voucherItem{
   width: 705rpx;

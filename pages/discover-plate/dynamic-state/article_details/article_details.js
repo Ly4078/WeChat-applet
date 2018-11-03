@@ -55,9 +55,9 @@ Page({
   },
   onShow:function(){
     if (app.globalData.userInfo.id) {
-      this.setData({
-        userInfo: app.globalData.userInfo
-      })
+      // this.setData({
+      //   userInfo: app.globalData.userInfo
+      // })
       this.gettopiclist(this.data._id);
       this.getcmtlist();
     } else {
@@ -285,7 +285,7 @@ Page({
   dianzanwz: function() { //文章点赞
     let that = this,
       _details = this.data.details;
-    if (app.globalData.userInfo.mobile == '' || app.globalData.userInfo.mobile == null) {
+    if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true,
         clickvideo: false
@@ -354,6 +354,24 @@ Page({
         }
       }
     })
+  },
+  //监听页面分享
+  onShareAppMessage: function (res) {
+    let _details = this.data.details;
+    if (res.from === 'button') {
+      // 来自页面内转发按钮
+    }
+    return {
+      title: _details.title,
+      path: 'pages/discover-plate/dynamic-state/article_details/article_details',
+      imageUrl: _details.homePic,
+      success: function (res) {
+        // 转发成功
+      },
+      fail: function (res) {
+        // 转发失败
+      }
+    }
   },
   toLike: function(event) { //评论点赞
     let that = this,

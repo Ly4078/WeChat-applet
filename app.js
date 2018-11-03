@@ -27,9 +27,9 @@ App({
           return
         }
         if (options.path == 'pages/index/index'){
-          wx.reLaunch({
-            url: '/pages/init/init',
-          })
+          // wx.reLaunch({
+          //   url: '/pages/init/init',
+          // })
         }
       }
     }

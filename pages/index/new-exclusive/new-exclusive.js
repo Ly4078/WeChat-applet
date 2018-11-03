@@ -23,39 +23,46 @@ Page({
           that.setData({
             isNew: 1
           });
+        }else{
+          that.setData({
+            isNew: 0
+          });
         }
       }
     })
   },
   toReceive: function() {  //点击领取新人专享
-    if(this.data.isNew == 1) {
-      let that = this, _parms={};
-      wx.request({
-        url: that.data._build_url + 'so/freeOrder?payType=2&skuId=8&skuNum=1',
-        header: {
-          "Authorization": app.globalData.token
-        },
-        method: 'POST',
-        success: function (res) {
-          if (res.data.code == 0) {
-            wx.navigateTo({
-              url: "/pages/personal-center/my-discount/my-discount?let=let"
-              // url: '../../personal-center/my-discount/my-discount?id=' + res.data.data + '&isPay=1'
-
-            })
-          } else {
-            wx.showToast({
-              title: '您已不是新用户！',
-              icon: 'none'
-            })
+    if (app.globalData.userInfo.mobile){
+      if (this.data.isNew == 1) {
+        let that = this, _parms = {};
+        wx.request({
+          url: that.data._build_url + 'so/freeOrder?payType=2&skuId=8&skuNum=1',
+          header: {
+            "Authorization": app.globalData.token
+          },
+          method: 'POST',
+          success: function (res) {
+            if (res.data.code == 0) {
+              wx.navigateTo({
+                url: "/pages/personal-center/my-discount/my-discount?let=let"
+              })
+            } else {
+              wx.showToast({
+                title: '您已不是新用户！',
+                icon: 'none'
+              })
+            }
           }
-        }
-      })
-
-    } else if (this.data.isNew == 0) {
-      wx.showToast({
-        title: '您已不是新用户！',
-        icon: 'none'
+        })
+      } else if (this.data.isNew == 0) {
+        wx.showToast({
+          title: '您已不是新用户！',
+          icon: 'none'
+        })
+      }
+    }else{
+      wx.navigateTo({
+        url: '/pages/init/init?isback=1'
       })
     }
   }
