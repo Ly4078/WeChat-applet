@@ -186,32 +186,11 @@ let getQueryString = function(url, name) { //识别普通二维码，跳转到�
   var reg = new RegExp('(^|&|/?)' + name + '=([^&|/?]*)(&|/?|$)', 'i')
   var r = url.substr(1).match(reg)
   if (r != null) {
-    // console.log("r = " + r)
-    // console.log("r[2] = " + r[2])
     return r[2]
   } else {
     return null;
-  } 
+  }
 }
-
-// 以下，业务事件
-let addFormIdCache = function(formId){
-  let url = config.GLOBAL_API_DOMAIN + 'msg/addFormIdCache?formId=' + formId, _token = wx.getStorageSync('token') || '';;
-  console.log("url:", url)
-  console.log("_token:", _token)
-  wx.request({
-    url: url,
-    header: {
-      "Authorization": _token
-    },
-    success: (res) => {
-      console.log('FormIdres:',res)
-    }
-  })
-}
-
-
-
 
 module.exports = {
   calcDistance: calcDistance,
@@ -227,6 +206,5 @@ module.exports = {
   getQueryString: getQueryString,
   dateConv: dateConv,
   compareUp: compareUp,
-  compareDown: compareDown,
-  addFormIdCache: addFormIdCache
+  compareDown: compareDown
 }

@@ -1,8 +1,9 @@
 import {
   GLOBAL_API_DOMAIN
 } from '/../../utils/config/config.js';
-import Api from '../../utils/config/api.js'
-var utils = require('../../utils/util.js')
+import Api from '../../utils/config/api.js';
+var utils = require('../../utils/util.js');
+import Public from '../../utils/public.js';
 var app = getApp();
 Page({
   data: {
@@ -408,7 +409,7 @@ Page({
   submit: function(e) {
     let _formId = e.detail.formId;
     this.todiscount();
-    utils.addFormIdCache(_formId);
+    Public.addFormIdCache(_formId);
   },
   todiscount: function() {
     wx.navigateTo({

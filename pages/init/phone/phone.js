@@ -3,7 +3,8 @@ import Api from '../../../utils/config/api.js';
 import {
   GLOBAL_API_DOMAIN
 } from '../../../utils/config/config.js';
-var utils = require('../../../utils/util.js')
+var utils = require('../../../utils/util.js');
+import Public from '../../../utils/public.js';
 let app = getApp();
 Page({
 
@@ -263,7 +264,7 @@ Page({
         that.createNewUser(sessionKey, loginData.iv, loginData.encryptedData, 3)
       }
     })
-    utils.addFormIdCache(_formId);
+    Public.addFormIdCache(_formId);
   },
   timeRuning: function() {
     let that = this;

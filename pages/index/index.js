@@ -4,6 +4,7 @@ import {
   GLOBAL_API_DOMAIN
 } from '/../../utils/config/config.js';
 var utils = require('../../utils/util.js');
+import Public from '../../utils/public.js';
 var app = getApp();
 
 var village_LBS = function(that) {
@@ -26,7 +27,6 @@ Page({
     alltopics: [],
     currentTab: 0,
     isformid: true,
-    issnap: false, //是否是临时用户
     loading: false,
     istouqu: false,
     isclose: false,
@@ -198,7 +198,7 @@ Page({
     this.setData({
       isformid: false
     })
-    utils.addFormIdCache(_formId);
+    Public.addFormIdCache(_formId);
   },
   // 初始化start
   findByCode: function() { //通过code查询用户信息
@@ -210,7 +210,7 @@ Page({
         }).then((res) => {
           if (res.data.code == 0) {
             let _data = res.data.data;
-            if (_data.id && _data != null) {
+            if (_data && _data.id) {
               app.globalData.userInfo.userId = _data.id;
               for (let key in _data) {
                 for (let ind in app.globalData.userInfo) {
@@ -219,145 +219,37 @@ Page({
                   }
                 }
               };
-              that.authlogin();
-            }
-            let userInfo = app.globalData.userInfo;
-            wx.setStorageSync('userInfo', userInfo);
-            if (!_data.id) {
-              if (app.globalData.userInfo.openId && app.globalData.userInfo.unionId) {
-                that.createNewUser();
-              } else {
-                that.getOpendId();
+              if(_data.mobile){
+                that.authlogin();
+              }else{
+                wx.navigateTo({
+                  url: '/pages/init/init?isback=1'
+                })
               }
-            } else if (!userInfo.lat || !userInfo.lng || !userInfo.city) {
-              that.getUserlocation();
-            }
-          }
-        })
-      }
-    })
-  },
-
-  getOpendId: function() { //获取用户unionid
-    let that = this;
-    wx.login({
-      success: res => {
-        if (res.code) {
-          wx.request({
-            url: that.data._build_url + 'auth/getOpenId?code=' + res.code,
-            method: 'POST',
-            success: function(res) {
-              if (res.data.code == 0) {
-                app.globalData.userInfo.openId = res.data.data.openId;
-                app.globalData.userInfo.sessionKey = res.data.data.sessionKey;
-                if (res.data.data.unionId) {
-                  app.globalData.userInfo.unionId = res.data.data.unionId;
-                  that.createNewUser();
-                } else {
-                  that.setData({
-                    istouqu: true
-                  })
-                }
-              }
-            }
-          })
-        }
-      }
-    })
-  },
-
-  bindGetUserInfo: function() { //点击安全弹框获取用户openId和unionId
-    let that = this,
-      url = "",
-      _Url = "";
-    wx.getUserInfo({
-      withCredentials: true,
-      success: function(res) {
-        let _sessionKey = app.globalData.userInfo.sessionKey,
-          _ivData = res.iv,
-          _encrypData = res.encryptedData;
-        _sessionKey = _sessionKey.replace(/\=/g, "%3d");
-        _ivData = _ivData.replace(/\=/g, "%3d");
-        _ivData = _ivData.replace(/\+/g, "%2b");
-        _encrypData = _encrypData.replace(/\=/g, "%3d");
-        _encrypData = _encrypData.replace(/\+/g, "%2b");
-        _encrypData = _encrypData.replace(/\//g, "%2f");
-
-        wx.request({
-          url: that.data._build_url + 'auth/phoneAES?sessionKey=' + _sessionKey + '&ivData=' + _ivData + '&encrypData=' + _encrypData,
-          header: {
-            'content-type': 'application/json' // 默认值
-          },
-          method: 'POST',
-          success: function(resv) {
-            if (resv.data.code == 0) {
-              that.setData({
-                istouqu: false
+            }else{
+              wx.navigateTo({
+                url: '/pages/init/init?isback=1'
               })
-              let _data = JSON.parse(resv.data.data);
-              app.globalData.userInfo.unionId = _data.unionId;
-              app.globalData.userInfo.openId = _data.openId;
-              that.createNewUser();
             }
           }
         })
       }
     })
   },
-  createNewUser: function() { //创建新用户 userID
-    let that = this;
-    wx.request({
-      url: that.data._build_url + 'auth/addUserUnionId?openId=' + app.globalData.userInfo.openId + '&unionId=' + app.globalData.userInfo.unionId,
-      method: 'POST',
-      success: function(res) {
-        if (res.data.code == 0) {
-          let data = res.data.data;
-          for (let key in data) {
-            for (let ind in app.globalData.userInfo) {
-              if (key == ind) {
-                app.globalData.userInfo[ind] = data[key]
-              }
-            }
-          };
-          app.globalData.userInfo.userId = res.data.data.id;
-          that.authlogin();
-          that.getuserIdLater();
-        }
-      }
-    })
-  },
 
-  getuserIdLater: function() { //获取到userId之后要执行的事件1
-    let that = this,
-      _parms = {};
-    _parms = {
-      openId: app.globalData.userInfo.openId,
-      unionId: app.globalData.userInfo.unionId
-    };
-    Api.addUserUnionId(_parms).then((res) => {
-      if (res.data.code = 0) {
-        that.authlogin();
-      }
-    })
-  },
   authlogin: function() { //获取token
     let that = this;
-    wx.request({
-      url: this.data._build_url + 'auth/login?userName=' + app.globalData.userInfo.userName,
-      method: "POST",
-      data: {},
-      header: {
-        'content-type': 'application/json' // 默认值
-      },
-      success: function(res) {
-        if (res.data.code == 0) {
-          let _token = 'Bearer ' + res.data.data;
-          app.globalData.token = _token;
-          wx.setStorageSync('token', _token)
-          that.getdatamore();
-        }
+    Public.authlogin(app.globalData.userInfo.userName);
+    setTimeout(()=>{
+      let _token = wx.getStorageSync("token") || "";
+      app.globalData.token=_token;
+      console.log(_token.length)
+      if (_token.length>2) {
+        that.getdatamore();
+      } else {
+        that.authlogin();
       }
-    })
+    },2000)
   },
   getdatamore: function() { //请求配置数据
     let that = this;
@@ -367,6 +259,7 @@ Page({
         "Authorization": app.globalData.token
       },
       success: function(res) {
+        console.log('res:',res)
         app.globalData.txtObj = res.data;
         wx.setStorageSync("txtObj", res.data);
         if (res.data.flag == 0) { //0显示  
@@ -431,6 +324,8 @@ Page({
       userInfo = app.globalData.userInfo;
     if (userInfo.lat && userInfo.lng && userInfo.city) {
       this.getCutDish();
+    }else{
+      this.getUserlocation();
     }
   },
   openSetting() { //打开授权设置界面
@@ -524,35 +419,37 @@ Page({
   },
   getCutDish: function() { // 获取砍菜数据
     let that = this;
-    this.setData({
-      bargainList: [],
-      bargainListall: [],
-      _page: 1
-    })
-    if (app.globalData.userInfo.city == '十堰市') {
-      this.setData({
-        hotdish: this.data.syhotdish
-      })
-    } else if (app.globalData.userInfo.city == '武汉市') {
-      this.setData({
-        hotdish: this.data.whhotdish
-      })
-    }
-
-    if (app.globalData.userInfo.lat && app.globalData.userInfo.lng) {
+    if(app.globalData.token.length>2){
       this.setData({
         bargainList: [],
+        bargainListall: [],
         _page: 1
-      });
-      this.hotDishList();
-      this.getsecKill();
-
-      for (let i = 0; i < this.data.hotdish.length; i++) {
-        let _hotdish = this.data.hotdish[i];
-        this.getdishDetail(_hotdish.dishId, _hotdish.shopId);
+      })
+      if (app.globalData.userInfo.city == '十堰市') {
+        this.setData({
+          hotdish: this.data.syhotdish
+        })
+      } else if (app.globalData.userInfo.city == '武汉市') {
+        this.setData({
+          hotdish: this.data.whhotdish
+        })
       }
-    } else {
-      this.getUserlocation();
+
+      if (app.globalData.userInfo.lat && app.globalData.userInfo.lng) {
+        this.setData({
+          bargainList: [],
+          _page: 1
+        });
+        this.hotDishList();
+        this.getsecKill();
+
+        for (let i = 0; i < this.data.hotdish.length; i++) {
+          let _hotdish = this.data.hotdish[i];
+          this.getdishDetail(_hotdish.dishId, _hotdish.shopId);
+        }
+      } else {
+        this.getUserlocation();
+      }
     }
   },
   // 初始化end
@@ -694,6 +591,7 @@ Page({
       rows: 8,
       token: app.globalData.token
     };
+    console.log("_parms:",_parms)
     Api.secKillList(_parms).then((res) => {
       if (res.data.code == 0) {
         if (res.data.data.list && res.data.data.list.length > 0) {
@@ -766,7 +664,6 @@ Page({
       })
     }
   },
-
 
   //点击推荐的三个餐厅之一
   handResitem(e) {
@@ -855,12 +752,7 @@ Page({
       _linkUrl = '',
       _type = '',
       _obj = {};
-    if (!app.globalData.userInfo.mobile) {
-      this.setData({
-        issnap: true
-      })
-      return false
-    }
+
     for (let k in this.data.carousel) {
       if (id == this.data.carousel[k].id) {
         _linkUrl = this.data.carousel[k].linkUrl,
@@ -913,19 +805,6 @@ Page({
       fail: function(res) {
         // 转发失败
       }
-    }
-  },
-
-  //  注册start
-  closetel: function(e) { //新用户提示按钮选项
-    let id = e.target.id;
-    this.setData({
-      issnap: false
-    })
-    if (id == 1) {
-      wx.navigateTo({
-        url: '/pages/init/init?isback=1'
-      })
     }
   },
 

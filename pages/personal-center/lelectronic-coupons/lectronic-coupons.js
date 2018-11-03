@@ -157,7 +157,6 @@ Page({
         "Authorization": app.globalData.token
       },
       success: function (res) {
-        console.log('131231:re',res)
         wx.hideLoading();
         if(res.data.code == 0){
           let arr = [],ticketArr=[];
@@ -175,8 +174,6 @@ Page({
               }
               ticketArr.push(arr[i]);
             }
-
-            
             that.setData({
               ticket: ticketArr
             })

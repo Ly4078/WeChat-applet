@@ -1,5 +1,6 @@
 import Api from '../../../utils/config/api.js';
 var utils = require('../../../utils/util.js');
+var Public = require('../../../utils/public.js');
 import {
   GLOBAL_API_DOMAIN
 } from '../../../utils/config/config.js';
@@ -111,7 +112,6 @@ Page({
     });
   },
   onShow: function() {
-
     console.log('onShow:',app.globalData.userInfo)
     this.setData({
       isshowlocation: false
@@ -125,9 +125,6 @@ Page({
         }
       } else { //是新用户，去注册页面
         this.authlogin();
-        // wx.navigateTo({
-        //   url: '/pages/personal-center/securities-sdb/securities-sdb?back=1&inviter=' + this.data.inviter
-        // })
       }
     } else {
       this.findByCode();
@@ -165,32 +162,26 @@ Page({
     })
   },
   authlogin: function() { //获取token
-    console.log('authlogin')
     let that = this;
-    wx.request({
-      url: this.data._build_url + 'auth/login?userName=' + app.globalData.userInfo.userName,
-      method: "POST",
-      data: {},
-      header: {
-        'content-type': 'application/json' // 默认值
-      },
-      success: function(res) {
-        if (res.data.code == 0) {
-          let _token = 'Bearer ' + res.data.data;
-          app.globalData.token = _token;
+    if (app.globalData.userInfo.mobile) {
+      Public.authlogin(app.globalData.userInfo.userName);
+      setTimeout(() => {
+        let _token = wx.getStorageSync("token") || "";
+        app.globalData.token = _token;
+        if (_token.length > 2) {
           if (app.globalData.userInfo.mobile) {
             that.inquireNum();
-          } else {
-            console.log('closetel')
-            that.closetel();
-          }
+          } 
+        } else {
+          that.authlogin();
         }
-      }
-    })
+      }, 2000)
+    } else {
+      that.closetel();
+    }
   },
   createCrab() { //创建发起
     let _parms={},that=this;
-    console.log('createCrab--')
     wx.request({
       url: that.data._build_url + 'pullUser/inUserPull?type=2&userId=' + app.globalData.userInfo.userId,
       header: {
@@ -281,19 +272,10 @@ Page({
     }
   },
   share() { //分享
-    console.log('share:', app.globalData.userInfo.mobile)
     if (!app.globalData.userInfo.mobile) {
-      console.log('share111')
       this.closetel();
     } else {
       this.createCrab();
-      return
-      if (this.data.isInvite) {
-        console.log('share2222')
-        this.onShareAppMessage();
-      } else {
-        console.log('share3333')
-      }
     }
   },
   //分享给好友
@@ -311,15 +293,6 @@ Page({
     wx.navigateTo({
       url: '/pages/personal-center/securities-sdb/securities-sdb?inviter=' + this.data.inviter + '&back=1'
     })
-
-    return;
-    app.globalData.currentScene.path = '/pages/activityDetails/holdingActivity/holdingActivity';
-    app.globalData.currentScene.query = {};
-    app.globalData.currentScene.query.inviter = this.data.inviter;
-    wx.reLaunch({
-      url: '/pages/init/init',
-    })
-    
   },
   toIndex() { //跳转至首页
     wx.switchTab({

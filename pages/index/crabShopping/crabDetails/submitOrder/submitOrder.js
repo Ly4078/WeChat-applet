@@ -1,6 +1,7 @@
 var app = getApp();
 import Api from '../../../../../utils/config/api.js';
 import utils from '../../../../../utils/util.js';
+import Public from '../../../../../utils/public.js';
 import {
   GLOBAL_API_DOMAIN
 } from '../../../../../utils/config/config.js';
@@ -348,7 +349,7 @@ Page({
     }else{
       this.submitSoid();
     }
-    utils.addFormIdCache(_formId); 
+    Public.addFormIdCache(_formId); 
   },
   //到店自提
   superMarketOrder() {

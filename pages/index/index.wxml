@@ -3,29 +3,9 @@
 <view class="container">
   <!--顶部 定位 搜索 卷  -->
 
-  <view class="newUserModal" wx:if="{{issnap}}">
-    <view class='drawer_screen'>
-      <view class='sqtishi'>提示</view>
-      <view class='drphnumber'>注册登录后可以体验更多</view>
-      <button class='gettel sqgettel' bindtap='closetel' id='1'>确定</button>
-      <button class='gettel colosetel' bindtap='closetel' id='2'>取消</button>
-    </view>
-  </view>
-
-
-  <form bindsubmit="submit" class="newUserModal" report-submit='true' wx:if="{{isformid}}">
-    <button form-type="submit"></button>
-  </form>
-
-
-
-
-  <view class="newUserModal loginuser" wx:if="{{istouqu}}" catchtouchmove='true'>
-    <view class="drawer_screen"></view>
-    <button class="newUserM_box" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">
-      <image class='loginimg' src='https://xqmp4-1256079679.file.myqcloud.com/13971489895_login.png'></image>
-    </button>
-  </view>
+    <!-- <form bindsubmit="submit" class="newUserModal" report-submit='true' wx:if="{{isformid}}">
+      <button form-type="submit"></button>
+    </form> -->
 
   <view class='modal_box' wx:if="{{isshowlocation}}">
     <view class='weizhi'>

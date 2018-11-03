@@ -3,6 +3,7 @@ import {
 } from '../../../utils/config/config.js';
 import Api from '../../../utils/config/api.js';
 var utils = require('../../../utils/util.js');
+var Public = require('../../../utils/public.js');
 var app = getApp();
 Page({
   data: {
@@ -40,7 +41,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    console.log('options:', options)
     if (options.userId) {
       this.setData({
         _userId: options.userId
@@ -79,7 +79,6 @@ Page({
       } else {
         wx.navigateTo({
           url: '/pages/init/init?isback=1'
-          // url: '/pages/personal-center/securities-sdb/securities-sdb?back=1'
         })
       }
     } else {
@@ -116,7 +115,6 @@ Page({
               if (!data.mobile) {
                 wx.navigateTo({
                   url: '/pages/init/init?isback=1'
-                  // url: '/pages/personal-center/securities-sdb/securities-sdb?back=1'
                 })
               }
               that.authlogin(); //获取token
@@ -125,7 +123,6 @@ Page({
                 url: '/pages/init/init?isback=1'
               })
             }
-            
           } else {
             that.findByCode();
           }

@@ -1,6 +1,7 @@
 import Api from '/../../../../utils/config/api.js';
 import { GLOBAL_API_DOMAIN } from '/../../../../utils/config/config.js';
-var utils = require('../../../../utils/util.js')
+var utils = require('../../../../utils/util.js');
+import Public from '../../../../utils/public.js';
 var app = getApp();
 Page({
   data: {
@@ -381,7 +382,7 @@ Page({
         }
       }
     }
-    utils.addFormIdCache(_formId); 
+    Public.addFormIdCache(_formId); 
   },
   updetauserinfo:function (val) {  //更新用户信息
     let _parms = {}, that = this, _value="";

@@ -4,6 +4,7 @@ import {
   GLOBAL_API_DOMAIN
 } from '../../../utils/config/config.js';
 var utils = require('../../../utils/util.js');
+import Public from '../../../utils/public.js';
 var app = getApp();
 let minusStatus = '';
 Page({
@@ -227,7 +228,7 @@ Page({
     let _formId = e.detail.formId;
     console.log("_formId:", _formId);
     this.determine();
-    utils.addFormIdCache(_formId); 
+    Public.addFormIdCache(_formId); 
   },
   determine: function() { //点击确认支付按钮
     console.log('determine')

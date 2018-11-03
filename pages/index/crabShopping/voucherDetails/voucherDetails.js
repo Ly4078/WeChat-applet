@@ -3,6 +3,7 @@ import {
   GLOBAL_API_DOMAIN
 } from '../../../../utils/config/config.js';
 var utils = require('../../../../utils/util.js');
+import Public from '../../../../utils/public.js';
 var app = getApp();
 
 var village_LBS = function (that) {
@@ -822,7 +823,7 @@ Page({
       //   url: '/pages/personal-center/securities-sdb/securities-sdb?back=1'
       // })
     }
-    utils.addFormIdCache(_formId); 
+    Public.addFormIdCache(_formId); 
   },
   //兑换提货  2
   sendredeemNow: function() {

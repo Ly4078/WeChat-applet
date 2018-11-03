@@ -5,7 +5,8 @@ import Api from '../../../utils/config/api.js';
 import {
   GLOBAL_API_DOMAIN
 } from '../../../utils/config/config.js';
-var utils = require('../../../utils/util.js')
+var utils = require('../../../utils/util.js');
+import Public from '../../../utils/public.js';
 var app = getApp()
 Page({
 
@@ -478,7 +479,7 @@ Page({
         duration: 2000
       })
     }
-    utils.addFormIdCache(_formId); 
+    Public.addFormIdCache(_formId); 
   },
 
   getuserInfo: function(val) { //从自己的服务器获取用户信息
