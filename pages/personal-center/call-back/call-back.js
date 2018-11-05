@@ -134,6 +134,7 @@ Page({
   },
   //获取票券信息
   gettickets: function(val) {
+    console.log("gettickets")
     let that = this,
       _Url = "";
     if (val) {
@@ -151,6 +152,7 @@ Page({
         "Authorization": app.globalData.token
       },
       success: function(res) {
+        console.log("callres:",res)
         if (res.data.code == 0) {
           if (res.data.data) {
             let _data = res.data.data,
@@ -211,6 +213,7 @@ Page({
                 return;
               }
             }else{
+              
               // if (that.data.iszys && that.data.isshopuser){
               //   console.log('1111')
               // } else if (that.data.iszys && !that.data.isshopuser){
@@ -232,33 +235,52 @@ Page({
                     okhx: false
                   })
                   wx.showToast({
-                    title: '111你不是自营店销员，无法核销该订单',
+                    title: '你不是自营店销员，无法核销该订单',
                     icon: 'none',
                     duration: 4000
                   })
                   return
                 }
               } else {  //商家
-                if (app.globalData.userInfo.shopId != _data.shopId) {
-                  that.setData({
-                    okhx: false
-                  })
-                  wx.showToast({
-                    title: '你不是该商家销员，无法核销该订单',
-                    icon: 'none',
-                    duration: 4000
-                  })
-                  return
+
+              console.log('abcdef')
+                if (_data.type == 5) {
+                  console.log("5555555")
+                  if (app.globalData.userInfo.shopId != _data.shopId) {
+                    that.setData({
+                      okhx: false
+                    })
+                    wx.showToast({
+                      title: '你不是该商家销员，无法核销该订单',
+                      icon: 'none',
+                      duration: 4000
+                    })
+                    return
+                  }
+                } else if (_data.type == 1) {
+                  if (that.data.iszys && !that.data.isshopuser) {
+                    that.setData({
+                      okhx: false
+                    })
+                    wx.showToast({
+                      title: '你不是该商家销员，无法核销此券',
+                      icon: 'none',
+                      duration: 4000
+                    })
+                    return
+                  }
                 }
               }
             }
+            console.log('nonono')
             if ((_data.type == 4 || _data.type == 5 || _data.type == 3) && _data.shopId != app.globalData.userInfo.shopId) {
               wx.showToast({
-                title: '该菜不属于本店',
+                title: '你不是该商家销员，无法核销此券',
                 icon: 'none'
               })
               return false;
             }
+            console.log('nonono')
             if (_data.isUsed == 1) {
               wx.showToast({
                 title: '该票券已被使用',
@@ -268,6 +290,7 @@ Page({
               })
               return
             }
+            console.log('nonono')
             if (_data.discount) {
               let _parms = {
                 shopId: app.globalData.userInfo.shopId,
@@ -286,9 +309,13 @@ Page({
                 }
               })
             }
+            console.log('nonono')
             if (_data.userName) {
+              console.log("12312")
               _data.userName1 = _data.userName;
               _data.userName = _data.userName.substr(0, 3) + "****" + _data.userName.substr(7);
+            }else{
+              console.log("getuser")
             }
             if (_data.promotionRules && _data.promotionRules.length > 0) {
               if (_data.promotionRules[0].ruleDesc){

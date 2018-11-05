@@ -59,7 +59,7 @@ Page({
           that.setData({
             // isshop: true,
             iszhiying: true,
-            isshopuser: true
+            // isshopuser: true
           })
         }
       }
@@ -523,6 +523,7 @@ Page({
         "Authorization": app.globalData.token
       },
       success: function(res) {
+        console.log('res:',res)
         if (res.data.code == 0) {
           let data = res.data;
           if (data.data.orderCode) {
@@ -546,6 +547,7 @@ Page({
               return;
             }
           } else {
+            
             // if (that.data.isshopuser && that.data.iszhiying) {
 
             // } else if (that.data.iszhiying && !that.data.isshopuser) {
@@ -557,7 +559,9 @@ Page({
             //   return;
             // } 
             if (data.data.salePoint){  //自营店
+              console.log('2222')
               if (!that.data.iszhiying) {
+                console.log('22221111111')
                 wx.showToast({
                   title: '你不是自营店核销员，无法核销该订单',
                   icon: 'none',
@@ -566,13 +570,27 @@ Page({
                 return
               }
             }else{  //商家
-              if (app.globalData.userInfo.shopId != data.data.shopId){
-                wx.showToast({
-                  title: '你不是该商家销员，无法核销该订单',
-                  icon: 'none',
-                  duration: 4000
-                })
-                return
+              console.log('3333333')
+             
+              if(data.data.type == 5){
+                console.log("5555555")
+                if (app.globalData.userInfo.shopId != data.data.shopId) {
+                  wx.showToast({
+                    title: '你不是该商家销员，无法核销该订单',
+                    icon: 'none',
+                    duration: 4000
+                  })
+                  return
+                }
+              }else if(data.data.type ==1){
+                if (that.data.iszhiying && !that.data.isshopuser){
+                  wx.showToast({
+                    title: '你不是该商家销员，无法核销此券',
+                    icon: 'none',
+                    duration: 4000
+                  })
+                  return
+                }
               }
             }
           }
@@ -590,7 +608,7 @@ Page({
             isDue = that.isDueFunc(current, data.data.expiryDate);
           if ((data.data.type == 4 || data.data.type == 5 || data.data.type == 3) && data.data.shopId != app.globalData.userInfo.shopId) {
             wx.showToast({
-              title: '该菜不属于本店',
+              title: '你不是该商家销员，无法核销该订单',
               icon: 'none'
             })
             return;
@@ -625,13 +643,13 @@ Page({
                 })
               } else {
                 wx.navigateTo({
-                  url: '../personal-center/call-back/call-back?code=' + that.data.qrCode + '&type=' + data.data.type + '&ByCode=' + that.data.qrdata.result + '&iszy=' + that.data.iszhiying
+                  url: '../personal-center/call-back/call-back?code=' + that.data.qrCode + '&type=' + data.data.type + '&ByCode=' + that.data.qrdata.result + '&iszy=' + that.data.iszhiying + '&isshopuser=' + that.data.isshopuser
                 })
               }
             })
           } else {
             wx.navigateTo({
-              url: '../personal-center/call-back/call-back?code=' + that.data.qrCode + '&discount=' + data.data.discount + '&ByCode=' + that.data.qrdata.result + '&iszy=' + that.data.iszhiying
+              url: '../personal-center/call-back/call-back?code=' + that.data.qrCode + '&discount=' + data.data.discount + '&ByCode=' + that.data.qrdata.result + '&iszy=' + that.data.iszhiying + '&isshopuser=' + that.data.isshopuser
             })
           }
         } else {

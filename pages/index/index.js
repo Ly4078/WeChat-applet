@@ -203,7 +203,6 @@ Page({
   },
   // 初始化start
   findByCode: function() { //通过code查询用户信息
-    console.log('findByCode')
     let that = this;
     wx.login({
       success: res => {
@@ -294,10 +293,10 @@ Page({
           let _Bargain = that.data.Bargain;
           let _navs = that.data.navs;
           _Bargain[0].name = '精选美食';
-          _navs = _navs.slice(1, 4);
+          // _navs = _navs.slice(1, 4);
           that.setData({
             Bargain: _Bargain,
-            navs: _navs
+            // navs: _navs
           })
         }
         if (res.data.sydish.length > 0) {
