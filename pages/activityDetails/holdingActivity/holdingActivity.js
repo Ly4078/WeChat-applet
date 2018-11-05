@@ -39,6 +39,12 @@ Page({
     this.setData({
       inviter: options.inviter ? options.inviter : app.globalData.userInfo.userId
     });
+    this.setData({
+      msgList: [
+        { url: "url", title: "公告：恭喜186****5816活得一九龙瀑 成人票" },
+        { url: "url", title: "公告：恭喜186****5816活得一九龙瀑 成人票" },
+        { url: "url", title: "公告：恭喜186****5816活得一九龙瀑 成人票？" }]
+    });
   },
   onShow: function () {
     console.log('onShow:', app.globalData.userInfo)

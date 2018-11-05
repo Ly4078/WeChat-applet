@@ -18,9 +18,18 @@
   <view class="lotteryBox">
     <image class="lotteryBg" src="/images/icon/lottery.png"></image>
     <view class="lotteryCont">
-      <view class="lotteryTop_txt">
+      <!-- <view class="lotteryTop_txt">
         <text>恭喜186****5816活得一九龙瀑 成人票</text>
-      </view>
+      </view> -->
+      <swiper class="swiper_container" vertical="true" autoplay="true" circular="true" interval="2000">
+  <block wx:for="{{msgList}}">
+    <navigator url="/pages/index/index?title={{item.url}}" open-type="navigate">
+      <swiper-item>
+        <view class="swiper_item">{{item.title}}</view>
+      </swiper-item>
+    </navigator>
+  </block>
+</swiper>
       <view class="ticketWrap">
         <view class="ticketInner">
           <view class="ticketUl">
