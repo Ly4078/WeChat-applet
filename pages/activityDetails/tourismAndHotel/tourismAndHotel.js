@@ -1,31 +1,21 @@
 Page({
   data: {
     selected: true,
-    selected1: false,
-    flag:true //活动详情
+    shadowFlag: true //活动详情
   },
   selected: function(e) {
     this.setData({
-      selected1: false,
-      selected: true
+      selected: e.target.id == 1 ? true : false
     })
   },
-  selected1: function(e) {
-    this.setData({
-      selected: false,
-      selected1: true
-    })
-  },
-
   // 遮罩层显示
   showShade: function () {
-    this.setData({ flag: false })
+    this.setData({ shadowFlag: false })
   },
   // 遮罩层隐藏
   conceal: function () {
-    this.setData({ flag: true })
+    this.setData({ shadowFlag: true })
   },
-
   //进入详情
   hoteDils:function(){
     wx.navigateTo({

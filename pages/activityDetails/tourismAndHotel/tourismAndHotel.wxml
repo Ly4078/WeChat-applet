@@ -7,8 +7,8 @@
   <view class='maximumList'>
     <view class='manListCenter'>
         <view class="nav bc_white">
-          <view class="{{selected?'red':'default'}}" bindtap="selected">1折门票 </view>
-          <view class="{{selected1?'red':'default'}}" bindtap="selected1">1折酒店</view>
+          <view class="{{selected?'red':'default'}}" id="1" bindtap="selected">1折门票 </view>
+          <view class="{{!selected?'red':'default'}}" id="2" bindtap="selected">1折酒店</view>
         </view>
 
         <!-- 旅游景点 -->
@@ -26,7 +26,7 @@
         </view>
 
         <!-- 酒店 -->
-        <view class="{{selected1?'show':'hidden'}}">
+        <view class="{{!selected?'show':'hidden'}}">
           <view class='delayWrap'>
             <image class='selectedImg' src='https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1540543818228&di=51f816a0352386ec9da9d958f081aadb&imgtype=0&src=http%3A%2F%2Fimgsrc.baidu.com%2Fimgad%2Fpic%2Fitem%2F8694a4c27d1ed21bcbbb18dfa66eddc451da3f9d.jpg'></image>
             <view class='delayRight'>
@@ -43,10 +43,10 @@
 
 <!-- 活动详情 -->
   <view>
-    <view class="zhezao" hidden="{{flag}}"  bindtap="conceal">
+    <view class="zhezao" hidden="{{shadowFlag}}"  bindtap="conceal">
       <view class="terse_w">
         <view class="t_image"  bindtap="conceal">
-          <image class="t_image1" src="../../image/cross.png" ></image>
+          <!-- <image class="t_image1" src="../../image/cross.png" ></image> -->
         </view>
         <view class="tanchu_view">
         <view class='indicative'><text>—— 详情介绍 ——</text></view>

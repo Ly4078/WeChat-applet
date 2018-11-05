@@ -13,96 +13,102 @@
   </view>
 </view>
 
-
 <view class='holdingWrap'>
-  <image class="indexIcon" src="/images/icon/indexIcon.png" bindtap='toIndex'></image>
-  <image class='holdingImg' src='https://xqmp4-1256079679.file.myqcloud.com/Colin_feoajfiej.jpg'></image>
-  <image class='holdingStep' src='https://xqmp4-1256079679.file.myqcloud.com/Colin_pqeirjqiewjfw.png'></image>
-  <view class='holFlow'>
-    <view class='holFlowCtn'>
-      <view class='holFlowTop'>
-        <view class='process'>
-          <view class='amount'>
-            <text>已邀请人数</text>
-          </view>
-          <view class='amountDig'>
-            <text class='amountDigText'>{{inviteNum}}</text>人</view>
-          <view wx:if="{{isnew}}" class='invite'>
-            <button bindtap='share'>立即邀请</button>
-          </view>
-          <view wx:else class='invite'>
-            <button bindtap='share' plain="true" data-name="shareBtn" open-type="share">立即邀请</button>
-          </view>
-        </view>
-        <view class='process'>
-          <view class='amount'>
-            <text>可兑换大闸蟹数</text>
-          </view>
-          <view class='amountDig'>
-            <text class='amountDigText'>{{crabNum}}</text>只</view>
-          <view class='invite' bindtap='exchange'>
-            <button>兑换</button>
-          </view>
-        </view>
+  <image class="holdBanner" src=""></image>
+  <view class="lotteryBox">
+    <image class="lotteryBg" src="/images/icon/lottery.png"></image>
+    <view class="lotteryCont">
+      <view class="lotteryTop_txt">
+        <text>恭喜186****5816活得一九龙瀑 成人票</text>
       </view>
-
-      <view class='market'>
-        <view class='marketTop'>
-          <text>可兑换门店</text>
-        </view>
-        <view class='markdistance'>
-
-          <block wx:for="{{postList}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
-            <view class='illegality' id="{{item.id}}" bindtap='TencentMap'>
-              <image class='settingimg' src='{{item.images}}'></image>
-              <view class='single {{item.id == 2 ? "active" : ""}}'>
-                <view class='detail'>
-                  <view>
-                    <text>{{item.name}}</text>
-                  </view>
-                  <view>
-                    <text>{{item.place}}</text>
-                  </view>
-                </view>
-                <view class='small'>
-                  <image class='smallImage' src='/images/icon/smallImageimgs.png'></image>
+      <view class="ticketWrap">
+        <view class="ticketInner">
+          <view class="ticketUl">
+            <view class="ticketLiBox">
+              <view class="ticketLi {{turnIdx == 1 && Countdown == 0 ? frameClass2 : ''}}">
+                <view><text class="orange">门票</text></view>
+              </view>
+              <view class="reverse {{turnIdx == 1 && Countdown == 0 ? frameClass1 : ''}}">
+                <view class="{{turnIdx == 1 ? 'active' : ''}}">?</view>
+              </view>
+            </view>
+            <view class="ticketLiBox">
+              <view class="ticketLi {{turnIdx == 2 && Countdown == 0 ? frameClass2 : ''}}">
+                <view><text class="orange">门票</text></view>
+              </view>
+              <view class="reverse {{turnIdx == 2 && Countdown == 0 ? frameClass1 : ''}}">
+                <view class="{{turnIdx == 2 ? 'active' : ''}}">?</view>
+              </view>
+            </view>
+            <view class="ticketLiBox">
+              <view class="ticketLi {{turnIdx == 3 && Countdown == 0 ? frameClass2 : ''}}">
+                <view><text class="orange">门票</text></view>
+              </view>
+              <view class="reverse {{turnIdx == 3 && Countdown == 0 ? frameClass1 : ''}}">
+                <view class="{{turnIdx == 3 ? 'active' : ''}}">?</view>
+              </view>
+            </view>
+            <view class="ticketLiBox">
+              <view class="ticketLi {{turnIdx == 8 && Countdown == 0 ? frameClass2 : ''}}">
+                <view><text class="orange">门票</text></view>
+              </view>
+              <view class="reverse {{turnIdx == 8 && Countdown == 0 ? frameClass1 : ''}}">
+                <view class="{{turnIdx == 8 ? 'active' : ''}}">?</view>
+              </view>
+            </view>
+            <view class="ticketBtnWrap" bindtap='drawBtn'>
+              <view class="ticketBtn">
+                <view>抽奖</view>
+                <view>
+                  <text>{{times}}次</text>
                 </view>
               </view>
             </view>
-          </block>
-        </view>
-      </view>
-
-      <view class='regulation'>
-        <view>————
-          <text class='regulationText'>活动规则</text>————</view>
-      </view>
-      <view class='parcel'>
-        <view>
-          <text>1. </text>
-        </view>
-        <view class='parcel_top'>
-          <view class='parcelText'>
-          <text>活动时间及门店:</text>
-        </view>
-        <view class='parcelText'>
-          <text>9月23号-10月30日 中商平价（徐东店）</text>
-        </view>
-        <view class='parcelText'>
-          <text>10月1日-10月30日中商优品汇超市（中南店）、中商优品汇超市（珞珈山店）、中商平价（徐东店）、中商平价（和平大道店）均可到指定区域兑换</text>
-        </view>
-        </view>
-      </view>
-      <block wx:for="{{specification}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
-        <view class='parcel'>
-          <view>
-            <text>{{item.numerical}}.</text>
-          </view>
-            <view class='parcelText'>
-              <text>{{item.detailses}}</text>
+            <view class="ticketLiBox">
+              <view class="ticketLi {{turnIdx == 4 && Countdown == 0 ? frameClass2 : ''}}">
+                <view><text class="orange">门票</text></view>
+              </view>
+              <view class="reverse {{turnIdx == 4 && Countdown == 0 ? frameClass1 : ''}}">
+                <view class="{{turnIdx == 4 ? 'active' : ''}}">?</view>
+              </view>
             </view>
+            <view class="ticketLiBox">
+              <view class="ticketLi {{turnIdx == 7 && Countdown == 0 ? frameClass2 : ''}}">
+                <view><text class="orange">门票</text></view>
+              </view>
+              <view class="reverse {{turnIdx == 7 && Countdown == 0 ? frameClass1 : ''}}">
+                <view class="{{turnIdx == 7 ? 'active' : ''}}">?</view>
+              </view>
+            </view>
+            <view class="ticketLiBox">
+              <view class="ticketLi {{turnIdx == 6 && Countdown == 0 ? frameClass2 : ''}}">
+                <view><text class="orange">门票</text></view>
+              </view>
+              <view class="reverse {{turnIdx == 6 && Countdown == 0 ? frameClass1 : ''}}">
+                <view class="{{turnIdx == 6 ? 'active' : ''}}">?</view>
+              </view>
+            </view>
+            <view class="ticketLiBox">
+              <view class="ticketLi {{turnIdx == 5 && Countdown == 0 ? frameClass2 : ''}}">
+                <view><text class="orange">门票</text></view>
+              </view>
+              <view class="reverse {{turnIdx == 5 && Countdown == 0 ? frameClass1 : ''}}">
+                <view class="{{turnIdx == 5 ? 'active' : ''}}">?</view>
+              </view>
+            </view>
+          </view>
         </view>
-      </block>
+      </view>
+      <view class="lotterybottom_txt">
+        <view class="bot_txt_l">已邀请
+          <text>0</text>人，可抽奖
+          <text>0</text>次</view>
+        <view class="bot_txt_r">邀请好友</view>
+      </view>
     </view>
+  </view>
+  <view class="activity_rule">
+    <view class="rule_tit">—————— 活动规则 —————</view>
+    <view class="rule_cont">1.每邀请7个用户注册成功，就可以到指定地点兑换一个阳澄湖大闸蟹</view>
   </view>
 </view>

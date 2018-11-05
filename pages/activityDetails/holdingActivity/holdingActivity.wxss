@@ -1,243 +1,276 @@
-page{
-  background-color: #f8803e;
+.red {
+  background-color: #f63e3e;
 }
 
-.holdingImg{
+.orange {
+  background-color: #f46d46;
+}
+
+.yellow {
+  background-color: #f4a549;
+}
+
+.violet {
+  background-color: #d13ac0;
+}
+
+.green {
+  background-color: #8ed140;
+}
+
+.blueviolet {
+  background-color: #843ad0;
+}
+
+.skyblue {
+  background-color: #3bbed1;
+}
+
+.blue {
+  background-color: #3462cf;
+}
+
+.holdingWrap {
+  background: linear-gradient(to bottom, #ffa864, #ff7e4d);
+}
+
+.holdBanner {
+  height: 220rpx;
   width: 100%;
-  height: 650rpx;
 }
 
-.holFlow{
+/* 转盘样式 */
+
+.lotteryBox {
+  width: 100%;
+  height: 901rpx;
+  display: flex;
+  position: relative;
+}
+
+.lotteryBg {
+  width: 694rpx;
+  height: 901rpx;
+  margin: 0 auto;
+}
+
+.lotteryCont {
   width: 100%;
   height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.lotteryTop_txt {
+  width: 100%;
+  height: 80rpx;
+  line-height: 80rpx;
+  text-align: center;
+  font-size: 24rpx;
+  color: #fff;
+}
+
+.ticketWrap {
+  width: 100%;
+  height: 590rpx;
+  position: absolute;
+  top: 152rpx;
+  left: 0;
   display: flex;
+  align-items: center;
+}
+
+.ticketInner {
+  width: 562rpx;
+  height: 562rpx;
+  background-color: #dd482e;
+  border-radius: 20rpx;
+  margin: 0 auto;
+  display: flex;
+}
+
+.ticketUl {
+  width: 562rpx;
+  height: 562rpx;
+  padding: 10rpx 6rpx;
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;
   justify-content: center;
 }
 
-.holFlowCtn{
-  width: 92%;
-}
-
-.holdingStep{
-  width: 100%;
-  height: 188rpx;
-}
-
-.holFlowTop{
-  width: 100%;
-  height: 360rpx;
-  display: flex;
-  justify-content: space-between;
-}
-
-.process{
-  width:336rpx;
-  height:360rpx;
-  background:rgba(255,255,255,1);
-  border-radius:16rpx;
-  box-shadow:0rpx 10rpx 16rpx 0rpx rgba(63,59,149,0.6);
-}
-
-.amount{
-  width: 100%;
-  height: 68rpx;
-  background:rgba(243,243,243,1);
-  border-radius:16rpx;
+.ticketLiBox, .ticketBtnWrap {
+  width: 33%;
+  height: 33%;
   text-align: center;
   letter-spacing: 2rpx;
 }
 
-.amount text{
-  font-size:30rpx;
-  color:rgba(87,87,87,1);
-  line-height:32px;
+.ticketLiBox {
+  position: relative;
+  transform-style: preserve-3d;
+}
+
+.reverse {
+  font-size: 100rpx;
+  color: #f8a43e;
+  font-weight: 900;
+}
+
+.ticketLi, .reverse {
+  width: 100%;
+  height: 100%;
+  line-height: 164rpx;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.ticketBtnWrap, .ticketLi, .reverse {
+  padding: 6rpx 6rpx 8rpx 6rpx;
+  box-sizing: border-box;
+}
+
+.reverse view.active {
+  background-color: #ffe04a;
+}
+
+.ticketLi view, .reverse view, .ticketBtn {
+  width: 100%;
+  height: 100%;
+  border-radius: 20rpx;
+  box-sizing: border-box;
+}
+
+.ticketLi view, .reverse view {
+  background-color: #fff5e1;
+  box-shadow: 0 8rpx 0 #f3cd99;
+}
+
+.ticketLi text {
+  padding: 4rpx 20rpx 6rpx 20rpx;
+  border-radius: 10rpx;
+  color: #fff;
+  font-size: 32rpx;
+}
+
+.ticketBtn {
+  display: flex;
+  flex-direction: column;
+  background-color: #ffe04a;
+  box-shadow: 0 8rpx 0 #f8a43e;
+  color: #dd482e;
+  margin: 0 auto;
+  padding-top: 34rpx;
+  box-sizing: border-box;
+}
+
+.ticketBtn view:nth-child(1) {
+  font-size: 44rpx;
   font-weight: 600;
 }
 
-.amountDig{
+.ticketBtn view:nth-child(2) {
   width: 100%;
-  height: 184rpx;
-  font-size:30rpx;
-  color:rgba(252,60,39,1);
-  text-align: center;
-  line-height: 184rpx;
-}
-
-.amountDigText{
-  font-size: 82rpx;
-}
-
-.invite{
-  width: 100%;
-  height: 108rpx;
-  display: flex;
-  letter-spacing: 2rpx;
-  justify-content: center;
-}
-
-.invite button{
-  width:200rpx;
-  height:78rpx;
-  line-height:78rpx;
-  border: 0;
-  background:linear-gradient(0deg,rgba(251,50,26,1) 0%,rgba(255,107,101,1) 100%);
-  border-radius:39rpx;
-  box-shadow:0rpx 10rpx 16rpx 0rpx rgba(214,25,4,0.33);
-  font-size:32rpx;
-  color: #ffffff;
-}
-
-.market{
-  width:100%;
-  height:206rpx;
-  background:rgba(255,255,255,1);
-  border-radius:16rpx;
-  box-shadow:0rpx 10rpx 16rpx 0rpx rgba(213,96,32,0.6);
-  margin-top: 30rpx;
-}
-
-.marketTop{
-  width: 100%;
-  height: 68rpx;
-  background:rgba(243,243,243,1);
-  border-radius:16rpx;
-  text-align: center;
-  line-height: 68rpx;
-}
-
-.marketTop text{
-  font-size:30rpx;
-  color:rgba(87,87,87,1);
-  line-height:32rpx;
-}
-
-.markdistance{
-  width: 100%;
-  height: 138rpx;
-  display: flex;
-  justify-content: center;
-  overflow: hidden;
-  border-bottom-left-radius: 14rpx;
-  border-bottom-right-radius: 14rpx;
-}
-
-.single{
-  width:176rpx;
-  height:138rpx;
-  background:rgba(25,25,25,1);
-  opacity:0.9;
-  position: relative;
-  z-index: 9999;
-  /* border-bottom-left-radius: 16rpx; */
-}
-
-.single.active {
-  background:#ff6c24;
-  opacity:1;
-}
-
-.illegality{
-  width:25%;
-  height:138rpx;
-  background:rgba(25,25,25,1);
-  opacity:0.7;
-  position: relative;
-}
-
-.single:nth-child(1){
-  border-bottom-left-radius: 16rpx;
-}
-
-.single:nth-child(5){
-  border-bottom-right-radius: 16rpx;
-}
-
-.detail{
-  width: 100%;
-  height: 90rpx;
   font-size: 24rpx;
-  color:rgba(255,255,255,1);
   text-align: center;
+  margin-top: 6rpx;
 }
 
-.detail view:nth-child(1){
-  padding-top: 20rpx;
+.ticketBtn view:nth-child(2) text {
+  background-color: #f8a43e;
+  border-radius: 20rpx;
+  padding: 2rpx 28rpx;
+  color: #fff;
 }
 
-.small{
+/* 转盘样式 */
+
+.lotterybottom_txt {
   width: 100%;
-  height: 48rpx;
+  height: 72rpx;
+  line-height: 72rpx;
   text-align: center;
-}
-
-.smallImage{
-  width: 26rpx;
-  height: 26rpx;
-}
-
-.settingimg{
-  width: 176rpx;
-  height: 138rpx;
   position: absolute;
-  top: 0rpx;
-  left: 0rpx;
-  z-index: 9;
-}
-
-.regulation{
-  width: 100%;
-  height: 120rpx;
-  text-align: center;
-  line-height: 120rpx;
-  padding-top: 20rpx;
-}
-
-.regulation view{
-  color: #ffffff;
-}
-
-.regulationText{
-  padding: 0rpx 24rpx;
-  font-size:28rpx;
-}
-
-.parcel{
-  width: 100%;
-  font-size: 24rpx;
-  color:rgba(255,255,255,1);
+  bottom: 18rpx;
+  left: 0;
   display: flex;
   justify-content: space-between;
-  padding-top: 26rpx;
+  box-sizing: border-box;
+  padding: 0 108rpx 0 114rpx;
 }
 
-.parcelText{
-  width: 95%;
-  letter-spacing: 2rpx;
+.bot_txt_l {
+  font-size: 30rpx;
+  color: #191919;
 }
 
-.parcelText{
-  text-align: left;
+.bot_txt_r {
+  font-size: 28rpx;
+  color: #dd482e;
 }
 
-.parcel_top{
-  width: 95%;
-  letter-spacing: 2rpx;
+.activity_rule {
+  color: #fff;
+  padding: 74rpx 38rpx 42rpx 40rpx;
 }
 
-.parcel:nth-child(1){
-  padding-top: 0rpx!important;
-  border: 1px solid red;
+.rule_tit {
+  font-size: 28rpx;
+  text-align: center;
+  padding-bottom: 36rpx;
 }
 
-.parcel:last-child{
-  padding-bottom: 60rpx;
+.rule_cont {
+  font-size: 24rpx;
 }
 
-.indexIcon {
-  position: fixed;
-  right: 20rpx;
-  bottom: 100rpx;
-  z-index: 1000;
-  width: 100rpx;
-  height: 100rpx;
+
+
+
+
+
+
+
+
+
+
+
+/* 旋转动画 */
+.front {
+  animation: back 1s linear 1;
+  backface-visibility: hidden;
+}
+
+.back {
+  animation: front 1s linear 1;
+}
+
+@keyframes front {
+  from {
+    transform: rotateY(0deg);
+  }
+
+  to {
+    transform: rotateY(180deg);
+  }
+}
+
+@keyframes back {
+  from {
+    transform: rotateY(-180deg);
+  }
+
+  to {
+    transform: rotateY(0deg);
+  }
+}
+
+.z1 {
+  z-index: 6;
+}
+
+.z2 {
+  z-index: 5;
 }
