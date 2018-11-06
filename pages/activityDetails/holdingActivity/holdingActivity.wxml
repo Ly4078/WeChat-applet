@@ -14,13 +14,10 @@
 </view>
 
 <view class='holdingWrap'>
-  <image class="holdBanner" src=""></image>
+  <image class="holdBanner" src="https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/adlfaldkfqeradsw.png"></image>
   <view class="lotteryBox">
     <image class="lotteryBg" src="/images/icon/lottery.png"></image>
     <view class="lotteryCont">
-      <!-- <view class="lotteryTop_txt">
-        <text>恭喜186****5816活得一九龙瀑 成人票</text>
-      </view> -->
       <swiper class="swiper_container" vertical="true" autoplay="true" circular="true" interval="2000">
   <block wx:for="{{msgList}}">
     <navigator url="/pages/index/index?title={{item.url}}" open-type="navigate">
@@ -30,15 +27,20 @@
     </navigator>
   </block>
 </swiper>
+<view class='circleListWrap'>
+  <view class="circle" wx:for="{{circleList}}" style="top:{{item.topCircle}}rpx;left:{{item.leftCircle}}rpx;background-color: {{(index%2==0)?colorCircleFirst:colorCircleSecond}};"></view>
+</view>
       <view class="ticketWrap">
         <view class="ticketInner">
           <view class="ticketUl">
             <view class="ticketLiBox">
               <view class="ticketLi {{turnIdx == 1 && Countdown == 0 ? frameClass2 : ''}}">
-                <view><text class="orange">门票</text></view>
+                <view><text class="orange">iPhone X</text></view>
               </view>
               <view class="reverse {{turnIdx == 1 && Countdown == 0 ? frameClass1 : ''}}">
-                <view class="{{turnIdx == 1 ? 'active' : ''}}">?</view>
+                <view class="{{turnIdx == 1 ? 'active' : ''}}">
+                  <image class='turnIIMG' src='https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1541494583066&di=5c62537f22a6c3f86f475739d7fdae20&imgtype=0&src=http%3A%2F%2Fimgup02.zb8.com%2Fzb8%2F2018-11%2F01%2F14%2F15410529852037_0.png'></image>
+                </view>
               </view>
             </view>
             <view class="ticketLiBox">

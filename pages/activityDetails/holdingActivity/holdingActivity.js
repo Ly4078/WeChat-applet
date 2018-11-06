@@ -29,21 +29,77 @@ Page({
     _lat: '',
     _lng: '',
     times: 5,   //次数
-    turnIdx: 1,   //转动序号
+    turnIdx: 2,   //转动序号
     // turnFlag: false,  //转动标识
     Countdown: 0,   //倒计时（随机，但要考虑后台返回值的时间）
     frameClass1: 'z1', //默认正面在上面
-    frameClass2: 'z2'
+    frameClass2: 'z2',
+    circleList: [],//圆点数组
+    colorCircleFirst: '#FFDF2F',//圆点颜色1
+    colorCircleSecond: '#FE4D32',//圆点颜色2
   },
   onLoad: function (options) {
+    var _this = this;
+    //圆点设置
+    var leftCircle = 7.5;
+    var topCircle = 7.5;
+    var circleList = [];
+    for (var i = 0; i < 24; i++) {
+      if (i == 0) {
+        topCircle = 15;
+        leftCircle = 15;
+      } else if (i < 6) {
+        topCircle = 7.5;
+        leftCircle = leftCircle + 102.5;
+      } else if (i == 6) {
+        topCircle = 15
+        leftCircle = 640;
+      } else if (i < 12) {
+        topCircle = topCircle + 94;
+        leftCircle = 640;
+      } else if (i == 12) {
+        topCircle = 565;
+        leftCircle = 640;
+      } else if (i < 18) {
+        topCircle = 636;
+        leftCircle = leftCircle - 102.5;
+      } else if (i == 18) {
+        topCircle = 585;
+        leftCircle = 15;
+      } else if (i < 24) {
+        topCircle = topCircle - 94;
+        leftCircle = 7.5;
+      } else {
+        return
+      }
+      circleList.push({ topCircle: topCircle, leftCircle: leftCircle });
+    }
+    this.setData({
+      circleList: circleList
+    })
+    //圆点闪烁
+    setInterval(function () {
+      if (_this.data.colorCircleFirst == '#FFDF2F') {
+        _this.setData({
+          colorCircleFirst: '#4ab2f3',
+          colorCircleSecond: '#ffcb3a',
+        })
+      } else {
+        _this.setData({
+          colorCircleFirst: '#FFDF2F',
+          colorCircleSecond: '#7a4af3',
+        })
+      }
+    }, 500)
+
     this.setData({
       inviter: options.inviter ? options.inviter : app.globalData.userInfo.userId
     });
     this.setData({
       msgList: [
-        { url: "url", title: "公告：恭喜186****5816活得一九龙瀑 成人票" },
-        { url: "url", title: "公告：恭喜186****5816活得一九龙瀑 成人票" },
-        { url: "url", title: "公告：恭喜186****5816活得一九龙瀑 成人票？" }]
+        { url: "url", title: "公告：恭喜186****5816获得九寨沟门票" },
+        { url: "url", title: "公告：恭喜186****5816获得九寨沟门票" },
+        { url: "url", title: "公告：恭喜186****5816获得九寨沟门票" }]
     });
   },
   onShow: function () {
@@ -123,9 +179,6 @@ Page({
       }
     })
   },
-
-
-
 
 
 
