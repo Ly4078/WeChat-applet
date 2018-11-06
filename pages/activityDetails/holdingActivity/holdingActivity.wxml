@@ -119,7 +119,9 @@
     </view>
   </view>
   <view class="activity_rule">
-    <view class="rule_tit">—————— 活动规则 —————</view>
-    <view class="rule_cont">1.每邀请7个用户注册成功，就可以到指定地点兑换一个阳澄湖大闸蟹</view>
+    <view class="rule_tit"> ————— 活动规则 —————</view>
+    <view class="rule_cont"  wx:for="{{regulation}}"  wx:key="{{index}}">{{item.title}}</view>
+    <view class="rule_tit"> ————— 使用规格 —————</view>
+    <view class="rule_cont"  wx:for="{{regulation}}"  wx:key="{{index}}">{{item.use}}</view>
   </view>
 </view>

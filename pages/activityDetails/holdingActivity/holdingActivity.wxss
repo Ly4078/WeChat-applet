@@ -210,11 +210,14 @@
 .rule_tit {
   font-size: 28rpx;
   text-align: center;
-  padding-bottom: 36rpx;
+  line-height: 80rpx;
+  height: 80rpx;
 }
 
 .rule_cont {
   font-size: 24rpx;
+  letter-spacing: 2rpx;
+  padding-bottom: 10rpx;
 }
 
 
