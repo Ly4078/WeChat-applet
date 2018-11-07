@@ -272,7 +272,8 @@ Page({
     }
     if (userData.haveNum < 1){
       wx.showToast({
-        title: '您没有抽奖次数',
+        title: '邀请2个好友即可抽奖!',
+        icon:'none'
       })
       return false
     }
