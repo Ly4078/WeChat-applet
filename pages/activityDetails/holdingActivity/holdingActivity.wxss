@@ -3,9 +3,19 @@
 }
 
 .orange {
-  background-color: #f46d46;
+  background-color: #f46d46!important;
 }
-
+.ticketLi>view{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.ticketLi text{
+  display: inline-block;
+  box-sizing:border-box;
+  line-height: 34rpx;
+  text-align: center;
+}
 .yellow {
   background-color: #f4a549;
 }
@@ -35,7 +45,7 @@
 }
 
 .holdBanner {
-  height: 220rpx;
+  height: 300rpx;
   width: 100%;
 }
 
@@ -104,7 +114,7 @@
 }
 
 .reverse {
-  font-size: 100rpx;
+  /* font-size: 100rpx; */
   color: #f8a43e;
   font-weight: 900;
 }
@@ -143,7 +153,7 @@
   padding: 4rpx 20rpx 6rpx 20rpx;
   border-radius: 10rpx;
   color: #fff;
-  font-size: 32rpx;
+  font-size: 28rpx;
 }
 
 .ticketBtn {
@@ -201,7 +211,16 @@
   font-size: 28rpx;
   color: #dd482e;
 }
-
+.bot_txt_r button,.bot_txt_r button::after,.bot_txt_r button::before {
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  border:none;
+  display: inline-block;
+  height:auto;
+  font-size:28rpx;
+  color:#dd482e;
+}
 .activity_rule {
   color: #fff;
   padding: 74rpx 38rpx 42rpx 40rpx;

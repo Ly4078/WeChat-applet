@@ -53,7 +53,8 @@ Page({
     }
     if (options.inviter) {
       this.setData({
-        inviter: options.inviter
+        inviter: options.inviter,
+        currentType: options.currentType
       });
     }
     let q = decodeURIComponent(options.q);
@@ -558,9 +559,15 @@ Page({
     })
   },
   inviteCrab() { //邀请新用户兑换螃蟹 type =1
+  let url = ''
+    if (this.data.currentType){
+      url = that.data._build_url + 'pullUser/upNumsUp?userId=' + that.data.inviter + '&type=' + this.data.currentType
+    }else{
+      url = that.data._build_url + 'pullUser/upNumsUp?userId=' + that.data.inviter
+    }
     let that = this;
     wx.request({
-      url: that.data._build_url + 'pullUser/upNumsUp?userId=' + that.data.inviter,
+      url: url,
       header: {
         "Authorization": app.globalData.token
       },

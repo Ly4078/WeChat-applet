@@ -19,109 +19,58 @@
     <image class="lotteryBg" src="/images/icon/lottery.png"></image>
     <view class="lotteryCont">
       <swiper class="swiper_container" vertical="true" autoplay="true" circular="true" interval="2000">
-  <block wx:for="{{msgList}}"  wx:key="{{index}}">
-    <navigator url="/pages/index/index?title={{item.url}}" open-type="navigate">
-      <swiper-item>
-        <view class="swiper_item">{{item.title}}</view>
-      </swiper-item>
-    </navigator>
-  </block>
-</swiper>
-<view class='circleListWrap'>
-  <view class="circle" wx:for="{{circleList}}" wx:key="{{index}}" style="top:{{item.topCircle}}rpx;left:{{item.leftCircle}}rpx;background-color: {{(index%2==0)?colorCircleFirst:colorCircleSecond}};"></view>
-</view>
+        <block wx:for="{{msgList}}" wx:key="{{index}}">
+          <navigator url="/pages/index/index?title={{item.url}}" open-type="navigate">
+            <swiper-item>
+              <view class="swiper_item">{{item.title}}</view>
+            </swiper-item>
+          </navigator>
+        </block>
+      </swiper>
+      <view class='circleListWrap'>
+        <view class="circle" wx:for="{{circleList}}" wx:key="{{index}}" style="top:{{item.topCircle}}rpx;left:{{item.leftCircle}}rpx;background-color: {{(index%2==0)?colorCircleFirst:colorCircleSecond}};"></view>
+      </view>
       <view class="ticketWrap">
         <view class="ticketInner">
           <view class="ticketUl">
-            <view class="ticketLiBox">
-              <view class="ticketLi {{turnIdx == 1 && Countdown == 0 ? frameClass2 : ''}}">
-                <view><text class="orange">iPhone X</text></view>
-              </view>
-              <view class="reverse {{turnIdx == 1 && Countdown == 0 ? frameClass1 : ''}}">
-                <view class="{{turnIdx == 1 ? 'active' : ''}}">
-                  <image class='turnIIMG' src='https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1541494583066&di=5c62537f22a6c3f86f475739d7fdae20&imgtype=0&src=http%3A%2F%2Fimgup02.zb8.com%2Fzb8%2F2018-11%2F01%2F14%2F15410529852037_0.png'></image>
+            <block wx:for="{{prizeList}}" wx:key="index">
+              <view class="ticketLiBox" wx:if="{{index != 4}}" data-index="{{index}}">
+                <view class="ticketLi {{turnIdx == sortArr[index] && Countdown == 0 ? frameClass2 : ''}}">
+                  <view class="orange">
+                    <text wx:if="{{winningIndex == sortArr[index] }}" class="">{{winning.goodsSkuOut[0].skuName}}</text>
+                  </view>
+                </view>
+                <view class="reverse {{turnIdx == sortArr[index] && Countdown == 0 ? frameClass1 : ''}}">
+                  <view class="{{turnIdx == sortArr[index] ? 'active' : ''}}">
+                    {{item.goodsCategory.categoryName}}
+                    <!-- <image class='turnIIMG' src='https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1541494583066&di=5c62537f22a6c3f86f475739d7fdae20&imgtype=0&src=http%3A%2F%2Fimgup02.zb8.com%2Fzb8%2F2018-11%2F01%2F14%2F15410529852037_0.png'></image> -->
+                  </view>
                 </view>
               </view>
-            </view>
-            <view class="ticketLiBox">
-              <view class="ticketLi {{turnIdx == 2 && Countdown == 0 ? frameClass2 : ''}}">
-                <view><text class="orange">门票</text></view>
-              </view>
-              <view class="reverse {{turnIdx == 2 && Countdown == 0 ? frameClass1 : ''}}">
-                <view class="{{turnIdx == 2 ? 'active' : ''}}">?</view>
-              </view>
-            </view>
-            <view class="ticketLiBox">
-              <view class="ticketLi {{turnIdx == 3 && Countdown == 0 ? frameClass2 : ''}}">
-                <view><text class="orange">门票</text></view>
-              </view>
-              <view class="reverse {{turnIdx == 3 && Countdown == 0 ? frameClass1 : ''}}">
-                <view class="{{turnIdx == 3 ? 'active' : ''}}">?</view>
-              </view>
-            </view>
-            <view class="ticketLiBox">
-              <view class="ticketLi {{turnIdx == 8 && Countdown == 0 ? frameClass2 : ''}}">
-                <view><text class="orange">门票</text></view>
-              </view>
-              <view class="reverse {{turnIdx == 8 && Countdown == 0 ? frameClass1 : ''}}">
-                <view class="{{turnIdx == 8 ? 'active' : ''}}">?</view>
-              </view>
-            </view>
-            <view class="ticketBtnWrap" bindtap='drawBtn'>
-              <view class="ticketBtn">
-                <view>抽奖</view>
-                <view>
-                  <text>{{times}}次</text>
+              <view wx:if="{{index == 4}}" data-index="{{index}}" wx:key="index" class="ticketBtnWrap" bindtap='drawBtn'>
+                <view class="ticketBtn">
+                  <view>抽奖</view>
+                  <view>
+                    <text>{{lotteryData.haveNum || '0'}}次</text>
+                  </view>
                 </view>
               </view>
-            </view>
-            <view class="ticketLiBox">
-              <view class="ticketLi {{turnIdx == 4 && Countdown == 0 ? frameClass2 : ''}}">
-                <view><text class="orange">门票</text></view>
-              </view>
-              <view class="reverse {{turnIdx == 4 && Countdown == 0 ? frameClass1 : ''}}">
-                <view class="{{turnIdx == 4 ? 'active' : ''}}">?</view>
-              </view>
-            </view>
-            <view class="ticketLiBox">
-              <view class="ticketLi {{turnIdx == 7 && Countdown == 0 ? frameClass2 : ''}}">
-                <view><text class="orange">门票</text></view>
-              </view>
-              <view class="reverse {{turnIdx == 7 && Countdown == 0 ? frameClass1 : ''}}">
-                <view class="{{turnIdx == 7 ? 'active' : ''}}">?</view>
-              </view>
-            </view>
-            <view class="ticketLiBox">
-              <view class="ticketLi {{turnIdx == 6 && Countdown == 0 ? frameClass2 : ''}}">
-                <view><text class="orange">门票</text></view>
-              </view>
-              <view class="reverse {{turnIdx == 6 && Countdown == 0 ? frameClass1 : ''}}">
-                <view class="{{turnIdx == 6 ? 'active' : ''}}">?</view>
-              </view>
-            </view>
-            <view class="ticketLiBox">
-              <view class="ticketLi {{turnIdx == 5 && Countdown == 0 ? frameClass2 : ''}}">
-                <view><text class="orange">门票</text></view>
-              </view>
-              <view class="reverse {{turnIdx == 5 && Countdown == 0 ? frameClass1 : ''}}">
-                <view class="{{turnIdx == 5 ? 'active' : ''}}">?</view>
-              </view>
-            </view>
+            </block>
           </view>
         </view>
       </view>
       <view class="lotterybottom_txt">
         <view class="bot_txt_l">已邀请
-          <text>0</text>人，可抽奖
-          <text>0</text>次</view>
-        <view class="bot_txt_r">邀请好友</view>
+          <text>{{lotteryData.pullNum || '0'}}</text>人，可抽奖
+          <text>{{lotteryData.haveNum || '0'}}</text>次</view>
+        <view catchtap='share' class="bot_txt_r"><button open-type='share'>邀请好友</button></view>
       </view>
     </view>
   </view>
   <view class="activity_rule">
     <view class="rule_tit"> ————— 活动规则 —————</view>
-    <view class="rule_cont"  wx:for="{{regulation}}"  wx:key="{{index}}">{{item.title}}</view>
+    <view class="rule_cont" wx:for="{{regulation}}" wx:key="{{index}}">{{item.title}}</view>
     <view class="rule_tit"> ————— 使用规格 —————</view>
-    <view class="rule_cont"  wx:for="{{regulation}}"  wx:key="{{index}}">{{item.use}}</view>
+    <view class="rule_cont" wx:for="{{regulation}}" wx:key="{{index}}">{{item.use}}</view>
   </view>
 </view>

@@ -4,11 +4,10 @@ import {
   GLOBAL_API_DOMAIN
 } from '../../../utils/config/config.js';
 var app = getApp();
-
-
-var village_LBS = function (that) {
+let gameFlag = true; //防止重复点击
+var village_LBS = function(that) {
   wx.getLocation({
-    success: function (res) {
+    success: function(res) {
       console.log('vill_res:', res)
       let latitude = res.latitude,
         longitude = res.longitude;
@@ -28,17 +27,49 @@ Page({
     _city: '',
     _lat: '',
     _lng: '',
-    times: 5,   //次数
-    turnIdx: 2,   //转动序号
+    prizeList: [], //奖品列表
+    turnIdx: 2, //转动序号
     // turnFlag: false,  //转动标识
-    Countdown: 0,   //倒计时（随机，但要考虑后台返回值的时间）
+    Countdown: 0, //倒计时默认2秒，如果后端返回过慢 时间延长
     frameClass1: 'z1', //默认正面在上面
     frameClass2: 'z2',
-    circleList: [],//圆点数组
-    colorCircleFirst: '#FFDF2F',//圆点颜色1
-    colorCircleSecond: '#FE4D32',//圆点颜色2
+    circleList: [], //圆点数组
+    colorCircleFirst: '#FFDF2F', //圆点颜色1
+    colorCircleSecond: '#FE4D32', //圆点颜色2
   },
-  onLoad: function (options) {
+  onLoad: function(options) {
+    this.circleShow();
+
+    this.setData({
+      inviter: options.inviter ? options.inviter : app.globalData.userInfo.userId
+    });
+    this.setData({
+      msgList: [{
+          url: "url",
+          title: "公告：恭喜186****5816获得九寨沟门票"
+        },
+        {
+          url: "url",
+          title: "公告：恭喜186****5816获得九寨沟门票"
+        },
+        {
+          url: "url",
+          title: "公告：恭喜186****5816获得九寨沟门票"
+        }
+      ]
+    });
+    this.setData({
+      regulation: [
+        { title: "1、活动时间：2018-11-11至2018-12-31日。", use: "1、如中奖iPhone X ：请务必联系享7美食客服人员确认详细信息后配送，有效期3个月。" },
+        { title: "2、奖品设置：iPhone X 、十堰旅游券、十堰酒店房卡、十堰美食券。", use: "2、如中奖十堰旅游券：请根据中奖旅游景区到指定景区出使券票二维码即可使用；有效期1年。" },
+        { title: "3、通过享7美食小程序每邀请2个好友成为享7美食新用户，即可抽奖一次，百分百中奖！", use: "3、如中奖十堰酒店房卡：请根据中奖酒店到指定酒店前台出使券票二维码即可使用，有效期1年。" },
+        { title: "4、邀请新用户抽奖成功后实时发放入您的券包，您可在享7美食小程序-我的-券包中查看。", use: "4、如中奖美食券：请根据中奖菜品对应的商家到指定商家用餐出使券票二维码即可使用，有效期3个月。" },
+        { title: "5、您邀请的好友必须是享7美食新用户，同一手机号、同一设备、同一支付账号视为统一用户。" },
+        { title: "6、抽奖存入券包里的券中奖商品不用有效期不同，在有效期内均可使用。" },
+        { title: "7、如有其他疑问请咨询享7美食客服。" },]
+    });
+  },
+  circleShow() {
     var _this = this;
     //圆点设置
     var leftCircle = 7.5;
@@ -72,13 +103,16 @@ Page({
       } else {
         return
       }
-      circleList.push({ topCircle: topCircle, leftCircle: leftCircle });
+      circleList.push({
+        topCircle: topCircle,
+        leftCircle: leftCircle
+      });
     }
     this.setData({
       circleList: circleList
     })
     //圆点闪烁
-    setInterval(function () {
+    setInterval(function() {
       if (_this.data.colorCircleFirst == '#FFDF2F') {
         _this.setData({
           colorCircleFirst: '#4ab2f3',
@@ -91,28 +125,11 @@ Page({
         })
       }
     }, 500)
-
-    this.setData({
-      inviter: options.inviter ? options.inviter : app.globalData.userInfo.userId
-    });
-    this.setData({
-      msgList: [
-        { url: "url", title: "公告：恭喜186****5816获得九寨沟门票" },
-        { url: "url", title: "公告：恭喜186****5816获得九寨沟门票" },
-        { url: "url", title: "公告：恭喜186****5816获得九寨沟门票" }]
-    });
-    this.setData({
-      regulation: [
-        { title: "1、活动时间：2018-11-11至2018-12-31日。", use: "1、如中奖iPhone X ：请务必联系享7美食客服人员确认详细信息后配送，有效期3个月。"},
-        { title: "2、奖品设置：iPhone X 、十堰旅游券、十堰酒店房卡、十堰美食券。", use: "2、如中奖十堰旅游券：请根据中奖旅游景区到指定景区出使券票二维码即可使用；有效期1年。" },
-        { title: "3、通过享7美食小程序每邀请2个好友成为享7美食新用户，即可抽奖一次，百分百中奖！", use: "3、如中奖十堰酒店房卡：请根据中奖酒店到指定酒店前台出使券票二维码即可使用，有效期1年。" },
-        { title: "4、邀请新用户抽奖成功后实时发放入您的券包，您可在享7美食小程序-我的-券包中查看。", use: "4、如中奖美食券：请根据中奖菜品对应的商家到指定商家用餐出使券票二维码即可使用，有效期3个月。"},
-        { title: "5、您邀请的好友必须是享7美食新用户，同一手机号、同一设备、同一支付账号视为统一用户。" },
-        { title: "6、抽奖存入券包里的券中奖商品不用有效期不同，在有效期内均可使用。" },
-        { title: "7、如有其他疑问请咨询享7美食客服。" },]
-    });
   },
-  onShow: function () {
+  onShow: function() {
+    let that = this;
+    console.log('onShow:', app.globalData.userInfo)
+
     this.setData({
       isshowlocation: false
     })
@@ -120,7 +137,11 @@ Page({
       if (app.globalData.userInfo.mobile) {
         if (app.globalData.token) {
           //调接口
+          that.createUser()
 
+          if (!that.data.prizeList.length) {
+            that.getData();
+          }
         } else {
           this.authlogin();
         }
@@ -134,41 +155,211 @@ Page({
       this.findByCode();
     }
   },
-  drawBtn() {   //点击抽奖按钮
-    if (this.data.Countdown == 0) {
-      this.setData({
-        Countdown: 2000
-      });
-      this.turn(100);
-    } else {
-      wx.showToast({
-        title: '请勿重复点击',
-        icon: 'none'
-      })
-    }
+  createUser() {
+    let that = this;
+    wx.request({
+      url: that.data._build_url + 'pullUser/insertUserPull?type=3',
+      method: 'post',
+      header: {
+        "Authorization": app.globalData.token
+      },
+      success: function(res) {
+        that.getUserNum();
+      },
+      fail() {
+        that.getUserNum();
+      }
+    })
+
   },
-  turn(interval) {    //转盘动画
-    let _this = this, turnIdx = this.data.turnIdx, Countdown = this.data.Countdown;
-    let timer = setInterval(function () {
-      Countdown = Countdown - interval;
+  getUserNum() {
+    let that = this;
+    wx.request({
+      url: that.data._build_url + 'pullUser/getForNum?type=3',
+      method: 'get',
+      header: {
+        "Authorization": app.globalData.token
+      },
+      success: function(res) {
+        if (res.data.code == '0' && res.data.data) {
+          that.setData({
+            lotteryData: res.data.data
+          })
+        } else {
+          wx.showToast({
+            title: '服务器开了点小差，请重新进入',
+            icon: 'none'
+          })
+        }
+      },
+      fail() {
+        wx.showToast({
+          title: '服务器开了点小差，请重新进入',
+          icon: 'none'
+        })
+      }
+    })
+  },
+  getData() {
+    let that = this;
+    wx.request({
+      url: that.data._build_url + '/actGoodsSku/getSpuList?actId=42',
+      method: 'get',
+      header: {
+        "Authorization": app.globalData.token
+      },
+      success: function(res) {
+        if (res.data.code == '0' && res.data.data.length) {
+          let data = res.data.data
+          that.computed(data)
+        } else {
+          wx.showToast({
+            title: '加载数据失败，请重新进入',
+            icon: 'none'
+          })
+        }
+      },
+      fail() {
+        wx.showToast({
+          title: '服务器繁忙，请重新进入',
+          icon: 'none'
+        })
+      }
+    })
+  },
+  computed(data) {
+    let that = this;
+    let arr = [],
+      arr2 = [],
+      list = [];
+    data.forEach((item, index) => {
+      if (item.categoryId == '9') {
+        arr2.push(item)
+      } else {
+        arr.push(item)
+      }
+    })
+    list = arr;
+    for (var i = 0; i < 8; i++) {
+      if (list.length < 7) {
+        if (arr[i]) {
+          list.push(arr[i])
+        } else {
+          i = 0
+        }
+      }
+    }
+    if (arr2.length) {
+      list.push(arr2[0])
+    } else {
+      list.push(arr[0])
+    }
+    list.splice(4, 0, '')
+    let sortArr = [1, 2, 3, 8, '', 4, 7, 6, 5]
+    that.setData({
+      prizeList: list,
+      sortArr: sortArr
+    })
+  },
+  drawBtn() { //点击抽奖按钮
+    let that = this;
+    let userData = that.data.lotteryData
+    if (!gameFlag) { //游戏正在运行中
+      return false
+    }
+    if (!userData && userData.haveNum < 1) {
+      wx.showToast({
+        title: '您没有抽奖次数',
+      })
+      return
+    }
+    that.setData({
+      winningIndex: '',
+      frameClass1: "z1 front",
+      frameClass2: "z2 back",
+    })
+    gameFlag = false
+    that.turn(100); //游戏运行
+    that.sendGamerequest() //请求游戏开奖结果
+  },
+  sendGamerequest() {
+    let that = this;
+    wx.request({
+      url: that.data._build_url + 'actGoodsSku/lottery?actId=42&type=3',
+      method: 'get',
+      header: {
+        "Authorization": app.globalData.token
+      },
+      success: function(res) {
+        if (res.data.code == '0' && res.data.data && res.data.data.goodsSkuOut[0] && res.data.data.categoryId) {
+          let currentData = that.data.prizeList;
+          currentData.forEach((item, index) => {
+            if (item.categoryId == res.data.data.categoryId) {
+              let sortArr = [1, 2, 3, 8, '', 4, 7, 6, 5]
+              that.setData({
+                winning: res.data.data,
+                winningIndex: sortArr[index]
+              })
+              return
+            }
+          })
+
+        } else {
+          that.setData({
+            winningIndex: -1
+          })
+        }
+      },
+      fail() {
+        that.setData({
+          winningIndex: -1
+        })
+      }
+
+    })
+  },
+  turn(interval) { //转盘动画
+    let _this = this,
+      turnIdx = this.data.turnIdx;
+
+    let timer = setInterval(function() {
+      let Countdown = _this.data.Countdown
+      Countdown += interval;
       turnIdx = turnIdx < 8 ? turnIdx + 1 : 1;
       _this.setData({
-        turnIdx: turnIdx
+        turnIdx: turnIdx,
+        Countdown: Countdown
       });
-      if (Countdown <= 0) {
-        _this.setData({
-          Countdown: 0
-        });
+      if (_this.data.winningIndex == -1) {
+        wx.showToast({
+          title: '系统开了小差',
+          icon: 'none'
+        })
         clearInterval(timer);
-        _this.getTick();
+        gameFlag = true
+        return false
       }
+      if (Countdown >= 4000) {
+        if (_this.data.winningIndex == turnIdx) {
+          let lotteryData = _this.data.lotteryData
+          lotteryData.haveNum = lotteryData.haveNum - 1 //减少一次抽奖次数
+          lotteryData.pullNum = lotteryData.pullNum - 3
+          
+          _this.setData({
+            Countdown: 0,
+            lotteryData: lotteryData
+          });
+          clearInterval(timer);
+          _this.getTick();
+        }
+      }
+
     }, interval);
   },
-  reverse() {    //翻转动画
+  reverse() { //翻转动画
     if (this.data.frameClass1.indexOf('z1') != -1) {
       this.setData({
-        frameClass1: "z2 back",
-        frameClass2: "z1 front",
+
       })
     } else {
       this.setData({
@@ -179,19 +370,33 @@ Page({
   },
   getTick() {
     let _this = this;
-    this.reverse();
-    wx.showModal({
-      title: '恭喜',
-      content: '获得门票一张',
-      success(res) {
-        _this.reverse();
-      }
+    _this.setData({
+      frameClass1: "z2 back",
+      frameClass2: "z1 front"
     })
+   setTimeout( ()=>{
+     wx.showModal({
+       title: '恭喜',
+       confirmText:'立即查看',
+       content: _this.data.winning.goodsSkuOut[0].skuName,
+       success(res) {
+         if (res.confirm) {
+           gameFlag = true
+           wx.navigateTo({
+             url: '/pages/personal-center/my-discount/my-discount',
+           })
+         } else if (res.cancel) {
+           gameFlag = true
+         }
+          
+       }
+     })
+   },1500) 
   },
 
 
 
-  findByCode: function () { //通过code查询用户信息
+  findByCode: function() { //通过code查询用户信息
     let that = this;
     wx.login({
       success: res => {
@@ -212,7 +417,7 @@ Page({
               that.authlogin(); //获取token
             } else {
               wx.navigateTo({
-                url: '/pages/personal-center/securities-sdb/securities-sdb?inviter=' + this.data.inviter + '&back=1'
+                url: '/pages/personal-center/securities-sdb/securities-sdb?inviter=' + this.data.inviter + '&back=1&currentType=3'
               })
             }
           } else {
@@ -222,7 +427,7 @@ Page({
       }
     })
   },
-  authlogin: function () { //获取token
+  authlogin: function() { //获取token
     console.log('authlogin')
     let that = this;
     wx.request({
@@ -232,7 +437,7 @@ Page({
       header: {
         'content-type': 'application/json' // 默认值
       },
-      success: function (res) {
+      success: function(res) {
         if (res.data.code == 0) {
           let _token = 'Bearer ' + res.data.data;
           app.globalData.token = _token;
@@ -264,20 +469,23 @@ Page({
       }
     }
   },
+  share () {
+    this.onShareAppMessage()
+  },
   //分享给好友
-  onShareAppMessage: function () {
+  onShareAppMessage: function() {
     console.log("onShareAppMessageuserId:", app.globalData.userInfo.userId)
     return {
       title: '邀请好友，换大闸蟹',
       path: '/pages/activityDetails/holdingActivity/holdingActivity?inviter=' + app.globalData.userInfo.userId,
-      success: function (res) {
+      success: function(res) {
         console.log('successres:', res)
       }
     }
   },
-  closetel: function (e) { //跳转至新用户注册页面
+  closetel: function(e) { //跳转至新用户注册页面
     wx.navigateTo({
-      url: '/pages/personal-center/securities-sdb/securities-sdb?inviter=' + this.data.inviter + '&back=1'
+      url: '/pages/personal-center/securities-sdb/securities-sdb?inviter=' + this.data.inviter + '&back=1&currentType=3'
     })
 
     return;
@@ -295,7 +503,7 @@ Page({
     })
   },
   //打开地图导航
-  TencentMap: function (event) {
+  TencentMap: function(event) {
     this.setData({
       shopId: event.currentTarget.id
     });
@@ -311,13 +519,14 @@ Page({
     }
     wx.getLocation({
       type: 'wgs84',
-      success: function (res) {
-        let latitude = res.latitude, longitude = res.longitude;
+      success: function(res) {
+        let latitude = res.latitude,
+          longitude = res.longitude;
         app.globalData.userInfo.lat = latitude;
         app.globalData.userInfo.lng = longitude;
         that.requestCityName(latitude, longitude);
       },
-      fail: function (res) {
+      fail: function(res) {
         wx.getSetting({
           success: (res) => {
             if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其用户位置信息
@@ -333,7 +542,7 @@ Page({
       }
     })
   },
-  openSetting() {//打开授权设置界面
+  openSetting() { //打开授权设置界面
     let that = this;
     that.setData({
       isshowlocation: false
@@ -346,7 +555,7 @@ Page({
           // village_LBS(that);
           console.log('userLocation')
           wx.getLocation({
-            success: function (res) {
+            success: function(res) {
               let latitude = res.latitude,
                 longitude = res.longitude;
               that.requestCityName(latitude, longitude);
@@ -393,11 +602,11 @@ Page({
 
   },
   //打开地图
-  openmap: function () {
+  openmap: function() {
     let that = this;
     wx.getLocation({
       type: 'gcj02',
-      success: function (res) {
+      success: function(res) {
         let latitude = res.latitude;
         let longitude = res.longitude;
         let postList = that.data.postList;
@@ -410,7 +619,7 @@ Page({
               scale: 18,
               name: postList[i].name,
               address: postList[i].name + postList[i].place,
-              success: function (res) { }
+              success: function(res) {}
             })
           }
         }

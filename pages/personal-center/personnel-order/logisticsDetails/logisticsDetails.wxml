@@ -123,7 +123,7 @@
   </view>
   <!-- 底部联系客服再次/购买 -->
   <view class='secondOrderLeader'>
-    <view catchtap='toRefund' wx:if="{{soDetail.status == 2}}" class="Refund">申请退款</view>
+    <view catchtap='toRefund' wx:if="{{soDetail.status == 3}}" class="Refund">申请退款</view>
     <button open-type='contact'>联系客服</button>
     <button bindtap='nowuse' class='cheng' wx:if="{{soDetail.ust}}">立即使用</button>
     <button bindtap='buyagain' wx:if="{{soDetail.status == 3 || soDetail.status == 10}}">再次购买</button>
