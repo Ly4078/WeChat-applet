@@ -44,21 +44,6 @@ Page({
       inviter: options.inviter ? options.inviter : app.globalData.userInfo.userId
     });
     this.setData({
-      msgList: [{
-        url: "url",
-        title: "公告：恭喜186****5816获得九寨沟门票"
-      },
-      {
-        url: "url",
-        title: "公告：恭喜186****5816获得九寨沟门票"
-      },
-      {
-        url: "url",
-        title: "公告：恭喜186****5816获得九寨沟门票"
-      }
-      ]
-    });
-    this.setData({
       regulation: [
         { title: "1、活动时间：2018-11-11至2018-12-31日。", use: "1、如中奖iPhone X ：请务必联系享7美食客服人员确认详细信息后配送，有效期3个月。" },
         { title: "2、奖品设置：iPhone X 、十堰旅游券、十堰酒店房卡、十堰美食券。", use: "2、如中奖十堰旅游券：请根据中奖旅游景区到指定景区出使券票二维码即可使用；有效期1年。" },
@@ -68,6 +53,41 @@ Page({
         { title: "6、抽奖存入券包里的券中奖商品不用有效期不同，在有效期内均可使用。" },
         { title: "7、如有其他疑问请咨询享7美食客服。" },]
     });
+  },
+  getwinningList () {
+    let that = this
+    wx.request({
+      url: that.data._build_url + 'orderInfo/listFree?page=1&rows=20&payType=0&categoryId=6',
+      method: 'get',
+      header: {
+        "Authorization": app.globalData.token
+      },
+      success:function(res){
+          console.log(res)
+          if(res.data.code=='0' && res.data.data ){
+            let data = res.data.data
+            if(!data.list){
+              return
+            }
+              if(data.list.length){
+                  const msgList = [];
+                  
+                data.list.forEach( (item ,index)=>{
+                  let phone = '', obj = {};
+                  phone = item.userName.substring(0, 3) + '****' + item.userName.substring(7, item.userName.length)
+                  obj.title = '恭喜' + phone + '获得' + item.orderItemOuts[0].goodsSkuName;
+                  obj.url = 'url'
+                  obj.id = item.id
+                  msgList.push(obj)
+                })
+                console.log(msgList)
+                that.setData({
+                  msgList: msgList
+                })
+              }
+          }
+      }
+    })
   },
   circleShow() {
     var _this = this;
@@ -138,7 +158,7 @@ Page({
         if (app.globalData.token) {
           //调接口
           that.createUser()
-
+          that.getwinningList()
           if (!that.data.prizeList.length) {
             that.getData();
           }

@@ -136,6 +136,9 @@
 .reverse view.active {
   background-color: #ffe04a;
 }
+.reverse view.active image{
+   background-color: #ffe04a;
+}
 
 .ticketLi view, .reverse view, .ticketBtn {
   width: 100%;
@@ -147,6 +150,9 @@
 .ticketLi view, .reverse view {
   background-color: #fff5e1;
   box-shadow: 0 8rpx 0 #f3cd99;
+}
+.ticketLi view, .reverse view image{
+  background-color: #fff5e1;
 }
 
 .ticketLi text {
@@ -303,7 +309,7 @@
   justify-content:center;
   align-items: center;
   line-height: 40rpx;
-  font-size: 24rpx;
+  font-size: 20rpx;
   color: #fff;
 }
 

@@ -14,7 +14,7 @@
 </view>
 
 <view class='holdingWrap'>
-  <image class="holdBanner" src="https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/adlfaldkfqeradsw.png"></image>
+  <image class="holdBanner" src="https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/微信图片_20181107173611.png"></image>
   <view class="lotteryBox">
     <image class="lotteryBg" src="/images/icon/lottery.png"></image>
     <view class="lotteryCont">
@@ -42,8 +42,8 @@
                 </view>
                 <view class="reverse {{turnIdx == sortArr[index] && Countdown == 0 ? frameClass1 : ''}}">
                   <view class="{{turnIdx == sortArr[index] ? 'active' : ''}}">
-                    {{item.goodsCategory.categoryName}}
-                    <!-- <image class='turnIIMG' src='https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1541494583066&di=5c62537f22a6c3f86f475739d7fdae20&imgtype=0&src=http%3A%2F%2Fimgup02.zb8.com%2Fzb8%2F2018-11%2F01%2F14%2F15410529852037_0.png'></image> -->
+                    <!-- {{item.goodsCategory.categoryName}} -->
+                    <image class='turnIIMG' src='{{item.goodsCategory.imageUrl}}'></image>
                   </view>
                 </view>
               </view>
