@@ -267,11 +267,14 @@ Page({
     if (!gameFlag) { //游戏正在运行中
       return false
     }
-    if (!userData && userData.haveNum < 1) {
+    if (!userData ) {
+      return false
+    }
+    if (userData.haveNum < 1){
       wx.showToast({
         title: '您没有抽奖次数',
       })
-      return
+      return false
     }
     that.setData({
       winningIndex: '',
@@ -339,7 +342,7 @@ Page({
         gameFlag = true
         return false
       }
-      if (Countdown >= 4000) {
+      if (Countdown >= 2000) {
         if (_this.data.winningIndex == turnIdx) {
           let lotteryData = _this.data.lotteryData
           lotteryData.haveNum = lotteryData.haveNum - 1 //减少一次抽奖次数
