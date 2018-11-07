@@ -401,7 +401,7 @@ const ALL_API = {
     url: 'account/findGold'
   },
   vegetables: {    //是否为某道菜砍过价
-    method: 'get',
+    method: 'GET',
     url: 'bargain/skuRedis'
   },
   bargainList: {    //我的砍价列表
@@ -640,7 +640,7 @@ const ALL_API = {
   },
   superMarketUrl: {   //超市列表
     method: 'GET',
-    url: 'salePoint/list'
+    url: 'salePoint/listNew'
   },
   storeSrabList: {   //到店提货螃蟹列表
     method: 'GET',

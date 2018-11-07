@@ -22,5 +22,4 @@ Page({
       url: 'touristHotelDils/touristHotelDils',
     })
   }
-
 })

@@ -48,7 +48,7 @@
         <image class='handiseTop-img' src='{{soDetail.orderItemOuts[0].goodsSkuPic}}'></image>
       </view>
       <view class='handiseTop-right'>
-        <view class='handiseTop-rightText'>
+        <view class='handiseTop-rightText' wx:if="{{soDetail.units}}">
           <text>阳澄湖大闸蟹{{soDetail.units}}</text>
         </view>
         <view class='handiseTop-rightCation'>

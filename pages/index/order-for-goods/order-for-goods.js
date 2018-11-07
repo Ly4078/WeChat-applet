@@ -32,7 +32,7 @@ Page({
     ]
   },
   onLoad: function(options) {
-    console.log(options)
+    console.log("options:", options)
     if (options.skuName) {
       this.setData({
         skuName: options.skuName
@@ -116,19 +116,7 @@ Page({
       })
     }
   },
-  // isNewUser: function () {   //判断是否新用户
-  //   let that = this;
-  //   let _parms = {
-  //     userId: app.globalData.userInfo.userId
-  //   };
-  //   Api.isNewUser(_parms).then((res) => {
-  //     if (res.data.code == 0) {
-  //       that.setData({
-  //         isNew: 1
-  //       });
-  //     }
-  //   })
-  // },
+
   hidtel: function($phone) {
     $IsWhat = preg_match('/(0[0-9]{2,3}[\-]?[2-9][0-9]{6,7}[\-]?[0-9]?)/i', $phone);
     if ($IsWhat == 1) {
@@ -218,15 +206,14 @@ Page({
     }
   },
 
-  bindManual: function(e) {
+  bindManual: function(e) {  //输入的数值
     var number = e.detail.value;
     this.setData({
       number: number
     });
   },
-  formSubmit:function(e){
+  formSubmit:function(e){  //获取fromId
     let _formId = e.detail.formId;
-    console.log("_formId:", _formId);
     this.determine();
     Public.addFormIdCache(_formId); 
   },
@@ -238,6 +225,7 @@ Page({
         issnap: true
       })
     } else {
+
       this.confirmPayment();
     }
   },
@@ -879,7 +867,7 @@ Page({
       }
     })
   },
-  closetel: function(e) {
+  closetel: function(e) {  //新用户去注册
     let id = e.target.id;
     this.setData({
       issnap: false
@@ -887,7 +875,6 @@ Page({
     if (id == 1) {
       wx.navigateTo({
         url: '/pages/init/init?isback=1'
-        // url: '/pages/personal-center/securities-sdb/securities-sdb?back=1'
       })
     }
   }

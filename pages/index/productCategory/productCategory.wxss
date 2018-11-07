@@ -59,7 +59,7 @@ page, .categoryBox {
   display: flex;
   flex-direction: row;
   height: 100%;
-  padding-top: 88rpx;
+  /* padding-top: 88rpx; */
   box-sizing: border-box;
 }
 
@@ -179,4 +179,7 @@ page, .categoryBox {
   font-size: 20rpx;
   color: #969696;
   text-decoration: line-through;
+}
+.boxload{
+  margin-left:45%;
 }

@@ -1,37 +1,46 @@
 <view class="categoryBox">
-  <view class="search">
+  <!-- <view class="search">
     <view class="search_inner">
       <image src="/images/icon/hot_search.png"></image>
       <input placeholder='搜索商品'></input>
     </view>
-  </view>
+  </view> -->
   <view class="category">
     <view class="category_l">
-      <view wx:for="{{category}}" wx:for-item="item" wx:key="{{index}}" class="l_list {{item.name == toView ? 'active' : ''}}" data-name="{{item.name}}" bindtap='scrollToView'>
-        <view wx:if="{{item.name == toView}}" class="l_list_icon">
+      <view wx:for="{{sort}}" wx:for-item="item" wx:key="{{index}}" class="l_list {{item.categoryId == sortId ? 'active' : ''}}" id="{{item.categoryId}}" bindtap='bindSort'>
+        <view wx:if="{{item.categoryId == sortId}}" class="l_list_icon">
           <view></view>
         </view>
-        <view class="l_list_txt">{{item.name}}</view>
+        <view class="l_list_txt">{{item.goodsCategory.categoryName}}</view>
       </view>
     </view>
     <view class="category_r">
-      <view class="r_cont" id="food">
+      <view class="r_cont">
         <view class="classify_list">
-          <view wx:for="{{classify}}" wx:for-item="item" wx:key="{{index}}" class="classify_item">
+          <view wx:for="{{comList}}" wx:key="{{index}}" class="classify_item" id="{{item.id}}" bindtap='bindItem'>
             <view class="classify_l_r">
-              <image src="{{item.icon}}"></image>
+              <image src="{{item.skuPic}}"></image>
               <view>
-                <view class="goods_tit">武当山 成人票兑换</view>
-                <view class="goods_addr">十堰市丹江口镇66号</view>
+                <view class="goods_tit">{{item.skuName}}</view>
+                <view class="goods_addr">{{item.salePointOuts[0].address}}</view>
                 <text class="goods_icon">全民砍价</text>
                 <view class="priceBox">
-                  <text class="discount_price">￥1.1</text>
-                  <text class="original_price">￥11</text>
+                  <text class="discount_price">￥{{item.goodsPromotionRules[0].actAmount}}</text>
+                  <text class="original_price">￥{{item.sellPrice}}</text>
                 </view>
               </view>
             </view>
-            <view class="goods_distance">12.3km</view>
           </view>
+        </view>
+
+        <view wx:if="{{comList.length < 1}}" class='placeholder'>
+          <image src="/images/icon/zhanweitu.png"></image>
+        </view>
+
+        <view class='loadingBox boxload'>
+          <i-spin custom wx:if="{{loading}}">
+            <view class="loading"></view>
+          </i-spin>
         </view>
       </view>
     </view>

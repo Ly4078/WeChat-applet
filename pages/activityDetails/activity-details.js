@@ -55,12 +55,6 @@ Page({
       })
     }
   },
-  onHide() {
-    wx.hideLoading();
-  },
-  onUnload() {
-    wx.hideLoading();
-  },
   againgetinfo: function () {
     let that = this;
     wx.getUserInfo({
@@ -151,7 +145,11 @@ Page({
         _type = this.data.actdata[i].type;
       }
     }
-    if(_type == 2){
+    if(actid == 41){
+      wx.navigateTo({
+        url: '/pages/index/productCategory/productCategory',
+      })
+    }else if(_type == 2){
       wx.navigateTo({
         url: 'video-list/video-list?id=' + actid,
       })

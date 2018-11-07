@@ -104,7 +104,7 @@
       <view class='mylistWrap'>
         <view class='myList' catchtap='continuousAs'>
           <image class='myListImages' src='/images/icon/bargainirg_kj.png'></image>
-          <view class='mylistText'>我的砍菜</view>
+          <view class='mylistText'>我的砍价</view>
         </view>
         <view class='myList' catchtap='contact'>
           <image class='myListImages' src='/images/icon/customer_service.png'></image>

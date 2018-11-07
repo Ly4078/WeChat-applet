@@ -5,9 +5,9 @@ import {
 } from '../../../utils/config/config.js';
 var app = getApp();
 let gameFlag = true; //防止重复点击
-var village_LBS = function(that) {
+var village_LBS = function (that) {
   wx.getLocation({
-    success: function(res) {
+    success: function (res) {
       console.log('vill_res:', res)
       let latitude = res.latitude,
         longitude = res.longitude;
@@ -37,7 +37,7 @@ Page({
     colorCircleFirst: '#FFDF2F', //圆点颜色1
     colorCircleSecond: '#FE4D32', //圆点颜色2
   },
-  onLoad: function(options) {
+  onLoad: function (options) {
     this.circleShow();
 
     this.setData({
@@ -45,17 +45,17 @@ Page({
     });
     this.setData({
       msgList: [{
-          url: "url",
-          title: "公告：恭喜186****5816获得九寨沟门票"
-        },
-        {
-          url: "url",
-          title: "公告：恭喜186****5816获得九寨沟门票"
-        },
-        {
-          url: "url",
-          title: "公告：恭喜186****5816获得九寨沟门票"
-        }
+        url: "url",
+        title: "公告：恭喜186****5816获得九寨沟门票"
+      },
+      {
+        url: "url",
+        title: "公告：恭喜186****5816获得九寨沟门票"
+      },
+      {
+        url: "url",
+        title: "公告：恭喜186****5816获得九寨沟门票"
+      }
       ]
     });
     this.setData({
@@ -112,7 +112,7 @@ Page({
       circleList: circleList
     })
     //圆点闪烁
-    setInterval(function() {
+    setInterval(function () {
       if (_this.data.colorCircleFirst == '#FFDF2F') {
         _this.setData({
           colorCircleFirst: '#4ab2f3',
@@ -126,7 +126,7 @@ Page({
       }
     }, 500)
   },
-  onShow: function() {
+  onShow: function () {
     let that = this;
     console.log('onShow:', app.globalData.userInfo)
 
@@ -163,7 +163,7 @@ Page({
       header: {
         "Authorization": app.globalData.token
       },
-      success: function(res) {
+      success: function (res) {
         that.getUserNum();
       },
       fail() {
@@ -180,7 +180,7 @@ Page({
       header: {
         "Authorization": app.globalData.token
       },
-      success: function(res) {
+      success: function (res) {
         if (res.data.code == '0' && res.data.data) {
           that.setData({
             lotteryData: res.data.data
@@ -208,7 +208,7 @@ Page({
       header: {
         "Authorization": app.globalData.token
       },
-      success: function(res) {
+      success: function (res) {
         if (res.data.code == '0' && res.data.data.length) {
           let data = res.data.data
           that.computed(data)
@@ -267,13 +267,13 @@ Page({
     if (!gameFlag) { //游戏正在运行中
       return false
     }
-    if (!userData ) {
+    if (!userData) {
       return false
     }
-    if (userData.haveNum < 1){
+    if (userData.haveNum < 1) {
       wx.showToast({
         title: '邀请2个好友即可抽奖!',
-        icon:'none'
+        icon: 'none'
       })
       return false
     }
@@ -294,7 +294,7 @@ Page({
       header: {
         "Authorization": app.globalData.token
       },
-      success: function(res) {
+      success: function (res) {
         if (res.data.code == '0' && res.data.data && res.data.data.goodsSkuOut[0] && res.data.data.categoryId) {
           let currentData = that.data.prizeList;
           currentData.forEach((item, index) => {
@@ -326,7 +326,7 @@ Page({
     let _this = this,
       turnIdx = this.data.turnIdx;
 
-    let timer = setInterval(function() {
+    let timer = setInterval(function () {
       let Countdown = _this.data.Countdown
       Countdown += interval;
       turnIdx = turnIdx < 8 ? turnIdx + 1 : 1;
@@ -348,7 +348,7 @@ Page({
           let lotteryData = _this.data.lotteryData
           lotteryData.haveNum = lotteryData.haveNum - 1 //减少一次抽奖次数
           lotteryData.pullNum = lotteryData.pullNum - 3
-          
+
           _this.setData({
             Countdown: 0,
             lotteryData: lotteryData
@@ -378,29 +378,29 @@ Page({
       frameClass1: "z2 back",
       frameClass2: "z1 front"
     })
-   setTimeout( ()=>{
-     wx.showModal({
-       title: '恭喜',
-       confirmText:'立即查看',
-       content: _this.data.winning.goodsSkuOut[0].skuName,
-       success(res) {
-         if (res.confirm) {
-           gameFlag = true
-           wx.navigateTo({
-             url: '/pages/personal-center/my-discount/my-discount',
-           })
-         } else if (res.cancel) {
-           gameFlag = true
-         }
-          
-       }
-     })
-   },1500) 
+    setTimeout(() => {
+      wx.showModal({
+        title: '恭喜',
+        confirmText: '立即查看',
+        content: _this.data.winning.goodsSkuOut[0].skuName,
+        success(res) {
+          if (res.confirm) {
+            gameFlag = true
+            wx.navigateTo({
+              url: '/pages/personal-center/my-discount/my-discount',
+            })
+          } else if (res.cancel) {
+            gameFlag = true
+          }
+
+        }
+      })
+    }, 1500)
   },
 
 
 
-  findByCode: function() { //通过code查询用户信息
+  findByCode: function () { //通过code查询用户信息
     let that = this;
     wx.login({
       success: res => {
@@ -431,7 +431,7 @@ Page({
       }
     })
   },
-  authlogin: function() { //获取token
+  authlogin: function () { //获取token
     console.log('authlogin')
     let that = this;
     wx.request({
@@ -441,7 +441,7 @@ Page({
       header: {
         'content-type': 'application/json' // 默认值
       },
-      success: function(res) {
+      success: function (res) {
         if (res.data.code == 0) {
           let _token = 'Bearer ' + res.data.data;
           app.globalData.token = _token;
@@ -473,21 +473,21 @@ Page({
       }
     }
   },
-  share () {
+  share() {
     this.onShareAppMessage()
   },
   //分享给好友
-  onShareAppMessage: function() {
+  onShareAppMessage: function () {
     console.log("onShareAppMessageuserId:", app.globalData.userInfo.userId)
     return {
       title: '邀请好友，换大闸蟹',
       path: '/pages/activityDetails/holdingActivity/holdingActivity?inviter=' + app.globalData.userInfo.userId,
-      success: function(res) {
+      success: function (res) {
         console.log('successres:', res)
       }
     }
   },
-  closetel: function(e) { //跳转至新用户注册页面
+  closetel: function (e) { //跳转至新用户注册页面
     wx.navigateTo({
       url: '/pages/personal-center/securities-sdb/securities-sdb?inviter=' + this.data.inviter + '&back=1&currentType=3'
     })
@@ -507,7 +507,7 @@ Page({
     })
   },
   //打开地图导航
-  TencentMap: function(event) {
+  TencentMap: function (event) {
     this.setData({
       shopId: event.currentTarget.id
     });
@@ -523,14 +523,14 @@ Page({
     }
     wx.getLocation({
       type: 'wgs84',
-      success: function(res) {
+      success: function (res) {
         let latitude = res.latitude,
           longitude = res.longitude;
         app.globalData.userInfo.lat = latitude;
         app.globalData.userInfo.lng = longitude;
         that.requestCityName(latitude, longitude);
       },
-      fail: function(res) {
+      fail: function (res) {
         wx.getSetting({
           success: (res) => {
             if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其用户位置信息
@@ -559,7 +559,7 @@ Page({
           // village_LBS(that);
           console.log('userLocation')
           wx.getLocation({
-            success: function(res) {
+            success: function (res) {
               let latitude = res.latitude,
                 longitude = res.longitude;
               that.requestCityName(latitude, longitude);
@@ -606,11 +606,11 @@ Page({
 
   },
   //打开地图
-  openmap: function() {
+  openmap: function () {
     let that = this;
     wx.getLocation({
       type: 'gcj02',
-      success: function(res) {
+      success: function (res) {
         let latitude = res.latitude;
         let longitude = res.longitude;
         let postList = that.data.postList;
@@ -623,7 +623,7 @@ Page({
               scale: 18,
               name: postList[i].name,
               address: postList[i].name + postList[i].place,
-              success: function(res) {}
+              success: function (res) { }
             })
           }
         }

@@ -22,7 +22,7 @@
   </view>
 
   <!-- 到店自提地址 -->
-  <view class="storeBox" wx:if="{{issku == 3}}">
+  <view class="storeBox" wx:if="{{issku == 3 && !actId}}">
     <view>
       <text class="storeName_l">自提门店</text>{{storeName}}</view>
     <view class="storeAddr">{{address}}</view>
@@ -33,17 +33,17 @@
     <view class='indentDetailsCtn'>
       <view class='indentDetailsTop'>
         <view class='indentDetailsLeft'>
-          <image class='indentDetailsImg' src='{{current.skuPic}}'></image>
+          <image class='indentDetailsImg' src='{{current.skuPic?current.skuPic:picUrl}}'></image>
         </view>
         <view class='indentDetailsRight'>
           <view class='presentName'>
-            <text>{{current.skuName}}</text>
+            <text>{{current.skuName?current.skuName:skuName}}</text>
           </view>
           <view class='presentNameSize'>
-            <text>已选：{{current.skuName}}</text>
+            <text>已选：{{current.skuName?current.skuName:skuName}}</text>
           </view>
           <view class='priceAmount'>
-            <text>￥{{current.sellPrice}}</text>
+            <text>￥{{current.sellPrice?current.sellPrice:sellPrice}}</text>
             <text>×{{num}}</text>
           </view>
         </view>
@@ -52,7 +52,7 @@
         <view>优惠
           <text class='manzen'>满赠</text>{{_rules}}</view>
       </view>
-      <view class='equally' wx:if="{{current.spuId != 3}}">
+      <view class='equally' wx:if="{{current.spuId != 3 && !actId}}">
         <text>配送方式</text>
         <text>{{distribution}}</text>
       </view>
@@ -85,7 +85,7 @@
       </view>
       <view class='equally'>
         <text>合计:</text>
-        <text class='delicatese'>￥{{current.total}}</text>
+        <text class='delicatese'>￥{{current.total?current.total:total}}</text>
       </view>
     </view>
   </view>
@@ -95,7 +95,7 @@
   <view class='presentComm'>
     <view class='presentCommLeft'>
       <view>订单金额：
-        <text>￥{{current.total}}</text>
+        <text>￥{{current.total?current.total:total}}</text>
       </view>
     </view>
 

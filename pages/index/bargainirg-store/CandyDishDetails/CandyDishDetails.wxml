@@ -42,6 +42,23 @@
   <!-- 主体 -->
   <view class='theFollowing'>
     <view class='embedded'>
+
+      <!-- 位置 -->
+      <view class='specialWrap' wx:if="{{actId}}">
+        <view class='special'></view>
+        <text>位置</text>
+      </view>
+      <view class='parallelismDining' wx:if="{{actId}}">
+        <view class='diningLeft' bindtap='openmap'>
+          <view class='diningzCenter'>
+          </view>
+          <view class='diningzPlace'>
+            <image class='geography' src='/images/icon/location.png'></image>
+            <text>{{address?address:soData.salePointOuts[0].address}}</text>
+          </view>
+        </view>
+      </view>
+
       <!-- 菜品详情 -->
       <view wx:if="{{skuInfo}}">
         <view class='specialWrap'>
@@ -52,13 +69,14 @@
           <view wx:for="{{skuInfo}}" wx:key="{{index}}" id="{{index}}" wx:for-index="idx">{{idx+1}}.{{item}}</view>
         </view>
       </view>
+
       <!-- 标题 -->
-      <view class='specialWrap'>
+      <view class='specialWrap' wx:if="{{shopName}}">
         <view class='special'></view>
         <text>适用餐厅</text>
       </view>
       <!-- 餐厅 -->
-      <view class='parallelismDining'>
+      <view class='parallelismDining' wx:if="{{shopName}}">
         <view class='diningLeft'>
           <text class='diningLeftname'>{{shopName}}</text>
           <view class='diningzCenter'>
@@ -144,15 +162,15 @@
           </view>
         </block>
       </view>
-      
+
     </view>
-    
+
   </view>
   <view class='loadingBox' style="margin-bottom:86rpx;">
-        <i-spin custom wx:if="{{loading}}">
-          <view class="loading"></view>
-        </i-spin>
-      </view>
+    <i-spin custom wx:if="{{loading}}">
+      <view class="loading"></view>
+    </i-spin>
+  </view>
 
   <!-- 底部tab功能键 -->
   <view class='function'>

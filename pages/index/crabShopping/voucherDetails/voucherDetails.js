@@ -262,7 +262,7 @@ Page({
     let that = this,
       _crabImgUrl = [];
     wx.request({
-      url: this.data._build_url + 'orderCoupon/get/' + this.data.vouId,
+      url: this.data._build_url + 'orderCoupon/getDetail?id=' + this.data.vouId + '&locationX=' + app.globalData.userInfo.lng + '&locationY=' + app.globalData.userInfo.lat,
       header: {
         "Authorization": app.globalData.token
       },
@@ -275,11 +275,16 @@ Page({
               _crabImgUrl = _crabImgUrl.slice(2);
             }
             _data.sku = "公" + _data.maleWeight + " 母" + _data.femaleWeight + " 4对 " + _data.styleName + " | " + _data.goodsSku.otherMarkerPrice + "型";
+            console.log('_data:', _data)
             that.setData({
               current: _data,
               crabImgUrl: _crabImgUrl,
             })
-
+            if (_data.salePointOuts && _data.salePointOuts.length>0){
+              for (let i in _data.salePointOuts){
+                
+              }
+            }
             if (_data.isUsed == 1) {
               wx.showModal({
                 title: '提示',
@@ -345,7 +350,6 @@ Page({
                       isreceive: true
                     })
                   }
-
                 } else if (val == 1) {
                   console.log("333333--2222222")
                   wx.showModal({

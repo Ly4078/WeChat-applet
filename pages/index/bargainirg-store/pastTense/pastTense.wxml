@@ -1,11 +1,12 @@
 <view>
+  <view wx:for="{{titles}}" wx:key="{{index}}" id="{{index}}" bindtap='bindTab' class="titleTab {{titlenub == index?'actTab':''}}">{{item}}</view>
   <block wx:for="{{bargainList}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
     <view class='previously' id="{{item.skuId}}" data-skuType="{{item.skuType}}" bindtap='bargainDetail'>
-      <image class='preImages' src='{{item.picUrl}}' ></image>
+      <image class='preImages' src='{{item.picUrl?item.picUrl:item.goodsSkuOut.skuPic}}' ></image>
       <view class='preRight'>
         <view class='preRitTop'>
           <view class='pre-rigtTop-name'>
-            <text>{{item.skuName}}</text>
+            <text>{{item.skuName?item.skuName:item.goodsSkuOut.skuName}}</text>
           </view>
         </view>
         <!--倒计时  -->

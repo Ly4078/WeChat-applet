@@ -3,8 +3,8 @@
   <view class='shopWrap' id="{{item.id}}" catchtap="onTouchItem">
     <view class='navigationPractical'>
       <view class='practical_left1'>
-        <!-- <image wx:if="{{item.logoUrl}}" lazy-load='true' class='practicalImg' mode="aspectFill" src="{{item.logoUrl}}" id='{{item.id}}' binderror='imageError'></image> -->
-      <image-loader wx:if="{{item.logoUrl}}" class-name="practicalImg"  default-image='/images/icon/morentu.png' mode='aspectFill' original-image='{{item.logoUrl}}' width="198rpx" height="202rpx" />
+        <image wx:if="{{item.logoUrl}}" lazy-load='true' class='practicalImg' mode="aspectFill" src="{{item.logoUrl}}" id='{{item.id}}' binderror='imageError'></image>
+      <!-- <image-loader wx:if="{{item.logoUrl}}" class-name="practicalImg"  default-image='/images/icon/morentu.png' mode='aspectFill' original-image='{{item.logoUrl}}' width="198rpx" height="202rpx" /> -->
         <image wx:else class='practicalImg'  lazy-load='true' mode="aspectFill" src="/images/icon/morentu.png"></image>
       </view>
       <view class='practical_right1'>

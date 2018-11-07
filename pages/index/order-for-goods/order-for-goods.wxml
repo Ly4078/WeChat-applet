@@ -24,20 +24,14 @@
         <!-- 减号 -->
         <text class="minusStatus normal" bindtap="bindMinus">-</text>
         <!-- 数值 -->
-        <!-- <input wx:if="{{sostatus == 1}}" disabled='true' type="number" disabled='true' value="{{number}}" /> -->
         <input wx:if="{{actId || skutype == 4}}" type="number" disabled='true' value="{{number}}" />
         <input wx:else type="number" bindchange="bindManual" disabled='true' value="{{number}}" />
         <!-- 加号 -->
-        <text  class="normal" bindtap="bindPlus">+</text>
+        <text class="normal" bindtap="bindPlus">+</text>
       </view>
     </view>
   </view>
-  <!-- <view class='particulars'>
-    <view class='particulars_details'>
-      <text class='particulars_text' bindtap="cellPhone">手机号</text>
-      <text>15827245422</text>
-    </view>
-  </view> -->
+
   <view class='particulars'>
     <view class='particulars_details particulars_fuhe'>
       <text class='particulars_text'>小计</text>
@@ -48,28 +42,21 @@
   <!-- 微信支付 -->
   <view class='paymentPayWay'>
     <radio-group class="radio-group" bindchange="radioChange">
-      <label class="radio" wx:for="{{items}}"  wx:key='index'  class='paymentPayTop'>
-        <image class='paymentPayImg' src='{{item.img}}'></image>{{item.name}} <radio class='riradio' value="{{item.id}}" disabled="{{item.disabled}}" checked="{{item.checked}}" />
+      <label class="radio" wx:for="{{items}}" wx:key='index' class='paymentPayTop'>
+        <image class='paymentPayImg' src='{{item.img}}'></image>{{item.name}}
+        <radio class='riradio' value="{{item.id}}" disabled="{{item.disabled}}" checked="{{item.checked}}" />
       </label>
     </radio-group>
   </view>
 
 
   <form bindsubmit="formSubmit" report-submit="true">
-
     <button formType="submit">
       <view class='affirm'>
-      <text>确认支付</text>
-      <text class='affirmNumber'>￥{{paymentAmount}}</text>
-    </view>
+        <text>确认支付</text>
+        <text class='affirmNumber'>￥{{paymentAmount}}</text>
+      </view>
     </button>
-
   </form>
 
-  <!-- <form report-submit="true">
-    <view class='affirm' catchtap='determine'>
-      <text>确认支付</text>
-      <text class='affirmNumber'>￥{{paymentAmount}}</text>
-    </view>
-  </form> -->
 </view>

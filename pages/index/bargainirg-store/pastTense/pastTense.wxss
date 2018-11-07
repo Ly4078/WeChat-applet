@@ -125,3 +125,14 @@ page{
   line-height: 46rpx;
   margin-right: 22rpx;
 }
+
+.titleTab{
+  width: 50%;
+  float: left;
+  height: 88rpx;
+  line-height: 88rpx;
+  text-align: center;
+}
+.actTab{
+  border-bottom: 1px solid red;
+}

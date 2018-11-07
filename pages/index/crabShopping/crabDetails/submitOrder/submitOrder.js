@@ -41,25 +41,38 @@ Page({
     tenLater: '', //十天后
     distribution: '顺丰速运', //配送方式
     storeName: '',
-    address: ''
+    address: '',
+    picUrl:'',
+    skuName:'',
+    sellPrice:'',
+    actId:'',
+    flag:'',
+    sendType:'',
+    groupId:'',
+    singleType:''
   },
   onLoad: function(options) {
-    // console.log('options:', options)
-    wx.showLoading({
-      title: '加载中...'
-    })
-
+    console.log('options:', options)
     if (options.id) {
       app.globalData.OrderObj = options;
     } else {
       options = app.globalData.OrderObj;
     }
     this.setData({
-      id: options.id,
-      num: options.num,
-      issku: options.issku,
-      shopId: options.shopId,
-      spuId: options.spuId
+      id: options.id ? options.id:'',
+      num: options.num ? options.num:'',
+      actId: options.actId ? options.actId:'',
+      issku: options.issku ? options.issku:'',
+      shopId: options.shopId ? options.shopId:'',
+      spuId: options.spuId ?options.spuId:'',
+      picUrl: options.picUrl ? options.picUrl : '',
+      skuName: options.skuName ? options.skuName : '',
+      sellPrice: options.sellPrice ? options.sellPrice : '',
+      flag: options.flag ? options.flag : '',
+      remarks: options.remark ? options.remark:'',
+      sendType: options.sendType ? options.sendType : '',
+      groupId: options.groupId ? options.groupId : '',
+      singleType: options.singleType ? options.singleType : '',
     })
     app.globalData.OrderObj = options;
   },
@@ -95,24 +108,39 @@ Page({
           actaddress: app.globalData.Express
         });
       } else {
-        this.getAddressList();
-        this.setData({
-          actaddress: ''
-        });
+        if(!this.data.actId){
+          this.getAddressList();
+          this.setData({
+            actaddress: ''
+          });
+        }
       }
     } else if (this.data.issku == 3) {
-      this.setData({
-        salepointId: app.globalData.OrderObj.salepointId,
-        distribution: '到店自提'
-      });
-      this.marketDetail();
+      if(!this.data.actId){
+        this.setData({
+          salepointId: app.globalData.OrderObj.salepointId,
+          distribution: '到店自提'
+        });
+        this.marketDetail();
+      }
     }
-    this.setData({ issoid: false})
-    this.getDetailBySkuId();
+    if(this.data.actId){
+      let _total = this.data.sellPrice * this.data.num;
+      _total = _total.toFixed(2);
+      console.log('_total:', _total)
+      this.setData({
+        total: _total
+      })
+    }else{
+      wx.showLoading({
+        title: '加载中...'
+      })
+      this.setData({ issoid: false })
+      this.getDetailBySkuId();
+    }
   },
   onHide() {
     wx.hideLoading();
-    // app.globalData.Express = {};
   },
   onUnload() {
     app.globalData.Express = {};
@@ -175,7 +203,6 @@ Page({
         if (_obj.spuId != 3 && this.data.issku != 3) {
           this.getcalculateCost();
         }
-
       }
     })
   },
@@ -345,11 +372,55 @@ Page({
     let _formId = e.detail.formId;
     console.log("_formId:", _formId);
     if (this.data.issku == 3){
-      this.superMarketOrder();
+      if(this.data.actId){
+        this.createActOrder();
+      }else{
+        this.superMarketOrder();
+      }
     }else{
       this.submitSoid();
     }
     Public.addFormIdCache(_formId); 
+  },
+  //创建活动订单
+  createActOrder:function(){
+    let _parms={},that=this;
+    _parms = {
+      shopId: this.data.shopId,
+      payType: 2,
+      flagType: this.data.flag,
+      singleType: this.data.singleType,
+      orderItemList: [{
+        goodsSkuId: this.data.id,
+        goodsSpuId: this.data.spuId,
+        goodsNum: this.data.num,
+        shopId: this.data.shopId,
+        orderItemShopId: '0'
+      }]
+    };
+    if (this.data.flag==4){
+      _parms.groupId = this.data.groupId;
+    }
+    console.log('parms:', JSON.stringify(_parms),)
+    wx.request({
+      url: that.data._build_url + 'orderInfo/createNew',
+      data: JSON.stringify(_parms),
+      method: 'POST',
+      header: {
+        "Authorization": app.globalData.token
+      },
+      success: function (res) {
+        console.log('res:',res)
+        if (res.data.code == 0) {
+          if (res.data.data) {
+            that.setData({
+              orderId: res.data.data
+            })
+            that.wxpayment();
+          }
+        }
+      }
+    })
   },
   //到店自提
   superMarketOrder() {
@@ -361,7 +432,6 @@ Page({
       issoid: true
     })
     let _parms = {
-      token: app.globalData.token,
       // userId: app.globalData.userInfo.userId,
       // userName: app.globalData.userInfo.userName,
       shopId: this.data.shopId,
@@ -500,14 +570,24 @@ Page({
       orderId: this.data.orderId,
       openId: app.globalData.userInfo.openId
     };
+    if (this.data.actId) {
+      _parms.type = this.data.flag;
+      if (this.data.groupId){
+        _parms.groupId = this.data.groupId
+      }
+    }
     for (var key in _parms) {
       _value += key + "=" + _parms[key] + "&";
     }
+    
     _value = _value.substring(0, _value.length - 1);
     if (that.data.current.spuId != 3 && that.data.issku != 3){
       url = that.data._build_url + 'wxpay/doUnifiedOrderForShoppingMall?' + _value;
     }else{
-      url = that.data._build_url + 'wxpay/shoppingMallForCoupon?' + _value;
+      url = that.data._build_url + 'wxpay/shoppingMallForCouponNew?' + _value;
+    }
+    if(this.data.actId){
+      url = that.data._build_url + 'wxpay/shoppingMallForCouponNew?' + _value;
     }
     _Url = encodeURI(url);
     wx.request({

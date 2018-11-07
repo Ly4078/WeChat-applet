@@ -40,7 +40,9 @@
     <text class="thname {{isreceive?'codeb':'codea'}}">提货券</text>
         <text class='thhx'>__</text>
         <text class="thguige {{isreceive?'codeb':'codea'}}">{{current.orderItemOuts[0].goodsSkuName}} {{current.orderItemOuts[0].giftNum+current.orderItemOuts[0].goodsNum}}只</text>
-        <text class="thshop {{isreceive?'codeb':'codea'}}">提货门店:{{current.salePoint.salepointName}}</text>
+        <view class="thshop {{isreceive?'codeb':'codea'}}">提货门店:
+        <text wx:for="{{current.salePointOuts}}" wx:key="index">{{item.salepointName}},</text>
+        </view>
         <text class="thCode {{isreceive?'codeb':'codea'}}">券码：{{current.couponCode}}</text>
         <text class="thdate {{isreceive?'codeb':'codea'}}">有效期:{{current.expiryDate}}</text>
   </view>

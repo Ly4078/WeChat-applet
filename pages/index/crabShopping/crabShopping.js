@@ -425,6 +425,7 @@ Page({
       let _parms = {
         page: this.data.sPage,
         rows: 5,
+        type:1,
         locationX: app.globalData.userInfo.lng,
         locationY: app.globalData.userInfo.lat,
         token: app.globalData.token

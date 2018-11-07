@@ -50,14 +50,21 @@ Page({
         name: '砍价'
       },
       {
+        img: '/images/icon/home.png',
+        id: 6,
+        name: '酒店'
+      },
+      {
         img: '/images/icon/navcaiting.png',
         id: 2,
         name: '餐厅'
-        // }, {
+        },
+        //  {
         //   img: '/images/icon/navruzhu.png',
         //   id: 3,
         //   name: '活动'
-      }, {
+        // },
+       {
         img: '/images/icon/navshiping.png',
         id: 4,
         name: '短视频'
@@ -65,16 +72,7 @@ Page({
         img: '/images/icon/navhuodong.png',
         id: 5,
         name: '商家入驻'
-      },
-      //  {
-      //   img: '/images/icon/home.png',
-      //   id: 6,
-      //   name: '酒店'
-      // }, {
-      //   img: '/images/icon/mountain.png',
-      //   id: 7,
-      //   name: '景点'
-      // }
+      }
     ],
     Res: [{
       img: '/images/icon/jxcanting.png',
@@ -264,7 +262,7 @@ Page({
         if (res.data.flag == 0) { //0显示  
           app.globalData.isflag = true;
           let _navs = that.data.navs;
-          _navs[2].name = "短视频";
+          _navs[3].name = "短视频";
           that.setData({
             navs: _navs
           })
@@ -633,9 +631,9 @@ Page({
       wx.navigateTo({
         url: '../../pages/index/download-app/download?isshop=ind',
       })
-    } else if (id == 6 || id == 7) { //酒店景点
+    } else if (id == 6) { //酒店景点
       wx.navigateTo({
-        url: '../../pages/index/productCategory/productCategory',
+        url: '/pages/index/productCategory/productCategory',
       })
     }
   },
