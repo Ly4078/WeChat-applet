@@ -63,7 +63,6 @@ Page({
             iszhiying: true,
             salepointId: _salepointId
           })
-          console.log('salepointId:', that.data.salepointId)
         }
       }
     })
@@ -517,7 +516,7 @@ Page({
   },
   //判断二维码是否可以跳转
   getCodeState: function() {
-    let that = this;
+    let that = this, isHx = false, _sale = this.data.salepointId,mssage="";
     wx.request({
       url: that.data.qrdata.result,
       header: {
@@ -526,6 +525,159 @@ Page({
       success: function(res) {
         console.log('res:',res)
         if (res.data.code == 0) {
+          
+          // ===============================================
+          let _soData = res.data.data, 
+          current = res.data.currentTime, 
+          isDue = that.isDueFunc(current, _soData.expiryDate),
+          _iszhiying = that.data.iszhiying;
+          console.log('_iszhiying:', _iszhiying)
+          if (_soData.isUsed == 1) {
+            isHx = false;
+            mssage ="1111该票券已被使用";
+          } else if (isDue == 1) {
+            isHx = false;
+            mssage = "2222该票券已过期";
+          }else{
+            console.log('shopId:', app.globalData.userInfo.shopId)
+            console.log("_soData.shopId:", _soData.shopId)
+            if (app.globalData.userInfo.shopId == 0) {
+              if (_soData.salePointOuts && _soData.salePointOuts.length > 0) {
+                if (_sale && _sale.length > 0) {
+                  for (let i in _soData.salePointOuts) {
+                    for (let j in _sale) {
+                      if (_soData.salePointOuts[i].salepointId == _sale[j]) {
+                        isHx = true;
+                        break;
+                      } else {
+                        mssage = "3333你不是该核销点人员，无权核销此券";
+                        isHx = false;
+                      }
+                    }
+                    if (isHx) {
+                      break;
+                    }
+                  }
+                } else {
+                  isHx = true;
+                }
+              } else {
+                isHx = true;
+              }
+            } else if (!app.globalData.userInfo.shopId) {
+              isHx = true;
+            } else if (app.globalData.userInfo.shopId > 0) {
+              if (_soData.salePointOuts && _soData.salePointOuts.length > 0) {
+                if (app.globalData.userInfo.shopId == _soData.shopId) {
+                  if (_soData.salePointOuts && _soData.salePointOuts.length > 0) {
+                    if (_sale && _sale.length > 0) {
+                      for (let i in _soData.salePointOuts) {
+                        for (let j in _sale) {
+                          if (_soData.salePointOuts[i].salepointId == _sale[j]) {
+                            isHx = true;
+                            break;
+                          } else {
+                            mssage = '你不是自营店核销员，无法核销该订单';
+                            isHx = false;
+                          }
+                        }
+                        if (isHx) {
+                          break;
+                        }
+                      }
+                    } else {
+                      mssage = "你不是该核销点人员，无权核销此券";
+                      isHx = false;
+                    }
+                  } else {
+                    mssage = "你不是该核销点人员，无权核销此券";
+                    isHx = false;
+                  }
+                } else {
+                  if (_iszhiying) {
+                    isHx = true;
+                  } else {
+                    isHx = false;
+                    mssage = "444你不是该核销点人员，无权核销此券";
+                  }
+                }
+              } else {
+                if (app.globalData.userInfo.shopId == _soData.shopId) {
+                  isHx = true;
+                } else {
+                  if (_iszhiying){
+                    isHx = true;
+                  }else{
+                    isHx = false;
+                    mssage = "5555你不是该核销点人员，无权核销此券";
+                  }
+                }
+              }
+            }
+          }
+          
+
+          if(isHx){
+            console.log('aaaa')
+            if (_soData.skuName) {
+              console.log('bbbbbb')
+              let Cts = "现金",
+                Dis = '折扣';
+              if (_soData.skuName.indexOf(Cts) > 0) {
+                _soData.discount = false
+              }
+              if (_soData.skuName.indexOf(Dis) > 0) {
+                _soData.discount = true
+              }
+            }
+            if (_soData.discount) {
+              console.log('cccccc')
+              let _parms = {
+                shopId: app.globalData.userInfo.shopId,
+                skuId: _soData.skuId,
+                token: app.globalData.token
+              }
+              Api.searchForShopIdNew(_parms).then((res) => {
+                if (res.data.code == -1) {
+                  wx.showToast({
+                    title: res.data.message + ',不能核销此活动券',
+                    mask: 'true',
+                    icon: 'none',
+                    duration: 3000
+                  })
+                } else {
+                  wx.navigateTo({
+                    url: '../personal-center/call-back/call-back?code=' + that.data.qrCode + '&type=' + _soData.type + '&ByCode=' + that.data.qrdata.result + '&iszy=' + that.data.iszhiying + '&isshopuser=' + that.data.isshopuser
+                  })
+                }
+              })
+            } else {
+              console.log('dddddd')
+              wx.navigateTo({
+                url: '../personal-center/call-back/call-back?code=' + that.data.qrCode + '&discount=' + _soData.discount + '&ByCode=' + that.data.qrdata.result + '&iszy=' + that.data.iszhiying + '&isshopuser=' + that.data.isshopuser
+              })
+            }
+          }else{
+            console.log('mssage:', mssage);
+            wx.showToast({
+              title: mssage,
+              icon: 'none',
+              duration: 4000
+            })
+          }
+
+
+
+
+
+
+
+
+
+
+
+            // =========================================
+          return
           let data = res.data, isHx = false, _sale = that.data.salepointId;
           if (data.salePointOuts && data.salePointOuts.length>0){
             if (_sale && _sale.length>0){
@@ -617,7 +769,7 @@ Page({
               data.data.discount = true
             }
           }
-          let current = data.currentTime,
+          // let current = data.currentTime,
             isDue = that.isDueFunc(current, data.data.expiryDate);
           if ((data.data.type == 4 || data.data.type == 5 || data.data.type == 3) && data.data.shopId != app.globalData.userInfo.shopId) {
             wx.showToast({
@@ -640,7 +792,8 @@ Page({
               mmask: 'true',
               duration: 2000,
             })
-          } else if (data.data.discount) {
+          } else 
+          if (data.data.discount) {
             let _parms = {
               shopId: app.globalData.userInfo.shopId,
               skuId: data.data.skuId,
@@ -704,7 +857,6 @@ Page({
       })
     }
   },
-
   // 分享注册
   dividualLogin: function() {
     wx.navigateTo({

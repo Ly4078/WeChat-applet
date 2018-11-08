@@ -188,7 +188,7 @@ Page({
           loading: false
         })
         if (res.data.code == 0) {
-          let _data = this.data.pxpage == 1 ? [] : this.data.listData,
+          let _data = that.data.pxpage == 1 ? [] : that.data.listData,
             _list = res.data.data.list;
           if (_list && _list.length > 0) {
             for (let i = 0; i < _list.length; i++) {
@@ -200,13 +200,14 @@ Page({
               }
               // _data.push(_list[i]);
             }
-            this.setData({
+            that.setData({
               listData: _data.concat(_list),
               pageTotal: Math.ceil(res.data.data.total / 10),
               loading: false
             })
+            console.log("listData:", that.data.listData)
           } else {
-            this.setData({
+            that.setData({
               loading: false
             })
             wx.hideLoading();

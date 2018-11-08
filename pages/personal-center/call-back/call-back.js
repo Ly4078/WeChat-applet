@@ -16,7 +16,6 @@ Page({
     pay: '',
     dishlist: [],
     hxData: {},
-    istow:true,
     okhx: true,
     _type: false,
     _code: '', //输入的券码
@@ -26,7 +25,9 @@ Page({
     result: '',
     isshopuser:false,//是否是商家核销员
     iszys: false,//是否是自营核销员
-    isconfirm: true
+    isconfirm: true,
+    _salepointId:[],
+    iszhiying:false
   },
 
   /**
@@ -40,16 +41,7 @@ Page({
         okhx: false
       })
     }
-   
-    if (options.isshopuser == 'true'){
-      this.setData({
-        isshopuser:true
-      })
-    }else{
-      this.setData({
-        isshopuser: false
-      })
-    }
+
    
     if (options.iszy == 'true') {
       this.setData({
@@ -60,11 +52,7 @@ Page({
         iszys: false
       })
     }
-    if(this.data.iszys && this.data.isshopuser){
-      this.setData({
-        istow:false
-      })
-    }
+  
     if (options.code) {
       this.setData({
         result: options.ByCode,
@@ -72,6 +60,32 @@ Page({
       })
       this.gettickets()
     }
+  },
+  onShow:function(){
+    let that = this, _parms = {}, _salepointId=[];
+    if (app.globalData.userInfo.shopId && app.globalData.userInfo.userType == 2) {
+      this.setData({
+        isshop: true,
+        isshopuser: true
+      })
+    }
+    _parms = {
+      token: app.globalData.token
+    }
+    Api.getSalePointUserByUserId(_parms).then((res) => {
+      if (res.data.code == 0) {
+        console.log("resres:",res)
+        if (res.data.data && res.data.data.length > 0) {
+          for (let i in res.data.data) {
+            _salepointId.push(res.data.data[i].salepointId)
+          }
+          that.setData({
+            iszhiying: true,
+            salepointId: _salepointId
+          })
+        }
+      }
+    })
   },
   //实时获取输入的券码--券码
   bindinputent: function(e) {
@@ -152,6 +166,175 @@ Page({
       },
       success: function(res) {
         if (res.data.code == 0) {
+          
+          // =============================
+         
+          let _soData = res.data.data;
+           let current = res.data.currentTime,
+            isDue = that.isDueFunc(current, _soData.expiryDate),
+            _rele = "",
+            mssage="",
+            isHx=false,
+            _iszhiying=false,
+            lists = [];
+            _iszhiying = that.data.iszhiying;
+          console.log('_iszhiyinsssg:', _iszhiying)
+          if (_soData.isUsed == 1) {
+            isHx = false;
+            mssage = "call-1111该票券已被使用";
+          } else if (isDue == 1) {
+            isHx = false;
+            mssage = "call-2222该票券已过期";
+          } else {
+            console.log('shopId:', app.globalData.userInfo.shopId)
+            console.log("_soData.shopId:", _soData.shopId)
+            if (app.globalData.userInfo.shopId == 0) {
+              if (_soData.salePointOuts && _soData.salePointOuts.length > 0) {
+                if (_sale && _sale.length > 0) {
+                  for (let i in _soData.salePointOuts) {
+                    for (let j in _sale) {
+                      if (_soData.salePointOuts[i].salepointId == _sale[j]) {
+                        isHx = true;
+                        break;
+                      } else {
+                        mssage = "call-3333你不是该核销点人员，无权核销此券";
+                        isHx = false;
+                      }
+                    }
+                    if (isHx) {
+                      break;
+                    }
+                  }
+                } else {
+                  isHx = true;
+                }
+              } else {
+                isHx = true;
+              }
+            } else if (!app.globalData.userInfo.shopId) {
+              isHx = true;
+            } else if (app.globalData.userInfo.shopId > 0) {
+              if (_soData.salePointOuts && _soData.salePointOuts.length > 0) {
+                if (app.globalData.userInfo.shopId == _soData.shopId) {
+                  if (_soData.salePointOuts && _soData.salePointOuts.length > 0) {
+                    if (_sale && _sale.length > 0) {
+                      for (let i in _soData.salePointOuts) {
+                        for (let j in _sale) {
+                          if (_soData.salePointOuts[i].salepointId == _sale[j]) {
+                            isHx = true;
+                            break;
+                          } else {
+                            mssage = 'call-你不是自营店核销员，无法核销该订单';
+                            isHx = false;
+                          }
+                        }
+                        if (isHx) {
+                          break;
+                        }
+                      }
+                    } else {
+                      mssage = "call-你不是该核销点人员，无权核销此券";
+                      isHx = false;
+                    }
+                  } else {
+                    mssage = "call-你不是该核销点人员，无权核销此券";
+                    isHx = false;
+                  }
+                } else {
+                  console.log('_iszhiying:', _iszhiying)
+                  if (_iszhiying) {
+                    isHx = true;
+                  } else {
+                    isHx = false;
+                    mssage = "call-444你不是该核销点人员，无权核销此券";
+                  }
+                }
+              } else {
+                if (app.globalData.userInfo.shopId == _soData.shopId) {
+                  isHx = true;
+                } else {
+                  if (_iszhiying) {
+                    isHx = true;
+                  } else {
+                    isHx = false;
+                    mssage = "call-5555你不是该核销点人员，无权核销此券";
+                  }
+                }
+              }
+            }
+          }
+          if (_soData.userName) {
+            _soData.userName1 = _soData.userName;
+            _soData.userName = _soData.userName.substr(0, 3) + "****" + _soData.userName.substr(7);
+          } else {
+          }
+          if (_soData.promotionRules && _soData.promotionRules.length > 0) {
+            if (_soData.promotionRules[0].ruleDesc) {
+              _rele = _soData.promotionRules[0].ruleDesc;
+            }
+          }
+          if (_soData.orderItemOuts && _soData.orderItemOuts.length > 0) {
+            lists = _soData.orderItemOuts;
+          }
+          
+          that.setData({
+            hxData: _soData,
+            okhx: isHx,
+            newamount: _soData.couponAmount ? _soData.couponAmount : 0,
+            dishlist: lists
+          })
+          if (isHx) {
+            console.log('aaaa')
+            if (_soData.skuName) {
+              console.log('bbbbbb')
+              let Cts = "现金",
+                Dis = '折扣';
+              if (_soData.skuName.indexOf(Cts) > 0) {
+                _soData.discount = false
+              }
+              if (_soData.skuName.indexOf(Dis) > 0) {
+                _soData.discount = true
+              }
+            }
+            if (_soData.discount) {
+              console.log('cccccc')
+              let _parms = {
+                shopId: app.globalData.userInfo.shopId,
+                skuId: _soData.skuId,
+                token: app.globalData.token
+              }
+              Api.searchForShopIdNew(_parms).then((res) => {
+                if (res.data.code == -1) {
+                  isHx=false;
+                  wx.showToast({
+                    title: res.data.message + ',不能核销此活动券',
+                    mask: 'true',
+                    icon: 'none',
+                    duration: 3000
+                  })
+                }
+              })
+            } 
+            console.log('_soData:', _soData)
+            that.setData({
+              okhx: isHx
+            })
+          } else {
+            console.log('mssage:', mssage);
+            wx.showToast({
+              title: mssage,
+              icon: 'none',
+              duration: 4000
+            })
+          }
+
+
+
+
+
+
+          // ===============================
+          return
           if (res.data.data) {
             let _data = res.data.data,
               _rele = "",

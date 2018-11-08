@@ -33,7 +33,7 @@ Page({
     getGoldNum: 0, //砍价人获得的金币数
     progress: 0, //进度条
     status: 1, //砍价状态 1.60分钟内  3.过了60分钟或者已买 4.满5人
-    otherStatus: 1, //1.可以帮发起人砍价  2.已经砍过  3.人数已满  4.过了60分钟砍价结束
+    otherStatus: "", //1.可以帮发起人砍价  2.已经砍过  3.人数已满  4.过了60分钟砍价结束
     isMine: false, //不是本人
     page: 1,
     flag: true,
@@ -47,7 +47,7 @@ Page({
     _lat: '',
     _lng: '',
     actId: '',
-    actType:'4'
+    actType: '4'
   },
   onLoad: function(options) {
     console.log("options:", options);
@@ -436,7 +436,7 @@ Page({
                 isMine: true
               });
             }
-            console.log('type:',data)
+            console.log('type:', data)
             _this.setData({
               skuMoneyNow: data[0].skuMoneyNow,
               doneBargain: doneBargain,
@@ -457,16 +457,25 @@ Page({
             } else {
               peopleList = _arr;
             }
+
             for (let i = 0; i < peopleList.length; i++) {
               if (peopleList[i].userName && reg.test(peopleList[i].userName)) {
                 peopleList[i].userName = peopleList[i].userName.substr(0, 3) + "****" + peopleList[i].userName.substr(7)
+              } else if (peopleList[i].user.userName && reg.test(peopleList[i].user.userName)) {
+                peopleList[i].user.userName = peopleList[i].user.userName.substr(0, 3) + "****" + peopleList[i].user.userName.substr(7)
               }
-              if (peopleList[i].userId == app.globalData.userInfo.userId) {
+              if (peopleList[i].userId == app.globalData.userInfo.userId || peopleList[i].user.id == app.globalData.userInfo.userId) {
                 _this.setData({
-                  getGoldNum: peopleList[i].goldAmount
+                  getGoldNum: peopleList[i].goldAmount,
+                  otherStatus: 2
+                });
+              }else{
+                _this.setData({
+                  otherStatus: 1
                 });
               }
             }
+            console.log("peopleList:", peopleList)
             _this.setData({
               peopleList: peopleList
             });
@@ -479,14 +488,16 @@ Page({
               //好友进入砍菜页面人数满5人并且超过半小时不能砍价
               console.log('aaaaaa')
               if (_this.data.peoplenum >= 5) {
+                console.log("aaaaaa1111")
                 _this.setData({
                   status: 4,
                   otherStatus: 3
                 });
               } else {
+                console.log("otherStatus:", _this.data.otherStatus)
                 _this.setData({
                   status: 1,
-                  otherStatus: 1
+                  // otherStatus: 1
                 });
                 let hours = '',
                   minutes = '',
@@ -616,8 +627,7 @@ Page({
       refId: this.data.refId,
       parentId: this.data.initiator,
       // userId: app.globalData.userInfo.userId,
-      groupId: this.data.groupId,
-      token: app.globalData.token
+      groupId: this.data.groupId
     };
     for (let key in _parms) {
       _value += key + "=" + _parms[key] + "&";
@@ -635,8 +645,9 @@ Page({
       },
       method: 'GET',
       success: function(res) {
+        console.log("123123:",res)
         let code = res.data.code,
-          otherStatus = 1;
+          otherStatus = "";
         if (code == 0) {
           otherStatus = 1;
         } else if (code == 200065) {
@@ -657,6 +668,7 @@ Page({
   },
   //查询是否帮忙砍过价或者人数已满
   helpfriend() {
+    console.log('helpfriend')
     let _this = this,
       _value = "",
       url = "",
@@ -688,12 +700,13 @@ Page({
         },
         method: 'GET',
         success: function(res) {
+          console.log('helpfriend--res:',res)
           if (res.data.code == 0) {
-            _this.setData({
-              otherStatus: 1
-            });
+            // _this.setData({
+            //   otherStatus: 1
+            // });
             _this.tohelpfriend();
-          } else if (code == 200065) {
+          } else if (res.data.code == 200065) {
             _this.setData({
               otherStatus: 2
             });
@@ -701,7 +714,7 @@ Page({
               title: res.data.message,
               icon: 'none'
             })
-          } else if (code == 200066) {
+          } else if (res.data.code == 200066) {
             _this.setData({
               otherStatus: 3
             });
@@ -709,7 +722,7 @@ Page({
               title: res.data.message,
               icon: 'none'
             })
-          } else if (code == 200068) {
+          } else if (res.data.code == 200068) {
             _this.setData({
               otherStatus: 4,
               status: 3
@@ -725,6 +738,7 @@ Page({
   },
   //断续帮好友砍价
   tohelpfriend: function() {
+    console.log('tohelpfriend')
     let _parms = {},
       that = this,
       url = "",
@@ -751,13 +765,16 @@ Page({
       },
       method: 'POST',
       success: function(res) {
+        console.log("tohelpfriend---res:",res)
         if (res.data.code == 0) {
           that.setData({
             showModal: true,
             showCanvas: true,
+            otherStatus: 2,
             canvasSrc: '/images/icon/kan.gif',
             audioSrc: 'https://xqmp4-1256079679.file.myqcloud.com/test_kan.mp3'
           });
+          console.log("otherStatus:", that.data.otherStatus)
           setTimeout(function() {
             const innerAudioContext = wx.createInnerAudioContext();
             innerAudioContext.autoplay = true
@@ -772,9 +789,6 @@ Page({
               audioSrc: ''
             });
           }, 2000);
-          that.setData({
-            otherStatus: 2
-          });
           that.bargain();
         }
       }
