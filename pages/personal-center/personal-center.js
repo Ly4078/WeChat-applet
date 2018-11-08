@@ -27,6 +27,7 @@ Page({
     accountBalance: '',
     userId: '',
     picUrl: '',
+    salepointId:[],
     isShow: false //是否联系客服
   },
   onLoad: function() {
@@ -42,31 +43,32 @@ Page({
     // this.getuserInfo();
   },
   onShow: function() {
-    let that = this;
+    let that = this, _salepointId = [], _parms = {};
     if (app.globalData.userInfo.shopId && app.globalData.userInfo.userType == 2) {
       this.setData({
         isshop: true,
         isshopuser: true
       })
     }
-    let _parms = {
-      // userId: app.globalData.userInfo.userId,
+    _parms = {
       token: app.globalData.token
     }
     Api.getSalePointUserByUserId(_parms).then((res) => {
       if (res.data.code == 0) {
         if (res.data.data && res.data.data.length > 0) {
+          for(let i in res.data.data){
+            _salepointId.push(res.data.data[i].salepointId)
+          }
           that.setData({
-            // isshop: true,
             iszhiying: true,
-            // isshopuser: true
+            salepointId: _salepointId
           })
+          console.log('salepointId:', that.data.salepointId)
         }
       }
     })
 
     if (!app.globalData.userInfo.unionId) {
-
       wx.login({
         success: res => {
           if (res.code) {
@@ -140,7 +142,6 @@ Page({
             }
           }
         }
-
       }
     })
 
@@ -525,7 +526,30 @@ Page({
       success: function(res) {
         console.log('res:',res)
         if (res.data.code == 0) {
-          let data = res.data;
+          let data = res.data, isHx = false, _sale = that.data.salepointId;
+          if (data.salePointOuts && data.salePointOuts.length>0){
+            if (_sale && _sale.length>0){
+              for (let i in data.salePointOuts) {
+                for (let j in _sale) {
+                  if (data.salePointOuts[i].salepointId == _sale[j]) {
+                    isHx = true;
+                  }
+                }
+              }
+            }else{
+              isHx = true;
+            }
+          }else{
+            isHx=true;
+          }
+          if (!isHx){
+            wx.showToast({
+              title: '你不是该核销点人员，无法核销此券',
+              icon: 'none',
+              duration: 4000
+            })
+            return
+          }
           if (data.data.orderCode) {
             if (that.data.isshopuser && !that.data.iszhiying) {
               wx.showToast({
@@ -547,17 +571,6 @@ Page({
               return;
             }
           } else {
-            
-            // if (that.data.isshopuser && that.data.iszhiying) {
-
-            // } else if (that.data.iszhiying && !that.data.isshopuser) {
-            //   wx.showToast({
-            //     title: '你不是该商家销员，无法核销该订单',
-            //     icon: 'none',
-            //     duration: 4000
-            //   })
-            //   return;
-            // } 
             if (data.data.salePoint){  //自营店
               console.log('2222')
               if (!that.data.iszhiying) {

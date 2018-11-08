@@ -52,7 +52,7 @@ Page({
     singleType:''
   },
   onLoad: function(options) {
-    console.log('options:', options)
+    // console.log('options:', options)
     if (options.id) {
       app.globalData.OrderObj = options;
     } else {
@@ -127,7 +127,6 @@ Page({
     if(this.data.actId){
       let _total = this.data.sellPrice * this.data.num;
       _total = _total.toFixed(2);
-      console.log('_total:', _total)
       this.setData({
         total: _total
       })
@@ -370,7 +369,6 @@ Page({
   },
   formSubmit:function(e){
     let _formId = e.detail.formId;
-    console.log("_formId:", _formId);
     if (this.data.issku == 3){
       if(this.data.actId){
         this.createActOrder();
@@ -401,7 +399,6 @@ Page({
     if (this.data.flag==4){
       _parms.groupId = this.data.groupId;
     }
-    console.log('parms:', JSON.stringify(_parms),)
     wx.request({
       url: that.data._build_url + 'orderInfo/createNew',
       data: JSON.stringify(_parms),
@@ -410,7 +407,6 @@ Page({
         "Authorization": app.globalData.token
       },
       success: function (res) {
-        console.log('res:',res)
         if (res.data.code == 0) {
           if (res.data.data) {
             that.setData({
@@ -560,7 +556,6 @@ Page({
   },
   //调起微信支付
   wxpayment: function() {
-    console.log('wxpayment')
     let _parms = {},
       that = this,
       url="",

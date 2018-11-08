@@ -234,29 +234,30 @@ Page({
       this.setData({
         issnap: true
       })
-      return false
+    }else{
+      let _refId = e.currentTarget.id,
+        _shopId = e.currentTarget.dataset.shopid,
+        _agioPrice = e.currentTarget.dataset.agioprice,
+        _parms = {},
+        _sellPrice = e.currentTarget.dataset.sellprice;
+      _parms = {
+        userId: app.globalData.userInfo.userId,
+        skuId: _refId,
+        token: app.globalData.token
+      };
+      Api.vegetables(_parms).then((res) => {
+        if (res.data.data.length > 0) {
+          this.setData({
+            isbargain: true
+          });
+          this.toBargainList();
+        } else {
+          wx.navigateTo({
+            url: '../AprogressBar/AprogressBar?refId=' + _refId + '&shopId=' + _shopId + '&skuMoneyMin=' + _agioPrice + '&skuMoneyOut=' + _sellPrice
+          })
+        }
+      });
     }
-    let _refId = e.currentTarget.id,
-      _shopId = e.currentTarget.dataset.shopid,
-      _agioPrice = e.currentTarget.dataset.agioprice,
-      _sellPrice = e.currentTarget.dataset.sellprice;
-    let _parms = {
-      userId: app.globalData.userInfo.userId,
-      skuId: _refId,
-      token: app.globalData.token
-    };
-    Api.vegetables(_parms).then((res) => {
-      if (res.data.data.length > 0) {
-        this.setData({
-          isbargain: true
-        });
-        this.toBargainList();
-      } else {
-        wx.navigateTo({
-          url: '../AprogressBar/AprogressBar?refId=' + _refId + '&shopId=' + _shopId + '&skuMoneyMin=' + _agioPrice + '&skuMoneyOut=' + _sellPrice
-        })
-      }
-    });
   },
   //点击同店推荐菜品
   dishesDiscounts(e) {
@@ -508,7 +509,6 @@ Page({
   //是否发起过砍价
   isbargain(isHref) {
     let _parms = {
-      // userId: app.globalData.userInfo.userId,
       skuId: this.data.id,
       token: app.globalData.token
     };
@@ -564,6 +564,7 @@ Page({
         issnap: true
       })
     } else {
+      console.log('actid:',this.data.actId)
       if (this.data.actId) {
         url = that.data._build_url + 'goodsBar/skuRedis?skuId=' + this.data.id;
       } else {
