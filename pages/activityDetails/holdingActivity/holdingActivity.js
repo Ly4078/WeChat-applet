@@ -380,6 +380,9 @@ Page({
 
     }, interval);
   },
+  onHide () {
+    gameFlag = true
+  },
   reverse() { //翻转动画
     if (this.data.frameClass1.indexOf('z1') != -1) {
       this.setData({
@@ -492,9 +495,6 @@ Page({
         console.log('share3333')
       }
     }
-  },
-  share() {
-    this.onShareAppMessage()
   },
   //分享给好友
   onShareAppMessage: function () {

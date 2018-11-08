@@ -63,7 +63,7 @@
         <view class="bot_txt_l">已邀请
           <text>{{lotteryData.pullNum || '0'}}</text>人，可抽奖
           <text>{{lotteryData.haveNum || '0'}}</text>次</view>
-        <view catchtap='share' class="bot_txt_r"><button open-type='share'>邀请好友</button></view>
+        <view  class="bot_txt_r"><button open-type='share'>邀请好友</button></view>
       </view>
     </view>
   </view>
