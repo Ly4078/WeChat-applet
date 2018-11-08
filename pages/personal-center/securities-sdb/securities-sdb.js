@@ -559,13 +559,13 @@ Page({
     })
   },
   inviteCrab() { //邀请新用户兑换螃蟹 type =1
+    let that = this;
   let url = ''
     if (this.data.currentType){
       url = that.data._build_url + 'pullUser/upNumsUp?userId=' + that.data.inviter + '&type=' + this.data.currentType
     }else{
       url = that.data._build_url + 'pullUser/upNumsUp?userId=' + that.data.inviter
     }
-    let that = this;
     wx.request({
       url: url,
       header: {

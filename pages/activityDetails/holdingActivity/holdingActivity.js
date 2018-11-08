@@ -39,7 +39,6 @@ Page({
   },
   onLoad: function (options) {
     this.circleShow();
-
     this.setData({
       inviter: options.inviter ? options.inviter : app.globalData.userInfo.userId
     });
@@ -149,7 +148,6 @@ Page({
   onShow: function () {
     let that = this;
     console.log('onShow:', app.globalData.userInfo)
-
     this.setData({
       isshowlocation: false
     })
@@ -470,7 +468,11 @@ Page({
           app.globalData.token = _token;
           if (app.globalData.userInfo.mobile) {
             //调接口
-
+            that.createUser()
+            that.getwinningList()
+            if (!that.data.prizeList.length) {
+              that.getData();
+            }
           } else {
             console.log('closetel')
             that.closetel();
@@ -511,7 +513,6 @@ Page({
     wx.navigateTo({
       url: '/pages/personal-center/securities-sdb/securities-sdb?inviter=' + this.data.inviter + '&back=1&currentType=3'
     })
-
     return;
     app.globalData.currentScene.path = '/pages/activityDetails/holdingActivity/holdingActivity';
     app.globalData.currentScene.query = {};
