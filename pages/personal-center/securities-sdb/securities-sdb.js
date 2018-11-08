@@ -562,7 +562,7 @@ Page({
     let that = this;
   let url = ''
     if (this.data.currentType){
-      url = that.data._build_url + 'pullUser/upNumsUp?userId=' + that.data.inviter + '&type=' + this.data.currentType
+      url = that.data._build_url + 'pullUser/updateNumsUp?userId=' + that.data.inviter + '&type=' + this.data.currentType
     }else{
       url = that.data._build_url + 'pullUser/upNumsUp?userId=' + that.data.inviter
     }

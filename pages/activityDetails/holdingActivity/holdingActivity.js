@@ -62,6 +62,7 @@ Page({
         "Authorization": app.globalData.token
       },
       success:function(res){
+        wx.stopPullDownRefresh()
           console.log(res)
           if(res.data.code=='0' && res.data.data ){
             let data = res.data.data
@@ -85,6 +86,9 @@ Page({
                 })
               }
           }
+      },fail () {
+        wx.stopPullDownRefresh()
+        wx.hideLoading()
       }
     })
   },
@@ -158,6 +162,9 @@ Page({
           that.createUser()
           that.getwinningList()
           if (!that.data.prizeList.length) {
+            wx.showLoading({
+              title: '加载中...',
+            })
             that.getData();
           }
         } else {
@@ -199,6 +206,7 @@ Page({
         "Authorization": app.globalData.token
       },
       success: function (res) {
+        wx.stopPullDownRefresh()
         if (res.data.code == '0' && res.data.data) {
           that.setData({
             lotteryData: res.data.data
@@ -211,6 +219,7 @@ Page({
         }
       },
       fail() {
+        wx.stopPullDownRefresh()
         wx.showToast({
           title: '服务器开了点小差，请重新进入',
           icon: 'none'
@@ -228,9 +237,11 @@ Page({
       },
       success: function (res) {
         if (res.data.code == '0' && res.data.data.length) {
+          wx.hideLoading()
           let data = res.data.data
           that.computed(data)
         } else {
+          wx.hideLoading()
           wx.showToast({
             title: '加载数据失败，请重新进入',
             icon: 'none'
@@ -238,6 +249,7 @@ Page({
         }
       },
       fail() {
+        wx.hideLoading()
         wx.showToast({
           title: '服务器繁忙，请重新进入',
           icon: 'none'
@@ -471,6 +483,9 @@ Page({
             that.createUser()
             that.getwinningList()
             if (!that.data.prizeList.length) {
+              wx.showLoading({
+                title: '加载中...',
+              })
               that.getData();
             }
           } else {
@@ -566,6 +581,17 @@ Page({
         })
       }
     })
+  },
+  onPullDownRefresh: function () {
+    let that = this;
+    that.createUser()
+    that.getwinningList()
+    if (!that.data.prizeList.length) {
+      wx.showLoading({
+        title: '加载中...',
+      })
+      that.getData();
+    }
   },
   openSetting() { //打开授权设置界面
     let that = this;
