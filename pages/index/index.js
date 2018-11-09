@@ -67,7 +67,7 @@ Page({
        {
         img: '/images/icon/navshiping.png',
         id: 4,
-        name: '短视频'
+         name: '微生活'
       }, {
         img: '/images/icon/navhuodong.png',
         id: 5,
@@ -624,7 +624,7 @@ Page({
         url: '../activityDetails/activity-details',
       })
     } else if (id == 4) { //短视频
-      wx.switchTab({
+      wx.navigateTo({
         url: '../discover-plate/discover-plate',
       })
     } else if (id == 5) { //商家入驻  APP下载

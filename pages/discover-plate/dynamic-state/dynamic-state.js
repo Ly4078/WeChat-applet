@@ -552,7 +552,7 @@ Page({
                   url: '../../activityDetails/video-list/video-list'
                 })
               } else {
-                wx.switchTab({
+                wx.navigateTo({
                   url: '../../discover-plate/discover-plate'
                 })
               }
@@ -579,7 +579,7 @@ Page({
                 delta: 1
               })
             } else{
-              wx.switchTab({
+              wx.navigateTo({
                 url: '../../discover-plate/discover-plate'
               })
             }
