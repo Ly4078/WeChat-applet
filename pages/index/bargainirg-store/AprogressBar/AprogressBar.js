@@ -820,9 +820,9 @@ Page({
           url: '/pages/index/crabShopping/crabDetails/submitOrder/submitOrder?num=1&issku=3&picUrl=' + _soData.skuPic + '&sellPrice=' + _this.data.skuMoneyNow + '&id=' + _soData.id + '&actId=' + _this.data.actId + '&skuName=' + _soData.skuName + '&remark=' + _soData.remark + '&shopId=' + _soData.shopId + '&singleType=' + _soData.singleType + '&spuId=' + _soData.spuId + '&groupId=' + _this.data.groupId + '&flag=' + this.data.actType
         })
       } else {
-        sellPrice = _this.data.skuMoneyNow + '元砍价券';
+        // sellPrice = _this.data.skuMoneyNow + '元砍价券';
         wx.navigateTo({
-          url: '../../order-for-goods/order-for-goods?shopId=' + _this.data.shopId + '&groupId=' + _this.data.groupId + '&skuName=' + _soData.skuName + '&sell=' + sellPrice + '&skutype=4&dishSkuId=' + _this.data.refId + '&dishSkuName=' + _this.data.skuName + '&bargainType=2'
+          url: '../../order-for-goods/order-for-goods?shopId=' + _this.data.shopId + '&groupId=' + _this.data.groupId + '&skuName=' + _this.data.skuMoneyNow + '元砍价券&sell=' + _this.data.skuMoneyNow + '&skutype=4&dishSkuId=' + _this.data.refId + '&dishSkuName=' + _this.data.skuName + '&bargainType=2'
         })
       }
     }

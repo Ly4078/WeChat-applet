@@ -165,7 +165,6 @@ Page({
                 });
               }
             }
-            return false;
           }
         }
       }
@@ -177,7 +176,7 @@ Page({
     })
   },
   tovideoact: function() { //去视频活动页面
-    if (this.data.actId != '') {
+    if (this.data.actId) {
       wx.navigateTo({
         url: '../activityDetails/video-list/video-list?id=38' ,
       })
@@ -374,7 +373,7 @@ Page({
     this.setData({
       ishotnew: false
     })
-    wx.redirectTo({
+    wx.navigateTo({
       url: 'dynamic-state/dynamic-state?id=' + id,
     })
   },

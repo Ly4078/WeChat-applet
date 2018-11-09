@@ -542,46 +542,46 @@ Page({
             console.log('shopId:', app.globalData.userInfo.shopId)
             console.log("_soData.shopId:", _soData.shopId)
             if (app.globalData.userInfo.shopId) {
-              if (_soData.salePointOuts && _soData.salePointOuts.length > 0) {
-                if (app.globalData.userInfo.shopId == _soData.shopId) {
-                  if (_sale && _sale.length > 0) {
-                    for (let i in _soData.salePointOuts) {
-                      for (let j in _sale) {
-                        if (_soData.salePointOuts[i].salepointId == _sale[j]) {
-                          isHx = true;
+              if (_soData.shopId){
+                if (_soData.salePointOuts && _soData.salePointOuts.length > 0) {
+                  if (app.globalData.userInfo.shopId == _soData.shopId) {
+                    if (_sale && _sale.length > 0) {
+                      for (let i in _soData.salePointOuts) {
+                        for (let j in _sale) {
+                          if (_soData.salePointOuts[i].salepointId == _sale[j]) {
+                            isHx = true;
+                            break;
+                          } else {
+                            mssage = "你不是该核销点人员，无权核销此券";
+                            isHx = false;
+                          }
+                        }
+                        if (isHx) {
                           break;
-                        } else {
-                          mssage = "你不是该核销点人员，无权核销此券";
-                          isHx = false;
                         }
                       }
-                      if (isHx) {
-                        break;
-                      }
+                    } else {
+                      mssage = "你不是该核销点人员，无权核销此券";
+                      isHx = false;
                     }
                   } else {
-                    mssage = "你不是该核销点人员，无权核销此券";
-                    isHx = false;
+                    if (_iszhiying) {
+                      isHx = true;
+                    } else {
+                      isHx = false;
+                      mssage = "444你不是该核销点人员，无权核销此券";
+                    }
                   }
                 } else {
-                  if (_iszhiying) {
+                  if (app.globalData.userInfo.shopId == _soData.shopId) {
                     isHx = true;
                   } else {
                     isHx = false;
-                    mssage = "444你不是该核销点人员，无权核销此券";
+                    mssage = "5555此张券并不是在该商家购买，无法在此核销";
                   }
                 }
-              } else {
-                if (app.globalData.userInfo.shopId == _soData.shopId) {
-                  isHx = true;
-                } else {
-                  if (_iszhiying){
-                    isHx = true;
-                  }else{
-                    isHx = false;
-                    mssage = "5555你不是该核销点人员，无权核销此券";
-                  }
-                }
+              } else if (!_soData.shopId){
+                isHx = true;
               }
             } else if(!app.globalData.userInfo.shopId) {
               if (_soData.shopId) {
@@ -737,7 +737,6 @@ Page({
               console.log('3333333')
              
               if(data.data.type == 5){
-                console.log("5555555")
                 if (app.globalData.userInfo.shopId != data.data.shopId) {
                   wx.showToast({
                     title: '你不是该商家销员，无法核销该订单',

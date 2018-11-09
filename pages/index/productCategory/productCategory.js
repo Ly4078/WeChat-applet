@@ -22,12 +22,6 @@ Page({
     }
     this.getsortdata();
   },
-  onReady: function() {
-
-  },
-  onShow: function() {
-    
-  },
 
   //获取类别数据
   getsortdata:function(){
@@ -81,9 +75,9 @@ Page({
   },
   //点击某个商品
   bindItem:function(e){
-    let _id= e.currentTarget.id;
+    let _id = e.currentTarget.id, _categoryId = e.currentTarget.dataset.cate;
     wx.navigateTo({
-      url: '/pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails?id='+_id+'&actId='+this.data.actId,
+      url: '/pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails?id=' + _id + '&actId=' + this.data.actId + '&categoryId=' + _categoryId,
     })
   },
   //下拉刷新

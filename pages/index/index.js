@@ -611,6 +611,7 @@ Page({
   // 点击One某个nav
   handnavOne(e) {
     let id = e.currentTarget.id;
+    console.log('id:', id)
     if (id == 1) { //砍菜
       wx.navigateTo({
         url: 'bargainirg-store/bargainirg-store',
@@ -632,6 +633,10 @@ Page({
         url: '../../pages/index/download-app/download?isshop=ind',
       })
     } else if (id == 6) { //酒店景点
+    console.log('aaa')
+      // wx.navigateTo({
+      //   url: '/pages/index/download-app/download?isshop=ind',
+      // })
       wx.navigateTo({
         url: '/pages/index/productCategory/productCategory',
       })

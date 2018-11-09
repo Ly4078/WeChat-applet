@@ -47,7 +47,8 @@ Page({
     _city: '',
     _lat: '',
     _lng: '',
-    comid: '', //商品ID
+    categoryId:'',
+    id: '', //商品ID
     actId: '' //活动ID
   },
   onLoad(options) {
@@ -63,7 +64,8 @@ Page({
     if (options.actId) {
       this.setData({
         actId: options.actId,
-        comid: options.id
+        id: options.id,
+        categoryId: options.categoryId
       })
     }
   },
@@ -205,8 +207,8 @@ Page({
         });
         if (!this.data.actId) {
           this.dishList();
-          this.hotDishList();
         }
+        this.hotDishList();
       } else {
         this.getlocation();
       }
@@ -234,7 +236,7 @@ Page({
       this.setData({
         issnap: true
       })
-    }else{
+    } else {
       let _refId = e.currentTarget.id,
         _shopId = e.currentTarget.dataset.shopid,
         _agioPrice = e.currentTarget.dataset.agioprice,
@@ -295,7 +297,7 @@ Page({
     }
     _values = _values.substring(0, _values.length - 1);
     if (this.data.actId) {
-      url = that.data._build_url + 'goodsSku/selectDetailBySkuIdNew?id=' + that.data.comid + '&locationX=' + app.globalData.userInfo.lng + '&locationY=' + app.globalData.userInfo.lat
+      url = that.data._build_url + 'goodsSku/selectDetailBySkuIdNew?id=' + that.data.id + '&locationX=' + app.globalData.userInfo.lng + '&locationY=' + app.globalData.userInfo.lat
     } else {
       url = that.data._build_url + 'sku/getKjc?' + _values;
     }
@@ -316,6 +318,7 @@ Page({
           } else if (data.remark) {
             remark.push(data.remark)
           }
+
           that.setData({
             soData: data,
             picUrl: data.picUrl ? data.picUrl : data.skuPic,
@@ -409,6 +412,7 @@ Page({
   //热门推荐
   hotDishList() {
     let that = this,
+        url="",
       _parms = {};
     if (this.data.page == 1) {
       this.setData({
@@ -418,74 +422,91 @@ Page({
     }
     if (app.globalData.userInfo.lat && app.globalData.userInfo.lng) {
       //browSort 0附近 1销量 2价格
-      _parms = {
-        zanUserId: app.globalData.userInfo.userId,
-        browSort: 1,
-        locationX: app.globalData.userInfo.lng,
-        locationY: app.globalData.userInfo.lat,
-        city: this.data._city ? this.data._city : app.globalData.userInfo.city,
-        isDeleted: 0,
-        page: this.data.page,
-        rows: 6,
-        token: app.globalData.token
-      };
+      
       requesting = true;
-      Api.partakerList(_parms).then((res) => {
-        if (res.data.code == 0) {
-          if (res.data.data.list && res.data.data.list.length > 0) {
-            let list = res.data.data.list,
-              hotDishList = this.data.hotDishList;
-            if (list && list.length > 0) {
-              for (let i = 0; i < list.length; i++) {
-                for (let j = 0; j < hotDishList.length; j++) {
-                  if (hotDishList[j].id == list[i].id) {
-                    hotDishList.splice(j, 1)
+      if(that.data.actId){
+        url = that.data._build_url + 'goodsSku/listForActOut';
+        _parms = {
+          id: that.data.id,
+          actId: that.data.actId,
+          categoryId: that.data.categoryId,
+          locationX: app.globalData.userInfo.lng,
+          locationY: app.globalData.userInfo.lat,
+          city: this.data._city ? this.data._city : app.globalData.userInfo.city,
+          page: this.data.page,
+          rows: 6
+        }
+      }else{
+        url = that.data._build_url + 'sku/kjcList';
+        _parms = {
+          zanUserId: app.globalData.userInfo.userId,
+          browSort: 1,
+          locationX: app.globalData.userInfo.lng,
+          locationY: app.globalData.userInfo.lat,
+          city: this.data._city ? this.data._city : app.globalData.userInfo.city,
+          isDeleted: 0,
+          page: this.data.page,
+          rows: 6
+        };
+      }
+      wx.request({
+        url: url,
+        data: JSON.stringify(_parms),
+        method: 'GET',
+        header: {
+          "Authorization": app.globalData.token
+        },
+        success: function (res) {
+          if (res.data.code == 0) {
+            if (res.data.data.list && res.data.data.list.length > 0) {
+              let list = res.data.data.list,
+                hotDishList = that.data.hotDishList;
+              if (list && list.length > 0) {
+                for (let i = 0; i < list.length; i++) {
+                  for (let j = 0; j < hotDishList.length; j++) {
+                    if (hotDishList[j].id == list[i].id) {
+                      hotDishList.splice(j, 1)
+                    }
                   }
                 }
-              }
 
-              for (let i = 0; i < list.length; i++) {
-                if (list[i].id != this.data.id) {
-                  list[i].distance = utils.transformLength(list[i].distance);
-                  hotDishList.push(list[i]);
+                for (let i = 0; i < list.length; i++) {
+                  if (list[i].id != that.data.id) {
+                    list[i].distance = utils.transformLength(list[i].distance);
+                    hotDishList.push(list[i]);
+                  }
+                }
+
+                that.setData({
+                  hotDishList: hotDishList,
+                  pageTotal: Math.ceil(res.data.data.total / 6),
+                  loading: false
+                }, () => {
+                  requesting = false
+                  wx.hideLoading();
+                });
+                if (list.length < 6) {
+                  that.setData({
+                    flag: false
+                  });
                 }
               }
 
-              this.setData({
-                hotDishList: hotDishList,
-                pageTotal: Math.ceil(res.data.data.total / 6),
+            } else {
+              that.setData({
+                flag: false,
                 loading: false
-              }, () => {
-                requesting = false
-                wx.hideLoading();
               });
-              if (list.length < 6) {
-                this.setData({
-                  flag: false
-                });
-              }
+              requesting = false
             }
-
           } else {
-            this.setData({
-              flag: false,
+            wx.hideLoading();
+            requesting = false
+            that.setData({
               loading: false
             });
-            requesting = false
           }
-        } else {
-          wx.hideLoading();
-          requesting = false
-          this.setData({
-            loading: false
-          });
         }
-      }, () => {
-        wx.hideLoading();
-        requesting = false
-        this.setData({
-          loading: false
-        });
       })
     } else {
       that.getlocation();
@@ -532,21 +553,19 @@ Page({
         issnap: true
       })
     } else {
-      
       let sellPrice = this.data.sellPrice,
         _soData = this.data.soData,
         _shopId = this.data.shopId ? this.data.shopId : this.data.soData.shopId;
-      console.log("shopId:", _soData.shopId)
-      if(this.data.actId){
+      if (this.data.actId) {
         wx.navigateTo({
-          url: '/pages/index/crabShopping/crabDetails/submitOrder/submitOrder?num=1&issku=3&flag=1&picUrl=' + this.data.picUrl + '&sellPrice=' + sellPrice + '&id=' + this.data.comid + '&actId=' + this.data.actId + '&skuName=' + _soData.skuName + '&remark=' + _soData.remark + '&shopId=' + _soData.shopId + '&singleType=' + _soData.singleType + '&spuId=' + _soData.spuId
+          url: '/pages/index/crabShopping/crabDetails/submitOrder/submitOrder?num=1&issku=3&flag=1&picUrl=' + this.data.picUrl + '&sellPrice=' + sellPrice + '&id=' + this.data.id + '&actId=' + this.data.actId + '&skuName=' + _soData.skuName + '&remark=' + _soData.remark + '&shopId=' + _soData.shopId + '&singleType=' + _soData.singleType + '&spuId=' + _soData.spuId
         })
-      }else{
+      } else {
         wx.navigateTo({
           url: '../../order-for-goods/order-for-goods?shopId=' + _shopId + '&skuName=' + sellPrice + '元砍价券&sell=' + sellPrice + '&skutype=4&dishSkuId=' + this.data.id + '&dishSkuName=' + this.data.skuName + '&bargainType=1'
         })
       }
-      
+
     }
   },
   //查看全部砍价菜
@@ -564,7 +583,6 @@ Page({
         issnap: true
       })
     } else {
-      console.log('actid:',this.data.actId)
       if (this.data.actId) {
         url = that.data._build_url + 'goodsBar/skuRedis?skuId=' + this.data.id;
       } else {
@@ -712,6 +730,20 @@ Page({
       success: function(res) {},
       fail: function(res) {}
     })
+  },
+  //拨打电话
+  callphone: function() {
+    const phone = this.data.soData.salePointOuts[0].phone;
+    if (phone) {
+      wx.makePhoneCall({
+        phoneNumber: phone
+      })
+    } else {
+      wx.showToast({
+        title: '商家暂未提示联系方式',
+        icon: 'none'
+      })
+    }
   },
   closetel: function(e) {
     let id = e.target.id;

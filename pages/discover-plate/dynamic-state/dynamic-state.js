@@ -57,7 +57,7 @@ Page({
       })
     }
     if (this.data.iswzsp == 2){
-      this.data.butt=[]
+      this.data.butt=[];
       let _butt= [ '提交', '退出编辑']
       this.setData({
         butt: _butt
@@ -552,8 +552,11 @@ Page({
                   url: '../../activityDetails/video-list/video-list'
                 })
               } else {
-                wx.navigateTo({
-                  url: '../../discover-plate/discover-plate'
+                // wx.navigateTo({
+                //   url: '../../discover-plate/discover-plate'
+                // })
+                wx.navigateBack({
+                  delta: 1
                 })
               }
               wx.clearStorage()
@@ -579,8 +582,11 @@ Page({
                 delta: 1
               })
             } else{
-              wx.navigateTo({
-                url: '../../discover-plate/discover-plate'
+              // wx.navigateTo({
+              //   url: '../../discover-plate/discover-plate'
+              // })
+              wx.navigateBack({
+                delta: 1
               })
             }
           } else if (res.cancel) {

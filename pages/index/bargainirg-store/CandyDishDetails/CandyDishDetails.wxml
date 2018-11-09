@@ -42,7 +42,6 @@
   <!-- 主体 -->
   <view class='theFollowing'>
     <view class='embedded'>
-
       <!-- 位置 -->
       <view class='specialWrap' wx:if="{{actId}}">
         <view class='special'></view>
@@ -57,13 +56,16 @@
             <text>{{address?address:soData.salePointOuts[0].address}}</text>
           </view>
         </view>
+        <view class='diningRight1' bindtap='callphone'>
+          <image class='diningphone' src='/images/icon/greenphone.png'></image>
+        </view>
       </view>
 
       <!-- 菜品详情 -->
       <view wx:if="{{skuInfo}}">
         <view class='specialWrap'>
           <view class='special'></view>
-          <text>详情</text>
+          <text>{{actId?'购买须知':'详情'}}</text>
         </view>
         <view class="skuInfo">
           <view wx:for="{{skuInfo}}" wx:key="{{index}}" id="{{index}}" wx:for-index="idx">{{idx+1}}.{{item}}</view>
@@ -136,7 +138,7 @@
         <block wx:for="{{hotDishList}}" wx:key="{{index}}" id="{{index}}" wx:for-index="idx">
           <view class='ecommendation' id="{{item.id}}" data-shopId="{{item.shopId}}" catchtap='chilkDish'>
             <view class='ecommendationImg'>
-              <image mode='scaleToFill' class='ecomt_images' wx:if="{{item.picUrl}}" src='{{item.picUrl}}'></image>
+              <image mode='scaleToFill' class='ecomt_images' wx:if="{{item.picUrl || item.skuPic}}" src='{{item.picUrl?item.picUrl:item.skuPic}}'></image>
               <image mode='scaleToFill' class='ecomt_images' wx:else src='/images/icon/morentu.png'></image>
             </view>
             <view class='bean'>
@@ -150,14 +152,14 @@
             <view class='horticulture'>
               <view class='hol-left'>
                 <image class='house' src='/images/icon/house.png'></image>
-                <text>{{item.shopName}}</text>
+                <text>{{item.shopName?item.shopName:item.salePointOuts[0].salepointName}}</text>
               </view>
-              <view class='hol-right'>
+              <view class='hol-right' wx:if="{{item.distance != '0m'}}">
                 <text>{{item.distance}}</text>
               </view>
             </view>
             <view class='superscript'>￥
-              <text>{{item.agioPrice}}</text>
+              <text>{{item.agioPrice?item.agioPrice:item.sellPrice}}</text>
             </view>
           </view>
         </block>

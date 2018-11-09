@@ -157,6 +157,12 @@
   width: 34%;
   text-align: right;
 }
+.diningRight1{
+  width: 14%;
+  text-align: right;
+  margin-top: 15rpx;
+  border-left: 1px solid #808080;
+}
 
 .diningRight text{
   font-size:24rpx;
@@ -165,7 +171,12 @@
   padding-right: 17rpx;
   vertical-align: middle;
 }
-
+.diningphone{
+  width: 40rpx;
+  height: 40rpx;
+  margin-top: 15rpx;
+  margin-right: 30rpx;
+}
 .doubleImges{
   width: 24rpx;
   height: 26rpx;

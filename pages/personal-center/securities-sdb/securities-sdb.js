@@ -100,11 +100,6 @@ Page({
               }
               let userInfo = app.globalData.userInfo;
               wx.setStorageSync('userInfo', userInfo);
-              // if (!_data.unionId) {
-              //   that.setData({
-              //     istouqu: true
-              //   })
-              // }
               if (app.globalData.userInfo.userName){
                 that.authlogin(val);
               }
@@ -359,7 +354,8 @@ Page({
   getVerificationCode() { //点击获取验证码
     let that = this;
     if (app.globalData.token.length < 5) {
-      that.findByCode("2");
+      // that.findByCode("2");
+      that.findByCode();
       return
     }
     if (this.data.isabss) {
@@ -387,7 +383,8 @@ Page({
               isabss: false
             })
           } else {
-            that.findByCode("2");
+            // that.findByCode("2");
+            that.findByCode();
           }
         }
       })
@@ -433,7 +430,6 @@ Page({
           }
           Api.isVerify(_parms).then((res) => {
             if (res.data.code == 0) {
-              
               let data = res.data.data;
               for (let key in data) {
                 for (let ind in app.globalData.userInfo) {
@@ -448,7 +444,7 @@ Page({
               that.setData({
                 isscan:   false
               });
-              this.authlogin();
+              that.authlogin();
               // that.findByCode("1");
             }
           })
