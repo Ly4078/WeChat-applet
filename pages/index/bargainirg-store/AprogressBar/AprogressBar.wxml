@@ -100,7 +100,6 @@
       </view>
 
       <!-- 分享出去朋友进来未砍状态 -->
-      {{otherStatus}}
       <view wx:if="{{!isMine && otherStatus == 1}}" class='notInvitation'>
         <view catchtap='helpfriend'>
           <image class='notCutImg' src='https://xqmp4-1256079679.file.myqcloud.com/text_329725168984554576.png'></image>

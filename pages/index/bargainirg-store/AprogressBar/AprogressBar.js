@@ -457,18 +457,26 @@ Page({
             } else {
               peopleList = _arr;
             }
-
+            console.log('peopleList:', peopleList)
             for (let i = 0; i < peopleList.length; i++) {
               if (peopleList[i].userName && reg.test(peopleList[i].userName)) {
                 peopleList[i].userName = peopleList[i].userName.substr(0, 3) + "****" + peopleList[i].userName.substr(7)
               } else if (peopleList[i].user.userName && reg.test(peopleList[i].user.userName)) {
                 peopleList[i].user.userName = peopleList[i].user.userName.substr(0, 3) + "****" + peopleList[i].user.userName.substr(7)
               }
-              if (peopleList[i].userId == app.globalData.userInfo.userId || peopleList[i].user.id == app.globalData.userInfo.userId) {
+             
+              if (peopleList[i].userId == app.globalData.userInfo.userId) {
                 _this.setData({
                   getGoldNum: peopleList[i].goldAmount,
                   otherStatus: 2
                 });
+              } else if (peopleList[i].user && peopleList[i].user.id){
+                if (peopleList[i].user.id == app.globalData.userInfo.userId) {
+                  _this.setData({
+                    getGoldNum: peopleList[i].goldAmount,
+                    otherStatus: 2
+                  });
+                }
               }else{
                 _this.setData({
                   otherStatus: 1
@@ -814,7 +822,7 @@ Page({
       } else {
         sellPrice = _this.data.skuMoneyNow + '元砍价券';
         wx.navigateTo({
-          url: '../../order-for-goods/order-for-goods?shopId=' + _this.data.shopId + '&groupId=' + _this.data.groupId + '&skuName=' + skuName + '&sell=' + sellPrice + '&skutype=4&dishSkuId=' + _this.data.refId + '&dishSkuName=' + _this.data.skuName + '&bargainType=2'
+          url: '../../order-for-goods/order-for-goods?shopId=' + _this.data.shopId + '&groupId=' + _this.data.groupId + '&skuName=' + _soData.skuName + '&sell=' + sellPrice + '&skutype=4&dishSkuId=' + _this.data.refId + '&dishSkuName=' + _this.data.skuName + '&bargainType=2'
         })
       }
     }

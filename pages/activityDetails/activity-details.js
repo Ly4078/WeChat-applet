@@ -138,6 +138,7 @@ Page({
   },
   clickVote: function (event) {
     const actid = event.currentTarget.id;
+    console.log('actid:', actid);
     let _actName = "",_type = '';
     for (let i = 0; i < this.data.actdata.length; i++) {
       if (this.data.actdata[i].id == actid) {
@@ -149,15 +150,15 @@ Page({
       wx.navigateTo({
         url: '/pages/index/productCategory/productCategory',
       })
-    }else if(_type == 2){
-      wx.navigateTo({
-        url: 'video-list/video-list?id=' + actid,
-      })
-    } else if (_type == 3) {
+    } else if (actid == 42){
       wx.navigateTo({
         url: 'holdingActivity/holdingActivity'
       })
-    }
+    } else if (actid == 38){
+      wx.navigateTo({
+        url: 'video-list/video-list?id=' + actid,
+      })
+    } 
   },
   onReachBottom: function () {  //用户上拉触底
 

@@ -113,7 +113,7 @@
       <view class='inconformity'>
         <text>快递方式</text>
         <text wx:if="{{soDetail.expressCode}}">顺丰速运</text>
-        <text wx:else>门店自提</text>
+        <text wx:else>到店自提</text>
       </view>
       <view class='inconformity' wx:if="{{soDetail.expressCode}}">
         <text>快递单号</text>

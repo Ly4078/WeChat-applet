@@ -541,53 +541,23 @@ Page({
           }else{
             console.log('shopId:', app.globalData.userInfo.shopId)
             console.log("_soData.shopId:", _soData.shopId)
-            if (app.globalData.userInfo.shopId == 0) {
-              if (_soData.salePointOuts && _soData.salePointOuts.length > 0) {
-                if (_sale && _sale.length > 0) {
-                  for (let i in _soData.salePointOuts) {
-                    for (let j in _sale) {
-                      if (_soData.salePointOuts[i].salepointId == _sale[j]) {
-                        isHx = true;
-                        break;
-                      } else {
-                        mssage = "3333你不是该核销点人员，无权核销此券";
-                        isHx = false;
-                      }
-                    }
-                    if (isHx) {
-                      break;
-                    }
-                  }
-                } else {
-                  isHx = true;
-                }
-              } else {
-                isHx = true;
-              }
-            } else if (!app.globalData.userInfo.shopId) {
-              isHx = true;
-            } else if (app.globalData.userInfo.shopId > 0) {
+            if (app.globalData.userInfo.shopId) {
               if (_soData.salePointOuts && _soData.salePointOuts.length > 0) {
                 if (app.globalData.userInfo.shopId == _soData.shopId) {
-                  if (_soData.salePointOuts && _soData.salePointOuts.length > 0) {
-                    if (_sale && _sale.length > 0) {
-                      for (let i in _soData.salePointOuts) {
-                        for (let j in _sale) {
-                          if (_soData.salePointOuts[i].salepointId == _sale[j]) {
-                            isHx = true;
-                            break;
-                          } else {
-                            mssage = '你不是自营店核销员，无法核销该订单';
-                            isHx = false;
-                          }
-                        }
-                        if (isHx) {
+                  if (_sale && _sale.length > 0) {
+                    for (let i in _soData.salePointOuts) {
+                      for (let j in _sale) {
+                        if (_soData.salePointOuts[i].salepointId == _sale[j]) {
+                          isHx = true;
                           break;
+                        } else {
+                          mssage = "你不是该核销点人员，无权核销此券";
+                          isHx = false;
                         }
                       }
-                    } else {
-                      mssage = "你不是该核销点人员，无权核销此券";
-                      isHx = false;
+                      if (isHx) {
+                        break;
+                      }
                     }
                   } else {
                     mssage = "你不是该核销点人员，无权核销此券";
@@ -613,10 +583,39 @@ Page({
                   }
                 }
               }
-            }
+            } else if(!app.globalData.userInfo.shopId) {
+              if (_soData.shopId) {
+                if (_soData.salePointOuts && _soData.salePointOuts.length > 0) {
+                  if (_sale && _sale.length > 0) {
+                    for (let i in _soData.salePointOuts) {
+                      for (let j in _sale) {
+                        if (_soData.salePointOuts[i].salepointId == _sale[j]) {
+                          isHx = true;
+                          break;
+                        } else {
+                          mssage = "你不是该核销点人员，无权核销此券";
+                          isHx = false;
+                        }
+                      }
+                      if (isHx) {
+                        break;
+                      }
+                    }
+                  } else {
+                    mssage = "你不是该核销点人员，无权核销此券";
+                    isHx = false;
+                  }
+                }else{
+                  isHx = false;
+                  mssage = "call-777此券没有设置核销点";
+                }
+              } else {
+                isHx = false;
+                mssage = "call-777自营店核销员无权核销平台券";
+              }
+            } 
           }
-          
-
+          // return
           if(isHx){
             console.log('aaaa')
             if (_soData.skuName) {
