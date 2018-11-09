@@ -377,8 +377,7 @@ Page({
         if (_this.data.winningIndex == turnIdx) {
           let lotteryData = _this.data.lotteryData
           lotteryData.haveNum = lotteryData.haveNum - 1 //减少一次抽奖次数
-          lotteryData.pullNum = lotteryData.pullNum - 3
-
+          lotteryData.pullNum = lotteryData.pullNum - 2
           _this.setData({
             Countdown: 0,
             lotteryData: lotteryData
@@ -519,6 +518,7 @@ Page({
     return {
       title: '邀请好友，换大闸蟹',
       path: '/pages/activityDetails/holdingActivity/holdingActivity?inviter=' + app.globalData.userInfo.userId,
+      imageUrl:'https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/微信图片_20181108171635.png',
       success: function (res) {
         console.log('successres:', res)
       }
