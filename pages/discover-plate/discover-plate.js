@@ -23,6 +23,7 @@ Page({
     placeholderFlag: true,
     issnap: false,
     isshow: false,
+    istoTop:false,
     topUrl: '',
     actId: ''
   },
@@ -192,7 +193,6 @@ Page({
         topicType: 2,
         token: app.globalData.token
       }
-     
       if (this.data.choicetype) {
         _parms.choiceType = this.data.choicetype
       }
@@ -477,8 +477,25 @@ Page({
     if (id == 1) {
       wx.navigateTo({
         url: '/pages/init/init?isback=1'
-        // url: '/pages/personal-center/securities-sdb/securities-sdb?back=1'
       })
     }
-  }
+  },
+  //监听页面滚动
+  onPageScroll:function(res){
+    if (res.scrollTop>1000){
+      this.setData({
+        istoTop: true
+      })
+    }
+  },
+  //回到顶部
+  toTop() {
+    wx.pageScrollTo({
+      scrollTop: 0,
+      duration: 300
+    });
+    this.setData({
+      istoTop:false
+    })
+  },
 })

@@ -27,6 +27,9 @@ Page({
     iszys: false, //是否是自营核销员
     isconfirm: true,
     _salepointId: [],
+    hxaleId:'',
+    messaged:'',
+    frequency:0,
     iszhiying: false
   },
 
@@ -35,6 +38,7 @@ Page({
    */
   onLoad: function(options) {
     // console.log("options:", options)
+   
     if (options.ent) {
       this.setData({
         isent: true,
@@ -52,31 +56,32 @@ Page({
         iszys: false
       })
     }
-
     if (options.code) {
       this.setData({
         result: options.ByCode,
         code: options.code
       })
-      this.gettickets()
     }
   },
   onShow: function() {
-    let that = this,
-      _parms = {},
-      _salepointId = [];
     if (app.globalData.userInfo.shopId && app.globalData.userInfo.userType == 2) {
       this.setData({
         isshop: true,
         isshopuser: true
       })
     }
+    this.setData({
+      frequency:0
+    })
+    this.getsalepointId();
+  },
+  getsalepointId:function(){
+    let that = this, _parms = {}, _salepointId=[];
     _parms = {
       token: app.globalData.token
     }
     Api.getSalePointUserByUserId(_parms).then((res) => {
       if (res.data.code == 0) {
-        console.log("resres:", res)
         if (res.data.data && res.data.data.length > 0) {
           for (let i in res.data.data) {
             _salepointId.push(res.data.data[i].salepointId)
@@ -85,6 +90,14 @@ Page({
             iszhiying: true,
             salepointId: _salepointId
           })
+          console.log('salepointId:', that.data.salepointId)
+          if (that.data.result){
+            that.gettickets()
+          }
+        }else{
+          if (that.data.result) {
+            that.gettickets()
+          }
         }
       }
     })
@@ -111,6 +124,7 @@ Page({
       timer: _timer,
       _code: actual,
       istihua: false,
+      frequency: 0,
       okhx: false,
       isconfirm: true,
       hxData: []
@@ -120,6 +134,7 @@ Page({
   bindfocus: function() {
     this.setData({
       _codees: '',
+      frequency: 0,
       hxData: {},
       istihua: false
     })
@@ -138,6 +153,7 @@ Page({
       }
     }, 1500)
     _this.setData({
+      frequency: 0,
       timer: _timer,
       _codees: actual,
       istihua: true,
@@ -150,6 +166,7 @@ Page({
   bindfocuses: function() {
     this.setData({
       _code: '',
+      frequency:0,
       hxData: {},
       istihua: true
     })
@@ -176,10 +193,7 @@ Page({
         console.log('fff:', res)
         if (res.data.code == 0) {
           if (res.data.data) {
-
-
             // =============================
-
             let _soData = res.data.data;
             console.log('_soData:', _soData)
             let current = res.data.currentTime,
@@ -201,17 +215,28 @@ Page({
               console.log('shopId:', app.globalData.userInfo.shopId)
               console.log("_soData.shopId:", _soData.shopId)
               if (app.globalData.userInfo.shopId) {
+                const _sale = that.data.salepointId;
                 if (_soData.shopId) {
+                  console.log('aaaaaaa')
+                  console.log('salePointOuts:', _soData.salePointOuts)
+                  console.log("_sale:", _sale)
                   if (_soData.salePointOuts && _soData.salePointOuts.length > 0) {
+                    console.log('110000')
                     if (app.globalData.userInfo.shopId == _soData.shopId) {
+                      console.log('111000')
+                      
                       if (_sale && _sale.length > 0) {
+                        console.log('111100')
                         for (let i in _soData.salePointOuts) {
                           for (let j in _sale) {
-                            if (_soData.salePointOuts[i].salepointId == _sale[j]) {
+                            if (_soData.salePointOuts[i].id == _sale[j]) {
+                              that.setData({
+                                hxaleId: _soData.salePointOuts[i].id
+                              })
                               isHx = true;
                               break;
                             } else {
-                              mssage = "你不是该核销点人员，无权核销此券";
+                              mssage = "你不是该核销点人员，无权核销此券22";
                               isHx = false;
                             }
                           }
@@ -220,7 +245,7 @@ Page({
                           }
                         }
                       } else {
-                        mssage = "你不是该核销点人员，无权核销此券";
+                        mssage = "你不是该核销点人员，无权核销此券111";
                         isHx = false;
                       }
                     } else {
@@ -232,7 +257,13 @@ Page({
                       }
                     }
                   } else {
+                    console.log('100000')
                     if (app.globalData.userInfo.shopId == _soData.shopId) {
+                      if(_sale && _sale.length>0){
+                        that.setData({
+                          hxaleId: _sale[0]
+                        })
+                      }
                       isHx = true;
                     } else {
                       isHx = false;
@@ -240,10 +271,42 @@ Page({
                     }
                   }
                 } else if (!_soData.shopId) {
-                  isHx = true;
+                  console.log('bbbbbbbbbb')
+                  // isHx = true;
+                  if (_soData.salePointOuts && _soData.salePointOuts.length > 0) {
+                    const _sale = that.data.salepointId;
+                    console.log("_sale:", _sale)
+                    console.log('salePointOuts:', _soData.salePointOuts)
+                    if (_sale && _sale.length > 0) {
+                      console.log('asssss')
+                      for (let i in _soData.salePointOuts) {
+                        for (let j in _sale) {
+                          if (_soData.salePointOuts[i].id == _sale[j]) {
+                            that.setData({
+                              hxaleId: _soData.salePointOuts[i].id
+                            })
+                            isHx = true;
+                            break;
+                          } else {
+                            mssage = "你不是该核销点人员，无权核销此券";
+                            isHx = false;
+                          }
+                        }
+                        if (isHx) {
+                          break;
+                        }
+                      }
+                    } else {
+                      console.log('a1111')
+                      isHx = false;
+                      mssage = "444你不是该核销点人员，无权核销此券111";
+                    }
+                  } else {
+                    isHx = true;
+                  }
                 }
               } else if (!app.globalData.userInfo.shopId) {
-                if (_soData.shopId) {
+                if (_soData.shopId || _soData.shopId == 0) {
                   if (_soData.salePointOuts && _soData.salePointOuts.length > 0) {
                     if (_sale && _sale.length > 0) {
                       for (let i in _soData.salePointOuts) {
@@ -270,7 +333,7 @@ Page({
                   }
                 } else {
                   isHx = false;
-                  mssage = "call-777自营店核销员无权核销平台券";
+                  mssage = "call-777222自营店核销员无权核销平台券";
                 }
               }
             }
@@ -290,6 +353,7 @@ Page({
             that.setData({
               hxData: _soData,
               okhx: isHx,
+              messaged: mssage,
               newamount: _soData.couponAmount ? _soData.couponAmount : 0,
               dishlist: lists
             })
@@ -337,167 +401,14 @@ Page({
                 duration: 4000
               })
             }
-
-
-
-
-
-
-            // ===============================
-            return
-            if (res.data.data) {
-              let _data = res.data.data,
-                _rele = "",
-                lists = [];
-              if (_data.orderCode) {
-
-                let current = res.data.currentTime,
-                  isDue = that.isDueFunc(current, _data.expiryDate);
-                if (isDue == 1) {
-                  wx.showToast({
-                    title: '该票券已过期',
-                    icon: 'none',
-                    mmask: 'true',
-                    duration: 2000,
-                  })
-                  that.setData({
-                    okhx: false,
-                    _codees: ''
-                  })
-                  return
-                }
-                if (that.data.isshopuser && that.data.iszys) {
-                  wx.showToast({
-                    title: '你不是自营店核销员，无法核销该订单sss',
-                    icon: 'none',
-                    duration: 4000
-                  })
-                  that.setData({
-                    okhx: false
-                  })
-                  return
-                }
-
-                if (_data.status == 2 || _data.shopId == 0) {
-                  that.setData({
-                    iszy: true
-                  })
-                } else {
-                  wx.showToast({
-                    title: '此券已被使用，不可再使用',
-                    icon: 'none',
-                    duration: 4000
-                  })
-                  that.setData({
-                    okhx: false
-                  })
-                  if (that.data.isent) {
-                    that.setData({
-                      _codees: ''
-                    })
-                  } else {
-                    setTimeout(() => {
-                      wx.navigateBack({
-                        delta: 1
-                      })
-                    }, 4000)
-                  }
-                  return;
-                }
-              } else {
-                if (_data.salePoint) { //自营店
-                  if (!that.data.iszys) {
-                    that.setData({
-                      okhx: false
-                    })
-                    wx.showToast({
-                      title: '你不是自营店销员，无法核销该订单',
-                      icon: 'none',
-                      duration: 4000
-                    })
-                    return
-                  }
-                } else { //商家
-                  if (_data.type == 5) {
-                    if (app.globalData.userInfo.shopId != _data.shopId) {
-                      that.setData({
-                        okhx: false
-                      })
-                      wx.showToast({
-                        title: '你不是该商家销员，无法核销该订单',
-                        icon: 'none',
-                        duration: 4000
-                      })
-                      return
-                    }
-                  } else if (_data.type == 1) {
-                    if (that.data.iszys && !that.data.isshopuser) {
-                      that.setData({
-                        okhx: false
-                      })
-                      wx.showToast({
-                        title: '你不是该商家销员，无法核销此券',
-                        icon: 'none',
-                        duration: 4000
-                      })
-                      return
-                    }
-                  }
-                }
-              }
-              if ((_data.type == 4 || _data.type == 5 || _data.type == 3) && _data.shopId != app.globalData.userInfo.shopId) {
-                wx.showToast({
-                  title: '你不是该商家销员，无法核销此券',
-                  icon: 'none'
-                })
-                return false;
-              }
-              if (_data.isUsed == 1) {
-                wx.showToast({
-                  title: '该票券已被使用',
-                  icon: 'none',
-                  mask: 'true',
-                  duration: 2000,
-                })
-                return
-              }
-              if (_data.discount) {
-                let _parms = {
-                  shopId: app.globalData.userInfo.shopId,
-                  skuId: data.data.skuId,
-                  token: app.globalData.token
-                }
-                Api.searchForShopIdNew(_parms).then((res) => {
-                  if (res.data.code == -1) {
-                    wx.showToast({
-                      title: res.data.message + ',不能核销此活动券',
-                      mask: 'true',
-                      icon: 'none',
-                      duration: 3000
-                    })
-                    return
-                  }
-                })
-              }
-              if (_data.userName) {
-                _data.userName1 = _data.userName;
-                _data.userName = _data.userName.substr(0, 3) + "****" + _data.userName.substr(7);
-              } else {}
-              if (_data.promotionRules && _data.promotionRules.length > 0) {
-                if (_data.promotionRules[0].ruleDesc) {
-                  _rele = _data.promotionRules[0].ruleDesc;
-                }
-              }
-              if (_data.orderItemOuts && _data.orderItemOuts.length > 0) {
-                lists = _data.orderItemOuts;
-              }
-              that.setData({
-                hxData: _data,
-                okhx: true,
-                newamount: _data.couponAmount ? _data.couponAmount : '0',
-                dishlist: lists
-              })
-            } else {
+          } else {
+            that.setData({
+              frequency: that.data.frequency+1,
+              istihua: !that.data.istihua
+            })
+            if (that.data.frequency==1){
+              that.gettickets(val);
+            } else if (that.data.frequency == 2){
               wx.showToast({
                 title: '券码错误，请重新输入！',
                 mask: 'true',
@@ -505,16 +416,6 @@ Page({
                 duration: 3000
               })
             }
-          } else {
-            wx.showToast({
-              title: '券码错误，请重新输入！',
-              mask: 'true',
-              icon: 'none',
-              duration: 3000
-            })
-            that.setData({
-              _codees:''
-            })
           }
         } else {
           wx.showToast({
@@ -522,9 +423,6 @@ Page({
             mask: 'true',
             icon: 'none',
             duration: 3000
-          })
-          that.setData({
-            _codees: ''
           })
         }
       }
@@ -540,13 +438,14 @@ Page({
 
   confirm: function() { //确认核销
     let that = this,
+      _msg ='不符合核销条件，请重新输入',
       _hxData = this.data.hxData;
     if (!this.data.isconfirm) {
       return false
     }
     if (!this.data.okhx) {
       wx.showToast({
-        title: '不符合核销条件，请重新输入',
+        title: this.data.messaged ? this.data.messaged : _msg,
         icon: 'none',
         mask: 'true',
         duration: 2000
@@ -563,7 +462,7 @@ Page({
       if (_hxData.type == 1) {
         url = that.data._build_url + 'orderInfo/useOrderInfo?orderCode=' + _value;
       } else if (_hxData.type == 2) {
-        url = that.data._build_url + 'orderCoupon/hxCoupon?shopId=0&shopName=享七自营&salepointId=' + _hxData.salePoint.id + '&id=' + _hxData.id;
+        url = that.data._build_url + 'orderCoupon/hxCoupon?shopId=0&shopName=享七自营&salepointId=' + that.data.hxaleId + '&id=' + _hxData.id;
       }
 
       _Url = encodeURI(url);
@@ -596,39 +495,45 @@ Page({
         _parms = {},
         url = "",
         _Url = "";
-      _parms = {
-        soId: _hxData.soId, //订单id	Long
-        shopId: app.globalData.userInfo.shopId ? app.globalData.userInfo.shopId : "", //商家id	Long
-        shopName: app.globalData.userInfo.shopName ? app.globalData.userInfo.shopName : "", //店铺名称	Date
-        shopAmount: that.data.newamount, //消费总额	BigDecimal
-        couponId: _hxData.id, //电子券id	Long
-        couponCode: _hxData.couponCode, //电子券code	String
-        skuId: _hxData.skuId, //商品id	Long
-        couponAmount: that.data.newamount, //电子券面额	BigDecimal
-        userId: _hxData.userId, //消费人id	Long
-        userName: _hxData.userName1, //消费人账号	String
-        // cashierId: app.globalData.userInfo.userId, //收银id	Long
-        // cashierName: app.globalData.userInfo.userName, //收银账号	String
-      }
-      for (var key in _parms) {
-        _values += key + "=" + _parms[key] + "&";
-      }
 
-      _values = _values.substring(0, _values.length - 1);
-      if (_hxData.type == 2) {
-        let _salepointId = "";
-        if (_hxData.salePoint && _hxData.salePoint.id) {
-          _salepointId = _hxData.salePoint.id
-        } else if (_hxData.salepointId) {
-          _salepointId = _hxData.salepointId;
+      console.log('_hxData:', _hxData)
+      if (_hxData.type == 2 || !_hxData.type) {
+        _parms={
+          shopId:0 ,
+          shopName:'享七自营',
+          id: _hxData.id
         }
-        url = that.data._build_url + 'orderCoupon/hxCoupon?shopId=0&shopName=享七自营&salepointId=' + _salepointId + '&id=' + _hxData.id;
+        if (that.data.hxaleId){
+          _parms.salepointId = that.data.hxaleId
+        }
+        for (let key in _parms) {
+          _values += key + "=" + _parms[key] + "&";
+        }
+
+        _values = _values.substring(0, _values.length - 1);
+        url = that.data._build_url + 'orderCoupon/hxCoupon?' + _values;
       } else {
+        _parms = {
+          soId: _hxData.soId, //订单id	Long
+          shopId: app.globalData.userInfo.shopId ? app.globalData.userInfo.shopId : "", //商家id	Long
+          shopName: app.globalData.userInfo.shopName ? app.globalData.userInfo.shopName : "", //店铺名称	Date
+          shopAmount: that.data.newamount, //消费总额	BigDecimal
+          couponId: _hxData.id, //电子券id	Long
+          couponCode: _hxData.couponCode, //电子券code	String
+          skuId: _hxData.skuId, //商品id	Long
+          couponAmount: that.data.newamount, //电子券面额	BigDecimal
+          userId: _hxData.userId, //消费人id	Long
+          userName: _hxData.userName1, //消费人账号	String
+          // cashierId: app.globalData.userInfo.userId, //收银id	Long
+          // cashierName: app.globalData.userInfo.userName, //收银账号	String
+        }
+        for (let key in _parms) {
+          _values += key + "=" + _parms[key] + "&";
+        }
+        _values = _values.substring(0, _values.length - 1);
         url = that.data._build_url + 'hx/add?' + _values;
       }
       _Url = encodeURI(url);
-
-
       wx.request({
         url: _Url,
         header: {

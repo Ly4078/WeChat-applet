@@ -31,8 +31,21 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": -1,
-			"list": []
+			"current": 1,
+			"list": [
+				{
+					"id": -1,
+					"name": "msg",
+					"pathName": "pages/index/notification/notification",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "msg2",
+					"pathName": "pages/index/notification/message/message",
+					"query": "sort=0"
+				}
+			]
 		}
 	}
 }

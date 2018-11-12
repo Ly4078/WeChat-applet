@@ -37,3 +37,17 @@ page{
   color: #555;
   font-size: 26rpx;
 }
+.bindel{
+  width: 600rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  background: #fff;
+  color: #000;
+  text-align: center;
+  border-radius: 10rpx;
+  position: relative;
+  top: 50%;
+  left: 50%;
+  margin-bottom: -40rpx;
+  margin-left: -300rpx;
+}

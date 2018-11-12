@@ -11,6 +11,7 @@ Page({
     _build_url: GLOBAL_API_DOMAIN,
     nickName: '',
     iconUrl: '',
+    hxaleId:'',
     isname: false,
     newname: '',
     qrCode: '',
@@ -54,6 +55,7 @@ Page({
       token: app.globalData.token
     }
     Api.getSalePointUserByUserId(_parms).then((res) => {
+      console.log('resres:',res)
       if (res.data.code == 0) {
         if (res.data.data && res.data.data.length > 0) {
           for(let i in res.data.data){
@@ -63,6 +65,7 @@ Page({
             iszhiying: true,
             salepointId: _salepointId
           })
+          console.log("_iszhiying1132213:", that.data.iszhiying)
         }
       }
     })
@@ -523,7 +526,6 @@ Page({
         "Authorization": app.globalData.token
       },
       success: function(res) {
-        console.log('res:',res)
         if (res.data.code == 0) {
           
           // ===============================================
@@ -531,7 +533,7 @@ Page({
           current = res.data.currentTime, 
           isDue = that.isDueFunc(current, _soData.expiryDate),
           _iszhiying = that.data.iszhiying;
-          console.log('_iszhiying:', _iszhiying)
+          console.log('_iszhiying111:', that.data._iszhiying)
           if (_soData.isUsed == 1) {
             isHx = false;
             mssage ="1111该票券已被使用";
@@ -539,16 +541,18 @@ Page({
             isHx = false;
             mssage = "2222该票券已过期";
           }else{
-            console.log('shopId:', app.globalData.userInfo.shopId)
-            console.log("_soData.shopId:", _soData.shopId)
             if (app.globalData.userInfo.shopId) {
               if (_soData.shopId){
                 if (_soData.salePointOuts && _soData.salePointOuts.length > 0) {
                   if (app.globalData.userInfo.shopId == _soData.shopId) {
+                    const _sale = that.data.salepointId;
                     if (_sale && _sale.length > 0) {
                       for (let i in _soData.salePointOuts) {
                         for (let j in _sale) {
-                          if (_soData.salePointOuts[i].salepointId == _sale[j]) {
+                          if (_soData.salePointOuts[i].id == _sale[j]) {
+                            that.setData({
+                              hxaleId: _soData.salePointOuts[i].id
+                            })
                             isHx = true;
                             break;
                           } else {
@@ -565,6 +569,7 @@ Page({
                       isHx = false;
                     }
                   } else {
+                    console.log('_iszhiying111:', _iszhiying)
                     if (_iszhiying) {
                       isHx = true;
                     } else {
@@ -581,10 +586,42 @@ Page({
                   }
                 }
               } else if (!_soData.shopId){
-                isHx = true;
+                console.log('bbbbbbbbbb')
+                // isHx = true;
+                if (_soData.salePointOuts && _soData.salePointOuts.length > 0) {
+                  const _sale = that.data.salepointId;
+                  console.log("_sale:", _sale)
+                  console.log('salePointOuts:', _soData.salePointOuts)
+                  if (_sale && _sale.length > 0) {
+                    console.log('asssss')
+                    for (let i in _soData.salePointOuts) {
+                      for (let j in _sale) {
+                        if (_soData.salePointOuts[i].id == _sale[j]) {
+                          that.setData({
+                            hxaleId: _soData.salePointOuts[i].id
+                          })
+                          isHx = true;
+                          break;
+                        } else {
+                          mssage = "你不是该核销点人员，无权核销此券";
+                          isHx = false;
+                        }
+                      }
+                      if (isHx) {
+                        break;
+                      }
+                    }
+                  }else{
+                    console.log('a1111')
+                    isHx = false;
+                    mssage = "444你不是该核销点人员，无权核销此券111";
+                  }
+                }else{
+                  isHx = true;
+                }
               }
             } else if(!app.globalData.userInfo.shopId) {
-              if (_soData.shopId) {
+              if (_soData.shopId || _soData.shopId == 0) {
                 if (_soData.salePointOuts && _soData.salePointOuts.length > 0) {
                   if (_sale && _sale.length > 0) {
                     for (let i in _soData.salePointOuts) {
@@ -607,19 +644,17 @@ Page({
                   }
                 }else{
                   isHx = false;
-                  mssage = "call-777此券没有设置核销点";
+                  mssage = "call-777111此券没有设置核销点";
                 }
               } else {
                 isHx = false;
-                mssage = "call-777自营店核销员无权核销平台券";
+                mssage = "call-777222自营店核销员无权核销平台券";
               }
             } 
           }
           // return
           if(isHx){
-            console.log('aaaa')
             if (_soData.skuName) {
-              console.log('bbbbbb')
               let Cts = "现金",
                 Dis = '折扣';
               if (_soData.skuName.indexOf(Cts) > 0) {
@@ -630,7 +665,6 @@ Page({
               }
             }
             if (_soData.discount) {
-              console.log('cccccc')
               let _parms = {
                 shopId: app.globalData.userInfo.shopId,
                 skuId: _soData.skuId,
@@ -651,169 +685,15 @@ Page({
                 }
               })
             } else {
-              console.log('dddddd')
               wx.navigateTo({
                 url: '../personal-center/call-back/call-back?code=' + that.data.qrCode + '&discount=' + _soData.discount + '&ByCode=' + that.data.qrdata.result + '&iszy=' + that.data.iszhiying + '&isshopuser=' + that.data.isshopuser
               })
             }
           }else{
-            console.log('mssage:', mssage);
             wx.showToast({
               title: mssage,
               icon: 'none',
               duration: 4000
-            })
-          }
-
-
-
-
-
-
-
-
-
-
-
-            // =========================================
-          return
-          let data = res.data, isHx = false, _sale = that.data.salepointId;
-          if (data.salePointOuts && data.salePointOuts.length>0){
-            if (_sale && _sale.length>0){
-              for (let i in data.salePointOuts) {
-                for (let j in _sale) {
-                  if (data.salePointOuts[i].salepointId == _sale[j]) {
-                    isHx = true;
-                  }
-                }
-              }
-            }else{
-              isHx = true;
-            }
-          }else{
-            isHx=true;
-          }
-          if (!isHx){
-            wx.showToast({
-              title: '你不是该核销点人员，无法核销此券',
-              icon: 'none',
-              duration: 4000
-            })
-            return
-          }
-          if (data.data.orderCode) {
-            if (that.data.isshopuser && !that.data.iszhiying) {
-              wx.showToast({
-                title: '你不是自营店核销员，无法核销该订单',
-                icon: 'none',
-                duration: 4000
-              })
-            }
-            if (data.data.status == 2) {
-              that.setData({
-                iszhiying: true
-              })
-            } else {
-              wx.showToast({
-                title: '此券已被使用，不可再使用',
-                icon: 'none',
-                duration: 4000
-              })
-              return;
-            }
-          } else {
-            if (data.data.salePoint){  //自营店
-              console.log('2222')
-              if (!that.data.iszhiying) {
-                console.log('22221111111')
-                wx.showToast({
-                  title: '你不是自营店核销员，无法核销该订单',
-                  icon: 'none',
-                  duration: 4000
-                })
-                return
-              }
-            }else{  //商家
-              console.log('3333333')
-             
-              if(data.data.type == 5){
-                if (app.globalData.userInfo.shopId != data.data.shopId) {
-                  wx.showToast({
-                    title: '你不是该商家销员，无法核销该订单',
-                    icon: 'none',
-                    duration: 4000
-                  })
-                  return
-                }
-              }else if(data.data.type ==1){
-                if (that.data.iszhiying && !that.data.isshopuser){
-                  wx.showToast({
-                    title: '你不是该商家销员，无法核销此券',
-                    icon: 'none',
-                    duration: 4000
-                  })
-                  return
-                }
-              }
-            }
-          }
-          if (data.skuName) {
-            let Cts = "现金",
-              Dis = '折扣';
-            if (data.data.skuName.indexOf(Cts) > 0) {
-              data.data.discount = false
-            }
-            if (data.data.skuName.indexOf(Dis) > 0) {
-              data.data.discount = true
-            }
-          }
-          // let current = data.currentTime,
-            isDue = that.isDueFunc(current, data.data.expiryDate);
-          if ((data.data.type == 4 || data.data.type == 5 || data.data.type == 3) && data.data.shopId != app.globalData.userInfo.shopId) {
-            wx.showToast({
-              title: '你不是该商家销员，无法核销该订单',
-              icon: 'none'
-            })
-            return;
-          }
-          if (data.data.isUsed == 1) {
-            wx.showToast({
-              title: '该票券已被使用',
-              icon: 'none',
-              mask: 'true',
-              duration: 2000,
-            })
-          } else if (isDue == 1) {
-            wx.showToast({
-              title: '该票券已过期',
-              icon: 'none',
-              mmask: 'true',
-              duration: 2000,
-            })
-          } else 
-          if (data.data.discount) {
-            let _parms = {
-              shopId: app.globalData.userInfo.shopId,
-              skuId: data.data.skuId,
-              token: app.globalData.token
-            }
-            Api.searchForShopIdNew(_parms).then((res) => {
-              if (res.data.code == -1) {
-                wx.showToast({
-                  title: res.data.message + ',不能核销此活动券',
-                  mask: 'true',
-                  icon: 'none',
-                  duration: 3000
-                })
-              } else {
-                wx.navigateTo({
-                  url: '../personal-center/call-back/call-back?code=' + that.data.qrCode + '&type=' + data.data.type + '&ByCode=' + that.data.qrdata.result + '&iszy=' + that.data.iszhiying + '&isshopuser=' + that.data.isshopuser
-                })
-              }
-            })
-          } else {
-            wx.navigateTo({
-              url: '../personal-center/call-back/call-back?code=' + that.data.qrCode + '&discount=' + data.data.discount + '&ByCode=' + that.data.qrdata.result + '&iszy=' + that.data.iszhiying + '&isshopuser=' + that.data.isshopuser
             })
           }
         } else {

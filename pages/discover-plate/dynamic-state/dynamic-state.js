@@ -483,10 +483,10 @@ Page({
         isfirst: false
       })
       let _values = "", _parms={};
-      console.log('_con:', _con)
       _parms = {
         title: _title,
         content: _con,
+        shopType:1,
         topicType: that.data.iswzsp,
         userId: app.globalData.userInfo.userId,
         summary: _title,

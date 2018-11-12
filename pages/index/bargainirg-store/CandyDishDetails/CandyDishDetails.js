@@ -47,7 +47,7 @@ Page({
     _city: '',
     _lat: '',
     _lng: '',
-    categoryId:'',
+    categoryId: '',
     id: '', //商品ID
     actId: '' //活动ID
   },
@@ -412,7 +412,9 @@ Page({
   //热门推荐
   hotDishList() {
     let that = this,
-        url="",
+      url = "",
+      _Url="",
+      _values = "",
       _parms = {};
     if (this.data.page == 1) {
       this.setData({
@@ -422,10 +424,9 @@ Page({
     }
     if (app.globalData.userInfo.lat && app.globalData.userInfo.lng) {
       //browSort 0附近 1销量 2价格
-      
+
       requesting = true;
-      if(that.data.actId){
-        url = that.data._build_url + 'goodsSku/listForActOut';
+      if (that.data.actId) {
         _parms = {
           id: that.data.id,
           actId: that.data.actId,
@@ -436,8 +437,13 @@ Page({
           page: this.data.page,
           rows: 6
         }
-      }else{
-        url = that.data._build_url + 'sku/kjcList';
+        for (var key in _parms) {
+          _values += key + "=" + _parms[key] + "&";
+        }
+        _values = _values.substring(0, _values.length - 1);
+        url = that.data._build_url + 'goodsSku/listForActOut?' + _values;
+      } else {
+
         _parms = {
           zanUserId: app.globalData.userInfo.userId,
           browSort: 1,
@@ -448,15 +454,22 @@ Page({
           page: this.data.page,
           rows: 6
         };
+        for (var key in _parms) {
+          _values += key + "=" + _parms[key] + "&";
+        }
+        _values = _values.substring(0, _values.length - 1);
+        url = that.data._build_url + 'sku/kjcList?' + _values;
       }
+      _Url=encodeURI(url);
+      console.log('_Url:', _Url)
       wx.request({
-        url: url,
-        data: JSON.stringify(_parms),
+        url: _Url,
         method: 'GET',
         header: {
           "Authorization": app.globalData.token
         },
-        success: function (res) {
+        success: function(res) {
+          console.log('res:',res)
           if (res.data.code == 0) {
             if (res.data.data.list && res.data.data.list.length > 0) {
               let list = res.data.data.list,

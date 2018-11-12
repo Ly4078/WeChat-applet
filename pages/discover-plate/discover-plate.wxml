@@ -32,6 +32,10 @@
       <template is="homePageItem" data="{{item}}" />
     </block>
   </view>
+    <!-- 回到顶部 -->
+  <view class='toTop' wx:if="{{istoTop}}" bindtap='toTop'>
+    <image src='/images/icon/toTop.png'></image>
+  </view>
       <view class='loadingBox'>
       <i-spin custom wx:if="{{loading}}">
         <view class="loading"></view>

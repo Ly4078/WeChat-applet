@@ -99,9 +99,38 @@ function timeDiffrence(current, updateTime, createTime) { //文章发布时间
     } else if (timestamp / 60 > 1 || timestamp / 60 == 1) {
       str = Math.floor(timestamp / 60) + '分钟前';
     } else {
-      str = '刚刚发布';
+      str = '刚刚';
     }
   }
+  return str;
+}
+
+function daysAgo(cleartime) {
+  if (typeof (cleartime) == 'number'){
+    cleartime = new Date(cleartime);
+    cleartime = cleartime.toLocaleDateString().replace(/\//g, "-") + " " + cleartime.toTimeString().substr(0, 8)
+  }
+  console.log('cleartime:', cleartime)
+  let createT = '',
+    timestamp = 0,
+    now='',
+    arr='',
+    date='',
+    str = cleartime;
+  arr = cleartime.split(" ");
+  arr=arr[1].split(":");
+  date = arr[0]+":"+arr[1];
+  // cleartime = cleartime ? cleartime.replace(/-/g, "/") : '';
+  createT = new Date(cleartime).getTime();
+  now = new Date().getTime();
+  timestamp = (now - createT) / 1000;
+  if (timestamp < 86400) { str = "今天 " + date;}
+  else if (timestamp > 86400 && 86400 * 2 < timestamp){
+    str = "昨天 " + date;
+  } else if (timestamp > 86400*2 && 86400 * 3 < timestamp){
+    str = "前天 " + date;
+  }
+  console.log('str:', str)
   return str;
 }
 
@@ -206,5 +235,6 @@ module.exports = {
   getQueryString: getQueryString,
   dateConv: dateConv,
   compareUp: compareUp,
-  compareDown: compareDown
+  compareDown: compareDown,
+  daysAgo: daysAgo
 }
