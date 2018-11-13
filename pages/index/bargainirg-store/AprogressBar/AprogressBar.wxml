@@ -38,7 +38,7 @@
           </view>
         </view>
       </view>
-      <view class='cuisine' id="{{dishData.id}}" data-shipid="{{dishData.shopId}}" catchtap='chilkDish'>
+      <view class='cuisine' id="{{dishData.id}}" data-shipid="{{dishData.shopId}}" data-cate="{{dishData.categoryId}}"catchtap='chilkDish'>
         <image class='cuisineImages' src='{{dishData.picUrl?dishData.picUrl:dishData.skuPic}}'></image>
         <view class='cuisineRight'>
           <view class='cuisineRight-Top'>

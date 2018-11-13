@@ -75,16 +75,16 @@ Page({
             _Data = that.data.arrdata;
 
           for (let i = 0; i < _data.length; i++) {
-            if (_data[i].messageText.type == 2) {
+            if (_data[i].messageText.type == 3) {
               _Data[0] = _data[i];
               _Data[0].imgUrl = '/images/icon/xitong.png';
             }
-            if (_data[i].messageText.type == 3) {
+            if (_data[i].messageText.type == 2) {
               _Data[1] = _data[i];
               _Data[1].imgUrl = '/images/icon/huodong.png';
             }
           }
-
+          
           _Data[0].messageText.sendTime = utils.daysAgo(_Data[0].messageText.sendTime);
           _Data[1].messageText.sendTime = utils.daysAgo(_Data[1].messageText.sendTime);
           that.setData({

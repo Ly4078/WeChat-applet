@@ -48,12 +48,15 @@ Page({
     _lat: '',
     _lng: '',
     categoryId: '',
+    optObj:{},
     id: '', //商品ID
     actId: '' //活动ID
   },
   onLoad(options) {
-    // console.log("opttions:",options)
+    console.log("opttions:",options)
+
     this.setData({
+      optObj:options,
       flag: true,
       hotDishList: [],
       page: 1,
@@ -62,10 +65,21 @@ Page({
       _city: options.city ? options.city : ''
     });
     if (options.actId) {
+      let _title='';
       this.setData({
         actId: options.actId,
         id: options.id,
         categoryId: options.categoryId
+      })
+      if(options.categoryId==5){
+        _title='酒店详情';
+      } else if (options.categoryId == 6) {
+        _title = '门票详情';
+      } else if (options.categoryId == 8) {
+        _title = '菜品详情';
+      } 
+      wx.setNavigationBarTitle({
+        title: _title
       })
     }
   },
@@ -240,6 +254,8 @@ Page({
       let _refId = e.currentTarget.id,
         _shopId = e.currentTarget.dataset.shopid,
         _agioPrice = e.currentTarget.dataset.agioprice,
+        _actId = e.currentTarget.dataset.actId,
+        _categoryId = e.currentTarget.dataset.categoryId,
         _parms = {},
         _sellPrice = e.currentTarget.dataset.sellprice;
       _parms = {
@@ -255,7 +271,7 @@ Page({
           this.toBargainList();
         } else {
           wx.navigateTo({
-            url: '../AprogressBar/AprogressBar?refId=' + _refId + '&shopId=' + _shopId + '&skuMoneyMin=' + _agioPrice + '&skuMoneyOut=' + _sellPrice
+            url: '../AprogressBar/AprogressBar?refId=' + _refId + '&shopId=' + _shopId + '&skuMoneyMin=' + _agioPrice + '&skuMoneyOut=' + _sellPrice + '&_actId=' + _actId + '&categoryId=' + _categoryId
           })
         }
       });
@@ -318,7 +334,7 @@ Page({
           } else if (data.remark) {
             remark.push(data.remark)
           }
-
+          console.log("data:", data)
           that.setData({
             soData: data,
             picUrl: data.picUrl ? data.picUrl : data.skuPic,
@@ -618,11 +634,11 @@ Page({
             } else {
               if (that.data.actId) {
                 wx.navigateTo({
-                  url: '../AprogressBar/AprogressBar?refId=' + that.data.id + '&shopId=' + _shopId + '&skuMoneyMin=' + that.data.agioPrice + '&skuMoneyOut=' + that.data.sellPrice + '&actId=' + that.data.actId
+                  url: '../AprogressBar/AprogressBar?refId=' + that.data.id + '&shopId=' + _shopId + '&skuMoneyMin=' + that.data.agioPrice + '&skuMoneyOut=' + that.data.sellPrice + '&actId=' + that.data.actId + '&categoryId=' + that.data.categoryId
                 })
               } else {
                 wx.navigateTo({
-                  url: '../AprogressBar/AprogressBar?refId=' + that.data.id + '&shopId=' + _shopId + '&skuMoneyMin=' + that.data.agioPrice + '&skuMoneyOut=' + that.data.sellPrice
+                  url: '../AprogressBar/AprogressBar?refId=' + that.data.id + '&shopId=' + _shopId + '&skuMoneyMin=' + that.data.agioPrice + '&skuMoneyOut=' + that.data.sellPrice + '&categoryId=' + that.data.categoryId
                 })
               }
             }
@@ -771,10 +787,22 @@ Page({
   },
   //分享给好友
   onShareAppMessage: function() {
-    let userInfo = app.globalData.userInfo;
+    let userInfo = app.globalData.userInfo, _path = '', _values = '', _parms={};
+    console.log('onShareAppMessage', this.data.actId)
+    if(this.data.actId){
+      _parms= this.data.optObj;
+      for (var key in _parms) {
+        _values += key + "=" + _parms[key] + "&";
+      }
+      _values = _values.substring(0, _values.length - 1);
+      console.log("_values:", _values)
+      _path = '/pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails?'+_values;
+    }else{
+      _path: '/pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails?shopId=' + this.data.shopId + '&id=' + this.data.id + '&lat=' + userInfo.lat + '&lng=' + userInfo.lng + '&city=' + userInfo.city;
+    }
     return {
       title: this.data.skuName,
-      path: '/pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails?shopId=' + this.data.shopId + '&id=' + this.data.id + '&lat=' + userInfo.lat + '&lng=' + userInfo.lng + '&city=' + userInfo.city,
+      path: _path,
       success: function(res) {
 
       },

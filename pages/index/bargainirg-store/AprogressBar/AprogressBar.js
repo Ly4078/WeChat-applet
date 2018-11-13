@@ -62,6 +62,7 @@ Page({
 
     this.setData({
       actId: options.actId ? options.actId : '',
+      categoryId: options.categoryId ? options.categoryId:'5',
       refId: options.refId, //菜品Id
       shopId: options.shopId, //商家Id
       skuMoneyOut: options.skuMoneyOut, //原价
@@ -567,6 +568,7 @@ Page({
     _parms = {
       Id: this.data.refId,
       zanUserId: this.data.initiator ? this.data.initiator : app.globalData.userInfo.userId,
+      actId:this.data.actId,
       shopId: this.data.shopId
     };
     for (var key in _parms) {
@@ -606,23 +608,29 @@ Page({
     })
   },
   chilkDish(e) {
-    let id = e.currentTarget.id,
+   console.log("e:",e);
+    console.log("dishData:", this.data.dishData)
+    let id = e.currentTarget.id, 
+    _categoryId = e.currentTarget.dataset.cate,
       _shopId = e.currentTarget.dataset.shipid;
+    console.log('_categoryId:', _categoryId)
     if (this.data.actId) {
+      console.log('actId;',this.data.actId)
       wx.navigateTo({
-        url: '/pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails?id=' + id + '&actId=' + this.data.actId
+        url: '/pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails?id=' + id + '&actId=' + this.data.actId + '&categoryId=' + _categoryId,
       })
     } else {
       wx.navigateTo({
-        url: '../CandyDishDetails/CandyDishDetails?id=' + id + '&shopId=' + _shopId
+        url: '../CandyDishDetails/CandyDishDetails?id=' + id + '&shopId=' + _shopId + '&categoryId=' + _categoryId
       })
     }
   },
   candyDetails(e) {
     let id = e.currentTarget.id,
+      _categoryId = e.currentTarget.dataset.cate,
       _shopId = e.currentTarget.dataset.index;
     wx.navigateTo({
-      url: '../CandyDishDetails/CandyDishDetails?id=' + id + '&shopId=' + _shopId
+      url: '../CandyDishDetails/CandyDishDetails?id=' + id + '&shopId=' + _shopId + '&categoryId=' + _categoryId + '&actId=' + this.data.actId,
     })
   },
   //查询能否砍价
@@ -830,59 +838,92 @@ Page({
   //热门推荐
   hotDishList() {
     //browSort 0附近 1销量 2价格
+    console.log("hotDishList")
     let that = this,
+      _values="",
+      _Url="",
+      url="",
       _parms = {};
-    if (this.data.actId) {
-      return
-    }
+
     if (!app.globalData.userInfo.lng && !app.globalData.userInfo.lat) {
       that.getlocation();
     } else {
       wx.showLoading({
         title: '数据加载中...',
       });
-      _parms = {
-        zanUserId: app.globalData.userInfo.userId,
-        browSort: 1,
-        locationX: app.globalData.userInfo.lng,
-        locationY: app.globalData.userInfo.lat,
-        city: this.data._city ? this.data._city : app.globalData.userInfo.city,
-        isDeleted: 0,
-        page: this.data.page,
-        rows: 6,
-        token: app.globalData.token
-      };
-      Api.partakerList(_parms).then((res) => {
-        wx.stopPullDownRefresh();
-        if (res.data.code == 0) {
-          if (res.data.data.list.length > 0) {
-            let list = res.data.data.list,
-              hotDishList = this.data.hotDishList;
-            for (let i = 0; i < list.length; i++) {
-              list[i].distance = utils.transformLength(list[i].distance);
-              hotDishList.push(list[i]);
-            }
-            this.setData({
-              hotDishList: hotDishList
-            });
-            if (list.length < 6) {
-              this.setData({
+      if(that.data.actId){
+        _parms = {
+          id: that.data.refId,
+          actId: that.data.actId,
+          categoryId: that.data.categoryId,
+          locationX: app.globalData.userInfo.lng,
+          locationY: app.globalData.userInfo.lat,
+          city: this.data._city ? this.data._city : app.globalData.userInfo.city,
+          page: this.data.page,
+          rows: 6
+        }
+        console.log("_parms:", _parms)
+        for (var key in _parms) {
+          _values += key + "=" + _parms[key] + "&";
+        }
+        _values = _values.substring(0, _values.length - 1);
+        url = that.data._build_url + 'goodsSku/listForActOut?' + _values;
+      }else{
+        _parms = {
+          zanUserId: app.globalData.userInfo.userId,
+          browSort: 1,
+          locationX: app.globalData.userInfo.lng,
+          locationY: app.globalData.userInfo.lat,
+          city: this.data._city ? this.data._city : app.globalData.userInfo.city,
+          isDeleted: 0,
+          page: this.data.page,
+          rows: 6
+        };
+        for (var key in _parms) {
+          _values += key + "=" + _parms[key] + "&";
+        }
+        _values = _values.substring(0, _values.length - 1);
+        url = that.data._build_url + 'sku/kjcList?' + _values;
+      }
+      _Url = encodeURI(url);
+      console.log('_Url:', _Url)
+      wx.request({
+        url: _Url,
+        method: 'GET',
+        header: {
+          "Authorization": app.globalData.token
+        },
+        success: function (res) {
+          wx.stopPullDownRefresh();
+          wx.hideLoading();
+          if (res.data.code == 0) {
+            if (res.data.data.list.length > 0) {
+              let list = res.data.data.list,
+                hotDishList = that.data.hotDishList;
+              for (let i = 0; i < list.length; i++) {
+                list[i].distance = utils.transformLength(list[i].distance);
+                hotDishList.push(list[i]);
+              }
+              console.log("hotDishList:", hotDishList)
+              that.setData({
+                hotDishList: hotDishList
+              });
+              if (list.length < 6) {
+                that.setData({
+                  flag: false
+                });
+              }
+              wx.hideLoading();
+            } else {
+              that.setData({
                 flag: false
               });
+              wx.hideLoading();
             }
-            wx.hideLoading();
-          } else {
-            this.setData({
-              flag: false
-            });
-            wx.hideLoading();
-          }
-        } else {
-          wx.hideLoading();
+          } 
         }
       })
     }
-
   },
   onReachBottom: function() { //用户上拉触底加载更多
     if (!this.data.flag) {

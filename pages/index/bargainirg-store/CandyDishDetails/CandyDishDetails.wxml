@@ -120,7 +120,7 @@
             </view>
           </view>
           <view class='aBargain'>
-            <button id="{{item.id}}" data-shopId="{{item.shopId}}" data-agioPrice="{{item.agioPrice}}" data-sellPrice="{{item.sellPrice}}" catchtap='chickinItiate'>发起砍价</button>
+            <button id="{{item.id}}" data-shopId="{{item.shopId}}" data-agioPrice="{{item.agioPrice}}" data-sellPrice="{{item.sellPrice}}" data-actId="{{item.actId}}"   data-categoryId="{{item.categoryId}}" catchtap='chickinItiate'>发起砍价</button>
           </view>
         </view>
       </block>

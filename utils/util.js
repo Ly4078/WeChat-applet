@@ -106,31 +106,45 @@ function timeDiffrence(current, updateTime, createTime) { //文章发布时间
 }
 
 function daysAgo(cleartime) {
-  if (typeof (cleartime) == 'number'){
+  let now = '',
+    date = '',
+    dateNow = '',
+    str = '',
+    arr = [],
+    arrNow = [],
+    clearDate = [],
+    clearTims = [],
+    NowDate = [],
+    NowTime = [];
+
+  if (typeof(cleartime) == 'number') {
     cleartime = new Date(cleartime);
     cleartime = cleartime.toLocaleDateString().replace(/\//g, "-") + " " + cleartime.toTimeString().substr(0, 8)
   }
-  console.log('cleartime:', cleartime)
-  let createT = '',
-    timestamp = 0,
-    now='',
-    arr='',
-    date='',
-    str = cleartime;
+
+  now = new Date();
+  now = new Date(now);
+  now = now.toLocaleDateString().replace(/\//g, "-") + " " + now.toTimeString().substr(0, 8)
+
   arr = cleartime.split(" ");
-  arr=arr[1].split(":");
-  date = arr[0]+":"+arr[1];
-  // cleartime = cleartime ? cleartime.replace(/-/g, "/") : '';
-  createT = new Date(cleartime).getTime();
-  now = new Date().getTime();
-  timestamp = (now - createT) / 1000;
-  if (timestamp < 86400) { str = "今天 " + date;}
-  else if (timestamp > 86400 && 86400 * 2 < timestamp){
-    str = "昨天 " + date;
-  } else if (timestamp > 86400*2 && 86400 * 3 < timestamp){
-    str = "前天 " + date;
+  clearDate = arr[0].split("-");
+  clearTims = arr[1].split(":");
+  clearTims = clearTims[0] + ":" + clearTims[1];
+
+  arrNow = now.split(" ");
+  NowDate = arrNow[0].split("-");
+  NowTime = arrNow[1].split(":");
+  NowTime = NowTime[0] + ":" + NowTime[1];
+
+  if (NowDate[2] - clearDate[2] == 0) {
+    str = "今天 " + clearTims;
+  } else if (NowDate[2] - clearDate[2] == 1) {
+    str = "昨天 " + clearTims;
+  } else if (NowDate[2] - clearDate[2] == 2) {
+    str = "前天 " + clearTims;
+  } else {
+    str = cleartime;
   }
-  console.log('str:', str)
   return str;
 }
 

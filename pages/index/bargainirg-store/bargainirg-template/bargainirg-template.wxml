@@ -1,6 +1,6 @@
 <template name="cuisine">
-  <view class='cutCuisine-shell' id="{{item.id}}" data-index="{{item.shopId}}" catchtap='candyDetails'>
-    <image class='cutCuisine-images' lazy-load='true' wx:if="{{item.picUrl}}" src='{{item.picUrl}}' id='{{item.id}}' binderror='imageError'></image>
+  <view class='cutCuisine-shell' id="{{item.id}}" data-index="{{item.shopId}}" data-cate="{{item.categoryId}}" catchtap='candyDetails'>
+    <image class='cutCuisine-images' lazy-load='true' wx:if="{{item.picUrl || item.skuPic}}" src='{{item.picUrl?item.picUrl:item.skuPic}}' id='{{item.id}}' binderror='imageError'></image>
     <image class='cutCuisine-images' lazy-load='true' wx:else src='/images/icon/morentu.png'></image>
     <view class='cutCuisine-bottom'>
       <view class='cutCuisine-text'>
@@ -13,7 +13,7 @@
             <image class='merchantSign' src='/images/icon/original-can.png'></image>
             <text>{{item.shopName}}</text>
           </view>
-          <text>{{item.distance}}</text>
+          <text wx:if="{{item.distance !='0m'}}">{{item.distance}}</text>
         </view>
         <view class='greens-cost-wrap'>
           <view class='greens-cost'>
@@ -21,7 +21,7 @@
               <text>¥</text>
               <text>底价</text>
             </view>
-            <text class='original-money'>{{item.agioPrice}}</text>
+            <text class='original-money'>{{item.agioPrice?item.agioPrice:item.goodsPromotionRules[0].actAmount}}</text>
           </view>
           <text class='original-money-sand'>原价¥{{item.sellPrice}}</text>
         </view>

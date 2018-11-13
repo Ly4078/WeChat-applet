@@ -110,7 +110,7 @@ page, .categoryBox {
   height: 100%;
   padding: 0 30rpx 0 38rpx;
   box-sizing: border-box;
-  overflow: scroll;
+  /* overflow: scroll; */
 }
 
 .classify_item {

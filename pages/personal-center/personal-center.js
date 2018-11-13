@@ -41,6 +41,8 @@ Page({
         ismobile: false
       })
     };
+
+    
     // this.getuserInfo();
   },
   onShow: function() {
@@ -53,18 +55,18 @@ Page({
     }
     _parms = {
       token: app.globalData.token
-    }
+    };
     Api.getSalePointUserByUserId(_parms).then((res) => {
-      console.log('resres:',res)
       if (res.data.code == 0) {
         if (res.data.data && res.data.data.length > 0) {
-          for(let i in res.data.data){
+          for (let i in res.data.data) {
             _salepointId.push(res.data.data[i].salepointId)
           }
           that.setData({
             iszhiying: true,
             salepointId: _salepointId
           })
+          console.log("_salepointId:", _salepointId)
           console.log("_iszhiying1132213:", that.data.iszhiying)
         }
       }
@@ -533,10 +535,11 @@ Page({
           current = res.data.currentTime, 
           isDue = that.isDueFunc(current, _soData.expiryDate),
           _iszhiying = that.data.iszhiying;
-          console.log('_iszhiying111:', that.data._iszhiying)
+          console.log('_iszhiying111:', _iszhiying)
           if (_soData.isUsed == 1) {
             isHx = false;
             mssage ="1111该票券已被使用";
+            console.info('1111该票券已被使用');
           } else if (isDue == 1) {
             isHx = false;
             mssage = "2222该票券已过期";
@@ -556,7 +559,7 @@ Page({
                             isHx = true;
                             break;
                           } else {
-                            mssage = "你不是该核销点人员，无权核销此券";
+                            mssage = "1111你不是该核销点人员，无权核销此券";
                             isHx = false;
                           }
                         }
@@ -565,7 +568,7 @@ Page({
                         }
                       }
                     } else {
-                      mssage = "你不是该核销点人员，无权核销此券";
+                      mssage = "4444你不是该核销点人员，无权核销此券";
                       isHx = false;
                     }
                   } else {
@@ -574,7 +577,7 @@ Page({
                       isHx = true;
                     } else {
                       isHx = false;
-                      mssage = "444你不是该核销点人员，无权核销此券";
+                      mssage = "44433你不是该核销点人员，无权核销此券";
                     }
                   }
                 } else {
@@ -590,8 +593,7 @@ Page({
                 // isHx = true;
                 if (_soData.salePointOuts && _soData.salePointOuts.length > 0) {
                   const _sale = that.data.salepointId;
-                  console.log("_sale:", _sale)
-                  console.log('salePointOuts:', _soData.salePointOuts)
+                  
                   if (_sale && _sale.length > 0) {
                     console.log('asssss')
                     for (let i in _soData.salePointOuts) {
@@ -603,7 +605,7 @@ Page({
                           isHx = true;
                           break;
                         } else {
-                          mssage = "你不是该核销点人员，无权核销此券";
+                          mssage = "aaaa你不是该核销点人员，无权核销此券";
                           isHx = false;
                         }
                       }
@@ -624,13 +626,16 @@ Page({
               if (_soData.shopId || _soData.shopId == 0) {
                 if (_soData.salePointOuts && _soData.salePointOuts.length > 0) {
                   if (_sale && _sale.length > 0) {
+                    console.log("_sale:", _sale)
+                    console.log('_soData:', _soData)
+                    console.log('salePointOuts:', _soData.salePointOuts)
                     for (let i in _soData.salePointOuts) {
                       for (let j in _sale) {
-                        if (_soData.salePointOuts[i].salepointId == _sale[j]) {
+                        if (_soData.salePointOuts[i].id == _sale[j]) {
                           isHx = true;
                           break;
                         } else {
-                          mssage = "你不是该核销点人员，无权核销此券";
+                          mssage = "bbbb你不是该核销点人员，无权核销此券";
                           isHx = false;
                         }
                       }
@@ -639,7 +644,7 @@ Page({
                       }
                     }
                   } else {
-                    mssage = "你不是该核销点人员，无权核销此券";
+                    mssage = "cccc你不是该核销点人员，无权核销此券";
                     isHx = false;
                   }
                 }else{

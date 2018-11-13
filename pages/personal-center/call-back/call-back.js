@@ -108,16 +108,11 @@ Page({
       ms = 0,
       _timer = null,
       _this = this;
-    if (actual.length == 0) {
-      this.setData({
-        okhx: false
-      })
-    }
     clearInterval(this.data.timer);;
     _timer = setInterval(function() {
       ms += 50;
       if (ms == 100) {
-        _this.gettickets(actual);
+        _this.gettickets(e.detail.value);
       }
     }, 1000)
     _this.setData({
@@ -149,7 +144,7 @@ Page({
     _timer = setInterval(function() {
       ms += 50;
       if (ms == 100) {
-        _this.gettickets(actual);
+        _this.gettickets(e.detail.value);
       }
     }, 1500)
     _this.setData({
@@ -184,6 +179,7 @@ Page({
     } else if (this.data.result) {
       _Url = this.data.result;
     }
+    console.log("_Url:", _Url)
     wx.request({
       url: _Url,
       header: {
@@ -214,8 +210,9 @@ Page({
             } else {
               console.log('shopId:', app.globalData.userInfo.shopId)
               console.log("_soData.shopId:", _soData.shopId)
+              const _sale = that.data.salepointId;
               if (app.globalData.userInfo.shopId) {
-                const _sale = that.data.salepointId;
+                
                 if (_soData.shopId) {
                   console.log('aaaaaaa')
                   console.log('salePointOuts:', _soData.salePointOuts)
@@ -274,9 +271,6 @@ Page({
                   console.log('bbbbbbbbbb')
                   // isHx = true;
                   if (_soData.salePointOuts && _soData.salePointOuts.length > 0) {
-                    const _sale = that.data.salepointId;
-                    console.log("_sale:", _sale)
-                    console.log('salePointOuts:', _soData.salePointOuts)
                     if (_sale && _sale.length > 0) {
                       console.log('asssss')
                       for (let i in _soData.salePointOuts) {
@@ -308,10 +302,14 @@ Page({
               } else if (!app.globalData.userInfo.shopId) {
                 if (_soData.shopId || _soData.shopId == 0) {
                   if (_soData.salePointOuts && _soData.salePointOuts.length > 0) {
+                    console.log("afdasfdas")
                     if (_sale && _sale.length > 0) {
                       for (let i in _soData.salePointOuts) {
                         for (let j in _sale) {
-                          if (_soData.salePointOuts[i].salepointId == _sale[j]) {
+                          if (_soData.salePointOuts[i].id == _sale[j]) {
+                            that.setData({
+                              hxaleId: _soData.salePointOuts[i].id
+                            })
                             isHx = true;
                             break;
                           } else {
