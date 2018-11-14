@@ -755,7 +755,7 @@ Page({
           _type = this.data.carousel[k].type
       }
     }
-    
+    console.log('_linkUrl:', _linkUrl)
     if (_linkUrl.indexOf('&') >= 0) {
       let arr = _linkUrl.split("&");
       for (let i in arr) {

@@ -142,9 +142,8 @@ Page({
         wx.stopPullDownRefresh();
         if(res.data.code == 0){
           if(res.data.data.list && res.data.data.list.length>0){
-   
             let _soData = res.data.data.list,
-            _oldData=that.data.data;
+            _oldData=that.data.data
             if(that.data.page == 1){
               _oldData=[];
               that.setData({

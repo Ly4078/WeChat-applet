@@ -110,41 +110,40 @@ function daysAgo(cleartime) {
     date = '',
     dateNow = '',
     str = '',
+    _len=0,
+    _len2=0,
+    _diff=0,
     arr = [],
     arrNow = [],
     clearDate = [],
-    clearTims = [],
-    NowDate = [],
-    NowTime = [];
+    clearTims = [];
 
   if (typeof(cleartime) == 'number') {
     cleartime = new Date(cleartime);
     cleartime = cleartime.toLocaleDateString().replace(/\//g, "-") + " " + cleartime.toTimeString().substr(0, 8)
   }
 
-  now = new Date();
-  now = new Date(now);
-  now = now.toLocaleDateString().replace(/\//g, "-") + " " + now.toTimeString().substr(0, 8)
-
   arr = cleartime.split(" ");
   clearDate = arr[0].split("-");
   clearTims = arr[1].split(":");
   clearTims = clearTims[0] + ":" + clearTims[1];
 
-  arrNow = now.split(" ");
-  NowDate = arrNow[0].split("-");
-  NowTime = arrNow[1].split(":");
-  NowTime = NowTime[0] + ":" + NowTime[1];
+  now = new Date();
 
-  if (NowDate[2] - clearDate[2] == 0) {
+  now = now.toLocaleDateString();
+  arr[0] = arr[0].replace(/-/g, '/');
+  _len = new Date(now).getTime();
+  _len2 = new Date(arr[0]).getTime();
+  _diff = (_len - _len2) / 1000 / 86400;
+
+  if (_diff == 0) {
     str = "今天 " + clearTims;
-  } else if (NowDate[2] - clearDate[2] == 1) {
+  } else if (_diff == 1) {
     str = "昨天 " + clearTims;
-  } else if (NowDate[2] - clearDate[2] == 2) {
+  } else if (_diff == 2) {
     str = "前天 " + clearTims;
-  } else {
-    str = cleartime;
   }
+  console.log("str:", str)
   return str;
 }
 
