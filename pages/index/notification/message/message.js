@@ -15,7 +15,9 @@ Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
     ismodel:false,
+    loading:false,
     messageTextId:'',
+    page:1,
     msgtype: 2, //系统通知 3  活动通知 2
     data:[]
   },
@@ -39,7 +41,6 @@ Page({
         msgtype:2
       })
     }
-    console.log('data:',this.data.data)
   },
   /**
  * 生命周期函数--监听页面显示
@@ -62,9 +63,7 @@ Page({
     if (this.endTime - this.startTime < 350) {
       let that = this;
       const ind = e.currentTarget.id;
-      console.log("handItem__ind:", ind)
       if(this.data.msgtype == 2){
-        
         let _Data = this.data.data;
         for(let i=0;i<_Data.length;i++){
           if (ind == _Data[i].messageText.id) {
@@ -72,13 +71,10 @@ Page({
               that.readAct(ind);
             }
 
-            
             if (_Data[i].messageText.actId){
               wx.navigateTo({
                 url: _Data[i].messageText.url
               })
-            }else{
-              console.log("no actId")
             }
             break;
           }
@@ -89,7 +85,6 @@ Page({
   //  长按某个消息
   bingLongTap:function(e){
     const ind = e.currentTarget.id;
-    console.log("bindTouchStart__ind:", ind)
     this.setData({
       ismodel: true,
       messageTextId: ind
@@ -103,7 +98,6 @@ Page({
   },
   //点击 删除 ，
   delItem:function(){
-    console.log('messageTextId:', this.data.messageTextId)
     let that = this;
     wx.request({
       url: this.data._build_url + 'msg/delete?type=' + this.data.msgtype + '&messageTextId=' + this.data.messageTextId +'&receiverId='+app.globalData.userInfo.userId,
@@ -112,7 +106,6 @@ Page({
         "Authorization": app.globalData.token
       },
       success: function (res) {
-        console.log("res:", res)
         if (res.data.code == 0) {
           let _Data= that.data.data;
           wx.showToast({
@@ -132,31 +125,48 @@ Page({
       }
     })
   },
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
-  },
-
 
 
   // 获取列表数据
   getListData:function(){
     let that = this;
+    this.setData({
+      loading:true
+    })
     wx.request({
-      url: this.data._build_url + 'msg/listAct?type='+this.data.msgtype,
+      url: this.data._build_url + 'msg/listAct?rows=10&type='+this.data.msgtype+'&page='+this.data.page,
       header: {
         "Authorization": app.globalData.token
       },
       success: function (res) {
-        console.log("res:",res)
+        wx.stopPullDownRefresh();
         if(res.data.code == 0){
           if(res.data.data.list && res.data.data.list.length>0){
+   
+            let _soData = res.data.data.list,
+            _oldData=that.data.data;
+            if(that.data.page == 1){
+              _oldData=[];
+              that.setData({
+                data:[]
+              })
+            }
+            for(let i in _soData){
+              _oldData.push(_soData[i])
+            }
             that.setData({
-              data:res.data.data.list
+              loading:false,
+              data: _oldData
+            })
+          } else {
+            that.setData({
+              loading: false
             })
           }
+        }else{
+          that.setData({
+            loading: false
+          })
         }
       }
     })
@@ -170,9 +180,7 @@ Page({
         "Authorization": app.globalData.token
       },
       success: function (res) {
-        console.log("res:", res)
         if (res.data.code == 0) {
-          console.log('全部已读')
           that.getListData();
         }
       }
@@ -187,9 +195,7 @@ Page({
         "Authorization": app.globalData.token
       },
       success: function (res) {
-        console.log("res:", res)
         if (res.data.code == 0) {
-          console.log('此消息已为已读')
           let _Data = that.data.data;
           for (let i = 0; i < _Data.length; i++) {
             if (val == _Data[i].messageText.id) {
@@ -204,32 +210,22 @@ Page({
       }
     })
   },
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
+   //用户上拉触底加载更多
+  onReachBottom: function () {
+    this.setData({
+      page:this.data.page+1
+    });
+    this.getListData();
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
+    this.setData({
+      page: 1
+    });
+    this.getListData();
   },
 
   /**

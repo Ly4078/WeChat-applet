@@ -62,7 +62,7 @@ Page({
 
     this.setData({
       actId: options.actId ? options.actId : '',
-      categoryId: options.categoryId ? options.categoryId:'5',
+      categoryId: options.categoryId ? options.categoryId:'',
       refId: options.refId, //菜品Id
       shopId: options.shopId, //商家Id
       skuMoneyOut: options.skuMoneyOut, //原价
@@ -90,7 +90,7 @@ Page({
         if (app.globalData.token) {
           if (app.globalData.userInfo.lat && app.globalData.userInfo.lng) {
             if (that.data._city || app.globalData.userInfo.city) {
-              this.hotDishList();
+              // this.hotDishList();
             } else {
               this.getUserlocation();
             }
@@ -183,7 +183,7 @@ Page({
           that.bargain();
           if (app.globalData.userInfo.lat && app.globalData.userInfo.lng) {
             if (that.data._city || app.globalData.userInfo.city) {
-              that.hotDishList();
+              // that.hotDishList();
             }
           } else {
             // that.getUserlocation();
@@ -590,13 +590,16 @@ Page({
         if (res.data.code == 0) {
           if (res.data.data) {
             let data = res.data.data;
+            console.log('\data:', data)
             that.setData({
               dishData: data,
+              categoryId: data.actGoodsSkuOut.categoryId,
               // picUrl: data.picUrl,
               skuName: data.skuName,
               // shopName: data.shopName,
               sellNum: data.sellNum
             });
+            that.hotDishList();
           }
         } else {
           that.setData({
@@ -611,7 +614,7 @@ Page({
    console.log("e:",e);
     console.log("dishData:", this.data.dishData)
     let id = e.currentTarget.id, 
-    _categoryId = e.currentTarget.dataset.cate,
+    _categoryId =this.data.categoryId,
       _shopId = e.currentTarget.dataset.shipid;
     console.log('_categoryId:', _categoryId)
     if (this.data.actId) {
@@ -627,7 +630,7 @@ Page({
   },
   candyDetails(e) {
     let id = e.currentTarget.id,
-      _categoryId = e.currentTarget.dataset.cate,
+      _categoryId =this.data.categoryId,
       _shopId = e.currentTarget.dataset.index;
     wx.navigateTo({
       url: '../CandyDishDetails/CandyDishDetails?id=' + id + '&shopId=' + _shopId + '&categoryId=' + _categoryId + '&actId=' + this.data.actId,
@@ -716,11 +719,7 @@ Page({
         },
         method: 'GET',
         success: function(res) {
-          console.log('helpfriend--res:',res)
           if (res.data.code == 0) {
-            // _this.setData({
-            //   otherStatus: 1
-            // });
             _this.tohelpfriend();
           } else if (res.data.code == 200065) {
             _this.setData({
@@ -754,7 +753,6 @@ Page({
   },
   //断续帮好友砍价
   tohelpfriend: function() {
-    console.log('tohelpfriend')
     let _parms = {},
       that = this,
       url = "",
@@ -781,7 +779,6 @@ Page({
       },
       method: 'POST',
       success: function(res) {
-        console.log("tohelpfriend---res:",res)
         if (res.data.code == 0) {
           that.setData({
             showModal: true,
@@ -790,7 +787,6 @@ Page({
             canvasSrc: '/images/icon/kan.gif',
             audioSrc: 'https://xqmp4-1256079679.file.myqcloud.com/test_kan.mp3'
           });
-          console.log("otherStatus:", that.data.otherStatus)
           setTimeout(function() {
             const innerAudioContext = wx.createInnerAudioContext();
             innerAudioContext.autoplay = true
@@ -838,7 +834,6 @@ Page({
   //热门推荐
   hotDishList() {
     //browSort 0附近 1销量 2价格
-    console.log("hotDishList")
     let that = this,
       _values="",
       _Url="",
@@ -862,7 +857,6 @@ Page({
           page: this.data.page,
           rows: 6
         }
-        console.log("_parms:", _parms)
         for (var key in _parms) {
           _values += key + "=" + _parms[key] + "&";
         }
@@ -886,7 +880,6 @@ Page({
         url = that.data._build_url + 'sku/kjcList?' + _values;
       }
       _Url = encodeURI(url);
-      console.log('_Url:', _Url)
       wx.request({
         url: _Url,
         method: 'GET',
@@ -897,14 +890,13 @@ Page({
           wx.stopPullDownRefresh();
           wx.hideLoading();
           if (res.data.code == 0) {
-            if (res.data.data.list.length > 0) {
+            if (res.data.data.list && res.data.data.list.length > 0) {
               let list = res.data.data.list,
                 hotDishList = that.data.hotDishList;
               for (let i = 0; i < list.length; i++) {
                 list[i].distance = utils.transformLength(list[i].distance);
                 hotDishList.push(list[i]);
               }
-              console.log("hotDishList:", hotDishList)
               that.setData({
                 hotDishList: hotDishList
               });

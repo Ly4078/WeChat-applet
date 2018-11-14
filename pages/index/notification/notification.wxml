@@ -1,7 +1,7 @@
 <!--pages/index/notification/notification.wxml-->
 
 <view class='notifBbox' wx:for="{{arrdata}}" wx:key="{{index}}" id="{{index}}" bindtap='handItem'>
-  <view class='num'>{{item.total}}</view>
+  <view class='num' wx:if="{{item.total>0}}">{{item.total}}</view>
   <image src="{{item.imgUrl}}" class='notifleft'></image>
   <view class='notifright'>
     <view class='notifttop'><text>{{item.messageText.title}}</text><text>{{item.messageText.sendTime}}</text></view>
