@@ -118,9 +118,15 @@ function daysAgo(cleartime) {
     clearDate = [],
     clearTims = [];
 
-  if (typeof(cleartime) == 'number') {
-    cleartime = new Date(cleartime);
-    cleartime = cleartime.toLocaleDateString().replace(/\//g, "-") + " " + cleartime.toTimeString().substr(0, 8)
+  if(!cleartime){
+    let myDate = new Date();
+    let Year = myDate.getFullYear();    //获取完整的年份(4位,1970-????)
+    let Month = myDate.getMonth()+1;       //获取当前月份(0-11,0代表1月)
+    let _Date = myDate.getDate();         //获取当前日(1-31)
+    let Hours = myDate.getHours();       //获取当前小时数(0-23)
+    let Minutes = myDate.getMinutes();     //获取当前分钟数(0-59)
+    let sectonds = myDate.getSeconds();     //获取当前秒数(0-59)
+    cleartime = Year + '-' + Month + '-' + _Date + ' ' + Hours + ':' + Minutes + ':' + sectonds ;
   }
 
   arr = cleartime.split(" ");
@@ -129,7 +135,6 @@ function daysAgo(cleartime) {
   clearTims = clearTims[0] + ":" + clearTims[1];
 
   now = new Date();
-
   now = now.toLocaleDateString();
   arr[0] = arr[0].replace(/-/g, '/');
   _len = new Date(now).getTime();
@@ -142,8 +147,9 @@ function daysAgo(cleartime) {
     str = "昨天 " + clearTims;
   } else if (_diff == 2) {
     str = "前天 " + clearTims;
+  }else{
+    str = cleartime;
   }
-  console.log("str:", str)
   return str;
 }
 

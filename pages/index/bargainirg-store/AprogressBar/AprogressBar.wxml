@@ -50,9 +50,9 @@
               <image class='cuisineRight-xiaji' src='/images/icon/home_arrow.png'></image>
             </view>
           </view>
-          <view class='centerSwordWrap'>
+          <view class='centerSwordWrap' wx:if="{{dishData.shopName || dishData.salePointOuts[0].salepointName}}">
             <image class='centerSword' src='/images/icon/house.png'></image>
-            <text>{{dishData.shopName}}</text>
+            <text>{{dishData.shopName?dishData.shopName:dishData.salePointOuts[0].salepointName}}</text>
             <!-- <text>已售<text>{{sellNum}}</text></text> -->
           </view>
           <view class='bargainBtn'>

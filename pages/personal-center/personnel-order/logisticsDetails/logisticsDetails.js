@@ -293,6 +293,11 @@ Page({
       }
     })
   },
+  formSubmits:function(e){
+    let _formId = e.detail.formId;
+    this.toRefund();
+    Public.addFormIdCache(_formId); 
+  },
   toRefund:function(){
     let that = this;
     wx.navigateTo({

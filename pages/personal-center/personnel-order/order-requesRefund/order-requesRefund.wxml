@@ -17,5 +17,10 @@
       <view >温馨提示: </view>
       <view >申请提交后已付金额会在1-3个工作日自动原路退回</view>
   </view>
-  <view catchtap='submit' class="submit {{isCheck?'active':''}}">申请退款</view>
+
+    <form bindsubmit="formSubmits" report-submit="true"  >
+    <button formType="submit" class="submit {{isCheck?'active':''}}">申请退款</button>
+  </form>
+
+  <!-- <view catchtap='submit' class="submit {{isCheck?'active':''}}">申请退款</view> -->
 </view>

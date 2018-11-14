@@ -93,7 +93,7 @@ page {
 
 .cuisine {
   width: 93%;
-  height: 180rpx;
+  min-height: 180rpx;
   background: rgba(255, 255, 255, 1);
   border-radius: 8rpx;
   box-shadow: 2px 0px 8px rgba(173, 173, 173, 0.7);

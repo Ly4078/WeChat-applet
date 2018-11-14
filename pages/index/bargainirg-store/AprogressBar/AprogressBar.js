@@ -437,7 +437,6 @@ Page({
                 isMine: true
               });
             }
-            console.log('type:', data)
             _this.setData({
               skuMoneyNow: data[0].skuMoneyNow,
               doneBargain: doneBargain,
@@ -458,7 +457,6 @@ Page({
             } else {
               peopleList = _arr;
             }
-            console.log('peopleList:', peopleList)
             for (let i = 0; i < peopleList.length; i++) {
               if (peopleList[i].userName && reg.test(peopleList[i].userName)) {
                 peopleList[i].userName = peopleList[i].userName.substr(0, 3) + "****" + peopleList[i].userName.substr(7)
@@ -484,7 +482,6 @@ Page({
                 });
               }
             }
-            console.log("peopleList:", peopleList)
             _this.setData({
               peopleList: peopleList
             });
@@ -492,18 +489,14 @@ Page({
             let miliEndTime = new Date(endTime).getTime(),
               miliNow = new Date().getTime();
             let minus = Math.floor((miliEndTime - miliNow) / 1000);
-            console.log('minus:', minus)
             if (minus > 0 && minus <= 3610) { //小于60分钟
               //好友进入砍菜页面人数满5人并且超过半小时不能砍价
-              console.log('aaaaaa')
               if (_this.data.peoplenum >= 5) {
-                console.log("aaaaaa1111")
                 _this.setData({
                   status: 4,
                   otherStatus: 3
                 });
               } else {
-                console.log("otherStatus:", _this.data.otherStatus)
                 _this.setData({
                   status: 1,
                   // otherStatus: 1
@@ -538,7 +531,6 @@ Page({
                 });
               }
             } else {
-              console.log("bbbbbb")
               _this.setData({
                 status: 3,
                 otherStatus: 4
@@ -590,15 +582,18 @@ Page({
         if (res.data.code == 0) {
           if (res.data.data) {
             let data = res.data.data;
-            console.log('\data:', data)
             that.setData({
               dishData: data,
-              categoryId: data.actGoodsSkuOut.categoryId,
               // picUrl: data.picUrl,
               skuName: data.skuName,
               // shopName: data.shopName,
               sellNum: data.sellNum
             });
+            if (data.actGoodsSkuOut && data.actGoodsSkuOut.categoryId){
+              that.setData({
+                categoryId: data.actGoodsSkuOut.categoryId
+              })
+            }
             that.hotDishList();
           }
         } else {
@@ -611,14 +606,10 @@ Page({
     })
   },
   chilkDish(e) {
-   console.log("e:",e);
-    console.log("dishData:", this.data.dishData)
     let id = e.currentTarget.id, 
     _categoryId =this.data.categoryId,
       _shopId = e.currentTarget.dataset.shipid;
-    console.log('_categoryId:', _categoryId)
     if (this.data.actId) {
-      console.log('actId;',this.data.actId)
       wx.navigateTo({
         url: '/pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails?id=' + id + '&actId=' + this.data.actId + '&categoryId=' + _categoryId,
       })
@@ -664,7 +655,6 @@ Page({
       },
       method: 'GET',
       success: function(res) {
-        console.log("123123:",res)
         let code = res.data.code,
           otherStatus = "";
         if (code == 0) {
@@ -687,7 +677,6 @@ Page({
   },
   //查询是否帮忙砍过价或者人数已满
   helpfriend() {
-    console.log('helpfriend')
     let _this = this,
       _value = "",
       url = "",
@@ -905,12 +894,10 @@ Page({
                   flag: false
                 });
               }
-              wx.hideLoading();
             } else {
               that.setData({
                 flag: false
               });
-              wx.hideLoading();
             }
           } 
         }

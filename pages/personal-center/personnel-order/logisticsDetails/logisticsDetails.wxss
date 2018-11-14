@@ -383,7 +383,9 @@ page{
 }
 .Refund{
   font-size: 30rpx;
-  color:#969696;
+  color:#969696!important;
   flex:1;
   margin: 0 20rpx;
+  background: none!important;
+  border: none!important;
 }

@@ -57,8 +57,10 @@
       <image class='logistics-center-img' src='{{item.orderItemOuts[0].goodsSkuPic}}'></image>
     </view>
     <view class='logistics-center-right {{item.sendType == 2 ? "store" : ""}}'>
-      <view wx:if="{{item.sendType != 2}}" class='logistics-ctn-name'><text>阳澄湖大闸蟹{{item.units}}</text></view>
-      <view class='logistics-ctn-spn'><text>{{item.orderItemOuts[0].goodsSkuName}}</text></view>
+      <view wx:if="{{item.sendType != 2}}" class='logistics-ctn-name'><text>{{item.units?item.units:item.orderItemOuts[0].goodsSkuName}}</text></view>
+      <view class='logistics-ctn-spn' wx:if="{{item.units}}">
+        <text>{{item.orderItemOuts[0].goodsSkuName}}</text>
+      </view>
     </view>
    </view>
    <view class='logistics-button'>

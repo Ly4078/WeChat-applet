@@ -2,7 +2,8 @@ import Api from '../../../../utils/config/api.js';
 import {
   GLOBAL_API_DOMAIN
 } from '../../../../utils/config/config.js';
-var utils = require('../../../../utils/util.js')
+var utils = require('../../../../utils/util.js');
+import Public from '../../../../utils/public.js';
 var app = getApp();
 Page({
 
@@ -45,6 +46,11 @@ Page({
       })
     }
     this.getData();
+  },
+  formSubmits(e){
+    let _formId = e.detail.formId;
+    this.submit();
+    Public.addFormIdCache(_formId); 
   },
   submit:function(){
     let that = this;

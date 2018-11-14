@@ -5,7 +5,6 @@ import Api from './config/api.js';
 var app = getApp();
 
 let addFormIdCache = function (formId) {  //上传fromId
-
   let url = config.GLOBAL_API_DOMAIN + 'msg/addFormIdCache?formId=' + formId,
   _token = wx.getStorageSync('token') || '';
   if (formId == 'the formId is a mock one' || formId == "undefined"){

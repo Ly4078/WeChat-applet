@@ -12,13 +12,14 @@ Page({
    */
   data: {
     _build_url: GLOBAL_API_DOMAIN,
-    arrdata: [{
+    oldData: [
+      {
         id: 1,
       imgUrl: '/images/icon/huodong.png',
         total: 0,
         messageText: {
           title: '系统通知',
-          sendTime: new Date().getTime(),
+          sendTime: '',
           content: ''
         }
       },
@@ -28,17 +29,21 @@ Page({
         total: 0,
         messageText: {
           title: '活动通知',
-          sendTime: new Date().getTime(),
+          sendTime: '',
           content: ''
         }
       }
-    ]
+    ],
+    arrdata:[]
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
+    this.setData({
+      arrdata:this.data.oldData
+    })
     this.getMessageTotal();
   },
   //获取未读数据
@@ -71,7 +76,7 @@ Page({
           _Data[0].messageText.sendTime = utils.daysAgo(_Data[0].messageText.sendTime);
           _Data[1].messageText.sendTime = utils.daysAgo(_Data[1].messageText.sendTime);
 
-          console.log('_Data:', _Data)
+          // console.log('_Data:', _Data)
           that.setData({
             arrdata: _Data
           })
