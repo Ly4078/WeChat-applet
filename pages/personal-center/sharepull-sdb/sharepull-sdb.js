@@ -8,18 +8,18 @@ Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
     _data: 0,
-    canvasHidden: false,
     maskHidden: true,
     imagePath: '',
     placeholder: 'https://www.xiang7.net/service?flag=6&userId='//默认二维码生成文本
   },
   onLoad: function (options) {
     // 页面初始化 options为页面跳转所带来的参数
-  
-    var size = this.setCanvasSize();//动态设置画布大小
-    var initUrl = this.data.placeholder + app.globalData.userInfo.userId;
+    let initUrl = this.data.placeholder + app.globalData.userInfo.userId;
     console.log("initUrl:", initUrl)
+
+    let size = this.setCanvasSize();//动态设置画布大小
     this.createQrCode(initUrl, "mycanvas", size.w, size.h);
+
     this.getuserNUm();//邀请人数
   },
   //适配不同屏幕大小的canvas
@@ -38,12 +38,12 @@ Page({
     }
     return size;
   },
+  //生成二维码
   createQrCode: function (url, canvasId, cavW, cavH) {
     console.log(url, canvasId, cavW, cavH)
     //调用插件中的draw方法，绘制二维码图片
     QR.api.draw(url, canvasId, cavW, cavH);
     setTimeout(() => { this.canvasToTempImage(); }, 1000);
-
   },
   //获取临时缓存照片路径，存入data中
   canvasToTempImage: function () {
@@ -54,8 +54,7 @@ Page({
         var tempFilePath = res.tempFilePath;
         console.log(tempFilePath);
         that.setData({
-          imagePath: tempFilePath,
-          // canvasHidden:true
+          imagePath: tempFilePath
         });
       },
       fail: function (res) {
@@ -63,6 +62,7 @@ Page({
       }
     });
   },
+
   //点击图片进行预览，长按保存分享图片
   previewImg: function (e) {
     var img = this.data.imagePath;

@@ -66,9 +66,10 @@
   </view>
 
   <!-- 螃蟹活动 -->
-  <view class='crabSection' catchtap='crabSection'>
+  <!-- <view class='crabSection' catchtap='crabSection'>
     <image class='crabSection-image' src='https://xqmp4-1256079679.file.myqcloud.com/Colin_crabSection-image.png'></image>
-  </view>
+  </view> -->
+
 
   <!-- 主页 -->
   <view class='homepage'>
@@ -94,7 +95,6 @@
               </view>
               <view class='barbRight' id="{{item.id}}" data-shopId="{{item.shopId}}" data-agioPrice="{{item.agioPrice}}" data-sellPrice="{{item.sellPrice}}" bindtap='toBargain'>发起砍价</view>
             </view>
-
           </view>
         </block>
         <view wx:if="{{foodTotal>3}}" class="setMealMore" catchtap='changeBar'>

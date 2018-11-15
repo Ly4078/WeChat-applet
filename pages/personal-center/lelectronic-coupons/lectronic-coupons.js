@@ -2,7 +2,7 @@
 import Api from '../../../utils/config/api.js';
 import { GLOBAL_API_DOMAIN } from '../../../utils/config/config.js';
 var app = getApp();
-
+var QR = require("../../../utils/qrcode.js");
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
@@ -19,6 +19,7 @@ Page({
     goldNum: 0,   //金币数量
     ismoldel:false,
     redfirst:'1',
+    imagePath:'',//动态二维码图片链接
     timer:'',
     amount:'',
     isticket:false,
@@ -143,16 +144,17 @@ Page({
     })
   },
   getcodedetail: function () { //获取票券详情
-    let that = this,freq = this.data.frequency;
-    ++freq
+    let that = this, freq = this.data.frequency, url='';
+    ++freq;
     this.setData({
       frequency: freq
     })
     if (freq == 20){
       clearInterval(that.data.timer)
     }
+
     wx.request({
-      url: this.data._build_url + 'cp/get/' + that.data.couponId,
+      url: that.data._build_url + 'cp/get/' + that.data.couponId,
       header: {
         "Authorization": app.globalData.token
       },
@@ -162,6 +164,11 @@ Page({
           let arr = [],ticketArr=[];
           if (res.data.data){
             let data = res.data;
+            if (!that.data.imagePath) {
+              url = that.data._build_url + 'cp/getByCode/' + res.data.data.couponCode;
+              let size = that.setCanvasSize();//动态设置画布大小
+              that.createQrCode(url, "lecanvas", size.w, size.h);
+            }
             arr.push(res.data.data);
 
             for (let i = 0; i < arr.length; i++) {
@@ -183,20 +190,57 @@ Page({
               });
             }
             if (res.data.data.isUsed && res.data.data.isUsed != 0) {
-              console.log('1111')
               let _id = res.data.data.id;
               that.getgold(_id);
               clearInterval(that.data.timer);
-              // that.setData({
-              //   ismoldel: true
-              // })
             }
             if (res.data && res.data.data.type == 3) {
               clearInterval(that.data.timer);
             }
           }
-          
         }
+      }
+    });
+  },
+  //适配不同屏幕大小的canvas
+  setCanvasSize: function () {
+    var size = {};
+    try {
+      var res = wx.getSystemInfoSync();
+      var scale = 750 / 686;//不同屏幕下canvas的适配比例；设计稿是750宽
+      var width = res.windowWidth / scale * 0.9;
+      var height = width;//canvas画布为正方形
+      size.w = width;
+      size.h = height;
+    } catch (e) {
+      // Do something when catch error
+      console.log("获取设备信息失败" + e);
+    }
+    return size;
+  },
+  //生成二维码
+  createQrCode: function (url, canvasId, cavW, cavH) {
+    console.log(url, canvasId, cavW, cavH)
+    //调用插件中的draw方法，绘制二维码图片
+    QR.api.draw(url, canvasId, cavW, cavH);
+    setTimeout(() => { this.canvasToTempImage(); }, 1000);
+  },
+  //获取临时缓存照片路径，存入data中
+  canvasToTempImage: function () {
+    var that = this;
+    wx.canvasToTempFilePath({
+      canvasId: 'lecanvas',
+      success: function (res) {
+        var tempFilePath = res.tempFilePath;
+        console.log(tempFilePath);
+        that.setData({
+          imagePath: tempFilePath,
+          // canvasHidden:true
+        });
+        console.log("imagePath:", that.data.imagePath)
+      },
+      fail: function (res) {
+        console.log(res);
       }
     });
   },

@@ -381,7 +381,6 @@ Page({
                   ticketList[i].discount = true
                 }
                 ticketList[i]["isDue"] = that.isDueFunc(ticketList[0].expiryDate);
-                console.log("bbbbbb")
                 if (that.data.isUsed == 0) {
                   ticketList[i].isgq = false;
                   that.setData({
@@ -394,9 +393,7 @@ Page({
                   })
                 }
                 ticketArr.push(ticketList[i]);
-                console.log("ticketArr:", ticketArr)
               }
-              console.log("cccc")
               that.setData({
                 ticket_list: ticketArr,
                 loading: false
