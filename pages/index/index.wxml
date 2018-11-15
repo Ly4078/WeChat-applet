@@ -1,11 +1,33 @@
 <import src="index-item/index-item-template.wxml" />
 <import src="bargainirg-store/bargainirg-template/bargainirg-template.wxml" />
+<!-- 骨架屏模块 -->
+<skeleton selector="skeleton" loading="spin" bgcolor="#FFF" wx:if="{{showSkeleton}}"></skeleton>
+
 <view class="container">
   <!--顶部 定位 搜索 卷  -->
-
-    <!-- <form bindsubmit="submit" class="newUserModal" report-submit='true' wx:if="{{isformid}}">
-      <button form-type="submit"></button>
-    </form> -->
+  <!-- 头部搜索 after  -->
+  <view class="header">
+    <view class="header-location" bindtap='userLocation'>
+      <text>{{city}}</text>
+      <image class="icon" src="/images/newIndex/jiantou.png"></image>
+    </view>
+    <view class="header-search skeleton-radius" bindtap="seekTap">
+      <image class="icon" src="/images/icon/home_bar_search.png"></image>
+      <text>搜索</text>
+    </view>
+    <view class="header-notice ">
+      <image class="icon " src="/images/newIndex/xiaoxi.png"></image>
+      <text catchtap='tonewTips' class="tips" wx:if="{{isnewTips}}"></text>
+    </view>
+  </view>
+  <!-- 轮播组件 -->
+  <swiper class="homePage_banner skeleton-rect" indicator-dots="true" autoplay="true" circular="true" interval="5000" indicator-active-color="rgba(252, 94, 45,0.8)">
+    <block wx:for="{{carousel}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
+      <swiper-item>
+        <image bindtap="toLink" data-url="{{item.linkUrl}}" mode="aspectFill" id="{{item.id}}" class="lbtupian " src='{{item.imgUrl}}'></image>
+      </swiper-item>
+    </block>
+  </swiper>
 
   <view class='modal_box' wx:if="{{isshowlocation}}">
     <view class='weizhi'>
@@ -13,108 +35,191 @@
       <button bindtap="openSetting">确定</button>
     </view>
   </view>
-
-  <!-- 头部搜索   -->
-  <view class='headSeek'>
-    <view class='site_location' bindtap='userLocation'>
-      <text class='site_location_text'>{{city}}</text>
-      <image class='location' src='/images/icon/home_bar_arrow.png'></image>
-    </view>
-    <view class='page_row'> </view>
-    <view class="usingTheVolumeBox" bindtap="seekTap">
-      <image class="usingTheVolume" src="/images/icon/home_bar_search.png"></image>
-    </view>
-    <view class='tomsg' bindtap='tomsg'></view>
-  </view>
-
-
-  <!-- 轮播组件 -->
-  <swiper class="homePage_banner" indicator-dots="true" autoplay="true" circular="true" interval="5000" indicator-active-color="rgba(252, 94, 45,0.8)">
-    <block wx:for="{{carousel}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
-      <swiper-item>
-        <image bindtap="toNewExclusive" mode="aspectFill" id="{{item.id}}" class="lbtupian" src='{{item.imgUrl}}'></image>
-      </swiper-item>
-    </block>
-  </swiper>
-
-
   <!-- 导航nav_one -->
   <view class='indexNavOne'>
     <view wx:for="{{navs}}" wx:key="index" class='navitem' id="{{item.id}}" bindtap='handnavOne'>
-      <image class="img{{index+1}}" src='{{item.img}}'></image>
-      <view class="navitem_txt">{{item.name}}</view>
+      <image class="img{{index+1}} skeleton-radius" src='{{item.img}}'></image>
+      <text class="navitem_txt skeleton-rect">{{item.name}}</text>
     </view>
   </view>
 
-  <!-- 到店自提 -->
-  <view>
-    <image bindtap='toStore' class="toStoreBg" src="https://xqmp4-1256079679.file.myqcloud.com/Colin_erywgegrerkgor.jpg"></image>
+
+  <!-- 抽奖 -->
+
+  <view class="lotteryBanner">
+    <image catchtap='toLink' src="{{bannthree[0].imgUrl}}" data-url="{{bannthree[0].linkUrl}}" class=" skeleton-rect"></image>
   </view>
 
-  <!-- 享7生鲜 -->
-  <block wx:for="{{crab}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
-    <template is="toFresh" data="{{item}}" wx:if="{{fresh2.spuId}}" />
-  </block>
-  <view class='Resbanner secKillList' wx:if="{{fresh2.spuId}}">
-    <image class='Resbimg' catchtap='crabSteamed' src="{{fresh1.imgUrl}}"></image>
-    <view class='crabModels'>
-      <image mode='scaleToFill' catchtap='crabPrtDetails' class='crabModels-img' src="{{fresh2.imgUrl}}" id='{{fresh2.id}}' data-spuId="{{fresh2.spuId}}"></image>
-      <image mode='scaleToFill' catchtap='crabPrtDetails' class='crabModels-img' src="{{fresh3.imgUrl}}" id='{{fresh3.id}}' data-spuId="{{fresh3.spuId}}"></image>
+  <!-- 生鲜 -->
+  <view class="triple">
+    <view class="tripleItem it1 skeleton-rect">
+      <image mode='aspectFill' catchtap='toLink' class="" data-url="{{fresh1.linkUrl}}" src="{{fresh1.imgUrl}}"></image>
     </view>
-  </view>
-
-  <!-- 限量秒杀 -->
-  <view wx:if="{{secKillList.length > 0}}">
-    <block wx:for="{{secKillArr}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
-      <template is="secKill" data="{{item}}" />
-    </block>
-    <view class='Resbanner secKillList'>
-      <view class='resthree secKill_inner'>
-        <view wx:for="{{secKillList}}" wx:key="index" class='RthreeItem' id='{{item.id}}' data-index="{{item.shopId}}">
-
-          <image class='Resimg' wx:if="{{item.picUrl}}" src="{{item.picUrl}}" bindtap='toSecKillDetail' id="{{item.id}}" data-shopid="{{item.shopId}}"></image>
-          <image wx:else class='Resimg' src='/images/icon/morentu.png' bindtap='toSecKillDetail' id="{{item.id}}" data-shopid="{{item.shopId}}"></image>
-
-          <text class="secKillSkuName">{{item.skuName}}</text>
-          <text class='Baragio'>¥{{item.agioPrice}}</text>
-          <text class='BarinPrice'>¥{{item.sellPrice}}</text>
-          <view class="secKillIcon">抢购</view>
-        </view>
+    <view class="tripleItem">
+      <view class="tripleItem-list t1 skeleton-rect">
+        <image mode='aspectFill' class="skeleton-rect" data-url="{{fresh2.linkUrl}}" catchtap='toLink' src="{{fresh2.imgUrl}}"></image>
+      </view>
+      <view class="tripleItem-list skeleton-rect">
+        <image mode='aspectFill' class="skeleton-rect" data-url="{{fresh3.linkUrl}}" catchtap='toLink' src="{{fresh3.imgUrl}}"></image>
       </view>
     </view>
   </view>
-
-  <!--拼菜砍价  -->
-  <block wx:for="{{Bargain}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
-    <template is="veoRes" data="{{item}}" />
-  </block>
-  <view class='Resbanner'>
-    <image class='Resbimg' id='1' data-ind="1" src="{{bannthree[0].imgUrl}}" catchtap='chartOfDisheses'></image>
-    <view class='resthree'>
-      <view wx:for="{{bargainList}}" wx:key="index">
-        <view class='RthreeItem' id='{{item.id}}' data-index="{{item.shopId}}" bindtap='candyDetails'>
-          <image class='Resimg' wx:if="{{item.picUrl}}" src="{{item.picUrl}}"></image>
-          <image class='Resimg' wx:else src='/images/icon/morentu.png'></image>
-          <text>{{item.skuName}}\n</text>
-          <text class='Baragio'>¥{{item.agioPrice}}</text>
-          <text class='BarinPrice'>¥{{item.sellPrice}}</text>
-        </view>
-      </view>
-    </view>
-  </view>
-
   <!--商家广告位  -->
   <image class='Advertising' id="3" data-ind="3" bindtap="handbaoming" src="{{bannthree[2].imgUrl}}"></image>
+  <!-- 2018-11-09 热门推荐 -->
+  <view class="hot-recommend">
+    <view class="title">—热门推荐—</view>
+
+    <view class="contents" wx:for="{{allList}}"  wx:key="bigindex" wx:for-index="bigindex">
+      <view class="hot-recoItem " catchtap='onTouchItem' wx:for="{{allList[bigindex].shop}}" wx:key="index" data-id="{{item.id}}">
+        <view class="hot-recoItem-left">
+        <image-loader width="180rpx" height="180rpx" class='hot-recoItem-leftImg'  default-image='/images/icon/morentu.png' mode='aspectFill' original-image="{{item.logoUrl?item.logoUrl:'/images/icon/morentu.png'}}"  />
+
+          <!-- <image src="{{item.logoUrl}}" mode='aspectFill' class='hot-recoItem-leftImg'></image> -->
+        </view>
+        <view class="hot-recoItem-right">
+          <view class="title_tips">
+            <text class="title">{{item.shopName}}</text>
+            <text class="tips quan">劵</text>
+            <text class="tips kan">砍</text>
+          </view>
+          <view class="hot-recoItem-right-bottom">
+            <view class="hot-recoItem-rightInfo">
+              <!-- 人气 -->
+              <view class="Popularity">
+                <image src="/images/icon/hot.png"></image>
+                <text>人气{{item.popNum}}</text>
+              </view>
+              <!-- 推荐菜 -->
+              <view class="hotdish">
+                <text>{{item.skuName}}</text>
+              </view>
+              <!--满减  -->
+              <view class="fullreduction">
+                <text wx:for="{{item.ruleDescs}}" wx:if="{{index <=1}}" wx:key="index">{{item}}</text>
+              </view>
+
+            </view>
+            <view class="hot-recoItem-rightLoca">
+              <!-- <text>{{item.distance}}</text> -->
+            </view>
+          </view>
+
+        </view>
+      </view>
+      <view class="hot-recoItem" catchtap='candyDetails'  id='{{item.id}}' data-index="{{item.shopId}}"  wx:for="{{allList[bigindex].skuKJ}}" wx:key="index">
+        <image src="/images/newIndex/bargain.png" class="bargain-img"></image>
+
+        <view class="hot-recoItem-left">
+          <!-- <image src="{{item.picUrl}}" mode='aspectFill' class='hot-recoItem-leftImg'></image> -->
+           <image-loader width="180rpx" height="180rpx"
+            class='hot-recoItem-leftImg'  default-image='/images/icon/morentu.png' mode='aspectFill' original-image="{{item.picUrl?item.picUrl:'/images/icon/morentu.png'}}"  />
+        </view>
+        <view class="hot-recoItem-right">
+          <view class="title_tips">
+            <text class="title">{{item.skuName || ''}}</text>
+          </view>
+          <view class="hot-recoItem-right-bottom">
+            <view class="hot-recoItem-rightInfo">
+              <!-- 砍价菜或者酒店-店名 -->
+              <view class="storename">
+                <image src="/images/icon/original-can.png"></image>
+                <text>{{item.shopName || ''}}</text>
+              </view>
+              <!--助力砍价  -->
+              <view class="help">
+                <text>邀请5个好友帮砍</text>
+              </view>
+              <view class="price">
+                <text class="msg">可砍到</text>
+                <text class="afterprice">￥{{item.agioPrice}}</text>
+                <text class="beforeprice">￥{{item.sellPrice}}</text>
+              </view>
+            </view>
+            <view class="hot-recoItem-rightLoca">
+              <!-- <text>2442KM</text> -->
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="hot-recoItem" catchtap='candyDetails'  id='{{item.id}}' data-index="{{item.shopId}}"  wx:for="{{allList[bigindex].goodsSku}}" wx:key="index">
+        <image src="/images/newIndex/bargain.png" class="bargain-img"></image>
+        <view class="hot-recoItem-left">
+          <!-- <image src="{{item.skuPic}}" mode='aspectFill' class='hot-recoItem-leftImg'></image> -->
+          <image-loader width="180rpx" height="180rpx"
+           class='hot-recoItem-leftImg'  default-image='/images/icon/morentu.png' mode='aspectFill' original-image="{{item.skuPic?item.skuPic:'/images/icon/morentu.png'}}"  />
+        </view>
+        <view class="hot-recoItem-right">
+          <view class="title_tips">
+            <text class="title">{{item.skuName || ''}}</text>
+          </view>
+          <view class="hot-recoItem-right-bottom">
+            <view class="hot-recoItem-rightInfo">
+              <!-- 砍价菜或者酒店-店名 -->
+              <view class="storename">
+                <!-- <image src="/images/icon/original-can.png"></image> -->
+                <text>{{item.spuName || ''}}</text>
+              </view>
+
+              <!--助力砍价  -->
+              <view class="help">
+                <text>邀请5个好友助力</text>
+              </view>
+              <view class="price">
+                <text class="msg">可砍到</text>
+                <text class="afterprice">￥{{item.sellPrice}}</text>
+                <text class="beforeprice">￥{{item.marketPrice}}</text>
+              </view>
+            </view>
+            <view class="hot-recoItem-rightLoca">
+              <!-- <text>2442KM</text> -->
+            </view>
+          </view>
+        </view>
+      </view>
+      <view  wx:for="{{allList[bigindex].skuMS}}"  wx:key="index"  id='{{item.id}}'                  data-shopid="{{item.shopId}}" catchtap='toSecKillDetail' class="Dishes-item">
+        <view class="Dishes-top">
+          <!-- <image lazy-load='true' mode='aspectFill' wx:if="{{item.picUrl}}" src='{{item.picUrl}}'                     binderror='imageError' bindtap='toSecKillDetail' id="{{item.id}}" data-shopid="{{item.shopId}}            "></image> -->
+           <image-loader width="344rpx" height="344rpx" class='hot-recoItem-leftImg'  default-image='/images/icon/morentu.png' mode='aspectFill' original-image="{{item.picUrl?item.picUrl:'/images/icon/morentu.png'}}"  />
+          <!-- <image lazy-load='true' bindtap='toSecKillDetail' id="{{item.id}}" data-shopid="{{item.shopId}}"            mode='aspectFill' wx:else src='/images/icon/morentu.png'></image> -->
+          <view class="Dishes-desc">
+            <view class="desc-msg">{{item.shopName}}</view>
+            <view class="desc-loca">{{item.distance}}</view>
+          </view>
+        </view>
+        <view class="Dishes-bottom">
+          <view class="Dishes-title">
+            <text class="title">{{item.skuName}}</text>
+            <text class="before-price">￥{{item.sellPrice}}</text>
+          </view>
+          <view class="Dishes-price">
+            <text class="ms">秒杀价</text>
+            <text class="after-price">￥{{item.agioPrice}}</text>
+          </view>
+        </view>
+      </view>
+      <view class="video-item" catchtap='toArticle' data-id="{{item.id}}" data-zan="{{item.zan}}"  wx:for="{{allList[bigindex].topicText}}"  wx:key="index"  >
+        <image mode='aspectFill'  src="{{item.homePic}}" style="width:700rpx;height:300rpx;border-radius:10rpx;"></image>
+        <!-- <image src="/images/icon/paly.png" class="play"></image> -->
+        <view class="video-item-title">{{item.title}}</view>
+      </view>
+       
+      <view class="video-item" wx:for="{{allList[bigindex].topicVideo}}"  wx:key="index" data-id="{{item.id}}" data-zan="{{item.zan}}" catchtap='toVideo' >
+        <image mode='aspectFill'  src="{{item.homePic}}" style="width:700rpx;height:300rpx;border-radius:10rpx;"></image>
+        <image src="/images/icon/paly.png" class="play"></image>
+        <view class="video-item-title">{{item.title}}</view>
+      </view>
+
+
+
+    </view>
+  </view>
+
+
+
 
   <!--拼菜砍价列表  -->
   <view>
-    <view class="templateWrap {{showModal?'':'unders'}}">
-      <view class='cutCuisine'>
-        <block wx:for="{{bargainListall}}" wx:key="{{index}}" id="{{index}}" wx:for-index="idx">
-          <template is="cuisine" data="{{item}}" />
-        </block>
-      </view>
-    </view>
     <view class='loadingBox'>
       <i-spin custom wx:if="{{loading}}">
         <view class="loading"></view>
@@ -123,10 +228,10 @@
   </view>
 
   <!-- 回到顶部 -->
-  <view class='toTop' wx:if="{{_page>1}}" bindtap='toTop'>
+  <view class='toTop' wx:if="{{toTops}}" bindtap='toTop'>
     <image src='/images/icon/toTop.png'></image>
   </view>
 
-  <view class='buttomBox'></view>
+  <view class='buttomBox' wx:if="{{notData}}">已经到底啦~~~</view>
 
 </view>
