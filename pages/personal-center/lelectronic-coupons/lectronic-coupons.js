@@ -210,8 +210,8 @@ Page({
       var scale = 750 / 686;//不同屏幕下canvas的适配比例；设计稿是750宽
       var width = res.windowWidth / scale * 0.9;
       var height = width;//canvas画布为正方形
-      size.w = width;
-      size.h = height;
+      size.w = width*0.8;
+      size.h = height*0.8;
     } catch (e) {
       // Do something when catch error
       console.log("获取设备信息失败" + e);
@@ -318,7 +318,7 @@ Page({
             if (data.data.shopId) {
               that.getshopInfo(data.data.shopId);
             }
-            let imgsArr = [];
+            // let imgsArr = [];
             if (that.data.myCount == 1) {
               let couponsArr = [];
               for (let i = 0; i < data.data.coupons.length; i++) {
@@ -338,7 +338,7 @@ Page({
             }
             console.log("33333")
             for (let i = 0; i < that.data.couponsArr.length; i++) {
-              imgsArr.push(that.data.couponsArr[i].qrcodeUrl);
+              // imgsArr.push(that.data.couponsArr[i].qrcodeUrl);
             } console.log("4444")
             data.data.userName = data.data.userName.substr(0, 3) + "****" + data.data.userName.substr(7);
             console.log("55513123213")
@@ -390,7 +390,7 @@ Page({
             _obj.soAmount = _obj.soAmount.toFixed(2);
             that.setData({
               ticketInfo: _obj,
-              qrCodeArr: imgsArr,
+              // qrCodeArr: imgsArr,
               _skuNum: _skuNum
             });
             // let dish = '食典';

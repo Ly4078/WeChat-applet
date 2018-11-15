@@ -3,7 +3,11 @@
     <view class="qrcode_inner">
       <view class="qrcode_txt fz24">请持兑换码至适用门店</view>
       <view class="fz24">兑换商品</view>
-      <image src="{{qrcodeUrl}}"></image>
+
+      <canvas class='canvasBox' canvas-id="voucanvas"/>
+
+      <!-- <image src="{{qrcodeUrl}}"></image> -->
+
       <view class="fz30">提货码：{{couponCode}}</view>
     </view>
     <image class="cancel" src="/images/icon/cancel.png" bindtap='cancelQr'></image>

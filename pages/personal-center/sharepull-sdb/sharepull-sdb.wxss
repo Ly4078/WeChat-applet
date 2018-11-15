@@ -83,3 +83,10 @@ page{
   color:rgba(255,57,57,1);
   padding-right: 30rpx;
 }
+.sscanvasBox{
+  width: 617rpx;
+  height: 720rpx;
+  background:#fff;
+  margin-top:30rpx;
+  border-radius:20rpx;
+}

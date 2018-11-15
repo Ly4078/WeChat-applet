@@ -4,7 +4,7 @@
 
 <view class='sharepull'>
   <view class='sharepullTop'>
-    <canvas style="width: 617rpx;height: 720rpx;background:#fff;margin-top:30rpx;border-radius:20rpx;" canvas-id="mycanvas"/>
+    <canvas class='sscanvasBox' canvas-id="mycanvas"/>
   <button class='picture' catchtap='saveImgToPhotosAlbumTap'>保存图片</button>
   </view>
   

@@ -872,3 +872,12 @@ to {transform:rotateY(360deg);}
   color:red;
   font-size: 24rpx;
 }
+.lcanvasBox{
+  width:494rpx;
+  height:502rpx;
+  background:#fff;
+  margin-top:30rpx;
+  border-radius:20rpx;
+  margin-left:106rpx;
+
+}

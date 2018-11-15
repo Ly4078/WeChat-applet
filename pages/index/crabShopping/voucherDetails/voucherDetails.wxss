@@ -216,3 +216,12 @@ page {
   width: 70rpx;
   height: 70rpx;
 }
+
+.canvasBox{
+  width:309rpx;
+  height:313rpx;
+  background:#fff;
+  margin-top:46rpx;
+  border-radius:20rpx;
+  margin-left:106rpx;
+}

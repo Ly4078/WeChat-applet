@@ -30,7 +30,7 @@
   <view class='qr-code'>
     <block wx:for="{{ticket}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
 
-<canvas style="width: 617rpx;height: 600rpx;background:#fff;margin-top:30rpx;border-radius:20rpx;margin-left:30rpx" canvas-id="lecanvas"/>
+<canvas class='lcanvasBox' canvas-id="lecanvas"/>
       <!-- <image src='{{item.qrcodeUrl}}' class='codingImages' data-index='{{idx}}' bindtap='previewImg'></image> -->
 
 

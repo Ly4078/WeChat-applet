@@ -4,6 +4,7 @@ import {
 } from '../../../../utils/config/config.js';
 var utils = require('../../../../utils/util.js');
 import Public from '../../../../utils/public.js';
+var QR = require("../../../../utils/qrcode.js");
 var app = getApp();
 
 var village_LBS = function(that) {
@@ -25,6 +26,7 @@ Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
     id: '',
+    imagePath: '',//动态二维码图片链接
     sendType: '', // 0-均有/1-快递/2-门店
     isReceived: false, //是否被领取
     isExchange: false, //是否弹出兑换码
@@ -81,7 +83,7 @@ Page({
     }
   },
   getorderCoupon: function(val) { //查询券详情
-    let _this = this;
+    let _this = this,url='';
     wx.request({
       url: this.data._build_url + 'orderCoupon/getDetail?id=' + this.data.id + '&locationX=' + app.globalData.userInfo.lng + '&locationY=' + app.globalData.userInfo.lat,
       header: {
@@ -92,10 +94,16 @@ Page({
           wx.hideLoading();
           let data = res.data.data,
             userId = app.globalData.userInfo.userId;
+
+          if (!_this.data.imagePath) {
+            url = _this.data._build_url + 'orderCoupon/getByCode/' + res.data.data.couponCode;
+            let size = _this.setCanvasSize();//动态设置画布大小 
+            _this.createQrCode(url, "voucanvas", size.w, size.h);
+          }
           _this.setData({
             skuName: data.goodsSku.skuName,
             skuPic: data.goodsSku.skuPic,
-            qrcodeUrl: data.qrcodeUrl, //核销二维码
+            // qrcodeUrl: data.qrcodeUrl, //核销/二维码
             couponCode: data.couponCode, //核销号码
             remark: data.goodsSku.remark,
             expiryDate: data.expiryDate,
@@ -179,6 +187,49 @@ Page({
       }
     })
   },
+  //适配不同屏幕大小的canvas
+  setCanvasSize: function () {
+    var size = {};
+    try {
+      var res = wx.getSystemInfoSync();
+      var scale = 750 / 686;//不同屏幕下canvas的适配比例；设计稿是750宽
+      var width = res.windowWidth / scale * 0.9;
+      var height = width;//canvas画布为正方形
+      size.w = width/2;
+      size.h = height/2;
+    } catch (e) {
+      // Do something when catch error
+      console.log("获取设备信息失败" + e);
+    }
+    return size;
+  },
+  //生成二维码
+  createQrCode: function (url, canvasId, cavW, cavH) {
+    console.log(url, canvasId, cavW, cavH)
+    //调用插件中的draw方法，绘制二维码图片
+    QR.api.draw(url, canvasId, cavW, cavH);
+    setTimeout(() => { this.canvasToTempImage(); }, 1000);
+  },
+  //获取临时缓存照片路径，存入data中
+  canvasToTempImage: function () {
+    var that = this;
+    wx.canvasToTempFilePath({
+      canvasId: 'voucanvas',
+      success: function (res) {
+        var tempFilePath = res.tempFilePath;
+        console.log(tempFilePath);
+        that.setData({
+          imagePath: tempFilePath,
+          // canvasHidden:true
+        });
+        console.log("imagePath:", that.data.imagePath)
+      },
+      fail: function (res) {
+        console.log(res);
+      }
+    });
+  },
+
   getsendCoupon: function() { //领取提蟹券
     let _parms = {},
       _this = this,
