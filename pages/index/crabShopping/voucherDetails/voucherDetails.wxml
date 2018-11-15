@@ -1,4 +1,5 @@
 <view class="tickPage">
+  <image class="indexIcon" src="/images/icon/indexIcon.png" bindtap='toIndex' wx:if="{{shareId}}"></image>
   <view hidden="{{!isExchange}}" class="qrcode">
     <view class="qrcode_inner">
       <view class="qrcode_txt fz24">请持兑换码至适用门店</view>

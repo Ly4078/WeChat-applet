@@ -346,6 +346,26 @@ page{
   margin-bottom: 24rpx;
 }
 
+.storeAddress {
+  display: flex;
+  flex-direction: row;
+  width:100%;
+  font-size:22rpx;
+  color:rgba(85,85,85,1);
+  margin-bottom:24rpx;
+  padding-left:32rpx;
+}
+
+.storeAddress text:first-child {
+  width: 200rpx;
+  display: block;
+}
+
+.storeAddress text:last-child {
+  width: 500rpx;
+  display: block;
+}
+
 .inconformity text:nth-child(1){
     margin-left: 32rpx;
 }

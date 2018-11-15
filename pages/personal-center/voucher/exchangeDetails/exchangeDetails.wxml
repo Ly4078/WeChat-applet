@@ -47,11 +47,11 @@
 <!-- 收货地址/平台兑换 -->
 <view wx:else class='expressage shopAddress'>
   <view class='yourself'>
-    <view class='expressageSiteName'>自提门店： {{current.salePoint.salepointName}}
+    <view class='expressageSiteName'>自提门店： {{current.salePoint ? current.salePoint.salepointName : current.shopOut.shopName}}
       <!-- <text>{{current.salePoint.mobile}}</text> -->
     </view>
     <view class='expressageMsg'>
-      <text>{{current.salePoint.address}}</text>
+      <text>{{current.salePoint ? current.salePoint.address : current.shopOut.address}}</text>
     </view>
   </view>
 </view>
@@ -59,7 +59,8 @@
 <view class='handise'>
   <view class='handiseTop'>
     <view class='handiseTop-left'>
-      <image class='handiseTop-img' src="{{current.goodsSku.skuPic}}"></image>
+      <image wx:if="{{current.goodsSku.skuPic}}" class='handiseTop-img' src="{{current.goodsSku.skuPic}}"></image>
+      <image wx:else class='handiseTop-img' src="/images/icon/morentu.png"></image>
     </view>
     <view class='handiseTop-right'>
       <view class='handiseTop-rightText'>
@@ -105,7 +106,7 @@
       <text>{{current.shopOut.shopName ? current.shopOut.shopName : '享七自营'}}</text>
     </view>
 
-    <view class='inconformity' wx:if="{{current.shopOut.address}}">
+    <view class='storeAddress' wx:if="{{current.shopOut.address}}">
       <text>商家地址</text>
       <text>{{current.shopOut.address}}</text>
     </view>

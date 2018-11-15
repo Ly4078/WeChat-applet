@@ -1,7 +1,8 @@
 <view class='record'>
   <view class='recordItme' wx:if="{{listData.length > 0}}" wx:for="{{listData}}" wx:key="{{index}}" id="{{item.id}}" bindtap='handItem'>
     <view class='itemleft'>
-      <image src="{{item.skuPic}}"></image>
+      <image wx:if="{{item.skuPic}}" src="{{item.skuPic}}"></image>
+      <image wx:else src="/images/icon/morentu.png"></image>
     </view>
     <view class='itemright'>
       <view class='irtop'>{{item.p1}}
