@@ -1,4 +1,7 @@
 {
-  "navigationBarTitleText": "热门景点+酒店1折起售",
-  "enablePullDownRefresh": false
+  "navigationBarTitleText": "享7拼购",
+  "enablePullDownRefresh": false,
+  "usingComponents":{
+    "skeleton":"/components/skeleton/skeleton"
+  }
 }

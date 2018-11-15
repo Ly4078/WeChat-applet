@@ -158,7 +158,11 @@ Page({
       wx.navigateTo({
         url: 'video-list/video-list?id=' + actid,
       })
-    } 
+    } else if (actid == 43) {
+      wx.navigateTo({
+        url: '/pages/activityDetails/tourismAndHotel/tourismAndHotel?id=' + actid,
+      })
+    }
   },
   onReachBottom: function () {  //用户上拉触底
 

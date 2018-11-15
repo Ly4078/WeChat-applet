@@ -1,7 +1,8 @@
 Page({
   data: {
     selected: true,
-    shadowFlag: true //活动详情
+    shadowFlag: true, //活动详情
+    // showSkeleton:true
   },
   selected: function(e) {
     this.setData({
