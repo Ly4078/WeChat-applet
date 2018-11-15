@@ -90,11 +90,13 @@ Page({
       }
     }
     app.globalData.Express = addressOjb;
+    console.log('-----------------------93');
     let pages = getCurrentPages();//当前页面
     let prevPage = pages[pages.length - 2];//上一页面
     wx.navigateBack({//返回
       delta: 1
     })
+    console.log('-----------------------99');
   }
 })
 

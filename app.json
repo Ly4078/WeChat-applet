@@ -75,7 +75,10 @@
     "pages/personal-center/personnel-order/personnel-order",
     "pages/personal-center/popularize/popularize",
     "pages/activityDetails/holdingActivity/holdingActivity",
-    "pages/index/productCategory/productCategory"
+    "pages/index/productCategory/productCategory",
+    "pages/index/crabShopping/storeList/storeList",
+    "pages/index/crabShopping/getFailure/getFailure",
+    "pages/index/crabShopping/express/express"
   ],
   "window": {
     "backgroundTextStyle": "dark",

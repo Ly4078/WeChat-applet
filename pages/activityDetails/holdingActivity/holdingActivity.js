@@ -53,7 +53,7 @@ Page({
         { title: "7、如有其他疑问请咨询享7美食客服。" },]
     });
   },
-  getwinningList () {
+  getwinningList() {
     let that = this
     wx.request({
       url: that.data._build_url + 'orderInfo/listFree?page=1&rows=20&payType=0&categoryId=6',
@@ -61,32 +61,32 @@ Page({
       header: {
         "Authorization": app.globalData.token
       },
-      success:function(res){
+      success: function (res) {
         wx.stopPullDownRefresh()
-          console.log(res)
-          if(res.data.code=='0' && res.data.data ){
-            let data = res.data.data
-            if(!data.list){
-              return
-            }
-              if(data.list.length){
-                  const msgList = [];
-                  
-                data.list.forEach( (item ,index)=>{
-                  let phone = '', obj = {};
-                  phone = item.userName.substring(0, 3) + '****' + item.userName.substring(7, item.userName.length)
-                  obj.title = '恭喜' + phone + '获得' + item.orderItemOuts[0].goodsSkuName;
-                  obj.url = 'url'
-                  obj.id = item.id
-                  msgList.push(obj)
-                })
-                console.log(msgList)
-                that.setData({
-                  msgList: msgList
-                })
-              }
+        console.log(res)
+        if (res.data.code == '0' && res.data.data) {
+          let data = res.data.data
+          if (!data.list) {
+            return
           }
-      },fail () {
+          if (data.list.length) {
+            const msgList = [];
+
+            data.list.forEach((item, index) => {
+              let phone = '', obj = {};
+              phone = item.userName.substring(0, 3) + '****' + item.userName.substring(7, item.userName.length)
+              obj.title = '恭喜' + phone + '获得' + item.orderItemOuts[0].goodsSkuName;
+              obj.url = 'url'
+              obj.id = item.id
+              msgList.push(obj)
+            })
+            console.log(msgList)
+            that.setData({
+              msgList: msgList
+            })
+          }
+        }
+      }, fail() {
         wx.stopPullDownRefresh()
         wx.hideLoading()
       }
@@ -389,7 +389,7 @@ Page({
 
     }, interval);
   },
-  onHide () {
+  onHide() {
     gameFlag = true
   },
   reverse() { //翻转动画
@@ -518,7 +518,7 @@ Page({
     return {
       title: '邀请好友，换大闸蟹',
       path: '/pages/activityDetails/holdingActivity/holdingActivity?inviter=' + app.globalData.userInfo.userId,
-      imageUrl:'https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/微信图片_20181108171635.png',
+      imageUrl: 'https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/微信图片_20181108171635.png',
       success: function (res) {
         console.log('successres:', res)
       }

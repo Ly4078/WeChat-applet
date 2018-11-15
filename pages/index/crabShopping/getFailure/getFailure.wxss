@@ -1,0 +1,104 @@
+/* 领取失败css */
+.fz24 {
+  font-size: 24rpx;
+}
+
+.gray {
+  color: #808080;
+}
+
+page {
+  width: 100%;
+  height: 100%;
+  background-color: #F5F5FA;
+}
+
+.getFailure {
+  padding-top: 120rpx;
+  box-sizing: border-box;
+  text-align: center;
+  font-size: 28rpx;
+  color: #191919;
+  letter-spacing: 2rpx;
+}
+
+.getFailure image {
+  height: 92rpx;
+  width: 92rpx;
+}
+
+.failureTxt {
+  padding: 26rpx 0 18rpx 0;
+}
+
+.toIndex {
+  width: 100%;
+  padding-top: 116rpx;
+  display: flex;
+  justify-content: center;
+}
+
+.toIndex view {
+  width: 230rpx;
+  height: 66rpx;
+  line-height: 66rpx;
+  text-align: center;
+  color: #fff;
+  background-color: #FF6E02;
+  border-radius: 50rpx;
+}
+
+/* 详细说明css */
+.black {
+  color: #191919;
+}
+
+.gray {
+  color: #808080;
+}
+
+.pl30 {
+  padding-left: 30rpx;
+}
+
+.infoWrap {
+  font-size: 24rpx;
+  color: #555555;
+  width: 100%;
+  padding: 36rpx 0 44rpx 28rpx;
+  box-sizing: border-box;
+  letter-spacing: 4rpx;
+  background-color: #fff;
+}
+
+.title {
+  font-size: 32rpx;
+  margin-bottom: 20rpx;
+}
+
+.titleIcon {
+  display: inline-block;
+  width: 8rpx;
+  height: 20rpx;
+  background-color: #FC5E2D;
+  margin-right: 22rpx;
+}
+
+.infoCont view {
+  line-height: 50rpx;
+}
+
+.contTit {
+  padding-top: 10rpx;
+  display: flex;
+  align-items: center;
+}
+
+.contIcon {
+  display: inline-block;
+  width: 8rpx;
+  height: 8rpx;
+  background-color: #808080;
+  margin-right: 22rpx;
+  border-radius: 50%;
+}

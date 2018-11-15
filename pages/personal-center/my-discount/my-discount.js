@@ -23,8 +23,9 @@ Page({
     isUsed: 0,
     ind: 0,
     currentIndex: 0,
-    navbar: ['提蟹券', '优惠券', ],
-    tabs: ["我的票券", "赠送记录", "领取记录"]
+    navbar: ['兑换券', '优惠券', ],
+    tabs: ["我的票券", "赠送记录", "领取记录"],
+    userId: app.globalData.userInfo.userId
   },
   onLoad: function(options) {
     console.log("options:", options)
@@ -188,7 +189,7 @@ Page({
           loading: false
         })
         if (res.data.code == 0) {
-          let _data = that.data.pxpage == 1 ? [] : that.data.listData,
+          let _data = this.data.pxpage == 1 ? [] : this.data.listData,
             _list = res.data.data.list;
           if (_list && _list.length > 0) {
             for (let i = 0; i < _list.length; i++) {
@@ -200,14 +201,13 @@ Page({
               }
               // _data.push(_list[i]);
             }
-            that.setData({
+            this.setData({
               listData: _data.concat(_list),
               pageTotal: Math.ceil(res.data.data.total / 10),
               loading: false
             })
-            console.log("listData:", that.data.listData)
           } else {
-            that.setData({
+            this.setData({
               loading: false
             })
             wx.hideLoading();
@@ -579,13 +579,11 @@ Page({
    //立即兑换
   redeemNow: function (e) {  //点击某张票券
     let id = e.currentTarget.id,
-      _skuName = e.currentTarget.dataset.index,
-      _isUsed = e.currentTarget.dataset.used,
-      _type = e.currentTarget.dataset.type,
-      _orderId = e.target.dataset.order;
-    if (_isUsed == 0) {
+      isUsed = e.currentTarget.dataset.isUsed,
+      ownId = e.currentTarget.dataset.ownId;
+    if (isUsed != 1 && (ownId == null || ownId != app.globalData.userInfo.userId)) {
       wx.navigateTo({
-        url: '../../index/crabShopping/voucherDetails/voucherDetails?id=' + id + '&skuname=' + _skuName+'&type='+_type
+        url: '../../index/crabShopping/voucherDetails/voucherDetails?id=' + id
       })
     }
   },

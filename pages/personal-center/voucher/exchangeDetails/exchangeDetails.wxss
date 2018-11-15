@@ -76,6 +76,11 @@ page{
   margin-top: 20rpx;
 }
 
+.expressage.shopAddress {
+  padding-left: 34rpx;
+  box-sizing: border-box;
+}
+
 .expressageImg{
   width: 40rpx;
   height: 34rpx;

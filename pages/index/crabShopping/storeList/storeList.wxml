@@ -1,0 +1,18 @@
+<view class="storeList">
+  <view wx:if="{{storeList.length > 0}}" wx:for="{{storeList}}" wx:key="{{index}}" class="storeItem">
+    <view class="store_top">
+      <view class="storeName">
+        <text>{{item.salepointName}}</text>
+        <text>{{item.distance}}</text>
+      </view>
+      <view class="storeAddress">{{item.address}}</view>
+    </view>
+    <view class="store_bot">
+      <view id="{{index}}" bindtap='calling'>拨打电话</view>
+      <view id="{{index}}" bindtap='TencentMap'>查看地图</view>
+    </view>
+  </view>
+  <view wx:if="{{storeList.length <= 0}}" class="zhanweitu">
+    <image src="/images/icon/zhanweitu.png"></image>
+  </view>
+</view>

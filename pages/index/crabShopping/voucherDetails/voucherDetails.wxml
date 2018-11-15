@@ -1,137 +1,58 @@
-<!-- 模态弹框 -->
-<view class='modal_boxs' wx:if="{{false}}" catchtap='closemodel'> -->
- <view class='modalcon'>
-    <image class='lierr' src='/images/icon/qinquerr.png'></image>
-    <view class='liv1' wx:if="{{isshare}}">领取失败</view>
-    <view class='liv2' wx:if="{{qtype == 1}}">该提蟹券已经被领取</view>
-    <view class='liv2' wx:if="{{qtype == 2}}">该提货券已经被领取</view>
-    <view class='viewbuti'>返回首页</view>
-  </view> 
-</view>
-
-<!-- 回到时首页 -->
-<image class="indexIcon" src="/images/icon/indexIcon.png" bindtap='toIndex' wx:if="{{!isreceive}}"></image>
-
-<!-- 展示提货券二维码 -->
-<view class='modal_box' wx:if="{{isshowticode}}">
-  <view class='whitebox'>
-    <view class='boxt1'>请持提货码至</view>
-    <view class='boxt2' bindtap='TencentMap'>
-   <image class='mapicon' src="/images/icon/mapicon.png" ></image>
-   {{current.salePoint.salepointName}}
+<view class="tickPage">
+  <view hidden="{{!isExchange}}" class="qrcode">
+    <view class="qrcode_inner">
+      <view class="qrcode_txt fz24">请持兑换码至适用门店</view>
+      <view class="fz24">兑换商品</view>
+      <image src="{{qrcodeUrl}}"></image>
+      <view class="fz30">提货码：{{couponCode}}</view>
     </view>
-    <view class='boxt3'>提取商品</view>
-    <image class='qrcode' src="{{current.qrcodeUrl}}"></image>
-    <view class='boxt4'>提货码：{{current.couponCode}}</view>
+    <image class="cancel" src="/images/icon/cancel.png" bindtap='cancelQr'></image>
   </view>
-  <image class='closeimg' src="/images/icon/cancel.png" bindtap='closemodal'></image>
-</view>
+  <view class="ticketDetail">
+    <view class="detail_top">
+      <view class="iconBox">
+        <image wx:if="{{skuPic}}" mode="aspectFill" src="{{skuPic}}"></image>
+        <image wx:else mode="aspectFill" src="/images/icon/morentu.png"></image>
+      </view>
+      <view class="fz36">{{skuName}}{{goodsNum > 1 ? 'X'+goodsNum : ''}}</view>
+      <view class="top_time fz24">有效期至：{{expiryDate}}</view>
+      <view wx:if="{{!isReceived && isUsed == 0}}" class="detail_top_btn fz30">
+        <view wx:if="{{sendType == 0 || sendType == 2}}" class="storeBtn" bindtap='exchange'>门店兑换</view>
+        <view wx:if="{{sendType == 0 || sendType == 1}}" class="expressBtn" bindtap='express'>快递配送</view>
+      </view>
 
-<!-- 头部图片 -->
-<view class="vouchertop {{isreceive?'vouchertopb':'vouchertopa'}}" wx:if="{{qtype == 1}}">
-  <view class='topview'>
-    <text class="vouchername {{isreceive?'itemNameb':'itemNamea'}}">{{current.sku}}</text>
-    <text class="voucode {{isreceive?'codeb':'codea'}}">券号：{{current.couponCode}}</text>
-  </view>
-</view>
-
-<view class="vouchertop {{isreceive?'thqsitem':'thqitem'}}" wx:if="{{qtype == 2}}">
-  <view class='topview'>
-    <text class="thname {{isreceive?'codeb':'codea'}}">提货券</text>
-        <text class='thhx'>__</text>
-        <text class="thguige {{isreceive?'codeb':'codea'}}">{{current.orderItemOuts[0].goodsSkuName}} {{current.orderItemOuts[0].giftNum+current.orderItemOuts[0].goodsNum}}只</text>
-        <view class="thshop {{isreceive?'codeb':'codea'}}">提货门店:
-        <text wx:for="{{current.salePointOuts}}" wx:key="index">{{item.salepointName}},</text>
+      <view wx:else class="detail_top_btn fz30">
+        <view wx:if="{{sendType == 0 || sendType == 2}}" class="storeBtn active">门店兑换</view>
+        <view wx:if="{{sendType == 0 || sendType == 1}}" class="expressBtn active">快递配送</view>
+      </view>
+      <view class="leftCircle"></view>
+      <view class="rightCircle"></view>
+    </view>
+    <view class="detail_bot">
+      <view class="detail_bot_item" bindtap='infoDetail'>
+        <view class="fz30">详细说明</view>
+        <view>
+          <!-- <text class="fz24">消费满200元可用</text> -->
+          <image src="/images/icon/home_arrow.png"></image>
         </view>
-        <text class="thCode {{isreceive?'codeb':'codea'}}">券码：{{current.couponCode}}</text>
-        <text class="thdate {{isreceive?'codeb':'codea'}}">有效期:{{current.expiryDate}}</text>
-  </view>
-</view>
-
-<!-- 收货地址 -->
-<view class='submitTop' catchtap='additionSite' wx:if="{{isfrst}}">
-  <view class='submitCenter'>
-    <!-- <image class='submitImg' src='/images/icon/location.png'></image> -->
-    <image class='AddTheAddress' src='/images/icon/AddTheAddresss.png' wx:if="{{!actaddress.chatName}}"></image>
-    <view class='submitLeft' wx:if="{{actaddress.chatName}}">
-      <view class='compellation'>{{actaddress.chatName}}
-        <text>{{actaddress.mobile}}</text>
       </view>
-      <view class='compellationText'>
-        <text>{{actaddress.address}}</text>
-      </view>
-    </view>
-    <view class='submitLeft' wx:if="{{!actaddress.chatName}}">
-      <text>添加地址</text>
-    </view>
-    <view class='rightbuticon'>
-      <image class='submitRight' src='/images/icon/xialatupian.png'></image>
-    </view>
-  </view>
-</view>
-
-<!-- 订单详情 -->
-<view class='indentDetails' wx:if="{{!isreceive}}">
-  <view class='indentDetailsCtn'>
-    <!-- 送达时间 -->
-    <view class='equally' bindtap='deliveryTime' wx:if="{{isfrst}}">
-      <picker mode="date" class='eqpicker' value="{{threeLater}}" start="{{threeLater}}" end="{{tenLater}}" bindchange="bindDateChange">
-        <view class="picker">
-          <view>
-            <text>送达时间 </text>
-            <text class='intervalBind'></text>
-          </view>
-          <text class='datenum'>{{date}}</text>
-          <image class='submitRight' src='/images/icon/xialatupian.png'></image>
+      <view wx:if="{{sendType != 1}}" class="detail_bot_item" bindtap='storeList'>
+        <view class="fz30">适用门店</view>
+        <view>
+          <text class="fz24">共{{storeList.length}}家门店</text>
+          <image src="/images/icon/home_arrow.png"></image>
         </view>
-      </picker>
-    </view>
-    <!-- 运费 -->
-    <view class='equally' wx:if="{{postage && isfrst}}">
-      <text>配送费</text>
-      <text class='delicatese'>￥{{postage}}</text>
-    </view>
-    <!-- 备注 -->
-    <view class='equally' wx:if="{{isfrst}}">
-      <text>商品备注:</text>
-      <input name="input" bindinput="bindremarks" value='{{remarks}}' placeholder='选填内容'></input>
-    </view>
-
-
-    <!-- 按钮 -->
-    <view class='towanniu'>
-    
-      <view class='anright'>
-        <form bindsubmit="submit" report-submit='true' >
-          <button form-type="submit" type="default" class='anright'>提货 </button>
-        </form>
-      </view>
-      <view class='anleft' wx:if="{{isgift}}">
-        <button plain="true" data-name="shareBtn" open-type="share">
-          <text>赠送好友</text>
-        </button>
-      </view>
-
-      <view class='anleft' wx:else bindtap='handGift'>
-        <button>
-          <text>赠送好友</text>
-        </button>
       </view>
     </view>
-
-
-    <!-- 说明图片 -->
-    <view class='imgobjs'>
-      <text>————</text>
-      <text class='yudetail'>详情</text>
-      <text>————</text>
-    </view>
-    <image class='vouimgUlrs' wx:for="{{crabImgUrl}}" wx:key="{{index}}" mode="widthFix" src='{{item}}'></image>
   </view>
-</view>
-
-<view class='norece' wx:if="{{isreceive}}">
-  <view class='isrecp1' wx:if="{{qtype == 1}}"><text>!</text>该提蟹券已经被领取</view>
-  <view class='isrecp1' wx:if="{{qtype == 2}}"><text>!</text>该提货券已经被领取</view>
-  <view class='isrecp2' bindtap='toIndex'>返回首页</view>
+  <view wx:if="{{!isReceived && isUsed == 0}}" class="giftBTn fz36">
+    <button plain="true" data-name="shareBtn" open-type="share">
+      <image src="/images/icon/gift.png"></image>
+      <text>赠送好友</text>
+    </button>
+  </view>
+  <view wx:else class="giftBTn fz36">
+    <image src="/images/icon/cancelGift.png"></image>
+    <text class="gray">{{giftTxt}}</text>
+  </view>
 </view>

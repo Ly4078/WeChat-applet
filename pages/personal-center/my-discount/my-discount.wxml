@@ -2,7 +2,7 @@
 
 <view class="navbar">
   <form bindsubmit="submit" report-submit='true' wx:for="{{navbar}}" data-idx="{{index}}" wx:key="index">
-    <button form-type="submit" type="default"  class="item {{currentIndex==index ? 'active' : ''}}">{{item}}
+    <button form-type="submit" type="default" class="item {{currentIndex==index ? 'active' : ''}}">{{item}}
     </button>
   </form>
 </view>
@@ -16,11 +16,31 @@
 
 
   <!-- 礼品券 -->
-  <view wx:if="{{ind == 0}}">
+  <view class='voucherBox' wx:if="{{ind == 0}}">
     <view class='voucher' wx:if="{{listData.length>0}}">
-      <view wx:for="{{listData}}" wx:key="{{index}}">
 
-        <view  wx:key="item.id" id="{{item.id}}" data-index="{{item.goodsSkuName}}" class="voucherItem {{item.isUsed == 0 ? 'ysyitem' : 'wsyitem'}}" data-used="{{item.isUsed}}" data-type="{{item.type}}" data-order="{{item.orderId}}"
+      <view wx:for="{{listData}}" wx:key="{{index}}" class="tickItem" id="{{item.id}}" data-isUsed="{{item.isUsed}}" data-ownId="{{item.ownId}}" bindtap='redeemNow'>
+        <image class="ticketBgc" src="/images/icon/ticketBgc.png"></image>
+        <image wx:if="{{item.isUsed == 0}}" class="ticketIcon" src="/images/icon/ticketIcon.png"></image>
+        <view class="tickItem_inner">
+          <view class="tickItem_top">
+            <image wx:if="{{item.skuPic}}" mode="aspectFill" src="{{item.skuPic}}"></image>
+            <image wx:else mode="aspectFill" src="/images/icon/morentu.png"></image>
+            <view>
+              <text class="{{item.isUsed == 1 ? 'gray' : ''}}">{{item.goodsSkuName}}</text>
+            </view>
+          </view>
+          <view class="tickItem_bot">
+            <view>有效期至：{{item.expiryDate}}</view>
+            <view class="item_bot_info">
+              <text>详情</text>
+              <image src="/images/icon/home_arrow.png"></image>
+            </view>
+          </view>
+        </view>
+      </view>
+
+        <!-- <view wx:if="{{item.type == 1}}" wx:key="item.id" id="{{item.id}}" data-index="{{item.goodsSkuName}}" class="voucherItem {{item.isUsed == 0 ? 'ysyitem' : 'wsyitem'}}" data-used="{{item.isUsed}}" data-type="{{item.type}}" data-order="{{item.orderId}}"
           bindtap='redeemNow'>
 
           <text class="itemName {{item.isUsed == 0 ? 'itemNamea' : 'itemNameb'}}">{{item.sku}}</text>
@@ -36,9 +56,10 @@
           <text class="thshop {{item.isUsed == 0 ? 'codea' : 'codeb'}}">提货门店:{{item.salePoint.salepointName}}</text>
           <text class="thCode {{item.isUsed == 0 ? 'codea' : 'codeb'}}">券码：{{item.couponCode}}</text>
           <text class="thdate {{item.isUsed == 0 ? 'codea' : 'codeb'}}">有效期:{{item.expiryDate}}</text>
-        </view>
+        </view> -->
 
-      </view>
+
+
       <view class='loadingBox'>
         <i-spin custom wx:if="{{loading}}">
           <view class="loading"></view>
@@ -63,6 +84,10 @@
           </view>
           <view class='itemtop' wx:if="{{item.type == 2}}">
             <text class='topt1'>{{item.goodsSkuName}}-提货券</text>
+            <text class='topt2'>{{ind == 1?"已赠送":"已领取"}}</text>
+          </view>
+          <view class='itemtop' wx:if="{{item.type == null}}">
+            <text class='topt1'>{{item.goodsSkuName}}</text>
             <text class='topt2'>{{ind == 1?"已赠送":"已领取"}}</text>
           </view>
           <view class='itemcon'>
@@ -106,6 +131,10 @@
           </view>
           <view class='itemtop' wx:if="{{item.type == 2}}">
             <text class='topt1'>{{item.goodsSkuName}}-提货券</text>
+            <text class='topt2'>{{ind == 1?"已赠送":"已领取"}}</text>
+          </view>
+          <view class='itemtop' wx:if="{{item.type == null}}">
+            <text class='topt1'>{{item.goodsSkuName}}</text>
             <text class='topt2'>{{ind == 1?"已赠送":"已领取"}}</text>
           </view>
 

@@ -1,0 +1,32 @@
+<!-- 领取失败布局 -->
+<!-- <view class="getFailure">
+  <view>
+    <image src="/images/icon/subtract.png"></image>
+    <view class="failureTxt">领取失败</view>
+    <view class="fz24 gray">该票券已经被领取</view>
+  </view>
+  <view class="toIndex"><view>返回首页</view></view>
+</view> -->
+
+<!-- 使用说明 -->
+<view class="infoWrap">
+  <view class="title black">
+    <view class="titleIcon"></view>
+    <text>使用须知</text>
+  </view>
+  <view class="infoCont">
+    <view class="contTit gray">
+      <view class="contIcon"></view>
+      <text>有效期</text>
+    </view>
+    <view class="pl30">自购买之日起，到活动结束，过期作废</view>
+    <view class="contTit gray">
+      <view class="contIcon"></view>
+      <text>使用规则</text>
+    </view>
+    <view class="pl30">周一至周日全天可用</view>
+    <view class="pl30">当活动菜品券面价格相同时，该券可跨店使用</view>
+    <view class="pl30">每桌消费仅限使用1张食典券</view>
+    <view class="pl30">购买后不支持退款、不兑现、不找零</view>
+  </view>
+</view>

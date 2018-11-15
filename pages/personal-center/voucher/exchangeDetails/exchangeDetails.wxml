@@ -1,12 +1,20 @@
 <view class='exdetails'>
   <image class='logisticsTopImg' src='/images/icon/logisticsTopImg.png'></image>
   
-  <view class='logisticsTopShould'>
+  <view wx:if="{{rType == 1}}" class='logisticsTopShould'>
     <view class='logisticsTopfront'>
       <text>{{current.expressCode?'已发货':'待发货'}}</text>
     </view>
-    <view class='logisticsTopCount' wx:if="{{current.expressCode}}">
+    <view class='logisticsTopCount'>
       <text>您订购的商品已经发货，正在运送途中</text>
+    </view>
+  </view>
+  <view wx:else class='logisticsTopShould'>
+    <view class='logisticsTopfront'>
+      <text>待使用</text>
+    </view>
+    <view class='logisticsTopCount'>
+      <text>请自行前往对应的店铺兑换</text>
     </view>
   </view>
 </view>
@@ -24,15 +32,26 @@
     </view>
     <image class='expressageImgRight' src='/images/icon/home_arrow.png'></image>
   </view> -->
-<!-- 收货地址 -->
-<view class='expressage' wx:if="{{current.orderAddress}}">
+<!-- 收货地址/快递 -->
+<view wx:if="{{rType == 1}}" class='expressage'>
   <image class='siteImg' src='/images/icon/expressagegouwuce.png'></image>
   <view class='yourself'>
-    <view class='expressageSiteName'>{{current.orderAddress.chatName}}
-      <text>{{current.orderAddress.mobile}}</text>
+    <view class='expressageSiteName'>{{current.orderAddressOut.chatName}}
+      <text>{{current.orderAddressOut.mobile}}</text>
     </view>
     <view class='expressageMsg'>
-      <text>{{current.orderAddress.dictProvince}}{{current.orderAddress.dictCity}}{{current.orderAddress.dictCounty}}{{current.orderAddress.detailAddress}}</text>
+      <text>{{current.orderAddressOut.dictProvince}}{{current.orderAddressOut.dictCity}}{{current.orderAddressOut.dictCounty}}{{current.orderAddressOut.detailAddress}}</text>
+    </view>
+  </view>
+</view>
+<!-- 收货地址/平台兑换 -->
+<view wx:else class='expressage shopAddress'>
+  <view class='yourself'>
+    <view class='expressageSiteName'>自提门店： {{current.salePoint.salepointName}}
+      <!-- <text>{{current.salePoint.mobile}}</text> -->
+    </view>
+    <view class='expressageMsg'>
+      <text>{{current.salePoint.address}}</text>
     </view>
   </view>
 </view>
@@ -44,15 +63,15 @@
     </view>
     <view class='handiseTop-right'>
       <view class='handiseTop-rightText'>
-        <text>阳澄湖大闸蟹</text>
+        <text>{{current.goodsSkuName}}</text>
       </view>
       <view class='handiseTop-rightCation'>
-        <text>{{current.goodsSku.skuName}}</text>
+        <text>{{current.goodsSkuName}}</text>
       </view>
-      <view class='handiseTop-rightBtn'>
+      <!-- <view class='handiseTop-rightBtn'>
         <text>￥{{current.goodsSku.sellPrice}}</text>
         <text class='dolphinNei'>×{{current.goodsSku.miniNum}}</text>
-      </view>
+      </view> -->
     </view>
   </view>
 </view>
@@ -76,14 +95,19 @@
       <button class='copybut copybutq' id="2" bindtap='copyCode'>复制</button>
     </view>
 
-    <view class='inconformity' wx:if="{{current.sendAmount}}">
-      <text>商品运费</text>
-      <text class='send'>￥{{current.sendAmount}}</text>
-    </view>
-
     <view class='inconformity' wx:if="{{current.usedTime}}">
       <text>兑换时间</text>
       <text>{{current.usedTime}}</text>
+    </view>
+
+    <view class='inconformity'>
+      <text>商家名称</text>
+      <text>{{current.shopOut.shopName ? current.shopOut.shopName : '享七自营'}}</text>
+    </view>
+
+    <view class='inconformity' wx:if="{{current.shopOut.address}}">
+      <text>商家地址</text>
+      <text>{{current.shopOut.address}}</text>
     </view>
 
   </view>

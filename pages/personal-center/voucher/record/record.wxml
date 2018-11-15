@@ -5,7 +5,7 @@
     </view>
     <view class='itemright'>
       <view class='irtop'>{{item.p1}}
-        <text>{{item.expressCode?'已发货':'待发货'}}</text>
+        <text>已兑换</text>
       </view>
       <view class='irmoe'>{{item.p2}}</view>
       <view class='irbut'>{{item.usedTime}}</view>

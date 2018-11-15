@@ -1,0 +1,41 @@
+<view>
+  <view wx:if="{{address.chatName}}" class="address" bindtap='addAddress'>
+    <view class="address_l">
+      <view class="address_l_t">
+        <text>{{address.chatName}}</text>
+        <text>{{address.mobile}}</text>
+      </view>
+      <view class="address_l_b">{{address.address}}</view>
+    </view>
+    <view class="address_r">
+      <image src="/images/icon/home_arrow.png"></image>
+    </view>
+  </view>
+  <view wx:else class='noAddress' bindtap='addAddress'>
+    <text>添加地址</text>
+  </view>
+
+  <view class="remarks">
+    <view>备注：</view>
+    <input placeholder='选填内容' value="{{remarks}}" bindinput='inpTxt'></input>
+  </view>
+  <view class="freight">
+    <view>运费</view>
+    <view>￥{{freight}}</view>
+  </view>
+  <view class='equally'>
+    <picker mode="date" class='eqpicker' value="{{threeLater}}" start="{{threeLater}}" end="{{tenLater}}" bindchange="bindDateChange">
+      <view class="picker">
+        <view>
+          <text>送达时间 </text>
+          <text class='intervalBind'>（大于等于1天且小于10天)</text>
+        </view>
+        <text class='datenum'>{{date}}</text>
+        <image class='submitRight' src='/images/icon/xialatupian.png'></image>
+      </view>
+    </picker>
+  </view>
+  <view class="exchange" bindtap='submit'>
+    <view>立即兑换</view>
+  </view>
+</view>

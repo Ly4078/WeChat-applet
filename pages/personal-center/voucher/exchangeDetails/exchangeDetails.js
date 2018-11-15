@@ -9,6 +9,7 @@ Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
     id:'',
+    rType: 1,   //券类型
     current:{}
   },
 
@@ -25,7 +26,7 @@ Page({
   getorderCoupon: function () {
     let that = this;
     wx.request({
-      url: this.data._build_url + 'orderCoupon/get/' + this.data.id,
+      url: this.data._build_url + 'orderCoupon/getDetail?id=' + this.data.id,
       header: {
         "Authorization": app.globalData.token
       },
@@ -48,7 +49,8 @@ Page({
             }
           }
           that.setData({
-            current: _data
+            current: _data,
+            rType: _data.type
           })
         }
       }
