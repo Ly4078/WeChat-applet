@@ -147,7 +147,7 @@ Page({
       }
     }
     if(actid == 41){
-      wx.navigateTo({
+      wx.switchTab({
         url: '/pages/index/productCategory/productCategory',
       })
     } else if (actid == 42){

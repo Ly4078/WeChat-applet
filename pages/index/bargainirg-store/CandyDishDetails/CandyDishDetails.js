@@ -762,7 +762,11 @@ Page({
   },
   //拨打电话
   callphone: function() {
-    const phone = this.data.soData.salePointOuts[0].phone;
+    let phone='';
+    if (this.data.soData.salePointOuts && this.data.soData.salePointOuts.length>0){
+      phone = this.data.soData.salePointOuts[0].phone;
+    }
+     
     if (phone) {
       wx.makePhoneCall({
         phoneNumber: phone

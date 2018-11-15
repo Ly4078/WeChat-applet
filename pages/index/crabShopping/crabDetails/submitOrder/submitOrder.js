@@ -399,6 +399,9 @@ Page({
     if (this.data.flag==4){
       _parms.groupId = this.data.groupId;
     }
+    if (this.data.flag != 1) {
+      _parms.actId = this.data.actId;
+    }
     wx.request({
       url: that.data._build_url + 'orderInfo/createNew',
       data: JSON.stringify(_parms),

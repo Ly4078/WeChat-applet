@@ -53,6 +53,7 @@ Page({
   },
   //获取商品列表数据 
   getlistdata: function (sortId){
+    // return
     let that = this;
     this.setData({ loading:true})
     wx.request({

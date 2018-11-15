@@ -32,9 +32,10 @@
             </view>
           </view>
         </view>
-
+        
         <view wx:if="{{comList.length < 1}}" class='placeholder'>
-          <image src="/images/icon/zhanweitu.png"></image>
+        <view class='ruahu'>再等等，商家正在入驻中</view>
+          <!-- <image src="/images/icon/zhanweitu.png"></image> -->
         </view>
 
         <view class='loadingBox boxload'>

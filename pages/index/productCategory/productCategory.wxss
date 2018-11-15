@@ -183,3 +183,9 @@ page, .categoryBox {
 .boxload{
   margin-left:45%;
 }
+.ruahu{
+  font-size:30rpx;
+  color: #969696;
+  margin-top: 30%;
+  margin-left: 17%;
+}
