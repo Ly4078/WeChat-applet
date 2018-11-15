@@ -41,9 +41,7 @@ Page({
     let q = decodeURIComponent(options.q)
     if (q) {
       if (utils.getQueryString(q, 'flag') == 1){
-        // console.log(utils.getQueryString(q, 'shopCode'))
         _val = utils.getQueryString(q, 'shopCode');
-        // this.getshopInfo(utils.getQueryString(q, 'shopCode'));
       }
     }
     
