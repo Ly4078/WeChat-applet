@@ -19,9 +19,8 @@ page {
 }
 
 .store_top {
-  height: 126rpx;
   width: 100%;
-  padding: 26rpx 32rpx 0 30rpx;
+  padding: 26rpx 32rpx 26rpx 30rpx;
   box-sizing: border-box;
   border-bottom: 1rpx solid #EBEBEB;
 }

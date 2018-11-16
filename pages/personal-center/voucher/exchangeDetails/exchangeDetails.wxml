@@ -51,7 +51,8 @@
       <!-- <text>{{current.salePoint.mobile}}</text> -->
     </view>
     <view class='expressageMsg'>
-      <text>{{current.salePoint ? current.salePoint.address : current.shopOut.address}}</text>
+      <text wx:if="{{current.salePoint.address}}">{{current.salePoint.address}}</text>
+      <text wx:else>{{current.shopOut.address ? current.shopOut.address : ''}}</text>
     </view>
   </view>
 </view>
