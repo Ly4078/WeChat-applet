@@ -7,24 +7,10 @@ import Public from '../../../../utils/public.js';
 var QR = require("../../../../utils/qrcode.js");
 var app = getApp();
 
-var village_LBS = function(that) {
-  wx.getLocation({
-    success: function(res) {
-      let latitude = res.latitude;
-      let longitude = res.longitude;
-      that.requestCityName(latitude, longitude);
-    },
-  })
-}
-
-
 Page({
-
-  /**
-   * 页面的初始数据
-   */
   data: {
     _build_url: GLOBAL_API_DOMAIN,
+    isshowlocation: false,
     id: '',
     imagePath: '',//动态二维码图片链接
     sendType: '', // 0-均有/1-快递/2-门店
@@ -59,17 +45,16 @@ Page({
     if (_token.length > 5) {
       app.globalData.token = _token;
     }
-    console.log('--------------------------60')
     //判断是否新用户
     if (app.globalData.userInfo.userId) {
-      console.log('--------------------------63');
       if (app.globalData.userInfo.mobile) {
-        console.log('--------------------------65');
         if (app.globalData.token) {
-          console.log('--------------------------67');
-          this.getorderCoupon();
+          if (app.globalData.userInfo.lat && app.globalData.userInfo.lng) {
+            this.getorderCoupon();
+          } else {
+            this.getlocation();
+          }
         } else {
-          console.log('--------------------------70');
           this.authlogin();
         }
       } else { //是新用户，去注册页面
@@ -78,7 +63,6 @@ Page({
         })
       }
     } else {
-      console.log('--------------------------79');
       this.findByCode();
     }
   },
@@ -94,7 +78,6 @@ Page({
           wx.hideLoading();
           let data = res.data.data,
             userId = app.globalData.userInfo.userId;
-
           if (!_this.data.imagePath) {
             url = _this.data._build_url + 'orderCoupon/getByCode/' + res.data.data.couponCode;
             let size = _this.setCanvasSize();//动态设置画布大小 
@@ -409,39 +392,42 @@ Page({
           let _token = 'Bearer ' + res.data.data;
           app.globalData.token = _token;
           if (app.globalData.userInfo.mobile) {
-            _this.getorderCoupon();
+            if (app.globalData.userInfo.lat && app.globalData.userInfo.lng) {
+              _this.getorderCoupon();
+            } else {
+              _this.getlocation();
+            }
           }
         }
       }
     })
   },
-  requestCityName(lat, lng) { //获取当前城市
-    let _this = this;
-    app.globalData.userInfo.lat = lat;
-    app.globalData.userInfo.lng = lng;
-    if (app.globalData.userInfo.city) {
-
-    } else {
-      wx.request({
-        url: 'https://apis.map.qq.com/ws/geocoder/v1/?location=' + lat + "," + lng + "&key=4YFBZ-K7JH6-OYOS4-EIJ27-K473E-EUBV7",
-        header: {
-          'content-type': 'application/json' // 默认值
-        },
-        success: (res) => {
-          if (res.data.status == 0) {
-            let _city = res.data.result.address_component.city;
-            if (_city == '十堰市' || _city == '武汉市') {
-              app.globalData.userInfo.city = _city;
+  getlocation: function () { //获取用户位置
+    let that = this,
+      lat = '',
+      lng = '';
+    wx.getLocation({
+      type: 'wgs84',
+      success: function (res) {
+        let latitude = res.latitude;
+        let longitude = res.longitude;
+        app.globalData.userInfo.lat = latitude;
+        app.globalData.userInfo.lng = longitude;
+        that.getorderCoupon();
+      },
+      fail: function (res) {
+        wx.getSetting({
+          success: (res) => {
+            if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其位置信息 
+              that.setData({
+                isshowlocation: true
+              })
             } else {
-              app.globalData.userInfo.city = '十堰市';
+              that.getlocation();
             }
-            app.globalData.oldcity = app.globalData.userInfo.city;
-            app.globalData.picker = res.data.result.address_component;
-            let userInfo = app.globalData.userInfo;
-            wx.setStorageSync('userInfo', userInfo);
           }
-        }
-      })
-    }
+        })
+      }
+    })
   }
 })

@@ -30,13 +30,20 @@ page{
   line-height: 40rpx;
 }
 .irtop{
+  display: flex;
+  justify-content: space-between;
+}
+.goodsSkuName {
+  width: 370rpx;
   color: #191919;
   font-size: 28rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
-.irtop text{
+.irtop_r{
   color: #FC5E2D;
   font-size: 24rpx;
-  float: right;
 }
 .irmoe{
   color: #555;

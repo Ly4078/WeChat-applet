@@ -178,13 +178,15 @@ page {
 }
 .voucherBox {
   width: 100%;
+  height: 100%;
   padding: 0 26rpx;
   box-sizing: border-box;
 }
 .voucher{
   width: 100%;
-  height:458rpx;
+  /* height:458rpx; */
   padding-top: 200rpx;
+  overflow: hidden;
 }
 .voucherItem{
   width: 705rpx;
@@ -411,6 +413,7 @@ height: 48rpx;
   position: relative;
   margin-bottom: 16rpx;
   box-sizing: border-box;
+  overflow: hidden;
 }
 
 .ticketBgc {

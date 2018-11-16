@@ -57,8 +57,8 @@ page {
   color: #808080;
 }
 
-.pl30 {
-  padding-left: 30rpx;
+.p30 {
+  padding: 0 24rpx 0 30rpx;
 }
 
 .infoWrap {
@@ -85,7 +85,7 @@ page {
 }
 
 .infoCont view {
-  line-height: 50rpx;
+  line-height: 46rpx;
 }
 
 .contTit {

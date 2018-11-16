@@ -17,16 +17,21 @@
   <view class="infoCont">
     <view class="contTit gray">
       <view class="contIcon"></view>
-      <text>有效期</text>
+      <text>有限期</text>
     </view>
-    <view class="pl30">自购买之日起，到活动结束，过期作废</view>
+    <view class="p30">自购买之日起，有限期为90天，过期作废。</view>
     <view class="contTit gray">
       <view class="contIcon"></view>
       <text>使用规则</text>
     </view>
-    <view class="pl30">周一至周日全天可用</view>
-    <view class="pl30">当活动菜品券面价格相同时，该券可跨店使用</view>
-    <view class="pl30">每桌消费仅限使用1张食典券</view>
-    <view class="pl30">购买后不支持退款、不兑现、不找零</view>
+    <view class="p30">1.所有消费者购买后均不兑现、不找零。</view>
+    <view class="p30">2.所有券仅限在手机微信支付款后使用。</view>
+    <view class="p30">3.免费领活动不与拼团、新人专区等其他优惠活动并存，均包邮。</view>
+    <view class="p30">4.若用户因个人原因推迟使用期限至过期,则丧失使用资格。</view>
+    <view class="p30">5.同一登录账号、同一手机号、同一终端设备号或其他合理显示为同一用户情形，均视为同一用户，每天限制使用3张行为。</view>
+    <view class="p30">6.通过不正当手段作弊、扰乱系统、批量注册、恶意攻击等行为，享7美食有权取消相关订单并禁止有恶意行为的账号再次下单。</view>
+    <view class="p30">7.活动用户需依照页面提示进行操作，如出现违规操作导致商品无法发放或无法正常使用券票、活动无法继续等异常错误，将取消用户参与资格。</view>
+    <view class="p30">8.拼团等所有商品库存有限，如因库存不足导致抢购失败或发货失败，订单将全额退款。</view>
+    <view class="p30">9.因可能存在系统缓存、页面更新导致价格变动异常等不确定性情况出现，如您发现页面异常，请等待页面刷新，并及时联系我们。</view>
   </view>
 </view>

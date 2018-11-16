@@ -5,8 +5,9 @@
       <image wx:else src="/images/icon/morentu.png"></image>
     </view>
     <view class='itemright'>
-      <view class='irtop'>{{item.p1}}
-        <text>已兑换</text>
+      <view class='irtop'>
+        <text class="goodsSkuName">{{item.goodsSkuName}}</text>
+        <text class="irtop_r">已兑换</text>
       </view>
       <view class='irmoe'>{{item.p2}}</view>
       <view class='irbut'>{{item.usedTime}}</view>
