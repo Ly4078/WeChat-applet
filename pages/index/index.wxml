@@ -167,7 +167,7 @@
               </view>
               <view class="price">
                 <text class="msg">可砍到</text>
-                <text class="afterprice">￥{{item.sellPrice}}</text>
+                <text class="afterprice">￥{{item.goodsPromotionRules[0].actAmount}}</text>
                 <text class="beforeprice">￥{{item.marketPrice}}</text>
               </view>
             </view>
@@ -184,7 +184,7 @@
           <!-- <image lazy-load='true' bindtap='toSecKillDetail' id="{{item.id}}" data-shopid="{{item.shopId}}"            mode='aspectFill' wx:else src='/images/icon/morentu.png'></image> -->
           <view class="Dishes-desc">
             <view class="desc-msg">{{item.shopName}}</view>
-            <view class="desc-loca">{{item.distance}}</view>
+            <!-- <view class="desc-loca">{{item.distance}}</view> -->
           </view>
         </view>
         <view class="Dishes-bottom">
