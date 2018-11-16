@@ -213,6 +213,9 @@ Page({
         city = _data[i].city;
       }
     }
+    let userInfo = wx.getStorageSync('userInfo')
+    userInfo.city = city
+    wx.setStorageSync("userInfo", userInfo)
     // app.globalData.userInfo.lat = lat;
     // app.globalData.userInfo.lng = lng;
     app.globalData.userInfo.city = city;

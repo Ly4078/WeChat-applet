@@ -3,7 +3,7 @@
 <!-- 骨架屏模块 -->
 <skeleton selector="skeleton" loading="spin" bgcolor="#FFF" wx:if="{{showSkeleton}}"></skeleton>
 
-<view class="container">
+<view class="container" >
   <!--顶部 定位 搜索 卷  -->
   <!-- 头部搜索 after  -->
   <view class="header">
@@ -15,9 +15,9 @@
       <image class="icon" src="/images/icon/home_bar_search.png"></image>
       <text>搜索</text>
     </view>
-    <view class="header-notice ">
+    <view class="header-notice " catchtap='tonewTips'>
       <image class="icon " src="/images/newIndex/xiaoxi.png"></image>
-      <text catchtap='tonewTips' class="tips" wx:if="{{isnewTips}}"></text>
+      <text  class="tips" wx:if="{{isnewTips}}"></text>
     </view>
   </view>
   <!-- 轮播组件 -->
@@ -37,9 +37,9 @@
   </view>
   <!-- 导航nav_one -->
   <view class='indexNavOne'>
-    <view wx:for="{{navs}}" wx:key="index" class='navitem' id="{{item.id}}" bindtap='handnavOne'>
-      <image class="img{{index+1}} skeleton-radius" src='{{item.img}}'></image>
-      <text class="navitem_txt skeleton-rect">{{item.name}}</text>
+    <view wx:for="{{navs}}" wx:key="index" data-url="{{item.linkUrl}}" class='navitem' id="{{item.id}}" bindtap='toLink'>
+      <image class="img{{index+1}} skeleton-radius" src='{{item.imgUrl}}'></image>
+      <text class="navitem_txt skeleton-rect">{{item.title}}</text>
     </view>
   </view>
 
@@ -200,7 +200,7 @@
       </view>
       <view class="video-item" catchtap='toArticle' data-id="{{item.id}}" data-zan="{{item.zan}}"  wx:for="{{allList[bigindex].topicText}}"  wx:key="index"  >
         <image mode='aspectFill'  src="{{item.homePic}}" style="width:700rpx;height:300rpx;border-radius:10rpx;"></image>
-        <!-- <image src="/images/icon/paly.png" class="play"></image> -->
+        <image src="/images/newIndex/shike.png" class="shike"></image>
         <view class="video-item-title">{{item.title}}</view>
       </view>
        
@@ -214,10 +214,6 @@
 
     </view>
   </view>
-
-
-
-
   <!--拼菜砍价列表  -->
   <view>
     <view class='loadingBox'>
@@ -232,6 +228,6 @@
     <image src='/images/icon/toTop.png'></image>
   </view>
 
-  <view class='buttomBox' wx:if="{{notData}}">已经到底啦~~~</view>
+  <view class='buttomBox' style="font-size:26rpx;color:#666;text-align:center;" wx:if="{{notData}}">已经到底啦~~~</view>
 
 </view>

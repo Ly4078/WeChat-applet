@@ -33,6 +33,12 @@ App({
         }
       }
     }
+    let that = this;
+    wx.getSystemInfo({
+      success: function(res) {
+        that.globalData.systemInfo = res
+      },
+    })
   },
   onPullDownRefresh: function() {
     wx.stopPullDownRefresh()

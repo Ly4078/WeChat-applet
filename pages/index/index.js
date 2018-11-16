@@ -30,88 +30,21 @@ Page({
     city: "", //默认值十堰市
     isshowlocation: false, //是否显示请求位置授权弹框
     carousel: [''], //轮播图
-    business: [], //商家列表，推荐餐厅
-    alltopics: [],
     currentTab: 0,
     isformid: true,
     loading: false,
-    istouqu: false,
-    isclose: false,
-    activityImg: '', //活动图
-    settime: null,
     // 改版新增变量 
-    _page: 1,
-    bargainList: [], //砍价拼菜
-    bargainListall: [], //拼菜砍价
-    secKillList: [], //限量秒杀
     fresh1: {}, //享7生鲜图片1
     fresh2: {}, //享7生鲜图片2
     fresh3: {}, //享7生鲜图片3
-    whhotdish: [],
-    syhotdish: [],
-    hotdish: [],
     bannthree: [],
-    navs: [{
-        img: '/images/newIndex/quan.png',
-        id: 1,
-        name: '砍价'
-      },
-      {
-        img: '/images/newIndex/canting.png',
-        id: 2,
-        name: '餐厅'
-      },
-      {
-        img: '/images/newIndex/jiudian.png',
-        id: 6,
-        name: '酒店'
-      },
-      {
-        img: '/images/newIndex/shengxian.png',
-        id: 7,
-        name: '生鲜'
-      },
-      //  {
-      //   img: '/images/icon/navruzhu.png',
-      //   id: 3,
-      //   name: '活动'
-      // },
-      {
-        img: '/images/newIndex/shenghuo.png',
-        id: 4,
-        name: '微生活'
-      }
-      // , {
-      //   img: '/images/icon/navhuodong.png',
-      //   id: 5,
-      //   name: '商家入驻'
-      // }
+    navs: [{imgUrl:'',title:'',flag:false},
+      { imgUrl: '', title: '' },
+      { imgUrl: '', title: '' },
+      { imgUrl: '', title: '' },
+      { imgUrl: '', title: '' }
     ],
-    Res: [{
-      img: '/images/icon/jxcanting.png',
-      name: '精选餐厅',
-      id: 1
-    }],
-    Act: [{
-      img: '/images/icon/home_sign.png',
-      name: '热门活动',
-      id: 3
-    }],
-    Bargain: [{
-      img: '/images/icon/bargainImg.png',
-      name: '拼菜砍价',
-      id: 4
-    }],
-    secKillArr: [{
-      img: '/images/icon/clock.png',
-      name: '限量秒杀',
-      id: 5
-    }],
-    crab: [{
-      img: '/images/icon/crab.png',
-      name: '享7生鲜',
-      id: 5
-    }]
+   
   },
   onLoad: function(options) {
     let that = this;
@@ -141,12 +74,12 @@ Page({
         fresh1: txtObj ? txtObj.fresh1 : '',
         fresh2: txtObj ? txtObj.fresh2 : '',
         fresh3: txtObj ? txtObj.fresh3 : '',
-        syhotdish: txtObj ? txtObj.sydish : {},
-        whhotdish: txtObj ? txtObj.whdish : {}
+        navs: txtObj.navs ? txtObj.navs:that.data.navs
       });
     }
     that.setData({
       bannthree,
+      windowHeight: app.globalData.systemInfo.windowHeight,
       carousel
     });
     that.getUserlocation();
@@ -186,7 +119,6 @@ Page({
       if (that.data.bannthree.length < 1) {
         that.gettoplistFor();
       }
-
     }
     that.data.timer = setTimeout(function() {
       if (!app.globalData.token) {
@@ -348,22 +280,19 @@ Page({
       success: function(res) {
         app.globalData.txtObj = res.data;
         wx.setStorageSync("txtObj", res.data);
-        let _navs = that.data.navs;
         if (res.data.flag == 0) { //0显示  
           app.globalData.isflag = true;
-          _navs[4].name = "短视频";
+          res.data.navs[4].title = "短视频";
         } else if (res.data.flag == 1) { //1不显示
           app.globalData.isflag = false;
-          _navs[4].name = "微生活";
+          res.data.navs[4].title = "微生活";
         }
-        that.setData({
-          navs: _navs
-        })
         if (res.data.fresh1) {
           that.setData({
             fresh1: res.data.fresh1,
             fresh2: res.data.fresh2,
             fresh3: res.data.fresh3,
+            navs: res.data.navs || []
           })
         }
       }

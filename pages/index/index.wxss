@@ -150,6 +150,7 @@ margin:0 1%;
   color: #191919;
   font-size: 26rpx;
   margin-top: 6px;
+  min-height: 34rpx;
   text-align: center;
 }
 
@@ -849,6 +850,7 @@ margin:0 1%;
   width: 700rpx;
   background: #fff;
   margin: 20rpx 0;
+  border-radius: 10rpx;
   overflow: hidden;
   position: relative;
 }
@@ -859,6 +861,15 @@ margin:0 1%;
   left: 50%;
   transform: translateX(-50%);
   top: 100rpx;
+}
+.video-item .shike{
+  position: absolute;
+  right: 0rpx;
+  top: 0rpx;
+  width: 60rpx;
+  background: rgba(0,0,0,0.1);
+  padding: 10rpx 20rpx;
+  height: 42rpx;
 }
 .video-item .video-item-title{
   color:#191919;

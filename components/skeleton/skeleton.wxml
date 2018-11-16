@@ -1,5 +1,5 @@
 <!--<canvas canvas-id="skeleton" disable-scroll="true"></canvas>-->
-<view style="width: {{systemInfo.width}}px; height: {{systemInfo.height}}px; background-color: {{bgcolor}}; position: absolute; left:0; top:0; z-index:9998; overflow: hidden;">
+<view catchtouchmove="myCatchTouch" style="width: {{systemInfo.width}}px; height: {{systemInfo.height}}px; background-color:{{bgcolor}}; position: fixed; left:0; top:0; z-index:999998; overflow: hidden;">
 
     <view wx:for="{{skeletonRectLists}}" wx:key="index" class="{{loading == 'chiaroscuro' ? 'chiaroscuro' : ''}}" style="width: {{item.width}}px; height: {{item.height}}px; background-color:#eee; position: absolute; left: {{item.left}}px; top: {{item.top}}px">
     </view>

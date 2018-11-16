@@ -19,6 +19,10 @@ Component({
 		skeletonRectLists: [],
 		skeletonCircleLists: []
 	},
+  myCatchTouch:function(e){
+    console.log(e)
+    return
+  },
 	attached: function () {
 		//默认的首屏宽高，防止内容闪现
 		const systemInfo = wx.getSystemInfoSync();
