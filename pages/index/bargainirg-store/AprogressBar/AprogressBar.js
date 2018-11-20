@@ -5,7 +5,7 @@ import {
 } from '../../../../utils/config/config.js';
 import canvasShareImg from '../../../../utils/canvasShareImg.js';
 var app = getApp();
-
+var requestTask = false
 var village_LBS = function(that) {
   wx.getLocation({
     success: function(res) {
@@ -842,7 +842,7 @@ Page({
     }
   },
   //热门推荐
-  hotDishList() {
+  hotDishList(types) {
     //browSort 0附近 1销量 2价格
     let that = this,
       _values="",
@@ -890,6 +890,7 @@ Page({
         url = that.data._build_url + 'sku/kjcList?' + _values;
       }
       _Url = encodeURI(url);
+      requestTask = true
       wx.request({
         url: _Url,
         method: 'GET',
@@ -903,24 +904,39 @@ Page({
             if (res.data.data.list && res.data.data.list.length > 0) {
               let list = res.data.data.list,
                 hotDishList = that.data.hotDishList;
+              var arr = [];
               for (let i = 0; i < list.length; i++) {
                 list[i].distance = utils.transformLength(list[i].distance);
                 hotDishList.push(list[i]);
+                arr.push(list[i]);
+              }
+             
+              if(types=='next'){
+                arr = [];
+                arr = hotDishList
+              }else{
+                arr = arr 
               }
               that.setData({
-                hotDishList: hotDishList
+                hotDishList: arr
               });
+              requestTask = false
               if (list.length < 6) {
                 that.setData({
                   flag: false
                 });
               }
             } else {
+              requestTask = false
               that.setData({
                 flag: false
               });
             }
+          }else{
+            requestTask = false
           } 
+        },fail() {
+          requestTask = false
         }
       })
     }
@@ -929,18 +945,25 @@ Page({
     if (!this.data.flag) {
       return false;
     }
+    if (requestTask){
+      return false
+    }
     this.setData({
       page: this.data.page + 1
     });
-    this.hotDishList();
+    this.hotDishList('next');
   },
   onPullDownRefresh: function() { //下拉刷新 
+    this.bargain();
+    if (requestTask) {
+      return false
+    }
     this.setData({
       flag: true,
       hotDishList: [],
       page: 1
     });
-    this.bargain();
+  
     this.hotDishList();
   },
   // 左上角返回首页
