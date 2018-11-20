@@ -181,7 +181,11 @@ page, .categoryBox {
   text-decoration: line-through;
 }
 .boxload{
-  margin-left:45%;
+  padding-left:45%;
+  height: 90rpx;
+  padding: 20rpx 0;
+  width: 100%;
+  box-sizing: border-box;
 }
 .ruahu{
   font-size:30rpx;

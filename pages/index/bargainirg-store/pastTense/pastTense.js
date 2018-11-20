@@ -21,7 +21,8 @@ Page({
     timeArr: [], //时间集合
     actid:'',
     titlenub: '0',
-    titles: ["菜品砍价", "商品砍价"]
+    titles: ["菜品砍价", "商品砍价"],
+    flag: true
   },
   onLoad: function (options) {
     let that = this;
@@ -86,10 +87,13 @@ Page({
       _this = this,
       url = "";
     if (this.data.titlenub == 0) {
-      url = _this.data._build_url + 'bargain/userRedis?rows=10&page=' + this.data.page;
+      url = _this.data._build_url + 'bargain/userRedis';
     } else {
-      url = _this.data._build_url + 'goodsBar/userRedis?actId=41&rows=10&page=' + this.data.page1;
+      url = _this.data._build_url + 'goodsBar/userRedis?actId=41';
     }
+    this.setData({
+      flag: false
+    });
     wx.request({
       url: url,
       header: {
@@ -120,12 +124,21 @@ Page({
           }
           setTimeout(() => {
             _this.setData({
-              showSkeleton: false
+              showSkeleton: false,
+              flag: true
             })
           }, 400)
+        } else {
+          _this.setData({
+            flag: false
+          });
         }
       }
-    })
+    }, () => {
+      _this.setData({
+        flag: true
+      });
+    });
   },
   updateTime(arr) { //倒时计
     let hours = '',
@@ -200,13 +213,5 @@ Page({
         }
       }
     }
-  },
-  onReachBottom:function(){ //上拉加载更多
-    if (this.data.titlenub == 0) {
-      this.setData({ page: this.data.page+1 })
-    } else {
-      this.setData({ page1: this.data.page1 + 1  })
-    }
-    this.vegetablesInquire(); //查询砍价列表
   }
 })

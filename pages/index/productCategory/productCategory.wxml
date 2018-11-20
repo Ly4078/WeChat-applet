@@ -38,7 +38,7 @@
           <!-- <image src="/images/icon/zhanweitu.png"></image> -->
         </view>
 
-        <view class='loadingBox boxload'>
+        <view class='boxload'>
           <i-spin custom wx:if="{{loading}}">
             <view class="loading"></view>
           </i-spin>
