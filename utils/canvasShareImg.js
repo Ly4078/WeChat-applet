@@ -3,6 +3,7 @@ var app = getApp();
 
 
 let canvasShareImg = function(imgUrl,text1,text2){
+  console.log('run')
   return new Promise((resolve, reject)=>{
   wx.downloadFile({
     url: imgUrl,

@@ -105,6 +105,7 @@ Page({
     });
   },
   mySecKill() { //我的秒杀列表
+  let that = this;
     wx.showLoading({
       title: '加载中...'
     })
@@ -209,6 +210,7 @@ Page({
   },
   //响应点击导航栏
   navbarTap: function (e) {
+    let _this = this;
     if (swichrequestflag) {
       return;
     }
@@ -223,7 +225,7 @@ Page({
     }, () => {
       if (idx == 0) {
         this.secKillList();
-        let _this = this;
+ 
         clearInterval(_this.data.timer);
         this.setData({
           timer: null,

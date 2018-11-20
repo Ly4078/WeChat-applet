@@ -3,6 +3,7 @@ var utils = require('../../../../utils/util.js');
 import {
   GLOBAL_API_DOMAIN
 } from '../../../../utils/config/config.js';
+import canvasShareImg from '../../../../utils/canvasShareImg.js';
 var app = getApp();
 
 var village_LBS = function(that) {
@@ -600,6 +601,11 @@ Page({
               // shopName: data.shopName,
               sellNum: data.sellNum
             });
+            canvasShareImg(data.picUrl, data.agioPrice, data.sellPrice).then(function(res){
+              that.setData({
+                shareImg: res
+              })
+            })
             if (data.actGoodsSkuOut && data.actGoodsSkuOut.categoryId){
               that.setData({
                 categoryId: data.actGoodsSkuOut.categoryId
@@ -965,8 +971,9 @@ Page({
     let initiator = this.data.initiator ? this.data.initiator : app.globalData.userInfo.userId;
     let userInfo = app.globalData.userInfo;
     return {
-      title: '帮好友砍价',
+      title: '帮我砍价！你也有机会直接拿走商品↓↓↓',
       desc: '享7美食',
+      imageUrl:this.data.shareImg,
       path: '/pages/index/bargainirg-store/AprogressBar/AprogressBar?refId=' + this.data.refId + '&shopId=' + this.data.shopId + '&skuMoneyOut=' + this.data.skuMoneyOut + '&skuMoneyMin=' + this.data.skuMoneyMin + '&initiator=' + initiator + '&groupId=' + this.data.groupId + '&lat=' + userInfo.lat + '&lng=' + userInfo.lng + '&city=' + userInfo.city + '&actId=' + this.data.actId,
       success: function(res) {
         // console.log('success')

@@ -821,6 +821,7 @@ button::after{
   height: 50rpx;
   padding: 20rpx 0;
   /* left: 0; */
+  text-align:center;
   width: 750rpx;
 }
 .loading{

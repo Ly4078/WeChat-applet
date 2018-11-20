@@ -820,7 +820,7 @@ Page({
     }
     return {
       // title: this.data.skuName,
-      title:"帮我砍价！你也有机会直接拿走商品↓↓↓",
+      title: "邀人砍价，享实惠~~ " + this.data.skuName,
       path: _path,
       imageUrl:that.data.shareImg,
       success: function(res) {

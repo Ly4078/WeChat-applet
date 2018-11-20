@@ -58,6 +58,6 @@ page{
 .placeholder image{
   top: 0;
 }
-.loadingBox {
+/* .loadingBox {
   padding-left: 340rpx;
-}
+} */
