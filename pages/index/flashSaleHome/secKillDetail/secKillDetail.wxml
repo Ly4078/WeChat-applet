@@ -112,3 +112,7 @@
     <view class='returnPrice' bindtap='toBuy'>立即购买</view>
   </view>
 </view>
+
+
+<!-- 自定义分享图片中 绘制价格   公共方法utils.js/canvasShareImg.js  调用方法canvasShareImg() -->
+<canvas  canvas-id="myCanvas" style="width:800px;height:642px;position: fixed;top: 0; left: 999px;"></canvas>

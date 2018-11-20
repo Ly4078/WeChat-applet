@@ -4,7 +4,6 @@ let app = getApp()
 let requesting = false;
 Page({
   data: {
-    posts_key: [],
     nearbydatas: ['由近到远'],
     fooddatas: ['全部', "自助餐", "湖北菜", "川菜", "湘菜", "粤菜", "咖啡厅", "小龙虾", "火锅", "海鲜", "烧烤", "江浙菜", "西餐", "料理", "其它美食"],
     sortingdatas: ['全部','人气排序'],
@@ -20,13 +19,19 @@ Page({
     searchValue:'',
     timer:null,
     posts_key:[],
+    SkeletonData:['','','','','',''],
     pageTotal:1,
     _val:"",
     showSkeleton:true
   },
 
   onLoad: function (options) {
-
+    let that = this;
+    setTimeout(()=>{
+      that.setData({
+        showSkeleton:false
+      })
+    },5000)
     let _val = "";
     if (options.cate) {
       this.data.businessCate = options.cate
@@ -221,7 +226,8 @@ Page({
           }else{
             this.setData({
               isclosure:false,
-              loading: false
+              loading: false,
+              showSkeleton:false
             })
             requesting = false;
           }
@@ -288,7 +294,6 @@ Page({
 
   //点击列表跳转详情
   onTouchItem: function (event) {
-   
     wx.navigateTo({
       url: '../merchant-particulars/merchant-particulars?shopid=' + event.currentTarget.id,
     })

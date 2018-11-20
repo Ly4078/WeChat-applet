@@ -1,3 +1,5 @@
+@import '/pages/index/dining-room/dining-room-tiem/dining-room-tiem-template.wxss';
+
 .search_arr{
   margin-top:  20rpx;
   background-color: #f5f5fa;
@@ -102,11 +104,11 @@
   position: relative;
 }
 
-.record_rwap{
+/* .record_rwap{
   padding:18rpx 4rpx 18rpx 0rpx;
   margin-left: 0rpx;
   border-bottom: 1px solid #e0e0e0;
-}
+} */
 
 .practical_right1{
   width: 65%;

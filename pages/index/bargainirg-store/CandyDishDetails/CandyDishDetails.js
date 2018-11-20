@@ -4,6 +4,7 @@ import {
   GLOBAL_API_DOMAIN
 } from '../../../../utils/config/config.js';
 var app = getApp();
+import canvasShareImg from '../../../../utils/canvasShareImg.js';
 let requesting = false;
 
 var village_LBS = function(that) {
@@ -345,6 +346,14 @@ Page({
             sellPrice: data.sellPrice,
             sellNum: data.sellNum
           });
+
+         //自定义分享图片中 绘制价格   公共方法utils.js/canvasShareImg.js  调用方法canvasShareImg()
+          canvasShareImg(data.picUrl, data.agioPrice, data.sellPrice).then(function(res){ 
+            that.setData({
+              shareImg:res
+            })
+          })
+          
         }
       }
     })
@@ -791,6 +800,7 @@ Page({
   },
   //分享给好友
   onShareAppMessage: function() {
+    let that = this;
     let userInfo = app.globalData.userInfo, _path = '', _values = '', _parms={};
     console.log('onShareAppMessage', this.data.actId)
     if(this.data.actId){
@@ -805,8 +815,10 @@ Page({
       _path: '/pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails?shopId=' + this.data.shopId + '&id=' + this.data.id + '&lat=' + userInfo.lat + '&lng=' + userInfo.lng + '&city=' + userInfo.city;
     }
     return {
-      title: this.data.skuName,
+      // title: this.data.skuName,
+      title:"帮我砍价！你也有机会直接拿走商品↓↓↓",
       path: _path,
+      imageUrl:that.data.shareImg,
       success: function(res) {
 
       },
@@ -816,4 +828,5 @@ Page({
       }
     }
   },
+
 })

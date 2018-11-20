@@ -3,6 +3,7 @@ page{
   background-color: #F5F5FA;
   width: 100%;
   height: 100%;
+  /* overflow: hidden; */
 }
 .msgbox{
   width: 638rpx;
@@ -50,6 +51,9 @@ page{
   left: 50%;
   margin-bottom: -40rpx;
   margin-left: -300rpx;
+}
+.placeholder{
+  overflow: hidden;
 }
 .placeholder image{
   top: 0;

@@ -19,7 +19,7 @@
         <image wx:if="{{skuPic}}" mode="aspectFill" src="{{skuPic}}"></image>
         <image wx:else mode="aspectFill" src="/images/icon/morentu.png"></image>
       </view>
-      <view class="fz36">{{skuName}}{{goodsNum > 1 ? 'X'+goodsNum : ''}}</view>
+      <view style="padding:0 20rpx;font-weight:600;" class="fz36">{{skuName}}{{goodsNum > 1 ? 'X'+goodsNum : ''}}</view>
       <view class="top_time fz24">有效期至：{{expiryDate}}</view>
       <view wx:if="{{!isReceived && isUsed == 0}}" class="detail_top_btn fz30">
         <view wx:if="{{sendType == 0 || sendType == 2}}" class="storeBtn" bindtap='exchange'>门店兑换</view>

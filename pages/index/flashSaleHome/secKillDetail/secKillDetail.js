@@ -3,6 +3,7 @@ var utils = require('../../../../utils/util.js');
 import {
   GLOBAL_API_DOMAIN
 } from '../../../../utils/config/config.js';
+import canvasShareImg from '../../../../utils/canvasShareImg.js';
 var app = getApp();
 
 Page({
@@ -143,6 +144,7 @@ Page({
   },
   //查询菜
   getDish() {
+    let that = this;
     let _parms = {
       Id: this.data.id,
       zanUserId: app.globalData.userInfo.userId,
@@ -162,6 +164,12 @@ Page({
           sellNum: data.sellNum,
           skuInfo: skuInfo.split('Œ')
         });
+        //自定义分享图片中 绘制价格   公共方法utils.js/canvasShareImg.js  调用方法canvasShareImg()
+        canvasShareImg(data.picUrl, data.agioPrice, data.sellPrice).then(function (res) {
+          that.setData({
+            shareImg: res
+          })
+        })
       }
     })
   },
@@ -374,9 +382,12 @@ Page({
   },
   //分享给好友
   onShareAppMessage: function() {
+    let that = this
     let _initiator= app.globalData.userInfo.userId;
     return {
-      title: this.data.skuName,
+      // title: this.data.skuName,
+      title: "2人秒杀仅需0.01元，" + this.data.skuName,
+      imageUrl: that.data.shareImg,
       path: '/pages/index/flashSaleHome/secKillDetail/secKillDetail?back=1&initiator=' + _initiator + '&shopId=' + this.data.shopId + '&id=' + this.data.id,
       success: function(res) {
 

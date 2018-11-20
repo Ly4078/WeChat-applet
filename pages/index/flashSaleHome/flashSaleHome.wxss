@@ -69,3 +69,19 @@ page{
   box-sizing: border-box;
   padding: 0 28rpx;
 }
+.flashSaleRig-row {
+  margin-top: 15rpx;
+  padding-top:0;
+  min-height: 48rpx;
+  min-width: 400rpx;
+}
+.fixationTop{
+  min-width: 186rpx;
+  min-height: 48rpx;
+  /* margin-bottom:15rpx; */
+}
+.flashSale-right .sumName{
+  min-height: 48rpx;
+  min-width: 400rpx;
+  margin-top: 15rpx;
+}

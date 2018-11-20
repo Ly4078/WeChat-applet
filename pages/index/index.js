@@ -99,7 +99,7 @@ Page({
       windowHeight: app.globalData.systemInfo.windowHeight,
       carousel
     });
-    that.getUserlocation();
+    
 
   },
   onShow: function () {
@@ -135,6 +135,7 @@ Page({
         that.gettoplistFor();
       }
     }
+    that.getUserlocation();
     that.data.timer = setTimeout(function () {
       if (!app.globalData.token) {
         that.findByCode();
@@ -317,7 +318,8 @@ Page({
             fresh1: res.data.fresh1,
             fresh2: res.data.fresh2,
             fresh3: res.data.fresh3,
-            navs: res.data.navs || []
+            navs: res.data.navs || [],
+            indexShare: res.data.indexShare || ''
           })
         }
       }
@@ -562,7 +564,7 @@ Page({
     let url = e.currentTarget.dataset.url;
     if (!url) {
       wx.showToast({
-        title: '功能正在建设中...',
+        title: '十二月正式开放',
         icon: "none"
       })
       return
@@ -708,13 +710,14 @@ Page({
 
   // //监听页面分享
   onShareAppMessage: function (res) {
+    let that = this;
     if (res.from === 'button') {
       // 来自页面内转发按钮
     }
     return {
-      title: '享7美食',
+      title: that.data.indexShare.title,
       path: 'pages/index/index',
-      imageUrl: 'https://xqmp4-1256079679.file.myqcloud.com/Colin_ajdlfadjfal.png',
+      imageUrl: that.data.indexShare.url,
       success: function (res) {
         // 转发成功
       },

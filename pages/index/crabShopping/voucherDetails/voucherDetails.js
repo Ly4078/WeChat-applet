@@ -262,8 +262,9 @@ Page({
   },
   onShareAppMessage: function() { //赠送好友转发
     return {
-      title: this.data.skuName,
-      imageUrl: this.data.skuPic,
+      title: '送你一张「' + this.data.skuName +'」兑换券',
+      // imageUrl: this.data.skuPic,
+      imageUrl:'https://xqmp4-1256079679.file.myqcloud.com/15927505686_share201811201231232.jpg',
       path: '/pages/index/crabShopping/voucherDetails/voucherDetails?id=' + this.data.id + '&shareId=' + app.globalData.userInfo.userId + '&versionNo=' + this.data.versionNo,
       success: function(res) {}
     }

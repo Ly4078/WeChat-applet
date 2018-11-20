@@ -88,11 +88,11 @@
               <!-- 人气 -->
               <view class="Popularity">
                 <image src="/images/icon/hot.png"></image>
-                <text>人气{{item.popNum}}</text>
+                <text>人气{{item.popNum || '0'}}</text>
               </view>
               <!-- 推荐菜 -->
               <view class="hotdish">
-                <text>{{item.skuName}}</text>
+                <text>{{item.skuName || ''}}</text>
               </view>
               <!--满减  -->
               <view class="fullreduction">

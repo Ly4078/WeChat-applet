@@ -46,7 +46,7 @@ Page({
         } else if (_data.status == 3) {
           _data.status2 = '已完成';
         } else if (_data.status == 10) {
-          _data.status2 = '已取消';
+          _data.status2 = '已取消'; 
         } else if (_data.status == 4) {
           _data.status2 = '退款申请中';
         } else if (_data.status == 5) {

@@ -4,6 +4,8 @@ var app = getApp();
 var swichrequestflag = false;
 Page({
   data: {
+    showSkeleton:true,
+    SkeletonData:['','','','','',''],
     navbar: ['附近美食', '我的秒杀'],
     currentTab: 0,
     showModal: true,
@@ -18,6 +20,11 @@ Page({
   },
   onShow: function(options) {
     let _this = this;
+    setTimeout( ()=>{
+      _this.setData({
+        showSkeleton:false
+      })
+    },3000)
     clearInterval(_this.data.timer);
     this.setData({
       timer: null,
@@ -47,6 +54,7 @@ Page({
     wx.hideLoading();
   },
   secKillList() { //附近美食
+  let that = this;
     let _parms = {
       zanUserId: app.globalData.userInfo.userId,
       browSort: 0,
@@ -77,18 +85,22 @@ Page({
         this.setData({
           aNearbyShop: aNearbyShop,
           listPages: listPages,
-          loading: false
+          loading: false,
+          
         }, () => {
+           setTimeout( ()=>{
+             that.setData({ showSkeleton: false }) 
+           },200)
           wx.hideLoading();
           });
         swichrequestflag = false;
       } else {
-        this.setData({ loading: false})
+        this.setData({ loading: false, showSkeleton: false})
         wx.hideLoading();
       }
     }, () => {
       wx.hideLoading();
-      this.setData({ loading: false })
+      this.setData({ loading: false, showSkeleton: false })
       swichrequestflag = false;
     });
   },
@@ -123,13 +135,22 @@ Page({
             countDown: ''
           });
         }
+        that.setData({
+          showSkeleton: false
+        })
         this.updateTime(arr);
         swichrequestflag = false;
       } else {
         wx.hideLoading();
+        that.setData({
+          showSkeleton: false
+        })
       }
     }, () => {
       wx.hideLoading();
+      that.setData({
+        showSkeleton: false
+      })
       swichrequestflag = false;
     });
   },

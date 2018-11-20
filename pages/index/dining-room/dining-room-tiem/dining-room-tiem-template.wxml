@@ -1,10 +1,50 @@
 
 <template name="tpeMerchant">
-  <view class='shopWrap' id="{{item.id}}" catchtap="onTouchItem">
+
+      <view class="hot-recoItem " catchtap='onTouchItem'  id="{{item.id}}">
+        <view class="hot-recoItem-left skeleton-rect">
+        <image-loader width="180rpx" height="180rpx" class='hot-recoItem-leftImg'  default-image='/images/icon/morentu.png' mode='aspectFill' original-image="{{item.logoUrl?item.logoUrl:'/images/icon/morentu.png'}}"  />
+
+          <!-- <image src="{{item.logoUrl}}" mode='aspectFill' class='hot-recoItem-leftImg'></image> -->
+        </view>
+        <view class="hot-recoItem-right">
+          <view class="title_tips skeleton-rect">
+            <text class="title">{{item.shopName}}</text>
+            <text class="tips quan">劵</text>
+            <text class="tips kan">砍</text>
+          </view>
+          <view class="hot-recoItem-right-bottom">
+            <view class="hot-recoItem-rightInfo">
+              <!-- 人气 -->
+              <view class="Popularity skeleton-rect">
+                <image src="/images/icon/hot.png"></image>
+                <text>人气{{item.popNum || '0'}}</text>
+              </view>
+              <!-- 推荐菜 -->
+              <view class="hotdish skeleton-rect">
+                <text wx:if="{{item.skuName}}">{{item.skuName || ''}}</text>
+              </view>
+              <!--满减  -->
+              <view class="fullreduction skeleton-rect">
+                <text wx:for="{{item.ruleDescs}}" wx:if="{{index <=1}}" wx:key="index">{{item}}</text>
+              </view>
+
+            </view>
+            <view class="hot-recoItem-rightLoca">
+              <text>{{item.distance}}</text>
+            </view>
+          </view>
+
+        </view>
+      </view>
+
+
+
+  <!-- <view class='shopWrap' id="{{item.id}}" catchtap="onTouchItem">
     <view class='navigationPractical'>
       <view class='practical_left1'>
         <image wx:if="{{item.logoUrl}}" lazy-load='true' class='practicalImg' mode="aspectFill" src="{{item.logoUrl}}" id='{{item.id}}' binderror='imageError'></image>
-      <!-- <image-loader wx:if="{{item.logoUrl}}" class-name="practicalImg"  default-image='/images/icon/morentu.png' mode='aspectFill' original-image='{{item.logoUrl}}' width="198rpx" height="202rpx" /> -->
+      <image-loader wx:if="{{item.logoUrl}}" class-name="practicalImg"  default-image='/images/icon/morentu.png' mode='aspectFill' original-image='{{item.logoUrl}}' width="198rpx" height="202rpx" />
         <image wx:else class='practicalImg'  lazy-load='true' mode="aspectFill" src="/images/icon/morentu.png"></image>
       </view>
       <view class='practical_right1'>
@@ -35,5 +75,5 @@
         </view>
       </view>
     </view>
-  </view>
+  </view> -->
 </template>

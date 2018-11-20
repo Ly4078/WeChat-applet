@@ -1,11 +1,13 @@
 <!--pages/index/notification/message/message.wxml-->
 
-<view class='msgbox' wx:for="{{data}}" wx:key="{{index}}" id="{{item.messageText.id}}" bindtouchstart="bindTouchStart" bindtouchend="bindTouchEnd" bindlongtap="bingLongTap" bindtap="bindTap">
+<view style="width:100%">
+  <view class='msgbox' wx:for="{{data}}" wx:key="{{index}}" id="{{item.messageText.id}}" bindtouchstart="bindTouchStart" bindtouchend="bindTouchEnd" bindlongtap="bingLongTap" bindtap="bindTap">
 
-  <view class='msgtitle'>
-    <text class='reddot' wx:if="{{!item.status}}"></text>{{item.messageText.title}}</view>
-  <view class='msgdate'>{{item.messageText.sendTime}}</view>
-  <view class='msgcontent'>{{item.messageText.content}}</view>
+    <view class='msgtitle'>
+      <text class='reddot' wx:if="{{!item.status}}"></text>{{item.messageText.title}}</view>
+    <view class='msgdate'>{{item.messageText.sendTime}}</view>
+    <view class='msgcontent'>{{item.messageText.content}}</view>
+  </view>
 </view>
 <view class='modal_box' wx:if="{{ismodel}}" catchtap='closemodel'>
   <view class='bindel' bindtap='delItem'>删 除</view>

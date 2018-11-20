@@ -1,4 +1,5 @@
 <import src="dining-room-tiem/dining-room-tiem-template.wxml" />
+<skeleton selector="skeleton" loading="spin" bgcolor="#FFF" wx:if="{{showSkeleton}}"></skeleton>
 <view class='modal_box  modal_box11' wx:if="{{isshowlocation}}">
   <view class='weizhi'>
     更多体验需要你授权位置信息
@@ -41,14 +42,14 @@
     </view>
   </view>
 
- <view class='dining_top'>
+ <view class='dining_top' >
       <view class="search" bindtap="seekTap">
-        <view class="search_arr">
+        <view class="search_arr skeleton-radius">
           <icon class="searchcion" size='20' type='search' catchtap="onSearchInp"></icon>
           <input class='inputs' placeholder="搜索商家" bindinput="onInputText" bindconfirm="onSearchInp" value='{{searchValue}}'/>
         </view>
       </view>
-      <view class='sonNavigation'  wx:if="{{!ismodel}}">
+      <view class='sonNavigation skeleton-rect'  wx:if="{{!ismodel}}">
         <view class='Navigation_data' id='1' catchtap='openmodel'>
           <text>附近</text>
           <image class='Navigation_img' src='/images/icon/restaurant_arrow.png'></image>
@@ -65,7 +66,7 @@
     </view>
   <view class='page_row'>
     <!-- 商家 -->
-    <block wx:for="{{posts_key}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
+    <block wx:for="{{showSkeleton?SkeletonData:posts_key}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
       <template is="tpeMerchant" data="{{item}}" />
     </block>
     <block wx:if="{{posts_key.length<1}}">
