@@ -2,6 +2,8 @@
   "navigationBarTitleText": "券包",
   "enablePullDownRefresh": false,
   "usingComponents": {
-    "i-spin": "../../../dist/spin/index"
+    "i-spin": "../../../dist/spin/index",
+    "skeleton": "/components/skeleton/skeleton",
+    "image-loader": "/components/image-loader"
   }
 }

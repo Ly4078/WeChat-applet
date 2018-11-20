@@ -57,13 +57,6 @@
   justify-content: center;
 }
 
-.iconLogo_sj {
-  width: 140rpx;
-  height: 100rpx;
-  padding-top: 28rpx;
-  border-radius: 8rpx;
-}
-
 .iconLogo-right {
   width: 75%;
   height: 212rpx;
@@ -181,15 +174,6 @@
   align-items: center;
 }
 
-.logistics-center-img{
-  width: 112rpx;
-  height: 112rpx;
-  background:rgba(255,255,255,1);
-  border:1px solid rgba(235,235,235,1);
-  margin-left: 28rpx;
-  border-radius: 8rpx;
-}
-
 .logistics-center-right{
   width: 76%;
   height: auto;
@@ -230,4 +214,32 @@
   font-size:30rpx;
   color:rgba(25,25,25,1);
   padding: 0rpx 24rpx 0rpx 10rpx;
+}
+
+.hot-recoItem-left {
+  width: 112rpx;
+  height: 112rpx;
+  background:rgba(255,255,255,1);
+  border:1px solid rgba(235,235,235,1);
+  overflow: hidden;
+  margin-left: 28rpx;
+}
+
+.hot-recoItem-left image {
+  width: 112rpx;
+  height: 112rpx;
+  border-radius: 8rpx;
+}
+
+.iconLogo_sj {
+  width: 140rpx;
+  height: 100rpx;
+  margin-top: 28rpx;
+  overflow: hidden;
+}
+
+.iconLogo_sj image {
+  width: 140rpx;
+  height: 100rpx;
+  border-radius: 8rpx;
 }

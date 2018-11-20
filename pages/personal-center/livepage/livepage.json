@@ -2,6 +2,8 @@
 {
   "navigationBarTitleText": "关注列表",
   "usingComponents": {
-    "i-spin": "../../../dist/spin/index"
+    "i-spin": "../../../dist/spin/index",
+    "skeleton": "/components/skeleton/skeleton",
+    "image-loader": "/components/image-loader"
   }
 }

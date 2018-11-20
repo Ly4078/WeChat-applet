@@ -6,6 +6,7 @@ var utils = require('../../../../utils/util.js')
 var app = getApp();
 Page({
   data: {
+    showSkeleton: true,
     _build_url: GLOBAL_API_DOMAIN,
     isHiddenLoading: true,
     isHiddenToast: true,
@@ -22,7 +23,13 @@ Page({
     titlenub: '0',
     titles: ["菜品砍价", "商品砍价"]
   },
-  onLoad: function(options) {
+  onLoad: function (options) {
+    let that = this;
+    setTimeout(() => {
+      that.setData({
+        showSkeleton: false
+      })
+    }, 5000)
     if (options.actid) {
       this.setData({
         actid: options.actid,
@@ -81,7 +88,7 @@ Page({
     if (this.data.titlenub == 0) {
       url = _this.data._build_url + 'bargain/userRedis?rows=10&page=' + this.data.page;
     } else {
-      url = _this.data._build_url + 'goodsBar/userRedis?rows=10&page=' + this.data.page1;
+      url = _this.data._build_url + 'goodsBar/userRedis?actId=41&rows=10&page=' + this.data.page1;
     }
     wx.request({
       url: url,
@@ -111,6 +118,11 @@ Page({
             });
             _this.updateTime(arr);
           }
+          setTimeout(() => {
+            _this.setData({
+              showSkeleton: false
+            })
+          }, 400)
         }
       }
     })

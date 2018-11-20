@@ -3,6 +3,7 @@ var app = getApp();
 var requestTask = [false,false,false];
 Page({
   data: {
+    showSkeleton: true,
     order_list: [],
     page: 1,
     orpage:1,
@@ -43,6 +44,12 @@ Page({
     elephant: 0
   },
   onLoad: function (options) {
+    let that = this;
+    setTimeout(() => {
+      that.setData({
+        showSkeleton: false
+      })
+    }, 5000)
     // console.log("options:", options)
     wx.showLoading({
       title: '加载中...'
@@ -170,6 +177,7 @@ Page({
   },
   // 查询物流订单列表
   getlogisticsList:function(val){
+    let that = this;
     let _parms = {
       // userId: app.globalData.userInfo.userId,
       row:10,
@@ -233,6 +241,11 @@ Page({
           requestTask[0] = false;
           wx.hideLoading();
         }
+        setTimeout(() => {
+          that.setData({
+            showSkeleton: false
+          })
+        }, 400)
       }else{
         this.setData({ loading: false })
         requestTask[0] = false;
@@ -309,7 +322,11 @@ Page({
             this.getOrderList();
           }
         }
-
+        setTimeout(() => {
+          that.setData({
+            showSkeleton: false
+          })
+        }, 400)
       } else {
         that.setData({
           reFresh: false,
@@ -347,6 +364,11 @@ Page({
             completed: true,
             loading: false
           });
+          setTimeout(() => {
+            that.setData({
+              showSkeleton: false
+            })
+          }, 400)
         } else {
           that.setData({
             completed: false,
@@ -387,6 +409,11 @@ Page({
             });
             console.log("shoporderlist:", that.data.shoporderlist)
           }
+          setTimeout(() => {
+            that.setData({
+              showSkeleton: false
+            })
+          }, 400)
         } else {
           that.setData({
             completed: false

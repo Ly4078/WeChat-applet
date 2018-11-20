@@ -1,5 +1,6 @@
 <import src="order-template-item/order-template-item.wxml" />
-
+<!-- 骨架屏模块 -->
+<skeleton selector="skeleton" loading="spin" bgcolor="#FFF" wx:if="{{showSkeleton}}"></skeleton>
 
 <!--导航条-->
 <view class="navbar">

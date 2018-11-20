@@ -12,13 +12,6 @@ page{
   border-top: 1px solid #EBEBEB;
 }
 
-.preImages{
-  width: 190rpx;
-  height: 190rpx;
-  margin: 30rpx 22rpx;
-  border-radius: 18rpx;
-}
-
 .preRight{
   width: 74%;
   padding-top: 22rpx;
@@ -135,4 +128,17 @@ page{
 }
 .actTab{
   border-bottom: 1px solid red;
+}
+
+.hot-recoItem-left {
+  width: 190rpx;
+  height: 190rpx;
+  margin: 30rpx 22rpx;
+  overflow: hidden;
+}
+
+.hot-recoItem-left image {
+  width: 190rpx;
+  height: 190rpx;
+  border-radius: 18rpx;
 }

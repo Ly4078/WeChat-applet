@@ -16,8 +16,9 @@
     </view>
     <view class='personnelOrder'>
       <view class='iconLogoWrap'>
-        <image class='iconLogo_sj' wx:if="{{item.logoUrl}}" src='{{item.logoUrl}}'></image>
-        <image class='iconLogo_sj' wx:else src='https://xqmp4-1256079679.file.myqcloud.com/text_449126809543213900.png'></image>
+        <view class="iconLogo_sj">
+          <image-loader width="140rpx" height="100rpx" default-image='https://xqmp4-1256079679.file.myqcloud.com/text_449126809543213900.png' mode='aspectFill' original-image="{{item.logoUrl?item.logoUrl:'https://xqmp4-1256079679.file.myqcloud.com/text_449126809543213900.png'}}"  />
+        </view>
       </view>
       <view class='iconLogo-right'>
         <view class='logo-right-top'>
@@ -54,7 +55,9 @@
    </view>
    <view class='logistics-center'>
     <view class='logistics-center-left'>
-      <image class='logistics-center-img' src='{{item.orderItemOuts[0].goodsSkuPic}}'></image>
+      <view class="hot-recoItem-left">
+        <image-loader width="112rpx" height="112rpx" class='hot-recoItem-leftImg'  default-image='/images/icon/morentu.png' mode='aspectFill' original-image="{{item.orderItemOuts[0].goodsSkuPic?item.orderItemOuts[0].goodsSkuPic:'/images/icon/morentu.png'}}"  />
+      </view>
     </view>
     <view class='logistics-center-right {{item.sendType == 2 ? "store" : ""}}'>
       <view wx:if="{{item.sendType != 2}}" class='logistics-ctn-name'><text>{{item.units?item.units:item.orderItemOuts[0].goodsSkuName}}</text></view>

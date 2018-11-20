@@ -1,4 +1,6 @@
 <import src="discount-template/discount-template.wxml" />
+<!-- 骨架屏模块 -->
+<skeleton selector="skeleton" loading="spin" bgcolor="#FFF" wx:if="{{showSkeleton}}"></skeleton>
 
 <view class="navbar">
   <form bindsubmit="submit" report-submit='true' wx:for="{{navbar}}" data-idx="{{index}}" wx:key="index">
@@ -24,8 +26,9 @@
         <image wx:if="{{item.isUsed == 0}}" class="ticketIcon" src="/images/icon/ticketIcon.png"></image>
         <view class="tickItem_inner">
           <view class="tickItem_top">
-            <image wx:if="{{item.skuPic}}" mode="aspectFill" src="{{item.skuPic}}"></image>
-            <image wx:else mode="aspectFill" src="/images/icon/morentu.png"></image>
+            <view class="hot-recoItem-left">
+              <image-loader width="88rpx" height="88rpx" class='hot-recoItem-leftImg'  default-image='/images/icon/morentu.png' mode='aspectFill' original-image="{{item.skuPic?item.skuPic:'/images/icon/morentu.png'}}"  />
+            </view>
             <view>
               <text class="{{item.isUsed == 1 ? 'gray' : ''}}">{{item.goodsSkuName}}</text>
             </view>

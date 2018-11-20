@@ -99,11 +99,11 @@ Page({
           }
           this.dishDetail(); //查询菜详情
           if (this.data.groupId) {
-            // this.bargain();
+            this.bargain();
           } else {
             this.createBargain();
           }
-          this.bargain();
+          // this.bargain();
         } else {
           // this.authlogin();
         }
@@ -373,6 +373,7 @@ Page({
             otherStatus: 1,
             groupId: res.data.data.groupId //生成团砍Id
           });
+          console.log(res.data.data.groupId);
           that.bargain();
         }
       }
@@ -390,6 +391,9 @@ Page({
       shopId: this.data.shopId,
       groupId: this.data.groupId
     };
+    if (this.data.actId == 41) {
+      _parms['actId'] = this.data.actId;
+    }
     for (var key in _parms) {
       _values += key + "=" + _parms[key] + "&";
     }
@@ -412,6 +416,7 @@ Page({
             data = res.data.data,
             reg = /^1[34578][0-9]{9}$/;
           if (data) {
+            console.log(data);
             let endTime = data[0].endTime.replace(/\-/g, "/"),
               max = (+_this.data.skuMoneyOut - _this.data.skuMoneyMin).toFixed(2),
               doneBargain = (+_this.data.skuMoneyOut - data[0].skuMoneyNow).toFixed(2),
@@ -445,6 +450,12 @@ Page({
               // actType: data[0].goodsSkuOut.actInfo.type ? data[0].goodsSkuOut.actInfo.type:'',
               peoplenum: data[0].peoplenum * 1 - 1
             });
+            if(_this.data.actId == 41) {
+              _this.setData({
+                totleKey: data[0].totleKey,
+                valueKey: data[0].valueKey
+              });
+            }
             // data.shift();
             let _arr = data.slice(1),
               arr = [],
@@ -808,9 +819,13 @@ Page({
         _soData = this.data.dishData,
         _values = "";
 
-      if (_this.data.actId) {
+      if (_this.data.actId && _this.data.actId != 41) {
         wx.navigateTo({
           url: '/pages/index/crabShopping/crabDetails/submitOrder/submitOrder?num=1&issku=3&picUrl=' + _soData.skuPic + '&sellPrice=' + _this.data.skuMoneyNow + '&id=' + _soData.id + '&actId=' + _this.data.actId + '&skuName=' + _soData.skuName + '&remark=' + _soData.remark + '&shopId=' + _soData.shopId + '&singleType=' + _soData.singleType + '&spuId=' + _soData.spuId + '&groupId=' + _this.data.groupId + '&flag=' + this.data.actType
+        })
+      } else if (_this.data.actId == 41) {
+        wx.navigateTo({
+          url: '/pages/index/crabShopping/crabDetails/submitOrder/submitOrder?num=1&issku=3&picUrl=' + _soData.skuPic + '&sellPrice=' + _this.data.skuMoneyNow + '&id=' + _soData.id + '&actId=' + _this.data.actId + '&skuName=' + _soData.skuName + '&remark=' + _soData.remark + '&shopId=' + _soData.shopId + '&singleType=' + _soData.singleType + '&spuId=' + _soData.spuId + '&groupId=' + _this.data.groupId + '&flag=' + this.data.actType + '&totleKey=' + this.data.totleKey + '&valueKey=' + this.data.valueKey
         })
       } else {
         // sellPrice = _this.data.skuMoneyNow + '元砍价券';

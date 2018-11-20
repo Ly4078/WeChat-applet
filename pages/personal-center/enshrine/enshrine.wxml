@@ -1,9 +1,14 @@
+<!-- 骨架屏模块 -->
+<skeleton selector="skeleton" loading="spin" bgcolor="#FFF" wx:if="{{showSkeleton}}"></skeleton>
+
 <view wx:if="{{posts_key.length > 0}}">
   <block wx:for="{{posts_key}}" wx:key="index">
     <view class='enshrineWrap' catchtap='enshrineXim' id="{{item.id}}">
       <view class='enshrineLeft'>
         <view class='enshrineImages-wrap'>
-          <image class='enshrineImages' src='{{item.logoUrl}}'></image>
+          <view class="hot-recoItem-left">
+            <image-loader width="198rpx" height="202rpx" class='hot-recoItem-leftImg'  default-image='/images/icon/morentu.png' mode='aspectFill' original-image="{{item.logoUrl?item.logoUrl:'/images/icon/morentu.png'}}"  />
+          </view>
         </view>
         <view class='enshrine-caip'>
           <text class='enshrine-name'>{{item.shopName}}</text>

@@ -1,7 +1,12 @@
+<!-- 骨架屏模块 -->
+<skeleton selector="skeleton" loading="spin" bgcolor="#FFF" wx:if="{{showSkeleton}}"></skeleton>
+
 <view class='meticulous' wx:if="{{myList.length > 0}}" wx:for="{{myList}}" wx:key="{{index}}">
   <view class='attention'>
     <view class='portraitWrap' id="{{item.userId}}" data-idx="{{item.refId}}" bindtap="toHomePage">
-      <image class='portrait' src="{{item.iconUrl}}"></image>
+      <view class="hot-recoItem-left">
+        <image-loader width="80rpx" height="80rpx" class='hot-recoItem-leftImg'  default-image='/images/icon/morentu.png' mode='aspectFill' original-image="{{item.iconUrl?item.iconUrl:'/images/icon/morentu.png'}}"  />
+      </view>
       <view class='portraitLeft'>
         <view class='portraitNickname'>
           <text>{{item.nickName ? item.nickName : item.userName}}</text>

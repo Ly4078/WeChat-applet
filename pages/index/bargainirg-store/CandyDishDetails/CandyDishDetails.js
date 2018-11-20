@@ -346,14 +346,13 @@ Page({
             sellPrice: data.sellPrice,
             sellNum: data.sellNum
           });
-
          //自定义分享图片中 绘制价格   公共方法utils.js/canvasShareImg.js  调用方法canvasShareImg()
-          canvasShareImg(data.picUrl, data.agioPrice, data.sellPrice).then(function(res){ 
+          canvasShareImg(that.data.picUrl, that.data.agioPrice, that.data.sellPrice).then(function(res){ 
+            console.log(res);
             that.setData({
               shareImg:res
             })
           })
-          
         }
       }
     })
@@ -447,6 +446,7 @@ Page({
         hotDishList: []
       });
     }
+    console.log(that.data.actId);
     if (app.globalData.userInfo.lat && app.globalData.userInfo.lng) {
       //browSort 0附近 1销量 2价格
 
@@ -621,8 +621,10 @@ Page({
         issnap: true
       })
     } else {
-      if (this.data.actId) {
+      if (this.data.actId && this.data.actId != 41) {
         url = that.data._build_url + 'goodsBar/skuRedis?skuId=' + this.data.id;
+      } else if (this.data.actId == 41) {
+        url = that.data._build_url + 'goodsBar/skuRedis?actId=41&skuId=' + this.data.id;
       } else {
         url = that.data._build_url + 'bargain/skuRedis?skuId=' + this.data.id;
       }
@@ -691,7 +693,9 @@ Page({
       page: 1
     });
     this.hotDishList();
-    this.dishList();
+    if (!this.data.actId) {
+      this.dishList();
+    }
   },
   getlocation: function() { //获取用户位置
     let that = this,
@@ -827,6 +831,5 @@ Page({
 
       }
     }
-  },
-
+  }
 })

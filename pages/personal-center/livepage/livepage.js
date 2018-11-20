@@ -7,6 +7,7 @@ var app = getApp();
 var requesting = false;
 Page({
   data: {
+    showSkeleton: true,
     _build_url: GLOBAL_API_DOMAIN,
     likeType: 1,
     myList: [],
@@ -14,7 +15,13 @@ Page({
     pageTotal:1,
     id:''
   },
-  onLoad: function(options) {
+  onLoad: function (options) {
+    let that = this;
+    setTimeout(() => {
+      that.setData({
+        showSkeleton: false
+      })
+    }, 5000)
     this.setData({
       likeType: options.likeType,
       voteUserId: options.userId,
@@ -84,6 +91,11 @@ Page({
           });
           requesting = false;
         }
+        setTimeout(() => {
+          that.setData({
+            showSkeleton: false
+          })
+        }, 400)
       } else {
         this.setData({
           flag: false,

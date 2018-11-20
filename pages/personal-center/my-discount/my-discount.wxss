@@ -447,12 +447,6 @@ height: 48rpx;
   border-bottom: 1rpx dotted #D1D1D1;
 }
 
-.tickItem_top image {
-  height: 88rpx;
-  width: 88rpx;
-  border-radius: 8rpx;
-  margin-right: 26rpx;
-}
 .tickItem_top view text {
   width: 420rpx;
   display: -webkit-box;
@@ -481,6 +475,15 @@ height: 48rpx;
   vertical-align: middle;
 }
 
-.item_bot_info text {
-  /* vertical-align: middle; */
+.hot-recoItem-left {
+  height: 88rpx;
+  width: 88rpx;
+  overflow: hidden;
+  margin-right: 26rpx;
+}
+
+.hot-recoItem-left image {
+  height: 88rpx;
+  width: 88rpx;
+  border-radius: 8rpx;
 }

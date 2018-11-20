@@ -33,13 +33,6 @@ page{
   align-items: center;
 }
 
-.portrait{
-  width: 80rpx;
-  height: 80rpx;
-  border-radius: 50%;
-  margin: 0rpx 28rpx 0rpx 28rpx;
-}
-
 .gender{
   width: 20rpx;
   height: 24rpx;
@@ -119,4 +112,17 @@ page{
 .noneBox image {
   width: 250rpx;
   height: 200rpx;
+}
+
+.hot-recoItem-left {
+  width: 80rpx;
+  height: 80rpx;
+  overflow: hidden;
+  margin: 0rpx 28rpx 0rpx 28rpx;
+}
+
+.hot-recoItem-left image {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
 }

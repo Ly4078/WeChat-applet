@@ -74,6 +74,12 @@ Page({
       groupId: options.groupId ? options.groupId : '',
       singleType: options.singleType ? options.singleType : '',
     })
+    if(this.data.actId == 41) {
+      this.setData({
+        totleKey: options.totleKey,
+        valueKey: options.valueKey
+      });
+    }
     app.globalData.OrderObj = options;
   },
   onShow: function(res) {
@@ -396,6 +402,10 @@ Page({
         orderItemShopId: '0'
       }]
     };
+    if(this.data.actId == 41) {
+      _parms['totalKey'] = this.data.totleKey;
+      _parms['valueKey'] = this.data.valueKey;
+    }
     if (this.data.flag==4){
       _parms.groupId = this.data.groupId;
     }
@@ -584,8 +594,10 @@ Page({
     }else{
       url = that.data._build_url + 'wxpay/shoppingMallForCouponNew?' + _value;
     }
-    if(this.data.actId){
+    if (this.data.actId && this.data.actId != 41){
       url = that.data._build_url + 'wxpay/shoppingMallForCouponNew?' + _value;
+    } else if (this.data.actId == 41) {
+      url = that.data._build_url + 'wxpay/shoppingMallForCouponNew?' + _value + '&actId=41';
     }
     _Url = encodeURI(url);
     wx.request({

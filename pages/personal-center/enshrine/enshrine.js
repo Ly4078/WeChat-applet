@@ -3,12 +3,21 @@ import { GLOBAL_API_DOMAIN } from '../../../utils/config/config.js';
 var app = getApp();
 Page({
   data: {
+    showSkeleton: true,
     _build_url: GLOBAL_API_DOMAIN,
     newshopid:'',
     posts_key: [],
     dish:[],
     page: 1,
     reFresh: true
+  },
+  onLoad() {
+    let that = this;
+    setTimeout(() => {
+      that.setData({
+        showSkeleton: false
+      })
+    }, 5000)
   },
   onShow: function() {
     this.getShareList();
@@ -82,6 +91,11 @@ Page({
               loading: false
             });
           }, 500)
+          setTimeout(() => {
+            that.setData({
+              showSkeleton: false
+            })
+          }, 400)
         } else {
           that.setData({
             reFresh: false,

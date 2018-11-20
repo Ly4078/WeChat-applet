@@ -25,7 +25,21 @@ page{
   justify-content: space-between;
 }
 
-.enshrineImages{
+.enshrineImages-wrap{
+  width: 34%;
+  height: 270rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hot-recoItem-left {
+  width: 198rpx;
+  height: 202rpx;
+  overflow: hidden;
+}
+
+.hot-recoItem-left image {
   width: 198rpx;
   height: 202rpx;
 }
@@ -35,14 +49,6 @@ page{
   height: 24rpx;
   vertical-align: middle;
   padding-right: 20rpx;
-}
-
-.enshrineImages-wrap{
-  width: 34%;
-  height: 270rpx;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 .enshrine-caip{

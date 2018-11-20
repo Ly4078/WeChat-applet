@@ -9,6 +9,7 @@ let requesting = false;
 let swichrequestflag = [false, false, false];
 Page({
   data: {
+    showSkeleton: true,
     _build_url: GLOBAL_API_DOMAIN,
     ticket_list: [],
     listData:[],
@@ -27,11 +28,14 @@ Page({
     tabs: ["我的票券", "赠送记录", "领取记录"],
     userId: app.globalData.userInfo.userId
   },
-  onLoad: function(options) {
+  onLoad: function (options) {
+    let that = this;
+    setTimeout(() => {
+      that.setData({
+        showSkeleton: false
+      })
+    }, 5000)
     console.log("options:", options)
-    wx.showLoading({
-      title: '加载中...'
-    })
     if (options.let){
       this.getTicketList();
       this.setData({ currentIndex:1})
@@ -129,7 +133,6 @@ Page({
     // this.getorderCoupon(0);
   },
   onUnload() {
-    wx.hideLoading();
   },
   toindex() { //去首页
     wx.switchTab({
@@ -144,7 +147,7 @@ Page({
           code: res.code
         }).then((res) => {
           if (res.data.code == 0) {
-            let _data = res.data.data;
+            let _data = res.data.data;  
             app.globalData.userInfo.userId = _data.id;
             for (let key in _data) {
               for (let ind in app.globalData.userInfo) {
@@ -178,13 +181,9 @@ Page({
           listData: []
         })
       }
-      wx.showLoading({
-        title: '数据加载中...',
-      })
       swichrequestflag[types] = true
       Api.orderCoupon(_parms).then((res) => {
         // wx.stopPullDownRefresh();
-        wx.hideLoading();
         that.setData({
           loading: false
         })
@@ -210,12 +209,15 @@ Page({
             this.setData({
               loading: false
             })
-            wx.hideLoading();
           }
           swichrequestflag[types] = false
+          setTimeout(() => {
+            that.setData({
+              showSkeleton: false
+            })
+          }, 400)
         }
       }, () => {
-        wx.hideLoading();
         that.setData({
           loading: false
         })
@@ -235,13 +237,9 @@ Page({
       };
       _parms.page = this.data.sendpage;
       _parms.sendUserId = app.globalData.userInfo.userId;
-      wx.showLoading({
-        title: '数据加载中...',
-      })
       swichrequestflag[types] = true
       Api.listCoupon(_parms).then((res) => {
         wx.stopPullDownRefresh();
-        wx.hideLoading();
         if (res.data.code == 0) {
           let _lists = res.data.data.list;
           if (_lists && _lists.length > 0) {
@@ -263,22 +261,23 @@ Page({
               sendTotal: Math.ceil(res.data.data.total / 10),
               loading: false
 
-            }, () => {
-              wx.hideLoading();
             })
           } else {
-            wx.hideLoading();
             this.setData({
               loading: false
             })
           }
           swichrequestflag[types] = false
+          setTimeout(() => {
+            that.setData({
+              showSkeleton: false
+            })
+          }, 400)
         }
         this.setData({
           loading: false
         })
       }, () => {
-        wx.hideLoading();
         this.setData({
           loading: false
         })
@@ -296,13 +295,9 @@ Page({
         page: this.data.recpage,
         receiveUserId: app.globalData.userInfo.userId
       };
-      wx.showLoading({
-        title: '数据加载中...',
-      })
       swichrequestflag[types] = true
       Api.listCoupon(_parms).then((res) => {
         wx.stopPullDownRefresh();
-        wx.hideLoading();
         that.setData({
           loading: false
         })
@@ -327,9 +322,13 @@ Page({
             this.setData({
               loading: false
             })
-            wx.hideLoading();
           }
           swichrequestflag[types] = false
+          setTimeout(() => {
+            that.setData({
+              showSkeleton: false
+            })
+          }, 400)
         }
       }, () => {
         this.setData({
@@ -342,9 +341,6 @@ Page({
   //获取我的票券
   getTicketList: function() {
     let that = this;
-    wx.showLoading({
-      title: '数据加载中...',
-    });
     let _token = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1NDE2Njg3MTAsImNyZWF0ZWQiOjE1NDEwNjM5MTAyNjEsInN1YiI6IjE1OTI2MTk3NTQ2In0.SSeAYcAqePu6DnP3zGzwI3xmeY_7FLTRKXccWR9kZ2_e0_RC8hvNH40U4hTqynhS5sbjcesBg0IKLv2N1RFFDw";
     if (!app.globalData.userInfo.userId) {
       this.findByCode();
@@ -362,7 +358,6 @@ Page({
           rows: 8
         },
         success: function(res) {
-          wx.hideLoading();
           that.setData({
             isUpdate: false,
             loading: false
@@ -407,8 +402,12 @@ Page({
                 loading: false
               })
               requesting = false
-              wx.hideLoading();
             }
+            setTimeout(() => {
+              that.setData({
+                showSkeleton: false
+              })
+            }, 400)
           } else {
             requesting = false
           }
@@ -421,7 +420,6 @@ Page({
             loading: false
           })
           requesting = false
-          wx.hideLoading();
         }
       })
     }
@@ -430,9 +428,6 @@ Page({
     if (requesting) {
       return;
     }
-    wx.showLoading({
-      title: '加载中...'
-    })
     this.setData({
       ticket_list: [],
       page: 1,

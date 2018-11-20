@@ -8,6 +8,7 @@ var requesting = false;
 
 Page({ 
   data: {
+    showSkeleton: true,
     _build_url: GLOBAL_API_DOMAIN,
     speciesList:'',
     data: [],
@@ -25,7 +26,13 @@ Page({
       duration: 2000
     })
   },
-  onLoad:function(){
+  onLoad: function () {
+    let that = this;
+    setTimeout(() => {
+      that.setData({
+        showSkeleton: false
+      })
+    }, 5000)
     this.getTicketaBlancees(); //金币余额
     this.getTicketList(); //获取劵列表
     wx.showLoading({
@@ -45,6 +52,7 @@ Page({
     });
   },
   getTicketList: function () { //获取劵列表   入参:userId
+    let that = this;
     let _parms = {
       userId: app.globalData.userInfo.userId,   //userId     
       type: 2,
@@ -83,6 +91,11 @@ Page({
         },()=>{
           wx.hideLoading();
         })
+        setTimeout(() => {
+          that.setData({
+            showSkeleton: false
+          })
+        }, 400)
       } else {
         this.setData({
           flag: false,
