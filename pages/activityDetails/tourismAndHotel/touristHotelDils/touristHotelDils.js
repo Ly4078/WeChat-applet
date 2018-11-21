@@ -1,6 +1,6 @@
 Page({
   data: {
-    
+    // showSkeleton: true
   },
   onLoad: function (options) {
     

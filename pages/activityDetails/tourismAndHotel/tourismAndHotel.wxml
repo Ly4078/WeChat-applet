@@ -13,10 +13,10 @@
   <!-- Tab切换栏 -->
   <view class='maximumList'>
     <view class='manListCenter'>
-        <view class="nav bc_white">
+        <!-- <view class="nav bc_white">
           <view class="{{selected?'red':'default'}} skeleton-rect" id="1" bindtap="selected">1元拼</view>
-          <view class="{{!selected?'red':'default'}} " id="2" bindtap="selected">0.1元拼</view>
-        </view>
+          <view class="{{!selected?'red':'default'}} skeleton-rect" id="2" bindtap="selected">0.1元拼</view>
+        </view> -->
 
         <!-- 1元拼购 -->
         <view class="{{selected?'show':'hidden'}}" bindtap='hoteDils'>

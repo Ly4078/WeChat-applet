@@ -1,8 +1,15 @@
+<!-- 骨架屏结构 -->
+<skeleton selector='skeleton' 
+          loading='spin' 
+          bgcolor='#fff' 
+          wx:if="{{showSkeleton}}">
+</skeleton>
+
 <view class=''>
   <view class='tripodsTop'>
-    <image class='tripods' mode='scaleToFill' src='https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1540552853724&di=0a4d6e521b7fe03b32f7b6c5e2d7395f&imgtype=0&src=http%3A%2F%2Fimg18.3lian.com%2Fd%2Ffile%2F201710%2F09%2F7484e80c55fc5dab5d2b4b81fc0b5fc6.png'></image>
+    <image class='tripods skeleton-rect' mode='scaleToFill' src='https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1540552853724&di=0a4d6e521b7fe03b32f7b6c5e2d7395f&imgtype=0&src=http%3A%2F%2Fimg18.3lian.com%2Fd%2Ffile%2F201710%2F09%2F7484e80c55fc5dab5d2b4b81fc0b5fc6.png'></image>
   </view>
-  <view class='detailsCen'>
+  <view class='detailsCen skeleton-rect'>
     <view class='detailssmall'>
       <text>距活动结束仅剩 </text>
     </view>
@@ -13,17 +20,17 @@
   </view>
   <view class='synopsisText'>
     <view class='synopsisTcen'>
-      <text class='toponymy'>漫滋松露巧克力 100g</text>
-      <view class='ruling'>
+      <text class='toponymy skeleton-rect'>漫滋松露巧克力 100g</text>
+      <view class='ruling skeleton-rect'>
         <view class='rulingBid'><text>￥1.1</text><text>￥2.1</text></view>
         <text class='inventory'>共1000份</text>
       </view>
     </view>
   </view>
-  <view class='businessTime'><text class='quantum'>温馨提示：参与活动的商品配送范围仅限:上海市、湖北省</text></view>
+  <view class='businessTime skeleton-rect'><text class='quantum'>温馨提示：参与活动的商品配送范围仅限:上海市、湖北省</text></view>
   <view class='plainText'>
     <view class='plainText-center'>
-      <view class='plainText-center-top'>
+      <view class='plainText-center-top skeleton-rect'>
         <text>拼团规则</text>
         <view class='reminder'>
           <text>未达拼团人数，自动全额原路退款</text>
@@ -33,15 +40,15 @@
       <view class='grade'>
         <view class='kernel'>
           <view class='process'>
-            <image src='https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/paymentes.png'></image>
+            <image class='skeleton-rect' src='https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/paymentes.png'></image>
             <view></view>
-            <image src='https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/ellipsees.png'></image>
+            <image  class='skeleton-rect' src='https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/ellipsees.png'></image>
             <view></view>
-            <image src='https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/tickwes.png'></image>
+            <image  class='skeleton-rect' src='https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/tickwes.png'></image>
             <view></view>
-            <image src='https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/bothews.png'></image>
+            <image  class='skeleton-rect' src='https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/bothews.png'></image>
           </view>
-          <view class='process aligning'>
+          <view class='process aligning skeleton-rect'>
             <text>付款开团</text>
             <text>邀新用户</text>
             <text>参团成功</text>
@@ -54,14 +61,14 @@
 
   <view class='plainText'>
     <view class='plainText-center'>
-      <view class='plainText-center-top'>
+      <view class='plainText-center-top skeleton-rect'>
         <text>商品详情</text>
       </view>
-      <view class='chandise'><text>该景区可能有存在高风险的游玩项目，携程建议您购买相关保险。出行前，建议您仔细阅读旅游安全的相关内容。抵达景区后，也请您不要忽略景区内的游玩提示或安全提示类信息。武汉欢乐谷实行“一票通玩”制，但园区餐饮、交通、雨衣及投币游戏等需要另外付费。(1)游客每人限享受一种优惠政策，拥有享受多重折扣资格的，按最低折扣计算惠票入园。</text></view>
+      <view class='chandise skeleton-rect'><text>该景区可能有存在高风险的游玩项目，携程建议您购买相关保险。出行前，建议您仔细阅读旅游安全的相关内容。抵达景区后，也请您不要忽略景区内的游玩提示或安全提示类信息。武汉欢乐谷实行“一票通玩”制，但园区餐饮、交通、雨衣及投币游戏等需要另外付费。(1)游客每人限享受一种优惠政策，拥有享受多重折扣资格的，按最低折扣计算惠票入园。</text></view>
     </view>
   </view>
   <view>
-    <image class='synopsis' src='http://lvyou8.ly286.cn/static/image/avatar/m3.jpg'></image>
+    <image class='synopsis skeleton-rect' src='http://lvyou8.ly286.cn/static/image/avatar/m3.jpg'></image>
   </view>
 
   <!-- 底部tab功能键 -->

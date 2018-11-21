@@ -18,6 +18,7 @@ Page({
     this.setData({ shadowFlag: true })
   },
   //进入详情
+  
   hoteDils:function(){
     wx.navigateTo({
       url: 'touristHotelDils/touristHotelDils',
