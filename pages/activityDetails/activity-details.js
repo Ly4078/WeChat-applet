@@ -160,7 +160,7 @@ Page({
       })
     } else if (actid == 43) {
       wx.navigateTo({
-        url: '/pages/activityDetails/tourismAndHotel/tourismAndHotel?id=' + actid,
+        url: '/packageA/pages/tourismAndHotel/tourismAndHotel?id=' + actid,
       })
     }
   },

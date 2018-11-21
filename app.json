@@ -5,8 +5,6 @@
     "pages/init/init",
     "pages/init/phone/phone",
     "pages/init/Agreement/Agreement",
-    "pages/activityDetails/tourismAndHotel/touristHotelDils/touristHotelDils",
-    "pages/activityDetails/tourismAndHotel/tourismAndHotel",
     "pages/index/crabShopping/crabDetails/submitOrder/submitOrder",
     "pages/index/crabShopping/crabDetails/crabDetails",
     "pages/index/crabShopping/voucherDetails/voucherDetails",
@@ -80,6 +78,16 @@
     "pages/index/crabShopping/storeList/storeList",
     "pages/index/crabShopping/getFailure/getFailure",
     "pages/index/crabShopping/express/express"
+  ],
+  "subpackages": [
+     {
+        "root": "packageA",
+        "name": "pack1",
+        "pages": [
+          "pages/tourismAndHotel/tourismAndHotel",
+          "pages/tourismAndHotel/touristHotelDils/touristHotelDils"
+        ]
+     }
   ],
   "window": {
     "backgroundTextStyle": "dark",
