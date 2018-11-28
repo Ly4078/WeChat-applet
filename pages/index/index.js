@@ -9,9 +9,9 @@ var app = getApp();
 var isgetHomeData = false
 var oldVideo = null,
   newVideo = null;
-var village_LBS = function (that) {
+var village_LBS = function(that) {
   wx.getLocation({
-    success: function (res) {
+    success: function(res) {
       let latitude = res.latitude;
       let longitude = res.longitude;
       that.requestCityName(latitude, longitude);
@@ -40,30 +40,30 @@ Page({
     fresh3: {}, //享7生鲜图片3
     bannthree: [],
     navs: [{
-      imgUrl: '',
-      title: '',
-      flag: false
-    },
-    {
-      imgUrl: '',
-      title: ''
-    },
-    {
-      imgUrl: '',
-      title: ''
-    },
-    {
-      imgUrl: '',
-      title: ''
-    },
-    {
-      imgUrl: '',
-      title: ''
-    }
+        imgUrl: '',
+        title: '',
+        flag: false
+      },
+      {
+        imgUrl: '',
+        title: ''
+      },
+      {
+        imgUrl: '',
+        title: ''
+      },
+      {
+        imgUrl: '',
+        title: ''
+      },
+      {
+        imgUrl: '',
+        title: ''
+      }
     ],
 
   },
-  onLoad: function (options) {
+  onLoad: function(options) {
     let that = this;
     setTimeout(() => {
       that.setData({
@@ -72,15 +72,15 @@ Page({
     }, 5000)
     //版本更新
     const updateManager = wx.getUpdateManager();
-    updateManager.onCheckForUpdate(function (res) {
+    updateManager.onCheckForUpdate(function(res) {
       // 请求完新版本信息的回调
       // console.log(res.hasUpdate)
     });
-    updateManager.onUpdateReady(function () {
+    updateManager.onUpdateReady(function() {
       // 新的版本已经下载好，调用 applyUpdate 应用新版本并重启
       updateManager.applyUpdate()
     });
-    updateManager.onUpdateFailed(function () {
+    updateManager.onUpdateFailed(function() {
       // 新的版本下载失败
     });
     let carousel = wx.getStorageSync("carousel") || [''];
@@ -99,10 +99,10 @@ Page({
       windowHeight: app.globalData.systemInfo.windowHeight,
       carousel
     });
-    
+
 
   },
-  onShow: function () {
+  onShow: function() {
     let that = this;
     //获取地理位置
     if (app.globalData.userInfo.city) {
@@ -128,15 +128,15 @@ Page({
       if (that.data.allList.length < 1) {
         that.gethomeData('reset')
       }
-      if (that.data.carousel[0] == ''){
-        that.getcarousel();//没有轮播图，请求轮播图
+      if (that.data.carousel[0] == '') {
+        that.getcarousel(); //没有轮播图，请求轮播图
       }
       if (that.data.bannthree.length < 1) {
         that.gettoplistFor();
       }
     }
     that.getUserlocation();
-    that.data.timer = setTimeout(function () {
+    that.data.timer = setTimeout(function() {
       if (!app.globalData.token) {
         that.findByCode();
       } else {
@@ -144,7 +144,7 @@ Page({
       }
     }, 5000)
   },
-  onHide: function () {
+  onHide: function() {
     let that = this;
     try {
       clearTimeout(that.data.timer);
@@ -152,7 +152,7 @@ Page({
 
     }
   },
-  getUserlocation: function () { //获取用户位置经纬度
+  getUserlocation: function() { //获取用户位置经纬度
     let that = this,
       _userInfo = app.globalData.userInfo;
     if (_userInfo.lat && _userInfo.lat && _userInfo.city) {
@@ -163,12 +163,12 @@ Page({
     }
     wx.getLocation({
       type: 'wgs84',
-      success: function (res) {
+      success: function(res) {
         let latitude = res.latitude,
           longitude = res.longitude;
         that.requestCityName(latitude, longitude);
       },
-      fail: function (res) {
+      fail: function(res) {
         wx.getSetting({
           success: (res) => {
             if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其位置信息          
@@ -213,7 +213,7 @@ Page({
     })
 
   },
-  findByCode: function () { //通过code查询用户信息
+  findByCode: function() { //通过code查询用户信息
     let that = this;
     wx.login({
       success: res => {
@@ -249,7 +249,7 @@ Page({
       }
     })
   },
-  authlogin: function () { //获取token
+  authlogin: function() { //获取token
     let that = this;
     wx.request({
       url: that.data._build_url + 'auth/login?userName=' + app.globalData.userInfo.userName,
@@ -258,7 +258,7 @@ Page({
       header: {
         'content-type': 'application/json' // 默认值
       },
-      success: function (res) {
+      success: function(res) {
         if (res.data.code == 0) {
           let _token = 'Bearer ' + res.data.data;
           app.globalData.userInfo.token = _token
@@ -288,14 +288,14 @@ Page({
       }
     })
   },
-  getconfig: function () { //请求配置数据
+  getconfig: function() { //请求配置数据
     let that = this;
     wx.request({
       url: this.data._build_url + 'version.txt',
       header: {
         "Authorization": app.globalData.token
       },
-      success: function (res) {
+      success: function(res) {
         app.globalData.txtObj = res.data;
         wx.setStorageSync("txtObj", res.data);
         if (res.data.flag == 0) { //0显示  
@@ -307,11 +307,10 @@ Page({
           }
         } else if (res.data.flag == 1) { //1不显示
           app.globalData.isflag = false;
-          try{
+          try {
             res.data.navs[4].title = "微生活";
-          }catch(err){
-          }
-       
+          } catch (err) {}
+
         }
         if (res.data.fresh1) {
           that.setData({
@@ -326,7 +325,7 @@ Page({
     })
   },
 
-  gettoplistFor: function () { //加载广告位，快捷入口
+  gettoplistFor: function() { //加载广告位，快捷入口
     let _list = [],
       _shop = [],
       _parms = {},
@@ -348,7 +347,7 @@ Page({
       }
     })
   },
-  gethomeData: function (types) {
+  gethomeData: function(types) {
     isgetHomeData = true;
     let locations = {}
     if (app.globalData.userInfo.lat && app.globalData.userInfo.lng && app.globalData.userInfo.city) {
@@ -377,7 +376,7 @@ Page({
       header: {
         "Authorization": app.globalData.token
       },
-      success: function (res) {
+      success: function(res) {
         if (res.data.code == '0') {
 
           var notData = true
@@ -447,7 +446,7 @@ Page({
       }
     })
   },
-  onReachBottom: function () {
+  onReachBottom: function() {
     let that = this;
     if (that.data.notData) { //没有数据啦
       return
@@ -469,17 +468,17 @@ Page({
     })
 
   },
-  gettips: function () {
+  gettips: function() {
     let that = this;
     wx.request({
       url: that.data._build_url + 'msg/unreadMessageTotal',
       header: {
         "Authorization": app.globalData.token
       },
-      success: function (res) {
+      success: function(res) {
         if (res.data.code == '0') {
           let total = '';
-          if(res.data.data.length){
+          if (res.data.data.length) {
             for (let i = 0; i < res.data.data.length; i++) {
               total += res.data.data[i].total
             }
@@ -491,7 +490,7 @@ Page({
       }
     })
   },
-  getcarousel: function () { //轮播图
+  getcarousel: function() { //轮播图
     let that = this,
       _parms = {};
     _parms = {
@@ -555,7 +554,7 @@ Page({
       }
     })
   },
-  tonewTips: function (e) {
+  tonewTips: function(e) {
     wx.navigateTo({
       url: '/pages/index/notification/notification',
     })
@@ -571,8 +570,8 @@ Page({
     }
     wx.navigateTo({
       url: url,
-      success: function (res) { },
-      fail: function (res) {
+      success: function(res) {},
+      fail: function(res) {
         wx.switchTab({
           url: url,
         })
@@ -584,19 +583,19 @@ Page({
       console.log(err)
     }
   },
-  toVideo: function (e) { //视频详情
+  toVideo: function(e) { //视频详情
     let event = e.currentTarget.dataset
     wx.navigateTo({
-      url: '/pages/activityDetails/video-details/video-details?id=' + event.id + '&zan=' + event.zan + '&userId=' + app.globalData.userInfo.userId,
+      url: '/pages/activityDetails/video-details/video-details?froms=index&id=' + event.id + '&zan=' + event.zan + '&userId=' + app.globalData.userInfo.userId,
     })
   },
-  toArticle: function (e) { //文章详情
+  toArticle: function(e) { //文章详情
     let event = e.currentTarget.dataset
     wx.navigateTo({
-      url: '/pages/discover-plate/dynamic-state/article_details/article_details?id=' + event.id + '&zan=' + event.zan + '&userId=' + app.globalData.userInfo.userId,
+      url: '/pages/discover-plate/dynamic-state/article_details/article_details?froms=index&id=' + event.id + '&zan=' + event.zan + '&userId=' + app.globalData.userInfo.userId,
     })
   },
-  onTouchItem: function (event) { //餐厅详情
+  onTouchItem: function(event) { //餐厅详情
     let id = event.currentTarget.dataset.id
     wx.navigateTo({
       url: '/pages/index/merchant-particulars/merchant-particulars?shopid=' + id,
@@ -636,7 +635,7 @@ Page({
     }
   },
 
-  onPageScroll: function (e) {
+  onPageScroll: function(e) {
     if (e.scrollTop > 400) {
       this.setData({
         toTops: true
@@ -681,7 +680,7 @@ Page({
       })
     }
   },
-  onPullDownRefresh: function () { //下拉刷新
+  onPullDownRefresh: function() { //下拉刷新
     let that = this;
     that.findByCode();
     setTimeout(() => {
@@ -697,19 +696,19 @@ Page({
     })
   },
 
-  userLocation: function () { // 用户定位
+  userLocation: function() { // 用户定位
     wx.navigateTo({
       url: 'user-location/user-location',
     })
   },
-  seekTap: function () { //用户搜索
+  seekTap: function() { //用户搜索
     wx.navigateTo({
       url: 'user-seek/user-seek',
     })
   },
 
   // //监听页面分享
-  onShareAppMessage: function (res) {
+  onShareAppMessage: function(res) {
     let that = this;
     if (res.from === 'button') {
       // 来自页面内转发按钮
@@ -718,10 +717,10 @@ Page({
       title: that.data.indexShare.title,
       path: 'pages/index/index',
       imageUrl: that.data.indexShare.url,
-      success: function (res) {
+      success: function(res) {
         // 转发成功
       },
-      fail: function (res) {
+      fail: function(res) {
         // 转发失败
       }
     }

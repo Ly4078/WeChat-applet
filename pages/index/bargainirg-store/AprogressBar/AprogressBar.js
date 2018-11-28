@@ -601,7 +601,9 @@ Page({
               // shopName: data.shopName,
               sellNum: data.sellNum
             });
-            canvasShareImg(data.picUrl, data.agioPrice, data.sellPrice).then(function(res){
+            let url = data.picUrl ? data.picUrl : data.skuPic
+            console.log(data)
+            canvasShareImg(url, that.data.skuMoneyMin, that.data.skuMoneyOut).then(function(res){
               that.setData({
                 shareImg: res
               })

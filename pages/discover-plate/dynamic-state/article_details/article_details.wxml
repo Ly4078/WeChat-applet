@@ -1,5 +1,6 @@
 <import src="../../../index/merchant-particulars/comment-template/comment-template.wxml" />
 <import src="../../../commentsOnUp/commentsOnUp.wxml" />
+<import src="/utils/wxParse/wxParse.wxml"/>
 
 <view class="newUserModal" wx:if="{{issnap}}">
   <view class='drawer_screen'>
@@ -16,7 +17,7 @@
 
   <view class='title'>{{details.title}}</view>
 
-  <view class='top' wx:if="{{_id}}">
+  <view class='top' wx:if="{{_id && hideUserinfo}}">
     <view class='avatar'>
       <image src='{{userInfo.iconUrl}}' mode="aspectFill" class='avaterimg'></image>
     </view>
@@ -32,23 +33,9 @@
 
   <view class='mid'>
 
-    <rich-text nodes="{{nodes}}" bindtap="tap"></rich-text>
+    <!-- <rich-text nodes="{{nodes}}" bindtap="tap"></rich-text> -->
 
-    <!-- <view wx:for="{{details.content}}" wx:key="{{index}}">
-      <view wx:if="{{item.type == 'text'}}" class='midtext'>{{item.value}}</view>
-      <view wx:if="{{item.type == 'img'}}" class='mindill'>
-        <image src='{{item.value}}' mode="aspectFill" class='midimg'></image>
-        <view class='imgnote' wx:if="{{item.txt}}">{{item.txt}}</view>
-      </view>
-      <view wx:if="{{item.type == 'video'}}" class='mindill'>
-        <image src='{{details.homePic}}' mode="aspectFill" class='myVideo' wx:if="{{!clickvideo}}"></image>
-         <video class="myVideo" src="{{item.value}}" controls objectFit="cover" wx:if="{{clickvideo}}" bindended="bindended" bindpause="bindended"  autoplay="true" direction="0"></video> 
-        <view class='imgnote' wx:if="{{item.txt}}">{{item.txt}}</view>
-        <view class="gastronomeName {{!item.isimg?'gastronomeNamevideo':''}}"  wx:if="{{!clickvideo}}" bindtap='videoclick'>
-          <image class='gasimg' src='/images/icon/paly.png' wx:if="{{!item.isimg}}"></image>
-        </view>
-      </view>
-    </view> -->
+  <template is="wxParse" data="{{wxParseData:article.nodes}}"/>
 
 
     <view wx:if="{{_id}}" class='scanpraise'>

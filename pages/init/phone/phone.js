@@ -158,8 +158,9 @@ Page({
               delta: 2
             })
           } else {
+            app.globalData.newcomer = 1
             wx.reLaunch({ //以拥有手机号码直接跳转
-              url: that.data.navigetToUrl ? that.data.navigetToUrl : '/pages/index/index',
+              url: that.data.navigetToUrl ? that.data.navigetToUrl: '/pages/index/index',
             })
           }
         }

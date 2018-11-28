@@ -3,6 +3,7 @@ import {
   GLOBAL_API_DOMAIN
 } from '../../../../utils/config/config.js';
 var utils = require("../../../../utils/util.js")
+var WxParse = require('../../../../utils/wxParse/wxParse.js');
 var app = getApp();
 Page({
 
@@ -25,7 +26,8 @@ Page({
     userName: '测试名称', //虚拟名称 暂用
     clickvideo: false,
     issnap: false,
-    cfrom: ''
+    cfrom: '',
+    hideUserinfo:true
   },
 
   /**
@@ -33,6 +35,11 @@ Page({
    */
   onLoad: function(options) {
     console.log('options:', options)
+    if(options.froms=='index'){
+      this.setData({
+        hideUserinfo:false
+      })
+    }
     if (options.cfrom == 'dy') {
       this.setData({
         cfrom: options.cfrom
@@ -50,10 +57,6 @@ Page({
         details: options
       })
     }
-    
-    // this.setcmtadd()
-  },
-  onShow:function(){
     if (app.globalData.userInfo.id) {
       // this.setData({
       //   userInfo: app.globalData.userInfo
@@ -63,6 +66,10 @@ Page({
     } else {
       this.findByCode();
     }
+    // this.setcmtadd()
+  },
+  onShow:function(){
+
   },
   // 初始化start
   findByCode: function() { //通过code查询用户信息
@@ -121,6 +128,7 @@ Page({
     })
   },
   gettopiclist: function(id) { //获取单个文章内容数据
+  let that = this;
     let _parms = {
       id: id,
       zanUserId: app.globalData.userInfo.userId,
@@ -131,6 +139,7 @@ Page({
     Api.getTopicByZan(_parms).then((res) => {
       if (res.data.code == 0) {
         let _data = res.data.data;
+        WxParse.wxParse('article', 'html', _data.content, that,10);
         _data.summary = utils.uncodeUtf16(_data.summary)
         _data.content = utils.uncodeUtf16(_data.content)
         _data.timeDiffrence = utils.timeDiffrence(res.data.currentTime, _data.updateTime, _data.createTime)

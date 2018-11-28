@@ -1,8 +1,5 @@
 <!-- 骨架屏结构 -->
-<skeleton selector='skeleton' 
-          loading='spin' 
-          bgcolor='#fff' 
-          wx:if="{{showSkeleton}}">
+<skeleton selector='skeleton' loading='spin' bgcolor='#fff' wx:if="{{showSkeleton}}">
 </skeleton>
 
 <view class='maximum'>
@@ -13,29 +10,43 @@
   <!-- Tab切换栏 -->
   <view class='maximumList'>
     <view class='manListCenter'>
-        <view class="nav bc_white">
+      <!-- <view class="nav bc_white">
           <view class="{{selected?'red':'default'}} skeleton-rect" id="1" bindtap="selected">1元拼</view>
           <view class="{{!selected?'red':'default'}} " id="2" bindtap="selected">0.1元拼</view>
-        </view>
+        </view> -->
 
-        <!-- 1元拼购 -->
-        <view class="{{selected?'show':'hidden'}}" bindtap='hoteDils'>
-          <view class='delayWrap'>
-              <view class='timeBar'><text>仅剩4天2小时</text></view>
-              <image class='selectedImg skeleton-rect' src='https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1540543818228&di=51f816a0352386ec9da9d958f081aadb&imgtype=0&src=http%3A%2F%2Fimgsrc.baidu.com%2Fimgad%2Fpic%2Fitem%2F8694a4c27d1ed21bcbbb18dfa66eddc451da3f9d.jpg'></image>
-            <view class='delayRight'>
-              <view class='delayText skeleton-rect'><text>我的快乐说了肯德基了杀戮空间烦死了说了快递费我的快乐</text></view>
-              <view class='tuxedo skeleton-rect'>满<text>1000</text>人开团<text class='tuxedoPeople'>835/1000</text></view>
-              <view class='moneyBtn skeleton-rect'>
-                <view class='ruling'><text>￥1.1</text><text>￥2.1</text></view>
-                <view class='moneyBtnRight'>1元参与</view>
+      <!-- 1元拼购 -->
+      <view class="{{selected?'show':'hidden'}}" bindtap='hoteDils' data-groupid="{{item.actGoodsSkuOut.id}}" data-id="{{item.id}}" wx:for="{{dataList}}" wx:key="index">
+        <view class='delayWrap'>
+
+          <view class="endtimeshadow" wx:if="{{item.actGoodsSkuOut.stopTime.isEnd}}">
+            <image mode='aspectFit' class='selectedImg skeleton-rect ' src="https://xqmp4-1256079679.file.myqcloud.com/15927505686_endtime2018112721321.png"></image>
+          </view>
+          <view wx:else class='timeBar'>
+            <text>仅剩{{item.actGoodsSkuOut.stopTime.day}}天{{item.actGoodsSkuOut.stopTime.hou}}小时</text>
+          </view>
+          <image mode='aspectFill' class='selectedImg skeleton-rect' src="{{item.skuPic?item.skuPic:'/images/icon/morentu.png'}}"></image>
+          <view class='delayRight'>
+            <view class='delayText skeleton-rect'>
+              <text>{{item.skuName}}</text>
+            </view>
+            <view class='tuxedo skeleton-rect'>满
+              <text>{{item.actGoodsSkuOut.peopleNum}}</text>人开团
+              <text class='tuxedoPeople'>{{item.actGoodsSkuOut.currentNum || '0'}}/{{item.actGoodsSkuOut.peopleNum}}</text>
+            </view>
+            <view class='moneyBtn skeleton-rect'>
+              <view class='ruling'>
+                <text>￥{{item.goodsPromotionRules[0].actAmount}}</text>
+                <text>￥{{item.sellPrice}}</text>
               </view>
+              <view class='moneyBtnRight'>1元参与</view>
             </view>
           </view>
         </view>
+      </view>
 
-        <!-- 0.1元拼购 -->
-        <view class="{{!selected?'show':'hidden'}}">
+      <!-- 0.1元拼购 -->
+      <!-- <view class="{{!selected?'show':'hidden'}}">
           <view class='delayWrap'>
           <view class='timeBar'><text>仅剩4天2小时</text></view>
             <image class='selectedImg' src='https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1540543818228&di=51f816a0352386ec9da9d958f081aadb&imgtype=0&src=http%3A%2F%2Fimgsrc.baidu.com%2Fimgad%2Fpic%2Fitem%2F8694a4c27d1ed21bcbbb18dfa66eddc451da3f9d.jpg'></image>
@@ -48,19 +59,22 @@
               </view>
             </view>
           </view>
-        </view>
+        </view> -->
+
     </view>
   </view>
 
-<!-- 活动详情 -->
+  <!-- 活动详情 -->
   <view>
-    <view class="zhezao" hidden="{{shadowFlag}}"  bindtap="conceal">
+    <view class="zhezao" hidden="{{shadowFlag}}" bindtap="conceal">
       <view class="terse_w">
-        <view class="t_image"  bindtap="conceal">
+        <view class="t_image" bindtap="conceal">
           <!-- <image class="t_image1" src="../../image/cross.png" ></image> -->
         </view>
         <view class="tanchu_view">
-        <view class='indicative'><text>—— 详情介绍 ——</text></view>
+          <view class='indicative'>
+            <text>—— 详情介绍 ——</text>
+          </view>
           <view class='referral'>
             <text>实现微信小程序的遮罩层实现微信小程序的遮罩层实现微信小程序的遮罩层实现微信小程序的遮罩层实现微信小程序的遮罩层实现微信小程序的遮罩层实现微信小程序的遮罩层实现微信小程序的遮罩层实现微信小程序的遮罩层实现微信小程序的遮罩层</text>
           </view>

@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/personal-center/personnel-order/logisticsDetails/logisticsDetails",
     "pages/index/web-view/index",
     "pages/init/init",
     "pages/init/phone/phone",
@@ -70,7 +71,7 @@
     "pages/personal-center/personnel-order/order-requesRefund/order-requesRefund",
     "pages/index/flashSaleHome/secKillDetail/secKillDetail",
     "pages/personal-center/personnel-order/logisticsDetails/toTheLogistics/toTheLogistics",
-    "pages/personal-center/personnel-order/logisticsDetails/logisticsDetails",
+
     "pages/personal-center/personnel-order/personnel-order",
     "pages/personal-center/popularize/popularize",
     "pages/activityDetails/holdingActivity/holdingActivity",

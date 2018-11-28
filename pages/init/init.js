@@ -38,6 +38,9 @@ Page({
     that.setData({
       navigetToUrl: path
     })
+    console.log('url')
+    console.log(path)
+    console.log('url')
     that.findByCode();
     // that.checksession();
     that.timer = setInterval(function() { //sessionkey五分钟失效,再次获取
@@ -273,8 +276,9 @@ Page({
               delta: 1
             })
           } else {
+            app.globalData.newcomer = 1
             wx.reLaunch({ //以拥有手机号码直接跳转
-              url: that.data.navigetToUrl ? that.data.navigetToUrl : '/pages/index/index',
+              url: that.data.navigetToUrl? that.data.navigetToUrl: '/pages/index/index',
             })
           }
         }

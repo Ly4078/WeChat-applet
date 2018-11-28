@@ -35,12 +35,18 @@ Page({
     voteNum: 0,
     cotitle: '',
     _iconUrl: '',
+    hideUserinfo:true,
     _nickName: ''
   },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
+    if(options.froms == 'index'){
+      this.setData({
+        hideUserinfo:false
+      })
+    }
     if (options.userId) {
       this.setData({
         _userId: options.userId

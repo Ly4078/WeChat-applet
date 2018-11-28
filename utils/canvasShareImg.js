@@ -54,6 +54,7 @@ let canvasToImage = function (resolve) {
       return resolve(res.tempFilePath)
     },
     fail: function (err) {
+      console.log('err')
     }
   })
 }

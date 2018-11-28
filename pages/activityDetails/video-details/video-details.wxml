@@ -33,7 +33,7 @@
 
     <cover-view class='iconbox' wx:if="{{!isComment && !videoUrl}}">
       <!-- 头像 -->
-      <cover-view class='iconli' bindtap='toplayer'>
+      <cover-view class='iconli' bindtap='toplayer' wx:if="{{hideUserinfo}}">
         <cover-image class="avatar first" src='{{_iconUrl}}' />
         <cover-view class='icontxt'>{{_nickName}}</cover-view>
       </cover-view>

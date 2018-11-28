@@ -627,20 +627,7 @@ Page({
       'signType': 'MD5',
       'paySign': _data.paySign,
       success: function(res) {
-        if (that.data.current.spuId == 3 && that.data.issku != 3) {
-          wx.redirectTo({
-            url:'pages/personal-center/my-discount/my-discount'
-            // url: '../../../../personal-center/voucher/voucher'
-          })
-        } else if (that.data.issku == 3) {
-          wx.redirectTo({
-            url: '../../superMarket/orderDetail/orderDetail?soId=' + that.data.orderId
-          })
-        } else {
-          wx.redirectTo({
-            url: '../../../../personal-center/personnel-order/logisticsDetails/logisticsDetails?soId=' + that.data.orderId,
-          })
-        }
+        
       },
       fail: function(res) {
         wx.showToast({

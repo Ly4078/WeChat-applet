@@ -1,10 +1,14 @@
 @import "../../../commentsOnUp/commentsOnUp.wxss";
 @import "../../../index/merchant-particulars/comment-template/comment-template.wxss"; 
+@import "../../../../utils/wxParse/wxParse.wxss";
 .detail{
-  width: 694rpx;
-  padding: 0 28rpx;
+  /* width: 694rpx;
+  padding: 0 28rpx; */
 }
 
+.mid view{
+    word-break:break-all; overflow:auto;
+}
 .evaluateSon{
   color: #B1B1B1;
 }
@@ -19,6 +23,8 @@
   width: 694rpx;
   font-size: 46rpx;
   margin:20rpx 0;
+  /* text-align: center; */
+  padding: 0 20rpx;
 }
 /*
 头部相关
@@ -71,10 +77,11 @@
   中间图文内容相关
   */
 .mid{
-  width: 694rpx;
+  /* width: 694rpx; */
   font-size: 32rpx;
   color: #191919;
   word-break:break-all;
+  padding: 0 20rpx;
 }
 .min img{
   width: 694rpx;

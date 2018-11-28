@@ -1,35 +1,148 @@
 import Api from '../../../../utils/config/api.js';
 import { GLOBAL_API_DOMAIN } from '../../../../utils/config/config.js';
 var utils = require('../../../../utils/util.js');
+import Countdown from '../../../../utils/Countdown.js';
+import canvasShareImg from '../../../../utils/canvasShareImg.js';
 import Public from '../../../../utils/public.js';
 var app = getApp();
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
     soId: '',
-    id:'',
+    id: '',
     Countdown: '',
     soDetail: {},
-    payObj:{},
-    ispay:true
+    payObj: {},
+    ispay: true
   },
-  onLoad: function(options) {
+  onLoad: function (options) {
+   
     this.setData({
-      soId: options.soId
+      soId: options.soId || ''
     })
   },
-  onShow: function() {
-    this.getorderInfoDetail();
+  onShow: function () {
+    this.findByCode()
   },
-  onPullDownRefresh:function(){
-    this.getorderInfoDetail();
+  onPullDownRefresh: function () {
+    this.findByCode()
+  },
+  findByCode: function () { //通过code查询用户信息
+    let that = this;
+    wx.login({
+      success: res => {
+        Api.findByCode({
+          code: res.code
+        }).then((res) => {
+          if (res.data.code == 0) {
+            let data = res.data.data;
+            console.log(res)
+            if (data.id) {
+              app.globalData.userInfo.userId = data.id;
+              for (let key in data) {
+                for (let ind in app.globalData.userInfo) {
+                  if (key == ind) {
+                    app.globalData.userInfo[ind] = data[key]
+                  }
+                }
+              }
+              that.authlogin(); //获取token
+            } else {
+              if (!data.mobile) { //是新用户，去注册页面
+                wx.reLaunch({
+                  url: '/pages/init/init'
+                })
+              } else {
+                that.authlogin();
+              }
+            }
+          } else {
+            that.findByCode();
+          }
+        })
+      }
+    })
+  },
+  authlogin: function () { //获取token
+    let that = this;
+    wx.request({
+      url: this.data._build_url + 'auth/login?userName=' + app.globalData.userInfo.userName,
+      method: "POST",
+      data: {},
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        if (res.data.code == 0) {
+          let _token = 'Bearer ' + res.data.data;
+          app.globalData.token = _token;
+          let userInfo = wx.getStorageSync('userInfo')
+          userInfo.token = _token
+          wx.setStorageSync("token", _token)
+          wx.setStorageSync("userInfo", userInfo)
+          if (app.globalData.userInfo.mobile) {
+            that.getorderInfoDetail();
+            that.getgroupOrderDetail();
+          } else {
+            wx.reLaunch({
+              url: '/pages/init/init',
+            })
+          }
+        }
+      }
+    })
+  },
+  getgroupOrderDetail:function(){
+    let that = this;
+    wx.request({
+      url: that.data._build_url + 'actGoodsSku/getActSkuListAndOrder?id=' + that.data.soId,
+      header: {
+        "Authorization": app.globalData.token
+      },
+      method: 'get',
+      success: function (res) {
+          if(res.data.code=='0' && res.data.data){
+            if (res.data.data.dueTime){
+              that.endTimerun(res.data.data.dueTime)
+            }
+              that.setData({
+                groupOrderDetail:res.data.data,
+                progress: parseInt((res.data.data.currentNum/res.data.data.peopleNum *10000)/100)
+              })
+          }
+
+      },fail:function(){
+        
+      }
+      })
+  },
+  endTimerun: function (endTime) {
+    let that = this;
+    that.countdownStart(endTime);
+    var timer = setInterval(() => {
+      if (that.data.Countdowns.isEnd) {
+        that.getgroupOrderDetail();
+        clearInterval(timer)
+      }
+      that.countdownStart(endTime);
+    }, 1000)
+
+  },
+  countdownStart: function (endTime) {
+    let that = this;
+    let times = Countdown(endTime)
+    that.setData({
+      Countdowns: times
+    })
   },
   //查询单个订单详情
-  getorderInfoDetail: function() {
-    let that = this, _dictCounty="";
+  getorderInfoDetail: function () {
+    let that = this, _dictCounty = "";
     Api.orderInfoDetail({
-      id: this.data.soId
+      id: that.data.soId || '157',
+      token:app.globalData.token
     }).then((res) => {
+    
       if (res.data.code == 0) {
         let _data = res.data.data;
         wx.stopPullDownRefresh();
@@ -48,37 +161,40 @@ Page({
         } else if (_data.status == 5) {
           _data.status2 = '已退款';
         }
-        if (_data.orderAddressOut){
-          if (_data.orderAddressOut.dictCounty &&_data.orderAddressOut.dictCounty != null){
+        if (_data.orderAddressOut) {
+          if (_data.orderAddressOut.dictCounty && _data.orderAddressOut.dictCounty != null) {
             _dictCounty = _data.orderAddressOut.dictCounty
           }
           _data.address = _data.orderAddressOut.dictProvince + _data.orderAddressOut.dictCity + _dictCounty + _data.orderAddressOut.detailAddress;
         }
-        
+
         _data.comTotal = _data.orderItemOuts[0].goodsPrice * _data.orderItemOuts[0].goodsNum;
         _data.comTotal = _data.comTotal.toFixed(2);
-        if (_data.orderItemOuts[0].packingPrice){
+        if (_data.orderItemOuts[0].packingPrice) {
           _data.orderItemOuts[0].packingPrice = _data.orderItemOuts[0].packingPrice.toFixed(2);
         }
-        if (_data.sendAmount && _data.sendAmount != null){
+        if (_data.sendAmount && _data.sendAmount != null) {
           _data.sendAmount = _data.sendAmount.toFixed(2);
         }
-        if (_data.orderItemOuts[0].unit == '盒'){
-          _data.units='礼盒装';
-        } else if (_data.orderItemOuts[0].unit == '斤'){
+        if (_data.orderItemOuts[0].unit == '盒') {
+          _data.units = '礼盒装';
+        } else if (_data.orderItemOuts[0].unit == '斤') {
           _data.units = '散装';
-        } else if (_data.orderItemOuts[0].unit == '张'){
-          if(_data.status == 2 || _data.status == 3){
-            _data.ust= true;
+        } else if (_data.orderItemOuts[0].unit == '张') {
+          if (_data.status == 2 || _data.status == 3) {
+            _data.ust = true;
           }
         }
         _data.realAmount = _data.realAmount.toFixed(2);
         _data.orderItemOuts[0].goodsPrice = _data.orderItemOuts[0].goodsPrice.toFixed(2);
-        if (_data.expressCode && _data.expressCode.length*1>10){
-          console.log('111')
-          _data.expressCode2 = _data.expressCode.substring(0,10);
+        if (_data.expressCode && _data.expressCode.length * 1 > 10) {
+          _data.expressCode2 = _data.expressCode.substring(0, 10);
         }
-        console.log('_data:', _data)
+        canvasShareImg(_data.orderItemOuts[0].goodsSkuPic, _data.skuAmount, _data.realAmount).then(function (res) {
+          that.setData({
+            shareImg: res
+          })
+        })
         that.setData({
           soDetail: _data
         })
@@ -86,7 +202,7 @@ Page({
     })
   },
   //换算截至时间
-  reciprocal: function(createTime) {
+  reciprocal: function (createTime) {
     let _createTime = '',
       oneDay = 60 * 60 * 1000 * 24,
       _endTime = '',
@@ -104,33 +220,31 @@ Page({
     return h + '小时' + m + '分';
   },
   //点击再次购买按钮
-  buyagain:function(){
+  buyagain: function () {
     let id = this.data.soDetail.orderItemOuts[0].goodsSkuSpecValues[0].id;
     wx.navigateTo({
       url: '../../../../pages/index/crabShopping/crabDetails/crabDetails?id=' + id
     })
   },
   //点击立即使用--进入提蟹券详情页面
-  nowuse:function(){
+  nowuse: function () {
     wx.navigateTo({
       url: "/pages/personal-center/my-discount/my-discount"
     })
   },
   //点击继续支付  -- 先更新openid
-  formSubmit:function(e){
-    console.log('carryPay')
+  formSubmit: function (e) {
     let _formId = e.detail.formId;
-    console.log("_formId:", _formId);
-    let that = this, _Url = "", url = "", urll="",_Urll="";
-    if (this.data.ispay){
+    let that = this, _Url = "", url = "", urll = "", _Urll = "";
+    if (this.data.ispay) {
       that.setData({
         ispay: false
       })
-      setTimeout(()=>{
+      setTimeout(() => {
         that.setData({
-          ispay:true
+          ispay: true
         })
-      },2000)
+      }, 2000)
 
       wx.login({
         success: res => {
@@ -170,22 +284,33 @@ Page({
         }
       })
     }
-    Public.addFormIdCache(_formId); 
-  },  
+    Public.addFormIdCache(_formId);
+  },
+  seeMore:function(){
+      let that = this;
+      wx.navigateTo({
+        url: '/packageA/pages/tourismAndHotel/tourismAndHotel?id=' + that.data.groupOrderDetail.actId,
+      })
+  },
+  seeMygoods:function(){
+    let that = this;
+    wx.navigateTo({
+      url: '/pages/personal-center/my-discount/my-discount',
+    })
+  },
   //调起微信支付
   wxpayment: function () {
-    console.log('wxpayment')
     let _parms = {}, that = this, _value = "", url = "", _Url = "";;
     _parms = {
       orderId: this.data.soId,
       openId: app.globalData.userInfo.openId
     };
-    
+
     for (var key in _parms) {
       _value += key + "=" + _parms[key] + "&";
     }
     _value = _value.substring(0, _value.length - 1);
-  
+
     if (that.data.soDetail.orderAddressOut && that.data.soDetail.orderAddressOut.id) {
       url = that.data._build_url + 'wxpay/doUnifiedOrderForShoppingMall?' + _value;
     } else {
@@ -213,7 +338,7 @@ Page({
       }
     })
   },
-  pay:function(){
+  pay: function () {
     let _data = this.data.payObj,
       that = this;
     wx.requestPayment({
@@ -224,6 +349,7 @@ Page({
       'paySign': _data.paySign,
       success: function (res) {
         that.getorderInfoDetail();
+        that.getgroupOrderDetail();
       },
       fail: function (res) {
         wx.showToast({
@@ -235,12 +361,12 @@ Page({
     })
   },
   //复制订单编号
-  copyCode: function() {
+  copyCode: function () {
     wx.setClipboardData({
       data: this.data.soDetail.orderCode,
-      success: function(res) {
+      success: function (res) {
         wx.getClipboardData({
-          success: function(res) {
+          success: function (res) {
             wx.showToast({
               title: '复制成功！',
               icon: 'none'
@@ -251,7 +377,7 @@ Page({
     })
   },
   //复制快递单号
-  copykdCode:function(){
+  copykdCode: function () {
     wx.setClipboardData({
       data: this.data.soDetail.expressCode,
       success: function (res) {
@@ -267,17 +393,17 @@ Page({
     })
   },
 
-  examineLogistics: function() { //实时物流入口--
+  examineLogistics: function () { //实时物流入口--
     wx.navigateTo({
       url: 'toTheLogistics/toTheLogistics',
-      success: function(res) {},
-      fail: function(res) {},
-      complete: function(res) {},
+      success: function (res) { },
+      fail: function (res) { },
+      complete: function (res) { },
     })
   },
   //确认收货
-  receipt:function(){
-    let that = this, url="",_Url="";
+  receipt: function () {
+    let that = this, url = "", _Url = "";
     url = this.data._build_url + 'orderInfo/confirmCeceipt?id=' + this.data.soId;
     _Url = encodeURI(url);
     wx.request({
@@ -293,15 +419,32 @@ Page({
       }
     })
   },
-  formSubmits:function(e){
+  formSubmits: function (e) {
     let _formId = e.detail.formId;
     this.toRefund();
-    Public.addFormIdCache(_formId); 
+    Public.addFormIdCache(_formId);
   },
-  toRefund:function(){
+  toRefund: function () {
     let that = this;
     wx.navigateTo({
       url: "/pages/personal-center/personnel-order/order-requesRefund/order-requesRefund?orderNumber=" + that.data.soDetail.orderCode,
     })
+  },
+  onShareAppMessage: function (e) {
+    let that = this;
+    if (e.from == 'button'){
+      return {
+        title: that.data.soDetail.orderItemOuts[0].goodsSkuName,
+        imageUrl: that.data.shareImg,
+        path: "/packageA/pages/tourismAndHotel/touristHotelDils/touristHotelDils?types=share&parentId=" + that.data.groupOrderDetail.actOrder.userId + '&actid=' + that.data.groupOrderDetail.actId + '&id=' + that.data.groupOrderDetail.skuId + '&groupid=' + that.data.groupOrderDetail.id
+      }
+    }
+    
+  },
+  progress: function () {
+    //  this.onShareAppMessage();
+    // var num = parseInt(Math.random()*100);
+    // console.log(num)
+    // this.setData({ progress:num})
   },
 })

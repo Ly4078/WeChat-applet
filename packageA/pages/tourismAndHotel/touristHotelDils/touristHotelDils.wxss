@@ -1,3 +1,5 @@
+
+@import "../../../../utils/wxParse/wxParse.wxss";
 page{
   background:rgba(245,245,250,1);
 }
@@ -42,6 +44,13 @@ page{
   color:rgba(255,255,255,1);
   line-height: 78rpx;
   text-indent: 24rpx;
+}
+.detailssmall .timebg{
+  background: #fff;
+  padding: 2rpx 8rpx;
+  border-radius: 4rpx;
+  color:#FB3160;
+  margin: 0 4rpx;
 }
 
 .detailsDse{
@@ -173,8 +182,8 @@ page{
   }
 
 .process image{
-  width: 80rpx;
-  height: 80rpx;
+  width: 60rpx;
+  height: 60rpx;
 }
 
 .process image:nth-child(1){
@@ -308,4 +317,11 @@ page{
 
 .returnSponsor view{
   padding-top: 12rpx;
+}
+
+.msgDetail view{
+  font-size: 28rpx!important;
+}
+.msgDetail image{
+  margin: 10rpx 0;
 }
