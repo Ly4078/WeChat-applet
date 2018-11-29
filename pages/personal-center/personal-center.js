@@ -425,7 +425,7 @@ Page({
     let id = e.currentTarget.id;
     if (id == 10) {
       wx.navigateTo({
-        url: 'personnel-order/personnel-order?toview=tuikuan&elephant=' + 5
+        url: 'personnel-order/personnel-order?toview=tuikuan&elephant=' + 4
       })
     } else {
       wx.navigateTo({

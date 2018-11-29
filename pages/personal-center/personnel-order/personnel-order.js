@@ -25,12 +25,12 @@ Page({
       {
         title: '待付款',
         id: '1'
-      }, {
-        title: '待收货',
-        id: '2'
+      // }, {
+      //   title: '待收货',
+      //   id: '2'
       }, {
         title: '已完成',
-        id: '3'
+        id: '2'
       }, {
         title: '已取消',
         id: '10'
@@ -68,7 +68,6 @@ Page({
     // this.getOrderList();
     // this.getshopOrderList();
     // this.getlogisticsList(this.data.lostr);
-    this.abcdeewq();
     // this.setData({
     //   elephant:0
     // })
@@ -93,18 +92,6 @@ Page({
   },
   onUnload() {
     wx.hideLoading();
-  },
-  //获取商家订单信息
-  abcdeewq: function (soid) {
-    let that = this, _parms = {};
-    _parms = {
-      userId: app.globalData.userInfo.userId,
-      soStatus: '2',
-      token: app.globalData.token
-    };
-    Api.myorderForShop(_parms).then((res) => {
-      console.log("res:",res)
-    })
   },
   //切换票券订单tab
   clickTab: function (event) {
@@ -185,7 +172,7 @@ Page({
       token: app.globalData.token
     };
     if (val) {
-      if (this.data.elephant ==5){
+      if (this.data.elephant ==4){
         _parms.otherStatus = val 
       }else{
         _parms.status = val 
@@ -193,7 +180,7 @@ Page({
      
     }
     if (!val && this.data.elephant !=0){
-      if (this.data.elephant == 5) {
+      if (this.data.elephant == 4) {
         _parms.otherStatus = this.data.commoditys[this.data.elephant].id
       }else{
         _parms.status = this.data.commoditys[this.data.elephant].id

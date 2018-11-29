@@ -153,7 +153,7 @@ page {
 .moneyBtnRight {
   width: 140rpx;
   height: 58rpx;
-  background: linear-gradient(0deg, rgba(255, 100, 84, 1) 0%, rgba(255, 146, 74, 1) 100%);
+  background: linear-gradient(to right, rgb(255, 118, 103) 0%, rgba(255, 146, 74, 1) 100%);
   border-radius: 28rpx;
   font-size: 28rpx;
   color: rgba(255, 255, 255, 1);

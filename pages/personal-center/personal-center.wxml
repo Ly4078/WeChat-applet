@@ -67,23 +67,23 @@
 
   <view class="mylistBox">
     <view class="mylistBox_inner">
-      <view class="myListTit" id="" bindtap='carefulness'>
+      <view class="myListTit" id="">
         <view>我的订单</view>
-        <view class="myListTit_r">
+        <!-- <view class="myListTit_r">
           <text>全部订单</text>
           <image class='myListArrows' src='/images/icon/home_arrow.png'></image>
-        </view>
+        </view> -->
       </view>
       <view class='mylistWrap'>
+        <view class='myList' id="" catchtap='carefulness'>
+          <image class='myListImages' src='/images/icon/p2.png'></image>
+          <view class='mylistText'>全部订单</view>
+        </view>
         <view class='myList' id="1" catchtap='carefulness'>
           <image class='myListImages' src='/images/icon/p1.png'></image>
           <view class='mylistText'>待付款</view>
         </view>
         <view class='myList' id="2" catchtap='carefulness'>
-          <image class='myListImages' src='/images/icon/p2.png'></image>
-          <view class='mylistText'>待收货</view>
-        </view>
-        <view class='myList' id="3" catchtap='carefulness'>
           <image class='myListImages' src='/images/icon/p3.png'></image>
           <view class='mylistText'>已完成</view>
         </view>
