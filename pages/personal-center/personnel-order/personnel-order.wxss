@@ -111,7 +111,7 @@ page {
 }
 .commoditys .item{
   position: relative;
-  width: 18%;
+  width: 20%;
   /* float: left; */
   /* flex: auto; */
   display: inline-block;

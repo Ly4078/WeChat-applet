@@ -26,8 +26,9 @@ page{
 .involvedIn{
   font-size: 24rpx;
   color:rgba(255,255,255,1);
-  text-align: center;
+  text-align: right;
   margin-top: 8rpx;
+  margin-right:10rpx;
 }
 
 .completely{
