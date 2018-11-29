@@ -210,7 +210,7 @@ Page({
   fromshare:function(){//来自分享进入时。
     let that = this;
     if (that.data.isShare && that.data.newcomer){
-       
+      
         setTimeout( ()=>{
           that.addPeople();
         },300)
@@ -353,6 +353,7 @@ Page({
   },
   pay:function (_data){
     let that = this;
+    wx.hideLoading();
     wx.requestPayment({
       'timeStamp': _data.timeStamp,
       'nonceStr': _data.nonceStr,

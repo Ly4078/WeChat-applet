@@ -1,3 +1,4 @@
+
 <view class="newUserModal loginuser" wx:if="{{istouqu}}" catchtouchmove='true'>
   <view class="drawer_screen"></view>
   <button class="newUserM_box" open-type="getUserInfo" bindgetuserinfo="againgetinfo">

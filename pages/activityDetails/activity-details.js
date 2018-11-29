@@ -24,7 +24,12 @@ Page({
       page: 1,
       flag: true
     })
-    this.getcatdata();
+    if(!app.globalData.token){
+      that.findByCode();
+    }else{
+      that.getcatdata();
+    }
+   
     if (!app.globalData.userInfo.unionId){
       wx.login({
         success: res => {
@@ -54,6 +59,71 @@ Page({
         istouqu: false
       })
     }
+  },
+  findByCode: function () { //通过code查询用户信息
+    let that = this;
+    wx.login({
+      success: res => {
+        Api.findByCode({
+          code: res.code
+        }).then((res) => {
+          if (res.data.code == 0) {
+            let data = res.data.data;
+            console.log(res)
+            if (data.id) {
+              app.globalData.userInfo.userId = data.id;
+              for (let key in data) {
+                for (let ind in app.globalData.userInfo) {
+                  if (key == ind) {
+                    app.globalData.userInfo[ind] = data[key]
+                  }
+                }
+              }
+              that.authlogin(); //获取token
+            } else {
+              if (!data.mobile) { //是新用户，去注册页面
+                wx.reLaunch({
+                  url: '/pages/init/init'
+                })
+              } else {
+                that.authlogin();
+              }
+            }
+          } else {
+            that.findByCode();
+          }
+        })
+      }
+    })
+  },
+  authlogin: function () { //获取token
+    let that = this;
+    wx.request({
+      url: this.data._build_url + 'auth/login?userName=' + app.globalData.userInfo.userName,
+      method: "POST",
+      data: {},
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        if (res.data.code == 0) {
+          let _token = 'Bearer ' + res.data.data;
+          app.globalData.token = _token;
+          let userInfo = wx.getStorageSync('userInfo')
+          userInfo.token = _token
+          wx.setStorageSync("token", _token)
+          wx.setStorageSync("userInfo", userInfo)
+          that.getcatdata();
+          if (app.globalData.userInfo.mobile) {
+           
+          } else {
+            wx.reLaunch({
+              url: '/pages/init/init',
+            })
+          }
+        }
+      }
+    })
   },
   againgetinfo: function () {
     let that = this;

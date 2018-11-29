@@ -99,7 +99,7 @@ page {
 .delayWrap .endtimeshadow{
   width: 270rpx;
   height:292rpx;
-  background: rgba(0,0,0,.7);
+  background: rgba(0,0,0,.5);
   position: absolute;
   left:0;
   top:0;

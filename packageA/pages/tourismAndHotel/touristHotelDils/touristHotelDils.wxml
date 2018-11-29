@@ -5,7 +5,7 @@
     <image class='tripods' mode='aspectFill' src='{{singleData.skuPic?singleData.skuPic:"/images/icon/morentu.png"}}'></image>
   </view>
   <view class='detailsCen'>
-    <view class='detailssmall'>
+    <view class='detailssmall' wx:if="{{singleData.actGoodsSkuOut.state =='1' }}">
       <text>距活动结束仅剩 </text>
       <text class="timebg">{{Countdowns.day || '00'}}</text>
       <text>天</text>
@@ -14,6 +14,9 @@
       <text class="timebg">{{Countdowns.min || '00'}}</text>
       <text>:</text>
       <text class="timebg">{{Countdowns.sec || '00'}}</text>
+    </view>
+    <view class='detailssmall' wx:if="{{singleData.actGoodsSkuOut.state !='1' }}">
+      <text>该活动已结束 </text>
     </view>
     <view class='detailsDse'>
       <view class='involvedIn'>已参团人数
@@ -99,12 +102,12 @@
       <text style="line-height:80rpx;">查看已参团详情</text>
     </view>
     <view wx:else>
-      <view class='returnSponsor' style="background:#ccc" wx:if="{{Countdowns.isEnd || singleData.actGoodsSkuOuts[0].currentNum >= singleData.actGoodsSkuOuts[0].peopleNum}}">
+      <view class='returnSponsor' style="background:#ccc" wx:if="{{Countdowns.isEnd || singleData.actGoodsSkuOuts[0].currentNum >= singleData.actGoodsSkuOuts[0].peopleNum || singleData.actGoodsSkuOut.state =='2' || singleData.actGoodsSkuOut.state =='3'}}">
         <text style="line-height:80rpx;color:#fff;">该团已结束</text>
       </view>
     </view>
 
-    <view class='returnSponsor' wx:if="{{groupStatus.state == '1' && !Countdowns.isEnd && singleData.actGoodsSkuOuts[0].currentNum < singleData.actGoodsSkuOuts[0].peopleNum }}" catchtap='sponsorVgts'>
+    <view class='returnSponsor' wx:if="{{groupStatus.state == '1'  && singleData.actGoodsSkuOuts[0].currentNum < singleData.actGoodsSkuOuts[0].peopleNum && singleData.actGoodsSkuOut.state =='1' }}" catchtap='sponsorVgts'>
       <view>￥
         <text>{{singleData.goodsPromotionRules[0].actAmount}}</text>
       </view>

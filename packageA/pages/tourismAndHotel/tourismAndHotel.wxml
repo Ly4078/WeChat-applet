@@ -19,7 +19,7 @@
       <view class="{{selected?'show':'hidden'}}" bindtap='hoteDils' data-groupid="{{item.actGoodsSkuOut.id}}" data-id="{{item.id}}" wx:for="{{dataList}}" wx:key="index">
         <view class='delayWrap'>
 
-          <view class="endtimeshadow" wx:if="{{item.actGoodsSkuOut.stopTime.isEnd}}">
+          <view class="endtimeshadow" wx:if="{{item.actGoodsSkuOut.state =='2' || item.actGoodsSkuOut.state =='3'}}">
             <image mode='aspectFit' class='selectedImg skeleton-rect ' src="https://xqmp4-1256079679.file.myqcloud.com/15927505686_endtime2018112721321.png"></image>
           </view>
           <view wx:else class='timeBar'>
@@ -39,12 +39,14 @@
                 <text>￥{{item.goodsPromotionRules[0].actAmount}}</text>
                 <text>￥{{item.sellPrice}}</text>
               </view>
-              <view class='moneyBtnRight'>1元参与</view>
+              <view class='moneyBtnRight' wx:if="{{item.actGoodsSkuOut.state == '1'}}">1元参与</view>
+              <view class='moneyBtnRight' style="background:#ccc;"  wx:if="{{item.actGoodsSkuOut.state == '2'}}">开团成功</view>
+              <view class='moneyBtnRight' style="background:#ccc;"  wx:if="{{item.actGoodsSkuOut.state == '3'}}">开团失败</view>
             </view>
           </view>
         </view>
       </view>
-
+      
       <!-- 0.1元拼购 -->
       <!-- <view class="{{!selected?'show':'hidden'}}">
           <view class='delayWrap'>
