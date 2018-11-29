@@ -71,14 +71,19 @@
     "pages/personal-center/personnel-order/order-requesRefund/order-requesRefund",
     "pages/index/flashSaleHome/secKillDetail/secKillDetail",
     "pages/personal-center/personnel-order/logisticsDetails/toTheLogistics/toTheLogistics",
-
     "pages/personal-center/personnel-order/personnel-order",
     "pages/personal-center/popularize/popularize",
     "pages/activityDetails/holdingActivity/holdingActivity",
     "pages/index/productCategory/productCategory",
     "pages/index/crabShopping/storeList/storeList",
     "pages/index/crabShopping/getFailure/getFailure",
-    "pages/index/crabShopping/express/express"
+    "pages/index/crabShopping/express/express",
+    "pages/personal-center/wallet/wallet",
+    "pages/personal-center/wallet/addBanksCard/addBanksCard",
+    "pages/personal-center/wallet/BanksCard/BanksCard",
+    "pages/personal-center/wallet/award/award",
+    "pages/personal-center/wallet/walletDetail/walletDetail",
+    "pages/personal-center/wallet/withdraw/withdraw"
   ],
   "subpackages": [
      {

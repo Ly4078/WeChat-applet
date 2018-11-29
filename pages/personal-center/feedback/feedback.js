@@ -34,27 +34,23 @@ Page({
       },
       {
         id: 8,
-        issueName: '9.邀请好友换大闸蟹活动规则？'
+        issueName: '9.订单在哪里查看？'
       },
       {
         id: 9,
-        issueName: '10.订单在哪里查看？'
+        issueName: '10.如何查看物流？'
       },
       {
         id: 10,
-        issueName: '11.如何查看物流？'
+        issueName: '11.是否支持退款？'
       },
       {
         id: 11,
-        issueName: '12.是否支持退款？'
+        issueName: '12.在哪里查看我的优惠券？'
       },
       {
         id: 12,
-        issueName: '13.在哪里查看我的优惠券？'
-      },
-      {
-        id: 13,
-        issueName: '14.金币如何获得；有何作用？'
+        issueName: '13.金币如何获得；有何作用？'
       }
     ]
   },

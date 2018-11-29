@@ -1,0 +1,10 @@
+<view class="banksCard">
+  <view wx:if="{{accountType == 3}}" class="cardItem" bindtap='modifyCard'>
+    <view class="cardItem_t">
+      <text>{{cardBankname}}</text>
+      <text>编辑</text>
+    </view>
+    <view class="cardItem_b">{{Encryption}}</view>
+  </view>
+  <view wx:else class="cardItem noCard" bindtap='modifyCard'>+请添加银行卡号</view>
+</view>

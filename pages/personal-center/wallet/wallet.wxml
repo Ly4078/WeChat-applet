@@ -1,0 +1,25 @@
+<!-- 骨架屏模块 -->
+<skeleton selector="skeleton" loading="spin" bgcolor="#FFF" wx:if="{{showSkeleton}}"></skeleton>
+
+<view>
+  <view class="walletData">
+    <view class="money"><text>￥</text>{{userAmount}}</view>
+    <view class="gray">钱包余额</view>
+    <view class="withdraw" bindtap='toWithdraw'>提现</view>
+    <view class="notice">
+      <view>你有{{reviewAmount}}元奖金在路上</view>
+      <view class="noticeBtn" bindtap='toAward'>去查看</view>
+    </view>
+  </view>
+  <view class="walletList">
+    <view class="list_item {{item.id == 2 ? 'add' : ''}}" wx:for="{{walletList}}" wx:key="index" id="{{item.id}}" bindtap='toHref'>
+      <view class="list_l">
+        <image src="{{item.iconUrl}}"></image>
+        <view>{{item.name}}</view>
+      </view>
+      <view class="list_r">
+        <image src="/images/icon/home_arrow.png"></image>
+      </view>
+    </view>
+  </view>
+</view>

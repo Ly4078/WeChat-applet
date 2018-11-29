@@ -1,0 +1,84 @@
+.orange {
+  color: #FC5E2D;
+}
+
+.green {
+  color: #3CE07A;
+}
+
+page {
+  width: 100%;
+  height: 100%;
+  background-color: #F5F5FA;
+  font-size: 28rpx;
+  letter-spacing: 2rpx;
+}
+
+.navigation {
+  height: 90rpx;
+  line-height: 90rpx;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  background-color: #fff;
+  font-size: 34rpx;
+  color: #555555;
+}
+
+.nav_item {
+  width: 100%;
+  height: 100%;
+  flex: 1;
+  text-align: center;
+}
+
+.nav_item.active {
+  border-bottom: 2rpx solid #FC5E2D;
+  color: #FC5E2D;
+}
+
+.walletList {
+  /* background-color: #fff; */
+}
+
+.list_item {
+  height: 130rpx;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 34rpx 30rpx;
+  border-bottom: 1rpx solid #E0E0E0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff;
+}
+
+.list_title {
+  padding-bottom: 10rpx;
+}
+
+.updateTime {
+  font-size: 22rpx;
+  color: #969696;
+  display: flex;
+  flex-direction: row;
+}
+
+.state text {
+  padding-left: 26rpx;
+}
+
+.list_r {
+  font-size: 36rpx;
+}
+
+.noList {
+  display: flex;
+  justify-content: center;
+  padding-top: 400rpx;
+}
+
+.noList image{
+  width: 312rpx;
+  height: 203rpx;
+}

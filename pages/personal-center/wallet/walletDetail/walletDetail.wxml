@@ -1,0 +1,33 @@
+<!-- 骨架屏模块 -->
+<skeleton selector="skeleton" loading="spin" bgcolor="#FFF" wx:if="{{showSkeleton}}"></skeleton>
+
+<view class="walletDetail">
+  <view class="navigation">
+    <view class="nav_item {{currentId == item.id ? 'active' : ''}}" wx:for="{{navList}}" wx:key="index" id="{{item.id}}" bindtap='navFunc'>{{item.name}}</view>
+  </view>
+  <view class="walletList">
+    <view class="list_item" wx:for="{{walletList}}" wx:key="index">
+      <view class="list_l">
+        <view class='list_title'>{{item.remark}}</view>
+        <view class="updateTime">
+          <text>{{item.createTime}}</text>
+          <view class="state" wx:if="{{item.operateType == 1}}">
+            <!-- applyStatus  /1审核中/2已完成 -->
+            <text wx:if="{{item.applyStatus == 1}}" class="orange">审核中</text>
+            <text wx:else class="green">已完成</text>
+          </view>
+        </view>
+      </view>
+      <view class="list_r">{{item.operateType == 1 ? '-' : '+'}}{{item.operateAmount}}</view>
+    </view>
+    <view wx:if="{{walletList.length <= 0}}" class="noList">
+      <image src="/images/icon/zhanweitu.png"></image>
+    </view>
+  </view>
+</view>
+
+<view class='loadingBox'>
+  <i-spin custom wx:if="{{loading}}">
+    <view class="loading"></view>
+  </i-spin>
+</view>

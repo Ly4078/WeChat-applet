@@ -1,0 +1,96 @@
+page {
+  height: 100%;
+  width: 100%;
+  background-color: #EBEBEB;
+  letter-spacing: 4rpx;
+}
+
+.gray {
+  color: #808080;
+}
+
+.red {
+  color: #FF2525;
+}
+
+.commen {
+  width: 100%;
+  padding: 0 30rpx;
+  box-sizing: border-box;
+  background-color: #fff;
+  border-radius: 4rpx;
+}
+
+.withdraw {
+  height: 100%;
+  width: 100%;
+  padding: 16rpx 38rpx 20rpx 38rpx;
+  box-sizing: border-box;
+  font-size: 24rpx;
+}
+
+.selectedBank {
+  height: 130rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.banksName {
+  font-size: 30rpx;
+  padding-bottom: 8rpx;
+}
+
+.selectedBank > image {
+  height: 26rpx;
+  width: 14rpx;
+}
+
+.withdrawWrap {
+  padding-bottom: 30rpx;
+}
+
+.wrapTitle {
+  font-size: 30rpx;
+  padding: 40rpx 0 50rpx 0;
+}
+
+.enterAmount {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+}
+
+.amountIcon {
+  font-size: 58rpx;
+}
+
+.enterAmount input {
+  height: 100rpx;
+  font-size: 90rpx;
+}
+
+.available {
+  margin: 30rpx 0 30rpx 0;
+}
+
+.available text:last-child {
+  margin-left: 34rpx;
+  color: #34589C;
+}
+
+.withdrawBtn {
+  width: 100%;
+  height: 86rpx;
+  line-height: 86rpx;
+  background-color: #FC5E2D;
+  color: #fff;
+  border-radius: 8rpx;
+  text-align: center;
+  font-size: 34rpx;
+}
+
+.withdrawBtn.active {
+  background-color: #FFC0AC;
+}

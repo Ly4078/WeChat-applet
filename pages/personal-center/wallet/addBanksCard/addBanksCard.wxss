@@ -1,0 +1,51 @@
+page {
+  height: 100%;
+  width: 100%;
+  background-color: #F5F5FA;
+}
+
+.addBanksCard {
+  font-size: 34rpx;
+}
+
+.inpItem {
+  width: 100%;
+  height: 111rpx;
+  line-height: 111rpx;
+  display: flex;
+  flex-direction: row;
+  padding: 0 38rpx;
+  box-sizing: border-box;
+  border-top: 1rpx solid rgb(241, 240, 240);
+  background-color: #fff;
+}
+
+.inpItem view {
+  width: 160rpx;
+}
+
+.inpItem input {
+  flex: 1;
+  height: 100%;
+  color: rgb(172, 169, 169);
+}
+
+.submit {
+  padding: 40rpx 32rpx 0 32rpx;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.submit view {
+  width: 100%;
+  height: 86rpx;
+  line-height: 86rpx;
+  border-radius: 8rpx;
+  background-color: #FC5E2D;
+  color: #fff;
+  text-align: center;
+}
+
+.submit view.active {
+  background-color: #FFC0AC;
+}

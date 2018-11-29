@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "钱包",
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "i-spin": "../../../dist/spin/index",
+    "skeleton": "/components/skeleton/skeleton",
+    "image-loader": "/components/image-loader"
+  }
+}

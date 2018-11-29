@@ -461,11 +461,12 @@ Page({
     })
   },
 
-  myMineMoney: function() {
+  toWallet: function() {
     wx.navigateTo({
-      url: 'integratorMs/integratorMs'
+      url: 'wallet/wallet'
     })
   },
+
   // 我的砍价
   continuousAs: function() {
     wx.navigateTo({

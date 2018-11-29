@@ -1,0 +1,17 @@
+<view class="addBanksCard">
+  <view class="inpItem">
+    <view>持卡人</view>
+    <input type="text" placeholder='请输入持卡人姓名' value="{{accountCardholder}}" id="1" bindinput="inpCard"></input>
+  </view>
+  <view class="inpItem">
+    <view>卡号</view>
+    <input type="number" placeholder='请输入银行卡号' maxlength='19' value="{{accountName}}" id="2" bindinput="inpCard"></input>
+  </view>
+  <view class="inpItem">
+    <view>银行名称</view>
+    <input type="text" placeholder='请输入银行名称' value="{{cardBankname}}" id="3" bindinput="inpCard"></input>
+  </view>
+  <view class="submit">
+    <view class="{{isSubmit ? '' : 'active'}}" bindtap='submit'>保存</view>
+  </view>
+</view>

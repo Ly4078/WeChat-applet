@@ -1,0 +1,34 @@
+<!-- 骨架屏模块 -->
+<skeleton selector="skeleton" loading="spin" bgcolor="#FFF" wx:if="{{showSkeleton}}"></skeleton>
+
+<view>
+  <view class="nav">
+    <view class="nav_item {{currentId == item.id ? 'active' : ''}}" wx:for="{{state}}" wx:key="index" id="{{item.id}}" bindtap='navFunc'>
+      <view class="nav_top">{{item.amount}}元</view>
+      <view>{{item.name}}</view>
+    </view>
+  </view>
+  <view class="awardList">
+    <view class="award_item" wx:for="{{awardList}}" wx:key="index" id="{{item.id}}">
+      <view class="award_l">
+        <image wx:if="{{item.user.iconUrl}}" src="{{item.user.iconUrl}}"></image>
+        <image wx:else src="/images/icon/morentu.png"></image>
+        <view>
+          <view class="award_name">{{item.nickName}}</view>
+          <view class="award_partIn">参与 {{item.remark}} 开团成功</view>
+          <view class="award_time">{{item.createTime}}</view>
+        </view>
+      </view>
+      <view class="award_r {{item.id == 1 ? 'active' : ''}}">￥{{item.operateAmount}}</view>
+    </view>
+    <view wx:if="{{awardList.length <= 0}}" class="noList">
+      <image src="/images/icon/zhanweitu.png"></image>
+    </view>
+  </view>
+</view>
+
+<view class='loadingBox'>
+  <i-spin custom wx:if="{{loading}}">
+    <view class="loading"></view>
+  </i-spin>
+</view>

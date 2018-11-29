@@ -54,9 +54,9 @@
         <image src='/images/icon/myStar.png'></image>
         <text class='messageTop'>收藏</text>
       </view>
-      <view class='messageWrap' catchtap='myMineMoney'>
+      <view class='messageWrap' catchtap='toWallet'>
         <image src='/images/icon/myCircle.png'></image>
-        <text class='messageTop'>金币</text>
+        <text class='messageTop'>钱包</text>
       </view>
       <view class='messageWrap' catchtap='personalCenter'>
         <image src='/images/icon/myHeart.png'></image>
