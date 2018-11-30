@@ -107,6 +107,14 @@ Page({
             if (res.data.data.dueTime){
               that.endTimerun(res.data.data.dueTime)
             }
+            if (res.data.data.users){
+              for (let i = 0; i < res.data.data.users.length;i++){
+                if (res.data.data.users[i] != null && res.data.data.users[i].iconUrl){
+                  res.data.data.users[0] = res.data.data.users[i]
+                  break;
+                }
+              }
+            }
               that.setData({
                 groupOrderDetail:res.data.data,
                 isGroup: res.data.data.actOrder?true:false,
@@ -436,7 +444,7 @@ Page({
   },
   onShareAppMessage: function (e) {
     let that = this;
-    let title = "急死了！我正在拼团仅需" + that.data.soDetail.realAmount + "元拿👉" + that.data.soDetail.orderItemOuts[0].goodsSkuName +"👈考验我们感情的时候到了❤❤❤";
+    let title = "急死了！我正在拼购仅需" + that.data.soDetail.realAmount + "元拿👉" + that.data.soDetail.orderItemOuts[0].goodsSkuName +"👈考验我们感情的时候到了❤❤❤";
     console.log(e);
     let url = "/packageA/pages/tourismAndHotel/touristHotelDils/touristHotelDils?types=share&parentId=" + that.data.groupOrderDetail.actOrder.userId + '&actid=' + that.data.groupOrderDetail.actId + '&id=' + that.data.groupOrderDetail.skuId + '&groupid=' + that.data.groupOrderDetail.id
     if (e.target.dataset.type=='2'){

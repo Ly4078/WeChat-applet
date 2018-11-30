@@ -399,7 +399,7 @@ page {
 .Single {
   display: flex;
   flex-direction: column;
-  margin-top: 30rpx;
+  margin-top: 20rpx;
 }
 
 .Single-title {
@@ -552,7 +552,7 @@ page {
   width: 80%;
   margin: 25% auto;
   overflow: hidden;
-  background-color: #fff1e6;
+  background-color: #fff;
   border-radius: 10rpx;
   padding: 4rpx;
 }
@@ -588,7 +588,7 @@ page {
 
 .referral {
   padding: 14rpx 20rpx;
-  max-height: 550rpx;
+  max-height: 750rpx;
   overflow-y: auto;
   font-size: 28rpx;
 }

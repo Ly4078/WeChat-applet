@@ -9,9 +9,10 @@ var app = getApp();
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
-    singleData: {},
+    singleData:{},
     newcomer:false,
     isShare:false,
+    _content:null,
     shadowFlag:true
   },
   onLoad: function(options) {
@@ -70,9 +71,11 @@ Page({
     }else{
       baseUlr = 'actOrder/add?actGoodsSkuId=' + that.data.groupid
     }
-    wx.showLoading({
-      title: '加载中...',
-    })
+    if (!that.data.singleData.goodsPromotionRules){
+      wx.showLoading({
+        title: '加载中...',
+      })
+    }
     wx.request({
       url: that.data._build_url + baseUlr,
       method:'POST',
@@ -81,7 +84,6 @@ Page({
       },
       success:function(res){
         if(res.data.code=='0'){
-          console.log(res);
           that.setData({
             groupStatus:res.data.data
           })
@@ -109,12 +111,19 @@ Page({
             }
           }
           that.endTimerun(_data.actGoodsSkuOuts[0].dueTime)
-          WxParse.wxParse('article', 'html', _data.remark, that, 10);
+          
           canvasShareImg(_data.skuPic, _data.goodsPromotionRules[0].actAmount, _data.sellPrice).then(function (res) {
             that.setData({
               shareImg: res
             })
           })
+          if (that.data._content ==null){
+            that.setData({
+              _content: _data.remark
+            },()=>{
+              WxParse.wxParse('article', 'html', that.data._content, that, 10);
+            })
+          }
           that.setData({
             singleData: _data
           })
@@ -140,7 +149,6 @@ Page({
         }).then((res) => {
           if (res.data.code == 0) {
             let data = res.data.data;
-            console.log(res)
             if (data.id) {
               app.globalData.userInfo.userId = data.id;
               for (let key in data) {
@@ -236,6 +244,12 @@ Page({
   },
   fromshare:function(){//来自分享进入时。
     let that = this;
+    if (that.data.isShare) {
+      that.configShare();
+      that.setData({
+        isShare: false
+      })
+    }
     if (that.data.isShare && that.data.newcomer && that.data.shareGroup){
         setTimeout( ()=>{
           that.addPeople();
@@ -245,14 +259,9 @@ Page({
             newcomer: false,
             shareGroup:false
           })
-        },300)
+        },500)
     }
-    if (that.data.isShare){
-      that.configShare();
-      that.setData({
-        isShare: false
-      })
-    }
+    
   },
   endTimerun: function(endTime){
     let that = this;
@@ -365,7 +374,6 @@ Page({
       },
       method: 'POST',
       success: function (res) {
-        console.log(res)
           if(res.data.code=='0' && res.data.data){
               that.pay(res.data.data)
           } else {

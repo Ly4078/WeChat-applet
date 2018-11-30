@@ -79,7 +79,7 @@
       </view>
     </view>
   </view>
-  <view class="msgDetail" style="padding:0 20rpx 90rpx;background:#fff;font-size:28rpx;">
+  <view class="msgDetail" style="padding:0 20rpx 90rpx;background:#fff;font-size:26rpx;">
     <template is="wxParse" data="{{wxParseData:article.nodes}}" />
   </view>
   <!-- 底部tab功能键 -->
@@ -149,13 +149,13 @@
         </view>
         <view class='referral'>
           <text style="display:block;"> 拼购规则:</text>
-          <text style="display:inline-block;margin-left:40rpx;"> 1、 点击商品进入商品详情，通过拼购参与开团入口进入微信支付，用户付款成功后，按页面提示分享给微信好友；</text>
-          <text style="display:inline-block;margin-left:40rpx;">2、分享好友需是没有注册过的新用户，好友通过分享的小程序进入后完成新用户注册后，本人参团成功；</text>
-          <text style="display:inline-block;margin-left:40rpx;">3、 支付人数在有效期内达到规定人数，拼购完成，在【我的】页面中【券包】里查看所购买的商品券兑换券，可以兑换相应的商品（部分商品兑换时需要支付邮费)；</text>
-          <text style="display:inline-block;margin-left:40rpx;">4、 支付人数在有效期内未达到规定人数，拼购失败，将原路全额退款；</text>
-          <text style="display:inline-block;margin-left:40rpx;">5、 活动用户需依照页面提示进行操作，如出现违规操作导致活动无法继续等异常错误，将取消用户参与资格；</text>
-          <text style="display:inline-block;margin-left:40rpx;">6、 拼购成功的商品兑换券不支持退款、兑现，有效期为3个月，过期失效；</text>
-          <text style="display:inline-block;margin-left:40rpx;">7、 因可能存在系统缓存、页面更新导致价格变动异常等不确定性情况出现，如您发现页面异常，请等待页面刷新，并及时联系我们。</text>
+          <text style="display:inline-block;margin:0 10rpx;"> 1、 点击商品进入商品详情，通过拼购参与开团入口进入微信支付，用户付款成功后，按页面提示分享给微信好友；</text>
+          <text style="display:inline-block;margin:0 10rpx;">2、分享好友需是没有注册过的新用户，好友通过分享的小程序进入后完成新用户注册后，本人参团成功；</text>
+          <text style="display:inline-block;margin:0 10rpx;">3、 支付人数在有效期内达到规定人数，拼购完成，在【我的】页面中【券包】里查看所购买的商品券兑换券，可以兑换相应的商品（部分商品兑换时需要支付邮费)；</text>
+          <text style="display:inline-block;margin:0 10rpx;">4、 支付人数在有效期内未达到规定人数，拼购失败，将原路全额退款；</text>
+          <text style="display:inline-block;margin:0 10rpx;">5、 活动用户需依照页面提示进行操作，如出现违规操作导致活动无法继续等异常错误，将取消用户参与资格；</text>
+          <text style="display:inline-block;margin:0 10rpx;">6、 拼购成功的商品兑换券不支持退款、兑现，有效期为3个月，过期失效；</text>
+          <text style="display:inline-block;margin:0 10rpx;">7、 因可能存在系统缓存、页面更新导致价格变动异常等不确定性情况出现，如您发现页面异常，请等待页面刷新，并及时联系我们。</text>
 
         </view>
       </view>

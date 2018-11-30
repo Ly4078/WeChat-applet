@@ -149,7 +149,7 @@
 
     <view class='endAmount'>
       <view class='endAmountNei'>
-        <text>商品总额</text>
+        <text>总金额</text>
         <text class='dolphinNei'>￥{{soDetail.comTotal}}</text>
       </view>
     </view>
@@ -263,12 +263,12 @@
         </view>
         <view class='referral'>
           <text style="display:block;"> 分享好友一起参团轻松赢现金:</text>
-          <text style="display:inline-block;margin-left:40rpx;">1、分享给好友下单开团成功可赢得0.5元现金存入钱包。</text>
-          <text style="display:inline-block;margin-left:40rpx;">2、若好友分享给其他好友下单开团成功可赢得0.2元现金存入钱包。</text>
-          <text style="display:inline-block;margin-left:40rpx;">3、此活动长期有效，钱包里的金额满足符合体现要求随时可提现。</text>
-          <text style="display:inline-block;margin-left:40rpx;">4、通过分享给好友参与开团成功后，赢得现金可在【钱包】查看。</text>
+          <text style="display:inline-block;margin:0 10rpx;">1、分享给好友下单开团成功可赢得0.5元现金存入钱包。</text>
+          <text style="display:inline-block;margin:0 10rpx;">2、若好友分享给其他好友下单开团成功可赢得0.2元现金存入钱包。</text>
+          <text style="display:inline-block;margin:0 10rpx;">3、此活动长期有效，钱包里的金额满足符合提现要求随时可提现。</text>
+          <text style="display:inline-block;margin:0 10rpx;">4、通过分享给好友参与开团成功后，赢得现金可在【钱包】查看。</text>
           <text style="display:block;">注意事项:</text>
-          <text style="display:inline-block;margin-left:40rpx;">1、分享给好友后下完单,并没有邀请新用户注册成功或者开团未成功，好友已退款，赢得的现金将原路返回；在此过程中赢得的现金无法提现，钱包总金额未满“10元”不符合提现要求！</text>
+          <text style="display:inline-block;margin:0 10rpx;">1、分享给好友后下完单,并没有邀请新用户注册成功或者开团未成功，好友已退款，赢得的现金将原路返回；在此过程中赢得的现金无法提现，钱包总金额未满“10元”不符合提现要求！</text>
         </view>
       </view>
     </view>
