@@ -1,8 +1,10 @@
 import Countdown from '../../../../utils/Countdown.js';
 var WxParse = require('../../../../utils/wxParse/wxParse.js');
+import canvasShareImg from '../../../../utils/canvasShareImg.js';
 import {
   GLOBAL_API_DOMAIN
 } from '../../../../utils/config/config.js';
+import Api from '../../../../utils/config/api.js';
 var app = getApp();
 Page({
   data: {
@@ -14,14 +16,10 @@ Page({
   },
   onLoad: function(options) {
     let that = this;
-    if (app.globalData.newcomer == '1') {
-      wx.showToast({
-        title: '新人注册，返回页面',
-      })
+    if (options.shareType =='2'){
       that.setData({
-        newcomer:true
+        shareGroup:true
       })
-      app.globalData.newcomer = 0
     }
     if (options.types == 'share'){
       that.setData({
@@ -31,10 +29,11 @@ Page({
       app.globalData.currentScene.query = {
         id: options.id,
         actid: options.actid,
+        types:'share',
         groupid: options.groupid,
         parentId: options.parentId
       }
-      app.globalData.currentScene.path = "/packageA/pages/tourismAndHotel/touristHotelDils/touristHotelDils"
+      app.globalData.currentScene.path =        "/packageA/pages/tourismAndHotel/touristHotelDils/touristHotelDils" 
     }
     that.setData({
       id: options.id,
@@ -47,6 +46,15 @@ Page({
   },
   onShow:function(){
     let that = this;
+    if (app.globalData.newcomer == '1') {
+      wx.showToast({
+        title: '新人注册，返回页面',
+      })
+      that.setData({
+        newcomer: true
+      })
+      
+    }
     if (!app.globalData.token) {
       that.findByCode()
     } else {
@@ -62,6 +70,9 @@ Page({
     }else{
       baseUlr = 'actOrder/add?actGoodsSkuId=' + that.data.groupid
     }
+    wx.showLoading({
+      title: '加载中...',
+    })
     wx.request({
       url: that.data._build_url + baseUlr,
       method:'POST',
@@ -99,10 +110,20 @@ Page({
           }
           that.endTimerun(_data.actGoodsSkuOuts[0].dueTime)
           WxParse.wxParse('article', 'html', _data.remark, that, 10);
+          canvasShareImg(_data.skuPic, _data.goodsPromotionRules[0].actAmount, _data.sellPrice).then(function (res) {
+            that.setData({
+              shareImg: res
+            })
+          })
           that.setData({
             singleData: _data
           })
+          wx.hideLoading()
+        }else{
+          wx.hideLoading()
         }
+      },fail:function(){
+        wx.hideLoading()
       }
 
 
@@ -132,8 +153,8 @@ Page({
               that.authlogin(); //获取token
             } else {
               if (!data.mobile) { //是新用户，去注册页面
-                wx.reLaunch({
-                  url: '/pages/init/init'
+                wx.navigateTo({
+                  url: '/pages/init/init?isback=1'
                 })
               } else {
                 that.authlogin();
@@ -159,16 +180,16 @@ Page({
         if (res.data.code == 0) {
           let _token = 'Bearer ' + res.data.data;
           app.globalData.token = _token;
-          let userInfo = wx.getStorageSync('userInfo')
+          let userInfo = wx.getStorageSync('userInfo') || {};
           userInfo.token = _token
           wx.setStorageSync("token", _token)
           wx.setStorageSync("userInfo", userInfo)
+          that.addrecord(that.data.id, that.data.actid)
+          that.fromshare();
           if (app.globalData.userInfo.mobile) {
-            that.addrecord(that.data.id, that.data.actid)
-            that.fromshare();
           } else {
-            wx.reLaunch({
-              url: '/pages/init/init',
+            wx.navigateTo({
+              url: '/pages/init/init?isback=1',
             })
           }
         }
@@ -196,29 +217,41 @@ Page({
   },
   addPeople:function(){//新用户，为分享者添加一条参团记录
     let that = this;
-    let parentId = that.data.parentId
+    let parentId = that.data.parentId;
+    let url = encodeURI(that.data._build_url + 'pullUser/updateNumsUp?type=5&groupId=' + that.data.groupid + '&UserId=' + parentId);
+    console.log(url);
     wx.request({
-      url: encodeURI(that.data._build_url + 'pullUser/updateNumsUp?type=5&groupId=' + that.data.groupid + '&UserId=' + parentId),
+      url: url,
       method: "POST",
       header: {
         "Authorization": app.globalData.token
       },
       success: function (res) {
-        
+        console.log('添加记录')
+        console.log(res)
+        console.log('添加记录')
       }
 
     })
   },
   fromshare:function(){//来自分享进入时。
     let that = this;
-    if (that.data.isShare && that.data.newcomer){
-      
+    if (that.data.isShare && that.data.newcomer && that.data.shareGroup){
         setTimeout( ()=>{
           that.addPeople();
+          app.globalData.newcomer = 0
+          that.setData({
+            isShare: false,
+            newcomer: false,
+            shareGroup:false
+          })
         },300)
     }
     if (that.data.isShare){
       that.configShare();
+      that.setData({
+        isShare: false
+      })
     }
   },
   endTimerun: function(endTime){
@@ -386,17 +419,15 @@ Page({
   },
   onShareAppMessage:function(){
     let that = this;
+    let title = app.globalData.userInfo.nickName + '👉超值推荐  仅需' + that.data.singleData.goodsPromotionRules[0].actAmount + '元，即可拼购👉' + that.data.singleData.skuName
     return {
-      title: that.data.singleData.skuName || '享7拼购',
-      path: '/packageA/pages/tourismAndHotel/touristHotelDils/touristHotelDils?id=' + that.data.id + '&actid=' + that.data.actid + '&groupid=' + that.data.groupid + '&parentId=' + app.globalData.userInfo.userId
+      title: title || '享7拼购',
+      imageUrl: that.data.shareImg,
+      path: '/packageA/pages/tourismAndHotel/touristHotelDils/touristHotelDils?types=share&id=' + that.data.id + '&actid=' + that.data.actid + '&groupid=' + that.data.groupid + '&parentId=' + app.globalData.userInfo.userId
     }
   },
-  onShareAppMessage:function(){
-    let that = this;
-    return {
-      title: that.data.singleData.skuName,
-      path: '/packageA/pages/tourismAndHotel/touristHotelDils/touristHotelDils?id=' + that.data.id + '&actid=' + that.data.actid + '&groupid=' + that.data.groupid + '&parentId=' + that.data.parentId
-    }
+  onHide:function(){
+    wx.hideLoading();
   },
   // 遮罩层显示
   showShade: function () {

@@ -153,14 +153,30 @@ Page({
           app.globalData.userInfo.nickName = data.nickName;
           app.globalData.userInfo.iconUrl = data.avatarUrl;
           app.globalData.currentScene.query == ''
+          app.globalData.newcomer = 1
           if (that.data.isBack) {
             wx.navigateBack({
               delta: 2
             })
           } else {
-            app.globalData.newcomer = 1
+            
             wx.reLaunch({ //以拥有手机号码直接跳转
-              url: that.data.navigetToUrl ? that.data.navigetToUrl: '/pages/index/index',
+              url: that.data.navigetToUrl ? that.data.navigetToUrl : '/pages/index/index',
+              success: function () {
+
+              }, fail: function () {
+                wx.navigateTo({
+                  url: that.data.navigetToUrl ? that.data.navigetToUrl : '/pages/index/index',
+                  success: function () {
+
+                  }, fail: function () {
+                    wx.switchTab({
+                      url: that.data.navigetToUrl ? that.data.navigetToUrl : '/pages/index/index',
+                    })
+                  }
+                })
+              }
+
             })
           }
         }

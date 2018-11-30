@@ -63,7 +63,7 @@ page{
 
 .synopsisText{
   width: 100%;
-  height: 148rpx;
+  /* height: 148rpx; */
   display: flex;
   justify-content: center;
   align-content: center;
@@ -81,11 +81,11 @@ page{
   font-size:30rpx;
   color:rgba(25,25,25,1);
   font-weight: 600;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  /* overflow: hidden; */
+  /* text-overflow: ellipsis; */
   display: -webkit-box;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
+  /* -webkit-line-clamp: 1; */
+  /* -webkit-box-orient: vertical; */
   margin-top: 24rpx;
 }
 

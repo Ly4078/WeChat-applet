@@ -10,10 +10,12 @@ Page({
     _build_url: GLOBAL_API_DOMAIN,
     soId: '',
     id: '',
+    shadowFlag:true,
     Countdown: '',
     soDetail: {},
     payObj: {},
-    ispay: true
+    ispay: true,
+    isGroup:false
   },
   onLoad: function (options) {
    
@@ -107,6 +109,7 @@ Page({
             }
               that.setData({
                 groupOrderDetail:res.data.data,
+                isGroup: res.data.data.actOrder?true:false,
                 progress: parseInt((res.data.data.currentNum/res.data.data.peopleNum *10000)/100)
               })
           }
@@ -190,13 +193,14 @@ Page({
         if (_data.expressCode && _data.expressCode.length * 1 > 10) {
           _data.expressCode2 = _data.expressCode.substring(0, 10);
         }
-        canvasShareImg(_data.orderItemOuts[0].goodsSkuPic, _data.skuAmount, _data.realAmount).then(function (res) {
+        canvasShareImg(_data.orderItemOuts[0].goodsSkuPic, _data.realAmount, _data.comTotal).then(function (res) {
           that.setData({
             shareImg: res
           })
         })
         that.setData({
-          soDetail: _data
+          soDetail: _data,
+          offerPrice: (_data.comTotal - _data.realAmount).toFixed(2)
         })
       }
     })
@@ -432,19 +436,37 @@ Page({
   },
   onShareAppMessage: function (e) {
     let that = this;
+    let title = "急死了！我正在拼团仅需" + that.data.soDetail.realAmount + "元拿👉" + that.data.soDetail.orderItemOuts[0].goodsSkuName +"👈考验我们感情的时候到了❤❤❤";
+    console.log(e);
+    let url = "/packageA/pages/tourismAndHotel/touristHotelDils/touristHotelDils?types=share&parentId=" + that.data.groupOrderDetail.actOrder.userId + '&actid=' + that.data.groupOrderDetail.actId + '&id=' + that.data.groupOrderDetail.skuId + '&groupid=' + that.data.groupOrderDetail.id
+    if (e.target.dataset.type=='2'){
+      url = url +'&shareType=2'
+    }else{
+      
+    }
     if (e.from == 'button'){
       return {
-        title: that.data.soDetail.orderItemOuts[0].goodsSkuName,
+        title: title,
         imageUrl: that.data.shareImg,
-        path: "/packageA/pages/tourismAndHotel/touristHotelDils/touristHotelDils?types=share&parentId=" + that.data.groupOrderDetail.actOrder.userId + '&actid=' + that.data.groupOrderDetail.actId + '&id=' + that.data.groupOrderDetail.skuId + '&groupid=' + that.data.groupOrderDetail.id
+        path: url
       }
     }
     
   },
-  progress: function () {
-    //  this.onShareAppMessage();
-    // var num = parseInt(Math.random()*100);
-    // console.log(num)
-    // this.setData({ progress:num})
+  // 遮罩层显示
+  showShade: function () {
+    this.setData({
+      shadowFlag: false
+    })
   },
+  touchmove: function () {
+
+  },
+  // 遮罩层隐藏
+  conceal: function () {
+    this.setData({
+      shadowFlag: true
+    })
+  },
+
 })

@@ -2,6 +2,7 @@ import {
   GLOBAL_API_DOMAIN
 } from '../../../utils/config/config.js';
 import Countdown from '../../../utils/Countdown.js'
+import Api from '../../../utils/config/api.js';
 var app = getApp();
 var requestTask = false
 Page({

@@ -188,6 +188,7 @@
 .logistics-ctn-name{
   font-size:28rpx; 
   color:rgba(25,25,25,1);
+  padding-right: 10rpx;
 }
 
 .logistics-ctn-spn{
