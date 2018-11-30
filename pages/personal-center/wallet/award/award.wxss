@@ -70,6 +70,10 @@ page {
 
 .award_partIn {
   padding: 4rpx 0;
+  width: 450rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .award_time {
