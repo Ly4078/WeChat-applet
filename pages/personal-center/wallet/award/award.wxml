@@ -15,7 +15,7 @@
         <image wx:else src="/images/icon/morentu.png"></image>
         <view>
           <view class="award_name">{{item.user.nickName}}</view>
-          <view class="award_partIn">{{item.remark}} 开团成功</view>
+          <view class="award_partIn">{{item.remark}}</view>
           <view class="award_time">{{item.createTime}}</view>
         </view>
       </view>
