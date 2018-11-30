@@ -53,22 +53,27 @@ page {
 
 .wrapTitle {
   font-size: 30rpx;
-  padding: 40rpx 0 50rpx 0;
+  padding: 40rpx 0 30rpx 0;
 }
 
 .enterAmount {
   display: flex;
   flex-direction: row;
-  align-items: baseline;
+  align-items: center;
 }
 
 .amountIcon {
+  display: inline-block;
   font-size: 58rpx;
+  vertical-align: middle;
 }
 
 .enterAmount input {
   height: 100rpx;
-  font-size: 90rpx;
+  font-size: 98rpx;
+  vertical-align: middle;
+  -webkit-appearance: none;
+  letter-spacing: 2rpx;
 }
 
 .available {

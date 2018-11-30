@@ -89,7 +89,7 @@
   font-size: 30rpx;
   position: fixed;
   left: 5%;
-  bottom: 10%;
+  bottom: 3%;
   word-wrap: break-word;
   white-space: pre-wrap; 
 }

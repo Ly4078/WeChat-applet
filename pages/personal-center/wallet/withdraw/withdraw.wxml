@@ -11,7 +11,7 @@
     <view class="wrapTitle">提现金额</view>
     <view class="enterAmount">
       <view class="amountIcon">￥</view>
-      <input type="text" bindinput='inpFunc' value="{{inpMoney}}"></input>
+      <input type="text" bindinput='inpFunc' value="{{inpMoney}}" maxlength='10'></input>
     </view>
     <view wx:if="{{isUsed && isWithDraw}}" class="available">
       <text class="gray">本次可提现￥{{userAmount}}</text>

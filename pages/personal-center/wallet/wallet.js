@@ -26,7 +26,7 @@ Page({
         iconUrl: '/images/icon/box.png'
       }
     ],
-    userAmount: 0,
+    userAmount: '0.00',
     accountStatus: '',
     cardBankname: '',
     accountName: '',
@@ -62,7 +62,7 @@ Page({
         if (res.data.code == 0) {
           let data = res.data.data;
           _this.setData({
-            userAmount: data.userAmount ? data.userAmount.toFixed(2) : 0,
+            userAmount: data.userAmount ? data.userAmount.toFixed(2) : '0.00',
             accountStatus: data.accountStatus,
             cardBankname: data.cardBankname ? data.cardBankname: '',
             accountName: data.accountName ? data.accountName : '',
