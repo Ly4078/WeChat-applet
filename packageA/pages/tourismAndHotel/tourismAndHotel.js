@@ -3,33 +3,34 @@ import {
 } from '../../../utils/config/config.js';
 import Countdown from '../../../utils/Countdown.js'
 var app = getApp();
+var requestTask = false
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
     selected: true,
-    shadowFlag: true, //活动详情
+    shadowFlag: true, //活动详情,
+    page:1
     // showSkeleton:true
   },
   onLoad: function(options) {
-    console.log(options)
     this.setData({
       actid: options.id
     })
     
   },
   onShow: function() {
-    this.getSingleList(this.data.actid);
+    this.getSingleList(this.data.actid,'reset');
   },
-  getSingleList: function(actid) {
+  getSingleList: function(actid,types) {
     let that = this;
+    requestTask = true;
     wx.request({
-      url: that.data._build_url + 'goodsSku/listForAct?actId=' + actid,
+      url: that.data._build_url + 'goodsSku/listForAct?actId=' + actid+'&row=10&page='+that.data.page,
       method: 'get',
       header: {
         "Authorization": app.globalData.token
       },
       success: function(res) {
-        console.log(res)
         if (res.data.code == '0') {
           if (res.data.data && res.data.data.list && res.data.data.list.length) {
             let _data = res.data.data.list
@@ -41,17 +42,41 @@ Page({
               }
               _data[i].actGoodsSkuOut.stopTime = Countdown(_data[i].actGoodsSkuOut.dueTime)
             }
+            let arr = [];
+            if (types == 'reset'){
+              arr = _data
+            }else{
+              let dataList = that.data.dataList ? that.data.dataList:[];
+              arr = dataList.concat(_data)
+            }
             that.setData({
-              dataList: _data
+              dataList: arr
             })
+            requestTask = false
+          }else{
+            requestTask = false
           }
+        }else{
+          requestTask = false
         }
 
       },
       fail: function(res) {
-
+        requestTask = false
       }
     })
+  },
+  onReachBottom:function(){
+    let that = this;
+    if (requestTask){
+      return false
+    }
+    that.setData({
+      page:that.data.page+1
+    },()=>{
+      that.getSingleList(that.data.actid);
+    })
+    
   },
   selected: function(e) {
     this.setData({
@@ -75,7 +100,6 @@ Page({
     let that = this;
     let id = e.currentTarget.dataset.id;
     let groupid = e.currentTarget.dataset.groupid;
-    console.log(id)
     wx.navigateTo({
       url: 'touristHotelDils/touristHotelDils?id=' + id + '&actid=' + that.data.actid + '&groupid=' + groupid,
     })

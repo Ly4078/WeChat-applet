@@ -9,7 +9,8 @@ Page({
     _build_url: GLOBAL_API_DOMAIN,
     singleData: {},
     newcomer:false,
-    isShare:false
+    isShare:false,
+    shadowFlag:true
   },
   onLoad: function(options) {
     let that = this;
@@ -25,13 +26,13 @@ Page({
     if (options.types == 'share'){
       that.setData({
         isShare:true,
-        parentId: options.groupid
+        parentId: options.parentId
       })
       app.globalData.currentScene.query = {
         id: options.id,
         actid: options.actid,
-        skuid: 132,
-        parentId: 15788
+        groupid: options.groupid,
+        parentId: options.parentId
       }
       app.globalData.currentScene.path = "/packageA/pages/tourismAndHotel/touristHotelDils/touristHotelDils"
     }
@@ -39,6 +40,7 @@ Page({
       id: options.id,
       actid: options.actid,
       groupid: options.groupid,
+      parentId:options.parentId || ''
     })
   
     
@@ -82,7 +84,7 @@ Page({
   getData: function(id, actid) {
     let that = this;
     wx.request({
-      url: that.data._build_url + 'goodsSku/selectDetailBySkuIdNew?id=' + id + '&actId=' + actid,
+      url: that.data._build_url + 'goodsSku/selectDetailBySkuIdNew?id=' + that.data.id + '&actId=' + that.data.actid,
       method: 'get',
       header: {
         "Authorization": app.globalData.token
@@ -253,13 +255,13 @@ Page({
       shopId: that.data.singleData.shopId,
       payType: 2,
       flagType: 7,
-      singleType: 2,
       actId: that.data.actid,
+      singleType: that.data.singleData.singleType,
       orderItemList: [{
         goodsSkuId: that.data.singleData.id,
         goodsSpuId: that.data.singleData.spuId,
         goodsNum: 1,
-        shopId: this.data.shopId,
+        shopId: that.data.singleData.shopId,
         orderItemShopId: '0',
        
       }]
@@ -380,6 +382,35 @@ Page({
     let id = e.currentTarget.dataset.id;
     wx.navigateTo({
       url: '/pages/personal-center/personnel-order/logisticsDetails/logisticsDetails?soId=' + id,
+    })
+  },
+  onShareAppMessage:function(){
+    let that = this;
+    return {
+      title: that.data.singleData.skuName || '享7拼购',
+      path: '/packageA/pages/tourismAndHotel/touristHotelDils/touristHotelDils?id=' + that.data.id + '&actid=' + that.data.actid + '&groupid=' + that.data.groupid + '&parentId=' + app.globalData.userInfo.userId
+    }
+  },
+  onShareAppMessage:function(){
+    let that = this;
+    return {
+      title: that.data.singleData.skuName,
+      path: '/packageA/pages/tourismAndHotel/touristHotelDils/touristHotelDils?id=' + that.data.id + '&actid=' + that.data.actid + '&groupid=' + that.data.groupid + '&parentId=' + that.data.parentId
+    }
+  },
+  // 遮罩层显示
+  showShade: function () {
+    this.setData({
+      shadowFlag: false
+    })
+  },
+  touchmove:function(){
+    
+  },
+  // 遮罩层隐藏
+  conceal: function () {
+    this.setData({
+      shadowFlag: true
     })
   },
 

@@ -43,10 +43,10 @@
   </view>
   <view class='plainText'>
     <view class='plainText-center'>
-      <view class='plainText-center-top'>
-        <text>拼团规则</text>
+      <view class='plainText-center-top' catchtap='showShade'>
+        <text>拼购规则</text>
         <view class='reminder'>
-          <text>未达拼团人数，自动全额原路退款</text>
+          <text>未达拼购人数，自动全额原路退款</text>
           <image class='even' src='/images/icon/home_arrow.png'></image>
         </view>
       </view>
@@ -115,5 +115,47 @@
     </view>
 
 
+  </view>
+</view>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 活动详情 -->
+<view>
+  <view class="zhezao" hidden="{{shadowFlag}}">
+    <view class="shadow" catchtouchmove='touchmove' bindtap="conceal"></view>
+    <view class="terse_w">
+      <view class="t_image">
+        <!-- <image class="t_image1" src="../../image/cross.png" ></image> -->
+      </view>
+      <view class="tanchu_view">
+        <view class='indicative'>
+          <text>—— 活动详情 ——</text>
+        </view>
+        <view class='referral'>
+          <text style="display:block;"> 拼购规则:</text>
+          <text style="display:inline-block;margin-left:40rpx;"> 1、 点击商品进入商品详情，通过拼购参与开团入口进入微信支付，用户付款成功后，按页面提示分享给微信好友；</text>
+          <text style="display:inline-block;margin-left:40rpx;">2.、分享好友需是没有注册过的新用户，好友通过分享的小程序进入后完成新用户注册后，本人参团成功；</text>
+          <text style="display:inline-block;margin-left:40rpx;">3、 支付人数在有效期内达到规定人数，拼购完成，在【我的】页面中【券包】里查看所购买的商品券兑换券，可以兑换相应的商品（部分商品兑换时需要支付邮费）；</text>
+          <text style="display:inline-block;margin-left:40rpx;">4、 支付人数在有效期内未达到规定人数，拼购失败，将原路全额退款；</text>
+          <text style="display:inline-block;margin-left:40rpx;">5、 活动用户需依照页面提示进行操作，如出现违规操作导致活动无法继续等异常错误，将取消用户参与资格；</text>
+          <text style="display:inline-block;margin-left:40rpx;">6、 拼购成功的商品兑换券不支持退款、兑现，有效期为3个月，过期失效，；</text>
+          <text style="display:inline-block;margin-left:40rpx;">7、 因可能存在系统缓存、页面更新导致价格变动异常等不确定性情况出现，如您发现页面异常，请等待页面刷新，并及时联系我们。</text>
+
+        </view>
+      </view>
+    </view>
   </view>
 </view>

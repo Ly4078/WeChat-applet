@@ -51,9 +51,6 @@ Page({
       })
     }, 5000)
     // console.log("options:", options)
-    wx.showLoading({
-      title: '加载中...'
-    })
     this.setData({
       elephant: options.elephant,
       toView: options.toview ? options.toview:''

@@ -1,6 +1,7 @@
 
 let countDown = function (times) {
   // 获取当前时间，同时得到活动结束时间数组
+  times = times.replace(/\-/g, "/")
   let newTime = new Date().getTime();
   let countDownArr = [];
   // 对结束时间进行处理渲染到页面

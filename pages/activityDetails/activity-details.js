@@ -12,21 +12,21 @@ Page({
   },
 
   onShow: function (options) {
-    
   },
   onLoad: function () {
     wx.showLoading({
       title: '加载中...'
     })
+
     let that = this;
     this.setData({
       actdata: [],
       page: 1,
       flag: true
     })
-    if(!app.globalData.token){
+    if (!app.globalData.token) {
       that.findByCode();
-    }else{
+    } else {
       that.getcatdata();
     }
    

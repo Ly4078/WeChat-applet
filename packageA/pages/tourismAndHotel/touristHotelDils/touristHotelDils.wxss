@@ -326,3 +326,87 @@ page{
 .msgDetail image{
   margin: 10rpx 0;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 活动详情弹窗 */
+
+.zhezao {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  background: rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+}
+.zhezao .shadow{
+  position: absolute;
+  left:0;
+  right:0;
+  top:0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+.terse_w {
+  position: relative;
+  z-index: 999;
+}
+
+.tanchu_view {
+  width: 80%;
+  margin: 25% auto;
+  overflow: hidden;
+  background-color: #fff1e6;
+  border-radius: 10rpx;
+  padding: 4rpx;
+}
+
+.txtsureimg {
+  display: block;
+  width: 120rpx;
+  height: 120rpx;
+}
+
+.t_image {
+  width: 204rpx;
+  height: 200rpx;
+  position: absolute;
+  top: -6%;
+  left: 88%;
+}
+
+.t_image1 {
+  display: block;
+  width: 60rpx;
+  height: 60rpx;
+}
+
+.indicative {
+  width: 100%;
+  height: 60rpx;
+  background-color: #fff;
+  text-align: center;
+  line-height: 60rpx;
+  font-size: 26rpx;
+}
+
+.referral {
+  padding: 14rpx 20rpx;
+  max-height: 550rpx;
+  overflow-y: auto;
+  font-size: 28rpx;
+}

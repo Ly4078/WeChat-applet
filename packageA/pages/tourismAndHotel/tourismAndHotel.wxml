@@ -40,13 +40,13 @@
                 <text>￥{{item.sellPrice}}</text>
               </view>
               <view class='moneyBtnRight' wx:if="{{item.actGoodsSkuOut.state == '1'}}">1元参与</view>
-              <view class='moneyBtnRight' style="background:#ccc;"  wx:if="{{item.actGoodsSkuOut.state == '2'}}">开团成功</view>
-              <view class='moneyBtnRight' style="background:#ccc;"  wx:if="{{item.actGoodsSkuOut.state == '3'}}">开团失败</view>
+              <view class='moneyBtnRight' style="background:#ccc;" wx:if="{{item.actGoodsSkuOut.state == '2'}}">开团成功</view>
+              <view class='moneyBtnRight' style="background:#ccc;" wx:if="{{item.actGoodsSkuOut.state == '3'}}">开团失败</view>
             </view>
           </view>
         </view>
       </view>
-      
+
       <!-- 0.1元拼购 -->
       <!-- <view class="{{!selected?'show':'hidden'}}">
           <view class='delayWrap'>
@@ -68,17 +68,39 @@
 
   <!-- 活动详情 -->
   <view>
-    <view class="zhezao" hidden="{{shadowFlag}}" bindtap="conceal">
+    <view class="zhezao" hidden="{{shadowFlag}}">
+      <view class="shadow" bindtap="conceal"></view>
       <view class="terse_w">
-        <view class="t_image" bindtap="conceal">
+        <view class="t_image">
           <!-- <image class="t_image1" src="../../image/cross.png" ></image> -->
         </view>
         <view class="tanchu_view">
           <view class='indicative'>
-            <text>—— 详情介绍 ——</text>
+            <text>—— 活动详情 ——</text>
           </view>
           <view class='referral'>
-            <text>实现微信小程序的遮罩层实现微信小程序的遮罩层实现微信小程序的遮罩层实现微信小程序的遮罩层实现微信小程序的遮罩层实现微信小程序的遮罩层实现微信小程序的遮罩层实现微信小程序的遮罩层实现微信小程序的遮罩层实现微信小程序的遮罩层</text>
+
+            <text style="display:block;"> 活动规则：</text>
+            <text style="display:inline-block;margin-left:40rpx;"> 1、选择拼团商品，支付并参与拼团</text>
+            <text style="display:inline-block;margin-left:40rpx;">2、分享给未注册”享7美食”好友进行注册成功后，则参与拼团成功！</text>
+            <text style="display:inline-block;margin-left:40rpx;">3、若好友也参与此商品成功拼团同一产品，得0.5元奖励金存入”钱包”可体现。</text>
+            <text style="display:inline-block;margin-left:40rpx;">4、好友分享二级新用户成功拼团同一产品，得0.2元奖励金，好友得0.5元奖励金存入”钱包”可体现。</text>
+            <text style="display:inline-block;margin-left:40rpx;">5、开团有效时间为一周(7天)，在有效期内达到拼团人数，即拼团成功！商品到手方式：a：可门店自提，需根据自身地理位置而定；b:可选择快递配送，</text>
+            <text style="display:block;width:100%;height:40rpx;"></text>
+            <text style="display:block;">注意事项:</text>
+            <text style="display:inline-block;margin-left:40rpx;">1、您邀请的好友必须是享7美食新用户，同一手机号、同一支付账号视为统一用户。</text>
+            <text style="display:inline-block;margin-left:40rpx;">
+2、若发现用户存在刷单，虚假用户助力等违规行为，平台有权利终止你所有功能；</text>
+            <text style="display:inline-block;margin-left:40rpx;">
+；
+3、拼团成功后，根据产品类型支持：自用和转赠好友</text>
+            <text style="display:inline-block;margin-left:40rpx;">4、物流费用以商品而定，有包邮商品和不包邮商品，不包邮商品以实际收货地理位置为准；</text>
+            <text style="display:inline-block;margin-left:40rpx;">5、成功生成物流订单后，可前往我的订单查看物流单号,查询物流详情；</text>
+            <text style="display:inline-block;margin-left:40rpx;">6、对物流、商品有疑问或需要修改收货地址请联系客服处理。</text>
+            <text style="display:inline-block;margin-left:40rpx;"> 服务说明（简要）</text>
+            <text style="display:inline-block;margin-left:40rpx;"> 选择心仪商品——邀请好友助力——人满拼团成功</text>
+            <text style="display:inline-block;margin-left:40rpx;"> 开团不成功退款</text>
+            <text style="display:inline-block;margin-left:40rpx;"> 未达开团人数，将自动全额原路返还</text>
           </view>
         </view>
       </view>

@@ -173,9 +173,18 @@ page {
   background: rgba(0, 0, 0, 0.4);
   overflow: hidden;
 }
-
+.zhezao .shadow{
+  position: absolute;
+  left:0;
+  right:0;
+  top:0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
 .terse_w {
   position: relative;
+  z-index: 999;
 }
 
 .tanchu_view {
@@ -218,6 +227,9 @@ page {
 
 .referral {
   padding: 14rpx 20rpx;
+  max-height: 550rpx;
+  overflow-y: auto;
+  font-size: 28rpx;
 }
 
 .tuxedo {
@@ -226,6 +238,7 @@ page {
   color: rgba(150, 150, 150, 1);
   margin-top: 22rpx;
   margin-left: 20rpx;
+  
 }
 
 .tuxedoPeople {
