@@ -24,15 +24,12 @@ Page({
     cuisineArray: [],
     page: 1,
     scrollLeft: 0,
-    choose_modal: ""
+    choose_modal: "",
+    showSkeleton:true
     
   },
   onLoad: function(options) {
     this.dishList();
-    wx.showLoading({
-      title: '加载中...',
-      mask: true
-    })
   },
   onHide() {
     wx.hideLoading();
@@ -70,22 +67,23 @@ Page({
           this.setData({
             cuisineArray: cuisineArray,
             pageTotal: Math.ceil(res.data.data.total /8),
-            loading: false
+            loading: false,
+            showSkeleton: false
           }, () => {
             wx.hideLoading();
           });
         } else {
-          this.setData({loading: false})
+          this.setData({ loading: false, showSkeleton: false})
           wx.hideLoading();
         }
         swichrequestflag = false;
       }else{
         wx.hideLoading();
-        this.setData({ loading: false })
+        this.setData({ loading: false, showSkeleton: false})
       }
     }, () => {
       wx.hideLoading();
-      this.setData({ loading: false })
+      this.setData({ loading: false, showSkeleton: false })
       swichrequestflag = false;
     });
   },

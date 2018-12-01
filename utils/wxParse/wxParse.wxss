@@ -19,10 +19,10 @@
     
 }
 
-view{
+/* view{
     word-break:break-all; overflow:auto;
     overflow-y:visible;
-}
+} */
 
 .wxParse-inline{
     display: inline;

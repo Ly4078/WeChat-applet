@@ -24,6 +24,7 @@
   background: #f5f5f5;
   border-top-left-radius: 20rpx;
   border-top-right-radius: 20rpx;
+  overflow: hidden;
 }
 
 .cutCuisine-bottom{

@@ -8,15 +8,13 @@ Page({
     actid: '',  //活动ID
     flag: true,
     istouqu: false,
-    placeholderFlag: true
+    placeholderFlag: true,
+    showSkeleton:true
   },
 
   onShow: function (options) {
   },
   onLoad: function () {
-    wx.showLoading({
-      title: '加载中...'
-    })
 
     let that = this;
     this.setData({
@@ -180,13 +178,15 @@ Page({
         that.setData({
           actdata: actList,
           pageTotal: Math.ceil(res.data.data.total /8),
-          loading: false
+          loading: false,
+          showSkeleton:false
         })
         wx.hideLoading()
       } else {
         that.setData({
           flag: false,
-          loading: false
+          loading: false,
+          showSkeleton: false
         });
       }
       this.placeholderFlag = this.data.actdata.length < 1 ? false : true;
@@ -195,14 +195,16 @@ Page({
       } else {
         wx.hideLoading();
         that.setData({
-          loading: false
+          loading: false,
+          showSkeleton: false
         });
       }
     },()=>{
       wx.hideLoading();
       that.setData({
         flag: false,
-        loading: false
+        loading: false,
+        showSkeleton: false
       });
     })
   },
