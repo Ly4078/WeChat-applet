@@ -1,11 +1,13 @@
 <import src="/utils/wxParse/wxParse.wxml" />
-
+<!-- 骨架屏结构 -->
+<skeleton selector='skeleton' loading='spin' bgcolor='#fff' wx:if="{{showSkeleton}}">
+</skeleton>
 <view class=''>
   <view class='tripodsTop'>
     <image catchtap='todetail' class='tripods' mode='aspectFill' src='{{singleData.skuPic?singleData.skuPic:"/images/icon/morentu.png"}}'></image>
   </view>
   <view class='detailsCen'>
-    <view class='detailssmall' wx:if="{{singleData.actGoodsSkuOut.state =='1' }}">
+    <view class='detailssmall' wx:if="{{singleData.actGoodsSkuOut.state =='1' &&  groupStatus.state != '4'}}">
       <text>距活动结束仅剩 </text>
       <text class="timebg">{{Countdowns.day || '00'}}</text>
       <text>天</text>
@@ -15,8 +17,8 @@
       <text>:</text>
       <text class="timebg">{{Countdowns.sec || '00'}}</text>
     </view>
-    <view class='detailssmall' wx:if="{{singleData.actGoodsSkuOut.state !='1' }}">
-      <text>该活动已结束 </text>
+    <view class='detailssmall' wx:else>
+      <text>该团已结束 </text>
     </view>
     <view class='detailsDse'>
       <view class='involvedIn'>已参团人数
@@ -98,15 +100,18 @@
       <text class='directly'>客服</text>
       <button class="cs_button" open-type="contact" session-from="weapp"></button>
     </view>
+    <view class="returnSponsor" catchtap='originalprice' style="width:180rpx;background:#FFC0AC;">
+        <view>￥{{singleData.sellPrice}}</view>
+        <text>原价购买</text>
+    </view>
     <view class='returnSponsor' catchtap='toOrderdetail' data-id="{{groupStatus.orderId}}" wx:if="{{groupStatus.state == '2' || groupStatus.state == '3'}}">
       <text style="line-height:80rpx;">查看已参团详情</text>
     </view>
     <view wx:else>
-      <view class='returnSponsor' style="background:#ccc" wx:if="{{ singleData.actGoodsSkuOuts[0].currentNum >= singleData.actGoodsSkuOuts[0].peopleNum || singleData.actGoodsSkuOut.state =='2' || singleData.actGoodsSkuOut.state =='3'}}">
+      <view class='returnSponsor' style="background:#ccc" wx:if="{{ singleData.actGoodsSkuOuts[0].currentNum >= singleData.actGoodsSkuOuts[0].peopleNum || singleData.actGoodsSkuOut.state =='2' || singleData.actGoodsSkuOut.state =='3' || groupStatus.state =='4'}}">
         <text style="line-height:80rpx;color:#fff;">该团已结束</text>
       </view>
     </view>
-
     <view class='returnSponsor' wx:if="{{groupStatus.state == '1'  && singleData.actGoodsSkuOuts[0].currentNum < singleData.actGoodsSkuOuts[0].peopleNum && singleData.actGoodsSkuOut.state =='1' }}" catchtap='sponsorVgts'>
       <view>￥
         <text>{{singleData.goodsPromotionRules[0].actAmount}}</text>

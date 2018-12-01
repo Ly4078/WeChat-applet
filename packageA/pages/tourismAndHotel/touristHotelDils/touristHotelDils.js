@@ -11,6 +11,7 @@ Page({
     _build_url: GLOBAL_API_DOMAIN,
     singleData:{},
     newcomer:false,
+    showSkeleton:true,
     isShare:false,
     _content:null,
     shadowFlag:true
@@ -48,13 +49,10 @@ Page({
   onShow:function(){
     let that = this;
     if (app.globalData.newcomer == '1') {
-      wx.showToast({
-        title: '新人注册，返回页面',
-      })
+      console.log('新人注册返回详情页')
       that.setData({
         newcomer: true
       })
-      
     }
     if (!app.globalData.token) {
       that.findByCode()
@@ -72,8 +70,8 @@ Page({
       baseUlr = 'actOrder/add?actGoodsSkuId=' + that.data.groupid
     }
     if (!that.data.singleData.goodsPromotionRules){
-      wx.showLoading({
-        title: '加载中...',
+      that.setData({
+        showSkeleton:true
       })
     }
     wx.request({
@@ -88,6 +86,8 @@ Page({
             groupStatus:res.data.data
           })
           that.getData(id, actid);
+        }else{
+          that.setData({ showSkeleton: false})
         }
       },fail() {
         that.addrecord();
@@ -125,13 +125,16 @@ Page({
             })
           }
           that.setData({
-            singleData: _data
+            singleData: _data,
+            showSkeleton: false
           })
           wx.hideLoading()
         }else{
+          that.setData({ showSkeleton: false })
           wx.hideLoading()
         }
       },fail:function(){
+        that.setData({ showSkeleton: false })
         wx.hideLoading()
       }
 
@@ -218,7 +221,6 @@ Page({
         "Authorization": app.globalData.token
       },
       success: function (res) {
-        console.log(res)
        }
       
       })
@@ -227,7 +229,6 @@ Page({
     let that = this;
     let parentId = that.data.parentId;
     let url = encodeURI(that.data._build_url + 'pullUser/updateNumsUp?type=5&groupId=' + that.data.groupid + '&UserId=' + parentId);
-    console.log(url);
     wx.request({
       url: url,
       method: "POST",
@@ -235,21 +236,12 @@ Page({
         "Authorization": app.globalData.token
       },
       success: function (res) {
-        console.log('添加记录')
-        console.log(res)
-        console.log('添加记录')
       }
 
     })
   },
   fromshare:function(){//来自分享进入时。
     let that = this;
-    if (that.data.isShare) {
-      that.configShare();
-      that.setData({
-        isShare: false
-      })
-    }
     if (that.data.isShare && that.data.newcomer && that.data.shareGroup){
         setTimeout( ()=>{
           that.addPeople();
@@ -260,6 +252,12 @@ Page({
             shareGroup:false
           })
         },500)
+    }
+    if (that.data.isShare) {
+      that.configShare();
+      that.setData({
+        isShare: false
+      })
     }
     
   },
@@ -291,13 +289,12 @@ Page({
       complete: function(res) {},
     })
   },
-  sponsorVgts: function(e) {//点击付款按钮
+  sponsorVgts: function(payType) {//点击付款按钮
     let that = this, _parms = {};
     _parms = {
       shopId: that.data.singleData.shopId,
       payType: 2,
       flagType: 7,
-      actId: that.data.actid,
       singleType: that.data.singleData.singleType,
       orderItemList: [{
         goodsSkuId: that.data.singleData.id,
@@ -305,11 +302,15 @@ Page({
         goodsNum: 1,
         shopId: that.data.singleData.shopId,
         orderItemShopId: '0',
-       
       }]
     };
+    if (payType == 'sellPrice'){
+      _parms.flagType = 1
+    }else{
+      _parms.actId =  that.data.actid
+    }
     wx.showLoading({
-      title: '参团中...',
+      title: '加载中...',
       mask:true
     })
     wx.request({
@@ -324,13 +325,13 @@ Page({
           that.setData({
             orderId: res.data.data
           },()=>{
-            that.wxpayment();
+            that.wxpayment(payType);
           })
           
         }else{
           wx.hideLoading();
           wx.showToast({
-            title: res.data.message || '参团失败',
+            title: res.data.message || '支付失败',
             icon: 'none'
           })
           that.addrecord();
@@ -339,7 +340,7 @@ Page({
       },fail(){
         wx.hideLoading();
         wx.showToast({
-          title: '参团失败',
+          title: '支付失败',
           icon:'none'
         })
         that.addrecord();
@@ -347,7 +348,7 @@ Page({
     })
   },
   //调起微信支付
-  wxpayment: function () {
+  wxpayment: function (payType) {
     let _parms = {},
       that = this,
       url = "",
@@ -356,13 +357,17 @@ Page({
     _parms = {
       orderId: that.data.orderId,
       openId: app.globalData.userInfo.openId,
-      actId: that.data.actid,
-      type: 7
-
     };
+    if (payType =='sellPrice'){
+      _parms.type = 1
+    }else{
+      _parms.actId = that.data.actid
+      _parms.type = 7
+    }
     for (var key in _parms) {
       _value += key + "=" + _parms[key] + "&";
     }
+
 
     _value = _value.substring(0, _value.length - 1);
     url = that.data._build_url + 'wxpay/shoppingMallForCouponNew?' + _value
@@ -379,7 +384,7 @@ Page({
           } else {
             wx.hideLoading();
             wx.showToast({
-              title: res.data.message || '参团失败',
+              title: res.data.message || '支付失败',
               icon: 'none'
             })
             that.addrecord();
@@ -387,7 +392,7 @@ Page({
       }, fail() {
         wx.hideLoading();
         wx.showToast({
-          title: '参团失败',
+          title: '支付失败',
           icon: 'none'
         })
         that.addrecord();
@@ -424,6 +429,11 @@ Page({
     wx.navigateTo({
       url: '/pages/personal-center/personnel-order/logisticsDetails/logisticsDetails?soId=' + id,
     })
+  },
+  originalprice:function(){//原价购买
+      let that = this;
+      that.sponsorVgts('sellPrice')
+
   },
   onShareAppMessage:function(){
     let that = this;

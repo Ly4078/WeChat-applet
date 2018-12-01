@@ -16,7 +16,7 @@
         </view> -->
 
       <!-- 1元拼购 -->
-      <view class="{{selected?'show':'hidden'}}" bindtap='hoteDils' data-groupid="{{item.actGoodsSkuOut.id}}" data-id="{{item.id}}" wx:for="{{dataList}}" wx:key="index">
+      <view class="{{selected?'show':'hidden'}}" bindtap='hoteDils' data-groupid="{{item.actGoodsSkuOut.id}}" data-id="{{item.id}}" wx:for="{{showSkeleton?skeletonData:dataList}}" wx:key="index">
         <view class='delayWrap'>
 
           <view class="endtimeshadow" wx:if="{{item.actGoodsSkuOut.state =='2' || item.actGoodsSkuOut.state =='3'}}">

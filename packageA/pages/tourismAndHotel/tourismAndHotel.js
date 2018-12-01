@@ -10,8 +10,9 @@ Page({
     _build_url: GLOBAL_API_DOMAIN,
     selected: true,
     shadowFlag: true, //活动详情,
-    page:1
-    // showSkeleton:true
+    page:1,
+    skeletonData:['','','','',''],
+    showSkeleton:true
   },
   onLoad: function(options) {
     this.setData({
@@ -51,19 +52,23 @@ Page({
               arr = dataList.concat(_data)
             }
             that.setData({
-              dataList: arr
+              dataList: arr,
+              showSkeleton:false
             })
             requestTask = false
           }else{
             requestTask = false
+            that.setData({ showSkeleton: false})
           }
         }else{
           requestTask = false
+          that.setData({ showSkeleton: false })
         }
 
       },
       fail: function(res) {
         requestTask = false
+        that.setData({ showSkeleton: false })
       }
     })
   },
