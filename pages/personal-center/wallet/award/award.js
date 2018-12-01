@@ -74,7 +74,7 @@ Page({
           if (res.data.data.list && res.data.data.list != 'null') {
             let list = res.data.data.list, awardList = _this.data.awardList;
             for(let i = 0; i < list.length; i++) {
-              if (!list[i].user.nickName) {
+              if (list[i].user && !list[i].user.nickName) {
                 let userName = list[i].user.userName;
                 list[i].user.nickName = userName.substr(0, 3) + '****' + userName.substr(8);
               }

@@ -11,10 +11,10 @@
   <view class="awardList">
     <view class="award_item" wx:for="{{awardList}}" wx:key="index" id="{{item.id}}">
       <view class="award_l">
-        <image wx:if="{{item.user.iconUrl}}" src="{{item.user.iconUrl}}"></image>
+        <image wx:if="{{item.user && item.user.iconUrl}}" src="{{item.user.iconUrl}}"></image>
         <image wx:else src="/images/icon/morentu.png"></image>
         <view>
-          <view class="award_name">{{item.user.nickName}}</view>
+          <view class="award_name">{{item.user ? item.user.nickName : '享七用户'}}</view>
           <view class="award_partIn">{{item.remark}}</view>
           <view class="award_time">{{item.createTime}}</view>
         </view>
