@@ -374,7 +374,6 @@ Page({
             otherStatus: 1,
             groupId: res.data.data.groupId //生成团砍Id
           });
-          console.log(res.data.data.groupId);
           that.bargain();
         }
       }
@@ -417,7 +416,6 @@ Page({
             data = res.data.data,
             reg = /^1[34578][0-9]{9}$/;
           if (data) {
-            console.log(data);
             let endTime = data[0].endTime.replace(/\-/g, "/"),
               max = (+_this.data.skuMoneyOut - _this.data.skuMoneyMin).toFixed(2),
               doneBargain = (+_this.data.skuMoneyOut - data[0].skuMoneyNow).toFixed(2),
@@ -425,10 +423,12 @@ Page({
             progress = doneBargain / max * 100;
             let _move = doneBargain / max * 1;
             _move *= 500;
+            
             _move = _move.toFixed(0);
             if (_move == 500) {
               _move = +_move + 14;
             }
+            _move = _move*1+ 60;
             _this.setData({
               move: _move - 14
             })
@@ -602,7 +602,6 @@ Page({
               sellNum: data.sellNum
             });
             let url = data.picUrl ? data.picUrl : data.skuPic
-            console.log(data)
             canvasShareImg(url, that.data.skuMoneyMin, that.data.skuMoneyOut).then(function(res){
               that.setData({
                 shareImg: res
@@ -792,7 +791,7 @@ Page({
             showModal: true,
             showCanvas: true,
             otherStatus: 2,
-            canvasSrc: '/images/icon/kan.gif',
+            canvasSrc: 'https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/kan.gif',
             audioSrc: 'https://xqmp4-1256079679.file.myqcloud.com/test_kan.mp3'
           });
           setTimeout(function() {

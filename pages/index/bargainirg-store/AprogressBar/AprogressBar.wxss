@@ -14,7 +14,7 @@ page {
 
 .assistInner {
   width: 94%;
-  height: 500rpx;
+  min-height: 500rpx;
 }
 
 .assistTop {
@@ -424,9 +424,11 @@ page {
   font-size: 22rpx;
   font-family: PingFangSC-Regular;
   color: rgba(255, 67, 67, 1);
-  position: relative;
-  width: 20%;
-  left: 0;
+  /* position: relative; */
+  /* left: 20rpx; */
+  position: absolute;
+  /* width: 20%;
+  left: 0; */
 }
 
 .canvasTextxianjia {

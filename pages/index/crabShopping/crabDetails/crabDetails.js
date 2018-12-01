@@ -306,8 +306,6 @@ Page({
         }
       });
     }
-    
-    
   },
   //查询单个详情
   getDetailBySkuId: function(val) {

@@ -21,10 +21,6 @@
     <view class='information-inner'>
       <view class='shopsTop'>
         <text class='shopsTopLeft'>{{skuName}}</text>
-        <!-- <view class='shopsTopRight'>剩余
-          <text>{{stockNum}}</text>份</view> -->
-        <!-- <view class='shopsTopRight'>每天仅售
-          <text>15</text>份</view> -->
       </view>
       <view class='shopsTop shopssecond'>
         <view class='shopsConter'>
@@ -33,66 +29,69 @@
           <text class='lowValue'>{{agioPrice}}</text>
           <text class='abandon'>原价：￥{{sellPrice}}</text>
         </view>
-        <!-- <text class='at-present'>已售{{sellNum}}份</text> -->
       </view>
-      <image class='instructions' src='https://xqmp4-1256079679.file.myqcloud.com/text_461753568722106529.png'></image>
+      <view class='kanj' catchtap="sponsorVgts">
+        <view class='kjicon'>砍价购</view>
+        一刀也优惠，邀请5个好友砍到低价
+        <image src='/images/icon/home_arrow.png'></image>
+      </view>
     </view>
   </view>
 
   <!-- 主体 -->
   <view class='theFollowing'>
     <view class='embedded'>
-      <!-- 位置 -->
-      <view class='specialWrap' wx:if="{{actId}}">
+      <!-- 商品详情 -->
+      <view class='specialWrap'  wx:if="{{article || pattern}}">
         <view class='special'></view>
-        <text>位置</text>
+        <text>商品详情</text>
       </view>
-      <view class='parallelismDining' wx:if="{{actId}}">
-        <view class='diningLeft' bindtap='openmap'>
-          <view class='diningzCenter'>
-          </view>
-          <view class='diningzPlace'>
-            <image class='geography' src='/images/icon/location.png'></image>
-            <text>{{address?address:soData.salePointOuts[0].address}}</text>
-          </view>
-        </view>
-        <view class='diningRight1' bindtap='callphone'>
-          <image class='diningphone' src='/images/icon/greenphone.png'></image>
-        </view>
+      <view class='parewx' hidden="{{!isopenimg}}"  wx:if="{{article}}">
+        <import src="../../../../utils/wxParse/wxParse.wxml" />
+        <template is="wxParse" data="{{wxParseData:article.nodes}}" />
+      </view>
+      <view class='dishtext' hidden="{{isopenimg}}"  wx:if="{{pattern}}">
+        {{pattern}}
+      </view>
+      <view class='dishImg'  wx:if="{{article}}">
+        <view class='openImg' bindtap='clickopen'>{{isopenimg?'收起图文详情':'查看图文详情'}}</view>
       </view>
 
-      <!-- 菜品详情 -->
-      <view wx:if="{{skuInfo}}">
-        <view class='specialWrap'>
-          <view class='special'></view>
-          <text>{{actId?'购买须知':'详情'}}</text>
-        </view>
-        <view class="skuInfo">
-          <view wx:for="{{skuInfo}}" wx:key="{{index}}" id="{{index}}" wx:for-index="idx">{{idx+1}}.{{item}}</view>
+      <!-- 购买须知start -->
+      <view class='specialWrap'>
+        <view class='special'></view>
+        <text>购买须知</text>
+      </view>
+      <view class='legend'>
+        <view class='legend_one' wx:for="{{legend}}" wx:key="{{index}}">
+          <view class='legend_name'> {{item.name}}</view>
+          <view class='legend_info' wx:for="{{item.info}}" wx:key="{{index}}">·
+            <text>{{item}}</text>
+          </view>
         </view>
       </view>
+      <!-- 购买须知end -->
 
       <!-- 标题 -->
       <view class='specialWrap' wx:if="{{shopName}}">
         <view class='special'></view>
-        <text>适用餐厅</text>
+        <text>{{shopName}}</text>
+        <view class='diningRight shopindex' bindtap="toShopDetail">
+          <text>商家主页</text>
+          <image class='merchant-xiaji' src='/images/icon/home_arrow.png'></image>
+        </view>
       </view>
-      <!-- 餐厅 -->
+      <!-- 商家主页 -->
       <view class='parallelismDining' wx:if="{{shopName}}">
         <view class='diningLeft'>
-          <text class='diningLeftname'>{{shopName}}</text>
-          <view class='diningzCenter'>
-            <!-- <image class='doubleImges' src='/images/icon/hot.png'></image>
-            <text>{{popNum}}</text> -->
-          </view>
           <view class='diningzPlace'>
             <image class='geography' src='/images/icon/location.png'></image>
             <text>{{address}}</text>
           </view>
         </view>
         <view class='diningRight' bindtap="toShopDetail">
-          <text>商家主页</text>
-          <image class='merchant-xiaji' src='/images/icon/home_arrow.png'></image>
+          <image class='mapphone' src='https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/map_icon.png'></image>|
+          <image class='mapphone' src='https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/phone_icon.png'></image>
         </view>
       </view>
 
@@ -104,8 +103,7 @@
       <block wx:for="{{isBarg ? dishList : preDishList}}" wx:key="{{index}}" id="{{index}}" wx:for-index="idx">
         <view class='merchantROM'>
           <view class='merchantLeft' id="{{item.id}}" catchtap='dishesDiscounts'>
-            <image class='merchantImages' mode='scaleToFill' wx:if="{{item.picUrl}}" src='{{item.picUrl}}'></image>
-            <image class='merchantImages' wx:else mode='scaleToFill' src='/images/icon/morentu.png'></image>
+
             <view class='acuisineMessage'>
               <text class='acuisineName'>{{item.skuName}}</text>
               <view class='lemon'>
@@ -120,7 +118,7 @@
             </view>
           </view>
           <view class='aBargain'>
-            <button id="{{item.id}}" data-shopId="{{item.shopId}}" data-agioPrice="{{item.agioPrice}}" data-sellPrice="{{item.sellPrice}}" data-actId="{{item.actId}}"   data-categoryId="{{item.categoryId}}" catchtap='chickinItiate'>发起砍价</button>
+            <button id="{{item.id}}" data-shopId="{{item.shopId}}" data-agioPrice="{{item.agioPrice}}" data-sellPrice="{{item.sellPrice}}" data-actId="{{item.actId}}" data-categoryId="{{item.categoryId}}" catchtap='chickinItiate'>发起砍价</button>
           </view>
         </view>
       </block>
@@ -129,10 +127,10 @@
         <image src="/images/icon/restaurant_arrow.png" class='{{isBarg ? "transjt" : ""}}'></image>
       </view>
 
-      <!-- 热门推荐 -->
+      <!-- 猜你喜欢 -->
       <view class='specialWrap specialHot' wx:if="{{hotDishList.length>0}}">
         <view class='special'></view>
-        <text>热门推荐</text>
+        <text>猜你喜欢</text>
       </view>
       <view class='oldWrap'>
         <block wx:for="{{hotDishList}}" wx:key="{{index}}" id="{{index}}" wx:for-index="idx">
@@ -145,9 +143,7 @@
               <view class='beanLeft'>
                 <text>{{item.skuName}}</text>
               </view>
-              <!-- <view class='beanRight'>已售
-                <text>{{item.sellNum}}</text>
-              </view> -->
+
             </view>
             <view class='horticulture'>
               <view class='hol-left'>
@@ -204,4 +200,4 @@
 
 
 <!-- 自定义分享图片中 绘制价格   公共方法utils.js/canvasShareImg.js  调用方法canvasShareImg() -->
-<canvas  canvas-id="myCanvas" style="width:800px;height:642px;position: fixed;top: 0; left: 999px;"></canvas>
+<canvas canvas-id="myCanvas" style="width:800px;height:642px;position: fixed;top: 0; left: 999px;"></canvas>

@@ -4,6 +4,7 @@ import {
   GLOBAL_API_DOMAIN
 } from '../../../../utils/config/config.js';
 import canvasShareImg from '../../../../utils/canvasShareImg.js';
+var WxParse = require('../../../../utils/wxParse/wxParse.js');
 var app = getApp();
 
 Page({
@@ -22,13 +23,29 @@ Page({
     address: '',
     initiator: '', //发起人
     yuaninitiator: '', //发起人
+    store_details: [],
     newList: [], //邀请新人列表
     timer: null, //倒计时
     countDown: '',
     isEnd: true, //是否结束
     isCreated: true, //是否创建菜品
     btnTxt: '发起邀请', //按钮文字
-    peoPleNum: 0 //邀请人数
+    peoPleNum: 0, //邀请人数
+    pattern: '',
+    article:'',
+    actId:'',
+    isopenimg: false,
+    legend: [{
+        name: '有效期',
+        info: [
+          '购买后3个月内使用有效'
+        ]
+      },
+      {
+        name: '使用规则',
+        info: []
+      }
+    ]
   },
   onLoad: function(options) {
     let _this = this;
@@ -37,18 +54,21 @@ Page({
       timer: null,
       initiator: options.initiator ? options.initiator : '', //发起人Id
       id: options.id,
-      shopId: options.shopId
+      shopId: options.shopId,
+      actId: options.actId ? options.actId:''
     });
+    
   },
   onShow: function() {
-    let _this = this;
+    let _this = this,
+      that = this;
+    
     clearInterval(_this.data.timer);
     this.setData({
       timer: null
     });
 
     if (app.globalData.userInfo.userId) {
-      
       if (app.globalData.userInfo.mobile) {
         if (app.globalData.token) {
           _this.shopDetail();
@@ -57,9 +77,9 @@ Page({
         } else {
           _this.authlogin();
         }
-      } else {//是新用户，
+      } else { //是新用户，
         wx.navigateTo({
-          url: '/pages/personal-center/securities-sdb/securities-sdb?parentId=' + this.data.initiator+ '&skuId=' + this.data.id + '&shopId=' + this.data.shopId
+          url: '/pages/personal-center/securities-sdb/securities-sdb?parentId=' + this.data.initiator + '&skuId=' + this.data.id + '&shopId=' + this.data.shopId
         })
       }
     } else {
@@ -80,11 +100,11 @@ Page({
       timer: null
     });
   },
-  onPullDownRefresh: function () { //下拉刷新
+  onPullDownRefresh: function() { //下拉刷新
     this.isCreateFunc();
   },
   //通过code查询进入的用户信息，判断是否是新用户
-  findByCode: function () { 
+  findByCode: function() {
     let that = this;
     wx.login({
       success: res => {
@@ -93,7 +113,7 @@ Page({
         }).then((res) => {
           if (res.data.code == 0) {
             let data = res.data.data;
-            if(data.id){
+            if (data.id) {
               app.globalData.userInfo.userId = data.id;
               for (let key in data) {
                 for (let ind in app.globalData.userInfo) {
@@ -104,14 +124,14 @@ Page({
               }
               if (!data.mobile) { //是新用户，去注册页面
                 wx.navigateTo({
-                  url: '../../../../pages/personal-center/securities-sdb/securities-sdb?parentId=' + this.data.initiator  + '&skuId=' + this.data.id + '&shopId=' + this.data.shopId
+                  url: '../../../../pages/personal-center/securities-sdb/securities-sdb?parentId=' + this.data.initiator + '&skuId=' + this.data.id + '&shopId=' + this.data.shopId
                 })
               } else {
                 that.authlogin();
               }
-            }else{
+            } else {
               wx.navigateTo({
-                url: '../../../../pages/personal-center/securities-sdb/securities-sdb?parentId=' + this.data.initiator  + '&skuId=' + this.data.id + '&shopId=' + this.data.shopId
+                url: '../../../../pages/personal-center/securities-sdb/securities-sdb?parentId=' + this.data.initiator + '&skuId=' + this.data.id + '&shopId=' + this.data.shopId
               })
             }
           } else {
@@ -122,7 +142,7 @@ Page({
     })
   },
   //获取token
-  authlogin: function (val) { 
+  authlogin: function(val) {
     let that = this;
     wx.request({
       url: this.data._build_url + 'auth/login?userName=' + app.globalData.userInfo.userName,
@@ -131,7 +151,7 @@ Page({
       header: {
         'content-type': 'application/json' // 默认值
       },
-      success: function (res) {
+      success: function(res) {
         if (res.data.code == 0) {
           let _token = 'Bearer ' + res.data.data;
           app.globalData.token = _token;
@@ -144,16 +164,95 @@ Page({
   },
   //查询菜
   getDish() {
-    let that = this;
-    let _parms = {
+    let that = this, _parms = {}, _Url = "", _value='';
+    
+    _parms = {
       Id: this.data.id,
-      zanUserId: app.globalData.userInfo.userId,
+      // zanUserId: app.globalData.userInfo.userId,
       shopId: this.data.shopId,
-      token: app.globalData.token
+      ocationX: app.globalData.userInfo.lng,
+      locationY: app.globalData.userInfo.lat,
     };
+    if(that.data.actId){
+      _parms.actId = this.data.actId
+    }
+    for (var key in _parms) {
+      _value += key + "=" + _parms[key] + "&";
+    }
+    _value = _value.substring(0, _value.length - 1);
+    if (this.data.actId) {
+      _Url = this.data._build_url + 'goodsSku/selectDetailBySkuIdNew?' + _value;
+    } else {
+      _Url = this.data._build_url + 'sku/getQgc?' + _value;
+    }
+
+    wx.request({
+      url: _Url,
+      header: {
+        "Authorization": app.globalData.token
+      },
+      method: 'GET',
+      success: function (res) {
+        if (res.data.code == 0 && res.data.data) {
+          let data = res.data.data,
+            _RegExp = new RegExp('<p.*?>(.*?)<\/p>', 'i'),
+          pattern='',
+            article='',
+            skuInfo = data.skuInfo ? data.skuInfo : data.actGoodsSkuOut.ruleDesc;
+            if(data.skuInfo){
+              skuInfo = skuInfo ? '1个小时内完成邀请并成功购买，逾期失效Œ' + skuInfo : '1个小时内完成邀请并成功购买，逾期失效';
+              if (skuInfo.indexOf("Œ") != -1) {
+                skuInfo = skuInfo.split('Œ');
+              }
+              that.setData({
+                 skuInfo: skuInfo
+              })
+            }else{
+              if (skuInfo.indexOf("Œ") != -1) {
+                skuInfo = skuInfo.split('Œ');
+              }
+              let arr= that.data.legend;
+              arr[1].info = skuInfo;
+              that.setData({
+                legend:arr
+              })
+            }
+          
+          if (data.goodsSpuOut && data.goodsSpuOut.goodsSpuDesc && data.goodsSpuOut.goodsSpuDesc.content) {
+            article = data.goodsSpuOut.goodsSpuDesc.content;
+            pattern = article.match(_RegExp)[1];
+            WxParse.wxParse('article', 'html', article, that, 0);
+          }
+
+          // article = data.goodsSpuOut.goodsSpuDesc.content;
+          // pattern = article.match(_RegExp)[1];
+          // WxParse.wxParse('article', 'html', article, that, 0);
+
+          that.setData({
+            pattern: pattern,
+            picUrl: data.picUrl ? data.picUrl : data.skuPic,
+            skuName: data.skuName,
+            stockNum: data.stockNum,
+            agioPrice: data.agioPrice ? data.agioPrice : data.actGoodsSkuOut.goodsPromotionRules.actAmount,
+            sellPrice: data.sellPrice,
+            sellNum: data.sellNum
+          });
+          //自定义分享图片中 绘制价格   公共方法utils.js/canvasShareImg.js  调用方法canvasShareImg()
+          canvasShareImg(data.picUrl, data.agioPrice, data.sellPrice).then(function (res) {
+            that.setData({
+              shareImg: res
+            })
+          })
+        }
+      }
+    })
+
+return
+
     Api.secKillDetail(_parms).then((res) => {
       if (res.data.code == 0 && res.data.data) {
-        let data = res.data.data, skuInfo = data.skuInfo;
+        let data = res.data.data,
+          skuInfo = data.skuInfo;
         skuInfo = skuInfo ? '1个小时内完成邀请并成功购买，逾期失效Œ' + skuInfo : '1个小时内完成邀请并成功购买，逾期失效'
         this.setData({
           picUrl: data.picUrl,
@@ -165,7 +264,7 @@ Page({
           skuInfo: skuInfo.split('Œ')
         });
         //自定义分享图片中 绘制价格   公共方法utils.js/canvasShareImg.js  调用方法canvasShareImg()
-        canvasShareImg(data.picUrl, data.agioPrice, data.sellPrice).then(function (res) {
+        canvasShareImg(data.picUrl, data.agioPrice, data.sellPrice).then(function(res) {
           that.setData({
             shareImg: res
           })
@@ -173,16 +272,49 @@ Page({
       }
     })
   },
+  //打开地图，已授权位置
+  openmap: function() {
+    let that = this,
+      storeDetails = that.data.store_details;
+    wx.openLocation({
+      longitude: storeDetails.locationX,
+      latitude: storeDetails.locationY,
+      scale: 18,
+      name: storeDetails.shopName,
+      address: storeDetails.address,
+      success: function(res) {},
+      fail: function(res) {}
+    })
+  },
+  // 电话号码功能
+  calling: function() {
+    let that = this,
+      tell = "";
+    tell = that.data.store_details.phone ? that.data.store_details.phone : that.data.store_details.mobile;
+    if (tell) {
+      wx.makePhoneCall({
+        phoneNumber: tell,
+        success: function() {
+          console.log("拨打电话成功！")
+        },
+        fail: function() {
+          console.log("拨打电话失败！")
+        }
+      })
+    } else {
+      wx.showToast({
+        title: '商家没有设置联系电话',
+      })
+    }
+  },
   //判断之前是否创建过，并查看邀请了多少人注册
-  isCreateFunc() { 
-    console.log('isCreateFunc')
+  isCreateFunc() {
     let _parms = {
       skuId: this.data.id,
       parentId: app.globalData.userInfo.userId,
       token: app.globalData.token
     };
     Api.inviteNum(_parms).then((res) => {
-      console.log('res:',res)
       wx.stopPullDownRefresh();
       if (res.data.code == 0) {
         let isCreated = false;
@@ -206,6 +338,12 @@ Page({
       }
     })
   },
+  //点击查看图文详情
+  clickopen: function() {
+    this.setData({
+      isopenimg: !this.data.isopenimg
+    })
+  },
   //查询商家信息
   shopDetail() {
     let _this = this;
@@ -218,10 +356,11 @@ Page({
         if (res.data.code == 0 && res.data.data) {
           let data = res.data.data;
           _this.setData({
+            store_details: data,
             shopName: data.shopName,
             address: data.address
           });
-        } 
+        }
       }
     });
   },
@@ -322,13 +461,13 @@ Page({
       })
       return false;
     }
-   
+
     if (this.data.peoPleNum >= 2) {
       let sellPrice = this.data.agioPrice; //折后价
       wx.navigateTo({
         url: '../../order-for-goods/order-for-goods?shopId=' + this.data.shopId + '&skuName=' + sellPrice + '元抢购券&sell=' + sellPrice + '&skutype=8&dishSkuId=' + this.data.id + '&dishSkuName=' + this.data.skuName
       })
-   
+
     } else if (!this.data.isCreated) {
       wx.showModal({
         title: '是否发起邀请',
@@ -362,13 +501,13 @@ Page({
       complete: function(res) {},
     })
   },
-  inviteOthers() {  //点击邀请好友
+  inviteOthers() { //点击邀请好友
     if (this.data.stockNum <= 0) {
       wx.showToast({
         title: '该菜品已售罄',
         icon: 'none'
       })
-    }else{
+    } else {
       this.setData({
         yuaninitiator: this.data.initiator ? this.data.initiator : app.globalData.userInfo.userId
       })
@@ -383,7 +522,7 @@ Page({
   //分享给好友
   onShareAppMessage: function() {
     let that = this
-    let _initiator= app.globalData.userInfo.userId;
+    let _initiator = app.globalData.userInfo.userId;
     return {
       // title: this.data.skuName,
       title: "2人秒杀仅需0.01元，" + this.data.skuName,

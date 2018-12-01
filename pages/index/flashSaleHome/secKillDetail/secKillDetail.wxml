@@ -13,9 +13,8 @@
     <view class='information-inner'>
       <view class='shopsTop'>
         <text class='shopsTopLeft'>{{skuName}}</text>
-        <view class='shopsTopRight'>当日仅售
-        <text>15</text>份</view>
-          <!-- <text>{{stockNum}}</text>份</view> -->
+        <!-- <view class='shopsTopRight'>当日仅售
+        <text>15</text>份</view> -->
       </view>
       <view class='shopsTop shopssecond'>
         <view class='shopsConter'>
@@ -24,9 +23,12 @@
           </view>
           <text class='abandon'>￥{{sellPrice}}</text>
         </view>
-        <!-- <text class='at-present'>已售{{sellNum}}份</text> -->
       </view>
-      <image class='instructions' src='/images/icon/secKill.png'></image>
+      <view class='kanj'>
+        <view class='kjicon'>秒杀购</view>
+        邀请2个新用户注册1分钱购买
+        <image src='/images/icon/home_arrow.png'></image>
+      </view>
     </view>
   </view>
 
@@ -59,37 +61,60 @@
           <button wx:else bindtap='inviteOthers'>{{btnTxt}}</button>
         </view>
       </view>
-      <!-- 菜品详情 -->
+
+      <!-- 商品详情start -->
       <view class='specialWrap'>
         <view class='special'></view>
-        <text>详情</text>
+        <text>商品详情</text>
       </view>
-      <view class="skuInfo">
-        <view wx:for="{{skuInfo}}" wx:key="index" wx:for-index="{{index}}">*{{item}}</view>
+      <view class='parewx' hidden="{{!isopenimg}}" wx:if="{{article}}">
+        <import src="../../../../utils/wxParse/wxParse.wxml" />
+        <template is="wxParse" data="{{wxParseData:article.nodes}}" />
       </view>
-      <!-- 标题 -->
+      <view class='dishtext' hidden="{{isopenimg}}">
+        {{pattern}}
+      </view>
+      <view class='dishImg'>
+        <view class='openImg' bindtap='clickopen'>{{isopenimg?'收起图文详情':'查看图文详情'}}</view>
+      </view>
+
+      <!-- 购买须知start -->
       <view class='specialWrap'>
         <view class='special'></view>
-        <text>适用餐厅</text>
+        <text>购买须知</text>
       </view>
-      <!-- 餐厅 -->
-      <view class='parallelismDining'>
-        <view class='diningLeft'>
-          <text class='diningLeftname'>{{shopName}}</text>
-          <view class='diningzCenter'>
-            <!-- <image class='doubleImges' src='/images/icon/hot.png'></image>
-            <text>{{popNum}}</text> -->
-          </view>
-          <view class='diningzPlace'>
-            <image class='geography' src='/images/icon/location.png'></image>
-            <text>{{address}}</text>
+      <view class='legend'>
+        <view class='legend_one' wx:for="{{legend}}" wx:key="{{index}}">
+          <view class='legend_name'> {{item.name}}</view>
+          <view class='legend_info' wx:for="{{item.info}}" wx:key="{{index}}">·
+            <text>{{item}}</text>
           </view>
         </view>
-        <view class='diningRight' bindtap="toShopDetail">
+      </view>
+      <!-- 购买须知end -->
+
+      <!-- 商家主页start -->
+      <view class='specialWrap' wx:if="{{shopName}}">
+        <view class='special'></view>
+        <text>{{shopName}}{{shopName}}</text>
+        <view class='diningRight shopindex' bindtap="toShopDetail">
           <text>商家主页</text>
           <image class='merchant-xiaji' src='/images/icon/home_arrow.png'></image>
         </view>
       </view>
+      <view class='parallelismDining' wx:if="{{shopName}}">
+        <view class='diningLeft'>
+          <view class='diningzPlace' catchtap='openmap'>
+            <image class='geography' src='/images/icon/location.png'></image>
+            <text>{{address}}</text>
+          </view>
+        </view>
+        <view class='diningRight1'>
+          <image class='mapphone' catchtap='openmap' src='https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/map_icon.png'></image>|
+          <image class='mapphone' bindtap="calling" src='https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/phone_icon.png'></image>
+        </view>
+      </view>
+      <!-- 商家主页end -->
     </view>
   </view>
 
@@ -99,10 +124,6 @@
       <image class='houselet' src='/images/icon/houselet.png'></image>
       <text>首页</text>
     </view>
-    <!-- <view class='returnHome' catchtap='shareCand'>
-      <image class='yellowShare' src='/images/icon/yellowShare.png'></image>
-      <text>分享</text>
-    </view> -->
 
     <button class='returnHome' bindtap='share' plain="true" data-name="shareBtn" open-type="share">
       <image class='yellowShare' src='/images/icon/yellowShare.png'></image>
@@ -115,4 +136,4 @@
 
 
 <!-- 自定义分享图片中 绘制价格   公共方法utils.js/canvasShareImg.js  调用方法canvasShareImg() -->
-<canvas  canvas-id="myCanvas" style="width:800px;height:642px;position: fixed;top: 0; left: 999px;"></canvas>
+<canvas canvas-id="myCanvas" style="width:800px;height:642px;position: fixed;top: 0; left: 999px;"></canvas>

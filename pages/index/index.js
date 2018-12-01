@@ -99,8 +99,6 @@ Page({
       windowHeight: app.globalData.systemInfo.windowHeight,
       carousel
     });
-
-
   },
   onShow: function() {
     let that = this;
@@ -303,7 +301,6 @@ Page({
           try {
             res.data.navs[4].title = "短视频";
           } catch (err) {
-
           }
         } else if (res.data.flag == 1) { //1不显示
           app.globalData.isflag = false;
@@ -600,7 +597,6 @@ Page({
     wx.navigateTo({
       url: '/pages/index/merchant-particulars/merchant-particulars?shopid=' + id,
     })
-
   },
   toSecKillDetail(e) { //跳转至菜品详情
     let curr = e.currentTarget;

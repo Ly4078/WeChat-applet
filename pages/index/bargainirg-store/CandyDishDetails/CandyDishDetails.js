@@ -5,6 +5,7 @@ import {
 } from '../../../../utils/config/config.js';
 var app = getApp();
 import canvasShareImg from '../../../../utils/canvasShareImg.js';
+var WxParse = require('../../../../utils/wxParse/wxParse.js');
 let requesting = false;
 
 var village_LBS = function(that) {
@@ -40,6 +41,7 @@ Page({
     popNum: '', //人气值
     dishList: [], //同店推荐
     preDishList: [],
+    store_details: [],
     hotDishList: [], //热门推荐
     isBarg: false,
     flag: true,
@@ -49,15 +51,28 @@ Page({
     _lat: '',
     _lng: '',
     categoryId: '',
-    optObj:{},
+    optObj: {},
+    isopenimg: false,
     id: '', //商品ID
-    actId: '' //活动ID
+    actId: '', //活动ID
+    pattern: '',
+    article: '',
+    legend: [{
+      name: '有效期',
+      info: [
+        '购买后3个月内使用有效'
+      ]
+    },
+    {
+      name: '使用规则',
+      info: []
+    }
+    ]
   },
   onLoad(options) {
-    console.log("opttions:",options)
-
+    console.log("opttions:", options)
     this.setData({
-      optObj:options,
+      optObj: options,
       flag: true,
       hotDishList: [],
       page: 1,
@@ -66,28 +81,28 @@ Page({
       _city: options.city ? options.city : ''
     });
     if (options.actId) {
-      let _title='';
+      let _title = '';
       this.setData({
         actId: options.actId,
         id: options.id,
-        categoryId: options.categoryId
+        categoryId: options.categoryId ? options.categoryId:''
       })
-      if(options.categoryId==5){
-        _title='酒店详情';
+      if (options.categoryId == 5) {
+        _title = '酒店详情';
       } else if (options.categoryId == 6) {
         _title = '门票详情';
       } else if (options.categoryId == 8) {
         _title = '菜品详情';
-      } 
+      }
       wx.setNavigationBarTitle({
         title: _title
       })
     }
   },
   onShow() {
+    let that = this;
     if (!app.globalData.userInfo.city && !app.globalData.userInfo.lat && !app.globalData.userInfo.lng) {
       this.getUserlocation();
-
     }
     if (app.globalData.userInfo.userId) {
       if (app.globalData.userInfo.mobile) {
@@ -106,6 +121,12 @@ Page({
     } else {
       this.findByCode();
     }
+  },
+  //点击查看图文详情
+  clickopen: function() {
+    this.setData({
+      isopenimg: !this.data.isopenimg
+    })
   },
   findByCode: function() { //通过code查询用户信息
     let that = this;
@@ -210,9 +231,9 @@ Page({
   },
   getmoreData() { //查询 更多数据 
     this.dishDetail();
-    if (!this.data.actId) {
+    // if (!this.data.actId) {
       this.shopDetail();
-    }
+    // }
     if (app.globalData.userInfo.lng && app.globalData.userInfo.lat) {
       if (this.data._city || app.globalData.userInfo.city) {
         this.setData({
@@ -305,16 +326,22 @@ Page({
       url = "";
     _parms = {
       Id: this.data.id,
-      zanUserId: app.globalData.userInfo.userId,
       shopId: this.data.shopId,
+      locationX: app.globalData.userInfo.lng,
+      locationY: app.globalData.userInfo.lat
     };
-
+    if (that.data.actId) {
+      _parms.actId = this.data.actId
+    }else{
+      _parms.zanUserId=app.globalData.userInfo.userId
+    }
     for (var key in _parms) {
       _values += key + "=" + _parms[key] + "&";
     }
     _values = _values.substring(0, _values.length - 1);
+    console
     if (this.data.actId) {
-      url = that.data._build_url + 'goodsSku/selectDetailBySkuIdNew?id=' + that.data.id + '&locationX=' + app.globalData.userInfo.lng + '&locationY=' + app.globalData.userInfo.lat
+      url = that.data._build_url + 'goodsSku/selectDetailBySkuIdNew?'+_values
     } else {
       url = that.data._build_url + 'sku/getKjc?' + _values;
     }
@@ -329,14 +356,46 @@ Page({
         if (res.data.code == 0 && res.data.data) {
           let data = res.data.data,
             skuInfo = '',
+            _RegExp = new RegExp('<p.*?>(.*?)<\/p>', 'i'),
+            pattern = '',
+            article = '',
             remark = [];
-          if (data.skuInfo && data.skuInfo != 'null' && data.skuInfo != 'undefined') {
-            skuInfo = data.skuInfo.split('Œ');
-          } else if (data.remark) {
+          console.log('data:', data)
+          if (data.skuInfo) {
+            skuInfo = data.skuInfo;
+            console.log('data111:')
+            if (skuInfo.indexOf("Œ") != -1){
+              skuInfo = skuInfo.split('Œ');
+            }
+            
+            that.setData({
+              skuInfo: skuInfo
+            })
+          } else if (data.remark){
             remark.push(data.remark)
+          } else  {
+            console.log('222:')
+            skuInfo = data.actGoodsSkuOut.ruleDesc;
+            if (skuInfo.indexOf("Œ") != -1) {
+              skuInfo = skuInfo.split('Œ');
+            }
+            let arr = that.data.legend;
+            arr[1].info = skuInfo;
+            that.setData({
+              legend: arr
+            })
           }
-          console.log("data:", data)
+          console.log('legend:', that.data.legend)
+
+          if (data.goodsSpuOut && data.goodsSpuOut.goodsSpuDesc && data.goodsSpuOut.goodsSpuDesc.content) {
+            article = data.goodsSpuOut.goodsSpuDesc.content;
+            pattern = article.match(_RegExp)[1];
+            WxParse.wxParse('article', 'html', article, that, 0);
+          }
+          
+
           that.setData({
+            pattern: pattern,
             soData: data,
             picUrl: data.picUrl ? data.picUrl : data.skuPic,
             skuName: data.skuName,
@@ -346,11 +405,11 @@ Page({
             sellPrice: data.sellPrice,
             sellNum: data.sellNum
           });
-         //自定义分享图片中 绘制价格   公共方法utils.js/canvasShareImg.js  调用方法canvasShareImg()
-          canvasShareImg(that.data.picUrl, that.data.agioPrice, that.data.sellPrice).then(function(res){ 
+          //自定义分享图片中 绘制价格   公共方法utils.js/canvasShareImg.js  调用方法canvasShareImg()
+          canvasShareImg(that.data.picUrl, that.data.agioPrice, that.data.sellPrice).then(function(res) {
             console.log(res);
             that.setData({
-              shareImg:res
+              shareImg: res
             })
           })
         }
@@ -373,6 +432,7 @@ Page({
         if (res.data.code == 0 && res.data.data) {
           let data = res.data.data;
           _this.setData({
+            store_details: data,
             shopName: data.shopName,
             address: data.address,
             popNum: data.popNum
@@ -437,7 +497,7 @@ Page({
   hotDishList() {
     let that = this,
       url = "",
-      _Url="",
+      _Url = "",
       _values = "",
       _parms = {};
     if (this.data.page == 1) {
@@ -449,7 +509,6 @@ Page({
     console.log(that.data.actId);
     if (app.globalData.userInfo.lat && app.globalData.userInfo.lng) {
       //browSort 0附近 1销量 2价格
-
       requesting = true;
       if (that.data.actId) {
         _parms = {
@@ -485,7 +544,7 @@ Page({
         _values = _values.substring(0, _values.length - 1);
         url = that.data._build_url + 'sku/kjcList?' + _values;
       }
-      _Url=encodeURI(url);
+      _Url = encodeURI(url);
       console.log('_Url:', _Url)
       wx.request({
         url: _Url,
@@ -494,7 +553,7 @@ Page({
           "Authorization": app.globalData.token
         },
         success: function(res) {
-          console.log('res:',res)
+          console.log('res:', res)
           if (res.data.code == 0) {
             if (res.data.data.list && res.data.data.list.length > 0) {
               let list = res.data.data.list,
@@ -762,7 +821,7 @@ Page({
   //打开地图
   openmap: function() {
     let that = this,
-      storeDetails = that.data.soData.salePointOuts[0];;
+      storeDetails = that.data.store_details;
     wx.openLocation({
       longitude: storeDetails.locationX,
       latitude: storeDetails.locationY,
@@ -775,11 +834,11 @@ Page({
   },
   //拨打电话
   callphone: function() {
-    let phone='';
-    if (this.data.soData.salePointOuts && this.data.soData.salePointOuts.length>0){
+    let phone = '';
+    if (this.data.soData.salePointOuts && this.data.soData.salePointOuts.length > 0) {
       phone = this.data.soData.salePointOuts[0].phone;
     }
-     
+
     if (phone) {
       wx.makePhoneCall({
         phoneNumber: phone
@@ -805,24 +864,27 @@ Page({
   //分享给好友
   onShareAppMessage: function() {
     let that = this;
-    let userInfo = app.globalData.userInfo, _path = '', _values = '', _parms={};
+    let userInfo = app.globalData.userInfo,
+      _path = '',
+      _values = '',
+      _parms = {};
     console.log('onShareAppMessage', this.data.actId)
-    if(this.data.actId){
-      _parms= this.data.optObj;
+    if (this.data.actId) {
+      _parms = this.data.optObj;
       for (var key in _parms) {
         _values += key + "=" + _parms[key] + "&";
       }
       _values = _values.substring(0, _values.length - 1);
       console.log("_values:", _values)
-      _path = '/pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails?'+_values;
-    }else{
+      _path = '/pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails?' + _values;
+    } else {
       _path: '/pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails?shopId=' + this.data.shopId + '&id=' + this.data.id + '&lat=' + userInfo.lat + '&lng=' + userInfo.lng + '&city=' + userInfo.city;
     }
     return {
       // title: this.data.skuName,
       title: "邀人砍价，享实惠~~ " + this.data.skuName,
       path: _path,
-      imageUrl:that.data.shareImg,
+      imageUrl: that.data.shareImg,
       success: function(res) {
 
       },

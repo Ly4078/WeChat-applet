@@ -1,13 +1,18 @@
 import Api from '../../../utils/config/api.js';
 var utils = require('../../../utils/util.js');
-let app = getApp()
+let app = getApp();
+import {
+  GLOBAL_API_DOMAIN
+} from '../../../utils/config/config.js';
 let requesting = false;
 Page({
   data: {
+    _build_url: GLOBAL_API_DOMAIN,
     nearbydatas: ['由近到远'],
-    fooddatas: ['全部', "自助餐", "湖北菜", "川菜", "湘菜", "粤菜", "咖啡厅", "小龙虾", "火锅", "海鲜", "烧烤", "江浙菜", "西餐", "料理", "其它美食"],
+    fooddatas: [],
     sortingdatas: ['全部','人气排序'],
     page: 1,
+    shopCate:'',
     isclosure:false,
     isScroll: true,
     ismodel: false,
@@ -26,19 +31,23 @@ Page({
   },
 
   onLoad: function (options) {
-    let that = this;
+    console.log('options:', options)
+    let that = this, _val = "";
     setTimeout(()=>{
       that.setData({
         showSkeleton:false
       })
-    },5000)
-    let _val = "";
+    },5000);
+    if (options.shopCate){
+      this.setData({
+        shopCate: options.shopCate
+      })
+    }
     if (options.cate) {
       this.data.businessCate = options.cate
     }
     let _token = wx.getStorageSync('token') || "";
     let userInfo = wx.getStorageSync('userInfo') || {};
-    // console.log('userInfo:', userInfo)
     app.globalData.token = _token.length > 5 ? _token:"";
     app.globalData.userInfo = userInfo
 
@@ -66,7 +75,9 @@ Page({
           this.getshopInfo(this.data._val);
         }
         if (userInfo.lng && userInfo.lat && userInfo.city) {
-          this.getData();
+          if (this.data.posts_key.length<1){
+            this.getData();
+          }
         } else {
           this.getUserlocation();
         }
@@ -74,6 +85,9 @@ Page({
         this.findByCode();
       }
     }
+    // if (that.data.fooddatas.length<1){
+      this.getfooddatas();
+    // }
   },
 
   // 初始化start
@@ -143,8 +157,37 @@ Page({
       }
     })
   },
+  getfooddatas:function(){
+    let that = this, _typeData=[],_children=[];
+    wx.request({
+      url: that.data._build_url + 'shopCategory/list?',
+      method: "GET",
+      data: {},
+      header: {
+        "Authorization": app.globalData.token
+      },
+      success: function (res) {
+        console.log('getfooddatas_res:',res)
+        if(res.data.code == 0){
+          if(res.data.data.length>0){
+            _typeData = res.data.data;
+            for(let i in _typeData){
+              if(_typeData[i].id == that.data.shopCate){
+                for (let j in _typeData[i].children){
+                  _children.push(_typeData[i].children[j].categoryName)
+                }
+                console.log('_children:', _children)
+                that.setData({
+                  fooddatas:_children
+                })
+              }
+            }
+          }
+        }
+      }
+    })
+  },
   getData: function (types){
-    console.log(types)
     let that = this, _parms = {};
     _parms = {
       locationX: app.globalData.userInfo.lng,
@@ -154,7 +197,9 @@ Page({
       rows: 8,
       token: app.globalData.token
     };
-
+    if (this.data.shopCate) {//酒店 2    景点3   美食1
+      _parms.shopCate = this.data.shopCate
+    }
     if (this.data.businessCate) { //美食类别 
       _parms.businessCate = this.data.businessCate
     }
@@ -209,7 +254,9 @@ Page({
             for (let i = 0; i < _data.length; i++) {
               _data[i].distance = utils.transformLength(_data[i].distance);
               _data[i].activity = _data[i].ruleDescs ? _data[i].ruleDescs.join(',') : '';
-              _data[i].businessCate = _data[i].businessCate.split('/')[0].split(',')[0];
+              if (_data[i].businessCate){
+                _data[i].businessCate = _data[i].businessCate.split('/')[0].split(',')[0];
+              }
               posts.push(_data[i]);
             }
             that.setData({
@@ -347,7 +394,6 @@ Page({
   },
   //获取城市
   requestCityName(lat, lng) { //获取当前城市
-    console.log('requestCityName')
     let that = this;
     app.globalData.userInfo.lat = lat;
     app.globalData.userInfo.lng = lng;
@@ -391,8 +437,6 @@ Page({
     },()=>{
       this.getData(1)
     });
-
-    
   },
   onPullDownRefresh: function () {
     if (requesting){
@@ -493,9 +537,7 @@ Page({
     
   },
   clickfood: function (ev) { //美食之一
-    let id = ev.currentTarget.id
-    let _data = this.data.fooddatas
-    let _value = ''
+    let id = ev.currentTarget.id,_data = this.data.fooddatas,_value = '';
     for (let i = 0; i < _data.length; i++) {
       if (id == i) {
         _value = _data[i]
@@ -551,14 +593,4 @@ Page({
       posts_key: posts_key
     });
   }
-  //模态框 end
-  // onPageScroll: function () {
-  //   //创建节点选择器
-  //   var query = wx.createSelectorQuery();
-  //   query.select('.page_row').boundingClientRect()
-  //   query.exec((res) => {
-  //     console.log(res);
-  //     // var listHeight = res[0].height; // 获取list高度
-  //   })
-  // }
 })

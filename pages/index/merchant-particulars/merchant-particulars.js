@@ -20,6 +20,8 @@ Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
     isshowlocation: false,
+    isunfold:false,
+    isdity:false,
     dishLish: [],
     city: '', //商家所在的城市
     sku: 0, //可用票数
@@ -64,7 +66,8 @@ Page({
     orientation: 'left', //滚动方向
     interval: 50, // 时间间隔
     zanFlag: true, //点赞节流阀
-    shareCity: ""
+    shareCity: "",
+    hotlist:[]//热销商品
   },
   onLoad: function(options) {
     console.log("options:", options)
@@ -413,6 +416,54 @@ Page({
       }, 1000)
     });
   },
+  gethotdish:function(){
+    let _parms={},that=this;
+    _parms = {
+      spuType: 10,
+      page: 1,
+      rows: 20,
+      status:1, 
+      shopId: this.data.shopid,
+      token: app.globalData.token
+    };
+    Api.crabList(_parms).then((res) => { //查询同类规格列表
+      if (res.data.code == 0) {
+        let _hotlist = res.data.data.list, _discount='';
+        if(_hotlist && _hotlist.length>0){
+          for(let i in _hotlist){
+            if (_hotlist[i].actGoodsSkuOuts && _hotlist[0].actGoodsSkuOuts.length > 0) {
+              for (let j in _hotlist[i].actGoodsSkuOuts){
+                _hotlist[i].actGoodsSkuOuts[j].skuName = _hotlist[i].skuName;
+                _hotlist[i].actGoodsSkuOuts[j].id = _hotlist[i].id;
+                _hotlist[i].actGoodsSkuOuts[j].sellPrice = _hotlist[i].sellPrice;
+                _discount = _hotlist[i].actGoodsSkuOuts[j].goodsPromotionRules.actAmount/_hotlist[i].sellPrice*10;
+                _hotlist[i].actGoodsSkuOuts[j].discount = _discount.toFixed(2);
+              }
+            }
+          }
+          that.setData({
+            hotlist:_hotlist
+          })
+        }
+      }
+    });
+  },
+  //点击抢购
+  ClickSnatch:function(e){
+    let id = e.currentTarget.id,
+      actId = e.currentTarget.dataset.actid,
+      actName = e.currentTarget.dataset.actname,
+      shopId = this.data.shopid;
+    if (actName =='砍价'){ //砍价
+      wx.navigateTo({
+        url: '/pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails?id=' + id + '&shopId=' + shopId + '&actId=' + actId
+      })
+    } else if (actName == '秒杀'){  //秒杀
+      wx.navigateTo({
+        url: '/pages/index/flashSaleHome/secKillDetail/secKillDetail?id=' + id + '&shopId=' + shopId + '&actId=' + actId
+      })
+    }
+  },
   payDish(e) { //购买活动菜
     if (!app.globalData.userInfo.mobile) {
       this.setData({
@@ -509,7 +560,9 @@ Page({
     })
   },
   getmoredata: function() {
+    this.gethotdish();
     this.getstoredata();
+   
     this.selectByShopId();
     this.recommendation();
     this.isCollected();
@@ -624,7 +677,11 @@ Page({
             let _data = res.data.data;
             _data.popNum = utils.million(_data.popNum);
             if (_data.address.indexOf('-') > 0) {
-              _data.address = _data.address.replace(/-/g, "");
+              _data.address = _data.address.replace(/-/g, ""); 
+              _data.distance = utils.transformLength(_data.distance);
+            }
+            if (_data.shopInfo){
+              _data.shopInfo = utils.uncodeUtf16(_data.shopInfo);
             }
             that.setData({
               store_details: _data,
@@ -642,6 +699,11 @@ Page({
           }
         }
       }
+    })
+  },
+  clickjt:function(){
+    this.setData({
+      isunfold: !this.data.isunfold
     })
   },
   selectByShopId: function() { //获取商家活动列表
@@ -927,9 +989,6 @@ Page({
         isMpa: false
       })
     }
-    // if (app.globalData.userInfo.lat && app.globalData.userInfo.lng){
-    //   that.openmap();
-    // }
     wx.getLocation({
       type: 'wgs84',
       success: function(res) {
@@ -952,6 +1011,20 @@ Page({
           }
         })
       }
+    })
+  },
+  //打开地图，已授权位置
+  openmap: function () {
+    let that = this,
+      storeDetails = that.data.store_details;;
+    wx.openLocation({
+      longitude: storeDetails.locationX,
+      latitude: storeDetails.locationY,
+      scale: 18,
+      name: storeDetails.shopName,
+      address: storeDetails.address,
+      success: function (res) { },
+      fail: function (res) { }
     })
   },
   //获取用户位置经纬度
@@ -1009,20 +1082,7 @@ Page({
       })
     }
   },
-  //打开地图，已授权位置
-  openmap: function() {
-    let that = this,
-      storeDetails = that.data.store_details;;
-    wx.openLocation({
-      longitude: storeDetails.locationX,
-      latitude: storeDetails.locationY,
-      scale: 18,
-      name: storeDetails.shopName,
-      address: storeDetails.address,
-      success: function(res) {},
-      fail: function(res) {}
-    })
-  },
+
   //评论列表
   commentList: function() {
     let that = this;
@@ -1340,6 +1400,11 @@ Page({
       })
     }
   },
+  clickdity:function(){
+    this.setData({
+      isdity:!this.data.isdity
+    })
+  },
   //去代金券页面
   gotouse: function() {
     wx.navigateTo({
@@ -1348,22 +1413,23 @@ Page({
   },
   //商家推荐列表
   shopList() {
-    let that = this;
+    let that = this, _parms={};
     if (!app.globalData.userInfo.lng && !app.globalData.userInfo.lat) {
       this.TencentMap();
       return;
     }
-    let _parms = {
+    _parms = {
       locationX: app.globalData.userInfo.lng,
       locationY: app.globalData.userInfo.lat,
       city: this.data.shareCity ? this.data.shareCity : app.globalData.userInfo.city,
       page: this.data._page,
       rows: 10,
-      businessCate: this.data.store_details.businessCate.split('/')[0].split(',')[0],
       token: app.globalData.token
     }
+    if (this.data.store_details.businessCate){
+      _parms.businessCate=this.data.store_details.businessCate.split('/')[0].split(',')[0];
+    }
     Api.shoplist(_parms).then((res) => {
-
       if (res.data.code == 0) {
         let data = res.data;
         if (data.data.list != null && data.data.list != "" && data.data.list != []) {

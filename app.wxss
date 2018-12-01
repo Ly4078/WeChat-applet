@@ -1,9 +1,10 @@
 
 /**app.wxss**/
+@import "/utils/wxParse/wxParse.wxss";
 .page_row{
   display: block;
-	
 }
+
 button{
   margin: 0;
   padding: 0;

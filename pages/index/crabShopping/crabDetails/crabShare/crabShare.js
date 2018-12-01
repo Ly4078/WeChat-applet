@@ -492,7 +492,7 @@ Page({
               _this.setData({
                 showModal: true,
                 showCanvas: true,
-                canvasSrc: '/images/icon/kan.gif',
+                canvasSrc: 'https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/kan.gif',
                 audioSrc: 'https://xqmp4-1256079679.file.myqcloud.com/test_kan.mp3'
               });
               setTimeout(function () {
@@ -568,7 +568,8 @@ Page({
           _this.setData({
             showModal: true,
             showCanvas: true,
-            canvasSrc: '/images/icon/kan.gif',
+            canvasSrc: 'https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/kan.gif',
+            // canvasSrc: '/images/icon/kan.gif',
             audioSrc: 'https://xqmp4-1256079679.file.myqcloud.com/test_kan.mp3'
           });
           setTimeout(function () {

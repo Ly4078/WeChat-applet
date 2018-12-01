@@ -43,7 +43,7 @@ Page({
           sell: (options.sell * options.num).toFixed(2)
         })
       }
-      if (options.sostatus && options.sostatus != 'undefined' && options.sostatus != '') {
+      if (options.sostatus) {
         this.setData({
           sostatus: 1
         });

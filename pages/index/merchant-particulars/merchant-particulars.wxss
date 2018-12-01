@@ -3,7 +3,7 @@
 @import "activity-item/activity-item.wxss";
 
 page {
-  background-color: #ebebeb;
+  background-color: #f5f5fa;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -32,7 +32,7 @@ page {
   width: 92rpx;
   height: 36rpx;
   position: absolute;
-  top: 20rpx;
+  top: 360rpx;
   right: 28rpx;
   color: #fff;
   font-size: 22rpx;
@@ -48,6 +48,55 @@ page {
   display: block;
 }
 
+.tabli{
+  width:692rpx;
+  padding: 0 34rpx 0 24rpx;
+  min-height: 88rpx;
+  
+  background: #fff;
+  color: #191919;
+  font-size: 24rpx;
+  
+}
+.tabcon{
+  width: 90%;
+  margin-left: 10%;
+  border-bottom: 1rpx solid #EBEBEB;
+  min-height: 88rpx;
+  line-height: 90rpx;
+}
+.tabli image{
+  width: 20rpx;
+  height: 24rpx;
+  margin-top: 36rpx;
+  padding: 0rpx 16rpx;
+  float: left;
+}
+.tabjj{
+  line-height: 45rpx;
+  padding-top: 16rpx;
+
+}
+.tabjt{
+  float: right!important;
+  padding: 0;
+  margin-top:0rpx!important;
+}
+.tabcr{
+  float: right;
+  position: relative;
+}
+.tabcr image{
+  width: 40rpx;
+  height: 30rpx;
+}
+.tabcr text{
+  position: relative;
+  right: 70rpx;
+}
+.tabjsact{
+  transform:rotate(180deg);
+}
 .shopInfo {
   padding: 0 0rpx;
   width: 100%;
@@ -86,6 +135,7 @@ page {
   position: relative;
   z-index: 100;
   padding: 16rpx 30rpx 0 22rpx;
+  background: #fff;
 }
 
 .detailsName-genre {
@@ -119,11 +169,16 @@ page {
 .details-type {
   padding-left: 34rpx;
 }
-
+.distanc{
+  float: right;
+  color: #191919;
+  font-size: 22rpx;
+  margin-left: 100rpx;
+}
 .details-form {
   font-size: 26rpx;
   display: inline-block;
-  width: 400rpx;
+  /* width: 400rpx; */
   color: #808080;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -317,7 +372,7 @@ page {
 }
 
 .evaluatExtea {
-  color: #b1b1b1;
+  color: #fff;
 }
 
 .more {
@@ -400,20 +455,12 @@ page {
   border: 0;
 }
 
-.evaluateSonsed {
-  border-right: none;
-}
-
 .evaluateSon {
   width: 50%;
 }
 
-.evaluatText {
-  color: #fc5e2d;
-}
-
 .evaluateSonsed {
-  border-right: 1px solid #e0e0e0;
+  border-right: 1px solid #fff;
 }
 
 .manj {
@@ -540,19 +587,52 @@ page {
   display: flex;
   justify-content: center;
 }
+.yevaluate2{
+  width: 100%;
+  height: 80rpx;
+}
 
 .yevaluate-center{
   width: 92%;
-  line-height: 80rpx;
+  /* padding-top: 50rpx; */
+  /* line-height: 80rpx; */
+}
+.yevaluate-center2{
+  width: 100%;
 }
 
 .yevaluateDot{
-  width: 6rpx;
-  height: 24rpx;
-  background: red;
+  width: 33rpx;
+  height: 33rpx;
+  line-height: 33rpx;
+  font-size: 22rpx;
+  color: #fff;
   display: inline-block;
+  margin-top: 20rpx;
+  text-align: center;
+  margin-right: 12rpx;
 }
-
+.dot1{
+  background: #FC2D2D;
+}
+.dot2{
+  background: #4374FF;
+}
+.dot3{
+  background: #5BBF19;
+}
+.dot4{
+  background: #FF4848;
+}
+.dot5{
+  background: #FC5E2D;
+}
+.seeall{
+  float: right;
+  color: #969696;
+  font-size: 24rpx;
+  margin-top:16rpx;
+}
 .yevaluate-center text{
   font-size: 26rpx;
   margin-left:10rpx;
@@ -573,7 +653,8 @@ page {
   border: 1rpx solid #ebebeb;
   box-shadow: 0rpx 4rpx 8rpx #ebebeb;
   box-sizing: border-box;
-  background-color: #fcfcfc;
+  background:#313131;
+  color: #fff;
 }
 
 ::-webkit-scrollbar {
@@ -584,7 +665,7 @@ page {
 
 .xiang7Box, .setMealBox, .merchant_box, .initiate-wrapp, .commentList {
    background-color: #fff;
-   margin-bottom: 20rpx;
+   margin: 20rpx 0;
 }
 
 .addPadding {
@@ -618,8 +699,8 @@ page {
 }
 
 .shopList_item {
-  width: 50%;
-  height: 374rpx;
+  width:100%;
+  /* height: 374rpx; */
   padding: 0 9rpx; 
   box-sizing: border-box;
   margin-bottom: 20rpx;
@@ -634,8 +715,34 @@ page {
 }
 
 .shopList_item image {
+  width: 162rpx;
+  height: 162rpx;
+  float: left;
+  margin-right: 22rpx;
+}
+.shopList_item_con{
+  position: relative;
+  /* width: 530rpx; */
+  height: 162rpx;
+}
+.shopList_item_con view{
   width: 100%;
-  height: 254rpx;
+  height: 40rpx;
+  line-height: 40rpx;
+}
+.conname{
+  color: #191919;
+  font-size: 28rpx;
+}
+.renqi{
+  color: #FB682F;
+  font-size: 22rpx;
+}
+.renqi image{
+  width: 20rpx;
+  height: 21rpx;
+  margin-right: 10rpx;
+  margin-top: 10rpx;
 }
 
 .shopList_item_name {
@@ -677,4 +784,163 @@ page {
 
 .newUserModal {
   z-index: 1005;
+}
+
+.dity{
+  width: 694rpx;
+  min-height: 160rpx;
+  padding:28rpx 28rpx 0rpx 28rpx;
+}
+.dityimg{
+  width: 150rpx;
+  height: 150rpx;
+  margin-right: 20rpx;
+  float: left;
+  margin-bottom: 18rpx;
+}
+
+.dityimg image{
+  width: 100%;
+  height: 100%;
+}
+.ditycont{
+  /* float: left; */
+  height: 150rpx;
+  min-width: 520rpx;
+  position: relative;
+  overflow: hidden;
+  /* margin-bottom: 28rpx; */
+}
+.dcont1, .dcont2, .dcont3, .dcont4{
+  height: 36rpx;
+  line-height: 36rpx;
+  padding: 2rpx 0;
+}
+.dcont1{
+  color: #191919;
+  font-size: 30rpx;
+}
+.dcont2{
+  color: #969696;
+  font-size: 20rpx;
+}
+.dcont3{
+    font-size: 22rpx;
+}
+.dconnt31{
+  min-width: 60rpx;
+  border: 1rpx solid #FC5E2D;
+  color:  #FC5E2D;
+  float: left;
+  height: 32rpx;
+  padding:0 10rpx;
+}
+.dconnt33{
+  background: #FC5E2D;
+  color: #fff;
+  width: 55rpx;
+  text-align: center;
+  float:  left;
+}
+
+.dcont4 text:nth-child(1){
+  font-size: 36rpx;
+  color: #F82C2C;
+  margin-right: 20rpx;
+}
+.dcont4 text:nth-child(2){
+  font-size: 28rpx;
+  color: #969696;
+  text-decoration:line-through;
+}
+.dcont5{
+  position: relative;
+  float: right;
+  top: -80rpx;
+  width: 114rpx;
+  height: 44rpx;
+  line-height: 44rpx;
+  text-align: center;
+  border-radius: 44rpx;
+  border: 1rpx solid #FC5E2D;
+  color: #FC5E2D;
+  font-size: 28rpx;
+}
+.dityact{
+  width: 100%;
+  height: 100rpx;
+  border-bottom: 1px solid #EBEBEB;
+}
+.actleft{
+  width: 150rpx;
+  height: 100%;
+  text-align: right;
+  float: left;
+  margin-right: 15rpx;
+}
+.actleft view,.actcon view{
+  width: 100%;
+  height: 50rpx;
+  line-height: 50rpx;
+}
+.actleft view:nth-child(1),.actcon view:nth-child(1){
+  border-top: 1px solid #EBEBEB;
+}
+.actcon{
+  width: 400rpx;
+  height: 100%;
+  text-align: left;
+  float: left;
+}
+.actprice1{
+  color: #F82C2C;
+  font-size: 30rpx;
+}
+.actprice2{
+  color: #969696;
+  font-size: 20rpx;
+  text-decoration:line-through;
+}
+.dishname{
+  color: #191919;
+  font-size: 28rpx;
+}
+.syfs{
+  color:#969696;
+  font-size:20rpx;
+  margin-left: 12rpx;
+}
+.actright{
+  width: 70rpx;
+  height: 100%;
+  float: right;
+}
+.actright image{
+  width: 40rpx;
+  height: 40rpx;
+  margin-top: 30rpx;
+}
+
+.ditcance{
+  position: relative;
+  top:-100rpx;
+  left:407rpx;
+  width: 200rpx;
+  color: #8E8E8E;
+  font-size: 22rpx;
+}
+.manjian text{
+  background: #FFB1B1;
+  color: #FC2D2D;
+  font-size: 20rpx;
+  margin: 0 8rpx;
+  padding: 0 6rpx;
+  border: 1rpx solid #ffb1b1;
+}
+.dishname text{
+  border: 1px solid #EBEBEB;
+  margin: 0 8rpx;
+  padding: 0 6rpx;
+  color: #8E8E8E;
+  font-size: 20rpx;
 }

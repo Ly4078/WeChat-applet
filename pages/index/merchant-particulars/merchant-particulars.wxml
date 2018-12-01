@@ -24,63 +24,225 @@
   </view>
 </view>
 
+<!-- start -->
+<view class="placeholderBox" wx:if="{{shopList.length < 1}}"></view>
+
+
+
+<!-- end -->
 
 <view id="merchantBox" class="merchantBox">
-  <view class="shopTop">
-    <view class='detailsWrap'>
-      <view class="img_shade" bindtap='moreImages'></view>
-      <view class="totalPhoto">共{{store_images}}张</view>
-      <image class='cateImages' mode="aspectFill" src='{{store_details.logoUrl}}'></image>
+
+  <view class='shop-z-Wrap'>
+    <view class='detailsName-genre'>
+      <view class="details-NameBox">
+        <text class='details-Name'>{{store_details.shopName}}</text>
+        <image wx:if="{{isCollected}}" src="/images/icon/yellowstar.png" catchtap="onCollect"></image>
+        <image wx:else src="/images/icon/blackstar.png" catchtap="onCollect"></image>
+      </view>
+      <view class='details-form'>
+        <image src="/images/icon/hot.png"></image>
+        <text class="details-hotNum">{{store_details.popNum}}</text>
+        <text wx:for="{{storeType}}" wx:key="{{index}}" data-idx="{{index}}" class="details-type">{{item}}</text>
+
+        <text class='distanc'>距您约{{store_details.distance}}</text>
+      </view>
     </view>
-    <view class="shopInfo" style="{{service.length > 0 ? '' : 'height: 230rpx;'}}">
-      <view class="shopInfo_inner">
-        <view class="shopInfo_shade"></view>
-        <view class='shop-z-Wrap'>
-          <view class='detailsName-genre'>
-            <view class="details-NameBox">
-              <text class='details-Name'>{{store_details.shopName}}</text>
-              <image wx:if="{{isCollected}}" src="/images/icon/yellowstar.png" catchtap="onCollect"></image>
-              <image wx:else src="/images/icon/blackstar.png" catchtap="onCollect"></image>
+  </view>
+
+  <view class='detailsWrap'>
+    <view class="img_shade" bindtap='moreImages'></view>
+    <view class="totalPhoto">共{{store_images}}张</view>
+    <image class='cateImages' mode="aspectFill" src='{{store_details.logoUrl}}'></image>
+  </view>
+  <!-- 简介 -->
+  <view class='tabli' wx:if="{{store_details.shopInfo}}">
+    <image src='https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/simple_icon.png'></image>
+
+    <view class='tabcon tabjj'>
+      <image class="{{isunfold?'tabjsact':''}} tabjt" bindtap='clickjt' src='https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/shop_jt.png'></image>
+      {{store_details.shopInfo}}
+    </view>
+  </view>
+  <!-- 服务 -->
+  <view class='tabli' wx:if="{{store_details.otherService}}">
+    <image src='https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/shop_icon.png'></image>
+    <view class='tabcon'>
+      {{store_details.otherService}}
+    </view>
+  </view>
+  <!-- 经营时间 -->
+  <view class='tabli' wx:if="{{store_details.shopHours}}">
+    <image src='https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/time_icon.png'></image>
+    <view class='tabcon'>
+      {{store_details.shopHours}}
+    </view>
+  </view>
+  <!-- 地址 -->
+  <view class='tabli' wx:if="{{store_details.address}}">
+    <image src='https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/shop_map.png'></image>
+    <view class='tabcon'>
+      <text catchtap='TencentMap'>{{store_details.address}}</text>
+      <view class='tabcr'>
+        <image catchtap='TencentMap' src='https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/map_icon.png'></image>
+        <text>|</text>
+        <image bindtap="calling" src='https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/phone_icon.png'></image>
+      </view>
+    </view>
+  </view>
+
+
+  <view class="shopInfo_inner">
+    <view class='locationWrap'>
+      <view>
+        <image class='location-left' src='/images/icon/location.png'></image>
+        <text class='location-text' catchtap='TencentMap'>{{store_details.address}}</text>
+      </view>
+      <view class="locationWrap_phone">
+        <image class='location-right' bindtap="calling" src='/images/icon/greenphone.png'></image>
+      </view>
+    </view>
+  </view>
+  <!-- </view> -->
+
+  <!-- 优惠券 -->
+  <view id="list1">
+    <view class="xiang7Box" style="padding-bottom: 30rpx;" hidden='{{activity.length < 1}}'>
+      <view class='yevaluate'>
+        <view class='yevaluate-center'>
+          <view class='yevaluateDot dot1'>券</view>
+          <text>优惠券</text>
+        </view>
+      </view>
+      <view class='doing' wx:for="{{activity}}" wx:key="{{index}}">
+        <view class='doinglist'>
+          <image class="ticketBg" src="/images/icon/ticketBg.png"></image>
+          <view class="ticketCont">
+            <view class='dotext'>
+              <text class='manj'>{{item.skuName}}\n</text>
+              <text class='nowtext'>满{{item.manAmount}}可用</text>
             </view>
-            <view class='details-form'>
-              <image src="/images/icon/hot.png"></image>
-              <text class="details-hotNum">{{store_details.popNum}}</text>
-              <text wx:for="{{storeType}}" wx:key="{{index}}" data-idx="{{index}}" class="details-type">{{item}}</text>
+            <button class='buynow' id="{{item.skuId}}" catchtap='buynow'>{{item.sellPrice}}元购</button>
+          </view>
+        </view>
+      </view>
+      <view class='setMealMore' bindtap='clickactmore' wx:if="{{allactivity.length>2}}">
+        <text>显示全部</text>
+        <image wx:if="{{isactmore}}" class='more_img' src='/images/icon/restaurant_arrow.png'></image>
+        <image wx:else class='more_img2' src='/images/icon/restaurant_arrow.png'></image>
+      </view>
+    </view>
+
+    <view class="setMealBox" style="padding-bottom: 30rpx;" wx:if="{{oldpackage.length>0}}">
+      <view class='yevaluate'>
+        <view class='yevaluate-center'>
+          <view class='yevaluateDot'></view>
+          <text>推荐菜</text>
+        </view>
+      </view>
+      <view class='distop'>
+        <image class='bjimg' src='/images/icon/discount.png'></image>
+        <view class='discount'>
+          <view class='dis_left' bindtap='gotouse'>
+            <view>{{listagio.skuName}}</view>
+            <view>
+              <text>享7专享</text> |
+              <text>全平台通用</text> |
+              <text>免预约</text>
             </view>
-            <view class="details-addition">
-              <text wx:for="{{service}}" wx:if="{{item}}" wx:key="{{index}}" data-idx="{{index}}">{{item}}</text>
+          </view>
+          <view class='dis_right' bindtap='receive'>
+            <button class='receive'>{{isAgio?'免费领':'去使用'}}</button>
+            <view>已领 {{listagio.sellNum}}</view>
+          </view>
+        </view>
+      </view>
+      <view class='setMeal'>
+        <view class='setMealList' wx:for="{{newpackage}}" wx:key="{{index}}" id="{{item.id}}" bindtap='moreinfo'>
+          <view class="setMealList_l">
+            <image class='setMealImg' mode="aspectFill" src='{{item.picUrl}}'></image>
+            <view class="setMealCont">
+              <view class='setMeal_tit'>{{item.skuName}}</view>
+              <view class='setMeal_name'>
+                <text>享7专享</text>
+                <text>{{item.agioLevel}}折券</text>
+              </view>
+              <view class="setMeal_sale">
+                <text>券后价￥{{item.agioPrice}}</text>
+                <text>门市价￥{{item.sellPrice}}</text>
+              </view>
             </view>
           </view>
         </view>
-        <view class='locationWrap'>
-          <view>
-            <image class='location-left' src='/images/icon/location.png'></image>
-            <text class='location-text' catchtap='TencentMap'>{{store_details.address}}</text>
-          </view>
-          <view class="locationWrap_phone">
-            <image class='location-right' bindtap="calling" src='/images/icon/greenphone.png'></image>
-          </view>
+        <view class="setMealMore" bindtap='clickmore' wx:if="{{oldpackage.length>2}}">
+          <text>查看更多</text>
+          <image wx:if="{{ismore}}" class='more_img' src='/images/icon/restaurant_arrow.png'></image>
+          <image wx:else class='more_img2' src='/images/icon/restaurant_arrow.png'></image>
         </view>
       </view>
     </view>
   </view>
 
-  <!-- 螃蟹活动 -->
-  <!-- <view class='crabSection' catchtap='crabSection'>
-    <image class='crabSection-image' src='https://xqmp4-1256079679.file.myqcloud.com/Colin_crabSection-image.png'></image>
-  </view> -->
-
-
-  <!-- 主页 -->
-  <view class='homepage'>
-    <!-- 拼菜砍价开始 -->
-    <view class='initiate-wrapp' style="{{Bargainlist.length > 0 ? 'padding-bottom: 30rpx;' : ''}}" id="list3" hidden="{{Bargainlist.length < 1}}">
+  <!-- 热销商品 -->
+  <view id="list1">
+    <view class="xiang7Box" style="padding-bottom: 30rpx;" hidden='{{hotlist.length < 1}}'>
       <view class='yevaluate'>
-          <view class='yevaluate-center'>
-            <view class='yevaluateDot'></view>
-            <text>【砍价拼菜】</text>
+        <view class='yevaluate-center'>
+          <view class='yevaluateDot dot5'>热</view>
+          <text>热销商品</text>
+        </view>
+      </view>
+      <view class='dity' wx:for="{{hotlist}}" wx:key="{{index}}">
+        <view class='dityimg'>
+          <image src='{{item.skuPic}}'></image>
+        </view>
+        <view class='ditycont'>
+          <view class='dcont1'>{{item.skuName}}</view>
+          <view class='dcont2'>仅剩{{item.actGoodsSkuOuts[0].sortNum}}份</view>
+          <view class='dcont3'>
+            <view class='dconnt31' wx:if="{{item.actGoodsSkuOuts[0].actInfo.actName=='砍价'}}">{{item.actGoodsSkuOuts[0].discount}}折</view>
+            <view class='dconnt33'>{{item.actGoodsSkuOuts[0].actInfo.actName}}</view>
+          </view>
+          <view class='dcont4'>
+            <text>¥{{item.actGoodsSkuOuts[0].goodsPromotionRules.actAmount}}</text>
+            <text>¥{{item.actGoodsSkuOuts[0].sellPrice}}</text>
+          </view>
+          
+          <view class='dcont5' bindtap='ClickSnatch' id='{{item.id}}'  data-actname="{{item.actGoodsSkuOuts[0].actInfo.actName}}" data-actid="{{item.actGoodsSkuOuts[0].actId}}">抢购</view>
+        </view>
+        
+        <view class='dityact' wx:for="{{item.actGoodsSkuOuts}}" wx:key="{{index}}" wx:if="{{index>0}}">
+          <view class='actleft'>
+            <view class='actprice1'>¥{{item.goodsPromotionRules.actAmount}}</view>
+            <view class='actprice2'>¥{{item.sellPrice}}</view>
+          </view>
+          <view class='actcon'>
+            <view class='dishname'>【{{item.skuName}}】{{item.actInfo.actName}}</view>
+            <view class='syfs'> 仅剩{{item.sortNum}}份</view>
+          </view>
+          <view class='actright' bindtap='ClickSnatch' id='{{item.id}}'  data-actname="{{item.actInfo.actName}}" data-actid="{{item.actId}}">
+            <image src='https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/goact.png'></image>
           </view>
         </view>
+      </view>
+      <view class='setMealMore' bindtap='clickdity' wx:if="{{hotlist.length>1}}">
+        <text>查看更多</text>
+        <image class="{{isdity?'more_img':'more_img2'}}" src='/images/icon/restaurant_arrow.png'></image>
+      </view>
+    </view>
+  </view>
+
+
+  <!-- 拼菜砍价 -->
+  <view class='homepage'>
+    <!-- 拼菜砍价开始 -->
+    <view class='initiate-wrapp' wx:if="{{false}}" style="{{Bargainlist.length > 0 ? 'padding-bottom: 30rpx;' : ''}}" id="list3" hidden="{{Bargainlist.length < 1}}">
+      <view class='yevaluate'>
+        <view class='yevaluate-center'>
+          <view class='yevaluateDot'></view>
+          <text>【砍价拼菜】</text>
+        </view>
+      </view>
       <view class='scroll_box'>
         <block wx:for="{{Bargainlist}}" wx:key="{{index}}">
           <view class="anchor">
@@ -104,107 +266,28 @@
       </view>
     </view>
     <!-- 拼菜砍价结束 -->
-    <!-- 享7券 -->
-    <view id="list1">
-      <view class="xiang7Box" style="padding-bottom: 30rpx;" hidden='{{activity.length < 1}}'>
-        <view class='yevaluate'>
-          <view class='yevaluate-center'>
-            <view class='yevaluateDot'></view>
-            <text>享7券</text>
-          </view>
-        </view>
-        <view class='doing' wx:for="{{activity}}" wx:key="{{index}}">
-          <view class='doinglist'>
-            <image class="ticketBg" src="/images/icon/ticketBg.png"></image>
-            <view class="ticketCont">
-              <view class='dotext'>
-                <text class='manj'>{{item.skuName}}\n</text>
-                <text class='nowtext'>满{{item.manAmount}}可用</text>
-              </view>
-              <button class='buynow' id="{{item.skuId}}" catchtap='buynow'>{{item.sellPrice}}元购</button>
-            </view>
-          </view>
-        </view>
-        <view class='setMealMore' bindtap='clickactmore' wx:if="{{allactivity.length>2}}">
-          <text>显示全部</text>
-          <image wx:if="{{isactmore}}" class='more_img' src='/images/icon/restaurant_arrow.png'></image>
-          <image wx:else class='more_img2' src='/images/icon/restaurant_arrow.png'></image>
-        </view>
-      </view>
 
-      <view class="setMealBox" style="padding-bottom: 30rpx;" wx:if="{{oldpackage.length>0}}">
-        <view class='yevaluate'>
-          <view class='yevaluate-center'>
-            <view class='yevaluateDot'></view>
-            <text>推荐菜</text>
-          </view>
-        </view>
-        <view class='distop'>
-          <image class='bjimg' src='/images/icon/discount.png'></image>
-          <view class='discount'>
-            <view class='dis_left' bindtap='gotouse'>
-              <view>{{listagio.skuName}}</view>
-              <view>
-                <text>享7专享</text> |
-                <text>全平台通用</text> |
-                <text>免预约</text>
-              </view>
-            </view>
-            <view class='dis_right' bindtap='receive'>
-              <button class='receive'>{{isAgio?'免费领':'去使用'}}</button>
-              <view>已领 {{listagio.sellNum}}</view>
-            </view>
-          </view>
-        </view>
-        <view class='setMeal'>
-          <view class='setMealList' wx:for="{{newpackage}}" wx:key="{{index}}" id="{{item.id}}" bindtap='moreinfo'>
-            <view class="setMealList_l">
-              <image class='setMealImg' mode="aspectFill" src='{{item.picUrl}}'></image>
-              <view class="setMealCont">
-                <view class='setMeal_tit'>{{item.skuName}}</view>
-                <view class='setMeal_name'>
-                  <text>享7专享</text>
-                  <text>{{item.agioLevel}}折券</text>
-                </view>
-                <view class="setMeal_sale">
-                  <text>券后价￥{{item.agioPrice}}</text>
-                  <text>门市价￥{{item.sellPrice}}</text>
-                </view>
-              </view>
-            </view>
-          </view>
-          <view class="setMealMore" bindtap='clickmore' wx:if="{{oldpackage.length>2}}">
-            <text>显示全部</text>
-            <image wx:if="{{ismore}}" class='more_img' src='/images/icon/restaurant_arrow.png'></image>
-            <image wx:else class='more_img2' src='/images/icon/restaurant_arrow.png'></image>
-          </view>
-        </view>
-      </view>
-    </view>
 
 
     <!--动态-->
     <view class="merchant_box" style="{{merchantArt.length > 0 ? 'padding-bottom: 30rpx;' : ''}}" id="list2" wx:if="{{merchantArt.length > 0}}">
-      <view class='yevaluate'>
-        <view class='yevaluate-center'>
-          <view class='yevaluateDot'></view>
-          <text>动态</text>
+      <view class='yevaluate2'>
+        <view class='yevaluate-center2'>
+          <view class='yevaluateDot dot2'>动</view>
+          <text>商家动态</text>
+          <text catchtap='toActivity' class='seeall'>查看全部</text>
         </view>
       </view>
       <view>
         <block wx:for="{{merchantArt}}" wx:key="{{index}}" data-idx="{{index}}">
           <template is="activityItem" data="{{item}}"></template>
         </block>
-        <view class='setMealMore' bindtap='toActivity' hidden="{{merchantArt.length<5}}">
-          <text>查看全部动态</text>
-          <image src="/images/icon/restaurant_arrow.png"></image>
-        </view>
       </view>
     </view>
 
 
     <!-- 推荐菜 -->
-    <view class='initiate-wrapp' style="{{recommend_list.length > 0 ? 'padding-bottom: 30rpx;' : ''}}" id="list3" hidden="{{recommend_list.length < 1}}">
+    <view class='initiate-wrapp' wx:if="{{false}}" style="{{recommend_list.length > 0 ? 'padding-bottom: 30rpx;' : ''}}" id="list3" hidden="{{recommend_list.length < 1}}">
       <view class='yevaluate'>
         <view class='yevaluate-center'>
           <view class='yevaluateDot'></view>
@@ -231,8 +314,9 @@
     <view class="commentList" style="padding-bottom: 30rpx;" id="list4" hidden="{{comment_list.length < 1}}">
       <view class='yevaluate'>
         <view class='yevaluate-center'>
-          <view class='yevaluateDot'></view>
-          <text>精选评价</text>
+          <view class='yevaluateDot dot3'>评</view>
+          <text>评价</text>
+          <text catchtap='jumpTotalComment' class='seeall'>查看全部</text>
         </view>
       </view>
       <view>
@@ -240,49 +324,55 @@
           <template is="commentItem" data="{{item}}"></template>
         </block>
       </view>
-      <view class="setMealMore" catchtap='jumpTotalComment' hidden="{{commentNum < 6}}">
-        <text>查看全部<text>{{commentNum}}</text>条评论</text>
-        <image src="/images/icon/restaurant_arrow.png"></image>
-      </view>
     </view>
-    <!-- 精选推荐 -->
-    <view class="placeholderBox" wx:if="{{shopList.length < 1}}"></view>
+
+    <!-- 猜你喜欢 -->
     <view class="recommend_shop {{shopList.length < 1 ? '' : 'addPadding'}}" hidden="{{shopList.length < 1}}">
       <view class='yevaluate'>
         <view class='yevaluate-center'>
-          <view class='yevaluateDot'></view>
-          <text>精选推荐</text>
+          <view class='yevaluateDot dot4'>猜</view>
+          <text>猜你喜欢</text>
         </view>
       </view>
       <view class="recommend_shopList" hidden="{{shopList.length < 1}}">
         <view class="shopList_item" wx:for="{{shopList}}" wx:key="{{index}}" data-idx="{{index}}" id="{{item.id}}" bindtap='toShopDetail'>
           <view class="shopList_item_inner">
             <image src="{{item.logoUrl}}"></image>
-            <view class="shopList_item_name">{{item.shopName}}</view>
-            <view class="shopList_item_type">
-              <text>{{item.businessCate}}</text>
-              <text>{{item.distance}}</text>
+            <view class='shopList_item_con'>
+              <view class='conname' wx:if="{{item.shopName}}">{{item.shopName}}</view>
+              <view class='renqi'>
+                <image src="/images/icon/hot.png"></image>
+                <text class="details-hotNum" wx:if="{{item.popNum}}">{{item.popNum}}</text>
+              </view>
+              <view class='dishname' wx:if="{{item.skuName}}"><text>{{item.skuName}}</text></view>
+              <view class='manjian' wx:if="{{item.ruleDescs}}">
+                <text wx:for="{{item.ruleDescs}}" wx:if="{{index <=1}}" wx:key="index">{{item}}</text>
+              </view>
+              <view class='ditcance'>{{item.distance}}</view>
             </view>
           </view>
         </view>
       </view>
     </view>
+
   </view>
 </view>
+
+
 <view class='evaluate'>
   <view class='evaluateWrap'>
     <button class='evaluateSon sonButton' bindtap='share' plain="true" data-name="shareBtn" open-type="share">
-      <image class='evaluateImg' src='/images/icon/yellowShare.png'></image>
+      <image class='evaluateImg' src='https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/share_icon.png'></image>
       <text class='evaluatExtea'>分享</text>
     </button>
     <view class='evaluateSon' bindtap='toComment'>
       <view class='evaluateSonsed'>
-        <image class='evaluateImg' src='/images/icon/yellowComment.png'></image>
+        <image class='evaluateImg' src='https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/assess_icon.png'></image>
         <text class='evaluatExtea'>评价</text>
       </view>
     </view>
     <view class='evaluateSon' id="{{details.id}}" bindtap='paymentPay' wx:if="{{isoter}}">
-      <image class='evaluateImg' src='/images/icon/yellowSale.png'></image>
+      <image class='evaluateImg' src='https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/money_icon.png'></image>
       <text class='evaluatText'>买单</text>
     </view>
   </view>

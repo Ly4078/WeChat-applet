@@ -15,7 +15,7 @@
           <image class='Navigation_img' src='/images/icon/restaurant_arrow.png'></image>
         </view>
         <view class='Navigation_data' catchtap="goodfood">
-          <text>美食</text>
+          <text>分类</text>
           <image class='Navigation_img' src='/images/icon/restaurant_arrow.png'></image>
         </view>
         <view class='Navigation_data' catchtap="sorting">
@@ -55,7 +55,7 @@
           <image class='Navigation_img' src='/images/icon/restaurant_arrow.png'></image>
         </view>
         <view class='Navigation_data' id='2' catchtap='openmodel'>
-          <text>美食</text>
+          <text>分类</text>
           <image class='Navigation_img' src='/images/icon/restaurant_arrow.png'></image>
         </view>
         <view class='Navigation_data' id='3' catchtap='openmodel'>

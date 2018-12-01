@@ -229,8 +229,8 @@ function compareDown(propertyName) {
 }
 
 let getQueryString = function(url, name) { //识别普通二维码，跳转到指定商家页面
-  console.log("url = " + url)
-  console.log("name = " + name)
+  // console.log("url = " + url)
+  // console.log("name = " + name)
   var reg = new RegExp('(^|&|/?)' + name + '=([^&|/?]*)(&|/?|$)', 'i')
   var r = url.substr(1).match(reg)
   if (r != null) {
