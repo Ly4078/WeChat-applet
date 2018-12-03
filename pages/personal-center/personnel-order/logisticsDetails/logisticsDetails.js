@@ -10,6 +10,7 @@ Page({
     _build_url: GLOBAL_API_DOMAIN,
     soId: '',
     id: '',
+    timer:null,
     shadowFlag:true,
     Countdown: '',
     soDetail: {},
@@ -130,14 +131,32 @@ Page({
   endTimerun: function (endTime) {
     let that = this;
     that.countdownStart(endTime);
-    var timer = setInterval(() => {
-      if (that.data.Countdowns.isEnd) {
-        that.getgroupOrderDetail();
-        clearInterval(timer)
-      }
-      that.countdownStart(endTime);
-    }, 1000)
-
+    if(that.data.timer == null){
+      that.data.timer = setInterval(() => {
+        if (that.data.Countdowns.isEnd) {
+          console.log('111')
+          that.getgroupOrderDetail();
+          clearInterval(that.data.timer)
+        }
+        that.countdownStart(endTime);
+      }, 1000)
+    }
+  },
+  onHide: function () {
+    try {
+      clearInterval(that.data.timer);
+      that.setData({
+        timer: null
+      })
+    } catch (err) { }
+  },
+  onUnload: function () {
+    try {
+      clearInterval(that.data.timer);
+      that.setData({
+        timer: null
+      })
+    } catch (err) { }
   },
   countdownStart: function (endTime) {
     let that = this;
@@ -301,7 +320,13 @@ Page({
   seeMore:function(){
       let that = this;
       wx.navigateTo({
-        url: '/packageA/pages/tourismAndHotel/tourismAndHotel?id=' + that.data.groupOrderDetail.actId,
+        url:'/pages/activityDetails/activity-details',
+        success:function(){},
+        fail:function(){
+          wx.switchTab({
+            url: '/pages/activityDetails/activity-details',
+          })
+        }
       })
   },
   seeMygoods:function(){

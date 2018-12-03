@@ -13,6 +13,7 @@ Page({
     newcomer:false,
     showSkeleton:true,
     isShare:false,
+    timer:null,
     _content:null,
     shadowFlag:true
   },
@@ -110,7 +111,7 @@ Page({
               _data.goodsPromotionRules[0] = _data.goodsPromotionRules[i]
             }
           }
-          that.endTimerun(_data.actGoodsSkuOuts[0].dueTime)
+          that.endTimerun(_data.actGoodsSkuOut.dueTime)
           
           canvasShareImg(_data.skuPic, _data.goodsPromotionRules[0].actAmount, _data.sellPrice).then(function (res) {
             that.setData({
@@ -264,13 +265,33 @@ Page({
   endTimerun: function(endTime){
     let that = this;
     that.countdownStart(endTime);
-    var timer = setInterval(() => {
-      if (that.data.Countdowns.isEnd) {
-        clearInterval(timer)
-      }
-      that.countdownStart(endTime);
-    }, 1000)
+    if (that.data.timer == null){
+      that.data.timer = setInterval(() => {
+        if (that.data.Countdowns.isEnd) {
+          that.addrecord();
+          clearInterval(that.data.timer)
+        }
+        that.countdownStart(endTime);
+      }, 1000)
+    }
+   
 
+  },
+  onHide:function(){
+    try{
+      clearInterval(that.data.timer);
+      that.setData({
+        timer: null
+      })
+    }catch(err){}
+  },
+  onUnload:function(){
+    try {
+      clearInterval(that.data.timer);
+      that.setData({
+        timer: null
+      })
+    } catch (err) { }
   },
   countdownStart: function(endTime) {
     let that = this;

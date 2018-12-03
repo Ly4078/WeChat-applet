@@ -139,6 +139,7 @@ Page({
     Api.getTopicByZan(_parms).then((res) => {
       if (res.data.code == 0) {
         let _data = res.data.data;
+        console.log(_data)
         WxParse.wxParse('article', 'html', _data.content, that,10);
         _data.summary = utils.uncodeUtf16(_data.summary)
         _data.content = utils.uncodeUtf16(_data.content)

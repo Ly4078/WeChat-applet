@@ -63,6 +63,11 @@ Page({
     ],
 
   },
+  togrourp:function(){
+    wx.navigateTo({
+      url: '/packageA/pages/tourismAndHotel/tourismAndHotel?id=43',
+    })
+  },
   onLoad: function(options) {
     let that = this;
     setTimeout(() => {

@@ -7,8 +7,6 @@
     <image class='loginimg' src='https://xqmp4-1256079679.file.myqcloud.com/13971489895_login.png'></image>
   </button>
 </view>
-
-
 <view wx:if="{{actdata.length > 0}}">
   <block wx:for="{{actdata}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
     <view class='activity-particulars' id="{{item.id}}" catchtap='clickVote'>

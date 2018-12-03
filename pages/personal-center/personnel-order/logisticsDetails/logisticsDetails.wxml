@@ -2,9 +2,9 @@
   <!-- 订单信息 -->
   <view class='logisticsTop'>
     <image class='logisticsTopImg' src='/images/icon/logisticsTopImg.png'></image>
-    <view  wx:if="{{groupOrderDetail.actOrder}}" class='logisticsTopShould'>
+    <view  wx:if="{{groupOrderDetail.actInfo.type=='7'}}" class='logisticsTopShould'>
       <view class='logisticsTopfront'>
-        <text>已完成</text>
+        <text>{{soDetail.status2}}</text>
       </view>
       <view class='logisticsTopCount' >
         <text>开团成功后商品兑换券在我的券包中查看</text>
@@ -24,7 +24,7 @@
     </view>
   </view>
 
-  <view class="Single" wx:if="{{groupOrderDetail.actOrder}}">
+  <view class="Single" wx:if="{{groupOrderDetail.actInfo.type=='7'}}">
     <view class="Single-title"  catchtap='showShade'>
       <view class="left">参团享优惠，分享赚现金</view>
       <view class="right">
@@ -75,7 +75,8 @@
           </view>
           <view class="Single-detail-info">
             <view class="Single-detail-info-friend">
-              <image src="/images/icon/invite.png"></image>
+              <image wx:if="{{groupOrderDetail.users.length}}" src="{{groupOrderDetail.users[0].iconUrl?groupOrderDetail.users[0].iconUrl:'/images/icon/invite.png'}}"></image>
+              <image wx:else src="/images/icon/invite.png"></image>
             </view>
             <view catchtap='seeMygoods' class="Single-detail-info-share" wx:if="{{groupOrderDetail.actOrder.state =='2'}}">查看商品</view>
             <view catchtap='seeMore' class="Single-detail-info-share" wx:if="{{groupOrderDetail.actOrder.state !='2' || groupOrderDetail.actOrder.state=='4'}}">查看更多</view>
@@ -95,7 +96,8 @@
           </view>
           <view class="Single-detail-info">
             <view class="Single-detail-info-friend">
-              <image src="/images/icon/invite.png"></image>
+              <image wx:if="{{groupOrderDetail.users.length}}" src="{{groupOrderDetail.users[0].iconUrl?groupOrderDetail.users[0].iconUrl:'/images/icon/invite.png'}}"></image>
+              <image wx:else src="/images/icon/invite.png"></image>
             </view>
              <view catchtap='seeMore' class="Single-detail-info-share" >查看更多</view>
           </view>

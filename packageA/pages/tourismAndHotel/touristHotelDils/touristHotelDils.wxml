@@ -22,10 +22,10 @@
     </view>
     <view class='detailsDse'>
       <view class='involvedIn'>已参团人数
-        <text>{{singleData.actGoodsSkuOuts[0].currentNum || '0'}}</text>
+        <text>{{singleData.actGoodsSkuOut.currentNum || '0'}}</text>
       </view>
       <view class='completely'>满
-        <text>{{singleData.actGoodsSkuOuts[0].peopleNum}}</text>人开团</view>
+        <text>{{singleData.actGoodsSkuOut.peopleNum}}</text>人开团</view>
     </view>
   </view>
   <view class='synopsisText'>
@@ -36,7 +36,7 @@
           <text>￥{{singleData.goodsPromotionRules[0].actAmount}}</text>
           <text>￥{{singleData.sellPrice}}</text>
         </view>
-        <text class='inventory'>共{{singleData.actGoodsSkuOuts[0].peopleNum}}份</text>
+        <text class='inventory'>共{{singleData.actGoodsSkuOut.peopleNum}}份</text>
       </view>
     </view>
   </view>
@@ -108,11 +108,11 @@
       <text style="line-height:80rpx;">查看已参团详情</text>
     </view>
     <view wx:else>
-      <view class='returnSponsor' style="background:#ccc" wx:if="{{ singleData.actGoodsSkuOuts[0].currentNum >= singleData.actGoodsSkuOuts[0].peopleNum || singleData.actGoodsSkuOut.state =='2' || singleData.actGoodsSkuOut.state =='3' || groupStatus.state =='4'}}">
+      <view class='returnSponsor' style="background:#ccc" wx:if="{{ singleData.actGoodsSkuOut.currentNum >= singleData.actGoodsSkuOut.peopleNum || singleData.actGoodsSkuOut.state =='2' || singleData.actGoodsSkuOut.state =='3' || groupStatus.state =='4'}}">
         <text style="line-height:80rpx;color:#fff;">该团已结束</text>
       </view>
     </view>
-    <view class='returnSponsor' wx:if="{{groupStatus.state == '1'  && singleData.actGoodsSkuOuts[0].currentNum < singleData.actGoodsSkuOuts[0].peopleNum && singleData.actGoodsSkuOut.state =='1' }}" catchtap='sponsorVgts'>
+    <view class='returnSponsor' wx:if="{{groupStatus.state == '1'  && singleData.actGoodsSkuOut.currentNum < singleData.actGoodsSkuOut.peopleNum && singleData.actGoodsSkuOut.state =='1' }}" catchtap='sponsorVgts'>
       <view>￥
         <text>{{singleData.goodsPromotionRules[0].actAmount}}</text>
       </view>
