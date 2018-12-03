@@ -339,7 +339,6 @@ Page({
       _values += key + "=" + _parms[key] + "&";
     }
     _values = _values.substring(0, _values.length - 1);
-    console
     if (this.data.actId) {
       url = that.data._build_url + 'goodsSku/selectDetailBySkuIdNew?'+_values
     } else {
@@ -360,10 +359,8 @@ Page({
             pattern = '',
             article = '',
             remark = [];
-          console.log('data:', data)
           if (data.skuInfo) {
             skuInfo = data.skuInfo;
-            console.log('data111:')
             if (skuInfo.indexOf("Œ") != -1){
               skuInfo = skuInfo.split('Œ');
             }
@@ -374,19 +371,18 @@ Page({
           } else if (data.remark){
             remark.push(data.remark)
           } else  {
-            console.log('222:')
-            skuInfo = data.actGoodsSkuOut.ruleDesc;
-            if (skuInfo.indexOf("Œ") != -1) {
-              skuInfo = skuInfo.split('Œ');
-            }
-            let arr = that.data.legend;
-            arr[1].info = skuInfo;
-            that.setData({
-              legend: arr
-            })
+           try{
+             skuInfo = data.actGoodsSkuOut.ruleDesc;
+             if (skuInfo.indexOf("Œ") != -1) {
+               skuInfo = skuInfo.split('Œ');
+             }
+             let arr = that.data.legend;
+             arr[1].info = skuInfo;
+             that.setData({
+               legend: arr
+             })
+           }catch(err){}
           }
-          console.log('legend:', that.data.legend)
-
           if (data.goodsSpuOut && data.goodsSpuOut.goodsSpuDesc && data.goodsSpuOut.goodsSpuDesc.content) {
             article = data.goodsSpuOut.goodsSpuDesc.content;
             pattern = article.match(_RegExp)[1];
@@ -407,7 +403,6 @@ Page({
           });
           //自定义分享图片中 绘制价格   公共方法utils.js/canvasShareImg.js  调用方法canvasShareImg()
           canvasShareImg(that.data.picUrl, that.data.agioPrice, that.data.sellPrice).then(function(res) {
-            console.log(res);
             that.setData({
               shareImg: res
             })
@@ -506,7 +501,6 @@ Page({
         hotDishList: []
       });
     }
-    console.log(that.data.actId);
     if (app.globalData.userInfo.lat && app.globalData.userInfo.lng) {
       //browSort 0附近 1销量 2价格
       requesting = true;
@@ -545,7 +539,6 @@ Page({
         url = that.data._build_url + 'sku/kjcList?' + _values;
       }
       _Url = encodeURI(url);
-      console.log('_Url:', _Url)
       wx.request({
         url: _Url,
         method: 'GET',
@@ -553,7 +546,6 @@ Page({
           "Authorization": app.globalData.token
         },
         success: function(res) {
-          console.log('res:', res)
           if (res.data.code == 0) {
             if (res.data.data.list && res.data.data.list.length > 0) {
               let list = res.data.data.list,
@@ -868,14 +860,12 @@ Page({
       _path = '',
       _values = '',
       _parms = {};
-    console.log('onShareAppMessage', this.data.actId)
     if (this.data.actId) {
       _parms = this.data.optObj;
       for (var key in _parms) {
         _values += key + "=" + _parms[key] + "&";
       }
       _values = _values.substring(0, _values.length - 1);
-      console.log("_values:", _values)
       _path = '/pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails?' + _values;
     } else {
       _path: '/pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails?shopId=' + this.data.shopId + '&id=' + this.data.id + '&lat=' + userInfo.lat + '&lng=' + userInfo.lng + '&city=' + userInfo.city;
