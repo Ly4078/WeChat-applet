@@ -712,6 +712,7 @@ page {
   border-radius: 16rpx;
   overflow: hidden;
   border: 1rpx solid #EBEBEB;
+
 }
 
 .shopList_item image {
@@ -719,11 +720,13 @@ page {
   height: 162rpx;
   float: left;
   margin-right: 22rpx;
+  overflow: hidden;
 }
 .shopList_item_con{
   position: relative;
   /* width: 530rpx; */
   height: 162rpx;
+  overflow: hidden;
 }
 .shopList_item_con view{
   width: 100%;
