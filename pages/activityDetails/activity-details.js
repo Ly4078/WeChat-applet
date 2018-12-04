@@ -1,5 +1,8 @@
 import Api from '/../../utils/config/api.js';
 var utils = require('/../../utils/util.js');
+import {
+  GLOBAL_API_DOMAIN
+} from '/../../utils/config/config.js';
 var app = getApp();
 Page({
   data: {
@@ -8,26 +11,26 @@ Page({
     actid: '',  //活动ID
     flag: true,
     istouqu: false,
+    _build_url: GLOBAL_API_DOMAIN,
     placeholderFlag: true,
     showSkeleton:true
   },
 
   onShow: function (options) {
+  },
+  onLoad: function () {
+
     let that = this;
     this.setData({
+      actdata: [],
       page: 1,
       flag: true
     })
     if (!app.globalData.token) {
       that.findByCode();
     } else {
-      that.getcatdata('reset');
+      that.getcatdata();
     }
-  },
-  onLoad: function () {
-
-    let that = this;
-  
    
     if (!app.globalData.userInfo.unionId){
       wx.login({
@@ -112,7 +115,7 @@ Page({
           userInfo.token = _token
           wx.setStorageSync("token", _token)
           wx.setStorageSync("userInfo", userInfo)
-          that.getcatdata('reset');
+          that.getcatdata();
           if (app.globalData.userInfo.mobile) {
            
           } else {
@@ -158,7 +161,7 @@ Page({
       }
     })
   },
-  getcatdata: function (types) {  //获取列表数据
+  getcatdata: function () {  //获取列表数据
     let that = this;
     let _parms = {
       page: this.data.page,
@@ -169,21 +172,15 @@ Page({
       let data = res.data;
       if (data.code == 0 && data.data.list != null && data.data.list != "" && data.data.list != []) {
         let actList = [];
-        // actList = that.data.actdata;
+        actList = that.data.actdata;
         for (let i = 0; i < data.data.list.length; i++) {
           data.data.list[i].viewNum = utils.million(data.data.list[i].viewNum)
           actList.push(data.data.list[i]);
           actList[i].endTime = actList[i].endTime.substring(0, actList[i].endTime.indexOf(' '));
         }
-        let arr = [];
-        if(types == 'reset'){
-          arr = actList
-        }else{
-          let actdata = that.data.actdata || [];
-          arr = actdata.concat(actList)
-        }
+        // console.log("actList:", actList)
         that.setData({
-          actdata: arr,
+          actdata: actList,
           pageTotal: Math.ceil(res.data.data.total /8),
           loading: false,
           showSkeleton:false
@@ -260,9 +257,10 @@ Page({
   },
   onPullDownRefresh: function () {    //用户下拉刷新
     this.setData({
+      actdata: [],
       page: 1,
       flag: true
     });
-    this.getcatdata('reset');
+    this.getcatdata();
   }
 })
