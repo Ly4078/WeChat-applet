@@ -3,7 +3,6 @@ var app = getApp();
 
 
 let canvasShareImg = function(imgUrl,text1,text2){
-  console.log('run')
   return new Promise((resolve, reject)=>{
   wx.downloadFile({
     url: imgUrl,
@@ -27,7 +26,6 @@ let drawImage = function (portraitPath,text1,text2) {
    ctx.setFillStyle('#FF0000')
    ctx.setFontSize(60)
   ctx.fillText('￥' + text1, 10, 50)
-  console.log(text1.toString().length)
    ctx.setFillStyle('#cccccc')
    ctx.setFontSize(50)
   let text1Left = ((text1.toString().length+1) * 30+80);

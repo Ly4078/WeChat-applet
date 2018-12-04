@@ -1,4 +1,5 @@
 <view class='logisticsDWrap'>
+<skeleton selector="skeleton" loading="spin" bgcolor="#FFF" wx:if="{{showSkeleton}}"></skeleton>
   <!-- 订单信息 -->
   <view class='logisticsTop'>
     <image class='logisticsTopImg' src='/images/icon/logisticsTopImg.png'></image>

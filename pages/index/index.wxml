@@ -3,7 +3,7 @@
 <!-- 骨架屏模块 -->
 <skeleton selector="skeleton" loading="spin" bgcolor="#FFF" wx:if="{{showSkeleton}}"></skeleton>
 
-<!-- <button catchtap='togrourp'>拼购测试 快捷入口</button> -->
+<button catchtap='togrourp'>拼购测试 快捷入口</button>
 
 <view class="container" >
   <!--顶部 定位 搜索 卷  -->

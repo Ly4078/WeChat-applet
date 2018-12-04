@@ -12,6 +12,7 @@ Page({
     id: '',
     timer:null,
     shadowFlag:true,
+    showSkeleton:true,
     Countdown: '',
     soDetail: {},
     payObj: {},
@@ -39,7 +40,6 @@ Page({
         }).then((res) => {
           if (res.data.code == 0) {
             let data = res.data.data;
-            console.log(res)
             if (data.id) {
               app.globalData.userInfo.userId = data.id;
               for (let key in data) {
@@ -134,7 +134,6 @@ Page({
     if(that.data.timer == null){
       that.data.timer = setInterval(() => {
         if (that.data.Countdowns.isEnd) {
-          console.log('111')
           that.getgroupOrderDetail();
           clearInterval(that.data.timer)
         }
@@ -227,7 +226,12 @@ Page({
         })
         that.setData({
           soDetail: _data,
+          showSkeleton:false,
           offerPrice: (_data.comTotal - _data.realAmount).toFixed(2)
+        })
+      }else{
+        that.setData({
+          showSkeleton: false,
         })
       }
     })
@@ -470,7 +474,6 @@ Page({
   onShareAppMessage: function (e) {
     let that = this;
     let title = "急死了！我正在拼购仅需" + that.data.soDetail.realAmount + "元拿👉" + that.data.soDetail.orderItemOuts[0].goodsSkuName +"👈考验我们感情的时候到了❤❤❤";
-    console.log(e);
     let url = "/packageA/pages/tourismAndHotel/touristHotelDils/touristHotelDils?types=share&parentId=" + that.data.groupOrderDetail.actOrder.userId + '&actid=' + that.data.groupOrderDetail.actId + '&id=' + that.data.groupOrderDetail.skuId + '&groupid=' + that.data.groupOrderDetail.id
     if (e.target.dataset.type=='2'){
       url = url +'&shareType=2'
