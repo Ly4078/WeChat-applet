@@ -17,9 +17,9 @@
     color: #666;
     line-height: 1.8;
 }
-view{
+/* view{
     word-break:break-all; overflow:auto;
-}
+} */
 .wxParse-inline{
     display: inline;
     margin: 0;
