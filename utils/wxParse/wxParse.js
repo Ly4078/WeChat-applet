@@ -34,12 +34,11 @@ function wxParse(bindName = 'wxParseData', type='html', data='<div class="color:
   if (type == 'html') {
     transData = HtmlToJson.html2json(data, bindName);
     // console.log(JSON.stringify(transData, ' ', ' '));
-
   } else if (type == 'md' || type == 'markdown') {
     var converter = new showdown.Converter();
     var html = converter.makeHtml(data);
     transData = HtmlToJson.html2json(html, bindName);
-    console.log(JSON.stringify(transData, ' ', ' '));
+    // console.log(JSON.stringify(transData, ' ', ' '));
   }
   transData.view = {};
   transData.view.imagePadding = 0;
@@ -69,7 +68,6 @@ function wxParseImgTap(e) {
  * 图片视觉宽高计算函数区 
  **/
 function wxParseImgLoad(e) {
-  // console.log("e:",e)
   var that = this;
   var tagFrom = e.target.dataset.from;
   var idx = e.target.dataset.idx;
