@@ -798,7 +798,7 @@ page {
   width: 150rpx;
   height: 150rpx;
   margin-right: 20rpx;
-  float: left;
+  /* float: left; */
   margin-bottom: 18rpx;
 }
 
@@ -807,7 +807,7 @@ page {
   height: 100%;
 }
 .ditycont{
-  /* float: left; */
+  float: right;
   height: 150rpx;
   min-width: 520rpx;
   position: relative;
@@ -890,7 +890,7 @@ page {
   border-top: 1px solid #EBEBEB;
 }
 .actcon{
-  width: 400rpx;
+  width:400rpx;
   height: 100%;
   text-align: left;
   float: left;

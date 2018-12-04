@@ -67,7 +67,8 @@ Page({
     interval: 50, // 时间间隔
     zanFlag: true, //点赞节流阀
     shareCity: "",
-    hotlist:[]//热销商品
+    hotlist:[],//热销商品
+    hotlist2: []//热销商品
   },
   onLoad: function(options) {
     console.log("options:", options)
@@ -439,10 +440,13 @@ Page({
                 _discount = _hotlist[i].actGoodsSkuOuts[j].goodsPromotionRules.actAmount/_hotlist[i].sellPrice*10;
                 _hotlist[i].actGoodsSkuOuts[j].discount = _discount.toFixed(2);
               }
+              _hotlist[i].actGoodsSkuOuts2 = _hotlist[i].actGoodsSkuOuts.slice(1)
+              console.log(" _hotlist[i].actGoodsSkuOuts2:", _hotlist[i].actGoodsSkuOuts2)
             }
           }
           that.setData({
-            hotlist:_hotlist
+            hotlist:_hotlist,
+            hotlist2: _hotlist.slice(0,3)
           })
         }
       }
@@ -1404,6 +1408,16 @@ Page({
     this.setData({
       isdity:!this.data.isdity
     })
+    if(this.data.isdity){
+      this.setData({
+        hotlist2: this.data.hotlist
+      })
+    }else{
+      this.setData({
+        hotlist2: this.data.hotlist.slice(0,3)
+      })
+    }
+    console.log("isdity:", this.data.isdity)
   },
   //去代金券页面
   gotouse: function() {

@@ -192,10 +192,10 @@
           <text>热销商品</text>
         </view>
       </view>
-      <view class='dity' wx:for="{{hotlist}}" wx:key="{{index}}">
-        <view class='dityimg'>
-          <image src='{{item.skuPic}}'></image>
-        </view>
+      <view class='dity' wx:for="{{hotlist2}}" wx:key="{{index}}">
+        <!-- <view class='dityimg'> -->
+          <image class='dityimg' src='{{item.skuPic}}'></image>
+        <!-- </view> -->
         <view class='ditycont'>
           <view class='dcont1'>{{item.skuName}}</view>
           <view class='dcont2'>仅剩{{item.actGoodsSkuOuts[0].sortNum}}份</view>
@@ -211,7 +211,7 @@
           <view class='dcont5' bindtap='ClickSnatch' id='{{item.id}}'  data-actname="{{item.actGoodsSkuOuts[0].actInfo.actName}}" data-actid="{{item.actGoodsSkuOuts[0].actId}}">抢购</view>
         </view>
         
-        <view class='dityact' wx:for="{{item.actGoodsSkuOuts}}" wx:key="{{index}}" wx:if="{{index>0}}">
+        <view class='dityact' wx:for="{{item.actGoodsSkuOuts2}}" wx:key="{{index}}">
           <view class='actleft'>
             <view class='actprice1'>¥{{item.goodsPromotionRules.actAmount}}</view>
             <view class='actprice2'>¥{{item.sellPrice}}</view>
@@ -225,7 +225,7 @@
           </view>
         </view>
       </view>
-      <view class='setMealMore' bindtap='clickdity' wx:if="{{hotlist.length>1}}">
+      <view class='setMealMore' bindtap='clickdity' wx:if="{{hotlist.length>3}}">
         <text>查看更多</text>
         <image class="{{isdity?'more_img':'more_img2'}}" src='/images/icon/restaurant_arrow.png'></image>
       </view>
