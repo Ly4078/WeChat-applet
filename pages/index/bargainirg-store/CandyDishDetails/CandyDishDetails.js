@@ -357,14 +357,35 @@ Page({
           if (data.skuInfo) {
             skuInfo = data.skuInfo;
             if (skuInfo.indexOf("Œ") != -1) {
+              let arr = that.data.legend;
               skuInfo = skuInfo.split('Œ');
+              let obj = {
+                name: '使用规则',
+                info: []
+              };
+              obj.info = skuInfo;
+              arr.push(obj);
+              that.setData({
+                legend: arr
+              })
             }
-
-            that.setData({
-              skuInfo: skuInfo
-            })
           } else if (data.remark) {
             remark.push(data.remark)
+          } else if (data.actGoodsSkuOuts[0].ruleDesc){
+            skuInfo = data.actGoodsSkuOuts[0].ruleDesc;
+            if (skuInfo.indexOf("Œ") != -1) {
+              let arr = that.data.legend;
+              skuInfo = skuInfo.split('Œ');
+              let obj = {
+                name: '使用规则',
+                info: []
+              };
+              obj.info = skuInfo;
+              arr.push(obj);
+              that.setData({
+                legend: arr
+              })
+            }
           } else {
             try {
               //  skuInfo = data.actGoodsSkuOut.ruleDesc;
@@ -382,9 +403,8 @@ Page({
                   legend: arr
                 })
               }
-
             } catch (err) {}
-          }
+          } 
           if (data.goodsSpuOut && data.goodsSpuOut.goodsSpuDesc && data.goodsSpuOut.goodsSpuDesc.content) {
             article = data.goodsSpuOut.goodsSpuDesc.content;
             pattern = article.match(_RegExp)[1];
@@ -536,7 +556,6 @@ Page({
         hotDishList: []
       });
     }
-    console.log('actId:', this.data.actId)
     if (app.globalData.userInfo.lat && app.globalData.userInfo.lng) {
       //browSort 0附近 1销量 2价格
       requesting = true;
@@ -582,7 +601,6 @@ Page({
         },
         success: function(res) {
           if (res.data.code == 0) {
-            console.log("fdafda:",res)
             if (res.data.data.list && res.data.data.list.length > 0) {
               let list = res.data.data.list,
                 hotDishList = that.data.hotDishList;
@@ -600,7 +618,6 @@ Page({
                     hotDishList.push(list[i]);
                   }
                 }
-                console.log('hotDishList:', hotDishList)
                 that.setData({
                   hotDishList: hotDishList,
                   pageTotal: Math.ceil(res.data.data.total / 6),

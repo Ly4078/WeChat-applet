@@ -63,11 +63,11 @@
       </view>
 
       <!-- 商品详情start -->
-      <view class='specialWrap'>
+      <view class='specialWrap' wx:if="{{pattern}}">
         <view class='special'></view>
         <text>商品详情</text>
       </view>
-      <view class='parewx' hidden="{{!isopenimg}}" wx:if="{{article}}">
+      <view class='parewx' hidden="{{!isopenimg}}" wx:if="{{pattern}}">
         <import src="../../../../utils/wxParse/wxParse.wxml" />
         <template is="wxParse" data="{{wxParseData:article.nodes}}" />
       </view>

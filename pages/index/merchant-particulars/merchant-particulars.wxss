@@ -55,11 +55,10 @@ page {
   width:692rpx;
   padding: 0 34rpx 0 24rpx;
   min-height: 88rpx;
-  
   background: #fff;
   color: #191919;
   font-size: 24rpx;
-  
+  position: relative;
 }
 .tabcon{
   width: 90%;
@@ -84,13 +83,13 @@ page {
 .tabjt{
   float: right!important;
   padding: 0;
-  margin-top:0rpx!important;
+  margin-top:10rpx!important;
 }
 
 .tabcr{
   position: absolute;
-  top: -50rx;
-  right: 0;
+  right: 0rpx;
+  top: 0rpx;
 }
 .tabcr image{
   padding:6rpx 26rpx;
@@ -824,7 +823,7 @@ page {
 }
 .ditycont{
   float: right;
-  height: 150rpx;
+  height: 160rpx;
   min-width: 520rpx;
   position: relative;
   overflow: hidden;
@@ -963,9 +962,10 @@ page {
   color: #8E8E8E;
   font-size: 20rpx;
 }
-.shopaddress{
-  width: 75%;
-  float: left;
-  line-height:30rpx;
-  margin-top: 24rpx;
+.tabmap{
+  line-height:40rpx;
+  padding: 10rpx 0;
+}
+.tabphone{
+  width: 72%;
 }

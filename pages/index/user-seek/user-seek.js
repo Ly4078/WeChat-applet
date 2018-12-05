@@ -128,9 +128,10 @@ Page({
     }
   },
   onTouchItem: function (event) {
-    var shopid = event.currentTarget.id
+    let shopid = event.currentTarget.id,
+    _distance = event.currentTarget.dataset.distance;
     wx.navigateTo({
-      url: '../merchant-particulars/merchant-particulars?shopid=' + shopid,
+      url: '../merchant-particulars/merchant-particulars?shopid=' + shopid + '&distance=' + _distance
     })
   },
   diningRoomList(e) {

@@ -31,7 +31,7 @@ Page({
   },
 
   onLoad: function (options) {
-    console.log('options:', options)
+    // console.log('options:', options)
     let that = this, _val = "";
     setTimeout(()=>{
       that.setData({
@@ -167,7 +167,6 @@ Page({
         "Authorization": app.globalData.token
       },
       success: function (res) {
-        console.log('getfooddatas_res:',res)
         if(res.data.code == 0){
           if(res.data.data.length>0){
             _typeData = res.data.data;
@@ -176,7 +175,6 @@ Page({
                 for (let j in _typeData[i].children){
                   _children.push(_typeData[i].children[j].categoryName)
                 }
-                console.log('_children:', _children)
                 that.setData({
                   fooddatas:_children
                 })
@@ -342,9 +340,8 @@ Page({
   //点击列表跳转详情
   onTouchItem: function (event) {
     let _distance = event.currentTarget.dataset.distance;
-    console.log("_distance:", _distance)
     wx.navigateTo({
-      url: '../merchant-particulars/merchant-particulars?shopid=' + event.currentTarget.id + '&distance='+_distance,
+      url: '../merchant-particulars/merchant-particulars?shopid=' + event.currentTarget.id + '&distance='+_distance
     })
   },
   getUserlocation: function () { //获取用户位置经纬度

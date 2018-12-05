@@ -45,7 +45,7 @@
         <text class="details-hotNum">{{store_details.popNum}}</text>
         <text wx:for="{{storeType}}" wx:key="{{index}}" data-idx="{{index}}" class="details-type">{{item}}</text>
 
-        <text class='distanc'>距您约{{store_details.distance}}</text>
+        <text class='distanc' wx:if="{{store_details.distance}}">距您约{{store_details.distance}}</text>
       </view>
     </view>
   </view>
@@ -61,7 +61,7 @@
 
     <view class='tabcon tabjj'>
       <image class="{{isunfold?'tabjsact':''}} tabjt" bindtap='clickjt' src='https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/shop_jt.png'></image>
-      {{isunfold?store_details.shopInfo2:store_details.shopInfo}}
+      {{isunfold?store_details.shopInfo:store_details.shopInfo2}}
     </view>
   </view>
   <!-- 服务 -->
@@ -79,18 +79,30 @@
     </view>
   </view>
   <!-- 地址 -->
-  <view class='tabli' wx:if="{{store_details.address}}">
+  <view  class='tabli' wx:if="{{store_details.address}}">
+  <image src='https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/shop_map.png'></image>
+  <view class="{{store_details.address.length>22?'tabmap':''}} tabcon tabphone">
+      {{store_details.address}}
+    </view>
+     <view class='tabcr'>
+        <image catchtap='TencentMap' src='https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/map_icon.png'></image>
+        <image bindtap="calling" src='https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/phone_icon.png'></image>
+      </view>
+  </view>
+
+  
+  <!-- <view class='tabli' wx:if="{{store_details.address}}">
     <image src='https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/shop_map.png'></image>
     <view class='tabcon'>
       <view class='shopaddress'>
-         <text catchtap='TencentMap'>{{store_details.address}}</text>
+         <text catchtap='TencentMap'>{{store_details.address}}{{store_details.address}}{{store_details.address}}</text>
       </view>
       <view class='tabcr'>
         <image catchtap='TencentMap' src='https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/map_icon.png'></image>
         <image bindtap="calling" src='https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/phone_icon.png'></image>
       </view>
     </view>
-  </view>
+  </view> -->
 
 
   <view class="shopInfo_inner">
