@@ -35,7 +35,8 @@ Page({
     wx.request({
       url: that.data._build_url + 'fvs/getSCForList?page=' + that.data.page + '&rows=5',
       header: {
-        "Authorization": app.globalData.token
+        // "Authorization": app.globalData.token
+        "Authorization":'Bearer eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1NDQ1MTIxODEsImNyZWF0ZWQiOjE1NDM5MDczODExNDUsInN1YiI6IjEzOTcxNDg5ODk1In0.gqKVGTu0B9-YIUgQdNDxrIQ2z7DkbrMnZfPRdE9w6P4mVzgxEJPj3vrHG3Q-nQohwb3iq2Woz110Okb0fRh33Q'
       },
       success: function(res) {
         let data = res.data;

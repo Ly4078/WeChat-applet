@@ -410,13 +410,13 @@ Page({
       if (_data.list) {
         let reg = /^1[34578][0-9]{9}$/;
         for (let i = 0; i < _data.list.length; i++) {
-          _data.list[i].content = utils.uncodeUtf16(_data.list[i].content)
-          _data.list[i].zan = utils.million(_data.list[i].zan)
+          _data.list[i].content = utils.uncodeUtf16(_data.list[i].content);
+          _data.list[i].zan = utils.million(_data.list[i].zan);
           if (reg.test(_data.list[i].nickName)) {
-            _data.list[i].nickName = _data.list[i].nickName.substr(0, 3) + "****" + _data.list[i].nickName.substr(7)
+            _data.list[i].nickName = _data.list[i].nickName.substr(0, 3) + "****" + _data.list[i].nickName.substr(7);
           }
           if (reg.test(_data.list[i].userName)) {
-            _data.list[i].userName = _data.list[i].userName.substr(0, 3) + "****" + _data.list[i].userName.substr(7)
+            _data.list[i].userName = _data.list[i].userName.substr(0, 3) + "****" + _data.list[i].userName.substr(7);
           }
         }
         this.setData({

@@ -341,8 +341,10 @@ Page({
 
   //点击列表跳转详情
   onTouchItem: function (event) {
+    let _distance = event.currentTarget.dataset.distance;
+    console.log("_distance:", _distance)
     wx.navigateTo({
-      url: '../merchant-particulars/merchant-particulars?shopid=' + event.currentTarget.id,
+      url: '../merchant-particulars/merchant-particulars?shopid=' + event.currentTarget.id + '&distance='+_distance,
     })
   },
   getUserlocation: function () { //获取用户位置经纬度

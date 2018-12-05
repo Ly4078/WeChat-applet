@@ -62,15 +62,10 @@ Page({
       info: [
         '购买后3个月内使用有效'
       ]
-    },
-    {
-      name: '使用规则',
-      info: []
-    }
-    ]
+    }]
   },
   onLoad(options) {
-    console.log("opttions:", options)
+    // console.log("opttions:", options)
     this.setData({
       optObj: options,
       flag: true,
@@ -85,7 +80,7 @@ Page({
       this.setData({
         actId: options.actId,
         id: options.id,
-        categoryId: options.categoryId ? options.categoryId:''
+        categoryId: options.categoryId ? options.categoryId : ''
       })
       if (options.categoryId == 5) {
         _title = '酒店详情';
@@ -232,7 +227,7 @@ Page({
   getmoreData() { //查询 更多数据 
     this.dishDetail();
     // if (!this.data.actId) {
-      this.shopDetail();
+    this.shopDetail();
     // }
     if (app.globalData.userInfo.lng && app.globalData.userInfo.lat) {
       if (this.data._city || app.globalData.userInfo.city) {
@@ -241,9 +236,9 @@ Page({
           hotDishList: [],
           page: 1
         });
-        if (!this.data.actId) {
-          this.dishList();
-        }
+        // if (!this.data.actId) {
+        this.dishList();
+        // }
         this.hotDishList();
       } else {
         this.getlocation();
@@ -332,15 +327,15 @@ Page({
     };
     if (that.data.actId) {
       _parms.actId = this.data.actId
-    }else{
-      _parms.zanUserId=app.globalData.userInfo.userId
+    } else {
+      _parms.zanUserId = app.globalData.userInfo.userId
     }
     for (var key in _parms) {
       _values += key + "=" + _parms[key] + "&";
     }
     _values = _values.substring(0, _values.length - 1);
     if (this.data.actId) {
-      url = that.data._build_url + 'goodsSku/selectDetailBySkuIdNew?'+_values
+      url = that.data._build_url + 'goodsSku/selectDetailBySkuIdNew?' + _values
     } else {
       url = that.data._build_url + 'sku/getKjc?' + _values;
     }
@@ -361,35 +356,42 @@ Page({
             remark = [];
           if (data.skuInfo) {
             skuInfo = data.skuInfo;
-            if (skuInfo.indexOf("Œ") != -1){
+            if (skuInfo.indexOf("Œ") != -1) {
               skuInfo = skuInfo.split('Œ');
             }
-            
+
             that.setData({
               skuInfo: skuInfo
             })
-          } else if (data.remark){
+          } else if (data.remark) {
             remark.push(data.remark)
-          } else  {
-           try{
-             skuInfo = data.actGoodsSkuOut.ruleDesc;
-             if (skuInfo.indexOf("Œ") != -1) {
-               skuInfo = skuInfo.split('Œ');
-             }
-             let arr = that.data.legend;
-             arr[1].info = skuInfo;
-             that.setData({
-               legend: arr
-             })
-           }catch(err){}
+          } else {
+            try {
+              //  skuInfo = data.actGoodsSkuOut.ruleDesc;
+              skuInfo = '';
+              if (skuInfo.indexOf("Œ") != -1) {
+                let arr = that.data.legend;
+                skuInfo = skuInfo.split('Œ');
+                let obj = {
+                  name: '使用规则',
+                  info: []
+                };
+                obj.info = skuInfo;
+                arr.push(obj);
+                that.setData({
+                  legend: arr
+                })
+              }
+
+            } catch (err) {}
           }
           if (data.goodsSpuOut && data.goodsSpuOut.goodsSpuDesc && data.goodsSpuOut.goodsSpuDesc.content) {
             article = data.goodsSpuOut.goodsSpuDesc.content;
             pattern = article.match(_RegExp)[1];
             WxParse.wxParse('article', 'html', article, that, 0);
           }
-          
 
+          data.skuName = utils.uncodeUtf16(data.skuName);
           that.setData({
             pattern: pattern,
             soData: data,
@@ -435,12 +437,46 @@ Page({
         }
       }
     });
-
   },
   //跳转至商家主页
   toShopDetail() {
     wx.navigateTo({
       url: '../../merchant-particulars/merchant-particulars?shopid=' + this.data.shopId
+    })
+  },
+  // 电话号码功能
+  calling: function() {
+    let that = this,
+      tell = "";
+    tell = that.data.store_details.phone ? that.data.store_details.phone : that.data.store_details.mobile;
+    if (tell) {
+      wx.makePhoneCall({
+        phoneNumber: tell,
+        success: function() {
+          console.log("拨打电话成功！")
+        },
+        fail: function() {
+          console.log("拨打电话失败！")
+        }
+      })
+    } else {
+      wx.showToast({
+        title: '商家没有设置联系电话',
+      })
+    }
+  },
+  //打开地图，已授权位置
+  openmap: function() {
+    let that = this,
+      storeDetails = that.data.store_details;;
+    wx.openLocation({
+      longitude: storeDetails.locationX,
+      latitude: storeDetails.locationY,
+      scale: 18,
+      name: storeDetails.shopName,
+      address: storeDetails.address,
+      success: function(res) {},
+      fail: function(res) {}
     })
   },
   //同店推荐
@@ -481,7 +517,6 @@ Page({
             });
           }
         }
-
       })
     } else {
       that.getlocation();
@@ -501,6 +536,7 @@ Page({
         hotDishList: []
       });
     }
+    console.log('actId:', this.data.actId)
     if (app.globalData.userInfo.lat && app.globalData.userInfo.lng) {
       //browSort 0附近 1销量 2价格
       requesting = true;
@@ -521,7 +557,6 @@ Page({
         _values = _values.substring(0, _values.length - 1);
         url = that.data._build_url + 'goodsSku/listForActOut?' + _values;
       } else {
-
         _parms = {
           zanUserId: app.globalData.userInfo.userId,
           browSort: 1,
@@ -547,6 +582,7 @@ Page({
         },
         success: function(res) {
           if (res.data.code == 0) {
+            console.log("fdafda:",res)
             if (res.data.data.list && res.data.data.list.length > 0) {
               let list = res.data.data.list,
                 hotDishList = that.data.hotDishList;
@@ -558,14 +594,13 @@ Page({
                     }
                   }
                 }
-
                 for (let i = 0; i < list.length; i++) {
                   if (list[i].id != that.data.id) {
                     list[i].distance = utils.transformLength(list[i].distance);
                     hotDishList.push(list[i]);
                   }
                 }
-
+                console.log('hotDishList:', hotDishList)
                 that.setData({
                   hotDishList: hotDishList,
                   pageTotal: Math.ceil(res.data.data.total / 6),
@@ -744,9 +779,9 @@ Page({
       page: 1
     });
     this.hotDishList();
-    if (!this.data.actId) {
-      this.dishList();
-    }
+    // if (!this.data.actId) {
+    this.dishList();
+    // }
   },
   getlocation: function() { //获取用户位置
     let that = this,

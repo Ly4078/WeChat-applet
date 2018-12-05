@@ -23,6 +23,7 @@ Page({
     isunfold:false,
     isdity:false,
     dishLish: [],
+    distance:'',
     city: '', //商家所在的城市
     sku: 0, //可用票数
     isclick: true,
@@ -71,7 +72,12 @@ Page({
     hotlist2: []//热销商品
   },
   onLoad: function(options) {
-    console.log("options:", options)
+    // console.log("options:", options)
+    if (options.distance){
+      this.setData({
+        distance: options.distance
+      })
+    }
     this.setData({
       shopid: options.shopid,
       comment_list: []
@@ -417,6 +423,7 @@ Page({
       }, 1000)
     });
   },
+  //查询热销商品
   gethotdish:function(){
     let _parms={},that=this;
     _parms = {
@@ -434,19 +441,24 @@ Page({
           for(let i in _hotlist){
             if (_hotlist[i].actGoodsSkuOuts && _hotlist[0].actGoodsSkuOuts.length > 0) {
               for (let j in _hotlist[i].actGoodsSkuOuts){
+                _hotlist[i].skuName = utils.uncodeUtf16(_hotlist[i].skuName);
                 _hotlist[i].actGoodsSkuOuts[j].skuName = _hotlist[i].skuName;
                 _hotlist[i].actGoodsSkuOuts[j].id = _hotlist[i].id;
                 _hotlist[i].actGoodsSkuOuts[j].sellPrice = _hotlist[i].sellPrice;
                 _discount = _hotlist[i].actGoodsSkuOuts[j].goodsPromotionRules.actAmount/_hotlist[i].sellPrice*10;
                 _hotlist[i].actGoodsSkuOuts[j].discount = _discount.toFixed(2);
               }
-              _hotlist[i].actGoodsSkuOuts2 = _hotlist[i].actGoodsSkuOuts.slice(1)
-              console.log(" _hotlist[i].actGoodsSkuOuts2:", _hotlist[i].actGoodsSkuOuts2)
+              _hotlist[i].actGoodsSkuOuts2 = _hotlist[i].actGoodsSkuOuts.slice(1);
             }
           }
           that.setData({
             hotlist:_hotlist,
             hotlist2: _hotlist.slice(0,3)
+          })
+        }else{
+          that.setData({
+            hotlist: [],
+            hotlist2: []
           })
         }
       }
@@ -460,7 +472,7 @@ Page({
       shopId = this.data.shopid;
     if (actName =='砍价'){ //砍价
       wx.navigateTo({
-        url: '/pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails?id=' + id + '&shopId=' + shopId + '&actId=' + actId
+        url: '/pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails?categoryId=8&id=' + id + '&shopId=' + shopId + '&actId=' + actId
       })
     } else if (actName == '秒杀'){  //秒杀
       wx.navigateTo({
@@ -564,6 +576,7 @@ Page({
     })
   },
   getmoredata: function() {
+
     this.gethotdish();
     this.getstoredata();
    
@@ -624,7 +637,7 @@ Page({
     let id = e.currentTarget.id,
       shopId = e.currentTarget.dataset.index;
     wx.navigateTo({
-      url: '../bargainirg-store/CandyDishDetails/CandyDishDetails?id=' + id + '&shopId=' + shopId
+      url: '../bargainirg-store/CandyDishDetails/CandyDishDetails?categoryId=8&id=' + id + '&shopId=' + shopId
     })
   },
   //发起砍价
@@ -671,6 +684,7 @@ Page({
       that = this;
     wx.request({
       url: that.data._build_url + 'shop/get/' + id,
+      
       header: {
         "Authorization": app.globalData.token
       },
@@ -687,10 +701,24 @@ Page({
             if (_data.shopInfo){
               _data.shopInfo = utils.uncodeUtf16(_data.shopInfo);
             }
+            if (_data.distance == '0m' || !_data.distance){
+              _data.distance = that.data.distance;
+            }
+            let _storeType = _data.businessCate ? _data.businessCate.split(',') : []; 
+            if (_storeType && _storeType.length>0){
+              for (let i in _storeType){
+                // console.log(_storeType[i])
+                let arr = _storeType[i].split('/');
+                _storeType[i]=arr[0];
+              }
+            }
+            if (_data.shopInfo){
+              _data.shopInfo2 = _data.shopInfo.slice(0, 20) + '...';
+            }
             that.setData({
               store_details: _data,
               store_images: _data.shopTopPics.length,
-              storeType: _data.businessCate ? _data.businessCate.split(',') : [],
+              storeType: _storeType,
               city: _data.city
             })
             if (_data.otherService != "null" && _data.otherService) {
@@ -727,7 +755,7 @@ Page({
           that.setData({
             isactmore: true
           })
-          let _arr = that.data.allactivity.slice(0, 2);
+          let _arr = that.data.allactivity.slice(0, 3);
           that.setData({
             activity: _arr
           })
@@ -866,7 +894,7 @@ Page({
           _data[i].timeDiffrence = utils.timeDiffrence(data.currentTime, _data[i].updateTime, _data[i].createTime)
         }
         that.setData({
-          merchantArt: _data
+          merchantArt: _data.slice(0,3)
         });
 
       } else {
@@ -1125,7 +1153,7 @@ Page({
                 }
               }
               that.setData({
-                comment_list: _data
+                comment_list: _data.slice(0,3)
               })
             }
           }
@@ -1371,12 +1399,11 @@ Page({
   //查看全部
   clickactmore: function() {
     this.setData({
-      isactmore: !this.data.isactmore,
-      activity: []
+      isactmore: !this.data.isactmore
     })
     let arr = this.data.allactivity
     if (this.data.isactmore) {
-      arr = arr.slice(0, 2);
+      arr = arr.slice(0, 3);
       this.setData({
         activity: arr
       })
@@ -1417,7 +1444,6 @@ Page({
         hotlist2: this.data.hotlist.slice(0,3)
       })
     }
-    console.log("isdity:", this.data.isdity)
   },
   //去代金券页面
   gotouse: function() {

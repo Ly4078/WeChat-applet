@@ -165,7 +165,6 @@ Page({
   //查询菜
   getDish() {
     let that = this, _parms = {}, _Url = "", _value='';
-    
     _parms = {
       Id: this.data.id,
       zanUserId: app.globalData.userInfo.userId,
@@ -199,6 +198,7 @@ Page({
           pattern='',
             article='',
             skuInfo = data.skuInfo ? data.skuInfo : data.actGoodsSkuOut.ruleDesc;
+    
             if(data.skuInfo){
               skuInfo = skuInfo ? '1个小时内完成邀请并成功购买，逾期失效Œ' + skuInfo : '1个小时内完成邀请并成功购买，逾期失效';
               if (skuInfo.indexOf("Œ") != -1) {
@@ -208,19 +208,22 @@ Page({
                  skuInfo: skuInfo
               })
             }else{
+              console.log('111111')
               if (skuInfo.indexOf("Œ") != -1) {
                 skuInfo = skuInfo.split('Œ');
               }
               let arr= that.data.legend;
-              arr[1].info = skuInfo;
+              // arr[1].info = skuInfo;
               that.setData({
                 legend:arr
               })
             }
-          
+          console.log("123213123")
           if (data.goodsSpuOut && data.goodsSpuOut.goodsSpuDesc && data.goodsSpuOut.goodsSpuDesc.content) {
+
             article = data.goodsSpuOut.goodsSpuDesc.content;
-            pattern = article.match(_RegExp)[1];
+            // pattern = article.match(_RegExp)[1];
+
             WxParse.wxParse('article', 'html', article, that, 0);
           }
 

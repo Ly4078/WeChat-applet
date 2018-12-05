@@ -10,7 +10,7 @@
     <!-- 附近 、美食、综合排序 -->
     <view class='white_box'>
       <view class='sonNavigation'>
-        <view class='Navigation_data' bindtap="nearby">
+        <view class='Navigation_data' bionTouchItemndtap="nearby">
           <text>附近</text>
           <image class='Navigation_img' src='/images/icon/restaurant_arrow.png'></image>
         </view>

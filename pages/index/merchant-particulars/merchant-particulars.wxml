@@ -61,7 +61,7 @@
 
     <view class='tabcon tabjj'>
       <image class="{{isunfold?'tabjsact':''}} tabjt" bindtap='clickjt' src='https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/shop_jt.png'></image>
-      {{store_details.shopInfo}}
+      {{isunfold?store_details.shopInfo2:store_details.shopInfo}}
     </view>
   </view>
   <!-- 服务 -->
@@ -82,10 +82,11 @@
   <view class='tabli' wx:if="{{store_details.address}}">
     <image src='https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/shop_map.png'></image>
     <view class='tabcon'>
-      <text catchtap='TencentMap'>{{store_details.address}}</text>
+      <view class='shopaddress'>
+         <text catchtap='TencentMap'>{{store_details.address}}</text>
+      </view>
       <view class='tabcr'>
         <image catchtap='TencentMap' src='https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/map_icon.png'></image>
-        <text>|</text>
         <image bindtap="calling" src='https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/phone_icon.png'></image>
       </view>
     </view>
@@ -127,7 +128,7 @@
         </view>
       </view>
       <view class='setMealMore' bindtap='clickactmore' wx:if="{{allactivity.length>2}}">
-        <text>显示全部</text>
+        <text>查看更多({{allactivity.length}})</text>
         <image wx:if="{{isactmore}}" class='more_img' src='/images/icon/restaurant_arrow.png'></image>
         <image wx:else class='more_img2' src='/images/icon/restaurant_arrow.png'></image>
       </view>
@@ -175,7 +176,7 @@
           </view>
         </view>
         <view class="setMealMore" bindtap='clickmore' wx:if="{{oldpackage.length>2}}">
-          <text>查看更多</text>
+          <text>查看更多({{newpackage.length}})</text>
           <image wx:if="{{ismore}}" class='more_img' src='/images/icon/restaurant_arrow.png'></image>
           <image wx:else class='more_img2' src='/images/icon/restaurant_arrow.png'></image>
         </view>
@@ -192,11 +193,11 @@
           <text>热销商品</text>
         </view>
       </view>
-      <view class='dity' wx:for="{{hotlist2}}" wx:key="{{index}}">
+      <view class='dity' wx:for="{{hotlist2}}" wx:key="{{index}}" >
         <!-- <view class='dityimg'> -->
-          <image class='dityimg' src='{{item.skuPic}}'></image>
+          <image class='dityimg' src='{{item.skuPic}}' bindtap='ClickSnatch' id='{{item.id}}'  data-actname="{{item.actGoodsSkuOuts[0].actInfo.actName}}" data-actid="{{item.actGoodsSkuOuts[0].actId}}"></image>
         <!-- </view> -->
-        <view class='ditycont'>
+        <view class='ditycont' bindtap='ClickSnatch' id='{{item.id}}'  data-actname="{{item.actGoodsSkuOuts[0].actInfo.actName}}" data-actid="{{item.actGoodsSkuOuts[0].actId}}">
           <view class='dcont1'>{{item.skuName}}</view>
           <view class='dcont2'>仅剩{{item.actGoodsSkuOuts[0].sortNum}}份</view>
           <view class='dcont3'>
@@ -208,11 +209,11 @@
             <text>¥{{item.actGoodsSkuOuts[0].sellPrice}}</text>
           </view>
           
-          <view class='dcont5' bindtap='ClickSnatch' id='{{item.id}}'  data-actname="{{item.actGoodsSkuOuts[0].actInfo.actName}}" data-actid="{{item.actGoodsSkuOuts[0].actId}}">抢购</view>
+          <view class='dcont5'>抢购</view>
         </view>
         
-        <view class='dityact' wx:for="{{item.actGoodsSkuOuts2}}" wx:key="{{index}}">
-          <view class='actleft'>
+        <view class='dityact' wx:for="{{item.actGoodsSkuOuts2}}" wx:key="{{index}}" bindtap='ClickSnatch' id='{{item.id}}'  data-actname="{{item.actInfo.actName}}" data-actid="{{item.actId}}">
+          <view class='actleft' >
             <view class='actprice1'>¥{{item.goodsPromotionRules.actAmount}}</view>
             <view class='actprice2'>¥{{item.sellPrice}}</view>
           </view>
@@ -220,13 +221,13 @@
             <view class='dishname'>【{{item.skuName}}】{{item.actInfo.actName}}</view>
             <view class='syfs'> 仅剩{{item.sortNum}}份</view>
           </view>
-          <view class='actright' bindtap='ClickSnatch' id='{{item.id}}'  data-actname="{{item.actInfo.actName}}" data-actid="{{item.actId}}">
+          <view class='actright'>
             <image src='https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/goact.png'></image>
           </view>
         </view>
       </view>
       <view class='setMealMore' bindtap='clickdity' wx:if="{{hotlist.length>3}}">
-        <text>查看更多</text>
+        <text>查看更多({{hotlist.length}})</text>
         <image class="{{isdity?'more_img':'more_img2'}}" src='/images/icon/restaurant_arrow.png'></image>
       </view>
     </view>
@@ -275,7 +276,7 @@
         <view class='yevaluate-center2'>
           <view class='yevaluateDot dot2'>动</view>
           <text>商家动态</text>
-          <text catchtap='toActivity' class='seeall'>查看全部</text>
+          <text catchtap='toActivity' class='seeall'>查看更多</text>
         </view>
       </view>
       <view>
@@ -371,9 +372,12 @@
         <text class='evaluatExtea'>评价</text>
       </view>
     </view>
-    <view class='evaluateSon' id="{{details.id}}" bindtap='paymentPay' wx:if="{{isoter}}">
-      <image class='evaluateImg' src='https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/money_icon.png'></image>
+    <view class='evaluateSon maidan' id="{{details.id}}" bindtap='paymentPay' wx:if="{{isoter}}">
+    <view class='evaluateSonsed'>
+        <image class='evaluateImg' src='https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/money_icon.png'></image>
       <text class='evaluatText'>买单</text>
+      </view>
+      
     </view>
   </view>
 </view>

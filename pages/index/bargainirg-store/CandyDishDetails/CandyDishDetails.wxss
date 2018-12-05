@@ -434,17 +434,49 @@ page{
 }
 
 .superscript{
-  color:rgba(255,67,67,1);
   padding: 0rpx 18rpx 6rpx 18rpx;
 }
 
 .superscript text{
   vertical-align:sub;
-  font-size:50rpx;
   font-family:PingFangSC-Regular;
-  color:rgba(255,67,67,1);
 }
-
+.dijia{
+  min-width: 30rpx;
+  height: 100%;
+  float: left;
+}
+.dijia view{
+  color: #FF4343;
+  font-size: 24rpx;
+  text-align:right;
+}
+.dijaiprce{
+  float: left;
+  min-width:20rpx; 
+  font-size: 50rpx;
+  color: #FF4343;
+  padding: 0 5rpx;
+}
+.yunajia{
+  text-decoration:line-through;
+  color: #555;
+  font-size: 20rpx;
+  float: left;
+  padding-top: 32rpx;
+}
+.goumai{
+  float:right;
+  width:82rpx;
+  height:46rpx;
+  border-radius:38rpx;
+  background:#FC6232;
+  line-height:46rpx;
+  text-align:center;
+  font-size:24rpx;
+  color:#fff;
+  margin-top:10rpx;
+}
 .oldWrap{
   display: flex;
   flex-wrap:wrap;
@@ -573,27 +605,27 @@ page{
 
 .kanj{
   height: 70rpx;
-  line-height: 70rpx;
+  line-height: 85rpx;
   padding:0 28rpx;
   border-top: 1rpx solid #EBEBEB;
 }
 .kjicon{
   min-width: 28rpx;
-  height: 28rpx;
+  min-height: 28rpx;
   margin-top: 20rpx;
   margin-right: 14rpx;
-  font-size: 24rpx;
   background: #FF4949;
   color: #fff;
   text-align: center;
-  padding: 0 4rpx;
+  padding: 10rpx 15rpx;
+  border-radius: 5rpx;
   line-height: 28rpx;
   float: left;
 }
 .kanj image{
   float: right;
   margin-right: 28rpx;
-  margin-top: 24rpx;
+  margin-top: 33rpx;
   width: 14rpx;
   height: 22rpx;
 }
@@ -635,4 +667,7 @@ page{
 }
 .legend_info text{
   margin-left: 18rpx;
+}
+.sponsorVgts{
+  font-size: 24rpx;
 }

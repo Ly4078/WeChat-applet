@@ -32,8 +32,21 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": -1,
-			"list": []
+			"current": 1,
+			"list": [
+				{
+					"id": -1,
+					"name": "a",
+					"pathName": "pages/index/merchant-particulars/merchant-particulars",
+					"query": "shopid=35"
+				},
+				{
+					"id": -1,
+					"name": "b",
+					"pathName": "pages/index/merchant-particulars/merchant-particulars",
+					"query": "shopid=323"
+				}
+			]
 		}
 	}
 }

@@ -19,7 +19,8 @@ page {
   width: 100%;
   height: 422rpx;
   position: absolute;
-  background: linear-gradient(to bottom, #191919, #fff);
+  /* background: linear-gradient(to bottom, #191919, #fff); */
+  background: #fff;
   opacity: 0.2;
   top: 0;
   left: 0;
@@ -32,8 +33,8 @@ page {
   width: 92rpx;
   height: 36rpx;
   position: absolute;
-  top: 360rpx;
-  right: 28rpx;
+  bottom: 24rpx;
+  right: 56rpx;
   color: #fff;
   font-size: 22rpx;
   text-align: center;
@@ -43,7 +44,9 @@ page {
 }
 
 .cateImages {
-  width: 100%;
+  width: 694rpx;
+  margin: 0 28rpx;
+  border-radius: 8rpx;
   height: 422rpx;
   display: block;
 }
@@ -64,9 +67,10 @@ page {
   border-bottom: 1rpx solid #EBEBEB;
   min-height: 88rpx;
   line-height: 90rpx;
+  position: relative;
 }
 .tabli image{
-  width: 20rpx;
+  width: 25rpx;
   height: 24rpx;
   margin-top: 36rpx;
   padding: 0rpx 16rpx;
@@ -82,17 +86,21 @@ page {
   padding: 0;
   margin-top:0rpx!important;
 }
+
 .tabcr{
-  float: right;
-  position: relative;
+  position: absolute;
+  top: -50rx;
+  right: 0;
 }
 .tabcr image{
-  width: 40rpx;
-  height: 30rpx;
+  padding:6rpx 26rpx;
+  width:32rpx;
+  height:32rpx;
+  margin-top:26rpx;
 }
-.tabcr text{
-  position: relative;
-  right: 70rpx;
+.tabcr image:nth-child(1){
+  border-right:1px solid #e0e0e0;
+
 }
 .tabjsact{
   transform:rotate(180deg);
@@ -136,6 +144,7 @@ page {
   z-index: 100;
   padding: 16rpx 30rpx 0 22rpx;
   background: #fff;
+  border-top: 0.5rpx solid #e0e0e0;
 }
 
 .detailsName-genre {
@@ -160,20 +169,25 @@ page {
   white-space: nowrap;
   overflow: hidden;
   font-size: 36rpx;
+  font-weight: 800;
 }
 
 .details-hotNum {
   color: #fc5e2d;
+  padding-right: 20rpx;
 }
 
 .details-type {
-  padding-left: 34rpx;
-}
-.distanc{
-  float: right;
+  padding:0 20rpx;
   color: #191919;
   font-size: 22rpx;
-  margin-left: 100rpx;
+  border-left: 1rpx solid #e0e0e0;
+  border-right: 1rpx solid #e0e0e0;
+}
+.distanc{
+  padding:0 20rpx;
+  color: #191919;
+  font-size: 22rpx;
 }
 .details-form {
   font-size: 26rpx;
@@ -460,9 +474,11 @@ page {
 }
 
 .evaluateSonsed {
-  border-right: 1px solid #fff;
+  border-right: none;
 }
-
+.maidan .evaluateSonsed{
+  border-left: 1px solid #fff;
+}
 .manj {
   color: #ff5252;
   font-size: 32rpx;
@@ -650,8 +666,8 @@ page {
 
 .evaluateWrap {
   border-radius: 50rpx;
-  border: 1rpx solid #ebebeb;
-  box-shadow: 0rpx 4rpx 8rpx #ebebeb;
+  border: 1rpx solid #313131;
+  box-shadow: 0rpx 4rpx 8rpx #313131;
   box-sizing: border-box;
   background:#313131;
   color: #fff;
@@ -946,4 +962,10 @@ page {
   padding: 0 6rpx;
   color: #8E8E8E;
   font-size: 20rpx;
+}
+.shopaddress{
+  width: 75%;
+  float: left;
+  line-height:30rpx;
+  margin-top: 24rpx;
 }

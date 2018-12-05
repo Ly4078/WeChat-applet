@@ -27,12 +27,12 @@
           <view class='shopscCurrency'>￥ 底价
           </view>
           <text class='lowValue'>{{agioPrice}}</text>
-          <text class='abandon'>原价：￥{{sellPrice}}</text>
+          <text class='abandon'>￥{{sellPrice}}</text>
         </view>
       </view>
       <view class='kanj' catchtap="sponsorVgts">
         <view class='kjicon'>砍价购</view>
-        一刀也优惠，邀请5个好友砍到低价
+        一刀也优惠，邀请5个好友砍到底价
         <image src='/images/icon/home_arrow.png'></image>
       </view>
     </view>
@@ -84,14 +84,14 @@
       <!-- 商家主页 -->
       <view class='parallelismDining' wx:if="{{shopName}}">
         <view class='diningLeft'>
-          <view class='diningzPlace'>
+          <view class='diningzPlace'  bindtap="toShopDetail">
             <image class='geography' src='/images/icon/location.png'></image>
             <text>{{address}}</text>
           </view>
         </view>
-        <view class='diningRight' bindtap="toShopDetail">
-          <image class='mapphone' src='https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/map_icon.png'></image>|
-          <image class='mapphone' src='https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/phone_icon.png'></image>
+        <view class='diningRight'>
+          <image class='mapphone' catchtap='openmap' src='https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/map_icon.png'></image>|
+          <image class='mapphone' bindtap="calling" src='https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/phone_icon.png'></image>
         </view>
       </view>
 
@@ -154,8 +154,14 @@
                 <text>{{item.distance}}</text>
               </view>
             </view>
-            <view class='superscript'>￥
-              <text>{{item.agioPrice?item.agioPrice:item.sellPrice}}</text>
+            <view class='superscript'>
+              <view class='dijia'>
+                <view>￥</view>
+                <view>底价</view>
+              </view>
+              <view class='dijaiprce'>{{item.agioPrice?item.agioPrice:item.sellPrice}}</view>
+              <view class='yunajia'>￥{{item.agioLevel}}</view>
+              <view class='goumai'>购买</view>
             </view>
           </view>
         </block>

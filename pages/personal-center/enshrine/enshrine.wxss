@@ -138,3 +138,34 @@ page{
   text-overflow:ellipsis;
   white-space:nowrap;
 }
+.tips.kan {
+  background: #2fb0fa;
+}
+
+.tips.quan {
+  background: #fc2d2d;
+}
+ .tips {
+  font-size: 24rpx;
+  display: inline-block;
+  width: 30rpx;
+  height: 30rpx;
+  line-height: 30rpx;
+  margin: 0 5rpx;
+  border-radius: 2rpx;
+  text-align: center;
+  color: #fff;
+}
+.fullreduction {
+  margin-top: 15rpx;
+  display: flex;
+  flex-direction: row;
+}
+.fullreduction text {
+  font-size: 26rpx;
+  color: #fc2d2d;
+  margin: 0 8rpx;
+  background: #fae0e0;
+  padding: 0 6rpx;
+  border: 1rpx solid #ffb1b1;
+}

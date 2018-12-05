@@ -11,7 +11,9 @@
           </view>
         </view>
         <view class='enshrine-caip'>
-          <text class='enshrine-name'>{{item.shopName}}</text>
+          <text class='enshrine-name'>{{item.shopName}}<text class="tips quan">劵</text>
+            <text class="tips kan">砍</text></text>
+           
           <view class='hotDining-Wrap'>
             <image class='hotDining' src='/images/icon/popularity.png'></image>
             <text class='hotText'>{{item.popNum}}</text>
@@ -20,10 +22,12 @@
           <view class='recommended' catchtap='recommendation'>
             <text class='dishes' wx:if="{{item.skuName.length>0}}">{{item.skuName}}</text>
           </view>
-          <view class='regulation' wx:if="{{item.ruleDescs.length>0}}">
-            <image class='ticket' src='/images/icon/restaurant_ticket.png'></image>
-            <text class='reduction' wx:for='{{item.ruleDescs}}' wx:key='index'>{{item}}、</text>
+     
+
+           <view class="fullreduction skeleton-rect">
+              <text wx:for="{{item.ruleDescs}}" wx:if="{{index <=1}}" wx:key="index">{{item}}</text>
           </view>
+
         </view>
       </view>
       <view class='enshrineWrap-right'>
