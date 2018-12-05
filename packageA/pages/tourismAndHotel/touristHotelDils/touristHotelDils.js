@@ -139,30 +139,40 @@ Page({
             that.setData({
               groupIsend:true
             })
-            wx.showToast({
-              title: '该团已结束',
-              icon:'none'
+            wx.showModal({
+              title: '提示',
+              content: '该团已结束',
+              showCancel:false,
+              success(res) {
+                if (res.confirm) {
+                  wx.switchTab({
+                    url: "/pages/index/index",
+                  })
+                } else if (res.cancel) {
+                  console.log('用户点击取消')
+                }
+              }
             })
-            setTimeout(() => {
-              wx.switchTab({
-                url: "/pages/index/index",
-              })
-            }, 1500)
           }
           wx.hideLoading()
         }else{
           that.setData({
             groupIsend: true
           })
-          wx.showToast({
-            title: '该团已结束',
-            icon: 'none'
+          wx.showModal({
+            title: '提示',
+            content: '该团已结束',
+            showCancel: false,
+            success(res) {
+              if (res.confirm) {
+                wx.switchTab({
+                  url: "/pages/index/index",
+                })
+              } else if (res.cancel) {
+                console.log('用户点击取消')
+              }
+            }
           })
-         setTimeout( ()=>{
-           wx.switchTab({
-             url: "/pages/index/index",
-           })
-         },1500)
           that.setData({ showSkeleton: false })
           wx.hideLoading()
         }

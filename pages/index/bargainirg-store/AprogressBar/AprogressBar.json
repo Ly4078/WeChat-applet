@@ -1,3 +1,8 @@
 {
-  "navigationBarTitleText": "砍价享优惠"
+  "navigationBarTitleText": "砍价享优惠",
+  "usingComponents": {
+    "i-spin": "../../../dist/spin/index",
+    "skeleton": "/components/skeleton/skeleton",
+    "image-loader": "/components/image-loader"
+  }
 }

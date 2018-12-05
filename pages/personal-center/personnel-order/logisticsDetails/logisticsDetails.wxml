@@ -205,11 +205,11 @@
         <text>下单时间</text>
         <text>{{soDetail.createTime}}</text>
       </view>
-      <view class='inconformity' wx:if="{{!isGroup}}">
+      <!-- <view class='inconformity' wx:if="{{!isGroup}}">
         <text>快递方式</text>
         <text wx:if="{{soDetail.expressCode}}">顺丰速运</text>
         <text wx:else>到店自提</text>
-      </view>
+      </view> -->
       <view class='inconformity' wx:if="{{soDetail.expressCode && !isGroup}}">
         <text>快递单号</text>
         <text>{{soDetail.expressCode2}}</text>
