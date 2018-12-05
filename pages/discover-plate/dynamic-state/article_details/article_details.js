@@ -94,12 +94,12 @@ Page({
                 that.authlogin();
               } else {
                 wx.navigateTo({
-                  url: '/pages/init/init?isback=1'
+                  url: '/pages/init/init'
                 })
               }
             } else {
               wx.navigateTo({
-                url: '/pages/init/init?isback=1'
+                url: '/pages/init/init'
               })
             }
           }

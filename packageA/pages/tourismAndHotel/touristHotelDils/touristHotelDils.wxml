@@ -95,7 +95,7 @@
       <text>分享</text>
     </button>
 
-    <view class='returnPrice' catchtap='originalPrice'>
+    <view class='returnPrice' style="border-left:1rpx solid #ebebeb" catchtap='originalPrice'>
       <image class='yellowShare' src='https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/serviceesa.png'></image>
       <text class='directly'>客服</text>
       <button class="cs_button" open-type="contact" session-from="weapp"></button>

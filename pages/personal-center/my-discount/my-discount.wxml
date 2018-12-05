@@ -71,7 +71,7 @@
       <view class='exbut'></view>
     </view>
 
-    <text wx:if="{{listData.length<1}}" class='buyvoucher' bindtap='buyVoucher'>购买提蟹券</text>
+    <!-- <text wx:if="{{listData.length<1}}" class='buyvoucher' bindtap='buyVoucher'>购买提蟹券</text> -->
     <view class='exchange' bindtap='handexchange'>兑换记录</view>
   </view>
 

@@ -24,7 +24,7 @@ Page({
     }
     this.getsortdata();
   },
-
+      
   //获取类别数据
   getsortdata: function() {
     let that = this;

@@ -13,6 +13,7 @@ Page({
     newcomer:false,
     showSkeleton:true,
     isShare:false,
+    groupIsend:false,
     timer:null,
     _content:null,
     shadowFlag:true
@@ -129,8 +130,39 @@ Page({
             singleData: _data,
             showSkeleton: false
           })
+          console.log("---------------------------")
+          console.log(_data)
+          console.log(that.data.groupStatus.state)
+          if (_data.actGoodsSkuOut.state == '1' && that.data.groupStatus.state !='4'){
+
+          }else{
+            that.setData({
+              groupIsend:true
+            })
+            wx.showToast({
+              title: '该团已结束',
+              icon:'none'
+            })
+            setTimeout(() => {
+              wx.switchTab({
+                url: "/pages/index/index",
+              })
+            }, 1500)
+          }
           wx.hideLoading()
         }else{
+          that.setData({
+            groupIsend: true
+          })
+          wx.showToast({
+            title: '该团已结束',
+            icon: 'none'
+          })
+         setTimeout( ()=>{
+           wx.switchTab({
+             url: "/pages/index/index",
+           })
+         },1500)
           that.setData({ showSkeleton: false })
           wx.hideLoading()
         }
@@ -312,7 +344,13 @@ Page({
   },
   sponsorVgts: function(payType) {//点击付款按钮
     let that = this, _parms = {};
-    
+    if (that.data.groupIsend) {
+      wx.showToast({
+        title: '该团已结束',
+        icon: 'none'
+      })
+      return false
+    }
     if (payType !='sellPrice'){
       if (that.data.Countdowns.isEnd) {
         wx.showToast({

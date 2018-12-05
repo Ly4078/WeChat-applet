@@ -79,7 +79,7 @@
               <image wx:if="{{groupOrderDetail.users.length}}" src="{{groupOrderDetail.users[0].iconUrl?groupOrderDetail.users[0].iconUrl:'/images/icon/invite.png'}}"></image>
               <image wx:else src="/images/icon/invite.png"></image>
             </view>
-            <view catchtap='seeMygoods' class="Single-detail-info-share" wx:if="{{groupOrderDetail.actOrder.state =='2'}}">查看商品</view>
+            <view catchtap='seeMygoods' class="Single-detail-info-share" wx:if="{{groupOrderDetail.actOrder.state =='2'}}">查看票券</view>
             <view catchtap='seeMore' class="Single-detail-info-share" wx:if="{{groupOrderDetail.actOrder.state !='2' || groupOrderDetail.actOrder.state=='4'}}">查看更多</view>
           </view>
         </view>

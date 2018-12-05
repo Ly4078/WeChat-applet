@@ -280,7 +280,9 @@ Page({
           ispay: true
         })
       }, 2000)
-
+      wx.showLoading({
+        title: '加载中...',
+      })
       wx.login({
         success: res => {
           if (res.code) {
@@ -309,7 +311,11 @@ Page({
                     success: function (res) {
                       if (res.data.code == 0) {
                         that.wxpayment()
+                      }else{
+                        wx.hideLoading()
                       }
+                    },fail:function(){
+                        wx.hideLoading()
                     }
                   })
                 }
@@ -340,7 +346,7 @@ Page({
     })
   },
   //调起微信支付
-  wxpayment: function () {
+  wxpayment: function (types) {
     let _parms = {}, that = this, _value = "", url = "", _Url = "";;
     _parms = {
       orderId: this.data.soId,
@@ -352,10 +358,18 @@ Page({
     }
     _value = _value.substring(0, _value.length - 1);
 
-    if (that.data.soDetail.orderAddressOut && that.data.soDetail.orderAddressOut.id) {
-      url = that.data._build_url + 'wxpay/doUnifiedOrderForShoppingMall?' + _value;
-    } else {
-      url = that.data._build_url + 'wxpay/shoppingMallForCoupon?' + _value;
+    // if (that.data.soDetail.orderAddressOut && that.data.soDetail.orderAddressOut.id) {
+    //   url = that.data._build_url + 'wxpay/doUnifiedOrderForShoppingMall?' + _value;
+    // } else {
+    //   url = that.data._build_url + 'wxpay/shoppingMallForCoupon?' + _value;
+    // }
+    // if(types=='reset'){
+      url = that.data._build_url + 'wxpay/shoppingMallForCouponNew?' + _value;
+    // }
+    if (that.data.groupOrderDetail){
+      url = url +'&type=' + that.data.groupOrderDetail.actInfo.type || 1
+    }else{
+      url = url+'&type=1'
     }
     _Url = encodeURI(url);
     wx.request({
@@ -371,6 +385,7 @@ Page({
           })
           that.pay();
         } else {
+          wx.hideLoading()
           wx.showToast({
             title: res.data.message,
             icon: 'none'
@@ -380,6 +395,7 @@ Page({
     })
   },
   pay: function () {
+    wx.hideLoading()
     let _data = this.data.payObj,
       that = this;
     wx.requestPayment({
