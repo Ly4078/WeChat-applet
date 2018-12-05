@@ -60,8 +60,12 @@
       </view>
     </view>
     <view class='logistics-center-right {{item.sendType == 2 ? "store" : ""}}'>
-      <view wx:if="{{item.sendType != 2}}" class='logistics-ctn-name'><text>{{item.units?item.units:item.orderItemOuts[0].goodsSkuName}}</text></view>
+      <!-- <view wx:if="{{item.sendType != 2}}" class='logistics-ctn-name'><text>{{item.units?item.units:item.orderItemOuts[0].goodsSkuName}}</text></view>
       <view class='logistics-ctn-spn' wx:if="{{item.units}}">
+        <text>{{item.orderItemOuts[0].goodsSkuName}}</text>
+      </view> -->
+
+      <view class='logistics-ctn-name ' >
         <text>{{item.orderItemOuts[0].goodsSkuName}}</text>
       </view>
     </view>

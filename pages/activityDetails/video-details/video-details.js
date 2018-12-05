@@ -863,9 +863,13 @@ Page({
       // 来自页面内转发按钮
       console.log(ops.target)
     }
+    let url = 'pages/activityDetails/video-details/video-details?id=' + this.data.refId
+    if (!this.data.hideUserinfo) {
+      url = url + '&froms=index'
+    }
     return {
       title: that.data.cotitle,
-      path: 'pages/activityDetails/video-details/video-details?id=' + this.data.refId,
+      path: url,
       success: function(res) {
         // 转发成功
       that.setData({

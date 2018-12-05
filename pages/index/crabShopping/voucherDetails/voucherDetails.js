@@ -16,12 +16,10 @@ Page({
     sendType: '', // 0-均有/1-快递/2-门店
     isReceived: false, //是否被领取
     isExchange: false, //是否弹出兑换码
-    giftTxt: '已被领取' //赠送文字
+    giftTxt: '已被领取', //赠送文字,
+    showSkeleton:true
   },
   onLoad: function(options) {
-    wx.showLoading({
-      title: '数据加载中...'
-    })
     this.setData({
       id: options.id
     });
@@ -95,7 +93,8 @@ Page({
             ownId: data.ownId, //券所有人
             versionNo: data.versionNo, //版本号
             realWeight: data.goodsSku.realWeight, //实际重量
-            tempateId: data.goodsSku.deliveryTemplateId //模板id
+            tempateId: data.goodsSku.deliveryTemplateId, //模板id
+            showSkeleton:false
           });
           if (data.singleType == 2) {
             _this.setData({
@@ -166,6 +165,9 @@ Page({
         }
       },
       complete: function() {
+        _this.setData({
+          showSkeleton: false
+        })
         wx.hideLoading();
       }
     })
@@ -175,7 +177,7 @@ Page({
     var size = {};
     try {
       var res = wx.getSystemInfoSync();
-      var scale = 750 / 686;//不同屏幕下canvas的适配比例；设计稿是750宽
+      var scale = 750 / 686; //不同屏幕下canvas的适配比例；设计稿是750宽
       var width = res.windowWidth / scale * 0.9;
       var height = width;//canvas画布为正方形
       size.w = width/2;

@@ -371,9 +371,13 @@ Page({
     if (res.from === 'button') {
       // 来自页面内转发按钮
     }
+    let url = 'pages/discover-plate/dynamic-state/article_details/article_details?id=' + this.data._id
+    if (!this.data.hideUserinfo){
+      url = url+'&froms=index'
+    }
     return {
       title: _details.title,
-      path: 'pages/discover-plate/dynamic-state/article_details/article_details',
+      path: url,
       imageUrl: _details.homePic,
       success: function (res) {
         // 转发成功

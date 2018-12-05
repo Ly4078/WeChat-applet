@@ -168,7 +168,7 @@ Page({
     
     _parms = {
       Id: this.data.id,
-      // zanUserId: app.globalData.userInfo.userId,
+      zanUserId: app.globalData.userInfo.userId,
       shopId: this.data.shopId,
       ocationX: app.globalData.userInfo.lng,
       locationY: app.globalData.userInfo.lat,

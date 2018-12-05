@@ -58,11 +58,11 @@ Page({
     if (!app.globalData.token) {
       that.findByCode()
     } else {
-      that.addrecord(that.data.id, that.data.actid)
+      that.addrecord()
       that.fromshare();
     }
   },
-  addrecord: function (id, actid){
+  addrecord: function (){
     let that =  this;
     let baseUlr  = '';
     if(that.data.parentId){
@@ -86,7 +86,7 @@ Page({
           that.setData({
             groupStatus:res.data.data
           })
-          that.getData(id, actid);
+          that.getData();
         }else{
           that.setData({ showSkeleton: false})
         }
@@ -95,7 +95,7 @@ Page({
       }
     })
   },
-  getData: function(id, actid) {
+  getData: function() {
     let that = this;
     wx.request({
       url: that.data._build_url + 'goodsSku/selectDetailBySkuIdNew?id=' + that.data.id + '&actId=' + that.data.actid,
@@ -196,7 +196,7 @@ Page({
           userInfo.token = _token
           wx.setStorageSync("token", _token)
           wx.setStorageSync("userInfo", userInfo)
-          that.addrecord(that.data.id, that.data.actid)
+          that.addrecord()
           that.fromshare();
           if (app.globalData.userInfo.mobile) {
           } else {
@@ -312,6 +312,18 @@ Page({
   },
   sponsorVgts: function(payType) {//点击付款按钮
     let that = this, _parms = {};
+    
+    if (payType !='sellPrice'){
+      if (that.data.Countdowns.isEnd) {
+        wx.showToast({
+          title: '该团已结束',
+          icon: 'none'
+
+        })
+        return false
+      }
+    }
+
     _parms = {
       shopId: that.data.singleData.shopId,
       payType: 2,

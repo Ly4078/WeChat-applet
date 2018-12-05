@@ -470,7 +470,7 @@ Page({
     wx.navigateTo({
       url: "/pages/personal-center/personnel-order/order-requesRefund/order-requesRefund?orderNumber=" + that.data.soDetail.orderCode,
     })
-  },
+  },    
   onShareAppMessage: function (e) {
     let that = this;
     let title = "急死了！我正在拼购仅需" + that.data.soDetail.realAmount + "元拿👉" + that.data.soDetail.orderItemOuts[0].goodsSkuName +"👈考验我们感情的时候到了❤❤❤";
