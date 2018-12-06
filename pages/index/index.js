@@ -220,6 +220,8 @@ Page({
     let that = this;
     wx.login({
       success: res => {
+        // console.log("code:", res.code)
+        // return
         Api.findByCode({
           code: res.code
         }).then((res) => {

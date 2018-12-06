@@ -204,13 +204,14 @@ Page({
           if (data.skuInfo){
             skuInfo = data.skuInfo;
             skuInfo = skuInfo ? '1个小时内完成邀请并成功购买，逾期失效Œ' + skuInfo : '1个小时内完成邀请并成功购买，逾期失效';
+
             console.log("skuInfo:", skuInfo)
             if (skuInfo.indexOf("Œ") != -1) {
               console.log('11111')
               skuInfo = skuInfo.split('Œ');
             }
-            console.log("skuInfo2222:", skuInfo)
             let arr = that.data.legend;
+            arr = arr.slice(1);
             let obj = {
               name: '使用规则',
               info: []
@@ -226,6 +227,7 @@ Page({
               skuInfo = skuInfo.split('Œ');
             }
             let arr = that.data.legend;
+            arr = arr.slice(1);
             let obj = {
               name: '使用规则',
               info: []
@@ -236,6 +238,7 @@ Page({
               legend: arr
             })
           }
+
           if (data.goodsSpuOut && data.goodsSpuOut.goodsSpuDesc && data.goodsSpuOut.goodsSpuDesc.content) {
 
             article = data.goodsSpuOut.goodsSpuDesc.content;

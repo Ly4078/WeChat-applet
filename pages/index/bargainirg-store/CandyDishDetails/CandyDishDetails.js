@@ -58,12 +58,13 @@ Page({
     actId: '', //活动ID
     pattern: '',
     article: '',
-    legend: [{
+    legends: [{
       name: '有效期',
       info: [
         '购买后3个月内使用有效'
       ]
-    }]
+    }],
+    legend: []
   },
   onLoad(options) {
     // console.log("opttions:", options)
@@ -247,7 +248,6 @@ Page({
     }
   },
   chilkDish(e) { //点击某个推荐菜
-    console.log('chilkDish')
     let id = e.currentTarget.id,
       shopId = e.currentTarget.dataset.shopid;
     this.setData({
@@ -356,11 +356,13 @@ Page({
             pattern = '',
             article = '',
             remark = [];
-            console.log('1111')
           if (data.skuInfo) {
             skuInfo = data.skuInfo;
             if (skuInfo.indexOf("Œ") != -1) {
-              let arr = that.data.legend;
+              let arr = that.data.legends;
+              if(arr.length>1){
+                arr = arr.slice(1);
+              }
               skuInfo = skuInfo.split('Œ');
               let obj = {
                 name: '使用规则',
@@ -371,13 +373,21 @@ Page({
               that.setData({
                 legend: arr
               })
+            }else{
+              that.setData({
+                legend: that.data.legends
+              })
             }
           } else if (data.remark) {
             remark.push(data.remark)
           } else if (data.actGoodsSkuOuts && data.actGoodsSkuOuts[0].ruleDesc){
             skuInfo = data.actGoodsSkuOuts[0].ruleDesc;
             if (skuInfo.indexOf("Œ") != -1) {
-              let arr = that.data.legend;
+              let arr = that.data.legends;
+              if (arr.length > 1) {
+                arr = arr.slice(1);
+              }
+
               skuInfo = skuInfo.split('Œ');
               let obj = {
                 name: '使用规则',
@@ -390,23 +400,9 @@ Page({
               })
             }
           } else {
-            try {
-              //  skuInfo = data.actGoodsSkuOut.ruleDesc;
-              skuInfo = '';
-              if (skuInfo.indexOf("Œ") != -1) {
-                let arr = that.data.legend;
-                skuInfo = skuInfo.split('Œ');
-                let obj = {
-                  name: '使用规则',
-                  info: []
-                };
-                obj.info = skuInfo;
-                arr.push(obj);
-                that.setData({
-                  legend: arr
-                })
-              }
-            } catch (err) {}
+            that.setData({
+              legend: that.data.legends
+            })
           } 
           if (data.goodsSpuOut && data.goodsSpuOut.goodsSpuDesc && data.goodsSpuOut.goodsSpuDesc.content) {
             article = data.goodsSpuOut.goodsSpuDesc.content;
