@@ -25,7 +25,8 @@ Page({
     threeLater: '', //三天后
     tenLater: '', //十天后
     remarks: '', //备注内容
-    freight: 0 //运费
+    freight: 0, //运费
+    notsent:false
   },
   onLoad: function(options) {
     this.setData({
@@ -135,6 +136,9 @@ Page({
             freight: freight.toFixed(2)
           });
         } else {
+          _this.setData({
+            notsent:true
+          })
           wx.showToast({
             title: res.data.message,
             icon: 'none'
@@ -151,6 +155,14 @@ Page({
   },
   //提交兑换
   submit() {
+    if (this.data.notsent){
+      wx.showToast({
+        title: '不支持配送',
+        icon:'none',
+        duration:1800
+      })
+      return false
+    }
     if (!this.data.address.id) {
       wx.showModal({
         title: '提示',

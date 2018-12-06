@@ -10,4 +10,4 @@ var config = {
   GLOBAL_API_DOMAIN: BASEURL
 };
 module.exports = config;
-  4
+  

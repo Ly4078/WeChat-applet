@@ -35,7 +35,7 @@
       </view>
     </picker>
   </view>
-  <view class="exchange" bindtap='submit'>
-    <view>立即兑换</view>
+  <view class="exchange " bindtap='submit'>
+    <view class="{{notsent?'bg':''}}">立即兑换</view>
   </view>
 </view>

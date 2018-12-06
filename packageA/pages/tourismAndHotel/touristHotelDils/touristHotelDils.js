@@ -130,9 +130,6 @@ Page({
             singleData: _data,
             showSkeleton: false
           })
-          console.log("---------------------------")
-          console.log(_data)
-          console.log(that.data.groupStatus.state)
           if (_data.actGoodsSkuOut.state == '1' && that.data.groupStatus.state !='4'){
 
           }else{
@@ -149,7 +146,6 @@ Page({
                     url: "/pages/index/index",
                   })
                 } else if (res.cancel) {
-                  console.log('用户点击取消')
                 }
               }
             })
@@ -169,7 +165,6 @@ Page({
                   url: "/pages/index/index",
                 })
               } else if (res.cancel) {
-                console.log('用户点击取消')
               }
             }
           })
@@ -412,7 +407,7 @@ Page({
         }else{
           wx.hideLoading();
           wx.showToast({
-            title: res.data.message || '支付失败',
+            title:'库存不足，请稍后再试',
             icon: 'none'
           })
           that.addrecord();
