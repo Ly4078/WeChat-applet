@@ -638,7 +638,6 @@ page{
 }
 .kanj image{
   float: right;
-  margin-right: 28rpx;
   margin-top: 33rpx;
   width: 14rpx;
   height: 22rpx;

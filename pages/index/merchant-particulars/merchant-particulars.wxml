@@ -353,7 +353,7 @@
             <image src="{{item.logoUrl}}"></image>
             <view class='shopList_item_con'>
               <view class='conname' wx:if="{{item.shopName}}">{{item.shopName}}</view>
-              <view class='renqi'>
+              <view class='renqi' wx:if="{{item.popNum}}">
                 <image src="/images/icon/hot.png"></image>
                 <text class="details-hotNum" wx:if="{{item.popNum}}">{{item.popNum}}</text>
               </view>

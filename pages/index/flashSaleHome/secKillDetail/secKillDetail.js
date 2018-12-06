@@ -12,6 +12,7 @@ Page({
     _build_url: GLOBAL_API_DOMAIN,
     issnap: false, //新用户
     isnew: false, //新用户
+    showModal:false,
     id: '', //菜id
     picUrl: '',
     skuName: '',
@@ -40,10 +41,6 @@ Page({
         info: [
           '购买后3个月内使用有效'
         ]
-      },
-      {
-        name: '使用规则',
-        info: []
       }
     ]
   },
@@ -62,7 +59,6 @@ Page({
   onShow: function() {
     let _this = this,
       that = this;
-    
     clearInterval(_this.data.timer);
     this.setData({
       timer: null
@@ -99,6 +95,11 @@ Page({
     this.setData({
       timer: null
     });
+  },
+  understand: function () {
+    this.setData({
+      showModal: !this.data.showModal
+    })
   },
   onPullDownRefresh: function() { //下拉刷新
     this.isCreateFunc();
@@ -203,11 +204,21 @@ Page({
           if (data.skuInfo){
             skuInfo = data.skuInfo;
             skuInfo = skuInfo ? '1个小时内完成邀请并成功购买，逾期失效Œ' + skuInfo : '1个小时内完成邀请并成功购买，逾期失效';
+            console.log("skuInfo:", skuInfo)
             if (skuInfo.indexOf("Œ") != -1) {
+              console.log('11111')
               skuInfo = skuInfo.split('Œ');
             }
+            console.log("skuInfo2222:", skuInfo)
+            let arr = that.data.legend;
+            let obj = {
+              name: '使用规则',
+              info: []
+            };
+            obj.info= skuInfo;
+            arr[1]=obj;
             that.setData({
-              skuInfo: skuInfo
+              legend: arr
             })
           } else if (data.actGoodsSkuOut && data.actGoodsSkuOut.ruleDesc){
             skuInfo = data.actGoodsSkuOut.ruleDesc;
@@ -215,13 +226,16 @@ Page({
               skuInfo = skuInfo.split('Œ');
             }
             let arr = that.data.legend;
-            // arr[1].info = skuInfo;
+            let obj = {
+              name: '使用规则',
+              info: []
+            };
+            obj.info = skuInfo;
+            arr[1] = obj;
             that.setData({
               legend: arr
             })
           }
-   
-          console.log("123213123")
           if (data.goodsSpuOut && data.goodsSpuOut.goodsSpuDesc && data.goodsSpuOut.goodsSpuDesc.content) {
 
             article = data.goodsSpuOut.goodsSpuDesc.content;

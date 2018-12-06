@@ -17,7 +17,7 @@
           <view class='hotDining-Wrap'>
             <image class='hotDining' src='/images/icon/popularity.png'></image>
             <text class='hotText'>{{item.popNum}}</text>
-            <text class='hotClassify'>{{item.businessCate}}</text>
+            <!-- <text class='hotClassify'>{{item.businessCate}}</text> -->
           </view>
           <view class='recommended' catchtap='recommendation'>
             <text class='dishes' wx:if="{{item.skuName.length>0}}">{{item.skuName}}</text>

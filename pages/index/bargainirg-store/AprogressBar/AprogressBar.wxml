@@ -38,7 +38,7 @@
           </view>
         </view>
       </view>
-      <view class='cuisine' id="{{dishData.id}}" data-shipid="{{dishData.shopId}}" data-cate="{{dishData.categoryId}}"catchtap='chilkDish'>
+      <view class='cuisine' id="{{dishData.id}}" data-shipid="{{dishData.shopId}}" data-cate="{{dishData.categoryId}}" catchtap='chilkDish'>
         <image class='cuisineImages' src='{{dishData.picUrl?dishData.picUrl:dishData.skuPic}}'></image>
         <view class='cuisineRight'>
           <view class='cuisineRight-Top'>
@@ -198,4 +198,4 @@
 
 
 <!-- 自定义分享图片中 绘制价格   公共方法utils.js/canvasShareImg.js  调用方法canvasShareImg() -->
-<canvas  canvas-id="myCanvas" style="width:800px;height:642px;position: fixed;top: 0; left: 999px;"></canvas>
+<canvas canvas-id="myCanvas" style="width:800px;height:642px;position: fixed;top: 0; left: 999px;"></canvas>

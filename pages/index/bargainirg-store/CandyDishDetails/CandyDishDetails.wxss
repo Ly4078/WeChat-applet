@@ -206,7 +206,6 @@ page{
   font-family:PingFangSC-Regular;
   color:rgba(25,25,25,1);
   letter-spacing: 2px;
-  width: 70%;
   overflow: hidden;
   text-overflow:ellipsis;
   white-space: nowrap;
@@ -232,7 +231,6 @@ page{
 }
 
 .diningzPlace{
-  width: 70%;
   overflow: hidden;
   text-overflow:ellipsis;
   white-space: nowrap;
@@ -319,7 +317,6 @@ page{
 }
 
 .original-cmb{
-  ont-size:36rpx;
   font-family:PingFangSC-Medium;
   color:rgba(255,67,67,1);
 }
@@ -671,3 +668,4 @@ page{
 .sponsorVgts{
   font-size: 24rpx;
 }
+

@@ -30,7 +30,7 @@
           <text class='abandon'>￥{{sellPrice}}</text>
         </view>
       </view>
-      <view class='kanj' catchtap="sponsorVgts">
+      <view class='kanj' catchtap="understand">
         <view class='kjicon'>砍价购</view>
         一刀也优惠，邀请5个好友砍到底价
         <image src='/images/icon/home_arrow.png'></image>
@@ -42,18 +42,18 @@
   <view class='theFollowing'>
     <view class='embedded'>
       <!-- 商品详情 -->
-      <view class='specialWrap'  wx:if="{{article || pattern}}">
+      <view class='specialWrap' wx:if="{{article || pattern}}">
         <view class='special'></view>
         <text>商品详情</text>
       </view>
-      <view class='parewx' hidden="{{!isopenimg}}"  wx:if="{{article}}">
+      <view class='parewx' hidden="{{!isopenimg}}" wx:if="{{article}}">
         <import src="../../../../utils/wxParse/wxParse.wxml" />
         <template is="wxParse" data="{{wxParseData:article.nodes}}" />
       </view>
-      <view class='dishtext' hidden="{{isopenimg}}"  wx:if="{{pattern}}">
+      <view class='dishtext' hidden="{{isopenimg}}" wx:if="{{pattern}}">
         {{pattern}}
       </view>
-      <view class='dishImg'  wx:if="{{article}}">
+      <view class='dishImg' wx:if="{{article}}">
         <view class='openImg' bindtap='clickopen'>{{isopenimg?'收起图文详情':'查看图文详情'}}</view>
       </view>
 
@@ -84,7 +84,7 @@
       <!-- 商家主页 -->
       <view class='parallelismDining' wx:if="{{shopName}}">
         <view class='diningLeft'>
-          <view class='diningzPlace'  bindtap="toShopDetail">
+          <view class='diningzPlace' bindtap="toShopDetail">
             <image class='geography' src='/images/icon/location.png'></image>
             <text>{{address}}</text>
           </view>
@@ -118,7 +118,8 @@
             </view>
           </view>
           <view class='aBargain'>
-            <button id="{{item.id}}" data-shopId="{{item.shopId}}" data-agioPrice="{{item.agioPrice}}" data-sellPrice="{{item.sellPrice}}" data-actId="{{item.actId}}" data-categoryId="{{item.categoryId}}" catchtap='chickinItiate'>发起砍价</button>
+            <button id="{{item.id}}" data-shopId="{{item.shopId}}" data-agioPrice="{{item.agioPrice}}" data-sellPrice="{{item.sellPrice}}" data-actId="{{item.actId}}" data-categoryId="{{item.categoryId}}" catchtap='chilkDish'>抢购</button>
+          <!-- catchtap='chickinItiate -->
           </view>
         </view>
       </block>
@@ -166,7 +167,6 @@
           </view>
         </block>
       </view>
-
     </view>
 
   </view>
@@ -203,6 +203,15 @@
   </view>
 </view>
 
+<!-- 规则说明 -->
+<view class="mask" bindtap="understand" catchtouchmove="preventTouchMove" wx:if="{{showModal}}"></view>
+<view class="modalDlg" wx:if="{{showModal}}">
+  <view class='windows_tishi'>———— 规则说明 ————</view>
+  <view class='windows_text'>
+    <text>1.砍价菜品均为限量发售，售完即止；\n\n2.用户需在60分钟内邀请好友帮您砍价并成功支付；若超时，需要重新发起砍价申请；\n\n3.支付成功后，一个月内均可进店使用，过期作废；\n\n 4.每桌仅限使用一道砍价菜品，不可叠加使用；\n\n5.其他优惠等问题，以门店实际规定为准,购买后不支持退款、不兑现、不找零；\n\n6.最终解释权归享7平台所有。\n\n\n\n</text>
+  </view>
+  <!-- <button class='understand' bindtap="understand">我已知晓此规则</button> -->
+</view>
 
 
 <!-- 自定义分享图片中 绘制价格   公共方法utils.js/canvasShareImg.js  调用方法canvasShareImg() -->

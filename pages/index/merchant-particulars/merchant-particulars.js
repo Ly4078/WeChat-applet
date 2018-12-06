@@ -72,7 +72,7 @@ Page({
     hotlist2: []//热销商品
   },
   onLoad: function(options) {
-    // console.log("options:", options)
+    console.log("options:", options)
     if (options.distance){
       this.setData({
         distance: options.distance
@@ -933,10 +933,12 @@ Page({
   },
   //分享给好友
   onShareAppMessage: function() {
-    let _shareCity = this.data.shareCity ? this.data.shareCity : app.globalData.userInfo.city;
+    let _shareCity = this.data.shareCity ? this.data.shareCity : app.globalData.userInfo.city,
+      _distance = this.data.distance;
+    console.log("_distance:", _distance)
     return {
       title: this.data.store_details.shopName,
-      path: '/pages/index/merchant-particulars/merchant-particulars?shopid=' + this.data.shopid + '&shareCity=' + _shareCity,
+      path: '/pages/index/merchant-particulars/merchant-particulars?shopid=' + this.data.shopid + '&shareCity=' + _shareCity + '&distance=' + _distance,
       imageUrl: this.data.store_details.logoUrl,
       success: function(res) {
         wx.getShareInfo({

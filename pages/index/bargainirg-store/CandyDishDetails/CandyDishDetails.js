@@ -25,6 +25,7 @@ Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
     isshowlocation: false,
+    showModal:false,
     soData: {},
     issnap: false, //新用户
     isnew: false, //新用户
@@ -246,6 +247,7 @@ Page({
     }
   },
   chilkDish(e) { //点击某个推荐菜
+    console.log('chilkDish')
     let id = e.currentTarget.id,
       shopId = e.currentTarget.dataset.shopid;
     this.setData({
@@ -354,6 +356,7 @@ Page({
             pattern = '',
             article = '',
             remark = [];
+            console.log('1111')
           if (data.skuInfo) {
             skuInfo = data.skuInfo;
             if (skuInfo.indexOf("Œ") != -1) {
@@ -371,7 +374,7 @@ Page({
             }
           } else if (data.remark) {
             remark.push(data.remark)
-          } else if (data.actGoodsSkuOuts[0].ruleDesc){
+          } else if (data.actGoodsSkuOuts && data.actGoodsSkuOuts[0].ruleDesc){
             skuInfo = data.actGoodsSkuOuts[0].ruleDesc;
             if (skuInfo.indexOf("Œ") != -1) {
               let arr = that.data.legend;
@@ -714,6 +717,11 @@ Page({
     this.setData({
       isBarg: !this.data.isBarg
     });
+  },
+  understand:function(){
+    this.setData({
+      showModal: !this.data.showModal
+    })
   },
   //点击发起砍价按钮 -- 查询当前是否已经发起砍价
   sponsorVgts: function() {

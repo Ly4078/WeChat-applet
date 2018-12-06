@@ -157,15 +157,15 @@ page{
   color: #fff;
 }
 .fullreduction {
-  margin-top: 15rpx;
   display: flex;
   flex-direction: row;
 }
 .fullreduction text {
-  font-size: 26rpx;
-  color: #fc2d2d;
-  margin: 0 8rpx;
-  background: #fae0e0;
-  padding: 0 6rpx;
-  border: 1rpx solid #ffb1b1;
+  font-size:24rpx;
+  color:#fc2d2d;
+  height:48rpx;
+  margin:0 8rpx;
+  background:#fae0e0;
+  padding:0 6rpx;
+  border:1rpx solid #ffb1b1;
 }
