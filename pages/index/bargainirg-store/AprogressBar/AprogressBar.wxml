@@ -1,4 +1,6 @@
 <import src="../bargainirg-template/bargainirg-template.wxml" />
+<!-- 骨架屏模块 -->
+<skeleton selector="skeleton" loading="spin" bgcolor="#FFF" wx:if="{{showSkeleton}}"></skeleton>
 
 
 <view class='modal_box' wx:if="{{isshowlocation}}">

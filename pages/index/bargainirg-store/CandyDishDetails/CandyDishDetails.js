@@ -27,6 +27,7 @@ Page({
     isshowlocation: false,
     showModal:false,
     soData: {},
+    showSkeleton:true,
     issnap: false, //新用户
     isnew: false, //新用户
     shopId: '', //店铺id
@@ -314,9 +315,7 @@ Page({
   },
   //查询单个砍价菜
   dishDetail() {
-    wx.showLoading({
-      title: '数据加载中....',
-    });
+    
     let that = this,
       _parms = {},
       _values = "",
@@ -420,7 +419,8 @@ Page({
             stockNum: data.stockNum,
             agioPrice: data.agioPrice ? data.agioPrice : data.goodsPromotionRules[0].actAmount,
             sellPrice: data.sellPrice,
-            sellNum: data.sellNum
+            sellNum: data.sellNum,
+            showSkeleton: false
           });
           //自定义分享图片中 绘制价格   公共方法utils.js/canvasShareImg.js  调用方法canvasShareImg()
           canvasShareImg(that.data.picUrl, that.data.agioPrice, that.data.sellPrice).then(function(res) {
@@ -428,15 +428,16 @@ Page({
               shareImg: res
             })
           })
+        }else{
+          that.setData({ showSkeleton: false })
         }
+      },fail:function(){
+        that.setData({ showSkeleton:false})
       }
     })
   },
   //查询商家信息
   shopDetail() {
-    wx.showLoading({
-      title: '数据加载中....',
-    });
     let _this = this;
     wx.request({
       url: _this.data._build_url + 'shop/get/' + _this.data.shopId,
@@ -503,9 +504,6 @@ Page({
     //browSort 0附近 1销量 2价格
     let that = this;
     if (app.globalData.userInfo.lat && app.globalData.userInfo.lng) {
-      wx.showLoading({
-        title: '数据加载中...',
-      });
       let _parms = {
         shopId: this.data.shopId,
         zanUserId: app.globalData.userInfo.userId,

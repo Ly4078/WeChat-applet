@@ -184,13 +184,11 @@ Page({
       size.h = height/2;
     } catch (e) {
       // Do something when catch error
-      console.log("获取设备信息失败" + e);
     }
     return size;
   },
   //生成二维码
   createQrCode: function (url, canvasId, cavW, cavH) {
-    console.log(url, canvasId, cavW, cavH)
     //调用插件中的draw方法，绘制二维码图片
     QR.api.draw(url, canvasId, cavW, cavH);
     setTimeout(() => { this.canvasToTempImage(); }, 1000);
@@ -202,15 +200,13 @@ Page({
       canvasId: 'voucanvas',
       success: function (res) {
         var tempFilePath = res.tempFilePath;
-        console.log(tempFilePath);
         that.setData({
           imagePath: tempFilePath,
           // canvasHidden:true
         });
-        console.log("imagePath:", that.data.imagePath)
       },
       fail: function (res) {
-        console.log(res);
+
       }
     });
   },
@@ -250,7 +246,6 @@ Page({
               if (res.confirm) {
                 _this.getorderCoupon();
               } else if (res.cancel) {
-                // console.log('用户点击取消')
               }
             }
           })

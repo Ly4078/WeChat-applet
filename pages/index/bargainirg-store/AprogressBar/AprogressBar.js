@@ -28,6 +28,7 @@ Page({
     showCanvas: false,
     groupId: '',
     move: '',
+    showSkeleton:true,
     dishData: {}, //当前菜
     doneBargain: '', //已砍金额
     countDown: '', //倒计时
@@ -82,7 +83,6 @@ Page({
     let that = this;
     this.setData({
       flag: true,
-      hotDishList: [],
       page: 1,
       isshowlocation: false
     });
@@ -596,6 +596,7 @@ Page({
             let data = res.data.data;
             that.setData({
               dishData: data,
+              showSkeleton:false,
               // picUrl: data.picUrl,
               skuName: data.skuName,
               // shopName: data.shopName,
@@ -613,13 +614,22 @@ Page({
               })
             }
             that.hotDishList();
+          }else{
+            that.setData({
+              showSkeleton: false,
+            });
           }
         } else {
           that.setData({
             status: 3,
+            showSkeleton:false,
             otherStatus: 4
           });
         }
+      },fail:function(){
+        that.setData({
+          showSkeleton: false,
+        });
       }
     })
   },
@@ -854,9 +864,6 @@ Page({
     if (!app.globalData.userInfo.lng && !app.globalData.userInfo.lat) {
       that.getlocation();
     } else {
-      wx.showLoading({
-        title: '数据加载中...',
-      });
       if(that.data.actId){
         _parms = {
           id: that.data.refId,
@@ -961,7 +968,6 @@ Page({
     }
     this.setData({
       flag: true,
-      hotDishList: [],
       page: 1
     });
   
