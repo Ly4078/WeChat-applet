@@ -127,10 +127,10 @@
           </view>
         </view>
       </block>
-      <view class="setMealMore" catchtap='changeBar' wx:if="{{dishList.length > 4}}">
+      <!-- <view class="setMealMore" catchtap='changeBar' wx:if="{{dishList.length > 4}}">
         <text>{{isBarg ? '查看部分砍价菜' : '查看全部砍价菜'}}</text>
         <image src="/images/icon/restaurant_arrow.png" class='{{isBarg ? "transjt" : ""}}'></image>
-      </view>
+      </view> -->
 
       <!-- 猜你喜欢 -->
       <view class='specialWrap specialHot' wx:if="{{hotDishList.length>0}}">

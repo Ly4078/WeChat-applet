@@ -437,6 +437,7 @@ Page({
     Api.crabList(_parms).then((res) => { //查询同类规格列表
       if (res.data.code == 0) {
         let _hotlist = res.data.data.list, _discount='';
+        console.log('_hotlist:', _hotlist)
         if(_hotlist && _hotlist.length>0){
           for(let i in _hotlist){
             if (_hotlist[i].actGoodsSkuOuts && _hotlist[i].actGoodsSkuOuts.length > 0) {
@@ -472,6 +473,7 @@ Page({
       actName = e.currentTarget.dataset.actname,
       shopId = this.data.shopid;
     if (actName =='砍价'){ //砍价
+    console.log("111211")
       wx.navigateTo({
         url: '/pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails?categoryId=8&id=' + id + '&shopId=' + shopId + '&actId=' + actId
       })
@@ -636,9 +638,11 @@ Page({
   },
   initiate(e) { //跳转至菜品详情
     let id = e.currentTarget.id,
+      actId = e.currentTarget.dataset.actid,
       shopId = e.currentTarget.dataset.index;
+       console.log("111211")
     wx.navigateTo({
-      url: '../bargainirg-store/CandyDishDetails/CandyDishDetails?categoryId=8&id=' + id + '&shopId=' + shopId
+      url: '../bargainirg-store/CandyDishDetails/CandyDishDetails?categoryId=8&id=' + id + '&shopId=' + shopId + '&actId=' + actId
     })
   },
   //发起砍价
