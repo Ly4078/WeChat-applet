@@ -239,20 +239,22 @@ Page({
   //换算截至时间
   reciprocal: function (createTime) {
     let _createTime = '',
-      oneDay = 60 * 60 * 1000 * 24,
+      oneDay = 15 * 60 * 1000,
       _endTime = '',
       now = '',
       diff = '',
-      h = '',
-      m = '';
+      // h = '',
+      m = '',
+      s = '';
     createTime = createTime.replace(/-/g, "/");//兼容IOS   IOS下不支持时间有(-)须替换
     _createTime = (new Date(createTime)).getTime(); //结束时间
     _endTime = _createTime + oneDay;
     now = new Date().getTime();
     diff = _endTime - now;
-    h = Math.floor(diff / 1000 / 60 / 60 % 24); //时
+    // h = Math.floor(diff / 1000 / 60 / 60 % 24); //时
     m = Math.floor(diff / 1000 / 60 % 60); //分
-    return h + '小时' + m + '分';
+    s = Math.floor(diff % 60); //秒
+    return m + '分' + s + '秒';
   },
   //点击再次购买按钮
   buyagain: function () {
