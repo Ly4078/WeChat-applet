@@ -142,10 +142,10 @@
           <image class='myListImages' src='/images/icon/impression-sefa.png'></image>
           <view class='mylistText'>分享注册</view>
         </view>
-        <view class='myList' catchtap='toAgent'>
+        <!-- <view class='myList' catchtap='toAgent'>
           <image class='myListImages' src='/images/icon/saoma.png'></image>
           <view class='mylistText'>代理商</view>
-        </view>
+        </view> -->
       </view>
     </view>
   </view>

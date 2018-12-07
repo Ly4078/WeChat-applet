@@ -1,0 +1,99 @@
+.fz24 {
+  font-size: 24rpx;
+}
+
+.fz20 {
+  font-size: 20rpx;
+}
+
+page {
+  width: 100%;
+  height: 100%;
+}
+
+.signedAgent {
+  width: 100%;
+  height: 100%;
+  background-color: #F5F5FA;
+  font-size: 28rpx;
+  letter-spacing: 2rpx;
+}
+
+.search {
+  width: 100%;
+  height: 112rpx;
+  padding: 20rpx 28rpx;
+  box-sizing: border-box;
+  background-color: #fff;
+  border-top: 1rpx solid #EBEBEB;
+}
+
+.search_inner {
+  flex: 1;
+  height: 100%;
+  border-radius: 10rpx;
+  background-color: #F5F5F5;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.search_inner image {
+  width: 50rpx;
+  height: 50rpx;
+  margin: 0 16rpx 0 20rpx;
+}
+
+.search_inner input {
+  flex: 1;
+  height: 100%;
+  color: #808080;
+  box-sizing: border-box;
+}
+
+.shopList {
+  width: 100%;
+  padding: 0 28rpx 20rpx 28rpx;
+  box-sizing: border-box;
+}
+
+.shop_item {
+  height: 210rpx;
+  width: 100%;
+  margin-top: 16rpx;
+  background-color: #fff;
+  border-radius: 10rpx;
+  box-sizing: border-box;
+}
+
+.shop_name {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20rpx 28rpx 10rpx 28rpx;
+}
+
+.shop_name view:last-child {
+  color: #F96811;
+}
+
+.shop_addr {
+  color: #555555;
+  padding: 0 28rpx 20rpx 28rpx;
+}
+
+.shop_data {
+  display: flex;
+  flex-direction: row;
+  border-top: 1rpx solid #EBEBEB;
+}
+
+.shop_data > view {
+  flex: 1;
+  text-align: center;
+}
+
+.data_item view:first-child {
+  color: #969696;
+  padding: 14rpx 0 8rpx 0;
+}

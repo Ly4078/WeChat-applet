@@ -1,0 +1,129 @@
+.fz30 {
+  font-size: 30rpx;
+}
+
+.fz20 {
+  font-size: 20rpx;
+}
+
+.fz34 {
+  font-size: 34rpx;
+}
+
+.fz28 {
+  font-size: 28rpx;
+}
+
+.gray {
+  color: #969696;
+}
+
+page, .agent {
+  width: 100%;
+  height: 100%;
+}
+
+.agent {
+  background-color: #F5F5FA;
+  font-size: 24rpx;
+  letter-spacing: 3rpx;
+}
+
+.agent_info {
+  background-color: #515964;
+  color: #fff;
+  margin-bottom: 22rpx;
+}
+
+.user_info {
+  height: 132rpx;
+  width: 100%;
+  padding-left: 42rpx;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border-bottom: 1rpx solid #3D454F;
+}
+
+.user_info image {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  margin-right: 26rpx;
+}
+
+.agent_data {
+  height: 148rpx;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  text-align: center;
+}
+
+.agent_data > view {
+  flex-grow: 1;
+}
+
+.shopName {
+  padding-bottom: 10rpx;
+  font-weight: 600;
+}
+
+.shopNum {
+  padding-top: 16rpx;
+}
+
+.daily_data {
+  background-color: #fff;
+}
+
+.daily_banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100rpx;
+  width: 100%;
+  padding: 0 30rpx;
+  border-bottom: 1rpx solid #EBEBEB;
+  box-sizing: border-box;
+}
+
+.current {
+  padding-top: 4rpx;
+}
+
+.banner_r image {
+  width: 14rpx;
+  height: 28rpx;
+  margin-left: 16rpx;
+  vertical-align: middle;
+}
+
+.banner_r text {
+  vertical-align: middle;
+}
+
+.data_table {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.table_item {
+  width: 50%;
+  height: 168rpx;
+  padding: 22rpx 0 0 30rpx;
+  border-bottom: 1rpx solid #EBEBEB;
+  box-sizing: border-box;
+}
+
+.table_item:nth-child(2n+1) {
+  border-right: 1rpx solid #EBEBEB;
+}
+
+.todayAmount {
+  color: #FC5E2D;
+  font-weight: 600;
+  padding: 16rpx 0 6rpx 0;
+}

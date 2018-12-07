@@ -1,0 +1,45 @@
+<view class="agent">
+  <view class="agent_info">
+    <view class="user_info">
+      <image wx:if="{{iconUrl}}" src="{{iconUrl}}"></image>
+      <image wx:else src="/images/icon/morentu.png"></image>
+      <view>
+        <view class="shopName fz30">{{shopName}}</view>
+        <view>{{nickName}}</view>
+      </view>
+    </view>
+    <view class="agent_data">
+      <view catchtap='toSigned'>
+        <view>签约商家</view>
+        <view class="shopNum fz30">{{shopNum}}个</view>
+      </view>
+      <view>
+        <view>总成交额</view>
+        <view class="shopNum fz30">241.11元</view>
+      </view>
+      <view>
+        <view>分成</view>
+        <view class="shopNum fz30">241.11元</view>
+      </view>
+    </view>
+  </view>
+  <view class="daily_data">
+    <view class="daily_banner">
+      <view>
+        <view class="fz28">经营日报</view>
+        <view class="fz20 gray current">{{today}}</view>
+      </view>
+      <view class="banner_r">
+        <text class="fz28 gray">历史数据</text>
+        <image src="/images/icon/home_arrow.png"></image>
+      </view>
+    </view>
+    <view class="data_table">
+      <view class="table_item" wx:for="{{dailyList}}" wx:key="index">
+        <view>{{item.name}}</view>
+        <view class="fz34 todayAmount">{{item.today}}</view>
+        <view class="fz20 gray">昨日数据 {{item.yesterday}}</view>
+      </view>
+    </view>
+  </view>
+</view>

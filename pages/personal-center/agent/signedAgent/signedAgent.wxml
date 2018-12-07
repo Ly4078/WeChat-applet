@@ -1,0 +1,31 @@
+<view class="signedAgent">
+  <view class="search">
+    <view class="search_inner">
+      <image src="/images/icon/hot_search.png"></image>
+      <input placeholder='搜索商家'></input>
+    </view>
+  </view>
+  <view class="shopList">
+    <view class="shop_item">
+      <view class="shop_name">
+        <view>满族餐厅</view>
+        <view class="fz24">联系方式</view>
+      </view>
+      <view class="shop_addr fz24">湖北省武汉市洪山区珞喻路456号</view>
+      <view class="shop_data fz20">
+        <view class="data_item">
+          <view>今日营收</view>
+          <view>892元</view>
+        </view>
+        <view class="data_item">
+          <view>核销券数</view>
+          <view>892张</view>
+        </view>
+        <view class="data_item">
+          <view>服务费</view>
+          <view>82元</view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

@@ -734,10 +734,10 @@ Page({
     wx.navigateTo({
       url: '/pages/personal-center/sharepull-sdb/sharepull-sdb?picUrl=' + this.data.picUrl
     })
-  },
-  toAgent() {   //跳转至代理商
-    wx.navigateTo({
-      url: 'agent/agent'
-    })
   }
+  // toAgent() {   //跳转至代理商
+  //   wx.navigateTo({
+  //     url: 'agent/agent'
+  //   })
+  // }
 })
