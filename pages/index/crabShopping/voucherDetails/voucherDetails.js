@@ -12,6 +12,7 @@ Page({
     _build_url: GLOBAL_API_DOMAIN,
     isshowlocation: false,
     id: '',
+    isDue: '',
     imagePath: '',//动态二维码图片链接
     sendType: '', // 0-均有/1-快递/2-门店
     isReceived: false, //是否被领取
@@ -21,7 +22,8 @@ Page({
   },
   onLoad: function(options) {
     this.setData({
-      id: options.id
+      id: options.id,
+      isDue: options.isDue
     });
     if (options.shareId) {
       this.setData({
@@ -97,18 +99,27 @@ Page({
             versionNo: data.versionNo, //版本号
             realWeight: data.goodsSku.realWeight, //实际重量
             tempateId: data.goodsSku.deliveryTemplateId, //模板id
-            showSkeleton:false
+            showSkeleton:false,
+            status: data.status
           });
           if (data.singleType == 2) {
             _this.setData({
               goodsNum: data.orderItemOuts[0].giftNum + data.orderItemOuts[0].goodsNum
             });
           }
+          let giftTxt = _this.data.giftTxt;
           if (data.isUsed == 1) {
-            _this.setData({
-              giftTxt: '已被使用'
-            });
+            giftTxt = '已被使用';
+          } else if (data.status == 4) {
+            giftTxt = '该票券退款中';
+          } else if (data.status == 5) {
+            giftTxt = '该票券已被退款';
+          } else if (_this.data.isDue == 1) {
+            giftTxt = '该票券已过期';
           }
+          _this.setData({
+            giftTxt: giftTxt
+          });
           if (_this.data.shareId) { //从分享页进来
             if (_this.data.shareId == _this.data.ownId || _this.data.ownId == null) { //未被领取
               if (userId != _this.data.shareId) { //不是(所有人&&分享人)点开

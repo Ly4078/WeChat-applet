@@ -25,11 +25,10 @@
       </view>
       <view style="padding:0 20rpx;font-weight:600;" class="fz36">{{skuName}}{{goodsNum > 1 ? 'X'+goodsNum : ''}}</view>
       <view class="top_time fz24">有效期至：{{expiryDate}}</view>
-      <view wx:if="{{!isReceived && isUsed == 0}}" class="detail_top_btn fz30">
+      <view wx:if="{{!isReceived && isUsed == 0 && (status == 0 || status == null) && isDue == 0}}" class="detail_top_btn fz30">
         <view wx:if="{{sendType == 0 || sendType == 2}}" class="storeBtn" bindtap='exchange'>门店兑换</view>
         <view wx:if="{{sendType == 0 || sendType == 1}}" class="expressBtn" bindtap='express'>快递配送</view>
       </view>
-
       <view wx:else class="detail_top_btn fz30">
         <view wx:if="{{sendType == 0 || sendType == 2}}" class="storeBtn active">门店兑换</view>
         <view wx:if="{{sendType == 0 || sendType == 1}}" class="expressBtn active">快递配送</view>
@@ -45,7 +44,7 @@
           <image src="/images/icon/home_arrow.png"></image>
         </view>
       </view>
-      <view wx:if="{{sendType != 1}}" class="detail_bot_item" bindtap='storeList'>
+      <view wx:if="{{sendType != 1 && storeList.length > 0}}" class="detail_bot_item" bindtap='storeList'>
         <view class="fz30">适用门店</view>
         <view>
           <text class="fz24">共{{storeList.length}}家门店</text>
@@ -54,7 +53,7 @@
       </view>
     </view>
   </view>
-  <view wx:if="{{!isReceived && isUsed == 0}}" class="giftBTn fz36">
+  <view wx:if="{{!isReceived && isUsed == 0 && (status == 0 || status == null) && isDue == 0}}" class="giftBTn fz36">
     <button plain="true" data-name="shareBtn" open-type="share">
       <image src="/images/icon/gift.png"></image>
       <text>赠送好友</text>

@@ -198,7 +198,7 @@ Page({
                   _list[i].isUsed = 1;
                 }
               }
-              // _data.push(_list[i]);
+              _list[i]["isDue"] = that.isDueFunc(_list[i].expiryDate);
             }
             this.setData({
               listData: _data.concat(_list),
@@ -375,7 +375,7 @@ Page({
                 if (ticketList[i].skuName.indexOf(Dis) > 0) {
                   ticketList[i].discount = true
                 }
-                ticketList[i]["isDue"] = that.isDueFunc(ticketList[0].expiryDate);
+                ticketList[i]["isDue"] = that.isDueFunc(ticketList[i].expiryDate);
                 if (that.data.isUsed == 0) {
                   ticketList[i].isgq = false;
                   that.setData({
@@ -452,7 +452,6 @@ Page({
     let bigIndex = that.data.currentIndex //顶部tab索引
     let leftIndex = that.data.ind//提蟹券索引
     let rightIndex = that.data.isUsed//优惠券索引
-    console.log(bigIndex, leftIndex, rightIndex)
     if (bigIndex ==0){//tab指向提蟹券
       if (leftIndex==0){
         if (!swichrequestflag[0] && that.data.pxpage < that.data.pageTotal){
@@ -563,10 +562,11 @@ Page({
   },
   //对比时间是否过期
   isDueFunc: function(expiryDate) {
-    //isDue=0 已过期 isDue=1未过期
-    let currentT = new Date().getFullYear() + '-' + new Date().getMonth() + '-' + new Date().getDate() + " 23:59:59",
+    //isDue=1 已过期 isDue=0未过期
+    let getMonth = parseInt(new Date().getMonth()) + 1;
+    let currentT = new Date().getFullYear() + '-' + getMonth + '-' + new Date().getDate() + " 23:59:59",
       isDue = 0;
-    if (new Date(expiryDate + " 23:59:59").getTime() < new Date(currentT).getTime()) {
+    if (new Date(currentT).getTime() > new Date(expiryDate + " 23:59:59").getTime()) {
       isDue = 1;
     }
     return isDue;
@@ -574,13 +574,10 @@ Page({
    //立即兑换
   redeemNow: function (e) {  //点击某张票券
     let id = e.currentTarget.id,
-      isUsed = e.currentTarget.dataset.isUsed,
-      ownId = e.currentTarget.dataset.ownId;
-    if (isUsed != 1 && (ownId == null || ownId != app.globalData.userInfo.userId)) {
-      wx.navigateTo({
-        url: '../../index/crabShopping/voucherDetails/voucherDetails?id=' + id
-      })
-    }
+      isDue = e.currentTarget.dataset.isdue;
+    wx.navigateTo({
+      url: '../../index/crabShopping/voucherDetails/voucherDetails?id=' + id + '&isDue=' + isDue
+    })
   },
   //点击购买券
   buyVoucher: function () {
