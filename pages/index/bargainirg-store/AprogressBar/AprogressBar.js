@@ -887,6 +887,7 @@ Page({
   //热门推荐
   hotDishList(types) {
     //browSort 0附近 1销量 2价格
+    console.log('hotDishListhotDishList')
     let that = this,
       _values="",
       _Url="",
@@ -896,6 +897,7 @@ Page({
     if (!app.globalData.userInfo.lng && !app.globalData.userInfo.lat) {
       that.getlocation();
     } else {
+      console.log('actId:', that.data.actId)
       if(that.data.actId){
         _parms = {
           id: that.data.refId,
@@ -930,7 +932,8 @@ Page({
         url = that.data._build_url + 'sku/kjcList?' + _values;
       }
       _Url = encodeURI(url);
-      requestTask = true
+      requestTask = true;
+      console.log('_Url:', _Url)
       wx.request({
         url: _Url,
         method: 'GET',
@@ -938,6 +941,7 @@ Page({
           "Authorization": app.globalData.token
         },
         success: function (res) {
+          console.log("res:",res)
           wx.stopPullDownRefresh();
           wx.hideLoading();
           if (res.data.code == 0) {

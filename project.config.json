@@ -33,7 +33,26 @@
 		},
 		"miniprogram": {
 			"current": -1,
-			"list": []
+			"list": [
+				{
+					"id": -1,
+					"name": "a",
+					"pathName": "pages/index/merchant-particulars/merchant-particulars",
+					"query": "shopid=35&distance=8.6km"
+				},
+				{
+					"id": -1,
+					"name": "b",
+					"pathName": "pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails",
+					"query": "id=1960&shopId=368"
+				},
+				{
+					"id": -1,
+					"name": "c",
+					"pathName": "pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails",
+					"query": "categoryId=8&id=38&shopId=35&actId=41"
+				}
+			]
 		}
 	}
 }

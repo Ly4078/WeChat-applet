@@ -211,7 +211,7 @@
         <!-- </view> -->
         <view class='ditycont' bindtap='ClickSnatch' id='{{item.id}}'  data-actname="{{item.actGoodsSkuOuts[0].actInfo.actName}}" data-actid="{{item.actGoodsSkuOuts[0].actId}}">
           <view class='dcont1'>{{item.skuName}}</view>
-          <view class='dcont2'>仅剩{{item.actGoodsSkuOuts[0].sortNum}}份</view>
+          <view class='dcont2'>仅剩{{item.actGoodsSkuOuts[0].stockNum}}份</view>
           <view class='dcont3'>
             <view class='dconnt31' wx:if="{{item.actGoodsSkuOuts[0].actInfo.actName=='砍价'}}">{{item.actGoodsSkuOuts[0].discount}}折</view>
             <view class='dconnt33'>{{item.actGoodsSkuOuts[0].actInfo.actName}}</view>
@@ -230,7 +230,7 @@
           </view>
           <view class='actcon'>
             <view class='dishname'>【{{item.skuName}}】{{item.actInfo.actName}}</view>
-            <view class='syfs'> 仅剩{{item.sortNum}}份</view>
+            <view class='syfs'> 仅剩{{item.stockNum}}份</view>
           </view>
           <view class='actright'>
             <image src='https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/goact.png'></image>
@@ -258,7 +258,7 @@
       <view class='scroll_box'>
         <block wx:for="{{Bargainlist}}" wx:key="{{index}}">
           <view class="anchor">
-            <image class='anchor_img' mode="aspectFill" src='{{item.picUrl}}' id='{{item.id}}' data-index="{{item.shopId}}" bindtap='initiate'></image>
+            <image class='anchor_img' mode="aspectFill" src='{{item.picUrl}}' id='{{item.id}}' data-index="{{item.shopId}}" data-actid="{{item.actId}}"bindtap='initiate'></image>
             <view class='Barbut'>
               <view class='barbLeft'>
                 <view class='bLtop'>{{item.skuName}}</view>

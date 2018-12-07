@@ -68,7 +68,6 @@ Page({
     legend: []
   },
   onLoad(options) {
-    // console.log("opttions:", options)
     this.setData({
       optObj: options,
       flag: true,
@@ -315,7 +314,6 @@ Page({
   },
   //查询单个砍价菜
   dishDetail() {
-    
     let that = this,
       _parms = {},
       _values = "",
@@ -413,6 +411,11 @@ Page({
               legend: arr
             })
           } else {
+            console.log("13213123")
+            let arr = that.data.legends;
+            if (arr.length > 1) {
+              arr.splice(1, 1);
+            }
             that.setData({
               legend: that.data.legends
             })
@@ -424,6 +427,7 @@ Page({
           }
 
           data.skuName = utils.uncodeUtf16(data.skuName);
+          console.log('data:', data)
           that.setData({
             pattern: pattern,
             soData: data,
@@ -431,7 +435,7 @@ Page({
             skuName: data.skuName,
             skuInfo: skuInfo ? skuInfo : remark,
             stockNum: data.stockNum,
-            agioPrice: data.agioPrice ? data.agioPrice : data.goodsPromotionRules[0].actAmount,
+            agioPrice: data.agioPrice ? data.agioPrice : data.actGoodsSkuOuts[0].goodsPromotionRules.actAmount,
             sellPrice: data.sellPrice,
             sellNum: data.sellNum,
             showSkeleton: false
@@ -552,7 +556,6 @@ Page({
     } else {
       that.getlocation();
     }
-
   },
   //热门推荐
   hotDishList() {
