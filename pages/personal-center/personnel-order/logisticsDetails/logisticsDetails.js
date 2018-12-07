@@ -235,11 +235,13 @@ Page({
           offerPrice: (_data.comTotal - _data.realAmount).toFixed(2)
         })
         if (_data.status == 1) {
-          that.reciprocal(_data.createTime);
+          let createTime = _data.createTime;
+          createTime = createTime.replace(/\-/g, '/');
+          that.reciprocal(createTime);
         }
       } else {
         that.setData({
-          showSkeleton: false,
+          showSkeleton: false
         })
       }
     })
@@ -253,7 +255,7 @@ Page({
     currentTime = new Date().getTime();
     endTime = new Date(createTime).getTime() + 900000;
     if (endTime - currentTime >= 1000) {
-      let subtraction = (endTime - currentTime) / 1000,
+      let subtraction = Math.floor((endTime - currentTime) / 1000),
         m = '',
         s = '',
         Countdown = '';

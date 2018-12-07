@@ -2,6 +2,10 @@ page {
   background-color: #f5f5fa;
 }
 
+.pr20 {
+  padding-right: 20rpx;
+}
+
 .logisticsTop {
   width: 100%;
   height: 150rpx;
