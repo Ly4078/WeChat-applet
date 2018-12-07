@@ -299,6 +299,7 @@ Page({
   //点击同店推荐菜品
   dishesDiscounts(e) {
     let id = e.currentTarget.id;
+    console.log('dishesDiscounts:')
     this.setData({
       id: id,
       page: 1,
@@ -314,6 +315,7 @@ Page({
   },
   //查询单个砍价菜
   dishDetail() {
+    console.log('chilkDish')
     let that = this,
       _parms = {},
       _values = "",
@@ -332,10 +334,13 @@ Page({
     for (var key in _parms) {
       _values += key + "=" + _parms[key] + "&";
     }
+    console.log('_values:', _values)
     _values = _values.substring(0, _values.length - 1);
     if (this.data.actId) {
+      console.log('11111')
       url = that.data._build_url + 'goodsSku/selectDetailBySkuIdNew?' + _values
     } else {
+      console.log('22222')
       url = that.data._build_url + 'sku/getKjc?' + _values;
     }
     wx.request({
@@ -345,6 +350,7 @@ Page({
       },
       method: 'GET',
       success: function(res) {
+        console.log('res:',res)
         wx.hideLoading();
         if (res.data.code == 0 && res.data.data) {
           let data = res.data.data,
@@ -546,6 +552,7 @@ Page({
               }
             }
             preDishList = newList.length > 5 ? newList.slice(0, 4) : newList;
+            console.log('newList:', newList)
             this.setData({
               dishList: newList,
               preDishList: preDishList

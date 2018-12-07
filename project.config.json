@@ -32,7 +32,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": -1,
+			"current": 3,
 			"list": [
 				{
 					"id": -1,
@@ -49,6 +49,12 @@
 				{
 					"id": -1,
 					"name": "c",
+					"pathName": "pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails",
+					"query": "categoryId=8&id=38&shopId=35&actId=41"
+				},
+				{
+					"id": -1,
+					"name": "f",
 					"pathName": "pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails",
 					"query": "categoryId=8&id=38&shopId=35&actId=41"
 				}
