@@ -357,18 +357,30 @@ Page({
             remark = [];
           if (data.skuInfo) {
             skuInfo = data.skuInfo;
-            if (skuInfo.indexOf("Œ") != -1) {
-              let arr = that.data.legends;
-              if(arr.length>1){
-                arr = arr.slice(1);
-              }
+            let arr = that.data.legends;
+            // if (arr.length > 1) {
+            //   arr = arr.slice(1);
+            // }
+            let obj = {
+              name: '使用规则',
+              info: []
+            };
+            if (skuInfo && skuInfo.indexOf("Œ") != -1) {
               skuInfo = skuInfo.split('Œ');
-              let obj = {
-                name: '使用规则',
-                info: []
-              };
               obj.info = skuInfo;
               arr.push(obj);
+              if(arr.length>2){
+                arr.splice(1,1);
+              }
+              that.setData({
+                legend: arr
+              })
+            } else if (skuInfo){
+              obj.info.push(skuInfo);
+              arr.push(obj);
+              if (arr.length > 2) {
+                arr.splice(1, 1);
+              }
               that.setData({
                 legend: arr
               })
@@ -381,23 +393,25 @@ Page({
             remark.push(data.remark)
           } else if (data.actGoodsSkuOuts && data.actGoodsSkuOuts[0].ruleDesc){
             skuInfo = data.actGoodsSkuOuts[0].ruleDesc;
+            let arr = that.data.legends;
+         
+            let obj = {
+              name: '使用规则',
+              info: []
+            };
             if (skuInfo.indexOf("Œ") != -1) {
-              let arr = that.data.legends;
-              if (arr.length > 1) {
-                arr = arr.slice(1);
-              }
-
               skuInfo = skuInfo.split('Œ');
-              let obj = {
-                name: '使用规则',
-                info: []
-              };
               obj.info = skuInfo;
-              arr.push(obj);
-              that.setData({
-                legend: arr
-              })
+            }else{
+              obj.info.push(skuInfo);
             }
+            if (arr.length > 2) {
+              arr.splice(1, 1);
+            }
+            arr.push(obj);
+            that.setData({
+              legend: arr
+            })
           } else {
             that.setData({
               legend: that.data.legends

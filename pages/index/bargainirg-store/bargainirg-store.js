@@ -116,6 +116,7 @@ Page({
     })
   },
   onReachBottom: function () {  //用户上拉触底加载更多
+    console.log('onReachBottom:')
     if (this.data.pageTotal <= this.data.page){
       return
     }
@@ -152,5 +153,8 @@ Page({
     this.setData({
       cuisineArray: cuisineArray
     });
+  },
+  enablePullDownRef:function(){
+    console.log('enablePullDownRef')
   }
 })

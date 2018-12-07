@@ -59,7 +59,7 @@
   <view class='tabli' wx:if="{{store_details.shopInfo}}">
     <image src='https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/simple_icon.png'></image>
 
-    <view class='tabcon tabjj'>
+    <view class='tabcon tabjj' v-if="{{store_details.shopInfo}}">
       <image class="{{isunfold?'tabjsact':''}} tabjt" bindtap='clickjt' src='https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/shop_jt.png'></image>
       {{isunfold?store_details.shopInfo:store_details.shopInfo2}}
     </view>
@@ -218,9 +218,8 @@
           </view>
           <view class='dcont4'>
             <text>¥{{item.actGoodsSkuOuts[0].goodsPromotionRules.actAmount}}</text>
-            <text>¥{{item.actGoodsSkuOuts[0].sellPrice}}</text>
+            <text>¥{{item.sellPrice}}</text>
           </view>
-          
           <view class='dcont5'>抢购</view>
         </view>
         
@@ -353,9 +352,9 @@
             <image src="{{item.logoUrl}}"></image>
             <view class='shopList_item_con'>
               <view class='conname' wx:if="{{item.shopName}}">{{item.shopName}}</view>
-              <view class='renqi' wx:if="{{item.popNum}}">
+              <view class='renqi'>
                 <image src="/images/icon/hot.png"></image>
-                <text class="details-hotNum" wx:if="{{item.popNum}}">{{item.popNum}}</text>
+                <text class="details-hotNum">{{item.popNum?item.popNum:0}}</text>
               </view>
               <view class='dishname' wx:if="{{item.skuName}}"><text>{{item.skuName}}</text></view>
               <view class='manjian' wx:if="{{item.ruleDescs}}">

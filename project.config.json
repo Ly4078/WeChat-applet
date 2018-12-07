@@ -32,15 +32,8 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 0,
-			"list": [
-				{
-					"id": -1,
-					"name": "a",
-					"pathName": "pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails",
-					"query": "id=1587&shopId=35"
-				}
-			]
+			"current": -1,
+			"list": []
 		}
 	}
 }

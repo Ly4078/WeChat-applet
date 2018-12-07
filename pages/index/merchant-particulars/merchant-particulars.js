@@ -439,12 +439,13 @@ Page({
         let _hotlist = res.data.data.list, _discount='';
         if(_hotlist && _hotlist.length>0){
           for(let i in _hotlist){
-            if (_hotlist[i].actGoodsSkuOuts && _hotlist[0].actGoodsSkuOuts.length > 0) {
+            if (_hotlist[i].actGoodsSkuOuts && _hotlist[i].actGoodsSkuOuts.length > 0) {
               for (let j in _hotlist[i].actGoodsSkuOuts){
                 _hotlist[i].skuName = utils.uncodeUtf16(_hotlist[i].skuName);
                 _hotlist[i].actGoodsSkuOuts[j].skuName = _hotlist[i].skuName;
                 _hotlist[i].actGoodsSkuOuts[j].id = _hotlist[i].id;
                 _hotlist[i].actGoodsSkuOuts[j].sellPrice = _hotlist[i].sellPrice;
+               
                 _discount = _hotlist[i].actGoodsSkuOuts[j].goodsPromotionRules.actAmount/_hotlist[i].sellPrice*10;
                 _hotlist[i].actGoodsSkuOuts[j].discount = _discount.toFixed(2);
               }
@@ -698,8 +699,10 @@ Page({
               _data.address = _data.address.replace(/-/g, ""); 
               _data.distance = utils.transformLength(_data.distance);
             }
-            if (_data.shopInfo){
+            if (_data.shopInfo && _data.shopInfo !='null'){
               _data.shopInfo = utils.uncodeUtf16(_data.shopInfo);
+            }else{
+              _data.shopInfo=''
             }
             if (_data.distance == '0m' || !_data.distance){
               _data.distance = that.data.distance;
@@ -712,7 +715,7 @@ Page({
                 _storeType[i]=arr[0];
               }
             }
-            if (_data.shopInfo){
+            if (_data.shopInfo && _data.shopInfo != 'null'){
               _data.shopInfo2 = _data.shopInfo.slice(0, 20) + '...';
             }
             that.setData({
@@ -935,7 +938,6 @@ Page({
   onShareAppMessage: function() {
     let _shareCity = this.data.shareCity ? this.data.shareCity : app.globalData.userInfo.city,
       _distance = this.data.distance;
-    console.log("_distance:", _distance)
     return {
       title: this.data.store_details.shopName,
       path: '/pages/index/merchant-particulars/merchant-particulars?shopid=' + this.data.shopid + '&shareCity=' + _shareCity + '&distance=' + _distance,
