@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-=======
+
 import Api from '../../../../utils/config/api.js';
 var utils = require('../../../../utils/util.js');
 import {
@@ -1053,4 +1052,3 @@ Page({
     }
   }
 })
->>>>>>> d815fc288bdf9cb7d8b3d3b0f6f0b5ae222a23c9
