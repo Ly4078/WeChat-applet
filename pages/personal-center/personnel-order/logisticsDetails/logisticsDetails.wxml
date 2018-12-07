@@ -266,8 +266,8 @@
         </view>
         <view class='referral'>
           <text style="display:block;"> 分享好友一起参团轻松赢现金:</text>
-          <text style="display:inline-block;margin:0 10rpx;">1、分享给好友下单开团成功可赢得0.5元现金存入钱包。</text>
-          <text style="display:inline-block;margin:0 10rpx;">2、若好友分享给其他好友下单开团成功可赢得0.2元现金存入钱包。</text>
+          <text style="display:inline-block;margin:0 10rpx;">1、分享给好友下单开团成功可赢得0.2元现金存入钱包。</text>
+          <text style="display:inline-block;margin:0 10rpx;">2、若好友分享给其他好友下单开团成功可赢得0.1元现金存入钱包。</text>
           <text style="display:inline-block;margin:0 10rpx;">3、此活动长期有效，钱包里的金额满足符合提现要求随时可提现。</text>
           <text style="display:inline-block;margin:0 10rpx;">4、通过分享给好友参与开团成功后，赢得现金可在【钱包】查看。</text>
           <text style="display:block;">注意事项:</text>

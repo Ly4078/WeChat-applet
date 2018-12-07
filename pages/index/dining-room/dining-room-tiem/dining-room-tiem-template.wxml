@@ -10,8 +10,8 @@
         <view class="hot-recoItem-right">
           <view class="title_tips skeleton-rect">
             <text class="title">{{item.shopName}}</text>
-            <text class="tips quan">劵</text>
-            <text class="tips kan">砍</text>
+            <text class="tips quan" wx:if="{{item.ruleDescs.length}}">劵</text>
+            <!-- <text class="tips kan"  wx:if="{{item.skuName}}">砍</text> -->
           </view>
           <view class="hot-recoItem-right-bottom">
             <view class="hot-recoItem-rightInfo">

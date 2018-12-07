@@ -133,7 +133,8 @@ Page({
         if (res.data.code == 0) {
           let freight = res.data.data ? res.data.data : 0;
           _this.setData({
-            freight: freight.toFixed(2)
+            freight: freight.toFixed(2),
+            notsent: false
           });
         } else {
           _this.setData({
