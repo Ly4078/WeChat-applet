@@ -83,7 +83,9 @@
     "pages/personal-center/wallet/BanksCard/BanksCard",
     "pages/personal-center/wallet/award/award",
     "pages/personal-center/wallet/walletDetail/walletDetail",
-    "pages/personal-center/wallet/withdraw/withdraw"
+    "pages/personal-center/wallet/withdraw/withdraw",
+    "pages/personal-center/agent/signedAgent/signedAgent",
+    "pages/personal-center/agent/agent"
   ],
   "subpackages": [
      {

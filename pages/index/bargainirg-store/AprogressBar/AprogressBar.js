@@ -49,7 +49,8 @@ Page({
     _lat: '',
     _lng: '',
     actId: '',
-    actType: '4'
+    actType: '4',
+    isBargained: true    //控制频繁点击砍价按钮---true可以点/false不能点
   },
   onLoad: function(options) {
     console.log("options:", options);
@@ -661,50 +662,67 @@ Page({
       url = "",
       _value = "",
       that = this;
-    _parms = {
-      refId: this.data.refId,
-      parentId: this.data.initiator,
-      // userId: app.globalData.userInfo.userId,
-      groupId: this.data.groupId
-    };
-    for (let key in _parms) {
-      _value += key + "=" + _parms[key] + "&";
-    }
-    _value = _value.substring(0, _value.length - 1);
-    if (this.data.actId) {
-      url = this.data._build_url + 'goodsGold/getshior?' + _value;
+    if (!app.globalData.userInfo.mobile) {
+      wx.navigateTo({
+        url: '/pages/init/init?isback=1'
+      })
     } else {
-      url = this.data._build_url + 'gold/getshior?' + _value;
-    }
-    wx.request({
-      url: url,
-      header: {
-        "Authorization": app.globalData.token
-      },
-      method: 'GET',
-      success: function(res) {
-        let code = res.data.code,
-          otherStatus = "";
-        if (code == 0) {
-          otherStatus = 1;
-        } else if (code == 200065) {
-          otherStatus = 2;
-        } else if (code == 200066) {
-          otherStatus = 3;
-        } else if (code == 200068) {
-          otherStatus = 4;
+      _parms = {
+        refId: this.data.refId,
+        parentId: this.data.initiator,
+        groupId: this.data.groupId
+      };
+      for (let key in _parms) {
+        _value += key + "=" + _parms[key] + "&";
+      }
+      _value = _value.substring(0, _value.length - 1);
+      if (this.data.actId) {
+        url = this.data._build_url + 'goodsGold/getshior?' + _value;
+      } else {
+        url = this.data._build_url + 'gold/getshior?' + _value;
+      }
+      wx.request({
+        url: url,
+        header: {
+          "Authorization": app.globalData.token
+        },
+        method: 'GET',
+        success: function(res) {
+          let code = res.data.code,
+            otherStatus = "";
+          if (code == 0) {
+            otherStatus = 1;
+          } else if (code == 200065) {
+            otherStatus = 2;
+          } else if (code == 200066) {
+            otherStatus = 3;
+          } else if (code == 200068) {
+            otherStatus = 4;
+            that.setData({
+              status: 3
+            });
+          }
+          if (code == 200065 || code == 200066 || code == 200068) {
+            wx.showToast({
+              title: res.data.message,
+              icon: 'none'
+            })
+          }
           that.setData({
-            status: 3
+            otherStatus: otherStatus
           });
         }
-        that.setData({
-          otherStatus: otherStatus
-        });
-      }
-    })
+      })
+    }
   },
   //查询是否帮忙砍过价或者人数已满
   helpfriend() {
+    if (!this.data.isBargained) {
+      return false;
+    }
+    this.setData({
+      isBargained: false
+    });
     let _this = this,
       _value = "",
       url = "",
@@ -764,6 +782,11 @@ Page({
               icon: 'none'
             })
           }
+        },
+        fail() {
+          this.setData({
+            isBargained: true
+          });
         }
       })
     }
@@ -819,7 +842,16 @@ Page({
             });
           }, 2000);
           that.bargain();
+        } else {
+          that.setData({
+            isBargained: true
+          });
         }
+      },
+      fail() {
+        that.setData({
+          isBargained: true
+        });
       }
     })
   },
