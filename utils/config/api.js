@@ -412,6 +412,10 @@ const ALL_API = {
     method: 'GET',
     url: 'sku/kjcList'
   },
+  listForActs: {     //砍菜列表
+    method: 'GET',
+    url: 'goodsSku/listForAct'
+  },
   discountDetail: {    //砍价菜详情
     method: 'GET',
     url: 'sku/getKjc'

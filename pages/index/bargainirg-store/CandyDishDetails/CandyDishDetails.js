@@ -530,6 +530,7 @@ Page({
     if (app.globalData.userInfo.lat && app.globalData.userInfo.lng) {
       let _parms = {
         shopId: this.data.shopId,
+        actId:41,
         zanUserId: app.globalData.userInfo.userId,
         browSort: 0,
         locationX: app.globalData.userInfo.lng,
@@ -539,7 +540,7 @@ Page({
         rows: 10,
         token: app.globalData.token
       };
-      Api.partakerList(_parms).then((res) => {
+      Api.listForActs(_parms).then((res) => {
         wx.hideLoading();
         if (res.data.code == 0) {
           if (res.data.data.list && res.data.data.list.length > 0) {
