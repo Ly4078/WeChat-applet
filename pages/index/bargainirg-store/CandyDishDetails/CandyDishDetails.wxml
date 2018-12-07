@@ -112,11 +112,11 @@
               <text class='acuisineName'>{{item.skuName}}</text>
               <view class='lemon'>
                 <image class='house' src='/images/icon/house.png'></image>
-                <text>{{item.shopName}}</text>
+                <text>{{shopName}}</text>
                 <!-- <text>已售{{item.sellNum}}</text> -->
               </view>
               <view class='original-cmb'>
-                <text>￥{{item.agioPrice}}</text>
+                <text>￥{{item.goodsPromotionRules[0].actAmount}}</text>
                 <text>原价：￥{{item.sellPrice}}</text>
               </view>
             </view>
