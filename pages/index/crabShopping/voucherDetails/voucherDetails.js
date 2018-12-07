@@ -91,6 +91,9 @@ Page({
             sendType: data.goodsSku.sendType,
             isUsed: data.isUsed, //是否使用 0否/1是
             ownId: data.ownId, //券所有人
+            bluk: data.goodsSku.bulk,
+            piece: data.goodsSku.piece,
+            formulaMode: data.deliveryTemplate.calculateType,
             versionNo: data.versionNo, //版本号
             realWeight: data.goodsSku.realWeight, //实际重量
             tempateId: data.goodsSku.deliveryTemplateId, //模板id
@@ -159,7 +162,7 @@ Page({
               return;
             }
             wx.navigateTo({
-              url: '../express/express?weight=' + _this.data.realWeight + '&tempateId=' + _this.data.tempateId + '&id=' + _this.data.id + '&locationX=' + app.globalData.userInfo.lng + '&locationY=' + app.globalData.userInfo.lat
+              url: '../express/express?weight=' + _this.data.realWeight + '&tempateId=' + _this.data.tempateId + '&id=' + _this.data.id + '&locationX=' + app.globalData.userInfo.lng + '&locationY=' + app.globalData.userInfo.lat + '&bluk=' + _this.data.bluk + '&piece=' + _this.data.piece + '&formulaMode=' + _this.data.formulaMode
             })
           }
         }

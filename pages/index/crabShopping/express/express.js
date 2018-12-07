@@ -33,6 +33,9 @@ Page({
       weight: options.weight,
       tempateId: options.tempateId,
       id: options.id,
+      bluk: options.bluk,
+      formulaMode: options.formulaMode,
+      piece: options.piece,
       locationX: options.locationX,
       locationY: options.locationY
     });
@@ -113,11 +116,23 @@ Page({
       _parms = {},
       _this = this,
       _val = '';
+    var formulaMode = '';
+    if (this.data.formulaMode =='2'){
+      formulaMode = '0'
+    } else if (this.data.formulaMode == '3'){
+      formulaMode = '2'
+    } else if (this.data.formulaMode == '1') {
+      formulaMode = '1'
+    }
     _parms = {
       dictProvinceId: this.data.address.dictProvinceId,
       dictCityId: this.data.address.dictCityId,
       weight: this.data.weight,
-      tempateId: this.data.tempateId
+      tempateId: this.data.tempateId,
+      formulaMode: formulaMode,//计费方式
+      piece: this.data.piece,//件数
+      bulk: this.data.bluk,//体积
+
     };
     for (var key in _parms) {
       _val += key + '=' + _parms[key] + '&';
