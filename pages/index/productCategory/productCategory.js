@@ -15,10 +15,10 @@ Page({
     loading: false,
     rows: 10,
     page: 1,
-    showSkeleton:true,
-    showSkeletonRight:false
+    showSkeleton: true,
+    showSkeletonRight: false
   },
-  onLoad: function(options) {
+  onLoad: function (options) {
     if (options.actId) {
       this.setData({
         actId: options.actId
@@ -26,16 +26,16 @@ Page({
     }
     this.getsortdata();
   },
-      
+
   //获取类别数据
-  getsortdata: function() {
+  getsortdata: function () {
     let that = this;
     wx.request({
       url: this.data._build_url + 'actGoodsSku/getSpuList?actId=' + this.data.actId,
       header: {
         "Authorization": app.globalData.token
       },
-      success: function(res) {
+      success: function (res) {
         if (res.data.code == 0) {
           if (res.data.data && res.data.data.length > 0) {
             that.setData({
@@ -43,21 +43,21 @@ Page({
               sortId: res.data.data[0].categoryId
             })
             that.getlistdata(res.data.data[0].categoryId, 'reset');
-          }else{
+          } else {
             that.setData({
               loading: false,
               showSkeleton: false,
               showSkeletonRight: false
             })
           }
-        }else{
+        } else {
           that.setData({
             loading: false,
             showSkeleton: false,
             showSkeletonRight: false
           })
         }
-      },fail:function(){
+      }, fail: function () {
         that.setData({
           loading: false,
           showSkeleton: false,
@@ -67,26 +67,26 @@ Page({
     })
   },
   //点击某个类别
-  bindSort: function(e) {
-    if (e.currentTarget.id == this.data.sortId){
+  bindSort: function (e) {
+    if (e.currentTarget.id == this.data.sortId) {
       return false
     }
-    if (goodsRequestTask != null ) {
+    if (goodsRequestTask != null) {
       goodsRequestTask.abort();
       goodsRequestTask = null;
     }
     this.setData({
       sortId: e.currentTarget.id,
       page: 1,
-      comList:[],
-      showSkeletonRight:true
+      comList: [],
+      showSkeletonRight: true
     }, () => {
       this.getlistdata(e.currentTarget.id, 'reset');
     })
 
   },
   //获取商品列表数据 
-  getlistdata: function(sortId, types) {
+  getlistdata: function (sortId, types) {
     // return
     let that = this;
     requestTask = true;
@@ -95,38 +95,39 @@ Page({
       header: {
         "Authorization": app.globalData.token
       },
-      success: function(res) {
+      success: function (res) {
         wx.stopPullDownRefresh();
         if (res.data.code == 0) {
           if (res.data.data.list && res.data.data.list.length > 0) {
             var arr = [];
             if (types == 'reset') {
-              arr = res.data.data.list.length ? res.data.data.list:[]
+              arr = res.data.data.list.length ? res.data.data.list : []
             } else {
               arr = that.data.comList ? that.data.comList : []
               arr = arr.concat(res.data.data.list)
             }
+            console.log('comListarr:',arr)
             that.setData({
               comList: arr,
               loading: false,
-              showSkeleton:false,
-              showSkeletonRight:false
+              showSkeleton: false,
+              showSkeletonRight: false
             }, () => {
               requestTask = false
             })
           } else {
             requestTask = false;
-            if(that.data.comList.length>0){
+            if (that.data.comList.length > 0) {
               wx.showToast({
                 title: '没有更多数据了',
                 icon: 'none'
               })
-            }else{
+            } else {
               that.setData({
                 comList: [],
               })
             }
-            if (types == 'reset'){
+            if (types == 'reset') {
               that.setData({
                 comList: [],
               })
@@ -153,22 +154,25 @@ Page({
         //   showSkeleton: false,
         //   showSkeletonRight: false
         // })
-      },complete:function(){
-       
+      }, complete: function () {
+
       }
     })
   },
 
   //点击某个商品
-  bindItem: function(e) {
+  bindItem: function (e) {
+    console.log('e:',e);
     let _id = e.currentTarget.id,
+      _shopid = e.currentTarget.dataset.shopid,
       _categoryId = e.currentTarget.dataset.cate;
+    console.log("_shopid:", _shopid)
     wx.navigateTo({
       url: '/pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails?id=' + _id + '&actId=' + this.data.actId + '&categoryId=' + _categoryId,
     })
   },
   //下拉刷新
-  onPullDownRefresh: function() { //下拉刷新
+  onPullDownRefresh: function () { //下拉刷新
     if (requestTask) {
       return false
     }
@@ -179,7 +183,7 @@ Page({
     this.getlistdata(this.data.sortId, 'reset');
   },
   //上接加载更多
-  onReachBottom: function() {
+  onReachBottom: function () {
     if (requestTask) {
       return false
     }

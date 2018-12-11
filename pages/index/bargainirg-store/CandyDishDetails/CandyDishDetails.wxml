@@ -104,9 +104,8 @@
         <text>同店推荐</text>
       </view>
       <block wx:for="{{isBarg ? dishList : preDishList}}" wx:key="{{index}}" id="{{index}}" wx:for-index="idx">
-        <view class='merchantROM' id="{{item.id}}" data-shopId="{{item.shopId}}" data-agioPrice="{{item.agioPrice}}" data-sellPrice="{{item.sellPrice}}" data-actId="{{item.actId}}" data-categoryId="{{item.categoryId}}" catchtap='chilkDish'>
-          <view class='merchantLeft' id="{{item.id}}" catchtap='dishesDiscounts'>
-
+        <view class='merchantROM' id="{{item.id}}"  data-actId="41"  catchtap='dishesDiscounts'>
+          <view class='merchantLeft'>
             <view class='acuisineMessage'>
               <text class='acuisineName'>{{item.skuName}}</text>
               <view class='lemon'>

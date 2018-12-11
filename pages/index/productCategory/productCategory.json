@@ -1,9 +1,9 @@
 {
   "navigationBarTitleText": "分类",
   "enablePullDownRefresh": false,
-    "usingComponents": {
-      "i-spin": "../../../dist/spin/index",
-      "skeleton": "/components/skeleton/skeleton",
-      "image-loader": "/components/image-loader"
-    }
+  "usingComponents": {
+    "i-spin": "../../../dist/spin/index",
+    "skeleton": "/components/skeleton/skeleton",
+    "image-loader": "/components/image-loader"
+  }
 }

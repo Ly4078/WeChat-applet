@@ -1,5 +1,8 @@
 {
-	"description": "项目配置文件。",
+	"description": "项目配置文件",
+	"packOptions": {
+		"ignore": []
+	},
 	"setting": {
 		"urlCheck": false,
 		"es6": true,
@@ -12,8 +15,11 @@
 	"compileType": "miniprogram",
 	"libVersion": "2.3.2",
 	"appid": "wxf91e2a026658e78e",
-	"projectname": "miniApps",
-	"isGameTourist": false,
+	"projectname": "miniAppsJWT",
+	"debugOptions": {
+		"hidedInDevtools": []
+	},
+	"scripts": {},
 	"condition": {
 		"search": {
 			"current": -1,
@@ -28,25 +34,11 @@
 			"list": []
 		},
 		"game": {
-			"currentL": -1,
 			"list": []
 		},
 		"miniprogram": {
-			"current": 1,
-			"list": [
-				{
-					"id": -1,
-					"name": "b",
-					"pathName": "pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails",
-					"query": "categoryId=8&id=5113&shopId=698&actId=41"
-				},
-				{
-					"id": -1,
-					"name": "a",
-					"pathName": "pages/index/flashSaleHome/secKillDetail/secKillDetail",
-					"query": "id=5113&shopId=698&actId=44"
-				}
-			]
+			"current": -1,
+			"list": []
 		}
 	}
 }

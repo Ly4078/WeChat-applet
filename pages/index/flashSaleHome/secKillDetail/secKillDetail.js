@@ -205,68 +205,24 @@ Page({
           if (data.skuInfo){
             skuInfo = data.skuInfo;
             skuInfo = skuInfo ? '1个小时内完成邀请并成功购买，逾期失效Œ' + skuInfo : '1个小时内完成邀请并成功购买，逾期失效';
-
-            console.log("skuInfo:", skuInfo)
             if (skuInfo.indexOf("Œ") != -1) {
-              console.log('11111')
               skuInfo = skuInfo.split('Œ');
             }
-            let arr = that.data.legend;
-            arr = arr.slice(1);
-            let obj = {
-              name: '使用规则',
-              info: []
-            };
-            obj.info= skuInfo;
-            arr[1]=obj;
-            arr[0] = that.data.legends[0]
             that.setData({
-              legend: arr
+              skuInfo: skuInfo
             })
           } else if (data.actGoodsSkuOut && data.actGoodsSkuOut.ruleDesc){
             skuInfo = data.actGoodsSkuOut.ruleDesc;
-            console.log('skuInfo:', skuInfo)
-            let obj = {
-              name: '使用规则',
-              info: []
-            };
-            let arr = that.data.legends;
-            console.log("arr:", arr)
             if (skuInfo.indexOf("Œ") != -1) {
               skuInfo = skuInfo.split('Œ');
-              obj.info = skuInfo;
-            }else{
-              obj.info.push(skuInfo);
             }
-            console.log("arr:", arr,arr.length)
-            if (arr.length > 2) {
-              arr.splice(1, 1);
-            }
-            
-            arr.push(obj);
+            let arr = that.data.legend;
+            // arr[1].info = skuInfo;
             that.setData({
               legend: arr
             })
-            // -----------------------
-            // skuInfo = data.actGoodsSkuOuts[0].ruleDesc;
-            // let arr = that.data.legends;
-
-            
-            // if (skuInfo.indexOf("Œ") != -1) {
-            //   skuInfo = skuInfo.split('Œ');
-             
-            // } else {
-            //   obj.info.push(skuInfo);
-            // }
-            // if (arr.length > 2) {
-            //   arr.splice(1, 1);
-            // }
-            // arr.push(obj);
-            // that.setData({
-            //   legend: arr
-            // })
           }
-
+   
           if (data.goodsSpuOut && data.goodsSpuOut.goodsSpuDesc && data.goodsSpuOut.goodsSpuDesc.content) {
 
             article = data.goodsSpuOut.goodsSpuDesc.content;
@@ -274,7 +230,6 @@ Page({
 
             WxParse.wxParse('article', 'html', article, that, 0);
           }
-
           that.setData({
             pattern: pattern,
             picUrl: data.picUrl ? data.picUrl : data.skuPic,

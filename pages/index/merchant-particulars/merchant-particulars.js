@@ -425,16 +425,19 @@ Page({
   },
   //查询热销商品
   gethotdish:function(){
+    console.log('gethotdish')
     let _parms={},that=this;
     _parms = {
       spuType: 10,
       page: 1,
       rows: 20,
       status:1, 
-      shopId: this.data.shopid,
+      shopId: that.data.shopid,
       token: app.globalData.token
     };
+    console.log('_parms:', _parms)
     Api.crabList(_parms).then((res) => { //查询同类规格列表
+      console.log("gethotdish__res:",res)
       if (res.data.code == 0) {
         let _hotlist = res.data.data.list, _discount='';
         console.log('_hotlist:', _hotlist)
@@ -468,6 +471,7 @@ Page({
   },
   //点击抢购
   ClickSnatch:function(e){
+    console.log('e:',e)
     let id = e.currentTarget.id,
       actId = e.currentTarget.dataset.actid,
       actName = e.currentTarget.dataset.actname,
@@ -481,6 +485,20 @@ Page({
       wx.navigateTo({
         url: '/pages/index/flashSaleHome/secKillDetail/secKillDetail?id=' + id + '&shopId=' + shopId + '&actId=' + actId
       })
+    }else{
+      let _hotlist2 = this.data.hotlist2,actObj={};
+      for (let i in _hotlist2){
+        if (id == _hotlist2[i].id){
+          actObj = _hotlist2[i]
+        }
+      }
+      console.log('actObj:', actObj)
+      // return
+      wx.navigateTo({
+        // url: '/pages/index/crabShopping/crabDetails/submitOrder/submitOrder?id=' + id + '&shopId=' + shopId + '&actId=' + actId
+        url: '/pages/index/crabShopping/crabDetails/submitOrder/submitOrder?num=1&issku=3&flag=1&picUrl=' + actObj.skuPic + '&sellPrice=' + actObj.sellPrice + '&id=' + actObj.id + '&actId=' + actObj.actId + '&skuName=' + actObj.skuName + '&remark=' + actObj.remark + '&shopId=' + actObj.shopId + '&singleType=' + actObj.singleType + '&spuId=' + actObj.spuId
+      })
+      console.log('other')
     }
   },
   payDish(e) { //购买活动菜
@@ -689,7 +707,6 @@ Page({
       that = this;
     wx.request({
       url: that.data._build_url + 'shop/get/' + id,
-      
       header: {
         "Authorization": app.globalData.token
       },
@@ -893,7 +910,6 @@ Page({
       }
     Api.myArticleList(_parms).then((res) => {
       let data = res.data;
-      wx.hideLoading();
       if (data.code == 0 && data.data.list != null && data.data.list != "" && data.data.list != []) {
         let _data = data.data.list;
         for (let i = 0; i < _data.length; i++) {
@@ -905,7 +921,6 @@ Page({
         });
 
       } else {
-        wx.hideLoading();
         that.setData({
           reFresh: false
         });

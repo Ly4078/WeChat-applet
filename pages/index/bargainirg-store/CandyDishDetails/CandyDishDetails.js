@@ -25,9 +25,9 @@ Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
     isshowlocation: false,
-    showModal:false,
+    showModal: false,
     soData: {},
-    showSkeleton:true,
+    showSkeleton: true,
     issnap: false, //新用户
     isnew: false, //新用户
     shopId: '', //店铺id
@@ -68,10 +68,10 @@ Page({
     legend: []
   },
   onLoad(options) {
+    console.log('options:', options)
     this.setData({
       optObj: options,
       flag: true,
-      hotDishList: [],
       page: 1,
       shopId: options.shopId ? options.shopId : '',
       id: options.id ? options.id : '',
@@ -235,7 +235,6 @@ Page({
       if (this.data._city || app.globalData.userInfo.city) {
         this.setData({
           flag: true,
-          hotDishList: [],
           page: 1
         });
         // if (!this.data.actId) {
@@ -251,11 +250,11 @@ Page({
     let id = e.currentTarget.id,
       shopId = e.currentTarget.dataset.shopid;
     this.setData({
+      actId: '',
       id: id,
       shopId: shopId,
       page: 1,
-      flag: true,
-      hotDishList: []
+      flag: true
     });
     wx.pageScrollTo({
       scrollTop: 0,
@@ -298,12 +297,13 @@ Page({
   },
   //点击同店推荐菜品
   dishesDiscounts(e) {
-    let id = e.currentTarget.id;
+    let id = e.currentTarget.id,
+      actid = e.currentTarget.dataset.actid;
     this.setData({
+      actId: actid,
       id: id,
       page: 1,
-      flag: true,
-      hotDishList: []
+      flag: true
     });
     wx.pageScrollTo({
       scrollTop: 0,
@@ -329,12 +329,13 @@ Page({
     } else {
       _parms.zanUserId = app.globalData.userInfo.userId
     }
+
     for (var key in _parms) {
       _values += key + "=" + _parms[key] + "&";
     }
     _values = _values.substring(0, _values.length - 1);
     if (this.data.actId) {
-      url = that.data._build_url + 'goodsSku/selectDetailBySkuIdNew?' + _values
+      url = that.data._build_url + 'goodsSku/selectDetailBySkuIdNew?' + _values;
     } else {
       url = that.data._build_url + 'sku/getKjc?' + _values;
     }
@@ -367,13 +368,13 @@ Page({
               skuInfo = skuInfo.split('Œ');
               obj.info = skuInfo;
               arr.push(obj);
-              if(arr.length>2){
-                arr.splice(1,1);
+              if (arr.length > 2) {
+                arr.splice(1, 1);
               }
               that.setData({
                 legend: arr
               })
-            } else if (skuInfo){
+            } else if (skuInfo) {
               obj.info.push(skuInfo);
               arr.push(obj);
               if (arr.length > 2) {
@@ -382,49 +383,55 @@ Page({
               that.setData({
                 legend: arr
               })
-            }else{
+            } else {
               that.setData({
                 legend: that.data.legends
               })
             }
           } else if (data.remark) {
             remark.push(data.remark)
-          } else if (data.actGoodsSkuOuts && data.actGoodsSkuOuts[0].ruleDesc){
+          } else if (data.actGoodsSkuOuts && data.actGoodsSkuOuts[0].ruleDesc) {
             skuInfo = data.actGoodsSkuOuts[0].ruleDesc;
-            let arr = that.data.legends;
-         
-            let obj = {
-              name: '使用规则',
-              info: []
-            };
             if (skuInfo.indexOf("Œ") != -1) {
+              let arr = that.data.legend;
               skuInfo = skuInfo.split('Œ');
+              let obj = {
+                name: '使用规则',
+                info: []
+              };
               obj.info = skuInfo;
-            }else{
-              obj.info.push(skuInfo);
+              arr.push(obj);
+              that.setData({
+                legend: arr
+              })
             }
-            if (arr.length > 2) {
-              arr.splice(1, 1);
-            }
-            arr.push(obj);
-            that.setData({
-              legend: arr
-            })
           } else {
-            let arr = that.data.legends;
-            if (arr.length > 1) {
-              arr.splice(1, 1);
-            }
-            that.setData({
-              legend: that.data.legends
-            })
-          } 
-          if (data.goodsSpuOut && data.goodsSpuOut.goodsSpuDesc && data.goodsSpuOut.goodsSpuDesc.content) {
-            article = data.goodsSpuOut.goodsSpuDesc.content;
-            pattern = article.match(_RegExp)[1];
-            WxParse.wxParse('article', 'html', article, that, 0);
+            try {
+              //  skuInfo = data.actGoodsSkuOut.ruleDesc;
+              skuInfo = '';
+              if (skuInfo.indexOf("Œ") != -1) {
+                let arr = that.data.legend;
+                skuInfo = skuInfo.split('Œ');
+                let obj = {
+                  name: '使用规则',
+                  info: []
+                };
+                obj.info = skuInfo;
+                arr.push(obj);
+                that.setData({
+                  legend: arr
+                })
+              }
+            } catch (err) {}
           }
 
+          if (data.goodsSpuOut && data.goodsSpuOut.goodsSpuDesc && data.goodsSpuOut.goodsSpuDesc.content) {
+            article = data.goodsSpuOut.goodsSpuDesc.content+'';
+            if (article.match(pattern)[1]){
+              pattern = article.match(_RegExp)[1];
+            }
+            WxParse.wxParse('article', 'html', article, that, 0);
+          }
           data.skuName = utils.uncodeUtf16(data.skuName);
           that.setData({
             pattern: pattern,
@@ -444,11 +451,16 @@ Page({
               shareImg: res
             })
           })
-        }else{
-          that.setData({ showSkeleton: false })
+        } else {
+          that.setData({
+            showSkeleton: false
+          })
         }
-      },fail:function(){
-        that.setData({ showSkeleton:false})
+      },
+      fail: function() {
+        that.setData({
+          showSkeleton: false
+        })
       }
     })
   },
@@ -522,7 +534,7 @@ Page({
     if (app.globalData.userInfo.lat && app.globalData.userInfo.lng) {
       let _parms = {
         shopId: this.data.shopId,
-        actId:41,
+        actId: 41,
         zanUserId: app.globalData.userInfo.userId,
         browSort: 0,
         locationX: app.globalData.userInfo.lng,
@@ -545,7 +557,8 @@ Page({
               }
             }
             preDishList = newList.length > 5 ? newList.slice(0, 4) : newList;
-            this.setData({
+
+            that.setData({
               dishList: newList,
               preDishList: preDishList
             });
@@ -558,6 +571,9 @@ Page({
   },
   //热门推荐
   hotDishList() {
+    if (this.data.actId) {
+      return
+    }
     let that = this,
       url = "",
       _Url = "",
@@ -579,8 +595,8 @@ Page({
           categoryId: that.data.categoryId,
           locationX: app.globalData.userInfo.lng,
           locationY: app.globalData.userInfo.lat,
-          city: this.data._city ? this.data._city : app.globalData.userInfo.city,
-          page: this.data.page,
+          city: that.data._city ? that.data._city : app.globalData.userInfo.city,
+          page: that.data.page,
           rows: 6
         }
         for (var key in _parms) {
@@ -594,9 +610,9 @@ Page({
           browSort: 1,
           locationX: app.globalData.userInfo.lng,
           locationY: app.globalData.userInfo.lat,
-          city: this.data._city ? this.data._city : app.globalData.userInfo.city,
+          city: that.data._city ? that.data._city : app.globalData.userInfo.city,
           isDeleted: 0,
-          page: this.data.page,
+          page: that.data.page,
           rows: 6
         };
         for (var key in _parms) {
@@ -728,7 +744,7 @@ Page({
       isBarg: !this.data.isBarg
     });
   },
-  understand:function(){
+  understand: function() {
     this.setData({
       showModal: !this.data.showModal
     })
@@ -810,7 +826,6 @@ Page({
   onPullDownRefresh: function() { //下拉刷新 
     this.setData({
       flag: true,
-      hotDishList: [],
       page: 1
     });
     this.hotDishList();
