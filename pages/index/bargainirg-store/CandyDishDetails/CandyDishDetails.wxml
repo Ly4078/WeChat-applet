@@ -61,7 +61,7 @@
       </view>
 
       <!-- 购买须知start -->
-      <view class='specialWrap'>
+      <view class='specialWrap' wx:if="{{legend}}">
         <view class='special'></view>
         <text>购买须知</text>
       </view>

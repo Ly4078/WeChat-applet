@@ -202,22 +202,40 @@ Page({
             article='';
             // skuInfo = data.skuInfo ? data.skuInfo : data.actGoodsSkuOut.ruleDesc;
           console.log('data:', data)
+          let arr = that.data.legends;
+          let obj = {
+            name: '使用规则',
+            info: []
+          };
           if (data.skuInfo){
             skuInfo = data.skuInfo;
             skuInfo = skuInfo ? '1个小时内完成邀请并成功购买，逾期失效Œ' + skuInfo : '1个小时内完成邀请并成功购买，逾期失效';
+            console.log("skuInfo:", skuInfo)
             if (skuInfo.indexOf("Œ") != -1) {
               skuInfo = skuInfo.split('Œ');
+              obj.info = skuInfo;
+            }else{
+              obj.info.push(skuInfo);
+            }
+            arr.push(obj);
+            if (arr.length > 2) {
+              arr.splice(1, 1);
             }
             that.setData({
-              skuInfo: skuInfo
+              legend: arr
             })
           } else if (data.actGoodsSkuOut && data.actGoodsSkuOut.ruleDesc){
             skuInfo = data.actGoodsSkuOut.ruleDesc;
             if (skuInfo.indexOf("Œ") != -1) {
               skuInfo = skuInfo.split('Œ');
+              obj.info = skuInfo;
+            }else {
+              obj.info.push(skuInfo);
             }
-            let arr = that.data.legend;
-            // arr[1].info = skuInfo;
+            arr.push(obj);
+            if (arr.length > 2) {
+              arr.splice(1, 1);
+            }
             that.setData({
               legend: arr
             })

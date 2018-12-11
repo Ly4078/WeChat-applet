@@ -53,6 +53,7 @@ Page({
     isBargained: true    //控制频繁点击砍价按钮---true可以点/false不能点
   },
   onLoad: function(options) {
+    console.log('options:', options)
     let _token = wx.getStorageSync('token') || "";
     let userInfo = wx.getStorageSync('userInfo') || {};
     if (userInfo) {
@@ -63,7 +64,7 @@ Page({
     }
 
     this.setData({
-      actId: options.actId ? options.actId : '',
+      actId: options.actId ? options.actId : '41',
       categoryId: options.categoryId ? options.categoryId:'',
       refId: options.refId, //菜品Id
       shopId: options.shopId, //商家Id
@@ -1023,8 +1024,10 @@ Page({
     this.onShareAppMessage();
   },
   onShareAppMessage() { //分享给好友帮忙砍价
-    let initiator = this.data.initiator ? this.data.initiator : app.globalData.userInfo.userId;
-    let userInfo = app.globalData.userInfo;
+    let initiator = this.data.initiator ? this.data.initiator : app.globalData.userInfo.userId,userInfo = app.globalData.userInfo;
+    let strr = '/pages/index/bargainirg-store/AprogressBar/AprogressBar?refId=' + this.data.refId + '&shopId=' + this.data.shopId + '&skuMoneyOut=' + this.data.skuMoneyOut + '&skuMoneyMin=' + this.data.skuMoneyMin + '&initiator=' + initiator + '&groupId=' + this.data.groupId + '&lat=' + userInfo.lat + '&lng=' + userInfo.lng + '&city=' + userInfo.city + '&actId=' + this.data.actId;
+    console.log("strr:", strr)
+    return
     return {
       title: '帮我砍价！你也有机会直接拿走商品↓↓↓',
       desc: '享7美食',

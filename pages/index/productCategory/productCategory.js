@@ -91,7 +91,7 @@ Page({
     let that = this;
     requestTask = true;
     goodsRequestTask = wx.request({
-      url: this.data._build_url + 'goodsSku/listForAct?actId=' + this.data.actId + '&categoryId=' + sortId + '&rows=' + this.data.rows + '&page=' + this.data.page,
+      url: this.data._build_url + 'goodsSku/listForAct?actId=' + this.data.actId + '&categoryId=' + sortId + '&rows=' + this.data.rows + '&page=' + this.data.page + '&city=' + app.globalData.userInfo.city,
       header: {
         "Authorization": app.globalData.token
       },
@@ -168,7 +168,7 @@ Page({
       _categoryId = e.currentTarget.dataset.cate;
     console.log("_shopid:", _shopid)
     wx.navigateTo({
-      url: '/pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails?id=' + _id + '&actId=' + this.data.actId + '&categoryId=' + _categoryId,
+      url: '/pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails?id=' + _id + '&actId=' + this.data.actId + '&categoryId=' + _categoryId + '&shopId=' + _shopid,
     })
   },
   //下拉刷新

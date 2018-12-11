@@ -264,6 +264,7 @@ Page({
     this.isbargain(false);
   },
   chickinItiate(e) { //点击某个发起砍价
+    console.log("e:",e)
     if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
@@ -276,6 +277,7 @@ Page({
         _categoryId = e.currentTarget.dataset.categoryId,
         _parms = {},
         _sellPrice = e.currentTarget.dataset.sellprice;
+      console.log("_actId:", _actId)
       _parms = {
         userId: app.globalData.userInfo.userId,
         skuId: _refId,
@@ -354,17 +356,16 @@ Page({
             pattern = '',
             article = '',
             remark = [];
+          let arr = that.data.legends;
+          let obj = {
+            name: '使用规则',
+            info: []
+          };
           if (data.skuInfo) {
             skuInfo = data.skuInfo;
-            let arr = that.data.legends;
-            // if (arr.length > 1) {
-            //   arr = arr.slice(1);
-            // }
-            let obj = {
-              name: '使用规则',
-              info: []
-            };
+            
             if (skuInfo && skuInfo.indexOf("Œ") != -1) {
+              console.log('11111')
               skuInfo = skuInfo.split('Œ');
               obj.info = skuInfo;
               arr.push(obj);
@@ -375,6 +376,7 @@ Page({
                 legend: arr
               })
             } else if (skuInfo) {
+              console.log('22222')
               obj.info.push(skuInfo);
               arr.push(obj);
               if (arr.length > 2) {
@@ -384,45 +386,54 @@ Page({
                 legend: arr
               })
             } else {
+              console.log('33333')
+              if (arr.length > 1) {
+                arr.splice(1);
+              }
               that.setData({
                 legend: that.data.legends
               })
             }
           } else if (data.remark) {
+            console.log('444444')
+            that.setData({
+              legend:arr
+            })
             remark.push(data.remark)
           } else if (data.actGoodsSkuOuts && data.actGoodsSkuOuts[0].ruleDesc) {
+            console.log('5555555')
             skuInfo = data.actGoodsSkuOuts[0].ruleDesc;
+            console.log("skuInfo:", skuInfo)
             if (skuInfo.indexOf("Œ") != -1) {
-              let arr = that.data.legend;
+              console.log('55555521111')
               skuInfo = skuInfo.split('Œ');
-              let obj = {
-                name: '使用规则',
-                info: []
-              };
-              obj.info = skuInfo;
+              console.log("skuInfo11111:", skuInfo)
+              obj.info=skuInfo;
               arr.push(obj);
+              if (arr.length > 2) {
+                arr.splice(1, 1);
+              }
+              that.setData({
+                legend: arr
+              })
+            }else{
+              console.log('5555552222222')
+              obj.info.push(skuInfo);
+              arr.push(obj);
+              if (arr.length > 2) {
+                arr.splice(1, 1);
+              }
               that.setData({
                 legend: arr
               })
             }
           } else {
-            try {
-              //  skuInfo = data.actGoodsSkuOut.ruleDesc;
-              skuInfo = '';
-              if (skuInfo.indexOf("Œ") != -1) {
-                let arr = that.data.legend;
-                skuInfo = skuInfo.split('Œ');
-                let obj = {
-                  name: '使用规则',
-                  info: []
-                };
-                obj.info = skuInfo;
-                arr.push(obj);
-                that.setData({
-                  legend: arr
-                })
-              }
-            } catch (err) {}
+            if (arr.length > 1) {
+              arr.splice(1);
+            }
+            that.setData({
+              legend: arr
+            })
           }
 
           if (data.goodsSpuOut && data.goodsSpuOut.goodsSpuDesc && data.goodsSpuOut.goodsSpuDesc.content) {
@@ -571,9 +582,10 @@ Page({
   },
   //热门推荐
   hotDishList() {
-    if (this.data.actId) {
-      return
-    }
+    console.log('hotDishList')
+    // if (this.data.actId ) {
+    //   return
+    // }
     let that = this,
       url = "",
       _Url = "",
@@ -588,23 +600,23 @@ Page({
     if (app.globalData.userInfo.lat && app.globalData.userInfo.lng) {
       //browSort 0附近 1销量 2价格
       requesting = true;
-      if (that.data.actId) {
-        _parms = {
-          id: that.data.id,
-          actId: that.data.actId,
-          categoryId: that.data.categoryId,
-          locationX: app.globalData.userInfo.lng,
-          locationY: app.globalData.userInfo.lat,
-          city: that.data._city ? that.data._city : app.globalData.userInfo.city,
-          page: that.data.page,
-          rows: 6
-        }
-        for (var key in _parms) {
-          _values += key + "=" + _parms[key] + "&";
-        }
-        _values = _values.substring(0, _values.length - 1);
-        url = that.data._build_url + 'goodsSku/listForActOut?' + _values;
-      } else {
+      // if (that.data.actId) {
+      //   _parms = {
+      //     id: that.data.id,
+      //     actId: that.data.actId,
+      //     categoryId: that.data.categoryId,
+      //     locationX: app.globalData.userInfo.lng,
+      //     locationY: app.globalData.userInfo.lat,
+      //     city: that.data._city ? that.data._city : app.globalData.userInfo.city,
+      //     page: that.data.page,
+      //     rows: 6
+      //   }
+      //   for (var key in _parms) {
+      //     _values += key + "=" + _parms[key] + "&";
+      //   }
+      //   _values = _values.substring(0, _values.length - 1);
+      //   url = that.data._build_url + 'goodsSku/listForActOut?' + _values;
+      // } else {
         _parms = {
           zanUserId: app.globalData.userInfo.userId,
           browSort: 1,
@@ -620,8 +632,9 @@ Page({
         }
         _values = _values.substring(0, _values.length - 1);
         url = that.data._build_url + 'sku/kjcList?' + _values;
-      }
+      // }
       _Url = encodeURI(url);
+      console.log('_Url:', _Url)
       wx.request({
         url: _Url,
         method: 'GET',
@@ -629,6 +642,7 @@ Page({
           "Authorization": app.globalData.token
         },
         success: function(res) {
+          console.log("res:",res)
           if (res.data.code == 0) {
             if (res.data.data.list && res.data.data.list.length > 0) {
               let list = res.data.data.list,
@@ -805,23 +819,28 @@ Page({
     })
   },
   onReachBottom: function() { //用户上拉触底加载更多
-    if (!this.data.flag) {
-      return false;
-    }
-    if (requesting) {
-      return
-    }
+    console.log('onReachBottom')
+    // if (!this.data.flag) {
+    //   return false;
+    // }
+    // if (requesting) {
+    //   return
+    // }
     if (this.data.pageTotal <= this.data.page) {
       return
     }
-    if (!this.data.actId) {
+    console.log('pageTotal:', this.data.pageTotal)
+    console.log('page:', this.data.page)
+    console.log('onReachBottom11111')
+    console.log('actId:', this.data.actId)
+    // if (!this.data.actId) {
       this.setData({
         page: this.data.page + 1,
         loading: true
       }, () => {
         this.hotDishList();
       });
-    }
+    // }
   },
   onPullDownRefresh: function() { //下拉刷新 
     this.setData({

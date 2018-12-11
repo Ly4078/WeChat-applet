@@ -23,7 +23,7 @@ Page({
     isGroup: false
   },
   onLoad: function(options) {
-
+    console.log('options:', options)
     this.setData({
       soId: options.soId || ''
     })
@@ -218,6 +218,8 @@ Page({
           if (_data.status == 2 || _data.status == 3) {
             _data.ust = true;
           }
+        }else{
+          _data.ust = true;
         }
         _data.realAmount = _data.realAmount.toFixed(2);
         _data.orderItemOuts[0].goodsPrice = _data.orderItemOuts[0].goodsPrice.toFixed(2);

@@ -631,7 +631,9 @@ Page({
       'signType': 'MD5',
       'paySign': _data.paySign,
       success: function(res) {
-        
+        wx.navigateTo({
+          url: '/pages/personal-center/personnel-order/logisticsDetails/logisticsDetails?soId=' + that.data.orderId,
+        })
       },
       fail: function(res) {
         wx.showToast({
