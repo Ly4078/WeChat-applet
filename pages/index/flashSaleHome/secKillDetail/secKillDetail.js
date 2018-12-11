@@ -36,13 +36,13 @@ Page({
     article:'',
     actId:'',
     isopenimg: false,
-    legend: [{
-        name: '有效期',
-        info: [
-          '购买后3个月内使用有效'
-        ]
-      }
-    ]
+    legends: [{
+      name: '有效期',
+      info: [
+        '购买后3个月内使用有效'
+      ]
+    }],
+    legend: []
   },
   onLoad: function(options) {
     let _this = this;
@@ -193,6 +193,7 @@ Page({
       },
       method: 'GET',
       success: function (res) {
+        console.log("res:",res)
         if (res.data.code == 0 && res.data.data) {
           let data = res.data.data,
             _RegExp = new RegExp('<p.*?>(.*?)<\/p>', 'i'),
@@ -223,20 +224,46 @@ Page({
             })
           } else if (data.actGoodsSkuOut && data.actGoodsSkuOut.ruleDesc){
             skuInfo = data.actGoodsSkuOut.ruleDesc;
-            if (skuInfo.indexOf("Œ") != -1) {
-              skuInfo = skuInfo.split('Œ');
-            }
-            let arr = that.data.legend;
-            arr = arr.slice(1);
+            console.log('skuInfo:', skuInfo)
             let obj = {
               name: '使用规则',
               info: []
             };
-            obj.info = skuInfo;
-            arr[1] = obj;
+            let arr = that.data.legends;
+            console.log("arr:", arr)
+            if (skuInfo.indexOf("Œ") != -1) {
+              skuInfo = skuInfo.split('Œ');
+              obj.info = skuInfo;
+            }else{
+              obj.info.push(skuInfo);
+            }
+            console.log("arr:", arr,arr.length)
+            if (arr.length > 2) {
+              arr.splice(1, 1);
+            }
+            
+            arr.push(obj);
             that.setData({
               legend: arr
             })
+            // -----------------------
+            // skuInfo = data.actGoodsSkuOuts[0].ruleDesc;
+            // let arr = that.data.legends;
+
+            
+            // if (skuInfo.indexOf("Œ") != -1) {
+            //   skuInfo = skuInfo.split('Œ');
+             
+            // } else {
+            //   obj.info.push(skuInfo);
+            // }
+            // if (arr.length > 2) {
+            //   arr.splice(1, 1);
+            // }
+            // arr.push(obj);
+            // that.setData({
+            //   legend: arr
+            // })
           }
 
           if (data.goodsSpuOut && data.goodsSpuOut.goodsSpuDesc && data.goodsSpuOut.goodsSpuDesc.content) {
@@ -247,7 +274,6 @@ Page({
             WxParse.wxParse('article', 'html', article, that, 0);
           }
 
-          console.log('article:', article)
           that.setData({
             pattern: pattern,
             picUrl: data.picUrl ? data.picUrl : data.skuPic,

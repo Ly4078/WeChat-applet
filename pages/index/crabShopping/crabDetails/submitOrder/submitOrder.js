@@ -76,8 +76,8 @@ Page({
     })
     if(this.data.actId == 41) {
       this.setData({
-        totleKey: options.totleKey,
-        valueKey: options.valueKey
+        totleKey: options.totleKey ? options.totleKey:'',
+        valueKey: options.valueKey ? options.valueKey:''
       });
     }
     app.globalData.OrderObj = options;
@@ -403,8 +403,12 @@ Page({
       }]
     };
     if(this.data.actId == 41) {
-      _parms['totalKey'] = this.data.totleKey;
-      _parms['valueKey'] = this.data.valueKey;
+      if (this.data.totleKey){
+        _parms['totalKey'] = this.data.totleKey;
+      }
+      if (this.data.totleKey) {
+        _parms['valueKey'] = this.data.valueKey;
+      }
     }
     if (this.data.flag==4){
       _parms.groupId = this.data.groupId;

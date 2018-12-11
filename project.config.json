@@ -32,8 +32,21 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": -1,
-			"list": []
+			"current": 1,
+			"list": [
+				{
+					"id": -1,
+					"name": "b",
+					"pathName": "pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails",
+					"query": "categoryId=8&id=5113&shopId=698&actId=41"
+				},
+				{
+					"id": -1,
+					"name": "a",
+					"pathName": "pages/index/flashSaleHome/secKillDetail/secKillDetail",
+					"query": "id=5113&shopId=698&actId=44"
+				}
+			]
 		}
 	}
 }

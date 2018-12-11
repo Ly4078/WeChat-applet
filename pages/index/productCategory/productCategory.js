@@ -68,7 +68,6 @@ Page({
       },
       success: function(res) {
         wx.stopPullDownRefresh();
-
         if (res.data.code == 0) {
           if (res.data.data.list && res.data.data.list.length > 0) {
             var arr = [];
@@ -85,7 +84,17 @@ Page({
               requestTask = false
             })
           } else {
-            requestTask = false
+            requestTask = false;
+            if(that.data.comList.length>0){
+              wx.showToast({
+                title: '没有更多数据了',
+                icon: 'none'
+              })
+            }else{
+              that.setData({
+                comList: []
+              })
+            }
             that.setData({
               loading: false
             })
