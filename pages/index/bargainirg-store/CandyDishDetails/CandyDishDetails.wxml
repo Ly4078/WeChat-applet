@@ -164,7 +164,7 @@
                 <view>底价</view>
               </view>
               <view class='dijaiprce'>{{item.agioPrice?item.agioPrice:item.sellPrice}}</view>
-              <view class='yunajia'>￥{{item.agioLevel}}</view>
+              <view class='yunajia'>￥{{item.sellPrice}}</view>
               <view class='goumai'>购买</view>
             </view>
           </view>

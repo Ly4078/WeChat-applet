@@ -4,7 +4,7 @@ import {
 import Api from '../../../utils/config/api.js'
 var utils = require('../../../utils/util.js');
 var app = getApp();
-var requestTask = false;
+var requestTask = false, goodsRequestTask = null;
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
@@ -14,7 +14,9 @@ Page({
     comList: [], //商品列表
     loading: false,
     rows: 10,
-    page: 1
+    page: 1,
+    showSkeleton:true,
+    showSkeletonRight:false
   },
   onLoad: function(options) {
     if (options.actId) {
@@ -41,16 +43,43 @@ Page({
               sortId: res.data.data[0].categoryId
             })
             that.getlistdata(res.data.data[0].categoryId, 'reset');
+          }else{
+            that.setData({
+              loading: false,
+              showSkeleton: false,
+              showSkeletonRight: false
+            })
           }
+        }else{
+          that.setData({
+            loading: false,
+            showSkeleton: false,
+            showSkeletonRight: false
+          })
         }
+      },fail:function(){
+        that.setData({
+          loading: false,
+          showSkeleton: false,
+          showSkeletonRight: false
+        })
       }
     })
   },
   //点击某个类别
   bindSort: function(e) {
+    if (e.currentTarget.id == this.data.sortId){
+      return false
+    }
+    if (goodsRequestTask != null ) {
+      goodsRequestTask.abort();
+      goodsRequestTask = null;
+    }
     this.setData({
       sortId: e.currentTarget.id,
-      page: 1
+      page: 1,
+      comList:[],
+      showSkeletonRight:true
     }, () => {
       this.getlistdata(e.currentTarget.id, 'reset');
     })
@@ -60,8 +89,8 @@ Page({
   getlistdata: function(sortId, types) {
     // return
     let that = this;
-    requestTask = true
-    wx.request({
+    requestTask = true;
+    goodsRequestTask = wx.request({
       url: this.data._build_url + 'goodsSku/listForAct?actId=' + this.data.actId + '&categoryId=' + sortId + '&rows=' + this.data.rows + '&page=' + this.data.page,
       header: {
         "Authorization": app.globalData.token
@@ -72,14 +101,16 @@ Page({
           if (res.data.data.list && res.data.data.list.length > 0) {
             var arr = [];
             if (types == 'reset') {
-              arr = res.data.data.list
+              arr = res.data.data.list.length ? res.data.data.list:[]
             } else {
               arr = that.data.comList ? that.data.comList : []
               arr = arr.concat(res.data.data.list)
             }
             that.setData({
               comList: arr,
-              loading: false
+              loading: false,
+              showSkeleton:false,
+              showSkeletonRight:false
             }, () => {
               requestTask = false
             })
@@ -92,25 +123,38 @@ Page({
               })
             }else{
               that.setData({
-                comList: []
+                comList: [],
+              })
+            }
+            if (types == 'reset'){
+              that.setData({
+                comList: [],
               })
             }
             that.setData({
-              loading: false
+              loading: false,
+              showSkeleton: false,
+              showSkeletonRight: false
             })
           }
         } else {
           requestTask = false
           that.setData({
-            loading: false
+            loading: false,
+            showSkeleton: false,
+            showSkeletonRight: false
           })
         }
       },
       fail() {
         requestTask = false
-        that.setData({
-          loading: false
-        })
+        // that.setData({
+        //   loading: false,
+        //   showSkeleton: false,
+        //   showSkeletonRight: false
+        // })
+      },complete:function(){
+       
       }
     })
   },

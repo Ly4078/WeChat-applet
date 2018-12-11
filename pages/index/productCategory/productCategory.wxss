@@ -118,6 +118,8 @@ page, .categoryBox {
   /* margin: 0 0 0 23%; */
   padding: 0 30rpx 0 38rpx;
   box-sizing: border-box;
+  overflow: hidden;
+  position: relative;
   /* overflow: scroll; */
 }
 
@@ -130,11 +132,15 @@ page, .categoryBox {
   justify-content: space-between;
   border-bottom: 1rpx solid #EBEBEB;
 }
-
+.classify_item .img-box{
+    height: 108rpx;
+  width: 108rpx;
+  margin-right: 30rpx;
+  overflow: hidden;
+}
 .classify_item image {
   height: 108rpx;
   width: 108rpx;
-  margin-right: 30rpx;
 }
 
 .classify_l_r {
@@ -201,4 +207,43 @@ page, .categoryBox {
   color: #969696;
   margin-top: 30%;
   margin-left: 17%;
+}
+
+
+
+
+.spinbox{
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  margin-left: 23%;
+  width: 77%;
+  background: #fff;
+  z-index: 9999
+}
+.spin {
+  display: inline-block;
+  width: 64rpx;
+  height: 64rpx;
+}
+.spin:after {
+  content: " ";
+  display: block;
+  width: 46rpx;
+  height: 46rpx;
+  margin: 1rpx;
+  border-radius: 50%;
+  border: 5rpx solid #409eff;
+  border-color: #409eff transparent #409eff transparent;
+  animation: spin 1.2s linear infinite;
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
