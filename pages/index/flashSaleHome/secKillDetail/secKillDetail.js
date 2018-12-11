@@ -219,6 +219,7 @@ Page({
             };
             obj.info= skuInfo;
             arr[1]=obj;
+            arr[0] = that.data.legends[0]
             that.setData({
               legend: arr
             })
