@@ -95,7 +95,7 @@ Page({
             ownId: data.ownId, //券所有人
             bluk: data.goodsSku.bulk,
             piece: data.goodsSku.piece,
-            formulaMode: data.deliveryTemplate.calculateType,
+            formulaMode: data.deliveryTemplate ? data.deliveryTemplate.calculateType : '',
             versionNo: data.versionNo, //版本号
             realWeight: data.goodsSku.realWeight, //实际重量
             tempateId: data.goodsSku.deliveryTemplateId, //模板id

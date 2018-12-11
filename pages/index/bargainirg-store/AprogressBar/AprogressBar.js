@@ -1,4 +1,3 @@
-
 import Api from '../../../../utils/config/api.js';
 var utils = require('../../../../utils/util.js');
 import {
@@ -54,7 +53,6 @@ Page({
     isBargained: true    //控制频繁点击砍价按钮---true可以点/false不能点
   },
   onLoad: function(options) {
-    console.log("options:", options);
     let _token = wx.getStorageSync('token') || "";
     let userInfo = wx.getStorageSync('userInfo') || {};
     if (userInfo) {
@@ -703,12 +701,6 @@ Page({
               status: 3
             });
           }
-          if (code == 200065 || code == 200066 || code == 200068) {
-            wx.showToast({
-              title: res.data.message,
-              icon: 'none'
-            })
-          }
           that.setData({
             otherStatus: otherStatus
           });
@@ -888,7 +880,6 @@ Page({
   //热门推荐
   hotDishList(types) {
     //browSort 0附近 1销量 2价格
-    console.log('hotDishListhotDishList')
     let that = this,
       _values="",
       _Url="",
@@ -898,7 +889,6 @@ Page({
     if (!app.globalData.userInfo.lng && !app.globalData.userInfo.lat) {
       that.getlocation();
     } else {
-      console.log('actId:', that.data.actId)
       if(that.data.actId){
         _parms = {
           id: that.data.refId,
@@ -934,7 +924,6 @@ Page({
       }
       _Url = encodeURI(url);
       requestTask = true;
-      console.log('_Url:', _Url)
       wx.request({
         url: _Url,
         method: 'GET',
@@ -942,7 +931,6 @@ Page({
           "Authorization": app.globalData.token
         },
         success: function (res) {
-          console.log("res:",res)
           wx.stopPullDownRefresh();
           wx.hideLoading();
           if (res.data.code == 0) {
@@ -1043,13 +1031,11 @@ Page({
       imageUrl:this.data.shareImg,
       path: '/pages/index/bargainirg-store/AprogressBar/AprogressBar?refId=' + this.data.refId + '&shopId=' + this.data.shopId + '&skuMoneyOut=' + this.data.skuMoneyOut + '&skuMoneyMin=' + this.data.skuMoneyMin + '&initiator=' + initiator + '&groupId=' + this.data.groupId + '&lat=' + userInfo.lat + '&lng=' + userInfo.lng + '&city=' + userInfo.city + '&actId=' + this.data.actId,
       success: function(res) {
-        // console.log('success')
+        
       },
       fail: function(res) {
-        // 分享失败
-        // console.log('fail')
+        
       }
     }
   }
 })
-
