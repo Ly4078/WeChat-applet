@@ -75,26 +75,20 @@ Page({
       page: 1,
       shopId: options.shopId ? options.shopId : '',
       id: options.id ? options.id : '',
+      actId: options.actId ? options.actId:'',
       _city: options.city ? options.city : ''
     });
-    if (options.actId) {
-      let _title = '';
-      this.setData({
-        actId: options.actId,
-        id: options.id,
-        categoryId: options.categoryId ? options.categoryId : ''
-      })
-      if (options.categoryId == 5) {
-        _title = '酒店详情';
-      } else if (options.categoryId == 6) {
-        _title = '门票详情';
-      } else if (options.categoryId == 8) {
-        _title = '菜品详情';
-      }
-      wx.setNavigationBarTitle({
-        title: _title
-      })
+    let _title = '';
+    if (options.categoryId == 5) {
+      _title = '酒店详情';
+    } else if (options.categoryId == 6) {
+      _title = '门票详情';
+    } else if (options.categoryId == 8) {
+      _title = '菜品详情';
     }
+    wx.setNavigationBarTitle({
+      title: _title
+    })
   },
   onShow() {
     let that = this;
@@ -250,7 +244,6 @@ Page({
     let id = e.currentTarget.id,
       shopId = e.currentTarget.dataset.shopid;
     this.setData({
-      actId: '',
       id: id,
       shopId: shopId,
       page: 1,
@@ -324,7 +317,8 @@ Page({
       Id: this.data.id,
       shopId: this.data.shopId,
       locationX: app.globalData.userInfo.lng,
-      locationY: app.globalData.userInfo.lat
+      locationY: app.globalData.userInfo.lat,
+      // actId:41
     };
     if (that.data.actId) {
       _parms.actId = this.data.actId
@@ -336,7 +330,8 @@ Page({
       _values += key + "=" + _parms[key] + "&";
     }
     _values = _values.substring(0, _values.length - 1);
-    if (this.data.actId) {
+    console.log('actid:',that.data.actId)
+    if (that.data.actId) {
       url = that.data._build_url + 'goodsSku/selectDetailBySkuIdNew?' + _values;
     } else {
       url = that.data._build_url + 'sku/getKjc?' + _values;
@@ -624,6 +619,7 @@ Page({
           locationY: app.globalData.userInfo.lat,
           city: that.data._city ? that.data._city : app.globalData.userInfo.city,
           isDeleted: 0,
+          actId:41,
           page: that.data.page,
           rows: 6
         };
@@ -631,7 +627,7 @@ Page({
           _values += key + "=" + _parms[key] + "&";
         }
         _values = _values.substring(0, _values.length - 1);
-        url = that.data._build_url + 'sku/kjcList?' + _values;
+      url = that.data._build_url + 'goodsSku/listForAct?' + _values;
       // }
       _Url = encodeURI(url);
       console.log('_Url:', _Url)
@@ -661,6 +657,7 @@ Page({
                     hotDishList.push(list[i]);
                   }
                 }
+                console.log('hotDishList:', hotDishList)
                 that.setData({
                   hotDishList: hotDishList,
                   pageTotal: Math.ceil(res.data.data.total / 6),

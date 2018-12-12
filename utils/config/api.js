@@ -402,7 +402,8 @@ const ALL_API = {
   },
   vegetables: {    //是否为某道菜砍过价
     method: 'GET',
-    url: 'bargain/skuRedis'
+    url: 'goodsBar/skuRedis'
+    // url: 'bargain/skuRedis'
   },
   bargainList: {    //我的砍价列表
     method: 'get',
@@ -410,7 +411,8 @@ const ALL_API = {
   },
   partakerList: {     //砍菜列表
     method: 'GET',
-    url: 'sku/kjcList'
+    url: 'goodsSku/listForAct'
+    // url: 'sku/kjcList'
   },
   listForActs: {     //砍菜列表
     method: 'GET',

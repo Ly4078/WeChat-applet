@@ -26,9 +26,9 @@ Page({
     showModal: false,
     instruct: false,
     showCanvas: false,
-    groupId: '',
+    groupId: '', //生成团砍Id
     move: '',
-    showSkeleton:true,
+    showSkeleton: true,
     dishData: {}, //当前菜
     doneBargain: '', //已砍金额
     countDown: '', //倒计时
@@ -50,7 +50,7 @@ Page({
     _lng: '',
     actId: '',
     actType: '4',
-    isBargained: true    //控制频繁点击砍价按钮---true可以点/false不能点
+    isBargained: true //控制频繁点击砍价按钮---true可以点/false不能点
   },
   onLoad: function(options) {
     console.log('options:', options)
@@ -64,12 +64,12 @@ Page({
     }
 
     this.setData({
-      actId: options.actId ? options.actId : '41',
-      categoryId: options.categoryId ? options.categoryId:'',
-      refId: options.refId, //菜品Id
-      shopId: options.shopId, //商家Id
-      skuMoneyOut: options.skuMoneyOut, //原价
-      skuMoneyMin: options.skuMoneyMin, //低价
+      actId: options.actId ? options.actId : '',
+      categoryId: options.categoryId ? options.categoryId : '',
+      refId: options.refId ? options.refId : '', //菜品Id
+      shopId: options.shopId ? options.shopId : '', //商家Id
+      skuMoneyOut: options.skuMoneyOut ? options.skuMoneyOut : '', //原价
+      skuMoneyMin: options.skuMoneyMin ? options.skuMoneyMin : '', //低价
       userId: app.globalData.userInfo.userId, //登录者Id
       initiator: options.initiator ? options.initiator : '', //发起人Id
       groupId: options.groupId ? options.groupId : '', //团砍Id
@@ -87,12 +87,13 @@ Page({
       page: 1,
       isshowlocation: false
     });
+    console.log("show:", app.globalData)
     if (app.globalData.userInfo.userId) {
       if (app.globalData.userInfo.mobile) {
         if (app.globalData.token) {
           if (app.globalData.userInfo.lat && app.globalData.userInfo.lng) {
             if (that.data._city || app.globalData.userInfo.city) {
-              // this.hotDishList();
+              this.hotDishList();
             } else {
               this.getUserlocation();
             }
@@ -103,6 +104,7 @@ Page({
           if (this.data.groupId) {
             this.bargain();
           } else {
+            console.log("a11111")
             this.createBargain();
           }
           // this.bargain();
@@ -178,14 +180,15 @@ Page({
           app.globalData.token = _token;
           that.dishDetail(); //查询菜详情
           if (that.data.groupId) {
-            // that.bargain();
+            that.bargain();
           } else {
+            onsole.log("a2222")
             that.createBargain();
           }
           that.bargain();
           if (app.globalData.userInfo.lat && app.globalData.userInfo.lng) {
             if (that.data._city || app.globalData.userInfo.city) {
-              // that.hotDishList();
+              that.hotDishList();
             }
           } else {
             // that.getUserlocation();
@@ -293,26 +296,29 @@ Page({
           },
           success: (res) => {
             if (res.data.status == 0) {
-              if (!that.data.groupId) {
-                that.createBargain()
-              };
-              let _city = res.data.result.address_component.city;
-              if (_city == '十堰市') {
-                app.globalData.userInfo.city = _city;
+              if (that.data.groupId) {
+                let _city = res.data.result.address_component.city;
+                if (_city == '十堰市') {
+                  app.globalData.userInfo.city = _city;
+                } else {
+                  app.globalData.userInfo.city = '十堰市';
+                }
+                app.globalData.oldcity = app.globalData.userInfo.city;
+                wx.setStorageSync('userInfo', app.globalData.userInfo);
+                that.dishDetail();
+                that.hotDishList();
+                that.bargain();
               } else {
-                app.globalData.userInfo.city = '十堰市';
+                onsole.log("a3333")
+                that.createBargain();
               }
-              app.globalData.oldcity = app.globalData.userInfo.city;
-              wx.setStorageSync('userInfo', app.globalData.userInfo);
-              that.dishDetail();
-              that.hotDishList();
-              that.bargain();
             }
           }
         })
       }
     }
   },
+
   closetel: function(e) {
     let id = e.target.id;
     this.setData({
@@ -330,10 +336,12 @@ Page({
       _parms = {},
       url = "",
       that = this;
+    console.log("createBargain_actid:", this.data.actId)
     if (this.data.actId) {
       _parms = {
         refId: this.data.refId,
         shopId: this.data.shopId,
+        actId: this.data.actId
       }
     } else {
       _parms = {
@@ -352,7 +360,7 @@ Page({
     _value = _value.substring(0, _value.length - 1);
 
     if (this.data.actId) {
-      url = this.data._build_url + 'goodsGold/initiator?' + _value + '&actId=' + this.data.actId;
+      url = this.data._build_url + 'goodsGold/initiator?' + _value;
     } else {
       url = this.data._build_url + 'gold/initiator?' + _value;
     }
@@ -369,6 +377,7 @@ Page({
             title: '发起成功',
             icon: 'none'
           })
+          console.log("222222")
           that.setData({
             isMine: true,
             status: 1,
@@ -382,6 +391,7 @@ Page({
   },
   //获取砍价券详情
   bargain() {
+    console.log("bargain")
     let _parms = {},
       _this = this,
       _values = "",
@@ -392,7 +402,7 @@ Page({
       shopId: this.data.shopId,
       groupId: this.data.groupId
     };
-    if (this.data.actId == 41) {
+    if (this.data.actId) {
       _parms['actId'] = this.data.actId;
     }
     for (var key in _parms) {
@@ -404,6 +414,7 @@ Page({
     } else {
       url = _this.data._build_url + 'bargain/skuGroup?' + _values;
     }
+    console.log('url:', url)
     wx.request({
       url: url,
       header: {
@@ -413,26 +424,30 @@ Page({
       success: function(res) {
         wx.stopPullDownRefresh();
         if (res.data.code == 0) {
-          let code = res.data.code,
-            data = res.data.data,
-            reg = /^1[34578][0-9]{9}$/;
-          if (data) {
-            let endTime = data[0].endTime.replace(/\-/g, "/"),
+          if (res.data.data) {
+            
+            let data = res.data.data,
+              reg = /^1[34578][0-9]{9}$/,
+              endTime = data[0].endTime.replace(/\-/g, "/"),
               max = (+_this.data.skuMoneyOut - _this.data.skuMoneyMin).toFixed(2),
               doneBargain = (+_this.data.skuMoneyOut - data[0].skuMoneyNow).toFixed(2),
               progress = 0;
+            console.log('skuMoneyOut:', _this.data.skuMoneyOut)
+            console.log("resdata_data:", data)
             progress = doneBargain / max * 100;
+            console.log("progress:", progress)
             let _move = doneBargain / max * 1;
             _move *= 500;
-            
+
             _move = _move.toFixed(0);
             if (_move == 500) {
               _move = +_move + 14;
             }
-            _move = _move*1+ 60;
+            _move = _move * 1 + 60;
             _this.setData({
               move: _move - 14
             })
+            console.log('move:',_this.data.move)
             if (_this.data.initiator && (_this.data.initiator != app.globalData.userInfo.userId)) {
               _this.setData({
                 isMine: false
@@ -440,10 +455,12 @@ Page({
               _this.isBargain();
             }
             if (_this.data.initiator == app.globalData.userInfo.userId) {
+              console.log("11111111")
               _this.setData({
                 isMine: true
               });
             }
+            console.log("datadatadata:",data)
             _this.setData({
               skuMoneyNow: data[0].skuMoneyNow,
               doneBargain: doneBargain,
@@ -452,7 +469,7 @@ Page({
               // actType: data[0].goodsSkuOut.actInfo.type ? data[0].goodsSkuOut.actInfo.type:'',
               peoplenum: data[0].peoplenum * 1 - 1
             });
-            if(_this.data.actId == 41) {
+            if (_this.data.actId == 41) {
               _this.setData({
                 totleKey: data[0].totleKey,
                 valueKey: data[0].valueKey
@@ -470,41 +487,49 @@ Page({
             } else {
               peopleList = _arr;
             }
+            console.log('peopleList:', peopleList)
             for (let i = 0; i < peopleList.length; i++) {
               if (peopleList[i].userName && reg.test(peopleList[i].userName)) {
                 peopleList[i].userName = peopleList[i].userName.substr(0, 3) + "****" + peopleList[i].userName.substr(7)
               } else if (peopleList[i].user.userName && reg.test(peopleList[i].user.userName)) {
                 peopleList[i].user.userName = peopleList[i].user.userName.substr(0, 3) + "****" + peopleList[i].user.userName.substr(7)
               }
-             
+
               if (peopleList[i].userId == app.globalData.userInfo.userId) {
+                console.log('ccccccccc')
                 _this.setData({
                   getGoldNum: peopleList[i].goldAmount,
                   otherStatus: 2
                 });
-              } else if (peopleList[i].user && peopleList[i].user.id){
+              } else if (peopleList[i].user && peopleList[i].user.id) {
                 if (peopleList[i].user.id == app.globalData.userInfo.userId) {
+                  console.log("id:", peopleList[i].user.id)
+                  console.log('ddddddddddd')
                   _this.setData({
                     getGoldNum: peopleList[i].goldAmount,
                     otherStatus: 2
                   });
                 }
-              }else{
+              } else {
                 _this.setData({
                   otherStatus: 1
                 });
               }
             }
+
+
+
             _this.setData({
               peopleList: peopleList
             });
-
+            console.log('oooooiiuoiuo')
             let miliEndTime = new Date(endTime).getTime(),
               miliNow = new Date().getTime();
             let minus = Math.floor((miliEndTime - miliNow) / 1000);
             if (minus > 0 && minus <= 3610) { //小于60分钟
               //好友进入砍菜页面人数满5人并且超过半小时不能砍价
               if (_this.data.peoplenum >= 5) {
+                console.log("b11111")
                 _this.setData({
                   status: 4,
                   otherStatus: 3
@@ -523,6 +548,7 @@ Page({
                     if (minus == 0) {
                       clearInterval(_this.data.timer);
                       minus = 0;
+                      console.log("b1222")
                       _this.setData({
                         otherStatus: 4,
                         status: 3
@@ -544,18 +570,21 @@ Page({
                 });
               }
             } else {
+              console.log("b1333")
               _this.setData({
                 status: 3,
                 otherStatus: 4
               });
             }
           } else {
+            console.log("b1444")
             _this.setData({
               status: 3,
               otherStatus: 4
             });
           }
         } else {
+          console.log("b1355555")
           _this.setData({
             status: 3,
             otherStatus: 4
@@ -573,7 +602,7 @@ Page({
     _parms = {
       Id: this.data.refId,
       zanUserId: this.data.initiator ? this.data.initiator : app.globalData.userInfo.userId,
-      actId:this.data.actId,
+      actId: this.data.actId,
       shopId: this.data.shopId
     };
     for (var key in _parms) {
@@ -597,37 +626,39 @@ Page({
             let data = res.data.data;
             that.setData({
               dishData: data,
-              showSkeleton:false,
+              showSkeleton: false,
               // picUrl: data.picUrl,
               skuName: data.skuName,
               // shopName: data.shopName,
               sellNum: data.sellNum
             });
             let url = data.picUrl ? data.picUrl : data.skuPic
-            canvasShareImg(url, that.data.skuMoneyMin, that.data.skuMoneyOut).then(function(res){
+            canvasShareImg(url, that.data.skuMoneyMin, that.data.skuMoneyOut).then(function(res) {
               that.setData({
                 shareImg: res
               })
             })
-            if (data.actGoodsSkuOut && data.actGoodsSkuOut.categoryId){
+            if (data.actGoodsSkuOut && data.actGoodsSkuOut.categoryId) {
               that.setData({
                 categoryId: data.actGoodsSkuOut.categoryId
               })
             }
             that.hotDishList();
-          }else{
+          } else {
             that.setData({
               showSkeleton: false,
             });
           }
         } else {
+          console.log("b1666663")
           that.setData({
             status: 3,
-            showSkeleton:false,
+            showSkeleton: false,
             otherStatus: 4
           });
         }
-      },fail:function(){
+      },
+      fail: function() {
         that.setData({
           showSkeleton: false,
         });
@@ -635,14 +666,17 @@ Page({
     })
   },
   chilkDish(e) {
-    let id = e.currentTarget.id, 
-    _categoryId =this.data.categoryId,
+    console.log('chilkDish__e:', e)
+    let id = e.currentTarget.id,
+      _categoryId = this.data.categoryId,
       _shopId = e.currentTarget.dataset.shipid;
     if (this.data.actId) {
+      console.log('11111111')
       wx.navigateTo({
         url: '/pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails?id=' + id + '&actId=' + this.data.actId + '&categoryId=' + _categoryId,
       })
     } else {
+      console.log('22222')
       wx.navigateTo({
         url: '../CandyDishDetails/CandyDishDetails?id=' + id + '&shopId=' + _shopId + '&categoryId=' + _categoryId
       })
@@ -650,7 +684,7 @@ Page({
   },
   candyDetails(e) {
     let id = e.currentTarget.id,
-      _categoryId =this.data.categoryId,
+      _categoryId = this.data.categoryId,
       _shopId = e.currentTarget.dataset.index;
     wx.navigateTo({
       url: '../CandyDishDetails/CandyDishDetails?id=' + id + '&shopId=' + _shopId + '&categoryId=' + _categoryId + '&actId=' + this.data.actId,
@@ -672,6 +706,9 @@ Page({
         parentId: this.data.initiator,
         groupId: this.data.groupId
       };
+      if (this.data.actId){
+        _parms.actId = this.data.actId;
+      }
       for (let key in _parms) {
         _value += key + "=" + _parms[key] + "&";
       }
@@ -681,6 +718,7 @@ Page({
       } else {
         url = this.data._build_url + 'gold/getshior?' + _value;
       }
+      console.log('urlurlurl:', url)
       wx.request({
         url: url,
         header: {
@@ -688,15 +726,18 @@ Page({
         },
         method: 'GET',
         success: function(res) {
+          console.log("res123213:",res)
           let code = res.data.code,
             otherStatus = "";
           if (code == 0) {
             otherStatus = 1;
           } else if (code == 200065) {
+           
             otherStatus = 2;
           } else if (code == 200066) {
             otherStatus = 3;
           } else if (code == 200068) {
+            console.log('aaaaaaaa')
             otherStatus = 4;
             that.setData({
               status: 3
@@ -731,7 +772,9 @@ Page({
         parentId: this.data.initiator,
         groupId: this.data.groupId
       };
-
+      if (this.data.actId){
+        _parms.actId = this.data.actId
+      }
       for (let key in _parms) {
         _value += key + "=" + _parms[key] + "&";
       }
@@ -748,9 +791,11 @@ Page({
         },
         method: 'GET',
         success: function(res) {
+          console.log("123213res:",res)
           if (res.data.code == 0) {
             _this.tohelpfriend();
           } else if (res.data.code == 200065) {
+            console.log('bbbbb')
             _this.setData({
               otherStatus: 2
             });
@@ -767,6 +812,7 @@ Page({
               icon: 'none'
             })
           } else if (res.data.code == 200068) {
+            console.log("b1777773")
             _this.setData({
               otherStatus: 4,
               status: 3
@@ -797,6 +843,9 @@ Page({
       shopId: this.data.shopId,
       groupId: this.data.groupId
     };
+    if (this.data.actId) {
+      _parms.actId = this.data.actId
+    }
     for (var key in _parms) {
       _value += key + "=" + _parms[key] + "&";
     }
@@ -806,6 +855,7 @@ Page({
     } else {
       url = this.data._build_url + 'gold/helpfriend?' + _value;
     }
+    console.log("helpfriend_url:", url)
     wx.request({
       url: url,
       header: {
@@ -813,7 +863,9 @@ Page({
       },
       method: 'POST',
       success: function(res) {
+        console.log("tohelpfriend__res:",res)
         if (res.data.code == 0) {
+          console.log('cccccccc')
           that.setData({
             showModal: true,
             showCanvas: true,
@@ -882,15 +934,15 @@ Page({
   hotDishList(types) {
     //browSort 0附近 1销量 2价格
     let that = this,
-      _values="",
-      _Url="",
-      url="",
+      _values = "",
+      _Url = "",
+      url = "",
       _parms = {};
 
     if (!app.globalData.userInfo.lng && !app.globalData.userInfo.lat) {
       that.getlocation();
     } else {
-      if(that.data.actId){
+      if (that.data.actId) {
         _parms = {
           id: that.data.refId,
           actId: that.data.actId,
@@ -906,7 +958,7 @@ Page({
         }
         _values = _values.substring(0, _values.length - 1);
         url = that.data._build_url + 'goodsSku/listForActOut?' + _values;
-      }else{
+      } else {
         _parms = {
           zanUserId: app.globalData.userInfo.userId,
           browSort: 1,
@@ -931,7 +983,7 @@ Page({
         header: {
           "Authorization": app.globalData.token
         },
-        success: function (res) {
+        success: function(res) {
           wx.stopPullDownRefresh();
           wx.hideLoading();
           if (res.data.code == 0) {
@@ -944,12 +996,12 @@ Page({
                 hotDishList.push(list[i]);
                 arr.push(list[i]);
               }
-             
-              if(types=='next'){
+
+              if (types == 'next') {
                 arr = [];
                 arr = hotDishList
-              }else{
-                arr = arr 
+              } else {
+                arr = arr
               }
               that.setData({
                 hotDishList: arr
@@ -966,10 +1018,11 @@ Page({
                 flag: false
               });
             }
-          }else{
+          } else {
             requestTask = false
-          } 
-        },fail() {
+          }
+        },
+        fail() {
           requestTask = false
         }
       })
@@ -979,7 +1032,7 @@ Page({
     if (!this.data.flag) {
       return false;
     }
-    if (requestTask){
+    if (requestTask) {
       return false
     }
     this.setData({
@@ -996,7 +1049,7 @@ Page({
       flag: true,
       page: 1
     });
-  
+
     this.hotDishList();
   },
   // 左上角返回首页
@@ -1024,20 +1077,21 @@ Page({
     this.onShareAppMessage();
   },
   onShareAppMessage() { //分享给好友帮忙砍价
-    let initiator = this.data.initiator ? this.data.initiator : app.globalData.userInfo.userId,userInfo = app.globalData.userInfo;
+    let initiator = this.data.initiator ? this.data.initiator : app.globalData.userInfo.userId,
+      userInfo = app.globalData.userInfo;
     let strr = '/pages/index/bargainirg-store/AprogressBar/AprogressBar?refId=' + this.data.refId + '&shopId=' + this.data.shopId + '&skuMoneyOut=' + this.data.skuMoneyOut + '&skuMoneyMin=' + this.data.skuMoneyMin + '&initiator=' + initiator + '&groupId=' + this.data.groupId + '&lat=' + userInfo.lat + '&lng=' + userInfo.lng + '&city=' + userInfo.city + '&actId=' + this.data.actId;
     console.log("strr:", strr)
-    return
+
     return {
       title: '帮我砍价！你也有机会直接拿走商品↓↓↓',
       desc: '享7美食',
-      imageUrl:this.data.shareImg,
+      imageUrl: this.data.shareImg,
       path: '/pages/index/bargainirg-store/AprogressBar/AprogressBar?refId=' + this.data.refId + '&shopId=' + this.data.shopId + '&skuMoneyOut=' + this.data.skuMoneyOut + '&skuMoneyMin=' + this.data.skuMoneyMin + '&initiator=' + initiator + '&groupId=' + this.data.groupId + '&lat=' + userInfo.lat + '&lng=' + userInfo.lng + '&city=' + userInfo.city + '&actId=' + this.data.actId,
       success: function(res) {
-        
+
       },
       fail: function(res) {
-        
+
       }
     }
   }

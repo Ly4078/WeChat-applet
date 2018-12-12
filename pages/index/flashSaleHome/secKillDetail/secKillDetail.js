@@ -193,24 +193,18 @@ Page({
       },
       method: 'GET',
       success: function (res) {
-        console.log("res:",res)
         if (res.data.code == 0 && res.data.data) {
           let data = res.data.data,
             _RegExp = new RegExp('<p.*?>(.*?)<\/p>', 'i'),
           pattern='',
             skuInfo = '',
-            article='';
-            // skuInfo = data.skuInfo ? data.skuInfo : data.actGoodsSkuOut.ruleDesc;
-          console.log('data:', data)
-          let arr = that.data.legends;
-          let obj = {
+            article='', arr = that.data.legends,obj = {
             name: '使用规则',
             info: []
           };
           if (data.skuInfo){
             skuInfo = data.skuInfo;
             skuInfo = skuInfo ? '1个小时内完成邀请并成功购买，逾期失效Œ' + skuInfo : '1个小时内完成邀请并成功购买，逾期失效';
-            console.log("skuInfo:", skuInfo)
             if (skuInfo.indexOf("Œ") != -1) {
               skuInfo = skuInfo.split('Œ');
               obj.info = skuInfo;

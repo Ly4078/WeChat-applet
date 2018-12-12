@@ -40,6 +40,7 @@
           </view>
         </view>
       </view>
+
       <view class='cuisine' id="{{dishData.id}}" data-shipid="{{dishData.shopId}}" data-cate="{{dishData.categoryId}}" catchtap='chilkDish'>
         <image class='cuisineImages' src='{{dishData.picUrl?dishData.picUrl:dishData.skuPic}}'></image>
         <view class='cuisineRight'>
@@ -66,6 +67,7 @@
           </view>
         </view>
       </view>
+
       <!-- 砍价进度条 -->
       <view wx:if="{{status != 3 && otherStatus != 4}}">
         <view class='canvasWrap'>
@@ -100,7 +102,6 @@
         <button bindtap='toBuy'>￥
           <text>{{skuMoneyNow}}</text>立即购买</button>
       </view>
-
       <!-- 分享出去朋友进来未砍状态 -->
       <view wx:if="{{!isMine && otherStatus == 1}}" class='notInvitation'>
         <view catchtap='helpfriend'>

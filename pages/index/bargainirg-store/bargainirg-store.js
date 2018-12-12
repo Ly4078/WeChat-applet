@@ -40,6 +40,7 @@ Page({
   dishList() {     //砍菜列表
     //browSort 0附近 1销量 2价格
     let _parms = {
+      actId:41,
       zanUserId: app.globalData.userInfo.userId, 
       browSort: this.data.browSort,  
       locationX: app.globalData.userInfo.lng,
@@ -96,7 +97,7 @@ Page({
   candyDetails:function(e){
     let id = e.currentTarget.id, shopId = e.currentTarget.dataset.index;
     wx.navigateTo({
-      url: 'CandyDishDetails/CandyDishDetails?id=' + id + '&shopId=' + shopId
+      url: 'CandyDishDetails/CandyDishDetails?id=' + id + '&shopId=' + shopId+'&actId=41'
     })
   },
   //顶部tab栏
@@ -117,12 +118,12 @@ Page({
   },
   onReachBottom: function () {  //用户上拉触底加载更多
     console.log('onReachBottom:')
-    if (this.data.pageTotal <= this.data.page){
-      return
-    }
-    if (swichrequestflag) {
-      return;
-    }
+    // if (this.data.pageTotal <= this.data.page){
+    //   return
+    // }
+    // if (swichrequestflag) {
+    //   return;
+    // }
     this.setData({
       page: this.data.page + 1,
       loading: true
