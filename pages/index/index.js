@@ -220,7 +220,6 @@ Page({
     let that = this;
     wx.login({
       success: res => {
-        // console.log("code:", res.code)
         // return
         Api.findByCode({
           code: res.code
@@ -584,7 +583,6 @@ Page({
     try {
 
     } catch (err) {
-      console.log(err)
     }
   },
   toVideo: function(e) { //视频详情

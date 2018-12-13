@@ -72,7 +72,6 @@ Page({
     hotlist2: []//热销商品
   },
   onLoad: function(options) {
-    console.log("options:", options)
     if (options.distance){
       this.setData({
         distance: options.distance
@@ -425,7 +424,6 @@ Page({
   },
   //查询热销商品
   gethotdish:function(){
-    console.log('gethotdish')
     let _parms={},that=this;
     _parms = {
       spuType: 10,
@@ -435,12 +433,9 @@ Page({
       shopId: that.data.shopid,
       token: app.globalData.token
     };
-    console.log('_parms:', _parms)
     Api.crabList(_parms).then((res) => { //查询同类规格列表
-      console.log("gethotdish__res:",res)
       if (res.data.code == 0) {
         let _hotlist = res.data.data.list, _discount='';
-        console.log('_hotlist:', _hotlist)
         if(_hotlist && _hotlist.length>0){
           for(let i in _hotlist){
             if (_hotlist[i].actGoodsSkuOuts && _hotlist[i].actGoodsSkuOuts.length > 0) {
@@ -471,13 +466,11 @@ Page({
   },
   //点击抢购
   ClickSnatch:function(e){
-    console.log('e:',e)
     let id = e.currentTarget.id,
       actId = e.currentTarget.dataset.actid,
       actName = e.currentTarget.dataset.actname,
       shopId = this.data.shopid;
     if (actName =='砍价'){ //砍价
-    console.log("111211")
       wx.navigateTo({
         url: '/pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails?categoryId=8&id=' + id + '&shopId=' + shopId + '&actId=' + actId
       })
@@ -492,13 +485,11 @@ Page({
           actObj = _hotlist2[i]
         }
       }
-      console.log('actObj:', actObj)
       // return
       wx.navigateTo({
         // url: '/pages/index/crabShopping/crabDetails/submitOrder/submitOrder?id=' + id + '&shopId=' + shopId + '&actId=' + actId
         url: '/pages/index/crabShopping/crabDetails/submitOrder/submitOrder?num=1&issku=3&flag=1&picUrl=' + actObj.skuPic + '&sellPrice=' + actObj.sellPrice + '&id=' + actObj.id + '&actId=' + actObj.actId + '&skuName=' + actObj.skuName + '&remark=' + actObj.remark + '&shopId=' + actObj.shopId + '&singleType=' + actObj.singleType + '&spuId=' + actObj.spuId
       })
-      console.log('other')
     }
   },
   payDish(e) { //购买活动菜
@@ -658,7 +649,6 @@ Page({
     let id = e.currentTarget.id,
       actId = e.currentTarget.dataset.actid,
       shopId = e.currentTarget.dataset.index;
-       console.log("111211")
     wx.navigateTo({
       url: '../bargainirg-store/CandyDishDetails/CandyDishDetails?categoryId=8&id=' + id + '&shopId=' + shopId + '&actId=' + actId
     })
@@ -731,7 +721,6 @@ Page({
             let _storeType = _data.businessCate ? _data.businessCate.split(',') : []; 
             if (_storeType && _storeType.length>0){
               for (let i in _storeType){
-                // console.log(_storeType[i])
                 let arr = _storeType[i].split('/');
                 _storeType[i]=arr[0];
               }
