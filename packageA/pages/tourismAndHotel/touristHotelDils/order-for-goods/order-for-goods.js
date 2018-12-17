@@ -31,8 +31,146 @@ Page({
     ]
   },
   onLoad: function(options) {
+    let that = this;
+    if (!app.globalData.singleData) {
+      wx.showToast({
+        title: '参数错误',
+        icon: 'none'
+      })
+      setTimeout(() => {
+        wx.reLaunch({
+          url: '/pages/index/index',
+        })
+      }, 2000)
+      return
+    }
+    let singleData = app.globalData.singleData
+    that.setData({
+      singleData: singleData,
+      paymentAmount: singleData.sellPrice
+    })
+
+  },
+  sponsorVgts: function () {//点击付款按钮
+    let that = this, _parms = {};
+    _parms = {
+      shopId: that.data.singleData.shopId,
+      payType: 2,
+      flagType: 7,
+      singleType: that.data.singleData.singleType,
+      orderItemList: [{
+        goodsSkuId: that.data.singleData.id,
+        goodsSpuId: that.data.singleData.spuId,
+        goodsNum: that.data.number ? that.data.number:'1',
+        shopId: that.data.singleData.shopId,
+        orderItemShopId: '0',
+      }]
+    };
+    _parms.flagType = 1
+    wx.showLoading({
+      title: '加载中...',
+      mask: true
+    })
+    wx.request({
+      url: that.data._build_url + 'orderInfo/createNew',
+      data: JSON.stringify(_parms),
+      method: 'POST',
+      header: {
+        "Authorization": app.globalData.token
+      },
+      success: function (res) {
+        if (res.data.code == '0' && res.data.data) {
+          that.setData({
+            orderId: res.data.data
+          }, () => {
+            that.wxpayment();
+          })
+
+        } else {
+          wx.hideLoading();
+          wx.showToast({
+            title: '请稍后再试',
+            icon: 'none'
+          })
+        }
+
+      }, fail() {
+        wx.hideLoading();
+        wx.showToast({
+          title: '支付失败',
+          icon: 'none'
+        })
+      }
+    })
+  },
+  //调起微信支付
+  wxpayment: function () {
+    let _parms = {},
+      that = this,
+      url = "",
+      _Url = "",
+      _value = "";
+    _parms = {
+      orderId: that.data.orderId,
+      openId: app.globalData.userInfo.openId,
+    };
+      _parms.type = 1
+    for (var key in _parms) {
+      _value += key + "=" + _parms[key] + "&";
+    }
 
 
+    _value = _value.substring(0, _value.length - 1);
+    url = that.data._build_url + 'wxpay/shoppingMallForCouponNew?' + _value
+    _Url = encodeURI(url);
+    wx.request({
+      url: _Url,
+      header: {
+        "Authorization": app.globalData.token
+      },
+      method: 'POST',
+      success: function (res) {
+        if (res.data.code == '0' && res.data.data) {
+          that.pay(res.data.data)
+        } else {
+          wx.hideLoading();
+          wx.showToast({
+            title: res.data.message || '支付失败',
+            icon: 'none'
+          })
+        }
+      }, fail() {
+        wx.hideLoading();
+        wx.showToast({
+          title: '支付失败',
+          icon: 'none'
+        })
+      }
+    })
+  },
+  pay: function (_data) {
+    let that = this;
+    wx.hideLoading();
+    wx.requestPayment({
+      'timeStamp': _data.timeStamp,
+      'nonceStr': _data.nonceStr,
+      'package': _data.package,
+      'signType': 'MD5',
+      'paySign': _data.paySign,
+      success: function (res) {
+        wx.navigateTo({
+          url: '/pages/personal-center/personnel-order/logisticsDetails/logisticsDetails?soId=' + that.data.orderId,
+        })
+      }, fail: function (res) {
+        wx.showToast({
+          title: '支付取消',
+          icon: "none",
+          duration: 1500
+        })
+      }, complete: function (res) {
+
+      }
+    })
   },
   radioChange: function(e) { //选框
     let num = e.detail.value;
@@ -58,49 +196,26 @@ Page({
       number: number,
       minusStatus: minusStatus
     });
-    let _paymentAmount = this.data.number * this.data.obj.sell * 1;
+    let _paymentAmount = this.data.number * this.data.singleData.sellPrice * 1;
     _paymentAmount = _paymentAmount.toFixed(2)
-    this.calculate(_paymentAmount)
     this.setData({
       paymentAmount: _paymentAmount
     });
 
-    minusStatus = number <= 1 ? 'disabled' : 'normal';
-
   },
 
   bindPlus: function() { //点击加号
-    if (!this.data.actId && this.data.skutype != 4 && this.data.skutype != 8 && this.data.skutype != 10) {
       let number = this.data.number;
       ++number;
-      if (number > 10) {
-        wx.showToast({
-          title: '单次最多购买10张',
-          icon: 'none',
-          duration: 1500,
-          mask: true
-        })
-        number = 10;
         this.setData({
           number: number
         })
-      }
-      this.setData({
-        number: number,
-        minusStatus: minusStatus
-      });
-      let _paymentAmount = this.data.number * this.data.obj.sell * 1;
+      let _paymentAmount = this.data.number * this.data.singleData.sellPrice * 1;
       _paymentAmount = _paymentAmount.toFixed(2)
       this.setData({
         paymentAmount: _paymentAmount
       });
-      minusStatus = number < 1 ? 'disabled' : 'normal';
-      this.calculate(_paymentAmount)
-      this.setData({
-        number: number,
-        minusStatus: minusStatus
-      });
-    }
+
   },
   bindManual: function(e) {  //输入的数值
     var number = e.detail.value;
@@ -111,6 +226,7 @@ Page({
   formSubmit:function(e){  //获取fromId
     let _formId = e.detail.formId;
     Public.addFormIdCache(_formId); 
+    this.sponsorVgts();
     
   },
   closetel: function(e) {  //新用户去注册

@@ -18,11 +18,6 @@ Page({
     _content:null,
     shadowFlag:true
   },
-  toDetails:function(){
-    wx.navigateTo({
-      url: './order-for-goods/order-for-goods',
-    })
-  },
   onLoad: function(options) {
     let that = this;
     if (options.shareType =='2'){
@@ -513,7 +508,15 @@ Page({
   },
   originalprice:function(){//原价购买
       let that = this;
-      that.sponsorVgts('sellPrice')
+    if (!that.data.singleData){
+      return false
+    }
+    app.globalData.singleData = that.data.singleData
+    wx.navigateTo({
+      url: './order-for-goods/order-for-goods',
+    })
+
+      // that.sponsorVgts('sellPrice')
 
   },
   onShareAppMessage:function(){

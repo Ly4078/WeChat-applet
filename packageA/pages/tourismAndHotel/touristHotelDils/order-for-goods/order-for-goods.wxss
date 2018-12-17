@@ -35,8 +35,8 @@ page{
 }
 
 .stepper {  
-    width: 80px;  
-    height: 26px;  
+    /* width: 80px;   */
+    height: 70rpx;  
     /*给主容器设一个边框*/  
     border: 1px solid #ccc;  
     border-radius: 3px; 
@@ -44,8 +44,8 @@ page{
   
 /*加号和减号*/  
 .stepper text {  
-    width: 26px;  
-    line-height: 26px;  
+    width: 70rpx;  
+    font-size: 50rpx;
     text-align: center;  
     float: left;  
 }  
@@ -53,8 +53,8 @@ page{
   
 /*数值*/  
 .stepper input {  
-    width: 26px;  
-    height: 26px;  
+    width: 90rpx;  
+    height: 70rpx;  
     float: left;  
     margin: 0 auto;  
     text-align: center;  

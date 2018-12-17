@@ -399,17 +399,9 @@ Page({
       _value += key + "=" + _parms[key] + "&";
     }
     _value = _value.substring(0, _value.length - 1);
-
-    // if (that.data.soDetail.orderAddressOut && that.data.soDetail.orderAddressOut.id) {
-    //   url = that.data._build_url + 'wxpay/doUnifiedOrderForShoppingMall?' + _value;
-    // } else {
-    //   url = that.data._build_url + 'wxpay/shoppingMallForCoupon?' + _value;
-    // }
-    // if(types=='reset'){
     url = that.data._build_url + 'wxpay/shoppingMallForCouponNew?' + _value;
-    // }
-    if (that.data.groupOrderDetail) {
-      url = url + '&type=' + that.data.groupOrderDetail.actInfo.type || 1
+    if (that.data.groupOrderDetail.actInfo) {
+      url = url + '&type=' + that.data.groupOrderDetail.actInfo.type? that.data.groupOrderDetail.actInfo.type:'1'
     } else {
       url = url + '&type=1'
     }
