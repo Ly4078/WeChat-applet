@@ -27,6 +27,7 @@ Page({
     isshowlocation: false,
     showModal: false,
     soData: {},
+    isApro:true,//是否支持跳转
     showSkeleton: true,
     issnap: false, //新用户
     isnew: false, //新用户
@@ -75,7 +76,7 @@ Page({
       page: 1,
       shopId: options.shopId ? options.shopId : '',
       id: options.id ? options.id : '',
-      actId: options.actId ? options.actId:'',
+      actId: options.actId ? options.actId : '',
       _city: options.city ? options.city : ''
     });
     let _title = '';
@@ -92,6 +93,9 @@ Page({
   },
   onShow() {
     let that = this;
+    this.setData({
+      isApro: true
+    })
     if (!app.globalData.userInfo.city && !app.globalData.userInfo.lat && !app.globalData.userInfo.lng) {
       this.getUserlocation();
     }
@@ -257,7 +261,7 @@ Page({
     this.isbargain(false);
   },
   chickinItiate(e) { //点击某个发起砍价
-    console.log("e:",e)
+    console.log("e:", e)
     if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
@@ -269,6 +273,7 @@ Page({
         _actId = e.currentTarget.dataset.actId,
         _categoryId = e.currentTarget.dataset.categoryId,
         _parms = {},
+        _this = this,
         _sellPrice = e.currentTarget.dataset.sellprice;
       console.log("_actId:", _actId)
       _parms = {
@@ -283,9 +288,19 @@ Page({
           });
           this.toBargainList();
         } else {
-          wx.navigateTo({
-            url: '../AprogressBar/AprogressBar?refId=' + _refId + '&shopId=' + _shopId + '&skuMoneyMin=' + _agioPrice + '&skuMoneyOut=' + _sellPrice + '&_actId=' + _actId + '&categoryId=' + _categoryId
-          })
+          if (_this.data.isApro){
+            wx.navigateTo({
+              url: '../AprogressBar/AprogressBar?refId=' + _refId + '&shopId=' + _shopId + '&skuMoneyMin=' + _agioPrice + '&skuMoneyOut=' + _sellPrice + '&_actId=' + _actId + '&categoryId=' + _categoryId
+            })
+            _this.setData({
+              isApro:false
+            })
+          }else{
+            wx.showToast({
+              title: '跳转中...',
+              icon:'none'
+            })
+          }
         }
       });
     }
@@ -330,7 +345,7 @@ Page({
       _values += key + "=" + _parms[key] + "&";
     }
     _values = _values.substring(0, _values.length - 1);
-    console.log('actid:',that.data.actId)
+    console.log('actid:', that.data.actId)
     if (that.data.actId) {
       url = that.data._build_url + 'goodsSku/selectDetailBySkuIdNew?' + _values;
     } else {
@@ -358,7 +373,7 @@ Page({
           };
           if (data.skuInfo) {
             skuInfo = data.skuInfo;
-            
+
             if (skuInfo && skuInfo.indexOf("Œ") != -1) {
               console.log('11111')
               skuInfo = skuInfo.split('Œ');
@@ -392,7 +407,7 @@ Page({
           } else if (data.remark) {
             console.log('444444')
             that.setData({
-              legend:arr
+              legend: arr
             })
             remark.push(data.remark)
           } else if (data.actGoodsSkuOuts && data.actGoodsSkuOuts[0].ruleDesc) {
@@ -403,7 +418,7 @@ Page({
               console.log('55555521111')
               skuInfo = skuInfo.split('Œ');
               console.log("skuInfo11111:", skuInfo)
-              obj.info=skuInfo;
+              obj.info = skuInfo;
               arr.push(obj);
               if (arr.length > 2) {
                 arr.splice(1, 1);
@@ -411,7 +426,7 @@ Page({
               that.setData({
                 legend: arr
               })
-            }else{
+            } else {
               console.log('5555552222222')
               obj.info.push(skuInfo);
               arr.push(obj);
@@ -432,8 +447,8 @@ Page({
           }
 
           if (data.goodsSpuOut && data.goodsSpuOut.goodsSpuDesc && data.goodsSpuOut.goodsSpuDesc.content) {
-            article = data.goodsSpuOut.goodsSpuDesc.content+'';
-            if (article.match(pattern)[1]){
+            article = data.goodsSpuOut.goodsSpuDesc.content + '';
+            if (article.match(pattern)[1]) {
               pattern = article.match(_RegExp)[1];
             }
             WxParse.wxParse('article', 'html', article, that, 0);
@@ -612,21 +627,21 @@ Page({
       //   _values = _values.substring(0, _values.length - 1);
       //   url = that.data._build_url + 'goodsSku/listForActOut?' + _values;
       // } else {
-        _parms = {
-          zanUserId: app.globalData.userInfo.userId,
-          browSort: 1,
-          locationX: app.globalData.userInfo.lng,
-          locationY: app.globalData.userInfo.lat,
-          city: that.data._city ? that.data._city : app.globalData.userInfo.city,
-          isDeleted: 0,
-          actId:41,
-          page: that.data.page,
-          rows: 6
-        };
-        for (var key in _parms) {
-          _values += key + "=" + _parms[key] + "&";
-        }
-        _values = _values.substring(0, _values.length - 1);
+      _parms = {
+        zanUserId: app.globalData.userInfo.userId,
+        browSort: 1,
+        locationX: app.globalData.userInfo.lng,
+        locationY: app.globalData.userInfo.lat,
+        city: that.data._city ? that.data._city : app.globalData.userInfo.city,
+        isDeleted: 0,
+        actId: 41,
+        page: that.data.page,
+        rows: 6
+      };
+      for (var key in _parms) {
+        _values += key + "=" + _parms[key] + "&";
+      }
+      _values = _values.substring(0, _values.length - 1);
       url = that.data._build_url + 'goodsSku/listForAct?' + _values;
       // }
       _Url = encodeURI(url);
@@ -638,7 +653,7 @@ Page({
           "Authorization": app.globalData.token
         },
         success: function(res) {
-          console.log("res:",res)
+          console.log("res:", res)
           if (res.data.code == 0) {
             if (res.data.data.list && res.data.data.list.length > 0) {
               let list = res.data.data.list,
@@ -768,12 +783,24 @@ Page({
       that.setData({
         issnap: true
       })
+    } else if(!this.data.isApro){
+      wx.showToast({
+        title: '跳转中...',
+        icon:'none'
+      })
     } else {
+      console.log("actId:", this.data.actId)
+      that.setData({
+        isApro:false
+      })
       if (this.data.actId && this.data.actId != 41) {
+        console.log('1111')
         url = that.data._build_url + 'goodsBar/skuRedis?skuId=' + this.data.id;
       } else if (this.data.actId == 41) {
+        console.log('2222')
         url = that.data._build_url + 'goodsBar/skuRedis?actId=41&skuId=' + this.data.id;
       } else {
+        console.log('3333')
         url = that.data._build_url + 'bargain/skuRedis?skuId=' + this.data.id;
       }
       wx.request({
@@ -783,8 +810,9 @@ Page({
         },
         method: 'GET',
         success: function(res) {
+          console.log('res:', res)
+          let _shopId = that.data.shopId ? that.data.shopId : that.data.soData.shopId;
           if (res.data.code == 0) {
-            let _shopId = that.data.shopId ? that.data.shopId : that.data.soData.shopId;
             if (res.data.data.length > 0) {
               that.setData({
                 isbargain: true
@@ -799,8 +827,25 @@ Page({
                 wx.navigateTo({
                   url: '../AprogressBar/AprogressBar?refId=' + that.data.id + '&shopId=' + _shopId + '&skuMoneyMin=' + that.data.agioPrice + '&skuMoneyOut=' + that.data.sellPrice + '&categoryId=' + that.data.categoryId
                 })
+                
               }
             }
+            that.setData({
+              isApro: true
+            })
+          } else {
+            if (that.data.actId) {
+              wx.navigateTo({
+                url: '../AprogressBar/AprogressBar?refId=' + that.data.id + '&shopId=' + _shopId + '&skuMoneyMin=' + that.data.agioPrice + '&skuMoneyOut=' + that.data.sellPrice + '&actId=' + that.data.actId + '&categoryId=' + that.data.categoryId
+              })
+            } else {
+              wx.navigateTo({
+                url: '../AprogressBar/AprogressBar?refId=' + that.data.id + '&shopId=' + _shopId + '&skuMoneyMin=' + that.data.agioPrice + '&skuMoneyOut=' + that.data.sellPrice + '&categoryId=' + that.data.categoryId
+              })
+            }
+            that.setData({
+              isApro: true
+            })
           }
         }
       })
@@ -831,12 +876,12 @@ Page({
     console.log('onReachBottom11111')
     console.log('actId:', this.data.actId)
     // if (!this.data.actId) {
-      this.setData({
-        page: this.data.page + 1,
-        loading: true
-      }, () => {
-        this.hotDishList();
-      });
+    this.setData({
+      page: this.data.page + 1,
+      loading: true
+    }, () => {
+      this.hotDishList();
+    });
     // }
   },
   onPullDownRefresh: function() { //下拉刷新 

@@ -1,58 +1,49 @@
 <!-- <view class="categoryBox"> -->
-<!-- <view class="search">
+  <!-- <view class="search">
     <view class="search_inner">
       <image src="/images/icon/hot_search.png"></image>
       <input placeholder='搜索商品'></input>
     </view>
   </view> -->
-<!-- 骨架屏模块 -->
-<skeleton selector="skeleton" loading="spin" bgcolor="#FFF" wx:if="{{showSkeleton}}"></skeleton>
-<view class="spinbox" wx:if="{{showSkeletonRight}}">
-  <view class="spin"></view>
-</view>
-<view class="category">
-  <view class="category_l">
-    <view wx:for="{{sort}}" wx:for-item="item" wx:key="{{index}}" class="l_list {{item.categoryId == sortId ? 'active' : ''}}" id="{{item.categoryId}}" bindtap='bindSort'>
-      <view wx:if="{{item.categoryId == sortId}}" class="l_list_icon">
-        <view></view>
+  <view class="category">
+    <view class="category_l">
+      <view wx:for="{{sort}}" wx:for-item="item" wx:key="{{index}}" class="l_list {{item.id == sortId ? 'active' : ''}}" id="{{item.id}}" bindtap='bindSort'>
+        <view wx:if="{{item.id == sortId}}" class="l_list_icon">
+          <view></view>
+        </view>
+        <view class="l_list_txt">{{item.categoryName}}</view>
       </view>
-      <view class="l_list_txt">{{item.goodsCategory.categoryName}}</view>
     </view>
-  </view>
-  <view class="category_r">
-    <view class="r_cont">
-      <view class="classify_list">
-        <view wx:for="{{comList}}" wx:key="{{index}}" class="classify_item" id="{{item.id}}" data-cate="{{item.categoryId}}"  data-shopid="{{item.shopId}}" bindtap='bindItem'>
-          <view class="classify_l_r">
-            <view class="img-box">
-              <image-loader width="108rpx" height="108rpx" class='hot-recoItem-leftImg' default-image='/images/icon/morentu.png' mode='aspectFill' original-image="{{item.skuPic?item.skuPic:'/images/icon/morentu.png'}}" />
-              <!-- <image src="{{item.skuPic}}"></image> -->
-            </view>
-            <view>
-              <view class="goods_tit">{{item.skuName}}</view>
-              <view class="goods_addr">{{item.salePointOuts[0].address}}</view>
-              <text class="goods_icon">全民砍价</text>
-              <view class="priceBox">
-                <text class="discount_price">￥{{item.goodsPromotionRules[0].actAmount}}</text>
-                <text class="original_price">￥{{item.sellPrice}}</text>
+    <view class="category_r">
+      <view class="r_cont">
+        <view class="classify_list">
+          <view wx:for="{{comList}}" wx:key="{{index}}" class="classify_item" id="{{item.id}}" data-cate="{{item.categoryId}}" bindtap='bindItem'>
+            <view class="classify_l_r">
+              <image src="{{item.skuPic}}"></image>
+              <view>
+                <view class="goods_tit">{{item.skuName}}</view>
+                <view class="goods_addr">{{item.salePointOuts[0].address}}</view>
+                <text class="goods_icon">全民砍价</text>
+                <view class="priceBox">
+                  <text class="discount_price">￥{{item.goodsPromotionRules[0].actAmount}}</text>
+                  <text class="original_price">￥{{item.sellPrice}}</text>
+                </view>
               </view>
             </view>
           </view>
         </view>
-      </view>
-
-      <view wx:if="{{comList.length < 1}}" style="margin-top:100rpx;">
-        <view style="font-size:30rpx;color:#969696;text-align:center;">暂无数据</view>
-        <image src="/images/icon/zhanweitu.png" style="width:312rpx;height:203rpx;display:block;margin:20rpx auto 0;"></image>
         
-      </view>
+        <view wx:if="{{comList.length < 1}}" class='placeholder'>
+        <view class='ruahu'>再等等，商家正在入驻中</view>
+          <!-- <image src="/images/icon/zhanweitu.png"></image> -->
+        </view>
 
-      <view class='boxload'>
-        <i-spin custom wx:if="{{loading}}">
-          <view class="loading"></view>
-        </i-spin>
+        <view class='boxload'>
+          <i-spin custom wx:if="{{loading}}">
+            <view class="loading"></view>
+          </i-spin>
+        </view>
       </view>
     </view>
   </view>
-</view>
 <!-- </view> -->

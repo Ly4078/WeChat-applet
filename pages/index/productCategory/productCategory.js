@@ -28,21 +28,38 @@ Page({
   },
   //获取类别数据
   getsortdata: function () {
-    let that = this;
-    let url = this.data._build_url + 'actGoodsSku/getSpuList?actId=' + this.data.actId
+
+    let that = this,_url='';
+    _url ='goodsCategory/list';
+    // _url = 'actGoodsSku/getSpuList?actId=' + this.data.actId;
     wx.request({
-      url: encodeURI(url),
+      url: this.data._build_url + _url,
       header: {
         "Authorization": app.globalData.token
       },
       success: function (res) {
+        console.log("res:",res)
+        // return
         if (res.data.code == 0) {
           if (res.data.data && res.data.data.length > 0) {
+            let _data = res.data.data, sortarr=[];
+            for (let i in _data){
+              if(_data[i].status ==1){
+                if (_data[i].children && _data[i].children.length > 0) {
+                  let _children = _data[i].children;
+                  for (let j in _children) {
+                    if (_children[j].status == 1) {
+                      sortarr.push(_children[j]);
+                    }
+                  }
+                }
+              }
+            }
             that.setData({
-              sort: res.data.data,
-              sortId: res.data.data[0].categoryId
+              sort: sortarr,
+              sortId: sortarr[0].id
             })
-            that.getlistdata(res.data.data[0].categoryId, 'reset');
+            that.getlistdata(sortarr[0].id, 'reset');
           } else {
             that.setData({
               loading: false,

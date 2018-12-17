@@ -133,7 +133,7 @@ page, .categoryBox {
   border-bottom: 1rpx solid #EBEBEB;
 }
 .classify_item .img-box{
-    height: 108rpx;
+  height: 108rpx;
   width: 108rpx;
   margin-right: 30rpx;
   overflow: hidden;
@@ -141,6 +141,7 @@ page, .categoryBox {
 .classify_item image {
   height: 108rpx;
   width: 108rpx;
+  margin-right: 25rpx;
 }
 
 .classify_l_r {

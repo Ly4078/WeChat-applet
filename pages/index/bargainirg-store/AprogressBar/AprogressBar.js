@@ -425,14 +425,13 @@ Page({
         wx.stopPullDownRefresh();
         if (res.data.code == 0) {
           if (res.data.data) {
-            
             let data = res.data.data,
               reg = /^1[34578][0-9]{9}$/,
               endTime = data[0].endTime.replace(/\-/g, "/"),
               max = (+_this.data.skuMoneyOut - _this.data.skuMoneyMin).toFixed(2),
               doneBargain = (+_this.data.skuMoneyOut - data[0].skuMoneyNow).toFixed(2),
               progress = 0;
-            console.log('skuMoneyOut:', _this.data.skuMoneyOut)
+            console.log('datadatadatadata:', data)
             console.log("resdata_data:", data)
             progress = doneBargain / max * 100;
             console.log("progress:", progress)
@@ -516,8 +515,6 @@ Page({
                 });
               }
             }
-
-
 
             _this.setData({
               peopleList: peopleList
@@ -942,7 +939,7 @@ Page({
     if (!app.globalData.userInfo.lng && !app.globalData.userInfo.lat) {
       that.getlocation();
     } else {
-      if (that.data.actId) {
+      if (that.data.actId && that.data.categoryId) {
         _parms = {
           id: that.data.refId,
           actId: that.data.actId,
@@ -951,8 +948,9 @@ Page({
           locationY: app.globalData.userInfo.lat,
           city: this.data._city ? this.data._city : app.globalData.userInfo.city,
           page: this.data.page,
-          rows: 6
+          rows: 10
         }
+        
         for (var key in _parms) {
           _values += key + "=" + _parms[key] + "&";
         }
@@ -985,9 +983,13 @@ Page({
         },
         success: function(res) {
           wx.stopPullDownRefresh();
-          wx.hideLoading();
           if (res.data.code == 0) {
             if (res.data.data.list && res.data.data.list.length > 0) {
+              if (that.data.page == 1) {
+                that.setData({
+                  hotDishList:[]
+                });
+              }
               let list = res.data.data.list,
                 hotDishList = that.data.hotDishList;
               var arr = [];
@@ -1029,12 +1031,12 @@ Page({
     }
   },
   onReachBottom: function() { //用户上拉触底加载更多
-    if (!this.data.flag) {
-      return false;
-    }
-    if (requestTask) {
-      return false
-    }
+    // if (!this.data.flag) {
+    //   return false;
+    // }
+    // if (requestTask) {
+    //   return false
+    // }
     this.setData({
       page: this.data.page + 1
     });

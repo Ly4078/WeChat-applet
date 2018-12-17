@@ -620,7 +620,7 @@ Page({
     let id = e.currentTarget.id,
       shopId = e.currentTarget.dataset.index;
     wx.navigateTo({
-      url: 'bargainirg-store/CandyDishDetails/CandyDishDetails?id=' + id + '&shopId=' + shopId
+      url: 'bargainirg-store/CandyDishDetails/CandyDishDetails?id=' + id + '&shopId=' + shopId +'&categoryId=8'
     })
   },
   handbaoming(e) {
