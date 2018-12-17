@@ -4,8 +4,6 @@ import {
 } from '/../../../utils/config/config.js';
 var utils = require('../../../utils/util.js')
 var app = getApp();
-
-
 var village_LBS = function(that) {
   wx.getLocation({
     success: function(res) {
