@@ -541,6 +541,11 @@ Page({
     }
 
   },
+  seepiaoDetail:function(){//查看票券
+    wx.navigateTo({
+      url: '/pages/personal-center/my-discount/my-discount',
+    })
+  },
   // 遮罩层显示
   showShade: function() {
     this.setData({
