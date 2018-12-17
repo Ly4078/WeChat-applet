@@ -106,7 +106,6 @@ Page({
               arr = that.data.comList ? that.data.comList : []
               arr = arr.concat(res.data.data.list)
             }
-            console.log('comListarr:',arr)
             that.setData({
               comList: arr,
               loading: false,
@@ -162,11 +161,9 @@ Page({
 
   //点击某个商品
   bindItem: function (e) {
-    console.log('e:',e);
     let _id = e.currentTarget.id,
       _shopid = e.currentTarget.dataset.shopid,
       _categoryId = e.currentTarget.dataset.cate;
-    console.log("_shopid:", _shopid)
     wx.navigateTo({
       url: '/pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails?id=' + _id + '&actId=' + this.data.actId + '&categoryId=' + _categoryId + '&shopId=' + _shopid,
     })
