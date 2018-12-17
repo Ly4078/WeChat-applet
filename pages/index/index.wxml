@@ -4,7 +4,7 @@
 <skeleton selector="skeleton" loading="spin" bgcolor="#FFF" wx:if="{{showSkeleton}}"></skeleton>
 
 <button catchtap='togrourp'>拼购演示 快捷入口</button>
-
+<button  catchtap='getfptt'>获取发票抬头</button>
 <view class="container" >
   <!--顶部 定位 搜索 卷  -->
   <!-- 头部搜索 after  -->

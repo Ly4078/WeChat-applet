@@ -26,12 +26,12 @@ Page({
     }
     this.getsortdata();
   },
-
   //获取类别数据
   getsortdata: function () {
     let that = this;
+    let url = this.data._build_url + 'actGoodsSku/getSpuList?actId=' + this.data.actId
     wx.request({
-      url: this.data._build_url + 'actGoodsSku/getSpuList?actId=' + this.data.actId,
+      url: encodeURI(url),
       header: {
         "Authorization": app.globalData.token
       },
@@ -90,8 +90,9 @@ Page({
     // return
     let that = this;
     requestTask = true;
+    let url = this.data._build_url + 'goodsSku/listForAct?actId=' + this.data.actId + '&categoryId=' + sortId + '&rows=' + this.data.rows + '&page=' + this.data.page + '&city=' + app.globalData.userInfo.city
     goodsRequestTask = wx.request({
-      url: this.data._build_url + 'goodsSku/listForAct?actId=' + this.data.actId + '&categoryId=' + sortId + '&rows=' + this.data.rows + '&page=' + this.data.page + '&city=' + app.globalData.userInfo.city,
+      url: encodeURI(url),
       header: {
         "Authorization": app.globalData.token
       },

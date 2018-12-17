@@ -68,6 +68,13 @@ Page({
       url: '/packageA/pages/tourismAndHotel/tourismAndHotel?id=43',
     })
   },
+  getfptt:function(){
+    wx.chooseInvoiceTitle({
+      success:function(res){
+        console.log(res)
+      }
+    })
+  },
   onLoad: function(options) {
     let that = this;
     setTimeout(() => {

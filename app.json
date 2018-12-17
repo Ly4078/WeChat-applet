@@ -93,7 +93,9 @@
         "name": "pack1",
         "pages": [
           "pages/tourismAndHotel/tourismAndHotel",
-          "pages/tourismAndHotel/touristHotelDils/touristHotelDils"
+          "pages/tourismAndHotel/touristHotelDils/touristHotelDils",
+          "pages/tourismAndHotel/touristHotelDils/order-for-goods/order-for-goods"
+          
         ]
      }
   ],

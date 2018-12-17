@@ -2,6 +2,7 @@
 <!-- 骨架屏结构 -->
 <skeleton selector='skeleton' loading='spin' bgcolor='#fff' wx:if="{{showSkeleton}}">
 </skeleton>
+<button catchtap='toDetails'>确认订单页面</button>
 <view class=''>
   <view class='tripodsTop'>
     <image catchtap='todetail' class='tripods' mode='aspectFill' src='{{singleData.skuPic?singleData.skuPic:"/images/icon/morentu.png"}}'></image>
