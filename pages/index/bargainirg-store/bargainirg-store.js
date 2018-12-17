@@ -62,6 +62,9 @@ Page({
             cuisineArray = this.data.cuisineArray;
           for (let i = 0; i < list.length; i++) {
             list[i].distance = utils.transformLength(list[i].distance);
+            if(list[i].shopId == 0){
+              list[i].shopName = '享七自营'
+            }
             cuisineArray.push(list[i]);
           }
           this.setData({

@@ -218,6 +218,7 @@
       </view>
     </view>
   </view>
+  {{isGroup}}
   <!-- 底部联系客服再次/购买 -->
    <view class='secondOrderLeader' wx:if="{{isGroup}}">
     <!-- <view catchtap='toRefund' class="Refund">申请退款</view> -->

@@ -5,7 +5,13 @@
       <input placeholder='搜索商品'></input>
     </view>
   </view> -->
-  <view class="category">
+
+<!-- 骨架屏模块 -->
+<skeleton selector="skeleton" loading="spin" bgcolor="#FFF" wx:if="{{showSkeleton}}"></skeleton>
+<view class="spinbox" wx:if="{{showSkeletonRight}}">
+  <view class="spin"></view>
+</view>
+<view class="category">
     <view class="category_l">
       <view wx:for="{{sort}}" wx:for-item="item" wx:key="{{index}}" class="l_list {{item.id == sortId ? 'active' : ''}}" id="{{item.id}}" bindtap='bindSort'>
         <view wx:if="{{item.id == sortId}}" class="l_list_icon">
@@ -13,6 +19,7 @@
         </view>
         <view class="l_list_txt">{{item.categoryName}}</view>
       </view>
+
     </view>
     <view class="category_r">
       <view class="r_cont">

@@ -87,7 +87,6 @@ Page({
       page: 1,
       isshowlocation: false
     });
-    console.log("show:", app.globalData)
     if (app.globalData.userInfo.userId) {
       if (app.globalData.userInfo.mobile) {
         if (app.globalData.token) {
@@ -104,7 +103,6 @@ Page({
           if (this.data.groupId) {
             this.bargain();
           } else {
-            console.log("a11111")
             this.createBargain();
           }
           // this.bargain();
@@ -336,7 +334,6 @@ Page({
       _parms = {},
       url = "",
       that = this;
-    console.log("createBargain_actid:", this.data.actId)
     if (this.data.actId) {
       _parms = {
         refId: this.data.refId,
@@ -377,7 +374,6 @@ Page({
             title: '发起成功',
             icon: 'none'
           })
-          console.log("222222")
           that.setData({
             isMine: true,
             status: 1,
@@ -391,7 +387,6 @@ Page({
   },
   //获取砍价券详情
   bargain() {
-    console.log("bargain")
     let _parms = {},
       _this = this,
       _values = "",
@@ -414,7 +409,6 @@ Page({
     } else {
       url = _this.data._build_url + 'bargain/skuGroup?' + _values;
     }
-    console.log('url:', url)
     wx.request({
       url: url,
       header: {
@@ -431,10 +425,8 @@ Page({
               max = (+_this.data.skuMoneyOut - _this.data.skuMoneyMin).toFixed(2),
               doneBargain = (+_this.data.skuMoneyOut - data[0].skuMoneyNow).toFixed(2),
               progress = 0;
-            console.log('datadatadatadata:', data)
-            console.log("resdata_data:", data)
+
             progress = doneBargain / max * 100;
-            console.log("progress:", progress)
             let _move = doneBargain / max * 1;
             _move *= 500;
 
@@ -446,7 +438,6 @@ Page({
             _this.setData({
               move: _move - 14
             })
-            console.log('move:',_this.data.move)
             if (_this.data.initiator && (_this.data.initiator != app.globalData.userInfo.userId)) {
               _this.setData({
                 isMine: false
@@ -454,7 +445,6 @@ Page({
               _this.isBargain();
             }
             if (_this.data.initiator == app.globalData.userInfo.userId) {
-              console.log("11111111")
               _this.setData({
                 isMine: true
               });
@@ -621,6 +611,9 @@ Page({
         if (res.data.code == 0) {
           if (res.data.data) {
             let data = res.data.data;
+            if(data.shopId == 0){
+              data.shopName='享七自营'
+            }
             that.setData({
               dishData: data,
               showSkeleton: false,
@@ -995,16 +988,24 @@ Page({
               var arr = [];
               for (let i = 0; i < list.length; i++) {
                 list[i].distance = utils.transformLength(list[i].distance);
-                hotDishList.push(list[i]);
-                arr.push(list[i]);
+                if (list[i].goodsPromotionRules && list[i].goodsPromotionRules.length>0){
+                  let _goods = list[i].goodsPromotionRules;
+                  for(let j in _goods){
+                    if (_goods[j].ruleType== 4){
+                      list[i].agioPrice2 = _goods[j].actAmount;
+                      hotDishList.push(list[i]);
+                      arr.push(list[i]);
+                    }
+                  }
+                }
               }
-
               if (types == 'next') {
                 arr = [];
                 arr = hotDishList
               } else {
                 arr = arr
               }
+             
               that.setData({
                 hotDishList: arr
               });
@@ -1081,9 +1082,6 @@ Page({
   onShareAppMessage() { //分享给好友帮忙砍价
     let initiator = this.data.initiator ? this.data.initiator : app.globalData.userInfo.userId,
       userInfo = app.globalData.userInfo;
-    let strr = '/pages/index/bargainirg-store/AprogressBar/AprogressBar?refId=' + this.data.refId + '&shopId=' + this.data.shopId + '&skuMoneyOut=' + this.data.skuMoneyOut + '&skuMoneyMin=' + this.data.skuMoneyMin + '&initiator=' + initiator + '&groupId=' + this.data.groupId + '&lat=' + userInfo.lat + '&lng=' + userInfo.lng + '&city=' + userInfo.city + '&actId=' + this.data.actId;
-    console.log("strr:", strr)
-
     return {
       title: '帮我砍价！你也有机会直接拿走商品↓↓↓',
       desc: '享7美食',

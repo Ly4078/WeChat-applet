@@ -16,7 +16,8 @@
         <view class='symbol-dst'>
           <view hidden='{{!item.shopName}}'>
             <image class='merchantSign' src='/images/icon/original-can.png'></image>
-            <text>{{item.shopName}}</text>
+            <text wx:if="{{item.shopName}}">{{item.shopName}}</text>
+            <text wx:else>{{item.shop.shopName}}</text>
           </view>
           <text wx:if="{{item.distance !='0m'}}">{{item.distance}}</text>
         </view>
@@ -26,8 +27,8 @@
               <text>¥</text>
               <text>底价</text>
             </view>
-            <text class='original-money' wx:if="{{item.agioPrice}}">{{tem.agioPrice}}</text>
-            <text class='original-money' wx:else >{{item.goodsPromotionRules[1].actAmount?item.goodsPromotionRules[1].actAmount:item.goodsPromotionRules[0].actAmount}}</text>
+            <text class='original-money'>{{item.agioPrice2?item.agioPrice2:item.agioPrice}}</text>
+
           </view>
           <text class='original-money-sand'>原价¥{{item.sellPrice}}</text>
         </view>

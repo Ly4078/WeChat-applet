@@ -28,7 +28,6 @@ Page({
   },
   //获取类别数据
   getsortdata: function () {
-
     let that = this,_url='';
     _url ='goodsCategory/list';
     // _url = 'actGoodsSku/getSpuList?actId=' + this.data.actId;

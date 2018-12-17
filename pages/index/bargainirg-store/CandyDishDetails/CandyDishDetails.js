@@ -248,6 +248,7 @@ Page({
     let id = e.currentTarget.id,
       shopId = e.currentTarget.dataset.shopid;
     this.setData({
+      actId:41,
       id: id,
       shopId: shopId,
       page: 1,
