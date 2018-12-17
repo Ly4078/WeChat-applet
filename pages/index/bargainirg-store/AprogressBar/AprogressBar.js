@@ -670,7 +670,7 @@ Page({
     if (this.data.actId) {
       console.log('11111111')
       wx.navigateTo({
-        url: '/pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails?id=' + id + '&actId=' + this.data.actId + '&categoryId=' + _categoryId,
+        url: '/pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails?id=' + id + '&actId=' + this.data.actId + '&categoryId=' + _categoryId + '&shopId=' + _shopId,
       })
     } else {
       console.log('22222')
