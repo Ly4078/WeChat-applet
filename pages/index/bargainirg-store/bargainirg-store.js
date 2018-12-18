@@ -65,8 +65,17 @@ Page({
             if(list[i].shopId == 0){
               list[i].shopName = '享七自营'
             }
+            if (list[i].goodsPromotionRules && list[i].goodsPromotionRules.length>0){
+              let _goods = list[i].goodsPromotionRules;
+              for(let j in _goods){
+                if (_goods[j].ruleType == 4){
+                  list[i].agioPrice2 = _goods[j].actAmount;
+                }
+              }
+            }
             cuisineArray.push(list[i]);
           }
+          console.log('cuisineArray:', cuisineArray)
           this.setData({
             cuisineArray: cuisineArray,
             pageTotal: Math.ceil(res.data.data.total / 8),

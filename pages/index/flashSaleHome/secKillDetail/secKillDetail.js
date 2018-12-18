@@ -24,6 +24,7 @@ Page({
     address: '',
     initiator: '', //发起人
     yuaninitiator: '', //发起人
+    optionsObj:{},
     store_details: [],
     newList: [], //邀请新人列表
     timer: null, //倒计时
@@ -45,9 +46,11 @@ Page({
     legend: []
   },
   onLoad: function(options) {
+    console.log("options:",options)
     let _this = this;
     clearInterval(_this.data.timer);
     this.setData({
+      optionsObj:options,
       timer: null,
       initiator: options.initiator ? options.initiator : '', //发起人Id
       id: options.id,
@@ -535,13 +538,15 @@ return
   },
   //分享给好友
   onShareAppMessage: function() {
-    let that = this
-    let _initiator = app.globalData.userInfo.userId;
+    let that = this,_initiator = app.globalData.userInfo.userId;
+    let shareUrl = '/pages/index/flashSaleHome/secKillDetail/secKillDetail?back=1&initiator=' + _initiator + '&shopId=' + that.data.shopId + '&id=' + that.data.id;
+    if(this.data.actId){
+      shareUrl+='&actId='+this.data.actId
+    };
     return {
-      // title: this.data.skuName,
       title: "2人秒杀仅需0.01元，" + this.data.skuName,
       imageUrl: that.data.shareImg,
-      path: '/pages/index/flashSaleHome/secKillDetail/secKillDetail?back=1&initiator=' + _initiator + '&shopId=' + this.data.shopId + '&id=' + this.data.id,
+      path: shareUrl,
       success: function(res) {
 
       },
