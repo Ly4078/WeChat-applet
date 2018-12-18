@@ -18,10 +18,10 @@ Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
     isshowlocation: false,
-    isunfold:false,
-    isdity:false,
+    isunfold: false,
+    isdity: false,
     dishLish: [],
-    distance:'',
+    distance: '',
     city: '', //商家所在的城市
     sku: 0, //可用票数
     isclick: true,
@@ -66,11 +66,11 @@ Page({
     interval: 50, // 时间间隔
     zanFlag: true, //点赞节流阀
     shareCity: "",
-    hotlist:[],//热销商品
-    hotlist2: []//热销商品
+    hotlist: [], //热销商品
+    hotlist2: [] //热销商品
   },
   onLoad: function(options) {
-    if (options.distance){
+    if (options.distance) {
       this.setData({
         distance: options.distance
       })
@@ -421,39 +421,41 @@ Page({
     });
   },
   //查询热销商品
-  gethotdish:function(){
-    let _parms={},that=this;
+  gethotdish: function() {
+    let _parms = {},
+      that = this;
     _parms = {
       spuType: 10,
       page: 1,
       rows: 20,
-      status:1, 
+      status: 1,
       shopId: that.data.shopid,
       token: app.globalData.token
     };
     Api.crabList(_parms).then((res) => { //查询同类规格列表
       if (res.data.code == 0) {
-        let _hotlist = res.data.data.list, _discount='';
-        if(_hotlist && _hotlist.length>0){
-          for(let i in _hotlist){
+        let _hotlist = res.data.data.list,
+          _discount = '';
+        if (_hotlist && _hotlist.length > 0) {
+          for (let i in _hotlist) {
             if (_hotlist[i].actGoodsSkuOuts && _hotlist[i].actGoodsSkuOuts.length > 0) {
-              for (let j in _hotlist[i].actGoodsSkuOuts){
+              for (let j in _hotlist[i].actGoodsSkuOuts) {
                 _hotlist[i].skuName = utils.uncodeUtf16(_hotlist[i].skuName);
                 _hotlist[i].actGoodsSkuOuts[j].skuName = _hotlist[i].skuName;
                 _hotlist[i].actGoodsSkuOuts[j].id = _hotlist[i].id;
                 _hotlist[i].actGoodsSkuOuts[j].sellPrice = _hotlist[i].sellPrice;
-               
-                _discount = _hotlist[i].actGoodsSkuOuts[j].goodsPromotionRules.actAmount/_hotlist[i].sellPrice*10;
+                _discount = _hotlist[i].actGoodsSkuOuts[j].goodsPromotionRules.actAmount / _hotlist[i].sellPrice * 10;
                 _hotlist[i].actGoodsSkuOuts[j].discount = _discount.toFixed(2);
               }
               _hotlist[i].actGoodsSkuOuts2 = _hotlist[i].actGoodsSkuOuts.slice(1);
             }
           }
+          console.log('_hotlist:', _hotlist)
           that.setData({
-            hotlist:_hotlist,
-            hotlist2: _hotlist.slice(0,3)
+            hotlist: _hotlist,
+            hotlist2: _hotlist.slice(0, 3)
           })
-        }else{
+        } else {
           that.setData({
             hotlist: [],
             hotlist2: []
@@ -463,29 +465,28 @@ Page({
     });
   },
   //点击抢购
-  ClickSnatch:function(e){
+  ClickSnatch: function(e) {
     let id = e.currentTarget.id,
       actId = e.currentTarget.dataset.actid,
       actName = e.currentTarget.dataset.actname,
       shopId = this.data.shopid;
-    if (actName =='砍价'){ //砍价
+    if (actName == '砍价') { //砍价
       wx.navigateTo({
         url: '/pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails?categoryId=8&id=' + id + '&shopId=' + shopId + '&actId=' + actId
       })
-    } else if (actName == '秒杀'){  //秒杀
+    } else if (actName == '秒杀') { //秒杀
       wx.navigateTo({
         url: '/pages/index/flashSaleHome/secKillDetail/secKillDetail?id=' + id + '&shopId=' + shopId + '&actId=' + actId
       })
-    }else{
-      let _hotlist2 = this.data.hotlist2,actObj={};
-      for (let i in _hotlist2){
-        if (id == _hotlist2[i].id){
+    } else {
+      let _hotlist2 = this.data.hotlist2,
+        actObj = {};
+      for (let i in _hotlist2) {
+        if (id == _hotlist2[i].id) {
           actObj = _hotlist2[i]
         }
       }
-      // return
       wx.navigateTo({
-        // url: '/pages/index/crabShopping/crabDetails/submitOrder/submitOrder?id=' + id + '&shopId=' + shopId + '&actId=' + actId
         url: '/pages/index/crabShopping/crabDetails/submitOrder/submitOrder?num=1&issku=3&flag=1&picUrl=' + actObj.skuPic + '&sellPrice=' + actObj.sellPrice + '&id=' + actObj.id + '&actId=' + actObj.actId + '&skuName=' + actObj.skuName + '&remark=' + actObj.remark + '&shopId=' + actObj.shopId + '&singleType=' + actObj.singleType + '&spuId=' + actObj.spuId
       })
     }
@@ -589,7 +590,7 @@ Page({
 
     this.gethotdish();
     this.getstoredata();
-   
+
     this.selectByShopId();
     this.recommendation();
     this.isCollected();
@@ -705,25 +706,25 @@ Page({
             let _data = res.data.data;
             _data.popNum = utils.million(_data.popNum);
             if (_data.address.indexOf('-') > 0) {
-              _data.address = _data.address.replace(/-/g, ""); 
+              _data.address = _data.address.replace(/-/g, "");
               _data.distance = utils.transformLength(_data.distance);
             }
-            if (_data.shopInfo && _data.shopInfo !='null'){
+            if (_data.shopInfo && _data.shopInfo != 'null') {
               _data.shopInfo = utils.uncodeUtf16(_data.shopInfo);
-            }else{
-              _data.shopInfo=''
+            } else {
+              _data.shopInfo = ''
             }
-            if (_data.distance == '0m' || !_data.distance){
+            if (_data.distance == '0m' || !_data.distance) {
               _data.distance = that.data.distance;
             }
-            let _storeType = _data.businessCate ? _data.businessCate.split(',') : []; 
-            if (_storeType && _storeType.length>0){
-              for (let i in _storeType){
+            let _storeType = _data.businessCate ? _data.businessCate.split(',') : [];
+            if (_storeType && _storeType.length > 0) {
+              for (let i in _storeType) {
                 let arr = _storeType[i].split('/');
-                _storeType[i]=arr[0];
+                _storeType[i] = arr[0];
               }
             }
-            if (_data.shopInfo && _data.shopInfo != 'null'){
+            if (_data.shopInfo && _data.shopInfo != 'null') {
               _data.shopInfo2 = _data.shopInfo.slice(0, 20) + '...';
             }
             that.setData({
@@ -744,7 +745,7 @@ Page({
       }
     })
   },
-  clickjt:function(){
+  clickjt: function() {
     this.setData({
       isunfold: !this.data.isunfold
     })
@@ -904,7 +905,7 @@ Page({
           _data[i].timeDiffrence = utils.timeDiffrence(data.currentTime, _data[i].updateTime, _data[i].createTime)
         }
         that.setData({
-          merchantArt: _data.slice(0,3)
+          merchantArt: _data.slice(0, 3)
         });
 
       } else {
@@ -1056,7 +1057,7 @@ Page({
     })
   },
   //打开地图，已授权位置
-  openmap: function () {
+  openmap: function() {
     let that = this,
       storeDetails = that.data.store_details;;
     wx.openLocation({
@@ -1065,8 +1066,8 @@ Page({
       scale: 18,
       name: storeDetails.shopName,
       address: storeDetails.address,
-      success: function (res) { },
-      fail: function (res) { }
+      success: function(res) {},
+      fail: function(res) {}
     })
   },
   //获取用户位置经纬度
@@ -1163,7 +1164,7 @@ Page({
                 }
               }
               that.setData({
-                comment_list: _data.slice(0,3)
+                comment_list: _data.slice(0, 3)
               })
             }
           }
@@ -1441,17 +1442,17 @@ Page({
       })
     }
   },
-  clickdity:function(){
+  clickdity: function() {
     this.setData({
-      isdity:!this.data.isdity
+      isdity: !this.data.isdity
     })
-    if(this.data.isdity){
+    if (this.data.isdity) {
       this.setData({
         hotlist2: this.data.hotlist
       })
-    }else{
+    } else {
       this.setData({
-        hotlist2: this.data.hotlist.slice(0,3)
+        hotlist2: this.data.hotlist.slice(0, 3)
       })
     }
   },
@@ -1463,7 +1464,8 @@ Page({
   },
   //商家推荐列表
   shopList() {
-    let that = this, _parms={};
+    let that = this,
+      _parms = {};
     if (!app.globalData.userInfo.lng && !app.globalData.userInfo.lat) {
       this.TencentMap();
       return;
@@ -1476,8 +1478,8 @@ Page({
       rows: 10,
       token: app.globalData.token
     }
-    if (this.data.store_details.businessCate){
-      _parms.businessCate=this.data.store_details.businessCate.split('/')[0].split(',')[0];
+    if (this.data.store_details.businessCate) {
+      _parms.businessCate = this.data.store_details.businessCate.split('/')[0].split(',')[0];
     }
     Api.shoplist(_parms).then((res) => {
       if (res.data.code == 0) {

@@ -24,7 +24,7 @@
     <view class="category_r">
       <view class="r_cont">
         <view class="classify_list">
-          <view wx:for="{{comList}}" wx:key="{{index}}" class="classify_item" id="{{item.id}}" data-cate="{{item.categoryId}}" data-shopid="{{item.shopId}}" bindtap='bindItem'>
+          <view wx:for="{{comList}}" wx:key="{{index}}" class="classify_item" id="{{item.id}}" data-cate="{{item.id}}" data-shopid="{{item.shopId}}" bindtap='bindItem'>
             <view class="classify_l_r">
               <image src="{{item.skuPic}}"></image>
               <view>

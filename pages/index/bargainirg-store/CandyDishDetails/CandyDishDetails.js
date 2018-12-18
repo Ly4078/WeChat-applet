@@ -86,6 +86,8 @@ Page({
       _title = '门票详情';
     } else if (options.categoryId == 8) {
       _title = '菜品详情';
+    } else if (options.categoryId == 'other') {
+      _title = '商品详情';
     }
     wx.setNavigationBarTitle({
       title: _title

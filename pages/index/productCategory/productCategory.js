@@ -123,6 +123,7 @@ Page({
               arr = that.data.comList ? that.data.comList : []
               arr = arr.concat(res.data.data.list)
             }
+            console.log("arr:",arr)
             that.setData({
               comList: arr,
               loading: false,
@@ -182,7 +183,7 @@ Page({
       _shopid = e.currentTarget.dataset.shopid,
       _categoryId = e.currentTarget.dataset.cate;
     wx.navigateTo({
-      url: '/pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails?id=' + _id + '&actId=' + this.data.actId + '&categoryId=' + _categoryId + '&shopId=' + _shopid,
+      url: '/pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails?id=' + _id + '&actId=' + this.data.actId + '&categoryId=other' + '&shopId=' + _shopid,
     })
   },
   //下拉刷新

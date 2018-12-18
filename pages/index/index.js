@@ -429,6 +429,7 @@ Page({
           } else {
             allList.push(data)
           }
+          console.log("allList:", allList)
           that.setData({
             listStart: arr,
             allList: allList,

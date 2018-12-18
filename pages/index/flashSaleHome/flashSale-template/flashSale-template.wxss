@@ -205,14 +205,17 @@ page {
   border-radius: 11rpx;
   position: relative;
   margin-top: 8rpx;
+  font-size: 20rpx;
+  color: rgba(255, 255, 255, 1);
+  text-align: right;
+  padding-right: 10rpx;
 }
 
 .accuracyQay-text {
   position: absolute;
   left: 56rpx;
   top: -2rpx;
-  font-size: 20rpx;
-  color: rgba(255, 255, 255, 1);
+  
 }
 
 .actualaccurac {
@@ -220,6 +223,7 @@ page {
   height: 22rpx;
   background: rgba(252, 94, 45, 1);
   border-radius: 10rpx;
+  margin-top: -24rpx;
 }
 
 .flashSale-left .shadedow {

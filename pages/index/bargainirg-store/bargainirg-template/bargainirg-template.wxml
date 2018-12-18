@@ -27,7 +27,8 @@
               <text>¥</text>
               <text>底价</text>
             </view>
-            <text class='original-money'>{{item.agioPrice2?item.agioPrice2:item.agioPrice}}</text>
+
+            <text class='original-money'>{{item.agioPrice?item.agioPrice:item.actGoodsSkuOut.goodsPromotionRules.actAmount}}</text>
 
           </view>
           <text class='original-money-sand'>原价¥{{item.sellPrice}}</text>

@@ -4,8 +4,8 @@ var app = getApp();
 var swichrequestflag = false;
 Page({
   data: {
-    showSkeleton:true,
-    SkeletonData:['','','','','',''],
+    showSkeleton: true,
+    SkeletonData: ['', '', '', '', '', ''],
     navbar: ['附近美食', '我的秒杀'],
     currentTab: 0,
     showModal: true,
@@ -20,11 +20,11 @@ Page({
   },
   onShow: function(options) {
     let _this = this;
-    setTimeout( ()=>{
+    setTimeout(() => {
       _this.setData({
-        showSkeleton:false
+        showSkeleton: false
       })
-    },3000)
+    }, 3000)
     clearInterval(_this.data.timer);
     this.setData({
       timer: null,
@@ -53,9 +53,22 @@ Page({
     });
     wx.hideLoading();
   },
+  onPullDownRefresh: function () { //下拉刷新
+    this.setData({
+      page:  1
+    })
+    this.secKillList();
+  },
+  onReachBottom:function(){
+    this.setData({
+      page: this.data.page+1
+    })
+    this.secKillList();
+  },
   secKillList() { //附近美食
-  let that = this;
-    let _parms = {
+    let that = this,
+      _parms = {};
+    _parms = {
       zanUserId: app.globalData.userInfo.userId,
       browSort: 0,
       locationX: app.globalData.userInfo.lng,
@@ -67,7 +80,7 @@ Page({
     };
     swichrequestflag = true;
     Api.secKillList(_parms).then((res) => {
-      if(this.data.page == 1) {
+      if (this.data.page == 1) {
         this.setData({
           aNearbyShop: []
         });
@@ -86,26 +99,34 @@ Page({
           aNearbyShop: aNearbyShop,
           listPages: listPages,
           loading: false,
-          
+
         }, () => {
-           setTimeout( ()=>{
-             that.setData({ showSkeleton: false }) 
-           },200)
+          setTimeout(() => {
+            that.setData({
+              showSkeleton: false
+            })
+          }, 200)
           wx.hideLoading();
-          });
+        });
         swichrequestflag = false;
       } else {
-        this.setData({ loading: false, showSkeleton: false})
+        this.setData({
+          loading: false,
+          showSkeleton: false
+        })
         wx.hideLoading();
       }
     }, () => {
       wx.hideLoading();
-      this.setData({ loading: false, showSkeleton: false })
+      this.setData({
+        loading: false,
+        showSkeleton: false
+      })
       swichrequestflag = false;
     });
   },
   mySecKill() { //我的秒杀列表
-  let that = this;
+    let that = this;
     wx.showLoading({
       title: '加载中...'
     })
@@ -209,12 +230,13 @@ Page({
     })
   },
   //响应点击导航栏
-  navbarTap: function (e) {
+  navbarTap: function(e) {
     let _this = this;
     if (swichrequestflag) {
       return;
     }
-    let oldIdx = this.data.currentTab, idx = e.currentTarget.dataset.idx;
+    let oldIdx = this.data.currentTab,
+      idx = e.currentTarget.dataset.idx;
     if (oldIdx == idx) {
       return;
     }
@@ -225,7 +247,7 @@ Page({
     }, () => {
       if (idx == 0) {
         this.secKillList();
- 
+
         clearInterval(_this.data.timer);
         this.setData({
           timer: null,
@@ -245,7 +267,7 @@ Page({
       url: 'secKillDetail/secKillDetail?id=' + curr.id + '&shopId=' + curr.dataset.shopid
     })
   },
-  onPullDownRefresh: function () { //下拉刷新
+  onPullDownRefresh: function() { //下拉刷新
     if (swichrequestflag) {
       return;
     }
@@ -264,7 +286,7 @@ Page({
     }
   },
   onReachBottom: function() { //上拉加载
-    if (this.data.listPages <= this.data.page){
+    if (this.data.listPages <= this.data.page) {
       return
     }
     if (this.data.currentTab == 0) {
@@ -274,11 +296,11 @@ Page({
       }, () => {
         this.secKillList();
       });
-      
+
     }
-    
-    
-    
-   
+
+
+
+
   }
 })

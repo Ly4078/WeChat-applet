@@ -449,7 +449,6 @@ Page({
                 isMine: true
               });
             }
-            console.log("datadatadata:",data)
             _this.setData({
               skuMoneyNow: data[0].skuMoneyNow,
               doneBargain: doneBargain,
@@ -592,6 +591,9 @@ Page({
       actId: this.data.actId,
       shopId: this.data.shopId
     };
+    if(this.data.actId){
+      _parms.actId=this.data.actId;
+    }
     for (var key in _parms) {
       _value += key + "=" + _parms[key] + "&";
     }
@@ -601,6 +603,7 @@ Page({
     } else {
       url = this.data._build_url + 'sku/getKjc?' + _value;
     }
+    console.log("url:", url)
     wx.request({
       url: url,
       header: {
@@ -997,6 +1000,9 @@ Page({
                       arr.push(list[i]);
                     }
                   }
+                }else{
+                  hotDishList.push(list[i]);
+                  arr.push(list[i]);
                 }
               }
               if (types == 'next') {
