@@ -13,6 +13,7 @@ Page({
     issnap: false, //新用户
     isnew: false, //新用户
     showModal:false,
+    distance:'',
     id: '', //菜id
     picUrl: '',
     skuName: '',
@@ -51,6 +52,7 @@ Page({
     clearInterval(_this.data.timer);
     this.setData({
       optionsObj:options,
+      distance: options.distance ? options.distance:'',
       timer: null,
       initiator: options.initiator ? options.initiator : '', //发起人Id
       id: options.id,
@@ -505,7 +507,7 @@ return
   //跳转至商家主页
   toShopDetail() {
     wx.navigateTo({
-      url: '../../merchant-particulars/merchant-particulars?shopid=' + this.data.shopId
+      url: '../../merchant-particulars/merchant-particulars?shopid=' + this.data.shopId + '&distance=' + this.data.distance
     })
   },
 
@@ -539,7 +541,7 @@ return
   //分享给好友
   onShareAppMessage: function() {
     let that = this,_initiator = app.globalData.userInfo.userId;
-    let shareUrl = '/pages/index/flashSaleHome/secKillDetail/secKillDetail?back=1&initiator=' + _initiator + '&shopId=' + that.data.shopId + '&id=' + that.data.id;
+    let shareUrl = '/pages/index/flashSaleHome/secKillDetail/secKillDetail?back=1&initiator=' + _initiator + '&shopId=' + that.data.shopId + '&id=' + that.data.id + '&distance=' + that.data.distance;
     if(this.data.actId){
       shareUrl+='&actId='+this.data.actId
     };

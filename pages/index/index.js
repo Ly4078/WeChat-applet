@@ -412,7 +412,7 @@ Page({
             if (data.topicVideo.length) {
               for (var i = 0; i < data.topicVideo.length; i++) {
                 if (data.topicVideo[i].content) {
-                  data.topicVideo[i].content = JSON.parse(data.topicVideo[i].content)
+                  data.topicVideo[i].content = JSON.parse(data.topicVideo[i].content);
                 }
               }
             }
@@ -420,7 +420,7 @@ Page({
           try {
             data.skuMS = data.skuMS.slice(0, data.skuMS.length - (data.skuMS.length % 2))
           } catch (err) {
-
+  
           }
           var allList = that.data.allList ? that.data.allList : [];
           if (types == 'reset') {
@@ -430,6 +430,15 @@ Page({
             allList.push(data)
           }
           console.log("allList:", allList)
+
+          for (let i in allList[0].skuKJ){
+            allList[0].skuKJ[i].distance = utils.transformLength(allList[0].skuKJ[i].distance);
+          }
+          for (let i in allList[0].skuMS) {
+            console.log("skuMS:", allList[0].skuMS[i].distance)
+            allList[0].skuMS[i].distance = utils.transformLength(allList[0].skuMS[i].distance);
+            console.log("skuMS:", allList[0].skuMS[i].distance)
+          }
           that.setData({
             listStart: arr,
             allList: allList,
@@ -614,14 +623,15 @@ Page({
   toSecKillDetail(e) { //跳转至菜品详情
     let curr = e.currentTarget;
     wx.navigateTo({
-      url: 'flashSaleHome/secKillDetail/secKillDetail?id=' + curr.id + '&shopId=' + curr.dataset.shopid
+      url: 'flashSaleHome/secKillDetail/secKillDetail?id=' + curr.id + '&shopId=' + curr.dataset.shopid + '&distance=' + curr.dataset.distance
     })
   },
   candyDetails(e) {
     let id = e.currentTarget.id,
+      distance = e.currentTarget.dataset.distance,
       shopId = e.currentTarget.dataset.index;
     wx.navigateTo({
-      url: 'bargainirg-store/CandyDishDetails/CandyDishDetails?id=' + id + '&shopId=' + shopId +'&categoryId=8'
+      url: 'bargainirg-store/CandyDishDetails/CandyDishDetails?id=' + id + '&shopId=' + shopId + '&categoryId=8' + '&distance=' + distance
     })
   },
   handbaoming(e) {

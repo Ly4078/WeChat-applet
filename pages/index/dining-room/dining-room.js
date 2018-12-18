@@ -175,6 +175,7 @@ Page({
                 for (let j in _typeData[i].children){
                   _children.push(_typeData[i].children[j].categoryName)
                 }
+                _children.unshift('全部');
                 that.setData({
                   fooddatas:_children
                 })

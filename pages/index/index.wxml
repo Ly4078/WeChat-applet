@@ -109,7 +109,7 @@
 
         </view>
       </view>
-      <view class="hot-recoItem" catchtap='candyDetails'  id='{{item.id}}' data-index="{{item.shopId}}"  wx:for="{{allList[bigindex].skuKJ}}" wx:key="index">
+      <view class="hot-recoItem" catchtap='candyDetails'    wx:for="{{allList[bigindex].skuKJ}}" wx:key="index" id='{{item.id}}' data-index="{{item.shopId}}" data-distance="{{item.distance}}">
         <image src="/images/newIndex/bargain.png" class="bargain-img"></image>
 
         <view class="hot-recoItem-left">
@@ -179,7 +179,7 @@
           </view>
         </view>
       </view>
-      <view  wx:for="{{allList[bigindex].skuMS}}"  wx:key="index"  id='{{item.id}}'                  data-shopid="{{item.shopId}}" catchtap='toSecKillDetail' class="Dishes-item">
+      <view  wx:for="{{allList[bigindex].skuMS}}"  wx:key="index"  id='{{item.id}}' data-shopid="{{item.shopId}}" data-distance="{{item.distance}}" catchtap='toSecKillDetail' class="Dishes-item">
         <view class="Dishes-top">
           <!-- <image lazy-load='true' mode='aspectFill' wx:if="{{item.picUrl}}" src='{{item.picUrl}}'                     binderror='imageError' bindtap='toSecKillDetail' id="{{item.id}}" data-shopid="{{item.shopId}}            "></image> -->
            <image-loader width="344rpx" height="344rpx" class='hot-recoItem-leftImg'  default-image='/images/icon/morentu.png' mode='aspectFill' original-image="{{item.picUrl?item.picUrl:'/images/icon/morentu.png'}}"  />

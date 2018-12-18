@@ -432,9 +432,7 @@ Page({
       shopId: that.data.shopid,
       token: app.globalData.token
     };
-    console.log("_parms:",_parms)
     Api.crabList(_parms).then((res) => { //查询同类规格列表
-      console.log("res111:",res)
       if (res.data.code == 0) {
         let _hotlist = res.data.data.list,
           _discount = '';
@@ -452,7 +450,6 @@ Page({
               _hotlist[i].actGoodsSkuOuts2 = _hotlist[i].actGoodsSkuOuts.slice(1);
             }
           }
-          console.log('_hotlist:', _hotlist)
           that.setData({
             hotlist: _hotlist,
             hotlist2: _hotlist.slice(0, 3)
@@ -691,7 +688,6 @@ Page({
         }
       });
     }
-
   },
   getstoredata() { //获取店铺详情数据   
     let id = this.data.shopid,
@@ -716,7 +712,7 @@ Page({
             } else {
               _data.shopInfo = ''
             }
-            if (_data.distance == '0m' || !_data.distance) {
+            if (_data.distance == '0' || _data.distance == '0m' || !_data.distance) {
               _data.distance = that.data.distance;
             }
             let _storeType = _data.businessCate ? _data.businessCate.split(',') : [];

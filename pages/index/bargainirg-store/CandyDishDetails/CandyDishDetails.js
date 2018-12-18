@@ -27,6 +27,7 @@ Page({
     isshowlocation: false,
     showModal: false,
     soData: {},
+    distance:'',
     isApro:true,//是否支持跳转
     showSkeleton: true,
     issnap: false, //新用户
@@ -348,7 +349,6 @@ Page({
       _values += key + "=" + _parms[key] + "&";
     }
     _values = _values.substring(0, _values.length - 1);
-    console.log('actid:', that.data.actId)
     if (that.data.actId) {
       url = that.data._build_url + 'goodsSku/selectDetailBySkuIdNew?' + _values;
     } else {
@@ -389,7 +389,6 @@ Page({
                 legend: arr
               })
             } else if (skuInfo) {
-              console.log('22222')
               obj.info.push(skuInfo);
               arr.push(obj);
               if (arr.length > 2) {
@@ -513,7 +512,7 @@ Page({
   //跳转至商家主页
   toShopDetail() {
     wx.navigateTo({
-      url: '../../merchant-particulars/merchant-particulars?shopid=' + this.data.shopId
+      url: '../../merchant-particulars/merchant-particulars?shopid=' + this.data.shopId + '&distance=' + this.data.optObj.distance
     })
   },
   // 电话号码功能
@@ -568,7 +567,9 @@ Page({
         rows: 10,
         token: app.globalData.token
       };
+      console.log('_parms:', _parms)
       Api.listForActs(_parms).then((res) => {
+        console.log('res:', res)
         wx.hideLoading();
         if (res.data.code == 0) {
           if (res.data.data.list && res.data.data.list.length > 0) {
@@ -576,9 +577,9 @@ Page({
               newList = [],
               preDishList = [];
             for (let i = 0; i < list.length; i++) {
-              if (list[i].id != this.data.id) {
+            //   if (list[i].id != this.data.id) {
                 newList.push(list[i]);
-              }
+            //   }
             }
             preDishList = newList.length > 5 ? newList.slice(0, 4) : newList;
 
@@ -595,10 +596,6 @@ Page({
   },
   //热门推荐
   hotDishList() {
-    console.log('hotDishList')
-    // if (this.data.actId ) {
-    //   return
-    // }
     let that = this,
       url = "",
       _Url = "",
@@ -648,7 +645,6 @@ Page({
       url = that.data._build_url + 'goodsSku/listForAct?' + _values;
       // }
       _Url = encodeURI(url);
-      console.log('_Url:', _Url)
       wx.request({
         url: _Url,
         method: 'GET',
@@ -656,7 +652,6 @@ Page({
           "Authorization": app.globalData.token
         },
         success: function(res) {
-          console.log("res:", res)
           if (res.data.code == 0) {
             if (res.data.data.list && res.data.data.list.length > 0) {
               let list = res.data.data.list,
@@ -675,7 +670,6 @@ Page({
                     hotDishList.push(list[i]);
                   }
                 }
-                console.log('hotDishList:', hotDishList)
                 that.setData({
                   hotDishList: hotDishList,
                   pageTotal: Math.ceil(res.data.data.total / 6),
@@ -813,7 +807,6 @@ Page({
         },
         method: 'GET',
         success: function(res) {
-          console.log('res:', res)
           let _shopId = that.data.shopId ? that.data.shopId : that.data.soData.shopId;
           if (res.data.code == 0) {
             if (res.data.data.length > 0) {

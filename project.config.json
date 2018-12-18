@@ -41,9 +41,9 @@
 			"list": [
 				{
 					"id": -1,
-					"name": "1",
-					"pathName": "pages/personal-center/call-back/call-back",
-					"query": "ent=ent&isshopuser=true&iszy=false"
+					"name": "a",
+					"pathName": "pages/index/merchant-particulars/merchant-particulars",
+					"query": "shopid=500&distance=377.7km"
 				}
 			]
 		}

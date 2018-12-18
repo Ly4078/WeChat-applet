@@ -75,7 +75,6 @@ Page({
             }
             cuisineArray.push(list[i]);
           }
-          console.log('cuisineArray:', cuisineArray)
           this.setData({
             cuisineArray: cuisineArray,
             pageTotal: Math.ceil(res.data.data.total / 8),
@@ -116,9 +115,10 @@ Page({
   //菜品砍价详情
   candyDetails: function(e) {
     let id = e.currentTarget.id,
+      distance = e.currentTarget.dataset.distance,
       shopId = e.currentTarget.dataset.index;
     wx.navigateTo({
-      url: 'CandyDishDetails/CandyDishDetails?id=' + id + '&shopId=' + shopId + '&actId=41&categoryId=8'
+      url: 'CandyDishDetails/CandyDishDetails?id=' + id + '&shopId=' + shopId + '&actId=41&categoryId=8'+'&distance=' + distance
     })
   },
   //顶部tab栏
@@ -138,7 +138,6 @@ Page({
     })
   },
   onReachBottom: function() { //用户上拉触底加载更多
-    console.log('onReachBottom:')
     // if (this.data.pageTotal <= this.data.page){
     //   return
     // }
