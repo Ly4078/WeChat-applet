@@ -987,8 +987,8 @@ Page({
                 });
               }
               let list = res.data.data.list,
-                hotDishList = that.data.hotDishList;
-              var arr = [];
+                hotDishList = that.data.hotDishList,arr = [];
+              console.log('list:', list)
               for (let i = 0; i < list.length; i++) {
                 list[i].distance = utils.transformLength(list[i].distance);
                 if (list[i].goodsPromotionRules && list[i].goodsPromotionRules.length>0){
@@ -997,12 +997,12 @@ Page({
                     if (_goods[j].ruleType== 4){
                       list[i].agioPrice2 = _goods[j].actAmount;
                       hotDishList.push(list[i]);
-                      arr.push(list[i]);
+                      // arr.push(list[i]);
                     }
                   }
                 }else{
                   hotDishList.push(list[i]);
-                  arr.push(list[i]);
+                  // arr.push(list[i]);
                 }
               }
               if (types == 'next') {
@@ -1011,11 +1011,11 @@ Page({
               } else {
                 arr = arr
               }
-             
+              console.log('arr:',arr)
               that.setData({
                 hotDishList: arr
               });
-              requestTask = false
+              requestTask = false;
               if (list.length < 6) {
                 that.setData({
                   flag: false

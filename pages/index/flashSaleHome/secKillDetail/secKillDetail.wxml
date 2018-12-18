@@ -96,7 +96,7 @@
       <!-- 商家主页start -->
       <view class='specialWrap' wx:if="{{shopName}}">
         <view class='special'></view>
-        <text>{{shopName}}{{shopName}}</text>
+        <text>{{shopName}}</text>
         <view class='diningRight shopindex' bindtap="toShopDetail">
           <text>商家主页</text>
           <image class='merchant-xiaji' src='/images/icon/home_arrow.png'></image>

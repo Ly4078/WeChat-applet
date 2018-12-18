@@ -432,7 +432,9 @@ Page({
       shopId: that.data.shopid,
       token: app.globalData.token
     };
+    console.log("_parms:",_parms)
     Api.crabList(_parms).then((res) => { //查询同类规格列表
+      console.log("res111:",res)
       if (res.data.code == 0) {
         let _hotlist = res.data.data.list,
           _discount = '';

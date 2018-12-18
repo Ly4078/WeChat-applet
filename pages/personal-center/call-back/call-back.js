@@ -379,6 +379,7 @@ Page({
               })
             }
           } else {
+            // '3412744986'
             that.setData({
               frequency: that.data.frequency+1,
               istihua: !that.data.istihua
@@ -395,12 +396,20 @@ Page({
             }
           }
         } else {
-          wx.showToast({
-            title: '券码错误，请重新输入！',
-            mask: 'true',
-            icon: 'none',
-            duration: 3000
+          that.setData({
+            frequency: that.data.frequency + 1,
+            istihua: !that.data.istihua
           })
+          if (that.data.frequency == 1) {
+            that.gettickets(val);
+          } else if (that.data.frequency == 2) {
+            wx.showToast({
+              title: '券码错误，请重新输入！',
+              mask: 'true',
+              icon: 'none',
+              duration: 3000
+            })
+          }
         }
       }
     })
