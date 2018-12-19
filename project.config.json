@@ -37,13 +37,19 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 0,
+			"current": 1,
 			"list": [
 				{
 					"id": -1,
 					"name": "a",
 					"pathName": "pages/index/merchant-particulars/merchant-particulars",
 					"query": "shopid=500&distance=377.7km"
+				},
+				{
+					"id": -1,
+					"name": "bb",
+					"pathName": "pages/index/crabShopping/crabDetails/submitOrder/submitOrder",
+					"query": "num=1&issku=3&flag=1&picUrl=https://xqmp4-1256079679.file.myqcloud.com/13971489895_1544356907(1).jpg&sellPrice=3&id=6630&actId=41&skuName=海带&remark=null&shopId=1294&singleType=1&spuId=1568"
 				}
 			]
 		}

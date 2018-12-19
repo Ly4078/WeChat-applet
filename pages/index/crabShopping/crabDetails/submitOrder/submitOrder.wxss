@@ -176,6 +176,9 @@ page{
 .equally input{
   width: 75%;
 }
+.boxss{
+  width: 380rpx;
+}
 .eqpicker{
   width: 100%;
   height: 88rpx;
@@ -192,12 +195,19 @@ page{
   float: right;
 }
 
+.jiajian{
+  float: right;
+}
 .delicatese{
   color: #FC5E2D;
 }
 
 .equally:last-child{
   border-bottom: 0rpx;
+}
+.equally button{
+  padding:3px 30rpx;
+  margin: 0;
 }
 .manzen{
   color:#FF4343;

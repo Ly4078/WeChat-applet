@@ -84,12 +84,19 @@
         <!-- <text class='delicatese'>￥{{current.total}}</text> -->
       </view>
       <view class='equally'>
+        <text>数量:</text>
+        <view class='boxss'></view>
+        <button bindtap='lessnum'>-</button>
+        <text class='delicatese'>{{ssnum}}</text>
+        <button bindtap='addnum'>+</button>
+      </view>
+      <view class='equally'>
         <text>合计:</text>
         <text class='delicatese'>￥{{current.total?current.total:total}}</text>
       </view>
+      
     </view>
   </view>
-
   <view class='presentCommtop'></view>
   <!-- 提交订单 -->
   <view class='presentComm'>
@@ -106,15 +113,5 @@
         </view>
       </button>
     </form>
-    <!-- 
-    <view wx:if="{{issku == 3}}" class='presentCommRight sss' bindtap='superMarketOrder'>
-      <view>提交订单</view>
-    </view>
-
-
-    <view wx:else class='presentCommRight bbb' bindtap='submitSoid'>
-      <view>提交订单</view>
-    </view> -->
-
   </view>
 </view>

@@ -16,6 +16,7 @@ Page({
     phone: '',
     address: '',
     issku: '', //issku=3为到店自提
+    ssnum:1,
     num: '',
     sellPrice: '',
     skuName: '',
@@ -149,6 +150,34 @@ Page({
   },
   onUnload() {
     app.globalData.Express = {};
+  },
+  addnum:function(){
+    let _ssnum = this.data.ssnum;
+    _ssnum++;
+    this.setData({
+      ssnum: _ssnum
+    })
+    let _total = this.data.sellPrice * this.data.ssnum;
+    this.setData({
+      total: _total
+    })
+  },
+  lessnum: function () {
+    let _ssnum = this.data.ssnum;
+    _ssnum--;
+    if (_ssnum<1){
+      this.setData({
+        ssnum: 1
+      })
+    }else{
+      this.setData({
+        ssnum: _ssnum
+      })
+    }
+    let _total = this.data.sellPrice*this.data.ssnum;
+    this.setData({
+      total: _total
+    })
   },
   //查询当前商品详情
   getDetailBySkuId: function(val) {
@@ -397,7 +426,7 @@ Page({
       orderItemList: [{
         goodsSkuId: this.data.id,
         goodsSpuId: this.data.spuId,
-        goodsNum: this.data.num,
+        goodsNum: this.data.ssnum,
         shopId: this.data.shopId,
         orderItemShopId: '0'
       }]
