@@ -70,6 +70,8 @@ Page({
     hotlist2: [] //热销商品
   },
   onLoad: function(options) {
+    console.log("options:",options);
+
     if (options.distance) {
       this.setData({
         distance: options.distance
@@ -698,6 +700,7 @@ Page({
         "Authorization": app.globalData.token
       },
       success: function(res) {
+        console.log('resres:',res)
         wx.stopPullDownRefresh();
         if (res.data.code == 0) {
           if (res.data.data) {
@@ -713,7 +716,7 @@ Page({
               _data.shopInfo = ''
             }
             if (_data.distance == '0' || _data.distance == '0m' || !_data.distance) {
-              _data.distance = that.data.distance;
+              _data.distance = utils.calcDistance(_data.locationY, _data.locationX,app.globalData.userInfo.lat, app.globalData.userInfo.lng);
             }
             let _storeType = _data.businessCate ? _data.businessCate.split(',') : [];
             if (_storeType && _storeType.length > 0) {

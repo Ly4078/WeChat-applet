@@ -209,7 +209,6 @@ Page({
             } else {
               const _sale = that.data.salepointId;
               if (app.globalData.userInfo.shopId) {
-                
                 if (_soData.shopId) {
                   if (_soData.salePointOuts && _soData.salePointOuts.length > 0) {
                     if (app.globalData.userInfo.shopId == _soData.shopId) {
@@ -429,9 +428,6 @@ Page({
       _msg ='不符合核销条件，请重新输入',
       _hxData = this.data._soData;
     console.log("4203086123:", this.data._soData)
-
-    console.log("_shopId:", _hxData.shopId)
-    console.log("_shopNmme:", _hxData.shopOut.shopName)
   
     if (!this.data.isconfirm) {
       return false
@@ -451,27 +447,17 @@ Page({
     if (this.data.iszys) {
       let _value = that.data._codees ? that.data._codees : that.data.code,
         url = "",
-        _Url = ""
-      _shopId='',
-        _shopNmme='';
-      console.log("_hxData:123:", _hxData)
-        _shopId = _hxData.shopId ? _hxData.shopId:0;
-      if (_hxData.shopId){
-        _shopId = _hxData.shopId;
-        _shopNmme = _hxData.shopOut.shopName;
-      }else{
-        _shopId = 0;
-        _shopNmme = "享七自营";
-      }
+        _Url = "",
+        _shopNmme='',
+      _shopId = app.globalData.userInfo.shopId ? app.globalData.userInfo.shopId : _hxData.shopId;
+ 
       if (_hxData.type == 1) {
         url = that.data._build_url + 'orderInfo/useOrderInfo?orderCode=' + _value;
       } else if (_hxData.type == 2) {
-        url = that.data._build_url + 'orderCoupon/hxCoupon?shopId=' + _shopId + '&shopName=' + _shopNmme+'&salepointId=' + that.data.hxaleId + '&id=' + _hxData.id;
+        url = that.data._build_url + 'orderCoupon/hxCoupon?shopId=' + _shopId +'&salepointId=' + that.data.hxaleId + '&id=' + _hxData.id;
       }
       console.log("url:",url)
-// '8948483750'
       _Url = encodeURI(url);
-return
       wx.request({
         url: _Url,
         header: {
@@ -502,31 +488,23 @@ return
         url = "",
         _Url = "";
 
-      console.log('_hxData:', _hxData)
       if (_hxData.type == 2 || !_hxData.type) {
         _parms={
-          shopId:0 ,
-          shopName:'享七自营',
+          shopId: app.globalData.userInfo.shopId ? app.globalData.userInfo.shopId : _hxData.shopId,
           id: _hxData.id
         }
-        if (_hxData.shopId) {
-          _parms.shopId = _hxData.shopId;
-          _parms.shopNmme = _hxData.shopOut.shopName;
-        } 
         if (that.data.hxaleId){
           _parms.salepointId = that.data.hxaleId
         }
         for (let key in _parms) {
           _values += key + "=" + _parms[key] + "&";
         }
-
         _values = _values.substring(0, _values.length - 1);
         url = that.data._build_url + 'orderCoupon/hxCoupon?' + _values;
       } else {
         _parms = {
           soId: _hxData.soId, //订单id	Long
           shopId: app.globalData.userInfo.shopId ? app.globalData.userInfo.shopId : "", //商家id	Long
-          shopName: app.globalData.userInfo.shopName ? app.globalData.userInfo.shopName : "", //店铺名称	Date
           shopAmount: that.data.newamount, //消费总额	BigDecimal
           couponId: _hxData.id, //电子券id	Long
           couponCode: _hxData.couponCode, //电子券code	String

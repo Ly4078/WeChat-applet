@@ -60,6 +60,7 @@ Page({
         if (res.data.data.list && res.data.data.list.length > 0) {
           let list = res.data.data.list,
             cuisineArray = this.data.cuisineArray;
+            console.log("list:",list)
           for (let i = 0; i < list.length; i++) {
             list[i].distance = utils.transformLength(list[i].distance);
             if(list[i].shopId == 0){
@@ -75,6 +76,7 @@ Page({
             }
             cuisineArray.push(list[i]);
           }
+          console.log('cuisineArray:', cuisineArray)
           this.setData({
             cuisineArray: cuisineArray,
             pageTotal: Math.ceil(res.data.data.total / 8),
@@ -118,7 +120,7 @@ Page({
       distance = e.currentTarget.dataset.distance,
       shopId = e.currentTarget.dataset.index;
     wx.navigateTo({
-      url: 'CandyDishDetails/CandyDishDetails?id=' + id + '&shopId=' + shopId + '&actId=41&categoryId=8'+'&distance=' + distance
+      url: 'CandyDishDetails/CandyDishDetails?id=' + id + '&shopId=' + shopId + '&actId=41&categoryId=8'
     })
   },
   //顶部tab栏

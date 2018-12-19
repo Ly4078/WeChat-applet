@@ -21,6 +21,7 @@ Page({
     _build_url: GLOBAL_API_DOMAIN,
     realWeight: 0,
     address: {}, //地址
+    dateObj:{},
     date: '', //默认日期
     threeLater: '', //三天后
     tenLater: '', //十天后
@@ -40,9 +41,7 @@ Page({
       locationY: options.locationY
     });
   },
-  onReady: function() {
-
-  },
+ 
   onShow: function() {
     // 计算送达时间
     let today = new Date().getTime(), threeLater = 0, tenLater = 0;
@@ -67,12 +66,6 @@ Page({
       });
       this.getAddressList();
     }
-  },
-  onHide: function() {
-
-  },
-  onUnload() {
-    // app.globalData.Express = {};
   },
   inpTxt(e) { //输入框事件
     this.setData({
@@ -214,6 +207,7 @@ Page({
           let data = res.data.data,
             userId = app.globalData.userInfo.userId;
           _this.setData({
+            dateObj: data,
             isUsed: data.isUsed, //是否使用 0否/1是
             ownId: data.ownId //券所有人
           });
@@ -239,14 +233,16 @@ Page({
       _value = "",
       _url = "";
     _parms = {
-      shopId: 0,
-      shopName: '享7自营',
       sendTime: this.data.date,
       remark: this.data.remarks,
       id: this.data.id,
       sendAmount: this.data.freight,
       couponAddressId: this.data.address.id
     };
+    if (this.data.dateObj.shopOut){
+      _parms.shopId = this.data.dateObj.shopOut.id;
+      _parms.shopName = this.data.dateObj.shopOut.shopName;
+    }
 
     for (var key in _parms) {
       _value += key + "=" + _parms[key] + "&";

@@ -1,7 +1,7 @@
 <view class='exdetails'>
   <image class='logisticsTopImg' src='/images/icon/logisticsTopImg.png'></image>
   
-  <view wx:if="{{rType == 1}}" class='logisticsTopShould'>
+  <view wx:if="{{current.isUsed == 1}}" class='logisticsTopShould'>
     <view class='logisticsTopfront'>
       <text>{{current.expressCode?'已发货':'待发货'}}</text>
     </view>

@@ -371,8 +371,8 @@ Page({
     }
     let that = this;
     let data = {
-      locationX: locations.lat,
-      locationY: locations.lng,
+      locationX: locations.lng,
+      locationY: locations.lat,
       city: locations.city,
       rows: 48,
     }
@@ -429,15 +429,13 @@ Page({
           } else {
             allList.push(data)
           }
-          console.log("allList:", allList)
-
           for (let i in allList[0].skuKJ){
             allList[0].skuKJ[i].distance = utils.transformLength(allList[0].skuKJ[i].distance);
+            
           }
           for (let i in allList[0].skuMS) {
-            console.log("skuMS:", allList[0].skuMS[i].distance)
             allList[0].skuMS[i].distance = utils.transformLength(allList[0].skuMS[i].distance);
-            console.log("skuMS:", allList[0].skuMS[i].distance)
+            
           }
           that.setData({
             listStart: arr,
@@ -631,7 +629,7 @@ Page({
       distance = e.currentTarget.dataset.distance,
       shopId = e.currentTarget.dataset.index;
     wx.navigateTo({
-      url: 'bargainirg-store/CandyDishDetails/CandyDishDetails?id=' + id + '&shopId=' + shopId + '&categoryId=8' + '&distance=' + distance
+      url: 'bargainirg-store/CandyDishDetails/CandyDishDetails?id=' + id + '&shopId=' + shopId + '&categoryId=8' 
     })
   },
   handbaoming(e) {

@@ -220,7 +220,6 @@ Page({
         });
       },
       fail: function (res) {
-
       }
     });
   },

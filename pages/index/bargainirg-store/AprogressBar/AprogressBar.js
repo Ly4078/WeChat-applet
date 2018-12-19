@@ -591,8 +591,8 @@ Page({
       actId: this.data.actId,
       shopId: this.data.shopId
     };
-    if(this.data.actId){
-      _parms.actId=this.data.actId;
+    if (this.data.actId) {
+      _parms.actId = this.data.actId;
     }
     for (var key in _parms) {
       _value += key + "=" + _parms[key] + "&";
@@ -614,8 +614,8 @@ Page({
         if (res.data.code == 0) {
           if (res.data.data) {
             let data = res.data.data;
-            if(data.shopId == 0){
-              data.shopName='享七自营'
+            if (data.shopId == 0) {
+              data.shopName = '享七自营'
             }
             that.setData({
               dishData: data,
@@ -699,7 +699,7 @@ Page({
         parentId: this.data.initiator,
         groupId: this.data.groupId
       };
-      if (this.data.actId){
+      if (this.data.actId) {
         _parms.actId = this.data.actId;
       }
       for (let key in _parms) {
@@ -719,13 +719,13 @@ Page({
         },
         method: 'GET',
         success: function(res) {
-          console.log("res123213:",res)
+          console.log("res123213:", res)
           let code = res.data.code,
             otherStatus = "";
           if (code == 0) {
             otherStatus = 1;
           } else if (code == 200065) {
-           
+
             otherStatus = 2;
           } else if (code == 200066) {
             otherStatus = 3;
@@ -765,7 +765,7 @@ Page({
         parentId: this.data.initiator,
         groupId: this.data.groupId
       };
-      if (this.data.actId){
+      if (this.data.actId) {
         _parms.actId = this.data.actId
       }
       for (let key in _parms) {
@@ -784,7 +784,7 @@ Page({
         },
         method: 'GET',
         success: function(res) {
-          console.log("123213res:",res)
+          console.log("123213res:", res)
           if (res.data.code == 0) {
             _this.tohelpfriend();
           } else if (res.data.code == 200065) {
@@ -856,7 +856,7 @@ Page({
       },
       method: 'POST',
       success: function(res) {
-        console.log("tohelpfriend__res:",res)
+        console.log("tohelpfriend__res:", res)
         if (res.data.code == 0) {
           console.log('cccccccc')
           that.setData({
@@ -946,7 +946,7 @@ Page({
           page: this.data.page,
           rows: 10
         }
-        
+
         for (var key in _parms) {
           _values += key + "=" + _parms[key] + "&";
         }
@@ -983,26 +983,27 @@ Page({
             if (res.data.data.list && res.data.data.list.length > 0) {
               if (that.data.page == 1) {
                 that.setData({
-                  hotDishList:[]
+                  hotDishList: []
                 });
               }
               let list = res.data.data.list,
-                hotDishList = that.data.hotDishList,arr = [];
+                hotDishList = that.data.hotDishList,
+                arr = [];
               console.log('list:', list)
               for (let i = 0; i < list.length; i++) {
                 list[i].distance = utils.transformLength(list[i].distance);
-                if (list[i].goodsPromotionRules && list[i].goodsPromotionRules.length>0){
+                if (list[i].goodsPromotionRules && list[i].goodsPromotionRules.length > 0) {
                   let _goods = list[i].goodsPromotionRules;
-                  for(let j in _goods){
-                    if (_goods[j].ruleType== 4){
+                  for (let j in _goods) {
+                    if (_goods[j].ruleType == 4) {
                       list[i].agioPrice2 = _goods[j].actAmount;
                       hotDishList.push(list[i]);
-                      // arr.push(list[i]);
+                      arr.push(list[i]);
                     }
                   }
-                }else{
+                } else {
                   hotDishList.push(list[i]);
-                  // arr.push(list[i]);
+                  arr.push(list[i]);
                 }
               }
               if (types == 'next') {
@@ -1011,7 +1012,7 @@ Page({
               } else {
                 arr = arr
               }
-              console.log('arr:',arr)
+              console.log('arr:', arr)
               that.setData({
                 hotDishList: arr
               });

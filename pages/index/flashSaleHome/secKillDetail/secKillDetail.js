@@ -13,7 +13,6 @@ Page({
     issnap: false, //新用户
     isnew: false, //新用户
     showModal:false,
-    distance:'',
     id: '', //菜id
     picUrl: '',
     skuName: '',
@@ -25,7 +24,6 @@ Page({
     address: '',
     initiator: '', //发起人
     yuaninitiator: '', //发起人
-    optionsObj:{},
     store_details: [],
     newList: [], //邀请新人列表
     timer: null, //倒计时
@@ -48,18 +46,29 @@ Page({
   },
   onLoad: function(options) {
     console.log("options:",options)
-    let _this = this;
+    let _this = this,_id='',_shopId='';
     clearInterval(_this.data.timer);
+    let q = decodeURIComponent(options.q);
+    if (q && q != 'undefined') {
+      if (utils.getQueryString(q, 'flag') == 4) {
+        _id = utils.getQueryString(q, 'id');
+        _shopId = utils.getQueryString(q, 'shopId');
+      }
+      this.setData({
+        id: _id,
+        shopId: _shopId,
+      })
+    }else{
+      this.setData({
+        id: options.id,
+        shopId: options.shopId,
+        initiator: options.initiator ? options.initiator : '', //发起人Id
+        actId: options.actId ? options.actId : ''
+      })
+    }
     this.setData({
-      optionsObj:options,
-      distance: options.distance ? options.distance:'',
-      timer: null,
-      initiator: options.initiator ? options.initiator : '', //发起人Id
-      id: options.id,
-      shopId: options.shopId,
-      actId: options.actId ? options.actId:''
+      timer: null
     });
-    
   },
   onShow: function() {
     let _this = this,
@@ -507,7 +516,7 @@ return
   //跳转至商家主页
   toShopDetail() {
     wx.navigateTo({
-      url: '../../merchant-particulars/merchant-particulars?shopid=' + this.data.shopId + '&distance=' + this.data.distance
+      url: '../../merchant-particulars/merchant-particulars?shopid=' + this.data.shopId
     })
   },
 
@@ -541,7 +550,7 @@ return
   //分享给好友
   onShareAppMessage: function() {
     let that = this,_initiator = app.globalData.userInfo.userId;
-    let shareUrl = '/pages/index/flashSaleHome/secKillDetail/secKillDetail?back=1&initiator=' + _initiator + '&shopId=' + that.data.shopId + '&id=' + that.data.id + '&distance=' + that.data.distance;
+    let shareUrl = '/pages/index/flashSaleHome/secKillDetail/secKillDetail?back=1&initiator=' + _initiator + '&shopId=' + that.data.shopId + '&id=' + that.data.id;
     if(this.data.actId){
       shareUrl+='&actId='+this.data.actId
     };

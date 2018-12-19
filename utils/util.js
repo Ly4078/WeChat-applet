@@ -32,7 +32,9 @@ function calcDistance(lat1, lng1, lat2, lng2) {
   var deltaLat = radLat1 - radLat2;
   var deltaLng = lng1 * Math.PI / 180 - lng2 * Math.PI / 180;
   var dis = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(deltaLat / 2), 2) + Math.cos(radLat1) * Math.cos(radLat2) * Math.pow(Math.sin(deltaLng / 2), 2)));
-  return dis * 6378137;
+  dis = dis * 6378137;
+  var _dis = this.transformLength(dis);
+  return _dis;
 }
 
 //换算长度 低于1000返回米，否则返回公里

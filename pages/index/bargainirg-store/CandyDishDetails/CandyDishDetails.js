@@ -71,23 +71,52 @@ Page({
   },
   onLoad(options) {
     console.log('options:', options)
-    this.setData({
-      optObj: options,
-      flag: true,
-      page: 1,
-      shopId: options.shopId ? options.shopId : '',
-      id: options.id ? options.id : '',
-      actId: options.actId ? options.actId : '',
-      _city: options.city ? options.city : ''
-    });
-    let _title = '';
-    if (options.categoryId == 5) {
+    //在此函数中获取扫描普通链接二维码参数
+    let _categoryId = '', _title = '', _id = '', _shopId = '',_actId='',that = this;
+    let q = decodeURIComponent(options.q);
+    if (q && q != 'undefined') {
+      console.log(q)
+      if (utils.getQueryString(q, 'flag') == 2) {
+        _id = utils.getQueryString(q, 'id');
+        _shopId = utils.getQueryString(q, 'shopId');
+        _actId = utils.getQueryString(q, 'actId');
+        _categoryId = utils.getQueryString(q, 'categoryId');
+      }
+      let _optOjb={
+        id:_id,
+        shopId:_shopId,
+        categoryId: _categoryId,
+        actId: _actId ? _actId:''
+      };
+      that.setData({
+        optObj: _optOjb,
+        flag: true,
+        page: 1,
+        _categoryId: _categoryId,
+        shopId: _shopId,
+        id: _id,
+        actId: _actId ? _actId : ''
+      })
+    }else{
+      that.setData({
+        optObj: options,
+        flag: true,
+        page: 1,
+        _categoryId: options.categoryId,
+        shopId: options.shopId ? options.shopId : '',
+        id: options.id ? options.id : '',
+        actId: options.actId ? options.actId : '',
+        _city: options.city ? options.city : ''
+      });
+    }
+    
+    if (_categoryId == 5) {
       _title = '酒店详情';
-    } else if (options.categoryId == 6) {
+    } else if (_categoryId == 6) {
       _title = '门票详情';
-    } else if (options.categoryId == 8) {
+    } else if (_categoryId == 8) {
       _title = '菜品详情';
-    } else if (options.categoryId == 'other') {
+    } else {
       _title = '商品详情';
     }
     wx.setNavigationBarTitle({
@@ -265,7 +294,6 @@ Page({
     this.isbargain(false);
   },
   chickinItiate(e) { //点击某个发起砍价
-    console.log("e:", e)
     if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
@@ -279,7 +307,6 @@ Page({
         _parms = {},
         _this = this,
         _sellPrice = e.currentTarget.dataset.sellprice;
-      console.log("_actId:", _actId)
       _parms = {
         userId: app.globalData.userInfo.userId,
         skuId: _refId,
@@ -354,6 +381,7 @@ Page({
     } else {
       url = that.data._build_url + 'sku/getKjc?' + _values;
     }
+    url=encodeURI(url);
     wx.request({
       url: url,
       header: {
@@ -512,7 +540,7 @@ Page({
   //跳转至商家主页
   toShopDetail() {
     wx.navigateTo({
-      url: '../../merchant-particulars/merchant-particulars?shopid=' + this.data.shopId + '&distance=' + this.data.optObj.distance
+      url: '../../merchant-particulars/merchant-particulars?shopid=' + this.data.shopId
     })
   },
   // 电话号码功能
@@ -610,23 +638,23 @@ Page({
     if (app.globalData.userInfo.lat && app.globalData.userInfo.lng) {
       //browSort 0附近 1销量 2价格
       requesting = true;
-      // if (that.data.actId) {
-      //   _parms = {
-      //     id: that.data.id,
-      //     actId: that.data.actId,
-      //     categoryId: that.data.categoryId,
-      //     locationX: app.globalData.userInfo.lng,
-      //     locationY: app.globalData.userInfo.lat,
-      //     city: that.data._city ? that.data._city : app.globalData.userInfo.city,
-      //     page: that.data.page,
-      //     rows: 6
-      //   }
-      //   for (var key in _parms) {
-      //     _values += key + "=" + _parms[key] + "&";
-      //   }
-      //   _values = _values.substring(0, _values.length - 1);
-      //   url = that.data._build_url + 'goodsSku/listForActOut?' + _values;
-      // } else {
+      if (that.data.actId) {
+        _parms = {
+          id: that.data.id,
+          actId: that.data.actId,
+          categoryId: that.data.categoryId,
+          locationX: app.globalData.userInfo.lng,
+          locationY: app.globalData.userInfo.lat,
+          city: that.data._city ? that.data._city : app.globalData.userInfo.city,
+          page: that.data.page,
+          rows: 6
+        }
+        for (var key in _parms) {
+          _values += key + "=" + _parms[key] + "&";
+        }
+        _values = _values.substring(0, _values.length - 1);
+        url = that.data._build_url + 'goodsSku/listForActOut?' + _values;
+      } else {
       _parms = {
         zanUserId: app.globalData.userInfo.userId,
         browSort: 1,
@@ -643,7 +671,7 @@ Page({
       }
       _values = _values.substring(0, _values.length - 1);
       url = that.data._build_url + 'goodsSku/listForAct?' + _values;
-      // }
+      }
       _Url = encodeURI(url);
       wx.request({
         url: _Url,
@@ -786,18 +814,14 @@ Page({
         icon:'none'
       })
     } else {
-      console.log("actId:", this.data.actId)
       that.setData({
         isApro:false
       })
       if (this.data.actId && this.data.actId != 41) {
-        console.log('1111')
         url = that.data._build_url + 'goodsBar/skuRedis?skuId=' + this.data.id;
       } else if (this.data.actId == 41) {
-        console.log('2222')
         url = that.data._build_url + 'goodsBar/skuRedis?actId=41&skuId=' + this.data.id;
       } else {
-        console.log('3333')
         url = that.data._build_url + 'bargain/skuRedis?skuId=' + this.data.id;
       }
       wx.request({
@@ -867,10 +891,6 @@ Page({
     if (this.data.pageTotal <= this.data.page) {
       return
     }
-    console.log('pageTotal:', this.data.pageTotal)
-    console.log('page:', this.data.page)
-    console.log('onReachBottom11111')
-    console.log('actId:', this.data.actId)
     // if (!this.data.actId) {
     this.setData({
       page: this.data.page + 1,

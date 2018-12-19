@@ -264,7 +264,7 @@ Page({
   toSecKillDetail(e) { //跳转至菜品详情
     let curr = e.currentTarget;
     wx.navigateTo({
-      url: 'secKillDetail/secKillDetail?id=' + curr.id + '&shopId=' + curr.dataset.shopid + '&distance=' + curr.dataset.distance
+      url: 'secKillDetail/secKillDetail?id=' + curr.id + '&shopId=' + curr.dataset.shopid 
     })
   },
   onPullDownRefresh: function() { //下拉刷新
