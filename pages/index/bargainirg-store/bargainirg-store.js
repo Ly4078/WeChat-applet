@@ -46,7 +46,7 @@ Page({
       city: app.globalData.userInfo.city,
       isDeleted: 0,
       page: this.data.page,
-      rows: 8,
+      rows: 10,
       token: app.globalData.token
     };
     swichrequestflag = true;
@@ -72,6 +72,13 @@ Page({
                 if (_goods[j].ruleType == 4){
                   list[i].agioPrice2 = _goods[j].actAmount;
                 }
+              }
+            }
+            for (let j in cuisineArray){
+              if (list[i].id == cuisineArray[j].id){
+                console.log("相同数据 :", list[i])
+                console.log("++++++++++++");
+                console.log("相同数据 :", cuisineArray[j])
               }
             }
             cuisineArray.push(list[i]);

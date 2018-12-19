@@ -11,6 +11,10 @@ page{
   position: relative;
 }
 
+.parewx image{
+  width: 100%!important;
+}
+
 .information{
   width: 100%;
   display: flex;

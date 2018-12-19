@@ -70,12 +70,10 @@ Page({
     legend: []
   },
   onLoad(options) {
-    console.log('options:', options)
     //在此函数中获取扫描普通链接二维码参数
     let _categoryId = '', _title = '', _id = '', _shopId = '',_actId='',that = this;
     let q = decodeURIComponent(options.q);
     if (q && q != 'undefined') {
-      console.log(q)
       if (utils.getQueryString(q, 'flag') == 2) {
         _id = utils.getQueryString(q, 'id');
         _shopId = utils.getQueryString(q, 'shopId');
@@ -406,7 +404,6 @@ Page({
             skuInfo = data.skuInfo;
 
             if (skuInfo && skuInfo.indexOf("Œ") != -1) {
-              console.log('11111')
               skuInfo = skuInfo.split('Œ');
               obj.info = skuInfo;
               arr.push(obj);
@@ -426,7 +423,6 @@ Page({
                 legend: arr
               })
             } else {
-              console.log('33333')
               if (arr.length > 1) {
                 arr.splice(1);
               }
@@ -435,19 +431,14 @@ Page({
               })
             }
           } else if (data.remark) {
-            console.log('444444')
             that.setData({
               legend: arr
             })
             remark.push(data.remark)
           } else if (data.actGoodsSkuOuts && data.actGoodsSkuOuts[0].ruleDesc) {
-            console.log('5555555')
             skuInfo = data.actGoodsSkuOuts[0].ruleDesc;
-            console.log("skuInfo:", skuInfo)
             if (skuInfo.indexOf("Œ") != -1) {
-              console.log('55555521111')
               skuInfo = skuInfo.split('Œ');
-              console.log("skuInfo11111:", skuInfo)
               obj.info = skuInfo;
               arr.push(obj);
               if (arr.length > 2) {
@@ -457,7 +448,6 @@ Page({
                 legend: arr
               })
             } else {
-              console.log('5555552222222')
               obj.info.push(skuInfo);
               arr.push(obj);
               if (arr.length > 2) {
@@ -477,15 +467,15 @@ Page({
           }
 
           if (data.goodsSpuOut && data.goodsSpuOut.goodsSpuDesc && data.goodsSpuOut.goodsSpuDesc.content) {
-            article = data.goodsSpuOut.goodsSpuDesc.content + '';
-            if (article.match(pattern)[1]) {
-              pattern = article.match(_RegExp)[1];
-            }
+            article = data.goodsSpuOut.goodsSpuDesc.content;
+            // if (article.match(pattern)[1]) {
+            //   pattern = article.match(_RegExp)[1];
+            // }
             WxParse.wxParse('article', 'html', article, that, 0);
           }
           data.skuName = utils.uncodeUtf16(data.skuName);
           that.setData({
-            pattern: pattern,
+            // pattern: pattern,
             soData: data,
             picUrl: data.picUrl ? data.picUrl : data.skuPic,
             skuName: data.skuName,
@@ -595,9 +585,7 @@ Page({
         rows: 10,
         token: app.globalData.token
       };
-      console.log('_parms:', _parms)
       Api.listForActs(_parms).then((res) => {
-        console.log('res:', res)
         wx.hideLoading();
         if (res.data.code == 0) {
           if (res.data.data.list && res.data.data.list.length > 0) {
@@ -647,7 +635,7 @@ Page({
           locationY: app.globalData.userInfo.lat,
           city: that.data._city ? that.data._city : app.globalData.userInfo.city,
           page: that.data.page,
-          rows: 6
+          rows: 10
         }
         for (var key in _parms) {
           _values += key + "=" + _parms[key] + "&";
@@ -664,7 +652,7 @@ Page({
         isDeleted: 0,
         actId: 41,
         page: that.data.page,
-        rows: 6
+        rows: 10
       };
       for (var key in _parms) {
         _values += key + "=" + _parms[key] + "&";
@@ -698,7 +686,6 @@ Page({
                     hotDishList.push(list[i]);
                   }
                 }
-                console.log("hotDishList:", hotDishList)
                 that.setData({
                   hotDishList: hotDishList,
                   pageTotal: Math.ceil(res.data.data.total / 6),
@@ -882,7 +869,6 @@ Page({
     })
   },
   onReachBottom: function() { //用户上拉触底加载更多
-    console.log('onReachBottom')
     // if (!this.data.flag) {
     //   return false;
     // }

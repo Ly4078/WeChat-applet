@@ -22,7 +22,7 @@
               </view>
               <!-- 推荐菜 -->
               <view class="hotdish skeleton-rect">
-                <text wx:if="{{item.skuName}}">{{item.skuName || ''}}</text>
+                <text wx:if="{{item.goodsSku.skuName}}">{{item.goodsSku.skuName}}</text>
               </view>
               <!--满减  -->
               <view class="fullreduction skeleton-rect">
