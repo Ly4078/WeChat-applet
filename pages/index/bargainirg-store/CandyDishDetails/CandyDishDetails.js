@@ -698,6 +698,7 @@ Page({
                     hotDishList.push(list[i]);
                   }
                 }
+                console.log("hotDishList:", hotDishList)
                 that.setData({
                   hotDishList: hotDishList,
                   pageTotal: Math.ceil(res.data.data.total / 6),

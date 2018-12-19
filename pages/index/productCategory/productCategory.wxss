@@ -12,9 +12,6 @@ page, .categoryBox {
   color: transparent;
 } */
 
-.categoryBox {
-  
-}
 
 /* 搜索框 */
 .search {
@@ -59,8 +56,8 @@ page, .categoryBox {
 .category {
   display: flex;
   flex-direction: row;
-  /* height: 100%; */
-  width: 77%;
+  min-height: 100%;
+  width: 69%;
   margin-left: 31%;
   /* padding-top: 88rpx; */
   box-sizing: border-box;
@@ -113,7 +110,7 @@ page, .categoryBox {
 }
 
 .category_r {
-  height: 69%;
+  /* height: 69%; */
   padding: 0 30rpx 0 25rpx;
   box-sizing: border-box;
   overflow: hidden;

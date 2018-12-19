@@ -162,7 +162,7 @@
                 <view>￥</view>
                 <view>底价</view>
               </view>
-              <view class='dijaiprce'>{{item.agioPrice?item.agioPrice:item.goodsPromotionRules[0].actAmount}}</view>
+              <view class='dijaiprce'>{{item.actGoodsSkuOut.goodsPromotionRules.actAmount}}</view>
               <view class='yunajia'>￥{{item.sellPrice}}</view>
               <view class='goumai'>购买</view>
             </view>
