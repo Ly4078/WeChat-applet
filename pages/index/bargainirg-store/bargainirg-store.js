@@ -60,7 +60,6 @@ Page({
         if (res.data.data.list && res.data.data.list.length > 0) {
           let list = res.data.data.list,
             cuisineArray = this.data.cuisineArray;
-            console.log("list:",list)
           for (let i = 0; i < list.length; i++) {
             list[i].distance = utils.transformLength(list[i].distance);
             if(list[i].shopId == 0){
@@ -74,16 +73,8 @@ Page({
                 }
               }
             }
-            for (let j in cuisineArray){
-              if (list[i].id == cuisineArray[j].id){
-                console.log("相同数据 :", list[i])
-                console.log("++++++++++++");
-                console.log("相同数据 :", cuisineArray[j])
-              }
-            }
             cuisineArray.push(list[i]);
           }
-          console.log('cuisineArray:', cuisineArray)
           this.setData({
             cuisineArray: cuisineArray,
             pageTotal: Math.ceil(res.data.data.total / 8),
@@ -184,8 +175,5 @@ Page({
     this.setData({
       cuisineArray: cuisineArray
     });
-  },
-  enablePullDownRef: function() {
-    console.log('enablePullDownRef')
   }
 })

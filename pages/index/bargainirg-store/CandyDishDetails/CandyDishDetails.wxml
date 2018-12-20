@@ -173,8 +173,8 @@
       </view>
     </view>
   </view>
-  <view class='loadingBox' style="margin-bottom:86rpx;" wx:if="{{shopId!=0}}">
-    <i-spin custom wx:if="{{loading}}">
+  <view class='loadingBox' style="margin-bottom:86rpx;">
+    <i-spin custom wx:if="{{loading && shopId!=0}}">
       <view class="loading"></view>
     </i-spin>
   </view>

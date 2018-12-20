@@ -37,7 +37,6 @@ Page({
         "Authorization": app.globalData.token
       },
       success: function (res) {
-        console.log("res:",res)
         // return
         that.setData({
           loading: false,
@@ -58,7 +57,6 @@ Page({
                 }
               }
             }
-            console.log("sortarr:", sortarr)
             that.setData({
               sort: sortarr,
               sortId: sortarr[0].id

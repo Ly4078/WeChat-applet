@@ -489,8 +489,6 @@ Page({
                 });
               } else if (peopleList[i].user && peopleList[i].user.id) {
                 if (peopleList[i].user.id == app.globalData.userInfo.userId) {
-                  console.log("id:", peopleList[i].user.id)
-                  console.log('ddddddddddd')
                   _this.setData({
                     getGoldNum: peopleList[i].goldAmount,
                     otherStatus: 2
@@ -506,14 +504,12 @@ Page({
             _this.setData({
               peopleList: peopleList
             });
-            console.log('oooooiiuoiuo')
             let miliEndTime = new Date(endTime).getTime(),
               miliNow = new Date().getTime();
             let minus = Math.floor((miliEndTime - miliNow) / 1000);
             if (minus > 0 && minus <= 3610) { //小于60分钟
               //好友进入砍菜页面人数满5人并且超过半小时不能砍价
               if (_this.data.peoplenum >= 5) {
-                console.log("b11111")
                 _this.setData({
                   status: 4,
                   otherStatus: 3
@@ -532,7 +528,6 @@ Page({
                     if (minus == 0) {
                       clearInterval(_this.data.timer);
                       minus = 0;
-                      console.log("b1222")
                       _this.setData({
                         otherStatus: 4,
                         status: 3
@@ -554,21 +549,18 @@ Page({
                 });
               }
             } else {
-              console.log("b1333")
               _this.setData({
                 status: 3,
                 otherStatus: 4
               });
             }
           } else {
-            console.log("b1444")
             _this.setData({
               status: 3,
               otherStatus: 4
             });
           }
         } else {
-          console.log("b1355555")
           _this.setData({
             status: 3,
             otherStatus: 4
@@ -641,7 +633,6 @@ Page({
             });
           }
         } else {
-          console.log("b1666663")
           that.setData({
             status: 3,
             showSkeleton: false,
@@ -657,17 +648,14 @@ Page({
     })
   },
   chilkDish(e) {
-    console.log('chilkDish__e:', e)
     let id = e.currentTarget.id,
       _categoryId = this.data.categoryId,
       _shopId = e.currentTarget.dataset.shipid;
     if (this.data.actId) {
-      console.log('11111111')
       wx.navigateTo({
         url: '/pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails?id=' + id + '&actId=' + this.data.actId + '&categoryId=' + _categoryId + '&shopId=' + _shopId,
       })
     } else {
-      console.log('22222')
       wx.navigateTo({
         url: '../CandyDishDetails/CandyDishDetails?id=' + id + '&shopId=' + _shopId + '&categoryId=' + _categoryId
       })
@@ -717,7 +705,6 @@ Page({
         },
         method: 'GET',
         success: function(res) {
-          console.log("res123213:", res)
           let code = res.data.code,
             otherStatus = "";
           if (code == 0) {
@@ -728,7 +715,6 @@ Page({
           } else if (code == 200066) {
             otherStatus = 3;
           } else if (code == 200068) {
-            console.log('aaaaaaaa')
             otherStatus = 4;
             that.setData({
               status: 3
@@ -782,11 +768,9 @@ Page({
         },
         method: 'GET',
         success: function(res) {
-          console.log("123213res:", res)
           if (res.data.code == 0) {
             _this.tohelpfriend();
           } else if (res.data.code == 200065) {
-            console.log('bbbbb')
             _this.setData({
               otherStatus: 2
             });
@@ -803,7 +787,6 @@ Page({
               icon: 'none'
             })
           } else if (res.data.code == 200068) {
-            console.log("b1777773")
             _this.setData({
               otherStatus: 4,
               status: 3
@@ -846,7 +829,6 @@ Page({
     } else {
       url = this.data._build_url + 'gold/helpfriend?' + _value;
     }
-    console.log("helpfriend_url:", url)
     wx.request({
       url: url,
       header: {
@@ -854,9 +836,7 @@ Page({
       },
       method: 'POST',
       success: function(res) {
-        console.log("tohelpfriend__res:", res)
         if (res.data.code == 0) {
-          console.log('cccccccc')
           that.setData({
             showModal: true,
             showCanvas: true,
@@ -987,7 +967,6 @@ Page({
               let list = res.data.data.list,
                 hotDishList = that.data.hotDishList,
                 arr = [];
-              console.log('list:', list)
               for (let i = 0; i < list.length; i++) {
                 list[i].distance = utils.transformLength(list[i].distance);
                 if (list[i].goodsPromotionRules && list[i].goodsPromotionRules.length > 0) {
@@ -1010,7 +989,6 @@ Page({
               } else {
                 arr = arr
               }
-              console.log('arr:', arr)
               that.setData({
                 hotDishList: arr
               });
@@ -1091,7 +1069,7 @@ Page({
       title: '帮我砍价！你也有机会直接拿走商品↓↓↓',
       desc: '享7美食',
       imageUrl: this.data.shareImg,
-      path: '/pages/index/bargainirg-store/AprogressBar/AprogressBar?refId=' + this.data.refId + '&shopId=' + this.data.shopId + '&skuMoneyOut=' + this.data.skuMoneyOut + '&skuMoneyMin=' + this.data.skuMoneyMin + '&initiator=' + initiator + '&groupId=' + this.data.groupId + '&lat=' + userInfo.lat + '&lng=' + userInfo.lng + '&city=' + userInfo.city + '&actId=' + this.data.actId,
+      path: '/pages/index/bargainirg-store/AprogressBar/AprogressBar?refId=' + this.data.refId + '&shopId=' + this.data.shopId + '&skuMoneyOut=' + this.data.skuMoneyOut + '&skuMoneyMin=' + this.data.skuMoneyMin + '&initiator=' + initiator + '&groupId=' + this.data.groupId + '&lat=' + userInfo.lat + '&lng=' + userInfo.lng + '&city=' + userInfo.city + '&actId=' + this.data.actId + '&categoryId=' + this.data.categoryId,
       success: function(res) {
 
       },
