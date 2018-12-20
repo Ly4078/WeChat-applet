@@ -34,7 +34,7 @@
                 <text class="goods_icon">全民砍价</text>
                 <view class="priceBox">
                   <text class="discount_price">￥{{item.goodsPromotionRules[0].actAmount}}</text>
-                  <text class="original_price">￥{{item.sellPrice}}</text>
+                  <text class="original_price">￥{{item.marketPrice}}</text>
                 </view>
               </view>
             </view>

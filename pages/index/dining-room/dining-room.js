@@ -31,7 +31,7 @@ Page({
   },
 
   onLoad: function (options) {
-    // console.log('options:', options)
+    console.log('options:', options)
     let that = this, _val = "";
     setTimeout(()=>{
       that.setData({
