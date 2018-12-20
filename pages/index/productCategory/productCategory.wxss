@@ -57,14 +57,14 @@ page, .categoryBox {
   display: flex;
   flex-direction: row;
   min-height: 100%;
-  width: 69%;
-  margin-left: 31%;
+  /* width: 69%; */
+  margin-left: 164rpx;
   /* padding-top: 88rpx; */
   box-sizing: border-box;
 }
 
 .category_l {
-  width: 31%;
+  width: 160rpx;
   height: 100%;
   position: fixed;
   left: 0;
@@ -75,7 +75,7 @@ page, .categoryBox {
 }
 
 .l_list {
-  height: 82rpx;
+  min-height: 82rpx;
   position: relative;
 }
 
@@ -134,7 +134,7 @@ page, .categoryBox {
 }
 .classify_item image {
   height: 108rpx;
-  width: 108rpx;
+  max-width: 108rpx;
   margin-right: 25rpx;
 }
 

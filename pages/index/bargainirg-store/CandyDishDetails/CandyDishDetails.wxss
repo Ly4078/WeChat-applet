@@ -605,7 +605,7 @@ page{
 }
 
 .kanj{
-  height: 70rpx;
+  height: 84rpx;
   line-height: 85rpx;
   padding:0 28rpx;
   border-top: 1rpx solid #EBEBEB;
