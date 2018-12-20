@@ -21,8 +21,8 @@ page{
   display: flex;
   justify-content: center;
   /* position: absolute; */
-  /* top: 652rpx; */
-  /* left: 0rpx; */
+  top: 652rpx;
+  left: 0rpx;
 }
 
 .information-inner{
