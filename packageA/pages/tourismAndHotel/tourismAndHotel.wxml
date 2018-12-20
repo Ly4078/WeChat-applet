@@ -37,7 +37,7 @@
             <view class='moneyBtn skeleton-rect'>
               <view class='ruling'>
                 <text>￥{{item.goodsPromotionRules[0].actAmount}}</text>
-                <text>￥{{item.sellPrice}}</text>
+                <text>￥{{item.marketPrice}}</text>
               </view>
               <view class='moneyBtnRight' wx:if="{{item.actGoodsSkuOut.state == '1'}}">参与开团</view>
               <view class='moneyBtnRight' style="background:#ccc;" wx:if="{{item.actGoodsSkuOut.state == '2'}}">开团成功</view>
