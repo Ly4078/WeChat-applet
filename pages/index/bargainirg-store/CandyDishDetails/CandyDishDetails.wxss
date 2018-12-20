@@ -20,9 +20,9 @@ page{
   width: 100%;
   display: flex;
   justify-content: center;
-  position: absolute;
-  top: 652rpx;
-  left: 0rpx;
+  /* position: absolute; */
+  /* top: 652rpx; */
+  /* left: 0rpx; */
 }
 
 .information-inner{
@@ -110,7 +110,7 @@ page{
 /* 使用餐厅 */
 .theFollowing{
   width: 100%;
-  padding-top: 240rpx;
+  /* padding-top: 240rpx; */
   display: flex;
   justify-content: center;
 }

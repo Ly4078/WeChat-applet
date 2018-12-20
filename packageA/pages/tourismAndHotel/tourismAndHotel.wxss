@@ -130,7 +130,7 @@ page {
   letter-spacing: 2rpx;
 }
 .delayText text{
-  height: 67.5rpx;
+  /* height: 67.5rpx; */
   /* text-overflow: -o-ellipsis-lastline; */
   overflow: hidden;
   text-overflow: ellipsis;
