@@ -54,6 +54,7 @@ Page({
   },
   onLoad: function(options) {
     console.log('options:', options)
+    // return
     let _token = wx.getStorageSync('token') || "";
     let userInfo = wx.getStorageSync('userInfo') || {};
     if (userInfo) {
@@ -593,7 +594,6 @@ Page({
     } else {
       url = this.data._build_url + 'sku/getKjc?' + _value;
     }
-    console.log("url:", url)
     wx.request({
       url: url,
       header: {
@@ -697,7 +697,6 @@ Page({
       } else {
         url = this.data._build_url + 'gold/getshior?' + _value;
       }
-      console.log('urlurlurl:', url)
       wx.request({
         url: url,
         header: {

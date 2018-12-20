@@ -91,7 +91,7 @@ Page({
         optObj: _optOjb,
         flag: true,
         page: 1,
-        _categoryId: _categoryId,
+        categoryId: _categoryId,
         shopId: _shopId,
         id: _id,
         actId: _actId ? _actId : ''
@@ -100,6 +100,7 @@ Page({
       _categoryId= options.categoryId;
       that.setData({
         optObj: options,
+        categoryId: options.categoryId,
         flag: true,
         page: 1,
         shopId: options.shopId ? options.shopId : '',
@@ -319,7 +320,7 @@ Page({
         } else {
           if (_this.data.isApro){
             wx.navigateTo({
-              url: '../AprogressBar/AprogressBar?refId=' + _refId + '&shopId=' + _shopId + '&skuMoneyMin=' + _agioPrice + '&skuMoneyOut=' + _sellPrice + '&_actId=' + _actId + '&categoryId=' + _categoryId
+              url: '../AprogressBar/AprogressBar?refId=' + _refId + '&shopId=' + _shopId + '&skuMoneyMin=' + _agioPrice + '&skuMoneyOut=' + _sellPrice + '&_actId=' + _actId + '&categoryId=' + that.data.categoryId
             })
             _this.setData({
               isApro:false
@@ -400,7 +401,6 @@ Page({
             name: '使用规则',
             info: []
           };
-          console.log('data:', data)
           if (data.skuInfo) {
             skuInfo = data.skuInfo;
 
@@ -469,7 +469,6 @@ Page({
 
           if (data.goodsSpuOut && data.goodsSpuOut.goodsSpuDesc && data.goodsSpuOut.goodsSpuDesc.content) {
             article = data.goodsSpuOut.goodsSpuDesc.content;
-            console.log('article:', article)
             // if (article.match(pattern)[1]) {
             //   pattern = article.match(_RegExp)[1];
             // }

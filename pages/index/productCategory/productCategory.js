@@ -182,9 +182,10 @@ Page({
   bindItem: function (e) {
     let _id = e.currentTarget.id,
       _shopid = e.currentTarget.dataset.shopid,
-      _categoryId = e.currentTarget.dataset.cate;
+      _categoryid = e.currentTarget.dataset.categoryid,
+      _categ = e.currentTarget.dataset.cate;
     wx.navigateTo({
-      url: '/pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails?id=' + _id + '&actId=' + this.data.actId + '&categoryId=other' + '&shopId=' + _shopid,
+      url: '/pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails?id=' + _id + '&actId=' + this.data.actId + '&categoryId=' + _categoryid + '&shopId=' + _shopid,
     })
   },
   //下拉刷新
