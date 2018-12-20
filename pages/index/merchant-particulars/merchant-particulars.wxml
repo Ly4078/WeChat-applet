@@ -237,7 +237,7 @@
       </view>
       <view class='setMealMore' bindtap='clickdity' wx:if="{{hotlist.length>3}}">
         <text>查看更多({{hotlist.length}})</text>
-        <image class="{{isdity?'more_img':'more_img2'}}" src='/images/icon/restaurant_arrow.png'></image>
+        <image class="{{isdity?'more_img2':'more_img'}}" src='/images/icon/restaurant_arrow.png'></image>
       </view>
     </view>
   </view>
