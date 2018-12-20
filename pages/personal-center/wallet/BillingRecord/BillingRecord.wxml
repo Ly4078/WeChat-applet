@@ -1,0 +1,21 @@
+<view>
+
+    <view class="billing_box">
+        <view class="item">
+            <view class="nav_title">
+              <text class="subtitle">增值税电子发票/个人</text>
+              <text class="time">2018.12.08</text>
+            </view>
+            <view class="name">杨峰</view>
+            <!-- <view class="taxnumber"></view> -->
+            <view class="price">发票金额：¥23.21</view>
+            <view class="telphone">开票手机：18627825812</view>
+            <view class="email">收票邮箱：1145049832@qq.com</view>
+            <view class="address">收票地址：湖北省 武汉市 光谷广场</view>
+        </view>
+    
+    </view>
+
+
+
+</view>

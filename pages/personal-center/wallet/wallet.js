@@ -13,18 +13,27 @@ Page({
       {
         id: 1,
         name: '我的金币',
-        iconUrl: '/images/icon/gold.png'
+        iconUrl: '/images/icon/gold.png',
+        linkUrl:'/pages/personal-center/integratorMs/integratorMs'
       },
       {
         id: 2,
         name: '钱包明细',
-        iconUrl: '/images/icon/bag.png'
+        iconUrl: '/images/icon/bag.png',
+        linkUrl: '/pages/personal-center/wallet/walletDetail/walletDetail'
       },
       {
         id: 3,
         name: '银行卡',
-        iconUrl: '/images/icon/box.png'
-      }
+        iconUrl: '/images/icon/box.png',
+        linkUrl: '/pages/personal-center/wallet/BanksCard/BanksCard'
+      },
+      // {
+      //   id: 4,
+      //   name: '开票记录',
+      //   iconUrl: '/images/icon/invoice.png',
+      //   linkUrl: '/pages/personal-center/wallet/BillingRecord/BillingRecord'
+      // }
     ],
     userAmount: '0.00',
     accountStatus: '',
@@ -95,19 +104,30 @@ Page({
   },
   toHref(e) {   //跳转
     let id = e.target.id;
-    if (id == 1) {
-      wx.navigateTo({
-        url: '../integratorMs/integratorMs'
-      })
-    } else if (id == 2) {
-      wx.navigateTo({
-        url: 'walletDetail/walletDetail'
-      })
-    } else if (id == 3) {
-      wx.navigateTo({
-        url: 'BanksCard/BanksCard'
-      })
-    }
+    let url = e.currentTarget.dataset.url;
+    wx.navigateTo({
+      url: url,
+      success:function(){},
+      fail:function(){
+        wx.switchTab({
+          url: url,
+        })
+      }
+    })
+    // return
+    // if (id == 1) {
+    //   wx.navigateTo({
+    //     url: '../integratorMs/integratorMs'
+    //   })
+    // } else if (id == 2) {
+    //   wx.navigateTo({
+    //     url: 'walletDetail/walletDetail'
+    //   })
+    // } else if (id == 3) {
+    //   wx.navigateTo({
+    //     url: 'BanksCard/BanksCard'
+    //   })
+    // }
   },
   onPullDownRefresh() {
     this.walletDetail();

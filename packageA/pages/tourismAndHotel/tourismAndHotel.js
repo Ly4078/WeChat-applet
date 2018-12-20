@@ -12,7 +12,8 @@ Page({
     shadowFlag: true, //活动详情,
     page:1,
     skeletonData:['','','','',''],
-    showSkeleton:true
+    showSkeleton:true,
+    total:1
   },
   onLoad: function(options) {
     this.setData({
@@ -53,6 +54,7 @@ Page({
             }
             that.setData({
               dataList: arr,
+              total: Math.ceil(res.data.data.total / 10),
               showSkeleton:false
             })
             requestTask = false
@@ -76,6 +78,9 @@ Page({
     let that = this;
     if (requestTask){
       return false
+    }
+    if (this.data.total <= this.data.page) {
+      return
     }
     that.setData({
       page:that.data.page+1

@@ -69,11 +69,10 @@ Page({
     })
   },
   getfptt:function(){
-    wx.chooseInvoiceTitle({
-      success:function(res){
-        console.log(res)
-      }
+    wx.navigateTo({
+      url: '/pages/personal-center/personnel-order/logisticsDetails/applyBilling/applyBilling',
     })
+   
   },
   onLoad: function(options) {
     let that = this;

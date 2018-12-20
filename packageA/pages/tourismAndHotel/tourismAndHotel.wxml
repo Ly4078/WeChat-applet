@@ -4,7 +4,7 @@
 
 <view class='maximum'>
   <view class='maximumTop skeleton-rect'>
-    <image class='maximumImg' src='https://xqmp4-1256079679.file.myqcloud.com/13297932982_20181129213123213123.png' mode="aspectFill"></image>
+    <image class='maximumImg' src='https://xqmp4-1256079679.file.myqcloud.com/13297932982_testt-20181219214654.png' mode="aspectFill"></image>
     <view class='particulars' bindtap="showShade">活动详情</view>
   </view>
   <!-- Tab切换栏 -->
@@ -85,7 +85,7 @@
             <text style="display:inline-block;margin:0 10rpx;">2、分享给未注册“享7美食”好友进行注册成功后，则参与拼购成功！</text>
             <text style="display:inline-block;margin:0 10rpx;">3、若好友也参与此商品成功拼购同一产品，得0.2元奖励金存入“钱包”可提现。</text>
             <text style="display:inline-block;margin:0 10rpx;">4、好友分享二级新用户成功拼购同一产品，得0.1元奖励金，好友得0.2元奖励金存入“钱包”可提现。</text>
-            <text style="display:inline-block;margin:0 10rpx;">5、开团有效时间为一周(7天)，在有效期内达到拼购人数，即拼购成功！商品到手方式：a：可门店自提，需根据自身地理位置而定；b:可选择快递配送，</text>
+            <text style="display:inline-block;margin:0 10rpx;">5、开团有效时间为一周(7天)，在有效期内达到拼购人数，即拼购成功！商品到手方式：a：可门店自提，需根据自身地理位置而定；b:可选择快递配送。</text>
             <text style="display:block;width:100%;height:40rpx;"></text>
             <text style="display:block;">注意事项:</text>
             <text style="display:inline-block;margin:0 10rpx;">1、您邀请的好友必须是享7美食新用户，同一手机号、同一支付账号视为同一用户；</text>

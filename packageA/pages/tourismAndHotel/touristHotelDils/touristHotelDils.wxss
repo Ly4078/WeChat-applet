@@ -117,6 +117,7 @@ page{
   text-decoration:line-through;
   color:rgba(150,150,150,1);
   padding-left: 6rpx;
+  margin-left: 40rpx;
 }
 
 .inventory{

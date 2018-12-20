@@ -1,0 +1,87 @@
+<view>
+  <view class="order_detail">
+    <view class="goodsimg">
+      <image></image>
+    </view>
+    <view class="detail">
+      <view class="ordernumber">订单编号：123123123123</view>
+      <view class="goodsprice">开票金额：¥23.00</view>
+    </view>
+  </view>
+
+  <view class="billing_type">
+    <view class="type_content">
+      <view catchtap='selectbillingtpye' data-id="0" class="billingItem {{piao_type==0?'active':''}}">电子发票</view>
+      <view catchtap='selectbillingtpye' data-id="1" class="billingItem {{piao_type==1?'active':''}}">纸质发票</view>
+    </view>
+    <view class="tips">电子发票与纸质发票具有同等法律效力，可支持报销入账</view>
+
+  </view>
+
+  <view class="form_content">
+
+    <view class="form_item">
+      <view class="item_name">抬头类型</view>
+      <view class="item_types item_input">
+        <radio-group class="radio-group" bindchange="radioChange">
+          <!-- <label class="radio" wx:for="{{items}}"> -->
+          <view>
+            <radio value="0" color="#FC5E2D" checked="{{billing_type=='0'?true:false}}" />
+            <text>企业</text>
+          </view>
+          <view>
+            <radio value="1" color="#FC5E2D" checked="{{billing_type=='1'?true:false}}"  />
+            <text>个人</text>
+          </view>
+
+          <!-- </label> -->
+        </radio-group>
+      </view>
+
+    </view>
+    <view class="form_item">
+      <view class="item_name">发票抬头</view>
+      <view class="item_input">
+        <input type="text" bindinput='settitle' value='{{title}}' placeholder='填写发票抬头' placeholder-style="text-align:right;font-size:34rpx;"></input>
+      </view>
+    </view>
+    <view class="form_item" wx:if="{{billing_type==0}}">
+      <view class="item_name">税号</view>
+      <view class="item_input">
+        <input type="text" value='{{taxNumber}}' bindinput='settaxnumber' placeholder='填写纳税人识别号' placeholder-style="text-align:right;font-size:34rpx;"></input>
+      </view>
+    </view>
+
+    <view class="form_item" wx:if="{{piao_type==0}}">
+      <view class="item_name">电子邮箱</view>
+      <view class="item_input">
+        <input type="text" bindinput='setemail' placeholder='接收电子发票邮箱' placeholder-style="text-align:right;font-size:34rpx;"></input>
+      </view>
+    </view>
+    <view class="form_item">
+      <view class="item_name" style="flex:1;"></view>
+      <view class="item_input" style="padding:20rpx 0;margin:0;flex:none;">
+        <button type="primary" size="mini" disabled="{{disabled}}" bindtap="primary">
+          选择微信发票助手
+        </button>
+      </view>
+    </view>
+  </view>
+  <view class="choiceaddress" catchtap='toaddress' wx:if="{{piao_type =='1'}}">
+    <view class="address">
+      <view class="add_left" wx:if="{{!haveaddress}}">
+        <image src="/images/icon/AddTheAddresss.png"></image>
+        <text>选择收件地址</text>
+      </view>
+      <view class="add_leftdetail" wx:else>
+        <text style="margin-right:30rpx;">{{address.chatName}}</text>
+        <text>{{address.mobile}}</text>
+        <view style="margin-top:20rpx;">{{address.address}}</view>
+      </view>
+      <image class='add_right' src="/images/icon/home_arrow.png"></image>
+    </view>
+    <text>邮费统一货到付款</text>
+  </view>
+
+  <view catchtap='submit' class="submits {{cansubmit?'active':''}}">提交申请</view>
+</view>

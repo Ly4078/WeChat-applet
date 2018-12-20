@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "开票记录",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "i-spin": "/dist/spin/index",
+    "skeleton": "/components/skeleton/skeleton",
+    "image-loader": "/components/image-loader"
+  }
+}

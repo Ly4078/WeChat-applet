@@ -12,7 +12,7 @@
     </view>
   </view>
   <view class="walletList">
-    <view class="list_item {{item.id == 2 ? 'add' : ''}}" wx:for="{{walletList}}" wx:key="index" id="{{item.id}}" bindtap='toHref'>
+    <view hover-class='hclass' class="list_item {{item.id == 2 ? 'add' : ''}}" wx:for="{{walletList}}" wx:key="index" data-url="{{item.linkUrl}}" id="{{item.id}}" bindtap='toHref'>
       <view class="list_l">
         <image src="{{item.iconUrl}}"></image>
         <view>{{item.name}}</view>

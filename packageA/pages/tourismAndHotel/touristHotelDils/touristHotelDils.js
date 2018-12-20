@@ -121,7 +121,7 @@ Page({
           })
           if (that.data._content ==null){
             that.setData({
-              _content: _data.remark
+              _content: _data.goodsSpuOut.goodsSpuDesc.content
             },()=>{
               WxParse.wxParse('article', 'html', that.data._content, that, 10);
             })

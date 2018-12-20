@@ -64,11 +64,19 @@ page {
   background-color: #fff;
   padding: 0 28rpx;
   box-sizing: border-box;
+  border-bottom: 1rpx solid #E0E0E0;
 }
-
+.list_item.hclass{
+  background-color: #F5F5FA;
+}
+.list_item:first-child{
+  border-bottom: none;
+}
+.list_item:last-child{
+  border-bottom: none;
+}
 .list_item.add {
   margin-top: 20rpx;
-  border-bottom: 1rpx solid #E0E0E0;
 }
 
 .list_l {

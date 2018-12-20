@@ -34,14 +34,14 @@
       <view class='ruling'>
         <view class='rulingBid'>
           <text>￥{{singleData.goodsPromotionRules[0].actAmount}}</text>
-          <text>￥{{singleData.sellPrice}}</text>
+          <text>参考价￥{{singleData.marketPrice}}</text>
         </view>
         <text class='inventory'>共{{singleData.actGoodsSkuOut.peopleNum}}份</text>
       </view>
     </view>
   </view>
   <view class='businessTime'>
-    <text class='quantum'>温馨提示：参与活动的商品配送范围仅限:武汉市、十堰市</text>
+    <text class='quantum'>温馨提示：参与活动的商品配送范围:全国大部分地区（偏远地区除外）</text>
   </view>
   <view class='plainText'>
     <view class='plainText-center'>

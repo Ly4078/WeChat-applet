@@ -1,7 +1,9 @@
 {
   "pages": [
+   
     "pages/index/index",
     "pages/personal-center/personnel-order/logisticsDetails/logisticsDetails",
+    "pages/personal-center/personnel-order/logisticsDetails/applyBilling/applyBilling",
     "pages/index/web-view/index",
     "pages/init/init",
     "pages/init/phone/phone",
@@ -79,6 +81,7 @@
     "pages/index/crabShopping/getFailure/getFailure",
     "pages/index/crabShopping/express/express",
     "pages/personal-center/wallet/wallet",
+    "pages/personal-center/wallet/BillingRecord/BillingRecord",
     "pages/personal-center/wallet/addBanksCard/addBanksCard",
     "pages/personal-center/wallet/BanksCard/BanksCard",
     "pages/personal-center/wallet/award/award",
