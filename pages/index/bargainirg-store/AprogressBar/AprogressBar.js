@@ -475,7 +475,6 @@ Page({
             } else {
               peopleList = _arr;
             }
-            console.log('peopleList:', peopleList)
             for (let i = 0; i < peopleList.length; i++) {
               if (peopleList[i].userName && reg.test(peopleList[i].userName)) {
                 peopleList[i].userName = peopleList[i].userName.substr(0, 3) + "****" + peopleList[i].userName.substr(7)
@@ -484,7 +483,6 @@ Page({
               }
 
               if (peopleList[i].userId == app.globalData.userInfo.userId) {
-                console.log('ccccccccc')
                 _this.setData({
                   getGoldNum: peopleList[i].goldAmount,
                   otherStatus: 2
@@ -942,7 +940,7 @@ Page({
           categoryId: that.data.categoryId,
           locationX: app.globalData.userInfo.lng,
           locationY: app.globalData.userInfo.lat,
-          city: this.data._city ? this.data._city : app.globalData.userInfo.city,
+          // city: this.data._city ? this.data._city : app.globalData.userInfo.city,
           page: this.data.page,
           rows: 10
         }

@@ -469,6 +469,7 @@ Page({
 
           if (data.goodsSpuOut && data.goodsSpuOut.goodsSpuDesc && data.goodsSpuOut.goodsSpuDesc.content) {
             article = data.goodsSpuOut.goodsSpuDesc.content;
+            console.log('article:', article)
             // if (article.match(pattern)[1]) {
             //   pattern = article.match(_RegExp)[1];
             // }

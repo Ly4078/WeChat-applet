@@ -190,9 +190,11 @@ Page({
     }, 1000)
   },
   bargainDetail(e) {
+    console.log("ee:",e)
     let id = e.currentTarget.id,
       list = this.data.bargainList,
       skuType = e.currentTarget.dataset.skutype,
+      categoryId = e.currentTarget.dataset.categoryid,
       actId="",
       that = this;
     for (let i = 0; i < list.length; i++) {
@@ -208,7 +210,7 @@ Page({
           })
         } else if (skuType == 6 || !skuType){
           wx.navigateTo({
-            url: '../AprogressBar/AprogressBar?groupId=' + list[i].groupId + '&shopId=' + list[i].shopId + '&refId=' + list[i].skuId + '&skuMoneyOut=' + list[i].skuMoneyOut + '&skuMoneyMin=' + list[i].skuMoneyMin + '&initiator=' + app.globalData.userInfo.userId + '&actId=' + actId
+            url: '../AprogressBar/AprogressBar?groupId=' + list[i].groupId + '&shopId=' + list[i].shopId + '&refId=' + list[i].skuId + '&skuMoneyOut=' + list[i].skuMoneyOut + '&skuMoneyMin=' + list[i].skuMoneyMin + '&initiator=' + app.globalData.userInfo.userId + '&actId=' + actId + '&categoryId=' + categoryId
           })
         }
       }
