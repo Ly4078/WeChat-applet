@@ -121,7 +121,7 @@ Page({
           }
           that.setData({
             groupOrderDetail: res.data.data,
-            isGroup: res.data.data.actOrder.id ? true : false,
+            // isGroup: res.data.data.actOrder.id ? true : false,
             progress: parseInt((res.data.data.currentNum / res.data.data.peopleNum * 10000) / 100)
           })
         }
@@ -388,6 +388,7 @@ Page({
       that = this,
       _value = "",
       url = "",
+      urls='',
       _Url = "";;
     _parms = {
       orderId: this.data.soId,
@@ -400,11 +401,13 @@ Page({
     _value = _value.substring(0, _value.length - 1);
     url = that.data._build_url + 'wxpay/shoppingMallForCouponNew?' + _value;
     if (that.data.groupOrderDetail.actInfo) {
-      url = url + '&type=' + that.data.groupOrderDetail.actInfo.type? that.data.groupOrderDetail.actInfo.type:'1'
+      let type = that.data.groupOrderDetail.actInfo.type ? that.data.groupOrderDetail.actInfo.type : '1'
+      urls = url + '&type=' + type
     } else {
-      url = url + '&type=1'
+       urls = url + '&type=1'
     }
-    _Url = encodeURI(url);
+    _Url = encodeURI(urls);
+    console.log('url', urls)
     wx.request({
       url: _Url,
       header: {
