@@ -12,6 +12,7 @@ Page({
     _build_url: GLOBAL_API_DOMAIN,
     current: {},
     payObj: {},
+    isclick:true,
     username: '',
     phone: '',
     address: '',
@@ -54,7 +55,7 @@ Page({
     optionsObj:{}
   },
   onLoad: function(options) {
-    // console.log('options:', options)
+    console.log('options:', options)
     if (options.id) {
       app.globalData.OrderObj = options;
     } else {
@@ -409,6 +410,12 @@ Page({
   },
   formSubmit:function(e){
     let _formId = e.detail.formId;
+    if(!this.data.isclick){
+      return
+    }
+    this.setData({
+      isclick:false
+    })
     if (this.data.issku == 3){
       if(this.data.actId){
         this.createActOrder();
@@ -616,6 +623,9 @@ Page({
       orderId: this.data.orderId,
       openId: app.globalData.userInfo.openId
     };
+    this.setData({
+      isclick: true
+    })
     if (this.data.actId) {
       _parms.type = this.data.flag;
       if (this.data.groupId){
