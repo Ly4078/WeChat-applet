@@ -131,14 +131,14 @@ page{
 }
 
 .hot-recoItem-left {
-  width: 190rpx;
-  height: 190rpx;
-  margin: 30rpx 22rpx;
-  overflow: hidden;
+  width:190rpx;
+  height:190rpx;
+  margin:30rpx 5rpx;
+  overflow:hidden;
 }
 
 .hot-recoItem-left image {
-  width: 190rpx;
-  height: 190rpx;
+  max-width: 180rpx;
+  height: 180rpx;
   border-radius: 18rpx;
 }

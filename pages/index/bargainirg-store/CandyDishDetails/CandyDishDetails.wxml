@@ -221,7 +221,7 @@
 <view class="modalDlg" wx:if="{{showModal && shopId==0}}">
   <view class='windows_tishi'>———— 规则说明 ————</view>
   <view class='windows_text'>
-    <text>1.砍价商品均为限量发售，售完即止；\n\n2.用户需在60分钟内邀请好友帮您砍价并成功支付若超时，需要重新发起砍价申请3.支付成功后；\n\n3个月内均可兑换使用，过期作废；\n\n 4.有效期内支持退款5.最终解释权归享7平台所有。\n\n\n\n</text>
+    <text>1.砍价商品均为限量发售，售完即止；\n\n2.用户需在60分钟内邀请好友帮您砍价并成功支付若超时，需要重新发起砍价申请；\n\n3.支付成功后,3个月内均可兑换使用，过期作废；\n\n 4.有效期内支持退款；\n\n5.最终解释权归享7平台所有。\n\n\n\n</text>
   </view>
   <!-- <button class='understand' bindtap="understand">我已知晓此规则</button> -->
 </view>
