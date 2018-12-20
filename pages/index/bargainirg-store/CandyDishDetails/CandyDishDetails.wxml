@@ -133,6 +133,7 @@
       </view>
 
       <!-- 猜你喜欢 -->
+      {{hotDishList.length}}{{shopId}}
       <view class='specialWrap specialHot' wx:if="{{hotDishList.length>0 && shopId!=0}}">
         <view class='special'></view>
         <text>猜你喜欢</text>
