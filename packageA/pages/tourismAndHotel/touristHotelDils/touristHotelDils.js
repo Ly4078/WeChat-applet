@@ -485,9 +485,17 @@ Page({
       'signType': 'MD5',
       'paySign': _data.paySign,
       success:function(res){
-        wx.navigateTo({
-          url: '/pages/personal-center/personnel-order/logisticsDetails/logisticsDetails?soId=' + that.data.orderId,
+        wx.showToast({
+          title: '拼购成功',
+          icon:'none',
+          duration:1500
         })
+        setTimeout( ()=>{
+          wx.navigateTo({
+            url: '/pages/personal-center/personnel-order/logisticsDetails/logisticsDetails?soId=' + that.data.orderId,
+          })
+        },1500) 
+        
       },fail:function(res){
           wx.showToast({
             title: '支付取消',
