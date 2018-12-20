@@ -13,6 +13,7 @@ page{
 
 .parewx image{
   width: 100%!important;
+  display: block;
 }
 
 .information{

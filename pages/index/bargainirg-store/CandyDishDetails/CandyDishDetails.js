@@ -661,7 +661,6 @@ Page({
       url = that.data._build_url + 'goodsSku/listForAct?' + _values;
       }
       _Url = encodeURI(url);
-      console.log('_Url:', _Url)
       wx.request({
         url: _Url,
         method: 'GET',
@@ -669,7 +668,6 @@ Page({
           "Authorization": app.globalData.token
         },
         success: function(res) {
-          console.log("res:",res)
           if (res.data.code == 0) {
             if (res.data.data.list && res.data.data.list.length > 0) {
               let list = res.data.data.list,
@@ -688,7 +686,6 @@ Page({
                     hotDishList.push(list[i]);
                   }
                 }
-                console.log('hotDishList:', hotDishList)
                 that.setData({
                   hotDishList: hotDishList,
                   pageTotal: Math.ceil(res.data.data.total / 6),
