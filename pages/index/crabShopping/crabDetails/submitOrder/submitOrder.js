@@ -52,7 +52,15 @@ Page({
     sendType:'',
     groupId:'',
     singleType:'',
-    optionsObj:{}
+    optionsObj:{},
+    items: [{
+      name: '微信支付',
+      id: '1',
+      disabled: false,
+      img: '/images/icon/weixinzhifu.png',
+      checked: true
+    }
+    ]
   },
   onLoad: function(options) {
     console.log('options:', options)

@@ -26,7 +26,8 @@
         <view class="classify_list">
           <view wx:for="{{comList}}" wx:key="{{index}}" class="classify_item" id="{{item.id}}" data-cate="{{item.id}}" data-categoryid="{{item.categoryId}}" data-shopid="{{item.shopId}}" bindtap='bindItem'>
             <view class="classify_l_r">
-              <image src="{{item.skuPic}}"></image>
+            <image-loader width="108rpx" height="108rpx"   default-image='/images/icon/morentu.png' mode='aspectFill' original-image="{{item.skuPic?item.skuPic:'/images/icon/morentu.png'}}"  />
+              <!-- <image src="{{item.skuPic}}"></image> -->
               <view>
                 <view class="goods_tit">{{item.skuName}}</view>
                 <view class="goods_addr">{{item.salePointOuts[0].address}}</view>

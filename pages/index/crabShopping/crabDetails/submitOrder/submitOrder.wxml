@@ -96,6 +96,16 @@
       </view>
     </view>
   </view>
+  <!-- 微信支付 -->
+<view class='paymentPayWay'>
+<radio-group class="radio-group" bindchange="radioChange">
+<label class="radio" wx:for="{{items}}" wx:key='index' class='paymentPayTop'>
+<image class='paymentPayImg' src='{{item.img}}'></image>{{item.name}}
+<radio class='riradio' value="{{item.id}}" disabled="{{item.disabled}}" checked="{{item.checked}}" />
+</label>
+</radio-group>
+</view>
+
   <view class='presentCommtop'></view>
   <!-- 提交订单 -->
   <view class='presentComm'>
@@ -106,7 +116,7 @@
     </view>
 
     <form bindsubmit="formSubmit" report-submit="true">
-      <button formType="submit">
+      <button style="border-radius:0rpx;" formType="submit">
         <view class='presentCommRight sss'>
           <view>提交订单</view>
         </view>
