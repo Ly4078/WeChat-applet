@@ -13,10 +13,10 @@ Page({
         id: 0,
         name: '附近'
       },
-      {
-        id: 1,
-        name: '销量'
-      }
+      // {
+      //   id: 1,
+      //   name: '销量'
+      // }
     ],
     showModal: true,
     browSort: 2,
