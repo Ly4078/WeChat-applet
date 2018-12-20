@@ -56,7 +56,7 @@ Page({
     _lng: '',
     categoryId: '',
     optObj: {},
-    isopenimg: false,
+    isopenimg: true,
     id: '', //商品ID
     actId: '', //活动ID
     pattern: '',
@@ -71,6 +71,7 @@ Page({
   },
   onLoad(options) {
     //在此函数中获取扫描普通链接二维码参数
+    console.log('options:', options)
     let _categoryId = '', _title = '', _id = '', _shopId = '',_actId='',that = this;
     let q = decodeURIComponent(options.q);
     if (q && q != 'undefined') {
@@ -96,18 +97,17 @@ Page({
         actId: _actId ? _actId : ''
       })
     }else{
+      _categoryId= options.categoryId;
       that.setData({
         optObj: options,
         flag: true,
         page: 1,
-        _categoryId: options.categoryId,
         shopId: options.shopId ? options.shopId : '',
         id: options.id ? options.id : '',
         actId: options.actId ? options.actId : '',
         _city: options.city ? options.city : ''
       });
     }
-    
     if (_categoryId == 5) {
       _title = '酒店详情';
     } else if (_categoryId == 6) {
@@ -400,6 +400,7 @@ Page({
             name: '使用规则',
             info: []
           };
+          console.log('data:', data)
           if (data.skuInfo) {
             skuInfo = data.skuInfo;
 

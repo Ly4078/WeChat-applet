@@ -86,9 +86,9 @@
       <view class='equally' wx:if="{{optionsObj.cfom}}">
         <text>数量:</text>
         <view class='boxss'></view>
-        <button bindtap='lessnum'>-</button>
+        <view class='butanliu' bindtap='lessnum'>-</view>
         <text class='delicatese'>{{ssnum}}</text>
-        <button bindtap='addnum'>+</button>
+        <view class='butanliu' bindtap='addnum'>+</view>
       </view>
       <view class='equally'>
         <text>合计:</text>

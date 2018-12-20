@@ -63,7 +63,8 @@
               <text>底价</text>
             </view>
             <text>{{skuMoneyMin}}</text>
-            <text>原价￥<text>{{skuMoneyOut}}</text></text>
+            <text wx:if="{{shopId==0}}">参考价￥<text>{{dishData.marketPrice}}</text></text>
+            <text wx:else>原价￥<text>{{skuMoneyOut}}</text></text>
           </view>
         </view>
       </view>

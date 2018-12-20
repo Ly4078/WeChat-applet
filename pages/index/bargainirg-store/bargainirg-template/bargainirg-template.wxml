@@ -7,7 +7,7 @@
     <!-- <image class='cutCuisine-images' lazy-load='true' wx:if="{{item.picUrl || item.skuPic}}" src='{{item.picUrl?item.picUrl:item.skuPic}}' id='{{item.id}}' binderror='imageError'></image>
     <image class='cutCuisine-images' lazy-load='true' wx:else src='/images/icon/morentu.png'></image> -->
 
-
+<!-- {{item.skuName}} -->
     <view class='cutCuisine-bottom'>
       <view class='cutCuisine-text'>
         <view class='name-sales'>

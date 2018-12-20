@@ -54,6 +54,7 @@ Page({
                 }
               }
             }
+            console.log("sortarr:", sortarr)
             that.setData({
               sort: sortarr,
               sortId: sortarr[0].id
@@ -99,14 +100,13 @@ Page({
     }, () => {
       this.getlistdata(e.currentTarget.id, 'reset');
     })
-
   },
   //获取商品列表数据 
   getlistdata: function (sortId, types) {
     // return
-    let that = this;
+    let that = this, url='';
     requestTask = true;
-    let url = this.data._build_url + 'goodsSku/listForAct?actId=' + this.data.actId + '&categoryId=' + sortId + '&rows=' + this.data.rows + '&page=' + this.data.page + '&city=' + app.globalData.userInfo.city
+    url = this.data._build_url + 'goodsSku/listForAct?actId=' + this.data.actId + '&categoryId=' + sortId + '&rows=' + this.data.rows + '&page=' + this.data.page
     goodsRequestTask = wx.request({
       url: encodeURI(url),
       header: {
@@ -116,7 +116,7 @@ Page({
         wx.stopPullDownRefresh();
         if (res.data.code == 0) {
           if (res.data.data.list && res.data.data.list.length > 0) {
-            var arr = [];
+            let arr = [];
             if (types == 'reset') {
               arr = res.data.data.list.length ? res.data.data.list : []
             } else {

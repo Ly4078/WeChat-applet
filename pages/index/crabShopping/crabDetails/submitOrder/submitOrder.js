@@ -161,6 +161,7 @@ Page({
       ssnum: _ssnum
     })
     let _total = this.data.sellPrice * this.data.ssnum;
+    _total = _total.toFixed(2);
     this.setData({
       total: _total
     })
@@ -178,6 +179,7 @@ Page({
       })
     }
     let _total = this.data.sellPrice*this.data.ssnum;
+    _total = _total.toFixed(2);
     this.setData({
       total: _total
     })

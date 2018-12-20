@@ -119,7 +119,7 @@ page, .categoryBox {
 
 .classify_item {
   width: 100%;
-  height: 170rpx;
+  min-height: 170rpx;
   padding-top: 20rpx;
   box-sizing: border-box;
   display: flex;

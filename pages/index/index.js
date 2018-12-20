@@ -437,6 +437,7 @@ Page({
             allList[0].skuMS[i].distance = utils.transformLength(allList[0].skuMS[i].distance);
             
           }
+          console.log('allList:', allList)
           that.setData({
             listStart: arr,
             allList: allList,

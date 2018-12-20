@@ -205,9 +205,15 @@ page{
 .equally:last-child{
   border-bottom: 0rpx;
 }
-.equally button{
-  padding:3px 30rpx;
-  margin: 0;
+.butanliu{
+  width:60rpx;
+  height:60rpx;
+  text-align:center;
+  line-height:56rpx;
+  border:1rpx solid #E0E0E0;
+  color:#FC5E2D;
+  font-size:54rpx;
+  font-weight: 100;
 }
 .manzen{
   color:#FF4343;

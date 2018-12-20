@@ -32,7 +32,8 @@
           <view class='shopscCurrency'>￥ 底价
           </view>
           <text class='lowValue'>{{agioPrice}}</text>
-          <text class='abandon'>￥{{sellPrice}}</text>
+          <text class='abandon' wx:if="{{shopId==0}}">参考价 ￥{{soData.marketPrice}}</text>
+          <text class='abandon' wx:else>￥{{sellPrice}}</text>
         </view>
       </view>
       <view class='kanj' catchtap="understand">
@@ -99,13 +100,12 @@
           <image class='mapphone' bindtap="calling" src='https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/phone_icon.png'></image>
         </view>
       </view>
-
       <!-- 同店推荐 -->
-      <view class='specialWrap' wx:if="{{dishList.length>0}}">
+      <view class='specialWrap' wx:if="{{dishList.length>0 && shopId!=0}}">
         <view class='special'></view>
         <text>同店推荐</text>
       </view>
-      <block wx:for="{{isBarg ? dishList : preDishList}}" wx:key="{{index}}" id="{{index}}" wx:for-index="idx">
+      <block wx:for="{{isBarg ? dishList : preDishList}}" wx:key="{{index}}" id="{{index}}" wx:for-index="idx" wx:if="{{shopId!=0}}">
         <view class='merchantROM' id="{{item.id}}"  data-actId="41"  catchtap='dishesDiscounts'>
           <view class='merchantLeft'>
             <view class='acuisineMessage'>
@@ -127,17 +127,17 @@
           </view>
         </view>
       </block>
-      <view class="setMealMore" catchtap='changeBar' wx:if="{{dishList.length > 4}}">
+      <view class="setMealMore" catchtap='changeBar' wx:if="{{dishList.length > 4 && shopId!=0}}">
         <text>{{isBarg ? '查看部分砍价菜' : '查看全部砍价菜'}}</text>
         <image src="/images/icon/restaurant_arrow.png" class='{{isBarg ? "transjt" : ""}}'></image>
       </view>
 
       <!-- 猜你喜欢 -->
-      <view class='specialWrap specialHot' wx:if="{{hotDishList.length>0}}">
+      <view class='specialWrap specialHot' wx:if="{{hotDishList.length>0 && shopId!=0}}">
         <view class='special'></view>
         <text>猜你喜欢</text>
       </view>
-      <view class='oldWrap'>
+      <view class='oldWrap' wx:if="{{shopId!=0}}">
         <block wx:for="{{hotDishList}}" wx:key="{{index}}" id="{{index}}" wx:for-index="idx">
           <view class='ecommendation' id="{{item.id}}" data-shopId="{{item.shopId}}" catchtap='chilkDish'>
             <view class='ecommendationImg'>
