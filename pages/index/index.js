@@ -579,9 +579,10 @@ Page({
   },
   toLink(e) {
     let url = e.currentTarget.dataset.url;
+    let msg = e.currentTarget.dataset.msg;
     if (!url) {
       wx.showToast({
-        title: '十二月正式开放',
+        title: msg ? msg:'十二月正式开放',
         icon: "none"
       })
       return

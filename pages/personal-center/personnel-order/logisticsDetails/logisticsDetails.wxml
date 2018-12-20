@@ -230,7 +230,7 @@
     </form>
    
     <button open-type='contact'  style="color:#B1B1B1;border:2rpx solid #B1B1B1;background:#fff;" >联系客服</button>
-     <button catchtap='seepiaoDetail' wx:if="{{!isGroup && soDetail.status=='3'}}"  class='cheng'>立即使用</button>
+     <button catchtap='seepiaoDetail' wx:if="{{ soDetail.status=='3' && groupOrderDetail.actInfo.type !='7'}}"  class='cheng'>立即使用</button>
     <!-- <button bindtap='nowuse' class='cheng' wx:if="{{soDetail.ust}}">立即使用</button> -->
     <!-- <button bindtap='buyagain' wx:if="{{ soDetail.status == 3 || soDetail.status == 10  }}">再次购买</button> -->
     <form bindsubmit="formSubmit" report-submit="true" wx:if="{{  soDetail.status == 1 && Countdown != '0秒' && Countdown != '' }}">

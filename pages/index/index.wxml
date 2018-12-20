@@ -48,7 +48,7 @@
   <!-- 抽奖 -->
 
   <view class="lotteryBanner">
-    <image catchtap='toLink' src="{{bannthree[0].imgUrl}}" data-url="{{bannthree[0].linkUrl}}" class=" skeleton-rect"></image>
+    <image catchtap='toLink' data-msg="正在建设中..." src="{{bannthree[0].imgUrl}}" data-url="{{bannthree[0].linkUrl}}" class=" skeleton-rect"></image>
   </view>
 
   <!-- 生鲜 -->
