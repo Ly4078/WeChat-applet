@@ -121,7 +121,7 @@ Page({
           }
           that.setData({
             groupOrderDetail: res.data.data,
-            // isGroup: res.data.data.actOrder.id ? true : false,
+            isGroup: res.data.data.actOrder.id ? true : false,
             progress: parseInt((res.data.data.currentNum / res.data.data.peopleNum * 10000) / 100)
           })
         }

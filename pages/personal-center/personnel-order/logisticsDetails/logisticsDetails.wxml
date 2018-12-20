@@ -6,7 +6,7 @@
     <view  wx:if="{{groupOrderDetail.actInfo.type=='7'}}" class='logisticsTopShould'>
       <view class='logisticsTopfront'>
         <text class="pr20">{{soDetail.status2}}</text>
-        <text wx:if="{{Countdown != '0秒' && Countdown != ''}}">{{Countdown}}后取消订单，请及时付款</text>
+        <!-- <text wx:if="{{Countdown != '0秒' && Countdown != ''}}">{{Countdown}}后取消订单，请及时付款</text> -->
       </view>
       <view class='logisticsTopCount' >
         <text>开团成功后商品兑换券在我的券包中查看</text>
