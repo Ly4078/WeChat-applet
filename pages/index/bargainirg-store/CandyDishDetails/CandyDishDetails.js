@@ -767,7 +767,7 @@ Page({
         _shopId = this.data.shopId ? this.data.shopId : this.data.soData.shopId;
       if (this.data.actId) {
         wx.navigateTo({
-          url: '/pages/index/crabShopping/crabDetails/submitOrder/submitOrder?num=1&issku=3&flag=1&picUrl=' + this.data.picUrl + '&sellPrice=' + sellPrice + '&id=' + this.data.id + '&actId=' + this.data.actId + '&skuName=' + _soData.skuName + '&remark=' + _soData.remark + '&shopId=' + _soData.shopId + '&singleType=' + _soData.singleType + '&spuId=' + _soData.spuId
+          url: '/pages/index/crabShopping/crabDetails/submitOrder/submitOrder?num=1&issku=3&flag=1&picUrl=' + this.data.picUrl + '&sellPrice=' + sellPrice + '&id=' + this.data.id + '&actId=' + this.data.actId + '&skuName=' + _soData.skuName + '&remark=' + _soData.remark + '&shopId=' + _soData.shopId + '&singleType=' + _soData.singleType + '&spuId=' + _soData.spuId+'&cfom=candy'
         })
       } else {
         wx.navigateTo({
@@ -1008,11 +1008,17 @@ Page({
     let userInfo = app.globalData.userInfo,
       _path = '',
       _values = '',
-      _parms = {};
+      _optObj={};
     if (this.data.actId) {
-      _parms = this.data.optObj;
-      for (var key in _parms) {
-        _values += key + "=" + _parms[key] + "&";
+      let _soData = this.data.soData;
+      _optObj={
+        actId: _soData.actGoodsSkuOut.actId,
+        categoryId:'8',
+        shopId: _soData.shopId,
+        id: _soData.id
+      }
+      for (var key in _optObj) {
+        _values += key + "=" + _optObj[key] + "&";
       }
       _values = _values.substring(0, _values.length - 1);
       _path = '/pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails?' + _values;

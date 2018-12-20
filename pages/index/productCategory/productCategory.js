@@ -43,7 +43,7 @@ Page({
           if (res.data.data && res.data.data.length > 0) {
             let _data = res.data.data, sortarr=[];
             for (let i in _data){
-              if (_data[i].status == 1 || _children[j].status == 3){
+              if (_data[i].status == 1 || _data[i].status == 3){
                 if (_data[i].children && _data[i].children.length > 0) {
                   let _children = _data[i].children;
                   for (let j in _children) {

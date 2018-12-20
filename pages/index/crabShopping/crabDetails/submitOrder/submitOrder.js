@@ -50,7 +50,8 @@ Page({
     flag:'',
     sendType:'',
     groupId:'',
-    singleType:''
+    singleType:'',
+    optionsObj:{}
   },
   onLoad: function(options) {
     // console.log('options:', options)
@@ -60,8 +61,10 @@ Page({
       options = app.globalData.OrderObj;
     }
     this.setData({
+      optionsObj:options,
       id: options.id ? options.id:'',
       num: options.num ? options.num:'',
+      ssnum: options.num ? options.num : '',
       actId: options.actId ? options.actId:'',
       issku: options.issku ? options.issku:'',
       shopId: options.shopId ? options.shopId:'',
@@ -132,7 +135,7 @@ Page({
       }
     }
     if(this.data.actId){
-      let _total = this.data.sellPrice * this.data.num;
+      let _total = this.data.sellPrice * this.data.ssnum;
       _total = _total.toFixed(2);
       this.setData({
         total: _total
@@ -226,7 +229,7 @@ Page({
           zbzf = _obj.bzf ? _obj.bzf : 0;
           //到店提货不需要运费
           zbzf = this.data.issku == 3 ? 0 : zbzf;
-          _total = this.data.num * _obj.sellPrice + zbzf;
+          _total = this.data.ssnum * _obj.sellPrice + zbzf;
           _total = _total.toFixed(2);
           _obj.total = _total;
         }

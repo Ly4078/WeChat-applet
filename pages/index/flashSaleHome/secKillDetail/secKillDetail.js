@@ -247,6 +247,10 @@ Page({
             that.setData({
               legend: arr
             })
+          }else{
+            that.setData({
+              legend: that.data.legends
+            })
           }
    
           if (data.goodsSpuOut && data.goodsSpuOut.goodsSpuDesc && data.goodsSpuOut.goodsSpuDesc.content) {

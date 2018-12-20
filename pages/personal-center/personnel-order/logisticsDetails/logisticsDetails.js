@@ -119,7 +119,6 @@ Page({
               }
             }
           }
-          console.log("1312data:",res.data.data)
           that.setData({
             groupOrderDetail: res.data.data,
             // isGroup: res.data.data.actOrder.id ? true : false,
@@ -270,7 +269,6 @@ Page({
           Countdown: Countdown
         });
         subtraction--;
-        console.log(Countdown)
         if (subtraction <= 0) {
           soDetail.status2 = '已取消';
           that.setData({

@@ -83,7 +83,7 @@
         <input name="input" bindinput="bindremarks" value='{{remarks}}' placeholder='选填内容'></input>
         <!-- <text class='delicatese'>￥{{current.total}}</text> -->
       </view>
-      <view class='equally'>
+      <view class='equally' wx:if="{{optionsObj.cfom}}">
         <text>数量:</text>
         <view class='boxss'></view>
         <button bindtap='lessnum'>-</button>
@@ -94,7 +94,6 @@
         <text>合计:</text>
         <text class='delicatese'>￥{{current.total?current.total:total}}</text>
       </view>
-      
     </view>
   </view>
   <view class='presentCommtop'></view>

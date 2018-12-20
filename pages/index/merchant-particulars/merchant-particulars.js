@@ -71,12 +71,6 @@ Page({
   },
   onLoad: function(options) {
     console.log("options:",options);
-
-    if (options.distance) {
-      this.setData({
-        distance: options.distance
-      })
-    }
     this.setData({
       shopid: options.shopid,
       comment_list: []
@@ -130,7 +124,7 @@ Page({
     let _token = wx.getStorageSync('token') || "";
     let userInfo = wx.getStorageSync('userInfo') || {};
     // app.globalData.userInfo = userInfo;
-    if (!userInfo.lat || !userInfo.lng || !userInfo.city) {
+    if (!userInfo.lat || !userInfo.lng || !userInfo.city || !app.globalData.userInfo.lat || !app.globalData.userInfo.lng) {
       this.getUserlocation();
     }
 
@@ -590,7 +584,10 @@ Page({
   getmoredata: function() {
 
     this.gethotdish();
-    this.getstoredata();
+    if(app.globalData.userInfo.lat && app.globalData.userInfo.lng){
+      this.getstoredata();
+    }
+    
 
     this.selectByShopId();
     this.recommendation();
@@ -700,7 +697,6 @@ Page({
         "Authorization": app.globalData.token
       },
       success: function(res) {
-        console.log('resres:',res)
         wx.stopPullDownRefresh();
         if (res.data.code == 0) {
           if (res.data.data) {
@@ -716,7 +712,9 @@ Page({
               _data.shopInfo = ''
             }
             if (_data.distance == '0' || _data.distance == '0m' || !_data.distance) {
-              _data.distance = utils.calcDistance(_data.locationY, _data.locationX,app.globalData.userInfo.lat, app.globalData.userInfo.lng);
+              if (app.globalData.userInfo.lat && app.globalData.userInfo.lng){
+                _data.distance = utils.calcDistance(_data.locationY, _data.locationX, app.globalData.userInfo.lat, app.globalData.userInfo.lng);
+              }
             }
             let _storeType = _data.businessCate ? _data.businessCate.split(',') : [];
             if (_storeType && _storeType.length > 0) {
@@ -944,11 +942,10 @@ Page({
   },
   //分享给好友
   onShareAppMessage: function() {
-    let _shareCity = this.data.shareCity ? this.data.shareCity : app.globalData.userInfo.city,
-      _distance = this.data.distance;
+    let _shareCity = this.data.shareCity ? this.data.shareCity : app.globalData.userInfo.city;
     return {
       title: this.data.store_details.shopName,
-      path: '/pages/index/merchant-particulars/merchant-particulars?shopid=' + this.data.shopid + '&shareCity=' + _shareCity + '&distance=' + _distance,
+      path: '/pages/index/merchant-particulars/merchant-particulars?shopid=' + this.data.shopid + '&shareCity=' + _shareCity,
       imageUrl: this.data.store_details.logoUrl,
       success: function(res) {
         wx.getShareInfo({
@@ -1009,6 +1006,9 @@ Page({
             success: function(res) {
               let latitude = res.latitude,
                 longitude = res.longitude;
+              app.globalData.userInfo.lat = latitude;
+              app.globalData.userInfo.lgn = longitude;
+              that.getstoredata();
               that.requestCityName(latitude, longitude);
             },
           })
@@ -1019,7 +1019,6 @@ Page({
         }
       }
     })
-
   },
   //打开地图导航，先查询是否已授权位置
   TencentMap: function(event) {
@@ -1079,6 +1078,9 @@ Page({
       success: function(res) {
         let latitude = res.latitude,
           longitude = res.longitude;
+          app.globalData.userInfo.lat = latitude;
+          app.globalData.userInfo.lng=longitude;
+        that.getstoredata();
         that.requestCityName(latitude, longitude);
       },
       fail: function(res) {

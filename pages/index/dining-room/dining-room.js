@@ -342,7 +342,7 @@ Page({
   onTouchItem: function (event) {
     let _distance = event.currentTarget.dataset.distance;
     wx.navigateTo({
-      url: '../merchant-particulars/merchant-particulars?shopid=' + event.currentTarget.id + '&distance='+_distance
+      url: '../merchant-particulars/merchant-particulars?shopid=' + event.currentTarget.id
     })
   },
   getUserlocation: function () { //获取用户位置经纬度
