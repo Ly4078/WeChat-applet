@@ -49,6 +49,9 @@
   <view class='logistics' catchtap='clickLogistics' id='{{item.id}}' data-sendType="{{item.sendType}}">
    <view class='logistics-top'>
     <view class='logistics-Left'>
+      <text wx:if="{{item.flagType=='7'}}" class="types" style="background:#FB3434;">拼团</text>
+      <text wx:if="{{item.flagType=='4'}}" class="types" style="background:#E8B310;">砍价</text>
+      <text wx:if="{{item.flagType=='5'}}" class="types" style="background:#2D8EFC;">秒杀</text>
       <text>{{item.createTime}}</text>
     </view>
     <view class='logistics-right'><text style="color:{{item.status==4?'#FC5E2D':''}}">{{item.status2}}</text></view>

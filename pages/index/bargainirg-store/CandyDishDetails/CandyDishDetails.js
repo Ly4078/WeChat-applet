@@ -488,7 +488,7 @@ Page({
             showSkeleton: false
           });
           //自定义分享图片中 绘制价格   公共方法utils.js/canvasShareImg.js  调用方法canvasShareImg()
-          canvasShareImg(that.data.picUrl, that.data.agioPrice, that.data.sellPrice).then(function(res) {
+          canvasShareImg(that.data.picUrl, that.data.agioPrice, that.data.soData.marketPrice ? that.data.soData.marketPrice:that.data.sellPrice).then(function(res) {
             that.setData({
               shareImg: res
             })

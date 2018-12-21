@@ -262,5 +262,8 @@ Page({
       flag: true
     });
     this.getcatdata();
+  },
+  onShareAppMessage: function (res) {
+
   }
 })

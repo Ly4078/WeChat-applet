@@ -114,7 +114,7 @@ Page({
           }
           that.endTimerun(_data.actGoodsSkuOut.dueTime)
           
-          canvasShareImg(_data.skuPic, _data.goodsPromotionRules[0].actAmount, _data.sellPrice).then(function (res) {
+          canvasShareImg(_data.skuPic, _data.goodsPromotionRules[0].actAmount, _data.marketPrice?_data.marketPrice:_data.sellPrice).then(function (res) {
             that.setData({
               shareImg: res
             })

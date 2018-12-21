@@ -102,7 +102,7 @@
     </view>
     <view class="returnSponsor" catchtap='originalprice' style="width:180rpx;background:#FFC0AC;">
         <view>￥{{singleData.sellPrice}}</view>
-        <text>原价购买</text>
+        <text>单独购买</text>
     </view>
     <view class='returnSponsor' catchtap='toOrderdetail' data-id="{{groupStatus.orderId}}" wx:if="{{groupStatus.state == '2' || groupStatus.state == '3'}}">
       <text style="line-height:80rpx;">查看已参团详情</text>

@@ -226,7 +226,7 @@ Page({
         if (_data.expressCode && _data.expressCode.length * 1 > 10) {
           _data.expressCode2 = _data.expressCode.substring(0, 10);
         }
-        canvasShareImg(_data.orderItemOuts[0].goodsSkuPic, _data.realAmount, _data.comTotal).then(function(res) {
+        canvasShareImg(_data.orderItemOuts[0].goodsSkuPic, _data.realAmount, _data.marketPrice ? _data.marketPrice:_data.orderItemOuts[0].goodsPrice).then(function(res) {
           that.setData({
             shareImg: res
           })
@@ -526,21 +526,21 @@ Page({
     })
   },
   onShareAppMessage: function(e) {
-    let that = this;
-    let title = "急死了！我正在拼购仅需" + that.data.soDetail.realAmount + "元拿👉" + that.data.soDetail.orderItemOuts[0].goodsSkuName + "👈考验我们感情的时候到了❤❤❤";
-    let url = "/packageA/pages/tourismAndHotel/touristHotelDils/touristHotelDils?types=share&parentId=" + that.data.groupOrderDetail.actOrder.userId + '&actid=' + that.data.groupOrderDetail.actId + '&id=' + that.data.groupOrderDetail.skuId + '&groupid=' + that.data.groupOrderDetail.id
-    if (e.target.dataset.type == '2') {
-      url = url + '&shareType=2'
-    } else {
-
+    let that = this,title='享7',url='';
+    if (that.data.groupOrderDetail.actInfo && that.data.groupOrderDetail.actInfo.type == '7'){
+      url = "/packageA/pages/tourismAndHotel/touristHotelDils/touristHotelDils?types=share&parentId=" + that.data.groupOrderDetail.actOrder.userId + '&actid=' + that.data.groupOrderDetail.actId + '&id=' + that.data.groupOrderDetail.skuId + '&groupid=' + that.data.groupOrderDetail.id + '&shareType=2';
+      title = "急死了！我正在拼购仅需" + that.data.soDetail.realAmount + "元拿👉" + that.data.soDetail.orderItemOuts[0].goodsSkuName + "👈考验我们感情的时候到了❤❤❤";
+    }else{
+      url ="/pages/index/index";
+      title = that.data.soDetail.orderItemOuts[0].goodsSkuName
     }
-    if (e.from == 'button') {
+    // if (e.from == 'button') {
       return {
         title: title,
         imageUrl: that.data.shareImg,
         path: url
       }
-    }
+    // }
 
   },
   seepiaoDetail:function(){//查看票券

@@ -58,13 +58,13 @@ page, .categoryBox {
   flex-direction: row;
   min-height: 100%;
   /* width: 69%; */
-  margin-left: 164rpx;
+  margin-left: 170rpx;
   /* padding-top: 88rpx; */
   box-sizing: border-box;
 }
 
 .category_l {
-  width: 160rpx;
+  width: 170rpx;
   height: 100%;
   position: fixed;
   left: 0;
@@ -91,7 +91,7 @@ page, .categoryBox {
   height: 100%;
   position: absolute;
   top: 0;
-  left: 16rpx;
+  left: 10rpx;
   display: flex;
   align-items: center;
 }
@@ -107,6 +107,8 @@ page, .categoryBox {
   height: 100%;
   line-height: 82rpx;
   text-align: center;
+  font-size: 30rpx;
+  /* font-weight: bold; */
 }
 
 .category_r {
@@ -144,7 +146,7 @@ page, .categoryBox {
 }
 
 .goods_tit {
-  font-size: 24rpx;
+  font-size: 28rpx;
   font-weight: Semibold;
 }
 

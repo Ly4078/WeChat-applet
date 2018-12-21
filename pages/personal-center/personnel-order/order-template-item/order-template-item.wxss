@@ -141,15 +141,25 @@
 .logistics-Left{
   width: 70%;
   height: auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.logistics-Left .types{
+  padding:0 5rpx ;
+  margin: 0 15rpx;
+  color: #fff;
+  border-radius: 4rpx;
+  font-size: 22rpx;
 }
 
 .logistics-Left text:nth-child(1){
   margin-left: 28rpx;
 }
 
-.logistics-Left text:nth-child(2){
+/* .logistics-Left text:nth-child(2){
   margin-left: 50rpx;
-}
+} */
 
 .logistics-right{
   width: 30%;

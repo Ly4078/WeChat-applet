@@ -195,7 +195,7 @@
       <view>￥
         <text>{{sellPrice}}</text>
       </view>
-      <text class='directly'>原价购买</text>
+      <text class='directly'>单独购买</text>
     </view>
     <view class='returnSponsor' catchtap='sponsorVgts'>
       <view>最低￥

@@ -84,6 +84,7 @@ Page({
             _this.createQrCode(url, "voucanvas", size.w, size.h);
           }
           _this.setData({
+            piaodata:data,
             skuName: data.goodsSku.skuName,
             skuPic: data.goodsSku.skuPic,
             // qrcodeUrl: data.qrcodeUrl, //核销/二维码
@@ -108,14 +109,21 @@ Page({
             });
           }
           let giftTxt = _this.data.giftTxt;
+          _this.setData({ isEnd: false })
           if (data.isUsed == 1) {
             giftTxt = '已被使用';
+            _this.setData({isEnd:true})
           } else if (data.status == 4) {
             giftTxt = '该票券退款中';
+            _this.setData({ isEnd: true })
           } else if (data.status == 5) {
             giftTxt = '该票券已被退款';
+            _this.setData({ isEnd: true })
           } else if (_this.data.isDue == 1) {
             giftTxt = '该票券已过期';
+            _this.setData({ isEnd: true })
+          }else{
+            
           }
           _this.setData({
             giftTxt: giftTxt
@@ -270,9 +278,9 @@ Page({
       }
     })
   },
-  onShareAppMessage: function() { //赠送好友转发
+  onShareAppMessage: function() { //赠送好友转发、
     return {
-      title: '送你一张「' + this.data.skuName +'」兑换券',
+      title: '送您一张「' + this.data.skuName +'」兑换券',
       // imageUrl: this.data.skuPic,
       imageUrl:'https://xqmp4-1256079679.file.myqcloud.com/15927505686_share201811201231232.jpg',
       path: '/pages/index/crabShopping/voucherDetails/voucherDetails?id=' + this.data.id + '&shareId=' + app.globalData.userInfo.userId + '&versionNo=' + this.data.versionNo,

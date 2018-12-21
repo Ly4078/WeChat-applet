@@ -175,5 +175,8 @@ Page({
     this.setData({
       cuisineArray: cuisineArray
     });
-  }
+  },
+  // onShareAppMessage: function (res) {
+
+  // }
 })

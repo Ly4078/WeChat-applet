@@ -299,8 +299,8 @@ Page({
 
     }
 
+  },
+  // onShareAppMessage: function (res) {
 
-
-
-  }
+  // }
 })

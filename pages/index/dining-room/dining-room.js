@@ -592,5 +592,8 @@ Page({
     this.setData({
       posts_key: posts_key
     });
-  }
+  },
+  // onShareAppMessage: function (res) {
+
+  // }
 })

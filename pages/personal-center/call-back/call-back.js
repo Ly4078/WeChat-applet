@@ -16,7 +16,7 @@ Page({
     pay: '',
     dishlist: [],
     hxData: {},
-    _soData:{},
+    _soData: {},
     okhx: true,
     _type: false,
     _code: '', //输入的券码
@@ -28,18 +28,18 @@ Page({
     iszys: false, //是否是自营核销员
     isconfirm: true,
     _salepointId: [],
-    hxaleId:'',
-    messaged:'',
-    frequency:0,
+    hxaleId: '',
+    messaged: '',
+    frequency: 0,
     iszhiying: false
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function(options) {
+  onLoad: function (options) {
     // console.log("options:", options)
-   
+
     if (options.ent) {
       this.setData({
         isent: true,
@@ -64,7 +64,7 @@ Page({
       })
     }
   },
-  onShow: function() {
+  onShow: function () {
     if (app.globalData.userInfo.shopId && app.globalData.userInfo.userType == 2) {
       this.setData({
         isshop: true,
@@ -72,12 +72,12 @@ Page({
       })
     }
     this.setData({
-      frequency:0
+      frequency: 0
     })
     this.getsalepointId();
   },
-  getsalepointId:function(){
-    let that = this, _parms = {}, _salepointId=[];
+  getsalepointId: function () {
+    let that = this, _parms = {}, _salepointId = [];
     _parms = {
       token: app.globalData.token
     }
@@ -92,10 +92,10 @@ Page({
             salepointId: _salepointId
           })
           console.log('salepointId:', that.data.salepointId)
-          if (that.data.result){
+          if (that.data.result) {
             that.gettickets()
           }
-        }else{
+        } else {
           if (that.data.result) {
             that.gettickets()
           }
@@ -104,13 +104,13 @@ Page({
     })
   },
   //实时获取输入的券码--券码
-  bindinputent: function(e) {
+  bindinputent: function (e) {
     let actual = e.detail.value,
       ms = 0,
       _timer = null,
       _this = this;
     clearInterval(this.data.timer);;
-    _timer = setInterval(function() {
+    _timer = setInterval(function () {
       ms += 50;
       if (ms == 100) {
         _this.gettickets(e.detail.value);
@@ -127,7 +127,7 @@ Page({
     });
   },
   //聚焦--券码
-  bindfocus: function() {
+  bindfocus: function () {
     this.setData({
       _codees: '',
       frequency: 0,
@@ -136,13 +136,13 @@ Page({
     })
   },
   //实时获取输入的券码--提货码
-  bindinputentes: function(e) {
+  bindinputentes: function (e) {
     let actual = e.detail.value,
       ms = 0,
       _timer = null,
       _this = this;
     clearInterval(this.data.timer);;
-    _timer = setInterval(function() {
+    _timer = setInterval(function () {
       ms += 50;
       if (ms == 100) {
         _this.gettickets(e.detail.value);
@@ -159,16 +159,16 @@ Page({
     });
   },
   //聚焦--提货码
-  bindfocuses: function() {
+  bindfocuses: function () {
     this.setData({
       _code: '',
-      frequency:0,
+      frequency: 0,
       hxData: {},
       istihua: true
     })
   },
   //获取票券信息
-  gettickets: function(val) {
+  gettickets: function (val) {
     let that = this,
       _Url = "";
     if (val) {
@@ -186,7 +186,7 @@ Page({
       header: {
         "Authorization": app.globalData.token
       },
-      success: function(res) {
+      success: function (res) {
         console.log('fff:', res)
         if (res.data.code == 0) {
           if (res.data.data) {
@@ -244,11 +244,6 @@ Page({
                     }
                   } else {
                     if (app.globalData.userInfo.shopId == _soData.shopId) {
-                      if(_sale && _sale.length>0){
-                        that.setData({
-                          hxaleId: _sale[0]
-                        })
-                      }
                       isHx = true;
                     } else {
                       isHx = false;
@@ -322,7 +317,7 @@ Page({
             if (_soData.userName) {
               _soData.userName1 = _soData.userName;
               _soData.userName = _soData.userName.substr(0, 3) + "****" + _soData.userName.substr(7);
-            } else {}
+            }
             if (_soData.promotionRules && _soData.promotionRules.length > 0) {
               if (_soData.promotionRules[0].ruleDesc) {
                 _rele = _soData.promotionRules[0].ruleDesc;
@@ -382,12 +377,12 @@ Page({
           } else {
             // '3412744986'
             that.setData({
-              frequency: that.data.frequency+1,
+              frequency: that.data.frequency + 1,
               istihua: !that.data.istihua
             })
-            if (that.data.frequency==1){
+            if (that.data.frequency == 1) {
               that.gettickets(val);
-            } else if (that.data.frequency == 2){
+            } else if (that.data.frequency == 2) {
               wx.showToast({
                 title: '券码错误，请重新输入！',
                 mask: 'true',
@@ -415,20 +410,19 @@ Page({
       }
     })
   },
-  isDueFunc: function(current, expiryDate) { //对比时间是否过期
+  isDueFunc: function (current, expiryDate) { //对比时间是否过期
     let isDue = 0;
     if (new Date(expiryDate + " 23:59:59").getTime() < current) {
       isDue = 1;
     }
     return isDue;
   },
-
-  confirm: function() { //确认核销
+  confirm: function () { //确认核销
     let that = this,
-      _msg ='不符合核销条件，请重新输入',
+      _msg = '不符合核销条件，请重新输入',
       _hxData = this.data._soData;
     console.log("4203086123:", this.data._soData)
-  
+
     if (!this.data.isconfirm) {
       return false
     }
@@ -445,63 +439,17 @@ Page({
       isconfirm: false
     })
     if (this.data.iszys) {
+      console.log("1111")
       let _value = that.data._codees ? that.data._codees : that.data.code,
         url = "",
         _Url = "",
-        _shopNmme='',
-      _shopId = app.globalData.userInfo.shopId ? app.globalData.userInfo.shopId : _hxData.shopId;
- 
-      if (_hxData.type == 1) {
-        url = that.data._build_url + 'orderInfo/useOrderInfo?orderCode=' + _value;
-      } else if (_hxData.type == 2) {
-        url = that.data._build_url + 'orderCoupon/hxCoupon?shopId=' + _shopId +'&salepointId=' + that.data.hxaleId + '&id=' + _hxData.id;
-      }
-      console.log("url:",url)
-      _Url = encodeURI(url);
-      wx.request({
-        url: _Url,
-        header: {
-          "Authorization": app.globalData.token
-        },
-        method: 'POST',
-        success: function(res) {
-          if (res.data.code == 0) {
-            wx.showModal({
-              title: '',
-              showCancel: false,
-              content: '核销成功',
-              success: function(res) {
-                if (res.confirm) {
-                  wx.switchTab({
-                    url: '../personal-center'
-                  })
-                }
-              }
-            })
-          }
-        }
-      })
-    } else {
-      _hxData.shopAmount = that.data.amount ? that.data.amount : 0;
-      let _values = "",
+        _values = "",
         _parms = {},
-        url = "",
-        _Url = "";
-
-      if (_hxData.type == 2 || !_hxData.type) {
-        _parms={
-          shopId: app.globalData.userInfo.shopId ? app.globalData.userInfo.shopId : _hxData.shopId,
-          id: _hxData.id
-        }
-        if (that.data.hxaleId){
-          _parms.salepointId = that.data.hxaleId
-        }
-        for (let key in _parms) {
-          _values += key + "=" + _parms[key] + "&";
-        }
-        _values = _values.substring(0, _values.length - 1);
-        url = that.data._build_url + 'orderCoupon/hxCoupon?' + _values;
-      } else {
+        _shopNmme = '',
+        _shopId = app.globalData.userInfo.shopId ? app.globalData.userInfo.shopId : _hxData.shopId;
+      // if (_hxData.type == 1) {
+      if ('dishSkuId' in _hxData) {
+        // url = that.data._build_url + 'orderInfo/useOrderInfo?orderCode=' + _value;
         _parms = {
           soId: _hxData.soId, //订单id	Long
           shopId: app.globalData.userInfo.shopId ? app.globalData.userInfo.shopId : "", //商家id	Long
@@ -520,6 +468,80 @@ Page({
         }
         _values = _values.substring(0, _values.length - 1);
         url = that.data._build_url + 'hx/add?' + _values;
+      } else {
+        console.log("aaaa")
+        url = that.data._build_url + 'orderCoupon/hxCoupon?shopId=' + _shopId + '&id=' + _hxData.id;
+      }
+      if (that.data.hxaleId) {
+        url += '&salepointId=' + that.data.hxaleId
+      }
+      console.log("url:", url)
+      _Url = encodeURI(url);
+      wx.request({
+        url: _Url,
+        header: {
+          "Authorization": app.globalData.token
+        },
+        method: 'POST',
+        success: function (res) {
+          console.log('res:', res)
+          if (res.data.code == 0) {
+            wx.showModal({
+              title: '',
+              showCancel: false,
+              content: '核销成功',
+              success: function (res) {
+                if (res.confirm) {
+                  wx.switchTab({
+                    url: '../personal-center'
+                  })
+                }
+              }
+            })
+          }
+        }
+      })
+    } else {
+      console.log("2222")
+      _hxData.shopAmount = that.data.amount ? that.data.amount : 0;
+      let _values = "",
+        _parms = {},
+        url = "",
+        _Url = "";
+
+      // if (_hxData.type == 2 || !_hxData.type) {
+      if ('dishSkuId' in _hxData) {
+        _parms = {
+          soId: _hxData.soId, //订单id	Long
+          shopId: app.globalData.userInfo.shopId ? app.globalData.userInfo.shopId : "", //商家id	Long
+          shopAmount: that.data.newamount, //消费总额	BigDecimal
+          couponId: _hxData.id, //电子券id	Long
+          couponCode: _hxData.couponCode, //电子券code	String
+          skuId: _hxData.skuId, //商品id	Long
+          couponAmount: that.data.newamount, //电子券面额	BigDecimal
+          userId: _hxData.userId, //消费人id	Long
+          userName: _hxData.userName1, //消费人账号	String
+          // cashierId: app.globalData.userInfo.userId, //收银id	Long
+          // cashierName: app.globalData.userInfo.userName, //收银账号	String
+        }
+        for (let key in _parms) {
+          _values += key + "=" + _parms[key] + "&";
+        }
+        _values = _values.substring(0, _values.length - 1);
+        url = that.data._build_url + 'hx/add?' + _values;
+      } else {
+        _parms = {
+          shopId: app.globalData.userInfo.shopId ? app.globalData.userInfo.shopId : _hxData.shopId,
+          id: _hxData.id
+        }
+        if (that.data.hxaleId) {
+          _parms.salepointId = that.data.hxaleId
+        }
+        for (let key in _parms) {
+          _values += key + "=" + _parms[key] + "&";
+        }
+        _values = _values.substring(0, _values.length - 1);
+        url = that.data._build_url + 'orderCoupon/hxCoupon?' + _values;
       }
       _Url = encodeURI(url);
       wx.request({
@@ -528,13 +550,13 @@ Page({
           "Authorization": app.globalData.token
         },
         method: 'POST',
-        success: function(res) {
+        success: function (res) {
           if (res.data.code == 0) {
             wx.showModal({
               title: '',
               showCancel: false,
               content: '核销成功',
-              success: function(res) {
+              success: function (res) {
                 if (res.confirm) {
                   wx.switchTab({
                     url: '../personal-center'
@@ -546,7 +568,7 @@ Page({
             wx.showModal({
               title: '提示',
               content: res.data.message,
-              success: function(res) {
+              success: function (res) {
                 if (res.confirm) {
                   wx.switchTab({
                     url: '../personal-center'

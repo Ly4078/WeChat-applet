@@ -24,6 +24,8 @@
       <view wx:for="{{listData}}" wx:key="{{index}}" class="tickItem" id="{{item.id}}" data-isUsed="{{item.isUsed}}" data-ownId="{{item.ownId}}" data-isDue="{{item.isDue}}" bindtap='redeemNow'>
         <image class="ticketBgc" src="/images/icon/ticketBgc.png"></image>
         <image wx:if="{{item.isUsed == 0 && (item.status == 0 || item.status == null) && item.isDue == 0}}" class="ticketIcon" src="/images/icon/ticketIcon.png"></image>
+        <image wx:else class="ticketIcon" src="/images/icon/ticketIconse.png"></image>
+        
         <view class="tickItem_inner">
           <view class="tickItem_top">
             <view class="hot-recoItem-left">
@@ -34,10 +36,13 @@
             </view>
           </view>
           <view class="tickItem_bot">
+          <view>创建时间：{{item.createTime}}</view>
             <view>有效期至：{{item.expiryDate}}</view>
             <view class="item_bot_info">
-              <text>详情</text>
-              <image src="/images/icon/home_arrow.png"></image>
+              <text wx:if="{{item.isUsed == 0 && (item.status == 0 || item.status == null) && item.isDue == 0}}" style="color:#E03232;">{{item.otherMarkerPrice?('￥'+item.otherMarkerPrice):''}}</text>
+              <text wx:else >{{item.otherMarkerPrice?('￥'+item.otherMarkerPrice):''}}</text>
+              <!-- <text>详情</text>
+              <image src="/images/icon/home_arrow.png"></image> -->
             </view>
           </view>
         </view>
