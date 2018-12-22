@@ -26,7 +26,7 @@
       <view style="padding:0 22rpx;font-weight:600;" class="fz36">{{skuName}}{{goodsNum > 1 ? 'X'+goodsNum : ''}}</view>
 
       <view wx:if="{{!isReceived && isUsed == 0 && (status == 0 || status == null) && isDue == 0}}" class='spreds'>{{piaodata.goodsSku.otherMarkerPrice?'￥'+piaodata.goodsSku.otherMarkerPrice:''}}</view>
-       <view wx:else class='spreds'>
+       <view wx:else class='spredss'>
        {{piaodata.goodsSku.otherMarkerPrice?'￥'+piaodata.goodsSku.otherMarkerPrice:''}}
        </view>
 

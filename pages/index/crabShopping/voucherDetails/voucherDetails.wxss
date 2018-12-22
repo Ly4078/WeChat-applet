@@ -250,3 +250,8 @@ page {
   margin:48rpx 0 60rpx 0;
   font-size: 40rpx;
 }
+.spredss{
+  margin:48rpx 0 60rpx 0;
+  font-size: 40rpx;
+  color: #969696;
+}

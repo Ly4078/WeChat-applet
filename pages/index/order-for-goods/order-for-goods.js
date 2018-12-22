@@ -871,11 +871,21 @@ Page({
               'signType': 'MD5',
               'paySign': res.data.data.paySign,
               success: function(res) {
-                wx.redirectTo({
-                  url: '../../personal-center/my-discount/my-discount?let=let'
+                payrequest = true;
+                wx.showLoading({
+                  title: '订单确认中...',
                 })
+                setTimeout( ()=>{
+                  wx.hideLoading()
+                  wx.redirectTo({
+                    url: '../../personal-center/my-discount/my-discount?let=let'
+                  })
+                },3000)
+                
               },
               fail: function(res) {
+                payrequest = true;
+                wx.hideLoading()
                 wx.showToast({
                   icon: 'none',
                   title: '支付取消',
@@ -913,11 +923,21 @@ Page({
               'signType': 'MD5',
               'paySign': res.data.data.paySign,
               success: function(res) {
-                wx.redirectTo({
-                  url: '../../personal-center/my-discount/my-discount?let=let'
+                payrequest = true;
+                wx.showLoading({
+                  title: '订单确认中...',
                 })
+                setTimeout( ()=>{
+                  wx.hideLoading()
+                  wx.redirectTo({
+                    url: '../../personal-center/my-discount/my-discount?let=let'
+                  })
+                },3000)
+               
               },
               fail: function(res) {
+                payrequest = true;
+                wx.hideLoading()
                 wx.showToast({
                   icon: 'none',
                   title: '支付取消',
