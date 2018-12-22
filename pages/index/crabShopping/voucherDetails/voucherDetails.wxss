@@ -99,8 +99,10 @@ page {
 
 .top_time {
   padding: 40rpx 0 50rpx 0;
+  font-size: 24rpx;
   color: #969696;
 }
+
 
 .leftCircle, .rightCircle {
   width: 30rpx;

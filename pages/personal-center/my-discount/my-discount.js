@@ -25,7 +25,7 @@ Page({
     ind: 0,
     currentIndex: 0,
     navbar: ['兑换券', '优惠券', ],
-    tabs: ["我的票券", "赠送记录", "领取记录"],
+    tabs: ["我的票券", "赠送记录", "领取记录","已失效"],
     userId: app.globalData.userInfo.userId
   },
   onLoad: function (options) {
@@ -95,18 +95,19 @@ Page({
     Public.addFormIdCache(_formId); 
   },
   handtab: function(e) {
-    let index = e.currentTarget.dataset.index;
-    let that = this;
+    let that = this,index = e.currentTarget.dataset.index;
+    console.log("index:", index)
     this.setData({
-      ind: index
+      ind: index,
+      pxpage:1
     },()=>{
-        if(index == 0) {
+        if(index == 0 || index  ==3) {
           if (swichrequestflag[index]) {
             return false
           }
-          if (!that.data.listData.length >= 1) {
-            that.getorderCoupon(0)
-          }
+          // if (!that.data.listData.length >= 1) {
+          that.getorderCoupon(index)
+          // }
         } else if (index == 1) {
           if (swichrequestflag[index]) {
             return false
@@ -166,6 +167,7 @@ Page({
   },
   //查询我的礼品券列表数据 
   getorderCoupon: function(types) {
+    console.log('getorderCoupon')
     let that = this;
     if (!app.globalData.userInfo.userId) {
       this.findByCode();
@@ -173,26 +175,33 @@ Page({
       let _parms = {
         userId: app.globalData.userInfo.userId,
         page: this.data.pxpage,
+        token: app.globalData.token,
         // isUsed:0,
         rows: 10
       };
-      if (this.data.pxpage == 1) {
-        this.setData({
-          listData: []
-        })
+      console.log("ind:",this.data.ind)
+      if(this.data.ind == 0){
+        _parms.isUsed = 0;
+      }else if(this.data.ind == 3){
+        _parms.isUsed = 1;
       }
-      swichrequestflag[types] = true
+      console.log('_parms:',_parms)
+      swichrequestflag[types] = true;
       Api.orderCoupon(_parms).then((res) => {
         // wx.stopPullDownRefresh();
+        console.log('res:',res)
         that.setData({
           loading: false
         })
         if (res.data.code == 0) {
-          let _data = this.data.pxpage == 1 ? [] : this.data.listData,
+          let _data = that.data.pxpage == 1 ? [] : that.data.listData,
             _list = res.data.data.list;
+          console.log('_list:', _list)
           if (_list && _list.length > 0) {
             for (let i = 0; i < _list.length; i++) {
-              _list[i].sku = "公" + _list[i].maleWeight + " 母" + _list[i].femaleWeight + " 4对 " + _list[i].styleName + " | " + _list[i].otherMarkerPrice + "型";
+              if (_list[i].maleWeight){
+                _list[i].sku = "公" + _list[i].maleWeight + " 母" + _list[i].femaleWeight + " 4对 " + _list[i].styleName + " | " + _list[i].otherMarkerPrice + "型";
+              }
               if (_list[i].ownId) {
                 if (_list[i].ownId != app.globalData.userInfo.userId) {
                   _list[i].isUsed = 1;
@@ -200,13 +209,14 @@ Page({
               }
               _list[i]["isDue"] = that.isDueFunc(_list[i].expiryDate);
             }
-            this.setData({
+            that.setData({
               listData: _data.concat(_list),
               pageTotal: Math.ceil(res.data.data.total / 10),
               loading: false
             })
+            console.log('listData:', that.data.listData)
           } else {
-            this.setData({
+            that.setData({
               loading: false
             })
           }
@@ -341,7 +351,6 @@ Page({
   //获取我的票券
   getTicketList: function() {
     let that = this;
-    let _token = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1NDE2Njg3MTAsImNyZWF0ZWQiOjE1NDEwNjM5MTAyNjEsInN1YiI6IjE1OTI2MTk3NTQ2In0.SSeAYcAqePu6DnP3zGzwI3xmeY_7FLTRKXccWR9kZ2_e0_RC8hvNH40U4hTqynhS5sbjcesBg0IKLv2N1RFFDw";
     if (!app.globalData.userInfo.userId) {
       this.findByCode();
     } else {

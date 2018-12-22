@@ -15,7 +15,7 @@
 	"compileType": "miniprogram",
 	"libVersion": "2.3.2",
 	"appid": "wxf91e2a026658e78e",
-	"projectname": "miniAppsJWT",
+	"projectname": "miniApps-new",
 	"debugOptions": {
 		"hidedInDevtools": []
 	},
@@ -37,8 +37,15 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": -1,
-			"list": []
+			"current": 0,
+			"list": [
+				{
+					"id": -1,
+					"name": "a",
+					"pathName": "pages/index/crabShopping/voucherDetails/voucherDetails",
+					"query": "id=153&isDue=0"
+				}
+			]
 		}
 	}
 }
