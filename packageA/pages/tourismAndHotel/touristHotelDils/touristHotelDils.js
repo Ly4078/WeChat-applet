@@ -6,6 +6,7 @@ import {
 } from '../../../../utils/config/config.js';
 import Api from '../../../../utils/config/api.js';
 var app = getApp();
+var payrequest = true;
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
@@ -366,7 +367,10 @@ Page({
         return false
       }
     }
-
+    if (!payrequest){
+      return false
+    }
+    payrequest = false
     _parms = {
       shopId: that.data.singleData.shopId,
       payType: 2,
@@ -405,9 +409,10 @@ Page({
           })
           
         }else{
+          payrequest = true
           wx.hideLoading();
           wx.showToast({
-            title:'库存不足，请稍后再试',
+            title:'请稍后再试',
             icon: 'none'
           })
           that.addrecord();
@@ -458,6 +463,7 @@ Page({
           if(res.data.code=='0' && res.data.data){
               that.pay(res.data.data)
           } else {
+            payrequest = true
             wx.hideLoading();
             wx.showToast({
               title: res.data.message || '支付失败',
@@ -485,18 +491,19 @@ Page({
       'signType': 'MD5',
       'paySign': _data.paySign,
       success:function(res){
-        wx.showToast({
-          title: '拼购成功',
-          icon:'none',
-          duration:1500
+        payrequest = true
+        wx.showLoading({
+          title: '订单确认中...',
         })
         setTimeout( ()=>{
+          wx.hideLoading()
           wx.navigateTo({
             url: '/pages/personal-center/personnel-order/logisticsDetails/logisticsDetails?soId=' + that.data.orderId,
           })
-        },1500) 
+        },2000) 
         
       },fail:function(res){
+        payrequest = true
           wx.showToast({
             title: '支付取消',
             icon:"none",

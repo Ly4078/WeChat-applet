@@ -7,6 +7,7 @@ var app = getApp();
 import canvasShareImg from '../../../../utils/canvasShareImg.js';
 var WxParse = require('../../../../utils/wxParse/wxParse.js');
 let requesting = false;
+var payrequest = true;
 
 var village_LBS = function(that) {
   wx.getLocation({
@@ -812,6 +813,10 @@ Page({
       } else {
         url = that.data._build_url + 'bargain/skuRedis?skuId=' + this.data.id;
       }
+      if (!payrequest){
+        return false
+      }
+      payrequest = false;
       wx.request({
         url: url,
         header: {
@@ -819,6 +824,7 @@ Page({
         },
         method: 'GET',
         success: function(res) {
+          payrequest = true
           let _shopId = that.data.shopId ? that.data.shopId : that.data.soData.shopId;
           if (res.data.code == 0) {
             if (res.data.data.length > 0) {
@@ -855,6 +861,8 @@ Page({
               isApro: true
             })
           }
+        },fail(){
+          payrequest = true
         }
       })
     }

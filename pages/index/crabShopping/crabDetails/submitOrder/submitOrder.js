@@ -7,6 +7,7 @@ import {
 } from '../../../../../utils/config/config.js';
 // var utils = require('../../../../../utils/util.js');
 var rules = [];
+var payrequest = true;
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
@@ -437,6 +438,10 @@ Page({
   },
   //创建活动订单
   createActOrder:function(){
+    if (!payrequest){
+      return false
+    }
+    payrequest = false
     let _parms={},that=this;
     _parms = {
       shopId: this.data.shopId,
@@ -451,6 +456,10 @@ Page({
         orderItemShopId: '0'
       }]
     };
+    wx.showLoading({
+      title: '加载中...',
+      mask: true
+    })
     if(this.data.actId == 41) {
       if (this.data.totleKey){
         _parms['totalKey'] = this.data.totleKey;
@@ -473,13 +482,16 @@ Page({
         "Authorization": app.globalData.token
       },
       success: function (res) {
-        if (res.data.code == 0) {
+        if (res.data.code == 0 && res.data.data) {
           if (res.data.data) {
             that.setData({
               orderId: res.data.data
             })
             that.wxpayment();
           }
+        }else{
+          wx.hideLoading();
+          payrequest = true;
         }
       }
     })
@@ -668,6 +680,10 @@ Page({
             payObj: res.data.data
           })
           that.pay();
+          wx.hideLoading();
+        }else{
+          wx.hideLoading();
+          payrequest = true
         }
       }
     })
@@ -683,11 +699,21 @@ Page({
       'signType': 'MD5',
       'paySign': _data.paySign,
       success: function(res) {
-        wx.navigateTo({
-          url: '/pages/personal-center/personnel-order/logisticsDetails/logisticsDetails?soId=' + that.data.orderId,
+        wx.hideLoading();
+        payrequest = true
+        wx.showLoading({
+          title: '订单确认中...',
         })
+        setTimeout( ()=>{
+          wx.navigateTo({
+            url: '/pages/personal-center/personnel-order/logisticsDetails/logisticsDetails?soId=' + that.data.orderId,
+          })
+        },2000)
+       
       },
       fail: function(res) {
+        wx.hideLoading();
+        payrequest = true
         wx.showToast({
           icon: 'none',
           title: '支付取消',

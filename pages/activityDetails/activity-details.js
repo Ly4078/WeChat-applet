@@ -17,21 +17,18 @@ Page({
   },
 
   onShow: function (options) {
-  },
-  onLoad: function () {
-
     let that = this;
-    this.setData({
-      actdata: [],
-      page: 1,
-      flag: true
-    })
     if (!app.globalData.token) {
       that.findByCode();
     } else {
-      that.getcatdata();
+      if (!that.data.actdata.length){
+        that.getcatdata();
+      }
+      
     }
-   
+  },
+  onLoad: function () {
+    let that = this;
     if (!app.globalData.userInfo.unionId){
       wx.login({
         success: res => {
@@ -111,7 +108,7 @@ Page({
         if (res.data.code == 0) {
           let _token = 'Bearer ' + res.data.data;
           app.globalData.token = _token;
-          let userInfo = wx.getStorageSync('userInfo')
+          let userInfo = wx.getStorageSync('userInfo') || {}
           userInfo.token = _token
           wx.setStorageSync("token", _token)
           wx.setStorageSync("userInfo", userInfo)

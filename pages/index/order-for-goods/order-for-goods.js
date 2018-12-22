@@ -7,6 +7,7 @@ var utils = require('../../../utils/util.js');
 import Public from '../../../utils/public.js';
 var app = getApp();
 let minusStatus = '';
+var payrequest = true;
 Page({
   data: {
     // input默认是1  
@@ -225,8 +226,10 @@ Page({
         issnap: true
       })
     } else {
-
-      this.confirmPayment();
+      if (!payrequest){
+        return false
+      }
+      that.confirmPayment();
     }
   },
 
@@ -244,6 +247,10 @@ Page({
         issecond: false
       })
     }, 3000)
+    wx.showLoading({
+      title: '加载中...',
+    })
+    payrequest = false
     if (this.data.skutype == 4) {
       let _parmsss = {},
       url="",
@@ -266,6 +273,7 @@ Page({
       _value = _value.substring(0, _value.length - 1);
       url = that.data._build_url + 'sku/addSkuForKj?' + _value;
       _Url = encodeURI(url);
+     
       wx.request({
         url: _Url,
         header: {
@@ -307,6 +315,7 @@ Page({
                 if (res.data.code == 0) {
                   _this.updateuser(res.data.data);
                 } else {
+                  wx.hideLoading()
                   wx.showToast({
                     title: res.data.message,
                     icon: 'none'
@@ -315,11 +324,20 @@ Page({
               }
             })
           } else {
+            wx.hideLoading()
+            payrequest = true
             wx.showToast({
               title: '系统繁忙',
               icon: 'none'
             })
           }
+        },fail(){
+          wx.hideLoading()
+          payrequest = true
+          wx.showToast({
+            title: '系统繁忙',
+            icon: 'none'
+          })
         }
       })
     } else if (this.data.skutype == 8) {
@@ -387,6 +405,7 @@ Page({
                 if (res.data.code == 0) {
                   _this.updateuser(res.data.data);
                 } else {
+                  wx.hideLoading()
                   wx.showToast({
                     title: res.data.message,
                     icon: 'none'
@@ -395,11 +414,20 @@ Page({
               }
             })
           } else {
+            wx.hideLoading()
+            payrequest = true
             wx.showToast({
               title: '系统繁忙',
               icon: 'none'
             })
           }
+        },fail(){
+          wx.hideLoading()
+          payrequest = true
+          wx.showToast({
+            title: '系统繁忙',
+            icon: 'none'
+          })
         }
       })
 
@@ -592,7 +620,13 @@ Page({
       success: function(res) {
         if (res.data.code == 0) {
           that.payment(val);
+        }else{
+          payrequest = true;
+          wx.hideLoading()
         }
+      },fail(){
+        wx.hideLoading()
+        payrequest = true;
       }
     })
   },
@@ -619,6 +653,7 @@ Page({
         },
         method: 'POST',
         success: function(res) {
+          wx.hideLoading()
           if (res.data.code == 0) {
             let arr = res.data.data.package.split("=");
             Public.addFormIdCache(arr[1]);
@@ -629,12 +664,20 @@ Page({
               'signType': 'MD5',
               'paySign': res.data.data.paySign,
               success: function(res) {
+                payrequest = true;
                 that.messagepush();
-                wx.redirectTo({
-                  url: '../../personal-center/my-discount/my-discount?let=let'
+                wx.showLoading({
+                  title: '订单确认中...',
                 })
+                setTimeout( ()=>{
+                  wx.redirectTo({
+                    url: '../../personal-center/my-discount/my-discount?let=let'
+                  })
+                },2000) 
+               
               },
               fail: function(res) {
+                payrequest = true;
                 wx.showToast({
                   icon: 'none',
                   title: '支付取消',
@@ -643,6 +686,14 @@ Page({
               }
             })
           }
+        },fail(){
+          payrequest = true;
+          wx.showToast({
+            icon: 'none',
+            title: '系统繁忙',
+            duration: 1200
+          })
+          wx.hideLoading()
         }
       })
     } else if (this.data.skutype == 4) {
@@ -674,6 +725,7 @@ Page({
         },
         method: 'POST',
         success: function(res) {
+          wx.hideLoading()
           if (res.data.code == 0) {
             let arr = res.data.data.package.split("=");
             Public.addFormIdCache(arr[1]);
@@ -684,11 +736,20 @@ Page({
               'signType': 'MD5',
               'paySign': res.data.data.paySign,
               success: function(res) {
-                wx.redirectTo({
-                  url: '../../personal-center/my-discount/my-discount?let=let'
+                payrequest = true;
+                wx.showLoading({
+                  title: '订单确认中...',
                 })
+                setTimeout( ()=>{
+                  wx.hideLoading()
+                  wx.redirectTo({
+                    url: '../../personal-center/my-discount/my-discount?let=let'
+                  })
+                },2000) 
+                
               },
               fail: function(res) {
+                payrequest = true;
                 wx.showToast({
                   icon: 'none',
                   title: '支付取消',
@@ -697,11 +758,15 @@ Page({
               }
             })
           } else {
+            payrequest = true;
             wx.showToast({
               title: res.data.message,
               icon: 'none'
             })
           }
+        },fail(){
+          wx.hideLoading()
+          payrequest = true;
         }
       })
     } else if (this.data.skutype == 8) {
@@ -724,7 +789,9 @@ Page({
         },
         method: 'POST',
         success: function(res) {
+          wx.hideLoading()
           if (res.data.code == 0) {
+
             let arr = res.data.data.package.split("=");
             Public.addFormIdCache(arr[1]);
             wx.requestPayment({
@@ -734,11 +801,20 @@ Page({
               'signType': 'MD5',
               'paySign': res.data.data.paySign,
               success: function(res) {
-                wx.redirectTo({
-                  url: '../../personal-center/my-discount/my-discount?let=let'
+                payrequest = true;
+                wx.showLoading({
+                  title: '订单确认中...',
                 })
+                setTimeout( ()=>{
+                  wx.hideLoading()
+                  wx.redirectTo({
+                    url: '../../personal-center/my-discount/my-discount?let=let'
+                  })
+                },2000)
+               
               },
               fail: function(res) {
+                payrequest = true;
                 wx.showToast({
                   icon: 'none',
                   title: '支付取消',
@@ -747,11 +823,15 @@ Page({
               }
             })
           } else {
+            payrequest = true;
             wx.showToast({
               title: res.data.message,
               icon: 'none'
             })
           }
+        },fail(){
+          wx.hideLoading()
+          payrequest = true;
         }
       })
     } else if (this.data.skutype == 10) {

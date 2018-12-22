@@ -7,6 +7,7 @@ var utils = require('../../../../../utils/util.js');
 import Public from '../../../../../utils/public.js';
 var app = getApp();
 let minusStatus = '';
+var payrequest = true;
 Page({
   data: {
     // input默认是1  
@@ -66,6 +67,7 @@ Page({
         orderItemShopId: '0',
       }]
     };
+    payrequest = false
     _parms.flagType = 1
     wx.showLoading({
       title: '加载中...',
@@ -87,6 +89,7 @@ Page({
           })
 
         } else {
+          payrequest = true
           wx.hideLoading();
           wx.showToast({
             title: '请稍后再试',
@@ -133,6 +136,7 @@ Page({
         if (res.data.code == '0' && res.data.data) {
           that.pay(res.data.data)
         } else {
+          payrequest = true
           wx.hideLoading();
           wx.showToast({
             title: res.data.message || '支付失败',
@@ -158,10 +162,19 @@ Page({
       'signType': 'MD5',
       'paySign': _data.paySign,
       success: function (res) {
-        wx.navigateTo({
-          url: '/pages/personal-center/personnel-order/logisticsDetails/logisticsDetails?soId=' + that.data.orderId,
+        payrequest = true
+        wx.showLoading({
+          title: '订单确认中...',
         })
+        setTimeout( ()=>{
+          wx.hideLoading();
+          wx.navigateTo({
+            url: '/pages/personal-center/personnel-order/logisticsDetails/logisticsDetails?soId=' + that.data.orderId,
+          })
+        },2000)
+        
       }, fail: function (res) {
+        payrequest = true
         wx.showToast({
           title: '支付取消',
           icon: "none",
@@ -225,7 +238,10 @@ Page({
   },
   formSubmit:function(e){  //获取fromId
     let _formId = e.detail.formId;
-    Public.addFormIdCache(_formId); 
+    Public.addFormIdCache(_formId);
+    if (!payrequest){
+      return false
+    }
     this.sponsorVgts();
     
   },

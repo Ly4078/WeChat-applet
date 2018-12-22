@@ -29,7 +29,13 @@ Page({
     })
   },
   onShow: function() {
-    this.findByCode()
+    let that = this;
+    if(app.globalData.token){
+      that.getorderInfoDetail();
+      that.getgroupOrderDetail();
+    }else{
+      that.findByCode()
+    }
   },
   onPullDownRefresh: function() {
     this.findByCode()
@@ -82,7 +88,7 @@ Page({
         if (res.data.code == 0) {
           let _token = 'Bearer ' + res.data.data;
           app.globalData.token = _token;
-          let userInfo = wx.getStorageSync('userInfo')
+          let userInfo = wx.getStorageSync('userInfo') || {};
           userInfo.token = _token
           wx.setStorageSync("token", _token)
           wx.setStorageSync("userInfo", userInfo)
