@@ -482,7 +482,7 @@ Page({
         "Authorization": app.globalData.token
       },
       success: function (res) {
-        if (res.data.code == 0 && res.data.data) {
+        if (res.data.code == 0 && res.data.data != null) {
           if (res.data.data) {
             that.setData({
               orderId: res.data.data
@@ -493,6 +493,9 @@ Page({
           wx.hideLoading();
           payrequest = true;
         }
+      },fail(){
+        wx.hideLoading();
+        payrequest = true;
       }
     })
   },
