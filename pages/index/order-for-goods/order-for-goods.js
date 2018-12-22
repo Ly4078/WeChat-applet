@@ -673,7 +673,7 @@ Page({
                   wx.redirectTo({
                     url: '../../personal-center/my-discount/my-discount?let=let'
                   })
-                },2000) 
+                },3000) 
                
               },
               fail: function(res) {
@@ -745,7 +745,7 @@ Page({
                   wx.redirectTo({
                     url: '../../personal-center/my-discount/my-discount?let=let'
                   })
-                },2000) 
+                },3000) 
                 
               },
               fail: function(res) {
@@ -810,7 +810,7 @@ Page({
                   wx.redirectTo({
                     url: '../../personal-center/my-discount/my-discount?let=let'
                   })
-                },2000)
+                },3000)
                
               },
               fail: function(res) {
