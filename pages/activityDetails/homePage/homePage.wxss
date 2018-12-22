@@ -232,3 +232,15 @@
   margin:260rpx 0 50rpx -200rpx;
 
 }
+
+.ball{
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 1rpx 1rpx 5rpx #666;
+  width: 100rpx;
+  right:20rpx;
+  font-size: 32rpx;
+  text-align: center;
+  line-height: 100rpx;
+  height: 100rpx;
+}

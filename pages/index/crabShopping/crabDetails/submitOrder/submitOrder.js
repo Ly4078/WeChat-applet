@@ -688,11 +688,15 @@ Page({
           wx.hideLoading();
           payrequest = true
         }
+      },fail(){
+        wx.hideLoading();
+        payrequest = true
       }
     })
   },
   //支付
   pay: function() {
+    payrequest = true
     let _data = this.data.payObj,
       that = this;
     wx.requestPayment({
@@ -724,6 +728,8 @@ Page({
         })
       },
       complete: function(res) {
+        wx.hideLoading();
+        payrequest = true
         that.setData({
           issoid: false
         })
