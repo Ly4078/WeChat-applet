@@ -7,7 +7,8 @@ import Countdown from '../../../../utils/Countdown.js';
 import canvasShareImg from '../../../../utils/canvasShareImg.js';
 import Public from '../../../../utils/public.js';
 var app = getApp();
-var timer = null;
+var timer = null,
+  InquireorderTimer = null;
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
@@ -30,12 +31,23 @@ Page({
   },
   onShow: function() {
     let that = this;
-    if(app.globalData.token){
+    if (app.globalData.token) {
       that.getorderInfoDetail();
       that.getgroupOrderDetail();
-    }else{
+    } else {
       that.findByCode()
     }
+    let timerNum = 0;
+    InquireorderTimer = setInterval(() => {
+      if (timerNum == 10) {
+        clearInterval(InquireorderTimer)
+        return false
+      }
+      that.getorderInfoDetail();
+      that.getgroupOrderDetail();
+      timerNum++
+      console.log(timerNum)
+    }, 2000)
   },
   onPullDownRefresh: function() {
     this.findByCode()
@@ -153,6 +165,7 @@ Page({
   },
   onHide: function() {
     try {
+      clearInterval(InquireorderTimer);
       clearInterval(that.data.timer);
       that.setData({
         timer: null
@@ -162,6 +175,7 @@ Page({
   },
   onUnload: function() {
     try {
+      clearInterval(InquireorderTimer);
       clearInterval(that.data.timer);
       that.setData({
         timer: null
@@ -224,7 +238,7 @@ Page({
           if (_data.status == 2 || _data.status == 3) {
             _data.ust = true;
           }
-        }else{
+        } else {
           _data.ust = true;
         }
         _data.realAmount = _data.realAmount.toFixed(2);
@@ -232,7 +246,7 @@ Page({
         if (_data.expressCode && _data.expressCode.length * 1 > 10) {
           _data.expressCode2 = _data.expressCode.substring(0, 10);
         }
-        canvasShareImg(_data.orderItemOuts[0].goodsSkuPic, _data.realAmount, _data.marketPrice ? _data.marketPrice:_data.orderItemOuts[0].goodsPrice).then(function(res) {
+        canvasShareImg(_data.orderItemOuts[0].goodsSkuPic, _data.realAmount, _data.marketPrice ? _data.marketPrice : _data.orderItemOuts[0].goodsPrice).then(function(res) {
           that.setData({
             shareImg: res
           })
@@ -394,7 +408,7 @@ Page({
       that = this,
       _value = "",
       url = "",
-      urls='',
+      urls = '',
       _Url = "";;
     _parms = {
       orderId: this.data.soId,
@@ -410,7 +424,7 @@ Page({
       let type = that.data.groupOrderDetail.actInfo.type ? that.data.groupOrderDetail.actInfo.type : '1'
       urls = url + '&type=' + type
     } else {
-       urls = url + '&type=1'
+      urls = url + '&type=1'
     }
     _Url = encodeURI(urls);
     console.log('url', urls)
@@ -532,24 +546,26 @@ Page({
     })
   },
   onShareAppMessage: function(e) {
-    let that = this,title='享7',url='';
-    if (that.data.groupOrderDetail.actInfo && that.data.groupOrderDetail.actInfo.type == '7'){
+    let that = this,
+      title = '享7',
+      url = '';
+    if (that.data.groupOrderDetail.actInfo && that.data.groupOrderDetail.actInfo.type == '7') {
       url = "/packageA/pages/tourismAndHotel/touristHotelDils/touristHotelDils?types=share&parentId=" + that.data.groupOrderDetail.actOrder.userId + '&actid=' + that.data.groupOrderDetail.actId + '&id=' + that.data.groupOrderDetail.skuId + '&groupid=' + that.data.groupOrderDetail.id + '&shareType=2';
       title = "急死了！我正在拼购仅需" + that.data.soDetail.realAmount + "元拿👉" + that.data.soDetail.orderItemOuts[0].goodsSkuName + "👈考验我们感情的时候到了❤❤❤";
-    }else{
-      url ="/pages/index/index";
+    } else {
+      url = "/pages/index/index";
       title = that.data.soDetail.orderItemOuts[0].goodsSkuName
     }
     // if (e.from == 'button') {
-      return {
-        title: title,
-        imageUrl: that.data.shareImg,
-        path: url
-      }
+    return {
+      title: title,
+      imageUrl: that.data.shareImg,
+      path: url
+    }
     // }
 
   },
-  seepiaoDetail:function(){//查看票券
+  seepiaoDetail: function() { //查看票券
     wx.navigateTo({
       url: '/pages/personal-center/my-discount/my-discount',
     })
