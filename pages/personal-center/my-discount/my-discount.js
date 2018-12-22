@@ -6,7 +6,7 @@ var utils = require('../../../utils/util.js');
 import Public from '../../../utils/public.js';
 var app = getApp();
 let requesting = false;
-let swichrequestflag = [false, false, false];
+let swichrequestflag = [false, false, false,false];
 Page({
   data: {
     showSkeleton: true,
@@ -495,6 +495,18 @@ Page({
             that.getlistCouponReceive(2)
           })
         }
+      }
+      if (leftIndex == 3){
+        if (!swichrequestflag[3] && that.data.pxpage < that.data.pageTotal) {
+          that.setData({
+            loading: true,
+            pxpage: that.data.pxpage + 1
+          }, () => {
+            that.getorderCoupon(3)
+            // that.getTicketList();
+          })
+        }
+        
       }
 
     } else if (bigIndex ==1){//tab指向优惠券
