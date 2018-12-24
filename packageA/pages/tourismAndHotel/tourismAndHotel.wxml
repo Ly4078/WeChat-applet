@@ -11,7 +11,7 @@
   <view class='maximumList'>
     <view class='manListCenter'>
       <!-- <view class="nav bc_white">
-        <view class="item">
+        <view class="item" >
           <view class="{{selected?'red':'default'}} skeleton-rect" id="1" bindtap="selected">进行中</view>
         </view>
         <view class="item">
