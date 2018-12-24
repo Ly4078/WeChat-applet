@@ -1,9 +1,13 @@
 import Api from '../../../utils/config/api.js';
 var utils = require('../../../utils/util.js');
+import {
+  GLOBAL_API_DOMAIN
+} from '../../../utils/config/config.js';
 var app = getApp();
 var swichrequestflag = false;
 Page({
   data: {
+    _build_url: GLOBAL_API_DOMAIN,
     showSkeleton: true,
     SkeletonData: ['', '', '', '', '', ''],
     navbar: ['附近美食', '我的秒杀'],
@@ -31,11 +35,82 @@ Page({
       page: 1,
       aNearbyShop: []
     })
-    if (this.data.currentTab == 0) {
-      this.secKillList();
-    } else if (this.data.currentTab == 1) {
-      this.mySecKill();
+    if(!app.globalData.token){
+      _this.findByCode();
+    }else{
+      if (_this.data.currentTab == 0) {
+        _this.secKillList();
+      } else if (_this.data.currentTab == 1) {
+        _this.mySecKill();
+      }
     }
+  },
+  findByCode: function () { //通过code查询用户信息
+    let that = this;
+    wx.login({
+      success: res => {
+        // return
+        Api.findByCode({
+          code: res.code
+        }).then((res) => {
+          if (res.data.code == 0) {
+            let _data = res.data.data;
+            if (_data && _data.id) {
+              app.globalData.userInfo.userId = _data.id;
+              for (let key in _data) {
+                for (let ind in app.globalData.userInfo) {
+                  if (key == ind) {
+                    app.globalData.userInfo[ind] = _data[key]
+                  }
+                }
+                wx.setStorageSync("userInfo", app.globalData.userInfo)
+              };
+              if (_data.mobile) {
+                that.authlogin();
+              } else {
+                wx.navigateTo({
+                  url: '/pages/init/init?isback=1'
+                })
+              }
+            } else {
+              wx.navigateTo({
+                url: '/pages/init/init?isback=1'
+              })
+            }
+          }
+        })
+      }
+    })
+  },
+  authlogin: function () { //获取token
+    let that = this;
+    wx.request({
+      url: that.data._build_url + 'auth/login?userName=' + app.globalData.userInfo.userName,
+      method: "POST",
+      data: {},
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        if (res.data.code == 0) {
+          let _token = 'Bearer ' + res.data.data;
+          app.globalData.userInfo.token = _token
+          app.globalData.token = _token
+          wx.setStorageSync('token', _token);
+          if (that.data.currentTab == 0) {
+            that.secKillList();
+          } else if (that.data.currentTab == 1) {
+            that.mySecKill();
+          }
+
+        } else {
+          that.findByCode();
+        }
+      },
+      fail() {
+        that.findByCode();
+      }
+    })
   },
   onHide() {
     let _this = this;
@@ -71,10 +146,10 @@ Page({
     _parms = {
       zanUserId: app.globalData.userInfo.userId,
       browSort: 0,
-      locationX: app.globalData.userInfo.lng,
-      locationY: app.globalData.userInfo.lat,
-      city: app.globalData.userInfo.city,
-      page: this.data.page,
+      locationX: app.globalData.userInfo.lng ? app.globalData.userInfo.lng :'110.77877',
+      locationY: app.globalData.userInfo.lat ? app.globalData.userInfo.lat :'32.6226',
+      city: app.globalData.userInfo.city ? app.globalData.userInfo.city:'十堰市',
+      page: that.data.page,
       rows: 8,
       token: app.globalData.token
     };
@@ -296,11 +371,11 @@ Page({
       }, () => {
         this.secKillList();
       });
-
     }
-
   },
-  // onShareAppMessage: function (res) {
-
-  // }
+  onShareAppMessage: function (res) {
+    return {
+      title:'限量秒杀',   imageUrl:'https://xq-1256079679.file.myqcloud.com/15927505686_1545618005_miaosha12312321321_0.png'
+    }
+  }
 })

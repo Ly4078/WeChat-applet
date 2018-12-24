@@ -1,5 +1,8 @@
 import Api from '../../../utils/config/api.js';
 var utils = require('../../../utils/util.js');
+import {
+  GLOBAL_API_DOMAIN
+} from '../../../utils/config/config.js';
 var app = getApp()
 var that = null;
 var swichrequestflag = false;
@@ -18,6 +21,7 @@ Page({
       //   name: '销量'
       // }
     ],
+    _build_url: GLOBAL_API_DOMAIN,
     showModal: true,
     browSort: 2,
     cuisineArray: [],
@@ -27,7 +31,11 @@ Page({
     showSkeleton: true
   },
   onLoad: function(options) {
-    this.dishList();
+    if(!app.globalData.token){
+      this.findByCode()
+    }else{
+      this.dishList();
+    }
   },
   onHide() {
     wx.hideLoading();
@@ -35,15 +43,78 @@ Page({
   onUnload() {
     wx.hideLoading();
   },
+  findByCode: function () { //通过code查询用户信息
+    let that = this;
+    wx.login({
+      success: res => {
+        // return
+        Api.findByCode({
+          code: res.code
+        }).then((res) => {
+          if (res.data.code == 0) {
+            let _data = res.data.data;
+            if (_data && _data.id) {
+              app.globalData.userInfo.userId = _data.id;
+              for (let key in _data) {
+                for (let ind in app.globalData.userInfo) {
+                  if (key == ind) {
+                    app.globalData.userInfo[ind] = _data[key]
+                  }
+                }
+                wx.setStorageSync("userInfo", app.globalData.userInfo)
+              };
+              if (_data.mobile) {
+                that.authlogin();
+              } else {
+                wx.navigateTo({
+                  url: '/pages/init/init'
+                })
+              }
+            } else {
+              wx.navigateTo({
+                url: '/pages/init/init'
+              })
+            }
+          }
+        })
+      }
+    })
+  },
+  authlogin: function () { //获取token
+    let that = this;
+    wx.request({
+      url: that.data._build_url + 'auth/login?userName=' + app.globalData.userInfo.userName,
+      method: "POST",
+      data: {},
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        if (res.data.code == 0) {
+          let _token = 'Bearer ' + res.data.data;
+          app.globalData.userInfo.token = _token
+          app.globalData.token = _token
+          wx.setStorageSync('token', _token);
+          that.dishList();
+
+        } else {
+          that.findByCode();
+        }
+      },
+      fail() {
+        that.findByCode();
+      }
+    })
+  },
   dishList() { //砍菜列表
     //browSort 0附近 1销量 2价格
     let _parms = {
       actId: 41,
       zanUserId: app.globalData.userInfo.userId,
       browSort: this.data.browSort,
-      locationX: app.globalData.userInfo.lng,
-      locationY: app.globalData.userInfo.lat,
-      city: app.globalData.userInfo.city,
+      locationX: app.globalData.userInfo.lng ? app.globalData.userInfo.lng : '110.77877',
+      locationY: app.globalData.userInfo.lat ? app.globalData.userInfo.lat : '32.6226',
+      city: app.globalData.userInfo.city ? app.globalData.userInfo.city : '十堰市',
       isDeleted: 0,
       page: this.data.page,
       rows: 10,
@@ -176,7 +247,9 @@ Page({
       cuisineArray: cuisineArray
     });
   },
-  // onShareAppMessage: function (res) {
-
-  // }
+  onShareAppMessage: function (res) {
+    return {
+      title:'拼菜砍价',    imageUrl:'https://xq-1256079679.file.myqcloud.com/15927505686_1545621392_kanjia2321312_0.png'
+    }
+  }
 })

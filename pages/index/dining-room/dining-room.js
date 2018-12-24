@@ -68,26 +68,17 @@ Page({
     })
   },
   onShow: function () {
-    if (app.globalData.userInfo.userId) {
-      let userInfo = app.globalData.userInfo;
-      if (app.globalData.token) {
-        if (this.data._val) {
-          this.getshopInfo(this.data._val);
-        }
-        if (userInfo.lng && userInfo.lat && userInfo.city) {
-          if (this.data.posts_key.length<1){
-            this.getData();
-          }
-        } else {
-          this.getUserlocation();
-        }
-      } else {
-        this.findByCode();
+    let that = this;
+    if(!app.globalData.token){
+      this.findByCode();
+    }else{
+      that.getData();
+      that.getUserlocation();
+      that.getfooddatas()
+      if (that.data._val) {
+        that.getshopInfo(_val);
       }
     }
-    // if (that.data.fooddatas.length<1){
-      this.getfooddatas();
-    // }
   },
 
   // 初始化start
@@ -109,6 +100,7 @@ Page({
                   }
                 }
               };
+              app.globalData.userInfo.userName = _data.userName
               that.authlogin();
             }else{
               wx.navigateTo({
@@ -136,6 +128,7 @@ Page({
           wx.setStorageSync('token', _token);
           that.getData();
           that.getUserlocation();
+          that.getfooddatas()
           if (that.data._val){
             that.getshopInfo(_val);
           }
@@ -189,9 +182,9 @@ Page({
   getData: function (types){
     let that = this, _parms = {};
     _parms = {
-      locationX: app.globalData.userInfo.lng,
-      locationY: app.globalData.userInfo.lat,
-      city: app.globalData.userInfo.city,
+      locationX: app.globalData.userInfo.lng ? app.globalData.userInfo.lng : '110.77877',
+      locationY: app.globalData.userInfo.lat ? app.globalData.userInfo.lat : '32.6226',
+      city: app.globalData.userInfo.city ? app.globalData.userInfo.city : '十堰市',
       page: this.data.page ? this.data.page:1,
       rows: 8,
       token: app.globalData.token
@@ -593,7 +586,10 @@ Page({
       posts_key: posts_key
     });
   },
-  // onShareAppMessage: function (res) {
-
-  // }
+  onShareAppMessage: function (res) {
+    return {
+      title:'享7',
+      imageUrl:'https://xq-1256079679.file.myqcloud.com/15927505686_1545389545_xiang7logo_0.png'
+    }
+  }
 })

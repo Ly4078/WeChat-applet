@@ -47,8 +47,8 @@
                 <text class='shopnames2'></text>{{item.goodsSkuName}}</view>
 
               <view class="modate">
-                <text wx:if="{{item.isUsed == 0 && (item.status == 0 || item.status == null) && item.isDue == 0}}" class="modatetext1">{{item.otherMarkerPrice?('￥'+item.otherMarkerPrice):''}}</text>
-                <text wx:else class="modatetext1">{{item.otherMarkerPrice?('￥'+item.otherMarkerPrice):''}}</text>
+                <text wx:if="{{item.isUsed == 0 && (item.status == 0 || item.status == null) && item.isDue == 0}}" class="modatetext1">{{item.otherMarkerPrice?('￥'+item.otherMarkerPrice):('￥'+item.orderItemOuts[0].goodsPrice)}}</text>
+                <text wx:else class="modatetext1">{{item.otherMarkerPrice?('￥'+item.otherMarkerPrice):('￥'+item.orderItemOuts[0].goodsPrice)}}</text>
                 <text class="modatetext2">有效期至{{item.expiryDate}}</text>
               </view>
 

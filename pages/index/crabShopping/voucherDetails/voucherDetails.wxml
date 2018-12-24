@@ -24,10 +24,9 @@
         <image wx:else mode="aspectFill" src="/images/icon/morentu.png"></image>
       </view>
       <view style="padding:0 22rpx;font-weight:600;" class="fz36">{{skuName}}{{goodsNum > 1 ? 'X'+goodsNum : ''}}</view>
-
-      <view wx:if="{{!isReceived && isUsed == 0 && (status == 0 || status == null) && isDue == 0}}" class='spreds'>{{piaodata.goodsSku.otherMarkerPrice?'￥'+piaodata.goodsSku.otherMarkerPrice:''}}</view>
-       <view wx:else class='spredss'>
-       {{piaodata.goodsSku.otherMarkerPrice?'￥'+piaodata.goodsSku.otherMarkerPrice:''}}
+      <view wx:if="{{!isReceived && isUsed == 0 && (status == 0 || status == null) && isDue == 0}}" style="color:#FC5E2D;margin:48rpx 0 25rpx 0;">{{piaodata.goodsSku.otherMarkerPrice?'￥'+piaodata.goodsSku.otherMarkerPrice:'￥'+piaodata.orderItemOuts[0].goodsPrice}}</view>
+       <view wx:else style="color:#FC5E2D;margin:48rpx 0 25rpx 0;">
+       {{piaodata.goodsSku.otherMarkerPrice?'￥'+piaodata.goodsSku.otherMarkerPrice:'￥'+piaodata.orderItemOuts[0].goodsPrice}}
        </view>
 
       <view wx:if="{{!isReceived && isUsed == 0 && (status == 0 || status == null) && isDue == 0}}" class="detail_top_btn fz30">
