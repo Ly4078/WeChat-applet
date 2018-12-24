@@ -10,14 +10,14 @@
   <!-- Tab切换栏 -->
   <view class='maximumList'>
     <view class='manListCenter'>
-      <view class="nav bc_white">
+      <!-- <view class="nav bc_white">
         <view class="item">
           <view class="{{selected?'red':'default'}} skeleton-rect" id="1" bindtap="selected">进行中</view>
         </view>
         <view class="item">
           <view class="{{!selected?'red':'default'}} " id="2" bindtap="selected">已结束</view>
         </view>
-      </view>
+      </view> -->
 
       <!-- 1元拼购 -->
       <view class="{{selected?'show':'hidden'}}" bindtap='hoteDils' data-groupid="{{item.actGoodsSkuOut.id}}" data-id="{{item.id}}" wx:for="{{showSkeleton?skeletonData:dataList}}" wx:key="index">

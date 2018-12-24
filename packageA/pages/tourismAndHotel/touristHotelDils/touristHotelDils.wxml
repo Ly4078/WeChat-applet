@@ -18,7 +18,7 @@
       <text class="timebg">{{Countdowns.sec || '00'}}</text>
     </view>
     <view class='detailssmall' wx:else>
-      <text>该团已结束 </text>
+      <text>该团已结束</text>
     </view>
     <view class='detailsDse'>
       <view class='involvedIn'>已参团人数
