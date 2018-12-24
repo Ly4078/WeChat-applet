@@ -6,7 +6,7 @@ var utils = require('../../../utils/util.js');
 import Public from '../../../utils/public.js';
 var app = getApp();
 let requesting = false;
-let swichrequestflag = [false, false, false];
+let swichrequestflag = [false, false, false,false];
 Page({
   data: {
     showSkeleton: true,
@@ -179,23 +179,27 @@ Page({
         // isUsed:0,
         rows: 10
       };
-      console.log("ind:",this.data.ind)
       if(this.data.ind == 0){
         _parms.isUsed = 0;
       }else if(this.data.ind == 3){
         _parms.isUsed = 1;
       }
-      console.log('_parms:',_parms)
       swichrequestflag[types] = true;
+      if (that.data.pxpage == 1) {
+        that.setData({
+          listData: []
+        })
+      }
       Api.orderCoupon(_parms).then((res) => {
         // wx.stopPullDownRefresh();
         console.log('res:',res)
         that.setData({
           loading: false
         })
+        let _data = that.data.pxpage == 1 ? [] : that.data.listData;
+        
         if (res.data.code == 0) {
-          let _data = that.data.pxpage == 1 ? [] : that.data.listData,
-            _list = res.data.data.list;
+          let _list = res.data.data.list;
           console.log('_list:', _list)
           if (_list && _list.length > 0) {
             for (let i = 0; i < _list.length; i++) {
@@ -491,6 +495,18 @@ Page({
             that.getlistCouponReceive(2)
           })
         }
+      }
+      if (leftIndex == 3){
+        if (!swichrequestflag[3] && that.data.pxpage < that.data.pageTotal) {
+          that.setData({
+            loading: true,
+            pxpage: that.data.pxpage + 1
+          }, () => {
+            that.getorderCoupon(3)
+            // that.getTicketList();
+          })
+        }
+        
       }
 
     } else if (bigIndex ==1){//tab指向优惠券

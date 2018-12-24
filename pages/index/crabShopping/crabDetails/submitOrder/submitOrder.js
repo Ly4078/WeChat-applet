@@ -706,12 +706,12 @@ Page({
       'signType': 'MD5',
       'paySign': _data.paySign,
       success: function(res) {
-        wx.hideLoading();
         payrequest = true
         wx.showLoading({
           title: '订单确认中...',
         })
         setTimeout( ()=>{
+          wx.hideLoading();
           wx.navigateTo({
             url: '/pages/personal-center/personnel-order/logisticsDetails/logisticsDetails?soId=' + that.data.orderId,
           })
@@ -728,7 +728,6 @@ Page({
         })
       },
       complete: function(res) {
-        wx.hideLoading();
         payrequest = true
         that.setData({
           issoid: false

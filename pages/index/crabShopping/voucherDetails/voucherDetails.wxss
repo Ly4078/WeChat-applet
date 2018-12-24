@@ -102,6 +102,11 @@ page {
   font-size: 24rpx;
   color: #969696;
 }
+.top_times{
+  font-size: 24rpx;
+  padding-top: 14rpx;
+  color: #969696;
+}
 
 
 .leftCircle, .rightCircle {
@@ -239,4 +244,14 @@ page {
   z-index: 1000;
   width: 100rpx;
   height: 100rpx;
+}
+.spreds{
+  color:#FC5E2D;
+  margin:48rpx 0 60rpx 0;
+  font-size: 40rpx;
+}
+.spredss{
+  margin:48rpx 0 60rpx 0;
+  font-size: 40rpx;
+  color: #969696;
 }

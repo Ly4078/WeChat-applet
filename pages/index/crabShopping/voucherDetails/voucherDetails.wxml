@@ -25,15 +25,11 @@
       </view>
       <view style="padding:0 22rpx;font-weight:600;" class="fz36">{{skuName}}{{goodsNum > 1 ? 'X'+goodsNum : ''}}</view>
 
-      <view wx:if="{{!isReceived && isUsed == 0 && (status == 0 || status == null) && isDue == 0}}" style="color:#FC5E2D;margin:48rpx 0 25rpx 0;">{{piaodata.goodsSku.otherMarkerPrice?'￥'+piaodata.goodsSku.otherMarkerPrice:''}}</view>
-       <view wx:else style="color:#FC5E2D;margin:48rpx 0 25rpx 0;">
+      <view wx:if="{{!isReceived && isUsed == 0 && (status == 0 || status == null) && isDue == 0}}" class='spreds'>{{piaodata.goodsSku.otherMarkerPrice?'￥'+piaodata.goodsSku.otherMarkerPrice:''}}</view>
+       <view wx:else class='spredss'>
        {{piaodata.goodsSku.otherMarkerPrice?'￥'+piaodata.goodsSku.otherMarkerPrice:''}}
        </view>
 
-      
-      <view class="top_time fz24" style="padding-bottom:0rpx;">有效期至：{{expiryDate}}</view>
-      <view class="top_time fz24" style="padding-top:20rpx;">创建时间：{{piaodata.createTime}}</view>
-      
       <view wx:if="{{!isReceived && isUsed == 0 && (status == 0 || status == null) && isDue == 0}}" class="detail_top_btn fz30">
      
         <view wx:if="{{sendType == 0 || sendType == 2}}" class="storeBtn" bindtap='exchange'>门店兑换</view>
@@ -43,6 +39,10 @@
         <view wx:if="{{sendType == 0 || sendType == 2}}" class="storeBtn active">门店兑换</view>
         <view wx:if="{{sendType == 0 || sendType == 1}}" class="expressBtn active">快递配送</view>
       </view>
+
+      <view class="top_time fz24" style="padding-bottom:0rpx;">有效期至：{{expiryDate}}</view>
+      <view class="top_times fz24">创建时间：{{piaodata.createTime}}</view>
+      
       <view class="leftCircle"></view>
       <view class="rightCircle"></view>
     </view>
