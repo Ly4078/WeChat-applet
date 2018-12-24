@@ -257,6 +257,7 @@ Page({
       method: 'POST',
       success: function(res) {
         if (res.data.code == 0) {
+          app.globalData.exchangeId = _this.data.id
           wx.showToast({
             title: '兑换成功',
             icon: 'none',

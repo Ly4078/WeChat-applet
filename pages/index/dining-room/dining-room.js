@@ -181,9 +181,11 @@ Page({
   },
   getData: function (types){
     let that = this, _parms = {};
+    let lng = wx.getStorageInfoSync('userInfo').lng ? wx.getStorageInfoSync('userInfo').lng:"110.77877";
+    let lat = wx.getStorageInfoSync('userInfo').lat ? wx.getStorageInfoSync('userInfo').lat:"32.6226";
     _parms = {
-      locationX: app.globalData.userInfo.lng ? app.globalData.userInfo.lng : '110.77877',
-      locationY: app.globalData.userInfo.lat ? app.globalData.userInfo.lat : '32.6226',
+      locationX: app.globalData.userInfo.lng ? app.globalData.userInfo.lng : lng,
+      locationY: app.globalData.userInfo.lat ? app.globalData.userInfo.lat : lat,
       city: app.globalData.userInfo.city ? app.globalData.userInfo.city : '十堰市',
       page: this.data.page ? this.data.page:1,
       rows: 8,

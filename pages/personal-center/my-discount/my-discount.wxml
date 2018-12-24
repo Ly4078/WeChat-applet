@@ -47,9 +47,10 @@
                 <text class='shopnames2'></text>{{item.goodsSkuName}}</view>
 
               <view class="modate">
+                <text class="modatetext2">有效期至{{item.expiryDate}}</text>
                 <text wx:if="{{item.isUsed == 0 && (item.status == 0 || item.status == null) && item.isDue == 0}}" class="modatetext1">{{item.otherMarkerPrice?('￥'+item.otherMarkerPrice):('￥'+item.orderItemOuts[0].goodsPrice)}}</text>
                 <text wx:else class="modatetext1">{{item.otherMarkerPrice?('￥'+item.otherMarkerPrice):('￥'+item.orderItemOuts[0].goodsPrice)}}</text>
-                <text class="modatetext2">有效期至{{item.expiryDate}}</text>
+
               </view>
 
             </view>
@@ -60,23 +61,6 @@
         </view>
       </view>
 
-      <!-- <view wx:if="{{item.type == 1}}" wx:key="item.id" id="{{item.id}}" data-index="{{item.goodsSkuName}}" class="voucherItem {{item.isUsed == 0 ? 'ysyitem' : 'wsyitem'}}" data-used="{{item.isUsed}}" data-type="{{item.type}}" data-order="{{item.orderId}}"
-          bindtap='redeemNow'>
-
-          <text class="itemName {{item.isUsed == 0 ? 'itemNamea' : 'itemNameb'}}">{{item.sku}}</text>
-          <text class="couCode {{item.isUsed == 0 ? 'codea' : 'codeb'}}">券号：{{item.couponCode}}</text>
-        </view>
-
-        <view wx:if="{{item.type == 2}}" wx:key="item.id" id="{{item.id}}" data-index="{{item.goodsSkuName}}" class="voucherItem {{item.isUsed == 0 ? 'thqitem' : 'thqsitem'}}" data-used="{{item.isUsed}}" data-type="{{item.type}}" data-order="{{item.orderId}}"
-          bindtap='redeemNow'>
-
-          <text class="thname {{item.isUsed == 0 ? 'codea' : 'codeb'}}">提货券</text>
-          <text class="thhx {{item.isUsed == 0 ? 'codea' : 'codeb'}}">__</text>
-          <text class="thguige {{item.isUsed == 0 ? 'codea' : 'codeb'}}">{{item.orderItemOuts[0].goodsSkuName}} {{item.orderItemOuts[0].giftNum+item.orderItemOuts[0].goodsNum}}只</text>
-          <text class="thshop {{item.isUsed == 0 ? 'codea' : 'codeb'}}">提货门店:{{item.salePoint.salepointName}}</text>
-          <text class="thCode {{item.isUsed == 0 ? 'codea' : 'codeb'}}">券码：{{item.couponCode}}</text>
-          <text class="thdate {{item.isUsed == 0 ? 'codea' : 'codeb'}}">有效期:{{item.expiryDate}}</text>
-        </view> -->
 
 
 
@@ -88,7 +72,7 @@
       <view class='exbut'></view>
     </view>
 
-     <view wx:if="{{listData.length < 1}}" class='placeholder'>
+    <view wx:if="{{listData.length < 1}}" class='placeholder'>
       <image src="/images/icon/zhanweitu.png"></image>
     </view>
     <!-- <text wx:if="{{listData.length<1}}" class='buyvoucher' bindtap='buyVoucher'>购买提蟹券</text> -->
@@ -97,36 +81,54 @@
 
 
   <!-- 记录 -->
-  <view wx:if="{{ind ==1}}">
-    <view class='notes' wx:if="{{sendData.length>0}}">
-      <view wx:for="{{sendData}}" wx:key="index">
-        <view class='nodeItem'>
-          <view class='itemtop'>
-            <text class='topt1'>{{item.goodsSkuName}}</text>
-            <text class='topt2'>{{ind == 1?"已赠送":"已领取"}}</text>
+  <view style="padding:0 26rpx" wx:if="{{ind ==1}}">
+
+    <view class="voucher issend" wx:if="{{sendData.length>0}}">
+      <view wx:for="{{sendData}}" wx:key="{{index}}" class="{{ind == 1 ? 'indshixaio' : ''}} tickItem" id="{{item.id}}" data-isUsed="{{item.isUsed}}" data-ownId="{{item.ownId}}" data-isDue="{{item.isDue}}" bindtap='redeemNow'>
+        <view class='circle circle_left'></view>
+        <view class='circle circle_right'></view>
+        <!-- <image class="ticketBgc" src="/images/icon/ticketBgc.png"></image> -->
+        <!-- <image wx:if="{{item.isUsed == 0 && (item.status == 0 || item.status == null) && item.isDue == 0}}" class="ticketIcon" src="/images/icon/ticketIcon.png"></image> -->
+        <!-- <image wx:else class="ticketIcon" src="/images/icon/ticketIconse.png"></image> -->
+
+        <view class="tickItem_inner">
+          <view class="tickItem_bot">
+            <view>券号 {{item.couponCode}}</view>
+            <view>赠送时间 {{item.ocsCreateTime}}</view>
           </view>
-          <view class='itemcon'>
-            <view class='conitem'>
-              <view class='cileft'>券号</view>
-              <view class='ciright'>{{item.couponCode}}</view>
+          <view class="tickItem_top">
+            <view class="hot-recoItem-left">
+              <!-- <image src='{{item.skuPic}}'></image> -->
+              <view wx:if="{{ind==1}}" class="{{ind == 1 ? 'motaim' : ''}} hot-recoItem-leftImg">
+                已赠送
+              </view>
+              <image-loader class='hot-recoItem-leftImg' default-image='/images/icon/morentu.png' mode='aspectFill' original-image="{{item.skuPic?item.skuPic:'/images/icon/morentu.png'}}" />
             </view>
-            <view class='conitem'>
-              <view class='cileft'> {{ind == 1?"领取人":"赠送人"}}</view>
-              <view class='ciright' wx:if="{{ind == 1}}">{{item.receiveUserName}}</view>
-              <view class='ciright' wx:if="{{ind == 2}}">{{item.sendUserName}}</view>
+            <view class='hot-recoItem-right'>
+              <view class="shopnames {{ind == 1 ? 'shopnamess' : ''}}">兑换券</view>
+
+              <view class="skuclas {{item.isUsed == 1 || item.status == 4 || item.status == 5 || item.isDue == 1 ? 'gray' : ''}}">
+                <text class='shopnames2'></text>{{item.goodsSkuName}}</view>
+
+              <view class="modate">
+                <text class="modatetext2">领取人 {{item.receiveUserName || ''}}</text>
+                <text wx:if="{{item.isUsed == 0 && (item.status == 0 || item.status == null) && item.isDue == 0}}" class="modatetext1">{{item.otherMarkerPrice?('￥'+item.otherMarkerPrice):('￥'+item.orderItemOuts[0].goodsPrice)}}</text>
+                <text wx:else class="modatetext1">{{item.otherMarkerPrice?('￥'+item.otherMarkerPrice):('￥'+item.orderItemOuts[0].goodsPrice)}}</text>
+
+              </view>
+
             </view>
-            <view class='conitem'>
-              <view class='cileft'>{{ind == 1?"赠送时间":"领取时间"}}</view>
-              <view class='ciright'>{{item.ocsCreateTime}}</view>
+            <view>
             </view>
           </view>
+
         </view>
       </view>
-    </view>
-    <view class='loadingBox'>
-      <i-spin custom wx:if="{{loading}}">
-        <view class="loading"></view>
-      </i-spin>
+      <view class='loadingBox'>
+        <i-spin custom wx:if="{{loading}}">
+          <view class="loading"></view>
+        </i-spin>
+      </view>
     </view>
     <view wx:if="{{sendData.length < 1}}" class='placeholder'>
       <image src="/images/icon/zhanweitu.png"></image>
@@ -135,7 +137,57 @@
 
 
   <!-- 记录 -->
-  <view wx:if="{{ind ==2}}">
+  <view style="padding:0 26rpx" wx:if="{{ind ==2}}">
+
+    <view class="voucher issend" wx:if="{{recData.length>0}}">
+      <view wx:for="{{recData}}" wx:key="{{index}}" class="{{ind == 2 ? 'indshixaio' : ''}} tickItem" id="{{item.id}}" data-isUsed="{{item.isUsed}}" data-ownId="{{item.ownId}}" data-isDue="{{item.isDue}}" bindtap='redeemNow'>
+        <view class='circle circle_left'></view>
+        <view class='circle circle_right'></view>
+        <!-- <image class="ticketBgc" src="/images/icon/ticketBgc.png"></image> -->
+        <!-- <image wx:if="{{item.isUsed == 0 && (item.status == 0 || item.status == null) && item.isDue == 0}}" class="ticketIcon" src="/images/icon/ticketIcon.png"></image> -->
+        <!-- <image wx:else class="ticketIcon" src="/images/icon/ticketIconse.png"></image> -->
+
+        <view class="tickItem_inner">
+          <view class="tickItem_bot">
+            <view>券号 {{item.couponCode}}</view>
+            <view>领取时间 {{item.ocsCreateTime}}</view>
+          </view>
+          <view class="tickItem_top">
+            <view class="hot-recoItem-left">
+              <!-- <image src='{{item.skuPic}}'></image> -->
+              <view wx:if="{{ind==2}}" class="{{ind == 2 ? 'motaim' : ''}} hot-recoItem-leftImg">
+                已领取
+              </view>
+              <image-loader class='hot-recoItem-leftImg' default-image='/images/icon/morentu.png' mode='aspectFill' original-image="{{item.skuPic?item.skuPic:'/images/icon/morentu.png'}}" />
+            </view>
+            <view class='hot-recoItem-right'>
+              <view class="shopnames {{ind == 2 ? 'shopnamess' : ''}}">兑换券</view>
+
+              <view class="skuclas {{item.isUsed == 1 || item.status == 4 || item.status == 5 || item.isDue == 1 ? 'gray' : ''}}">
+                <text class='shopnames2'></text>{{item.goodsSkuName}}</view>
+
+              <view class="modate">
+                <text class="modatetext2">赠送人 {{item.sendUserName || ''}}</text>
+                <text wx:if="{{item.isUsed == 0 && (item.status == 0 || item.status == null) && item.isDue == 0}}" class="modatetext1">{{item.otherMarkerPrice?('￥'+item.otherMarkerPrice):('￥'+item.orderItemOuts[0].goodsPrice)}}</text>
+                <text wx:else class="modatetext1">{{item.otherMarkerPrice?('￥'+item.otherMarkerPrice):('￥'+item.orderItemOuts[0].goodsPrice)}}</text>
+
+              </view>
+
+            </view>
+            <view>
+            </view>
+          </view>
+
+        </view>
+      </view>
+      <view class='loadingBox'>
+        <i-spin custom wx:if="{{loading}}">
+          <view class="loading"></view>
+        </i-spin>
+      </view>
+    </view>
+
+<!-- 
     <view class='notes' wx:if="{{recData.length>0}}">
       <view wx:for="{{recData}}" wx:key="index">
         <view class='nodeItem'>
@@ -161,12 +213,7 @@
           </view>
         </view>
       </view>
-    </view>
-    <view class='loadingBox'>
-      <i-spin custom wx:if="{{loading}}">
-        <view class="loading"></view>
-      </i-spin>
-    </view>
+    </view> -->
     <view wx:if="{{recData.length < 1}}" class='placeholder'>
       <image src="/images/icon/zhanweitu.png"></image>
     </view>

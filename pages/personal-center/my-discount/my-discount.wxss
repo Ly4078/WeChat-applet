@@ -545,7 +545,7 @@ height: 48rpx;
   text-align: center;
   font-size: 20rpx;
   padding: 3rpx 3rpx;
-  color: #EF4242;
+ color: #EF4242;
   top: 32rpx;
   border: 1rpx solid #EF4242;
   border-radius: 8rpx;
@@ -559,11 +559,15 @@ height: 48rpx;
   color: #969696;
 }
 .shopnamess{
+ 
   border: 1rpx solid #969696;
+}
+.issend view,.issend text{
+  color: #969696;
 }
 .motaim{
   background: #191919;
-  opacity:0.8;
+  opacity:0.7;
   border-radius:4rpx;
   text-align: center;
   line-height: 120rpx;

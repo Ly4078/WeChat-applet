@@ -143,11 +143,13 @@ Page({
   secKillList() { //附近美食
     let that = this,
       _parms = {};
+    let lng = wx.getStorageInfoSync('userInfo').lng ? wx.getStorageInfoSync('userInfo').lng : "110.77877";
+    let lat = wx.getStorageInfoSync('userInfo').lat ? wx.getStorageInfoSync('userInfo').lat : "32.6226";
     _parms = {
       zanUserId: app.globalData.userInfo.userId,
       browSort: 0,
-      locationX: app.globalData.userInfo.lng ? app.globalData.userInfo.lng :'110.77877',
-      locationY: app.globalData.userInfo.lat ? app.globalData.userInfo.lat :'32.6226',
+      locationX: app.globalData.userInfo.lng ? app.globalData.userInfo.lng : lng,
+      locationY: app.globalData.userInfo.lat ? app.globalData.userInfo.lat : lat,
       city: app.globalData.userInfo.city ? app.globalData.userInfo.city:'十堰市',
       page: that.data.page,
       rows: 8,

@@ -25,7 +25,7 @@ Page({
     ind: 0,
     currentIndex: 0,
     navbar: ['兑换券', '优惠券', ],
-    tabs: ["我的票券", "赠送记录", "领取记录","已失效"],
+    tabs: ["我的票券", "已赠送", "已领取","已失效"],
     userId: app.globalData.userInfo.userId
   },
   onLoad: function (options) {
@@ -130,7 +130,22 @@ Page({
 
   },
   onShow: function() {
-
+    var exchangeId = app.globalData.exchangeId;
+    let that = this;
+    let listData = that.data.listData
+    
+    if (exchangeId){
+      for (let i = 0; i < listData.length; i++) {
+        if (exchangeId == listData[i].id){
+          listData.splice(i,1)
+          that.setData({
+            listData: listData
+          })
+          app.globalData.exchangeId = null;
+          break
+        }
+      }
+    }
     // this.getorderCoupon(0);
   },
   onUnload() {

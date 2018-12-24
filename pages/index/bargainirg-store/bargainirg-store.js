@@ -108,12 +108,14 @@ Page({
   },
   dishList() { //砍菜列表
     //browSort 0附近 1销量 2价格
+    let lng = wx.getStorageInfoSync('userInfo').lng ? wx.getStorageInfoSync('userInfo').lng : "110.77877";
+    let lat = wx.getStorageInfoSync('userInfo').lat ? wx.getStorageInfoSync('userInfo').lat : "32.6226";
     let _parms = {
       actId: 41,
       zanUserId: app.globalData.userInfo.userId,
       browSort: this.data.browSort,
-      locationX: app.globalData.userInfo.lng ? app.globalData.userInfo.lng : '110.77877',
-      locationY: app.globalData.userInfo.lat ? app.globalData.userInfo.lat : '32.6226',
+      locationX: app.globalData.userInfo.lng ? app.globalData.userInfo.lng : lng,
+      locationY: app.globalData.userInfo.lat ? app.globalData.userInfo.lat : lat,
       city: app.globalData.userInfo.city ? app.globalData.userInfo.city : '十堰市',
       isDeleted: 0,
       page: this.data.page,

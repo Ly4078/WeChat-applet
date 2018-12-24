@@ -50,23 +50,28 @@ page {
   flex-direction: row;
 }
 
-.default {
-  line-height: 100rpx;
-  text-align: center;
+.nav .item {
+  display: flex;
+  flex-direction: row;
   flex: 1;
-  color: #555;
-  font-size: 34rpx;
-  border-radius: 0rpx 10rpx 0rpx 10rpx;
+  padding: 0 100rpx;
 }
 
-.red {
+.nav .item view {
   line-height: 100rpx;
   text-align: center;
-  color: #fc5e2d;
+  /* width: 60%; */
+  color: #555;
   flex: 1;
-  font-weight: bold;
+  box-sizing: border-box;
   font-size: 34rpx;
-  border-bottom: 3rpx solid #fc5e2d;
+  /* border-radius: 0rpx 10rpx 0rpx 10rpx; */
+}
+
+
+.nav .item view.red {
+  color: #fc5e2d;
+  border-bottom: 4rpx solid #fc5e2d;
 }
 
 .show {
@@ -96,30 +101,32 @@ page {
   align-items: center;
   position: relative;
 }
-.delayWrap .endtimeshadow{
+
+.delayWrap .endtimeshadow {
   width: 270rpx;
-  height:292rpx;
-  background: rgba(0,0,0,.5);
+  height: 292rpx;
+  background: rgba(0, 0, 0, 0.5);
   position: absolute;
-  left:0;
-  top:0;
+  left: 0;
+  top: 0;
   display: flex;
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
 }
-.delayWrap .endtimeshadow image{
+
+.delayWrap .endtimeshadow image {
   width: 100rpx;
-  height:96rpx;
+  height: 96rpx;
 }
+
 .delayRight {
   width: 70%;
   height: 100%;
 }
 
 .delayText {
-  /* height: 78rpx; */
-  /* text-overflow: -o-ellipsis-lastline; */
+  /* height: 78rpx; *//* text-overflow: -o-ellipsis-lastline; */
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
@@ -129,15 +136,16 @@ page {
   margin: 28rpx 20rpx 0rpx 20rpx;
   letter-spacing: 2rpx;
 }
-.delayText text{
-  /* height: 67.5rpx; */
-  /* text-overflow: -o-ellipsis-lastline; */
+
+.delayText text {
+  /* height: 67.5rpx; *//* text-overflow: -o-ellipsis-lastline; */
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 }
+
 .moneyBtn {
   height: 68rpx;
   display: flex;
@@ -181,15 +189,17 @@ page {
   background: rgba(0, 0, 0, 0.4);
   overflow: hidden;
 }
-.zhezao .shadow{
+
+.zhezao .shadow {
   position: absolute;
-  left:0;
-  right:0;
-  top:0;
+  left: 0;
+  right: 0;
+  top: 0;
   width: 100%;
   height: 100%;
   z-index: 1;
 }
+
 .terse_w {
   position: relative;
   z-index: 999;
@@ -246,7 +256,6 @@ page {
   color: rgba(150, 150, 150, 1);
   margin-top: 22rpx;
   margin-left: 20rpx;
-  
 }
 
 .tuxedoPeople {
@@ -268,9 +277,9 @@ page {
   left: 0rpx;
 }
 
-.endTimeimg{
-  background:#eee;
-  width:220rpx;
-  height:192rpx;
-  padding:50rpx 34rpx;
+.endTimeimg {
+  background: #eee;
+  width: 220rpx;
+  height: 192rpx;
+  padding: 50rpx 34rpx;
 }
