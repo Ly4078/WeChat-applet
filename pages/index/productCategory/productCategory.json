@@ -1,6 +1,5 @@
 {
   "navigationBarTitleText": "分类",
-  "enablePullDownRefresh": false,
   "usingComponents": {
     "i-spin": "../../../dist/spin/index",
     "skeleton": "/components/skeleton/skeleton",

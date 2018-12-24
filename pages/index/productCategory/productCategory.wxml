@@ -1,13 +1,40 @@
-<!-- <view class="categoryBox"> -->
-  <!-- <view class="search">
-    <view class="search_inner">
-      <image src="/images/icon/hot_search.png"></image>
-      <input placeholder='搜索商品'></input>
+<!-- <skeleton selector="skeleton" loading="spin" bgcolor="#FFF" wx:if="{{showSkeleton}}"></skeleton> -->
+<view class="spinbox" wx:if="{{showSkeletonRight}}">
+  <view class="spin"></view>
+</view>
+
+<view class='proTop'>
+  <scroll-view scroll-x="true" bindscroll="scroll" class="scroll-view_H list-liu" >
+    <view wx:key="{{index}}" id="{{item.id}}" data-current="{{item.id}}" class="scroll-view-item_H swiper-tab-list {{sortId==item.id?'scrAction':''}}" wx:for="{{sort}}" bindtap="bindSort">{{item.categoryName}}</view>
+  </scroll-view>
+</view>
+
+<view class='proContent'>
+
+  <view wx:if="{{comList.length > 0}}" wx:for="{{comList}}" wx:key="{{index}}" hover-class='itemhover' class="classify_item" id="{{item.id}}" data-cate="{{item.id}}" data-categoryid="{{item.categoryId}}" data-shopid="{{item.shopId}}" bindtap='bindItem'>
+    <image-loader width="360rpx" height="360rpx" default-image='/images/icon/morentu.png' mode='aspectFill' original-image="{{item.skuPic?item.skuPic:'/images/icon/morentu.png'}}" />
+    <view class='contTxt'>
+      <view class="goods_tit">{{item.skuName}}</view>
+      <view class="goods_addr">{{item.salePointOuts[0].address}}</view>
+      <text class="goods_icon">全民砍价</text>
+      <view class="priceBox">
+        <text class="discount_price">￥{{item.goodsPromotionRules[0].actAmount}}</text>
+        <text class="original_price">￥{{item.marketPrice}}</text>
+      </view>
     </view>
-  </view> -->
+  </view>
+
+   <view wx:if="{{comList.length < 1}}" class='placeholder'>
+    <image src="/images/icon/zhanweitu.png"></image>
+  </view>
+</view>
+
+
 
 <!-- 骨架屏模块 -->
-<skeleton selector="skeleton" loading="spin" bgcolor="#FFF" wx:if="{{showSkeleton}}"></skeleton>
+
+
+<!-- <skeleton selector="skeleton" loading="spin" bgcolor="#FFF" wx:if="{{showSkeleton}}"></skeleton>
 <view class="spinbox" wx:if="{{showSkeletonRight}}">
   <view class="spin"></view>
 </view>
@@ -27,7 +54,7 @@
           <view wx:for="{{comList}}" wx:key="{{index}}" hover-class='itemhover' class="classify_item" id="{{item.id}}" data-cate="{{item.id}}" data-categoryid="{{item.categoryId}}" data-shopid="{{item.shopId}}" bindtap='bindItem'>
             <view class="classify_l_r">
             <image-loader width="108rpx" height="108rpx"   default-image='/images/icon/morentu.png' mode='aspectFill' original-image="{{item.skuPic?item.skuPic:'/images/icon/morentu.png'}}"  />
-              <!-- <image src="{{item.skuPic}}"></image> -->
+              <image src="{{item.skuPic}}"></image>
               <view>
                 <view class="goods_tit">{{item.skuName}}</view>
                 <view class="goods_addr">{{item.salePointOuts[0].address}}</view>
@@ -42,7 +69,7 @@
         </view>
         
         <view wx:if="{{comList.length < 1}}" class='placeholder'>
-        <!-- <view class='ruahu'>再等等，商家正在入驻中</view> -->
+        <view class='ruahu'>再等等，商家正在入驻中</view>
           <image src="/images/icon/zhanweitu.png"></image>
         </view>
 
@@ -53,5 +80,7 @@
         </view>
       </view>
     </view>
-  </view>
+  </view> -->
+
+
 <!-- </view> -->

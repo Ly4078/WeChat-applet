@@ -15,6 +15,7 @@ Page({
     loading: false,
     rows: 10,
     page: 1,
+    currentTab:0,
     showSkeleton: true,
     showSkeletonRight: false
   },
@@ -162,8 +163,15 @@ Page({
       }
     })
   },
+  // =======================
+  scroll(e) {
+    console.log(e)
+  },
+
+  // ==============
   //点击某个类别
   bindSort: function (e) {
+    console.log("e:",e)
     if (e.currentTarget.id == this.data.sortId) {
       return false
     }
@@ -185,7 +193,7 @@ Page({
     // return
     let that = this, url='';
     requestTask = true;
-    url = this.data._build_url + 'goodsSku/listForAct?actId=' + this.data.actId + '&categoryId=' + sortId + '&rows=' + this.data.rows + '&page=' + this.data.page
+    url = this.data._build_url + 'goodsSku/listForAct?actId=' + this.data.actId + '&categoryId=' + sortId + '&rows=' + this.data.rows + '&page=' + this.data.page;
     goodsRequestTask = wx.request({
       url: encodeURI(url),
       header: {
@@ -270,6 +278,7 @@ Page({
     if (requestTask) {
       return false
     }
+    console.log('onPullDownRefresh')
     this.setData({
       comList: [],
       page: 1
