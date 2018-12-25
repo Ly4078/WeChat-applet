@@ -16,6 +16,13 @@ page{
   display: block;
 }
 
+.wxParse-p{
+  padding:14px;
+  color:#191919;
+  font-size:14px;
+  background: #F5F5FA;
+}
+
 .information{
   width: 100%;
   display: flex;

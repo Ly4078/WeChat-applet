@@ -76,7 +76,8 @@ page, .categoryBox {
 }
 .goods_tit {
   font-size: 28rpx;
-  height: 74rpx;
+  height: 70rpx;
+  line-height: 35rpx;
   font-weight: Semibold;
   display: -webkit-box;
   -webkit-box-orient: vertical;
