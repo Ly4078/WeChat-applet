@@ -35,7 +35,6 @@ Page({
         showSkeleton: false
       })
     }, 5000)
-    console.log("options:", options)
     if (options.let){
       this.getTicketList();
       this.setData({ currentIndex:1})
@@ -49,7 +48,6 @@ Page({
     }
   },
   submit: function(e) {
-    console.log('navbarTap:',e)
     let index = e.currentTarget.dataset.idx, that = this, _formId = e.detail.formId;
 
     that.setData({
@@ -96,7 +94,6 @@ Page({
   },
   handtab: function(e) {
     let that = this,index = e.currentTarget.dataset.index;
-    console.log("index:", index)
     this.setData({
       ind: index,
       pxpage:1
@@ -146,7 +143,26 @@ Page({
         }
       }
     }
-    // this.getorderCoupon(0);
+    // that.getShare();
+  },
+  getShare(){
+    let that = this;
+
+    let piaosharelist = wx.getStorageSync('piaosharelist') || []
+    if (that.data.listData.length && piaosharelist.length) {
+      let listData = that.data.listData;
+      for (let i = 0; i < piaosharelist.length; i++) {
+        for (let j = 0; j < listData.length; j++) {
+          if (listData[j].couponCode == piaosharelist[i]) {
+            listData[j].isShare = true
+          }
+        }
+      }
+      that.setData({
+        listData: listData
+      })
+    }
+
   },
   onUnload() {
   },
@@ -182,7 +198,6 @@ Page({
   },
   //查询我的礼品券列表数据 
   getorderCoupon: function(types) {
-    console.log('getorderCoupon')
     let that = this;
     if (!app.globalData.userInfo.userId) {
       this.findByCode();
@@ -207,7 +222,6 @@ Page({
       }
       Api.orderCoupon(_parms).then((res) => {
         // wx.stopPullDownRefresh();
-        console.log('res:',res)
         that.setData({
           loading: false
         })
@@ -215,7 +229,6 @@ Page({
         
         if (res.data.code == 0) {
           let _list = res.data.data.list;
-          console.log('_list:', _list)
           if (_list && _list.length > 0) {
             for (let i = 0; i < _list.length; i++) {
               if (_list[i].maleWeight){
@@ -233,7 +246,6 @@ Page({
               pageTotal: Math.ceil(res.data.data.total / 10),
               loading: false
             })
-            console.log('listData:', that.data.listData)
           } else {
             that.setData({
               loading: false
@@ -241,6 +253,7 @@ Page({
           }
           swichrequestflag[types] = false
           setTimeout(() => {
+            // that.getShare();
             that.setData({
               showSkeleton: false
             })
@@ -525,28 +538,21 @@ Page({
       }
 
     } else if (bigIndex ==1){//tab指向优惠券
-    console.log('1111')
       if (requesting) {
         return;
       }
       var tabId = this.data.isUsed;
-      console.log("tabId:", tabId)
       if (tabId == 0) {
-        console.log('12222222')
         if (this.data.page >= this.data.yesPageTotal) {
-          console.log('122222221111111')
           return
         }
       }
       if (tabId == 1) {
-        console.log('333333')
         if (this.data.page >= this.data.notPageTotal) {
-          console.log('333333111111')
           return
         }
       }
       // if (this.data.isUpdate) {
-        console.log("555555")
         this.setData({
           page: this.data.page + 1,
           loading: true
@@ -555,7 +561,6 @@ Page({
         });
 
       // }else{
-      //   console.log("4444444444")
       // }
     }
    

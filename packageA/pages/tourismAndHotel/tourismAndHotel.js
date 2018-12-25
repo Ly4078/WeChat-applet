@@ -13,13 +13,45 @@ Page({
     page:1,
     skeletonData:['','','','',''],
     showSkeleton:true,
-    total:1
+    total:1,
+    loading:false,
+    endpage:1,
+    endData:[],
+    endtotal:1,
+    fiexd:false
   },
   onLoad: function(options) {
+    let that = this;
+    var query = wx.createSelectorQuery();
+    query.select('.maximumImg').boundingClientRect(function (qry) {
+      console.log(qry)
+      that.setData({
+        bannerHeight: qry.height
+      })
+      var h = qry.height;//此处提示错误：不能获取null的height
+    }).exec();
+
     this.setData({
       actid: options.id
     })
     
+  },
+  onPageScroll:function(e){
+    if (e.scrollTop > this.data.bannerHeight){
+      if (this.data.fiexd){
+        return false
+      }
+      this.setData({
+        fiexd:true
+      })
+    }else{
+      if (!this.data.fiexd) {
+        return false
+      }
+      this.setData({
+        fiexd: false
+      })
+    }
   },
   onShow: function() {
     let that = this;
@@ -98,7 +130,7 @@ Page({
     let that = this;
     requestTask = true;
     wx.request({
-      url: that.data._build_url + 'goodsSku/listForAct?actId=' + actid+'&row=10&page='+that.data.page,
+      url: that.data._build_url + 'goodsSku/listForAct?actId=' + actid + '&rows=10&page=' + that.data.page,
       method: 'get',
       header: {
         "Authorization": app.globalData.token
@@ -113,7 +145,12 @@ Page({
                   _data[i].goodsPromotionRules[0] = _data[i].goodsPromotionRules[j]
                 }
               }
-              _data[i].actGoodsSkuOut.stopTime = Countdown(_data[i].actGoodsSkuOut.dueTime)
+              try{
+                _data[i].actGoodsSkuOut.stopTime = Countdown(_data[i].actGoodsSkuOut.dueTime)
+
+              }catch(err){
+
+              }
             }
             let arr = [];
             if (types == 'reset'){
@@ -125,22 +162,66 @@ Page({
             that.setData({
               dataList: arr,
               total: Math.ceil(res.data.data.total / 10),
-              showSkeleton:false
+              showSkeleton:false,
+              loading:false
             })
             requestTask = false
           }else{
             requestTask = false
-            that.setData({ showSkeleton: false})
+            that.setData({
+              showSkeleton: false,
+              loading: false})
           }
         }else{
           requestTask = false
-          that.setData({ showSkeleton: false })
+          that.setData({
+            showSkeleton: false,
+            loading: false })
         }
 
       },
       fail: function(res) {
         requestTask = false
-        that.setData({ showSkeleton: false })
+        that.setData({
+          showSkeleton: false,
+          loading: false })
+      }
+    })
+  },
+  getendList(actid, types){
+    let that = this;
+    wx.request({
+      url: that.data._build_url +'goodsSku/listForEndAct?actId='+actid+'&rows=10&page='+that.data.endpage+'&groupState=2',
+      method: 'get',
+      header: {
+        "Authorization": app.globalData.token
+      },
+      success(res){
+        if(res.data.code == '0' && res.data.data) {
+          let arr = [];
+          let _data = res.data.data.list
+          if (types == 'reset') {
+            arr = _data
+          } else {
+            let endData = that.data.endData ? that.data.endData : [];
+            arr = endData.concat(_data)
+          }
+          that.setData({
+            endData: arr,
+            endtotal: Math.ceil(res.data.data.total / 10),
+            showSkeleton: false,
+            loading: false
+          })
+          requestTask = false
+        }else{
+          wx.hideLoading()
+          requestTask = false
+          that.setData({loading: false})
+        }
+        
+      },fail: function (res) {
+        requestTask = false
+        that.setData({ showSkeleton: false, loading: false })
       }
     })
   },
@@ -148,18 +229,43 @@ Page({
     let that = this;
     if (requestTask){
       return false
+    } 
+    if(that.data.selected){
+      if (that.data.total <= that.data.page) {
+        return
+      }
+      that.setData({
+        page: that.data.page + 1,
+        loading:true
+      }, () => {
+        that.getSingleList(that.data.actid);
+      })
+    }else{
+      if (that.data.endtotal <= that.data.endpage) {
+        return
+      }
+      that.setData({
+        endpage: that.data.endpage + 1,
+        loading: true
+      }, () => {
+        that.getendList(that.data.actid);
+      })
     }
-    if (this.data.total <= this.data.page) {
-      return
-    }
-    that.setData({
-      page:that.data.page+1
-    },()=>{
-      that.getSingleList(that.data.actid);
-    })
+    
     
   },
   selected: function(e) {
+    let that = this;
+    let id = e.target.id;
+    if(id == '2') {
+      if(!that.data.endData.length){
+        that.getendList(that.data.actid, 'reset');
+      }        
+    }else{
+      if (!that.data.dataList.length) {
+        that.getSingleList(that.data.actid,'reset');
+      } 
+    }
     this.setData({
       selected: e.target.id == 1 ? true : false
     })

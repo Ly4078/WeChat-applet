@@ -565,7 +565,7 @@ const ALL_API = {
   },
   orderInfoDetail: {//查询送货到家单个订单详情
     method:'GET',
-    url:'orderInfo/getDetail'
+    url:'orderInfo/getDetailNew'
   },
   createCrabDish: {    //创建砍蟹接口
     method: 'POST',

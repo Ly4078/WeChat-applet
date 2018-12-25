@@ -44,9 +44,10 @@ Page({
  
   onShow: function() {
     // 计算送达时间
+    
     let today = new Date().getTime(), threeLater = 0, tenLater = 0;
     threeLater = new Date(today + 86400000);
-    tenLater = new Date(today + 864000000);
+    tenLater = new Date(today + 864000000*9);
     threeLater = utils.dateConv(threeLater, '-');
     tenLater = utils.dateConv(tenLater, '-');
     this.setData({
@@ -196,6 +197,10 @@ Page({
       return false;
     }
     //查询详情是否被领取或被使用
+    wx.showLoading({
+      title: '加载中...',
+      mask:true
+    })
     let _this = this;
     wx.request({
       url: this.data._build_url + 'orderCoupon/getDetail?id=' + this.data.id + '&locationX=' + this.data.locationX + '&locationY=' + this.data.locationY,
@@ -219,10 +224,14 @@ Page({
               _this.wxpayment();
             }
           }
+        }else{
+          wx.hideLoading()
         }
+      },fail(){
+        wx.hideLoading()
       },
       complete: function() {
-        wx.hideLoading();
+        // wx.hideLoading();
       }
     })
   },
@@ -256,6 +265,7 @@ Page({
       },
       method: 'POST',
       success: function(res) {
+        wx.hideLoading()
         if (res.data.code == 0) {
           app.globalData.exchangeId = _this.data.id
           wx.showToast({
@@ -269,6 +279,7 @@ Page({
             })
           }, 1500)
         } else {
+          wx.hideLoading()
           wx.showToast({
             title: res.data.message,
             icon: 'none'
@@ -320,6 +331,7 @@ Page({
         "Authorization": app.globalData.token
       },
       success: function (res) {
+        wx.hideLoading()
         if (res.data.code == 0) {
           _this.setData({
             payObj: res.data.data
@@ -331,6 +343,8 @@ Page({
             icon: 'none'
           })
         }
+      },fail(){
+        wx.hideLoading()
       }
     })
   },

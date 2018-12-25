@@ -280,12 +280,10 @@ Page({
           that.gettips(); //获取推送
           that.gethomeData('reset'); //获取下面列表数据
           setTimeout(() => {
-            if (that.data.showSkeleton) {
               that.setData({
                 showSkeleton: false
               })
-            }
-          }, 400)
+          },200)
         } else {
           that.findByCode();
         }

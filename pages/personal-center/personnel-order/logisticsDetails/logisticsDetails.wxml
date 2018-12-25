@@ -1,17 +1,17 @@
 <view class='logisticsDWrap'>
-<skeleton selector="skeleton" loading="spin" bgcolor="#FFF" wx:if="{{showSkeleton}}"></skeleton>
+  <skeleton selector="skeleton" loading="spin" bgcolor="#FFF" wx:if="{{showSkeleton}}"></skeleton>
   <!-- 订单信息 -->
   <view class='logisticsTop'>
     <image class='logisticsTopImg' src='/images/icon/logisticsTopImg.png'></image>
-    <view  wx:if="{{groupOrderDetail.actInfo.type=='7'}}" class='logisticsTopShould'>
+    <view wx:if="{{groupOrderDetail.actInfo.type=='7'}}" class='logisticsTopShould'>
       <view class='logisticsTopfront'>
         <text class="pr20">{{soDetail.status2}}</text>
         <!-- <text wx:if="{{Countdown != '0秒' && Countdown != ''}}">{{Countdown}}后取消订单，请及时付款</text> -->
       </view>
-      <view class='logisticsTopCount' >
+      <view class='logisticsTopCount'>
         <text>开团成功后商品兑换券在我的券包中查看</text>
       </view>
-     
+
     </view>
     <view wx:else class='logisticsTopShould'>
       <view class='logisticsTopfront'>
@@ -27,84 +27,84 @@
   </view>
 
   <view class="Single" wx:if="{{groupOrderDetail.actInfo.type=='7'}}">
-    <view class="Single-title"  catchtap='showShade'>
+    <view class="Single-title" catchtap='showShade'>
       <view class="left">参团享优惠，分享赚现金</view>
       <view class="right">
         <text>活动说明</text>
         <image src="/images/icon/white_right.png" style="width:26rpx;height:26rpx;margin-left:6rpx;"></image>
       </view>
     </view>
-      <view wx:if="{{ groupOrderDetail.state=='1'}}">
-        <view class="Single-detail" wx:if="{{groupOrderDetail.actOrder.state != '1'}}">
-          <view class="Single-detail-title">
-            <view class="Single-detail-title-left" wx:if="{{groupOrderDetail.actOrder.state =='3'}}">
-              <text>还差</text>
-              <text style="color:#FC6232;margin:0 8rpx;">1</text>
-              <text>个新用户注册，参团成功</text>
-            </view>
-            <view class="Single-detail-title-left" wx:if="{{groupOrderDetail.actOrder.state =='2'}}">
-              <text>参团成功</text>
-            </view>
-            <view class="Single-detail-title-time">{{Countdowns.day}}天{{Countdowns.hou}}:{{Countdowns.min}}:{{Countdowns.sec}}后结束</view>
+    <view wx:if="{{ groupOrderDetail.state=='1'}}">
+      <view class="Single-detail" wx:if="{{groupOrderDetail.actOrder.state != '1'}}">
+        <view class="Single-detail-title">
+          <view class="Single-detail-title-left" wx:if="{{groupOrderDetail.actOrder.state =='3'}}">
+            <text>还差</text>
+            <text style="color:#FC6232;margin:0 8rpx;">1</text>
+            <text>个新用户注册，参团成功</text>
           </view>
-          <view class="Single-detail-info">
-            <view class="Single-detail-info-friend">
-              <image wx:if="{{groupOrderDetail.users.length}}" src="{{groupOrderDetail.users[0].iconUrl?groupOrderDetail.users[0].iconUrl:'/images/icon/invite.png'}}"></image>
-              <image wx:else src="/images/icon/invite.png"></image>
-            </view> 
-            <button  wx:if="{{groupOrderDetail.actOrder.state =='2'}}"  open-type="share" class="Single-detail-info-share" >
-              分享赚现金
-            </button>
-            <button data-type="2" wx:if="{{groupOrderDetail.actOrder.state =='3'}}" open-type="share" class="Single-detail-info-share" >
-             邀请好友
-            </button>
+          <view class="Single-detail-title-left" wx:if="{{groupOrderDetail.actOrder.state =='2'}}">
+            <text>参团成功</text>
           </view>
+          <view class="Single-detail-title-time">{{Countdowns.day}}天{{Countdowns.hou}}:{{Countdowns.min}}:{{Countdowns.sec}}后结束</view>
+        </view>
+        <view class="Single-detail-info">
+          <view class="Single-detail-info-friend">
+            <image wx:if="{{groupOrderDetail.users.length}}" src="{{groupOrderDetail.users[0].iconUrl?groupOrderDetail.users[0].iconUrl:'/images/icon/invite.png'}}"></image>
+            <image wx:else src="/images/icon/invite.png"></image>
+          </view>
+          <button wx:if="{{groupOrderDetail.actOrder.state =='2'}}" open-type="share" class="Single-detail-info-share">
+            分享赚现金
+          </button>
+          <button data-type="2" wx:if="{{groupOrderDetail.actOrder.state =='3'}}" open-type="share" class="Single-detail-info-share">
+            邀请好友
+          </button>
         </view>
       </view>
-      <view wx:if="{{ groupOrderDetail.state=='2'}}">
-        <view class="Single-detail" >
-          <view class="Single-detail-title">
+    </view>
+    <view wx:if="{{ groupOrderDetail.state=='2'}}">
+      <view class="Single-detail">
+        <view class="Single-detail-title">
 
-            <view class="Single-detail-title-left" wx:if="{{groupOrderDetail.actOrder.state =='2'}}">
-              <text>参团成功</text>
-            </view>
-          
-            <view class="Single-detail-title-left" wx:if="{{groupOrderDetail.actOrder.state !='2' || groupOrderDetail.actOrder.state=='4'}}">
-              <text>您未参团，已付款将原路退还</text>
-            </view>
-            <view class="Single-detail-title-time" >开团成功</view>
-             
+          <view class="Single-detail-title-left" wx:if="{{groupOrderDetail.actOrder.state =='2'}}">
+            <text>参团成功</text>
           </view>
-          <view class="Single-detail-info">
-            <view class="Single-detail-info-friend">
-              <image wx:if="{{groupOrderDetail.users.length}}" src="{{groupOrderDetail.users[0].iconUrl?groupOrderDetail.users[0].iconUrl:'/images/icon/invite.png'}}"></image>
-              <image wx:else src="/images/icon/invite.png"></image>
-            </view>
-            <view catchtap='seeMygoods' class="Single-detail-info-share" wx:if="{{groupOrderDetail.actOrder.state =='2'}}">查看票券</view>
-            <view catchtap='seeMore' class="Single-detail-info-share" wx:if="{{groupOrderDetail.actOrder.state !='2' || groupOrderDetail.actOrder.state=='4'}}">查看更多</view>
+
+          <view class="Single-detail-title-left" wx:if="{{groupOrderDetail.actOrder.state !='2' || groupOrderDetail.actOrder.state=='4'}}">
+            <text>您未参团，已付款将原路退还</text>
           </view>
+          <view class="Single-detail-title-time">开团成功</view>
+
+        </view>
+        <view class="Single-detail-info">
+          <view class="Single-detail-info-friend">
+            <image wx:if="{{groupOrderDetail.users.length}}" src="{{groupOrderDetail.users[0].iconUrl?groupOrderDetail.users[0].iconUrl:'/images/icon/invite.png'}}"></image>
+            <image wx:else src="/images/icon/invite.png"></image>
+          </view>
+          <view catchtap='seeMygoods' class="Single-detail-info-share" wx:if="{{groupOrderDetail.actOrder.state =='2'}}">查看票券</view>
+          <view catchtap='seeMore' class="Single-detail-info-share" wx:if="{{groupOrderDetail.actOrder.state !='2' || groupOrderDetail.actOrder.state=='4'}}">查看更多</view>
         </view>
       </view>
-      <view wx:if="{{ groupOrderDetail.state=='3'}}">
-        <view class="Single-detail">
-          <view class="Single-detail-title">
-            <view class="Single-detail-title-left" wx:if="{{groupOrderDetail.actOrder.state =='2'}}">
-              <text>已参团</text>
-            </view>
-            <view class="Single-detail-title-left" wx:if="{{groupOrderDetail.actOrder.state !='2' || groupOrderDetail.actOrder.state=='4'}}">
-              <text>未参团</text>
-            </view>
-            <view style="color:#FC6232;" class="Single-detail-title-time">开团失败，款项原路退还</view>
+    </view>
+    <view wx:if="{{ groupOrderDetail.state=='3'}}">
+      <view class="Single-detail">
+        <view class="Single-detail-title">
+          <view class="Single-detail-title-left" wx:if="{{groupOrderDetail.actOrder.state =='2'}}">
+            <text>已参团</text>
           </view>
-          <view class="Single-detail-info">
-            <view class="Single-detail-info-friend">
-              <image wx:if="{{groupOrderDetail.users.length}}" src="{{groupOrderDetail.users[0].iconUrl?groupOrderDetail.users[0].iconUrl:'/images/icon/invite.png'}}"></image>
-              <image wx:else src="/images/icon/invite.png"></image>
-            </view>
-             <view catchtap='seeMore' class="Single-detail-info-share" >查看更多</view>
+          <view class="Single-detail-title-left" wx:if="{{groupOrderDetail.actOrder.state !='2' || groupOrderDetail.actOrder.state=='4'}}">
+            <text>未参团</text>
           </view>
+          <view style="color:#FC6232;" class="Single-detail-title-time">开团失败，款项原路退还</view>
+        </view>
+        <view class="Single-detail-info">
+          <view class="Single-detail-info-friend">
+            <image wx:if="{{groupOrderDetail.users.length}}" src="{{groupOrderDetail.users[0].iconUrl?groupOrderDetail.users[0].iconUrl:'/images/icon/invite.png'}}"></image>
+            <image wx:else src="/images/icon/invite.png"></image>
+          </view>
+          <view catchtap='seeMore' class="Single-detail-info-share">查看更多</view>
         </view>
       </view>
+    </view>
 
 
 
@@ -220,27 +220,30 @@
   </view>
 
   <!-- 底部联系客服再次/购买 -->
-   <view class='secondOrderLeader' wx:if="{{isGroup}}">
+  <view class='secondOrderLeader' wx:if="{{isGroup}}">
+    <button wx:if="{{soDetail.isOrderInvoice =='0'}}" catchtap='applybilling' style="color:#B1B1B1;border:2rpx solid #B1B1B1;background:#fff;">申请开票</button>
     <!-- <view catchtap='toRefund' class="Refund">申请退款</view> -->
     <button open-type='contact' style="color:#B1B1B1;border:2rpx solid #B1B1B1;background:#fff;">联系客服</button>
+
   </view>
   <view wx:else class='secondOrderLeader'>
+  
     <form bindsubmit="formSubmits" report-submit="true">
-      <button formType="submit" class="Refund" wx:if="{{soDetail.status == 3 && groupOrderDetail.actInfo.type !='7'}}">申请退款</button>
+      <button formType="submit" class="Refund" wx:if="{{soDetail.status == 3 && groupOrderDetail.actInfo.type !='7'&& soDetail.isOrderInvoice =='0'}}">申请退款</button>
     </form>
-   
-    <button open-type='contact'  style="color:#B1B1B1;border:2rpx solid #B1B1B1;background:#fff;" >联系客服</button>
-     <button catchtap='seepiaoDetail' wx:if="{{ soDetail.status=='3' && groupOrderDetail.actInfo.type !='7'}}"  class='cheng'>立即使用</button>
+  <button wx:if="{{soDetail.isOrderInvoice =='0'}}" catchtap='applybilling' style="color:#B1B1B1;border:2rpx solid #B1B1B1;background:#fff;">申请开票</button>
+    <button open-type='contact' style="color:#B1B1B1;border:2rpx solid #B1B1B1;background:#fff;">联系客服</button>
+    <button catchtap='seepiaoDetail' wx:if="{{ soDetail.status=='3' && groupOrderDetail.actInfo.type !='7'}}" class='cheng'>立即使用</button>
     <!-- <button bindtap='nowuse' class='cheng' wx:if="{{soDetail.ust}}">立即使用</button> -->
     <!-- <button bindtap='buyagain' wx:if="{{ soDetail.status == 3 || soDetail.status == 10  }}">再次购买</button> -->
     <form bindsubmit="formSubmit" report-submit="true" wx:if="{{  soDetail.status == 1 && Countdown != '0秒' && Countdown != '' }}">
-      <button formType="submit" >继续支付</button>
+      <button formType="submit">继续支付</button>
     </form>
     <button bindtap='receipt' wx:if="{{ soDetail.status == 2   }}">确认收货</button>
   </view>
 </view>
 <!-- 自定义分享图片中 绘制价格   公共方法utils.js/canvasShareImg.js  调用方法canvasShareImg() -->
-<canvas  canvas-id="myCanvas" style="width:800px;height:642px;position: fixed;top: 0; left: 999px;"></canvas>
+<canvas canvas-id="myCanvas" style="width:800px;height:642px;position: fixed;top: 0; left: 999px;"></canvas>
 
 
 
@@ -279,11 +282,3 @@
     </view>
   </view>
 </view>
-
- 
-
-
-
-
-
-

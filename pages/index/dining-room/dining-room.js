@@ -66,19 +66,19 @@ Page({
       isclosure: true,
       isshowlocation: false
     })
-  },
-  onShow: function () {
-    let that = this;
-    if(!app.globalData.token){
+    if (!app.globalData.token) {
       this.findByCode();
-    }else{
-      that.getData();
+    } else {
+      // that.getData();
       that.getUserlocation();
       that.getfooddatas()
       if (that.data._val) {
         that.getshopInfo(_val);
       }
     }
+  },
+  onShow: function () {
+  
   },
 
   // 初始化start
@@ -104,7 +104,7 @@ Page({
               that.authlogin();
             }else{
               wx.navigateTo({
-                url: '/pages/init/init?isback=1'
+                url: '/pages/init/init'
               })
             }
           }
@@ -126,7 +126,7 @@ Page({
           let _token = 'Bearer ' + res.data.data;
           app.globalData.token = _token;
           wx.setStorageSync('token', _token);
-          that.getData();
+          // that.getData();
           that.getUserlocation();
           that.getfooddatas()
           if (that.data._val){
@@ -590,7 +590,7 @@ Page({
   },
   onShareAppMessage: function (res) {
     return {
-      title:'享7',
+      title:'享7,‘购’实惠',
       imageUrl:'https://xq-1256079679.file.myqcloud.com/15927505686_1545389545_xiang7logo_0.png'
     }
   }

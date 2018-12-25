@@ -1,7 +1,9 @@
 {
   "navigationBarTitleText": "享7拼购",
   "enablePullDownRefresh": false,
-  "usingComponents":{
-    "skeleton":"/components/skeleton/skeleton"
+  "usingComponents": {
+    "i-spin": "/dist/spin/index",
+    "skeleton": "/components/skeleton/skeleton",
+    "image-loader": "/components/image-loader"
   }
 }

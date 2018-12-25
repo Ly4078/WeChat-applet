@@ -1,5 +1,11 @@
 <import src="flashSale-template/flashSale-template.wxml" />
 <skeleton selector="skeleton" loading="spin" bgcolor="#FFF" wx:if="{{showSkeleton}}"></skeleton>
+<view class='modal_box  modal_box11' wx:if="{{isshowlocation}}">
+  <view class='weizhi'>
+    更多体验需要你授权位置信息
+    <button bindtap="openSetting">确定</button>
+  </view>
+</view>
 <view class="flashSaleHome {{currentTab == 0 ? '' : 'active'}}">
   <!--导航菜单-->
   <view class="navbar skeleton-rect">

@@ -41,7 +41,8 @@
               <image-loader class='hot-recoItem-leftImg' default-image='/images/icon/morentu.png' mode='aspectFill' original-image="{{item.skuPic?item.skuPic:'/images/icon/morentu.png'}}" />
             </view>
             <view class='hot-recoItem-right'>
-              <view class="shopnames {{ind == 3 ? 'shopnamess' : ''}}">兑换券</view>
+              <view style="color:#30B536;border-color:#30B536;" wx:if="{{item.isShare}}" class="shopnames">赠送中</view>
+              <view wx:else class="shopnames {{ind == 3 ? 'shopnamess' : ''}}">兑换券</view>
 
               <view class="skuclas {{item.isUsed == 1 || item.status == 4 || item.status == 5 || item.isDue == 1 ? 'gray' : ''}}">
                 <text class='shopnames2'></text>{{item.goodsSkuName}}</view>
@@ -84,7 +85,7 @@
   <view style="padding:0 26rpx" wx:if="{{ind ==1}}">
 
     <view class="voucher issend" wx:if="{{sendData.length>0}}">
-      <view wx:for="{{sendData}}" wx:key="{{index}}" class="{{ind == 1 ? 'indshixaio' : ''}} tickItem" id="{{item.id}}" data-isUsed="{{item.isUsed}}" data-ownId="{{item.ownId}}" data-isDue="{{item.isDue}}" bindtap='redeemNow'>
+      <view wx:for="{{sendData}}" wx:key="{{index}}" class="{{ind == 1 ? 'indshixaio' : ''}} tickItem" id="{{item.id}}" data-isUsed="{{item.isUsed}}" data-ownId="{{item.ownId}}" data-isDue="{{item.isDue}}" >
         <view class='circle circle_left'></view>
         <view class='circle circle_right'></view>
         <!-- <image class="ticketBgc" src="/images/icon/ticketBgc.png"></image> -->
@@ -111,7 +112,7 @@
                 <text class='shopnames2'></text>{{item.goodsSkuName}}</view>
 
               <view class="modate">
-                <text class="modatetext2">领取人 {{item.receiveUserName || ''}}</text>
+                <text class="modatetext2">领取人 {{item.receiveUserName}}</text>
                 <text wx:if="{{item.isUsed == 0 && (item.status == 0 || item.status == null) && item.isDue == 0}}" class="modatetext1">{{item.otherMarkerPrice?('￥'+item.otherMarkerPrice):('￥'+item.orderItemOuts[0].goodsPrice)}}</text>
                 <text wx:else class="modatetext1">{{item.otherMarkerPrice?('￥'+item.otherMarkerPrice):('￥'+item.orderItemOuts[0].goodsPrice)}}</text>
 
@@ -140,7 +141,7 @@
   <view style="padding:0 26rpx" wx:if="{{ind ==2}}">
 
     <view class="voucher issend" wx:if="{{recData.length>0}}">
-      <view wx:for="{{recData}}" wx:key="{{index}}" class="{{ind == 2 ? 'indshixaio' : ''}} tickItem" id="{{item.id}}" data-isUsed="{{item.isUsed}}" data-ownId="{{item.ownId}}" data-isDue="{{item.isDue}}" bindtap='redeemNow'>
+      <view wx:for="{{recData}}" wx:key="{{index}}" class="{{ind == 2 ? 'indshixaio' : ''}} tickItem" id="{{item.id}}" data-isUsed="{{item.isUsed}}" data-ownId="{{item.ownId}}" data-isDue="{{item.isDue}}" >
         <view class='circle circle_left'></view>
         <view class='circle circle_right'></view>
         <!-- <image class="ticketBgc" src="/images/icon/ticketBgc.png"></image> -->
@@ -167,7 +168,7 @@
                 <text class='shopnames2'></text>{{item.goodsSkuName}}</view>
 
               <view class="modate">
-                <text class="modatetext2">赠送人 {{item.sendUserName || ''}}</text>
+                <text class="modatetext2">赠送人 {{item.sendUserName}}</text>
                 <text wx:if="{{item.isUsed == 0 && (item.status == 0 || item.status == null) && item.isDue == 0}}" class="modatetext1">{{item.otherMarkerPrice?('￥'+item.otherMarkerPrice):('￥'+item.orderItemOuts[0].goodsPrice)}}</text>
                 <text wx:else class="modatetext1">{{item.otherMarkerPrice?('￥'+item.otherMarkerPrice):('￥'+item.orderItemOuts[0].goodsPrice)}}</text>
 

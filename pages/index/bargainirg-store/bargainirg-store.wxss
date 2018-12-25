@@ -5,7 +5,14 @@ page{
   padding: 0rpx;
   margin: 0rpx;
 }
-
+.indexIcon {
+  position: fixed;
+  right: 20rpx;
+  bottom: 120rpx;
+  z-index: 1000;
+  width: 100rpx;
+  height: 100rpx;
+}
 .diagram{
   width: 100%;
   position: relative;

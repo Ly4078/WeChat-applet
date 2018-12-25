@@ -2,7 +2,7 @@
 <!-- 骨架屏模块 -->
 <skeleton selector="skeleton" loading="spin" bgcolor="#FFF" wx:if="{{showSkeleton}}"></skeleton>
 
-<view class="tickPage">
+<view class="tickPage {{(!isReceived && isUsed == 0 && (status == 0 || status == null) && isDue == 0)?'':'isfalse'}}">
   <image class="indexIcon" src="/images/icon/goindex.png" bindtap='toIndex' wx:if="{{shareId}}"></image>
   <view hidden="{{!isExchange}}" class="qrcode">
     <view class="qrcode_inner">

@@ -1,6 +1,14 @@
 <import src="bargainirg-template/bargainirg-template.wxml" />
 <!-- 骨架屏模块 -->
 <skeleton selector="skeleton" loading="spin" bgcolor="#FFF" wx:if="{{showSkeleton}}"></skeleton>
+<view class='modal_box  modal_box11' wx:if="{{isshowlocation}}">
+  <view class='weizhi'>
+    更多体验需要你授权位置信息
+    <button bindtap="openSetting">确定</button>
+  </view>
+  
+</view>
+<image class="indexIcon" src="/images/icon/goindex.png" bindtap='toIndex' wx:if="{{shareId}}"></image>
 <!--顶部tab栏选择-->
 <view class="top-table">
   <view class="navbar">

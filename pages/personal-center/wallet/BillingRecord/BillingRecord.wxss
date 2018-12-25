@@ -22,7 +22,7 @@ page{
 }
 .billing_box .item view,.billing_box .item text{
   font-size: 28rpx;
-  color:#969696;
+  color:#666666;
 }
 .billing_box .item .name{
   font-size: 34rpx;

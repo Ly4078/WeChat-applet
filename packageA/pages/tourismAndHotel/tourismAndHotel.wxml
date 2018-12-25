@@ -10,15 +10,15 @@
   <!-- Tab切换栏 -->
   <view class='maximumList'>
     <view class='manListCenter'>
-      <!-- <view class="nav bc_white">
-        <view class="item" >
+      <view class="nav bc_white {{fiexd?'fiexd':''}}" >
+        <view class="item">
           <view class="{{selected?'red':'default'}} skeleton-rect" id="1" bindtap="selected">进行中</view>
         </view>
         <view class="item">
           <view class="{{!selected?'red':'default'}} " id="2" bindtap="selected">已结束</view>
         </view>
-      </view> -->
-
+      </view>
+      <view style="width:100%;height:100rpx;" wx:if="{{fiexd}}"></view>
       <!-- 1元拼购 -->
       <view class="{{selected?'show':'hidden'}}" bindtap='hoteDils' data-groupid="{{item.actGoodsSkuOut.id}}" data-id="{{item.id}}" wx:for="{{showSkeleton?skeletonData:dataList}}" wx:key="index">
         <view class='delayWrap'>
@@ -52,28 +52,28 @@
       </view>
 
       <!-- 0.1元拼购 -->
-      <view class="{{!selected?'show':'hidden'}}" bindtap='hoteDils' data-groupid="{{item.actGoodsSkuOut.id}}" data-id="{{item.id}}" wx:for="{{showSkeleton?skeletonData:dataList}}" wx:key="index">
+      <view class="{{!selected?'show':'hidden'}}"  data-groupid="{{item.actGoodsSkuOut.id}}" data-id="{{item.id}}" wx:for="{{endData}}" wx:key="index">
            <view class='delayWrap'>
-
-          <view class="endtimeshadow" wx:if="{{item.actGoodsSkuOut.state =='2' || item.actGoodsSkuOut.state =='3'}}">
+          <view class="endtimeshadow">
             <image mode='aspectFit' class='selectedImg skeleton-rect ' src="https://xqmp4-1256079679.file.myqcloud.com/15927505686_endtime2018112721321.png"></image>
           </view>
-          <view wx:else class='timeBar'>
+          <!-- <view wx:else class='timeBar'>
             <text>剩{{item.actGoodsSkuOut.stopTime.day}}天{{item.actGoodsSkuOut.stopTime.hou}}时{{item.actGoodsSkuOut.stopTime.min}}分</text>
-          </view>
-          <image mode='aspectFill' class='selectedImg skeleton-rect' src="{{item.skuPic?item.skuPic:'/images/icon/morentu.png'}}"></image>
+          </view> -->
+          <image mode='aspectFill' class='selectedImg skeleton-rect' 
+          src="{{item.goodsSkuOut[0].skuPic?item.goodsSkuOut[0].skuPic:'/images/icon/morentu.png'}}"></image>
           <view class='delayRight'>
             <view class='delayText skeleton-rect'>
-              <text>{{item.skuName}}</text>
+              <text>{{item.goodsSkuOut[0].skuName}}</text>
             </view>
-            <view class='tuxedo skeleton-rect'>满
-              <text>{{item.actGoodsSkuOut.peopleNum}}</text>人开团
-              <text class='tuxedoPeople'>{{item.actGoodsSkuOut.currentNum || '0'}}/{{item.actGoodsSkuOut.peopleNum}}</text>
+            <view class='tuxedo skeleton-rect'>
+              <text>结束时间：{{item.endTime || ''}}</text>
+              
             </view>
             <view class='moneyBtn skeleton-rect'>
               <view class='ruling'>
-                <text>￥{{item.goodsPromotionRules[0].actAmount}}</text>
-                <text>￥{{item.marketPrice}}</text>
+                <text>￥{{item.goodsPromotionRules.actAmount}}</text>
+                <text>￥{{item.goodsSkuOut[0].marketPrice}}</text>
               </view>
               <view class='moneyBtnRight' wx:if="{{item.actGoodsSkuOut.state == '1'}}">参与开团</view>
               <view class='moneyBtnRight' style="background:#ccc;" wx:if="{{item.actGoodsSkuOut.state == '2'}}">开团成功</view>
@@ -84,6 +84,14 @@
 
         </view>
 
+    </view>
+  </view>
+
+   <view>
+    <view class='loadingBox'>
+      <i-spin custom wx:if="{{loading}}">
+        <view class="loading"></view>
+      </i-spin>
     </view>
   </view>
 

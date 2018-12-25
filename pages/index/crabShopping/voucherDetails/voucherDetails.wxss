@@ -28,7 +28,9 @@ page {
   box-sizing: border-box;
   letter-spacing: 2rpx;
 }
-
+.isfalse view,.isfalse text{
+  color: #969696;
+}
 .ticketDetail {
   padding-top: 90rpx;
   width: 100%;

@@ -298,7 +298,7 @@ Page({
   },
   onShareAppMessage: function (res) {
       return{
-        title:'享购',   imageUrl:'https://xq-1256079679.file.myqcloud.com/15927505686_1545388420_xianggou213123213_0.png'
+        title:'【享购】超高性价比，便宜有好货',   imageUrl:'https://xq-1256079679.file.myqcloud.com/15927505686_1545388420_xianggou213123213_0.png'
 
       }
   }

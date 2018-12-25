@@ -30,11 +30,25 @@ Page({
     choose_modal: "",
     showSkeleton: true
   },
+  toIndex() {
+    wx.switchTab({
+      url: '/pages/index/index'
+    })
+  },
   onLoad: function(options) {
+    let that = this;
+    that.setData({
+      shareId: options.shareid|| false
+    })
+    setTimeout( ()=>{
+        that.setData({
+          showSkeleton:false
+        })
+    },3500)
     if(!app.globalData.token){
       this.findByCode()
     }else{
-      this.dishList();
+      this.getUserlocation();
     }
   },
   onHide() {
@@ -42,6 +56,84 @@ Page({
   },
   onUnload() {
     wx.hideLoading();
+  },
+  getUserlocation: function () { //获取用户位置经纬度
+    let that = this;
+    wx.getLocation({
+      type: 'wgs84',
+      success: function (res) {
+        let latitude = res.latitude,
+          longitude = res.longitude;
+
+        that.requestCityName(latitude, longitude);
+      },
+      fail: function (res) {
+        wx.getSetting({
+          success: (res) => {
+            if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其位置信息          
+              that.setData({
+                isshowlocation: true
+              })
+
+            }
+          }
+        })
+      }
+    })
+  },
+  openSetting() {//打开授权设置界面
+    let that = this;
+    that.setData({
+      isshowlocation: false
+    })
+    wx.openSetting({
+      success: (res) => {
+        if (res.authSetting['scope.userLocation']) { //打开位置授权  
+          wx.getLocation({
+            success: function (res) {
+              let latitude = res.latitude,
+                longitude = res.longitude;
+              that.requestCityName(latitude, longitude, '1');
+            },
+          })
+        } else {
+          that.setData({
+            isshowlocation: true
+          })
+        }
+      }
+    })
+  },
+  //获取城市
+  requestCityName(lat, lng, types) { //获取当前城市
+    let that = this;
+    app.globalData.userInfo.lat = lat;
+    app.globalData.userInfo.lng = lng;
+    wx.request({
+      url: 'https://apis.map.qq.com/ws/geocoder/v1/?location=' + lat + "," + lng + "&key=4YFBZ-K7JH6-OYOS4-EIJ27-K473E-EUBV7",
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: (res) => {
+        if (res.data.status == 0) {
+          let _city = res.data.result.address_component.city;
+          if (_city == '十堰市') {
+            app.globalData.userInfo.city = _city;
+          } else {
+            app.globalData.userInfo.city = '十堰市';
+          }
+          app.globalData.oldcity = app.globalData.userInfo.city;
+          wx.setStorageSync('userInfo', app.globalData.userInfo);
+          that.setData({
+            page: 1
+          })
+          // if (types == '1') {
+          //   return false
+          // }
+          that.dishList();
+        }
+      }
+    })
   },
   findByCode: function () { //通过code查询用户信息
     let that = this;
@@ -95,7 +187,7 @@ Page({
           app.globalData.userInfo.token = _token
           app.globalData.token = _token
           wx.setStorageSync('token', _token);
-          that.dishList();
+          that.getUserlocation();
 
         } else {
           that.findByCode();
@@ -251,7 +343,8 @@ Page({
   },
   onShareAppMessage: function (res) {
     return {
-      title:'拼菜砍价',    imageUrl:'https://xq-1256079679.file.myqcloud.com/15927505686_1545621392_kanjia2321312_0.png'
+      title:'拼菜砍价',    imageUrl:'https://xq-1256079679.file.myqcloud.com/15927505686_1545621392_kanjia2321312_0.png',
+      path: '/pages/index/bargainirg-store/bargainirg-store?shareid=1'
     }
   }
 })

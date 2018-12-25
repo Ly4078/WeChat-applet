@@ -1,24 +1,39 @@
 // pages/personal-center/personnel-order/logisticsDetails/applyBilling/applyBilling.js
 var app = getApp();
+import {
+  GLOBAL_API_DOMAIN
+} from '../../../../../utils/config/config.js';
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+    _build_url: GLOBAL_API_DOMAIN,
     piao_type: 0,
     billing_type: 0,
     title: '', //发票抬头
     taxNumber: '', //抬头税号
     email: '', //邮箱
-    cansubmit: false
+    cardNum:'',//身份证
+    username:'',//个人姓名
+    cansubmit: false,
+    isSubmit:false
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-
+    let that = this;
+    if(options.price && options.orderNum && options.imageUrl){
+      that.setData({
+        price: options.price,
+        orderNum:options.orderNum,
+        imageUrl: options.imageUrl
+      })
+    }
+    
   },
   submit:function(){
     let that = this;
@@ -30,6 +45,83 @@ Page({
       })
       return false
     }
+    if (that.data.isSubmit){
+      wx.showToast({
+        title: '请勿重复提交',
+        icon:'none'
+      })
+      return false
+    }
+    let data = {
+      orderCode: that.data.orderNum,
+      invoiceAmount: that.data.price,
+      sourceType: that.data.piao_type-0+1,
+      initialType: that.data.billing_type=='1'?'1':'2'
+    };
+    if (that.data.piao_type=='1'){
+      data.orderAddressId = that.data.address.id
+    }else{
+      let mailReg = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/;
+      if (!mailReg.test(that.data.email)){
+        wx.showToast({
+          title: '请输入正确的邮箱',
+          icon:'none'
+        })
+        return false
+      }
+      data.email = that.data.email
+    }
+    if (that.data.billing_type=='0'){
+      data.dutyParagraph = that.data.taxNumber
+      data.invoiceOpen = that.data.title
+    }else{
+      data.dutyParagraph = that.data.cardNum
+      data.invoiceOpen = that.data.username
+      
+      
+    }
+    let value='',url='',values='';
+    for(let k in data){
+      value += k+'='+ data[k] + '&'
+    }
+    values = value.substring(0, value.length-1)
+    url = that.data._build_url + 'orderInvoice/add?' + values
+
+    wx.showLoading({
+      title: '提交中...',
+    })
+    let urls = encodeURI(url)
+    wx.request({
+      url: urls,
+      method:'POST',
+      data:{},
+      header: {
+        "Authorization": app.globalData.token
+      },
+      success:function(res){
+        wx.hideLoading()
+        if (res.data.code == '0' && res.data.data){
+            wx.showToast({
+              title: '提交成功',
+              icon:'none'
+            })
+            that.setData({
+              isSubmit:true
+            })
+            wx.navigateTo({
+              url: '/pages/personal-center/wallet/BillingRecord/BillingRecord',
+            })
+        }else{
+          wx.showToast({
+            title: '请勿重复提交',
+            icon:'none'
+          })
+        }
+
+      },fail(){
+        wx.hideLoading()
+      }
+    })
   },
   primary:function(){
     let that = this;
@@ -38,8 +130,9 @@ Page({
         console.log(res)
           that.setData({
             billing_type: res.type,
-            title: res.title,
-            taxNumber: res.taxNumber
+            title: res.type=='1'?'':res.title,
+            username:res.type=='1'?res.title:'',
+            taxNumber: res.taxNumber,
           })
         that.detectionform();
       },fail:function(){
@@ -56,6 +149,18 @@ Page({
   settaxnumber: function(e) {
     this.setData({
       taxNumber: e.detail.value
+    })
+    this.detectionform();
+  },
+  setusername:function(e){
+    this.setData({
+      username: e.detail.value
+    })
+    this.detectionform();
+  },
+  setcardNum:function(e){
+    this.setData({
+      cardNum: e.detail.value
     })
     this.detectionform();
   },
@@ -123,7 +228,7 @@ Page({
         }
       }
       if (that.data.billing_type == '1') {
-        if (that.data.title.length && that.data.email.length) {
+        if (that.data.username.length && that.data.email.length && that.data.cardNum.length) {
           that.setData({
             cansubmit: true
           })
@@ -148,7 +253,7 @@ Page({
         }
       }
       if (that.data.billing_type == '1') {
-        if (that.data.title.length && that.data.email.length && that.data.haveaddress) {
+        if (that.data.username.length && that.data.haveaddress && that.data.cardNum.length) {
           that.setData({
             cansubmit: true
           })

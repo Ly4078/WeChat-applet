@@ -534,6 +534,12 @@ Page({
       }
     })
   },
+  applybilling:function(){
+    let that =  this;
+    wx.navigateTo({
+      url: '/pages/personal-center/personnel-order/logisticsDetails/applyBilling/applyBilling?price=' + that.data.soDetail.realAmount + '&orderNum=' + that.data.soDetail.orderCode + '&imageUrl=' + that.data.soDetail.orderItemOuts[0].goodsSkuPic,
+    })
+  },
   formSubmits: function(e) {
     let _formId = e.detail.formId;
     this.toRefund();

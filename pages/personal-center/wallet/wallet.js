@@ -28,12 +28,12 @@ Page({
         iconUrl: '/images/icon/box.png',
         linkUrl: '/pages/personal-center/wallet/BanksCard/BanksCard'
       },
-      // {
-      //   id: 4,
-      //   name: '开票记录',
-      //   iconUrl: '/images/icon/invoice.png',
-      //   linkUrl: '/pages/personal-center/wallet/BillingRecord/BillingRecord'
-      // }
+      {
+        id: 4,
+        name: '开票记录',
+        iconUrl: '/images/icon/invoice.png',
+        linkUrl: '/pages/personal-center/wallet/BillingRecord/BillingRecord'
+      }
     ],
     userAmount: '0.00',
     accountStatus: '',

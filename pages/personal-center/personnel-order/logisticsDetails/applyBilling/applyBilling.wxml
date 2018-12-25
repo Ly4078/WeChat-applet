@@ -1,11 +1,11 @@
 <view>
   <view class="order_detail">
     <view class="goodsimg">
-      <image></image>
+      <image src="{{imageUrl?imageUrl:'/images/icon/morentu.png'}}"></image>
     </view>
     <view class="detail">
-      <view class="ordernumber">订单编号：123123123123</view>
-      <view class="goodsprice">开票金额：¥23.00</view>
+      <view class="ordernumber">订单编号：{{orderNum}}</view>
+      <view class="goodsprice">开票金额：¥{{price}}</view>
     </view>
   </view>
 
@@ -39,10 +39,16 @@
       </view>
 
     </view>
-    <view class="form_item">
+    <view class="form_item" wx:if="{{billing_type == '0'}}">
       <view class="item_name">发票抬头</view>
       <view class="item_input">
         <input type="text" bindinput='settitle' value='{{title}}' placeholder='填写发票抬头' placeholder-style="text-align:right;font-size:34rpx;"></input>
+      </view>
+    </view>
+    <view class="form_item" wx:if="{{billing_type == '1'}}">
+      <view class="item_name">发票抬头</view>
+      <view class="item_input">
+        <input type="text" bindinput='setusername' value='{{username}}' placeholder='填写个人姓名' placeholder-style="text-align:right;font-size:34rpx;"></input>
       </view>
     </view>
     <view class="form_item" wx:if="{{billing_type==0}}">
@@ -51,9 +57,15 @@
         <input type="text" value='{{taxNumber}}' bindinput='settaxnumber' placeholder='填写纳税人识别号' placeholder-style="text-align:right;font-size:34rpx;"></input>
       </view>
     </view>
+    <view class="form_item" wx:if="{{billing_type==1}}">
+      <view class="item_name">税号</view>
+      <view class="item_input">
+        <input type="text" value='{{cardNum}}' bindinput='setcardNum' placeholder='填写个人身份证号' placeholder-style="text-align:right;font-size:34rpx;"></input>
+      </view>
+    </view>
 
     <view class="form_item" wx:if="{{piao_type==0}}">
-      <view class="item_name">电子邮箱</view>
+      <view class="item_name">收票邮箱</view>
       <view class="item_input">
         <input type="text" bindinput='setemail' placeholder='接收电子发票邮箱' placeholder-style="text-align:right;font-size:34rpx;"></input>
       </view>

@@ -1,21 +1,35 @@
+
+<!-- 骨架屏模块 -->
+<skeleton selector="skeleton" loading="spin" bgcolor="#FFF" wx:if="{{showSkeleton}}"></skeleton>
 <view>
 
     <view class="billing_box">
-        <view class="item">
+        <view class="item" wx:for="{{dataList}}" wx:key="index">
             <view class="nav_title">
-              <text class="subtitle">增值税电子发票/个人</text>
-              <text class="time">2018.12.08</text>
+              <text class="subtitle">{{sourceTypes[item.sourceType]}}/{{initialTypes[item.initialType]}}</text>
+              <text class="time">{{item.createTime}}</text>
             </view>
-            <view class="name">杨峰</view>
-            <!-- <view class="taxnumber"></view> -->
-            <view class="price">发票金额：¥23.21</view>
-            <view class="telphone">开票手机：18627825812</view>
-            <view class="email">收票邮箱：1145049832@qq.com</view>
-            <view class="address">收票地址：湖北省 武汉市 光谷广场</view>
+            <view class="name">{{item.invoiceOpen}}</view>
+            <view wx:if="{{item.dutyParagraph}}" class="taxnumber">税号：{{item.dutyParagraph}}</view>
+            <view class="price" style="color:{{statusColor[item.applyStatus]}}">开票状态：{{status[item.applyStatus]}}</view>
+            <view class="price">发票金额：¥{{item.invoiceAmount}}</view>
+            <view wx:if="{{item.mobile}}" class="telphone">开票手机：{{item.mobile}}</view>
+            <view wx:if="{{item.email}}" class="email">收票邮箱：{{item.email}}</view>
+            <view wx:if="{{item.orderAddressOut}}" class="address">
+            收货地址：{{item.orderAddressOut.dictProvince+' '+item.orderAddressOut.dictCity+' '+item.orderAddressOut.dictCounty+' '+item.orderAddressOut.detailAddress}}
+            </view>
         </view>
     
     </view>
 
+     <view>
+    <view class='loadingBox'>
+      <i-spin custom wx:if="{{loading}}">
+        <view class="loading"></view>
+      </i-spin>
+    </view>
+  </view>
 
+    <!-- <view style="text-align:center;padding:20rpx 0;font-size:24rpx;color:#666;" wx:if="{{noMore}}">~~~我也是有底线的~~~</view> -->
 
 </view>

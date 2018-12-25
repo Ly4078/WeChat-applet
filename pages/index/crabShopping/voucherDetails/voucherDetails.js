@@ -279,12 +279,26 @@ Page({
     })
   },
   onShareAppMessage: function() { //赠送好友转发、
+  let that = this;
     return {
       title: '送您一张「' + this.data.skuName +'」兑换券',
       // imageUrl: this.data.skuPic,
       imageUrl:'https://xqmp4-1256079679.file.myqcloud.com/15927505686_share201811201231232.jpg',
       path: '/pages/index/crabShopping/voucherDetails/voucherDetails?id=' + this.data.id + '&shareId=' + app.globalData.userInfo.userId + '&versionNo=' + this.data.versionNo,
-      success: function(res) {}
+      success: function(res) {
+        let flag = true;
+        let piaosharelist = wx.getStorageSync('piaosharelist') ? wx.getStorageSync('piaosharelist'):[];
+        for (let i = 0; i < piaosharelist.length;i++){
+          if (piaosharelist[i] == that.data.couponCode){
+            flag = false
+          }
+        }
+        if (flag){
+          console.log(piaosharelist)
+          piaosharelist.push(that.data.couponCode)
+          wx.setStorageSync("piaosharelist", piaosharelist)
+        }
+      }
     }
   },
   storeData(data) { //门店列表
