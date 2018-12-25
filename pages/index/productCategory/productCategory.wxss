@@ -19,7 +19,6 @@ page, .categoryBox {
   height: 84rpx;
   white-space:nowrap;
   overflow-x: scroll;
-  border:1rpx solid red;
 }
 
 .scroll-view-item_H{  
