@@ -220,7 +220,7 @@
           <view class='dcont5'>抢购</view>
         </view>
         
-        <view class='dityact' wx:for="{{item.actGoodsSkuOuts2}}" wx:key="{{index}}" bindtap='ClickSnatch' id='{{item.id}}'  data-actname="{{item.actInfo.actName}}" data-actid="{{item.actId}}">
+        <view class='dityact' wx:for="{{item.actGoodsSkuOuts2}}" wx:key="{{index}}" bindtap='ClickSnatch' id='{{item.id}}'  data-actname="{{item.actInfo.actName}}" data-actid="{{item.actId}}" data-stockNum="{{item.stockNum}}">
           <view class='actleft' >
             <view class='actprice1'>¥{{item.goodsPromotionRules.actAmount}}</view>
             <view class='actprice2'>¥{{item.sellPrice}}</view>

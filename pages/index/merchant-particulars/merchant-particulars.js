@@ -446,6 +446,7 @@ Page({
               _hotlist[i].actGoodsSkuOuts2 = _hotlist[i].actGoodsSkuOuts.slice(1);
             }
           }
+          console.log('_hotlist:', _hotlist)
           that.setData({
             hotlist: _hotlist,
             hotlist2: _hotlist.slice(0, 3)
@@ -461,29 +462,38 @@ Page({
   },
   //点击抢购
   ClickSnatch: function(e) {
+    console.log("e:",e)
     let id = e.currentTarget.id,
       actId = e.currentTarget.dataset.actid,
       actName = e.currentTarget.dataset.actname,
+      _stocknum = e.currentTarget.dataset.stocknum,
       shopId = this.data.shopid;
-    if (actName == '砍价') { //砍价
-      wx.navigateTo({
-        url: '/pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails?categoryId=8&id=' + id + '&shopId=' + shopId + '&actId=' + actId
+    if (_stocknum == 0){
+      wx.showToast({
+        title: '此商品已售罄',
+        icon:'none'
       })
-    } else if (actName == '秒杀') { //秒杀
-      wx.navigateTo({
-        url: '/pages/index/flashSaleHome/secKillDetail/secKillDetail?id=' + id + '&shopId=' + shopId + '&actId=' + actId
-      })
-    } else {
-      let _hotlist2 = this.data.hotlist2,
-        actObj = {};
-      for (let i in _hotlist2) {
-        if (id == _hotlist2[i].id) {
-          actObj = _hotlist2[i]
+    }else{
+      if (actName == '砍价') { //砍价
+        wx.navigateTo({
+          url: '/pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails?categoryId=8&id=' + id + '&shopId=' + shopId + '&actId=' + actId
+        })
+      } else if (actName == '秒杀') { //秒杀
+        wx.navigateTo({
+          url: '/pages/index/flashSaleHome/secKillDetail/secKillDetail?id=' + id + '&shopId=' + shopId + '&actId=' + actId
+        })
+      } else {
+        let _hotlist2 = this.data.hotlist2,
+          actObj = {};
+        for (let i in _hotlist2) {
+          if (id == _hotlist2[i].id) {
+            actObj = _hotlist2[i]
+          }
         }
+        wx.navigateTo({
+          url: '/pages/index/crabShopping/crabDetails/submitOrder/submitOrder?num=1&issku=3&flag=1&picUrl=' + actObj.skuPic + '&sellPrice=' + actObj.sellPrice + '&id=' + actObj.id + '&actId=' + actObj.actId + '&skuName=' + actObj.skuName + '&remark=' + actObj.remark + '&shopId=' + actObj.shopId + '&singleType=' + actObj.singleType + '&spuId=' + actObj.spuId
+        })
       }
-      wx.navigateTo({
-        url: '/pages/index/crabShopping/crabDetails/submitOrder/submitOrder?num=1&issku=3&flag=1&picUrl=' + actObj.skuPic + '&sellPrice=' + actObj.sellPrice + '&id=' + actObj.id + '&actId=' + actObj.actId + '&skuName=' + actObj.skuName + '&remark=' + actObj.remark + '&shopId=' + actObj.shopId + '&singleType=' + actObj.singleType + '&spuId=' + actObj.spuId
-      })
     }
   },
   payDish(e) { //购买活动菜

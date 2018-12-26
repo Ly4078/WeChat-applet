@@ -261,6 +261,7 @@ Page({
           list[i].widthRate = list[i].stockNum / 15 * 186;
           aNearbyShop.push(list[i]);
         }
+        console.log('aNearbyShop111:', aNearbyShop)
         this.setData({
           aNearbyShop: aNearbyShop,
           listPages: listPages,
@@ -312,6 +313,7 @@ Page({
         let list = data.data,
           aNearbyShop = that.data.aNearbyShop;
         for (let i = 0; i < list.length; i++) {
+          list[i].peoPleNum = list[i].peoPleNum > 2 ? '2' : list[i].peoPleNum;
           aNearbyShop.push(list[i]);
         }
         that.setData({

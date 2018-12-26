@@ -14,6 +14,7 @@ Page({
     current: {},
     payObj: {},
     isclick:true,
+    issyzf:false,
     username: '',
     phone: '',
     address: '',
@@ -441,6 +442,13 @@ Page({
     if (!payrequest){
       return false
     }
+    if (this.data.issyzf){
+      wx.showToast({
+        title: '此砍价是已过期，请重新发起砍价',
+        icon: 'none'
+      })
+      return
+    }
     payrequest = false
     let _parms={},that=this;
     _parms = {
@@ -496,6 +504,13 @@ Page({
         }else{
           wx.hideLoading();
           payrequest = true;
+          that.setData({
+            issyzf:true
+          })
+          wx.showToast({
+            title: '此砍价是已过期，请重新发起砍价',
+            icon:'none'
+          })
         }
       },fail(){
         wx.hideLoading();

@@ -98,6 +98,9 @@ Page({
               _data.sendAmount = _data.sendAmount.toFixed(2);
             }
           }
+          if (_data.orderAddress.dictCounty && _data.orderAddress.dictCounty!='null'){
+            _data.orderAddress.dictCounty='';
+          }
           that.setData({
             current: _data
           })
