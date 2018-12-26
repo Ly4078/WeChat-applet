@@ -1,8 +1,8 @@
 <!-- 附件美食 -->
 <template name="flashSale">
-  <view class='flashSaleWrap' bindtap='toSecKillDetail' id="{{item.id}}" data-shopid="{{item.shopId}}" data-distance="{{item.distance}}">
+  <view class='flashSaleWrap' bindtap='toSecKillDetail' id="{{item.id}}" data-shopid="{{item.shopId}}" data-distance="{{item.distance}}"  data-categoryid="{{item.categoryId}}">
     <view class='flashSale-left'>
-      <image class='flashSale-img skeleton-rect' src='{{item.picUrl}}'></image>
+      <image class='flashSale-img skeleton-rect' src='{{item.skuPic}}'></image>
       <image class='flashSaleBut' src='https://xqmp4-1256079679.file.myqcloud.com/1535364539984Colin_秒杀底部.png'></image>
       <view wx:if="{{item.stockNum <= 0}}" class="shadedow"></view>
       <image wx:if="{{item.stockNum <= 0}}" class="sellOutIcon" src="/images/icon/sellOut.png"></image>
@@ -15,20 +15,19 @@
       </view>
       <view class='sumName skeleton-rect'>
         <image class='diningNameImg' src='/images/icon/house.png'></image>
-        <text>{{item.shopName}}</text>
+        <text>{{item.shop.shopName}}</text>
         <text>{{item.distance}}</text>
       </view>
       <view class='sumPurchase'>
         <view class='sumResidue '>
           <view class='fixationTop skeleton-rect'>  
-            <text class='fixation'>{{item.agioPrice}}<text>元</text></text>
+            <text class='fixation'>{{item.actGoodsSkuOut.goodsPromotionRules.actAmount}}<text>元</text></text>
             <view class='fixaSellPrice'><text>{{item.sellPrice}}元</text></view>
           </view>
-          <view class='accuracyQay skeleton-rect'>
-            <!-- <text class='accuracyQay-text'>剩余<text>{{item.stockNum}}</text>份</text>  -->
-            <text class='accuracyQay-text'>当日仅售<text>{{item.stockNum}}</text>份</text>
-            <view class='actualaccurac' style="width: {{item.widthRate + 'rpx'}};"></view>
-          </view>
+          <!--<view class='accuracyQay skeleton-rect'>
+             <text class='accuracyQay-text'>当日仅售<text>{{item.stockNum}}</text>份</text> -->
+            <!-- <view class='actualaccurac' style="width: {{item.widthRate + 'rpx'}};"></view>
+          </view> -->
         </view>
         <view class='oncePurchase skeleton-rect'>
           <button wx:if="{{item.stockNum > 0}}">抢购</button>

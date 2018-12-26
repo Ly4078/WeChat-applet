@@ -220,7 +220,7 @@
           <view class='dcont5'>抢购</view>
         </view>
         
-        <!-- <view class='dityact' wx:for="{{item.actGoodsSkuOuts2}}" wx:key="{{index}}" bindtap='ClickSnatch' id='{{item.id}}'  data-actname="{{item.actInfo.actName}}" data-actid="{{item.actId}}">
+        <view class='dityact' wx:for="{{item.actGoodsSkuOuts2}}" wx:key="{{index}}" bindtap='ClickSnatch' id='{{item.id}}'  data-actname="{{item.actInfo.actName}}" data-actid="{{item.actId}}">
           <view class='actleft' >
             <view class='actprice1'>¥{{item.goodsPromotionRules.actAmount}}</view>
             <view class='actprice2'>¥{{item.sellPrice}}</view>
@@ -232,7 +232,7 @@
           <view class='actright'>
             <image src='https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/goact.png'></image>
           </view>
-        </view> -->
+        </view>
 
       </view>
       <view class='setMealMore' bindtap='clickdity' wx:if="{{hotlist.length>3}}">

@@ -48,7 +48,6 @@ Page({
         }).then((res) => {
           if (res.data.code == 0) {
             let data = res.data.data;
-            console.log(res)
             if (data.id) {
               app.globalData.userInfo.userId = data.id;
               for (let key in data) {
@@ -163,15 +162,11 @@ Page({
       }
     })
   },
-  // =======================
-  scroll(e) {
-    console.log(e)
-  },
+
 
   // ==============
   //点击某个类别
   bindSort: function (e) {
-    console.log("e:",e)
     if (e.currentTarget.id == this.data.sortId) {
       return false
     }
@@ -278,7 +273,6 @@ Page({
     if (requestTask) {
       return false
     }
-    console.log('onPullDownRefresh')
     this.setData({
       comList: [],
       page: 1

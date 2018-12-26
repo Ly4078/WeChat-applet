@@ -88,7 +88,7 @@ Page({
       groupId: options.groupId ? options.groupId : '',
       singleType: options.singleType ? options.singleType : '',
     })
-    if(this.data.actId == 41) {
+    if (this.data.actId == 41 || this.data.actId == 44) {
       this.setData({
         totleKey: options.totleKey ? options.totleKey:'',
         valueKey: options.valueKey ? options.valueKey:''
@@ -460,7 +460,7 @@ Page({
       title: '加载中...',
       mask: true
     })
-    if(this.data.actId == 41) {
+    if (this.data.actId == 41 || this.data.actId == 44) {
       if (this.data.totleKey){
         _parms['totalKey'] = this.data.totleKey;
       }
@@ -471,9 +471,13 @@ Page({
     if (this.data.flag==4){
       _parms.groupId = this.data.groupId;
     }
-    if (this.data.flag != 1) {
+    // if (this.data.flag != 1) {
+    //   _parms.actId = this.data.actId;
+    // }
+    if (this.data.actId){
       _parms.actId = this.data.actId;
     }
+    console.log('_parms:', _parms)
     wx.request({
       url: that.data._build_url + 'orderInfo/createNew',
       data: JSON.stringify(_parms),

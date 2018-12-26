@@ -134,10 +134,10 @@
           <image class='myListImages' src='/images/icon/saoma.png'></image>
           <view class='mylistText'>扫码核销</view>
         </view>
-        <view class='myList myList_sue' catchtap='VoucherCode'>
+        <!-- <view class='myList myList_sue' catchtap='VoucherCode'>
           <image class='myListImages' src='/images/icon/quanma.png'></image>
           <view class='mylistText'>券码核销</view>
-        </view>
+        </view> -->
         <view wx:if="{{userId}}" class='myList dividual-lk' catchtap='dividualLogin'>
           <image class='myListImages' src='/images/icon/impression-sefa.png'></image>
           <view class='mylistText'>分享注册</view>

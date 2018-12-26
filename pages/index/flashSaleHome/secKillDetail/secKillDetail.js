@@ -25,11 +25,13 @@ Page({
     initiator: '', //发起人
     yuaninitiator: '', //发起人
     store_details: [],
+    soData:{},
+    inData:{},
     newList: [], //邀请新人列表
     timer: null, //倒计时
     countDown: '',
     isEnd: true, //是否结束
-    isCreated: true, //是否创建菜品
+    isCreated: false, //是否创建菜品
     btnTxt: '发起邀请', //按钮文字
     peoPleNum: 0, //邀请人数
     pattern: '',
@@ -53,17 +55,20 @@ Page({
       if (utils.getQueryString(q, 'flag') == 4) {
         _id = utils.getQueryString(q, 'id');
         _shopId = utils.getQueryString(q, 'shopId');
+        _categoryId = utils.getQueryString(q, 'categoryId');
       }
       this.setData({
         id: _id,
         shopId: _shopId,
+        categoryId: _categoryId
       })
     }else{
       this.setData({
         id: options.id,
         shopId: options.shopId,
         initiator: options.initiator ? options.initiator : '', //发起人Id
-        actId: options.actId ? options.actId : ''
+        actId: options.actId ? options.actId : '',
+        categoryId: options.categoryId ? options.categoryId:''
       })
     }
     this.setData({
@@ -88,8 +93,9 @@ Page({
           _this.authlogin();
         }
       } else { //是新用户，
+        let _actId = this.data.actId ? this.data.actId:44;
         wx.navigateTo({
-          url: '/pages/personal-center/securities-sdb/securities-sdb?parentId=' + this.data.initiator + '&skuId=' + this.data.id + '&shopId=' + this.data.shopId
+          url: '/pages/personal-center/securities-sdb/securities-sdb?parentId=' + this.data.initiator + '&skuId=' + this.data.id + '&shopId=' + this.data.shopId + '&actId=' + _actId
         })
       }
     } else {
@@ -138,15 +144,17 @@ Page({
                 }
               }
               if (!data.mobile) { //是新用户，去注册页面
+                let _actId = this.data.actId ? this.data.actId : 44;
                 wx.navigateTo({
-                  url: '../../../../pages/personal-center/securities-sdb/securities-sdb?parentId=' + this.data.initiator + '&skuId=' + this.data.id + '&shopId=' + this.data.shopId
+                  url: '../../../../pages/personal-center/securities-sdb/securities-sdb?parentId=' + this.data.initiator + '&skuId=' + this.data.id + '&shopId=' + this.data.shopId + '&actId=' + _actId
                 })
               } else {
                 that.authlogin();
               }
             } else {
+              let _actId = this.data.actId ? this.data.actId : 44;
               wx.navigateTo({
-                url: '../../../../pages/personal-center/securities-sdb/securities-sdb?parentId=' + this.data.initiator + '&skuId=' + this.data.id + '&shopId=' + this.data.shopId
+                url: '../../../../pages/personal-center/securities-sdb/securities-sdb?parentId=' + this.data.initiator + '&skuId=' + this.data.id + '&shopId=' + this.data.shopId + '&actId=' + _actId
               })
             }
           } else {
@@ -182,13 +190,14 @@ Page({
     let that = this, _parms = {}, _Url = "", _value='';
     _parms = {
       Id: this.data.id,
-      zanUserId: app.globalData.userInfo.userId,
       shopId: this.data.shopId,
       ocationX: app.globalData.userInfo.lng,
       locationY: app.globalData.userInfo.lat,
     };
-    if(that.data.actId){
+    if (that.data.actId) {
       _parms.actId = this.data.actId
+    } else {
+      _parms.zanUserId = app.globalData.userInfo.userId
     }
     for (var key in _parms) {
       _value += key + "=" + _parms[key] + "&";
@@ -252,7 +261,7 @@ Page({
               legend: that.data.legends
             })
           }
-   
+
           if (data.goodsSpuOut && data.goodsSpuOut.goodsSpuDesc && data.goodsSpuOut.goodsSpuDesc.content) {
 
             article = data.goodsSpuOut.goodsSpuDesc.content;
@@ -260,47 +269,26 @@ Page({
 
             WxParse.wxParse('article', 'html', article, that, 0);
           }
+          let imgUrl = data.picUrl ? data.picUrl : data.skuPic,
+            _agioPrice = data.agioPrice ? data.agioPrice : data.actGoodsSkuOut.goodsPromotionRules.actAmount;
           that.setData({
+            soData:data,
             pattern: pattern,
-            picUrl: data.picUrl ? data.picUrl : data.skuPic,
+            picUrl: imgUrl,
             skuName: data.skuName,
             stockNum: data.stockNum,
-            agioPrice: data.agioPrice ? data.agioPrice : data.actGoodsSkuOut.goodsPromotionRules.actAmount,
+            agioPrice: _agioPrice,
             sellPrice: data.sellPrice,
             sellNum: data.sellNum
           });
           //自定义分享图片中 绘制价格   公共方法utils.js/canvasShareImg.js  调用方法canvasShareImg()
-          canvasShareImg(data.picUrl, data.agioPrice, data.sellPrice).then(function (res) {
+          // parameter
+          canvasShareImg(imgUrl, _agioPrice, data.sellPrice).then(function (res) {
             that.setData({
               shareImg: res
             })
           })
         }
-      }
-    })
-
-return
-
-    Api.secKillDetail(_parms).then((res) => {
-      if (res.data.code == 0 && res.data.data) {
-        let data = res.data.data,
-          skuInfo = data.skuInfo;
-        skuInfo = skuInfo ? '1个小时内完成邀请并成功购买，逾期失效Œ' + skuInfo : '1个小时内完成邀请并成功购买，逾期失效'
-        this.setData({
-          picUrl: data.picUrl,
-          skuName: data.skuName,
-          stockNum: data.stockNum,
-          agioPrice: data.agioPrice,
-          sellPrice: data.sellPrice,
-          sellNum: data.sellNum,
-          skuInfo: skuInfo.split('Œ')
-        });
-        //自定义分享图片中 绘制价格   公共方法utils.js/canvasShareImg.js  调用方法canvasShareImg()
-        canvasShareImg(data.picUrl, data.agioPrice, data.sellPrice).then(function(res) {
-          that.setData({
-            shareImg: res
-          })
-        })
       }
     })
   },
@@ -344,9 +332,11 @@ return
     let _parms = {
       skuId: this.data.id,
       parentId: app.globalData.userInfo.userId,
+      actId: this.data.actId,
       token: app.globalData.token
     };
     Api.inviteNum(_parms).then((res) => {
+      console.log("inviteNum__res:",res)
       wx.stopPullDownRefresh();
       if (res.data.code == 0) {
         let isCreated = false;
@@ -362,9 +352,11 @@ return
             peoPleNum: data[0].peoPleNum ? data[0].peoPleNum : 0,
             btnTxt: '邀请好友'
           });
+          console.log('aaaaaaaa')
           this.countDownFunc(data[0].endTime);
         }
         this.setData({
+          inData:res.data.data,
           isCreated: isCreated
         });
       }
@@ -402,9 +394,12 @@ return
       parentId: app.globalData.userInfo.userId,
       skuId: this.data.id,
       shopId: this.data.shopId,
+      actId: this.data.actId,
       token: app.globalData.token
     };
+    console.log('_parms:', _parms)
     Api.createSecKill(_parms).then((res) => {
+      console.log('res:', res)
       if (res.data.code == 0 && res.data.data) {
         wx.showToast({
           title: '发起成功，快去邀请好友参与秒杀吧',
@@ -422,6 +417,7 @@ return
   },
   //倒计时回调
   countDownFunc(endTime) {
+    console.log('countDownFunc')
     let miliEndTime = new Date(endTime).getTime(),
       miliNow = new Date().getTime();
     if (miliEndTime > miliNow) {
@@ -468,11 +464,14 @@ return
           "Authorization": app.globalData.token
         },
         success: function(res) {
+          console.log('res111:',res)
           if (res.data.code == 0) {
-            userArr[i].iconUrl = res.data.data.iconUrl;
-            _this.setData({
-              newList: userArr
-            });
+            if (res.data.data && res.data.data.iconUrl){
+              userArr[i].iconUrl = res.data.data.iconUrl;
+              _this.setData({
+                newList: userArr
+              });
+            }
           }
         }
       })
@@ -496,9 +495,19 @@ return
 
     if (this.data.peoPleNum >= 2) {
       let sellPrice = this.data.agioPrice; //折后价
+
+      let _soData = this.data.soData, _inData = this.data.inData[0];
+      console.log('_soData:', _soData)
+      console.log('_inData:', _inData)
+
       wx.navigateTo({
-        url: '../../order-for-goods/order-for-goods?shopId=' + this.data.shopId + '&skuName=' + sellPrice + '元抢购券&sell=' + sellPrice + '&skutype=8&dishSkuId=' + this.data.id + '&dishSkuName=' + this.data.skuName
+        url: '/pages/index/crabShopping/crabDetails/submitOrder/submitOrder?num=1&issku=3&flag=5&picUrl=' + _soData.skuPic + '&sellPrice=' + sellPrice + '&id=' + this.data.id + '&actId=' + this.data.actId + '&skuName=' + _soData.skuName + '&remark=' + _soData.remark + '&shopId=' + _soData.shopId + '&singleType=' + _soData.singleType + '&spuId=' + _soData.spuId + '&totleKey=' + _inData.totleKey + '&valueKey=' + _inData.valueKey
       })
+
+      
+      // wx.navigateTo({
+      //   url: '../../order-for-goods/order-for-goods?shopId=' + this.data.shopId + '&skuName=' + sellPrice + '元抢购券&sell=' + sellPrice + '&skutype=8&dishSkuId=' + this.data.id + '&dishSkuName=' + this.data.skuName
+      // })
 
     } else if (!this.data.isCreated) {
       wx.showModal({
@@ -534,6 +543,7 @@ return
     })
   },
   inviteOthers() { //点击邀请好友
+    console.log('inviteOthers')
     if (this.data.stockNum <= 0) {
       wx.showToast({
         title: '该菜品已售罄',
@@ -543,9 +553,12 @@ return
       this.setData({
         yuaninitiator: this.data.initiator ? this.data.initiator : app.globalData.userInfo.userId
       })
+      console.log('isCreated:',this.data.isCreated)
       if (this.data.isCreated) {
+        console.log('1111111')
         this.onShareAppMessage();
       } else {
+        console.log('22222222')
         //创建一个秒杀菜
         this.createSecKill();
       }
@@ -553,13 +566,13 @@ return
   },
   //分享给好友
   onShareAppMessage: function() {
-    let that = this,_initiator = app.globalData.userInfo.userId;
-    let shareUrl = '/pages/index/flashSaleHome/secKillDetail/secKillDetail?back=1&initiator=' + _initiator + '&shopId=' + that.data.shopId + '&id=' + that.data.id;
-    if(this.data.actId){
-      shareUrl+='&actId='+this.data.actId
+    let that = this, _initiator = app.globalData.userInfo.userId, shareUrl='';
+    shareUrl = '/pages/index/flashSaleHome/secKillDetail/secKillDetail?back=1&initiator=' + _initiator + '&shopId=' + that.data.shopId + '&id=' + that.data.id + '&categoryId='+that.data.categoryId;
+    if (that.data.actId){
+      shareUrl += '&actId=' + that.data.actId
     };
     return {
-      title: "2人秒杀仅需0.01元，" + this.data.skuName,
+      title: "2人秒杀仅需0.01元，" + that.data.skuName,
       imageUrl: that.data.shareImg,
       path: shareUrl,
       success: function(res) {

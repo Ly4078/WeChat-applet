@@ -15,6 +15,7 @@ Page({
     showModal: true,
     aNearbyShop: [],
     page: 1,
+    actId:44,
     listPages: 1,
     timer: null,
     timeArr: [], //倒计时集合
@@ -23,6 +24,7 @@ Page({
     countDownSecond: 0
   },
   onShow: function(options) {
+    console.log("options:", options)
     let _this = this;
     setTimeout(() => {
       _this.setData({
@@ -232,15 +234,18 @@ Page({
     _parms = {
       zanUserId: app.globalData.userInfo.userId,
       browSort: 0,
-      locationX: app.globalData.userInfo.lng ? app.globalData.userInfo.lng : lng,
-      locationY: app.globalData.userInfo.lat ? app.globalData.userInfo.lat : lat,
-      city: app.globalData.userInfo.city ? app.globalData.userInfo.city:'十堰市',
-      page: that.data.page,
-      rows: 8,
+      locationX: app.globalData.userInfo.lng,
+      locationY: app.globalData.userInfo.lat,
+      city: app.globalData.userInfo.city,
+      page: this.data.page,
+      rows: 10,
+      actId: that.data.actId,
+      isDeleted: 0,
       token: app.globalData.token
     };
+
     swichrequestflag = true;
-    Api.secKillList(_parms).then((res) => {
+    Api.listForActs(_parms).then((res) => {
       if (this.data.page == 1) {
         this.setData({
           aNearbyShop: []
@@ -292,7 +297,10 @@ Page({
       title: '加载中...'
     })
     let _parms = {
-      parentId: app.globalData.userInfo.userId
+      parentId: app.globalData.userInfo.userId,
+      actId: that.data.actId,
+      row:10,
+      page:this.data.page
     };
     swichrequestflag = true;
     Api.mySecKill(_parms).then((res) => {
@@ -302,26 +310,26 @@ Page({
           aNearbyShop: []
         });
         let list = data.data,
-          aNearbyShop = this.data.aNearbyShop;
+          aNearbyShop = that.data.aNearbyShop;
         for (let i = 0; i < list.length; i++) {
           aNearbyShop.push(list[i]);
         }
-        this.setData({
+        that.setData({
           aNearbyShop: aNearbyShop
         }, () => {
           wx.hideLoading();
         });
         let arr = [];
-        for (let i = 0; i < this.data.aNearbyShop.length; i++) {
+        for (let i = 0; i < that.data.aNearbyShop.length; i++) {
           arr.push({
-            endTime: this.data.aNearbyShop[i].endTime.replace(/\-/g, "/"),
+            endTime: that.data.aNearbyShop[i].endTime.replace(/\-/g, "/"),
             countDown: ''
           });
         }
         that.setData({
           showSkeleton: false
         })
-        this.updateTime(arr);
+        that.updateTime(arr);
         swichrequestflag = false;
       } else {
         wx.hideLoading();
@@ -348,7 +356,6 @@ Page({
       minus = '', //时间差(秒)
       that = this;
     timer = setInterval(function() {
-      console.log('倒计时')
       that.setData({
         timer: timer
       });
@@ -423,9 +430,10 @@ Page({
     })
   },
   toSecKillDetail(e) { //跳转至菜品详情
-    let curr = e.currentTarget;
+    let curr = e.currentTarget,
+      _categoryId = e.currentTarget.dataset.categoryid;
     wx.navigateTo({
-      url: 'secKillDetail/secKillDetail?id=' + curr.id + '&shopId=' + curr.dataset.shopid 
+      url: 'secKillDetail/secKillDetail?id=' + curr.id + '&shopId=' + curr.dataset.shopid + '&categoryId=' + _categoryId + '&actId=' + this.data.actId
     })
   },
   onPullDownRefresh: function() { //下拉刷新

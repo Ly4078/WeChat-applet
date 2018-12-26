@@ -14,6 +14,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    actId:'',
     currentTime: 61,
     _build_url: GLOBAL_API_DOMAIN,
     butTxt: '获取验证码',
@@ -33,10 +34,15 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    console.log('options:', options)
+    console.log('sdb_options:', options)
     if (options.back == 1) {
       this.setData({
         isBack: true
+      })
+    }
+    if (options.actId){
+      this.setData({
+        actId: options.actId
       })
     }
     if (options.userId) {
@@ -533,14 +539,17 @@ Page({
       parentId: that.data.parentId,
       skuId: that.data.skuId,
       shopId: that.data.shopId,
+      actId:that.data.actId,
       newUser: app.globalData.userInfo.userId
     };
     for (let key in _parms) {
       _value += key + "=" + _parms[key] + "&";
     }
     _value = _value.substring(0, _value.length - 1);
-    url = that.data._build_url + 'user/upPeopleNum?' + _value;
+    // url = that.data._build_url + 'user/upPeopleNum?' + _value;
+    url = that.data._build_url + 'user/updatePeopleNumNew?' + _value;
     _Url = encodeURI(url);
+    console.log('url:', url)
     wx.request({
       url: _Url,
       header: {
@@ -548,6 +557,7 @@ Page({
       },
       method: 'POST',
       success: function(res) {
+        console.log("login_res:",res)
         // if (res.data.code == 0) {
           that.getuserInfo();
         // }

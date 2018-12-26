@@ -29,6 +29,7 @@ Page({
     userId: app.globalData.userInfo.userId
   },
   onLoad: function (options) {
+    console.log("options:", options)
     let that = this;
     setTimeout(() => {
       that.setData({

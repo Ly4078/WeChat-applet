@@ -476,7 +476,8 @@ const ALL_API = {
   },
   mySecKill: {   //我的秒杀列表
     method: 'GET',
-    url: 'user/myRedislist'
+    // url: 'user/myRedislist',
+    url:'user/mySencondsKillList'
   },
   secKillDetail: {   //秒杀菜品详情
     method: 'GET',
@@ -484,11 +485,13 @@ const ALL_API = {
   },
   createSecKill: {     //创建秒杀菜
     method: 'GET',
-    url: 'user/invite'
+    // url: 'user/invite',
+    url:'user/inviteNewPeople'
   },
   inviteNum: {    //查询邀请人数
     method: 'GET',
-    url: 'user/getNewUser'
+    // url: 'user/getNewUser'
+    url:'user/getGoodsSkuAndUserList'
   },
   crabList: {      //享7生鲜--送货到家(螃蟹规格列表)
     method: 'GET',

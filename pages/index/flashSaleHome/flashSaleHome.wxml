@@ -32,11 +32,11 @@
   <!--我的秒杀-->
   <view hidden="{{currentTab == 0}}">
     <view class='cuisine-center'  wx:if="{{aNearbyShop.length>0}}" wx:for="{{aNearbyShop}}" wx:key="{{index}}" wx:for-index="idx">
-      <view class="mySeckillWrap" id="{{item.skuId}}" data-shopid="{{item.shopId}}" bindtap='toSecKillDetail'>
+      <view class="mySeckillWrap" id="{{item.goodsSkuOut.id}}" data-shopid="{{item.shop.id}}" data-categoryid="{{item.goodsSkuOut.categoryId}}" bindtap='toSecKillDetail'>
         <view class="mySeckill_l">
-          <image src="{{item.skuPic}}"></image>
+          <image src="{{item.goodsSkuOut.skuPic}}"></image>
           <view class="mySeckill_info">
-            <view class="secKill_name">{{item.skuName}}</view>
+            <view class="secKill_name">{{item.skuName?item.skuName:item.goodsSkuOut.skuName}}</view>
             <view class="secKill_people">完成{{item.peoPleNum ? item.peoPleNum : 0}}/2个好友注册</view>
             <view wx:if="{{timeArr[idx].countDown}}" class="secKill_time">
               <view class="voteText">{{timeArr[idx].countDown}}</view>
