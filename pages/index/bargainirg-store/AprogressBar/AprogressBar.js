@@ -938,7 +938,7 @@ Page({
           city: this.data._city ? this.data._city : app.globalData.userInfo.city,
           isDeleted: 0,
           page: this.data.page,
-          rows: 6
+          rows: 10
         };
         for (var key in _parms) {
           _values += key + "=" + _parms[key] + "&";

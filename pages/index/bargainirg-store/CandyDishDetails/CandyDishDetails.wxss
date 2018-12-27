@@ -4,7 +4,7 @@ page{
 }
 .detailsImag{
   width: 100%;
-  height: 650rpx;
+  height: 750rpx;
 }
 
 .shell{
