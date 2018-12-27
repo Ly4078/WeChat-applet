@@ -48,6 +48,10 @@ Page({
               }
             }
           }
+          console.log("_data:", _data)
+          // if (!_data.orderAddressOut.dictCounty || _data.orderAddressOut.dictCounty == 'null') {
+          //   _data.orderAddressOut.dictCounty = '';
+          // }
           that.setData({
             current: _data,
             rType: _data.type

@@ -98,9 +98,10 @@ Page({
               _data.sendAmount = _data.sendAmount.toFixed(2);
             }
           }
-          if (_data.orderAddress.dictCounty && _data.orderAddress.dictCounty!='null'){
-            _data.orderAddress.dictCounty='';
+          if (!_data.orderAddressOut.dictCounty || _data.orderAddressOut.dictCounty == 'null') {
+            _data.orderAddressOut.dictCounty = '';
           }
+          console.log('_data:', _data)
           that.setData({
             current: _data
           })

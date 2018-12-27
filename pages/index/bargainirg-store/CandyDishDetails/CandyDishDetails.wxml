@@ -38,7 +38,7 @@
       </view>
       <view class='kanj' catchtap="understand">
         <view class='kjicon'>砍价购</view>
-        一刀也优惠，邀请5个好友砍到底价
+        一刀也优惠，邀请3个好友砍到底价
         <image src='/images/icon/home_arrow.png'></image>
       </view>
     </view>

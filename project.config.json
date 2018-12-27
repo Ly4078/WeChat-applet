@@ -37,21 +37,8 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 1,
-			"list": [
-				{
-					"id": -1,
-					"name": "a",
-					"pathName": "pages/index/crabShopping/voucherDetails/voucherDetails",
-					"query": "id=153&isDue=0"
-				},
-				{
-					"id": -1,
-					"name": "b",
-					"pathName": "pages/index/flashSaleHome/secKillDetail/secKillDetail",
-					"query": "id=5130&shopId=564&categoryId=32&actId=44"
-				}
-			]
+			"current": -1,
+			"list": []
 		}
 	}
 }

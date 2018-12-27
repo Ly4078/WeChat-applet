@@ -143,7 +143,7 @@
         <view class='moneyRulenei'>
           <view class='moneyRuleLeft'>领取人数
             <text>{{peoplenum?peoplenum+1:'1'}}</text>/
-            <text>6</text>人</view>
+            <text>3</text>人</view>
           <view class='moneyRuleRighe'>
             <text>金币规则</text>
           </view>
