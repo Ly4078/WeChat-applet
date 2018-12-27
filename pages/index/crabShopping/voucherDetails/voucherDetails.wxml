@@ -50,7 +50,7 @@
       <view class="detail_bot_item">
         <view class="fz30">券号</view>
         <view>
-          <text class="fz24">{{piaodata.couponCode}}</text>
+          <text class="fz24">{{piaodata.showCode}}</text>
         </view>
       </view>
 

@@ -187,6 +187,9 @@ Page({
   getlistdata: function (sortId, types) {
     // return
     let that = this, url='';
+    that.setData({
+      noMore: false
+    })
     requestTask = true;
     url = this.data._build_url + 'goodsSku/listForAct?actId=' + this.data.actId + '&categoryId=' + sortId + '&rows=' + this.data.rows + '&page=' + this.data.page;
     goodsRequestTask = wx.request({
@@ -216,6 +219,9 @@ Page({
           } else {
             requestTask = false;
             if (that.data.comList.length > 0) {
+              that.setData({
+                noMore:true
+              })
               wx.showToast({
                 title: '没有更多数据了',
                 icon: 'none'
@@ -283,6 +289,9 @@ Page({
   onReachBottom: function () {
     if (requestTask) {
       return false
+    }
+    if (this.data.noMore){
+      return
     }
     this.setData({
       page: this.data.page + 1,

@@ -7,8 +7,6 @@ var utils = require('../../utils/util.js');
 import Public from '../../utils/public.js';
 var app = getApp();
 var isgetHomeData = false
-var oldVideo = null,
-  newVideo = null;
 var village_LBS = function(that) {
   wx.getLocation({
     success: function(res) {
@@ -81,19 +79,23 @@ Page({
         showSkeleton: false
       })
     }, 5000)
-    //版本更新
-    const updateManager = wx.getUpdateManager();
-    updateManager.onCheckForUpdate(function(res) {
-      // 请求完新版本信息的回调
-      // console.log(res.hasUpdate)
-    });
-    updateManager.onUpdateReady(function() {
-      // 新的版本已经下载好，调用 applyUpdate 应用新版本并重启
-      updateManager.applyUpdate()
-    });
-    updateManager.onUpdateFailed(function() {
-      // 新的版本下载失败
-    });
+    try{
+      //版本更新
+      const updateManager = wx.getUpdateManager();
+      updateManager.onCheckForUpdate(function (res) {
+        // 请求完新版本信息的回调
+        // console.log(res.hasUpdate)
+      });
+      updateManager.onUpdateReady(function () {
+        // 新的版本已经下载好，调用 applyUpdate 应用新版本并重启
+        updateManager.applyUpdate()
+      });
+      updateManager.onUpdateFailed(function () {
+        // 新的版本下载失败
+      });
+    }catch(err){
+      console.log(err)
+    }
     let carousel = wx.getStorageSync("carousel") || [''];
     let bannthree = wx.getStorageSync("bannthree") || [];
     let txtObj = wx.getStorageSync('txtObj') || {};

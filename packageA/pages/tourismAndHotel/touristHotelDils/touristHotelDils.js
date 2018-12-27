@@ -246,7 +246,7 @@ Page({
       }
     })
   },
-  configShare:function(){//配置分享，，，
+  configShare:function(){//配置分享
     let that = this,baseurl='';
     if (that.data.newcomer){
       baseurl = 'pullUser/insertUserPull?type=5&groupId=' + that.data.groupid+'&parentId='+that.data.parentId
@@ -265,9 +265,10 @@ Page({
       })
   },
   addPeople:function(){//新用户，为分享者添加一条参团记录
+    return false
     let that = this;
     let parentId = that.data.parentId;
-    let url = encodeURI(that.data._build_url + 'pullUser/updateNumsUp?type=5&groupId=' + that.data.groupid + '&UserId=' + parentId);
+    let url = encodeURI(that.data._build_url + 'pullUser/updateNumsUp?type=5&groupId=' + that.data.groupid + '&userId=' + parentId);
     wx.request({
       url: url,
       method: "POST",
@@ -281,7 +282,7 @@ Page({
   },
   fromshare:function(){//来自分享进入时。
     let that = this;
-    if (that.data.isShare && that.data.newcomer && that.data.shareGroup){
+    if (that.data.isShare && that.data.shareGroup){
         setTimeout( ()=>{
           that.addPeople();
           app.globalData.newcomer = 0

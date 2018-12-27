@@ -11,7 +11,10 @@ page, .categoryBox {
   color: transparent;
 } */
 
-
+.proContent{
+  overflow: hidden;
+  /* padding-bottom: 20rpx; */
+}
 
 /* ================== */
 .proTop{
@@ -84,14 +87,12 @@ page, .categoryBox {
   -webkit-line-clamp: 2;
   overflow: hidden;
 }
-
 .goods_addr, .goods_distance {
   font-size: 20rpx;
   color: #969696;
   display: flex;
   justify-content: space-between;
 }
-
 .goods_addr {
   padding: 4rpx 0;
 }

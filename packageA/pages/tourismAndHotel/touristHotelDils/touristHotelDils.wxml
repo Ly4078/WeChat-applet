@@ -55,72 +55,77 @@
       <view class='grade'>
         <view class='kernel'>
           <view class='process'>
-            <image src='https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/paymentes.png'></image>
-            <view></view>
-            <image src='https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/ellipsees.png'></image>
-            <view></view>
-            <image src='https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/tickwes.png'></image>
-            <view></view>
+            <view class="item">
+              <image src='https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/paymentes.png'></image>
+              <text>付款参团</text>
+            </view>
+
+            <view class="line"> </view>
+            <view class="item">
             <image src='https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/bothews.png'></image>
-          </view>
-          <view class='process aligning'>
-            <text>付款参团</text>
-            <text>邀新用户</text>
-            <text>参团成功</text>
             <text>人满开团</text>
           </view>
+
+          <view class="line"></view>
+          <view class="item">
+            <image src='https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/tickwes.png'></image>
+            <text>商品兑换</text>
+          </view>
+
+
         </view>
       </view>
     </view>
   </view>
+</view>
 
-  <view class='plainText'>
-    <view class='plainText-center'>
-      <view class='plainText-center-top'>
-        <text>商品详情</text>
-      </view>
+<view class='plainText'>
+  <view class='plainText-center'>
+    <view class='plainText-center-top'>
+      <text>商品详情</text>
     </view>
   </view>
-  <view class="msgDetail" style="padding:0 20rpx 90rpx;background:#fff;font-size:26rpx;">
-    <template is="wxParse" data="{{wxParseData:article.nodes}}" />
+</view>
+<view class="msgDetail" style="padding:0 20rpx 90rpx;background:#fff;font-size:26rpx;">
+  <template is="wxParse" data="{{wxParseData:article.nodes}}" />
+</view>
+<!-- 底部tab功能键 -->
+<view class='function'>
+  <view class='returnHome home' catchtap='returnHomeArrive'>
+    <image class='houselet' src='/images/icon/houselet.png'></image>
+    <text>首页</text>
   </view>
-  <!-- 底部tab功能键 -->
-  <view class='function'>
-    <view class='returnHome home' catchtap='returnHomeArrive'>
-      <image class='houselet' src='/images/icon/houselet.png'></image>
-      <text>首页</text>
-    </view>
-    <button class='returnHome home' bindtap='share' plain="true" data-name="shareBtn" open-type="share">
-      <image class='yellowShare' src='/images/icon/yellowShare.png'></image>
-      <text>分享</text>
-    </button>
+  <button class='returnHome home' bindtap='share' plain="true" data-name="shareBtn" open-type="share">
+    <image class='yellowShare' src='/images/icon/yellowShare.png'></image>
+    <text>分享</text>
+  </button>
 
-    <view class='returnPrice' style="border-left:1rpx solid #ebebeb" catchtap='originalPrice'>
-      <image class='yellowShare' src='https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/serviceesa.png'></image>
-      <text class='directly'>客服</text>
-      <button class="cs_button" open-type="contact" session-from="weapp"></button>
-    </view>
-    <view class="returnSponsor" catchtap='originalprice' style="width:180rpx;background:#FFC0AC;">
-        <view>￥{{singleData.sellPrice}}</view>
-        <text>单独购买</text>
-    </view>
-    <view class='returnSponsor' catchtap='toOrderdetail' data-id="{{groupStatus.orderId}}" wx:if="{{groupStatus.state == '2' || groupStatus.state == '3'}}">
-      <text style="line-height:80rpx;">查看已参团详情</text>
-    </view>
-    <view wx:else>
-      <view class='returnSponsor' style="background:#ccc" wx:if="{{ singleData.actGoodsSkuOut.currentNum >= singleData.actGoodsSkuOut.peopleNum || singleData.actGoodsSkuOut.state =='2' || singleData.actGoodsSkuOut.state =='3' || groupStatus.state =='4'}}">
-        <text style="line-height:80rpx;color:#fff;">该团已结束</text>
-      </view>
-    </view>
-    <view class='returnSponsor' wx:if="{{groupStatus.state == '1'  && singleData.actGoodsSkuOut.currentNum < singleData.actGoodsSkuOut.peopleNum && singleData.actGoodsSkuOut.state =='1' }}" catchtap='sponsorVgts'>
-      <view>￥
-        <text>{{singleData.goodsPromotionRules[0].actAmount}}</text>
-      </view>
-      <text>参与开团</text>
-    </view>
-
-
+  <view class='returnPrice' style="border-left:1rpx solid #ebebeb" catchtap='originalPrice'>
+    <image class='yellowShare' src='https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/serviceesa.png'></image>
+    <text class='directly'>客服</text>
+    <button class="cs_button" open-type="contact" session-from="weapp"></button>
   </view>
+  <view class="returnSponsor" catchtap='originalprice' style="width:180rpx;background:#FFC0AC;">
+    <view>￥{{singleData.sellPrice}}</view>
+    <text>单独购买</text>
+  </view>
+  <view class='returnSponsor' catchtap='toOrderdetail' data-id="{{groupStatus.orderId}}" wx:if="{{groupStatus.state == '2' || groupStatus.state == '3'}}">
+    <text style="line-height:80rpx;">查看已参团详情</text>
+  </view>
+  <view wx:else>
+    <view class='returnSponsor' style="background:#ccc" wx:if="{{ singleData.actGoodsSkuOut.currentNum >= singleData.actGoodsSkuOut.peopleNum || singleData.actGoodsSkuOut.state =='2' || singleData.actGoodsSkuOut.state =='3' || groupStatus.state =='4'}}">
+      <text style="line-height:80rpx;color:#fff;">该团已结束</text>
+    </view>
+  </view>
+  <view class='returnSponsor' wx:if="{{groupStatus.state == '1'  && singleData.actGoodsSkuOut.currentNum < singleData.actGoodsSkuOut.peopleNum && singleData.actGoodsSkuOut.state =='1' }}" catchtap='sponsorVgts'>
+    <view>￥
+      <text>{{singleData.goodsPromotionRules[0].actAmount}}</text>
+    </view>
+    <text>参与开团</text>
+  </view>
+
+
+</view>
 </view>
 
 
@@ -128,7 +133,7 @@
 
 
 <!-- 自定义分享图片中 绘制价格   公共方法utils.js/canvasShareImg.js  调用方法canvasShareImg() -->
-<canvas  canvas-id="myCanvas" style="width:800px;height:642px;position: fixed;top: 0; left: 999px;"></canvas>
+<canvas canvas-id="myCanvas" style="width:800px;height:642px;position: fixed;top: 0; left: 999px;"></canvas>
 
 
 
@@ -154,13 +159,13 @@
         </view>
         <view class='referral'>
           <text style="display:block;"> 拼购规则:</text>
-          <text style="display:inline-block;margin:0 10rpx;"> 1、 点击商品进入商品详情，通过拼购参与开团入口进入微信支付，用户付款成功后，按页面提示分享给微信好友；</text>
-          <text style="display:inline-block;margin:0 10rpx;">2、分享好友需是没有注册过的新用户，好友通过分享的小程序进入后完成新用户注册后，本人参团成功；</text>
-          <text style="display:inline-block;margin:0 10rpx;">3、 支付人数在有效期内达到规定人数，拼购完成，在【我的】页面中【券包】里查看所购买的商品券兑换券，可以兑换相应的商品（部分商品兑换时需要支付邮费)；</text>
-          <text style="display:inline-block;margin:0 10rpx;">4、 支付人数在有效期内未达到规定人数，拼购失败，将原路全额退款；</text>
-          <text style="display:inline-block;margin:0 10rpx;">5、 活动用户需依照页面提示进行操作，如出现违规操作导致活动无法继续等异常错误，将取消用户参与资格；</text>
-          <text style="display:inline-block;margin:0 10rpx;">6、 拼购成功的商品兑换券不支持退款、兑现，有效期为3个月，过期失效；</text>
-          <text style="display:inline-block;margin:0 10rpx;">7、 因可能存在系统缓存、页面更新导致价格变动异常等不确定性情况出现，如您发现页面异常，请等待页面刷新，并及时联系我们。</text>
+          <text style="display:inline-block;margin:0 10rpx;">1、 点击商品进入商品详情，通过拼购参与开团入口进入微信支付，用户付款成功后，参团成功；</text>
+          <text style="display:inline-block;margin:0 10rpx;">2、 规定时间内满足开团人数，可在【我的】页面中【券包】里查看所购买的商品券兑换券，可以兑换相应的商品（部分商品兑换时需要支付邮费)；</text>
+          <text style="display:inline-block;margin:0 10rpx;">3、 支付人数在有效期内未达到规定人数，拼购失败，将原路全额退款；</text>
+          <text style="display:inline-block;margin:0 10rpx;">4、 活动用户需依照页面提示进行操作，如出现违规操作导致活动无法继续等异常错误，将取消用户参与资格；</text>
+          <text style="display:inline-block;margin:0 10rpx;">5、 拼购成功的商品兑换券不支持退款、兑现，有效期为3个月，过期失效；</text>
+          <!-- <text style="display:inline-block;margin:0 10rpx;">6、 拼购成功的商品兑换券不支持退款、兑现，有效期为3个月，过期失效；</text>
+          <text style="display:inline-block;margin:0 10rpx;">7、 因可能存在系统缓存、页面更新导致价格变动异常等不确定性情况出现，如您发现页面异常，请等待页面刷新，并及时联系我们。</text> -->
 
         </view>
       </view>

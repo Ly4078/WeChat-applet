@@ -48,7 +48,11 @@ Page({
     if(!app.globalData.token){
       this.findByCode()
     }else{
-      this.getUserlocation();
+      if (app.globalData.userInfo.city && app.globalData.userInfo.lat && app.globalData.userInfo.lng) {
+        that.dishList();
+      } else {
+        that.getUserlocation()
+      }
     }
   },
   onHide() {

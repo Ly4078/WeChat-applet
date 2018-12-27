@@ -29,7 +29,7 @@
 
         <view class="tickItem_inner">
           <view class="tickItem_bot">
-            <view>券号{{item.couponCode}}</view>
+            <view>券号：{{item.showCode}}</view>
             <view>创建时间{{item.createTime}}</view>
           </view>
           <view class="tickItem_top">
@@ -94,7 +94,7 @@
 
         <view class="tickItem_inner">
           <view class="tickItem_bot">
-            <view>券号 {{item.couponCode}}</view>
+            <view>券号 {{item.showCode}}</view>
             <view>赠送时间 {{item.ocsCreateTime}}</view>
           </view>
           <view class="tickItem_top">
@@ -150,7 +150,7 @@
 
         <view class="tickItem_inner">
           <view class="tickItem_bot">
-            <view>券号 {{item.couponCode}}</view>
+            <view>券号 {{item.showCode}}</view>
             <view>领取时间 {{item.ocsCreateTime}}</view>
           </view>
           <view class="tickItem_top">

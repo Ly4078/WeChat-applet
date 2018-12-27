@@ -88,13 +88,13 @@
     <view class='inconformity'>
       <text>商品券码</text>
       <text>{{current.goodsSku.skuCode}}</text>
-      <button class='copybut' id="1" bindtap='copyCode'>复制</button>
+      <view class='copybut' id="1" bindtap='copyCode'>复制</view>
     </view>
 
     <view class='inconformity' wx:if="{{current.expressCode}}">
       <text>快递单号</text>
       <text>{{current.expressCode2}}</text>
-      <button class='copybut copybutq' id="2" bindtap='copyCode'>复制</button>
+      <view class='copybut copybutq' id="2" bindtap='copyCode'>复制</view>
     </view>
 
     <view class='inconformity' wx:if="{{current.usedTime}}">

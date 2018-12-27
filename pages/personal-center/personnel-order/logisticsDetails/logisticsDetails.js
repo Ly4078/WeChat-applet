@@ -137,6 +137,15 @@ Page({
               }
             }
           }
+          if (res.data.data.users.length<9){
+            for (let i = 0; i < 9; i++) {
+              if (res.data.data.users.length>=9){
+                break
+              }
+              res.data.data.users.push('')
+            }
+          }
+          
           that.setData({
             groupOrderDetail: res.data.data,
             // isGroup: res.data.data.actOrder.id ? true : false,
@@ -414,7 +423,9 @@ Page({
       orderId: this.data.soId,
       openId: app.globalData.userInfo.openId
     };
-
+    if(that.data.soDetail.actId){
+      _parms.actId = that.data.soDetail.actId
+    }
     for (var key in _parms) {
       _value += key + "=" + _parms[key] + "&";
     }

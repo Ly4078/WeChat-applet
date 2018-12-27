@@ -37,27 +37,29 @@
     <view wx:if="{{ groupOrderDetail.state=='1'}}">
       <view class="Single-detail" wx:if="{{groupOrderDetail.actOrder.state != '1'}}">
         <view class="Single-detail-title">
-          <view class="Single-detail-title-left" wx:if="{{groupOrderDetail.actOrder.state =='3'}}">
-            <text>还差</text>
-            <text style="color:#FC6232;margin:0 8rpx;">1</text>
-            <text>个新用户注册，参团成功</text>
-          </view>
-          <view class="Single-detail-title-left" wx:if="{{groupOrderDetail.actOrder.state =='2'}}">
-            <text>参团成功</text>
+          <view class="Single-detail-title-left">
+            <text>开团进度 </text>
+            <text style="color:#FC5E2D">{{groupOrderDetail.currentNum || '0'}}/{{groupOrderDetail.peopleNum}} </text>
+            <text> 人</text>
           </view>
           <view class="Single-detail-title-time">{{Countdowns.day}}天{{Countdowns.hou}}:{{Countdowns.min}}:{{Countdowns.sec}}后结束</view>
         </view>
         <view class="Single-detail-info">
-          <view class="Single-detail-info-friend">
-            <image wx:if="{{groupOrderDetail.users.length}}" src="{{groupOrderDetail.users[0].iconUrl?groupOrderDetail.users[0].iconUrl:'/images/icon/invite.png'}}"></image>
-            <image wx:else src="/images/icon/invite.png"></image>
-          </view>
+          
           <button wx:if="{{groupOrderDetail.actOrder.state =='2'}}" open-type="share" class="Single-detail-info-share">
-            分享赚现金
+            邀好友 赚现金
           </button>
           <button data-type="2" wx:if="{{groupOrderDetail.actOrder.state =='3'}}" open-type="share" class="Single-detail-info-share">
-            邀请好友
+            邀好友 赚现金
           </button>
+          <!-- <view class="info-friend-title">
+            <text class="lineleft line"></text>
+            <text>参团好友</text>
+            <text class="lineright line"></text>
+          </view>
+          <view class="Single-detail-info-friend">
+            <image  wx:key="index" wx:if="{{groupOrderDetail.users.length}}" wx:for="{{groupOrderDetail.users}}" src="{{item.iconUrl?item.iconUrl:'/images/icon/invite.png'}}"></image>
+          </view> -->
         </view>
       </view>
     </view>
@@ -68,47 +70,45 @@
           <view class="Single-detail-title-left" wx:if="{{groupOrderDetail.actOrder.state =='2'}}">
             <text>参团成功</text>
           </view>
-
-          <view class="Single-detail-title-left" wx:if="{{groupOrderDetail.actOrder.state !='2' || groupOrderDetail.actOrder.state=='4'}}">
-            <text>您未参团，已付款将原路退还</text>
-          </view>
           <view class="Single-detail-title-time">开团成功</view>
 
         </view>
         <view class="Single-detail-info">
-          <view class="Single-detail-info-friend">
-            <image wx:if="{{groupOrderDetail.users.length}}" src="{{groupOrderDetail.users[0].iconUrl?groupOrderDetail.users[0].iconUrl:'/images/icon/invite.png'}}"></image>
-            <image wx:else src="/images/icon/invite.png"></image>
-          </view>
           <view catchtap='seeMygoods' class="Single-detail-info-share" wx:if="{{groupOrderDetail.actOrder.state =='2'}}">查看票券</view>
-          <view catchtap='seeMore' class="Single-detail-info-share" wx:if="{{groupOrderDetail.actOrder.state !='2' || groupOrderDetail.actOrder.state=='4'}}">查看更多</view>
+          <!-- <view catchtap='seeMore' class="Single-detail-info-share" wx:if="{{groupOrderDetail.actOrder.state !='2' || groupOrderDetail.actOrder.state=='4'}}">查看更多</view> -->
+            <!-- <view class="info-friend-title">
+            <text class="lineleft line"></text>
+            <text>参团好友</text>
+            <text class="lineright line"></text>
+          </view>
+          <view class="Single-detail-info-friend">
+            <image wx:if="{{groupOrderDetail.users.length}}" wx:key="index" wx:for="{{groupOrderDetail.users}}" src="{{item.iconUrl?item.iconUrl:'/images/icon/invite.png'}}"></image>
+          </view> -->
         </view>
       </view>
     </view>
     <view wx:if="{{ groupOrderDetail.state=='3'}}">
       <view class="Single-detail">
         <view class="Single-detail-title">
-          <view class="Single-detail-title-left" wx:if="{{groupOrderDetail.actOrder.state =='2'}}">
-            <text>已参团</text>
-          </view>
-          <view class="Single-detail-title-left" wx:if="{{groupOrderDetail.actOrder.state !='2' || groupOrderDetail.actOrder.state=='4'}}">
-            <text>未参团</text>
-          </view>
           <view style="color:#FC6232;" class="Single-detail-title-time">开团失败，款项原路退还</view>
         </view>
         <view class="Single-detail-info">
-          <view class="Single-detail-info-friend">
-            <image wx:if="{{groupOrderDetail.users.length}}" src="{{groupOrderDetail.users[0].iconUrl?groupOrderDetail.users[0].iconUrl:'/images/icon/invite.png'}}"></image>
-            <image wx:else src="/images/icon/invite.png"></image>
-          </view>
           <view catchtap='seeMore' class="Single-detail-info-share">查看更多</view>
+            <!-- <view class="info-friend-title">
+            <text class="lineleft line"></text>
+            <text>参团好友</text>
+            <text class="lineright line"></text>
+          </view>
+          <view class="Single-detail-info-friend">
+            <image  wx:key="index" wx:if="{{groupOrderDetail.users.length}}" wx:for="{{groupOrderDetail.users}}" src="{{item.iconUrl?item.iconUrl:'/images/icon/invite.png'}}"></image>
+          </view> -->
         </view>
       </view>
     </view>
 
 
 
-
+<!-- 
     <view class="Single-progress">
       <view class="content">
         <view style="color:#191919">开团进度</view>
@@ -116,7 +116,7 @@
         <view style="color:#696969">满{{groupOrderDetail.peopleNum}}人自动开团</view>
       </view>
       <view style="width:{{progress}}%;" class="progress"></view>
-    </view>
+    </view> -->
   </view>
 
   <!-- 收货地址 -->

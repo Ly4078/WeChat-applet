@@ -1,6 +1,9 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/personal-center/my-discount/exchangeDetails/exchangeDetails",
+    
+    
     "pages/index/bargainirg-store/bargainirg-store",
     "pages/index/flashSaleHome/flashSaleHome",
     "pages/init/init",
@@ -61,7 +64,7 @@
     "pages/personal-center/shipping/shipping",
     "pages/personal-center/voucher/voucher",
     "pages/personal-center/my-discount/record/record",
-    "pages/personal-center/my-discount/exchangeDetails/exchangeDetails",
+
     "pages/personal-center/voucher/record/record",
     "pages/personal-center/voucher/exchangeDetails/exchangeDetails",
     "pages/index/bargainirg-store/pastTense/pastTense",

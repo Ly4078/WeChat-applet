@@ -40,12 +40,16 @@ Page({
     if(!app.globalData.token){
       _this.findByCode();
     }else{
-      // if (_this.data.currentTab == 0) {
-      //   _this.secKillList();
-      // } else if (_this.data.currentTab == 1) {
-      //   _this.mySecKill();
-      // }
-      _this.getUserlocation()
+      if (app.globalData.userInfo.city && app.globalData.userInfo.lat && app.globalData.userInfo.lng) {
+        if (_this.data.currentTab == 0) {
+          _this.secKillList();
+        } else if (_this.data.currentTab == 1) {
+          _this.mySecKill();
+        }
+      } else {
+        _this.getUserlocation()
+      }
+     
     }
   },
   getUserlocation: function () { //获取用户位置经纬度

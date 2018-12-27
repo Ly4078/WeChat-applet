@@ -919,7 +919,7 @@ Page({
           categoryId: that.data.categoryId,
           locationX: app.globalData.userInfo.lng,
           locationY: app.globalData.userInfo.lat,
-          // city: this.data._city ? this.data._city : app.globalData.userInfo.city,
+          city: this.data._city ? this.data._city : app.globalData.userInfo.city,
           page: this.data.page,
           rows: 10
         }

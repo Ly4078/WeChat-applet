@@ -177,26 +177,34 @@ page{
 
 .process{
   width: 100%;
-  height: 114rpx;
+  /* height: 114rpx; */
+  padding: 30rpx 0;
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
   }
+.process .item{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
+
+}
 .process image{
   width: 60rpx;
   height: 60rpx;
+  padding-bottom: 20rpx;
 }
 
 .process image:nth-child(1){
-  padding-left: 10rpx;
+  /* padding-left: 10rpx; */
 }
 
 .process image:nth-child(7){
-  padding-right: 10rpx;
+  /* padding-right: 10rpx; */
 }
 
-.process view{
+.process .line{
   width:56rpx;
   height:1rpx;
   background:#969696;

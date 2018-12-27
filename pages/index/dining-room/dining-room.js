@@ -70,7 +70,12 @@ Page({
       this.findByCode();
     } else {
       // that.getData();
-      that.getUserlocation();
+      if (app.globalData.userInfo.city && app.globalData.userInfo.lat && app.globalData.userInfo.lng){
+        that.getData();
+      }else{
+        that.getUserlocation();
+      }
+      
       that.getfooddatas()
       if (that.data._val) {
         that.getshopInfo(_val);

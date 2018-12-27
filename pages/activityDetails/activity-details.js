@@ -36,20 +36,23 @@ Page({
             let _parms = {
               code: res.code
             }
-            Api.getOpenId(_parms).then((res) => {
-              app.globalData.userInfo.openId = res.data.data.openId;
-              app.globalData.userInfo.sessionKey = res.data.data.sessionKey;
-              if (res.data.data.unionId) {
-                app.globalData.userInfo.unionId = res.data.data.unionId;
-                that.setData({
-                  istouqu: false
-                })
-              } else {
-                that.setData({
-                  istouqu: true
-                })
-              }
-            })
+             Api.getOpenId(_parms).then((res) => {
+               if(res.data.code=='0'){
+                 app.globalData.userInfo.openId = res.data.data.openId;
+                 app.globalData.userInfo.sessionKey = res.data.data.sessionKey;
+                 if (res.data.data.unionId) {
+                   app.globalData.userInfo.unionId = res.data.data.unionId;
+                   that.setData({
+                     istouqu: false
+                   })
+                 } else {
+                   that.setData({
+                     istouqu: true
+                   })
+                 }
+               }
+               
+             })
           }
         }
       })

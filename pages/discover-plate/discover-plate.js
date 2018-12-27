@@ -56,6 +56,7 @@ Page({
               token: app.globalData.token
             }
             Api.getOpenId(_parms).then((res) => {
+              if(!res.data.code=='0'){return false}
               app.globalData.userInfo.openId = res.data.data.openId;
               app.globalData.userInfo.sessionKey = res.data.data.sessionKey;
               if (res.data.data.unionId) {
