@@ -125,14 +125,13 @@
       <view wx:if="{{!isMine && otherStatus != 1}}" class="otherBargain">
         <button id="{{dishData.id}}" data-shipid="{{dishData.shopId}}" catchtap='chilkDish'>发起砍价</button>
       </view>
-
       <!--倒计时  -->
       <view wx:if="{{status == 1 || otherStatus == 1}}" class="countDownTimeView">
         <text>还剩</text>
         <view class="voteText">{{countDown}}</view>
         <text>结束</text>
       </view>
-      <view wx:if="{{status != 1 && otherStatus != 1}}" class="isEnd">
+      <view wx:if="{{status != 1}}" class="isEnd">
         本次砍价已结束
       </view>
     </view>
@@ -143,7 +142,7 @@
         <view class='moneyRulenei'>
           <view class='moneyRuleLeft'>领取人数
             <text>{{peoplenum?peoplenum+1:'1'}}</text>/
-            <text>{{dishData.actGoodsSkuOut.peopleNum}}</text>人</view>
+            <text>{{dishData.actGoodsSkuOut.peopleNum?dishData.actGoodsSkuOut.peopleNum:'4'}}</text>人</view>
           <view class='moneyRuleRighe'>
             <text>金币规则</text>
           </view>
@@ -172,6 +171,7 @@
         </block>
       </view>
     </view>
+
     <!-- 精选推荐 -->
     <view class='selectionIo' wx:if="{{hotDishList.length>0}}">
       <image class='selectionIoImg' src='/images/icon/seven ribbon.png'></image>
@@ -190,14 +190,14 @@
   <view class="modalDlg" wx:if="{{instruct && shopId != 0}}">
     <view class='windows_tishi'>———— 规则说明 ————</view>
     <view class='windows_text'>
-      <text>1.砍价菜品均为限量发售，售完即止；\n\n2.用户需在60分钟内邀请好友帮您砍价并成功支付；若超时，需要重新发起砍价申请；\n\n3.支付成功后，一个月内均可进店使用，过期作废；\n\n 4.每桌仅限使用一道砍价菜品，不可叠加使用；\n\n5.其他优惠等问题，以门店实际规定为准,购买后不支持退款、不兑现、不找零；\n\n6.最终解释权归享7平台所有。\n\n\n\n</text>
+      <text>1.砍价菜品均为限量发售，售完即止；\n\n2.用户需在60分钟内邀请好友帮您砍价并成功支付；若超时，需要重新发起砍价申请；\n\n3.支付成功后，三个月内均可进店使用，过期作废；\n\n 4.每桌仅限使用一道砍价菜品，不可叠加使用；\n\n5.其他优惠等问题，以门店实际规定为准,购买后不支持退款、不兑现、不找零；\n\n6.最终解释权归享7平台所有。\n\n\n\n</text>
     </view>
     <!-- <button class='understand' bindtap="understand">我已知晓此规则</button> -->
   </view>
-    <view class="modalDlg" wx:if="{{instruct && shopId == 0}}">
+  <view class="modalDlg" wx:if="{{instruct && shopId == 0}}">
     <view class='windows_tishi'>———— 规则说明 ————</view>
     <view class='windows_text'>
-      <text>1.砍价商品均为限量发售，售完即止；\n\n2.用户需在60分钟内邀请好友帮您砍价并成功支付若超时，需要重新发起砍价申请；\n\n3.支付成功后,3个月内均可兑换使用，过期作废；\n\n 4.有效期内支持退款；\n\n5.最终解释权归享7平台所有。\n\n\n\n
+      <text>1.砍价商品均为限量发售，售完即止；\n\n2.用户需在60分钟内邀请好友帮您砍价并成功支付若超时，需要重新发起砍价申请；\n\n3.支付成功后,三个月内均可兑换使用，过期作废；\n\n 4.有效期内支持退款；\n\n5.最终解释权归享7平台所有。\n\n\n\n
 </text>
     </view>
     <!-- <button class='understand' bindtap="understand">我已知晓此规则</button> -->

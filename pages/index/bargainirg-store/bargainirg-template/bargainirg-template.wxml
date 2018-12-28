@@ -14,7 +14,7 @@
           <text>{{item.skuName}}</text>
         </view>
         <view class='symbol-dst'>
-          <view hidden='{{!item.shopName}}'>
+          <view wx:if='{{item.shop.shopName || item.shopName}}'>
             <image class='merchantSign' src='/images/icon/original-can.png'></image>
             <text wx:if="{{item.shopName}}">{{item.shopName}}</text>
             <text wx:else>{{item.shop.shopName}}</text>

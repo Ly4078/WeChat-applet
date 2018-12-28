@@ -481,9 +481,9 @@ Page({
                 peopleList[i].userName = peopleList[i].userName.substr(0, 3) + "****" + peopleList[i].userName.substr(7)
               } else if (peopleList[i].user.userName && reg.test(peopleList[i].user.userName)) {
                 peopleList[i].user.userName = peopleList[i].user.userName.substr(0, 3) + "****" + peopleList[i].user.userName.substr(7)
-              }
-
+              } 
               if (peopleList[i].userId == app.globalData.userInfo.userId) {
+                
                 _this.setData({
                   getGoldNum: peopleList[i].goldAmount,
                   otherStatus: 2
@@ -495,13 +495,32 @@ Page({
                     otherStatus: 2
                   });
                 }
+              }
+            }
+           
+            for(let i in peopleList){
+              if (peopleList[i].userId == app.globalData.userInfo.userId) {
+               
+                _this.setData({
+                  getGoldNum: peopleList[i].goldAmount,
+                  otherStatus: 2
+                });
+                break;
+              } else if (peopleList[i].user && peopleList[i].user.id) {
+                if (peopleList[i].user.id == app.globalData.userInfo.userId) {
+                  _this.setData({
+                    getGoldNum: peopleList[i].goldAmount,
+                    otherStatus: 2
+                  });
+                  break;
+                }
+                break;
               } else {
                 _this.setData({
                   otherStatus: 1
                 });
               }
             }
-
             _this.setData({
               peopleList: peopleList
             });
@@ -509,8 +528,14 @@ Page({
               miliNow = new Date().getTime();
             let minus = Math.floor((miliEndTime - miliNow) / 1000);
             if (minus > 0 && minus <= 3610) { //小于60分钟
-              //好友进入砍菜页面人数满5人并且超过半小时不能砍价
-              if (_this.data.peoplenum >= 5) {
+              //好友进入砍菜页面人数满3人并且超过半小时不能砍价
+              let  maxNum =4;
+              try {
+                maxNum = _this.data.dishData.actGoodsSkuOut.peopleNum;
+              }catch(err){
+                
+              }
+              if (_this.data.peoplenum+1 >= maxNum ) {
                 _this.setData({
                   status: 4,
                   otherStatus: 3
@@ -709,7 +734,6 @@ Page({
           if (code == 0) {
             otherStatus = 1;
           } else if (code == 200065) {
-
             otherStatus = 2;
           } else if (code == 200066) {
             otherStatus = 3;
