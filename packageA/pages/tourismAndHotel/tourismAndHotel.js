@@ -2,6 +2,7 @@ import {
   GLOBAL_API_DOMAIN
 } from '../../../utils/config/config.js';
 import Countdown from '../../../utils/Countdown.js'
+import getToken from '../../../utils/getToken.js'
 import Api from '../../../utils/config/api.js';
 var app = getApp();
 var requestTask = false
@@ -22,19 +23,33 @@ Page({
   },
   onLoad: function(options) {
     let that = this;
-    var query = wx.createSelectorQuery();
-    query.select('.maximumImg').boundingClientRect(function (qry) {
-      console.log(qry)
-      that.setData({
-        bannerHeight: qry.height
-      })
-      var h = qry.height;//此处提示错误：不能获取null的height
-    }).exec();
+    try{
+      var query = wx.createSelectorQuery();
+      query.select('.maximumImg').boundingClientRect(function (qry) {
+        console.log(qry)
+        that.setData({
+          bannerHeight: qry.height
+        })
+        var h = qry.height;//此处提示错误：不能获取null的height
+      }).exec();
+    }catch(err){
+
+    }
 
     this.setData({
       actid: options.id
     })
     
+  },
+  onShow: function () {
+    let that = this;
+    if (!app.globalData.token) {
+      getToken().then( (res)=>{
+        that.getSingleList(that.data.actid, 'reset');
+      })
+    } else {
+      that.getSingleList(that.data.actid, 'reset');
+    }
   },
   onPageScroll:function(e){
     if (e.scrollTop > this.data.bannerHeight){
@@ -52,79 +67,6 @@ Page({
         fiexd: false
       })
     }
-  },
-  onShow: function() {
-    let that = this;
-    if (!app.globalData.token) {
-      that.findByCode();
-    } else {
-      that.getSingleList(that.data.actid, 'reset');
-    }
-  },
-  findByCode: function () { //通过code查询用户信息
-    let that = this;
-    wx.login({
-      success: res => {
-        Api.findByCode({
-          code: res.code
-        }).then((res) => {
-          if (res.data.code == 0) {
-            let data = res.data.data;
-            console.log(res)
-            if (data.id) {
-              app.globalData.userInfo.userId = data.id;
-              for (let key in data) {
-                for (let ind in app.globalData.userInfo) {
-                  if (key == ind) {
-                    app.globalData.userInfo[ind] = data[key]
-                  }
-                }
-              }
-              that.authlogin(); //获取token
-            } else {
-              if (!data.mobile) { //是新用户，去注册页面
-                wx.navigateTo({
-                  url: '/pages/init/init?isback=1'
-                })
-              } else {
-                that.authlogin();
-              }
-            }
-          } else {
-            that.findByCode();
-          }
-        })
-      }
-    })
-  },
-  authlogin: function () { //获取token
-    let that = this;
-    wx.request({
-      url: this.data._build_url + 'auth/login?userName=' + app.globalData.userInfo.userName,
-      method: "POST",
-      data: {},
-      header: {
-        'content-type': 'application/json' // 默认值
-      },
-      success: function (res) {
-        if (res.data.code == 0) {
-          let _token = 'Bearer ' + res.data.data;
-          app.globalData.token = _token;
-          let userInfo = wx.getStorageSync('userInfo') || {}
-          userInfo.token = _token
-          wx.setStorageSync("token", _token)
-          wx.setStorageSync("userInfo", userInfo)
-          that.getSingleList(that.data.actid, 'reset');
-          if (app.globalData.userInfo.mobile) {
-
-          } else {
-            wx.navigateTo({
-              url: '/pages/init/init?isback=1',
-            })
-          }
-        }
-      }
-    })
   },
   getSingleList: function(actid,types) {
     let that = this;

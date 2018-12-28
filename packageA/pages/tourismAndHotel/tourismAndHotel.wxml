@@ -12,7 +12,7 @@
     <view class='manListCenter'>
       <view class="nav bc_white {{fiexd?'fiexd':''}}" >
         <view class="item">
-          <view class="{{selected?'red':'default'}} skeleton-rect" id="1" bindtap="selected">进行中</view>
+          <view class="{{selected?'red':'default'}}" id="1" bindtap="selected">进行中</view>
         </view>
         <view class="item">
           <view class="{{!selected?'red':'default'}} " id="2" bindtap="selected">已结束</view>

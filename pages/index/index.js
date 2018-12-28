@@ -5,6 +5,7 @@ import {
 } from '/../../utils/config/config.js';
 var utils = require('../../utils/util.js');
 import Public from '../../utils/public.js';
+import getToken from '../../utils/getToken.js';
 var app = getApp();
 var isgetHomeData = false
 var village_LBS = function(that) {
@@ -132,7 +133,18 @@ Page({
       app.globalData.changeCity = false;
     }
     if (!app.globalData.token) { //没有token 获取token
-      that.findByCode();
+      getToken(app).then( ()=>{
+        that.getcarousel(); //首页轮播图
+        that.gettoplistFor() //快捷入口
+        that.getconfig(); //配置文件
+        that.gettips(); //获取推送
+        that.gethomeData('reset'); //获取下面列表数据
+        setTimeout(() => {
+          that.setData({
+            showSkeleton: false
+          })
+        }, 200)
+      })
     } else {
       that.getconfig(); //配置文件
       that.gettips(); //获取推送
@@ -223,80 +235,6 @@ Page({
       }
     })
 
-  },
-  findByCode: function() { //通过code查询用户信息
-    let that = this;
-    wx.login({
-      success: res => {
-        // return
-        Api.findByCode({
-          code: res.code
-        }).then((res) => {
-          if (res.data.code == 0) {
-            let _data = res.data.data;
-            if (_data && _data.id) {
-              app.globalData.userInfo.userId = _data.id;
-              for (let key in _data) {
-                for (let ind in app.globalData.userInfo) {
-                  if (key == ind) {
-                    app.globalData.userInfo[ind] = _data[key]
-                  }
-                }
-                wx.setStorageSync("userInfo", app.globalData.userInfo)
-              };
-              if (_data.mobile) {
-                that.authlogin();
-              } else {
-                wx.navigateTo({
-                  url: '/pages/init/init?isback=1'
-                })
-              }
-            } else {
-              wx.navigateTo({
-                url: '/pages/init/init?isback=1'
-              })
-            }
-          }
-        })
-      }
-    })
-  },
-  authlogin: function() { //获取token
-    let that = this;
-    wx.request({
-      url: that.data._build_url + 'auth/login?userName=' + app.globalData.userInfo.userName,
-      method: "POST",
-      data: {},
-      header: {
-        'content-type': 'application/json' // 默认值
-      },
-      success: function(res) {
-        if (res.data.code == 0) {
-          let _token = 'Bearer ' + res.data.data;
-          app.globalData.userInfo.token = _token
-          app.globalData.token = _token
-          wx.setStorageSync('token', _token);
-          that.getcarousel(); //首页轮播图
-          that.gettoplistFor() //快捷入口
-          that.getconfig(); //配置文件
-          that.gettips(); //获取推送
-          that.gethomeData('reset'); //获取下面列表数据
-          setTimeout(() => {
-              that.setData({
-                showSkeleton: false
-              })
-          },200)
-        } else {
-          that.findByCode();
-        }
-        setTimeout(() => {
-          wx.stopPullDownRefresh();
-        }, 500)
-      },
-      fail() {
-        that.findByCode();
-      }
-    })
   },
   getconfig: function() { //请求配置数据
     let that = this;
@@ -441,6 +379,7 @@ Page({
             listStart: arr,
             allList: allList,
             loading: false,
+            showSkeleton:false,
             notData: notData
           }, () => {
             isgetHomeData = false
@@ -451,7 +390,8 @@ Page({
           isgetHomeData = false
           wx.hideLoading();
           that.setData({
-            loading: false
+            loading: false,
+            showSkeleton: false,
           })
         }
       },
@@ -459,7 +399,8 @@ Page({
         isgetHomeData = false
         wx.hideLoading();
         that.setData({
-          loading: false
+          loading: false,
+          showSkeleton: false,
         })
       }
     })
@@ -700,7 +641,7 @@ Page({
   },
   onPullDownRefresh: function() { //下拉刷新
     let that = this;
-    that.findByCode();
+    that.onShow();
     setTimeout(() => {
       wx.stopPullDownRefresh();
     }, 3000)

@@ -943,7 +943,7 @@ Page({
           categoryId: that.data.categoryId,
           locationX: app.globalData.userInfo.lng,
           locationY: app.globalData.userInfo.lat,
-          city: this.data._city ? this.data._city : app.globalData.userInfo.city,
+          // city: this.data._city ? this.data._city : app.globalData.userInfo.city,
           page: this.data.page,
           rows: 10
         }
@@ -959,9 +959,9 @@ Page({
           browSort: 1,
           locationX: app.globalData.userInfo.lng,
           locationY: app.globalData.userInfo.lat,
-          city: this.data._city ? this.data._city : app.globalData.userInfo.city,
+          city: that.data._city ? that.data._city : app.globalData.userInfo.city,
           isDeleted: 0,
-          page: this.data.page,
+          page: that.data.page,
           rows: 10
         };
         for (var key in _parms) {

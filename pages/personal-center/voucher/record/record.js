@@ -4,20 +4,27 @@ import {
 } from '../../../../utils/config/config.js';
 var utils = require('../../../../utils/util.js');
 var app = getApp();
+var requestTask = false;
 
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
     listData:[],
     page:1,
-    databack:false
+    showSkeleton:true,
+    databack:false,
+    loading:false,
+    total:1
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    this.getorderCoupon();
+    this.getorderCoupon('reset');
+  },
+  onLoad:function(options){
+
   },
 
   /**
@@ -25,54 +32,80 @@ Page({
    */
   onPullDownRefresh: function () {
     this.setData({
-      page: 0
+      page: 1
     })
-    this.getorderCoupon();
+    this.getorderCoupon('reset','已刷新');
   },
 
   onReachBottom: function () {
+    if (requestTask){
+      return false
+    }
+    if(this.data.page >= this.data.total){
+      wx.showToast({
+        title: '没有更多数据了',
+        icon:"none"
+      })
+      return false
+    }
     this.setData({
-      page: this.data.page+1
+      page: this.data.page+1,
+      loading:true
     })
     this.getorderCoupon();
   },
 
 
   //查询兑换记录列表
-  getorderCoupon:function(){
-    wx.showLoading({
-      title: '加载中...'
-    });
+  getorderCoupon:function(types,msg){
+    let that = this;
     let _parms = {
       changerId: app.globalData.userInfo.userId,
       browSort:1,
-      page:this.data.page,
+      page:that.data.page,
       rows:10,
       token: app.globalData.token
     };
-    if (this.data.page == 1) {
-      this.setData({
-        listData: []
-      })
-    }
+    requestTask = true
     Api.dhCoupon(_parms).then((res)=>{
       wx.stopPullDownRefresh();
       wx.hideLoading();
       if(res.data.code == 0){
-        let _data = this.data.listData,_list = res.data.data.list
+        let _data = [],_list = res.data.data.list
         if (_list && _list.length>0){
           for (let i = 0; i < _list.length; i++) {
             let _arr = _list[i].goodsSkuName.split(" ");
             _list[i].p2 = _arr[1];
             _data.push(_list[i]);
           }
-          this.setData({
-            listData: _data,
-            databack:false
+          let arr = [];
+          if(types == 'reset'){
+            arr = _data
+          }else{
+           let  arrs = that.data.listData ? that.data.listData:[];
+            arr = arrs.concat(_data)
+          }
+          that.setData({
+            listData: arr,
+            total: Math.ceil(res.data.data.total /10),
+            databack:false,
+            showSkeleton:false,
+            loading:false
           })
+          if(msg){
+            wx.showToast({
+              title: msg,
+              icon:"none"
+            })
+          }
+          requestTask = false
         }else{
-
+          requestTask = false
+          that.setData({ showSkeleton: false, loading: false })
         }
+      }else{
+        requestTask = false
+        that.setData({ showSkeleton: false, loading:false})
       }
     })
   },

@@ -74,17 +74,13 @@ page{
   justify-content: space-between;
   align-items: center;
   margin-top: 20rpx;
+  padding: 0 20rpx;
+  box-sizing: border-box;
 }
 
 .expressage.shopAddress {
   padding-left: 34rpx;
   box-sizing: border-box;
-}
-
-.expressageImg{
-  width: 40rpx;
-  height: 34rpx;
-  margin-left: 28rpx;
 }
 
 .expressageText{
@@ -410,7 +406,14 @@ page{
   height: 100rpx;
   align-items: center;
 }
-
+.expressageImgRight{
+  width: 24rpx;
+  height: 44rpx;
+}
+.expressageImg{
+  width: 60rpx;
+  height: 51rpx;
+}
 .secondOrderLeader button{
   width:158rpx;
   height:56rpx;

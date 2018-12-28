@@ -31,12 +31,13 @@ Page({
   onLoad: function (options) {
     console.log("options:", options)
     let that = this;
+    let selectType = options.let
     setTimeout(() => {
       that.setData({
         showSkeleton: false
       })
     }, 5000)
-    if (options.let){
+    if (selectType){
       this.getTicketList();
       this.setData({ currentIndex:1})
     }else{
@@ -103,9 +104,11 @@ Page({
           if (swichrequestflag[index]) {
             return false
           }
-          // if (!that.data.listData.length >= 1) {
-          that.getorderCoupon(index)
-          // }
+            // if (!that.data.listData.length >= 1) {
+              that.getorderCoupon(index)
+            // }
+
+          
         } else if (index == 1) {
           if (swichrequestflag[index]) {
             return false
@@ -122,9 +125,6 @@ Page({
           }
          }
     })
-
-
-    this.getTicketList();
 
   },
   onShow: function() {
@@ -163,7 +163,6 @@ Page({
         listData: listData
       })
     }
-
   },
   onUnload() {
   },
@@ -190,6 +189,7 @@ Page({
               }
               that.getTicketList();
             };
+            that.getorderCoupon();
           } else {
             that.findByCode();
           }
@@ -200,7 +200,7 @@ Page({
   //查询我的礼品券列表数据 
   getorderCoupon: function(types) {
     let that = this;
-    if (!app.globalData.userInfo.userId) {
+    if (!app.globalData.token) {
       this.findByCode();
     } else {
       let _parms = {
@@ -272,7 +272,7 @@ Page({
   getlistCoupon: function(types) {
     let _parms = {},
       that = this;
-    if (!app.globalData.userInfo.userId) {
+    if (!app.globalData.token) {
       this.findByCode();
     }else{
       _parms = {
@@ -384,7 +384,7 @@ Page({
   //获取我的票券
   getTicketList: function() {
     let that = this;
-    if (!app.globalData.userInfo.userId) {
+    if (!app.globalData.token) {
       this.findByCode();
     } else {
       requesting = true;
@@ -576,18 +576,20 @@ Page({
       if (this.data.page >= this.data.yesPageTotal) {
         return
       }
+
     } else if (tabId == 1) {
       if (this.data.page >= this.data.notPageTotal) {
         return
       }
+
     }
-    this.setData({
-      ticket_list: [],
-      page: 1,
-      isUpdate: true
-    }, () => {
-      this.getTicketList();
-    });
+    // this.setData({
+    //   ticket_list: [],
+    //   page: 1,
+    //   isUpdate: true
+    // }, () => {
+    //   this.getTicketList();
+    // });
   },
 
   immediateUse: function(e) {

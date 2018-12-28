@@ -2,16 +2,16 @@
   <!-- 头部 -->
   <view class='heads'>
     <view class='headImg'>
-      <image class='head_img' src='https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1202195685,1220011337&fm=27&gp=0.jpg'></image>
+      <image class='head_img' src="{{imgUrl?imgUrl:'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1202195685,1220011337&fm=27&gp=0.jpg'}}"></image>
     </view>
     <view class='headRight'>
       <view class='headRtop'>
         物流公司
-        <text class='newdate'></text>
+        <text class='newdate'>{{expTextName}}</text>
       </view>
       <view class='headRbot'>
         物流单号
-        <text class='newdate'></text>
+        <text class='newdate'>{{expressCode}}</text>
         <text class='copys' bindtap='handcopy'>复制</text>
       </view>
     </view>
@@ -22,13 +22,13 @@
     <view class='logisit'>
     <!-- 列表 -->
     <view class='lists'  wx:for="{{list}}" wx:key="key">
-      <image class='list_img_tab1' wx:if="{{item.id ==0 }}" src='/images/icon/logistics-iconEn.png'></image>
+      <image class='list_img_tab1' wx:if="{{index ==0 }}" src='/images/icon/logistics-iconEn.png'></image>
       <image class='list_img' wx:else src='/images/icon/logistics-icon.png'></image>
       <view class='list_name_page'>
-        <lable class="list_name {{item.id ==0?'act_name':''}}" >{{item.name}}</lable>
+        <lable class="list_name {{index==0?'act_name':''}}" >{{item.context}}</lable>
       </view>
       <!-- 时间 -->
-      <view class='list_dates_page'>{{item.dates}}</view>
+      <view class='list_dates_page'>{{item.time}}</view>
     </view>
     <!-- 列表底线 -->
     <view class='writes'></view>

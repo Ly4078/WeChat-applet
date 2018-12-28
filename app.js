@@ -1,6 +1,7 @@
 //app.js
 var utils = require('utils/util.js')
 import Api from 'utils/config/api.js';
+import getToken from 'utils/getToken.js'
 import {
   GLOBAL_API_DOMAIN
 } from '/utils/config/config.js';
@@ -13,35 +14,6 @@ App({
     lat: '',
     lng: '',
     sessionKey: ''
-  },
-  onLaunch: function(options) {
-    console.log("options:", options)
-    let q = decodeURIComponent(options.query.q);
-    this.globalData.currentScene.path = options.path;
-    this.globalData.currentScene.query = options.query
-    const userInfo = wx.getStorageSync("userInfo");
-    var mobile = String(userInfo.mobile);
-    if (mobile.length < 11) {
-      if (options.path == 'pages/personal-center/securities-sdb/securities-sdb' || options.path == 'pages/init/init' || options.path == 'pages/activityDetails/holdingActivity/holdingActivity' || options.path == 'pages/index/flashSaleHome/secKillDetail/secKillDetail' ) {} else {
-        if (options.query.isback || options.query.isback==1){
-          return
-        }
-        if (options.path == 'pages/index/index'){
-          // wx.reLaunch({
-          //   url: '/pages/init/init',
-          // })
-        }
-      }
-    }
-    let that = this;
-    wx.getSystemInfo({
-      success: function(res) {
-        that.globalData.systemInfo = res
-      },
-    })
-  },
-  onPullDownRefresh: function() {
-    wx.stopPullDownRefresh()
   },
   globalData: { //全局变量
     changeCity: false,
@@ -76,5 +48,42 @@ App({
     },
     article: [],
     Express: {} //收货人信息
-  }
+  },
+  onLaunch: function(options) {
+    let that = this;
+    console.log("options:", options)
+    let q = decodeURIComponent(options.query.q);
+    this.globalData.currentScene.path = options.path;
+    this.globalData.currentScene.query = options.query
+    let userInfo = wx.getStorageSync("userInfo");
+    var mobile = String(userInfo.mobile);
+    
+    wx.getSystemInfo({
+      success: function(res) {
+        that.globalData.systemInfo = res
+      },
+    })
+    let token = wx.getStorageSync("token") || '';
+    let tokenTime = wx.getStorageSync("tokenTime");
+    // let userInfo = wx.getStorageSync('userInfo');
+    var nowTime = Date.parse(new Date());
+    if (token && tokenTime && userInfo){
+      if (nowTime > tokenTime) {
+        getToken(that).then((res) => {
+
+        })
+      } else {
+        that.globalData.token = token;
+        that.globalData.userInfo = userInfo
+      }
+    }else{
+      getToken(that).then((res) => {
+
+      })
+    }
+  },
+  onPullDownRefresh: function() {
+    wx.stopPullDownRefresh()
+  },
+
 })

@@ -20,18 +20,18 @@
 </view>
 
 <!-- 物流信息 -->
-<!-- <view class='expressage' catchtap='examineLogistics'>
+<view class='expressage' wx:if="{{current.expressCode}}" catchtap='examineLogistics'>
     <image class='expressageImg' src='/images/icon/expressagecheche.png'></image>
     <view class='expressageText'>
       <view class='expressageSite'>
-        <text>快递离开上海正在发往十堰</text>
+        <text>{{expressData[0].context}}</text>
       </view>
       <view class='expressageTime'>
-        <text>2018-09-09 20:04</text>
+        <text>{{expressData[0].time}}</text>
       </view>
     </view>
     <image class='expressageImgRight' src='/images/icon/home_arrow.png'></image>
-  </view> -->
+  </view>
 <!-- 收货地址/快递 -->
 <view wx:if="{{rType == 1}}" class='expressage'>
   <image class='siteImg' src='/images/icon/expressagegouwuce.png'></image>
@@ -87,7 +87,7 @@
   <view class='payment-execute'>
     <view class='inconformity'>
       <text>商品券码</text>
-      <text>{{current.goodsSku.skuCode}}</text>
+      <text>{{current.showCode}}</text>
       <view class='copybut' id="1" bindtap='copyCode'>复制</view>
     </view>
 

@@ -38,8 +38,15 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": -1,
-			"list": []
+			"current": 0,
+			"list": [
+				{
+					"id": -1,
+					"name": "ceshi",
+					"pathName": "packageA/pages/tourismAndHotel/tourismAndHotel",
+					"query": "id=43"
+				}
+			]
 		}
 	}
 }

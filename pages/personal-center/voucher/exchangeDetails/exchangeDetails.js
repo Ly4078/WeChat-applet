@@ -56,8 +56,39 @@ Page({
             current: _data,
             rType: _data.type
           })
+          if (_data.expressCode){
+            that.getexpress();
+          }
         }
       }
+    })
+  },
+  getexpress:function(){//huo获取物流信息
+    let that = this;
+    wx.request({
+      url: that.data._build_url + 'orderDelivery/getExpress?expressCode=' + that.data.current.expressCode,
+      method:'get',
+      header: {
+        "Authorization": app.globalData.token
+      },
+      success:function(res){
+          console.log(res);
+          if(res.data.code=='0'){
+            if (res.data.data[0].list.length){
+              that.setData({
+                expressData: res.data.data[0].list
+              })
+            }
+          }
+      },fail(){
+
+      }
+    })
+  },
+  examineLogistics:function(){
+    let that   = this;
+    wx.navigateTo({
+      url: '/pages/personal-center/personnel-order/logisticsDetails/toTheLogistics/toTheLogistics?code=' + that.data.current.expressCode + '&img=' + that.data.current.goodsSku.skuPic,
     })
   },
   //点击复制

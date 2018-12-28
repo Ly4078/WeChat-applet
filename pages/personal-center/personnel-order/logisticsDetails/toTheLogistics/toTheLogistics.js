@@ -1,37 +1,44 @@
 // pages/userhome/address/address.js
+import {
+  GLOBAL_API_DOMAIN
+} from '../../../../../utils/config/config.js';
+var app = getApp();
 Page({
   data: {
+    _build_url: GLOBAL_API_DOMAIN,
     // 列表数据
-    list: [{
-      // 状态
-      id: 0,
-      // title
-      name: "客户签收人:徐剑 已签收 感谢使用圆通快递",
-      // 时间
-      dates: "2016-08-30"
-    }, {
-      id: 1,
-      name: "北京市通州区梨园公司北京市通州区梨园公司北京市通州区梨园公司北京市通州区梨园公司",
-      dates: "2016-08-30"
-    }, {
-      id: 2,
-      name: "【北京市通州区梨园公司】已收入【北京市通州区梨园公司】已收入",
-      dates: "2016-08-30"
-    }
-
-      , {
-      id: 3,
-      name: "北京朝阳区十里堡公司】取件人：小四 已收件",
-      dates: "2016-08-30"
-    }
-
-
-    ]
+    list: []
 
 
   },
   onLoad: function (options) {
     // 页面初始化 options为页面跳转所带来的参数
+    this.getexpress(options.code);
+    this.setData({ imgUrl: options.img})
+  },
+  getexpress: function (expressCode) {//huo获取物流信息
+    let that = this;
+    wx.request({
+      url: that.data._build_url + 'orderDelivery/getExpress?expressCode=' + expressCode,
+      method: 'get',
+      header: {
+        "Authorization": app.globalData.token
+      },
+      success: function (res) {
+        console.log(res);
+        if (res.data.code == '0') {
+          if (res.data.data[0].list.length) {
+            that.setData({
+              list: res.data.data[0].list,
+              expTextName: res.data.data[0].expTextName,
+              expressCode: res.data.data[0].expressCode
+            })
+          }
+        }
+      }, fail() {
+
+      }
+    })
   },
   onReady: function () {
     // 页面渲染完成

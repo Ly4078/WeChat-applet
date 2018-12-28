@@ -129,7 +129,7 @@ Page({
           if (res.data.data.dueTime) {
             that.endTimerun(res.data.data.dueTime)
           }
-          if (res.data.data.users) {
+          if (res.data.data.users !=null) {
             for (let i = 0; i < res.data.data.users.length; i++) {
               if (res.data.data.users[i] != null && res.data.data.users[i].iconUrl) {
                 res.data.data.users[0] = res.data.data.users[i]
@@ -137,12 +137,14 @@ Page({
               }
             }
           }
-          if (res.data.data.users.length<9){
-            for (let i = 0; i < 9; i++) {
-              if (res.data.data.users.length>=9){
-                break
+          if(res.data.data.users != null){
+            if (res.data.data.users.length < 9) {
+              for (let i = 0; i < 9; i++) {
+                if (res.data.data.users.length >= 9) {
+                  break
+                }
+                res.data.data.users.push('')
               }
-              res.data.data.users.push('')
             }
           }
           
