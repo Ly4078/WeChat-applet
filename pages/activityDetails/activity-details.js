@@ -1,5 +1,6 @@
 import Api from '/../../utils/config/api.js';
 var utils = require('/../../utils/util.js');
+import getToken from '/../../utils/getToken.js';
 import {
   GLOBAL_API_DOMAIN
 } from '/../../utils/config/config.js';
@@ -19,7 +20,9 @@ Page({
   onShow: function (options) {
     let that = this;
     if (!app.globalData.token) {
-      that.findByCode();
+      getToken(app).then( ()=>{
+        that.getcatdata();
+      })
     } else {
       if (!that.data.actdata.length){
         that.getcatdata();
@@ -115,7 +118,7 @@ Page({
           userInfo.token = _token
           wx.setStorageSync("token", _token)
           wx.setStorageSync("userInfo", userInfo)
-          that.getcatdata();
+
           if (app.globalData.userInfo.mobile) {
            
           } else {

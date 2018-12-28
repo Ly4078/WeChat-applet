@@ -38,12 +38,24 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 0,
+			"current": 2,
 			"list": [
 				{
 					"id": -1,
 					"name": "ceshi",
 					"pathName": "packageA/pages/tourismAndHotel/tourismAndHotel",
+					"query": "id=43"
+				},
+				{
+					"id": -1,
+					"name": "ceshi12321",
+					"pathName": "pages/activityDetails/activity-details",
+					"query": "id=43"
+				},
+				{
+					"id": 2,
+					"name": "ceshi12321",
+					"pathName": "pages/personal-center/my-discount/my-discount",
 					"query": "id=43"
 				}
 			]

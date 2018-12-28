@@ -187,8 +187,9 @@ Page({
                   app.globalData.userInfo[ind] = _data[key]
                 }
               }
-              that.getTicketList();
+          
             };
+            that.getTicketList();
             that.getorderCoupon();
           } else {
             that.findByCode();

@@ -407,12 +407,13 @@ page{
   align-items: center;
 }
 .expressageImgRight{
-  width: 24rpx;
-  height: 44rpx;
+  width: 12rpx;
+  height: 22rpx;
 }
 .expressageImg{
-  width: 60rpx;
-  height: 51rpx;
+  width: 40rpx;
+  height: 37rpx;
+  margin-left:28rpx;
 }
 .secondOrderLeader button{
   width:158rpx;
