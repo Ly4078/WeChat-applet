@@ -1,5 +1,5 @@
-
 <import src="../../../../utils/wxParse/wxParse.wxml" />
+
 <!-- 骨架屏模块 -->
 <skeleton selector="skeleton" loading="spin" bgcolor="#FFF" wx:if="{{showSkeleton}}"></skeleton>
 
@@ -57,7 +57,6 @@
         <template is="wxParse" data="{{wxParseData:article.nodes}}" />
       </view>
       <view class='dishtext' hidden="{{isopenimg}}" wx:if="{{pattern}}">
-        {{pattern}}
       </view>
       <view class='dishImg' wx:if="{{article}}">
         <view class='openImg' bindtap='clickopen'>{{isopenimg?'收起图文详情':'查看图文详情'}}</view>

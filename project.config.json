@@ -38,25 +38,19 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 2,
+			"current": 1,
 			"list": [
 				{
 					"id": -1,
-					"name": "ceshi",
-					"pathName": "packageA/pages/tourismAndHotel/tourismAndHotel",
-					"query": "id=43"
+					"name": "b",
+					"pathName": "pages/index/flashSaleHome/secKillDetail/secKillDetail",
+					"query": "id=7180&shopId=1404&categoryId=11&actId=44"
 				},
 				{
 					"id": -1,
-					"name": "ceshi12321",
-					"pathName": "pages/activityDetails/activity-details",
-					"query": "id=43"
-				},
-				{
-					"id": 2,
-					"name": "ceshi12321",
-					"pathName": "pages/personal-center/my-discount/my-discount",
-					"query": "id=43"
+					"name": "a",
+					"pathName": "pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails",
+					"query": "id=7482&shopId=1556&actId=41&categoryId=8"
 				}
 			]
 		}

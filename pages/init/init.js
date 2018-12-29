@@ -32,9 +32,10 @@ Page({
     if (app.globalData.currentScene.path == 'pages/init/init') {
       path = '';
     }
-    if (app.globalData.currentScene.query == '') {
-      path = '';
-    }
+    // if (app.globalData.currentScene.query == '') {
+    //   path = '';
+    // }
+    console.log('path',path)
     that.setData({
       navigetToUrl: path
     })
@@ -201,7 +202,7 @@ Page({
           if (res.data.data.userName) {
             wx.setStorageSync('userInfo', res.data.data)
             app.globalData.userInfo = res.data.data;
-            app.globalData.userInfo.userId = res.data.data.id
+            app.globalData.userInfo.userId = res.data.data.id;
             that.authlogin(res.data.data.userName)
           }
         }else{
@@ -286,14 +287,14 @@ Page({
           wx.setStorageSync("userInfo", userInfo)
           app.globalData.userInfo.nickName = data.userInfo.nickName;
           app.globalData.userInfo.iconUrl = data.userInfo.avatarUrl;
-          app.globalData.currentScene.query == ''
-          app.globalData.newcomer = 1
+          app.globalData.currentScene.query == '';
+          app.globalData.newcomer = 1;
           if (that.data.isBack) {
             wx.navigateBack({
               delta: 1
             })
           } else {
-           
+            // console.log("navigetToUrl:", that.datat.navigetToUrl)
             wx.reLaunch({ //以拥有手机号码直接跳转
               url: that.data.navigetToUrl? that.data.navigetToUrl: '/pages/index/index',
             })

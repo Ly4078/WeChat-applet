@@ -943,11 +943,12 @@ Page({
           categoryId: that.data.categoryId,
           locationX: app.globalData.userInfo.lng,
           locationY: app.globalData.userInfo.lat,
-          // city: this.data._city ? this.data._city : app.globalData.userInfo.city,
-          page: this.data.page,
+          page: that.data.page,
           rows: 10
         }
-
+        if (that.data.shopId !=0){
+          _parms.city = that.data._city ? that.data._city : app.globalData.userInfo.city;
+        }
         for (var key in _parms) {
           _values += key + "=" + _parms[key] + "&";
         }
@@ -959,11 +960,13 @@ Page({
           browSort: 1,
           locationX: app.globalData.userInfo.lng,
           locationY: app.globalData.userInfo.lat,
-          city: that.data._city ? that.data._city : app.globalData.userInfo.city,
           isDeleted: 0,
           page: that.data.page,
           rows: 10
         };
+        if (this.data.shopId != 0) {
+          _parms.city = that.data._city ? that.data._city : app.globalData.userInfo.city;
+        }
         for (var key in _parms) {
           _values += key + "=" + _parms[key] + "&";
         }

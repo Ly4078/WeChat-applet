@@ -108,7 +108,7 @@
 
         </view>
       </view>
-      <view class="hot-recoItem" catchtap='candyDetails'    wx:for="{{allList[bigindex].skuKJ}}" wx:key="index" id='{{item.id}}' data-index="{{item.shopId}}" data-distance="{{item.distance}}">
+      <view class="hot-recoItem" catchtap='candyDetails' wx:for="{{allList[bigindex].skuKJ}}" wx:key="index" id='{{item.id}}'   data-index="{{item.shopId}}" data-distance="{{item.distance}}">
         <image src="/images/newIndex/bargain.png" class="bargain-img"></image>
 
         <view class="hot-recoItem-left">
@@ -125,7 +125,7 @@
               <!-- 砍价菜或者酒店-店名 -->
               <view class="storename">
                 <image src="/images/icon/original-can.png"></image>
-                <text>{{item.shopName || ''}}</text>
+                <text>{{item.shop.shopName}}</text>
               </view>
               <!--助力砍价  -->
               <view class="help">
@@ -143,7 +143,7 @@
           </view>
         </view>
       </view>
-      <view class="hot-recoItem" catchtap='candyDetails'  id='{{item.id}}' data-index="{{item.shopId}}"  wx:for="{{allList[bigindex].goodsSku}}" wx:key="index">
+      <view class="hot-recoItem" catchtap='candyDetails' id='{{item.id}}' data-index="{{item.shopId}}" data-actid="{{item.actGoodsSkuOut.actId}}" wx:for="{{allList[bigindex].goodsSku}}" wx:key="index">
         <image src="/images/newIndex/bargain.png" class="bargain-img"></image>
         <view class="hot-recoItem-left">
           <!-- <image src="{{item.skuPic}}" mode='aspectFill' class='hot-recoItem-leftImg'></image> -->
@@ -158,8 +158,8 @@
             <view class="hot-recoItem-rightInfo">
               <!-- 砍价菜或者酒店-店名 -->
               <view class="storename">
-                <!-- <image src="/images/icon/original-can.png"></image> -->
-                <text>{{item.spuName || ''}}</text>
+                <image src="/images/icon/original-can.png"></image>
+                <text>{{item.shop.shopName}}</text>
               </view>
 
               <!--助力砍价  -->
@@ -169,7 +169,7 @@
               <view class="price">
                 <text class="msg">可砍到</text>
                 <text class="afterprice">￥{{item.goodsPromotionRules[0].actAmount}}</text>
-                <text class="beforeprice">￥{{item.marketPrice}}</text>
+                <text class="beforeprice">￥{{item.sellPrice}}</text>
               </view>
             </view>
             <view class="hot-recoItem-rightLoca">
@@ -178,13 +178,11 @@
           </view>
         </view>
       </view>
-      <view  wx:for="{{allList[bigindex].skuMS}}"  wx:key="index"  id='{{item.id}}' data-shopid="{{item.shopId}}" data-distance="{{item.distance}}" catchtap='toSecKillDetail' class="Dishes-item">
+      <view  wx:for="{{allList[bigindex].skuMS}}"  wx:key="index"  id='{{item.id}}' data-shopid="{{item.shopId}}" data-actid="44" data-distance="{{item.distance}}" catchtap='toSecKillDetail'  class="Dishes-item">
         <view class="Dishes-top">
-          <!-- <image lazy-load='true' mode='aspectFill' wx:if="{{item.picUrl}}" src='{{item.picUrl}}'                     binderror='imageError' bindtap='toSecKillDetail' id="{{item.id}}" data-shopid="{{item.shopId}}            "></image> -->
-           <image-loader width="344rpx" height="344rpx" class='hot-recoItem-leftImg'  default-image='/images/icon/morentu.png' mode='aspectFill' original-image="{{item.picUrl?item.picUrl:'/images/icon/morentu.png'}}"  />
-          <!-- <image lazy-load='true' bindtap='toSecKillDetail' id="{{item.id}}" data-shopid="{{item.shopId}}"            mode='aspectFill' wx:else src='/images/icon/morentu.png'></image> -->
+           <image-loader width="344rpx" height="344rpx" class='hot-recoItem-leftImg'  default-image='/images/icon/morentu.png' mode='aspectFill' original-image="{{item.skuPic?item.skuPic:'/images/icon/morentu.png'}}"  />
           <view class="Dishes-desc">
-            <view class="desc-msg">{{item.shopName}}</view>
+            <view class="desc-msg">{{item.shop.shopName}}</view>
             <!-- <view class="desc-loca">{{item.distance}}</view> -->
           </view>
         </view>
@@ -195,7 +193,7 @@
           </view>
           <view class="Dishes-price">
             <text class="ms">秒杀价</text>
-            <text class="after-price">￥{{item.agioPrice}}</text>
+            <text class="after-price">￥{{item.goodsPromotionRules[0].actAmount}}</text>
           </view>
         </view>
       </view>

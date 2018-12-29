@@ -4,8 +4,8 @@
     <view class='flashSale-left'>
       <image class='flashSale-img skeleton-rect' src='{{item.skuPic}}'></image>
       <image class='flashSaleBut' src='https://xqmp4-1256079679.file.myqcloud.com/1535364539984Colin_秒杀底部.png'></image>
-      <view wx:if="{{item.stockNum <= 0}}" class="shadedow"></view>
-      <image wx:if="{{item.stockNum <= 0}}" class="sellOutIcon" src="/images/icon/sellOut.png"></image>
+      <view wx:if="{{item.actGoodsSkuOut.stockNum <= 0}}" class="shadedow"></view>
+      <image wx:if="{{item.actGoodsSkuOut.stockNum <= 0}}" class="sellOutIcon" src="/images/icon/sellOut.png"></image>
     </view>
     <view class='flashSale-right'>
       <view class='flashSaleRig-row skeleton-rect'>

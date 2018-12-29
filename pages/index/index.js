@@ -317,7 +317,8 @@ Page({
       data.listStart = that.data.listStart
     }
     wx.request({
-      url: that.data._build_url + 'hcl/listForHomeObject',
+      // url: that.data._build_url + 'hcl/listForHomeObject',
+      url: that.data._build_url + 'hcl/listForHomeObjectLv',
       method: 'POST',
       data: JSON.stringify(data),
       header: {
@@ -372,9 +373,7 @@ Page({
           }
           for (let i in allList[0].skuMS) {
             allList[0].skuMS[i].distance = utils.transformLength(allList[0].skuMS[i].distance);
-            
           }
-          console.log('allList:', allList)
           that.setData({
             listStart: arr,
             allList: allList,
@@ -561,17 +560,19 @@ Page({
     })
   },
   toSecKillDetail(e) { //跳转至菜品详情
+
     let curr = e.currentTarget;
     wx.navigateTo({
-      url: 'flashSaleHome/secKillDetail/secKillDetail?id=' + curr.id + '&shopId=' + curr.dataset.shopid + '&distance=' + curr.dataset.distance
+      url: 'flashSaleHome/secKillDetail/secKillDetail?id=' + curr.id + '&shopId=' + curr.dataset.shopid + '&categoryId=11&actId=' + curr.dataset.actid
     })
   },
   candyDetails(e) {
     let id = e.currentTarget.id,
       distance = e.currentTarget.dataset.distance,
+      actid = e.currentTarget.dataset.actid,
       shopId = e.currentTarget.dataset.index;
     wx.navigateTo({
-      url: 'bargainirg-store/CandyDishDetails/CandyDishDetails?id=' + id + '&shopId=' + shopId + '&categoryId=8' 
+      url: 'bargainirg-store/CandyDishDetails/CandyDishDetails?id=' + id + '&shopId=' + shopId + '&categoryId=8&actId=' + actid
     })
   },
   handbaoming(e) {

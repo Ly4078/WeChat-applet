@@ -17,6 +17,7 @@
       <text>￥{{obj.sell}}</text>
     </view>
   </view>
+  
   <view class='particulars'>
     <view class='particulars_details'>
       <text class='particulars_text'>数量</text>

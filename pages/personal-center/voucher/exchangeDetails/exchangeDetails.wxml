@@ -40,7 +40,7 @@
       <text>{{current.orderAddressOut.mobile}}</text>
     </view>
     <view class='expressageMsg'>
-      <text>{{current.orderAddressOut.dictProvince}}{{current.orderAddressOut.dictCity}}{{current.orderAddressOut.dictCounty}}{{current.orderAddressOut.detailAddress}}</text>
+      <text>{{current.orderAddressOut.dictProvince}}{{current.orderAddressOut.dictCity}}{{current.orderAddressOut.dictCounty==null?'':current.orderAddressOut.dictCounty}}{{current.orderAddressOut.detailAddress}}</text>
     </view>
   </view>
 </view>

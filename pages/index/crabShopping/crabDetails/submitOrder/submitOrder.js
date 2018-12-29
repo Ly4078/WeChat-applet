@@ -485,7 +485,8 @@ Page({
     if (this.data.actId){
       _parms.actId = this.data.actId;
     }
-    console.log('_parms:', _parms)
+    const _formObj = JSON.stringify(_parms);
+    console.log("_formObj:", _formObj);
     wx.request({
       url: that.data._build_url + 'orderInfo/createNew',
       data: JSON.stringify(_parms),

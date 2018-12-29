@@ -265,7 +265,6 @@ Page({
           list[i].widthRate = list[i].stockNum / 15 * 186;
           aNearbyShop.push(list[i]);
         }
-        console.log('aNearbyShop111:', aNearbyShop)
         this.setData({
           aNearbyShop: aNearbyShop,
           listPages: listPages,

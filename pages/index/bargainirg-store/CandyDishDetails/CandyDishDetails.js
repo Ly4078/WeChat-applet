@@ -404,7 +404,6 @@ Page({
           };
           if (data.skuInfo) {
             skuInfo = data.skuInfo;
-
             if (skuInfo && skuInfo.indexOf("Œ") != -1) {
               skuInfo = skuInfo.split('Œ');
               obj.info = skuInfo;
@@ -432,13 +431,34 @@ Page({
                 legend: that.data.legends
               })
             }
+          } else if (data.actGoodsSkuOuts && data.actGoodsSkuOuts[0].ruleDesc) {
+            skuInfo = data.actGoodsSkuOuts[0].ruleDesc;
+            if (skuInfo.indexOf("Œ") != -1) {
+              skuInfo = skuInfo.split('Œ');
+              obj.info = skuInfo;
+              arr.push(obj);
+              if (arr.length > 2) {
+                arr.splice(1, 1);
+              }
+              that.setData({
+                legend: arr
+              })
+            } else {
+              obj.info.push(skuInfo);
+              arr.push(obj);
+              if (arr.length > 2) {
+                arr.splice(1, 1);
+              }
+              that.setData({
+                legend: arr
+              })
+            }
           } else if (data.remark) {
             that.setData({
               legend: arr
             })
             remark.push(data.remark)
-          } else if (data.actGoodsSkuOuts && data.actGoodsSkuOuts[0].ruleDesc) {
-            skuInfo = data.actGoodsSkuOuts[0].ruleDesc;
+            skuInfo = data.remark;
             if (skuInfo.indexOf("Œ") != -1) {
               skuInfo = skuInfo.split('Œ');
               obj.info = skuInfo;
@@ -470,14 +490,12 @@ Page({
 
           if (data.goodsSpuOut && data.goodsSpuOut.goodsSpuDesc && data.goodsSpuOut.goodsSpuDesc.content) {
             article = data.goodsSpuOut.goodsSpuDesc.content;
-            // if (article.match(pattern)[1]) {
-            //   pattern = article.match(_RegExp)[1];
-            // }
+            console.log('article:', article)
             WxParse.wxParse('article', 'html', article, that, 0);
           }
           data.skuName = utils.uncodeUtf16(data.skuName);
           that.setData({
-            // pattern: pattern,
+            pattern: pattern,
             soData: data,
             picUrl: data.picUrl ? data.picUrl : data.skuPic,
             skuName: data.skuName,

@@ -767,7 +767,7 @@ margin:0 1%;
 .Dishes-item .Dishes-desc .desc-msg {
   flex: 1;
   display: block;
-  max-width: 210rpx;
+  max-width: 90%;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

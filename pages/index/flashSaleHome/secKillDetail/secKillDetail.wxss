@@ -20,7 +20,10 @@ page{
   top: 650rpx;
   left: 0rpx;
 }
-
+.parewx image{
+  width: 100%!important;
+  display: block;
+}
 .information-inner{
   width: 100%;
   padding: 0 28rpx;
