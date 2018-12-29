@@ -199,6 +199,9 @@ Page({
   selected: function(e) {
     let that = this;
     let id = e.target.id;
+    this.setData({
+      selected: e.target.id == 1 ? true : false
+    })
     if(id == '2') {
       if(!that.data.endData.length){
         that.getendList(that.data.actid, 'reset');
@@ -208,9 +211,7 @@ Page({
         that.getSingleList(that.data.actid,'reset');
       } 
     }
-    this.setData({
-      selected: e.target.id == 1 ? true : false
-    })
+   
   },
   // 遮罩层显示
   showShade: function() {

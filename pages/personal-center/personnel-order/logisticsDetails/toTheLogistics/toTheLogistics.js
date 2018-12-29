@@ -40,6 +40,22 @@ Page({
       }
     })
   },
+  handcopy:function(){
+    let _title = this.data.expressCode
+    wx.setClipboardData({
+      data: _title,
+      success: function (res) {
+        wx.getClipboardData({
+          success: function (res) {
+            wx.showToast({
+              title: '复制成功！',
+              icon: 'none'
+            })
+          }
+        })
+      }
+    })
+  },
   onReady: function () {
     // 页面渲染完成
   },

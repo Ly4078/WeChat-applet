@@ -233,6 +233,9 @@ Page({
           userInfo.token = _token;
           wx.setStorageSync('token', _token)
           wx.setStorageSync('userInfo', userInfo);
+          let timestamp = Date.parse(new Date());
+          var tokenTime = timestamp - 0 + 518400000
+          wx.setStorageSync("tokenTime", tokenTime)
           var mobile = String(userInfo.mobile);
           if (mobile.length >= 11) {
             that.updatauser(that.data.wechatUserInfo);

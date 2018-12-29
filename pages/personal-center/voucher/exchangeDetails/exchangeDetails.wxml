@@ -6,7 +6,7 @@
       <text>{{current.expressCode?'已发货':'待发货'}}</text>
     </view>
     <view class='logisticsTopCount'>
-      <text>您订购的商品已经发货，正在运送途中</text>
+      <text>{{current.expressCode?'您订购的商品已经发货，正在运送途中':'正在为您准备商品中'}}</text>
     </view>
   </view>
   <view wx:else class='logisticsTopShould'>
