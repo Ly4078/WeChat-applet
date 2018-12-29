@@ -204,6 +204,7 @@ Page({
     if (!app.globalData.token) {
       this.findByCode();
     } else {
+      console.log('userId',app.globalData.userInfo)
       let _parms = {
         userId: app.globalData.userInfo.userId,
         page: this.data.pxpage,

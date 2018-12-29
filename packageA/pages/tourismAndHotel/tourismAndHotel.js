@@ -18,6 +18,7 @@ Page({
     loading:false,
     endpage:1,
     endData:[],
+    dataList:[],
     endtotal:1,
     fiexd:false
   },

@@ -908,6 +908,7 @@ Page({
       _value = _value.substring(0, _value.length - 1);
       wx.request({
         url: that.data._build_url + 'wxpay/doUnifiedOrder?' + _value,
+        // url: that.data._build_url + 'wxpay/shoppingMallForCouponNew?' + _value,
         header: {
           "Authorization": app.globalData.token
         },

@@ -24,7 +24,8 @@
     <image class='expressageImg' src='/images/icon/expressagecheche.png'></image>
     <view class='expressageText'>
       <view class='expressageSite'>
-        <text>{{expressData[0].context}}</text>
+        <text wx:if="{{expressData[0].context}}">{{expressData[0].context}}</text>
+        <text wx:else >{{data[0].state}}</text>
       </view>
       <view class='expressageTime'>
         <text>{{expressData[0].time}}</text>

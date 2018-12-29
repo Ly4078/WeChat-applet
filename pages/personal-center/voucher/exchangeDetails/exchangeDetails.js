@@ -70,8 +70,12 @@ Page({
       success:function(res){
           console.log(res);
           if(res.data.code=='0'){
+            that.setData({
+              data: res.data.data,
+            })
             if (res.data.data[0].list.length){
               that.setData({
+              
                 expressData: res.data.data[0].list
               })
             }
@@ -83,6 +87,13 @@ Page({
   },
   examineLogistics:function(){
     let that   = this;
+    if(!that.data.data[0].list.length){
+      wx.showToast({
+        title: '暂无物流信息，请稍后查询',
+        icon:'none'
+      })
+      return false
+    }
     wx.navigateTo({
       url: '/pages/personal-center/personnel-order/logisticsDetails/toTheLogistics/toTheLogistics?code=' + that.data.current.expressCode + '&img=' + that.data.current.goodsSku.skuPic,
     })
