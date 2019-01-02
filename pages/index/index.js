@@ -522,7 +522,7 @@ Page({
     let msg = e.currentTarget.dataset.msg;
     if (!url) {
       wx.showToast({
-        title: msg ? msg:'十二月正式开放',
+        title: msg ? msg:'下月正式开放',
         icon: "none"
       })
       return
