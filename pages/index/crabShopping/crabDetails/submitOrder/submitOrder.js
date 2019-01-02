@@ -108,7 +108,7 @@ Page({
       }
     } else if (this.data.issku == 2) {
       //现金券
-      let _total = this.data.sellPrice * this.data.ssnum;
+      let _total = this.data.sellPrice * this.data.ssnum.toFixed(2);
       this.setData({
         picUrl: '/images/icon/ticket_txt.png',
         total: _total
