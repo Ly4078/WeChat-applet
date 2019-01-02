@@ -87,9 +87,7 @@
     "pages/personal-center/wallet/walletDetail/walletDetail",
     "pages/personal-center/wallet/withdraw/withdraw",
     "pages/personal-center/agent/signedAgent/signedAgent",
-    "pages/personal-center/agent/agent",
-    "pages/index/wanda/wanda",
-    "pages/index/wanda/wandaBranch/wandaBranch"
+    "pages/personal-center/agent/agent"
   ],
   "subpackages": [
      {
