@@ -1,8 +1,9 @@
 
 import Api from '../../../utils/config/api.js';
 import { GLOBAL_API_DOMAIN } from '../../../utils/config/config.js';
-var utils = require('../../../utils/util.js')
-let app = getApp()
+var utils = require('../../../utils/util.js');
+let app = getApp();
+
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
@@ -31,12 +32,20 @@ Page({
       }
     })
   },
-  toReceive: function () {  //点击领取新人专享
-    if (app.globalData.userInfo.mobile) {
-      if (this.data.isNew == 1) {
-        let that = this, _parms = {};
+
+  toReceive: function() {  //点击领取新人专享
+    let that = this, _parms = {};
+    if (app.globalData.userInfo.mobile){
+      if (this.data.isNew == 0) {
+        _parms={
+          payType:0,
+          shopId:0,
+          singleType:1,
+          flagType:1
+        };
         wx.request({
-          url: that.data._build_url + 'so/freeOrder?payType=2&skuId=8&skuNum=1',
+          url: that.data._build_url + 'orderInfo/createNewForFree',
+          data: JSON.stringify(_parms),
           header: {
             "Authorization": app.globalData.token
           },
@@ -44,11 +53,11 @@ Page({
           success: function (res) {
             if (res.data.code == 0) {
               wx.navigateTo({
-                url: "/pages/personal-center/my-discount/my-discount?let=let"
+                url: "/pages/personal-center/my-discount/my-discount"
               })
             } else {
               wx.showToast({
-                title: '您已不是新用户！',
+                title: '您已不是新用户!',
                 icon: 'none'
               })
             }

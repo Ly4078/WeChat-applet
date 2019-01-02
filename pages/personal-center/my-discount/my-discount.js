@@ -24,7 +24,7 @@ Page({
     isUsed: 0,
     ind: 0,
     currentIndex: 0,
-    navbar: ['兑换券', '优惠券', ],
+    navbar: ['兑换券', '优惠券'],
     tabs: ["我的票券", "已赠送", "已领取","已失效"],
     userId: app.globalData.userInfo.userId
   },
@@ -206,7 +206,7 @@ Page({
     } else {
       console.log('userId',app.globalData.userInfo)
       let _parms = {
-        userId: app.globalData.userInfo.userId,
+        userId: app.globalData.userInfo.userId ? app.globalData.userInfo.userId : app.globalData.userInfo.id,
         page: this.data.pxpage,
         token: app.globalData.token,
         // isUsed:0,
@@ -223,8 +223,10 @@ Page({
           listData: []
         })
       }
+      console.log('_parms:', _parms)
       Api.orderCoupon(_parms).then((res) => {
         // wx.stopPullDownRefresh();
+        console.log("orderCoupon_res:",res)
         that.setData({
           loading: false
         })
