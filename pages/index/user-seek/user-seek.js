@@ -41,7 +41,8 @@ Page({
         locationX: app.globalData.userInfo.lng,
         locationY: app.globalData.userInfo.lat,
         city: app.globalData.userInfo.city,
-        page: this.data.page
+        page: this.data.page,
+        token: app.globalData.token
       }
       Api.shoplist(_parms).then((res) => {
         if (res.data.code == 0) {
@@ -79,12 +80,12 @@ Page({
             })
           }
         } else {
-          wx.showToast({
-            title: res.data.message,
-            icon: 'none',
-            mask: true,
-            duration: 2000
-          })
+          // wx.showToast({
+          //   title: res.data.message,
+          //   icon: 'none',
+          //   mask: true,
+          //   duration: 2000
+          // })
         }
       })
     }
