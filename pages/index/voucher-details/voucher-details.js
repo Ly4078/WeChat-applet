@@ -53,7 +53,7 @@ Page({
   formSubmit:function(e){
     let data = this.data.obj, parameter = '',_formId = e.detail.formId;
     Public.addFormIdCache(_formId); 
-    parameter = '?id=' + data.id + "&sell=" + data.sell + "&inp=" + data.inp + "&rule=" + data.rule + '&num=' + data.num + '&soid=' + data.soid;
+    parameter = '?id=' + data.id + "&sellPrice=" + data.sell + "&inp=" + data.inp + "&rule=" + data.rule + '&num=1&soid=' + data.soid;
     if (this.data.sostatus == 1) {
       parameter += '&sostatus=1'
     }
@@ -62,18 +62,20 @@ Page({
       parameter += '&shopId=' + this.data.shopId;
       parameter += '&skuId=' + this.data.skuId;
     }
+    console.log(this.data.shopId)
     wx.navigateTo({
-      url: '../order-for-goods/order-for-goods' + parameter
-    })
-  },
-  auto: function () {
-    let data = this.data.obj, parameter = '';
-    parameter = '?id=' + data.id + "&sell=" + data.sell + "&inp=" + data.inp + "&rule=" + data.rule + '&num=' + data.num + '&soid=' + data.soid;
-    if (this.data.sostatus == 1) {
-      parameter += '&sostatus=1'
-    }
-    wx.navigateTo({
-      url: '../order-for-goods/order-for-goods' + parameter
+      // url: '/pages/index/crabShopping/crabDetails/submitOrder/submitOrder?' + parameter
+      url: '/pages/index/crabShopping/crabDetails/submitOrder/submitOrder?num=1&issku=2&flag=1&&sellPrice=' + data.sell + '&id=' + data.id + '&skuName=' + data.inp+'元现金劵&shopId=' + this.data.shopId + '&singleType=1&cfom=candy'
     })
   }
+  // auto: function () {
+  //   let data = this.data.obj, parameter = '';
+  //   parameter = '?id=' + data.id + "&sell=" + data.sell + "&inp=" + data.inp + "&rule=" + data.rule + '&num=' + data.num + '&soid=' + data.soid;
+  //   if (this.data.sostatus == 1) {
+  //     parameter += '&sostatus=1'
+  //   }
+  //   wx.navigateTo({
+  //     url: '/pages/index/crabShopping/crabDetails/submitOrder/submitOrder?' + parameter
+  //   })
+  // }
 })

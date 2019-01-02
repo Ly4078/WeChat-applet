@@ -18,7 +18,7 @@ Page({
     username: '',
     phone: '',
     address: '',
-    issku: '', //issku=3为到店自提
+    issku: '', //issku=3为到店自提 issku=2为现金券
     ssnum:1,
     num: '',
     sellPrice: '',
@@ -98,7 +98,23 @@ Page({
     app.globalData.OrderObj = options;
   },
   onShow: function(res) {
-    if (this.data.issku != 3) {
+    if (this.data.issku == 3) {
+      if(!this.data.actId){
+        this.setData({
+          salepointId: app.globalData.OrderObj.salepointId,
+          distribution: '到店自提'
+        });
+        this.marketDetail();
+      }
+    } else if (this.data.issku == 2) {
+      //现金券
+      let _total = this.data.sellPrice * this.data.ssnum;
+      this.setData({
+        picUrl: '/images/icon/ticket_txt.png',
+        total: _total
+      });
+      wx.hideLoading();
+    } else{
       let _day = 60 * 60 * 24 * 1000,
         _today = '',
         hours = '',
@@ -129,20 +145,12 @@ Page({
           actaddress: app.globalData.Express
         });
       } else {
-        if(!this.data.actId){
+        if (!this.data.actId) {
           this.getAddressList();
           this.setData({
             actaddress: ''
           });
         }
-      }
-    } else if (this.data.issku == 3) {
-      if(!this.data.actId){
-        this.setData({
-          salepointId: app.globalData.OrderObj.salepointId,
-          distribution: '到店自提'
-        });
-        this.marketDetail();
       }
     }
     if(this.data.actId){
@@ -152,11 +160,13 @@ Page({
         total: _total
       })
     }else{
-      wx.showLoading({
-        title: '加载中...'
-      })
       this.setData({ issoid: false })
-      this.getDetailBySkuId();
+      if (this.data.issku != 2) {
+        wx.showLoading({
+          title: '加载中...'
+        })
+        this.getDetailBySkuId();
+      }
     }
   },
   onHide() {
@@ -250,7 +260,7 @@ Page({
           current: _obj,
           _rules: _rules
         })
-        if (_obj.spuId != 3 && this.data.issku != 3) {
+        if (_obj.spuId != 3 && this.data.issku != 3 && this.data.issku != 2) {
           this.getcalculateCost();
         }
       }
@@ -432,7 +442,52 @@ Page({
       }else{
         this.superMarketOrder();
       }
-    }else{
+    } else if (this.data.issku == 2) {    //现金券
+      let _parms = {}, that = this;
+      _parms = {
+        shopId: '0',
+        payType: 2,
+        flagType: this.data.flag,
+        singleType: this.data.singleType,
+        orderItemList: [{
+          goodsSkuId: this.data.id,
+          // goodsSpuId: this.data.spuId,
+          goodsNum: this.data.ssnum,
+          shopId: '0',
+          orderItemShopId: '0'
+        }]
+      };
+      wx.showLoading({
+        title: '加载中...',
+        mask: true
+      })
+      const _formObj = JSON.stringify(_parms);
+      console.log("_formObj:", _formObj);
+      wx.request({
+        url: that.data._build_url + 'orderInfo/createNew',
+        data: JSON.stringify(_parms),
+        method: 'POST',
+        header: {
+          "Authorization": app.globalData.token
+        },
+        success: function (res) {
+          if (res.data.code == 0 && res.data.data != null) {
+            if (res.data.data) {
+              that.setData({
+                orderId: res.data.data
+              })
+              that.wxpayment();
+            }
+          } else {
+            wx.hideLoading();
+            payrequest = true;
+          }
+        }, fail() {
+          wx.hideLoading();
+          payrequest = true;
+        }
+      })
+    } else{
       this.submitSoid();
     }
     Public.addFormIdCache(_formId); 
@@ -675,12 +730,15 @@ Page({
         _parms.groupId = this.data.groupId
       }
     }
+    if (this.data.issku == 2) {
+      _parms.type = this.data.flag;
+    }
     for (var key in _parms) {
       _value += key + "=" + _parms[key] + "&";
     }
     
     _value = _value.substring(0, _value.length - 1);
-    if (that.data.current.spuId != 3 && that.data.issku != 3){
+    if (that.data.current.spuId != 3 && that.data.issku != 3 && that.data.issku != 2){
       url = that.data._build_url + 'wxpay/doUnifiedOrderForShoppingMall?' + _value;
     }else{
       url = that.data._build_url + 'wxpay/shoppingMallForCouponNew?' + _value;

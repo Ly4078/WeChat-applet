@@ -206,12 +206,8 @@ const ALL_API = {
   },
   selectByShopId: {  //获取商家活动
     method: 'GET',
-    url: 'pnr/selectByShopId'
+    url: 'pnr/selectByShopIdNew'
   },
-  // selectByShopId: {  //获取商家活动
-  //   method: 'GET',
-  //   url: 'pnr/selectByShopIdNew'
-  // },
   phoneAES: {  //解密用户手机号
     method: 'POST',
     url: 'auth/phoneAES'

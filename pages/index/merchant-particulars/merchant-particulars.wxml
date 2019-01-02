@@ -129,10 +129,10 @@
           <image class="ticketBg" src="/images/icon/ticketBg.png"></image>
           <view class="ticketCont">
             <view class='dotext'>
-              <text class='manj'>{{item.skuName}}\n</text>
-              <text class='nowtext'>满{{item.manAmount}}可用</text>
+              <text class='manj'>{{item.goodsSkuName}}\n</text>
+              <text class='nowtext'>{{item.ruleDesc}}</text>
             </view>
-            <button class='buynow' id="{{item.skuId}}" catchtap='buynow'>{{item.sellPrice}}元购</button>
+            <button class='buynow' id="{{item.goodsSkuId}}" catchtap='buynow'>{{item.sellPrice}}元购</button>
           </view>
         </view>
       </view>

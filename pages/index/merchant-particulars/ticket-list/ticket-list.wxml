@@ -19,10 +19,10 @@
     <view class='doinglist'>
       <image class='doimg' src='/images/icon/quanhuodong.png'></image>
       <view class='dotext'>
-        <text class='manj'>{{item.ruleDesc}}\n</text>
+        <text class='manj'>{{item.goodsSkuName}}\n</text>
         <text class='nowtext'>{{item.sellPrice}}元</text>
-        <text class='original'>{{item.inPrice}}元</text> </view>
-      <button class='buynow' id="{{item.skuId}}" catchtap='buynow'>立即购买</button>
+        <text class='original'>{{item.costPrice}}元</text> </view>
+      <button class='buynow' id="{{item.goodsSkuId}}" catchtap='buynow'>立即购买</button>
     </view>
   </view>
   <view class='butask'></view>

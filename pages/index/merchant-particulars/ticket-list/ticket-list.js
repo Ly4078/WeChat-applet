@@ -41,17 +41,17 @@ Page({
   },
   //点击立即购买
   buynow: function (ev) { 
-    let skuid = ev.currentTarget.id
+    let id = ev.currentTarget.id
     let _sell = '', _inp = '', _rule = ''
     for (let i = 0; i < this.data.activity.length; i++) {
-      if (skuid == this.data.activity[i].skuId) {
+      if (id == this.data.activity[i].goodsSkuId) {
         _sell = this.data.activity[i].sellPrice;
-        _inp = this.data.activity[i].inPrice;
+        _inp = this.data.activity[i].costPrice;
         _rule = this.data.activity[i].ruleDesc;
       }
     }
     wx.redirectTo({
-      url: '../../voucher-details/voucher-details?id=' + skuid + "&sell=" + _sell + "&inp=" + _inp + "&rule=" + _rule,
+      url: '../../voucher-details/voucher-details?id=' + id + "&sell=" + _sell + "&inp=" + _inp + "&rule=" + _rule,
     })
   },
   //获取可用票券
