@@ -110,14 +110,13 @@ Page({
       //现金券
       let _total = this.data.sellPrice;
       if (this.data.ssnum){
-        _total = this.data.sellPrice * this.data.ssnum.toFixed(2);
+        _total = this.data.sellPrice * this.data.ssnum;
       }
       _total = _total.toFixed(2);
       this.setData({
         picUrl: '/images/icon/ticket_txt.png',
         total: _total
       });
-      wx.hideLoading();
     } else{
       let _day = 60 * 60 * 24 * 1000,
         _today = '',
@@ -466,7 +465,7 @@ Page({
         mask: true
       })
       const _formObj = JSON.stringify(_parms);
-      console.log("_formObj:", _formObj);
+      // console.log("_formObj:", _formObj);
       wx.request({
         url: that.data._build_url + 'orderInfo/createNew',
         data: JSON.stringify(_parms),
@@ -508,7 +507,7 @@ Page({
       })
       return
     }
-    payrequest = false
+    payrequest = false;
     let _parms={},that=this;
     _parms = {
       shopId: this.data.shopId,
@@ -545,7 +544,7 @@ Page({
       _parms.actId = this.data.actId;
     }
     const _formObj = JSON.stringify(_parms);
-    console.log("_formObj:", _formObj);
+    // console.log("_formObj:", _formObj);
     wx.request({
       url: that.data._build_url + 'orderInfo/createNew',
       data: JSON.stringify(_parms),
@@ -562,7 +561,6 @@ Page({
             that.wxpayment();
           }
         }else{
-          wx.hideLoading();
           payrequest = true;
           that.setData({
             issyzf:true
@@ -573,8 +571,10 @@ Page({
           })
         }
       },fail(){
-        wx.hideLoading();
         payrequest = true;
+      },
+      complete(){
+        wx.hideLoading();
       }
     })
   },
@@ -760,14 +760,13 @@ Page({
       },
       method: 'POST',
       success: function (res) {
+        wx.hideLoading();
         if (res.data.code == 0) {
           that.setData({
             payObj: res.data.data
           })
           that.pay();
-          wx.hideLoading();
         }else{
-          wx.hideLoading();
           payrequest = true
         }
       },fail(){
@@ -788,7 +787,7 @@ Page({
       'signType': 'MD5',
       'paySign': _data.paySign,
       success: function(res) {
-        payrequest = true
+        payrequest = true;
         wx.showLoading({
           title: '订单确认中...',
         })
@@ -798,7 +797,6 @@ Page({
             url: '/pages/personal-center/personnel-order/logisticsDetails/logisticsDetails?soId=' + that.data.orderId,
           })
         },3000)
-       
       },
       fail: function(res) {
         wx.hideLoading();
