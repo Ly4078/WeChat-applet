@@ -75,7 +75,7 @@ function extend(obj) {
 
 
 function MyHttp(defaultParams, ALL_API) {
-
+  
   let _build_url = GLOBAL_API_DOMAIN, resource = {}, _token = "", headers = {
     'content-type': 'application/x-www-form-urlencoded;charset=utf-8;Authorization'
   };
@@ -100,9 +100,6 @@ function MyHttp(defaultParams, ALL_API) {
       return sendRrquest(_build_url + _config.url, _config.method, _params_data, headers);
     }
   }
-
-
-
   return resource;
 }
 

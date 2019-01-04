@@ -40,6 +40,10 @@ let authlogin = function (userName) { //获取token
   })
 }
 
+let http=function(data){
+  
+}
+
 module.exports={
   addFormIdCache: addFormIdCache,
   authlogin: authlogin

@@ -16,7 +16,7 @@ Page({
     loading: false,
     rows: 5,
     page: 1,
-    cachearr: [],
+    cachearr:[],
     currentTab: 0,
     showSkeleton: true,
     showSkeletonRight: false
@@ -184,51 +184,46 @@ Page({
       sortId: e.currentTarget.id,
       page: 1,
       noMore:false,
-      
       showSkeletonRight: true
     }, () => {
-      wx.getStorage({
-        key: 'cachearr',
-        success(res) {
-          _cachearr = res.data;
-          let _keys = e.currentTarget.id * 1;
+      if (that.data.cachearr){
+        _cachearr = that.data.cachearr;
+        let _keys = e.currentTarget.id *1;
+        if (_cachearr[_keys]) {
           that.setData({
-            comList: [],
+            comList: _cachearr[_keys],
+            loading: false,
+            showSkeleton: false,
+            showSkeletonRight: false
           })
-          if (_cachearr[_keys]) {
-            that.setData({
-              comList: _cachearr[_keys],
-              loading: false,
-              showSkeleton: false,
-              showSkeletonRight: false
-            })
-          } else {
-            that.setData({
-              comList: [],
-            });
-            that.getlistdata(e.currentTarget.id, 'reset');
-          }
-        },
-        fail() {
+        } else {
           that.setData({
             comList: [],
           });
           that.getlistdata(e.currentTarget.id, 'reset');
         }
-      });
+      }else{
+        that.setData({
+          comList: [],
+        });
+        that.getlistdata(e.currentTarget.id, 'reset');
+      }
     })
   },
   //获取商品列表数据 
   getlistdata: function(sortId, types) {
     let that = this,
       url = '',
-      _cachearr = [];;
-    wx.getStorage({
-      key: 'cachearr',
-      success(res) {
-        _cachearr = res.data
-      }
-    })
+      _cachearr = [];
+    if (that.data.cachearr){
+      _cachearr = this.data.cachearr
+    }
+    // wx.getStorage({
+    //   key: 'cachearr',
+    //   success(res) {
+    //     _cachearr = res.data
+    //   }
+    // })
 
     that.setData({
       noMore: false
@@ -255,10 +250,13 @@ Page({
             if (that.data.page == 1) {
               let _inds = sortId;
               _cachearr[_inds] = arr;
-              wx.setStorage({
-                key: 'cachearr',
-                data: _cachearr
+              that.setData({
+                cachearr: _cachearr
               })
+              // wx.setStorage({
+              //   key: 'cachearr',
+              //   data: _cachearr
+              // })
             }
             that.setData({
               comList: arr,
@@ -356,7 +354,6 @@ Page({
     return {
       title: '【享购】超高性价比，便宜有好货',
       imageUrl: 'https://xq-1256079679.file.myqcloud.com/15927505686_1545388420_xianggou213123213_0.png'
-
     }
   }
 })
