@@ -14,7 +14,7 @@ Page({
     sortId: '', //类别ID
     comList: [], //商品列表
     loading: false,
-    rows: 5,
+    rows: 10,
     page: 1,
     cachearr:[],
     currentTab: 0,
