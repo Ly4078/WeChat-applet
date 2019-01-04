@@ -134,7 +134,7 @@ Page({
   copyCode:function(e){
     let id = e.currentTarget.id,_title="";
     if(id == 1){
-      _title = this.data.current.goodsSku.skuCode;
+      _title = this.data.current.showCode;
     }else if(id == 2){
       _title = this.data.current.expressCode;
     }

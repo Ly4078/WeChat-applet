@@ -106,6 +106,9 @@ Page({
           }
             // if (!that.data.listData.length >= 1) {
               that.getorderCoupon(index,'reset')
+              wx.showLoading({
+                title: '加载中',
+              })
             // }
 
           
@@ -115,6 +118,9 @@ Page({
           }
           if (!that.data.sendData.length >= 1) {
             that.getlistCoupon(1)
+            wx.showLoading({
+              title: '加载中',
+            })
           }
          }else if(index == 2){
           if (swichrequestflag[index]) {
@@ -122,6 +128,9 @@ Page({
           }
           if (!that.data.recData.length >= 1) {
             that.getlistCouponReceive(2)
+            wx.showLoading({
+              title: '加载中',
+            })
           }
          }
     })
@@ -221,6 +230,7 @@ Page({
       console.log('_parms:', _parms)
       Api.orderCoupon(_parms).then((res) => {
         // wx.stopPullDownRefresh();
+        wx.hideLoading();
         console.log("orderCoupon_res:",res)
         that.setData({
           loading: false
@@ -290,6 +300,7 @@ Page({
       swichrequestflag[types] = true
       Api.listCoupon(_parms).then((res) => {
         wx.stopPullDownRefresh();
+        wx.hideLoading();
         if (res.data.code == 0) {
           let _lists = res.data.data.list;
           if (_lists && _lists.length > 0) {
@@ -347,6 +358,7 @@ Page({
       };
       swichrequestflag[types] = true
       Api.listCoupon(_parms).then((res) => {
+        wx.hideLoading();
         wx.stopPullDownRefresh();
         that.setData({
           loading: false

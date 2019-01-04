@@ -67,7 +67,9 @@ Page({
       page:1
     })
     that.getorderCoupon('reset','',id);
-    
+      wx.showLoading({
+        title: '加载中',
+      })
   },
 
   /**
@@ -112,6 +114,7 @@ Page({
     if (that.data.currentTab>=1){
       _parms.expressState = that.data.currentTab;
     }
+
     requestTask = true
     Api.dhCoupon(_parms).then((res) => {
       wx.stopPullDownRefresh();
@@ -145,6 +148,7 @@ Page({
               icon: "none"
             })
           }
+          wx.hideLoading();
           requestTask = false
         } else {
           if (types == 'reset'){
@@ -152,6 +156,7 @@ Page({
               listData: _list ? _list:[]
             })
           }
+          wx.hideLoading();
           requestTask = false
           that.setData({
             showSkeleton: false,
@@ -159,6 +164,7 @@ Page({
           })
         }
       } else {
+        wx.hideLoading();
         requestTask = false
         that.setData({
           showSkeleton: false,

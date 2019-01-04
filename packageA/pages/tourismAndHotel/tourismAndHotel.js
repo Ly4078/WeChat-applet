@@ -108,14 +108,17 @@ Page({
               showSkeleton:false,
               loading:false
             })
+            wx.hideLoading()
             requestTask = false
           }else{
+            wx.hideLoading()
             requestTask = false
             that.setData({
               showSkeleton: false,
               loading: false})
           }
         }else{
+          wx.hideLoading()
           requestTask = false
           that.setData({
             showSkeleton: false,
@@ -124,6 +127,7 @@ Page({
 
       },
       fail: function(res) {
+        wx.hideLoading()
         requestTask = false
         that.setData({
           showSkeleton: false,
@@ -155,6 +159,7 @@ Page({
             showSkeleton: false,
             loading: false
           })
+          wx.hideLoading()
           requestTask = false
         }else{
           wx.hideLoading()
@@ -163,6 +168,7 @@ Page({
         }
         
       },fail: function (res) {
+        wx.hideLoading()
         requestTask = false
         that.setData({ showSkeleton: false, loading: false })
       }
@@ -206,10 +212,16 @@ Page({
     if(id == '2') {
       if(!that.data.endData.length){
         that.getendList(that.data.actid, 'reset');
+        wx.showLoading({
+          title: '加载中',
+        })
       }        
     }else{
       if (!that.data.dataList.length) {
         that.getSingleList(that.data.actid,'reset');
+        wx.showLoading({
+          title: '加载中',
+        })
       } 
     }
    

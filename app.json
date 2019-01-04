@@ -1,6 +1,8 @@
 {
   "pages": [
+    
     "pages/index/index",
+    "pages/activityDetails/holdingActivity/holdingActivity",
     "pages/personal-center/my-discount/exchangeDetails/exchangeDetails",
     "pages/index/bargainirg-store/bargainirg-store",
     "pages/index/flashSaleHome/flashSaleHome",
@@ -75,7 +77,7 @@
     "pages/personal-center/personnel-order/logisticsDetails/toTheLogistics/toTheLogistics",
     "pages/personal-center/personnel-order/personnel-order",
     "pages/personal-center/popularize/popularize",
-    "pages/activityDetails/holdingActivity/holdingActivity",
+
     "pages/index/productCategory/productCategory",
     "pages/index/crabShopping/storeList/storeList",
     "pages/index/crabShopping/getFailure/getFailure",
