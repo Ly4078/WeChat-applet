@@ -4,7 +4,8 @@ import {
 import Api from '../../../utils/config/api.js'
 var utils = require('../../../utils/util.js');
 var app = getApp();
-var requestTask = false, goodsRequestTask = null;
+var requestTask = false,
+  goodsRequestTask = null;
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
@@ -13,33 +14,32 @@ Page({
     sortId: '', //类别ID
     comList: [], //商品列表
     loading: false,
-    rows: 10,
+    rows: 5,
     page: 1,
-    currentTab:0,
+    cachearr: [],
+    currentTab: 0,
     showSkeleton: true,
     showSkeletonRight: false
   },
-  onLoad: function (options) {
+  onLoad: function(options) {
     let that = this
     if (options.actId) {
       this.setData({
         actId: options.actId
       })
     }
-   
   },
-  onShow:function(){
+  onShow: function() {
     let that = this;
     if (!app.globalData.token) {
       that.findByCode();
     } else {
-      if (!that.data.comList.length){
+      if (!that.data.comList.length) {
         that.getsortdata();
       }
-    
     }
   },
-  findByCode: function () { //通过code查询用户信息
+  findByCode: function() { //通过code查询用户信息
     let that = this;
     wx.login({
       success: res => {
@@ -74,7 +74,7 @@ Page({
       }
     })
   },
-  authlogin: function () { //获取token
+  authlogin: function() { //获取token
     let that = this;
     wx.request({
       url: this.data._build_url + 'auth/login?userName=' + app.globalData.userInfo.userName,
@@ -83,7 +83,7 @@ Page({
       header: {
         'content-type': 'application/json' // 默认值
       },
-      success: function (res) {
+      success: function(res) {
         if (res.data.code == 0) {
           let _token = 'Bearer ' + res.data.data;
           app.globalData.token = _token;
@@ -104,16 +104,17 @@ Page({
     })
   },
   //获取类别数据
-  getsortdata: function () {
-    let that = this,_url='';
-    _url ='goodsCategory/list';
+  getsortdata: function() {
+    let that = this,
+      _url = '';
+    _url = 'goodsCategory/list';
     // _url = 'actGoodsSku/getSpuList?actId=' + this.data.actId;
     wx.request({
       url: this.data._build_url + _url,
       header: {
         "Authorization": app.globalData.token
       },
-      success: function (res) {
+      success: function(res) {
         // return
         that.setData({
           loading: false,
@@ -122,9 +123,10 @@ Page({
         })
         if (res.data.code == 0) {
           if (res.data.data && res.data.data.length > 0) {
-            let _data = res.data.data, sortarr=[];
-            for (let i in _data){
-              if (_data[i].status == 1 || _data[i].status == 3){
+            let _data = res.data.data,
+              sortarr = [];
+            for (let i in _data) {
+              if (_data[i].status == 1 || _data[i].status == 3) {
                 if (_data[i].children && _data[i].children.length > 0) {
                   for (let j in _data[i].children) {
                     if (_data[i].children[j].status == 1 || _data[i].children[j].status == 3) {
@@ -153,7 +155,8 @@ Page({
             showSkeletonRight: false
           })
         }
-      }, fail: function () {
+      },
+      fail: function() {
         that.setData({
           loading: false,
           showSkeleton: false,
@@ -166,7 +169,10 @@ Page({
 
   // ==============
   //点击某个类别
-  bindSort: function (e) {
+  bindSort: function(e) {
+    // console.log('id_:', e.currentTarget.id)
+    let that = this,
+      _cachearr = [];
     if (e.currentTarget.id == this.data.sortId) {
       return false
     }
@@ -177,19 +183,52 @@ Page({
     this.setData({
       sortId: e.currentTarget.id,
       page: 1,
-      comList: [],
+      noMore:false,
+      
       showSkeletonRight: true
     }, () => {
-      this.getlistdata(e.currentTarget.id, 'reset');
+      wx.getStorage({
+        key: 'cachearr',
+        success(res) {
+          _cachearr = res.data;
+          let _keys = e.currentTarget.id * 1;
+          that.setData({
+            comList: [],
+          })
+          if (_cachearr[_keys]) {
+            that.setData({
+              comList: _cachearr[_keys],
+              loading: false,
+              showSkeleton: false,
+              showSkeletonRight: false
+            })
+          } else {
+            
+            that.getlistdata(e.currentTarget.id, 'reset');
+          }
+        },
+        fail() {
+          that.getlistdata(e.currentTarget.id, 'reset');
+        }
+      });
     })
   },
   //获取商品列表数据 
-  getlistdata: function (sortId, types) {
-    // return
-    let that = this, url='';
-    that.setData({
-      noMore: false
+  getlistdata: function(sortId, types) {
+    let that = this,
+      url = '',
+      _cachearr = [];;
+    wx.getStorage({
+      key: 'cachearr',
+      success(res) {
+        _cachearr = res.data
+      }
     })
+
+    that.setData({
+      noMore: false,
+      comList: [],
+    });
     requestTask = true;
     url = this.data._build_url + 'goodsSku/listForAct?actId=' + this.data.actId + '&categoryId=' + sortId + '&rows=' + this.data.rows + '&page=' + this.data.page;
     goodsRequestTask = wx.request({
@@ -197,7 +236,7 @@ Page({
       header: {
         "Authorization": app.globalData.token
       },
-      success: function (res) {
+      success: function(res) {
         wx.stopPullDownRefresh();
         if (res.data.code == 0) {
           if (res.data.data.list && res.data.data.list.length > 0) {
@@ -207,6 +246,14 @@ Page({
             } else {
               arr = that.data.comList ? that.data.comList : []
               arr = arr.concat(res.data.data.list)
+            }
+            if (that.data.page == 1) {
+              let _inds = sortId;
+              _cachearr[_inds] = arr;
+              wx.setStorage({
+                key: 'cachearr',
+                data: _cachearr
+              })
             }
             that.setData({
               comList: arr,
@@ -220,7 +267,7 @@ Page({
             requestTask = false;
             if (that.data.comList.length > 0) {
               that.setData({
-                noMore:true
+                noMore: true
               })
               wx.showToast({
                 title: '没有更多数据了',
@@ -258,14 +305,15 @@ Page({
         //   showSkeleton: false,
         //   showSkeletonRight: false
         // })
-      }, complete: function () {
+      },
+      complete: function() {
 
       }
     })
   },
 
   //点击某个商品
-  bindItem: function (e) {
+  bindItem: function(e) {
     let _id = e.currentTarget.id,
       _shopid = e.currentTarget.dataset.shopid,
       _categoryid = e.currentTarget.dataset.categoryid,
@@ -275,7 +323,7 @@ Page({
     })
   },
   //下拉刷新
-  onPullDownRefresh: function () { //下拉刷新
+  onPullDownRefresh: function() { //下拉刷新
     if (requestTask) {
       return false
     }
@@ -286,11 +334,11 @@ Page({
     this.getlistdata(this.data.sortId, 'reset');
   },
   //上接加载更多
-  onReachBottom: function () {
+  onReachBottom: function() {
     if (requestTask) {
       return false
     }
-    if (this.data.noMore){
+    if (this.data.noMore) {
       return
     }
     this.setData({
@@ -299,10 +347,11 @@ Page({
     })
     this.getlistdata(this.data.sortId, '');
   },
-  onShareAppMessage: function (res) {
-      return{
-        title:'【享购】超高性价比，便宜有好货',   imageUrl:'https://xq-1256079679.file.myqcloud.com/15927505686_1545388420_xianggou213123213_0.png'
+  onShareAppMessage: function(res) {
+    return {
+      title: '【享购】超高性价比，便宜有好货',
+      imageUrl: 'https://xq-1256079679.file.myqcloud.com/15927505686_1545388420_xianggou213123213_0.png'
 
-      }
+    }
   }
 })

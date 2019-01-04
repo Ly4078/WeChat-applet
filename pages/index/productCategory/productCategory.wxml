@@ -10,7 +10,6 @@
 </view>
 
 <view class='proContent'>
-
   <view wx:if="{{comList.length > 0}}" wx:for="{{comList}}" wx:key="{{index}}" hover-class='itemhover' class="classify_item" id="{{item.id}}" data-cate="{{item.id}}" data-categoryid="{{item.categoryId}}" data-shopid="{{item.shopId}}" bindtap='bindItem'>
     <image-loader width="360rpx" height="360rpx" default-image='/images/icon/morentu.png' mode='aspectFill' original-image="{{item.skuPic?item.skuPic:'/images/icon/morentu.png'}}" />
     <view class='contTxt'>
@@ -27,19 +26,15 @@
    <view wx:if="{{comList.length < 1}}" class='placeholder'>
     <image src="/images/icon/zhanweitu.png"></image>
   </view>
-  
-
-
-
 </view>
 
-  <view>
-    <view class='loadingBox'>
-      <i-spin custom wx:if="{{loading}}">
-        <view class="loading"></view>
-      </i-spin>
-    </view>
+<view>
+  <view class='loadingBox'>
+    <i-spin custom wx:if="{{loading}}">
+      <view class="loading"></view>
+    </i-spin>
   </view>
+</view>
 
 <!-- 骨架屏模块 -->
 
