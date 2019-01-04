@@ -14,7 +14,7 @@ Page({
     sortId: '', //类别ID
     comList: [], //商品列表
     loading: false,
-    rows: 10,
+    rows: 5,
     page: 1,
     cachearr: [],
     currentTab: 0,
@@ -203,11 +203,16 @@ Page({
               showSkeletonRight: false
             })
           } else {
-            
+            that.setData({
+              comList: [],
+            });
             that.getlistdata(e.currentTarget.id, 'reset');
           }
         },
         fail() {
+          that.setData({
+            comList: [],
+          });
           that.getlistdata(e.currentTarget.id, 'reset');
         }
       });
@@ -226,9 +231,9 @@ Page({
     })
 
     that.setData({
-      noMore: false,
-      comList: [],
+      noMore: false
     });
+    
     requestTask = true;
     url = this.data._build_url + 'goodsSku/listForAct?actId=' + this.data.actId + '&categoryId=' + sortId + '&rows=' + this.data.rows + '&page=' + this.data.page;
     goodsRequestTask = wx.request({
