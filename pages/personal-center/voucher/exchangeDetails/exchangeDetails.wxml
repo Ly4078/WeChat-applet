@@ -3,10 +3,10 @@
   
   <view wx:if="{{current.isUsed == 1}}" class='logisticsTopShould'>
     <view class='logisticsTopfront'>
-      <text>{{current.expressCode?'已发货':'待发货'}}</text>
+      <text>{{current.expressCode?orderType[current.expressState]:'待发货'}}</text>
     </view>
     <view class='logisticsTopCount'>
-      <text>{{current.expressCode?'您订购的商品已经发货，正在运送途中':'正在为您准备商品中'}}</text>
+      <text>{{current.expressCode?orderType2[current.expressState]:'正在为您准备商品中'}}</text>
     </view>
   </view>
   <view wx:else class='logisticsTopShould'>
@@ -107,7 +107,6 @@
       <text>商家名称</text>
       <text>{{current.shopOut.shopName ? current.shopOut.shopName : '享七自营'}}</text>
     </view>
-
     <view class='storeAddress' wx:if="{{current.shopOut.address}}">
       <text>商家地址</text>
       <text>{{current.shopOut.address}}</text>
@@ -118,4 +117,6 @@
 <!-- 底部联系客服再次/购买 -->
 <view class='secondOrderLeader'>
   <button open-type='contact'>联系客服</button>
+  <!-- <button catchtap='confirmReceipt' style="background:#FC6232;color:#fff;border:none;"> 确认收货</button> -->
+  <button  catchtap='confirmReceipt' wx:if="{{current.expressState == '2'}}" style="background:#FC6232;color:#fff;border:none;"> 确认收货</button>
 </view>

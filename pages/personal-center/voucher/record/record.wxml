@@ -3,10 +3,10 @@
 
 <!-- 骨架屏模块 -->
 <skeleton selector="skeleton" loading="spin" bgcolor="#FFF" wx:if="{{showSkeleton}}"></skeleton>
-<!-- <view class="navtab">
+<view class="navtab">
     <view catchtap='swichTab' data-id="{{item.id}}" wx:for="{{navList}}" class="{{currentTab==item.id?'active':''}}" wx:key="index">{{item.title}}</view> 
 </view>
-<view class="PlaceholderBox" style="height:100rpx;width:100%;"></view> -->
+<view class="PlaceholderBox" style="height:100rpx;width:100%;"></view>
 <view class='record'>
   <view class='recordItme' wx:if="{{listData.length > 0}}" wx:for="{{listData}}" wx:key="{{index}}" id="{{item.id}}" bindtap='handItem'>
     <view class='itemleft'>
@@ -16,7 +16,7 @@
     <view class='itemright'>
       <view class='irtop'>
         <text class="goodsSkuName">{{item.goodsSkuName}}</text>
-        <text class="irtop_r">已兑换</text>
+        <text class="irtop_r">{{item.expressState>=1?orderType[item.expressState]:'已兑换'}}</text>
       </view>
       <view class='irmoe'>{{item.p2}}</view>
       <view class='irbut'>{{item.usedTime}}</view>

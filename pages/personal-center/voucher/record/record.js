@@ -16,6 +16,7 @@ Page({
     loading: false,
     total: 1,
     currentTab:0,
+    orderType:['已兑换','待发货','已发货','已完成'],
     navList: [{
         id: 0,
         title: '全部'
@@ -39,7 +40,21 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
-   
+    let that = this;
+    let orderexpressid = app.globalData.orderexpressid;
+    let _data = that.data.listData
+    if (orderexpressid && app.globalData.orderexpressState && _data.length){
+      for (let i = 0; i < _data.length;i++){
+        if (_data[i].id == orderexpressid){
+          _data[i].expressState = app.globalData.orderexpressState;
+          app.globalData.orderexpressid = null;
+          app.globalData.orderexpressState = null;
+        }
+        }
+        that.setData({
+          listData: _data
+        })
+    }
   },
   onLoad: function(options) {
     this.getorderCoupon('reset');
@@ -48,8 +63,11 @@ Page({
     let that = this;
     let id = e.currentTarget.dataset.id;
     that.setData({
-      currentTab:id
+      currentTab:id,
+      page:1
     })
+    that.getorderCoupon('reset','',id);
+    
   },
 
   /**
@@ -82,7 +100,7 @@ Page({
 
 
   //查询兑换记录列表
-  getorderCoupon: function(types, msg) {
+  getorderCoupon: function(types, msg,id) {
     let that = this;
     let _parms = {
       changerId: app.globalData.userInfo.userId,
@@ -91,6 +109,9 @@ Page({
       rows: 10,
       token: app.globalData.token
     };
+    if (that.data.currentTab>=1){
+      _parms.expressState = that.data.currentTab;
+    }
     requestTask = true
     Api.dhCoupon(_parms).then((res) => {
       wx.stopPullDownRefresh();
@@ -126,6 +147,11 @@ Page({
           }
           requestTask = false
         } else {
+          if (types == 'reset'){
+            that.setData({
+              listData: _list ? _list:[]
+            })
+          }
           requestTask = false
           that.setData({
             showSkeleton: false,

@@ -10,7 +10,9 @@ Page({
     _build_url: GLOBAL_API_DOMAIN,
     id:'',
     rType: 1,   //券类型
-    current:{}
+    current:{},
+    orderType: ['', '待发货', '已发货', '已完成'],
+    orderType2: ['', '正在为您准备商品中', '您订购的商品已经发货，正在运送途中', '已确认收货'],
   },
 
   onLoad: function (options) {
@@ -31,6 +33,7 @@ Page({
         "Authorization": app.globalData.token
       },
       success: function (res) {
+        wx.hideLoading();
         if (res.data.code == 0) {
           let _data = res.data.data;
           _data.goodsSku.sellPrice = _data.goodsSku.sellPrice.toFixed(2);
@@ -48,6 +51,8 @@ Page({
               }
             }
           }
+          app.globalData.orderexpressState = _data.expressState;
+          app.globalData.orderexpressid = _data.id
           that.setData({
             current: _data,
             rType: _data.type
@@ -56,6 +61,8 @@ Page({
             that.getexpress();
           }
         }
+      },fail(){
+        wx.hideLoading();
       }
     })
   },
@@ -82,6 +89,31 @@ Page({
           }
       },fail(){
 
+      }
+    })
+  },
+  confirmReceipt:function(){
+    let that = this;
+    wx.request({
+      url: that.data._build_url + 'orderCoupon/receiving?id=' + that.data.current.id,
+      method: 'post',
+      header: {
+        "Authorization": app.globalData.token
+      },
+      success:function(res){
+        console.log(res)
+        if(res.data.code=='0' && res.data.data != null){
+          wx.showLoading({
+            title: '已确认收货',
+            icon:'none'
+          })
+          that.getorderCoupon();
+        }else{
+          wx.showToast({
+            title: '确认收货失败',
+            icon:"none"
+          })
+        }
       }
     })
   },

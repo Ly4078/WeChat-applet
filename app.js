@@ -74,10 +74,11 @@ App({
         })
       } else {
         that.globalData.token = token;
-        that.globalData.userInfo = userInfo
+        that.globalData.userInfo = userInfo;
         that.globalData.userInfo.userId = userInfo.id;
       }
     }else{
+
       getToken(that).then((res) => {
 
       })

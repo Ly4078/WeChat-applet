@@ -49,6 +49,13 @@
             </view>
           </view>
         </view>
+        
+      </view>
+      <view class="notData" wx:if="{{!dataList.length && selected}}">
+          <image style="width:312rpx;height:203rpx;" src="/images/icon/zhanweitu.png"></image>
+      </view>
+      <view class="notData" wx:if="{{!endData.length && !selected}}">
+          <image style="width:312rpx;height:203rpx;" src="/images/icon/zhanweitu.png"></image>
       </view>
 
       <!-- 0.1元拼购 -->

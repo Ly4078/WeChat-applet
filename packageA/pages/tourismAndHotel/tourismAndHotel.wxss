@@ -294,3 +294,13 @@ page {
   height: 192rpx;
   padding: 50rpx 34rpx;
 }
+
+.notData{
+  display:flex;
+justify-content:center;
+align-items:center;
+height:100%;
+padding:40rpx 0;
+background:#f5f5f5;
+
+}

@@ -398,7 +398,7 @@ page{
 .secondOrderLeader{
   width: 100%;
   display: flex;
-  justify-content:center;
+  justify-content:flex-end;
   position: fixed;
   bottom: 0rpx;
   left: 0rpx;
@@ -420,11 +420,12 @@ page{
   height:56rpx;
   text-align: center;
   line-height: 56rpx;
-  border:none;
+  border-radius: 40rpx;
   background: #fff;
-  border-radius:28rpx;
   font-size: 28rpx;
   letter-spacing: 2rpx;
   margin-right: 28rpx;
-  color: #FC5E2D;
+  color: #B1B1B1;
+  border:1rpx solid #B1B1B1;
+
 }
