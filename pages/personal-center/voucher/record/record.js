@@ -66,10 +66,25 @@ Page({
       currentTab:id,
       page:1
     })
-    that.getorderCoupon('reset','',id);
-      wx.showLoading({
-        title: '加载中',
-      })
+    let navList = that.data.navList
+    for (let i = 0; i < navList.length;i++){
+      if (id == navList[i].id) {
+        if (navList[i].data && navList[i].data.length) {
+          that.setData({
+            listData: navList[i].data,
+            page: navList[i].page,
+            total: navList[i].total
+          })
+        }else{
+          that.getorderCoupon('reset', '', id);
+           wx.showLoading({
+            title: '加载中',
+          })
+        }
+      }
+    }
+  
+     
   },
 
   /**
@@ -127,6 +142,18 @@ Page({
             let _arr = _list[i].goodsSkuName.split(" ");
             _list[i].p2 = _arr[1];
             _data.push(_list[i]);
+          }
+          let navList = that.data.navList;
+          for (let i = 0; i < navList.length;i++) {
+            if (navList[i].id == that.data.currentTab) {
+              navList[i].data = navList[i].data ? navList[i].data:[];
+              navList[i].data =  navList[i].data.concat(_data);
+              navList[i].page = that.data.page;
+              navList[i].total = Math.ceil(res.data.data.total / 10)
+              that.setData({
+                navList: navList
+              })
+            }
           }
           let arr = [];
           if (types == 'reset') {

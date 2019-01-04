@@ -4,7 +4,9 @@
 .page_row{
   display: block;
 }
-
+page{
+  -webkit-overflow-scrolling: touch
+}
 button{
   margin: 0;
   padding: 0;

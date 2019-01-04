@@ -142,12 +142,10 @@ Page({
     }
   },
   distributionmag: function (e) { //物流订单tab
+  let that = this;
     if (requestTask[0]){
       return
     }
-    wx.showLoading({
-      title: '加载中...'
-    })
     let id = e.currentTarget.dataset.subid;
     this.setData({
       elephant: e.currentTarget.dataset.idx,
@@ -155,7 +153,25 @@ Page({
       logId: id,
       lostr: id,
     })
-    this.getlogisticsList(id,'reset');
+    let commoditys = that.data.commoditys
+    for (let i = 0; i < commoditys.length; i++) {
+      if (that.data.logId == commoditys[i].id) {
+        if (commoditys[i].data && commoditys[i].data.length) {
+          that.setData({
+            logisticsList: commoditys[i].data,
+            orpage: commoditys[i].page,
+            total: commoditys[i].total
+          })
+        } else {
+          that.getlogisticsList(id, 'reset');
+          wx.showLoading({
+            title: '加载中',
+          })
+        }
+      }
+    }
+
+    
   },
   // 查询物流订单列表
   getlogisticsList:function(val,types){
@@ -163,7 +179,7 @@ Page({
     let _parms = {
       // userId: app.globalData.userInfo.userId,
       row:10,
-      page: this.data.orpage,
+      orpage: this.data.orpage,
       token: app.globalData.token
     };
     if (val) {
@@ -211,6 +227,18 @@ Page({
             }
             logistics.push(_list[i]);
           }
+          let commoditys = that.data.commoditys;
+          for (let i = 0; i < commoditys.length; i++) {
+            if (commoditys[i].id == that.data.logId) {
+              commoditys[i].data = commoditys[i].data ? commoditys[i].data : [];
+              commoditys[i].data = commoditys[i].data.concat(logistics);
+              commoditys[i].page = that.data.page;
+              commoditys[i].total = Math.ceil(res.data.data.total / 10)
+              that.setData({
+                commoditys: commoditys
+              })
+            }
+          }
           let arr = [];
           if(types == 'reset') {
             arr = logistics;
@@ -220,6 +248,7 @@ Page({
           }
           this.setData({
             logisticsList: arr,
+            total: Math.ceil(res.data.data.total / 10),
             loading: false
           },()=>{
             requestTask[0] = false;
@@ -494,15 +523,16 @@ Page({
       if (requestTask[0]){
         return
       }
+      this.setData({ orpage: this.data.orpage + 1})
     }
     if (this.data.shopping == 1) {
+      
       if (requestTask[1] && requestTask[2]) {
         return
       }
+      this.setData({ page: this.data.page + 1})
     }
     this.setData({
-      page: this.data.page + 1,
-      orpage:this.data.orpage +1,
       loading: true
     });
     if(this.data.shopping == 1){
@@ -523,6 +553,9 @@ Page({
         this.getshopOrderList();
       }
     }else if(this.data.shopping == 0){
+      if(this.data.orpage >= this.data.total) {
+        return false
+      }
       this.getlogisticsList(this.data.logId);
     }
   },
