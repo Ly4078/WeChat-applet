@@ -41,7 +41,7 @@ Page({
       this.getTicketList();
       this.setData({ currentIndex:1})
     }else{
-      this.getorderCoupon(0);
+      this.getorderCoupon(0,'reset');
     }
     if (options.cfrom == 'reg') {
       this.setData({
@@ -59,12 +59,12 @@ Page({
     },()=>{
         if(index ==0){
           let subIndex = that.data.ind
-          if (subIndex == 0) {
+          if (subIndex == 0 && subIndex==3) {
             if (swichrequestflag[subIndex]){
               return false
             }
             if (!that.data.listData.length>=1){
-              that.getorderCoupon(0)
+              that.getorderCoupon(subIndex,'reset')
             }
             
           } else if (subIndex == 1) {
@@ -105,7 +105,7 @@ Page({
             return false
           }
             // if (!that.data.listData.length >= 1) {
-              that.getorderCoupon(index)
+              that.getorderCoupon(index,'reset')
             // }
 
           
@@ -190,7 +190,7 @@ Page({
           
             };
             that.getTicketList();
-            that.getorderCoupon();
+            that.getorderCoupon(that.data.ind,'reset');
           } else {
             that.findByCode();
           }
@@ -199,7 +199,7 @@ Page({
     })
   },
   //查询我的礼品券列表数据 
-  getorderCoupon: function(types) {
+  getorderCoupon: function(types,loadtype) {
     let that = this;
     if (!app.globalData.token) {
       this.findByCode();
@@ -218,11 +218,6 @@ Page({
         _parms.isUsed = 1;
       }
       swichrequestflag[types] = true;
-      if (that.data.pxpage == 1) {
-        that.setData({
-          listData: []
-        })
-      }
       console.log('_parms:', _parms)
       Api.orderCoupon(_parms).then((res) => {
         // wx.stopPullDownRefresh();
@@ -230,8 +225,6 @@ Page({
         that.setData({
           loading: false
         })
-        let _data = that.data.pxpage == 1 ? [] : that.data.listData;
-        
         if (res.data.code == 0) {
           let _list = res.data.data.list;
           if (_list && _list.length > 0) {
@@ -246,12 +239,22 @@ Page({
               }
               _list[i]["isDue"] = that.isDueFunc(_list[i].expiryDate);
             }
+            let arr = [];
+            if (loadtype =='reset') {
+              arr = _list;
+            }else{
+            let   arrs = that.data.listData.length ? that.data.listData:[];
+              arr = arrs.concat(_list)
+            }
             that.setData({
-              listData: _data.concat(_list),
+              listData: arr,
               pageTotal: Math.ceil(res.data.data.total / 10),
               loading: false
             })
           } else {
+            if (loadtype == 'reset') {
+              that.setData({ listData:[]})
+            }
             that.setData({
               loading: false
             })

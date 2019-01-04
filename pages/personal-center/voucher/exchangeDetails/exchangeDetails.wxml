@@ -3,10 +3,10 @@
   
   <view wx:if="{{current.isUsed == 1}}" class='logisticsTopShould'>
     <view class='logisticsTopfront'>
-      <text>{{current.expressCode?orderType[current.expressState]:'待发货'}}</text>
+      <text>{{current.expressState>=1?orderType[current.expressState]:'已兑换'}}</text>
     </view>
     <view class='logisticsTopCount'>
-      <text>{{current.expressCode?orderType2[current.expressState]:'正在为您准备商品中'}}</text>
+      <text>{{current.expressState>=1?orderType2[current.expressState]:''}}</text>
     </view>
   </view>
   <view wx:else class='logisticsTopShould'>

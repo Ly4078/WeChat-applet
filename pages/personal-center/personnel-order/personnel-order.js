@@ -69,7 +69,7 @@ Page({
     //   elephant:0
     // })
     if (this.data.shopping == 0) {
-      this.getlogisticsList();
+      this.getlogisticsList(this.data.logId,'reset');
     } else if (this.data.shopping == 1) {
       this.getOrderList();
       this.getshopOrderList();
@@ -125,9 +125,8 @@ Page({
         return
       }
       this.setData({
-        logisticsList:[]
       },()=>{
-        this.getlogisticsList();
+        this.getlogisticsList(this.data.logId,'reset');
       })
       
     } else if (this.data.shopping == 1) {
@@ -155,12 +154,11 @@ Page({
       orpage: 1,
       logId: id,
       lostr: id,
-      logisticsList: []
     })
-    this.getlogisticsList(id);
+    this.getlogisticsList(id,'reset');
   },
   // 查询物流订单列表
-  getlogisticsList:function(val){
+  getlogisticsList:function(val,types){
     let that = this;
     let _parms = {
       // userId: app.globalData.userInfo.userId,
@@ -189,7 +187,7 @@ Page({
       
       if(res.data.code == 0 ){
         // 1待付款  2待收货  3已完成 10取消，
-        let _list = res.data.data.list, logistics = this.data.orpage==1?[]:this.data.logisticsList;
+        let _list = res.data.data.list, logistics = [];
         if (_list && _list.length>0){
           for (let i = 0; i < _list.length; i++) {
             if (_list[i].status == 1) {
@@ -213,14 +211,24 @@ Page({
             }
             logistics.push(_list[i]);
           }
+          let arr = [];
+          if(types == 'reset') {
+            arr = logistics;
+          }else{
+            let arrs = that.data.logisticsList.length ? that.data.logisticsList:[];
+            arr = arrs.concat(logistics)
+          }
           this.setData({
-            logisticsList: logistics,
+            logisticsList: arr,
             loading: false
           },()=>{
             requestTask[0] = false;
             wx.hideLoading();
           });
         }else{
+          if(types == 'reset') {
+            this.setData({ logisticsList:[]})
+          }
           this.setData({loading: false})
           requestTask[0] = false;
           wx.hideLoading();
@@ -538,10 +546,9 @@ Page({
         return
       }
       this.setData({
-        logisticsList: [],
         orpage: 1,
       },()=>{
-        this.getlogisticsList(this.data.logId);
+        this.getlogisticsList(this.data.logId,'reset');
       });
       
     }
