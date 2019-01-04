@@ -641,7 +641,7 @@ Page({
               sellNum: data.sellNum
             });
             let url = data.picUrl ? data.picUrl : data.skuPic
-            canvasShareImg(url, that.data.skuMoneyMin, that.data.dishData.marketPrice ? that.data.dishData.marketPrice:that.data.skuMoneyOut).then(function(res) {
+            canvasShareImg(url, that.data.skuMoneyMin, that.data.dishData.sellPrice ? that.data.dishData.sellPrice:that.data.skuMoneyOut).then(function(res) {
               that.setData({
                 shareImg: res
               })

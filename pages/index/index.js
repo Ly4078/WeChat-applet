@@ -316,6 +316,7 @@ Page({
     if (that.data.listStart != null && types != 'reset') {
       data.listStart = that.data.listStart
     }
+    // console.log(JSON.stringify(data))
     wx.request({
       // url: that.data._build_url + 'hcl/listForHomeObject',
       url: that.data._build_url + 'hcl/listForHomeObjectLv',
@@ -326,7 +327,6 @@ Page({
       },
       success: function(res) {
         if (res.data.code == '0') {
-
           var notData = true
           let data = res.data.data
           var arr = [];
