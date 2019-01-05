@@ -78,7 +78,6 @@ App({
         that.globalData.userInfo.userId = userInfo.id;
       }
     }else{
-
       getToken(that).then((res) => {
 
       })

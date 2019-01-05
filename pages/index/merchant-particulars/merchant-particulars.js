@@ -431,7 +431,9 @@ Page({
     Api.crabList(_parms).then((res) => { //查询同类规格列表
       if (res.data.code == 0) {
         let _hotlist = res.data.data.list,
+          _hotlist2=[],
           _discount = '';
+
         if (_hotlist && _hotlist.length > 0) {
           for (let i in _hotlist) {
             if (_hotlist[i].actGoodsSkuOuts && _hotlist[i].actGoodsSkuOuts.length > 0) {
@@ -444,12 +446,13 @@ Page({
                 _hotlist[i].actGoodsSkuOuts[j].discount = _discount.toFixed(2);
               }
               _hotlist[i].actGoodsSkuOuts2 = _hotlist[i].actGoodsSkuOuts.slice(1);
+              _hotlist2.push(_hotlist[i])
             }
           }
           console.log('_hotlist:', _hotlist)
           that.setData({
-            hotlist: _hotlist,
-            hotlist2: _hotlist.slice(0, 3)
+            hotlist: _hotlist2,
+            hotlist2: _hotlist2.slice(0, 3)
           })
         } else {
           that.setData({
