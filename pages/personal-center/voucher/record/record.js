@@ -5,7 +5,7 @@ import {
 var utils = require('../../../../utils/util.js');
 var app = getApp();
 var requestTask = false;
-
+let timer = null;
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
@@ -59,6 +59,21 @@ Page({
   onLoad: function(options) {
     this.getorderCoupon('reset');
   },
+  onPageScroll:function(e){
+    let that = this;
+    let navList = that.data.navList
+    navList[that.data.currentTab].scrollTop = e.scrollTop;
+    if (timer) {
+      clearTimeout(timer)
+      timer = null
+    };
+    timer = setTimeout( ()=>{
+      that.setData({
+        navList
+      })
+    },200)
+    
+  },
   swichTab:function(e){
     let that = this;
     let id = e.currentTarget.dataset.id;
@@ -66,6 +81,7 @@ Page({
       currentTab:id,
       page:1
     })
+    
     let navList = that.data.navList
     for (let i = 0; i < navList.length;i++){
       if (id == navList[i].id) {
@@ -75,7 +91,16 @@ Page({
             page: navList[i].page,
             total: navList[i].total
           })
+          wx.pageScrollTo({
+            scrollTop: navList[i].scrollTop ? navList[i].scrollTop:0,
+            duration:0
+          })
+          
         }else{
+          wx.pageScrollTo({
+            scrollTop:0,
+            duration: 0
+          })
           that.getorderCoupon('reset', '', id);
            wx.showLoading({
             title: '加载中',

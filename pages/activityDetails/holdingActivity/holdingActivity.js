@@ -230,7 +230,7 @@ Page({
   getData() {
     let that = this;
     wx.request({
-      url: that.data._build_url + '/actGoodsSku/getSpuList?actId=42',
+      url: that.data._build_url + 'actGoodsSku/getSpuList?actId=42',
       method: 'get',
       header: {
         "Authorization": app.globalData.token

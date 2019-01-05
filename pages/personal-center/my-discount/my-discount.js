@@ -100,6 +100,9 @@ Page({
       ind: index,
       pxpage:1
     },()=>{
+      wx.pageScrollTo({
+        scrollTop: 0,
+      })
         if(index == 0 || index  ==3) {
           if (swichrequestflag[index]) {
             return false

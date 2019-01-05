@@ -1,6 +1,7 @@
 import Api from '../../../utils/config/api.js';
 var app = getApp();
 var requestTask = [false,false,false];
+let timer = null;
 Page({
   data: {
     showSkeleton: true,
@@ -141,6 +142,22 @@ Page({
       this.getshopOrderList();
     }
   },
+  onPageScroll: function (e) {
+    let that = this;
+    let commoditys = that.data.commoditys;
+    let index = that.data.elephant ? that.data.elephant:0
+    commoditys[index].scrollTop = e.scrollTop;
+    if (timer) {
+      clearTimeout(timer)
+      timer = null
+    };
+    timer = setTimeout(() => {
+      that.setData({
+        commoditys
+      })
+    }, 200)
+
+  },
   distributionmag: function (e) { //物流订单tab
   let that = this;
     if (requestTask[0]){
@@ -162,7 +179,15 @@ Page({
             orpage: commoditys[i].page,
             total: commoditys[i].total
           })
+          wx.pageScrollTo({
+            scrollTop: commoditys[i].scrollTop ? commoditys[i].scrollTop : 0,
+            duration: 0
+          })
         } else {
+          wx.pageScrollTo({
+            scrollTop: 0,
+            duration: 0
+          })
           that.getlogisticsList(id, 'reset');
           wx.showLoading({
             title: '加载中',
