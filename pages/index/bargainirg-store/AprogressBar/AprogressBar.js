@@ -476,14 +476,16 @@ Page({
             } else {
               peopleList = _arr;
             }
+            console.log('peopleList:', peopleList)
             for (let i = 0; i < peopleList.length; i++) {
-              if (peopleList[i].userName && reg.test(peopleList[i].userName)) {
-                peopleList[i].userName = peopleList[i].userName.substr(0, 3) + "****" + peopleList[i].userName.substr(7)
-              } else if (peopleList[i].user.userName && reg.test(peopleList[i].user.userName)) {
-                peopleList[i].user.userName = peopleList[i].user.userName.substr(0, 3) + "****" + peopleList[i].user.userName.substr(7)
-              } 
+              if (peopleList[i].userName){
+                if (peopleList[i].userName && reg.test(peopleList[i].userName)) {
+                  peopleList[i].userName = peopleList[i].userName.substr(0, 3) + "****" + peopleList[i].userName.substr(7)
+                } else if (peopleList[i].user.userName && reg.test(peopleList[i].user.userName)) {
+                  peopleList[i].user.userName = peopleList[i].user.userName.substr(0, 3) + "****" + peopleList[i].user.userName.substr(7)
+                } 
+              }
               if (peopleList[i].userId == app.globalData.userInfo.userId) {
-                
                 _this.setData({
                   getGoldNum: peopleList[i].goldAmount,
                   otherStatus: 2
