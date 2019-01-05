@@ -6,6 +6,7 @@
 // var BASEURL =  "http://120.78.70.187:9081/";  //测试服务器
 
 var BASEURL =  "https://www.xiang7.net/";  //JWT正式服务器2
+
 var config = {
   GLOBAL_API_DOMAIN: BASEURL
 };

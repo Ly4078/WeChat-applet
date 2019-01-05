@@ -78,6 +78,7 @@ Page({
       
       that.getfooddatas()
       if (that.data._val) {
+        console.log('_val:', _val)
         that.getshopInfo(_val);
       }
     }

@@ -125,6 +125,7 @@ Page({
           if (res.data.data && res.data.data.length > 0) {
             let _data = res.data.data,
               sortarr = [];
+            console.log('_data:', _data)
             for (let i in _data) {
               if (_data[i].status == 1 || _data[i].status == 3) {
                 if (_data[i].children && _data[i].children.length > 0) {
