@@ -3,7 +3,7 @@
   <view class='flashSaleWrap' bindtap='toSecKillDetail' id="{{item.id}}" data-shopid="{{item.shopId}}" data-distance="{{item.distance}}"  data-categoryid="{{item.categoryId}}">
     <view class='flashSale-left'>
       <image class='flashSale-img skeleton-rect' src='{{item.skuPic}}'></image>
-      <image class='flashSaleBut' src='https://xqmp4-1256079679.file.myqcloud.com/1535364539984Colin_秒杀底部.png'></image>
+      <image class='flashSaleBut' src='https://xqmp4-1256079679.file.myqcloud.com/13971489895_yiyuan_20190107093809.png'></image>
       <view wx:if="{{item.actGoodsSkuOut.stockNum <= 0}}" class="shadedow"></view>
       <image wx:if="{{item.actGoodsSkuOut.stockNum <= 0}}" class="sellOutIcon" src="/images/icon/sellOut.png"></image>
     </view>

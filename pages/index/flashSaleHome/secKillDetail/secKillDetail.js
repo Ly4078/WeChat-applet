@@ -582,7 +582,7 @@ Page({
       })
     } else if (this.data.isCreated && this.data.peoPleNum < 2) {
       wx.showToast({
-        title: '邀请2个新用户注册1分钱享美食,快去邀请吧',
+        title: '邀请2个新用户注册1元钱享美食,快去邀请吧',
         icon: 'none',
         duration: 3000
       });
@@ -673,7 +673,7 @@ Page({
       shareUrl += '&actId=' + that.data.actId
     };
     return {
-      title: "2人秒杀仅需0.01元，" + that.data.skuName,
+      title: "2人秒杀仅需1元钱，" + that.data.skuName,
       imageUrl: that.data.shareImg,
       path: shareUrl,
       success: function(res) {

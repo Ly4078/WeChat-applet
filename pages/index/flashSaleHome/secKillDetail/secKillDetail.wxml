@@ -26,8 +26,8 @@
         </view>
       </view>
       <view class='kanj' bindtap='understand'>
-        <view class='kjicon'>秒杀购</view>
-        邀请2个新用户注册1分钱购买
+        <view class='kjicon'>1元购</view>
+        邀请2个新用户注册1元钱购买
         <image src='/images/icon/home_arrow.png'></image>
       </view>
     </view>

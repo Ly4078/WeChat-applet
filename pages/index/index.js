@@ -14,7 +14,7 @@ var village_LBS = function(that) {
       let latitude = res.latitude;
       let longitude = res.longitude;
       that.requestCityName(latitude, longitude);
-    },
+    }
   })
 }
 
@@ -59,8 +59,7 @@ Page({
         imgUrl: '',
         title: ''
       }
-    ],
-
+    ]
   },
   togrourp:function(){
     wx.navigateTo({
