@@ -1,7 +1,11 @@
 <template name="cuisine">
-  <view class='cutCuisine-shell' id="{{item.id}}" data-index="{{item.shopId}}" data-cate="{{item.categoryId}}" data-distance="{{item.distance}}" catchtap='candyDetails'>
+  <view class='cutCuisine-shell' id="{{item.id}}" data-index="{{item.shopId}}" data-cate="{{item.categoryId}}"  data-distance="{{item.distance}}" catchtap='candyDetails'>
     <view class="cutCuisine-images">
       <image-loader width="344rpx" height="344rpx" class='hot-recoItem-leftImg' default-image='/images/icon/morentu.png' lazy-load="true" mode='aspectFill' original-image="{{item.picUrl?item.picUrl:item.skuPic}}" />
+
+       <view wx:if="{{item.actGoodsSkuOut.stockNum <= 0}}" class="notstockNumshadedow">
+          <image style="width:108rpx;height:108rpx;" wx:if="{{item.actGoodsSkuOut.stockNum <= 0}}" class="sellOutIcon" src="/images/icon/sellOut.png"></image>
+        </view>
     </view>
     
     <!-- <image class='cutCuisine-images' lazy-load='true' wx:if="{{item.picUrl || item.skuPic}}" src='{{item.picUrl?item.picUrl:item.skuPic}}' id='{{item.id}}' binderror='imageError'></image>

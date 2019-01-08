@@ -21,6 +21,7 @@ page, .categoryBox {
   width: 750rpx;
   height: 84rpx;
   white-space:nowrap;
+  -webkit-overflow-scrolling: touch;
   overflow-x: scroll;
 }
 
@@ -61,6 +62,7 @@ page, .categoryBox {
   margin-top: 10rpx;
   margin-left: 10rpx;
   float: left;
+  position: relative;
   background: #fff;
 }
 .classify_item:nth-child(2n-1){

@@ -73,6 +73,7 @@ Page({
    
   },
   onLoad: function(options) {
+
     let that = this;
     setTimeout(() => {
       that.setData({
@@ -158,13 +159,13 @@ Page({
       }
     }
     that.getUserlocation();
-    that.data.timer = setTimeout(function() {
-      if (!app.globalData.token) {
-        that.findByCode();
-      } else {
-        clearTimeout(that.data.timer)
-      }
-    }, 5000)
+    // that.data.timer = setTimeout(function() {
+    //   if (!app.globalData.token) {
+    //     that.findByCode();
+    //   } else {
+    //     clearTimeout(that.data.timer)
+    //   }
+    // }, 5000)
   },
   onHide: function() {
     let that = this;
@@ -377,7 +378,7 @@ Page({
             listStart: arr,
             allList: allList,
             loading: false,
-            showSkeleton:false,
+            showSkeleton: false,
             notData: notData
           }, () => {
             isgetHomeData = false

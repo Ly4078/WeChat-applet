@@ -542,6 +542,7 @@ margin:0 1%;
   height: 180rpx;
   /* border-radius: 10rpx;  */
   margin-right: 20rpx;
+  position: relative;
   overflow: hidden;
 }
 
@@ -878,3 +879,6 @@ margin:0 1%;
 }
 
 /* 2018-11-08 新版首页 菜品模板css */
+
+
+

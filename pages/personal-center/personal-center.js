@@ -32,6 +32,7 @@ Page({
     isShow: false //是否联系客服
   },
   onLoad: function() {
+   
     let that = this;
     this.setData({
       userType: app.globalData.userInfo.userType

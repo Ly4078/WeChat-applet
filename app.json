@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/index/productCategory/productCategory",
     "pages/activityDetails/holdingActivity/holdingActivity",
     "pages/personal-center/my-discount/exchangeDetails/exchangeDetails",
     "pages/index/bargainirg-store/bargainirg-store",
@@ -77,8 +78,6 @@
     "pages/personal-center/personnel-order/logisticsDetails/toTheLogistics/toTheLogistics",
     "pages/personal-center/personnel-order/personnel-order",
     "pages/personal-center/popularize/popularize",
-
-    "pages/index/productCategory/productCategory",
     "pages/index/crabShopping/storeList/storeList",
     "pages/index/crabShopping/getFailure/getFailure",
     "pages/index/crabShopping/express/express",
@@ -91,6 +90,11 @@
     "pages/personal-center/agent/signedAgent/signedAgent",
     "pages/personal-center/agent/agent"
   ],
+  "permission": {
+    "scope.userLocation": {
+      "desc": "你的位置信息将用于小程序位置接口的效果展示"
+    }
+  },
   "subpackages": [
      {
         "root": "packageA",

@@ -70,9 +70,9 @@
     
       <view class="hot-recoItem " catchtap='onTouchItem' id="{{item.id}}" data-distance="{{item.distance}}">
         <view class="hot-recoItem-left skeleton-rect">
-        <image-loader width="180rpx" height="180rpx" class='hot-recoItem-leftImg'  default-image='/images/icon/morentu.png' mode='aspectFill' original-image="{{item.logoUrl?item.logoUrl:'/images/icon/morentu.png'}}"  />
+        <image-loader width="180rpx" height="180rpx" class='hot-recoItem-leftImg'  default-image='/images/icon/morentu.png'  original-image="{{item.logoUrl?item.logoUrl:'/images/icon/morentu.png'}}"  />
 
-          <!-- <image src="{{item.logoUrl}}" mode='aspectFill' class='hot-recoItem-leftImg'></image> -->
+          <!-- <image src="{{item.logoUrl}}" lazy-load='true' class='hot-recoItem-leftImg'></image> -->
         </view>
         <view class="hot-recoItem-right">
           <view class="title_tips skeleton-rect">

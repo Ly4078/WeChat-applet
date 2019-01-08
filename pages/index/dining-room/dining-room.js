@@ -194,7 +194,7 @@ Page({
       locationY: app.globalData.userInfo.lat ? app.globalData.userInfo.lat : lat,
       city: app.globalData.userInfo.city ? app.globalData.userInfo.city : '十堰市',
       page: this.data.page ? this.data.page:1,
-      rows: 8,
+      rows: 20,
       token: app.globalData.token
     };
     if (this.data.shopCate) {//酒店 2    景点3   美食1
@@ -225,7 +225,7 @@ Page({
             }
             that.setData({
               posts_key: posts,
-              pageTotal: Math.ceil(res.data.data.total / 8),
+              pageTotal: Math.ceil(res.data.data.total / 20),
               loading: false,
               showSkeleton:false
             }, () => {

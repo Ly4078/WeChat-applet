@@ -45,6 +45,7 @@ Page({
     elephant: 0
   },
   onLoad: function (options) {
+    
     let that = this;
     setTimeout(() => {
       that.setData({
@@ -61,6 +62,12 @@ Page({
     //     title: '退款/售后',
     //   })
     // }
+    if (this.data.shopping == 0) {
+      this.getlogisticsList(this.data.logId, 'reset');
+    } else if (this.data.shopping == 1) {
+      this.getOrderList();
+      this.getshopOrderList();
+    }
   },
   onShow: function () {
     // this.getOrderList();
@@ -69,12 +76,7 @@ Page({
     // this.setData({
     //   elephant:0
     // })
-    if (this.data.shopping == 0) {
-      this.getlogisticsList(this.data.logId,'reset');
-    } else if (this.data.shopping == 1) {
-      this.getOrderList();
-      this.getshopOrderList();
-    }
+    
   },
   onHide: function () {
     requestTask = [false,false,false]
@@ -204,7 +206,7 @@ Page({
     let _parms = {
       // userId: app.globalData.userInfo.userId,
       row:10,
-      orpage: this.data.orpage,
+      page: this.data.orpage,
       token: app.globalData.token
     };
     if (val) {
@@ -548,18 +550,15 @@ Page({
       if (requestTask[0]){
         return
       }
-      this.setData({ orpage: this.data.orpage + 1})
+
     }
     if (this.data.shopping == 1) {
       
       if (requestTask[1] && requestTask[2]) {
         return
       }
-      this.setData({ page: this.data.page + 1})
+      this.setData({ page: this.data.page + 1, loading: true})
     }
-    this.setData({
-      loading: true
-    });
     if(this.data.shopping == 1){
       if (this.data.currentTab != 2 && this.data.reFresh) {
         wx.showLoading({
@@ -581,13 +580,16 @@ Page({
       if(this.data.orpage >= this.data.total) {
         return false
       }
+      this.setData({ orpage: this.data.orpage + 1, loading: true })
       this.getlogisticsList(this.data.logId);
     }
   },
   //用户下拉刷新
   onPullDownRefresh: function () {
+    let that = this;
     if (this.data.shopping == 1) {
         if (requestTask[1] && requestTask[2]) {
+          wx.stopPullDownRefresh()
           return
         }
       this.setData({
@@ -601,7 +603,20 @@ Page({
       
     } else if (this.data.shopping == 0) {
       if (requestTask[0]) {
+        wx.stopPullDownRefresh()
         return
+      }
+      try {
+        let commoditys = that.data.commoditys;
+        for (let i = 0; commoditys.length; i++) {
+          if (commoditys[i].data) {
+            commoditys[i].data = []
+            commoditys[i].scrollTop = 0;
+          }
+        }
+        that.setData({ commoditys });
+      } catch (err) {
+
       }
       this.setData({
         orpage: 1,

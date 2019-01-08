@@ -14,7 +14,8 @@ Component({
     mode: String
   },
   data: {
-    finishLoadFlag: false
+    finishLoadFlag: false,
+    lazyload:true
   },
   methods: {
     finishLoad: function (e) {

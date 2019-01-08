@@ -405,9 +405,9 @@ Page({
   //响应点击导航栏
   navbarTap: function(e) {
     let _this = this;
-    if (swichrequestflag) {
-      return;
-    }
+    // if (swichrequestflag) {
+    //   return;
+    // }
     let oldIdx = this.data.currentTab,
       idx = e.currentTarget.dataset.idx;
     if (oldIdx == idx) {

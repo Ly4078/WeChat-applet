@@ -1,7 +1,7 @@
 var app = getApp();
 var config = require('./config/config.js');
 import Api from './config/api.js';
-var getToken = function (that) {
+var getToken = function (that,isLogin) {
   return new Promise( (resolve,reject)=>{
     var App = that ? that:app
       wx.login({
@@ -22,19 +22,24 @@ var getToken = function (that) {
                   }
                  
                 };
-               
+                
                 wx.setStorageSync("userInfo", App.globalData.userInfo)
                 if (_data.mobile) {
                   authlogin(resolve, App);
                 } else {
+                  if (isLogin != 'notTologin'){
+                    wx.navigateTo({
+                      url: '/pages/init/init'
+                    })
+                  }
+                
+                }
+              } else {
+                if (isLogin != 'notTologin'){
                   wx.navigateTo({
                     url: '/pages/init/init'
                   })
                 }
-              } else {
-                wx.navigateTo({
-                  url: '/pages/init/init'
-                })
               }
             }
           })

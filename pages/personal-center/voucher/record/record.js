@@ -116,9 +116,22 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function() {
-    this.setData({
+    let that = this;
+    that.setData({
       page: 1
     })
+    try{
+      let navList = that.data.navList;
+      for (let i = 0; navList.length; i++) {
+        if (navList[i].data) {
+          navList[i].data = []
+          navList[i].scrollTop = 0;
+        }
+      }
+      that.setData({ navList });
+    }catch(err){
+
+    }
     this.getorderCoupon('reset', '已刷新');
   },
 
@@ -194,12 +207,6 @@ Page({
             showSkeleton: false,
             loading: false
           })
-          if (msg) {
-            wx.showToast({
-              title: msg,
-              icon: "none"
-            })
-          }
           wx.hideLoading();
           requestTask = false
         } else {

@@ -7,6 +7,7 @@ import Api from '../../../../utils/config/api.js';
 var utils = require('../../../../utils/util.js');
 var Public = require('../../../../utils/public.js');
 var app = getApp();
+var requestTask = false;
 Page({
 
   /**
@@ -138,12 +139,9 @@ Page({
         issnap: true
       })
     } else {
-      wx.showToast({
-        mask: true,
-        icon: 'none',
-        title: '',
-        duration: 2000
-      })
+      if (requestTask) {
+        return false
+      }
       let id = e.currentTarget.id,
         ind = '', _parms = {}, _values = "", that = this;
       for (let i = 0; i < this.data.comment_list.length; i++) {
@@ -160,6 +158,7 @@ Page({
         _values += key + "=" + _parms[key] + "&";
       }
       _values = _values.substring(0, _values.length - 1);
+      requestTask = true; 
       wx.request({
         url: that.data._build_url + 'zan/add?' + _values,
         header: {
@@ -167,12 +166,12 @@ Page({
         },
         method: 'POST',
         success: function (res) {
+          requestTask = false;
           if (res.data.code == 0) {
             wx.showToast({
-              mask: true,
               icon: 'none',
               title: '点赞成功',
-              duration: 2000
+              duration: 1000
             })
             let comment_list = that.data.comment_list;
             comment_list[ind].isZan = 1;
@@ -181,6 +180,8 @@ Page({
               comment_list: comment_list
             });
           }
+        },fail(){
+          requestTask = false;
         }
       })
     }
@@ -218,8 +219,7 @@ Page({
         success: function (res) {
           if (res.data.code == 0) {
             wx.showToast({
-              mask: 'true',
-              duration: 2000,
+              duration: 1000,
               icon: 'none',
               title: '点赞取消'
             })

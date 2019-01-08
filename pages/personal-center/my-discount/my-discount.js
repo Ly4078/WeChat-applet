@@ -6,6 +6,7 @@ var utils = require('../../../utils/util.js');
 import Public from '../../../utils/public.js';
 var app = getApp();
 let requesting = false;
+let timer = null;
 let swichrequestflag = [false, false, false,false];
 Page({
   data: {
@@ -32,7 +33,7 @@ Page({
     console.log("options:", options)
     let that = this;
     let selectType = options.let
-    setTimeout(() => {
+    timer = setTimeout(() => {
       that.setData({
         showSkeleton: false
       })
@@ -177,6 +178,10 @@ Page({
     }
   },
   onUnload() {
+    clearTimeout(timer);
+  },
+  onHide() {
+    clearTimeout(timer);
   },
   toindex() { //去首页
     wx.switchTab({
@@ -273,7 +278,7 @@ Page({
             })
           }
           swichrequestflag[types] = false
-          setTimeout(() => {
+          timer =  setTimeout(() => {
             // that.getShare();
             that.setData({
               showSkeleton: false
@@ -332,7 +337,7 @@ Page({
             })
           }
           swichrequestflag[types] = false
-          setTimeout(() => {
+          timer = setTimeout(() => {
             that.setData({
               showSkeleton: false
             })
@@ -389,7 +394,7 @@ Page({
             })
           }
           swichrequestflag[types] = false
-          setTimeout(() => {
+          timer =  setTimeout(() => {
             that.setData({
               showSkeleton: false
             })
@@ -467,7 +472,7 @@ Page({
               })
               requesting = false
             }
-            setTimeout(() => {
+            timer =  setTimeout(() => {
               that.setData({
                 showSkeleton: false
               })

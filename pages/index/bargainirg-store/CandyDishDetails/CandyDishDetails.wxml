@@ -190,13 +190,13 @@
       <text>分享</text>
     </button>
 
-    <view class='returnPrice' catchtap='originalPrice'>
+    <view  style="background:{{soData.stockNum<=0?'#999':''}}" class='returnPrice' catchtap='originalPrice'>
       <view>￥
         <text>{{sellPrice}}</text>
       </view>
       <text class='directly'>单独购买</text>
     </view>
-    <view class='returnSponsor' catchtap='sponsorVgts'>
+    <view style="background:{{soData.actGoodsSkuOut.stockNum<=0?'#999':''}}" class='returnSponsor' catchtap='sponsorVgts'>
       <view>最低￥
         <text>{{agioPrice}}</text>
       </view>

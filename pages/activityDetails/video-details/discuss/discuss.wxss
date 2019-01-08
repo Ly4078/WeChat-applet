@@ -18,10 +18,11 @@
   margin-top: 20rpx;
   width: 100%;
   margin-bottom: 100rpx;
-  overflow:scroll;
+  /* overflow:scroll; */
 }
 .listcom{
   border-bottom: 1px solid #e0e0e0;
+  padding: 20rpx 0;
 }
 .evaluate_l{
   height: 75rpx;
@@ -44,6 +45,7 @@
   width: 10%;
   float: right;
   right:26rpx;
+  padding-bottom: 25rpx;
 }
 
 .evaluaterightTx{

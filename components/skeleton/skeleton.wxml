@@ -9,7 +9,10 @@
 
     <view class="spinbox" wx:if="{{loading == 'spin'}}">
         <view class="spin"></view>
-
+        
+            <!-- <image  style="width:220rpx;height:220rpx;" src="https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/20190105154613.gif"></image> -->
+        <!-- <image  style="width:200rpx;height:150rpx;" src="https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/0563fdc31b1b13ff37d6fba1b5d333156c6b3bfc38143-TgbjTJ_fw658.gif"></image> -->
+      
     </view>
 
 

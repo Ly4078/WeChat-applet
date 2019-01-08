@@ -807,7 +807,8 @@ page {
 .dity{
   width: 694rpx;
   min-height: 160rpx;
-  padding:28rpx 28rpx 0rpx 28rpx;
+  margin:28rpx 28rpx 0rpx 28rpx;
+  position: relative;
 }
 .dityimg{
   width: 150rpx;

@@ -11,9 +11,8 @@
           </view>
         </view>
         <view class='enshrine-caip'>
-          <text class='enshrine-name'>{{item.shopName}}<text class="tips quan">劵</text>
-            <text class="tips kan">砍</text></text>
-           
+          <text class='enshrine-name'>{{item.shopName}}<text  wx:if="{{item.ruleDescs.length}}" class="tips quan">劵</text></text>
+          
           <view class='hotDining-Wrap'>
             <image class='hotDining' src='/images/icon/popularity.png'></image>
             <text class='hotText'>{{item.popNum}}</text>

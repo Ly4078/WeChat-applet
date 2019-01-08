@@ -37,6 +37,7 @@ Page({
     orderId: '',
     _rules: '',
     actaddress: {},
+    stockNum:'',//库存
     weight: '',
     postage: 0, //配送费
     remarks: '', //备注内容
@@ -84,6 +85,7 @@ Page({
       skuName: options.skuName ? options.skuName : '',
       sellPrice: options.sellPrice ? options.sellPrice : '',
       flag: options.flag ? options.flag : '',
+      stockNum: options.stockNum ? options.stockNum:'',
       remarks: options.remark ? options.remark:'',
       sendType: options.sendType ? options.sendType : '',
       groupId: options.groupId ? options.groupId : '',
@@ -180,6 +182,15 @@ Page({
   },
   addnum:function(){
     let _ssnum = this.data.ssnum;
+    if (this.data.stockNum) {
+      if (this.data.ssnum >= this.data.stockNum){
+        wx.showToast({
+          title: '库存不足',
+          icon:'none'
+        })
+        return false
+      }
+    }
     _ssnum++;
     this.setData({
       ssnum: _ssnum

@@ -655,7 +655,7 @@ Page({
           locationY: app.globalData.userInfo.lat,
           city:app.globalData.userInfo.city,
           page: that.data.page,
-          rows: 10
+          rows:10
         }
         for (var key in _parms) {
           _values += key + "=" + _parms[key] + "&";
@@ -672,7 +672,7 @@ Page({
         isDeleted: 0,
         actId: 41,
         page: that.data.page,
-        rows: 10
+        rows:10
       };
       for (var key in _parms) {
         _values += key + "=" + _parms[key] + "&";
@@ -708,7 +708,7 @@ Page({
                 }
                 that.setData({
                   hotDishList: hotDishList,
-                  pageTotal: Math.ceil(res.data.data.total / 6),
+                  pageTotal: Math.ceil(res.data.data.total /10),
                   loading: false
                 }, () => {
                   requesting = false
@@ -777,6 +777,14 @@ Page({
   },
   //原价购买
   originalPrice() {
+    let that = this;
+    if (that.data.soData.stockNum<=0) {
+      wx.showToast({
+        title: '该商品已售罄',
+        icon:'none'
+      })
+      return false
+    }
     if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
@@ -787,11 +795,11 @@ Page({
         _shopId = this.data.shopId ? this.data.shopId : this.data.soData.shopId;
       if (this.data.actId) {
         wx.navigateTo({
-          url: '/pages/index/crabShopping/crabDetails/submitOrder/submitOrder?num=1&issku=3&flag=1&picUrl=' + this.data.picUrl + '&sellPrice=' + sellPrice + '&id=' + this.data.id + '&actId=' + this.data.actId + '&skuName=' + _soData.skuName + '&remark=' + _soData.remark + '&shopId=' + _soData.shopId + '&singleType=' + _soData.singleType + '&spuId=' + _soData.spuId+'&cfom=candy'
+          url: '/pages/index/crabShopping/crabDetails/submitOrder/submitOrder?num=1&issku=3&flag=1&picUrl=' + this.data.picUrl + '&sellPrice=' + sellPrice + '&id=' + this.data.id + '&actId=' + this.data.actId + '&skuName=' + _soData.skuName + '&remark=' + _soData.remark + '&shopId=' + _soData.shopId + '&singleType=' + _soData.singleType + '&spuId=' + _soData.spuId + '&cfom=candy&stockNum=' + _soData.stockNum
         })
       } else {
         wx.navigateTo({
-          url: '../../order-for-goods/order-for-goods?shopId=' + _shopId + '&skuName=' + sellPrice + '元砍价券&sell=' + sellPrice + '&skutype=4&dishSkuId=' + this.data.id + '&dishSkuName=' + this.data.skuName + '&bargainType=1'
+          url: '../../order-for-goods/order-for-goods?shopId=' + _shopId + '&skuName=' + sellPrice + '元砍价券&sell=' + sellPrice + '&skutype=4&dishSkuId=' + this.data.id + '&dishSkuName=' + this.data.skuName + '&bargainType=1&stockNum=' + _soData.stockNum
         })
       }
 
@@ -812,6 +820,13 @@ Page({
   sponsorVgts: function() {
     let that = this,
       url = "";
+    if (that.data.soData.actGoodsSkuOut.stockNum<=0) {
+      wx.showToast({
+        title: '该商品已售罄',
+        icon:'none'
+      })
+      return false
+    }
     if (!app.globalData.userInfo.mobile) {
       that.setData({
         issnap: true

@@ -189,10 +189,14 @@
       <view class='dity' wx:for="{{hotlist2}}" wx:key="{{index}}" >
         <!-- <view class='dityimg'> -->
           <image class='dityimg' src='{{item.skuPic}}' bindtap='ClickSnatch' id='{{item.id}}'  data-actname="{{item.actGoodsSkuOuts[0].actInfo.actName}}" data-actid="{{item.actGoodsSkuOuts[0].actId}}"></image>
+          <view style="width:150rpx;height:150rpx;" wx:if="{{item.actGoodsSkuOuts[0].stockNum <= 0}}" class="notstockNumshadedow">
+<image style="width:108rpx;height:108rpx;" wx:if="{{item.actGoodsSkuOuts[0].stockNum <= 0}}" class="sellOutIcon" src="/images/icon/sellOut.png"></image>
+</view>
+
         <!-- </view> -->
         <view class='ditycont' bindtap='ClickSnatch' id='{{item.id}}'  data-actname="{{item.actGoodsSkuOuts[0].actInfo.actName}}" data-actid="{{item.actGoodsSkuOuts[0].actId}}">
           <view class='dcont1'>{{item.skuName}}</view>
-          <view class='dcont2'>仅剩{{item.actGoodsSkuOuts[0].stockNum?item.actGoodsSkuOuts[0].stockNum:item.stockNum}}份</view>
+          <view class='dcont2'>仅剩{{item.actGoodsSkuOuts[0].stockNum>=0?item.actGoodsSkuOuts[0].stockNum:item.stockNum}}份</view>
           <view class='dcont3'>
             <view class='dconnt31' wx:if="{{item.actGoodsSkuOuts[0].actInfo.actName=='砍价'}}">{{item.actGoodsSkuOuts[0].discount}}折</view>
             <view class='dconnt33'>{{item.actGoodsSkuOuts[0].actInfo.actName}}</view>

@@ -78,13 +78,11 @@ App({
         that.globalData.userInfo.userId = userInfo.id;
       }
     }else{
-      getToken(that).then((res) => {
-
+      getToken(that,'notTologin').then((res) => {
       })
     }
   },
   onPullDownRefresh: function() {
     wx.stopPullDownRefresh()
-  },
-
+  }
 })

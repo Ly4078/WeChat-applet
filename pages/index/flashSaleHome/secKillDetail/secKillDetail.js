@@ -238,6 +238,7 @@ Page({
       },
       method: 'GET',
       success: function(res) {
+        wx.stopPullDownRefresh();
         if (res.data.code == 0 && res.data.data) {
           let data = res.data.data,
             _RegExp = new RegExp('<p.*?>(.*?)<\/p>', 'i'),
@@ -380,6 +381,7 @@ Page({
         "Authorization": app.globalData.token
       },
       success: function (res) {
+        wx.stopPullDownRefresh();
         if (res.data.code == 0) {
           let isCreated = false;
           if (res.data.data.length > 0 && res.data.data[0]) {
@@ -447,6 +449,7 @@ Page({
         "Authorization": app.globalData.token
       },
       success: function(res) {
+        wx.stopPullDownRefresh();
         if (res.data.code == 0 && res.data.data) {
           let data = res.data.data;
           _this.setData({
@@ -533,6 +536,7 @@ Page({
             "Authorization": app.globalData.token
           },
           success: function(res) {
+            wx.stopPullDownRefresh();
             if (res.data.code == 0) {
               if (res.data.data && res.data.data.iconUrl) {
                 userArr[i].iconUrl = res.data.data.iconUrl;
@@ -657,6 +661,7 @@ Page({
       },
       method: 'POST',
       success: function(res) {
+        wx.stopPullDownRefresh();
         if (res.data.code == 0) {
           app.globalData.newcomer = 2;
         }
