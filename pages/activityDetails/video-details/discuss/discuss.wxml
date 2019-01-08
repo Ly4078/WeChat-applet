@@ -24,9 +24,7 @@
         <view class='evaluate_r_cont'>{{item.content}}</view>
         <view class='carry-out-data'>{{item.createTime}}</view>
       </view>
-
     </view>
-
   </view>
 </view>
 

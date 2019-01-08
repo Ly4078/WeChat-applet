@@ -66,6 +66,9 @@ Page({
     interval: 50, // 时间间隔
     zanFlag: true, //点赞节流阀
     shareCity: "",
+    hotpage:1,
+    hotrows:10,
+    hottotal:0,
     hotlist: [], //热销商品
     hotlist2: [] //热销商品
   },
@@ -423,17 +426,30 @@ Page({
     _parms = {
       spuType: 10,
       page: 1,
-      rows: 20,
+      hotrows: this.data.hotpage,
+      rows: this.data.hotrows,
       status: 1,
       shopId: that.data.shopid,
       token: app.globalData.token
     };
     Api.crabList(_parms).then((res) => { //查询同类规格列表
       if (res.data.code == 0) {
+        console.log("total:", res.data.data.total)
         let _hotlist = res.data.data.list,
+          _total = res.data.data.total,
           _hotlist2=[],
+          hotdata=that.data.hotlist,
           _discount = '';
-
+        if (_total > this.data.hotrows) {
+          let _diff = _total * 1 - this.data.hotrows * 1;
+          that.setData({
+            hotDiff: _diff
+          })
+        } else {
+          that.setData({
+            hotDiff: 0
+          })
+        }
         if (_hotlist && _hotlist.length > 0) {
           for (let i in _hotlist) {
             if (_hotlist[i].actGoodsSkuOuts && _hotlist[i].actGoodsSkuOuts.length > 0) {
@@ -450,12 +466,24 @@ Page({
             }
           }
           console.log('_hotlist:', _hotlist)
+          
+          _hotlist2 = _hotlist2.concat(hotdata);
+          if (hotdata.length>0){
+            that.setData({
+              hotlist2: _hotlist2
+            })
+          }else{
+            that.setData({
+              hotlist2: _hotlist2.slice(0, 3)
+            })
+          }
           that.setData({
-            hotlist: _hotlist2,
-            hotlist2: _hotlist2.slice(0, 3)
+            hottotal:_total,
+            hotlist: _hotlist2
           })
         } else {
           that.setData({
+            hottotal: _total,
             hotlist: [],
             hotlist2: []
           })
@@ -1459,6 +1487,7 @@ Page({
     }
   },
   clickdity: function() {
+    console.log("isdity:", this.data.isdity)
     this.setData({
       isdity: !this.data.isdity
     })
@@ -1466,6 +1495,13 @@ Page({
       this.setData({
         hotlist2: this.data.hotlist
       })
+      if(this.data.hotDiff>0){
+        this.setData({
+          hotpage:this.data.hotpage+1,
+          hotrows:this.data.hotDiff
+        })
+        this.gethotdish();
+      }
     } else {
       this.setData({
         hotlist2: this.data.hotlist.slice(0, 3)

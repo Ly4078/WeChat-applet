@@ -86,22 +86,6 @@
         <image bindtap="calling" src='https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/phone_icon.png'></image>
       </view>
   </view>
-
-  
-  <!-- <view class='tabli' wx:if="{{store_details.address}}">
-    <image src='https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/shop_map.png'></image>
-    <view class='tabcon'>
-      <view class='shopaddress'>
-         <text catchtap='TencentMap'>{{store_details.address}}{{store_details.address}}{{store_details.address}}</text>
-      </view>
-      <view class='tabcr'>
-        <image catchtap='TencentMap' src='https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/map_icon.png'></image>
-        <image bindtap="calling" src='https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/phone_icon.png'></image>
-      </view>
-    </view>
-  </view> -->
-
-
   <view class="shopInfo_inner">
     <view class='locationWrap'>
       <view>
@@ -233,10 +217,9 @@
             <image src='https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/goact.png'></image>
           </view>
         </view>
-
       </view>
       <view class='setMealMore' bindtap='clickdity' wx:if="{{hotlist.length>3}}">
-        <text>查看更多({{hotlist.length}})</text>
+        <text>查看更多({{hottotal}})</text>
         <image class="{{isdity?'more_img2':'more_img'}}" src='/images/icon/restaurant_arrow.png'></image>
       </view>
     </view>
