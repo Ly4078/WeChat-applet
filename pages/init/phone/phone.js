@@ -188,7 +188,7 @@ Page({
     let that = this;
     let phone = this.data.phoneNumber;
     let second = that.data.second;
-    let vaild_rule  = /^[1][3456789][0-9]{9}$/;;
+    let vaild_rule  = /^[1][3456789][0-9]{9}$/;
     if (!vaild_rule.test(phone)) {
       wx.showToast({
         title: '请输入正确的手机号码',

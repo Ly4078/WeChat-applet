@@ -1,0 +1,37 @@
+<!--pages/activityDetails/video-details/discuss/discuss.wxml-->
+
+<!-- 评论列表 -->
+<view class="comment" >
+  <view class='comtotal'>共{{totalComment}}条评论</view>
+  <view class="comment_list">
+    <view class='listcom' wx:for="{{comment_list}}" wx:key="{{index}}">
+      <view class='evaluate_l'>
+        <image class='evaluateImages' mode="aspectFill" src='{{item.userPic}}'></image>
+        <view class='evName'> {{item.nickName?item.nickName:item.userName}}</view>
+
+        <view class='dzlist' wx:if="{{item.isZan == 0}}" bindtap="toLike" id="{{item.id}}">
+          <view class='evaluaterightTx'>{{item.zan}}</view>
+          <image class='evaluateright' src='/images/icon/zanGray.png'></image>
+        </view>
+
+        <view class='dzlist' wx:else bindtap="cancelLike" id="{{item.id}}">
+          <view class='evaluaterightTx'>{{item.zan}}</view>
+          <image class='evaluateright' src="/images/icon/zanNew.png"></image>
+        </view>
+
+      </view>
+      <view class="evaluate_r">
+        <view class='evaluate_r_cont'>{{item.content}}</view>
+        <view class='carry-out-data'>{{item.createTime}}</view>
+      </view>
+
+    </view>
+
+  </view>
+</view>
+
+
+<view class='commentBox'>
+  <textarea class="commentArea" placeholder='请输入评论' bindinput="getCommentVal" cursor-spacing="50rpx" show-confirm-bar="false" fixed="true" value='{{commentVal}}'></textarea>
+  <view class='fasong' form-type="reset" catchtap="setcmtadd">发送</view>
+</view>

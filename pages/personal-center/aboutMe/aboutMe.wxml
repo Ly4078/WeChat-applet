@@ -6,11 +6,10 @@
   <view class='myList'>
     <view class='myList-single'>
       <view class="myList_left">
-        
         <text class='mylistText'>微信公众号</text>
         <image class='myListImages' src='/images/icon/weixinggzh.png'></image>
       </view>
-      <text class='officialAccounts '>享7美食</text>
+      <text class='officialAccounts '>享7购</text>
     </view>
   </view>
   <view class='myList'>

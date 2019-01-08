@@ -1,0 +1,92 @@
+/* pages/activityDetails/video-details/discuss/discuss.wxss */
+
+.comment{
+  width: 690rpx;
+  padding: 0 30rpx;
+}
+.comtotal{
+  text-align: center;
+}
+.comclose{
+  position: relative;
+  width: 40rpx;
+  height: 40rpx;
+  top:-43rpx;
+  float:right;
+}
+.comment_list {
+  margin-top: 20rpx;
+  width: 100%;
+  margin-bottom: 100rpx;
+  overflow:scroll;
+}
+.listcom{
+  border-bottom: 1px solid #e0e0e0;
+}
+.evaluate_l{
+  height: 75rpx;
+}
+.evaluate_line {
+  height: 26rpx;
+  width: 2rpx;
+  background-color: #e0e0e0;
+  position: absolute;
+  top: 28rpx;
+  right: 0;
+}
+.evName{
+  left:36px;
+  width: 30%;
+  float: left;
+  overflow: hidden;
+}
+.dzlist{
+  width: 10%;
+  float: right;
+  right:26rpx;
+}
+
+.evaluaterightTx{
+  position: relative;
+  top: 34rpx;
+  left: 2rpx;
+}
+.evaluateright{
+  float: right;
+}
+.evaluate_r_cont{
+  word-wrap: break-word;
+  white-space: pre-wrap; 
+  text-align: left;
+  padding:20rpx 30rpx 10rpx 30rpx;
+}
+
+.evaluate{
+  margin-top: 20rpx;
+  width: 750rpx;
+  height: 300rpx;
+}
+.commentBox{
+  z-index: 9999;
+  position: fixed;
+  bottom:0rpx;
+  background: #fff;
+  border-top: 1px solid #ebebeb;
+}
+.evaluateImages{
+  float: left;
+}
+.commentArea{
+  background:#fff; 
+  z-index: 10;
+  height: 100%;
+  overflow: scroll;
+}
+.fasong{
+  background: #FF762B;
+  height: 100rpx;
+  color: #fff;
+  line-height: 100rpx;
+  text-align: center;
+  font-size: 40rpx;
+}

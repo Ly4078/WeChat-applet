@@ -331,71 +331,14 @@ Page({
       url: '../../index/merchant-particulars/total-comment/total-comment?id=' + this.data.refId + '&cmtType=2'
     })
   },
-  getCommentVal(e) { //实时获取输入的评论
-    this.setData({
-      commentVal: e.detail.value
+  //去评论页面
+  todiscuss(){
+    wx.navigateTo({
+      url: '/pages/activityDetails/video-details/discuss/discuss?refId='+this.data.refId
     })
   },
-  setcmtadd: function() { //新增评论
-    if (!app.globalData.userInfo.mobile) {
-      this.setData({
-        issnap: true
-      })
-    } else {
-      if (this.data.commentVal) {
-        let _value = utils.utf16toEntities(this.data.commentVal),
-          that = this, _values = "", url = "", _Url = "", _parms = {};
-        this.setData({
-          commentVal: _value,
-          isComment: false
-        });
-        _parms = {
-          refId: this.data.refId,
-          cmtType: "2",
-          content: this.data.commentVal,
-          // userId: app.globalData.userInfo.userId,
-          // userName: app.globalData.userInfo.userName,
-          // nickName: app.globalData.userInfo.nickName,
-        };
 
-        for (var key in _parms) {
-          _values += key + "=" + _parms[key] + "&";
-        }
-        _values = _values.substring(0, _values.length - 1);
-        url = that.data._build_url + 'cmt/add?' + _values;
-        _Url = encodeURI(url);
-        wx.request({
-          url: _Url,
-          header: {
-            "Authorization": app.globalData.token
-          },
-          method: 'POST',
-          success: function(res) {
-            if (res.data.code == 0) {
-              that.setData({
-                commentVal: '',
-              })
-              that.getcmtlist();
-            } else {
-              wx.showToast({
-                title: '系统繁忙,请稍后再试',
-                icon: 'none'
-              })
-            }
-          }
-        })
-      } else {
-        wx.showToast({
-          title: '请输入评论内容',
-          icon: 'none',
-          duration: 2000
-        })
-        this.setData({
-          isComment: false
-        })
-      }
-    }
-  },
+
   getcmtlist: function(id) { //获取评论数据
     let _parms = {
       // zanUserId: app.globalData.userInfo.userId,
@@ -467,115 +410,7 @@ Page({
     }
   },
 
-  toLike: function(e) { //评论点赞
-    if (!app.globalData.userInfo.mobile) {
-      this.setData({
-        issnap: true
-      })
-    }else{
-      wx.showToast({
-        mask: true,
-        icon: 'none',
-        title: '',
-        duration: 2000
-      })
-      let id = e.currentTarget.id,
-        ind = '', _parms = {}, _values="",that=this;
-      for (let i = 0; i < this.data.comment_list.length; i++) {
-        if (this.data.comment_list[i].id == id) {
-          ind = i;
-        }
-      }
-      _parms = {
-        refId: id,
-        type: 4
-        // userId: app.globalData.userInfo.userId,
-        // token: app.globalData.token
-      };
-    
-      for (var key in _parms) {
-        _values += key + "=" + _parms[key] + "&";
-      }
-      _values = _values.substring(0, _values.length - 1);
-      wx.request({
-        url: that.data._build_url + 'zan/add?' + _values,
-        header: {
-          "Authorization": app.globalData.token
-        },
-        method: 'POST',
-        success: function (res) {
-          console.log('likceres:',res)
-          if (res.data.code == 0) {
-            wx.showToast({
-              mask: true,
-              icon: 'none',
-              title: '点赞成功',
-              duration: 2000
-            })
-            let comment_list = that.data.comment_list;
-            comment_list[ind].isZan = 1;
-            comment_list[ind].zan++;
-            that.setData({
-              comment_list: comment_list
-            });
-          }
-        }
-      })
-    }
-  },
-  cancelLike(e) { //取消点赞
-    if (!app.globalData.userInfo.mobile) {
-      this.setData({
-        issnap: true
-      })
-    }else{
-      let id = e.currentTarget.id,
-        ind = '', _parms = {}, _values="",that=this;
-      for (let i = 0; i < this.data.comment_list.length; i++) {
-        if (this.data.comment_list[i].id == id) {
-          ind = i;
-        }
-      }
-      _parms = {
-        refId: id,
-        type: 4
-        // userId: app.globalData.userInfo.userId,
-        // token: app.globalData.token
-      }
-
-      for (var key in _parms) {
-        _values += key + "=" + _parms[key] + "&";
-      }
-      _values = _values.substring(0, _values.length - 1);
-      wx.request({
-        url: that.data._build_url + 'zan/delete?' + _values,
-        header: {
-          "Authorization": app.globalData.token
-        },
-        method: 'POST',
-        success: function (res) {
-          if (res.data.code == 0) {
-          wx.showToast({
-            mask: 'true',
-            duration: 2000,
-            icon: 'none',
-            title: '点赞取消'
-          })
-          let comment_list = that.data.comment_list;
-          comment_list[ind].isZan = 0;
-          comment_list[ind].zan--;
-          if (comment_list[ind].zan <= 0) {
-            comment_list[ind].zan = 0;
-          }
-          that.setData({
-            comment_list: comment_list
-          });
-        }
-        }
-      })
-    }
-    
-  },
+ 
   handzan: function() {
     if (this.data.isclick) {
       this.setData({
