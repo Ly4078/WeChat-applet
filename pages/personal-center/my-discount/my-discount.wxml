@@ -2,12 +2,12 @@
 <!-- 骨架屏模块 -->
 <skeleton selector="skeleton" loading="spin" bgcolor="#FFF" wx:if="{{showSkeleton}}"></skeleton>
 
-<view class="navbar">
+<!-- <view class="navbar">
   <form bindsubmit="submit" report-submit='true' wx:for="{{navbar}}" data-idx="{{index}}" wx:key="index">
     <button form-type="submit" type="default" class="item {{currentIndex==index ? 'active' : ''}}">{{item}}
     </button>
   </form>
-</view>
+</view> -->
 
 <view wx:if="{{currentIndex==0}}">
   <view class='topTabs'>
@@ -29,7 +29,10 @@
 
         <view class="tickItem_inner">
           <view class="tickItem_bot">
-            <view>券号：{{item.showCode}}</view>
+            <text wx:if="{{item.flagType=='7'}}" class="types" style="background:#FB3434;">拼团</text>
+            <text wx:if="{{item.flagType=='4'}}" class="types" style="background:#E8B310;">砍价</text>
+            <text wx:if="{{item.flagType=='5'}}" class="types" style="background:#2D8EFC;">秒杀</text>
+            <view style="flex:1">券号：{{item.showCode}}</view>
             <view>创建时间{{item.createTime}}</view>
           </view>
           <view class="tickItem_top">
@@ -85,7 +88,7 @@
   <view style="padding:0 26rpx" wx:if="{{ind ==1}}">
 
     <view class="voucher issend" wx:if="{{sendData.length>0}}">
-      <view wx:for="{{sendData}}" wx:key="{{index}}" class="{{ind == 1 ? 'indshixaio' : ''}} tickItem" id="{{item.id}}" data-isUsed="{{item.isUsed}}" data-ownId="{{item.ownId}}" data-isDue="{{item.isDue}}" >
+      <view wx:for="{{sendData}}" wx:key="{{index}}" class="{{ind == 1 ? 'indshixaio' : ''}} tickItem" id="{{item.id}}" data-isUsed="{{item.isUsed}}" data-ownId="{{item.ownId}}" data-isDue="{{item.isDue}}">
         <view class='circle circle_left'></view>
         <view class='circle circle_right'></view>
         <!-- <image class="ticketBgc" src="/images/icon/ticketBgc.png"></image> -->
@@ -94,7 +97,10 @@
 
         <view class="tickItem_inner">
           <view class="tickItem_bot">
-            <view>券号 {{item.showCode}}</view>
+            <text wx:if="{{item.flagType=='7'}}" class="types" style="background:#FB3434;">拼团</text>
+            <text wx:if="{{item.flagType=='4'}}" class="types" style="background:#E8B310;">砍价</text>
+            <text wx:if="{{item.flagType=='5'}}" class="types" style="background:#2D8EFC;">秒杀</text>
+            <view style="flex:1">券号 {{item.showCode}}</view>
             <view>赠送时间 {{item.ocsCreateTime}}</view>
           </view>
           <view class="tickItem_top">
@@ -141,7 +147,7 @@
   <view style="padding:0 26rpx" wx:if="{{ind ==2}}">
 
     <view class="voucher issend" wx:if="{{recData.length>0}}">
-      <view wx:for="{{recData}}" wx:key="{{index}}" class="{{ind == 2 ? 'indshixaio' : ''}} tickItem" id="{{item.id}}" data-isUsed="{{item.isUsed}}" data-ownId="{{item.ownId}}" data-isDue="{{item.isDue}}" >
+      <view wx:for="{{recData}}" wx:key="{{index}}" class="{{ind == 2 ? 'indshixaio' : ''}} tickItem" id="{{item.id}}" data-isUsed="{{item.isUsed}}" data-ownId="{{item.ownId}}" data-isDue="{{item.isDue}}">
         <view class='circle circle_left'></view>
         <view class='circle circle_right'></view>
         <!-- <image class="ticketBgc" src="/images/icon/ticketBgc.png"></image> -->
@@ -150,7 +156,10 @@
 
         <view class="tickItem_inner">
           <view class="tickItem_bot">
-            <view>券号 {{item.showCode}}</view>
+            <text wx:if="{{item.flagType=='7'}}" class="types" style="background:#FB3434;">拼团</text>
+            <text wx:if="{{item.flagType=='4'}}" class="types" style="background:#E8B310;">砍价</text>
+            <text wx:if="{{item.flagType=='5'}}" class="types" style="background:#2D8EFC;">秒杀</text>
+            <view style="flex:1;">券号 {{item.showCode}}</view>
             <view>领取时间 {{item.ocsCreateTime}}</view>
           </view>
           <view class="tickItem_top">
@@ -188,7 +197,7 @@
       </view>
     </view>
 
-<!-- 
+    <!-- 
     <view class='notes' wx:if="{{recData.length>0}}">
       <view wx:for="{{recData}}" wx:key="index">
         <view class='nodeItem'>

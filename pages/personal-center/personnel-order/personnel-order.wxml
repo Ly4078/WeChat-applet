@@ -3,9 +3,9 @@
 <skeleton selector="skeleton" loading="spin" bgcolor="#FFF" wx:if="{{showSkeleton}}"></skeleton>
 
 <!--导航条-->
-<view class="navbar">
+<!-- <view class="navbar">
   <text wx:for="{{navbar}}" data-idx="{{index}}" class="item {{shopping==index ? 'active' : ''}}" wx:key="unique" bindtap="navbarTap">{{item}}</text>
-</view>
+</view> -->
 
 <!--票劵订单-->
 <view hidden="{{shopping==0}}">

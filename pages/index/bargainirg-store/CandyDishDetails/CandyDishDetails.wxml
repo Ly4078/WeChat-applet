@@ -53,7 +53,7 @@
         <text>商品详情</text>
       </view>
       <view class='parewx' hidden="{{!isopenimg}}" wx:if="{{article}}">
-        
+
         <template is="wxParse" data="{{wxParseData:article.nodes}}" />
       </view>
       <view class='dishtext' hidden="{{isopenimg}}" wx:if="{{pattern}}">
@@ -105,7 +105,7 @@
         <text>同店推荐</text>
       </view>
       <block wx:for="{{isBarg ? dishList : preDishList}}" wx:key="{{index}}" id="{{index}}" wx:for-index="idx" wx:if="{{shopId!=0}}">
-        <view class='merchantROM' id="{{item.id}}"  data-actId="41"  catchtap='dishesDiscounts'>
+        <view class='merchantROM' id="{{item.id}}" data-actId="41" catchtap='dishesDiscounts'>
           <view class='merchantLeft'>
             <view class='acuisineMessage'>
               <text class='acuisineName'>{{item.skuName}}</text>
@@ -142,6 +142,9 @@
             <view class='ecommendationImg'>
               <image mode='scaleToFill' class='ecomt_images' wx:if="{{item.picUrl || item.skuPic}}" src='{{item.picUrl?item.picUrl:item.skuPic}}'></image>
               <image mode='scaleToFill' class='ecomt_images' wx:else src='/images/icon/morentu.png'></image>
+              <view wx:if="{{item.actGoodsSkuOut.stockNum <= 0}}" class="notstockNumshadedow">
+                <image style="width:108rpx;height:108rpx;" wx:if="{{item.actGoodsSkuOut.stockNum <= 0}}" class="sellOutIcon" src="/images/icon/sellOut.png"></image>
+              </view>
             </view>
             <view class='bean'>
               <view class='beanLeft'>
@@ -190,7 +193,7 @@
       <text>分享</text>
     </button>
 
-    <view  style="background:{{soData.stockNum<=0?'#999':''}}" class='returnPrice' catchtap='originalPrice'>
+    <view style="background:{{soData.stockNum<=0?'#999':''}}" class='returnPrice' catchtap='originalPrice'>
       <view>￥
         <text>{{sellPrice}}</text>
       </view>

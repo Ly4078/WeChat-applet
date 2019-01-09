@@ -384,6 +384,7 @@ page{
 .ecommendationImg{
   width: 336rpx;
   height: 340rpx;
+  position: relative;
 }
 
 .ecomt_images{
