@@ -122,7 +122,6 @@
     </view>
   </view>
 
-
   <view class="mylistBox" wx:if="{{isshop || userId || iszhiying}}">
     <view class="mylistBox_inner">
       <view class="myListTit">

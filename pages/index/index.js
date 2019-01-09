@@ -159,13 +159,14 @@ Page({
       }
     }
     that.getUserlocation();
-    // that.data.timer = setTimeout(function() {
-    //   if (!app.globalData.token) {
-    //     that.findByCode();
-    //   } else {
-    //     clearTimeout(that.data.timer)
-    //   }
-    // }, 5000)
+
+    that.data.timer = setTimeout(function() {
+      if (!app.globalData.token) {
+        // that.findByCode();
+      } else {
+        clearTimeout(that.data.timer)
+      }
+    }, 5000)
   },
   onHide: function() {
     let that = this;

@@ -75,6 +75,7 @@ Page({
       },
       success: function(res) {
         if (res.data.code == 0) {
+          
           wx.hideLoading();
           let data = res.data.data,
             userId = app.globalData.userInfo.userId;

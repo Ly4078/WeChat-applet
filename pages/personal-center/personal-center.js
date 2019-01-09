@@ -173,6 +173,7 @@ Page({
     that.getPullUser();
   },
   getPullUser: function() {
+    console.log('getPullUser:')
     let that = this;
     wx.request({
       url: this.data._build_url + 'pullUser/get',
@@ -180,6 +181,7 @@ Page({
         "Authorization": app.globalData.token
       },
       success: function(res) {
+        console.log('getPullUser-res::',res)
         if (res.data.code == 0) {
           if (res.data.data) {
             let _userId = res.data.data.userId;
