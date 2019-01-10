@@ -1,0 +1,42 @@
+<view class="wdBranch">
+  <view class="branchTop">
+    <image class="wdPic" src="{{picUrl}}"></image>
+    <view class="wdShadow"></view>
+    <image class="shareIcon" src="/images/icon/share.png"></image>
+    <view class="branchInfo">
+      <view class="branchName">{{branchName}}<view class="navigation">导航</view></view>
+      <view class="branchAdr">
+        <text>{{address}}</text>
+        <text>{{distance}}</text>
+      </view>
+    </view>
+  </view>
+  <view class="branchList">
+    <view class="menuItem" wx:for="{{dishList}}" wx:key="index" id="{{item.id}}">
+      <view class="menuItemWrap">
+        <image class="menuPic" src="{{item.picUrl?item.picUrl:item.skuPic}}"></image>
+        <view class="menuInfo">
+          <view>{{item.skuName}}</view>
+          <view class="shopName">
+            <view class="shopName_l">
+              <image src="/images/icon/house.png"></image>
+              <text wx:if="{{item.shopName}}">{{item.shopName}}</text>
+              <text wx:else>{{item.shop.shopName}}</text>
+            </view>
+            <view class="shopName_r">{{item.distance}}</view>
+          </view>
+          <view class="menuPrice">
+            <view class="menuPrice_l">
+              <view class="cost_l">
+                <text class="priceIcon">￥</text>
+                <text>底价</text>
+              </view>
+              <view class="cost_r">{{item.agioPrice?item.agioPrice:item.actGoodsSkuOut.goodsPromotionRules.actAmount}}</view>
+            </view>
+            <view class="menuPrice_r">原价￥{{item.sellPrice}}</view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

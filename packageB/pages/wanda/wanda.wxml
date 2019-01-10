@@ -1,0 +1,13 @@
+<view class="shopList">
+  <view class="shopItem" wx:for="{{list}}" wx:key="index" bindtap='toBranch' id="{{item.id}}">
+    <image class="itemBg" src="{{item.picUrl}}"></image>
+    <view class="itemShadow"></view>
+    <view class="shopInfo">
+      <view class="shopName">{{item.name}}</view>
+      <view class="shopAdr">
+        <view>{{item.address}}</view>
+        <view>{{item.distance}}</view>
+      </view>
+    </view>
+  </view>
+</view>

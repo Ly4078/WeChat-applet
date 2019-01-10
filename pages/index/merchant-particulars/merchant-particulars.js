@@ -70,7 +70,8 @@ Page({
     hotrows:10,
     hottotal:0,
     hotlist: [], //热销商品
-    hotlist2: [] //热销商品
+    hotlist2: [], //热销商品
+    wandaDish: []    //万达的菜
   },
   onLoad: function(options) {
     console.log("options:",options);
@@ -295,6 +296,82 @@ Page({
             });
           }
         }
+      }
+    })
+  },
+  wandaDish() {     //万达活动的菜
+    let that = this, _param = {}, str = "";
+    _param = {
+      actId: 45,
+      shopId: this.data.shopid,
+      page: 1,
+      rows: 10
+    };
+    for (let key in _param) {
+      str += key + "=" + _param[key] + "&";
+    }
+    str = str.substring(0, str.length - 1);
+    wx.request({
+      url: that.data._build_url + 'goodsSku/listForAct?' + str,
+      method: 'GET',
+      header: {
+        "Authorization": app.globalData.token
+      },
+      success: function (res) {
+        console.log(res);
+        if (res.data.code == 0) {
+          let list = res.data.data.list;
+          if (list && list.length > 0) {
+            that.setData({
+              wandaDish: list
+            });
+          }
+        }
+      },
+      fail() {
+
+      }
+    })
+  },
+  isVote(e) {   //是否可以投票
+    let that = this, id = e.target.id;
+    wx.request({
+      url: that.data._build_url + 'vote/canVoteToday?actId=45',
+      method: 'GET',
+      header: {
+        "Authorization": app.globalData.token
+      },
+      success: function (res) {
+        let code = res.data.code;
+        if (code == 0) {
+          that.vote(id);
+        } else if (code == 200029) {
+          that.showToast(res.data.message);
+        }
+      },
+      fail() {
+
+      }
+    })
+  },
+  vote(id) {    //投票
+    let that = this;
+    wx.request({
+      url: that.data._build_url + 'vote/addVoteFree?actId=45&actGoodsSkuId=' + id,
+      method: 'GET',
+      header: {
+        "Authorization": app.globalData.token
+      },
+      success: function (res) {
+        let code = res.data.code;
+        if (code == 0) {
+          that.showToast('投票成功');
+        } else if (code == 200029) {
+          that.showToast(res.data.message);
+        }
+      },
+      fail() {
+
       }
     })
   },
@@ -639,6 +716,7 @@ Page({
     this.commentList();
     this.getsetget();
     this.hotDishList();
+    this.wandaDish();
   },
   //点击拼菜展开
   changeBar() {
@@ -1641,6 +1719,17 @@ Page({
   crabSection: function() {
     wx.navigateTo({
       url: '../crabShopping/crabShopping?currentTab=1',
+    })
+  },
+  toWDActivity() {
+    wx.navigateTo({
+      url: '/packageB/pages/wanda/wandaActivity/wandaActivity',
+    })
+  },
+  showToast(title) {
+    wx.showToast({
+      title: title,
+      icon: 'none'
     })
   }
 })

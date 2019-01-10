@@ -970,3 +970,131 @@ page {
 .tabphone{
   width: 72%;
 }
+
+/* 万达活动 */
+.wanda {
+  background-color: #fff;
+  margin: 18rpx 0;
+}
+
+.wanda_tit {
+  height: 80rpx;
+  line-height: 80rpx;
+  padding: 0 40rpx 0 30rpx;
+  border-bottom: 1rpx solid #EBEBEB;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.w_tit_l text:nth-child(1) {
+  color: #fff;
+  background-color: #FC5E2D;
+  font-size: 30rpx;
+  font-weight: 600;
+  font-style: italic;
+  padding: 0rpx 10rpx 4rpx 6rpx;
+  border-radius: 4rpx;
+  margin-right: 16rpx;
+}
+
+.w_tit_l text:nth-child(2) {
+  font-size: 28rpx;
+  color: #191919;
+}
+
+.w_tit_r image{
+  height: 22rpx;
+  width: 12rpx;
+}
+
+.wandaList {
+
+}
+
+.wandaItem {
+  display: flex;
+  justify-content: space-between;
+  padding: 20rpx 28rpx;
+}
+
+.w_dish_l {
+  display: flex;
+  flex-direction: row;
+}
+
+.w_dish_l > image {
+  width: 150rpx;
+  height: 150rpx;
+  margin-right: 16rpx;
+}
+
+.w_dish_name {
+  font-size: 30rpx;
+}
+
+.w_dish_flag text {
+  font-size: 22rpx;
+  border: 1rpx solid #FC5E2D;
+  padding: 0 6rpx;
+}
+
+/* .w_dish_flag text:nth-child(1) {
+  color: #FC5E2D;
+  border-top-left-radius: 4rpx;
+  border-bottom-left-radius: 4rpx;
+} */
+
+.w_dish_flag text {
+  background-color: #FC5E2D;
+  color: #fff;
+  border-top-right-radius: 4rpx;
+  border-bottom-right-radius: 4rpx;
+}
+
+.w_dish_price {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  margin-top: 14rpx;
+}
+
+.w_dish_price text:nth-child(1) {
+  font-size: 36rpx;
+  color: #F82C2C;
+  padding-right: 10rpx;
+}
+
+.w_dish_price text:nth-child(2) {
+  font-size: 28rpx;
+  color: #969696;
+  text-decoration: line-through;
+}
+
+.w_dish_r {
+  display: flex;
+  flex-direction: column;
+}
+
+.w_dish_r view{
+  width: 114rpx;
+  height: 44rpx;
+  line-height: 44rpx;
+  border-radius: 50rpx;
+  font-size: 28rpx;
+  text-align: center;
+  margin-top: 24rpx;
+}
+
+.w_dish_r view:nth-child(1) {
+  background-color: #FC5E2D;
+  color: #fff;
+}
+
+.w_dish_r view:nth-child(2) {
+  border: 1rpx solid #FC5E2D;
+  color: #FC5E2D;
+  box-sizing: border-box;
+
+}

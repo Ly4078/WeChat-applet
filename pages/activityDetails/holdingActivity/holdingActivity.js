@@ -542,6 +542,11 @@ Page({
       url: '../../index/index'
     })
   },
+  myGift() {    //跳转至我的奖品
+    wx.navigateTo({
+      url: '/packageB/pages/wanda/wandaActivity/myGift/myGift'
+    })
+  },
   //打开地图导航
   TencentMap: function (event) {
     this.setData({

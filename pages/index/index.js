@@ -1,4 +1,3 @@
-
 //index.js 
 import Api from '/../../utils/config/api.js';
 import {
@@ -67,6 +66,13 @@ Page({
       url: '/packageA/pages/tourismAndHotel/tourismAndHotel?id=43',
     })
   },
+  toWanda() {
+    wx.navigateTo({
+      // url: '/packageB/pages/wanda/wanda'
+      url: 'merchant-particulars/merchant-particulars?shopid=500'
+      // url: '/packageB/pages/wanda/wandaActivity/myGift/myGift'
+    })
+  },
   getfptt:function(){
     wx.navigateTo({
       url: '/pages/personal-center/personnel-order/logisticsDetails/applyBilling/applyBilling',
@@ -74,7 +80,6 @@ Page({
    
   },
   onLoad: function(options) {
-
     let that = this;
     setTimeout(() => {
       that.setData({
@@ -160,7 +165,6 @@ Page({
       }
     }
     that.getUserlocation();
-
     that.data.timer = setTimeout(function() {
       if (!app.globalData.token) {
         // that.findByCode();

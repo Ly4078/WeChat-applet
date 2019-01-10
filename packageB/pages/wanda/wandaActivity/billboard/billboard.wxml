@@ -1,0 +1,30 @@
+<view>
+  <view class="billboard_tab">
+    <view class="{{navOrder == 1 ? 'active' : ''}}" id="1" bindtap='switchTab'>美食榜</view>
+    <view class="{{navOrder == 2 ? 'active' : ''}}" id="2" bindtap='switchTab'>投票榜</view>
+  </view>
+  <view class="billboard_list">
+    <view wx:if="{{navOrder == 1}}" class="billboard_item" wx:for="{{foodArr}}" wx:key="index">
+      <view class="b_item_l">
+        <view class="b_item_index">{{index+1}}</view>
+        <image class="b_item_pic" src="{{item.skuPic}}"></image>
+        <view class="b_item_txt">
+          <view class="b_item_name">{{item.skuName}}</view>
+          <view class="b_item_shop">
+            <view>{{item.actGoodsSkuOut.goodsSkuNumber}}号</view>
+            <view>{{item.shop.shopName}}</view>
+          </view>
+        </view>
+      </view>
+      <view class="b_item_r">{{item.actGoodsSkuOut.voteNum}}票</view>
+    </view>
+    <view wx:if="{{navOrder == 2}}" class="billboard_item" wx:for="{{voteArr}}" wx:key="index">
+      <view class="b_item_l">
+        <view class="b_item_index">{{index+1}}</view>
+        <image class="b_item_pic" src="{{item.user.iconUrl}}"></image>
+        <view class="b_item_user">{{item.user.nickName}}</view>
+      </view>
+      <view class="b_item_r">贡献{{item.totalVoteNum}}票</view>
+    </view>
+  </view>
+</view>

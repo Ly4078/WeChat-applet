@@ -99,6 +99,42 @@
   </view>
   <!-- </view> -->
 
+  <!-- 万达活动 -->
+  <view class="wanda">
+    <view class="wanda_tit" bindtap='toWDActivity'>
+      <view class="w_tit_l">
+        <text>活动</text>
+        <text>万达风味美食季&寻味湖北万达十大招牌菜</text>
+      </view>
+      <view class="w_tit_r">
+        <image src="/images/icon/home_arrow.png"></image>
+      </view>
+    </view>
+    <view class="wandaList">
+      <view class="wandaItem" wx:for="{{wandaDish}}" wx:key="index">
+        <view class="w_dish_l">
+          <image src="{{item.skuPic}}"></image>
+          <view>
+            <view class="w_dish_name">{{item.skuName}}</view>
+            <view class="w_dish_flag">
+              <!-- <text>5.0折</text> -->
+              <text>砍价</text>
+            </view>
+            <view class="w_dish_price">
+              <text>￥{{item.goodsPromotionRules[0].actAmount}}</text>
+              <text>￥{{item.sellPrice}}</text>
+            </view>
+          </view>
+        </view>
+        <view class="w_dish_r">
+          <view id="{{item.actGoodsSkuOut.id}}" bindtap="isVote">投票</view>
+          <view id="{{item.id}}">购买</view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <!-- 万达活动 -->
+
   <!-- 优惠券 -->
   <view id="list1">
     <view class="xiang7Box" style="padding-bottom: 30rpx;" hidden='{{activity.length < 1}}'>

@@ -1,0 +1,38 @@
+page{
+  height: 100%;
+  width: 100%;
+  background-color: #F5F5FA;  
+}
+
+.gift_list {
+  padding: 20rpx 28rpx;
+}
+
+.gift_item {
+  height: 128rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 14rpx;
+  box-sizing: border-box;
+  border-radius: 8rpx;
+  background-color: #fff; 
+}
+
+.gift_pic {
+  height: 100rpx;
+  width: 100rpx;
+  background-color: pink;
+  border-radius: 8rpx;
+  margin-right: 30rpx;
+}
+
+.gift_i_t {
+  font-size: 30rpx;
+  margin-bottom: 14rpx;
+}
+
+.gift_i_b{
+  font-size: 24rpx;
+  color: #969696;
+}

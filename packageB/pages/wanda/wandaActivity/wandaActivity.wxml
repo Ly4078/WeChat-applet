@@ -1,0 +1,60 @@
+<view class="wd_activity">
+  <image class="banner_img" src="/images/icon/wd_2.png"></image>
+  <view class="act_contain">
+    <view class="drawABtn" bindtap="holdingActivity">
+      <image class="" src="/images/icon/wd_1.png"></image>
+      <view class="drawNum">可抽奖{{drawNum}}次</view>
+    </view>
+    <view class="drawInstruct">每天可投票1次，抽奖1次；消费自动投5票，抽奖5次</view>
+    <view>
+      <view class="wd_act_tab">
+        <view class="act_tab_l">
+          <view class="act_tab_item {{index == currCity ? 'active' : ''}}" wx:for="{{city}}" wx:key="index" id="{{index}}" bindtap='switchTab'>
+            {{item}}
+            <view class="lineThrough">
+              <view></view>
+            </view>
+          </view>
+        </view>
+        <view class="act_tab_r">
+          <view class="tab_r_Billboard" bindtap='toBillboard'>
+            <image src="/images/icon/wd_4.png"></image>
+            <text>排行榜</text>
+          </view>
+        </view>
+      </view>
+      <view class="wd_branch">
+        <view class="wd_branch_item {{item.name == currBranch ? 'active' : ''}}" wx:for="{{branch[currCity]}}" wx:key="index" data-name="{{item.name}}" bindtap="switchWd">
+          <image src="/images/icon/wd_3.png"></image>
+          {{item.name}}
+        </view>
+      </view>
+      <view class="wd_act_list">
+        <view class="wd_act_item" wx:for="{{dishList}}" wx:key="index">
+          <view class="act_item_inner">
+            <view class="act_item_t">
+              <text class="item_shopName">{{item.shop.shopName}}</text>
+              <text>{{item.distance}}</text>
+            </view>
+            <image class="act_item_pic" src="{{item.skuPic}}"></image>
+            <view class="act_item_b">
+              <view class="item_dishName">{{item.skuName}}</view>
+              <view class="item_ticket">
+                <view>{{item.actGoodsSkuOut.goodsSkuNumber}}号</view>
+                <view>{{item.actGoodsSkuOut.voteNum}}票</view>
+              </view>
+              <view class="item_dishPrice">
+                <text>￥{{item.goodsPromotionRules[0].actAmount}}</text>
+                <text>￥{{item.sellPrice}}</text>
+              </view>
+              <view class="item_btn">
+                <view id="{{item.actGoodsSkuOut.id}}" bindtap="isVote">投票</view>
+                <view id="{{item.id}}">购买</view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

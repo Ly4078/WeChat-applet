@@ -1,0 +1,288 @@
+page, .wd_activity {
+  height: 100%;
+  width: 100%;
+  background-color: #E03021;
+}
+
+.banner_img {
+  height: 420rpx;
+  width: 100%;
+}
+
+.act_contain {
+  width: 100%;
+  padding: 0 10rpx;
+  box-sizing: border-box;  
+}
+
+.drawABtn {
+  width: 100%;
+  height: 150rpx;
+  margin: 20rpx 0;
+  position: relative;
+}
+
+.drawABtn image {
+  width: 100%;
+  height: 150rpx;
+}
+
+.drawNum {
+  width: 100%;
+  height: 40rpx;
+  position: absolute;
+  bottom: 20rpx;
+  left: 0;
+  text-align: center;
+  color: #FC2311;
+  font-size: 28rpx;
+}
+
+.drawInstruct {
+  font-size: 22rpx;
+  color: #FFC8C3;
+  width: 100%;
+  text-align: center;
+  margin-bottom: 30rpx;
+}
+
+.wd_act_tab {
+  width: 100%;
+  height: 80rpx;
+  display: flex;
+  justify-content: space-between;
+  background-color: #fff;
+  border-radius: 10rpx;
+  padding: 0 30rpx 0 40rpx;
+  box-sizing: border-box;
+}
+
+.act_tab_l {
+  display: flex;
+  flex-direction: row;
+  color: #555555;
+  font-family: 'SimHei';
+  font-size: 30rpx;
+}
+
+.act_tab_item {
+  margin-right: 40rpx;
+  height: 100%;
+  line-height: 80rpx;
+  position: relative;
+}
+
+.lineThrough {
+  position: absolute;
+  left: 0;
+  bottom: 10rpx;
+  width: 100%;
+  height: 6rpx;
+  display: flex;
+  justify-content: center;
+}
+
+.lineThrough view {
+  display: none;
+  height: 6rpx;
+  width: 42rpx;
+  border-radius: 50rpx;
+  background-color: #E03021;
+}
+
+.act_tab_item.active {
+  color: #E03021;
+}
+
+.act_tab_item.active .lineThrough view {
+  display: block;
+}
+
+.tab_r_Billboard {
+  height: 100%;
+  width: 80rpx;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: center;
+}
+
+.tab_r_Billboard image {
+  width: 40rpx;
+  height: 40rpx;
+  margin: 0 auto;
+}
+
+.tab_r_Billboard text {
+  font-size: 18rpx;
+  color: #E03021;
+}
+
+.wd_branch {
+  display: flex;
+  justify-content: flex-start;
+  margin: 40rpx 0;
+}
+
+.wd_branch_item {
+  width: 174rpx;
+  height: 68rpx;
+  line-height: 68rpx;
+  border-radius: 10rpx;
+  font-size: 28rpx;
+  color: #E03021;
+  background-color: #FFC9C4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 14rpx;
+}
+
+.wd_branch_item image {
+  display: none;
+  width: 26rpx;
+  height: 26rpx;
+}
+
+.wd_branch_item.active {
+  background-color: #FFF21B;
+}
+
+.wd_branch_item.active image {
+  display: block;
+}
+
+.wd_act_list {
+  display: flex;
+  flex-wrap: wrap;
+  padding-bottom: 20rpx;
+}
+
+.wd_act_item {
+  width: 50%;
+  box-sizing: border-box;
+  margin-bottom: 10rpx;
+}
+
+.wd_act_item:nth-child(2n) {
+  padding-left: 5rpx;
+}
+
+.wd_act_item:nth-child(2n+1) {
+  padding-right: 5rpx;
+}
+
+.act_item_inner {
+  width: 100%;
+  position: relative;
+  background-color: #fff;
+  border-radius: 10rpx;
+  overflow: hidden;
+}
+
+.act_item_t {
+  width: 100%;  
+  height: 42rpx;
+  line-height: 42rpx;
+  padding: 0 12rpx 0 10rpx;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  font-size: 24rpx;
+  color: #fff;
+  position: absolute;
+  left: 0;
+  top: 0;
+  background-color: #191919;
+  opacity: 0.6;
+}
+
+.item_shopName {
+  width: 160rpx;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.act_item_pic {
+  width: 100%;
+  height: 360rpx;
+}
+
+.act_item_b {
+  padding: 0 10rpx;
+  box-sizing: border-box;
+}
+
+.item_dishName {
+  font-size: 26rpx;
+  color: #191919;
+  font-weight: 600;
+}
+
+.item_ticket {
+  display: flex;
+  flex-direction: row;
+  padding: 14rpx 0 8rpx 0;
+}
+
+.item_ticket view {
+  border: 1rpx solid #FC5E2D;
+  font-size: 20rpx;
+  padding: 0 4rpx;
+  height: 24rpx;
+  line-height: 24rpx;
+  border-radius: 4rpx;
+}
+
+.item_ticket view:nth-child(1) {
+  color: #FC5E2D;
+  margin-right: 10rpx;
+}
+
+.item_ticket view:nth-child(2) {
+  color: #fff;
+  background-color: #FC5E2D;
+}
+
+.item_dishPrice {
+  display: flex;
+  align-items: center;
+}
+
+.item_dishPrice text:nth-child(1) {
+  color: #FC5E2D;
+  font-size: 28rpx;
+  margin-right: 10rpx;
+}
+
+.item_dishPrice text:nth-child(2) {
+  color: #969696;
+  font-size: 22rpx;
+  text-decoration: line-through;
+}
+
+.item_btn {
+  display: flex;
+  justify-content: center;
+  padding: 14rpx 0 20rpx 0;
+}
+
+.item_btn view {
+  width: 150rpx;
+  height: 58rpx;
+  line-height: 58rpx;
+  text-align: center;
+  font-size: 30rpx;
+  color: #FFFFFF;
+  border-radius: 8rpx;
+}
+
+.item_btn view:nth-child(1) {
+  background-color: #FFA21C;
+  margin-right: 10rpx;
+}
+
+.item_btn view:nth-child(2) {
+  background-color: #FC5E2D;
+}

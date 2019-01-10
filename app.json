@@ -103,8 +103,18 @@
           "pages/tourismAndHotel/tourismAndHotel",
           "pages/tourismAndHotel/touristHotelDils/touristHotelDils",
           "pages/tourismAndHotel/touristHotelDils/order-for-goods/order-for-goods"
-          
         ]
+     },
+     {
+       "root": "packageB",
+       "name": "pack2",
+       "pages": [
+         "pages/wanda/wanda",
+         "pages/wanda/wandaBranch/wandaBranch",
+         "pages/wanda/wandaActivity/wandaActivity",
+         "pages/wanda/wandaActivity/billboard/billboard",
+         "pages/wanda/wandaActivity/myGift/myGift"
+       ]
      }
   ],
   "window": {
