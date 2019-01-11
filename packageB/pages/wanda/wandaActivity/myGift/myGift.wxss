@@ -11,6 +11,7 @@ page{
 .gift_item {
   height: 128rpx;
   display: flex;
+  margin-bottom:15rpx;
   flex-direction: row;
   align-items: center;
   padding: 14rpx;
@@ -18,7 +19,9 @@ page{
   border-radius: 8rpx;
   background-color: #fff; 
 }
-
+.gift_itembg{
+   background-color:#eee; 
+}
 .gift_pic {
   height: 100rpx;
   width: 100rpx;
@@ -39,4 +42,19 @@ page{
 .gift_i_b{
   font-size: 24rpx;
   color: #969696;
+}
+.exchange{
+  width:100%;
+height:88rpx;
+line-height:88rpx;
+background:#fff;
+text-align:center;
+font-size:28rpx;
+font-family:PingFangSC-Regular;
+font-weight:400;
+color:#fc5e2d;
+position:fixed;
+bottom:0;
+left:0;
+
 }

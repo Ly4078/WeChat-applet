@@ -32,6 +32,7 @@ Page({
     carousel: [''], //轮播图
     currentTab: 0,
     isformid: true,
+    showwandaactivity:true,//活动海报
     loading: false,
     // 改版新增变量 
     fresh1: {}, //享7生鲜图片1
@@ -61,9 +62,20 @@ Page({
       }
     ]
   },
+  hidewandaactivity:function(){
+    // app.globalData.newcomer = 0;
+    this.setData({ showwandaactivity:false});
+    wx.clearStorageSync('newcomer');
+  },
   togrourp:function(){
     wx.navigateTo({
       url: '/packageA/pages/tourismAndHotel/tourismAndHotel?id=43',
+    })
+  },
+  linkTowanda:function(){
+    wx.showToast({
+      title: '1月17号正式开放',
+      icon:'none'
     })
   },
   toWanda() {
@@ -121,6 +133,10 @@ Page({
     });
   },
   onShow: function() {
+    let newcomer = wx.getStorageSync("newcomer");
+    if (newcomer == '1') {
+      this.setData({ showwandaactivity:true})
+    }
     let that = this;
     //获取地理位置
     if (app.globalData.userInfo.city) {

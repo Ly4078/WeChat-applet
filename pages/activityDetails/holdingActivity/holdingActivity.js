@@ -4,6 +4,7 @@ import {
   GLOBAL_API_DOMAIN
 } from '../../../utils/config/config.js';
 var app = getApp();
+var timer = null;
 let gameFlag = true; //防止重复点击
 var village_LBS = function (that) {
   wx.getLocation({
@@ -27,6 +28,15 @@ Page({
     _city: '',
     _lat: '',
     _lng: '',
+    regulation: [
+      { title: "1、活动时间：2018-11-11至2018-12-31日。", 
+      use: "1、如中奖iPhone X ：请务必联系享7美食客服人员确认详细信息后配送，有效期3个月。" },
+      { title: "2、奖品设置：iPhone X 、十堰旅游券、十堰酒店房卡、十堰美食券。", use: "2、如中奖十堰旅游券：请根据中奖旅游景区到指定景区出使券票二维码即可使用；有效期1年。" },
+      { title: "3、通过享7美食小程序每邀请2个好友成为享7美食新用户，即可抽奖一次，百分百中奖！", use: "3、如中奖十堰酒店房卡：请根据中奖酒店到指定酒店前台出使券票二维码即可使用，有效期1年。" },
+      { title: "4、邀请新用户抽奖成功后实时发放入您的券包，您可在享7美食小程序-我的-券包中查看。", use: "4、如中奖美食券：请根据中奖菜品对应的商家到指定商家用餐出使券票二维码即可使用，有效期3个月。" },
+      { title: "5、您邀请的好友必须是享7美食新用户，同一手机号、同一设备、同一支付账号视为统一用户。" },
+      { title: "6、抽奖存入券包里的券中奖商品不用有效期不同，在有效期内均可使用。" },
+      { title: "7、如有其他疑问请咨询享7美食客服。" },],
     prizeList: [], //奖品列表
     turnIdx: 2, //转动序号
     // turnFlag: false,  //转动标识
@@ -38,25 +48,16 @@ Page({
     colorCircleSecond: '#FE4D32', //圆点颜色2
   },
   onLoad: function (options) {
-    this.circleShow();
+    // this.circleShow();
     this.setData({
       inviter: options.inviter ? options.inviter : app.globalData.userInfo.userId
     });
-    this.setData({
-      regulation: [
-        { title: "1、活动时间：2018-11-11至2018-12-31日。", use: "1、如中奖iPhone X ：请务必联系享7美食客服人员确认详细信息后配送，有效期3个月。" },
-        { title: "2、奖品设置：iPhone X 、十堰旅游券、十堰酒店房卡、十堰美食券。", use: "2、如中奖十堰旅游券：请根据中奖旅游景区到指定景区出使券票二维码即可使用；有效期1年。" },
-        { title: "3、通过享7美食小程序每邀请2个好友成为享7美食新用户，即可抽奖一次，百分百中奖！", use: "3、如中奖十堰酒店房卡：请根据中奖酒店到指定酒店前台出使券票二维码即可使用，有效期1年。" },
-        { title: "4、邀请新用户抽奖成功后实时发放入您的券包，您可在享7美食小程序-我的-券包中查看。", use: "4、如中奖美食券：请根据中奖菜品对应的商家到指定商家用餐出使券票二维码即可使用，有效期3个月。" },
-        { title: "5、您邀请的好友必须是享7美食新用户，同一手机号、同一设备、同一支付账号视为统一用户。" },
-        { title: "6、抽奖存入券包里的券中奖商品不用有效期不同，在有效期内均可使用。" },
-        { title: "7、如有其他疑问请咨询享7美食客服。" },]
-    });
+    this.createUser()
   },
-  getwinningList() {
+  getwinningList () {
     let that = this
     wx.request({
-      url: that.data._build_url + 'orderInfo/listFree?page=1&rows=20&payType=0&categoryId=6',
+      url: that.data._build_url + 'orderInfo/listFree?page=1&rows=50&payType=0&categoryId=6',
       method: 'get',
       header: {
         "Authorization": app.globalData.token
@@ -73,8 +74,8 @@ Page({
             const msgList = [];
 
             data.list.forEach((item, index) => {
-              let phone = '', obj = {};
-              phone = item.userName.substring(0, 3) + '****' + item.userName.substring(7, item.userName.length)
+              let phone = '11111111111', obj = {};
+              // phone = item.userName.substring(0, 3) + '****' + item.userName.substring(7, item.userName.length)
               obj.title = '恭喜' + phone + '获得' + item.orderItemOuts[0].goodsSkuName;
               obj.url = 'url'
               obj.id = item.id
@@ -159,7 +160,7 @@ Page({
       if (app.globalData.userInfo.mobile) {
         if (app.globalData.token) {
           //调接口
-          that.createUser()
+          that.getUserNum();
           that.getwinningList()
           if (!that.data.prizeList.length) {
             wx.showLoading({
@@ -183,16 +184,24 @@ Page({
   createUser() {
     let that = this;
     wx.request({
-      url: that.data._build_url + 'pullUser/insertUserPull?type=3',
-      method: 'post',
+      url: that.data._build_url + 'actGoodsSku/jackpotList?actId=42',
+      method: 'get',
       header: {
         "Authorization": app.globalData.token
       },
       success: function (res) {
-        that.getUserNum();
+          console.log(res)
+          if(res.data.code == '0' && res.data.data) {
+            var prize = '';
+              for(let i=0;i<res.data.data.list.length;i++ ) {
+                prize += res.data.data.list[i].name +'、' 
+              }
+            prize = prize.substring(0, prize.length-1);
+            that.setData({ prize})
+          }
       },
       fail() {
-        that.getUserNum();
+      
       }
     })
 
@@ -200,7 +209,7 @@ Page({
   getUserNum() {
     let that = this;
     wx.request({
-      url: that.data._build_url + 'pullUser/getForNum?type=3',
+      url: that.data._build_url + 'actLottery/get?actId=45',
       method: 'get',
       header: {
         "Authorization": app.globalData.token
@@ -300,53 +309,55 @@ Page({
     if (!userData) {
       return false
     }
-    if (userData.haveNum < 1) {
+    if (userData.totalNumber < 1) {
       wx.showToast({
-        title: '邀请2个好友即可抽奖!',
+        title: '抽奖次数不足!',
         icon: 'none'
       })
       return false
     }
-    that.setData({
-      winningIndex: '',
-      frameClass1: "z1 front",
-      frameClass2: "z2 back",
-    })
+    if (that.data.frameClass1 == 'z2 back' || that.data.frameClass2 == 'z1 front') {
+      that.setData({
+        winningIndex: '',
+        frameClass1: "z1 front",
+        frameClass2: "z2 back",
+      })
+    }
+    // wx.showLoading({
+    //   title: '加载中',
+    // })
     gameFlag = false
-    that.turn(100); //游戏运行
     that.sendGamerequest() //请求游戏开奖结果
   },
   sendGamerequest() {
     let that = this;
     wx.request({
-      url: that.data._build_url + 'actGoodsSku/lottery?actId=42&type=3',
-      method: 'get',
+      url: that.data._build_url + 'actGoodsSku/zoneLottery?actId=42&type=3&city='+app.globalData.userInfo.city,
+      method: 'post',
       header: {
         "Authorization": app.globalData.token
       },
       success: function (res) {
+        wx.hideLoading()
         if (res.data.code == '0' && res.data.data && res.data.data.goodsSkuOut[0] && res.data.data.categoryId) {
-          let currentData = that.data.prizeList;
-          currentData.forEach((item, index) => {
-            if (item.categoryId == res.data.data.categoryId) {
-              let sortArr = [1, 2, 3, 8, '', 4, 7, 6, 5]
-              that.setData({
-                winning: res.data.data,
-                winningIndex: sortArr[index]
-              })
-              return
-            }
-          })
-
-        } else {
+          console.log(res);
           that.setData({
-            winningIndex: -1
+            winning:res.data.data
+          })
+          that.turn(100);
+        } else {
+          wx.hideLoading()
+          wx.showToast({
+            title: '请检查网络',
+            icon:'none'
           })
         }
       },
       fail() {
-        that.setData({
-          winningIndex: -1
+        wx.hideLoading()
+        wx.showToast({
+          title: '请检查网络',
+          icon: 'none'
         })
       }
 
@@ -355,8 +366,10 @@ Page({
   turn(interval) { //转盘动画
     let _this = this,
       turnIdx = this.data.turnIdx;
-
-    let timer = setInterval(function () {
+    if (timer != null) {
+      clearInterval(timer)
+    }
+     timer = setInterval( ()=> {
       let Countdown = _this.data.Countdown
       Countdown += interval;
       turnIdx = turnIdx < 8 ? turnIdx + 1 : 1;
@@ -364,34 +377,61 @@ Page({
         turnIdx: turnIdx,
         Countdown: Countdown
       });
-      if (_this.data.winningIndex == -1) {
-        wx.showToast({
-          title: '系统开了小差',
-          icon: 'none'
-        })
-        clearInterval(timer);
-        gameFlag = true
-        return false
-      }
       if (Countdown >= 2000) {
-        if (_this.data.winningIndex == turnIdx) {
           let lotteryData = _this.data.lotteryData
-          lotteryData.haveNum = lotteryData.haveNum - 1 //减少一次抽奖次数
-          lotteryData.pullNum = lotteryData.pullNum - 2
+          lotteryData.totalNumber = lotteryData.totalNumber - 1 //减少一次抽奖次数
           _this.setData({
             Countdown: 0,
             lotteryData: lotteryData
           });
           clearInterval(timer);
           _this.getTick();
-        }
       }
-
-    }, interval);
+     },interval);
   },
   onHide() {
-    gameFlag = true
+    gameFlag = true;
+    clearInterval(timer)
   },
+  onUnload:function(){
+    gameFlag = true;
+    clearInterval(timer)
+  },
+
+  getTick() {
+    let _this = this;
+    _this.setData({
+      frameClass1: "z2 back",
+      frameClass2: "z1 front",
+    })
+    if (_this.data.winning.skuId == '8053'){//谢谢参与
+      wx.showToast({
+        title: '谢谢参与，请再接再厉',
+        icon:'none'
+      })
+      return false;
+    }
+    setTimeout(() => {
+      wx.showModal({
+        title: '恭喜',
+        confirmText: '立即查看',
+        content: _this.data.winning.goodsSkuOut[0].skuName,
+        success(res) {
+          if (res.confirm) {
+            gameFlag = true
+            wx.navigateTo({
+              url: '/packageB/pages/wanda/wandaActivity/myGift/myGift',
+            })
+          } else if (res.cancel) {
+            gameFlag = true
+          }
+
+        }
+      })
+    }, 1500)
+  },
+
+
   reverse() { //翻转动画
     if (this.data.frameClass1.indexOf('z1') != -1) {
       this.setData({
@@ -404,34 +444,6 @@ Page({
       })
     }
   },
-  getTick() {
-    let _this = this;
-    _this.setData({
-      frameClass1: "z2 back",
-      frameClass2: "z1 front"
-    })
-    setTimeout(() => {
-      wx.showModal({
-        title: '恭喜',
-        confirmText: '立即查看',
-        content: _this.data.winning.goodsSkuOut[0].skuName,
-        success(res) {
-          if (res.confirm) {
-            gameFlag = true
-            wx.navigateTo({
-              url: '/pages/personal-center/my-discount/my-discount',
-            })
-          } else if (res.cancel) {
-            gameFlag = true
-          }
-
-        }
-      })
-    }, 1500)
-  },
-
-
-
   findByCode: function () { //通过code查询用户信息
     let that = this;
     wx.login({
@@ -479,7 +491,8 @@ Page({
           app.globalData.token = _token;
           if (app.globalData.userInfo.mobile) {
             //调接口
-            that.createUser()
+            that.createUser();
+            that.getUserNum();
             that.getwinningList()
             if (!that.data.prizeList.length) {
               wx.showLoading({

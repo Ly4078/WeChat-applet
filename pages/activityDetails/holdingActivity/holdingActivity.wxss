@@ -146,7 +146,11 @@
   border-radius: 20rpx;
   box-sizing: border-box;
 }
-
+.ticketBtnWrap .ticketBtnhover{
+    box-shadow: none;
+    margin-top: 10rpx;
+   /* transition: .1s all;  */
+}
 .ticketLi view, .reverse view {
   background-color: #fff5e1;
   box-shadow: 0 8rpx 0 #f3cd99;

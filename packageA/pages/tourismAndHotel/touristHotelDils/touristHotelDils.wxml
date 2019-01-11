@@ -4,7 +4,13 @@
 </skeleton>
 <view class=''>
   <view class='tripodsTop'>
-    <image catchtap='todetail' class='tripods' mode='aspectFill' src='{{singleData.skuPic?singleData.skuPic:"/images/icon/morentu.png"}}'></image>
+    <swiper style="height:650rpx;">
+      <swiper-item>
+       <image catchtap='todetail' class='tripods' mode='aspectFill' src='{{singleData.skuPic?singleData.skuPic:"/images/icon/morentu.png"}}'></image>
+      </swiper-item>
+
+    </swiper>
+   
   </view>
   <view class='detailsCen'>
     <view class='detailssmall' wx:if="{{singleData.actGoodsSkuOut.state =='1' &&  groupStatus.state != '4'}}">

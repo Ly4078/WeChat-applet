@@ -2,7 +2,7 @@
 <import src="bargainirg-store/bargainirg-template/bargainirg-template.wxml" />
 <!-- 骨架屏模块 -->
 <skeleton selector="skeleton" loading="spin" bgcolor="#FFF" wx:if="{{showSkeleton}}"></skeleton>
-<button catchtap='toWanda'>万达 快捷入口</button>
+<!-- <button catchtap='toWanda'>万达 快捷入口</button> -->
 <!-- <button catchtap='togrourp'>拼购演示 快捷入口</button> -->
 <!-- <button  catchtap='getfptt'>获取发票</button> -->
 <view class="container" >
@@ -49,7 +49,7 @@
   <!-- 抽奖 -->
 
   <view class="lotteryBanner">
-    <image catchtap='toLink' data-msg="正在建设中..." src="{{bannthree[0].imgUrl}}" data-url="{{bannthree[0].linkUrl}}" class=" skeleton-rect"></image>
+    <image catchtap='toLink' data-msg="正在建设中,1月17号正式开放" src="{{bannthree[0].imgUrl}}" data-url="{{bannthree[0].linkUrl}}" class=" skeleton-rect"></image>
   </view>
 
   <!-- 生鲜 -->
@@ -224,6 +224,7 @@
     <view class='loadingBox'>
       <i-spin custom wx:if="{{loading}}">
         <view class="loading"></view>
+        <!-- <image style='width:124rpx;height:108rpx;' src="/images/33.gif"></image> -->
       </i-spin>
     </view>
   </view>
@@ -235,4 +236,15 @@
 
   <view class='buttomBox' style="font-size:26rpx;color:#666;text-align:center;" wx:if="{{notData}}">已经到底啦~~~</view>
 
+</view>
+
+
+
+
+<view class="wandaactivity" wx:if="{{showwandaactivity}}">
+  <view class="activityshadow"></view>
+  <view class="activityContent">
+      <image src="https://xqmp4-1256079679.file.myqcloud.com/15927505686_wanda.gif" catchtap='linkTowanda' ></image>
+      <icon  catchtap='hidewandaactivity' type="cancel" size="32" style="text-align:center;margin-top:30rpx;" color="#fff"></icon>
+  </view>
 </view>

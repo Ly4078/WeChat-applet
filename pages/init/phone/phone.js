@@ -154,6 +154,7 @@ Page({
           app.globalData.userInfo.iconUrl = data.avatarUrl;
           app.globalData.currentScene.query == ''
           app.globalData.newcomer = 1
+          wx.setStorageSync("newcomer", '1')
           if (that.data.isBack) {
             wx.navigateBack({
               delta: 2

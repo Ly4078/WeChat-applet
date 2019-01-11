@@ -217,8 +217,8 @@ Page({
   },
   clickVote: function (event) {
     const actid = event.currentTarget.id;
-    console.log('actid:', actid);
-    let _actName = "", _type = '', actUrl = '';
+    let url = event.currentTarget.dataset.url;
+    let _actName = "",_type = '';
     for (let i = 0; i < this.data.actdata.length; i++) {
       if (this.data.actdata[i].id == actid) {
         _actName = this.data.actdata[i].actName;
@@ -226,15 +226,38 @@ Page({
         actUrl = this.data.actdata[i].actUrl;
       }
     }
-    if(actid == 41) {
-      wx.switchTab({
-        url: actUrl,
-      })
-    } else {
-      wx.navigateTo({
-        url: actUrl
-      })
-    }
+    wx.navigateTo({
+      url: url,
+      success:function(){},
+      fail:function(){
+        wx.switchTab({
+          url: url,
+          success: function () { },
+          fail: function () {
+            wx.reLaunch({
+              url: url,
+            })
+          }
+        })
+      }
+    })
+    // if(actid == 41){
+    //   wx.switchTab({
+    //     url: '/pages/index/productCategory/productCategory',
+    //   })
+    // } else if (actid == 42){
+    //   wx.navigateTo({
+    //     url: 'holdingActivity/holdingActivity'
+    //   })
+    // } else if (actid == 38){
+    //   wx.navigateTo({
+    //     url: 'video-list/video-list?id=' + actid,
+    //   })
+    // } else if (actid == 43) {
+    //   wx.navigateTo({
+    //     url: '/packageA/pages/tourismAndHotel/tourismAndHotel?id=' + actid,
+    //   })
+    // }
   },
   onReachBottom: function () {  //用户上拉触底
 
