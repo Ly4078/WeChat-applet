@@ -58,11 +58,20 @@ page, .wd_activity {
 }
 
 .act_tab_l {
+  width: 520rpx;
+  overflow: hidden;
+}
+
+.act_tab_l_inner {
   display: flex;
   flex-direction: row;
   color: #555555;
   font-family: 'SimHei';
   font-size: 30rpx;
+  overflow-y: hidden;
+  overflow-x: auto;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
 }
 
 .act_tab_item {
@@ -119,9 +128,18 @@ page, .wd_activity {
 }
 
 .wd_branch {
+  width: 100%;
+  overflow: hidden;
+  margin: 40rpx 0;
+}
+
+.wd_branch_inner {
   display: flex;
   justify-content: flex-start;
-  margin: 40rpx 0;
+  overflow-y: hidden;
+  overflow-x: auto;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
 }
 
 .wd_branch_item {
@@ -149,7 +167,7 @@ page, .wd_activity {
 }
 
 .wd_branch_item.active image {
-  display: block;
+  display: inline-block;
 }
 
 .wd_act_list {
@@ -198,7 +216,7 @@ page, .wd_activity {
 }
 
 .item_shopName {
-  width: 160rpx;
+  width: 190rpx;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
@@ -215,6 +233,10 @@ page, .wd_activity {
 }
 
 .item_dishName {
+  width: 100%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
   font-size: 26rpx;
   color: #191919;
   font-weight: 600;

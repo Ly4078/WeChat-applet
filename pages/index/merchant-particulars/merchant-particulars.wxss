@@ -1032,6 +1032,10 @@ page {
 
 .w_dish_name {
   font-size: 30rpx;
+  width: 380rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .w_dish_flag text {

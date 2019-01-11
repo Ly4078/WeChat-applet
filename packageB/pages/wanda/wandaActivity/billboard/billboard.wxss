@@ -76,6 +76,10 @@ page {
 }
 
 .b_item_name {
+  width: 350rpx;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
   font-size: 28rpx;
   margin-bottom: 6rpx;
 }
@@ -95,10 +99,14 @@ page {
   box-sizing: border-box;
   padding: 0 4rpx;
   border-radius: 4rpx;
-  margin-right: 20rpx;
+  margin-right: 14rpx;
 }
 
 .b_item_shop view:nth-child(2) {
+  width: 280rpx;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
   font-size: 22rpx;
   color: #969696;
 }
@@ -109,5 +117,9 @@ page {
 }
 
 .b_item_user {
+  width: 380rpx;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
   font-size: 28rpx;
 }

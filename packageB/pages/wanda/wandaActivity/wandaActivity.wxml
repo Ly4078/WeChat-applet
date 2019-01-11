@@ -9,10 +9,12 @@
     <view>
       <view class="wd_act_tab">
         <view class="act_tab_l">
-          <view class="act_tab_item {{index == currCity ? 'active' : ''}}" wx:for="{{city}}" wx:key="index" id="{{index}}" bindtap='switchTab'>
-            {{item}}
-            <view class="lineThrough">
-              <view></view>
+          <view class="act_tab_l_inner">
+            <view class="act_tab_item {{index == currCity ? 'active' : ''}}" wx:for="{{city}}" wx:key="index" id="{{index}}" bindtap='switchTab'>
+              {{item}}
+              <view class="lineThrough">
+                <view></view>
+              </view>
             </view>
           </view>
         </view>
@@ -24,9 +26,11 @@
         </view>
       </view>
       <view class="wd_branch">
-        <view class="wd_branch_item {{item.name == currBranch ? 'active' : ''}}" wx:for="{{branch[currCity]}}" wx:key="index" data-name="{{item.name}}" bindtap="switchWd">
-          <image src="/images/icon/wd_3.png"></image>
-          {{item.name}}
+        <view class="wd_branch_inner">
+          <view class="wd_branch_item {{item.name == currBranch ? 'active' : ''}}" wx:for="{{branch[currCity]}}" wx:key="index" data-name="{{item.name}}" bindtap="switchWd">
+            <image src="/images/icon/wd_3.png"></image>
+            {{item.name}}
+          </view>
         </view>
       </view>
       <view class="wd_act_list">

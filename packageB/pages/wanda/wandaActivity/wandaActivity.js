@@ -153,6 +153,15 @@ Page({
       success: function (res) {
         if (res.data.code == 0) {
           that.showToast('投票成功');
+          let dishList = that.data.dishList;
+          for (let i = 0; i < dishList.length; i++) {
+            if (dishList[i].actGoodsSkuOut.id == id) {
+              dishList[i].actGoodsSkuOut.voteNum++;
+            }
+          }
+          that.setData({
+            dishList: dishList
+          });
         }
       },
       fail() {
@@ -188,6 +197,10 @@ Page({
     })
   },
   holdingActivity() {
+    if (this.data.drawNum <= 0) {
+      this.showToast('无可用次数');
+      return;
+    }
     wx.navigateTo({
       url: '/pages/activityDetails/holdingActivity/holdingActivity'
     })

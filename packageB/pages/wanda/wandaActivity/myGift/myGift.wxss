@@ -28,6 +28,10 @@ page{
 }
 
 .gift_i_t {
+  width: 520rpx;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
   font-size: 30rpx;
   margin-bottom: 14rpx;
 }

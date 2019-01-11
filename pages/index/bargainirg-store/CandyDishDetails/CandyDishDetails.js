@@ -840,10 +840,8 @@ Page({
       that.setData({
         isApro:false
       })
-      if (this.data.actId && this.data.actId != 41) {
-        url = that.data._build_url + 'goodsBar/skuRedis?skuId=' + this.data.id;
-      } else if (this.data.actId == 41) {
-        url = that.data._build_url + 'goodsBar/skuRedis?actId=41&skuId=' + this.data.id;
+      if (this.data.actId) {
+        url = that.data._build_url + 'goodsBar/skuRedis?actId=' + this.data.actId +'&skuId=' + this.data.id;
       } else {
         url = that.data._build_url + 'bargain/skuRedis?skuId=' + this.data.id;
       }
