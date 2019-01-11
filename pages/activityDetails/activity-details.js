@@ -218,28 +218,21 @@ Page({
   clickVote: function (event) {
     const actid = event.currentTarget.id;
     console.log('actid:', actid);
-    let _actName = "",_type = '';
+    let _actName = "", _type = '', actUrl = '';
     for (let i = 0; i < this.data.actdata.length; i++) {
       if (this.data.actdata[i].id == actid) {
         _actName = this.data.actdata[i].actName;
         _type = this.data.actdata[i].type;
+        actUrl = this.data.actdata[i].actUrl;
       }
     }
-    if(actid == 41){
+    if(actid == 41) {
       wx.switchTab({
-        url: '/pages/index/productCategory/productCategory',
+        url: actUrl,
       })
-    } else if (actid == 42){
+    } else {
       wx.navigateTo({
-        url: 'holdingActivity/holdingActivity'
-      })
-    } else if (actid == 38){
-      wx.navigateTo({
-        url: 'video-list/video-list?id=' + actid,
-      })
-    } else if (actid == 43) {
-      wx.navigateTo({
-        url: '/packageA/pages/tourismAndHotel/tourismAndHotel?id=' + actid,
+        url: actUrl
       })
     }
   },

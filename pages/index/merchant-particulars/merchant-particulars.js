@@ -1726,6 +1726,51 @@ Page({
       url: '/packageB/pages/wanda/wandaActivity/wandaActivity',
     })
   },
+  isVote(e) {   //是否可以投票
+    let that = this, id = e.target.id;
+    wx.request({
+      url: that.data._build_url + 'vote/canVoteToday?actId=45',
+      method: 'GET',
+      header: {
+        "Authorization": app.globalData.token
+      },
+      success: function (res) {
+        let code = res.data.code;
+        if (code == 0) {
+          that.vote(id);
+        } else if (code == 200029) {
+          that.showToast(res.data.message);
+        }
+      },
+      fail() {
+
+      }
+    })
+  },
+  vote(id) {    //投票
+    let that = this;
+    wx.request({
+      url: that.data._build_url + 'vote/addVoteFree?actGoodsSkuId=' + id + '&actId=45',
+      method: 'GET',
+      header: {
+        "Authorization": app.globalData.token
+      },
+      success: function (res) {
+        if (res.data.code == 0) {
+          that.showToast('投票成功');
+        }
+      },
+      fail() {
+
+      }
+    })
+  },
+  toBuy(e) { //买菜
+    let id = e.target.id;
+    wx.navigateTo({
+      url: '../bargainirg-store/CandyDishDetails/CandyDishDetails?id=' + id + '&shopId=' + this.data.shopid + '&actId=45&categoryId=8'
+    })
+  },
   showToast(title) {
     wx.showToast({
       title: title,

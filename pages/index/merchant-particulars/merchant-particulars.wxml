@@ -128,7 +128,7 @@
         </view>
         <view class="w_dish_r">
           <view id="{{item.actGoodsSkuOut.id}}" bindtap="isVote">投票</view>
-          <view id="{{item.id}}">购买</view>
+          <view id="{{item.id}}" bindtap='toBuy'>购买</view>
         </view>
       </view>
     </view>

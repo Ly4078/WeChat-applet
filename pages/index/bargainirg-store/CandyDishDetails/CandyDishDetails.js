@@ -501,7 +501,7 @@ Page({
             skuName: data.skuName,
             skuInfo: skuInfo ? skuInfo : remark,
             stockNum: data.stockNum,
-            agioPrice: data.agioPrice ? data.agioPrice : data.actGoodsSkuOuts[0].goodsPromotionRules.actAmount,
+            agioPrice: data.actGoodsSkuOut.goodsPromotionRules.actAmount,
             sellPrice: data.sellPrice,
             sellNum: data.sellNum,
             showSkeleton: false

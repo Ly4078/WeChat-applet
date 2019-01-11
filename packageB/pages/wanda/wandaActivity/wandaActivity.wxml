@@ -49,7 +49,7 @@
               </view>
               <view class="item_btn">
                 <view id="{{item.actGoodsSkuOut.id}}" bindtap="isVote">投票</view>
-                <view id="{{item.id}}">购买</view>
+                <view id="{{item.id}}" data-shopid="{{item.shop.id}}" bindtap='toBuy'>购买</view>
               </view>
             </view>
           </view>

@@ -81,9 +81,13 @@ Page({
       },
       success: function(res) {
         console.log(res);
-        if(res.data.code == 0) {
+        if (res.data.code == 0) {
+          let list = res.data.data.list;
+          for (let i = 0; i < list.length; i++) {
+            list[i].distance = utils.transformLength(list[i].distance);
+          }
           that.setData({
-            list: res.data.data.list
+            list: list
           });
         }
       },
@@ -95,9 +99,17 @@ Page({
   },
   toBranch(e) { //跳转至万达各店
     console.log(e);
-    let id = e.currentTarget.id;
+    let id = e.currentTarget.id, list = this.data.list, picUrl = '', name = '', address = '',distance = '';
+    for (let i = 0; i < list.length; i++) {
+      if (list[i].id == id) {
+        picUrl = list[i].picUrl;
+        name = list[i].name;
+        address = list[i].address;
+        distance = list[i].distance;
+      }
+    }
     wx.navigateTo({
-      url: 'wandaBranch/wandaBranch?id=' + id
+      url: 'wandaBranch/wandaBranch?id=' + id + '&picUrl=' + picUrl + '&name=' + name + '&address=' + address + '&distance=' + distance
     })
   },
   findByCode: function () { //通过code查询进入的用户信息，判断是否是新用户

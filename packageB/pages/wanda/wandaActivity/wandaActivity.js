@@ -160,6 +160,13 @@ Page({
       }
     })
   },
+  toBuy(e) { //买菜
+    let id = e.target.id,
+      shopId = e.currentTarget.dataset.shopid;
+    wx.navigateTo({
+      url: '../../../../pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails?id=' + id + '&shopId=' + shopId + '&actId=45&categoryId=8'
+    })
+  },
   drawNum() {     //可抽奖次数
     let that = this;
     wx.request({
