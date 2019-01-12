@@ -25,6 +25,7 @@ Page({
     _build_url: GLOBAL_API_DOMAIN,
     isshowlocation: false,
     loading: false,
+    actId: '41',
     name: '',
     address: '',
     distance: '',
@@ -42,11 +43,6 @@ Page({
       name: options.name,
       picUrl: options.picUrl
     });
-  },
-  onShow: function () {
-    this.setData({
-      isshowlocation: false
-    });
     if (!app.globalData.token) { //没有token 获取token
       let that = this;
       getToken(app).then(() => {
@@ -55,6 +51,11 @@ Page({
     } else {
       this.getData();
     }
+  },
+  onShow: function () {
+    this.setData({
+      isshowlocation: false
+    });
   },
   getData() { //获取数据
     if (app.globalData.userInfo.lat && app.globalData.userInfo.lng && app.globalData.userInfo.city) {
@@ -67,11 +68,14 @@ Page({
     }
   },
   dishL() { //砍菜列表
+    wx.showLoading({
+      title: '加载中...'
+    })
     let that = this, lng = "", lat = "", _parms = {};
     lng = wx.getStorageInfoSync('userInfo').lng ? wx.getStorageInfoSync('userInfo').lng : "110.77877";
     lat = wx.getStorageInfoSync('userInfo').lat ? wx.getStorageInfoSync('userInfo').lat : "32.6226";
     _parms = {
-      actId: 45,
+      actId: this.data.actId,
       zanUserId: app.globalData.userInfo.userId,
       browSort: 0,    //0附近 1销量 2价格
       locationX: app.globalData.userInfo.lng ? app.globalData.userInfo.lng : lng,
@@ -103,15 +107,17 @@ Page({
         }
       }
       swichrequestflag = false;
+      wx.hideLoading();
     }, () => {
       swichrequestflag = false;
     });
   },
   toBuy(e) { //买菜
     let id = e.currentTarget.id,
+      actId = e.currentTarget.dataset.actid,
       shopId = e.currentTarget.dataset.shopid;
     wx.navigateTo({
-      url: '../../../../pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails?id=' + id + '&shopId=' + shopId + '&actId=45&categoryId=8'
+      url: '../../../../pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails?id=' + id + '&shopId=' + shopId + '&actId=' + actId +'&categoryId=8'
     })
   },
   onPullDownRefresh: function () {   //刷新

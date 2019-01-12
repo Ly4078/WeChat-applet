@@ -36,13 +36,13 @@ Page({
     this.setData({
       actId: options.actId
     });
+    wx.showLoading({
+      title: '加载中...'
+    })
+    this.foodsBillboard();
   },
   onShow: function () {
-    this.setData({
-      foodArr: [],
-      voteArr: []
-    });
-    this.foodsBillboard();
+    
   },
   onUnload: function () {
     
@@ -84,12 +84,14 @@ Page({
           }
         }
         swichrequestflag = false;
+        wx.hideLoading();
       },
       fail() {
         that.setData({
           loading: false
         })
         wx.stopPullDownRefresh();
+        wx.hideLoading();
       }
     }, () => {
       swichrequestflag = false;
@@ -134,22 +136,30 @@ Page({
           }
           swichrequestflag = false;
         }
+        wx.hideLoading();
       },
       fail() {
         that.setData({
           loading: false
         })
         wx.stopPullDownRefresh();
+        wx.hideLoading();
       }
     }, () => {
       swichrequestflag = false;
     })
   },
   switchTab(e) {
+    if (swichrequestflag) {
+      return;
+    }
     let id = e.target.id;
     if (this.data.navOrder == id) {
       return;
     }
+    wx.showLoading({
+      title: '加载中...'
+    })
     this.setData({
       navOrder: id,
       foodArr: [],
@@ -162,6 +172,9 @@ Page({
     if (swichrequestflag) {
       return;
     }
+    wx.showLoading({
+      title: '加载中...'
+    })
     this.setData({
       foodArr: [],
       voteArr: [],

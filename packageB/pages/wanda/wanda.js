@@ -49,6 +49,9 @@ Page({
     }
   },
   wandaList() {
+    wx.showLoading({
+      title: '加载中...'
+    })
     let _param = {}, str = "", that = this;
     _param = {
       locationX: app.globalData.userInfo.lng,
@@ -78,9 +81,10 @@ Page({
             list: list
           });
         }
+        wx.hideLoading();
       },
       fail() {
-        
+        wx.hideLoading();
       }
     })
   },

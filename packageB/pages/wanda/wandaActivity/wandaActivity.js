@@ -32,18 +32,12 @@ Page({
     currCity: 0,
     currBranch: '',
     dishList: [],
-    rows: 2,
+    rows: 10,
     page: 1,
     pageTotal: 1,
     drawNum: 0 //抽奖次数
   },
-  onLoad: function(options) {
-
-  },
-  onShow: function() {
-    this.setData({
-      isshowlocation: false
-    });
+  onLoad: function (options) {
     if (!app.globalData.token) { //没有token 获取token
       let that = this;
       getToken(app).then(() => {
@@ -55,8 +49,16 @@ Page({
       this.getData();
     }
   },
+  onShow: function () {
+    this.setData({
+      isshowlocation: false
+    });
+  },
   getData() { //获取数据
     if (app.globalData.userInfo.lat && app.globalData.userInfo.lng && app.globalData.userInfo.city) {
+      wx.showLoading({
+        title: '加载中...'
+      })
       this.cityQuery();
     } else {
       this.getlocation();
@@ -89,7 +91,7 @@ Page({
         }
       },
       fail() {
-
+        wx.hideLoading();
       }
     })
   },
@@ -140,12 +142,14 @@ Page({
           }
         }
         swichrequestflag = false;
+        wx.hideLoading();
       },
       fail() {
         that.setData({
           loading: false
         })
         wx.stopPullDownRefresh();
+        wx.hideLoading();
       }
     }, () => {
       swichrequestflag = false;
@@ -247,6 +251,9 @@ Page({
     if (swichrequestflag) {
       return;
     }
+    wx.showLoading({
+      title: '加载中...'
+    })
     let id = e.target.id,
       branch = this.data.branch;
     this.setData({
@@ -265,6 +272,9 @@ Page({
     if (this.data.currBranch == name) {
       return;
     }
+    wx.showLoading({
+      title: '加载中...'
+    })
     this.setData({
       currBranch: name,
       dishList: [],
@@ -276,6 +286,9 @@ Page({
     if (swichrequestflag) {
       return;
     }
+    wx.showLoading({
+      title: '加载中...'
+    })
     this.setData({
       page: 1,
       dishList: []
