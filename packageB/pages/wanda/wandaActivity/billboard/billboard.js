@@ -22,6 +22,7 @@ var swichrequestflag = false;
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
+    loading: false,
     actId: '',
     navOrder: 1,
     foodArr: [],
@@ -35,10 +36,13 @@ Page({
     this.setData({
       actId: options.actId
     });
-    this.foodsBillboard();
   },
   onShow: function () {
-    
+    this.setData({
+      foodArr: [],
+      voteArr: []
+    });
+    this.foodsBillboard();
   },
   onUnload: function () {
     
@@ -63,6 +67,10 @@ Page({
         "Authorization": app.globalData.token
       },
       success: function (res) {
+        that.setData({
+          loading: false
+        })
+        wx.stopPullDownRefresh();
         if (res.data.code == 0) {
           let list = res.data.data.list, foodArr = that.data.foodArr;
           if (list && list.length > 0) {
@@ -74,11 +82,14 @@ Page({
               foodPage: Math.ceil(res.data.data.total / 10)
             });
           }
-          swichrequestflag = false;
         }
+        swichrequestflag = false;
       },
       fail() {
-
+        that.setData({
+          loading: false
+        })
+        wx.stopPullDownRefresh();
       }
     }, () => {
       swichrequestflag = false;
@@ -103,6 +114,10 @@ Page({
         "Authorization": app.globalData.token
       },
       success: function (res) {
+        that.setData({
+          loading: false
+        })
+        wx.stopPullDownRefresh();
         if (res.data.code == 0) {
           let list = res.data.data.list, voteArr = that.data.voteArr;
           if (list && list.length > 0) {
@@ -121,7 +136,10 @@ Page({
         }
       },
       fail() {
-        
+        that.setData({
+          loading: false
+        })
+        wx.stopPullDownRefresh();
       }
     }, () => {
       swichrequestflag = false;
@@ -177,7 +195,13 @@ Page({
     
   },
   onShareAppMessage: function () {
-    
+    return {
+      title: '享7美食',
+      desc: '万达专区活动',
+      path: '/packageB/pages/wanda/wandaActivity/billboard/billboard?actId=' + this.data.actId,
+      success: function (res) { },
+      fail: function (res) { }
+    }
   },
   substr(str) {
     return str.slice(0, 3) + '****' + str.slice(7);

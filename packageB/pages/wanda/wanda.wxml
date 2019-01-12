@@ -1,3 +1,9 @@
+<view class='modal_box  modal_box11' wx:if="{{isshowlocation}}">
+  <view class='weizhi'>
+    更多体验需要你授权位置信息
+    <button bindtap="openSetting">确定</button>
+  </view>
+</view>
 <view class="shopList">
   <view class="shopItem" wx:for="{{list}}" wx:key="index" bindtap='toBranch' id="{{item.id}}">
     <image class="itemBg" src="{{item.picUrl}}"></image>

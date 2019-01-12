@@ -28,3 +28,12 @@
     </view>
   </view>
 </view>
+
+<!-- loading -->
+<view>
+  <view class='loadingBox'>
+    <i-spin custom wx:if="{{loading}}">
+      <view class="loading"></view>
+    </i-spin>
+  </view>
+</view>

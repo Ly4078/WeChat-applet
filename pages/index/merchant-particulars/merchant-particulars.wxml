@@ -100,7 +100,7 @@
   <!-- </view> -->
 
   <!-- 万达活动 -->
-  <!-- <view class="wanda">
+  <view class="wanda" wx:if="{{wandaDish.length > 0}}">
     <view class="wanda_tit" bindtap='toWDActivity'>
       <view class="w_tit_l">
         <text>活动</text>
@@ -112,7 +112,7 @@
     </view>
     <view class="wandaList">
       <view class="wandaItem" wx:for="{{wandaDish}}" wx:key="index">
-        <view class="w_dish_l">
+        <view class="w_dish_l" id="{{item.id}}" bindtap='toBuy'>
           <image src="{{item.skuPic}}"></image>
           <view>
             <view class="w_dish_name">{{item.skuName}}</view>
@@ -132,7 +132,7 @@
         </view>
       </view>
     </view>
-  </view> -->
+  </view>
   <!-- 万达活动 -->
 
   <!-- 优惠券 -->

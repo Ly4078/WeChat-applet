@@ -80,8 +80,8 @@ Page({
   },
   toWanda() {
     wx.navigateTo({
-      // url: '/packageB/pages/wanda/wanda'
-      url: 'merchant-particulars/merchant-particulars?shopid=500'
+      url: '/packageB/pages/wanda/wanda'
+      // url: 'merchant-particulars/merchant-particulars?shopid=500'
       // url: '/packageB/pages/wanda/wandaActivity/myGift/myGift'
     })
   },

@@ -6,115 +6,115 @@
     <button bindtap="openSetting">确定</button>
   </view>
 </view>
-  <view class='modal_box' wx:if="{{ismodel}}" catchtap='closemodel'>
-    <!-- 附近 、美食、综合排序 -->
-    <view class='white_box'>
-      <view class='sonNavigation'>
-        <view class='Navigation_data' bionTouchItemndtap="nearby">
-          <text>附近</text>
-          <image class='Navigation_img' src='/images/icon/restaurant_arrow.png'></image>
-        </view>
-        <view class='Navigation_data' catchtap="goodfood">
-          <text>分类</text>
-          <image class='Navigation_img' src='/images/icon/restaurant_arrow.png'></image>
-        </view>
-        <view class='Navigation_data' catchtap="sorting">
-          <text>综合排序</text>
-          <image class='Navigation_img' src='/images/icon/restaurant_arrow.png'></image>
-        </view>
+<view class='modal_box' wx:if="{{ismodel}}" catchtap='closemodel'>
+  <!-- 附近 、美食、综合排序 -->
+  <view class='white_box'>
+    <view class='sonNavigation'>
+      <view class='Navigation_data' bionTouchItemndtap="nearby">
+        <text>附近</text>
+        <image class='Navigation_img' src='/images/icon/restaurant_arrow.png'></image>
       </view>
+      <view class='Navigation_data' catchtap="goodfood">
+        <text>分类</text>
+        <image class='Navigation_img' src='/images/icon/restaurant_arrow.png'></image>
+      </view>
+      <view class='Navigation_data' catchtap="sorting">
+        <text>综合排序</text>
+        <image class='Navigation_img' src='/images/icon/restaurant_arrow.png'></image>
+      </view>
+    </view>
 
-      <view class='nearby' wx:if="{{isnearby}}">
-        <view class='options' wx:for="{{nearbydatas}}" wx:key="{{index}}" bindtap='clicknearby' id="{{index}}">
-          {{item}}
-        </view>
+    <view class='nearby' wx:if="{{isnearby}}">
+      <view class='options' wx:for="{{nearbydatas}}" wx:key="{{index}}" bindtap='clicknearby' id="{{index}}">
+        {{item}}
       </view>
-      <view class='food' wx:if="{{isfood}}">
-        <view class='options' wx:for="{{fooddatas}}" wx:key="{{index}}" bindtap='clickfood' id="{{index}}">
-          {{item}}
-        </view>
+    </view>
+    <view class='food' wx:if="{{isfood}}">
+      <view class='options' wx:for="{{fooddatas}}" wx:key="{{index}}" bindtap='clickfood' id="{{index}}">
+        {{item}}
       </view>
-      <view class='sorting' wx:if="{{issorting}}">
-        <view class='options' wx:for="{{sortingdatas}}" wx:key="{{index}}" bindtap='clicksorting' id="{{index}}">
-          {{item}}
-        </view>
+    </view>
+    <view class='sorting' wx:if="{{issorting}}">
+      <view class='options' wx:for="{{sortingdatas}}" wx:key="{{index}}" bindtap='clicksorting' id="{{index}}">
+        {{item}}
       </view>
     </view>
   </view>
+</view>
 
- <view class='dining_top' >
-      <view class="search" bindtap="seekTap">
-        <view class="search_arr skeleton-radius">
-          <icon class="searchcion" size='20' type='search' catchtap="onSearchInp"></icon>
-          <input class='inputs' placeholder="搜索商家" bindinput="onInputText" bindconfirm="onSearchInp" value='{{searchValue}}'/>
-        </view>
+<view class='dining_top'>
+  <view class="search" bindtap="seekTap">
+    <view class="search_arr skeleton-radius">
+      <icon class="searchcion" size='20' type='search' catchtap="onSearchInp"></icon>
+      <input class='inputs' placeholder="搜索商家" bindinput="onInputText" bindconfirm="onSearchInp" value='{{searchValue}}' />
+    </view>
+  </view>
+  <view class='sonNavigation skeleton-rect' wx:if="{{!ismodel}}">
+    <view class='Navigation_data' id='1' catchtap='openmodel'>
+      <text>附近</text>
+      <image class='Navigation_img' src='/images/icon/restaurant_arrow.png'></image>
+    </view>
+    <view class='Navigation_data' id='2' catchtap='openmodel'>
+      <text>分类</text>
+      <image class='Navigation_img' src='/images/icon/restaurant_arrow.png'></image>
+    </view>
+    <view class='Navigation_data' id='3' catchtap='openmodel'>
+      <text>综合排序</text>
+      <image class='Navigation_img' src='/images/icon/restaurant_arrow.png'></image>
+    </view>
+  </view>
+</view>
+<view class='page_row'>
+  <!-- 商家 -->
+  <block wx:for="{{showSkeleton?SkeletonData:posts_key}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
+
+    <view class="hot-recoItem " catchtap='onTouchItem' id="{{item.id}}" data-distance="{{item.distance}}">
+      <view class="hot-recoItem-left skeleton-rect">
+        <image-loader width="180rpx" height="180rpx" class='hot-recoItem-leftImg' default-image='/images/icon/morentu.png' original-image="{{item.logoUrl?item.logoUrl:'/images/icon/morentu.png'}}" />
+
+        <!-- <image src="{{item.logoUrl}}" lazy-load='true' class='hot-recoItem-leftImg'></image> -->
       </view>
-      <view class='sonNavigation skeleton-rect'  wx:if="{{!ismodel}}">
-        <view class='Navigation_data' id='1' catchtap='openmodel'>
-          <text>附近</text>
-          <image class='Navigation_img' src='/images/icon/restaurant_arrow.png'></image>
+      <view class="hot-recoItem-right">
+        <view class="title_tips skeleton-rect">
+          <text class="title">{{item.shopName}}</text>
+          <text class="tips quan" wx:if="{{item.ruleDescs.length}}">劵</text>
+          <!-- <text class="tips kan"  wx:if="{{item.skuName}}">砍</text> -->
         </view>
-        <view class='Navigation_data' id='2' catchtap='openmodel'>
-          <text>分类</text>
-          <image class='Navigation_img' src='/images/icon/restaurant_arrow.png'></image>
+        <view class="hot-recoItem-right-bottom">
+          <view class="hot-recoItem-rightInfo">
+            <!-- 人气 -->
+            <view class="Popularity skeleton-rect">
+              <image src="/images/icon/hot.png"></image>
+              <text>人气{{item.popNum || '0'}}</text>
+            </view>
+            <!-- 推荐菜 -->
+            <view class="hotdish skeleton-rect">
+              <text wx:if="{{item.goodsSku.skuName}}">{{item.goodsSku.skuName}}</text>
+            </view>
+            <!--满减  -->
+            <view class="fullreduction skeleton-rect">
+              <text wx:for="{{item.ruleDescs}}" wx:if="{{index <=1}}" wx:key="index">{{item}}</text>
+            </view>
+
+          </view>
+          <view class="hot-recoItem-rightLoca">
+            <text>{{item.distance}}</text>
+          </view>
         </view>
-        <view class='Navigation_data' id='3' catchtap='openmodel'>
-          <text>综合排序</text>
-          <image class='Navigation_img' src='/images/icon/restaurant_arrow.png'></image>
-        </view>
+
       </view>
     </view>
-  <view class='page_row'>
-    <!-- 商家 -->
-    <block wx:for="{{showSkeleton?SkeletonData:posts_key}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
-    
-      <view class="hot-recoItem " catchtap='onTouchItem' id="{{item.id}}" data-distance="{{item.distance}}">
-        <view class="hot-recoItem-left skeleton-rect">
-        <image-loader width="180rpx" height="180rpx" class='hot-recoItem-leftImg'  default-image='/images/icon/morentu.png'  original-image="{{item.logoUrl?item.logoUrl:'/images/icon/morentu.png'}}"  />
 
-          <!-- <image src="{{item.logoUrl}}" lazy-load='true' class='hot-recoItem-leftImg'></image> -->
-        </view>
-        <view class="hot-recoItem-right">
-          <view class="title_tips skeleton-rect">
-            <text class="title">{{item.shopName}}</text>
-            <text class="tips quan" wx:if="{{item.ruleDescs.length}}">劵</text>
-            <!-- <text class="tips kan"  wx:if="{{item.skuName}}">砍</text> -->
-          </view>
-          <view class="hot-recoItem-right-bottom">
-            <view class="hot-recoItem-rightInfo">
-              <!-- 人气 -->
-              <view class="Popularity skeleton-rect">
-                <image src="/images/icon/hot.png"></image>
-                <text>人气{{item.popNum || '0'}}</text>
-              </view>
-              <!-- 推荐菜 -->
-              <view class="hotdish skeleton-rect">
-                <text wx:if="{{item.goodsSku.skuName}}">{{item.goodsSku.skuName}}</text>
-              </view>
-              <!--满减  -->
-              <view class="fullreduction skeleton-rect">
-                <text wx:for="{{item.ruleDescs}}" wx:if="{{index <=1}}" wx:key="index">{{item}}</text>
-              </view>
-
-            </view>
-            <view class="hot-recoItem-rightLoca">
-              <text>{{item.distance}}</text>
-            </view>
-          </view>
-
-        </view>
-      </view>
-
-    </block>
-    <block wx:if="{{posts_key.length<1}}">
-      <view class='withouttishiWrap'>
-        <image class='withouttishi' src='/images/icon/zhanweitu.png'></image>
-      </view>
-      <view class='withoutText'>*^＠^* 暂无此商家</view>
-    </block>
-  </view>
-  <view class='loadingBox'>
-      <i-spin custom wx:if="{{loading}}">
-              <view class="loading"></view>
-      </i-spin>
-  </view>
+  </block>
+  <block wx:if="{{posts_key.length<1}}">
+    <view class='withouttishiWrap'>
+      <image class='withouttishi' src='/images/icon/zhanweitu.png'></image>
+    </view>
+    <view class='withoutText'>*^＠^* 暂无此商家</view>
+  </block>
+</view>
+<view class='loadingBox'>
+  <i-spin custom wx:if="{{loading}}">
+    <view class="loading"></view>
+  </i-spin>
+</view>

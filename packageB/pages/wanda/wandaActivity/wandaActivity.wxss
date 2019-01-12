@@ -1,5 +1,5 @@
 page, .wd_activity {
-  height: 100%;
+  /* height: 100%; */
   width: 100%;
   background-color: #E03021;
 }
@@ -173,7 +173,6 @@ page, .wd_activity {
 .wd_act_list {
   display: flex;
   flex-wrap: wrap;
-  padding-bottom: 20rpx;
 }
 
 .wd_act_item {

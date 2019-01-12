@@ -1,3 +1,9 @@
+<view class='modal_box  modal_box11' wx:if="{{isshowlocation}}">
+  <view class='weizhi'>
+    更多体验需要你授权位置信息
+    <button bindtap="openSetting">确定</button>
+  </view>
+</view>
 <view class="wd_activity">
   <image class="banner_img" src="/images/icon/wd_2.png"></image>
   <view class="act_contain">
@@ -40,7 +46,7 @@
               <text class="item_shopName">{{item.shop.shopName}}</text>
               <text>{{item.distance}}</text>
             </view>
-            <image class="act_item_pic" src="{{item.skuPic}}"></image>
+            <image class="act_item_pic" src="{{item.skuPic}}" id="{{item.id}}" data-shopid="{{item.shop.id}}" bindtap='toBuy'></image>
             <view class="act_item_b">
               <view class="item_dishName">{{item.skuName}}</view>
               <view class="item_ticket">
@@ -60,5 +66,14 @@
         </view>
       </view>
     </view>
+  </view>
+</view>
+
+<!-- loading -->
+<view>
+  <view class='loadingBox'>
+    <i-spin custom wx:if="{{loading}}">
+      <view class="loading"></view>
+    </i-spin>
   </view>
 </view>

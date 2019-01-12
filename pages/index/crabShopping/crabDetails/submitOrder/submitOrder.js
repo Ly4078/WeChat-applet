@@ -91,7 +91,7 @@ Page({
       groupId: options.groupId ? options.groupId : '',
       singleType: options.singleType ? options.singleType : '',
     })
-    if (this.data.actId == 41 || this.data.actId == 44) {
+    if (this.data.actId == 41 || this.data.actId == 44 || this.data.actId == 45) {
       this.setData({
         totleKey: options.totleKey ? options.totleKey:'',
         valueKey: options.valueKey ? options.valueKey:''
@@ -537,7 +537,7 @@ Page({
       title: '加载中...',
       mask: true
     })
-    if (this.data.actId == 41 || this.data.actId == 44) {
+    if (this.data.actId == 41 || this.data.actId == 44 || this.data.actId == 45) {
       if (this.data.totleKey){
         _parms['totalKey'] = this.data.totleKey;
       }
@@ -758,10 +758,8 @@ Page({
     }else{
       url = that.data._build_url + 'wxpay/shoppingMallForCouponNew?' + _value;
     }
-    if (this.data.actId && this.data.actId != 41){
-      url = that.data._build_url + 'wxpay/shoppingMallForCouponNew?' + _value;
-    } else if (this.data.actId == 41) {
-      url = that.data._build_url + 'wxpay/shoppingMallForCouponNew?' + _value + '&actId=41';
+    if (this.data.actId) {
+      url = that.data._build_url + 'wxpay/shoppingMallForCouponNew?' + _value + '&actId=' + this.data.actId;
     }
     _Url = encodeURI(url);
     wx.request({

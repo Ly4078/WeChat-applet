@@ -458,7 +458,7 @@ Page({
               // actType: data[0].goodsSkuOut.actInfo.type ? data[0].goodsSkuOut.actInfo.type:'',
               peoplenum: data[0].peoplenum * 1 - 1
             });
-            if (_this.data.actId == 41) {
+            if (_this.data.actId) {
               _this.setData({
                 totleKey: data[0].totleKey,
                 valueKey: data[0].valueKey
@@ -910,11 +910,7 @@ Page({
         _soData = this.data.dishData,
         _values = "";
 
-      if (_this.data.actId && _this.data.actId != 41) {
-        wx.navigateTo({
-          url: '/pages/index/crabShopping/crabDetails/submitOrder/submitOrder?num=1&issku=3&picUrl=' + _soData.skuPic + '&sellPrice=' + _this.data.skuMoneyNow + '&id=' + _soData.id + '&actId=' + _this.data.actId + '&skuName=' + _soData.skuName + '&remark=' + _soData.remark + '&shopId=' + _soData.shopId + '&singleType=' + _soData.singleType + '&spuId=' + _soData.spuId + '&groupId=' + _this.data.groupId + '&flag=' + this.data.actType
-        })
-      } else if (_this.data.actId == 41) {
+      if (_this.data.actId) {
         wx.navigateTo({
           url: '/pages/index/crabShopping/crabDetails/submitOrder/submitOrder?num=1&issku=3&picUrl=' + _soData.skuPic + '&sellPrice=' + _this.data.skuMoneyNow + '&id=' + _soData.id + '&actId=' + _this.data.actId + '&skuName=' + _soData.skuName + '&remark=' + _soData.remark + '&shopId=' + _soData.shopId + '&singleType=' + _soData.singleType + '&spuId=' + _soData.spuId + '&groupId=' + _this.data.groupId + '&flag=' + this.data.actType + '&totleKey=' + this.data.totleKey + '&valueKey=' + this.data.valueKey
         })

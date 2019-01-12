@@ -30,12 +30,22 @@ page {
 }
 
 .shareIcon {
-  width: 42rpx;
-  height: 50rpx;
+  width: 80rpx;
+  height: 80rpx;
   position: absolute;
   top: 28rpx;
   right: 40rpx;
   z-index: 10;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-color: transparent;
+  background-color: transparent;
+}
+
+.shareIcon image {
+  width: 42rpx;
+  height: 50rpx;
 }
 
 .branchInfo {

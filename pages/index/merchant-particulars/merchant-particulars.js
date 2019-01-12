@@ -1769,7 +1769,7 @@ Page({
     })
   },
   toBuy(e) { //买菜
-    let id = e.target.id;
+    let id = e.currentTarget.id;
     wx.navigateTo({
       url: '../bargainirg-store/CandyDishDetails/CandyDishDetails?id=' + id + '&shopId=' + this.data.shopid + '&actId=45&categoryId=8'
     })

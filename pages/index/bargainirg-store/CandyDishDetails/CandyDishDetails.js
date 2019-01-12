@@ -280,7 +280,7 @@ Page({
     let id = e.currentTarget.id,
       shopId = e.currentTarget.dataset.shopid;
     this.setData({
-      actId:41,
+      actId: this.data.actId,
       id: id,
       shopId: shopId,
       page: 1,
@@ -363,8 +363,7 @@ Page({
       Id: this.data.id,
       shopId: this.data.shopId,
       locationX: app.globalData.userInfo.lng,
-      locationY: app.globalData.userInfo.lat,
-      // actId:41
+      locationY: app.globalData.userInfo.lat
     };
     if (that.data.actId) {
       _parms.actId = this.data.actId
@@ -619,7 +618,7 @@ Page({
     if (app.globalData.userInfo.lat && app.globalData.userInfo.lng) {
       let _parms = {
         shopId: this.data.shopId,
-        actId: 41,
+        actId: this.data.actId,
         zanUserId: app.globalData.userInfo.userId,
         browSort: 0,
         locationX: app.globalData.userInfo.lng,
@@ -694,7 +693,7 @@ Page({
         locationY: app.globalData.userInfo.lat,
         city: that.data._city ? that.data._city : app.globalData.userInfo.city,
         isDeleted: 0,
-        actId: 41,
+        actId: this.data.actId,
         page: that.data.page,
         rows:10
       };
