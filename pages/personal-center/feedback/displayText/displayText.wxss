@@ -1,5 +1,5 @@
 page{
-  background: #F0EFF4;
+  background: #fff;
 }
 
 .family{
@@ -24,8 +24,9 @@ page{
 }
 
 .matter{
-  padding-bottom: 20rpx;
+  padding: 20rpx 0;
   font-size: 24rpx;
+  border-top: 2px solid #ebebeb;
 }
 
 .Contentes{

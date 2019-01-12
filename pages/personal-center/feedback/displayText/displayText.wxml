@@ -4,7 +4,8 @@
       <text>{{explain[id].headline}}</text>
     </view>
     <view class='matter'>
-      <text>{{explain[id].content}}</text>
+      <!-- <text>{{explain[id].content}}</text> -->
+      <view wx:for="{{explain[id].content}}" wx:key="index">{{item}}</view>
     </view>
   </view>
 </view>
