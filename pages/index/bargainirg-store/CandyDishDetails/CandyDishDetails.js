@@ -494,6 +494,18 @@ Page({
             WxParse.wxParse('article', 'html', article, that, 0);
           }
           data.skuName = utils.uncodeUtf16(data.skuName);
+          try{
+            if (data.attachments && data.attachments.length ) {
+              var obj = {};
+              obj.picUrl = data.picUrl ? data.picUrl : data.skuPic;
+              data.attachments.unshift(obj)
+            }else{
+              var obj = {};
+              obj.picUrl = data.picUrl ? data.picUrl : data.skuPic;
+              data.attachments = [];
+              data.attachments.push(obj)
+            }
+          }catch(err){}
           that.setData({
             pattern: pattern,
             soData: data,
@@ -546,6 +558,18 @@ Page({
         }
       }
     });
+  },
+  seebigImg:function(e){
+    let that = this;
+    let currentImg = e.currentTarget.dataset.img;
+    let urls = [];
+    for (let i = 0; i < that.data.soData.attachments.length;i++) {
+      urls.push(that.data.soData.attachments[i].picUrl)
+    }
+    wx.previewImage({
+      urls: urls,
+      current: currentImg
+    })
   },
   //跳转至商家主页
   toShopDetail() {

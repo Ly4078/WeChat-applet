@@ -12,7 +12,7 @@
   <view class='particulars' style="height:220rpx;">
     <view class='particulars_detailsfirst'>
       <image style="width:160rpx;height:160rpx;margin-right:20rpx;" src="{{singleData.skuPic?singleData.skuPic:'/images/icon/morentu.png'}}"></image>
-      <text class='particulars_text' style="padding-right:60rpx;font-weight:600;flex:1;"  wx:if="{{singleData.skuName}}">{{singleData.skuName}}</text>
+      <text class='particulars_text' style="padding-right:60rpx;font-weight:700;flex:1;"  wx:if="{{singleData.skuName}}">{{singleData.skuName}}</text>
       <text>￥{{singleData.sellPrice}}</text>
     </view>
   </view>

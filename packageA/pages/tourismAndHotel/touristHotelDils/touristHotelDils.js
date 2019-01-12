@@ -127,6 +127,19 @@ Page({
               WxParse.wxParse('article', 'html', that.data._content, that, 10);
             })
           }
+          try {
+            if (_data.attachments && _data.attachments.length) {
+              var obj = {};
+              obj.picUrl = _data.picUrl ? _data.picUrl : _data.skuPic;
+              data.attachments.unshift(obj)
+            } else {
+              var obj = {};
+              obj.picUrl = _data.picUrl ? _data.picUrl : _data.skuPic;
+              _data.attachments = [];
+              _data.attachments.push(obj)
+            }
+          } catch (err) { }
+
           that.setData({
             singleData: _data,
             showSkeleton: false

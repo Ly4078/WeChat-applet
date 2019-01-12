@@ -32,7 +32,7 @@ Page({
     carousel: [''], //轮播图
     currentTab: 0,
     isformid: true,
-    showwandaactivity:true,//活动海报
+    showwandaactivity:false,//活动海报
     loading: false,
     // 改版新增变量 
     fresh1: {}, //享7生鲜图片1

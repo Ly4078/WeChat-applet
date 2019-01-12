@@ -701,7 +701,10 @@ Page({
   },
   getmoredata: function() {
 
-    this.gethotdish();
+    
+    if (!this.data.hotlist2.length) {
+      this.gethotdish();
+    }
     if(app.globalData.userInfo.lat && app.globalData.userInfo.lng){
       this.getstoredata();
     }

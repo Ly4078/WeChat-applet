@@ -20,50 +20,23 @@ Page({
   onShow: function (options) {
     let that = this;
     if (!app.globalData.token) {
-      getToken(app).then( ()=>{
-        that.getcatdata();
+      getToken(app).then(() => {
+        that.getcatdata('reset');
       })
     } else {
-      if (!that.data.actdata.length){
-        that.getcatdata();
-      }
-      
+      // if (!that.data.actdata.length) {
+      that.getcatdata("reset");
+      // }
     }
+   
   },
   onLoad: function () {
     let that = this;
-    if (!app.globalData.userInfo.unionId){
-      wx.login({
-        success: res => {
-          if (res.code) {
-            let _parms = {
-              code: res.code
-            }
-             Api.getOpenId(_parms).then((res) => {
-               if(res.data.code=='0'){
-                 app.globalData.userInfo.openId = res.data.data.openId;
-                 app.globalData.userInfo.sessionKey = res.data.data.sessionKey;
-                 if (res.data.data.unionId) {
-                   app.globalData.userInfo.unionId = res.data.data.unionId;
-                   that.setData({
-                     istouqu: false
-                   })
-                 } else {
-                   that.setData({
-                     istouqu: true
-                   })
-                 }
-               }
-               
-             })
-          }
-        }
-      })
-    }else{
-      that.setData({
-        istouqu: false
-      })
+    let actList = wx.getStorageSync('actList') || [];
+    if (actList.length){
+      that.setData({ actdata: actList, showSkeleton:false});
     }
+  
   },
   findByCode: function () { //通过code查询用户信息
     let that = this;
@@ -164,7 +137,7 @@ Page({
       }
     })
   },
-  getcatdata: function () {  //获取列表数据
+  getcatdata: function (types) {  //获取列表数据
     let that = this;
     let _parms = {
       page: this.data.page,
@@ -172,18 +145,27 @@ Page({
       row: 8
     }
     Api.actlist(_parms).then((res) => {
+      
       let data = res.data;
       if (data.code == 0 && data.data.list != null && data.data.list != "" && data.data.list != []) {
         let actList = [];
-        actList = that.data.actdata;
         for (let i = 0; i < data.data.list.length; i++) {
           data.data.list[i].viewNum = utils.million(data.data.list[i].viewNum)
           actList.push(data.data.list[i]);
           actList[i].endTime = actList[i].endTime.substring(0, actList[i].endTime.indexOf(' '));
         }
         // console.log("actList:", actList)
+        
+        let arr = [];
+        if(types == 'reset') {
+          wx.setStorageSync('actList', actList)
+          arr = actList
+        } else {
+          let arrs = that.data.actdata ? that.data.actdata:[];
+          arr = arrs.concat(actList)
+        }
         that.setData({
-          actdata: actList,
+          actdata: arr,
           pageTotal: Math.ceil(res.data.data.total /8),
           loading: false,
           showSkeleton:false
@@ -219,13 +201,13 @@ Page({
     const actid = event.currentTarget.id;
     let url = event.currentTarget.dataset.url;
     let _actName = "",_type = '';
-    for (let i = 0; i < this.data.actdata.length; i++) {
-      if (this.data.actdata[i].id == actid) {
-        _actName = this.data.actdata[i].actName;
-        _type = this.data.actdata[i].type;
-        actUrl = this.data.actdata[i].actUrl;
-      }
-    }
+    // for (let i = 0; i < this.data.actdata.length; i++) {
+    //   if (this.data.actdata[i].id == actid) {
+    //     _actName = this.data.actdata[i].actName;
+    //     _type = this.data.actdata[i].type;
+    //     actUrl = this.data.actdata[i].actUrl;
+    //   }
+    // }
     wx.navigateTo({
       url: url,
       success:function(){},
@@ -280,7 +262,7 @@ Page({
       page: 1,
       flag: true
     });
-    this.getcatdata();
+    this.getcatdata('reset');
   },
   onShareAppMessage: function (res) {
 

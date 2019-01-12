@@ -83,9 +83,9 @@ page {
 
 .userintrosse {
   width: 100%;
-  font-size: 24rpx;
+  font-size: 26rpx;
   font-family: PingFangSC-Regular;
-  color: rgba(128, 128, 128, 1);
+  color: #555;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -124,6 +124,7 @@ page {
   font-size: 30rpx;
   font-family: PingFangSC-Regular;
   color: rgba(25, 25, 25, 1);
+  font-weight: 700;
 }
 
 .cuisineRight-xiaji {
@@ -181,9 +182,9 @@ page {
 }
 
 .bargainBtn text:nth-child(3) {
-  font-size: 24rpx;
+  font-size: 26rpx;
   font-family: PingFangSC-Regular;
-  color: rgba(177, 177, 177, 1);
+  color: #555;
   text-decoration: line-through;
   padding-left: 20rpx;
 }
@@ -228,9 +229,9 @@ page {
   width: 100%;
   display: flex;
   justify-content: center;
-  font-size: 22rpx;
+  font-size: 28rpx;
   font-family: PingFangSC-Regular;
-  color: rgba(85, 85, 85, 1);
+  color: #333;
   padding: 22rpx 0rpx 34rpx 0rpx;
   letter-spacing: 2rpx;
 }
@@ -259,15 +260,15 @@ page {
 }
 
 .moneyRuleLeft {
-  font-size: 20rpx;
+  font-size: 26rpx;
   font-family: PingFangSC-Regular;
-  color: rgba(177, 177, 177, 1);
+  color:#555;
 }
 
 .moneyRuleRighe {
-  font-size: 20rpx;
+  font-size: 26rpx;
   font-family: PingFangSC-Regular;
-  color: rgba(177, 177, 177, 1);
+  color:#555;
 }
 
 .userRuleWrap {
@@ -312,9 +313,9 @@ page {
 }
 
 .userRuleRight-btn {
-  font-size: 20rpx;
+  font-size: 24rpx;
   font-family: PingFangSC-Regular;
-  color: rgba(177, 177, 177, 1);
+  color: #555;
 }
 
 .userRuleRight-btn text:nth-child(2) {
@@ -385,14 +386,14 @@ page {
   width: 100%;
   display: flex;
   justify-content: space-between;
-  font-size: 24rpx;
+  font-size: 26rpx;
   font-family: PingFangSC-Regular;
-  color: rgba(177, 177, 177, 1);
+  color: #555;
   padding-top: 8rpx;
 }
 
 .helpShell {
-  font-size: 24rpx;
+  font-size: 26rpx;
   font-family: PingFangSC-Regular;
   color: #191919;
   letter-spacing: 2rpx;

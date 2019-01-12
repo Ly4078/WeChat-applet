@@ -33,7 +33,7 @@ function isObject(obj) {
 
 function sendRrquest(url, method, data, header) {
   let promise = new Promise(function (resolve, reject) {
-    wx.showNavigationBarLoading() //在标题栏中显示加载
+    // wx.showNavigationBarLoading() //在标题栏中显示加载
     wx.request({
       url: url,
       data: data,

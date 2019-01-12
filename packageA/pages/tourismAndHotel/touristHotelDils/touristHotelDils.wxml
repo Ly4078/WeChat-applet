@@ -4,9 +4,10 @@
 </skeleton>
 <view class=''>
   <view class='tripodsTop'>
-    <swiper style="height:650rpx;">
-      <swiper-item>
-       <image catchtap='todetail' class='tripods' mode='aspectFill' src='{{singleData.skuPic?singleData.skuPic:"/images/icon/morentu.png"}}'></image>
+    <swiper indicator-dots indicator-active-color="#FC6232"  style="height:650rpx;">
+      <swiper-item wx:key="index" wx:for="{{singleData.attachments}}"> 
+       <image catchtap='todetail' class='tripods' mode='aspectFill' 
+       src='{{item.picUrl?item.picUrl:"/images/icon/morentu.png"}}'></image>
       </swiper-item>
 
     </swiper>
@@ -47,7 +48,7 @@
     </view>
   </view>
   <view class='businessTime'>
-    <text class='quantum'>温馨提示：参与活动的商品配送范围:全国大部分地区（偏远地区除外）</text>
+    <text class='quantum'>配送范围:全国大部分地区（偏远地区除外）</text>
   </view>
   <view class='plainText'>
     <view class='plainText-center'>

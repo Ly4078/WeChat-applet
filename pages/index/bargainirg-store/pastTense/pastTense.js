@@ -89,7 +89,7 @@ Page({
     if (this.data.titlenub == 0) {
       url = _this.data._build_url + 'bargain/userRedis';
     } else {
-      url = _this.data._build_url + 'goodsBar/userRedis?actId=45';
+      url = _this.data._build_url + 'goodsBar/userRedis?type=4';
     }
     this.setData({
       flag: false

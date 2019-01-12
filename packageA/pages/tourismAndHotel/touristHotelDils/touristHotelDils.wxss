@@ -6,6 +6,7 @@ page{
 
 .tripodsTop{
   position: relative;
+  background: #fff;
 }
 
 .tripods{
@@ -15,16 +16,17 @@ page{
 }
 
 .detailsCen{
-  width: 100%;
-  height: 78rpx;
-  line-height: 50rpx;
-  background:rgba(251,49,96,1);
-  display: flex;
-  flex-direction: row;
+ width:100%;
+line-height:50rpx;
+background:rgba(251,49,96,1);
+display:flex;
+flex-direction:row;
+padding:5rpx 0;
+
 }
 
 .involvedIn{
-  font-size: 24rpx;
+  font-size: 26rpx;
   color:rgba(255,255,255,1);
   text-align: right;
   margin-top: 8rpx;
@@ -32,7 +34,7 @@ page{
 }
 
 .completely{
-  font-size: 20rpx;
+  font-size: 24rpx;
   color:rgba(255,255,255,1);
   text-align: right;
   margin-right: 10rpx;
@@ -41,7 +43,7 @@ page{
 .detailssmall{
   width: 70%;
   height: 78rpx;
-  font-size:24rpx;
+  font-size:28rpx;
   color:rgba(255,255,255,1);
   line-height: 78rpx;
   text-indent: 24rpx;
@@ -78,9 +80,9 @@ page{
 
 .toponymy{
   width: 100%;
-  font-size:30rpx;
+  font-size:32rpx;
   color:rgba(25,25,25,1);
-  font-weight: 600;
+  font-weight: 700;
   /* overflow: hidden; */
   /* text-overflow: ellipsis; */
   display: -webkit-box;
@@ -97,14 +99,16 @@ page{
 }
 
 .businessTime{
-  width: 100%;
-  /* height: 40rpx; */
-  background:rgba(255,222,230,1);
-  font-size:22rpx;
-  color:rgba(255,7,7,1);
-  line-height: 40rpx;
-  letter-spacing: 2rpx;
-  text-indent: 22rpx;
+  width:100%;
+background:rgba(255,222,230,1);
+font-size:26rpx;
+color:rgba(255,7,7,1);
+line-height:40rpx;
+letter-spacing:2rpx;
+box-sizing: border-box;
+text-indent:22rpx;
+padding:4rpx 5rpx;
+
 }
 
 .rulingBid text:nth-child(1){
@@ -121,7 +125,7 @@ page{
 }
 
 .inventory{
-  font-size:24rpx;
+  font-size:28rpx;
   color:rgba(85,85,85,1);
 }
 
@@ -159,8 +163,8 @@ page{
 }
 
 .reminder text{
-  font-size:24rpx;
-  color:rgba(150,150,150,1);
+  font-size:28rpx;
+  color:#333;
 }
 
 .even{
@@ -187,8 +191,8 @@ page{
   display: flex;
   flex-direction: column;
   align-items: center;
-
-
+  font-size: 28rpx;
+  font-weight: 700;
 }
 .process image{
   width: 60rpx;
@@ -320,7 +324,8 @@ page{
   background-color: #FC6232;
   text-align: center;
   line-height: 34rpx;
-  font-size:24rpx;
+  font-size:30rpx;
+  /* font-weight: 700; */
   font-family:PingFangSC-Regular;
   color:rgba(255,255,255,1);
 }
@@ -330,7 +335,7 @@ page{
 }
 
 .msgDetail view{
-  font-size: 28rpx!important;
+  font-size: 30rpx!important;
 }
 .msgDetail image{
   /* margin: 10rpx 0; */

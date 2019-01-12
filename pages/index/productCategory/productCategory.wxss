@@ -43,8 +43,9 @@ page, .categoryBox {
 
 .list-liu .swiper-tab-list{
   text-align: center; 
-  line-height: 83rpx;
+  line-height: 80rpx;
   font-size: 34rpx;
+  font-weight: 500;
 }
 
 .swiper-tab-list{
@@ -53,7 +54,7 @@ page, .categoryBox {
 
 .scrAction{
   color: #FC5E2D;
-  border-bottom: 2rpx solid #FC5E2D;
+  border-bottom: 8rpx solid #FC5E2D;
 }
 
 .classify_item {
@@ -83,11 +84,11 @@ page, .categoryBox {
   font-size: 28rpx;
   height: 74rpx;
   line-height: 37rpx;
-  font-weight: Semibold;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
   overflow: hidden;
+  font-weight: 700;
 }
 .goods_addr, .goods_distance {
   font-size: 20rpx;
@@ -99,7 +100,7 @@ page, .categoryBox {
   padding: 4rpx 0;
 }
 .goods_icon {
-  font-size: 18rpx;
+  font-size: 22rpx;
   color: #FC5E2D;
   background-color: #FFF5F2;
   border: 1rpx solid #FFA286;
@@ -111,10 +112,11 @@ page, .categoryBox {
   flex-direction: row;
   align-items: flex-end;
   padding-top: 10rpx;
+  box-sizing: border-box;
 }
 
 .discount_price {
-  font-size: 24rpx;
+  font-size: 36rpx;
   color: #FF4A4A;
   padding-right: 14rpx;
 }
@@ -274,7 +276,7 @@ page, .categoryBox {
 
 
 .original_price {
-  font-size: 20rpx;
+  font-size: 30rpx;
   color: #969696;
   text-decoration: line-through;
 }
