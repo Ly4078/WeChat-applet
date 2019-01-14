@@ -77,6 +77,6 @@
     <view class="rule_tit"> ——— 奖品设置 ———</view>
     <view class="rule_cont">{{prize}}</view>
     <view class="rule_tit"> ——— 使用规格 ———</view>
-    <view class="rule_cont" wx:for="{{regulation}}" wx:key="{{index}}">{{item.title}}</view>
+    <view class="rule_cont" wx:for="{{regulation}}" wx:key="{{index}}">{{item}}</view>
   </view>
 </view>

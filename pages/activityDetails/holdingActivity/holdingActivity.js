@@ -29,16 +29,7 @@ Page({
     _lat: '',
     _lng: '',
     regulation: [
-      {
-        title: "1、活动时间：2018-11-11至2018-12-31日。",
-        use: "1、如中奖iPhone X ：请务必联系享7美食客服人员确认详细信息后配送，有效期3个月。"
-      },
-      { title: "2、奖品设置：iPhone X 、十堰旅游券、十堰酒店房卡、十堰美食券。", use: "2、如中奖十堰旅游券：请根据中奖旅游景区到指定景区出使券票二维码即可使用；有效期1年。" },
-      { title: "3、通过享7美食小程序每邀请2个好友成为享7美食新用户，即可抽奖一次，百分百中奖！", use: "3、如中奖十堰酒店房卡：请根据中奖酒店到指定酒店前台出使券票二维码即可使用，有效期1年。" },
-      { title: "4、邀请新用户抽奖成功后实时发放入您的券包，您可在享7美食小程序-我的-券包中查看。", use: "4、如中奖美食券：请根据中奖菜品对应的商家到指定商家用餐出使券票二维码即可使用，有效期3个月。" },
-      { title: "5、您邀请的好友必须是享7美食新用户，同一手机号、同一设备、同一支付账号视为统一用户。" },
-      { title: "6、抽奖存入券包里的券中奖商品不用有效期不同，在有效期内均可使用。" },
-      { title: "7、如有其他疑问请咨询享7美食客服。" },],
+      ],
     prizeList: [], //奖品列表
     turnIdx: 2, //转动序号
     // turnFlag: false,  //转动标识
@@ -325,6 +316,12 @@ Page({
           wx.hideLoading()
           let data = res.data.data
           that.computed(data)
+          let arr = '';
+          arr = data[0].actInfo.actDesc.split(',');
+          that.setData({
+            regulation:arr
+          })
+
         } else {
           wx.hideLoading()
           wx.showToast({
@@ -602,14 +599,7 @@ Page({
   },
   //分享给好友
   onShareAppMessage: function () {
-    return {
-      title: '邀请好友，换大闸蟹',
-      path: '/pages/activityDetails/holdingActivity/holdingActivity?inviter=' + app.globalData.userInfo.userId,
-      imageUrl: 'https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/微信图片_20181108171635.png',
-      success: function (res) {
-
-      } 
-    }
+   
   },
   toIndex() { //跳转至首页
     wx.switchTab({
