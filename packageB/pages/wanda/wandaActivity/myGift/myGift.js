@@ -24,7 +24,7 @@ Page({
   getwinningList(types) {
     let that = this
     wx.request({
-      url: that.data._build_url + 'orderInfo/listFree?&rows=20&payType=0&categoryId=6&userId=' + wx.getStorageSync('userInfo').id + '&page=' + that.data.page,
+      url: that.data._build_url + 'orderInfo/listFree?&rows=20&payType=0&userId=' + wx.getStorageSync('userInfo').id + '&page=' + that.data.page,
       method: 'get',
       header: {
         "Authorization": app.globalData.token

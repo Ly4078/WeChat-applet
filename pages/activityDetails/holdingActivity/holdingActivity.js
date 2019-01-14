@@ -59,7 +59,7 @@ Page({
   getwinningList() {
     let that = this
     wx.request({
-      url: that.data._build_url + 'orderInfo/listFree?page=1&rows=50&payType=0&categoryId=6',
+      url: that.data._build_url + 'orderInfo/listFree?page=1&rows=50&payType=0',
       method: 'get',
       header: {
         "Authorization": app.globalData.token
