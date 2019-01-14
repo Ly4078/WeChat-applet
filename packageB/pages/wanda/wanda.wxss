@@ -1,5 +1,7 @@
 .shopList {
+  min-height: 100%;
   padding: 20rpx 28rpx;
+  box-sizing: border-box;
   letter-spacing: 2rpx;
 }
 

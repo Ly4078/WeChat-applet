@@ -1,16 +1,18 @@
+<!-- 骨架屏模块 -->
+<skeleton selector="skeleton" loading="spin" bgcolor="#FFF" wx:if="{{showSkeleton}}"></skeleton>
 <view class='modal_box  modal_box11' wx:if="{{isshowlocation}}">
   <view class='weizhi'>
     更多体验需要你授权位置信息
     <button bindtap="openSetting">确定</button>
   </view>
 </view>
-<view class="shopList">
-  <view class="shopItem" wx:for="{{list}}" wx:key="index" bindtap='toBranch' id="{{item.id}}">
-    <image class="itemBg" src="{{item.picUrl}}"></image>
+<view class="shopList skeleton">
+  <view class="shopItem skeleton-rect" wx:for="{{list}}" wx:key="index" bindtap='toBranch' id="{{item.id}}">
+    <image class="itemBg skeleton-rect" mode='aspectFill' src="{{item.picUrl}}"></image>
     <view class="itemShadow"></view>
     <view class="shopInfo">
-      <view class="shopName">{{item.name}}</view>
-      <view class="shopAdr">
+      <view class="shopName skeleton-rect">{{item.name}}</view>
+      <view class="shopAdr skeleton-rect">
         <view>{{item.address}}</view>
         <view>{{item.distance}}</view>
       </view>

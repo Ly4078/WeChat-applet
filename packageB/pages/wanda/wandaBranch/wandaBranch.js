@@ -30,6 +30,8 @@ Page({
     address: '',
     distance: '',
     picUrl: '',
+    locationX: '',
+    locationY: '',
     rows: 10,
     page: 1,
     pageTotal: 1,
@@ -146,12 +148,25 @@ Page({
   onShareAppMessage: function (res) {
     console.log(res);
     return {
-      title: '享7美食',
-      desc: '万达专区活动',
+      title: this.data.name + '专区菜品',
       path: '/packageB/pages/wanda/wandaBranch/wandaBranch?id=' + this.data.id + '&picUrl=' + this.data.picUrl + '&name=' + this.data.name + '&address=' + this.data.address + '&distance=' + this.data.distance,
       success: function (res) { },
       fail: function (res) { }
     }
+  },
+  //打开地图，已授权位置
+  openmap () {
+    console.log(typeof this.data.locationX);
+    let that = this;
+    wx.openLocation({
+      longitude: Number(that.data.locationX),
+      latitude: Number(that.data.locationY),
+      scale: 18,
+      name: that.data.name,
+      address: that.data.address,
+      success: function (res) { },
+      fail: function (res) { }
+    })
   },
   openSetting() { //打开授权设置界面
     let that = this;

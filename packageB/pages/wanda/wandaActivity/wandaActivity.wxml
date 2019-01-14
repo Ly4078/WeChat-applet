@@ -54,7 +54,7 @@
                 <view>{{item.actGoodsSkuOut.voteNum}}票</view>
               </view>
               <view class="item_dishPrice">
-                <text>￥{{item.goodsPromotionRules[0].actAmount}}</text>
+                <text>￥{{item.actGoodsSkuOut.goodsPromotionRules.actAmount}}</text>
                 <text>￥{{item.sellPrice}}</text>
               </view>
               <view class="item_btn">

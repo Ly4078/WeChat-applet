@@ -13,7 +13,7 @@
     </button>
     <view class="branchInfo">
       <view class="branchName">{{name}}
-        <view class="navigation">导航</view>
+        <view class="navigation" bindtap='openmap'>导航</view>
       </view>
       <view class="branchAdr">
         <text>{{address}}</text>
@@ -30,8 +30,8 @@
           <view class="shopName">
             <view class="shopName_l">
               <image src="/images/icon/house.png"></image>
-              <text wx:if="{{item.shopName}}">{{item.shopName}}</text>
-              <text wx:else>{{item.shop.shopName}}</text>
+              <view wx:if="{{item.shopName}}">{{item.shopName}}</view>
+              <view wx:else>{{item.shop.shopName}}</view>
             </view>
             <view class="shopName_r">{{item.distance}}</view>
           </view>
@@ -41,7 +41,7 @@
                 <text class="priceIcon">￥</text>
                 <text>底价</text>
               </view>
-              <view class="cost_r">{{item.agioPrice?item.agioPrice:item.actGoodsSkuOut.goodsPromotionRules.actAmount}}</view>
+              <view class="cost_r">{{item.actGoodsSkuOut.goodsPromotionRules.actAmount}}</view>
             </view>
             <view class="menuPrice_r">原价￥{{item.sellPrice}}</view>
           </view>

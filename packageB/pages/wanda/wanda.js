@@ -22,11 +22,16 @@ var village_LBS = function (that) {
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
+    showSkeleton: true,
     isshowlocation: false,
     list: []
   },
   onLoad: function(options) {
-    
+    setTimeout(() => {
+      this.setData({
+        showSkeleton: false
+      })
+    }, 3000)
   },
   onShow: function() {
     this.setData({
@@ -63,8 +68,10 @@ Page({
       str += key + "=" + _param[key] + "&";
     }
     str = str.substring(0, str.length - 1);
+    let _url = this.data._build_url + 'shopZone/listItem';
+    _url = encodeURI(_url);
     wx.request({
-      url: that.data._build_url + 'shopZone/listItem',
+      url: _url,
       data: JSON.stringify(_param),
       method: 'POST',
       header: {
@@ -89,23 +96,24 @@ Page({
     })
   },
   toBranch(e) { //跳转至万达各店
-    let id = e.currentTarget.id, list = this.data.list, picUrl = '', name = '', address = '',distance = '';
+    let id = e.currentTarget.id, list = this.data.list, picUrl = '', name = '', address = '', distance = '', locationX = '', locationY = '';
     for (let i = 0; i < list.length; i++) {
       if (list[i].id == id) {
         picUrl = list[i].picUrl;
         name = list[i].name;
         address = list[i].address;
         distance = list[i].distance;
+        locationX = list[i].locationX;
+        locationY = list[i].locationY;
       }
     }
     wx.navigateTo({
-      url: 'wandaBranch/wandaBranch?id=' + id + '&picUrl=' + picUrl + '&name=' + name + '&address=' + address + '&distance=' + distance
+      url: 'wandaBranch/wandaBranch?id=' + id + '&picUrl=' + picUrl + '&name=' + name + '&address=' + address + '&distance=' + distance + '&locationX=' + locationX + '&locationY=' + locationY
     })
   },
   onShareAppMessage: function() {
     return {
-      title: '享7美食',
-      desc: '万达专区活动',
+      title: '万达专区活动',
       path: '/packageB/pages/wanda/wanda',
       success: function (res) { },
       fail: function (res) { }

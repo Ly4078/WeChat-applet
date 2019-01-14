@@ -60,8 +60,10 @@ Page({
     }
     str = str.substring(0, str.length - 1);
     swichrequestflag = true;
+    let _url = this.data._build_url + 'goodsSku/listForAct?' + str;
+    _url = encodeURI(_url);
     wx.request({
-      url: that.data._build_url + 'goodsSku/listForAct?' + str,
+      url: _url,
       method: 'GET',
       header: {
         "Authorization": app.globalData.token
@@ -109,8 +111,10 @@ Page({
     }
     str = str.substring(0, str.length - 1);
     swichrequestflag = true;
+    let _url = this.data._build_url + 'vote/getUserRanking?' + str;
+    _url = encodeURI(_url);
     wx.request({
-      url: that.data._build_url + 'vote/getUserRanking?' + str,
+      url: _url,
       method: 'GET',
       header: {
         "Authorization": app.globalData.token
@@ -209,8 +213,7 @@ Page({
   },
   onShareAppMessage: function () {
     return {
-      title: '享7美食',
-      desc: '万达专区活动',
+      title: '湖北万达十大招牌菜榜单',
       path: '/packageB/pages/wanda/wandaActivity/billboard/billboard?actId=' + this.data.actId,
       success: function (res) { },
       fail: function (res) { }

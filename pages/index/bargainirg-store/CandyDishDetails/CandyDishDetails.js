@@ -676,7 +676,7 @@ Page({
           // categoryId: that.data.categoryId,
           locationX: app.globalData.userInfo.lng,
           locationY: app.globalData.userInfo.lat,
-          city:app.globalData.userInfo.city,
+          city: that.data._city ? that.data._city : app.globalData.userInfo.city,
           page: that.data.page,
           rows:10
         }

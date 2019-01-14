@@ -37,7 +37,7 @@ Page({
     pageTotal: 1,
     drawNum: 0 //抽奖次数
   },
-  onLoad: function (options) {
+  onLoad: function(options) {
     if (!app.globalData.token) { //没有token 获取token
       let that = this;
       getToken(app).then(() => {
@@ -49,7 +49,7 @@ Page({
       this.getData();
     }
   },
-  onShow: function () {
+  onShow: function() {
     this.setData({
       isshowlocation: false
     });
@@ -66,8 +66,10 @@ Page({
   },
   cityQuery() {
     let that = this;
+    let _url = this.data._build_url + 'shopZone/listAllShopZone';
+    _url = encodeURI(_url);
     wx.request({
-      url: that.data._build_url + 'shopZone/listAllShopZone',
+      url: _url,
       method: 'GET',
       header: {
         "Authorization": app.globalData.token
@@ -87,6 +89,13 @@ Page({
             currBranch: branch[that.data.currCity][0].name,
             dishList: []
           });
+          for (let i = 0; i < city.length; i++) {
+            if (city[i] == app.globalData.userInfo.city) {
+              that.setData({
+                currCity: i
+              });
+            }
+          }
           that.dishL();
         }
       },
@@ -102,7 +111,6 @@ Page({
       shopZoneCity = "";
     shopZoneCity = this.data.city[this.data.currCity];
     _param = {
-      searchKey: '',
       actId: this.data.actId,
       shopZoneCity: shopZoneCity,
       shopZoneItem: this.data.currBranch,
@@ -116,13 +124,15 @@ Page({
     }
     str = str.substring(0, str.length - 1);
     swichrequestflag = true;
+    let _url = this.data._build_url + 'goodsSku/listForAct?' + str;
+    _url = encodeURI(_url);
     wx.request({
-      url: that.data._build_url + 'goodsSku/listForAct?' + str,
+      url: _url,
       method: 'GET',
       header: {
         "Authorization": app.globalData.token
       },
-      success: function (res) {
+      success: function(res) {
         that.setData({
           loading: false
         })
@@ -157,9 +167,11 @@ Page({
   },
   isVote(e) { //是否可以投票
     let that = this,
-      id = e.target.id;
+      id = e.target.id,
+      _url = this.data._build_url + 'vote/canVoteToday?actId=' + this.data.actId;
+    _url = encodeURI(_url);
     wx.request({
-      url: that.data._build_url + 'vote/canVoteToday?actId=' + this.data.actId,
+      url: _url,
       method: 'GET',
       header: {
         "Authorization": app.globalData.token
@@ -178,9 +190,11 @@ Page({
     })
   },
   vote(id) { //投票
-    let that = this;
+    let that = this,
+      _url = this.data._build_url + 'vote/addVoteFree?actGoodsSkuId=' + id + '&actId=' + this.data.actId;
+    _url = encodeURI(_url);
     wx.request({
-      url: that.data._build_url + 'vote/addVoteFree?actGoodsSkuId=' + id + '&actId=' + this.data.actId,
+      url: _url,
       method: 'GET',
       header: {
         "Authorization": app.globalData.token
@@ -208,15 +222,18 @@ Page({
   },
   toBuy(e) { //买菜
     let id = e.target.id,
-      shopId = e.currentTarget.dataset.shopid;
+      shopId = e.currentTarget.dataset.shopid,
+      city = this.data.city[this.data.currCity];
     wx.navigateTo({
-      url: '../../../../pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails?id=' + id + '&shopId=' + shopId + '&actId=45&categoryId=8'
+      url: '../../../../pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails?id=' + id + '&shopId=' + shopId + '&actId=45&categoryId=8' + '&city=' + city
     })
   },
   drawNum() { //可抽奖次数
-    let that = this;
+    let that = this,
+      _url = this.data._build_url + 'actLottery/get?actId=' + this.data.actId;
+    _url = encodeURI(_url);
     wx.request({
-      url: that.data._build_url + 'actLottery/get?actId=' + this.data.actId,
+      url: _url,
       method: 'GET',
       header: {
         "Authorization": app.globalData.token
@@ -310,8 +327,8 @@ Page({
   },
   onShareAppMessage: function() { //分享给好友帮忙砍价
     return {
-      title: '享7美食',
-      desc: '万达专区活动',
+      title: '湖北万达十大招牌菜',
+      imageUrl: '/images/icon/wd_2.png',
       path: '/packageB/pages/wanda/wandaActivity/wandaActivity',
       success: function(res) {},
       fail: function(res) {}
