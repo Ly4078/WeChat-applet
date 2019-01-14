@@ -72,9 +72,15 @@ Page({
     })
   },
   linkTowanda:function(){
+    let that = this;
     wx.navigateTo({
       url: '/packageB/pages/wanda/wandaActivity/wandaActivity',
+      success () {
+        that.setData({ showwandaactivity: false })
+      }
     })
+  
+
     // wx.showToast({
     //   title: '1月17号正式开放',
     //   icon:'none'

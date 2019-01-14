@@ -50,7 +50,7 @@ Page({
     colorCircleSecond: '#FE4D32', //圆点颜色2
   },
   onLoad: function (options) {
-    // this.circleShow();
+    this.circleShow();
     this.setData({
       inviter: options.inviter ? options.inviter : app.globalData.userInfo.userId
     });
@@ -607,7 +607,8 @@ Page({
       path: '/pages/activityDetails/holdingActivity/holdingActivity?inviter=' + app.globalData.userInfo.userId,
       imageUrl: 'https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/微信图片_20181108171635.png',
       success: function (res) {
-      }
+
+      } 
     }
   },
   toIndex() { //跳转至首页
