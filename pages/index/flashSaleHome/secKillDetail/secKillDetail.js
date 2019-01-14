@@ -133,6 +133,18 @@ Page({
       showModal: !this.data.showModal
     })
   },
+  seebigImg: function (e) {
+    let that = this;
+    let currentImg = e.currentTarget.dataset.img;
+    let urls = [];
+    for (let i = 0; i < that.data.soData.attachments.length; i++) {
+      urls.push(that.data.soData.attachments[i].picUrl)
+    }
+    wx.previewImage({
+      urls: urls,
+      current: currentImg
+    })
+  },
   onPullDownRefresh: function() { //下拉刷新
     this.isCreateFunc();
   },
@@ -299,6 +311,18 @@ Page({
           } else {
             _stockNum = data.stockNum
           }
+          try {
+            if (data.attachments && data.attachments.length) {
+              var obj = {};
+              obj.picUrl = data.picUrl ? data.picUrl : data.skuPic;
+              data.attachments.unshift(obj)
+            } else {
+              var obj = {};
+              obj.picUrl = data.picUrl ? data.picUrl : data.skuPic;
+              data.attachments = [];
+              data.attachments.push(obj)
+            }
+          } catch (err) { }
           that.setData({
             pattern: pattern,
             soData: data,

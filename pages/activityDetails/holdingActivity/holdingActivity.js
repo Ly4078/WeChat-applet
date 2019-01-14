@@ -9,7 +9,6 @@ let gameFlag = true; //防止重复点击
 var village_LBS = function (that) {
   wx.getLocation({
     success: function (res) {
-      console.log('vill_res:', res)
       let latitude = res.latitude,
         longitude = res.longitude;
       app.globalData.userInfo.lat = latitude;
@@ -26,11 +25,14 @@ Page({
     isshowlocation: false,
     userId: '',
     _city: '',
+    currentCity: '',
     _lat: '',
     _lng: '',
     regulation: [
-      { title: "1、活动时间：2018-11-11至2018-12-31日。", 
-      use: "1、如中奖iPhone X ：请务必联系享7美食客服人员确认详细信息后配送，有效期3个月。" },
+      {
+        title: "1、活动时间：2018-11-11至2018-12-31日。",
+        use: "1、如中奖iPhone X ：请务必联系享7美食客服人员确认详细信息后配送，有效期3个月。"
+      },
       { title: "2、奖品设置：iPhone X 、十堰旅游券、十堰酒店房卡、十堰美食券。", use: "2、如中奖十堰旅游券：请根据中奖旅游景区到指定景区出使券票二维码即可使用；有效期1年。" },
       { title: "3、通过享7美食小程序每邀请2个好友成为享7美食新用户，即可抽奖一次，百分百中奖！", use: "3、如中奖十堰酒店房卡：请根据中奖酒店到指定酒店前台出使券票二维码即可使用，有效期1年。" },
       { title: "4、邀请新用户抽奖成功后实时发放入您的券包，您可在享7美食小程序-我的-券包中查看。", use: "4、如中奖美食券：请根据中奖菜品对应的商家到指定商家用餐出使券票二维码即可使用，有效期3个月。" },
@@ -54,7 +56,7 @@ Page({
     });
     this.createUser()
   },
-  getwinningList () {
+  getwinningList() {
     let that = this
     wx.request({
       url: that.data._build_url + 'orderInfo/listFree?page=1&rows=50&payType=0&categoryId=6',
@@ -74,8 +76,13 @@ Page({
             const msgList = [];
 
             data.list.forEach((item, index) => {
-              let phone = '11111111111', obj = {};
-              // phone = item.userName.substring(0, 3) + '****' + item.userName.substring(7, item.userName.length)
+              let phone = '', obj = {};
+              if (item.userName) {
+                phone = item.userName.substring(0, 3) + '****' + item.userName.substring(7, item.userName.length)
+              }else{
+                phone = item.userId
+              }
+             
               obj.title = '恭喜' + phone + '获得' + item.orderItemOuts[0].goodsSkuName;
               obj.url = 'url'
               obj.id = item.id
@@ -152,6 +159,7 @@ Page({
   },
   onShow: function () {
     let that = this;
+    that.getUserlocation();
     console.log('onShow:', app.globalData.userInfo)
     this.setData({
       isshowlocation: false
@@ -180,6 +188,79 @@ Page({
     } else {
       this.findByCode();
     }
+
+  },
+  getUserlocation: function () { //获取用户位置经纬度
+    let that = this;
+    wx.getLocation({
+      type: 'wgs84',
+      success: function (res) {
+        let latitude = res.latitude,
+          longitude = res.longitude;
+
+        that.requestCityName(latitude, longitude);
+      },
+      fail: function (res) {
+        wx.getSetting({
+          success: (res) => {
+            if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其位置信息          
+              that.setData({
+                isshowlocation: true
+              })
+
+            }
+          }
+        })
+      }
+    })
+  },
+  openSetting() {//打开授权设置界面
+    let that = this;
+    that.setData({
+      isshowlocation: false
+    })
+    wx.openSetting({
+      success: (res) => {
+        if (res.authSetting['scope.userLocation']) { //打开位置授权  
+          wx.getLocation({
+            success: function (res) {
+              let latitude = res.latitude,
+                longitude = res.longitude;
+              that.requestCityName(latitude, longitude);
+            },
+          })
+        } else {
+          that.setData({
+            isshowlocation: true
+          })
+        }
+      }
+    })
+  },
+  //获取城市
+  requestCityName(lat, lng) { //获取当前城市
+    let that = this;
+    app.globalData.userInfo.lat = lat;
+    app.globalData.userInfo.lng = lng;
+    wx.request({
+      url: 'https://apis.map.qq.com/ws/geocoder/v1/?location=' + lat + "," + lng + "&key=4YFBZ-K7JH6-OYOS4-EIJ27-K473E-EUBV7",
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: (res) => {
+        if (res.data.status == 0) {
+          let _city = res.data.result.address_component.city;
+          console.log('111111111111111111111', _city)
+          if (_city == '武汉市' || _city == '十堰市' || _city == '黄冈市' || _city == '襄阳市') {
+            that.setData({ currentCity: _city })
+          } else {
+            that.setData({ currentCity: '十堰市' })
+          }
+
+
+        }
+      }
+    })
   },
   createUser() {
     let that = this;
@@ -190,18 +271,18 @@ Page({
         "Authorization": app.globalData.token
       },
       success: function (res) {
-          console.log(res)
-          if(res.data.code == '0' && res.data.data) {
-            var prize = '';
-              for(let i=0;i<res.data.data.list.length;i++ ) {
-                prize += res.data.data.list[i].name +'、' 
-              }
-            prize = prize.substring(0, prize.length-1);
-            that.setData({ prize})
+        console.log(res)
+        if (res.data.code == '0' && res.data.data && res.data.data.list) {
+          var prize = '';
+          for (let i = 0; i < res.data.data.list.length; i++) {
+            prize += res.data.data.list[i].name + '、'
           }
+          prize = prize.substring(0, prize.length - 1);
+          that.setData({ prize })
+        }
       },
       fail() {
-      
+
       }
     })
 
@@ -302,7 +383,11 @@ Page({
   },
   drawBtn() { //点击抽奖按钮
     let that = this;
-    let userData = that.data.lotteryData
+    let userData = that.data.lotteryData;
+    if (!that.data.currentCity) {
+      that.getUserlocation();
+      return false
+    }
     if (!gameFlag) { //游戏正在运行中
       return false
     }
@@ -323,16 +408,14 @@ Page({
         frameClass2: "z2 back",
       })
     }
-    // wx.showLoading({
-    //   title: '加载中',
-    // })
+
     gameFlag = false
     that.sendGamerequest() //请求游戏开奖结果
   },
   sendGamerequest() {
     let that = this;
     wx.request({
-      url: that.data._build_url + 'actGoodsSku/zoneLottery?actId=42&type=3&city='+app.globalData.userInfo.city,
+      url: that.data._build_url + 'actGoodsSku/zoneLottery?actId=42&city=' + that.data.currentCity,
       method: 'post',
       header: {
         "Authorization": app.globalData.token
@@ -342,14 +425,14 @@ Page({
         if (res.data.code == '0' && res.data.data && res.data.data.goodsSkuOut[0] && res.data.data.categoryId) {
           console.log(res);
           that.setData({
-            winning:res.data.data
+            winning: res.data.data
           })
-          that.turn(100);
+          that.turn(120);
         } else {
           wx.hideLoading()
           wx.showToast({
             title: '请检查网络',
-            icon:'none'
+            icon: 'none'
           })
         }
       },
@@ -363,13 +446,14 @@ Page({
 
     })
   },
+
   turn(interval) { //转盘动画
     let _this = this,
       turnIdx = this.data.turnIdx;
     if (timer != null) {
       clearInterval(timer)
     }
-     timer = setInterval( ()=> {
+    timer = setInterval(() => {
       let Countdown = _this.data.Countdown
       Countdown += interval;
       turnIdx = turnIdx < 8 ? turnIdx + 1 : 1;
@@ -377,23 +461,24 @@ Page({
         turnIdx: turnIdx,
         Countdown: Countdown
       });
-      if (Countdown >= 2000) {
-          let lotteryData = _this.data.lotteryData
-          lotteryData.totalNumber = lotteryData.totalNumber - 1 //减少一次抽奖次数
-          _this.setData({
-            Countdown: 0,
-            lotteryData: lotteryData
-          });
-          clearInterval(timer);
-          _this.getTick();
+      var time = myFunction(1500, 3000);
+      if (Countdown >= time) {
+        let lotteryData = _this.data.lotteryData
+        lotteryData.totalNumber = lotteryData.totalNumber - 1 //减少一次抽奖次数
+        _this.setData({
+          Countdown: 0,
+          lotteryData: lotteryData
+        });
+        clearInterval(timer);
+        _this.getTick();
       }
-     },interval);
+    }, interval);
   },
   onHide() {
     gameFlag = true;
     clearInterval(timer)
   },
-  onUnload:function(){
+  onUnload: function () {
     gameFlag = true;
     clearInterval(timer)
   },
@@ -404,11 +489,12 @@ Page({
       frameClass1: "z2 back",
       frameClass2: "z1 front",
     })
-    if (_this.data.winning.skuId == '8053'){//谢谢参与
+    if (_this.data.winning.skuId == '8053') {//谢谢参与
       wx.showToast({
         title: '谢谢参与，请再接再厉',
-        icon:'none'
+        icon: 'none'
       })
+      gameFlag = true
       return false;
     }
     setTimeout(() => {
@@ -537,19 +623,6 @@ Page({
       }
     }
   },
-  closetel: function (e) { //跳转至新用户注册页面
-    wx.navigateTo({
-      url: '/pages/personal-center/securities-sdb/securities-sdb?inviter=' + this.data.inviter + '&back=1&currentType=3'
-    })
-    return;
-    app.globalData.currentScene.path = '/pages/activityDetails/holdingActivity/holdingActivity';
-    app.globalData.currentScene.query = {};
-    app.globalData.currentScene.query.inviter = this.data.inviter;
-    wx.reLaunch({
-      url: '/pages/init/init',
-    })
-
-  },
   toIndex() { //跳转至首页
     wx.switchTab({
       url: '../../index/index'
@@ -560,46 +633,7 @@ Page({
       url: '/packageB/pages/wanda/wandaActivity/myGift/myGift'
     })
   },
-  //打开地图导航
-  TencentMap: function (event) {
-    this.setData({
-      shopId: event.currentTarget.id
-    });
-    let that = this;
-    if (event && event.type == 'tap') {
-      this.setData({
-        isMpa: true
-      })
-    } else {
-      this.setData({
-        isMpa: false
-      })
-    }
-    wx.getLocation({
-      type: 'wgs84',
-      success: function (res) {
-        let latitude = res.latitude,
-          longitude = res.longitude;
-        app.globalData.userInfo.lat = latitude;
-        app.globalData.userInfo.lng = longitude;
-        that.requestCityName(latitude, longitude);
-      },
-      fail: function (res) {
-        wx.getSetting({
-          success: (res) => {
-            if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其用户位置信息
-              that.setData({
-                isshowlocation: true
-              })
-
-            } else {
-              that.openmap();
-            }
-          }
-        })
-      }
-    })
-  },
+ 
   onPullDownRefresh: function () {
     let that = this;
     that.createUser()
@@ -611,88 +645,10 @@ Page({
       that.getData();
     }
   },
-  openSetting() { //打开授权设置界面
-    let that = this;
-    that.setData({
-      isshowlocation: false
-    })
-
-    wx.openSetting({
-      success: (res) => {
-        if (res.authSetting['scope.userLocation']) { //打开位置授权          
-          // that.getUserlocation();
-          // village_LBS(that);
-          console.log('userLocation')
-          wx.getLocation({
-            success: function (res) {
-              let latitude = res.latitude,
-                longitude = res.longitude;
-              that.requestCityName(latitude, longitude);
-            },
-          })
-        } else {
-          // let lat = '32.6226',
-          //   lng = '110.77877';
-          // that.requestCityName(lat, lng);
-        }
-      }
-    })
-
-  },
-  //获取城市
-  requestCityName(lat, lng) { //获取当前城市
-    let that = this;
-    if (!lat && !lng) {
-      this.TencentMap();
-    } else {
-      wx.request({
-        url: 'https://apis.map.qq.com/ws/geocoder/v1/?location=' + lat + "," + lng + "&key=4YFBZ-K7JH6-OYOS4-EIJ27-K473E-EUBV7",
-        header: {
-          'content-type': 'application/json' // 默认值
-        },
-        success: (res) => {
-          if (res.data.status == 0) {
-            let _city = res.data.result.address_component.city;
-            if (_city == '十堰市') {
-              app.globalData.userInfo.city = _city;
-            } else {
-              app.globalData.userInfo.city = '十堰市';
-            }
-            app.globalData.picker = res.data.result.address_component;
-            let userInfo = app.globalData.userInfo;
-            wx.setStorageSync('userInfo', userInfo);
-            if (this.data.isMpa) {
-              this.openmap();
-            }
-          }
-        }
-      })
-    }
-
-  },
-  //打开地图
-  openmap: function () {
-    let that = this;
-    wx.getLocation({
-      type: 'gcj02',
-      success: function (res) {
-        let latitude = res.latitude;
-        let longitude = res.longitude;
-        let postList = that.data.postList;
-        for (let i = 0; i < postList.length; i++) {
-          if (postList[i].id == that.data.shopId) {
-            console.log(postList[i].locationX)
-            wx.openLocation({
-              longitude: postList[i].locationX * 1,
-              latitude: postList[i].locationY * 1,
-              scale: 18,
-              name: postList[i].name,
-              address: postList[i].name + postList[i].place,
-              success: function (res) { }
-            })
-          }
-        }
-      }
-    })
-  }
+ 
+ 
 })
+function myFunction(begin, end) {
+  var num = Math.round(Math.random() * (end - begin) + begin);
+  return num;
+}

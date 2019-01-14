@@ -9,7 +9,14 @@
 </view>
 
 <view class='shell'>
-  <image class='detailsImag' mode='scaleToFill' src='{{picUrl}}'></image>
+<swiper indicator-dots indicator-active-color="#FC6232"  style="width:100%;height:650rpx;background:#fff;">
+    <swiper-item wx:key="index" wx:for="{{soData.attachments}}">
+    <!-- <image class='detailsImag' mode='scaleToFill' src='{{picUrl}}'></image> -->
+      <image class='detailsImag' catchtap='seebigImg' data-img="{{item.picUrl}}" mode='aspectFill' wx:if="{{item.picUrl}}" src='{{item.picUrl}}'></image>
+      <image class='detailsImag' mode='aspectFill' wx:else src='/images/icon/morentu.png'></image>
+    </swiper-item>
+  </swiper>
+  
   <view class='information'>
     <view class='information-inner'>
       <view class='shopsTop'>

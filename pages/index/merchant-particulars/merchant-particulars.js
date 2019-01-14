@@ -848,6 +848,7 @@ Page({
             if (_data.shopInfo && _data.shopInfo != 'null') {
               _data.shopInfo2 = _data.shopInfo.slice(0, 20) + '...';
             }
+            
             that.setData({
               store_details: _data,
               store_images: _data.shopTopPics.length,
@@ -1109,7 +1110,7 @@ Page({
   moreImages: function(event) {
     if (!this.data.isshowlocation) {
       wx.navigateTo({
-        url: 'preview-picture/preview-picture?id=' + this.data.store_details.id,
+        url: 'preview-picture/preview-picture?id=' + this.data.store_details.id + '&firstImg=' + this.data.store_details.logoUrl,
       })
     } else {
       this.openSetting();

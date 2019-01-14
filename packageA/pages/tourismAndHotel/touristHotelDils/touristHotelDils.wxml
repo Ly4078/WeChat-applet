@@ -4,9 +4,9 @@
 </skeleton>
 <view class=''>
   <view class='tripodsTop'>
-    <swiper indicator-dots indicator-active-color="#FC6232"  style="height:650rpx;">
+    <swiper  indicator-dots indicator-active-color="#FC6232"  style="height:650rpx;">
       <swiper-item wx:key="index" wx:for="{{singleData.attachments}}"> 
-       <image catchtap='todetail' class='tripods' mode='aspectFill' 
+       <image catchtap='seebigImg' class='tripods' data-img="{{item.picUrl}}" mode='aspectFill' 
        src='{{item.picUrl?item.picUrl:"/images/icon/morentu.png"}}'></image>
       </swiper-item>
 

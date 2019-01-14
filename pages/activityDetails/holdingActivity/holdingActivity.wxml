@@ -14,7 +14,7 @@
 </view>
 
 <view class='holdingWrap'>
-  <image class="holdBanner" src="https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/微信图片_20181107173611.png"></image>
+  <image class="holdBanner" src="https://xq-1256079679.file.myqcloud.com/15927505686_1547274974_1d76e921a072401b452a0025de56609_0.png"></image>
   <view class="lotteryBox">
     <image class="lotteryBg" src="/images/icon/lottery.png"></image>
     <view class="lotteryCont">
@@ -49,7 +49,7 @@
                 </view>
               </view>
               <view wx:if="{{index == 4}}" data-index="{{index}}" wx:key="index" class="ticketBtnWrap" bindtap='drawBtn'>
-                <view class="ticketBtn" hover-class='ticketBtnhover'>
+                <view class="ticketBtn" hover-stay-time="100" hover-class='ticketBtnhover'>
                   <view>抽奖</view>
                   <view>
                     <text>{{lotteryData.totalNumber || '0'}}次</text>

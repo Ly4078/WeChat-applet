@@ -49,7 +49,7 @@
 
   <view class='detailsWrap'>
     <view class="img_shade" bindtap='moreImages'></view>
-    <view class="totalPhoto">共{{store_images}}张</view>
+    <view class="totalPhoto">共{{store_images+1}}张</view>
     <image class='cateImages' mode="aspectFill" src='{{store_details.logoUrl}}'></image>
   </view>
   <!-- 简介 -->

@@ -1,6 +1,6 @@
 <view class="gift_list">
   <view class="gift_item" wx:for="{{dataList}}" wx:key="index">
-    <image class="gift_pic" src="{{item.orderItemOuts[0].goodsSkuPic}}"></image>
+    <image class="gift_pic" src="{{item.orderItemOuts[0].goodsSkuPic?item.orderItemOuts[0].goodsSkuPic:'/images/icon/morentu.png'}}"></image>
     <view class="gift_info">
       <view class="gift_i_t">{{item.orderItemOuts[0].goodsSkuName}}</view>
       <view class="gift_i_b">{{item.createTime}}</view>

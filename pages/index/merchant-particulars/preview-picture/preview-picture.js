@@ -8,7 +8,8 @@ Page({
   },
   onLoad: function (options) {
     this.setData({
-      _shopid: options.id
+      _shopid: options.id,
+      firstImg: options.firstImg
     });
     this.photographAny();
   },
@@ -23,8 +24,12 @@ Page({
         "Authorization": app.globalData.token
       },
       success: function (res) {
+        let list = res.data.data.shopTopPics;
+        var obj = {};
+        obj.value0 = that.data.firstImg;
+        list.unshift(obj)
         that.setData({
-          carousel: res.data.data.shopTopPics
+          carousel: list
         })
       }
     });

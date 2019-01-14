@@ -46,8 +46,18 @@ Page({
       groupid: options.groupid,
       parentId:options.parentId || ''
     })
-  
-    
+  },
+  seebigImg: function (e) {
+    let that = this;
+    let currentImg = e.currentTarget.dataset.img;
+    let urls = [];
+    for (let i = 0; i < that.data.singleData.attachments.length; i++) {
+      urls.push(that.data.singleData.attachments[i].picUrl)
+    }
+    wx.previewImage({
+      urls: urls,
+      current: currentImg
+    })
   },
   onShow:function(){
     let that = this;
@@ -64,6 +74,7 @@ Page({
       that.fromshare();
     }
   },
+
   addrecord: function (){
     let that =  this;
     let baseUlr  = '';
