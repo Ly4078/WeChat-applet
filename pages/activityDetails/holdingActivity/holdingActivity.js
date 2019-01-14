@@ -297,7 +297,7 @@ Page({
       },
       success: function (res) {
         wx.stopPullDownRefresh()
-        if (res.data.code == '0' && res.data.data) {
+        if (res.data.code == '0') {
           that.setData({
             lotteryData: res.data.data
           })
@@ -391,10 +391,8 @@ Page({
     if (!gameFlag) { //游戏正在运行中
       return false
     }
-    if (!userData) {
-      return false
-    }
-    if (userData.totalNumber < 1) {
+
+    if (!userData || userData.totalNumber < 1  ) {
       wx.showToast({
         title: '抽奖次数不足!',
         icon: 'none'
@@ -429,15 +427,17 @@ Page({
           })
           that.turn(120);
         } else {
+          gameFlag = true
           wx.hideLoading()
           wx.showToast({
-            title: '请检查网络',
+            title: '抽奖失败，请再试一次',
             icon: 'none'
           })
         }
       },
       fail() {
-        wx.hideLoading()
+        wx.hideLoading();
+        gameFlag = true
         wx.showToast({
           title: '请检查网络',
           icon: 'none'
