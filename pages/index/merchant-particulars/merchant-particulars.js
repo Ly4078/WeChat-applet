@@ -66,15 +66,14 @@ Page({
     interval: 50, // 时间间隔
     zanFlag: true, //点赞节流阀
     shareCity: "",
-    hotpage:1,
-    hotrows:10,
-    hottotal:0,
+    hotpage: 1,
+    hotrows: 10,
+    hottotal: 0,
     hotlist: [], //热销商品
     hotlist2: [], //热销商品
-    wandaDish: []    //万达的菜
+    wandaDish: [] //万达的菜
   },
   onLoad: function(options) {
-    console.log("options:",options);
     this.setData({
       shopid: options.shopid,
       comment_list: []
@@ -299,8 +298,10 @@ Page({
       }
     })
   },
-  wandaDish() {     //万达活动的菜
-    let that = this, _param = {}, str = "";
+  wandaDish() { //万达活动的菜
+    let that = this,
+      _param = {},
+      str = "";
     _param = {
       actId: 45,
       shopId: this.data.shopid,
@@ -317,8 +318,7 @@ Page({
       header: {
         "Authorization": app.globalData.token
       },
-      success: function (res) {
-        console.log(res);
+      success: function(res) {
         if (res.data.code == 0) {
           let list = res.data.data.list;
           if (list && list.length > 0) {
@@ -333,15 +333,16 @@ Page({
       }
     })
   },
-  isVote(e) {   //是否可以投票
-    let that = this, id = e.target.id;
+  isVote(e) { //是否可以投票
+    let that = this,
+      id = e.target.id;
     wx.request({
       url: that.data._build_url + 'vote/canVoteToday?actId=45',
       method: 'GET',
       header: {
         "Authorization": app.globalData.token
       },
-      success: function (res) {
+      success: function(res) {
         let code = res.data.code;
         if (code == 0) {
           that.vote(id);
@@ -354,7 +355,7 @@ Page({
       }
     })
   },
-  vote(id) {    //投票
+  vote(id) { //投票
     let that = this;
     wx.request({
       url: that.data._build_url + 'vote/addVoteFree?actId=45&actGoodsSkuId=' + id,
@@ -362,7 +363,7 @@ Page({
       header: {
         "Authorization": app.globalData.token
       },
-      success: function (res) {
+      success: function(res) {
         let code = res.data.code;
         if (code == 0) {
           that.showToast('投票成功');
@@ -511,11 +512,10 @@ Page({
     };
     Api.crabList(_parms).then((res) => { //查询同类规格列表
       if (res.data.code == 0) {
-        console.log("total:", res.data.data.total)
         let _hotlist = res.data.data.list,
           _total = res.data.data.total,
-          _hotlist2=[],
-          hotdata=that.data.hotlist,
+          _hotlist2 = [],
+          hotdata = that.data.hotlist,
           _discount = '';
         if (_total > this.data.hotrows) {
           let _diff = _total * 1 - this.data.hotrows * 1;
@@ -542,20 +542,18 @@ Page({
               _hotlist2.push(_hotlist[i])
             }
           }
-          console.log('_hotlist:', _hotlist)
-          
           _hotlist2 = _hotlist2.concat(hotdata);
-          if (hotdata.length>0){
+          if (hotdata.length > 0) {
             that.setData({
               hotlist2: _hotlist2
             })
-          }else{
+          } else {
             that.setData({
               hotlist2: _hotlist2.slice(0, 3)
             })
           }
           that.setData({
-            hottotal:_total,
+            hottotal: _total,
             hotlist: _hotlist2
           })
         } else {
@@ -570,21 +568,21 @@ Page({
   },
   //点击抢购
   ClickSnatch: function(e) {
-    console.log("e:",e)
     let id = e.currentTarget.id,
       actId = e.currentTarget.dataset.actid,
       actName = e.currentTarget.dataset.actname,
       _stocknum = e.currentTarget.dataset.stocknum,
-      shopId = this.data.shopid;
-    if (_stocknum == 0){
+      shopId = this.data.shopid,
+      categoryId = e.currentTarget.dataset.categoryid;
+    if (_stocknum == 0) {
       wx.showToast({
         title: '此商品已售罄',
-        icon:'none'
+        icon: 'none'
       })
-    }else{
+    } else {
       if (actName == '砍价') { //砍价
         wx.navigateTo({
-          url: '/pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails?categoryId=8&id=' + id + '&shopId=' + shopId + '&actId=' + actId
+          url: '/pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails?categoryId=' + categoryId + '&id=' + id + '&shopId=' + shopId + '&actId=' + actId
         })
       } else if (actName == '秒杀') { //秒杀
         wx.navigateTo({
@@ -701,14 +699,14 @@ Page({
   },
   getmoredata: function() {
 
-    
+
     if (!this.data.hotlist2.length) {
       this.gethotdish();
     }
-    if(app.globalData.userInfo.lat && app.globalData.userInfo.lng){
+    if (app.globalData.userInfo.lat && app.globalData.userInfo.lng) {
       this.getstoredata();
     }
-    
+
 
     this.selectByShopId();
     this.recommendation();
@@ -834,7 +832,7 @@ Page({
               _data.shopInfo = ''
             }
             if (_data.distance == '0' || _data.distance == '0m' || !_data.distance) {
-              if (app.globalData.userInfo.lat && app.globalData.userInfo.lng){
+              if (app.globalData.userInfo.lat && app.globalData.userInfo.lng) {
                 _data.distance = utils.calcDistance(_data.locationY, _data.locationX, app.globalData.userInfo.lat, app.globalData.userInfo.lng);
               }
             }
@@ -848,7 +846,7 @@ Page({
             if (_data.shopInfo && _data.shopInfo != 'null') {
               _data.shopInfo2 = _data.shopInfo.slice(0, 20) + '...';
             }
-            
+
             that.setData({
               store_details: _data,
               store_images: _data.shopTopPics.length,
@@ -1201,8 +1199,8 @@ Page({
       success: function(res) {
         let latitude = res.latitude,
           longitude = res.longitude;
-          app.globalData.userInfo.lat = latitude;
-          app.globalData.userInfo.lng=longitude;
+        app.globalData.userInfo.lat = latitude;
+        app.globalData.userInfo.lng = longitude;
         that.getstoredata();
         that.requestCityName(latitude, longitude);
       },
@@ -1569,7 +1567,6 @@ Page({
     }
   },
   clickdity: function() {
-    console.log("isdity:", this.data.isdity)
     this.setData({
       isdity: !this.data.isdity
     })
@@ -1577,10 +1574,10 @@ Page({
       this.setData({
         hotlist2: this.data.hotlist
       })
-      if(this.data.hotDiff>0){
+      if (this.data.hotDiff > 0) {
         this.setData({
-          hotpage:this.data.hotpage+1,
-          hotrows:this.data.hotDiff
+          hotpage: this.data.hotpage + 1,
+          hotrows: this.data.hotDiff
         })
         this.gethotdish();
       }
@@ -1730,15 +1727,16 @@ Page({
       url: '/packageB/pages/wanda/wandaActivity/wandaActivity',
     })
   },
-  isVote(e) {   //是否可以投票
-    let that = this, id = e.target.id;
+  isVote(e) { //是否可以投票
+    let that = this,
+      id = e.target.id;
     wx.request({
       url: that.data._build_url + 'vote/canVoteToday?actId=45',
       method: 'GET',
       header: {
         "Authorization": app.globalData.token
       },
-      success: function (res) {
+      success: function(res) {
         let code = res.data.code;
         if (code == 0) {
           that.vote(id);
@@ -1751,28 +1749,36 @@ Page({
       }
     })
   },
-  vote(id) {    //投票
+  vote(id) { //投票
     let that = this;
-    wx.request({
-      url: that.data._build_url + 'vote/addVoteFree?actGoodsSkuId=' + id + '&actId=45',
-      method: 'GET',
-      header: {
-        "Authorization": app.globalData.token
-      },
-      success: function (res) {
-        if (res.data.code == 0) {
-          that.showToast('投票成功');
-        }
-      },
-      fail() {
+    wx.showModal({
+      title: '是否对该菜进行投票?',
+      success(res) {
+        if (res.confirm) {
+          wx.request({
+            url: that.data._build_url + 'vote/addVoteFree?actGoodsSkuId=' + id + '&actId=45',
+            method: 'GET',
+            header: {
+              "Authorization": app.globalData.token
+            },
+            success: function(res) {
+              if (res.data.code == 0) {
+                that.showToast('投票成功');
+              }
+            },
+            fail() {
 
+            }
+          })
+        }
       }
-    })
+    });
   },
   toBuy(e) { //买菜
-    let id = e.currentTarget.id;
+    let id = e.currentTarget.id,
+      categoryId = e.currentTarget.dataset.categoryid;
     wx.navigateTo({
-      url: '../bargainirg-store/CandyDishDetails/CandyDishDetails?id=' + id + '&shopId=' + this.data.shopid + '&actId=45&categoryId=8'
+      url: '../bargainirg-store/CandyDishDetails/CandyDishDetails?id=' + id + '&shopId=' + this.data.shopid + '&actId=45&categoryId=' + categoryId
     })
   },
   showToast(title) {

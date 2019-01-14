@@ -1076,7 +1076,7 @@ Page({
       let _soData = this.data.soData;
       _optObj={
         actId: _soData.actGoodsSkuOut.actId,
-        categoryId:'8',
+        categoryId: _soData.categoryId,
         shopId: _soData.shopId,
         id: _soData.id
       }

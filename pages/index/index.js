@@ -93,6 +93,11 @@ Page({
       url: '/packageB/pages/wanda/wandaActivity/wandaActivity'
     })
   },
+  toWandaCai() {
+    wx.navigateTo({
+      url: '/packageB/pages/wanda/wanda'
+    })
+  },
   getfptt:function(){
     wx.navigateTo({
       url: '/pages/personal-center/personnel-order/logisticsDetails/applyBilling/applyBilling',

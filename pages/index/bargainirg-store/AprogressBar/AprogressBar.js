@@ -969,6 +969,8 @@ Page({
         _values = _values.substring(0, _values.length - 1);
         url = that.data._build_url + 'sku/kjcList?' + _values;
       }
+      console.log('------------972-------------');
+      console.log(_parms);
       _Url = encodeURI(url);
       requestTask = true;
       wx.request({
@@ -977,7 +979,9 @@ Page({
         header: {
           "Authorization": app.globalData.token
         },
-        success: function(res) {
+        success: function (res) {
+          console.log('------------983-------------');
+          console.log(res);
           wx.stopPullDownRefresh();
           if (res.data.code == 0) {
             if (res.data.data.list && res.data.data.list.length > 0) {
@@ -1075,12 +1079,13 @@ Page({
   },
   onShareAppMessage() { //分享给好友帮忙砍价
     let initiator = this.data.initiator ? this.data.initiator : app.globalData.userInfo.userId,
-      userInfo = app.globalData.userInfo;
+      userInfo = app.globalData.userInfo,
+      city = this.data._city ? this.data._city : userInfo.city;
     return {
       title: '帮我砍价！你也有机会直接拿走商品↓↓↓',
       desc: '享7美食',
       imageUrl: this.data.shareImg,
-      path: '/pages/index/bargainirg-store/AprogressBar/AprogressBar?refId=' + this.data.refId + '&shopId=' + this.data.shopId + '&skuMoneyOut=' + this.data.skuMoneyOut + '&skuMoneyMin=' + this.data.skuMoneyMin + '&initiator=' + initiator + '&groupId=' + this.data.groupId + '&lat=' + userInfo.lat + '&lng=' + userInfo.lng + '&city=' + userInfo.city + '&actId=' + this.data.actId + '&categoryId=' + this.data.categoryId,
+      path: '/pages/index/bargainirg-store/AprogressBar/AprogressBar?refId=' + this.data.refId + '&shopId=' + this.data.shopId + '&skuMoneyOut=' + this.data.skuMoneyOut + '&skuMoneyMin=' + this.data.skuMoneyMin + '&initiator=' + initiator + '&groupId=' + this.data.groupId + '&lat=' + userInfo.lat + '&lng=' + userInfo.lng + '&city=' + city + '&actId=' + this.data.actId + '&categoryId=' + this.data.categoryId,
       success: function(res) {
 
       },

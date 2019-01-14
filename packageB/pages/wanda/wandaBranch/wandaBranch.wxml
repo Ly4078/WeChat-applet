@@ -23,7 +23,7 @@
   </view>
   <view class="branchList">
     <view class="menuItem" wx:for="{{dishList}}" wx:key="index" id="{{item.id}}">
-      <view class="menuItemWrap" id="{{item.id}}" data-actid="{{item.actGoodsSkuOut.actId}}" data-shopid="{{item.shop.id}}" bindtap='toBuy'>
+      <view class="menuItemWrap" id="{{item.id}}" data-actid="{{item.actGoodsSkuOut.actId}}" data-shopid="{{item.shop.id}}" data-categoryid="{{item.categoryId}}" bindtap='toBuy'>
         <image class="menuPic" src="{{item.picUrl?item.picUrl:item.skuPic}}"></image>
         <view class="menuInfo">
           <view>{{item.skuName}}</view>

@@ -194,42 +194,50 @@ Page({
     })
   },
   vote(id) { //投票
-    let that = this,
-      _url = this.data._build_url + 'vote/addVoteFree?actGoodsSkuId=' + id + '&actId=' + this.data.actId;
-    _url = encodeURI(_url);
-    wx.request({
-      url: _url,
-      method: 'GET',
-      header: {
-        "Authorization": app.globalData.token
-      },
-      success: function(res) {
-        if (res.data.code == 0) {
-          that.showToast('投票成功');
-          let dishList = that.data.dishList;
-          for (let i = 0; i < dishList.length; i++) {
-            if (dishList[i].actGoodsSkuOut.id == id) {
-              dishList[i].actGoodsSkuOut.voteNum++;
-            }
-          }
-          that.setData({
-            dishList: dishList
-          });
-        } else if (code == 200029) {
-          that.showToast(res.data.message);
-        }
-      },
-      fail() {
+    let that = this;
+    wx.showModal({
+      title: '是否对该菜进行投票?',
+      success(res) {
+        if (res.confirm) {
+          let _url = that.data._build_url + 'vote/addVoteFree?actGoodsSkuId=' + id + '&actId=' + that.data.actId;
+          _url = encodeURI(_url);
+          wx.request({
+            url: _url,
+            method: 'GET',
+            header: {
+              "Authorization": app.globalData.token
+            },
+            success: function (res) {
+              if (res.data.code == 0) {
+                that.showToast('投票成功');
+                let dishList = that.data.dishList;
+                for (let i = 0; i < dishList.length; i++) {
+                  if (dishList[i].actGoodsSkuOut.id == id) {
+                    dishList[i].actGoodsSkuOut.voteNum++;
+                  }
+                }
+                that.setData({
+                  dishList: dishList
+                });
+              } else if (code == 200029) {
+                that.showToast(res.data.message);
+              }
+            },
+            fail() {
 
+            }
+          })
+        }
       }
     })
   },
   toBuy(e) { //买菜
     let id = e.target.id,
       shopId = e.currentTarget.dataset.shopid,
-      city = this.data.city[this.data.currCity];
+      city = this.data.city[this.data.currCity],
+      categoryId = e.currentTarget.dataset.categoryid;
     wx.navigateTo({
-      url: '../../../../pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails?id=' + id + '&shopId=' + shopId + '&actId=45&categoryId=8' + '&city=' + city
+      url: '../../../../pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails?id=' + id + '&shopId=' + shopId + '&actId=45&categoryId=' + categoryId + '&city=' + city
     })
   },
   drawNum() { //可抽奖次数

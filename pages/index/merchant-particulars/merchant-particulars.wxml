@@ -112,7 +112,7 @@
     </view>
     <view class="wandaList">
       <view class="wandaItem" wx:for="{{wandaDish}}" wx:key="index">
-        <view class="w_dish_l" id="{{item.id}}" bindtap='toBuy'>
+        <view class="w_dish_l" id="{{item.id}}" data-categoryid="{{categoryId}}" bindtap='toBuy'>
           <image src="{{item.skuPic}}"></image>
           <view>
             <view class="w_dish_name">{{item.skuName}}</view>
@@ -223,13 +223,13 @@
       </view>
       <view class='dity' wx:for="{{hotlist2}}" wx:key="{{index}}" >
         <!-- <view class='dityimg'> -->
-          <image class='dityimg' src='{{item.skuPic}}' bindtap='ClickSnatch' id='{{item.id}}'  data-actname="{{item.actGoodsSkuOuts[0].actInfo.actName}}" data-actid="{{item.actGoodsSkuOuts[0].actId}}"></image>
+          <image class='dityimg' src='{{item.skuPic}}' bindtap='ClickSnatch' id='{{item.id}}'  data-actname="{{item.actGoodsSkuOuts[0].actInfo.actName}}" data-actid="{{item.actGoodsSkuOuts[0].actId}}" data-categoryid="{{item.categoryId}}"></image>
           <view style="width:150rpx;height:150rpx;" wx:if="{{item.actGoodsSkuOuts[0].stockNum <= 0}}" class="notstockNumshadedow">
 <image style="width:108rpx;height:108rpx;" wx:if="{{item.actGoodsSkuOuts[0].stockNum <= 0}}" class="sellOutIcon" src="/images/icon/sellOut.png"></image>
 </view>
 
         <!-- </view> -->
-        <view class='ditycont' bindtap='ClickSnatch' id='{{item.id}}'  data-actname="{{item.actGoodsSkuOuts[0].actInfo.actName}}" data-actid="{{item.actGoodsSkuOuts[0].actId}}">
+        <view class='ditycont' bindtap='ClickSnatch' id='{{item.id}}'  data-actname="{{item.actGoodsSkuOuts[0].actInfo.actName}}" data-actid="{{item.actGoodsSkuOuts[0].actId}}" data-categoryid="{{item.categoryId}}">
           <view class='dcont1'>{{item.skuName}}</view>
           <view class='dcont2'>仅剩{{item.actGoodsSkuOuts[0].stockNum>=0?item.actGoodsSkuOuts[0].stockNum:item.stockNum}}份</view>
           <view class='dcont3'>

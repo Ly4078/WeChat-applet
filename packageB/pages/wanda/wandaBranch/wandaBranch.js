@@ -44,7 +44,9 @@ Page({
       distance: options.distance,
       name: options.name,
       picUrl: options.picUrl,
-      city: options.city
+      city: options.city,
+      locationX: options.locationX,
+      locationY: options.locationY
     });
     if (!app.globalData.token) { //没有token 获取token
       let that = this;
@@ -118,9 +120,10 @@ Page({
   toBuy(e) { //买菜
     let id = e.currentTarget.id,
       actId = e.currentTarget.dataset.actid,
-      shopId = e.currentTarget.dataset.shopid;
+      shopId = e.currentTarget.dataset.shopid,
+      categoryId = e.currentTarget.dataset.categoryid;
     wx.navigateTo({
-      url: '../../../../pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails?id=' + id + '&shopId=' + shopId + '&actId=' + actId + '&categoryId=8' + '&city=' + this.data.city
+      url: '../../../../pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails?id=' + id + '&shopId=' + shopId + '&actId=' + actId + '&categoryId=' + categoryId + '&city=' + this.data.city
     })
   },
   onPullDownRefresh: function () {   //刷新
@@ -150,10 +153,38 @@ Page({
     console.log(res);
     return {
       title: this.data.name + '专区菜品',
-      path: '/packageB/pages/wanda/wandaBranch/wandaBranch?id=' + this.data.id + '&picUrl=' + this.data.picUrl + '&name=' + this.data.name + '&address=' + this.data.address + '&distance=' + this.data.distance,
+      path: '/packageB/pages/wanda/wandaBranch/wandaBranch?id=' + this.data.id + '&picUrl=' + this.data.picUrl + '&name=' + this.data.name + '&address=' + this.data.address + '&distance=' + this.data.distance + '&city=' + this.data.city + '&locationX=' + this.data.locationX + '&locationY=' + this.data.locationY,
       success: function (res) { },
       fail: function (res) { }
     }
+  },
+
+  //打开地图导航，先查询是否已授权位置
+  TencentMap: function (event) {
+    let that = this;
+    wx.getLocation({
+      type: 'wgs84',
+      success: function (res) {
+        let latitude = res.latitude;
+        let longitude = res.longitude;
+        app.globalData.userInfo.lat = latitude;
+        app.globalData.userInfo.lng = longitude;
+        that.requestCityName(latitude, longitude);
+      },
+      fail: function (res) {
+        wx.getSetting({
+          success: (res) => {
+            if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其用户位置信息
+              that.setData({
+                isshowlocation: true
+              })
+            } else {
+              that.openmap();
+            }
+          }
+        })
+      }
+    })
   },
   //打开地图，已授权位置
   openmap () {
