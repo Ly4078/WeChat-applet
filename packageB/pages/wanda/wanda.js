@@ -96,19 +96,17 @@ Page({
     })
   },
   toBranch(e) { //跳转至万达各店
-    let id = e.currentTarget.id, list = this.data.list, picUrl = '', name = '', address = '', distance = '', locationX = '', locationY = '';
+    let id = e.currentTarget.id, list = this.data.list, picUrl = '', name = '', address = '', distance = '';
     for (let i = 0; i < list.length; i++) {
       if (list[i].id == id) {
         picUrl = list[i].picUrl;
         name = list[i].name;
         address = list[i].address;
         distance = list[i].distance;
-        locationX = list[i].locationX;
-        locationY = list[i].locationY;
       }
     }
     wx.navigateTo({
-      url: 'wandaBranch/wandaBranch?id=' + id + '&picUrl=' + picUrl + '&name=' + name + '&address=' + address + '&distance=' + distance + '&locationX=' + locationX + '&locationY=' + locationY
+      url: 'wandaBranch/wandaBranch?id=' + id + '&picUrl=' + picUrl + '&name=' + name + '&address=' + address + '&distance=' + distance + '&city=' + app.globalData.userInfo.city
     })
   },
   onShareAppMessage: function() {

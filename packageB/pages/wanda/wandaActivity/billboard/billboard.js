@@ -27,7 +27,7 @@ Page({
     navOrder: 1,
     foodArr: [],
     voteArr: [],
-    rows: 10,
+    rows: 16,
     page: 1,
     foodPage: 1,
     votePage: 1

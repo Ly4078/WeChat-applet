@@ -890,7 +890,7 @@ Page({
             } else {
               if (that.data.actId) {
                 wx.navigateTo({
-                  url: '../AprogressBar/AprogressBar?refId=' + that.data.id + '&shopId=' + _shopId + '&skuMoneyMin=' + that.data.agioPrice + '&skuMoneyOut=' + that.data.sellPrice + '&actId=' + that.data.actId + '&categoryId=' + that.data.categoryId
+                  url: '../AprogressBar/AprogressBar?refId=' + that.data.id + '&shopId=' + _shopId + '&skuMoneyMin=' + that.data.agioPrice + '&skuMoneyOut=' + that.data.sellPrice + '&actId=' + that.data.actId + '&categoryId=' + that.data.categoryId + '&city=' + that.data._city
                 })
               } else {
                 wx.navigateTo({

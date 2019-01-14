@@ -82,9 +82,9 @@ Page({
   },
   toWanda() {
     wx.navigateTo({
-      url: '/packageB/pages/wanda/wanda'
+      // url: '/packageB/pages/wanda/wanda'
       // url: 'merchant-particulars/merchant-particulars?shopid=500'
-      // url: '/packageB/pages/wanda/wandaActivity/myGift/myGift'
+      url: '/packageB/pages/wanda/wandaActivity/wandaActivity'
     })
   },
   getfptt:function(){

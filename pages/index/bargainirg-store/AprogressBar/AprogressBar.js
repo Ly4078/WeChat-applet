@@ -476,7 +476,6 @@ Page({
             } else {
               peopleList = _arr;
             }
-            console.log('peopleList:', peopleList)
             for (let i = 0; i < peopleList.length; i++) {
               if (peopleList[i].userName){
                 if (peopleList[i].userName && reg.test(peopleList[i].userName)) {
@@ -653,7 +652,6 @@ Page({
                 categoryId: data.actGoodsSkuOut.categoryId
               })
             }
-            that.hotDishList();
           } else {
             that.setData({
               showSkeleton: false,

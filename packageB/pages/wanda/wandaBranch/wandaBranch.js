@@ -30,20 +30,21 @@ Page({
     address: '',
     distance: '',
     picUrl: '',
-    locationX: '',
-    locationY: '',
+    city: '',
     rows: 10,
     page: 1,
     pageTotal: 1,
     dishList: []
   },
   onLoad: function (options) {
+    console.log(options)
     this.setData({
       id: options.id,
       address: options.address,
       distance: options.distance,
       name: options.name,
-      picUrl: options.picUrl
+      picUrl: options.picUrl,
+      city: options.city
     });
     if (!app.globalData.token) { //没有token 获取token
       let that = this;
@@ -82,7 +83,7 @@ Page({
       browSort: 0,    //0附近 1销量 2价格
       locationX: app.globalData.userInfo.lng ? app.globalData.userInfo.lng : lng,
       locationY: app.globalData.userInfo.lat ? app.globalData.userInfo.lat : lat,
-      city: app.globalData.userInfo.city ? app.globalData.userInfo.city : '十堰市',
+      city: this.data.city,
       isDeleted: 0,
       page: this.data.page,
       rows: this.data.rows,
@@ -119,7 +120,7 @@ Page({
       actId = e.currentTarget.dataset.actid,
       shopId = e.currentTarget.dataset.shopid;
     wx.navigateTo({
-      url: '../../../../pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails?id=' + id + '&shopId=' + shopId + '&actId=' + actId +'&categoryId=8'
+      url: '../../../../pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails?id=' + id + '&shopId=' + shopId + '&actId=' + actId + '&categoryId=8' + '&city=' + this.data.city
     })
   },
   onPullDownRefresh: function () {   //刷新

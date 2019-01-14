@@ -41,11 +41,9 @@ Page({
     if (!app.globalData.token) { //没有token 获取token
       let that = this;
       getToken(app).then(() => {
-        this.drawNum();
         that.getData();
       })
     } else {
-      this.drawNum();
       this.getData();
     }
   },
@@ -53,6 +51,14 @@ Page({
     this.setData({
       isshowlocation: false
     });
+    if (!app.globalData.token) { //没有token 获取token
+      let that = this;
+      getToken(app).then(() => {
+        this.drawNum();
+      })
+    } else {
+      this.drawNum();
+    }
   },
   getData() { //获取数据
     if (app.globalData.userInfo.lat && app.globalData.userInfo.lng && app.globalData.userInfo.city) {
@@ -249,10 +255,10 @@ Page({
     })
   },
   holdingActivity() {
-    if (this.data.drawNum <= 0) {
-      this.showToast('抽奖次数已用完，参与活动获得更多抽奖次数');
-      return;
-    }
+    // if (this.data.drawNum <= 0) {
+    //   this.showToast('抽奖次数已用完，参与活动获得更多抽奖次数');
+    //   return;
+    // }
     wx.navigateTo({
       url: '/pages/activityDetails/holdingActivity/holdingActivity'
     })
@@ -308,6 +314,7 @@ Page({
       page: 1,
       dishList: []
     });
+    this.drawNum();
     this.dishL();
   },
   onReachBottom: function() { // 翻页
