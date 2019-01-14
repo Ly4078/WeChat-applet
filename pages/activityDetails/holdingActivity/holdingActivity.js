@@ -66,7 +66,6 @@ Page({
       },
       success: function (res) {
         wx.stopPullDownRefresh()
-        console.log(res)
         if (res.data.code == '0' && res.data.data) {
           let data = res.data.data
           if (!data.list) {
@@ -88,7 +87,6 @@ Page({
               obj.id = item.id
               msgList.push(obj)
             })
-            console.log(msgList)
             that.setData({
               msgList: msgList
             })
@@ -160,7 +158,6 @@ Page({
   onShow: function () {
     let that = this;
     that.getUserlocation();
-    console.log('onShow:', app.globalData.userInfo)
     this.setData({
       isshowlocation: false
     })
@@ -250,7 +247,6 @@ Page({
       success: (res) => {
         if (res.data.status == 0) {
           let _city = res.data.result.address_component.city;
-          console.log('111111111111111111111', _city)
           if (_city == '武汉市' || _city == '十堰市' || _city == '黄冈市' || _city == '襄阳市') {
             that.setData({ currentCity: _city })
           } else {
@@ -271,7 +267,6 @@ Page({
         "Authorization": app.globalData.token
       },
       success: function (res) {
-        console.log(res)
         if (res.data.code == '0' && res.data.data && res.data.data.list) {
           var prize = '';
           for (let i = 0; i < res.data.data.list.length; i++) {
@@ -412,8 +407,9 @@ Page({
   },
   sendGamerequest() {
     let that = this;
+    let url = encodeURI(that.data._build_url + 'actGoodsSku/zoneLottery?actId=42&city=' + that.data.currentCity);
     wx.request({
-      url: that.data._build_url + 'actGoodsSku/zoneLottery?actId=42&city=' + that.data.currentCity,
+      url: url ,
       method: 'post',
       header: {
         "Authorization": app.globalData.token
@@ -421,7 +417,6 @@ Page({
       success: function (res) {
         wx.hideLoading()
         if (res.data.code == '0' && res.data.data && res.data.data.goodsSkuOut[0] && res.data.data.categoryId) {
-          console.log(res);
           that.setData({
             winning: res.data.data
           })
@@ -562,7 +557,6 @@ Page({
     })
   },
   authlogin: function () { //获取token
-    console.log('authlogin')
     let that = this;
     wx.request({
       url: this.data._build_url + 'auth/login?userName=' + app.globalData.userInfo.userName,
@@ -587,7 +581,6 @@ Page({
               that.getData();
             }
           } else {
-            console.log('closetel')
             that.closetel();
           }
         }
@@ -595,31 +588,25 @@ Page({
     })
   },
   share() { //分享
-    console.log('share:', app.globalData.userInfo.mobile)
     if (!app.globalData.userInfo.mobile) {
-      console.log('share111')
       this.closetel();
     } else {
       //调接口
 
       return
       if (this.data.isInvite) {
-        console.log('share2222')
         this.onShareAppMessage();
       } else {
-        console.log('share3333')
       }
     }
   },
   //分享给好友
   onShareAppMessage: function () {
-    console.log("onShareAppMessageuserId:", app.globalData.userInfo.userId)
     return {
       title: '邀请好友，换大闸蟹',
       path: '/pages/activityDetails/holdingActivity/holdingActivity?inviter=' + app.globalData.userInfo.userId,
       imageUrl: 'https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/微信图片_20181108171635.png',
       success: function (res) {
-        console.log('successres:', res)
       }
     }
   },

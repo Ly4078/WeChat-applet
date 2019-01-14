@@ -1,8 +1,7 @@
 {
   "pages": [
-    "pages/activityDetails/holdingActivity/holdingActivity",
     "pages/index/index",
-    
+    "pages/activityDetails/holdingActivity/holdingActivity",
     "pages/index/productCategory/productCategory",
     "pages/personal-center/my-discount/exchangeDetails/exchangeDetails",
     "pages/index/bargainirg-store/bargainirg-store",

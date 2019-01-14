@@ -17,7 +17,6 @@ var village_LBS = function(that) {
     }
   })
 }
-
 Page({
   data: {
     showSkeleton: true,
@@ -73,10 +72,13 @@ Page({
     })
   },
   linkTowanda:function(){
-    wx.showToast({
-      title: '1月17号正式开放',
-      icon:'none'
+    wx.navigateTo({
+      url: '/packageB/pages/wanda/wandaActivity/wandaActivity',
     })
+    // wx.showToast({
+    //   title: '1月17号正式开放',
+    //   icon:'none'
+    // })
   },
   toWanda() {
     wx.navigateTo({
@@ -628,39 +630,6 @@ Page({
       })
     }
 
-  },
-  // // 点击One某个nav
-  handnavOne(e) {
-    let id = e.currentTarget.id;
-    if (id == 1) { //砍菜
-      wx.navigateTo({
-        url: 'bargainirg-store/bargainirg-store',
-      })
-    } else if (id == 2) { //餐厅
-      wx.navigateTo({
-        url: 'dining-room/dining-room',
-      })
-    } else if (id == 3) { //活动
-      wx.switchTab({
-        url: '../activityDetails/activity-details',
-      })
-    } else if (id == 4) { //短视频
-      wx.switchTab({
-        url: '../discover-plate/discover-plate',
-      })
-    } else if (id == 5) { //商家入驻  APP下载
-      wx.navigateTo({
-        url: '../../pages/index/download-app/download?isshop=ind',
-      })
-    } else if (id == 6) { //酒店景点
-      wx.navigateTo({
-        url: '/pages/index/productCategory/productCategory',
-      })
-    } else if (id == 7) { //生鲜
-      wx.navigateTo({
-        url: '/pages/index/crabShopping/crabShopping',
-      })
-    }
   },
   onPullDownRefresh: function() { //下拉刷新
     let that = this;
