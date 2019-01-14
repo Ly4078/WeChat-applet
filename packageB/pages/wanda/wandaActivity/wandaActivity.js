@@ -82,6 +82,11 @@ Page({
           for (let i = 0; i < data.length; i++) {
             city.push(data[i].city);
             branch.push(data[i].shopZoneItem);
+            if (data[i].city == app.globalData.userInfo.city) {
+              that.setData({
+                currCity: i
+              });
+            }
           }
           that.setData({
             city: city,
@@ -89,13 +94,6 @@ Page({
             currBranch: branch[that.data.currCity][0].name,
             dishList: []
           });
-          for (let i = 0; i < city.length; i++) {
-            if (city[i] == app.globalData.userInfo.city) {
-              that.setData({
-                currCity: i
-              });
-            }
-          }
           that.dishL();
         }
       },

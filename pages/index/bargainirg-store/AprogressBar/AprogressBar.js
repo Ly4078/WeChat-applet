@@ -993,19 +993,8 @@ Page({
                 arr = [];
               for (let i = 0; i < list.length; i++) {
                 list[i].distance = utils.transformLength(list[i].distance);
-                if (list[i].goodsPromotionRules && list[i].goodsPromotionRules.length > 0) {
-                  let _goods = list[i].goodsPromotionRules;
-                  for (let j in _goods) {
-                    if (_goods[j].ruleType == 4) {
-                      list[i].agioPrice2 = _goods[j].actAmount;
-                      hotDishList.push(list[i]);
-                      arr.push(list[i]);
-                    }
-                  }
-                } else {
-                  hotDishList.push(list[i]);
-                  arr.push(list[i]);
-                }
+                hotDishList.push(list[i]);
+                arr.push(list[i]);
               }
               if (types == 'next') {
                 arr = [];

@@ -32,7 +32,7 @@
               <text>底价</text>
             </view>
 
-            <text class='original-money'>{{item.agioPrice?item.agioPrice:item.actGoodsSkuOut.goodsPromotionRules.actAmount}}</text>
+            <text class='original-money'>{{item.actGoodsSkuOut.goodsPromotionRules.actAmount}}</text>
 
           </view>
           <text class='original-money-sand'>原价¥{{item.sellPrice}}</text>
