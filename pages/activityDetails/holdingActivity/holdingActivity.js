@@ -637,8 +637,8 @@ Page({
   //分享给好友
   onShareAppMessage: function () { //分享给好友帮忙砍价
     return {
-      title: '无套路100%中奖',
-      imageUrl: 'https://xqmp4-1256079679.file.myqcloud.com/15927505686_1d76e921a072401b452a0025de56609.jpg',
+      title: '幸运九宫格，人人有机会!',
+      imageUrl: 'https://xqmp4-1256079679.file.myqcloud.com/15927505686_choujiang.jpg',
       path: '/pages/activityDetails/holdingActivity/holdingActivity?shareId=1',
       success: function (res) { },
       fail: function (res) { }

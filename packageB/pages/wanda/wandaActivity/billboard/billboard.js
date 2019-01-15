@@ -223,6 +223,7 @@ Page({
   onShareAppMessage: function () {
     return {
       title: '湖北万达十大招牌菜榜单',
+      imageUrl: 'https://xqmp4-1256079679.file.myqcloud.com/15927505686_wandashare.jpg',
       path: '/packageB/pages/wanda/wandaActivity/billboard/billboard?shareId=1&actId=' + this.data.actId,
       success: function (res) { },
       fail: function (res) { }

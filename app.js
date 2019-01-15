@@ -69,7 +69,7 @@ App({
     var nowTime = Date.parse(new Date());
     if (token && tokenTime && userInfo){
       if (nowTime > tokenTime) {
-        getToken(that).then((res) => {
+        getToken(that,'notTologin').then((res) => {
 
         })
       } else {

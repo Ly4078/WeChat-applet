@@ -348,7 +348,7 @@ Page({
   onShareAppMessage: function() {
     return {
       title: '湖北万达十大招牌菜',
-      imageUrl: '/images/icon/wd_2.png',
+      imageUrl: 'https://xqmp4-1256079679.file.myqcloud.com/15927505686_wandashare.jpg',
       path: '/packageB/pages/wanda/wandaActivity/wandaActivity?shareId=1',
       success: function(res) {},
       fail: function(res) {}
