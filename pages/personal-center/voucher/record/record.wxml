@@ -7,7 +7,7 @@
     <view catchtap='swichTab' data-id="{{item.id}}" wx:for="{{navList}}" class="{{currentTab==item.id?'active':''}}" wx:key="index">{{item.title}}</view> 
 </view>
 <view class="PlaceholderBox" style="height:100rpx;width:100%;"></view>
-<view class='record'>
+<view class='record' style="width:100%;  box-sizing: border-box;">
   <view class='recordItme' wx:if="{{listData.length > 0}}" wx:for="{{listData}}" wx:key="{{index}}" id="{{item.id}}" bindtap='handItem'>
     <view class='itemleft'>
       <image wx:if="{{item.skuPic}}" src="{{item.skuPic}}"></image>

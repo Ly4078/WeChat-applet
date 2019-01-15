@@ -117,6 +117,9 @@ Page({
       }
     })
   },
+  toGoodsDetail:function(){//跳转对应商品详情
+    
+  },
   examineLogistics:function(){
     let that   = this;
     if(!that.data.data[0].list.length){

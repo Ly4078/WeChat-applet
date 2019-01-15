@@ -77,6 +77,7 @@ Page({
       url: '/packageB/pages/wanda/wandaActivity/wandaActivity',
       success () {
         that.setData({ showwandaactivity: false })
+        wx.clearStorageSync('newcomer')
       }
     })
   
@@ -99,8 +100,10 @@ Page({
     })
   },
   getfptt:function(){
-    wx.navigateTo({
-      url: '/pages/personal-center/personnel-order/logisticsDetails/applyBilling/applyBilling',
+    wx.navigateToMiniProgram({
+      appId: 'wx269025c35e9d5f23',
+      // path:'/pages/index/index',
+      
     })
    
   },

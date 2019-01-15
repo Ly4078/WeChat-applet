@@ -59,7 +59,7 @@
 </view>
 <!-- 商品信息 -->
 <view class='handise'>
-  <view class='handiseTop'>
+  <view class='handiseTop' catchtap='toGoodsDetail' hover-class='hoverbg' hover-stay-time="200">
     <view class='handiseTop-left'>
       <image wx:if="{{current.goodsSku.skuPic}}" class='handiseTop-img' src="{{current.goodsSku.skuPic}}"></image>
       <image wx:else class='handiseTop-img' src="/images/icon/morentu.png"></image>

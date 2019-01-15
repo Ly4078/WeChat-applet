@@ -74,6 +74,9 @@ Page({
               }
              
               obj.title = '恭喜' + phone + '获得' + item.orderItemOuts[0].goodsSkuName;
+              if(obj.title.length > 23) {
+                obj.title = obj.title.substring(0,23)+'...'
+              }
               obj.url = 'url'
               obj.id = item.id
               msgList.push(obj)
