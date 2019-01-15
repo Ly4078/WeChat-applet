@@ -13,6 +13,9 @@
   </view>
 </view>
 
+<!-- 回到首页 -->
+<image class="indexIcon" src="/images/icon/goindex.png" bindtap='toIndex' wx:if="{{shareId}}"></image>
+
 <view class='holdingWrap'>
   <image class="holdBanner" src="https://xqmp4-1256079679.file.myqcloud.com/15927505686_1d76e921a072401b452a0025de56609.jpg"></image>
   <view class="lotteryBox">
@@ -23,12 +26,12 @@
           <navigator url="/pages/index/index?title={{item.url}}" open-type="navigate">
             <swiper-item>
               <view class="swiper_item">{{item.title}}</view>
-              
+
             </swiper-item>
           </navigator>
         </block>
       </swiper>
-        <view wx:if="{{!msgList.length}}" style="font-size:26rpx;text-align:center;color:#fff;margin-top:22rpx;">数据加载中...</view>
+      <view wx:if="{{!msgList.length}}" style="font-size:26rpx;text-align:center;color:#fff;margin-top:22rpx;">数据加载中...</view>
       <view class='circleListWrap'>
         <view class="circle" wx:for="{{circleList}}" wx:key="{{index}}" style="top:{{item.topCircle}}rpx;left:{{item.leftCircle}}rpx;background-color: {{(index%2==0)?colorCircleFirst:colorCircleSecond}};"></view>
       </view>

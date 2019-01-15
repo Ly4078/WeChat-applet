@@ -73,13 +73,10 @@ Page({
       that.getwinningList();
     })
   },
-  onShareAppMessage: function () {
-    
-  },
-     //立即兑换
+  //立即兑换
   handexchange: function (e) {  //点击某张票券
     wx.navigateTo({
       url: "/pages/personal-center/my-discount/my-discount",
     })
-  },
+  }
 })

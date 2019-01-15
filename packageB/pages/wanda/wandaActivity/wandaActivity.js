@@ -345,7 +345,7 @@ Page({
     });
     this.dishL();
   },
-  onShareAppMessage: function() { //分享给好友帮忙砍价
+  onShareAppMessage: function() {
     return {
       title: '湖北万达十大招牌菜',
       imageUrl: '/images/icon/wd_2.png',

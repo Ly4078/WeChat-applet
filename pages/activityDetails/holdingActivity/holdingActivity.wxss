@@ -1,3 +1,12 @@
+.indexIcon {
+  position: fixed;
+  right: 20rpx;
+  bottom: 170rpx;
+  z-index: 1000;
+  width: 100rpx;
+  height: 100rpx;
+}
+
 .red {
   background-color: #f63e3e;
 }

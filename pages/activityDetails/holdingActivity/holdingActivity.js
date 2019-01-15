@@ -23,6 +23,7 @@ Page({
     _build_url: GLOBAL_API_DOMAIN,
     isMpa: false,
     isshowlocation: false,
+    shareId: 0,
     userId: '',
     _city: '',
     currentCity: '',
@@ -41,6 +42,11 @@ Page({
     colorCircleSecond: '#FE4D32', //圆点颜色2
   },
   onLoad: function (options) {
+    if (options.shareId) {
+      this.setData({
+        shareId: options.shareId
+      });
+    }
     this.circleShow();
     this.setData({
       inviter: options.inviter ? options.inviter : app.globalData.userInfo.userId
@@ -511,8 +517,6 @@ Page({
       })
     }, 1500)
   },
-
-
   reverse() { //翻转动画
     if (this.data.frameClass1.indexOf('z1') != -1) {
       this.setData({
@@ -524,6 +528,12 @@ Page({
         frameClass2: "z2 back",
       })
     }
+  },
+  //跳转至首页
+  toIndex() {
+    wx.switchTab({
+      url: '/pages/index/index'
+    })
   },
   findByCode: function () { //通过code查询用户信息
     let that = this;
@@ -601,8 +611,14 @@ Page({
     }
   },
   //分享给好友
-  onShareAppMessage: function () {
-   
+  onShareAppMessage: function () { //分享给好友帮忙砍价
+    return {
+      title: '无套路100%中奖',
+      imageUrl: 'https://xqmp4-1256079679.file.myqcloud.com/15927505686_1d76e921a072401b452a0025de56609.jpg',
+      path: '/pages/activityDetails/holdingActivity/holdingActivity?shareId=1',
+      success: function (res) { },
+      fail: function (res) { }
+    }
   },
   toIndex() { //跳转至首页
     wx.switchTab({
