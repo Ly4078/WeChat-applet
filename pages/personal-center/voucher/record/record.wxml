@@ -3,7 +3,7 @@
 
 <!-- 骨架屏模块 -->
 <skeleton selector="skeleton" loading="spin" bgcolor="#FFF" wx:if="{{showSkeleton}}"></skeleton>
-<view class="navtab">
+<view class="navigation">
     <view catchtap='swichTab' data-id="{{item.id}}" wx:for="{{navList}}" class="{{currentTab==item.id?'active':''}}" wx:key="index">{{item.title}}</view> 
 </view>
 <view class="PlaceholderBox" style="height:100rpx;width:100%;"></view>

@@ -10,9 +10,8 @@
 </view> -->
 
 <view wx:if="{{currentIndex==0}}">
-  <view class='topTabs'>
-    <view class="tabsItem {{ind == index?'actItem':''}}" data-index="{{index}}" wx:for="{{tabs}}" wx:key="index" id='{{index}}' bindtap='handtab'>{{item}}
-      <view class='tabline' wx:if="{{ind == index}}"></view>
+  <view class='navigation'>
+    <view class=" {{ind == index?'active':''}}" data-index="{{index}}" wx:for="{{tabs}}" wx:key="index" id='{{index}}' bindtap='handtab'>{{item}}
     </view>
   </view>
 
