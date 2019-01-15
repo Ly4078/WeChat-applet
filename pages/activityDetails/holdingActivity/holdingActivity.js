@@ -3,6 +3,7 @@ var utils = require('../../../utils/util.js');
 import {
   GLOBAL_API_DOMAIN
 } from '../../../utils/config/config.js';
+import getToken from '../../../utils/getToken.js';
 var app = getApp();
 var timer = null;
 let gameFlag = true; //防止重复点击
@@ -161,6 +162,29 @@ Page({
     this.setData({
       isshowlocation: false
     })
+    if(!app.globalData.token) {
+      getToken(app).then( ()=>{
+        //调接口
+        that.createUser();
+        that.getUserNum();
+        that.getwinningList()
+        if (!that.data.prizeList.length) {
+          wx.showLoading({
+            title: '加载中...',
+          })
+          that.getData();
+        }
+      })
+    }else{
+      that.getUserNum();
+      that.getwinningList()
+      if (!that.data.prizeList.length) {
+        wx.showLoading({
+          title: '加载中...',
+        })
+        that.getData();
+      }
+    }
     if (app.globalData.userInfo.userId) {
       if (app.globalData.userInfo.mobile) {
         if (app.globalData.token) {

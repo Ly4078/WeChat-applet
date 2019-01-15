@@ -19,7 +19,6 @@ Page({
     isExchange: false, //是否弹出兑换码
     giftTxt: '已被领取', //赠送文字,
     showSkeleton:true,
-    shareId:'1'
   },
   onLoad: function(options) {
     this.setData({
