@@ -3,6 +3,7 @@ var utils = require('../../../../../utils/util.js');
 import {
   GLOBAL_API_DOMAIN
 } from '../../../../../utils/config/config.js';
+import getToken from '../../../../utils/getToken.js';
 var app = getApp();
 let gameFlag = true; //防止重复点击
 var village_LBS = function (that) {
@@ -22,6 +23,7 @@ var swichrequestflag = false;
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
+    isshowlocation: false,
     loading: false,
     toTops: false,
     shareId: 0,
@@ -48,6 +50,9 @@ Page({
     })
   },
   onShow: function () {
+    this.setData({
+      isshowlocation: false
+    });
     if (!app.globalData.token) { //没有token 获取token
       let that = this;
       getToken(app).then(() => {
