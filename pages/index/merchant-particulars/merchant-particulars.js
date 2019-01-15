@@ -530,6 +530,7 @@ Page({
         if (_hotlist && _hotlist.length > 0) {
           for (let i in _hotlist) {
             if (_hotlist[i].actGoodsSkuOuts && _hotlist[i].actGoodsSkuOuts.length > 0) {
+              let arr = [];
               for (let j in _hotlist[i].actGoodsSkuOuts) {
                 _hotlist[i].skuName = utils.uncodeUtf16(_hotlist[i].skuName);
                 _hotlist[i].actGoodsSkuOuts[j].skuName = _hotlist[i].skuName;
@@ -537,8 +538,12 @@ Page({
                 _hotlist[i].actGoodsSkuOuts[j].sellPrice = _hotlist[i].sellPrice;
                 _discount = _hotlist[i].actGoodsSkuOuts[j].goodsPromotionRules.actAmount / _hotlist[i].sellPrice * 10;
                 _hotlist[i].actGoodsSkuOuts[j].discount = _discount.toFixed(2);
+                let actId = _hotlist[i].actGoodsSkuOuts[j].actId;
+                if (actId != 41 && actId != 45) {
+                  arr.push(_hotlist[i].actGoodsSkuOuts[j]);
+                }
               }
-              _hotlist[i].actGoodsSkuOuts2 = _hotlist[i].actGoodsSkuOuts.slice(1);
+              _hotlist[i].actGoodsSkuOuts2 = arr;
               _hotlist2.push(_hotlist[i])
             }
           }

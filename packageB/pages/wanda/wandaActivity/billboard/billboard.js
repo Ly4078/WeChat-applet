@@ -128,10 +128,12 @@ Page({
           let list = res.data.data.list, voteArr = that.data.voteArr;
           if (list && list.length > 0) {
             for (let i = 0; i < list.length; i++) {
-              if (!list[i].user.nickName) {
-                list[i].user.nickName = that.substr(list[i].user.userName);
+              if (list[i].user) {
+                if (!list[i].user.nickName) {
+                  list[i].user.nickName = that.substr(list[i].user.userName);
+                }
+                voteArr.push(list[i]);
               }
-              voteArr.push(list[i]);
             }
             that.setData({
               voteArr: voteArr,

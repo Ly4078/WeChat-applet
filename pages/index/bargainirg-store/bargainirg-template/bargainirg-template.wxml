@@ -1,5 +1,5 @@
 <template name="cuisine">
-  <view class='cutCuisine-shell' id="{{item.id}}" data-index="{{item.shopId}}" data-cate="{{item.categoryId}}"  data-distance="{{item.distance}}" catchtap='candyDetails'>
+  <view class='cutCuisine-shell' id="{{item.id}}" data-index="{{item.shopId}}" data-cate="{{item.categoryId}}"  data-distance="{{item.distance}}" data-categoryid="{{item.categoryId}}" catchtap='candyDetails'>
     <view class="cutCuisine-images">
       <image-loader width="344rpx" height="344rpx" class='hot-recoItem-leftImg' default-image='/images/icon/morentu.png' lazy-load="true" mode='aspectFill' original-image="{{item.picUrl?item.picUrl:item.skuPic}}" />
 

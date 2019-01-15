@@ -7,7 +7,8 @@
     <view wx:if="{{navOrder == 1}}" class="billboard_item" wx:for="{{foodArr}}" wx:key="index">
       <view class="b_item_l">
         <view class="b_item_index">{{index+1}}</view>
-        <image class="b_item_pic" src="{{item.skuPic}}"></image>
+        <image wx:if="{{item.skuPic}}" class="b_item_pic" mode="aspectFill" src="{{item.skuPic}}"></image>
+        <image wx:else class="b_item_pic" src="/images/icon/morentu.png"></image>
         <view class="b_item_txt">
           <view class="b_item_name">{{item.skuName}}</view>
           <view class="b_item_shop">
@@ -21,8 +22,9 @@
     <view wx:if="{{navOrder == 2}}" class="billboard_item" wx:for="{{voteArr}}" wx:key="index">
       <view class="b_item_l">
         <view class="b_item_index">{{index+1}}</view>
-        <image class="b_item_pic" src="{{item.user.iconUrl}}"></image>
-        <view class="b_item_user">{{item.user.nickName}}</view>
+        <image wx:if="{{item.user.iconUrl}}" class="b_item_pic" mode="aspectFill" src="{{item.user.iconUrl}}"></image>
+        <image wx:else class="b_item_pic" src="/images/icon/morentu.png"></image>
+        <view class="b_item_user">{{item.user.nickName ? item.user.nickName : '享七用户'}}</view>
       </view>
       <view class="b_item_r">贡献{{item.totalVoteNum}}票</view>
     </view>

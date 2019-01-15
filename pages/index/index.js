@@ -105,7 +105,6 @@ Page({
       // path:'/pages/index/index',
       
     })
-   
   },
   onLoad: function(options) {
     let that = this;
@@ -598,19 +597,20 @@ Page({
     })
   },
   toSecKillDetail(e) { //跳转至菜品详情
-
-    let curr = e.currentTarget;
+    let curr = e.currentTarget,
+      categoryId = e.currentTarget.dataset.categoryid;
     wx.navigateTo({
-      url: 'flashSaleHome/secKillDetail/secKillDetail?id=' + curr.id + '&shopId=' + curr.dataset.shopid + '&categoryId=11&actId=' + curr.dataset.actid
+      url: 'flashSaleHome/secKillDetail/secKillDetail?id=' + curr.id + '&shopId=' + curr.dataset.shopid + '&categoryId=' + categoryId +'&actId=' + curr.dataset.actid
     })
   },
   candyDetails(e) {
     let id = e.currentTarget.id,
       distance = e.currentTarget.dataset.distance,
       actid = e.currentTarget.dataset.actid,
-      shopId = e.currentTarget.dataset.index;
+      shopId = e.currentTarget.dataset.index,
+      categoryId = e.currentTarget.dataset.categoryid;
     wx.navigateTo({
-      url: 'bargainirg-store/CandyDishDetails/CandyDishDetails?id=' + id + '&shopId=' + shopId + '&categoryId=8&actId=' + actid
+      url: 'bargainirg-store/CandyDishDetails/CandyDishDetails?id=' + id + '&shopId=' + shopId + '&categoryId=' + categoryId +'&actId=' + actid
     })
   },
   handbaoming(e) {

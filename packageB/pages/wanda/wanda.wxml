@@ -8,7 +8,8 @@
 </view>
 <view class="shopList skeleton">
   <view class="shopItem skeleton-rect" wx:for="{{list}}" wx:key="index" bindtap='toBranch' id="{{item.id}}">
-    <image class="itemBg skeleton-rect" mode='aspectFill' src="{{item.picUrl}}"></image>
+    <image wx:if="{{item.picUrl}}" class="itemBg skeleton-rect" mode='aspectFill' src="{{item.picUrl}}"></image>
+    <image wx:else class="itemBg" src="/images/icon/morentu.png"></image>
     <view class="itemShadow"></view>
     <view class="shopInfo">
       <view class="shopName skeleton-rect">{{item.name}}</view>

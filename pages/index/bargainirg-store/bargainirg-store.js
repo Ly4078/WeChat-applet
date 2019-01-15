@@ -285,9 +285,10 @@ Page({
   candyDetails: function(e) {
     let id = e.currentTarget.id,
       distance = e.currentTarget.dataset.distance,
-      shopId = e.currentTarget.dataset.index;
+      shopId = e.currentTarget.dataset.index,
+      categoryId = e.currentTarget.dataset.categoryid;
     wx.navigateTo({
-      url: 'CandyDishDetails/CandyDishDetails?id=' + id + '&shopId=' + shopId + '&actId=41&categoryId=8'
+      url: 'CandyDishDetails/CandyDishDetails?id=' + id + '&shopId=' + shopId + '&actId=41&categoryId=' + categoryId
     })
   },
   //顶部tab栏

@@ -112,8 +112,9 @@
     </view>
     <view class="wandaList">
       <view class="wandaItem" wx:for="{{wandaDish}}" wx:key="index">
-        <view class="w_dish_l" id="{{item.id}}" data-categoryid="{{categoryId}}" bindtap='toBuy'>
-          <image src="{{item.skuPic}}"></image>
+        <view class="w_dish_l" id="{{item.id}}" data-categoryid="{{item.categoryId}}" bindtap='toBuy'>
+          <image wx:if="{{item.skuPic}}" mode="aspectFill" src="{{item.skuPic}}"></image>
+          <image wx:else src="/images/icon/morentu.png"></image>
           <view>
             <view class="w_dish_name">{{item.skuName}}</view>
             <view class="w_dish_flag">
@@ -127,7 +128,7 @@
         </view>
         <view class="w_dish_r">
           <view id="{{item.actGoodsSkuOut.id}}" bindtap="isVote">投票</view>
-          <view id="{{item.id}}" bindtap='toBuy'>购买</view>
+          <view id="{{item.id}}" data-categoryid="{{item.categoryId}}" bindtap='toBuy'>购买</view>
         </view>
       </view>
     </view>

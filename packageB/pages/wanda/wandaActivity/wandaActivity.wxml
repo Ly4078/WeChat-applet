@@ -46,7 +46,8 @@
               <text class="item_shopName">{{item.shop.shopName}}</text>
               <text>{{item.distance}}</text>
             </view>
-            <image class="act_item_pic" src="{{item.skuPic}}" id="{{item.id}}" data-shopid="{{item.shop.id}}" data-categoryid="{{item.categoryId}}" bindtap='toBuy'></image>
+            <image wx:if="{{item.skuPic}}" class="act_item_pic" src="{{item.skuPic}}" mode='aspectFill' id="{{item.id}}" data-shopid="{{item.shop.id}}" data-categoryid="{{item.categoryId}}" bindtap='toBuy'></image>
+            <image wx:else class="act_item_pic" src="/images/icon/morentu.png" id="{{item.id}}" data-shopid="{{item.shop.id}}" data-categoryid="{{item.categoryId}}" bindtap='toBuy'></image>
             <view class="act_item_b">
               <view class="item_dishName">{{item.skuName}}</view>
               <view class="item_ticket">

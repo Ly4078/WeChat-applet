@@ -73,35 +73,30 @@ Page({
   onLoad(options) {
     //在此函数中获取扫描普通链接二维码参数
     console.log('options:', options)
-    let _categoryId = '', _title = '', _id = '', _shopId = '',_actId='',that = this;
+    let _title = '', _id = '', _shopId = '',_actId='',that = this;
     let q = decodeURIComponent(options.q);
     if (q && q != 'undefined') {
       if (utils.getQueryString(q, 'flag') == 2) {
         _id = utils.getQueryString(q, 'id');
         _shopId = utils.getQueryString(q, 'shopId');
         _actId = utils.getQueryString(q, 'actId');
-        _categoryId = utils.getQueryString(q, 'categoryId');
       }
       let _optOjb={
         id:_id,
         shopId:_shopId,
-        categoryId: _categoryId,
         actId: _actId ? _actId:''
       };
       that.setData({
         optObj: _optOjb,
         flag: true,
         page: 1,
-        categoryId: _categoryId,
         shopId: _shopId,
         id: _id,
         actId: _actId ? _actId : ''
       })
     }else{
-      _categoryId= options.categoryId;
       that.setData({
         optObj: options,
-        categoryId: options.categoryId,
         flag: true,
         page: 1,
         shopId: options.shopId ? options.shopId : '',
@@ -110,6 +105,10 @@ Page({
         _city: options.city ? options.city : ''
       });
     }
+    let _categoryId = options.categoryId;
+    this.setData({
+      categoryId: _categoryId
+    });
     if (_categoryId == 5) {
       _title = '酒店详情';
     } else if (_categoryId == 6) {
@@ -896,8 +895,8 @@ Page({
                 wx.navigateTo({
                   url: '../AprogressBar/AprogressBar?refId=' + that.data.id + '&shopId=' + _shopId + '&skuMoneyMin=' + that.data.agioPrice + '&skuMoneyOut=' + that.data.sellPrice + '&categoryId=' + that.data.categoryId
                 })
-                
               }
+              console.log(that.data.categoryId)
             }
             that.setData({
               isApro: true
