@@ -54,7 +54,9 @@ Page({
   },
   getData() { //获取数据
     if (app.globalData.userInfo.lat && app.globalData.userInfo.lng && app.globalData.userInfo.city) {
-      this.wandaList();
+      if (this.data.list.length <= 0) {
+        this.wandaList();
+      }
     } else {
       this.getlocation();
     }

@@ -46,10 +46,9 @@ Page({
     wx.showLoading({
       title: '加载中...'
     })
-    this.foodsBillboard();
   },
   onShow: function () {
-    
+    this.foodsBillboard();
   },
   onUnload: function () {
     

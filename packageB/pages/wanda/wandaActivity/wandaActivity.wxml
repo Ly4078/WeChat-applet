@@ -14,6 +14,20 @@
     <image src='/images/icon/toTop.png'></image>
   </view>
 
+  <!-- 查看规则 -->
+  <view class="wd_regulation" bindtap='openRule'>规则</view>
+  <!-- 规则说明 -->
+  <view class="mask" catchtap="closeRule" wx:if="{{instruct}}"></view>
+  <view class="modalDlg" wx:if="{{instruct}}">
+    <view class='windows_tishi'>———— 规则说明 ————</view>
+    <view class='windows_text'>
+      <text>{{actDesc}}</text>
+    </view>
+  </view>
+
+
+  
+
   <image class="banner_img" src="/images/icon/wd_2.png"></image>
   <view class="act_contain">
     <view class="drawABtn" bindtap="holdingActivity">

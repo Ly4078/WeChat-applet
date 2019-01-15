@@ -54,6 +54,11 @@ Page({
       locationX: options.locationX,
       locationY: options.locationY
     });
+  },
+  onShow: function () {
+    this.setData({
+      isshowlocation: false
+    });
     if (!app.globalData.token) { //没有token 获取token
       let that = this;
       getToken(app).then(() => {
@@ -63,17 +68,11 @@ Page({
       this.getData();
     }
   },
-  onShow: function () {
-    this.setData({
-      isshowlocation: false
-    });
-  },
   getData() { //获取数据
     if (app.globalData.userInfo.lat && app.globalData.userInfo.lng && app.globalData.userInfo.city) {
-      this.setData({
-        dishList: []
-      });
-      this.dishL();
+      if (this.data.dishList.length <= 0) {
+        this.dishL();
+      }
     } else {
       this.getlocation();
     }

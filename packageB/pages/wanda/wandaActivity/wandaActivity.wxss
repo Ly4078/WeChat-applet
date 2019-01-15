@@ -13,6 +13,21 @@ page, .wd_activity {
   height: 100rpx;
 }
 
+.wd_regulation {
+  height: 50rpx;
+  line-height: 50rpx;
+  border-top-left-radius: 20rpx;
+  border-bottom-left-radius: 20rpx;
+  padding: 0 26rpx;
+  position: absolute;
+  top: 20rpx;
+  right: 0;
+  background-color: #191919;
+  opacity: 0.8;
+  color: #fff;
+  font-size: 28rpx;
+}
+
 .banner_img {
   height: 420rpx;
   width: 100%;

@@ -26,6 +26,7 @@ Page({
     isshowlocation: false,
     loading: false,
     toTops: false,
+    instruct: false,
     shareId: 0,
     shareImg: '', //分享图片
     actId: '45',
@@ -37,21 +38,14 @@ Page({
     rows: 10,
     page: 1,
     pageTotal: 1,
-    drawNum: 0 //抽奖次数
+    drawNum: 0, //抽奖次数
+    actDesc: ''
   },
   onLoad: function(options) {
     if (options.shareId) {
       this.setData({
         shareId: options.shareId
       });
-    }
-    if (!app.globalData.token) { //没有token 获取token
-      let that = this;
-      getToken(app).then(() => {
-        that.getData();
-      })
-    } else {
-      this.getData();
     }
   },
   onShow: function() {
@@ -61,10 +55,18 @@ Page({
     if (!app.globalData.token) { //没有token 获取token
       let that = this;
       getToken(app).then(() => {
-        this.drawNum();
+        that.drawNum();
+        that.getRule();
+        if (that.data.dishList.length <= 0) {
+          that.getData();
+        }
       })
     } else {
       this.drawNum();
+      this.getRule();
+      if (this.data.dishList.length <= 0) {
+        this.getData();
+      }
     }
   },
   getData() { //获取数据
@@ -176,6 +178,26 @@ Page({
       swichrequestflag = false;
     })
   },
+  getRule() { //获取规则
+    let that = this;
+    wx.request({
+      url: this.data._build_url + 'act/get/45',
+      method: 'GET',
+      header: {
+        "Authorization": app.globalData.token
+      },
+      success: function(res) {
+        console.log(res)
+        let actDesc = res.data.data.actDesc;
+        that.setData({
+          actDesc: actDesc
+        });
+      },
+      fail() {
+
+      }
+    })
+  },
   isVote(e) { //是否可以投票
     let that = this,
       id = e.target.id,
@@ -214,7 +236,7 @@ Page({
             header: {
               "Authorization": app.globalData.token
             },
-            success: function (res) {
+            success: function(res) {
               if (res.data.code == 0) {
                 that.showToast('投票成功');
                 let dishList = that.data.dishList;
@@ -290,7 +312,7 @@ Page({
     wx.showLoading({
       title: '加载中...'
     })
-    let id = e.target.id,
+    let id = e.currentTarget.id,
       branch = this.data.branch;
     this.setData({
       currCity: id,
@@ -304,7 +326,7 @@ Page({
     if (swichrequestflag) {
       return;
     }
-    let name = e.target.dataset.name;
+    let name = e.currentTarget.dataset.name;
     if (this.data.currBranch == name) {
       return;
     }
@@ -360,6 +382,16 @@ Page({
       icon: 'none'
     })
   },
+  openRule() { //打开规则
+    this.setData({
+      instruct: true
+    });
+  },
+  closeRule() { //关闭规则
+    this.setData({
+      instruct: false
+    });
+  },
   //跳转至首页
   toIndex() {
     wx.switchTab({
@@ -374,7 +406,7 @@ Page({
     })
   },
   //滚动事件
-  onPageScroll: function (e) {
+  onPageScroll: function(e) {
     if (e.scrollTop > 400) {
       this.setData({
         toTops: true
