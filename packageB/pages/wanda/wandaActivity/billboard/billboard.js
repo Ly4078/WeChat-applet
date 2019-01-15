@@ -3,7 +3,7 @@ var utils = require('../../../../../utils/util.js');
 import {
   GLOBAL_API_DOMAIN
 } from '../../../../../utils/config/config.js';
-import getToken from '../../../../utils/getToken.js';
+import getToken from '../../../../../utils/getToken.js';
 var app = getApp();
 let gameFlag = true; //防止重复点击
 var village_LBS = function (that) {
