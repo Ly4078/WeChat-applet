@@ -263,6 +263,10 @@ Page({
         for (let i = 0; i < list.length; i++) {
           list[i].distance = utils.transformLength(list[i].distance);
           list[i].widthRate = list[i].stockNum / 15 * 186;
+          if (list[i].shop.shopName.length>12){
+            list[i].shop.shopName = list[i].shop.shopName.substring(0, 12)+'...'
+          }
+          
           aNearbyShop.push(list[i]);
         }
         this.setData({

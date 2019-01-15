@@ -38,7 +38,7 @@ page {
 .flashSale-right {
   width: 472rpx;
   height: auto;
-  padding-left: 26rpx;
+  padding-left: 15rpx;
   padding-right: 16rpx;
   box-sizing: border-box;
   background-color: #fff;
