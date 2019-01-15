@@ -22,11 +22,17 @@ var village_LBS = function (that) {
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
+    shareId: 0,
     showSkeleton: true,
     isshowlocation: false,
     list: []
   },
   onLoad: function(options) {
+    if (options.shareId) {
+      this.setData({
+        shareId: options.shareId
+      })
+    }
     setTimeout(() => {
       this.setData({
         showSkeleton: false
@@ -114,10 +120,16 @@ Page({
   onShareAppMessage: function() {
     return {
       title: '万达专区活动',
-      path: '/packageB/pages/wanda/wanda',
+      path: '/packageB/pages/wanda/wanda?shareId=1',
       success: function (res) { },
       fail: function (res) { }
     }
+  },
+  //跳转至首页
+  toIndex() {
+    wx.switchTab({
+      url: '/pages/index/index'
+    })
   },
   openSetting() { //打开授权设置界面
     let that = this;

@@ -5,6 +5,15 @@
   </view>
 </view>
 <view class="wd_activity">
+
+  <!-- 回到首页 -->
+  <image class="indexIcon" src="/images/icon/goindex.png" bindtap='toIndex' wx:if="{{shareId}}"></image>
+  
+  <!-- 回到顶部 -->
+  <view class='toTop' wx:if="{{toTops}}" bindtap='toTop'>
+    <image src='/images/icon/toTop.png'></image>
+  </view>
+
   <image class="banner_img" src="/images/icon/wd_2.png"></image>
   <view class="act_contain">
     <view class="drawABtn" bindtap="holdingActivity">

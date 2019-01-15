@@ -20,3 +20,6 @@
     </view>
   </view>
 </view>
+
+<!-- 回到首页 -->
+<image class="indexIcon" src="/images/icon/goindex.png" bindtap='toIndex' wx:if="{{shareId}}"></image>

@@ -23,6 +23,8 @@ Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
     loading: false,
+    toTops: false,
+    shareId: 0,
     actId: '',
     navOrder: 1,
     foodArr: [],
@@ -33,6 +35,11 @@ Page({
     votePage: 1
   },
   onLoad: function (options) {
+    if (options.shareId) {
+      this.setData({
+        shareId: options.shareId
+      });
+    }
     this.setData({
       actId: options.actId
     });
@@ -216,12 +223,37 @@ Page({
   onShareAppMessage: function () {
     return {
       title: '湖北万达十大招牌菜榜单',
-      path: '/packageB/pages/wanda/wandaActivity/billboard/billboard?actId=' + this.data.actId,
+      path: '/packageB/pages/wanda/wandaActivity/billboard/billboard?shareId=1&actId=' + this.data.actId,
       success: function (res) { },
       fail: function (res) { }
     }
   },
   substr(str) {
     return str.slice(0, 3) + '****' + str.slice(7);
+  },
+  //跳转至首页
+  toIndex() {
+    wx.switchTab({
+      url: '/pages/index/index'
+    })
+  },
+  // //回到顶部
+  toTop() {
+    wx.pageScrollTo({
+      scrollTop: 0,
+      duration: 300
+    })
+  },
+  //滚动事件
+  onPageScroll: function (e) {
+    if (e.scrollTop > 400) {
+      this.setData({
+        toTops: true
+      })
+    } else {
+      this.setData({
+        toTops: false
+      })
+    }
   }
 })

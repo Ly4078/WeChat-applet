@@ -25,6 +25,8 @@ Page({
     _build_url: GLOBAL_API_DOMAIN,
     isshowlocation: false,
     loading: false,
+    toTops: false,
+    shareId: 0,
     actId: '41',
     name: '',
     address: '',
@@ -37,7 +39,11 @@ Page({
     dishList: []
   },
   onLoad: function (options) {
-    console.log(options)
+    if (options.shareId) {
+      this.setData({
+        shareId: options.shareId
+      });
+    }
     this.setData({
       id: options.id,
       address: options.address,
@@ -153,12 +159,36 @@ Page({
     console.log(res);
     return {
       title: this.data.name + '专区菜品',
-      path: '/packageB/pages/wanda/wandaBranch/wandaBranch?id=' + this.data.id + '&picUrl=' + this.data.picUrl + '&name=' + this.data.name + '&address=' + this.data.address + '&distance=' + this.data.distance + '&city=' + this.data.city + '&locationX=' + this.data.locationX + '&locationY=' + this.data.locationY,
+      path: '/packageB/pages/wanda/wandaBranch/wandaBranch?shareId=1&id=' + this.data.id + '&picUrl=' + this.data.picUrl + '&name=' + this.data.name + '&address=' + this.data.address + '&distance=' + this.data.distance + '&city=' + this.data.city + '&locationX=' + this.data.locationX + '&locationY=' + this.data.locationY,
       success: function (res) { },
       fail: function (res) { }
     }
   },
-
+  //跳转至首页
+  toIndex() {
+    wx.switchTab({
+      url: '/pages/index/index'
+    })
+  },
+  // //回到顶部
+  toTop() {
+    wx.pageScrollTo({
+      scrollTop: 0,
+      duration: 300
+    })
+  },
+  //滚动事件
+  onPageScroll: function (e) {
+    if (e.scrollTop > 400) {
+      this.setData({
+        toTops: true
+      })
+    } else {
+      this.setData({
+        toTops: false
+      })
+    }
+  },
   //打开地图导航，先查询是否已授权位置
   TencentMap: function (event) {
     let that = this;

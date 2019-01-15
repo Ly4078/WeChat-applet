@@ -1,4 +1,13 @@
 <view>
+
+  <!-- 回到首页 -->
+  <image class="indexIcon" src="/images/icon/goindex.png" bindtap='toIndex' wx:if="{{shareId}}"></image>
+  
+  <!-- 回到顶部 -->
+  <view class='toTop' wx:if="{{toTops}}" bindtap='toTop'>
+    <image src='/images/icon/toTop.png'></image>
+  </view>
+
   <view class="billboard_tab">
     <view class="{{navOrder == 1 ? 'active' : ''}}" id="1" bindtap='switchTab'>美食榜</view>
     <view class="{{navOrder == 2 ? 'active' : ''}}" id="2" bindtap='switchTab'>投票榜</view>

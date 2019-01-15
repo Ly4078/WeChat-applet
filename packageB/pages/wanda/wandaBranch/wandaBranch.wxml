@@ -5,6 +5,15 @@
   </view>
 </view>
 <view class="wdBranch">
+  
+  <!-- 回到首页 -->
+  <image class="indexIcon" src="/images/icon/goindex.png" bindtap='toIndex' wx:if="{{shareId}}"></image>
+  
+  <!-- 回到顶部 -->
+  <view class='toTop' wx:if="{{toTops}}" bindtap='toTop'>
+    <image src='/images/icon/toTop.png'></image>
+  </view>
+
   <view class="branchTop">
     <image class="wdPic" src="{{picUrl}}"></image>
     <view class="wdShadow"></view>

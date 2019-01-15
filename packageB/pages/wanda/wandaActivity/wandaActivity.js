@@ -25,6 +25,8 @@ Page({
     _build_url: GLOBAL_API_DOMAIN,
     isshowlocation: false,
     loading: false,
+    toTops: false,
+    shareId: 0,
     shareImg: '', //分享图片
     actId: '45',
     city: [],
@@ -38,6 +40,11 @@ Page({
     drawNum: 0 //抽奖次数
   },
   onLoad: function(options) {
+    if (options.shareId) {
+      this.setData({
+        shareId: options.shareId
+      });
+    }
     if (!app.globalData.token) { //没有token 获取token
       let that = this;
       getToken(app).then(() => {
@@ -342,7 +349,7 @@ Page({
     return {
       title: '湖北万达十大招牌菜',
       imageUrl: '/images/icon/wd_2.png',
-      path: '/packageB/pages/wanda/wandaActivity/wandaActivity',
+      path: '/packageB/pages/wanda/wandaActivity/wandaActivity?shareId=1',
       success: function(res) {},
       fail: function(res) {}
     }
@@ -352,6 +359,31 @@ Page({
       title: title,
       icon: 'none'
     })
+  },
+  //跳转至首页
+  toIndex() {
+    wx.switchTab({
+      url: '/pages/index/index'
+    })
+  },
+  // //回到顶部
+  toTop() {
+    wx.pageScrollTo({
+      scrollTop: 0,
+      duration: 300
+    })
+  },
+  //滚动事件
+  onPageScroll: function (e) {
+    if (e.scrollTop > 400) {
+      this.setData({
+        toTops: true
+      })
+    } else {
+      this.setData({
+        toTops: false
+      })
+    }
   },
   openSetting() { //打开授权设置界面
     let that = this;

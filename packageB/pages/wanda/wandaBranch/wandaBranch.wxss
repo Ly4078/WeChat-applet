@@ -3,6 +3,15 @@ page {
   background-color: #F5F5FA;
 }
 
+.indexIcon {
+  position: fixed;
+  right: 20rpx;
+  bottom: 170rpx;
+  z-index: 1000;
+  width: 100rpx;
+  height: 100rpx;
+}
+
 .wdBranch {
   color: #191919;
 }
@@ -90,7 +99,7 @@ page {
   margin-top: -50rpx;
   position: relative;
   /* top: -60rpx; */
-  z-index: 1000;
+  z-index: 9;
 }
 
 .menuItem {

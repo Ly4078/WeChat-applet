@@ -4,6 +4,15 @@ page, .wd_activity {
   background-color: #E03021;
 }
 
+.indexIcon {
+  position: fixed;
+  right: 20rpx;
+  bottom: 170rpx;
+  z-index: 1000;
+  width: 100rpx;
+  height: 100rpx;
+}
+
 .banner_img {
   height: 420rpx;
   width: 100%;

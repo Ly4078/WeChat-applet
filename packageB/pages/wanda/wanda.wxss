@@ -58,3 +58,12 @@
   color: #fff;
   padding: 18rpx 0;
 }
+
+.indexIcon {
+  position: fixed;
+  right: 20rpx;
+  bottom: 120rpx;
+  z-index: 1000;
+  width: 100rpx;
+  height: 100rpx;
+}
