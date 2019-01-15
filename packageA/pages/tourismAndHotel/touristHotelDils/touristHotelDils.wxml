@@ -98,16 +98,16 @@
 </view>
 <!-- 底部tab功能键 -->
 <view class='function'>
-  <view class='returnHome home' catchtap='returnHomeArrive'>
+  <view class='returnHome home' hover-class='listhover' hover-stay-time="200" catchtap='returnHomeArrive'>
     <image class='houselet' src='/images/icon/houselet.png'></image>
     <text>首页</text>
   </view>
-  <button class='returnHome home' bindtap='share' plain="true" data-name="shareBtn" open-type="share">
+  <button  hover-class='listhover' hover-stay-time="200" class='returnHome home' bindtap='share' plain="true" data-name="shareBtn" open-type="share">
     <image class='yellowShare' src='/images/icon/yellowShare.png'></image>
     <text>分享</text>
   </button>
 
-  <view class='returnPrice' style="border-left:1rpx solid #ebebeb" catchtap='originalPrice'>
+  <view hover-class='listhover' hover-stay-time="200" class='returnPrice' style="border-left:1rpx solid #ebebeb" catchtap='originalPrice'>
     <image class='yellowShare' src='https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/serviceesa.png'></image>
     <text class='directly'>客服</text>
     <button class="cs_button" open-type="contact" session-from="weapp"></button>

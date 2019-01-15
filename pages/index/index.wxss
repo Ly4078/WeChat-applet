@@ -121,7 +121,7 @@ page {
 .indexNavOne {
   width: 100%;
   background: #fff;
-  padding-top: 28rpx;
+  padding:15rpx 0;
   display: flex;
   flex-wrap: wrap;
 }
@@ -130,7 +130,7 @@ page {
   width:18%;
 height:100%;
 text-align:center;
-padding-bottom:34rpx;
+padding: 20rpx 0;
 display:flex;
 flex-direction:column;
 margin:0 1%;
@@ -308,7 +308,7 @@ margin:0 1%;
   align-items: center;
   width: 100%;
   background: #fff;
-  padding: 20rpx 0rpx;
+  /* padding: 20rpx 0rpx; */
   box-sizing: border-box;
 }
 
@@ -318,6 +318,7 @@ margin:0 1%;
   border-radius: 40rpx;
   font-size: 30rpx;
   color: #808080;
+  margin: 20rpx 0;
   padding: 15rpx 20rpx;
 }
 
@@ -336,13 +337,13 @@ margin:0 1%;
 }
 
 .header .header-location, .header .header-notice {
-  margin: 0 30rpx;
+  padding: 30rpx 30rpx;
 }
 
 .header .header-location {
   font-size: 32rpx;
   color: #191919;
-  margin: 0 15rpx;
+  padding: 30rpx 15rpx;
 }
 
 .header .header-location image {

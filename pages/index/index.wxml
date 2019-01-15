@@ -10,7 +10,7 @@
   <!--顶部 定位 搜索 卷  -->
   <!-- 头部搜索 after  -->
   <view class="header">
-    <view class="header-location" bindtap='userLocation'>
+    <view class="header-location" hover-class='listhover' hover-stay-time="200" bindtap='userLocation'>
       <text>{{city}}</text>
       <image class="icon" src="/images/newIndex/jiantou.png"></image>
     </view>
@@ -18,7 +18,7 @@
       <image class="icon" src="/images/icon/home_bar_search.png"></image>
       <text>搜索</text>
     </view>
-    <view class="header-notice " catchtap='tonewTips'>
+    <view class="header-notice " hover-class='listhover' hover-stay-time="200" catchtap='tonewTips'>
       <image class="icon " src="/images/newIndex/xiaoxi.png"></image>
       <text  class="tips" wx:if="{{isnewTips}}"></text>
     </view>
@@ -40,7 +40,7 @@
   </view>
   <!-- 导航nav_one -->
   <view class='indexNavOne'>
-    <view wx:for="{{navs}}" wx:key="index" data-url="{{item.linkUrl}}" class='navitem' id="{{item.id}}" data-msg="{{item.title=='酒店'?'商家正在入驻中...':''}}" bindtap='toLink'>
+    <view wx:for="{{navs}}" hover-class='listhover' hover-stay-time="200" wx:key="index" data-url="{{item.linkUrl}}" class='navitem' id="{{item.id}}" data-msg="{{item.title=='酒店'?'商家正在入驻中...':''}}" bindtap='toLink'>
       <image class="img{{index+1}} skeleton-radius" src='{{item.imgUrl}}'></image>
       <text class="navitem_txt skeleton-rect">{{item.title}}</text>
     </view>
@@ -74,7 +74,7 @@
     <view class="title">—热门推荐—</view>
 
     <view class="contents" wx:for="{{allList}}"  wx:key="bigindex" wx:for-index="bigindex">
-      <view class="hot-recoItem "  catchtap='onTouchItem' wx:for="{{allList[bigindex].shop}}" wx:key="index" data-id="{{item.id}}">
+      <view class="hot-recoItem "  catchtap='onTouchItem' wx:for="{{allList[bigindex].shop}}" wx:key="index" data-id="{{item.id}}" hover-class='listhover' hover-stay-time="200">
         <view class="hot-recoItem-left">
         <image-loader width="180rpx" height="180rpx" class='hot-recoItem-leftImg'  default-image='/images/icon/morentu.png' mode='aspectFill' original-image="{{item.logoUrl?item.logoUrl:'/images/icon/morentu.png'}}"  />
 
@@ -110,7 +110,7 @@
 
         </view>
       </view>
-      <view wx:if="{{item.actGoodsSkuOut.stockNum>=1}}" class="hot-recoItem" catchtap='candyDetails' wx:for="{{allList[bigindex].skuKJ}}" wx:key="index" id='{{item.id}}'   data-index="{{item.shopId}}" data-distance="{{item.distance}}" data-categoryid="{{item.categoryId}}">
+      <view wx:if="{{item.actGoodsSkuOut.stockNum>=1}}" class="hot-recoItem" catchtap='candyDetails' wx:for="{{allList[bigindex].skuKJ}}" wx:key="index" id='{{item.id}}'   data-index="{{item.shopId}}" data-distance="{{item.distance}}" data-categoryid="{{item.categoryId}}" hover-class='listhover' hover-stay-time="200">
         <image src="/images/newIndex/bargain.png" class="bargain-img"></image>
 
         <view class="hot-recoItem-left">
@@ -145,7 +145,7 @@
           </view>
         </view>
       </view>
-      <view class="hot-recoItem"   catchtap='candyDetails' id='{{item.id}}' data-index="{{item.shopId}}" data-actid="{{item.actGoodsSkuOut.actId}}" data-categoryid="{{item.categoryId}}" wx:for="{{allList[bigindex].goodsSku}}" wx:key="index">
+      <view class="hot-recoItem"   catchtap='candyDetails' id='{{item.id}}' data-index="{{item.shopId}}" data-actid="{{item.actGoodsSkuOut.actId}}" data-categoryid="{{item.categoryId}}" wx:for="{{allList[bigindex].goodsSku}}" wx:key="index" hover-class='listhover' hover-stay-time="200">
         <image src="/images/newIndex/bargain.png" class="bargain-img"></image>
         <view class="hot-recoItem-left">
           <!-- <image src="{{item.skuPic}}" mode='aspectFill' class='hot-recoItem-leftImg'></image> -->
@@ -185,7 +185,7 @@
           </view>
         </view>
       </view>
-      <view  wx:for="{{allList[bigindex].skuMS}}"  wx:key="index"  id='{{item.id}}' data-shopid="{{item.shopId}}" data-actid="44" data-distance="{{item.distance}}" data-categoryid="{{item.categoryId}}" catchtap='toSecKillDetail'  class="Dishes-item">
+      <view  wx:for="{{allList[bigindex].skuMS}}"  wx:key="index"  id='{{item.id}}' data-shopid="{{item.shopId}}" data-actid="44" data-distance="{{item.distance}}" data-categoryid="{{item.categoryId}}" catchtap='toSecKillDetail'  class="Dishes-item" hover-class='listhover' hover-stay-time="200">
         <view class="Dishes-top">
            <image-loader width="344rpx" height="344rpx" class='hot-recoItem-leftImg'  default-image='/images/icon/morentu.png' mode='aspectFill' original-image="{{item.skuPic?item.skuPic:'/images/icon/morentu.png'}}"  />
           <view class="Dishes-desc">

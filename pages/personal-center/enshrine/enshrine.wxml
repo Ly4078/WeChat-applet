@@ -3,7 +3,7 @@
 
 <view wx:if="{{posts_key.length > 0}}">
   <block wx:for="{{posts_key}}" wx:key="index">
-    <view class='enshrineWrap' catchtap='enshrineXim' id="{{item.id}}">
+    <view class='enshrineWrap'  catchtap='enshrineXim' id="{{item.id}}">
       <view class='enshrineLeft'>
         <view class='enshrineImages-wrap'>
           <view class="hot-recoItem-left">

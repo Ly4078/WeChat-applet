@@ -32,7 +32,7 @@
   <!--我的秒杀-->
   <view hidden="{{currentTab == 0}}">
     <view class='cuisine-center'  wx:if="{{aNearbyShop.length>0}}" wx:for="{{aNearbyShop}}" wx:key="{{index}}" wx:for-index="idx">
-      <view class="mySeckillWrap" id="{{item.goodsSkuOut.id}}" data-shopid="{{item.shop.id}}" data-categoryid="{{item.goodsSkuOut.categoryId}}" bindtap='toSecKillDetail'>
+      <view class="mySeckillWrap" id="{{item.goodsSkuOut.id}}" data-shopid="{{item.shop.id}}" data-categoryid="{{item.goodsSkuOut.categoryId}}" bindtap='toSecKillDetail' hover-class='listhover' hover-stay-time="200">
         <view class="mySeckill_l">
           <image src="{{item.goodsSkuOut.skuPic}}"></image>
           <view class="mySeckill_info">

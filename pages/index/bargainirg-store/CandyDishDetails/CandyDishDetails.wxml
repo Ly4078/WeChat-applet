@@ -42,7 +42,7 @@
           <text class='abandon' wx:else>￥{{sellPrice}}</text>
         </view>
       </view>
-      <view class='kanj' catchtap="understand">
+      <view class='kanj' catchtap="understand" hover-class='listhover' hover-stay-time="200">
         <view class='kjicon'>砍价购</view>
         一刀也优惠，邀请{{soData.actGoodsSkuOut.peopleNum?soData.actGoodsSkuOut.peopleNum-1:'3'}}个好友砍到底价
         <image src='/images/icon/home_arrow.png'></image>

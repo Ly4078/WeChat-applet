@@ -130,7 +130,7 @@
 .logistics-top{
   width: 100%;
   height: 62rpx;
-  border-bottom: 1px solid #E0E0E0;
+  border-bottom: 1px solid #f5f5fa;
   font-size:24rpx;
   color:#808080;
   display: flex;
@@ -171,7 +171,7 @@
 .logistics-center{
   width: 100%;
   height: 152rpx;
-  border-bottom: 1px solid #E0E0E0;
+  border-bottom: 1px solid #f5f5fa;
   display: flex;
   justify-content: space-between;
   align-items: center;

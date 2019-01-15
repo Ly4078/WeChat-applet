@@ -76,19 +76,19 @@
         </view> -->
       </view>
       <view class='mylistWrap'>
-        <view class='myList' id="" catchtap='carefulness'>
+        <view class='myList' hover-class='listhover' hover-stay-time="200" id="" catchtap='carefulness'>
           <image class='myListImages' src='/images/icon/p2.png'></image>
           <view class='mylistText'>全部订单</view>
         </view>
-        <view class='myList' id="1" catchtap='carefulness'>
+        <view class='myList' hover-class='listhover' hover-stay-time="200" id="1" catchtap='carefulness'>
           <image class='myListImages' src='/images/icon/p1.png'></image>
           <view class='mylistText'>待付款</view>
         </view>
-        <view class='myList' id="2" catchtap='carefulness'>
+        <view class='myList' hover-class='listhover' hover-stay-time="200" id="2" catchtap='carefulness'>
           <image class='myListImages' src='/images/icon/p3.png'></image>
           <view class='mylistText'>已完成</view>
         </view>
-        <view class='myList' id="10" catchtap='carefulness'>
+        <view class='myList' hover-class='listhover' hover-stay-time="200" id="10" catchtap='carefulness'>
           <image class='myListImages' src='/images/icon/p4.png'></image>
           <view class='mylistText'>退款/售后</view>
         </view>
@@ -102,19 +102,19 @@
         <view>我的服务</view>
       </view>
       <view class='mylistWrap'>
-        <view class='myList' catchtap='continuousAs'>
+        <view class='myList' hover-class='listhover' hover-stay-time="200" catchtap='continuousAs'>
           <image class='myListImages' src='/images/icon/bargainirg_kj.png'></image>
           <view class='mylistText'>我的砍价</view>
         </view>
-        <view class='myList' catchtap='contact'>
+        <view class='myList' hover-class='listhover' hover-stay-time="200" catchtap='contact'>
           <image class='myListImages' src='/images/icon/customer_service.png'></image>
           <view class='mylistText'>联系客服</view>
         </view>
-        <view class='myList myList_wo' catchtap='feedback'>
+        <view class='myList myList_wo' hover-class='listhover' hover-stay-time="200" catchtap='feedback'>
           <image class='myListImages' src='/images/icon/juxinges.png'></image>
           <view class='mylistText'>帮助与反馈</view>
         </view>
-        <view class='myList myList_wo' catchtap='aboutMe'>
+        <view class='myList myList_wo' hover-class='listhover' hover-stay-time="200" catchtap='aboutMe'>
           <image class='myListImages' src='/images/icon/guanyuwome.png'></image>
           <view class='mylistText'>关于我们</view>
         </view>
@@ -129,7 +129,7 @@
       </view>
 
       <view class='mylistWrap'>
-        <view class='myList' catchtap='scanAqrCode'>
+        <view class='myList' hover-class='listhover' hover-stay-time="200" catchtap='scanAqrCode'>
           <image class='myListImages' src='/images/icon/saoma.png'></image>
           <view class='mylistText'>扫码核销</view>
         </view>
@@ -137,7 +137,7 @@
           <image class='myListImages' src='/images/icon/quanma.png'></image>
           <view class='mylistText'>券码核销</view>
         </view> -->
-        <view wx:if="{{userId}}" class='myList dividual-lk' catchtap='dividualLogin'>
+        <view wx:if="{{userId}}" hover-class='listhover' hover-stay-time="200" class='myList dividual-lk' catchtap='dividualLogin'>
           <image class='myListImages' src='/images/icon/impression-sefa.png'></image>
           <view class='mylistText'>分享注册</view>
         </view>

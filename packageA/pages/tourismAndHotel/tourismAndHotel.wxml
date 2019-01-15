@@ -20,7 +20,7 @@
       </view>
       <view style="width:100%;height:100rpx;" wx:if="{{fiexd}}"></view>
       <!-- 1元拼购 -->
-      <view class="{{selected?'show':'hidden'}}" bindtap='hoteDils' data-groupid="{{item.actGoodsSkuOut.id}}" data-id="{{item.id}}" wx:for="{{showSkeleton?skeletonData:dataList}}" wx:key="index">
+      <view class="{{selected?'show':'hidden'}}" bindtap='hoteDils' data-groupid="{{item.actGoodsSkuOut.id}}" data-id="{{item.id}}" wx:for="{{showSkeleton?skeletonData:dataList}}" wx:key="index" hover-class='listhover' hover-stay-time="200">
         <view class='delayWrap'>
 
           <view class="endtimeshadow" wx:if="{{item.actGoodsSkuOut.state =='2' || item.actGoodsSkuOut.state =='3'}}">

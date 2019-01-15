@@ -1,6 +1,6 @@
 <!-- 附件美食 -->
 <template name="flashSale">
-  <view class='flashSaleWrap' bindtap='toSecKillDetail' id="{{item.id}}" data-shopid="{{item.shopId}}" data-distance="{{item.distance}}"  data-categoryid="{{item.categoryId}}">
+  <view class='flashSaleWrap' bindtap='toSecKillDetail' id="{{item.id}}" data-shopid="{{item.shopId}}" data-distance="{{item.distance}}" hover-class='listhover' hover-stay-time="200"  data-categoryid="{{item.categoryId}}">
     <view class='flashSale-left'>
       <image class='flashSale-img skeleton-rect' mode='aspectFill' src='{{item.skuPic}}'></image>
       <image class='flashSaleBut' src='https://xqmp4-1256079679.file.myqcloud.com/13971489895_af291d2f55bf4e4d3ce3923fca62758.png'></image>

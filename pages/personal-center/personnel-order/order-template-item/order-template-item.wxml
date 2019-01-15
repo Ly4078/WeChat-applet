@@ -45,7 +45,7 @@
 
 <!-- 物流订单 -->
 <template name="order_logistics">
-  <view class='logistics' catchtap='clickLogistics' id='{{item.id}}' data-sendType="{{item.sendType}}">
+  <view class='logistics' hover-class='listhover' hover-stay-time="200"  catchtap='clickLogistics' id='{{item.id}}' data-sendType="{{item.sendType}}">
    <view class='logistics-top'>
     <view class='logistics-Left'>
       <text wx:if="{{item.flagType=='7'}}" class="types" style="background:#FB3434;">拼团</text>

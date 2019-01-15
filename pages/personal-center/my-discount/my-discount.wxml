@@ -11,7 +11,7 @@
 
 <view wx:if="{{currentIndex==0}}">
   <view class='navigation'>
-    <view class=" {{ind == index?'active':''}}" data-index="{{index}}" wx:for="{{tabs}}" wx:key="index" id='{{index}}' bindtap='handtab'>{{item}}
+    <view hover-class='listhover' hover-stay-time="200" class=" {{ind == index?'active':''}}" data-index="{{index}}" wx:for="{{tabs}}" wx:key="index" id='{{index}}' bindtap='handtab'>{{item}}
     </view>
   </view>
 
@@ -19,7 +19,7 @@
   <!-- 礼品券 -->
   <view class='voucherBox' wx:if="{{ind == 0 || ind == 3}}">
     <view class="voucher" wx:if="{{listData.length>0}}">
-      <view wx:for="{{listData}}" wx:key="{{index}}" class="{{ind == 3 ? 'indshixaio' : ''}} tickItem" id="{{item.id}}" data-isUsed="{{item.isUsed}}" data-ownId="{{item.ownId}}" data-isDue="{{item.isDue}}" bindtap='redeemNow'>
+      <view wx:for="{{listData}}" wx:key="{{index}}" class="{{ind == 3 ? 'indshixaio' : ''}} tickItem" id="{{item.id}}" data-isUsed="{{item.isUsed}}" data-ownId="{{item.ownId}}" data-isDue="{{item.isDue}}" bindtap='redeemNow' hover-class='listhover' hover-stay-time="200">
         <view class='circle circle_left'></view>
         <view class='circle circle_right'></view>
         <!-- <image class="ticketBgc" src="/images/icon/ticketBgc.png"></image> -->
@@ -87,7 +87,7 @@
   <view style="padding:0 26rpx" wx:if="{{ind ==1}}">
 
     <view class="voucher issend" wx:if="{{sendData.length>0}}">
-      <view wx:for="{{sendData}}" wx:key="{{index}}" class="{{ind == 1 ? 'indshixaio' : ''}} tickItem" id="{{item.id}}" data-isUsed="{{item.isUsed}}" data-ownId="{{item.ownId}}" data-isDue="{{item.isDue}}">
+      <view wx:for="{{sendData}}" wx:key="{{index}}" class="{{ind == 1 ? 'indshixaio' : ''}} tickItem" id="{{item.id}}" data-isUsed="{{item.isUsed}}" data-ownId="{{item.ownId}}" data-isDue="{{item.isDue}}" hover-class='listhover' hover-stay-time="200">
         <view class='circle circle_left'></view>
         <view class='circle circle_right'></view>
         <!-- <image class="ticketBgc" src="/images/icon/ticketBgc.png"></image> -->
@@ -146,7 +146,7 @@
   <view style="padding:0 26rpx" wx:if="{{ind ==2}}">
 
     <view class="voucher issend" wx:if="{{recData.length>0}}">
-      <view wx:for="{{recData}}" wx:key="{{index}}" class="{{ind == 2 ? 'indshixaio' : ''}} tickItem" id="{{item.id}}" data-isUsed="{{item.isUsed}}" data-ownId="{{item.ownId}}" data-isDue="{{item.isDue}}">
+      <view wx:for="{{recData}}" wx:key="{{index}}" class="{{ind == 2 ? 'indshixaio' : ''}} tickItem" id="{{item.id}}" data-isUsed="{{item.isUsed}}" data-ownId="{{item.ownId}}" data-isDue="{{item.isDue}}" hover-class='listhover' hover-stay-time="200">
         <view class='circle circle_left'></view>
         <view class='circle circle_right'></view>
         <!-- <image class="ticketBgc" src="/images/icon/ticketBgc.png"></image> -->

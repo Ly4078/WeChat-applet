@@ -1,5 +1,5 @@
 <view class='Wrap'>
-  <view class='list listTop' id="15" bindtap='particulars'>
+  <view class='list listTop' hover-class='listhover' hover-stay-time="200" id="15" bindtap='particulars'>
     <view class='headCenter'>
       <view class='single'>
         <view>
@@ -12,7 +12,7 @@
   </view>
 
   <view class='heaTop'><text class='headline'>请选择反馈内容</text></view>
-  <view class='list' wx:for="{{issueArray}}" wx:for-item="item" wx:key="{{id}}" id="{{item.id}}" bindtap='particulars'>
+  <view class='list' hover-class='listhover' hover-stay-time="200" wx:for="{{issueArray}}" wx:for-item="item" wx:key="{{id}}" id="{{item.id}}" bindtap='particulars'>
     <view class='headCenter'>
       <view class='single'>
         <text>{{item.issueName}}</text>
