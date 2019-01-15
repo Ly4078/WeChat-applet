@@ -365,10 +365,10 @@ margin:0 1%;
   position: absolute;
   width: 16rpx;
   height: 16rpx;
-  top: -4rpx;
+  top: 25rpx;
   background: #fc2d2d;
   border-radius: 50%;
-  right: -6rpx;
+  right: 25rpx;
 }
 
 /* 顶部搜索区域 end */
