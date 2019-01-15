@@ -48,7 +48,24 @@ Page({
     })
   },
   onShow: function () {
-    this.foodsBillboard();
+    if (!app.globalData.token) { //没有token 获取token
+      let that = this;
+      getToken(app).then(() => {
+        if (that.data.foodArr.length <= 0) {
+          that.setData({
+            navOrder: 1
+          });
+          that.foodsBillboard();
+        }
+      })
+    } else {
+      if (this.data.foodArr.length <= 0) {
+        this.setData({
+          navOrder: 1
+        });
+        this.foodsBillboard();
+      }
+    }
   },
   onUnload: function () {
     
@@ -253,6 +270,86 @@ Page({
     } else {
       this.setData({
         toTops: false
+      })
+    }
+  },
+  openSetting() { //打开授权设置界面
+    let that = this;
+    that.setData({
+      isshowlocation: false
+    })
+    wx.openSetting({
+      success: (res) => {
+        if (res.authSetting['scope.userLocation']) { //打开位置授权          
+          wx.getLocation({
+            success: function (res) {
+              let latitude = res.latitude,
+                longitude = res.longitude;
+              that.requestCityName(latitude, longitude);
+            },
+          })
+        } else {
+          that.setData({
+            isshowlocation: true
+          })
+        }
+      }
+    })
+  },
+  getlocation: function () { //获取用户位置
+    let that = this,
+      lat = '',
+      lng = '';
+    wx.getLocation({
+      type: 'wgs84',
+      success: function (res) {
+        let latitude = res.latitude;
+        let longitude = res.longitude;
+        app.globalData.userInfo.lat = latitude;
+        app.globalData.userInfo.lng = longitude;
+        that.requestCityName(latitude, longitude);
+      },
+
+      fail: function (res) {
+        wx.getSetting({
+          success: (res) => {
+            if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其用户信息或位置信息
+              that.setData({
+                isshowlocation: true
+              })
+            } else {
+              village_LBS(that);
+            }
+          }
+        })
+      }
+    })
+  },
+  requestCityName(lat, lng) { //获取当前城市
+    let that = this;
+    app.globalData.userInfo.lat = lat;
+    app.globalData.userInfo.lng = lng;
+    if (app.globalData.userInfo.city || this.data._city) {
+      this.foodsBillboard();
+    } else {
+      wx.request({
+        url: 'https://apis.map.qq.com/ws/geocoder/v1/?location=' + lat + "," + lng + "&key=4YFBZ-K7JH6-OYOS4-EIJ27-K473E-EUBV7",
+        header: {
+          'content-type': 'application/json' // 默认值
+        },
+        success: (res) => {
+          if (res.data.status == 0) {
+            let _city = res.data.result.address_component.city;
+            if (_city == '十堰市') {
+              app.globalData.userInfo.city = _city;
+            } else {
+              app.globalData.userInfo.city = '十堰市';
+            }
+            app.globalData.oldcity = app.globalData.userInfo.city;
+            wx.setStorageSync('userInfo', app.globalData.userInfo);
+            that.foodsBillboard();
+          }
+        }
       })
     }
   }
