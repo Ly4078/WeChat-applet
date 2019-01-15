@@ -185,30 +185,6 @@ Page({
         that.getData();
       }
     }
-    if (app.globalData.userInfo.userId) {
-      if (app.globalData.userInfo.mobile) {
-        if (app.globalData.token) {
-          //调接口
-          that.getUserNum();
-          that.getwinningList()
-          if (!that.data.prizeList.length) {
-            wx.showLoading({
-              title: '加载中...',
-            })
-            that.getData();
-          }
-        } else {
-          this.authlogin();
-        }
-      } else { //是新用户，去注册页面
-        this.authlogin();
-        // wx.navigateTo({
-        //   url: '/pages/personal-center/securities-sdb/securities-sdb?back=1&inviter=' + this.data.inviter
-        // })
-      }
-    } else {
-      this.findByCode();
-    }
 
   },
   getUserlocation: function () { //获取用户位置经纬度
@@ -559,68 +535,7 @@ Page({
       url: '/pages/index/index'
     })
   },
-  findByCode: function () { //通过code查询用户信息
-    let that = this;
-    wx.login({
-      success: res => {
-        Api.findByCode({
-          code: res.code
-        }).then((res) => {
-          if (res.data.code == 0) {
-            let data = res.data.data;
-            if (data.id) {
-              app.globalData.userInfo.userId = data.id;
-              for (let key in data) {
-                for (let ind in app.globalData.userInfo) {
-                  if (key == ind) {
-                    app.globalData.userInfo[ind] = data[key]
-                  }
-                }
-              }
-              that.authlogin(); //获取token
-            } else {
-              wx.navigateTo({
-                url: '/pages/personal-center/securities-sdb/securities-sdb?inviter=' + this.data.inviter + '&back=1&currentType=3'
-              })
-            }
-          } else {
-            that.findByCode();
-          }
-        })
-      }
-    })
-  },
-  authlogin: function () { //获取token
-    let that = this;
-    wx.request({
-      url: this.data._build_url + 'auth/login?userName=' + app.globalData.userInfo.userName,
-      method: "POST",
-      data: {},
-      header: {
-        'content-type': 'application/json' // 默认值
-      },
-      success: function (res) {
-        if (res.data.code == 0) {
-          let _token = 'Bearer ' + res.data.data;
-          app.globalData.token = _token;
-          if (app.globalData.userInfo.mobile) {
-            //调接口
-            that.createUser();
-            that.getUserNum();
-            that.getwinningList()
-            if (!that.data.prizeList.length) {
-              wx.showLoading({
-                title: '加载中...',
-              })
-              that.getData();
-            }
-          } else {
-            that.closetel();
-          }
-        }
-      }
-    })
-  },
+
   share() { //分享
     if (!app.globalData.userInfo.mobile) {
       this.closetel();

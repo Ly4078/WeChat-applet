@@ -3,6 +3,7 @@ var utils = require('../../../../utils/util.js');
 import {
   GLOBAL_API_DOMAIN
 } from '../../../../utils/config/config.js';
+import getToken from '../../../../utils/getToken.js';
 import canvasShareImg from '../../../../utils/canvasShareImg.js';
 var app = getApp();
 var requestTask = false
@@ -88,34 +89,42 @@ Page({
       page: 1,
       isshowlocation: false
     });
-    if (app.globalData.userInfo.userId) {
-      if (app.globalData.userInfo.mobile) {
-        if (app.globalData.token) {
-          if (app.globalData.userInfo.lat && app.globalData.userInfo.lng) {
-            if (that.data._city || app.globalData.userInfo.city) {
-              this.hotDishList();
-            } else {
-              this.getUserlocation();
-            }
+    if(!app.globalData.token) {
+      getToken(app).then( ()=>{
+        if (app.globalData.userInfo.lat && app.globalData.userInfo.lng) {
+          if (that.data._city || app.globalData.userInfo.city) {
+            this.hotDishList();
           } else {
-            this.getlocation();
+            this.getUserlocation();
           }
-          this.dishDetail(); //查询菜详情
-          if (this.data.groupId) {
-            this.bargain();
-          } else {
-            this.createBargain();
-          }
-          // this.bargain();
         } else {
-          // this.authlogin();
+          this.getlocation();
+        }
+        this.dishDetail(); //查询菜详情
+        if (this.data.groupId) {
+          this.bargain();
+        } else {
+          this.createBargain();
+        }
+      })
+    }else{
+      if (app.globalData.userInfo.lat && app.globalData.userInfo.lng) {
+        if (that.data._city || app.globalData.userInfo.city) {
+          this.hotDishList();
+        } else {
+          this.getUserlocation();
         }
       } else {
-        this.authlogin();
+        this.getlocation();
       }
-    } else {
-      this.findByCode();
+      this.dishDetail(); //查询菜详情
+      if (this.data.groupId) {
+        this.bargain();
+      } else {
+        this.createBargain();
+      }
     }
+ 
   },
   onHide() {
     let _this = this;
@@ -181,7 +190,7 @@ Page({
           if (that.data.groupId) {
             that.bargain();
           } else {
-            onsole.log("a2222")
+           
             that.createBargain();
           }
           that.bargain();
@@ -308,7 +317,7 @@ Page({
                 that.hotDishList();
                 that.bargain();
               } else {
-                onsole.log("a3333")
+                
                 that.createBargain();
               }
             }
