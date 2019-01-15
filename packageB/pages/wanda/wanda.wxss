@@ -59,6 +59,13 @@
   padding: 18rpx 0;
 }
 
+.shopAdr_l {
+  width: 500rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .indexIcon {
   position: fixed;
   right: 20rpx;

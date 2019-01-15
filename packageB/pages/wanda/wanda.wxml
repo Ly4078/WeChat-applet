@@ -14,7 +14,7 @@
     <view class="shopInfo">
       <view class="shopName skeleton-rect">{{item.name}}</view>
       <view class="shopAdr skeleton-rect">
-        <view>{{item.address}}</view>
+        <view class="shopAdr_l">{{item.address}}</view>
         <view>{{item.distance}}</view>
       </view>
     </view>

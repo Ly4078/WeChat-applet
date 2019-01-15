@@ -25,7 +25,7 @@
         <view class="b_navigation" bindtap='openmap'>导航</view>
       </view>
       <view class="branchAdr">
-        <text>{{address}}</text>
+        <text class="branchAdr_l">{{address}}</text>
         <text>{{distance}}</text>
       </view>
     </view>
@@ -36,7 +36,7 @@
         <image wx:if="{{item.picUrl || item.skuPic}}" class="menuPic" mode='aspectFill' src="{{item.picUrl?item.picUrl:item.skuPic}}"></image>
         <image wx:else class="menuPic" src="/images/icon/morentu.png"></image>
         <view class="menuInfo">
-          <view>{{item.skuName}}</view>
+          <view class="menu_skuName">{{item.skuName}}</view>
           <view class="shopName">
             <view class="shopName_l">
               <image src="/images/icon/house.png"></image>

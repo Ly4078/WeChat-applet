@@ -92,6 +92,13 @@ page {
   margin-top: 26rpx;
 }
 
+.branchAdr_l {
+  width: 540rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .branchList {
   display: flex;
   flex-wrap: wrap;
@@ -131,6 +138,13 @@ page {
 .menuInfo {
   padding: 0 18rpx 10rpx 18rpx;
   box-sizing: border-box;
+}
+
+.menu_skuName {
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .shopName {
