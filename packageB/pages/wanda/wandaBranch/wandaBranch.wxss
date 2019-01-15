@@ -73,7 +73,7 @@ page {
   font-size: 40rpx;
 }
 
-.navigation {
+.b_navigation {
   height: 38rpx;
   line-height: 38rpx;
   display: inline-block;

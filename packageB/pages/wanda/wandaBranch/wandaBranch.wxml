@@ -22,7 +22,7 @@
     </button>
     <view class="branchInfo">
       <view class="branchName">{{name}}
-        <view class="navigation" bindtap='openmap'>导航</view>
+        <view class="b_navigation" bindtap='openmap'>导航</view>
       </view>
       <view class="branchAdr">
         <text>{{address}}</text>
