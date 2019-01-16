@@ -309,11 +309,14 @@ Page({
     if (swichrequestflag) {
       return;
     }
+    let id = e.currentTarget.id,
+      branch = this.data.branch;
+    if (id == this.data.currCity) {
+      return;
+    }
     wx.showLoading({
       title: '加载中...'
     })
-    let id = e.currentTarget.id,
-      branch = this.data.branch;
     this.setData({
       currCity: id,
       currBranch: branch[id][0].name,
