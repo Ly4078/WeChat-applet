@@ -30,11 +30,14 @@
       </view>
     </view>
   </view>
-  <view class="branchList">
+  <view class="branchList" wx:if="{{!hidecai}}">
     <view class="menuItem" wx:for="{{dishList}}" wx:key="index" id="{{item.id}}">
       <view class="menuItemWrap" id="{{item.id}}" data-actid="{{item.actGoodsSkuOut.actId}}" data-shopid="{{item.shop.id}}" data-categoryid="{{item.categoryId}}" bindtap='toBuy'>
         <image wx:if="{{item.picUrl || item.skuPic}}" class="menuPic" mode='aspectFill' src="{{item.picUrl?item.picUrl:item.skuPic}}"></image>
         <image wx:else class="menuPic" src="/images/icon/morentu.png"></image>
+        <view style="height:340rpx;" wx:if="{{item.actGoodsSkuOut.stockNum <= 0}}" class="notstockNumshadedow">
+          <image style="width:108rpx;height:108rpx;" wx:if="{{item.actGoodsSkuOut.stockNum <= 0}}" class="sellOutIcon" src="/images/icon/sellOut.png"></image>
+        </view>
         <view class="menuInfo">
           <view class="menu_skuName">{{item.skuName}}</view>
           <view class="shopName">

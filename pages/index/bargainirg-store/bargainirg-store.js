@@ -36,9 +36,11 @@ Page({
     })
   },
   onLoad: function(options) {
+    let hidecai = wx.getStorageSync("txtObj") ? wx.getStorageSync("txtObj").hidecai : true
     let that = this;
     that.setData({
-      shareId: options.shareid|| false
+      shareId: options.shareid|| false,
+      hidecai
     })
     setTimeout( ()=>{
         that.setData({

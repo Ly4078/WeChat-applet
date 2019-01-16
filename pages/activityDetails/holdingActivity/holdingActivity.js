@@ -268,12 +268,12 @@ Page({
       },
       success: function (res) {
         if (res.data.code == '0' && res.data.data && res.data.data.list) {
-          var prize = '';
-          for (let i = 0; i < res.data.data.list.length; i++) {
-            prize += res.data.data.list[i].name + '、'
-          }
-          prize = prize.substring(0, prize.length - 1);
-          that.setData({ prize })
+          // var prize = '';
+          // for (let i = 0; i < res.data.data.list.length; i++) {
+          //   prize += res.data.data.list[i].name + '、'
+          // }
+          // prize = prize.substring(0, prize.length - 1);
+          that.setData({ prize: res.data.data.list })
         }
       },
       fail() {

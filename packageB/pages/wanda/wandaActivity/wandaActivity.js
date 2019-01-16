@@ -42,6 +42,8 @@ Page({
     actDesc: ''
   },
   onLoad: function(options) {
+    let hidecai = wx.getStorageSync('txtObj') ? wx.getStorageSync('txtObj').hidecai : true;
+    this.setData({ hidecai: hidecai})
     if (options.shareId) {
       this.setData({
         shareId: options.shareId

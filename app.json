@@ -126,7 +126,7 @@
     "enablePullDownRefresh": true,
     "backgroundColor": "#f5f5fa"
   },
-  "navigateToMiniProgramAppIdList":["wx269025c35e9d5f23"],
+  "navigateToMiniProgramAppIdList":["wx269025c35e9d5f23","wxca1e7ba3fe18ff12"],
   "tabBar": {
     "selectedColor": "#FF4411",
     "backgroundColor": "#FFFFFF",

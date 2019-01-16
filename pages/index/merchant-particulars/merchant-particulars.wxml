@@ -214,7 +214,7 @@
   </view>
 
   <!-- 热销商品 -->
-  <view id="list1">
+  <view id="list1" wx:if="{{!hidecai}}">
     <view class="xiang7Box" style="padding-bottom: 30rpx;" hidden='{{hotlist.length < 1}}'>
       <view class='yevaluate'>
         <view class='yevaluate-center'>
@@ -222,7 +222,7 @@
           <text>热销商品</text>
         </view>
       </view>
-      <view class='dity' wx:for="{{hotlist2}}" wx:key="{{index}}" >
+      <view class='dity'  wx:for="{{hotlist2}}" wx:key="{{index}}" >
         <!-- <view class='dityimg'> -->
           <image class='dityimg' src='{{item.skuPic}}' bindtap='ClickSnatch' id='{{item.id}}'  data-actname="{{item.actGoodsSkuOuts[0].actInfo.actName}}" data-actid="{{item.actGoodsSkuOuts[0].actId}}" data-categoryid="{{item.categoryId}}"></image>
           <view style="width:150rpx;height:150rpx;" wx:if="{{item.actGoodsSkuOuts[0].stockNum <= 0}}" class="notstockNumshadedow">

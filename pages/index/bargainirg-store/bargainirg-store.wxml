@@ -23,7 +23,7 @@
 </view>
 
 <view>
-  <view class="templateWrap {{showModal?'':'unders'}}">
+  <view wx:if="{{!hidecai}}" class="templateWrap {{showModal?'':'unders'}}">
     <view class='cutCuisine'>
       <block wx:for="{{cuisineArray}}" wx:key="{{index}}" id="{{index}}" wx:for-index="idx">
         <template is="cuisine" data="{{item}}" />

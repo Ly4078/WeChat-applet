@@ -1,5 +1,5 @@
 <template name="activityItem">
-  <view class="merchant_art" bindtap="toArticleInfo" id="{{item.id}}">
+  <view class="merchant_art" wx:if="{{!item.hideVideo}}" bindtap="toArticleInfo" id="{{item.id}}">
     <!-- <view class="merchant_data">
     <image src="{{item.iconUrl}}"></image>
     <view>

@@ -39,6 +39,7 @@ Page({
     dishList: []
   },
   onLoad: function (options) {
+    let hidecai = wx.getStorageSync('txtObj') ? wx.getStorageSync('txtObj').hidecai:true
     if (options.shareId) {
       this.setData({
         shareId: options.shareId
@@ -46,6 +47,7 @@ Page({
     }
     this.setData({
       id: options.id,
+      hidecai,
       address: options.address,
       distance: options.distance,
       name: options.name,

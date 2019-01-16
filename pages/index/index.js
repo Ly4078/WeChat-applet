@@ -7,7 +7,7 @@ var utils = require('../../utils/util.js');
 import Public from '../../utils/public.js';
 import getToken from '../../utils/getToken.js';
 var app = getApp();
-var isgetHomeData = false
+var isgetHomeData = false;
 var village_LBS = function(that) {
   wx.getLocation({
     success: function(res) {
@@ -101,9 +101,8 @@ Page({
   },
   getfptt:function(){
     wx.navigateToMiniProgram({
-      appId: 'wx269025c35e9d5f23',
-      // path:'/pages/index/index',
-      
+      appId: 'wxca1e7ba3fe18ff12',
+      path:'/pages/home?path=1&roomId=633505',
     })
   },
   onLoad: function(options) {
@@ -130,9 +129,11 @@ Page({
     }catch(err){
       console.log(err)
     }
-    let carousel = wx.getStorageSync("carousel") || [''];
-    let bannthree = wx.getStorageSync("bannthree") || [];
+    let carousel = wx.getStorageSync("carousel") || [{}];
+    let bannthree = wx.getStorageSync("bannthree") || [{}];
     let txtObj = wx.getStorageSync('txtObj') || {};
+    carousel[0].loadType='storage';
+    bannthree[0].loadType = 'storage'
     if (Object.keys(txtObj).length != 0) {
       that.setData({
         fresh1: txtObj ? txtObj.fresh1 : '',
@@ -188,10 +189,10 @@ Page({
       if (that.data.allList.length < 1) {
         that.gethomeData('reset')
       }
-      if (that.data.carousel[0] == '') {
+      if (that.data.carousel[0].loadType == 'storage') {
         that.getcarousel(); //没有轮播图，请求轮播图
       }
-      if (that.data.bannthree.length < 1) {
+      if (that.data.bannthree[0].loadType == 'storage') {
         that.gettoplistFor();
       }
     }
@@ -283,6 +284,7 @@ Page({
       success: function(res) {
         app.globalData.txtObj = res.data;
         wx.setStorageSync("txtObj", res.data);
+
         if (res.data.flag == 0) { //0显示  
           app.globalData.isflag = true;
           try {
@@ -291,6 +293,9 @@ Page({
           }
         } else if (res.data.flag == 1) { //1不显示
           app.globalData.isflag = false;
+          that.setData({
+            hideVideo:true
+          })
           try {
             res.data.navs[4].title = "微生活";
           } catch (err) {}
@@ -301,6 +306,7 @@ Page({
             fresh1: res.data.fresh1,
             fresh2: res.data.fresh2,
             fresh3: res.data.fresh3,
+            hidecai: res.data.hidecai,
             navs: res.data.navs || [],
             indexShare: res.data.indexShare || ''
           })
@@ -557,6 +563,14 @@ Page({
   toLink(e) {
     let url = e.currentTarget.dataset.url;
     let msg = e.currentTarget.dataset.msg;
+    let type = e.currentTarget.dataset.type;//type=2 代表跳转其他小程序
+    if(type== '2') {
+      try{
+        var urls = JSON.parse(url);
+        wx.navigateToMiniProgram(urls)
+      }catch(err){}
+      return false;
+    }
     if (!url) {
       wx.showToast({
         title: msg ? msg:'下月正式开放',

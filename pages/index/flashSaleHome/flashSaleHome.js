@@ -24,6 +24,7 @@ Page({
     countDownSecond: 0
   },
   onShow: function(options) {
+    let hidecai = wx.getStorageSync("txtObj") ? wx.getStorageSync("txtObj").hidecai:true
     console.log("options:", options)
     let _this = this;
     setTimeout(() => {
@@ -35,6 +36,7 @@ Page({
     this.setData({
       timer: null,
       page: 1,
+      hidecai: hidecai,
       aNearbyShop: []
     })
     if(!app.globalData.token){

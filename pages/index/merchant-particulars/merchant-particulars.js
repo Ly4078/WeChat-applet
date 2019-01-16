@@ -74,6 +74,12 @@ Page({
     wandaDish: [] //万达的菜
   },
   onLoad: function(options) {
+    let txt = wx.getStorageSync('txtObj');
+
+    this.setData({
+      isShowvedeo:txt.flag,
+      hidecai: txt ? txt.hidecai:true
+    })
     this.setData({
       shopid: options.shopid,
       comment_list: []
@@ -1028,6 +1034,11 @@ Page({
         for (let i = 0; i < _data.length; i++) {
           _data[i].title = utils.uncodeUtf16(_data[i].title);
           _data[i].timeDiffrence = utils.timeDiffrence(data.currentTime, _data[i].updateTime, _data[i].createTime)
+          if (_data[i].topicType == '2') {
+            if (that.data.isShowvedeo == '1') {
+              _data[i].hideVideo = true;
+            }
+          }
         }
         that.setData({
           merchantArt: _data.slice(0, 3)
