@@ -914,3 +914,13 @@ margin:0 1%;
   height: 619.2rpx;
   border-radius: 20rpx;
 }
+
+.hotShopssss{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+.hotShopssss image{
+  border-radius: 10rpx;
+  margin: 10rpx 0;
+}

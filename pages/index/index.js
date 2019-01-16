@@ -307,6 +307,7 @@ Page({
             fresh2: res.data.fresh2,
             fresh3: res.data.fresh3,
             hidecai: res.data.hidecai,
+            bannerList: res.data.carousel ? res.data.carousel:[],
             navs: res.data.navs || [],
             indexShare: res.data.indexShare || ''
           })

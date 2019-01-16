@@ -14,28 +14,6 @@ page {
   letter-spacing: 2rpx;
 }
 
-.navigation {
-  height: 90rpx;
-  line-height: 90rpx;
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  background-color: #fff;
-  font-size: 34rpx;
-  color: #555555;
-}
-
-.nav_item {
-  width: 100%;
-  height: 100%;
-  flex: 1;
-  text-align: center;
-}
-
-.nav_item.active {
-  border-bottom: 2rpx solid #FC5E2D;
-  color: #FC5E2D;
-}
 
 .walletList {
   /* background-color: #fff; */

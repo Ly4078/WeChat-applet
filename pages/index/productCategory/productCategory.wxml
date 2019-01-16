@@ -1,4 +1,17 @@
 <!-- <skeleton selector="skeleton" loading="spin" bgcolor="#FFF" wx:if="{{showSkeleton}}"></skeleton> -->
+
+
+<view class="hidecai" wx:if="{{hidecai}}">
+    <image style="width:580rpx;height:146rpx;" src="https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/timgjsz.gif"></image>
+</view>
+
+
+
+
+
+
+
+
 <view class="spinbox" wx:if="{{showSkeletonRight}}">
   <view class="spin"></view>
 </view>

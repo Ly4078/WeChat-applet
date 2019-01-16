@@ -31,6 +31,8 @@ Page({
    
   },
   onLoad: function () {
+    let hidecai = wx.getStorageSync('txtObj') ? wx.getStorageSync('txtObj').hidecai : true;
+    this.setData({ hidecai })
     let that = this;
     let actList = wx.getStorageSync('actList') || [];
     if (actList.length){

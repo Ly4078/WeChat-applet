@@ -70,19 +70,41 @@ App({
     if (token && tokenTime && userInfo){
       if (nowTime > tokenTime) {
         getToken(that,'notTologin').then((res) => {
-
+          that.getconfig();
         })
       } else {
         that.globalData.token = token;
         that.globalData.userInfo = userInfo;
         that.globalData.userInfo.userId = userInfo.id;
+        that.getconfig();
       }
     }else{
       getToken(that,'notTologin').then((res) => {
+        that.getconfig();
       })
     }
   },
   onPullDownRefresh: function() {
     wx.stopPullDownRefresh()
-  }
+  },
+  onShow:function(){
+    // this.getconfig();
+  },
+  getconfig: function () { //请求配置数据
+    let that = this;
+    wx.request({
+      url: this.data._build_url + 'version.txt',
+      header: {
+        "Authorization": that.globalData.token
+      },
+      success: function (res) {
+        if(res.data.hidecai){
+          wx.hideTabBar({})
+        }
+        console.log('apponShow')
+        that.globalData.txtObj = res.data;
+        wx.setStorageSync("txtObj", res.data);
+      }
+    })
+  },
 })
