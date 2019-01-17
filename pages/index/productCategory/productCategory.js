@@ -32,6 +32,9 @@ Page({
     }
     if(hidecai){
       this.gettextList();
+      wx.setNavigationBarTitle({
+        title: '文章',
+      })
     }
   },
   gettextList:function(){
