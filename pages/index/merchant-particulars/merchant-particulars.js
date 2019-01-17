@@ -75,10 +75,9 @@ Page({
   },
   onLoad: function(options) {
     let txt = wx.getStorageSync('txtObj');
-
     this.setData({
       isShowvedeo:txt.flag,
-      hidecai: txt ? txt.hidecai:true
+      hidecai: txt ? txt.hidecai : true
     })
     this.setData({
       shopid: options.shopid,

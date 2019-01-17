@@ -27,6 +27,7 @@ Page({
     loading: false,
     toTops: false,
     instruct: false,
+    hidecai:false,
     shareId: 0,
     shareImg: '', //分享图片
     actId: '45',
@@ -43,7 +44,7 @@ Page({
   },
   onLoad: function(options) {
     let hidecai = wx.getStorageSync('txtObj') ? wx.getStorageSync('txtObj').hidecai : true;
-    this.setData({ hidecai: hidecai})
+    this.setData({ hidecai })
     if (options.shareId) {
       this.setData({
         shareId: options.shareId

@@ -1033,3 +1033,7 @@ button::after {
   justify-content: center;
   align-items: center;
 }
+.hidecai image{
+  width: 100%;
+  height: 100%;
+}

@@ -31,6 +31,7 @@ Page({
     carousel: [''], //轮播图
     currentTab: 0,
     isformid: true,
+    hidecai:false,
     showwandaactivity:false,//活动海报
     loading: false,
     // 改版新增变量 
@@ -64,7 +65,7 @@ Page({
   hidewandaactivity:function(){
     // app.globalData.newcomer = 0;
     this.setData({ showwandaactivity:false});
-    wx.clearStorageSync('newcomer');
+    wx.removeStorageSync('newcomer');
   },
   togrourp:function(){
     wx.navigateTo({
@@ -77,7 +78,7 @@ Page({
       url: '/packageB/pages/wanda/wandaActivity/wandaActivity',
       success () {
         that.setData({ showwandaactivity: false })
-        wx.clearStorageSync('newcomer')
+        wx.removeStorageSync('newcomer');
       }
     })
   

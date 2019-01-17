@@ -30,9 +30,8 @@ Page({
     userId: app.globalData.userInfo.userId
   },
   onLoad: function (options) {
-    console.log("options:", options)
     let hidecai = wx.getStorageSync('txtObj') ? wx.getStorageSync('txtObj').hidecai:true;
-    this.setData({ hidecai})
+    this.setData({ hidecai:false})
     let that = this;
     let selectType = options.let
     timer = setTimeout(() => {

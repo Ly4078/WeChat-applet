@@ -2,7 +2,7 @@
 
 
 <view class="hidecai" wx:if="{{hidecai}}">
-    <image style="width:580rpx;height:146rpx;" src="https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/timgjsz.gif"></image>
+    <image src="https://xqmp4-1256079679.file.myqcloud.com/13971489895_bs_20190117120359.jpg"></image>
 </view>
 
 

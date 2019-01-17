@@ -22,8 +22,8 @@ Page({
     showSkeletonRight: false
   },
   onLoad: function(options) {
-    let hidecai = wx.getStorageSync('txtObj') ? wx.getStorageSync('txtObj').hidecai:true;
-    this.setData({ hidecai})
+    let hidecai = wx.getStorageSync('txtObj') ? wx.getStorageSync('txtObj').hidecai : true;
+    this.setData({ hidecai })
     let that = this
     if (options.actId) {
       this.setData({

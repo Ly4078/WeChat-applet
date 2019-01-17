@@ -99,12 +99,14 @@ App({
       },
       success: function (res) {
         if(res.data.hidecai){
-          wx.hideTabBar({})
+          // wx.hideTabBar({})
         }
+        console.log('res.data:', res.data)
+        console.log('res.data.hidecai:',res.data.hidecai)
         console.log('apponShow')
         that.globalData.txtObj = res.data;
         wx.setStorageSync("txtObj", res.data);
       }
     })
-  },
+  }
 })

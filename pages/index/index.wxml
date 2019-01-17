@@ -2,9 +2,9 @@
 <import src="bargainirg-store/bargainirg-template/bargainirg-template.wxml" />
 <!-- 骨架屏模块 -->
 <skeleton selector="skeleton" loading="spin" bgcolor="#FFF" wx:if="{{showSkeleton}}"></skeleton>
-<!-- <button catchtap='toWanda'>万达十大招牌菜 快捷入口</button> -->
-<!-- <button catchtap='toWandaCai'>万达专区 快捷入口</button> -->
-<!-- <button catchtap='togrourp'>拼购演示 快捷入口</button> -->
+ <!-- <button catchtap='toWanda'>万达十大招牌菜 快捷入口</button>
+<button catchtap='toWandaCai'>万达专区 快捷入口</button>
+<button catchtap='togrourp'>拼购演示 快捷入口</button> -->
 <!-- <button  catchtap='getfptt'>跳转小程序</button> -->
 <view class="container">
   <!--顶部 定位 搜索 卷  -->
@@ -227,7 +227,7 @@
         <view class="video-item-title">{{item.title}}</view>
       </view>
 
-      <view wx:if="{{!hideVideo}}" class="video-item" wx:for="{{allList[bigindex].topicVideo}}" wx:key="index" data-id="{{item.id}}" data-zan="{{item.zan}}" catchtap='toVideo'>
+      <view wx:if="{{!hideVideo && !hidecai}}" class="video-item" wx:for="{{allList[bigindex].topicVideo}}" wx:key="index" data-id="{{item.id}}" data-zan="{{item.zan}}" catchtap='toVideo'>
         <image mode='aspectFill' src="{{item.homePic}}" style="width:700rpx;height:300rpx;border-radius:10rpx;"></image>
         <image src="/images/icon/paly.png" class="play"></image>
         <view class="video-item-title">{{item.title}}</view>
@@ -259,7 +259,7 @@
 
 
 
-<view class="wandaactivity" wx:if="{{showwandaactivity}}">
+<view class="wandaactivity" wx:if="{{showwandaactivity && !hidecai}}">
   <view class="activityshadow"></view>
   <view class="activityContent">
     <image src="https://xqmp4-1256079679.file.myqcloud.com/15927505686_wandanew.gif" catchtap='linkTowanda'></image>

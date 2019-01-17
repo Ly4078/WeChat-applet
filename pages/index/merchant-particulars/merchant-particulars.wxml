@@ -303,7 +303,7 @@
 
 
     <!--动态-->
-    <view class="merchant_box" style="{{merchantArt.length > 0 ? 'padding-bottom: 30rpx;' : ''}}" id="list2" wx:if="{{merchantArt.length > 0}}">
+    <view class="merchant_box" style="{{merchantArt.length > 0 ? 'padding-bottom: 30rpx;' : ''}}" id="list2" wx:if="{{merchantArt.length > 0}}"  hidden="{{hidecai}}">
       <view class='yevaluate2'>
         <view class='yevaluate-center2'>
           <view class='yevaluateDot dot2'>动</view>
