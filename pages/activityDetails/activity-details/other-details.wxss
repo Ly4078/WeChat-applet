@@ -1,0 +1,238 @@
+/* pages/activityDetails/activity-details/other-details.wxss */
+
+.imgs{
+  width: 100%;
+}
+
+.hot-recommend {
+  display: flex;
+  flex-direction: column;
+}
+
+.hot-recommend>.title {
+  width: 100%;
+  display: block;
+  text-align: center;
+  margin: 20rpx auto;
+  font-size: 30rpx;
+  color: #969696;
+}
+
+.hot-recommend .contents {
+  width: 710rpx;
+  margin: 0 auto;
+  /* display: flex;
+  flex-direction: column; */
+}
+
+.hot-recommend .contents .hot-recoItem {
+  display: flex;
+  flex-direction: row;
+  background: #fff;
+  border-radius: 10rpx;
+  box-sizing: border-box;
+  padding: 20rpx;
+  position: relative;
+  margin: 10rpx 0;
+  box-shadow: 0px 0px 10rpx rgba(221, 221, 221, 1);
+}
+
+.hot-recoItem .bargain-img {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 54rpx;
+  height: 56rpx;
+}
+
+.hot-recommend .contents .hot-recoItem .hot-recoItem-left {
+  width: 180rpx;
+  height: 180rpx;
+  /* border-radius: 10rpx;  */
+  margin-right: 20rpx;
+  position: relative;
+  overflow: hidden;
+}
+
+.hot-recommend .contents .hot-recoItem .hot-recoItem-left image {
+  width: 180rpx;
+  height: 180rpx;
+  border-radius: 10rpx;
+}
+
+.hot-recoItem-right {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  flex: 1;
+}
+
+.hot-recoItem-right .hot-recoItem-right-bottom {
+  display: flex;
+  flex-direction: row;
+}
+
+.hot-recoItem-right .hot-recoItem-rightInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: 340rpx;
+}
+
+.hot-recoItem-right .title_tips {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.hot-recoItem-right .title_tips .title {
+  color: #191919;
+  font-size: 32rpx;
+  font-weight: 600;
+  max-width: 400rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hot-recoItem-right .title_tips .tips {
+  font-size: 24rpx;
+  display: inline-block;
+  width: 30rpx;
+  height: 30rpx;
+  line-height: 30rpx;
+  margin: 0 5rpx;
+  border-radius: 2rpx;
+  text-align: center;
+  color: #fff;
+}
+
+.tips.kan {
+  background: #2fb0fa;
+}
+
+.tips.quan {
+  background: #fc2d2d;
+}
+
+.hot-recoItem-rightInfo .Popularity {
+  display: flex;
+  flex-direction: row;
+  margin: 6rpx 0;
+}
+
+.hot-recoItem-rightInfo .Popularity image {
+  width: 28rpx;
+  height: 28rpx;
+  margin-right: 10rpx;
+}
+
+.hot-recoItem-rightInfo .Popularity text {
+  font-size: 22rpx;
+  color: #fb682f;
+}
+
+.hot-recoItem-rightInfo .storename {
+  display: flex;
+  flex-direction: row;
+  margin: 6rpx 0;
+  align-items: center;
+}
+
+.hot-recoItem-rightInfo .storename image {
+  width: 28rpx;
+  height: 28rpx;
+  margin-right: 10rpx;
+}
+
+.hot-recoItem-rightInfo .storename text {
+  font-size: 26rpx;
+  color: #8e8e8e;
+}
+
+.hot-recoItem-rightInfo .hotdish {
+  display: flex;
+  flex-direction: row;
+  margin: 0;
+}
+
+.hot-recoItem-rightInfo .hotdish text {
+  margin: 0 8rpx;
+  border: 1rpx solid #ebebeb;
+  color: #8e8e8e;
+  padding: 0 6rpx;
+  border-radius: 5rpx;
+  font-size: 24rpx;
+}
+
+.hot-recoItem-rightInfo  .fullreduction {
+  margin-top: 15rpx;
+  display: flex;
+  flex-direction: row;
+}
+
+.hot-recoItem-rightInfo  .fullreduction text {
+  font-size: 26rpx;
+  color: #fc2d2d;
+  margin: 0 8rpx;
+  background: #fae0e0;
+  padding: 0 6rpx;
+  border: 1rpx solid #ffb1b1;
+}
+
+.hot-recoItem-rightInfo .help {
+  display: flex;
+  flex-direction: row;
+  margin: 6rpx 0;
+}
+
+.hot-recoItem-rightInfo .help text {
+  padding: 0 10rpx;
+  font-size: 22rpx;
+  color: #fb682f;
+  border: 1rpx solid #fbc9b5;
+  border-radius: 5rpx;
+}
+
+.hot-recoItem-rightInfo   .price {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.hot-recoItem-rightInfo .msg {
+  color: #fc2d2d;
+  font-size: 26rpx;
+}
+
+.hot-recoItem-rightInfo .afterprice {
+  font-size: 40rpx;
+  color: #fc2d2d;
+  /* font-weight: bold; */
+  margin: 0 15rpx 0 0rpx;
+}
+
+.hot-recoItem-rightInfo   .beforeprice {
+  color: #8e8e8e;
+  text-decoration: line-through;
+  font-size: 26rpx;
+}
+.hot-recommend .contents .hot-recoItem .hot-recoItem-left {
+  width: 180rpx;
+  height: 180rpx;
+  /* border-radius: 10rpx;  */
+  margin-right: 20rpx;
+  position: relative;
+  overflow: hidden;
+}
+
+.hot-recommend .contents .hot-recoItem .hot-recoItem-left image {
+  width: 180rpx;
+  height: 180rpx;
+  border-radius: 10rpx;
+}
+.hot-recoItem-leftImg, .hot-recoItem-left image {
+  height: 120rpx;
+  width: 120rpx;
+  border-radius: 8rpx;
+}

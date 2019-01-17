@@ -1,0 +1,42 @@
+<!--pages/activityDetails/activity-details/other-details.wxml-->
+<image class='imgs' src='{{mainPic}}'></image>
+<view class="hot-recommend">
+  <view class="title">—报名商家—</view>
+
+  <view class="contents" wx:for="{{allList}}" wx:key="bigindex" wx:for-index="bigindex">
+    <view class="hot-recoItem" wx:if="{{!hidecai}}" catchtap='candyDetails' id='{{item.id}}' data-index="{{item.shopId}}" data-actid="{{item.actGoodsSkuOut.actId}}" data-categoryid="{{item.categoryId}}" wx:for="{{allList[bigindex].goodsSku}}" wx:key="index"
+      hover-class='listhover' hover-stay-time="200">
+      <image src="/images/newIndex/bargain.png" class="bargain-img"></image>
+      <view class="hot-recoItem-left">
+        <image class='hot-recoItem-leftImg' src="{{item.skuPic}}"></image>
+      </view>
+      <view class="hot-recoItem-right">
+        <view class="title_tips">
+          <text class="title">{{item.skuName || ''}}</text>
+        </view>
+        <view class="hot-recoItem-right-bottom">
+          <view class="hot-recoItem-rightInfo">
+            <!-- 砍价菜或者酒店-店名 -->
+            <view class="storename">
+              <image src="/images/icon/original-can.png"></image>
+              <text>{{item.shop.shopName}}</text>
+            </view>
+
+            <!--助力砍价  -->
+            <view class="help">
+              <text>邀请{{item.actGoodsSkuOut.peopleNum?item.actGoodsSkuOut.peopleNum-1:'3'}}个好友帮砍</text>
+            </view>
+            <view class="price">
+              <text class="msg">可砍到</text>
+              <text class="afterprice">￥{{item.goodsPromotionRules[0].actAmount}}</text>
+              <text class="beforeprice">￥{{item.sellPrice}}</text>
+            </view>
+          </view>
+          <view class="hot-recoItem-rightLoca">
+            <!-- <text>2442KM</text> -->
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

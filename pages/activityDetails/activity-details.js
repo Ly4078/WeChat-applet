@@ -14,7 +14,38 @@ Page({
     istouqu: false,
     _build_url: GLOBAL_API_DOMAIN,
     placeholderFlag: true,
-    showSkeleton:true
+    showSkeleton:true,
+    _actdata:[
+      {
+        id: 0,
+        actUrl: 'other',
+        mainPic: 'https://xqmp4-1256079679.file.myqcloud.com/13296627745_qq20190117162941.png',
+        endTime: '',
+        actStatus: 2,
+        viewNum: 2131,
+      }, {
+        id: 1,
+        actUrl: 'other',
+        mainPic: 'https://xqmp4-1256079679.file.myqcloud.com/13296627745_qq20190117162951.png',
+        endTime: '',
+        actStatus: 2,
+        viewNum: 4231,
+      }, {
+        id: 2,
+        actUrl: 'other',
+        mainPic: 'https://xqmp4-1256079679.file.myqcloud.com/13296627745_qq20190117162957.png',
+        endTime: '',
+        actStatus: 2,
+        viewNum: 4312,
+      }, {
+        id: 3,
+        actUrl: 'other',
+        mainPic: 'https://xqmp4-1256079679.file.myqcloud.com/13296627745_qq20190117163004.png',
+        endTime: '',
+        actStatus: 2,
+        viewNum: 5312,
+      },
+    ]
   },
 
   onShow: function (options) {
@@ -49,7 +80,6 @@ Page({
         }).then((res) => {
           if (res.data.code == 0) {
             let data = res.data.data;
-            console.log(res)
             if (data.id) {
               app.globalData.userInfo.userId = data.id;
               for (let key in data) {
@@ -141,6 +171,13 @@ Page({
   },
   getcatdata: function (types) {  //获取列表数据
     let that = this;
+    if(this.data.hidecai){
+      that.setData({
+        actdata: that.data._actdata,
+        loading:false
+      })
+      return
+    }
     let _parms = {
       page: this.data.page,
       token: app.globalData.token,
@@ -156,7 +193,6 @@ Page({
           actList.push(data.data.list[i]);
           actList[i].endTime = actList[i].endTime.substring(0, actList[i].endTime.indexOf(' '));
         }
-        // console.log("actList:", actList)
         
         let arr = [];
         if(types == 'reset') {
@@ -202,6 +238,7 @@ Page({
   clickVote: function (event) {
     const actid = event.currentTarget.id;
     let url = event.currentTarget.dataset.url;
+    let mainpic = event.currentTarget.dataset.mainpic;
     let _actName = "",_type = '';
     // for (let i = 0; i < this.data.actdata.length; i++) {
     //   if (this.data.actdata[i].id == actid) {
@@ -210,6 +247,9 @@ Page({
     //     actUrl = this.data.actdata[i].actUrl;
     //   }
     // }
+    if(url == 'other'){
+      url = '/pages/activityDetails/activity-details/other-details?mainPic=' + mainpic + '&page=' + actid
+    }
     wx.navigateTo({
       url: url,
       success:function(){},

@@ -54,6 +54,7 @@
     "pages/index/user-seek/user-seek",
     "pages/index/dining-room/dining-room",
     "pages/activityDetails/activity-details",
+    "pages/activityDetails/activity-details/other-details",
     "pages/index/merchant-particulars/paymentPay-page/paymentPay-page",
     "pages/index/merchant-particulars/ticket-list/ticket-list",
     "pages/activityDetails/video-details/video-details",
