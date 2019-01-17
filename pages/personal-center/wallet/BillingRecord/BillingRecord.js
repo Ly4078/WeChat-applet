@@ -41,7 +41,7 @@ Page({
         requestTask = false
         wx.hideLoading()
           console.log(res)
-          if(res.data.code=='0' && res.data.data && res.data.data.list.length){
+          if(res.data.code=='0' && res.data.data && res.data.data.list){
             that.setData({
               dataList: that.data.dataList.concat(res.data.data.list),
               total: Math.ceil(res.data.data.total / 10),

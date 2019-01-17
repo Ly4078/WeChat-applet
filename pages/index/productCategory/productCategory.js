@@ -30,6 +30,37 @@ Page({
         actId: options.actId
       })
     }
+    if(hidecai){
+      this.gettextList();
+    }
+  },
+  gettextList:function(){
+    let that = this,
+      _parms = {};
+    _parms = {
+      page: 1,
+      rows:30,
+      topicType: 1,
+      token: app.globalData.token
+    }
+    wx.showLoading({
+      title: '加载中...',
+    })
+    Api.topiclist(_parms).then( (res)=>{
+      wx.hideLoading()
+        if(res.data.code == '0') {
+          that.setData({
+              textList:res.data.data.list
+          })
+        }
+
+    })
+  },
+  toArticle: function (e) { //文章详情
+    let event = e.currentTarget.dataset
+    wx.navigateTo({
+      url: '/pages/discover-plate/dynamic-state/article_details/article_details?froms=index&id=' + event.id + '&zan=' + event.zan + '&userId=' + app.globalData.userInfo.userId,
+    })
   },
   onShow: function() {
     let that = this;
@@ -346,6 +377,9 @@ Page({
     }
     if (this.data.noMore) {
       return
+    }
+    if(this.data.hidecai) {
+      return false
     }
     this.setData({
       page: this.data.page + 1,

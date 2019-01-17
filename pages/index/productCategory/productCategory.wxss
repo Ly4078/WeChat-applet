@@ -333,3 +333,55 @@ page, .categoryBox {
     transform: rotate(360deg);
   }
 }
+
+
+
+
+
+
+
+
+
+.video-item {
+  width: 700rpx;
+  background: #fff;
+  margin: 20rpx 0;
+  border-radius: 10rpx;
+  overflow: hidden;
+  position: relative;
+}
+.video-item .play{
+  width: 100rpx;
+  height:100rpx;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 100rpx;
+}
+.video-item .shike{
+  position: absolute;
+  right: 0rpx;
+  top: 0rpx;
+  width: 60rpx;
+  background: rgba(0,0,0,0.1);
+  padding: 10rpx 20rpx;
+  height: 42rpx;
+}
+.video-item .zuozhe{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin:5rpx 0 10rpx 10rpx;
+}
+.video-item .video-item-title{
+  color:#191919;
+  font-size: 30rpx;
+  /* background: #fff; */
+  padding: 10rpx 20rpx;
+}
+.wenzhangbox{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

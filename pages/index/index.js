@@ -302,6 +302,13 @@ Page({
           } catch (err) {}
 
         }
+        
+        if(res.data.hidecai) {
+          wx.setTabBarItem({
+            index: 1,
+            text: '食刻',
+          })
+        }
         if (res.data.fresh1) {
           that.setData({
             fresh1: res.data.fresh1,

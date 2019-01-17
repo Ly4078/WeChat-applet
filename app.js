@@ -100,6 +100,10 @@ App({
       success: function (res) {
         if(res.data.hidecai){
           // wx.hideTabBar({})
+          wx.setTabBarItem({
+            index: 1,
+            text: '食刻',
+          })
         }
         console.log('res.data:', res.data)
         console.log('res.data.hidecai:',res.data.hidecai)
