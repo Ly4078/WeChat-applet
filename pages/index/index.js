@@ -284,6 +284,7 @@ Page({
       },
       success: function(res) {
         app.globalData.txtObj = res.data;
+        res.data.hidecai = false;
         wx.setStorageSync("txtObj", res.data);
 
         if (res.data.flag == 0) { //0显示  

@@ -4,6 +4,7 @@ import {
 import Api from '../../utils/config/api.js';
 var utils = require('../../utils/util.js');
 import Public from '../../utils/public.js';
+import getToken from '../../utils/getToken.js';
 var app = getApp();
 Page({
   data: {
@@ -48,12 +49,15 @@ Page({
   },
   onShow: function() {
     let that = this, _salepointId = [], _parms = {};
-    if (app.globalData.userInfo.shopId && app.globalData.userInfo.userType == 2) {
-      this.setData({
-        isshop: true,
-        isshopuser: true
-      })
-    }
+    getToken(app).then( ()=>{
+      if (app.globalData.userInfo.shopId && app.globalData.userInfo.userType == 2) {
+        that.setData({
+          isshop: true,
+          isshopuser: true
+        })
+      }
+    })
+   
     _parms = {
       token: app.globalData.token
     };

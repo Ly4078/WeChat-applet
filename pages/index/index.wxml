@@ -2,9 +2,9 @@
 <import src="bargainirg-store/bargainirg-template/bargainirg-template.wxml" />
 <!-- 骨架屏模块 -->
 <skeleton selector="skeleton" loading="spin" bgcolor="#FFF" wx:if="{{showSkeleton}}"></skeleton>
- <!-- <button catchtap='toWanda'>万达十大招牌菜 快捷入口</button>
+ <button catchtap='toWanda'>万达十大招牌菜 快捷入口</button>
 <button catchtap='toWandaCai'>万达专区 快捷入口</button>
-<button catchtap='togrourp'>拼购演示 快捷入口</button> -->
+<!-- <button catchtap='togrourp'>拼购演示 快捷入口</button> -->
 <!-- <button  catchtap='getfptt'>跳转小程序</button> -->
 <view class="container">
   <!--顶部 定位 搜索 卷  -->
