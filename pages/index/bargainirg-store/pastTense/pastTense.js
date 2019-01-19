@@ -195,11 +195,12 @@ Page({
       list = this.data.bargainList,
       skuType = e.currentTarget.dataset.skutype,
       categoryId = e.currentTarget.dataset.categoryid,
+      groupId = e.currentTarget.dataset.groupid,
       actId="",
       city = "",
       that = this;
     for (let i = 0; i < list.length; i++) {
-      if (list[i].skuId == id) {
+      if (list[i].skuId == id && list[i].groupId == groupId ) {
         actId = list[i].actId ? list[i].actId:'';
         city = list[i].shop ? list[i].shop.city : '';
         this.setData({

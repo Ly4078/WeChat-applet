@@ -118,6 +118,15 @@
        ]
      }
   ],
+  "preloadRule":{
+    "pages/activityDetails/activity-details": {
+      "network": "all",
+      "packages": [
+        "packageB"
+      ]
+    }
+
+  },
   "window": {
     "backgroundTextStyle": "dark",
     "navigationBarBackgroundColor": "#fff",

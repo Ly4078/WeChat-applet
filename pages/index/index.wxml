@@ -2,8 +2,8 @@
 <import src="bargainirg-store/bargainirg-template/bargainirg-template.wxml" />
 <!-- 骨架屏模块 -->
 <skeleton selector="skeleton" loading="spin" bgcolor="#FFF" wx:if="{{showSkeleton}}"></skeleton>
- <button catchtap='toWanda'>万达十大招牌菜 快捷入口</button>
-<button catchtap='toWandaCai'>万达专区 快捷入口</button>
+ <!-- <button catchtap='toWanda'>万达十大招牌菜 快捷入口</button> -->
+<!-- <button catchtap='toWandaCai'>万达专区 快捷入口</button> -->
 <!-- <button catchtap='togrourp'>拼购演示 快捷入口</button> -->
 <!-- <button  catchtap='getfptt'>跳转小程序</button> -->
 <view class="container">
@@ -40,7 +40,7 @@
   </view>
   <!-- 导航nav_one -->
   <view class='indexNavOne' wx:if="{{!hidecai}}">
-    <view wx:for="{{navs}}" hover-class='listhover' hover-stay-time="200" wx:key="index" data-url="{{item.linkUrl}}" class='navitem' id="{{item.id}}" data-msg="{{item.title=='酒店'?'商家正在入驻中...':''}}" bindtap='toLink'>
+    <view wx:for="{{navs}}" wx:if="{{!item.hide}}" hover-class='listhover' hover-stay-time="200" wx:key="index" data-url="{{item.linkUrl}}" class='navitem' id="{{item.id}}" data-msg="{{item.title=='酒店'?'商家正在入驻中...':''}}" bindtap='toLink'>
       <image class="img{{index+1}} skeleton-radius" src='{{item.imgUrl}}'></image>
       <text class="navitem_txt skeleton-rect">{{item.title}}</text>
     </view>

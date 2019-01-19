@@ -49,7 +49,11 @@ Page({
   },
 
   onShow: function (options) {
+    
     let that = this;
+    setTimeout( ()=>{
+      that.setData({ isready:true})
+    },3000)
     if (!app.globalData.token) {
       getToken(app).then(() => {
         that.getcatdata('reset');

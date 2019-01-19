@@ -13,9 +13,9 @@ Page({
     isBack: false,
     timer: null
   },
-  onLoad: function(options) {
+  onLoad: function (options) {
     let that = this;
-    if (options.isback ) {
+    if (options.isback) {
       console.log('options.isback', options)
       this.setData({
         isBack: true
@@ -35,7 +35,7 @@ Page({
     // if (app.globalData.currentScene.query == '') {
     //   path = '';
     // }
-    console.log('path',path)
+    console.log('path', path)
     that.setData({
       navigetToUrl: path
     })
@@ -44,20 +44,20 @@ Page({
     console.log('url')
     that.findByCode();
     // that.checksession();
-    that.timer = setInterval(function() { //sessionkey五分钟失效,再次获取
+    that.timer = setInterval(function () { //sessionkey五分钟失效,再次获取
       that.wxLogin();
     }, 290000)
-    setTimeout(function(){
-      if (!that.data.isgetCode){
+    setTimeout(function () {
+      if (!that.data.isgetCode) {
         wx.showToast({
           title: '网络连接失败，请重新进入',
-          icon:'none',
-          duration:5000
+          icon: 'none',
+          duration: 5000
         })
       }
-    },3000)
+    }, 3000)
   },
-  findByCode: function() {
+  findByCode: function () {
     let that = this;
     wx.login({
       success: res => {
@@ -77,11 +77,11 @@ Page({
               wechatUserInfo.userInfo.gender = res.data.data.sex;
               that.setData({
                 wechatUserInfo: wechatUserInfo,
-                isgetCode:true
+                isgetCode: true
               }, () => {
                 wx.showLoading({
                   title: '自动登录中...',
-                  mask:true
+                  mask: true
                 })
                 that.authlogin(res.data.data.userName)
               })
@@ -96,7 +96,7 @@ Page({
       }
     })
   },
-  checksession: function() {
+  checksession: function () {
     let that = this;
     wx.checkSession({
       success: res => {
@@ -104,17 +104,17 @@ Page({
         var mobile = String(userinfo.mobile);
         if (mobile.length >= 11) {
           app.globalData.currentScene.query == ''
-          
+
           wx.reLaunch({ //以拥有手机号码直接跳转
             url: that.data.navigetToUrl ? that.data.navigetToUrl : '/pages/index/index',
-            success:function(){
+            success: function () {
 
-            },fail:function(){
+            }, fail: function () {
               wx.navigateTo({
                 url: that.data.navigetToUrl ? that.data.navigetToUrl : '/pages/index/index',
-                success:function(){
+                success: function () {
 
-                },fail:function(){
+                }, fail: function () {
                   wx.switchTab({
                     url: that.data.navigetToUrl ? that.data.navigetToUrl : '/pages/index/index',
                   })
@@ -132,7 +132,7 @@ Page({
       }
     })
   },
-  wxLogin: function() {
+  wxLogin: function () {
     let that = this;
     wx.showLoading({
       title: '加载中...',
@@ -143,7 +143,7 @@ Page({
           wx.request({
             url: that.data._build_url + 'auth/getOpenId?code=' + res.code,
             method: 'POST',
-            success: function(res) {
+            success: function (res) {
               wx.hideLoading();
               if (res.data.code == 0) {
                 that.setData({
@@ -155,7 +155,7 @@ Page({
                 that.wxLogin();
               }
             },
-            fail: function() {
+            fail: function () {
               that.wxLogin();
             }
           })
@@ -163,12 +163,12 @@ Page({
       }
     })
   },
-  bindgetuserinfo: function(e) {
+  bindgetuserinfo: function (e) {
     let isPhoneLogin = e.currentTarget.dataset.types ? true : false
     let that = this;
     wx.getUserInfo({
       withCredentials: true,
-      success: function(res) {
+      success: function (res) {
         let sessionKey = that.data.loginData.sessionKey;
         app.globalData.sessionKey = sessionKey;
         app.globalData.loginData = res;
@@ -192,12 +192,12 @@ Page({
       }
     })
   },
-  createNewUser: function(sessionKey, ivData, encrypData) {
+  createNewUser: function (sessionKey, ivData, encrypData) {
     let that = this;
     wx.request({
       url: that.data._build_url + 'auth/addUserUnionIdAndPhoneAES?sessionKey=' + sessionKey.replace(/\+/g, "%2b").replace(/\=/g, "%3d") + '&encrypData=' + encrypData.replace(/\+/g, "%2b").replace(/\=/g, "%3d") + '&ivData=' + ivData.replace(/\+/g, "%2b").replace(/\=/g, "%3d"),
       method: 'POST',
-      success: function(res) {
+      success: function (res) {
         if (res.data.data != null) {
           if (res.data.data.userName) {
             wx.setStorageSync('userInfo', res.data.data)
@@ -205,18 +205,18 @@ Page({
             app.globalData.userInfo.userId = res.data.data.id;
             that.authlogin(res.data.data.userName)
           }
-        }else{
+        } else {
           wx.hideLoading();
           wx.showToast({
             title: '系统异常，请重新登录',
-            icon:'none'
+            icon: 'none'
           });
           that.wxLogin();
         }
       }
     })
   },
-  authlogin: function(userName) { //获取token
+  authlogin: function (userName) { //获取token
     let that = this;
     wx.request({
       url: that.data._build_url + 'auth/login?userName=' + userName,
@@ -225,7 +225,7 @@ Page({
       header: {
         'content-type': 'application/json' //默认值
       },
-      success: function(res) {
+      success: function (res) {
         if (res.data.code == 0) {
           let _token = 'Bearer ' + res.data.data;
           app.globalData.token = _token;
@@ -250,7 +250,7 @@ Page({
       }
     })
   },
-  updatauser: function(data) { //更新用户信息
+  updatauser: function (data) { //更新用户信息
     let that = this,
       _values = "",
       _parms = {},
@@ -260,6 +260,11 @@ Page({
       id: app.globalData.userInfo.userId,
       openId: app.globalData.userInfo.openId
     };
+    try {
+      data = app.globalData.loginData ? app.globalData.loginData : data
+    } catch (err) {
+
+    }
     if (data.userInfo.avatarUrl) {
       _parms.iconUrl = data.userInfo.avatarUrl
     }
@@ -281,7 +286,7 @@ Page({
         "Authorization": app.globalData.token
       },
       method: 'POST',
-      success: function(res) {
+      success: function (res) {
         if (res.data.code == 0) {
           wx.hideLoading()
           let userInfo = wx.getStorageSync("userInfo")
@@ -300,14 +305,14 @@ Page({
           } else {
             // console.log("navigetToUrl:", that.datat.navigetToUrl)
             wx.reLaunch({ //以拥有手机号码直接跳转
-              url: that.data.navigetToUrl? that.data.navigetToUrl: '/pages/index/index',
+              url: that.data.navigetToUrl ? that.data.navigetToUrl : '/pages/index/index',
             })
           }
         }
       }
     })
   },
-  bindgetphonenumber: function(e) { //拉取微信手机号码
+  bindgetphonenumber: function (e) { //拉取微信手机号码
     let that = this;
     this.setData({
       getPhone: false
@@ -323,13 +328,13 @@ Page({
     }
 
   },
-  AES: function(encryptedData, iv) {
+  AES: function (encryptedData, iv) {
     let that = this;
     let sessionKey = that.data.loginData.sessionKey
     wx.request({
       url: that.data._build_url + 'auth/phoneAES?sessionKey=' + sessionKey.replace(/\+/g, "%2b").replace(/\=/g, "%3d") + '&encrypData=' + encryptedData.replace(/\+/g, "%2b").replace(/\=/g, "%3d") + '&ivData=' + iv.replace(/\+/g, "%2b").replace(/\=/g, "%3d"),
       method: 'POST',
-      success: function(res) {
+      success: function (res) {
         var data = JSON.parse(res.data.data);
         if (data.purePhoneNumber && data.purePhoneNumber.length >= 11) {
           that.BindwechatPhone(data.purePhoneNumber)
@@ -343,7 +348,7 @@ Page({
       }
     })
   },
-  BindwechatPhone: function(phone) {
+  BindwechatPhone: function (phone) {
     let that = this;
     wx.request({
       url: that.data._build_url + 'sms/isVerifyForUpdateUser?shopMobile=' + phone,
@@ -351,7 +356,7 @@ Page({
       header: {
         "Authorization": app.globalData.token
       },
-      success: function(res) {
+      success: function (res) {
         wx.hideLoading();
         if (res.data.data) {
           if (res.data.data.userName) {
@@ -364,16 +369,16 @@ Page({
       }
     })
   },
-  onUnload: function() {
+  onUnload: function () {
     let that = this;
     clearInterval(that.timer)
   },
-  showProtocol: function() {
+  showProtocol: function () {
     wx.navigateTo({
       url: 'Agreement/Agreement',
     })
   },
-  hideThis: function() {
+  hideThis: function () {
     this.setData({
       getPhone: false
     })

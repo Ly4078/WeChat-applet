@@ -55,6 +55,11 @@ Page({
           isshop: true,
           isshopuser: true
         })
+      }else{
+        that.setData({
+          isshop: false,
+          isshopuser: false
+        })
       }
     })
    

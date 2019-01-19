@@ -8,9 +8,9 @@ import Public from '../../utils/public.js';
 import getToken from '../../utils/getToken.js';
 var app = getApp();
 var isgetHomeData = false;
-var village_LBS = function(that) {
+var village_LBS = function (that) {
   wx.getLocation({
-    success: function(res) {
+    success: function (res) {
       let latitude = res.latitude;
       let longitude = res.longitude;
       that.requestCityName(latitude, longitude);
@@ -31,8 +31,8 @@ Page({
     carousel: [''], //轮播图
     currentTab: 0,
     isformid: true,
-    hidecai:false,
-    showwandaactivity:false,//活动海报
+    hidecai: false,
+    showwandaactivity: false,//活动海报
     loading: false,
     // 改版新增变量 
     fresh1: {}, //享7生鲜图片1
@@ -40,48 +40,48 @@ Page({
     fresh3: {}, //享7生鲜图片3
     bannthree: [],
     navs: [{
-        imgUrl: '',
-        title: '',
-        flag: false
-      },
-      {
-        imgUrl: '',
-        title: ''
-      },
-      {
-        imgUrl: '',
-        title: ''
-      },
-      {
-        imgUrl: '',
-        title: ''
-      },
-      {
-        imgUrl: '',
-        title: ''
-      }
+      imgUrl: '',
+      title: '',
+      flag: false
+    },
+    {
+      imgUrl: '',
+      title: ''
+    },
+    {
+      imgUrl: '',
+      title: ''
+    },
+    {
+      imgUrl: '',
+      title: ''
+    },
+    {
+      imgUrl: '',
+      title: ''
+    }
     ]
   },
-  hidewandaactivity:function(){
+  hidewandaactivity: function () {
     // app.globalData.newcomer = 0;
-    this.setData({ showwandaactivity:false});
-    wx.removeStorageSync('newcomer');
+    this.setData({ showwandaactivity: false });
+    wx.setStorageSync('hideWanda', '2');
   },
-  togrourp:function(){
+  togrourp: function () {
     wx.navigateTo({
       url: '/packageA/pages/tourismAndHotel/tourismAndHotel?id=43',
     })
   },
-  linkTowanda:function(){
+  linkTowanda: function () {
     let that = this;
     wx.navigateTo({
       url: '/packageB/pages/wanda/wandaActivity/wandaActivity',
-      success () {
+      success() {
         that.setData({ showwandaactivity: false })
-        wx.removeStorageSync('newcomer');
+        wx.setStorageSync('hideWanda', '2');
       }
     })
-  
+
 
     // wx.showToast({
     //   title: '1月17号正式开放',
@@ -100,20 +100,20 @@ Page({
       url: '/packageB/pages/wanda/wanda'
     })
   },
-  getfptt:function(){
+  getfptt: function () {
     wx.navigateToMiniProgram({
       appId: 'wxca1e7ba3fe18ff12',
-      path:'/pages/home?path=1&roomId=633505',
+      path: '/pages/home?path=1&roomId=633505',
     })
   },
-  onLoad: function(options) {
+  onLoad: function (options) {
     let that = this;
     setTimeout(() => {
       that.setData({
         showSkeleton: false
       })
     }, 5000)
-    try{
+    try {
       //版本更新
       const updateManager = wx.getUpdateManager();
       updateManager.onCheckForUpdate(function (res) {
@@ -127,13 +127,13 @@ Page({
       updateManager.onUpdateFailed(function () {
         // 新的版本下载失败
       });
-    }catch(err){
+    } catch (err) {
       console.log(err)
     }
     let carousel = wx.getStorageSync("carousel") || [{}];
     let bannthree = wx.getStorageSync("bannthree") || [{}];
     let txtObj = wx.getStorageSync('txtObj') || {};
-    carousel[0].loadType='storage';
+    carousel[0].loadType = 'storage';
     bannthree[0].loadType = 'storage'
     if (Object.keys(txtObj).length != 0) {
       that.setData({
@@ -149,10 +149,11 @@ Page({
       carousel
     });
   },
-  onShow: function() {
-    let newcomer = wx.getStorageSync("newcomer");
-    if (newcomer == '1') {
-      this.setData({ showwandaactivity:true})
+  onShow: function () {
+    let hideWanda = wx.getStorageSync("hideWanda") ? wx.getStorageSync("hideWanda") : '';
+    if (hideWanda == '2') {
+    } else {
+      this.setData({ showwandaactivity: true })
     }
     let that = this;
     //获取地理位置
@@ -172,7 +173,7 @@ Page({
       app.globalData.changeCity = false;
     }
     if (!app.globalData.token) { //没有token 获取token
-      getToken(app).then( ()=>{
+      getToken(app).then(() => {
         that.getcarousel(); //首页轮播图
         that.gettoplistFor() //快捷入口
         that.getconfig(); //配置文件
@@ -198,7 +199,7 @@ Page({
       }
     }
     that.getUserlocation();
-    that.data.timer = setTimeout(function() {
+    that.data.timer = setTimeout(function () {
       if (!app.globalData.token) {
         // that.findByCode();
       } else {
@@ -206,7 +207,7 @@ Page({
       }
     }, 5000)
   },
-  onHide: function() {
+  onHide: function () {
     let that = this;
     try {
       clearTimeout(that.data.timer);
@@ -214,7 +215,7 @@ Page({
 
     }
   },
-  getUserlocation: function() { //获取用户位置经纬度
+  getUserlocation: function () { //获取用户位置经纬度
     let that = this,
       _userInfo = app.globalData.userInfo;
     if (_userInfo.lat && _userInfo.lat && _userInfo.city) {
@@ -225,12 +226,12 @@ Page({
     }
     wx.getLocation({
       type: 'wgs84',
-      success: function(res) {
+      success: function (res) {
         let latitude = res.latitude,
           longitude = res.longitude;
         that.requestCityName(latitude, longitude);
       },
-      fail: function(res) {
+      fail: function (res) {
         wx.getSetting({
           success: (res) => {
             if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其位置信息          
@@ -275,36 +276,32 @@ Page({
     })
 
   },
-  getconfig: function() { //请求配置数据
+  getconfig: function () { //请求配置数据
     let that = this;
     wx.request({
       url: this.data._build_url + 'version.txt',
       header: {
         "Authorization": app.globalData.token
       },
-      success: function(res) {
+      success: function (res) {
         app.globalData.txtObj = res.data;
-        res.data.hidecai = false;
         wx.setStorageSync("txtObj", res.data);
 
         if (res.data.flag == 0) { //0显示  
           app.globalData.isflag = true;
-          try {
-            res.data.navs[4].title = "短视频";
-          } catch (err) {
-          }
+
         } else if (res.data.flag == 1) { //1不显示
           app.globalData.isflag = false;
           that.setData({
-            hideVideo:true
+            hideVideo: true
           })
           try {
-            res.data.navs[4].title = "微生活";
-          } catch (err) {}
-
+            res.data.navs[4].hide = true;
+          } catch (err) {
+          }
         }
-        
-        if(res.data.hidecai) {
+
+        if (res.data.hidecai) {
           wx.setTabBarItem({
             index: 1,
             text: '食刻',
@@ -316,7 +313,7 @@ Page({
             fresh2: res.data.fresh2,
             fresh3: res.data.fresh3,
             hidecai: res.data.hidecai,
-            bannerList: res.data.carousel ? res.data.carousel:[],
+            bannerList: res.data.carousel ? res.data.carousel : [],
             navs: res.data.navs || [],
             indexShare: res.data.indexShare || ''
           })
@@ -325,7 +322,7 @@ Page({
     })
   },
 
-  gettoplistFor: function() { //加载广告位，快捷入口
+  gettoplistFor: function () { //加载广告位，快捷入口
     let _list = [],
       _shop = [],
       _parms = {},
@@ -347,7 +344,7 @@ Page({
       }
     })
   },
-  gethomeData: function(types) {
+  gethomeData: function (types) {
     isgetHomeData = true;
     let locations = {}
     if (app.globalData.userInfo.lat && app.globalData.userInfo.lng && app.globalData.userInfo.city) {
@@ -378,7 +375,7 @@ Page({
       header: {
         "Authorization": app.globalData.token
       },
-      success: function(res) {
+      success: function (res) {
         if (res.data.code == '0') {
           var notData = true
           let data = res.data.data
@@ -411,7 +408,7 @@ Page({
           try {
             data.skuMS = data.skuMS.slice(0, data.skuMS.length - (data.skuMS.length % 2))
           } catch (err) {
-  
+
           }
           var allList = that.data.allList ? that.data.allList : [];
           if (types == 'reset') {
@@ -420,9 +417,9 @@ Page({
           } else {
             allList.push(data)
           }
-          for (let i in allList[0].skuKJ){
+          for (let i in allList[0].skuKJ) {
             allList[0].skuKJ[i].distance = utils.transformLength(allList[0].skuKJ[i].distance);
-            
+
           }
           for (let i in allList[0].skuMS) {
             allList[0].skuMS[i].distance = utils.transformLength(allList[0].skuMS[i].distance);
@@ -457,7 +454,7 @@ Page({
       }
     })
   },
-  onReachBottom: function() {
+  onReachBottom: function () {
     let that = this;
     if (that.data.notData) { //没有数据啦
       return
@@ -479,14 +476,14 @@ Page({
     })
 
   },
-  gettips: function() {
+  gettips: function () {
     let that = this;
     wx.request({
       url: that.data._build_url + 'msg/unreadMessageTotal',
       header: {
         "Authorization": app.globalData.token
       },
-      success: function(res) {
+      success: function (res) {
         if (res.data.code == '0') {
           let total = '';
           if (res.data.data.length) {
@@ -501,7 +498,7 @@ Page({
       }
     })
   },
-  getcarousel: function() { //轮播图
+  getcarousel: function () { //轮播图
     let that = this,
       _parms = {};
     _parms = {
@@ -565,7 +562,7 @@ Page({
       }
     })
   },
-  tonewTips: function(e) {
+  tonewTips: function (e) {
     wx.navigateTo({
       url: '/pages/index/notification/notification',
     })
@@ -574,24 +571,24 @@ Page({
     let url = e.currentTarget.dataset.url;
     let msg = e.currentTarget.dataset.msg;
     let type = e.currentTarget.dataset.type;//type=2 代表跳转其他小程序
-    if(type== '2') {
-      try{
+    if (type == '2') {
+      try {
         var urls = JSON.parse(url);
         wx.navigateToMiniProgram(urls)
-      }catch(err){}
+      } catch (err) { }
       return false;
     }
     if (!url) {
       wx.showToast({
-        title: msg ? msg:'下月正式开放',
+        title: msg ? msg : '下月正式开放',
         icon: "none"
       })
       return
     }
     wx.navigateTo({
       url: url,
-      success: function(res) {},
-      fail: function(res) {
+      success: function (res) { },
+      fail: function (res) {
         wx.switchTab({
           url: url,
         })
@@ -602,19 +599,19 @@ Page({
     } catch (err) {
     }
   },
-  toVideo: function(e) { //视频详情
+  toVideo: function (e) { //视频详情
     let event = e.currentTarget.dataset
     wx.navigateTo({
       url: '/pages/activityDetails/video-details/video-details?froms=index&id=' + event.id + '&zan=' + event.zan + '&userId=' + app.globalData.userInfo.userId,
     })
   },
-  toArticle: function(e) { //文章详情
+  toArticle: function (e) { //文章详情
     let event = e.currentTarget.dataset
     wx.navigateTo({
       url: '/pages/discover-plate/dynamic-state/article_details/article_details?froms=index&id=' + event.id + '&zan=' + event.zan + '&userId=' + app.globalData.userInfo.userId,
     })
   },
-  onTouchItem: function(event) { //餐厅详情
+  onTouchItem: function (event) { //餐厅详情
     let id = event.currentTarget.dataset.id
     wx.navigateTo({
       url: '/pages/index/merchant-particulars/merchant-particulars?shopid=' + id,
@@ -624,7 +621,7 @@ Page({
     let curr = e.currentTarget,
       categoryId = e.currentTarget.dataset.categoryid;
     wx.navigateTo({
-      url: 'flashSaleHome/secKillDetail/secKillDetail?id=' + curr.id + '&shopId=' + curr.dataset.shopid + '&categoryId=' + categoryId +'&actId=' + curr.dataset.actid
+      url: 'flashSaleHome/secKillDetail/secKillDetail?id=' + curr.id + '&shopId=' + curr.dataset.shopid + '&categoryId=' + categoryId + '&actId=' + curr.dataset.actid
     })
   },
   candyDetails(e) {
@@ -634,7 +631,7 @@ Page({
       shopId = e.currentTarget.dataset.index,
       categoryId = e.currentTarget.dataset.categoryid;
     wx.navigateTo({
-      url: 'bargainirg-store/CandyDishDetails/CandyDishDetails?id=' + id + '&shopId=' + shopId + '&categoryId=' + categoryId +'&actId=' + actid
+      url: 'bargainirg-store/CandyDishDetails/CandyDishDetails?id=' + id + '&shopId=' + shopId + '&categoryId=' + categoryId + '&actId=' + actid
     })
   },
   handbaoming(e) {
@@ -657,7 +654,7 @@ Page({
     }
   },
 
-  onPageScroll: function(e) {
+  onPageScroll: function (e) {
     if (e.scrollTop > 400) {
       this.setData({
         toTops: true
@@ -669,7 +666,7 @@ Page({
     }
 
   },
-  onPullDownRefresh: function() { //下拉刷新
+  onPullDownRefresh: function () { //下拉刷新
     let that = this;
     that.onShow();
     setTimeout(() => {
@@ -685,19 +682,19 @@ Page({
     })
   },
 
-  userLocation: function() { // 用户定位
+  userLocation: function () { // 用户定位
     wx.navigateTo({
       url: 'user-location/user-location',
     })
   },
-  seekTap: function() { //用户搜索
+  seekTap: function () { //用户搜索
     wx.navigateTo({
       url: 'user-seek/user-seek',
     })
   },
 
   // //监听页面分享
-  onShareAppMessage: function(res) {
+  onShareAppMessage: function (res) {
     let that = this;
     if (res.from === 'button') {
       // 来自页面内转发按钮
@@ -706,10 +703,10 @@ Page({
       title: that.data.indexShare.title,
       path: 'pages/index/index',
       imageUrl: that.data.indexShare.url,
-      success: function(res) {
+      success: function (res) {
         // 转发成功
       },
-      fail: function(res) {
+      fail: function (res) {
         // 转发失败
       }
     }

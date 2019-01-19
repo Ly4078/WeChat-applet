@@ -6,9 +6,9 @@ import {
 import getToken from '../../../../utils/getToken.js';
 var app = getApp();
 let gameFlag = true; //防止重复点击
-var village_LBS = function(that) {
+var village_LBS = function (that) {
   wx.getLocation({
-    success: function(res) {
+    success: function (res) {
       console.log('vill_res:', res)
       let latitude = res.latitude,
         longitude = res.longitude;
@@ -27,7 +27,7 @@ Page({
     loading: false,
     toTops: false,
     instruct: false,
-    hidecai:false,
+    hidecai: false,
     shareId: 0,
     shareImg: '', //分享图片
     actId: '45',
@@ -42,7 +42,7 @@ Page({
     drawNum: 0, //抽奖次数
     actDesc: ''
   },
-  onLoad: function(options) {
+  onLoad: function (options) {
     let hidecai = wx.getStorageSync('txtObj') ? wx.getStorageSync('txtObj').hidecai : true;
     this.setData({ hidecai })
     if (options.shareId) {
@@ -51,7 +51,7 @@ Page({
       });
     }
   },
-  onShow: function() {
+  onShow: function () {
     this.setData({
       isshowlocation: false
     });
@@ -92,7 +92,7 @@ Page({
       header: {
         "Authorization": app.globalData.token
       },
-      success: function(res) {
+      success: function (res) {
         if (res.data.code == 0 && res.data.data) {
           let data = res.data.data,
             city = [],
@@ -148,7 +148,7 @@ Page({
       header: {
         "Authorization": app.globalData.token
       },
-      success: function(res) {
+      success: function (res) {
         that.setData({
           loading: false
         })
@@ -189,7 +189,7 @@ Page({
       header: {
         "Authorization": app.globalData.token
       },
-      success: function(res) {
+      success: function (res) {
         console.log(res)
         let actDesc = res.data.data.actDesc;
         that.setData({
@@ -212,7 +212,7 @@ Page({
       header: {
         "Authorization": app.globalData.token
       },
-      success: function(res) {
+      success: function (res) {
         let code = res.data.code;
         if (code == 0) {
           that.vote(id);
@@ -239,17 +239,19 @@ Page({
             header: {
               "Authorization": app.globalData.token
             },
-            success: function(res) {
+            success: function (res) {
               if (res.data.code == 0) {
-                that.showToast('投票成功');
+                that.showToast('投票成功,赶紧参与抽奖吧', 2000);
                 let dishList = that.data.dishList;
                 for (let i = 0; i < dishList.length; i++) {
                   if (dishList[i].actGoodsSkuOut.id == id) {
                     dishList[i].actGoodsSkuOut.voteNum++;
                   }
                 }
+
                 that.setData({
-                  dishList: dishList
+                  dishList: dishList,
+                  drawNum: that.data.drawNum + 1
                 });
               } else if (code == 200029) {
                 that.showToast(res.data.message);
@@ -282,7 +284,7 @@ Page({
       header: {
         "Authorization": app.globalData.token
       },
-      success: function(res) {
+      success: function (res) {
         if (res.data.code == 0) {
           that.setData({
             drawNum: res.data.data ? res.data.data.totalNumber : 0
@@ -346,7 +348,7 @@ Page({
     });
     this.dishL();
   },
-  onPullDownRefresh: function() { //刷新
+  onPullDownRefresh: function () { //刷新
     if (swichrequestflag) {
       return;
     }
@@ -360,7 +362,7 @@ Page({
     this.drawNum();
     this.dishL();
   },
-  onReachBottom: function() { // 翻页
+  onReachBottom: function () { // 翻页
     if (this.data.page > this.data.pageTotal) {
       return;
     }
@@ -373,19 +375,20 @@ Page({
     });
     this.dishL();
   },
-  onShareAppMessage: function() {
+  onShareAppMessage: function () {
     return {
       title: '湖北万达十大招牌菜',
       imageUrl: 'https://xqmp4-1256079679.file.myqcloud.com/15927505686_wandashare.jpg',
       path: '/packageB/pages/wanda/wandaActivity/wandaActivity?shareId=1',
-      success: function(res) {},
-      fail: function(res) {}
+      success: function (res) { },
+      fail: function (res) { }
     }
   },
-  showToast(title) { //提示信息
+  showToast(title, time) { //提示信息
     wx.showToast({
       title: title,
-      icon: 'none'
+      icon: 'none',
+      duration: time ? time : 1500
     })
   },
   openRule() { //打开规则
@@ -412,7 +415,7 @@ Page({
     })
   },
   //滚动事件
-  onPageScroll: function(e) {
+  onPageScroll: function (e) {
     if (e.scrollTop > 400) {
       this.setData({
         toTops: true
@@ -432,7 +435,7 @@ Page({
       success: (res) => {
         if (res.authSetting['scope.userLocation']) { //打开位置授权          
           wx.getLocation({
-            success: function(res) {
+            success: function (res) {
               let latitude = res.latitude,
                 longitude = res.longitude;
               that.requestCityName(latitude, longitude);
@@ -446,13 +449,13 @@ Page({
       }
     })
   },
-  getlocation: function() { //获取用户位置
+  getlocation: function () { //获取用户位置
     let that = this,
       lat = '',
       lng = '';
     wx.getLocation({
       type: 'wgs84',
-      success: function(res) {
+      success: function (res) {
         let latitude = res.latitude;
         let longitude = res.longitude;
         app.globalData.userInfo.lat = latitude;
@@ -460,7 +463,7 @@ Page({
         that.requestCityName(latitude, longitude);
       },
 
-      fail: function(res) {
+      fail: function (res) {
         wx.getSetting({
           success: (res) => {
             if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其用户信息或位置信息
