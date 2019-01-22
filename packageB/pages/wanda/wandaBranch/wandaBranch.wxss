@@ -48,6 +48,7 @@ page {
   margin: 0;
   padding: 0;
   border: 0;
+  box-shadow: 0;
   border-color: transparent;
   background-color: transparent;
 }
@@ -206,4 +207,8 @@ page {
 
 .menuPrice_r {
   padding-bottom: 8rpx;
+}
+
+.placeholder image {
+  margin-top: 360rpx;
 }

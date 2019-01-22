@@ -20,7 +20,9 @@ Page({
     endData:[],
     dataList:[],
     endtotal:1,
-    fiexd:false
+    fiexd:false,
+    regulation: [],
+    attention: []
   },
   onLoad: function(options) {
     let hidecai = wx.getStorageSync('txtObj') ? wx.getStorageSync('txtObj').hidecai : true;
@@ -47,10 +49,12 @@ Page({
   onShow: function () {
     let that = this;
     if (!app.globalData.token) {
-      getToken(app).then( (res)=>{
+      getToken().then( (res)=>{
+        that.getRule();
         that.getSingleList(that.data.actid, 'reset');
       })
     } else {
+      that.getRule();
       that.getSingleList(that.data.actid, 'reset');
     }
   },
@@ -70,6 +74,32 @@ Page({
         fiexd: false
       })
     }
+  },
+  getRule() { //获取规则
+    let that = this, _url = '';
+    _url = this.data._build_url + 'act/detail?id=' + this.data.actid;
+    _url = encodeURI(_url);
+    wx.request({
+      url: _url,
+      method: 'GET',
+      header: {
+        "Authorization": app.globalData.token
+      },
+      success: function (res) {
+        let data = res.data.data, arr = [], regulation = [], attention = [];
+        arr = data.actDesc.split('Œ');
+        regulation = arr[0].split('。');
+        attention = arr[1].split('。');
+        that.setData({
+          mainPic: data.mainPic,
+          regulation: regulation,
+          attention: attention
+        });
+      },
+      fail() {
+
+      }
+    })
   },
   getSingleList: function(actid,types) {
     let that = this;

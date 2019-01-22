@@ -1,3 +1,8 @@
 {
-  "navigationBarTitleText": "「寻味」万达十大招牌菜"
+  "navigationBarTitleText": "「寻味」万达十大招牌菜",
+  "usingComponents": {
+    "i-spin": "../../../../dist/spin/index",
+    "skeleton": "/components/skeleton/skeleton",
+    "image-loader": "/components/image-loader"
+  }
 }

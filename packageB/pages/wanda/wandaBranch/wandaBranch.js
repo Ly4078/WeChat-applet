@@ -13,8 +13,10 @@ Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
     isshowlocation: false,
+    showSkeleton: true,
     loading: false,
     toTops: false,
+    isEmpty: false, //列表是否为空
     shareId: 0,
     actId: '41',
     name: '',
@@ -25,15 +27,23 @@ Page({
     rows: 10,
     page: 1,
     pageTotal: 1,
-    dishList: []
+    dishList: [],
+    SkeletonData: ['', '', '', '', '', '']
   },
-  onLoad: function (options) {
+  onLoad: function(options) {
+    let that = this;
+    setTimeout(() => {
+      that.setData({
+        showSkeleton: false
+      })
+    }, 5000);
     if (options.shareId) {
       this.setData({
         shareId: options.shareId
       });
     }
     this.setData({
+      isshowlocation: false,
       id: options.id,
       address: options.address,
       distance: options.distance,
@@ -43,19 +53,16 @@ Page({
       locationX: options.locationX,
       locationY: options.locationY
     });
-  },
-  onShow: function () {
-    this.setData({
-      isshowlocation: false
-    });
     if (!app.globalData.token) { //没有token 获取token
-      let that = this;
       getToken(app).then(() => {
         that.getData();
       })
     } else {
       this.getData();
     }
+  },
+  onShow: function() {
+
   },
   getData() { //获取数据
   let that = this;
@@ -70,16 +77,16 @@ Page({
     }
   },
   dishL() { //砍菜列表
-    wx.showLoading({
-      title: '加载中...'
-    })
-    let that = this, lng = "", lat = "", _parms = {};
+    let that = this,
+      lng = "",
+      lat = "",
+      _parms = {};
     lng = wx.getStorageInfoSync('userInfo').lng ? wx.getStorageInfoSync('userInfo').lng : "110.77877";
     lat = wx.getStorageInfoSync('userInfo').lat ? wx.getStorageInfoSync('userInfo').lat : "32.6226";
     _parms = {
       actId: this.data.actId,
       zanUserId: app.globalData.userInfo.userId,
-      browSort: 0,    //0附近 1销量 2价格
+      browSort: 0, //0附近 1销量 2价格
       locationX: app.globalData.userInfo.lng ? app.globalData.userInfo.lng : lng,
       locationY: app.globalData.userInfo.lat ? app.globalData.userInfo.lat : lat,
       city: this.data.city,
@@ -91,13 +98,11 @@ Page({
     };
     swichrequestflag = true;
     Api.partakerList(_parms).then((res) => {
-      that.setData({
-        loading: false
-      })
       wx.stopPullDownRefresh();
-      if(res.data.code == 0) {
+      if (res.data.code == 0) {
         if (res.data.data.list && res.data.data.list.length > 0) {
-          let list = res.data.data.list, dishList = that.data.dishList;
+          let list = res.data.data.list,
+            dishList = that.data.dishList;
           for (let i = 0; i < list.length; i++) {
             list[i].distance = utils.transformLength(list[i].distance);
             dishList.push(list[i]);
@@ -106,12 +111,29 @@ Page({
             dishList: dishList,
             pageTotal: Math.ceil(res.data.data.total / 10)
           });
+        } else {
+          if (that.data.dishList.length <= 0) {
+            that.setData({
+              isEmpty: true
+            });
+          }
         }
+        that.setData({
+          showSkeleton: false,
+          loading: false
+        });
+      } else {
+        that.setData({
+          showSkeleton: false,
+          loading: false
+        });
       }
       swichrequestflag = false;
-      wx.hideLoading();
     }, () => {
       swichrequestflag = false;
+      that.setData({
+        loading: false
+      });
     });
   },
   toBuy(e) { //买菜
@@ -123,7 +145,7 @@ Page({
       url: '../../../../pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails?id=' + id + '&shopId=' + shopId + '&actId=' + actId + '&categoryId=' + categoryId + '&city=' + this.data.city
     })
   },
-  onPullDownRefresh: function () {   //刷新
+  onPullDownRefresh: function() { //刷新
     if (swichrequestflag) {
       return;
     }
@@ -133,8 +155,8 @@ Page({
     });
     this.dishL();
   },
-  onReachBottom: function () { // 翻页
-    if (this.data.page > this.data.pageTotal) {
+  onReachBottom: function() { // 翻页
+    if (this.data.page >= this.data.pageTotal) {
       return;
     }
     if (swichrequestflag) {
@@ -146,14 +168,14 @@ Page({
     });
     this.dishL();
   },
-  onShareAppMessage: function (res) {
+  onShareAppMessage: function(res) {
     console.log(res);
     return {
       title: this.data.name + '专区菜品',
       imageUrl: 'https://xqmp4-1256079679.file.myqcloud.com/15927505686_wandazhuanqu.jpg',
       path: '/packageB/pages/wanda/wandaBranch/wandaBranch?shareId=1&id=' + this.data.id + '&picUrl=' + this.data.picUrl + '&name=' + this.data.name + '&address=' + this.data.address + '&distance=' + this.data.distance + '&city=' + this.data.city + '&locationX=' + this.data.locationX + '&locationY=' + this.data.locationY,
-      success: function (res) { },
-      fail: function (res) { }
+      success: function(res) {},
+      fail: function(res) {}
     }
   },
   //跳转至首页
@@ -170,7 +192,7 @@ Page({
     })
   },
   //滚动事件
-  onPageScroll: function (e) {
+  onPageScroll: function(e) {
     if (e.scrollTop > 400) {
       this.setData({
         toTops: true
@@ -182,12 +204,12 @@ Page({
     }
   },
   //打开地图导航，先查询是否已授权位置
-  TencentMap: function (event) {
+  TencentMap: function(event) {
     let that = this;
     that.openmap();       
   },
   //打开地图，已授权位置
-  openmap () {
+  openmap() {
     console.log(typeof this.data.locationX);
     let that = this;
     wx.openLocation({
@@ -196,8 +218,8 @@ Page({
       scale: 18,
       name: that.data.name,
       address: that.data.address,
-      success: function (res) { },
-      fail: function (res) { }
+      success: function(res) {},
+      fail: function(res) {}
     })
   },
   openSetting() { //打开授权设置界面
@@ -217,4 +239,6 @@ Page({
       }
     })
   },
+
+
 })

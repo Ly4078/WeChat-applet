@@ -11,26 +11,19 @@ Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
     shareId: 0,
-    showSkeleton: true,
+    isEmpty: false,   //数据是否为空
     isshowlocation: false,
     list: []
   },
-  onLoad: function(options) {
+  onLoad: function (options) {
+    this.setData({
+      isshowlocation: false
+    });
     if (options.shareId) {
       this.setData({
         shareId: options.shareId
       })
     }
-    setTimeout(() => {
-      this.setData({
-        showSkeleton: false
-      })
-    }, 3000)
-  },
-  onShow: function() {
-    this.setData({
-      isshowlocation: false
-    });
     if (!app.globalData.token) { //没有token 获取token
       let that = this;
       getToken(app).then(() => {
@@ -39,6 +32,9 @@ Page({
     } else {
       this.getData();
     }
+  },
+  onShow: function() {
+
   },
   getData() { //获取数据
     let that = this;
@@ -77,18 +73,22 @@ Page({
       header: {
         "Authorization": app.globalData.token
       },
-      success: function(res) {
+      success: function (res) {
         wx.stopPullDownRefresh();
+        wx.hideLoading();
         if (res.data.code == 0) {
           let list = res.data.data.list;
-          for (let i = 0; i < list.length; i++) {
-            list[i].distance = utils.transformLength(list[i].distance);
+          if(list.length > 0) {
+            for (let i = 0; i < list.length; i++) {
+              list[i].distance = utils.transformLength(list[i].distance);
+            }
+            that.setData({
+              list: list
+            });
+          }else{
+            that.setData({ isEmpty: true })
           }
-          that.setData({
-            list: list
-          });
         }
-        wx.hideLoading();
       },
       fail() {
         wx.hideLoading();

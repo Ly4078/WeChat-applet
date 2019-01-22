@@ -7,13 +7,13 @@ import getToken from '../../../../utils/getToken.js';
 import getCurrentLocation from '../../../../utils/getCurrentLocation.js';
 var app = getApp();
 let gameFlag = true; //防止重复点击
-
 var swichrequestflag = false;
 
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
     isshowlocation: false,
+    showSkeleton: true,
     loading: false,
     toTops: false,
     instruct: false,
@@ -23,6 +23,7 @@ Page({
     actId: '45',
     city: [],
     branch: [],
+    SkeletonData: ['', '', '', ''],
     currCity: 0,
     currBranch: '',
     dishList: [],
@@ -32,46 +33,43 @@ Page({
     drawNum: 0, //抽奖次数
     actDesc: ''
   },
-  onLoad: function (options) {
+  onLoad: function(options) {
+    let that = this;
+    this.setData({
+      isshowlocation: false
+    })
+    setTimeout(() => {
+      that.setData({
+        showSkeleton: false
+      })
+    }, 5000);
     if (options.shareId) {
       this.setData({
         shareId: options.shareId
       });
     }
-  },
-  onShow: function () {
-    this.setData({
-      isshowlocation: false
-    });
     if (!app.globalData.token) { //没有token 获取token
-      let that = this;
       getToken(app).then(() => {
         that.drawNum();
         that.getRule();
-        if (that.data.dishList.length <= 0) {
-          that.getData();
-        }
+        that.getData();
       })
     } else {
       this.drawNum();
       this.getRule();
-      if (this.data.dishList.length <= 0) {
-        this.getData();
-      }
+      this.getData();
     }
+  },
+  onShow: function() {
+
   },
   getData() { //获取数据
     let that = this;
     if (app.globalData.userInfo.lat && app.globalData.userInfo.lng && app.globalData.userInfo.city) {
-      wx.showLoading({
-        title: '加载中...',
-      })
       that.cityQuery();
     } else {
       getCurrentLocation(that).then( ()=>{
-        wx.showLoading({
-          title: '加载中...',
-        })
+     
         that.cityQuery();
       })
     }
@@ -86,7 +84,7 @@ Page({
       header: {
         "Authorization": app.globalData.token
       },
-      success: function (res) {
+      success: function(res) {
         if (res.data.code == 0 && res.data.data) {
           let data = res.data.data,
             city = [],
@@ -110,7 +108,7 @@ Page({
         }
       },
       fail() {
-        wx.hideLoading();
+
       }
     })
   },
@@ -142,11 +140,9 @@ Page({
       header: {
         "Authorization": app.globalData.token
       },
-      success: function (res) {
-        that.setData({
-          loading: false
-        })
+      success: function(res) {
         wx.stopPullDownRefresh();
+        wx.hideLoading();
         if (res.data.code == 0) {
           let list = res.data.data.list;
           if (list && list.length > 0) {
@@ -160,13 +156,22 @@ Page({
               pageTotal: Math.ceil(res.data.data.total / 10)
             });
           }
+          that.setData({
+            showSkeleton: false,
+            loading: false
+          });
+        } else {
+          that.setData({
+            showSkeleton: false,
+            loading: false
+          });
         }
         swichrequestflag = false;
-        wx.hideLoading();
       },
       fail() {
         that.setData({
-          loading: false
+          loading: false,
+          showSkeleton: false
         })
         wx.stopPullDownRefresh();
         wx.hideLoading();
@@ -176,18 +181,20 @@ Page({
     })
   },
   getRule() { //获取规则
-    let that = this;
+    let that = this, _url = '';
+    _url = this.data._build_url + 'act/detail?id=' + this.data.actId;
+    _url = encodeURI(_url);
     wx.request({
-      url: this.data._build_url + 'act/get/45',
+      url: _url,
       method: 'GET',
       header: {
         "Authorization": app.globalData.token
       },
-      success: function (res) {
-        console.log(res)
-        let actDesc = res.data.data.actDesc;
+      success: function(res) {
+        let data = res.data.data;
         that.setData({
-          actDesc: actDesc
+          mainPic: data.mainPic,
+          actDesc: data.actDesc
         });
       },
       fail() {
@@ -206,7 +213,7 @@ Page({
       header: {
         "Authorization": app.globalData.token
       },
-      success: function (res) {
+      success: function(res) {
         let code = res.data.code;
         if (code == 0) {
           that.vote(id);
@@ -233,7 +240,7 @@ Page({
             header: {
               "Authorization": app.globalData.token
             },
-            success: function (res) {
+            success: function(res) {
               if (res.data.code == 0) {
                 that.showToast('投票成功,赶紧参与抽奖吧', 2000);
                 let dishList = that.data.dishList;
@@ -260,12 +267,12 @@ Page({
     })
   },
   toBuy(e) { //买菜
-    let id = e.target.id,
+    let id = e.currentTarget.id,
       shopId = e.currentTarget.dataset.shopid,
       city = this.data.city[this.data.currCity],
       categoryId = e.currentTarget.dataset.categoryid;
     wx.navigateTo({
-      url: '../../../../pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails?id=' + id + '&shopId=' + shopId + '&actId=45&categoryId=' + categoryId + '&city=' + city
+      url: '../../../../pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails?id=' + id + '&shopId=' + shopId + '&actId='+ this.data.actId +'&categoryId=' + categoryId + '&city=' + city
     })
   },
   drawNum() { //可抽奖次数
@@ -278,7 +285,7 @@ Page({
       header: {
         "Authorization": app.globalData.token
       },
-      success: function (res) {
+      success: function(res) {
         if (res.data.code == 0) {
           that.setData({
             drawNum: res.data.data ? res.data.data.totalNumber : 0
@@ -342,13 +349,10 @@ Page({
     });
     this.dishL();
   },
-  onPullDownRefresh: function () { //刷新
+  onPullDownRefresh: function() { //刷新
     if (swichrequestflag) {
       return;
     }
-    wx.showLoading({
-      title: '加载中...'
-    })
     this.setData({
       page: 1,
       dishList: []
@@ -356,8 +360,8 @@ Page({
     this.drawNum();
     this.dishL();
   },
-  onReachBottom: function () { // 翻页
-    if (this.data.page > this.data.pageTotal) {
+  onReachBottom: function() { // 翻页
+    if (this.data.page >= this.data.pageTotal) {
       return;
     }
     if (swichrequestflag) {
@@ -369,13 +373,13 @@ Page({
     });
     this.dishL();
   },
-  onShareAppMessage: function () {
+  onShareAppMessage: function() {
     return {
       title: '湖北万达十大招牌菜',
       imageUrl: 'https://xqmp4-1256079679.file.myqcloud.com/15927505686_wandashare.jpg',
       path: '/packageB/pages/wanda/wandaActivity/wandaActivity?shareId=1',
-      success: function (res) { },
-      fail: function (res) { }
+      success: function(res) {},
+      fail: function(res) {}
     }
   },
   showToast(title, time) { //提示信息
@@ -409,7 +413,7 @@ Page({
     })
   },
   //滚动事件
-  onPageScroll: function (e) {
+  onPageScroll: function(e) {
     if (e.scrollTop > 400) {
       this.setData({
         toTops: true
@@ -428,9 +432,7 @@ Page({
     wx.openSetting({
       success: (res) => {
         if (res.authSetting['scope.userLocation']) { //打开位置授权          
-            wx.showLoading({
-              title: '加载中...',
-            })
+            
         } else {
           that.setData({
             isshowlocation: true
@@ -439,4 +441,6 @@ Page({
       }
     })
   },
+
+
 })

@@ -331,3 +331,14 @@ page, .wd_activity {
 .item_btn view:nth-child(2) {
   background-color: #FC5E2D;
 }
+
+/* 占位图 */
+.placeholder {
+  height: 400rpx;
+  width: 100%;
+}
+
+.placeholder image {
+  margin-top: 0;
+  top: 50rpx;
+}

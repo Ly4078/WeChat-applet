@@ -55,5 +55,6 @@
 </view>
 
 <view wx:if="{{!isdata}}" class='kongkong'>
-  <image src="/images/icon/zhanweitu.png"></image>
+  <image src="/images/icon/zhanweitu.png"></image> 
+
 </view>

@@ -80,13 +80,15 @@ page {
   text-align: center;
   font-style: italic;
   font-weight: 600;
+  margin-right: 10rpx;
 }
 
-.b_item_pic {
-  height: 76rpx;
-  width: 76rpx;
+.b_item_pic image {
   border-radius: 8rpx;
-  margin: 0 24rpx 0 10rpx;
+}
+
+.b_item_txt {
+  margin-left: 24rpx;
 }
 
 .b_item_name {
@@ -136,4 +138,5 @@ page {
   white-space: nowrap;
   overflow: hidden;
   font-size: 28rpx;
+  margin-left: 24rpx;
 }

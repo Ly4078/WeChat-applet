@@ -22,7 +22,7 @@
       <view class='irbut'>{{item.usedTime}}</view>
     </view>
   </view>
-  <view wx:if="{{listData.length < 1}}" class='placeholder'>
+   <view wx:if="{{listData.length < 1}}" class='placeholder' >
     <image src="/images/icon/zhanweitu.png"></image>
   </view>
 

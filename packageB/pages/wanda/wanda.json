@@ -1,4 +1,7 @@
 {
   "navigationBarTitleText": "万达广场专区",
-  "enablePullDownRefresh": false
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "image-loader": "/components/image-loader"
+  }
 }

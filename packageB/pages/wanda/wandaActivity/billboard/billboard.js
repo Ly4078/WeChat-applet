@@ -13,6 +13,7 @@ Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
     isshowlocation: false,
+    showSkeleton: true,
     loading: false,
     toTops: false,
     shareId: 0,
@@ -26,40 +27,31 @@ Page({
     votePage: 1
   },
   onLoad: function (options) {
+    let that = this;
+    setTimeout(() => {
+      that.setData({
+        showSkeleton: false
+      })
+    }, 5000);
     if (options.shareId) {
       this.setData({
         shareId: options.shareId
       });
     }
     this.setData({
+      isshowlocation: false,
       actId: options.actId
     });
-    wx.showLoading({
-      title: '加载中...'
-    })
-  },
-  onShow: function () {
-    this.setData({
-      isshowlocation: false
-    });
     if (!app.globalData.token) { //没有token 获取token
-      let that = this;
       getToken(app).then(() => {
-        if (that.data.foodArr.length <= 0) {
-          that.setData({
-            navOrder: 1
-          });
-          that.foodsBillboard();
-        }
+        that.foodsBillboard();
       })
     } else {
-      if (this.data.foodArr.length <= 0) {
-        this.setData({
-          navOrder: 1
-        });
-        this.foodsBillboard();
-      }
+      this.foodsBillboard();
     }
+  },
+  onShow: function () {
+    
   },
   onUnload: function () {
     
@@ -86,10 +78,8 @@ Page({
         "Authorization": app.globalData.token
       },
       success: function (res) {
-        that.setData({
-          loading: false
-        })
         wx.stopPullDownRefresh();
+        wx.hideLoading();
         if (res.data.code == 0) {
           let list = res.data.data.list, foodArr = that.data.foodArr;
           if (list && list.length > 0) {
@@ -98,15 +88,24 @@ Page({
             }
             that.setData({
               foodArr: foodArr,
-              foodPage: Math.ceil(res.data.data.total / 10)
+              foodPage: Math.ceil(res.data.data.total / 16)
             });
           }
+          that.setData({
+            showSkeleton: false,
+            loading: false
+          });
+        } else {
+          that.setData({
+            showSkeleton: false,
+            loading: false
+          });
         }
         swichrequestflag = false;
-        wx.hideLoading();
       },
       fail() {
         that.setData({
+          showSkeleton: false,
           loading: false
         })
         wx.stopPullDownRefresh();
@@ -137,10 +136,8 @@ Page({
         "Authorization": app.globalData.token
       },
       success: function (res) {
-        that.setData({
-          loading: false
-        })
         wx.stopPullDownRefresh();
+        wx.hideLoading();
         if (res.data.code == 0) {
           let list = res.data.data.list, voteArr = that.data.voteArr;
           if (list && list.length > 0) {
@@ -154,15 +151,24 @@ Page({
             }
             that.setData({
               voteArr: voteArr,
-              votePage: Math.ceil(res.data.data.total / 10)
+              votePage: Math.ceil(res.data.data.total / 16)
             });
           }
+          that.setData({
+            showSkeleton: false,
+            loading: false
+          });
           swichrequestflag = false;
+        } else {
+          that.setData({
+            showSkeleton: false,
+            loading: false
+          });
         }
-        wx.hideLoading();
       },
       fail() {
         that.setData({
+          showSkeleton: false,
           loading: false
         })
         wx.stopPullDownRefresh();
@@ -195,9 +201,6 @@ Page({
     if (swichrequestflag) {
       return;
     }
-    wx.showLoading({
-      title: '加载中...'
-    })
     this.setData({
       foodArr: [],
       voteArr: [],
@@ -210,7 +213,7 @@ Page({
       return;
     }
     if (this.data.navOrder == 1) {
-      if (this.data.page > this.data.foodPage) {
+      if (this.data.page >= this.data.foodPage) {
         return;
       }
       this.setData({
@@ -219,7 +222,10 @@ Page({
       });
       this.foodsBillboard();
     } else if (this.data.navOrder == 2) {
-      if (this.data.page > this.data.votePage) {
+      if (this.data.page >= this.data.votePage) {
+        return;
+      }
+      if (this.data.voteArr.length >= 100) {
         return;
       }
       this.setData({

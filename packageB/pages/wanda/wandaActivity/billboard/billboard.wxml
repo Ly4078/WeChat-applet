@@ -1,57 +1,54 @@
-<!-- <view class='modal_box  modal_box11' wx:if="{{isshowlocation}}">
-  <view class='weizhi'>
-    更多体验需要你授权位置信息
-    <button bindtap="openSetting">确定</button>
-  </view>
-</view> -->
-<view>
+<skeleton selector="skeleton" loading="spin" bgcolor="#FFF" wx:if="{{showSkeleton}}"></skeleton>
+<!-- 回到首页 -->
+<image class="indexIcon" src="/images/icon/goindex.png" bindtap='toIndex' wx:if="{{shareId}}"></image>
 
-  <!-- 回到首页 -->
-  <image class="indexIcon" src="/images/icon/goindex.png" bindtap='toIndex' wx:if="{{shareId}}"></image>
-  
-  <!-- 回到顶部 -->
-  <view class='toTop' wx:if="{{toTops}}" bindtap='toTop'>
-    <image src='/images/icon/toTop.png'></image>
-  </view>
+<!-- 回到顶部 -->
+<view class='toTop' wx:if="{{toTops}}" bindtap='toTop'>
+  <image src='/images/icon/toTop.png'></image>
+</view>
 
-  <view class="billboard_tab">
-    <view class="{{navOrder == 1 ? 'active' : ''}}" id="1" bindtap='switchTab'>美食榜</view>
-    <view class="{{navOrder == 2 ? 'active' : ''}}" id="2" bindtap='switchTab'>投票榜</view>
-  </view>
-  <view class="billboard_list">
-    <view wx:if="{{navOrder == 1}}" class="billboard_item" wx:for="{{foodArr}}" wx:key="index">
-      <view class="b_item_l">
-        <view class="b_item_index">{{index+1}}</view>
-        <image wx:if="{{item.skuPic}}" class="b_item_pic" mode="aspectFill" src="{{item.skuPic}}"></image>
-        <image wx:else class="b_item_pic" src="/images/icon/morentu.png"></image>
-        <view class="b_item_txt">
-          <view class="b_item_name">{{item.skuName}}</view>
-          <view class="b_item_shop">
-            <view>{{item.actGoodsSkuOut.goodsSkuNumber}}号</view>
-            <view>{{item.shop.shopName}}</view>
-          </view>
+<view class="billboard_tab">
+  <view class="{{navOrder == 1 ? 'active' : ''}}" id="1" bindtap='switchTab'>美食榜</view>
+  <view class="{{navOrder == 2 ? 'active' : ''}}" id="2" bindtap='switchTab'>投票榜(前100名)</view>
+</view>
+<view class="billboard_list">
+  <view wx:if="{{navOrder == 1}}" class="billboard_item" wx:for="{{foodArr}}" wx:key="index">
+    <view class="b_item_l">
+      <view class="b_item_index">{{index+1}}</view>
+      <view class="skeleton-rect">
+        <image-loader width="76rpx" height="76rpx" class='b_item_pic' default-image='/images/icon/morentu.png' original-image="{{item.skuPic?item.skuPic:'/images/icon/morentu.png'}}" />
+      </view>
+      <view class="b_item_txt">
+        <view class="b_item_name skeleton-rect">{{item.skuName}}</view>
+        <view class="b_item_shop skeleton-rect">
+          <view>{{item.actGoodsSkuOut.goodsSkuNumber}}号</view>
+          <view>{{item.shop.shopName}}</view>
         </view>
       </view>
-      <view class="b_item_r">{{item.actGoodsSkuOut.voteNum}}票</view>
     </view>
-    <view wx:if="{{navOrder == 2}}" class="billboard_item" wx:for="{{voteArr}}" wx:key="index">
-      <view class="b_item_l">
-        <view class="b_item_index">{{index+1}}</view>
-        <image wx:if="{{item.user.iconUrl}}" class="b_item_pic" mode="aspectFill" src="{{item.user.iconUrl}}"></image>
-        <image wx:else class="b_item_pic" src="/images/icon/morentu.png"></image>
-        <view class="b_item_user">{{item.user.nickName ? item.user.nickName : '享七用户'}}</view>
+    <view class="b_item_r skeleton-rect">{{item.actGoodsSkuOut.voteNum}}票</view>
+  </view>
+  <view wx:if="{{navOrder == 2}}" class="billboard_item" wx:for="{{voteArr}}" wx:key="index">
+    <view class="b_item_l">
+      <view class="b_item_index">{{index+1}}</view>
+      <view class="skeleton-rect">
+        <image-loader width="76rpx" height="76rpx" class='b_item_pic' default-image='/images/icon/morentu.png' original-image="{{item.user.iconUrl?item.user.iconUrl:'/images/icon/morentu.png'}}" />
       </view>
-      <view class="b_item_r">贡献{{item.totalVoteNum}}票</view>
+      <view class="b_item_user skeleton-rect">{{item.user.nickName ? item.user.nickName : '享七用户'}}</view>
     </view>
+    <view class="b_item_r skeleton-rect">贡献{{item.totalVoteNum}}票</view>
+  </view>
+  <view class="placeholder" wx:if="{{(navOrder == 1 && foodArr.length <= 0) || (navOrder == 2 && voteArr.length <= 0)}}">
+    <image src="/images/icon/zhanweitu.png"></image>
   </view>
 </view>
 
 <!-- loading -->
 <view>
-<view class='loadingBox'>
-<i-spin custom wx:if="{{loading}}">
-<!-- <view class="loading"></view> -->
-<image style='width:100rpx;height:100rpx;' src="https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/23.gif"></image>
-</i-spin>
-</view>
+  <view class='loadingBox'>
+    <i-spin custom wx:if="{{loading}}">
+      <!-- <view class="loading"></view> -->
+      <image style='width:100rpx;height:100rpx;' src="https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/23.gif"></image>
+    </i-spin>
+  </view>
 </view>
