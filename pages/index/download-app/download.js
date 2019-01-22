@@ -5,7 +5,7 @@ Page({
    */
   data: {
     deimg: "https://xq-1256079679.file.myqcloud.com/test_363956872334670392_0.8.jpg",
-    deimgid1:'https://xq-1256079679.file.myqcloud.com/test_9436129203694819_0.8.jpg',
+    deimgid1:'https://xqmp4-1256079679.file.myqcloud.com/13297932982_ruzhu22222_20190122162636.jpg',
     isdown: false,
     erimg:'',
     _value:'http://a.app.qq.com/o/simple.jsp?pkgname=io.dcloud.H53DA2BA2'
