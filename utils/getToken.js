@@ -12,7 +12,6 @@ var getToken = function (that,isLogin) {
             if (res.data.code == 0) {
               let _data = res.data.data;
               if (_data && _data.id) {
-                console.log('app',App.globalData)
                 App.globalData.userInfo.userId = _data.id;
                 for (let key in _data) {
                   for (let ind in App.globalData.userInfo) {
@@ -64,7 +63,6 @@ let authlogin = function (resolve, App) { //获取token
         App.globalData.token = _token;
         let timestamp = Date.parse(new Date());
         var tokenTime = timestamp - 0 + 518400000
-        console.log('time', timestamp);
         wx.setStorageSync("tokenTime", tokenTime)
         wx.setStorageSync('token', _token);
         return resolve(_token)

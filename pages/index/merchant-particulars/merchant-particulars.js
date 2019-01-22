@@ -3,17 +3,8 @@ import {
   GLOBAL_API_DOMAIN
 } from '/../../../utils/config/config.js';
 var utils = require('../../../utils/util.js')
+import getCurrentLocation from '/../../../utils/getCurrentLocation.js';
 var app = getApp();
-var village_LBS = function (that) {
-  wx.getLocation({
-    success: function (res) {
-      let latitude = res.latitude,
-        longitude = res.longitude;
-      that.requestCityName(latitude, longitude);
-    },
-  })
-}
-
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
@@ -77,7 +68,6 @@ Page({
     let txt = wx.getStorageSync('txtObj');
     this.setData({
       isShowvedeo: txt.flag,
-      hidecai: txt ? txt.hidecai : true
     })
     this.setData({
       shopid: options.shopid,
@@ -133,7 +123,16 @@ Page({
     let userInfo = wx.getStorageSync('userInfo') || {};
     // app.globalData.userInfo = userInfo;
     if (!userInfo.lat || !userInfo.lng || !userInfo.city || !app.globalData.userInfo.lat || !app.globalData.userInfo.lng) {
-      this.getUserlocation();
+      // this.getUserlocation();
+      getCurrentLocation(that).then( (res)=>{
+        console.log(res);
+        that.getstoredata();
+        if (that.data.isMpa) {
+          that.openmap();
+        } else {
+          that.shopList();
+        }
+      })
     }
 
     return;
@@ -1138,16 +1137,17 @@ Page({
     wx.openSetting({
       success: (res) => {
         if (res.authSetting['scope.userLocation']) {
-          wx.getLocation({
-            success: function (res) {
-              let latitude = res.latitude,
-                longitude = res.longitude;
-              app.globalData.userInfo.lat = latitude;
-              app.globalData.userInfo.lgn = longitude;
+          setTimeout( ()=>{
+            getCurrentLocation(that).then((res) => {
+              console.log(res);
               that.getstoredata();
-              that.requestCityName(latitude, longitude);
-            },
-          })
+              if (that.data.isMpa) {
+                that.openmap();
+              } else {
+                that.shopList();
+              }
+            })
+          },200)
         } else {
           that.setData({
             isshowlocation: true
@@ -1168,29 +1168,14 @@ Page({
         isMpa: false
       })
     }
-    wx.getLocation({
-      type: 'wgs84',
-      success: function (res) {
-        let latitude = res.latitude;
-        let longitude = res.longitude;
-        app.globalData.userInfo.lat = latitude;
-        app.globalData.userInfo.lng = longitude;
-        that.requestCityName(latitude, longitude);
-      },
-      fail: function (res) {
-        wx.getSetting({
-          success: (res) => {
-            if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其用户位置信息
-              that.setData({
-                isshowlocation: true
-              })
-            } else {
-              that.openmap();
-            }
-          }
-        })
+    getCurrentLocation(that).then( (res)=>{
+      if (that.data.isMpa) {
+        that.openmap();
+      } else {
+        that.shopList();
       }
     })
+
   },
   //打开地图，已授权位置
   openmap: function () {
@@ -1207,63 +1192,7 @@ Page({
     })
   },
   //获取用户位置经纬度
-  getUserlocation: function () {
-    let that = this;
-    wx.getLocation({
-      type: 'wgs84',
-      success: function (res) {
-        let latitude = res.latitude,
-          longitude = res.longitude;
-        app.globalData.userInfo.lat = latitude;
-        app.globalData.userInfo.lng = longitude;
-        that.getstoredata();
-        that.requestCityName(latitude, longitude);
-      },
-      fail: function (res) {
-        wx.getSetting({
-          success: (res) => {
-            if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其位置信息          
-              that.setData({
-                isshowlocation: true
-              })
-            }
-          }
-        })
-      }
-    })
-  },
-  //获取城市
-  requestCityName(lat, lng) {
-    let that = this;
-    if (!lat && !lng) {
-      this.TencentMap();
-    } else {
-      wx.request({
-        url: 'https://apis.map.qq.com/ws/geocoder/v1/?location=' + lat + "," + lng + "&key=4YFBZ-K7JH6-OYOS4-EIJ27-K473E-EUBV7",
-        header: {
-          'content-type': 'application/json' // 默认值
-        },
-        success: (res) => {
-          if (res.data.status == 0) {
-            let _city = res.data.result.address_component.city;
-            if (_city == '十堰市') {
-              app.globalData.userInfo.city = _city;
-            } else {
-              app.globalData.userInfo.city = '十堰市';
-            }
-            app.globalData.picker = res.data.result.address_component;
-            let userInfo = app.globalData.userInfo;
-            wx.setStorageSync('userInfo', userInfo);
-            if (this.data.isMpa) {
-              that.openmap();
-            } else {
-              that.shopList();
-            }
-          }
-        }
-      })
-    }
-  },
+ 
 
   //评论列表
   commentList: function () {

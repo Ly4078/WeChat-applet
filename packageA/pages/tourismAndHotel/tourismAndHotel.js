@@ -47,7 +47,7 @@ Page({
   onShow: function () {
     let that = this;
     if (!app.globalData.token) {
-      getToken().then( (res)=>{
+      getToken(app).then( (res)=>{
         that.getSingleList(that.data.actid, 'reset');
       })
     } else {

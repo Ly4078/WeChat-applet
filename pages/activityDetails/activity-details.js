@@ -66,8 +66,6 @@ Page({
    
   },
   onLoad: function () {
-    let hidecai = wx.getStorageSync('txtObj') ? wx.getStorageSync('txtObj').hidecai : true;
-    this.setData({ hidecai })
     let that = this;
     let actList = wx.getStorageSync('actList') || [];
     if (actList.length){
@@ -175,13 +173,6 @@ Page({
   },
   getcatdata: function (types) {  //获取列表数据
     let that = this;
-    if(this.data.hidecai){
-      that.setData({
-        actdata: that.data._actdata,
-        loading:false
-      })
-      return
-    }
     let _parms = {
       page: this.data.page,
       token: app.globalData.token,

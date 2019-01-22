@@ -4,20 +4,10 @@ import {
   GLOBAL_API_DOMAIN
 } from '../../../../utils/config/config.js';
 import getToken from '../../../../utils/getToken.js';
+import getCurrentLocation from '../../../../utils/getCurrentLocation.js';
 var app = getApp();
 let gameFlag = true; //防止重复点击
-var village_LBS = function (that) {
-  wx.getLocation({
-    success: function (res) {
-      console.log('vill_res:', res)
-      let latitude = res.latitude,
-        longitude = res.longitude;
-      app.globalData.userInfo.lat = latitude;
-      app.globalData.userInfo.lng = longitude;
-      that.requestCityName(latitude, longitude);
-    },
-  })
-}
+
 var swichrequestflag = false;
 
 Page({
@@ -43,8 +33,6 @@ Page({
     actDesc: ''
   },
   onLoad: function (options) {
-    let hidecai = wx.getStorageSync('txtObj') ? wx.getStorageSync('txtObj').hidecai : true;
-    this.setData({ hidecai })
     if (options.shareId) {
       this.setData({
         shareId: options.shareId
@@ -73,13 +61,19 @@ Page({
     }
   },
   getData() { //获取数据
+    let that = this;
     if (app.globalData.userInfo.lat && app.globalData.userInfo.lng && app.globalData.userInfo.city) {
       wx.showLoading({
-        title: '加载中...'
+        title: '加载中...',
       })
-      this.cityQuery();
+      that.cityQuery();
     } else {
-      this.getlocation();
+      getCurrentLocation(that).then( ()=>{
+        wx.showLoading({
+          title: '加载中...',
+        })
+        that.cityQuery();
+      })
     }
   },
   cityQuery() {
@@ -434,13 +428,9 @@ Page({
     wx.openSetting({
       success: (res) => {
         if (res.authSetting['scope.userLocation']) { //打开位置授权          
-          wx.getLocation({
-            success: function (res) {
-              let latitude = res.latitude,
-                longitude = res.longitude;
-              that.requestCityName(latitude, longitude);
-            },
-          })
+            wx.showLoading({
+              title: '加载中...',
+            })
         } else {
           that.setData({
             isshowlocation: true
@@ -449,61 +439,4 @@ Page({
       }
     })
   },
-  getlocation: function () { //获取用户位置
-    let that = this,
-      lat = '',
-      lng = '';
-    wx.getLocation({
-      type: 'wgs84',
-      success: function (res) {
-        let latitude = res.latitude;
-        let longitude = res.longitude;
-        app.globalData.userInfo.lat = latitude;
-        app.globalData.userInfo.lng = longitude;
-        that.requestCityName(latitude, longitude);
-      },
-
-      fail: function (res) {
-        wx.getSetting({
-          success: (res) => {
-            if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其用户信息或位置信息
-              that.setData({
-                isshowlocation: true
-              })
-            } else {
-              village_LBS(that);
-            }
-          }
-        })
-      }
-    })
-  },
-  requestCityName(lat, lng) { //获取当前城市
-    let that = this;
-    app.globalData.userInfo.lat = lat;
-    app.globalData.userInfo.lng = lng;
-    if (app.globalData.userInfo.city || this.data._city) {
-      this.cityQuery();
-    } else {
-      wx.request({
-        url: 'https://apis.map.qq.com/ws/geocoder/v1/?location=' + lat + "," + lng + "&key=4YFBZ-K7JH6-OYOS4-EIJ27-K473E-EUBV7",
-        header: {
-          'content-type': 'application/json' // 默认值
-        },
-        success: (res) => {
-          if (res.data.status == 0) {
-            let _city = res.data.result.address_component.city;
-            if (_city == '十堰市') {
-              app.globalData.userInfo.city = _city;
-            } else {
-              app.globalData.userInfo.city = '十堰市';
-            }
-            app.globalData.oldcity = app.globalData.userInfo.city;
-            wx.setStorageSync('userInfo', app.globalData.userInfo);
-            that.cityQuery();
-          }
-        }
-      })
-    }
-  }
 })

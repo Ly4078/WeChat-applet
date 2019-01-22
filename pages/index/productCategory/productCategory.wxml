@@ -1,27 +1,4 @@
-<!-- <skeleton selector="skeleton" loading="spin" bgcolor="#FFF" wx:if="{{showSkeleton}}"></skeleton> -->
-
-
-<view class="hidecaisss" wx:if="{{hidecai}}">
-    <!-- <image src="https://xqmp4-1256079679.file.myqcloud.com/13971489895_bs_20190117120359.jpg"></image> -->
-
- <view class="wenzhangbox">
-       <view class="video-item" catchtap='toArticle' data-id="{{item.id}}" data-zan="{{item.zan}}" wx:for="{{textList}}" wx:key="index">
-        <image mode='aspectFill' src="{{item.homePic}}" style="width:700rpx;height:300rpx;border-radius:10rpx;"></image>
-        <image src="/images/newIndex/shike.png" class="shike"></image>
-        <view class="video-item-title">{{item.title}}</view>
-        <!-- <view class="zuozhe">
-          <image style="width:60rpx;height:60rpx;border-radius:50%;" src="{{item.iconUrl}}"></image>
-          <text style="color:#999;margin-left:15rpx;">{{item.userName}}</text>
-        </view> -->
-      </view>
- </view>
-
-</view>
-
-
-
-
-
+<skeleton selector="skeleton" loading="spin" bgcolor="#FFF" wx:if="{{showSkeleton}}"></skeleton>
 
 
 
@@ -29,13 +6,13 @@
   <view class="spin"></view>
 </view>
 
-<view class='proTop' wx:if="{{!hidecai}}">
+<view class='proTop' >
   <scroll-view scroll-x="true" bindscroll="scroll" class="scroll-view_H list-liu">
     <view wx:key="{{index}}" id="{{item.id}}" data-current="{{item.id}}" class="scroll-view-item_H swiper-tab-list {{sortId==item.id?'scrAction':''}}" wx:for="{{sort}}" bindtap="bindSort">{{item.categoryName}}</view>
   </scroll-view>
 </view>
 
-<view class='proContent'  wx:if="{{!hidecai}}">
+<view class='proContent'  >
   <view wx:if="{{comList.length > 0}}" wx:for="{{comList}}" wx:key="{{index}}" hover-class='itemhover' class="classify_item" id="{{item.id}}" data-cate="{{item.id}}" data-categoryid="{{item.categoryId}}" data-shopid="{{item.shopId}}" bindtap='bindItem' hover-class='listhover' hover-stay-time="200">
     <image-loader width="360rpx" height="360rpx" default-image='/images/icon/morentu.png' mode='aspectFill' original-image="{{item.skuPic?item.skuPic:'/images/icon/morentu.png'}}" />
     <view style="width:360rpx;height:360rpx;" wx:if="{{item.actGoodsSkuOut.stockNum <= 0}}" class="notstockNumshadedow">

@@ -51,7 +51,6 @@ App({
   },
   onLaunch: function(options) {
     let that = this;
-    console.log("options:", options)
     let q = decodeURIComponent(options.query.q);
     this.globalData.currentScene.path = options.path;
     this.globalData.currentScene.query = options.query
@@ -98,16 +97,6 @@ App({
         "Authorization": that.globalData.token
       },
       success: function (res) {
-        if(res.data.hidecai){
-          // wx.hideTabBar({})
-          wx.setTabBarItem({
-            index: 1,
-            text: '食刻',
-          })
-        }
-        console.log('res.data:', res.data)
-        console.log('res.data.hidecai:',res.data.hidecai)
-        console.log('apponShow')
         that.globalData.txtObj = res.data;
         wx.setStorageSync("txtObj", res.data);
       }

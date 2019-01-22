@@ -1,12 +1,6 @@
 
-<!-- 
-<view class="hidecai" wx:if="{{hidecai}}">
-    <image src="https://xq-1256079679.file.myqcloud.com/13971489895_1547698185_RE_20190117120931_0.png"></image>
-</view> -->
-
-
 <!-- 骨架屏模块 -->
-<!-- <skeleton selector="skeleton" loading="spin" bgcolor="#FFF" wx:if="{{showSkeleton}}"></skeleton> -->
+<skeleton selector="skeleton" loading="spin" bgcolor="#FFF" wx:if="{{showSkeleton}}"></skeleton>
 
 <view class="newUserModal loginuser" wx:if="{{istouqu}}" catchtouchmove='true'>
   <view class="drawer_screen"></view>

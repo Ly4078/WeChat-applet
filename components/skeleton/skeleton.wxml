@@ -8,10 +8,10 @@
     </view>
 
     <view class="spinbox" wx:if="{{loading == 'spin'}}">
-        <view class="spin"></view>
+        <!-- <view class="spin"></view> -->
         
             <!-- <image  style="width:70rpx;height:70rpx;" src="/images/125.gif"></image> -->
-        <!-- <image  style="width:200rpx;height:150rpx;" src="https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/0563fdc31b1b13ff37d6fba1b5d333156c6b3bfc38143-TgbjTJ_fw658.gif"></image> -->
+        <image  style="width:200rpx;height:200rpx;" src="https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/678.gif"></image>
       
     </view>
 

@@ -1004,7 +1004,7 @@ Page({
           success: (res) => {
             if (res.data.status == 0) {
               let _city = res.data.result.address_component.city;
-              if (_city == '十堰市') {
+              if (_city.indexOf('十堰') != -1 || _city.indexOf('武汉') != -1 || _city.indexOf('黄冈') != -1 || _city.indexOf('襄阳') != -1){
                 app.globalData.userInfo.city = _city;
               } else {
                 app.globalData.userInfo.city = '十堰市';

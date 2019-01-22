@@ -6,17 +6,10 @@ import {
 var utils = require('../../utils/util.js');
 import Public from '../../utils/public.js';
 import getToken from '../../utils/getToken.js';
+import getCurrentLocation from '../../utils/getCurrentLocation.js';
 var app = getApp();
 var isgetHomeData = false;
-var village_LBS = function (that) {
-  wx.getLocation({
-    success: function (res) {
-      let latitude = res.latitude;
-      let longitude = res.longitude;
-      that.requestCityName(latitude, longitude);
-    }
-  })
-}
+
 Page({
   data: {
     showSkeleton: true,
@@ -31,7 +24,6 @@ Page({
     carousel: [''], //轮播图
     currentTab: 0,
     isformid: true,
-    hidecai: false,
     showwandaactivity: false,//活动海报
     loading: false,
     // 改版新增变量 
@@ -178,7 +170,17 @@ Page({
         that.gettoplistFor() //快捷入口
         that.getconfig(); //配置文件
         that.gettips(); //获取推送
-        that.gethomeData('reset'); //获取下面列表数据
+        if (app.globalData.userInfo.city) {
+          if (that.data.allList.length < 1) {
+            that.gethomeData('reset')
+          }
+          that.setData({ isshowlocation: false, city: app.globalData.userInfo.city })
+        } else {
+          getCurrentLocation(that).then((res) => {
+            that.gethomeData('reset');
+            that.setData({ city: res })
+          })
+        }
         setTimeout(() => {
           that.setData({
             showSkeleton: false
@@ -188,8 +190,17 @@ Page({
     } else {
       that.getconfig(); //配置文件
       that.gettips(); //获取推送
-      if (that.data.allList.length < 1) {
-        that.gethomeData('reset')
+
+      if (app.globalData.userInfo.city) {
+        if (that.data.allList.length < 1) {
+          that.gethomeData('reset')
+        }
+        that.setData({ isshowlocation: false, city: app.globalData.userInfo.city })
+      }else{
+        getCurrentLocation(that).then((res) => {
+          that.gethomeData('reset');
+          that.setData({ city: res })
+        })
       }
       if (that.data.carousel[0].loadType == 'storage') {
         that.getcarousel(); //没有轮播图，请求轮播图
@@ -198,7 +209,7 @@ Page({
         that.gettoplistFor();
       }
     }
-    that.getUserlocation();
+    
     that.data.timer = setTimeout(function () {
       if (!app.globalData.token) {
         // that.findByCode();
@@ -214,67 +225,6 @@ Page({
     } catch (err) {
 
     }
-  },
-  getUserlocation: function () { //获取用户位置经纬度
-    let that = this,
-      _userInfo = app.globalData.userInfo;
-    if (_userInfo.lat && _userInfo.lat && _userInfo.city) {
-      that.setData({
-        city: _userInfo.city
-      })
-      return
-    }
-    wx.getLocation({
-      type: 'wgs84',
-      success: function (res) {
-        let latitude = res.latitude,
-          longitude = res.longitude;
-        that.requestCityName(latitude, longitude);
-      },
-      fail: function (res) {
-        wx.getSetting({
-          success: (res) => {
-            if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其位置信息          
-              that.setData({
-                isshowlocation: true
-              })
-            } else {
-              village_LBS(that);
-            }
-          }
-        })
-      }
-    })
-  },
-  requestCityName(lat, lng) { //获取当前城市
-    let that = this;
-    app.globalData.userInfo.lat = lat;
-    app.globalData.userInfo.lng = lng;
-    wx.request({
-      url: 'https://apis.map.qq.com/ws/geocoder/v1/?location=' + lat + "," + lng + "&key=4YFBZ-K7JH6-OYOS4-EIJ27-K473E-EUBV7",
-      header: {
-        'content-type': 'application/json' // 默认值
-      },
-      success: (res) => {
-        if (res.data.status == 0) {
-          let _city = res.data.result.address_component.city;
-          if (_city == '十堰市') {
-            app.globalData.userInfo.city = _city;
-          } else {
-            app.globalData.userInfo.city = '十堰市';
-          }
-          app.globalData.oldcity = app.globalData.userInfo.city;
-          app.globalData.picker = res.data.result.address_component;
-          let userInfo = app.globalData.userInfo;
-          wx.setStorageSync('userInfo', userInfo);
-          that.setData({
-            city: app.globalData.userInfo.city
-          })
-          that.gethomeData('reset')
-        }
-      }
-    })
-
   },
   getconfig: function () { //请求配置数据
     let that = this;
@@ -300,19 +250,11 @@ Page({
           } catch (err) {
           }
         }
-
-        if (res.data.hidecai) {
-          wx.setTabBarItem({
-            index: 1,
-            text: '食刻',
-          })
-        }
         if (res.data.fresh1) {
           that.setData({
             fresh1: res.data.fresh1,
             fresh2: res.data.fresh2,
             fresh3: res.data.fresh3,
-            hidecai: res.data.hidecai,
             bannerList: res.data.carousel ? res.data.carousel : [],
             navs: res.data.navs || [],
             indexShare: res.data.indexShare || ''
@@ -514,37 +456,6 @@ Page({
     })
 
   },
-
-  // indexinit: function() {
-  //   let that = this;
-  //   if (app.globalData.userInfo.userId) {
-  //     if (app.globalData.userInfo.mobile) {
-  //       if (app.globalData.token) {
-  //         that.getUserlocation();
-  //         that.getdatamore();
-  //       } else {
-  //         that.authlogin();
-  //       }
-  //     } else { //是新用户，
-  //       if (app.globalData.token) {
-  //         that.getdatamore();
-  //       } else {
-  //         that.authlogin();
-  //       }
-  //     }
-  //   } else {
-  //     that.findByCode();
-  //   }
-  // },
-  // submit: function(e) {
-  //   let _formId = e.detail.formId;
-  //   this.setData({
-  //     isformid: false
-  //   })
-  //   Public.addFormIdCache(_formId);
-  // },
-
-
   openSetting() { //打开授权设置界面
     let that = this;
     that.setData({
@@ -553,7 +464,7 @@ Page({
     wx.openSetting({
       success: (res) => {
         if (res.authSetting['scope.userLocation']) {
-          that.getUserlocation();
+            
         } else {
           that.setData({
             isshowlocation: true

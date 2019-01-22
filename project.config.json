@@ -4,7 +4,7 @@
 		"ignore": []
 	},
 	"setting": {
-		"urlCheck": true,
+		"urlCheck": false,
 		"es6": true,
 		"postcss": true,
 		"minified": true,
@@ -38,31 +38,25 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 3,
+			"current": 2,
 			"list": [
 				{
 					"id": -1,
-					"name": "b",
-					"pathName": "pages/index/flashSaleHome/secKillDetail/secKillDetail",
-					"query": "id=7180&shopId=1404&categoryId=11&actId=44"
+					"name": "1232131",
+					"pathName": "packageB/pages/wanda/wandaBranch/wandaBranch",
+					"query": "id=9&picUrl=https://xqmp4-1256079679.file.myqcloud.com/13297932982_lingjiaohuwanda.jpg&name=菱角湖万达&address=武汉市江汉区唐家墩路5号&distance=14.2km&city=武汉市&locationX=114.268504&locationY=30.610058"
 				},
 				{
-					"id": -1,
-					"name": "a",
-					"pathName": "pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails",
-					"query": "id=7482&shopId=1556&actId=41&categoryId=8"
-				},
-				{
-					"id": -1,
-					"name": "c",
-					"pathName": "pages/activityDetails/video-details/video-details",
-					"query": "actId=38&id=694&userId=51365"
-				},
-				{
-					"id": -1,
-					"name": "123",
+					"id": 1,
+					"name": "砍价",
 					"pathName": "pages/index/bargainirg-store/AprogressBar/AprogressBar",
-					"query": "actId=38&id=694&userId=51365"
+					"query": "refId=1482&shopId=366&skuMoneyMin=99&skuMoneyOut=178&actId=41&categoryId=11&city="
+				},
+				{
+					"id": 2,
+					"name": "小叮当",
+					"pathName": "pages/index/dining-room/dining-room",
+					"query": ""
 				}
 			]
 		}

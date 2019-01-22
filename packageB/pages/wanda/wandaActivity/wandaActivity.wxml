@@ -62,7 +62,7 @@
           </view>
         </view>
       </view>
-      <view class="wd_act_list" wx:if="{{!hidecai}}">
+      <view class="wd_act_list" >
         <view class="wd_act_item" wx:for="{{dishList}}" wx:key="index">
           <view class="act_item_inner">
             <view class="act_item_t">

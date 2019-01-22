@@ -6,15 +6,6 @@ var utils = require('../../../../utils/util.js');
 import Public from '../../../../utils/public.js';
 var app = getApp();
 
-var village_LBS = function(that) {
-  wx.getLocation({
-    success: function(res) {
-      let latitude = res.latitude;
-      let longitude = res.longitude;
-      that.requestCityName(latitude, longitude);
-    },
-  })
-}
 
 Page({
   data: {

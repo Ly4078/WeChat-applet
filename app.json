@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/index/crabShopping/crabDetails/crabShare/crabShare",
     "pages/activityDetails/holdingActivity/holdingActivity",
     "pages/index/productCategory/productCategory",
     "pages/personal-center/my-discount/exchangeDetails/exchangeDetails",
@@ -21,7 +22,6 @@
     "pages/index/crabShopping/superMarket/superMarket",
     "pages/index/crabShopping/superMarket/storeOrder/storeOrder",
     "pages/index/crabShopping/superMarket/orderDetail/orderDetail",
-    "pages/index/crabShopping/crabDetails/crabShare/crabShare",
     "pages/personal-center/conversionHsy/conversionHsy",
     "pages/personal-center/feedback/displayText/displayText",
     "pages/personal-center/feedback/feedback",
@@ -97,35 +97,34 @@
     }
   },
   "subpackages": [
-     {
-        "root": "packageA",
-        "name": "pack1",
-        "pages": [
-          "pages/tourismAndHotel/tourismAndHotel",
-          "pages/tourismAndHotel/touristHotelDils/touristHotelDils",
-          "pages/tourismAndHotel/touristHotelDils/order-for-goods/order-for-goods"
-        ]
-     },
-     {
-       "root": "packageB",
-       "name": "pack2",
-       "pages": [
-         "pages/wanda/wanda",
-         "pages/wanda/wandaBranch/wandaBranch",
-         "pages/wanda/wandaActivity/wandaActivity",
-         "pages/wanda/wandaActivity/billboard/billboard",
-         "pages/wanda/wandaActivity/myGift/myGift"
-       ]
-     }
+    {
+      "root": "packageA",
+      "name": "pack1",
+      "pages": [
+        "pages/tourismAndHotel/tourismAndHotel",
+        "pages/tourismAndHotel/touristHotelDils/touristHotelDils",
+        "pages/tourismAndHotel/touristHotelDils/order-for-goods/order-for-goods"
+      ]
+    },
+    {
+      "root": "packageB",
+      "name": "pack2",
+      "pages": [
+        "pages/wanda/wanda",
+        "pages/wanda/wandaBranch/wandaBranch",
+        "pages/wanda/wandaActivity/wandaActivity",
+        "pages/wanda/wandaActivity/billboard/billboard",
+        "pages/wanda/wandaActivity/myGift/myGift"
+      ]
+    }
   ],
-  "preloadRule":{
+  "preloadRule": {
     "pages/activityDetails/activity-details": {
       "network": "all",
       "packages": [
         "packageB"
       ]
     }
-
   },
   "window": {
     "backgroundTextStyle": "dark",
@@ -136,7 +135,10 @@
     "enablePullDownRefresh": true,
     "backgroundColor": "#f5f5fa"
   },
-  "navigateToMiniProgramAppIdList":["wx269025c35e9d5f23","wxca1e7ba3fe18ff12"],
+  "navigateToMiniProgramAppIdList": [
+    "wx269025c35e9d5f23",
+    "wxca1e7ba3fe18ff12"
+  ],
   "tabBar": {
     "selectedColor": "#FF4411",
     "backgroundColor": "#FFFFFF",

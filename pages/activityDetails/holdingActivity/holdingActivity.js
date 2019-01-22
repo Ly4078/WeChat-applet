@@ -4,20 +4,11 @@ import {
   GLOBAL_API_DOMAIN
 } from '../../../utils/config/config.js';
 import getToken from '../../../utils/getToken.js';
+import getCurrentLocation from '../../../utils/getCurrentLocation.js';
 var app = getApp();
 var timer = null;
 let gameFlag = true; //防止重复点击
-var village_LBS = function (that) {
-  wx.getLocation({
-    success: function (res) {
-      let latitude = res.latitude,
-        longitude = res.longitude;
-      app.globalData.userInfo.lat = latitude;
-      app.globalData.userInfo.lng = longitude;
-      that.requestCityName(latitude, longitude);
-    },
-  })
-}
+
 
 Page({
   data: {
@@ -158,7 +149,9 @@ Page({
   },
   onShow: function () {
     let that = this;
-    that.getUserlocation();
+    getCurrentLocation(that).then( (res)=>{
+      that.setData({ currentCity:res })
+    })
     this.setData({
       isshowlocation: false
     })
@@ -187,30 +180,6 @@ Page({
     }
 
   },
-  getUserlocation: function () { //获取用户位置经纬度
-    let that = this;
-    wx.getLocation({
-      type: 'wgs84',
-      success: function (res) {
-        let latitude = res.latitude,
-          longitude = res.longitude;
-
-        that.requestCityName(latitude, longitude);
-      },
-      fail: function (res) {
-        wx.getSetting({
-          success: (res) => {
-            if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其位置信息          
-              that.setData({
-                isshowlocation: true
-              })
-
-            }
-          }
-        })
-      }
-    })
-  },
   openSetting() {//打开授权设置界面
     let that = this;
     that.setData({
@@ -219,13 +188,6 @@ Page({
     wx.openSetting({
       success: (res) => {
         if (res.authSetting['scope.userLocation']) { //打开位置授权  
-          wx.getLocation({
-            success: function (res) {
-              let latitude = res.latitude,
-                longitude = res.longitude;
-              that.requestCityName(latitude, longitude);
-            },
-          })
         } else {
           that.setData({
             isshowlocation: true
@@ -234,30 +196,7 @@ Page({
       }
     })
   },
-  //获取城市
-  requestCityName(lat, lng) { //获取当前城市
-    let that = this;
-    app.globalData.userInfo.lat = lat;
-    app.globalData.userInfo.lng = lng;
-    wx.request({
-      url: 'https://apis.map.qq.com/ws/geocoder/v1/?location=' + lat + "," + lng + "&key=4YFBZ-K7JH6-OYOS4-EIJ27-K473E-EUBV7",
-      header: {
-        'content-type': 'application/json' // 默认值
-      },
-      success: (res) => {
-        if (res.data.status == 0) {
-          let _city = res.data.result.address_component.city;
-          if (_city == '武汉市' || _city == '十堰市' || _city == '黄冈市' || _city == '襄阳市') {
-            that.setData({ currentCity: _city })
-          } else {
-            that.setData({ currentCity: '十堰市' })
-          }
 
-
-        }
-      }
-    })
-  },
   createUser() {
     let that = this;
     wx.request({
@@ -386,7 +325,11 @@ Page({
     let that = this;
     let userData = that.data.lotteryData;
     if (!that.data.currentCity) {
-      that.getUserlocation();
+      getCurrentLocation(that).then((res) => {
+        that.setData({ currentCity: res })
+        that.drawBtn();
+      })
+      
       return false
     }
     if (!gameFlag) { //游戏正在运行中

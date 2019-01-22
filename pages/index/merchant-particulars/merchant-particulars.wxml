@@ -214,7 +214,7 @@
   </view>
 
   <!-- 热销商品 -->
-  <view id="list1" wx:if="{{!hidecai}}">
+  <view id="list1" >
     <view class="xiang7Box" style="padding-bottom: 30rpx;" hidden='{{hotlist.length < 1}}'>
       <view class='yevaluate'>
         <view class='yevaluate-center'>
@@ -299,11 +299,8 @@
       </view>
     </view>
     <!-- 拼菜砍价结束 -->
-
-
-
     <!--动态-->
-    <view class="merchant_box" style="{{merchantArt.length > 0 ? 'padding-bottom: 30rpx;' : ''}}" id="list2" wx:if="{{merchantArt.length > 0}}"  hidden="{{hidecai}}">
+    <view class="merchant_box" style="{{merchantArt.length > 0 ? 'padding-bottom: 30rpx;' : ''}}" id="list2" wx:if="{{merchantArt.length > 0}}" >
       <view class='yevaluate2'>
         <view class='yevaluate-center2'>
           <view class='yevaluateDot dot2'>动</view>
