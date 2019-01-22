@@ -67,11 +67,15 @@
 
 
 
-      <view class='loadingBox'>
-        <i-spin custom wx:if="{{loading}}">
-          <view class="loading"></view>
-        </i-spin>
-      </view>
+      <view>
+<view class='loadingBox'>
+<i-spin custom wx:if="{{loading}}">
+<!-- <view class="loading"></view> -->
+<image style='width:100rpx;height:100rpx;' src="https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/23.gif"></image>
+</i-spin>
+</view>
+</view>
+
       <view class='exbut'></view>
     </view>
 
@@ -130,11 +134,15 @@
 
         </view>
       </view>
-      <view class='loadingBox'>
-        <i-spin custom wx:if="{{loading}}">
-          <view class="loading"></view>
-        </i-spin>
-      </view>
+      <view>
+<view class='loadingBox'>
+<i-spin custom wx:if="{{loading}}">
+<!-- <view class="loading"></view> -->
+<image style='width:100rpx;height:100rpx;' src="https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/23.gif"></image>
+</i-spin>
+</view>
+</view>
+
     </view>
     <view wx:if="{{sendData.length < 1}}" class='placeholder'>
       <image src="/images/icon/zhanweitu.png"></image>
@@ -189,11 +197,15 @@
 
         </view>
       </view>
-      <view class='loadingBox'>
-        <i-spin custom wx:if="{{loading}}">
-          <view class="loading"></view>
-        </i-spin>
-      </view>
+      <view>
+<view class='loadingBox'>
+<i-spin custom wx:if="{{loading}}">
+<!-- <view class="loading"></view> -->
+<image style='width:100rpx;height:100rpx;' src="https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/23.gif"></image>
+</i-spin>
+</view>
+</view>
+
     </view>
 
     <!-- 
@@ -249,11 +261,15 @@
   <view class='placeholder' wx:if="{{ticket_list.length<1}}">
     <image src="/images/icon/zhanweitu.png"></image>
   </view>
-  <view class='loadingBox'>
-    <i-spin custom wx:if="{{loading}}">
-      <view class="loading"></view>
-    </i-spin>
-  </view>
+  <view>
+<view class='loadingBox'>
+<i-spin custom wx:if="{{loading}}">
+<!-- <view class="loading"></view> -->
+<image style='width:100rpx;height:100rpx;' src="https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/23.gif"></image>
+</i-spin>
+</view>
+</view>
+
 </view>
 
 

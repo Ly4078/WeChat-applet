@@ -4,7 +4,7 @@
 <!-- 骨架屏模块 -->
 <skeleton selector="skeleton" loading="spin" bgcolor="#FFF" wx:if="{{showSkeleton}}"></skeleton>
 <view class="navigation">
-    <view  hover-class='listhover' hover-stay-time="200" catchtap='swichTab' data-id="{{item.id}}" wx:for="{{navList}}" class="{{currentTab==item.id?'active':''}}" wx:key="index">{{item.title}}</view> 
+  <view hover-class='listhover' hover-stay-time="200" catchtap='swichTab' data-id="{{item.id}}" wx:for="{{navList}}" class="{{currentTab==item.id?'active':''}}" wx:key="index">{{item.title}}</view>
 </view>
 <view class="PlaceholderBox" style="height:100rpx;width:100%;"></view>
 <view class='record' style="width:100%;  box-sizing: border-box;">
@@ -22,17 +22,19 @@
       <view class='irbut'>{{item.usedTime}}</view>
     </view>
   </view>
-   <view wx:if="{{listData.length < 1}}" class='placeholder' >
+  <view wx:if="{{listData.length < 1}}" class='placeholder'>
     <image src="/images/icon/zhanweitu.png"></image>
   </view>
 
-    <view>
+  <view>
     <view class='loadingBox'>
       <i-spin custom wx:if="{{loading}}">
-        <view class="loading"></view>
+        <!-- <view class="loading"></view> -->
+        <image style='width:100rpx;height:100rpx;' src="https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/23.gif"></image>
       </i-spin>
     </view>
   </view>
+
 
 
 </view>

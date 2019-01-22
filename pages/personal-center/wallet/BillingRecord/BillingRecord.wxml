@@ -23,11 +23,15 @@
     </view>
 
      <view>
-    <view class='loadingBox'>
-      <i-spin custom wx:if="{{loading}}">
-        <view class="loading"></view>
-      </i-spin>
-    </view>
+    <view>
+<view class='loadingBox'>
+<i-spin custom wx:if="{{loading}}">
+<!-- <view class="loading"></view> -->
+<image style='width:100rpx;height:100rpx;' src="https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/23.gif"></image>
+</i-spin>
+</view>
+</view>
+
   </view>
 
     <!-- <view style="text-align:center;padding:20rpx 0;font-size:24rpx;color:#666;" wx:if="{{noMore}}">~~~我也是有底线的~~~</view> -->

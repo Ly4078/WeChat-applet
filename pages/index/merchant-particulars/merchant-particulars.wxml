@@ -162,55 +162,6 @@
         <image wx:else class='more_img2' src='/images/icon/restaurant_arrow.png'></image>
       </view>
     </view>
-
-    <view class="setMealBox" style="padding-bottom: 30rpx;" wx:if="{{oldpackage.length>0}}">
-      <view class='yevaluate'>
-        <view class='yevaluate-center'>
-          <view class='yevaluateDot'></view>
-          <text>推荐菜</text>
-        </view>
-      </view>
-      <view class='distop'>
-        <image class='bjimg' src='/images/icon/discount.png'></image>
-        <view class='discount'>
-          <view class='dis_left' bindtap='gotouse'>
-            <view>{{listagio.skuName}}</view>
-            <view>
-              <text>享7专享</text> |
-              <text>全平台通用</text> |
-              <text>免预约</text>
-            </view>
-          </view>
-          <view class='dis_right' bindtap='receive'>
-            <button class='receive'>{{isAgio?'免费领':'去使用'}}</button>
-            <view>已领 {{listagio.sellNum}}</view>
-          </view>
-        </view>
-      </view>
-      <view class='setMeal'>
-        <view class='setMealList' wx:for="{{newpackage}}" wx:key="{{index}}" id="{{item.id}}" bindtap='moreinfo'>
-          <view class="setMealList_l">
-            <image class='setMealImg' mode="aspectFill" src='{{item.picUrl}}'></image>
-            <view class="setMealCont">
-              <view class='setMeal_tit'>{{item.skuName}}</view>
-              <view class='setMeal_name'>
-                <text>享7专享</text>
-                <text>{{item.agioLevel}}折券</text>
-              </view>
-              <view class="setMeal_sale">
-                <text>券后价￥{{item.agioPrice}}</text>
-                <text>门市价￥{{item.sellPrice}}</text>
-              </view>
-            </view>
-          </view>
-        </view>
-        <view class="setMealMore" bindtap='clickmore' wx:if="{{oldpackage.length>2}}">
-          <text>查看更多({{newpackage.length}})</text>
-          <image wx:if="{{ismore}}" class='more_img' src='/images/icon/restaurant_arrow.png'></image>
-          <image wx:else class='more_img2' src='/images/icon/restaurant_arrow.png'></image>
-        </view>
-      </view>
-    </view>
   </view>
 
   <!-- 热销商品 -->
@@ -268,37 +219,6 @@
 
   <!-- 拼菜砍价 -->
   <view class='homepage'>
-    <!-- 拼菜砍价开始 -->
-    <view class='initiate-wrapp' wx:if="{{false}}" style="{{Bargainlist.length > 0 ? 'padding-bottom: 30rpx;' : ''}}" id="list3" hidden="{{Bargainlist.length < 1}}">
-      <view class='yevaluate'>
-        <view class='yevaluate-center'>
-          <view class='yevaluateDot'></view>
-          <text>【砍价拼菜】</text>
-        </view>
-      </view>
-      <view class='scroll_box'>
-        <block wx:for="{{Bargainlist}}" wx:key="{{index}}">
-          <view class="anchor">
-            <image class='anchor_img' mode="aspectFill" src='{{item.picUrl}}' id='{{item.id}}' data-index="{{item.shopId}}" data-actid="{{item.actId}}"bindtap='initiate'></image>
-            <view class='Barbut'>
-              <view class='barbLeft'>
-                <view class='bLtop'>{{item.skuName}}</view>
-                <view class='bLbut'>
-                  <text>底价 ¥{{item.agioPrice}}</text>
-                  <text>原价¥{{item.sellPrice}}</text>
-                </view>
-              </view>
-              <view class='barbRight' id="{{item.id}}" data-shopId="{{item.shopId}}" data-agioPrice="{{item.agioPrice}}" data-sellPrice="{{item.sellPrice}}" bindtap='toBargain'>发起砍价</view>
-            </view>
-          </view>
-        </block>
-        <view wx:if="{{foodTotal>3}}" class="setMealMore" catchtap='changeBar'>
-          <text>{{isBarg ? '查看部分砍价菜' : '查看全部砍价菜'}}</text>
-          <image src="/images/icon/restaurant_arrow.png" class='{{isBarg ? "transjt" : ""}}'></image>
-        </view>
-      </view>
-    </view>
-    <!-- 拼菜砍价结束 -->
     <!--动态-->
     <view class="merchant_box" style="{{merchantArt.length > 0 ? 'padding-bottom: 30rpx;' : ''}}" id="list2" wx:if="{{merchantArt.length > 0}}" >
       <view class='yevaluate2'>
@@ -316,28 +236,6 @@
     </view>
 
 
-    <!-- 推荐菜 -->
-    <view class='initiate-wrapp' wx:if="{{false}}" style="{{recommend_list.length > 0 ? 'padding-bottom: 30rpx;' : ''}}" id="list3" hidden="{{recommend_list.length < 1}}">
-      <view class='yevaluate'>
-        <view class='yevaluate-center'>
-          <view class='yevaluateDot'></view>
-          <text>推荐菜</text>
-        </view>
-      </view>
-      <view class='scroll_box'>
-        <block wx:for="{{recommend_list}}" wx:key="{{index}}">
-          <view class="anchor" id="{{item.id}}" bindtap='fooddetails'>
-            <image class='anchor_img' mode="aspectFill" src='{{item.picUrl}}'></image>
-            <view class='cate_site'>{{item.skuName}}</view>
-            <view class="anchor_info">{{item.skuInfo ? item.skuInfo : ''}}</view>
-          </view>
-        </block>
-        <view class="setMealMore" catchtap='recommendedRestaurant' hidden="{{recommend_list.length < 3}}">
-          <text>查看全部推荐菜</text>
-          <image src="/images/icon/restaurant_arrow.png"></image>
-        </view>
-      </view>
-    </view>
 
 
     <!-- 评价 -->

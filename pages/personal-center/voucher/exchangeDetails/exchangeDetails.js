@@ -118,7 +118,25 @@ Page({
     })
   },
   toGoodsDetail:function(){//跳转对应商品详情
-    
+    let that = this;
+    let current = that.data.current;
+    // return false;
+    if (current.actOrderOut){
+      if (current.actOrderOut.actGoodsSku.actId == '41' || current.actOrderOut.actGoodsSku.actId == '45' ) {//砍价
+        wx.navigateTo({
+          url: '/pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails?id=' + that.data.current.actOrderOut.actGoodsSku.skuId + '&actId=41&shopId=' + (that.data.current.shopId || '0') + '&categoryId=' + (that.data.current.actOrderOut.actGoodsSku.categoryId || '')+'&city='+app.globalData.userInfo.city,
+        })
+      } else if (current.actOrderOut.actGoodsSku.actId == '44'){//秒杀
+        wx.navigateTo({
+          url: '/pages/index/flashSaleHome/secKillDetail/secKillDetail?id=' + that.data.current.actOrderOut.actGoodsSku.skuId + '&actId=44&shopId=' + (that.data.current.shopId || '0'),
+        })
+      }else{
+        wx.showToast({
+          title: '此类商品无详情，或已结束',
+          icon:'none'
+        })
+      }
+    }
   },
   examineLogistics:function(){
     let that   = this;

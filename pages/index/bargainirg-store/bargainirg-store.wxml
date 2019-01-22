@@ -6,7 +6,7 @@
     更多体验需要你授权位置信息
     <button bindtap="openSetting">确定</button>
   </view>
-  
+
 </view>
 <image class="indexIcon" src="/images/icon/goindex.png" bindtap='toIndex' wx:if="{{shareId}}"></image>
 <!--顶部tab栏选择-->
@@ -30,9 +30,12 @@
       </block>
     </view>
   </view>
-    <view class='loadingBox' style="background-color:#78B6FC;">
-      <i-spin custom wx:if="{{loading}}">
-        <view class="loading"></view>
-      </i-spin>
-    </view>
+  <view class='loadingBox' style="background-color:#78B6FC;">
+    <i-spin custom wx:if="{{loading}}">
+      <!-- <view class="loading"></view> -->
+      <image style='width:100rpx;height:100rpx;' src="https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/23.gif"></image>
+    </i-spin>
+  </view>
+
+
 </view>

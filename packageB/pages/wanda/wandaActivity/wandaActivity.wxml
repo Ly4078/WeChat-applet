@@ -8,7 +8,7 @@
 
   <!-- 回到首页 -->
   <image class="indexIcon" src="/images/icon/goindex.png" bindtap='toIndex' wx:if="{{shareId}}"></image>
-  
+
   <!-- 回到顶部 -->
   <view class='toTop' wx:if="{{toTops}}" bindtap='toTop'>
     <image src='/images/icon/toTop.png'></image>
@@ -26,7 +26,7 @@
   </view>
 
 
-  
+
 
   <image class="banner_img" src="/images/icon/wd_2.png"></image>
   <view class="act_contain">
@@ -62,7 +62,7 @@
           </view>
         </view>
       </view>
-      <view class="wd_act_list" >
+      <view class="wd_act_list">
         <view class="wd_act_item" wx:for="{{dishList}}" wx:key="index">
           <view class="act_item_inner">
             <view class="act_item_t">
@@ -97,7 +97,8 @@
 <view>
   <view class='loadingBox'>
     <i-spin custom wx:if="{{loading}}">
-      <view class="loading"></view>
+      <!-- <view class="loading"></view> -->
+      <image style='width:100rpx;height:100rpx;' src="https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/23.gif"></image>
     </i-spin>
   </view>
 </view>

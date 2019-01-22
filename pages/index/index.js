@@ -234,6 +234,7 @@ Page({
         "Authorization": app.globalData.token
       },
       success: function (res) {
+        wx.stopPullDownRefresh()
         app.globalData.txtObj = res.data;
         wx.setStorageSync("txtObj", res.data);
 
@@ -273,6 +274,7 @@ Page({
       token: app.globalData.token
     };
     Api.listForHomePage(_parms).then((res) => {
+      wx.stopPullDownRefresh()
       if (res.data.code == 0) {
         if (!res.data.data && res.data.data.length > 0) {
           that.gettoplistFor();
@@ -318,6 +320,7 @@ Page({
         "Authorization": app.globalData.token
       },
       success: function (res) {
+        wx.stopPullDownRefresh()
         if (res.data.code == '0') {
           var notData = true
           let data = res.data.data
@@ -426,6 +429,7 @@ Page({
         "Authorization": app.globalData.token
       },
       success: function (res) {
+        wx.stopPullDownRefresh()
         if (res.data.code == '0') {
           let total = '';
           if (res.data.data.length) {
@@ -447,6 +451,7 @@ Page({
       token: app.globalData.token
     }
     Api.hcllist(_parms).then((res) => {
+      wx.stopPullDownRefresh()
       if (res.data.data) {
         wx.setStorageSync('carousel', res.data.data)
         this.setData({
@@ -579,10 +584,14 @@ Page({
   },
   onPullDownRefresh: function () { //下拉刷新
     let that = this;
-    that.onShow();
-    setTimeout(() => {
+    that.getcarousel(); //首页轮播图
+    that.gettoplistFor() //快捷入口
+    that.getconfig(); //配置文件
+    that.gettips(); //获取推送
+    that.gethomeData('reset')
+    setTimeout( ()=>{
       wx.stopPullDownRefresh();
-    }, 3000)
+    },1200)
   },
 
   // //回到顶部
@@ -623,56 +632,4 @@ Page({
     }
   },
 
-  // // 螃蟹使用攻略
-  // crabSteamed: function(e) {
-  //   wx.navigateTo({
-  //     url: 'crabShopping/crabShopping?currentTab=1'
-  //   })
-  // },
-  // //点击精选餐厅下的入驻图片
-
-  // chartOfDisheses: function() { // 砍菜砍价详情
-  //   wx.navigateTo({
-  //     url: 'chartOfDisheses/chartOfDisheses',
-  //   })
-  // },
-  // //享7生鲜查看更多
-  // toFresh: function() {
-  //   wx.navigateTo({
-  //     url: 'crabShopping/crabShopping?currentTab=0'
-  //   })
-  // },
-  // // 螃蟹进入商品详情
-  // crabPrtDetails: function(e) {
-  //   let id = e.currentTarget.id,
-  //     spuId = e.target.dataset.spuid;
-  //   wx.navigateTo({
-  //     url: 'crabShopping/crabShopping?currentTab=0' + '&spuval=' + spuId
-  //   })
-  // },
-
-  // toStore() { //跳转至到店自提列表
-  //   wx.navigateTo({
-  //     url: 'crabShopping/crabShopping?currentTab=2'
-  //   })
-  // },
-  // chartOfDisheses: function() { // 砍菜砍价详情
-  //   wx.navigateTo({
-  //     url: 'chartOfDisheses/chartOfDisheses',
-  //   })
-  // },
-
-  // // 螃蟹使用攻略
-  // crabSteamed: function(e) {
-  //   wx.navigateTo({
-  //     url: 'crabShopping/crabShopping?currentTab=1'
-  //   })
-  // },
-
-  // //去消息通知页面
-  // tomsg:function(){
-  //   wx.navigateTo({
-  //     url: '/pages/index/notification/notification',
-  //   })
-  // }
 })

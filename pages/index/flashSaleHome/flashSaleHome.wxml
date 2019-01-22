@@ -19,9 +19,8 @@
   </view>
 
   <!--附近美食-->
-  <view hidden="{{currentTab == 1}}" >
-    <view class='cuisine-center active' 
-     wx:for="{{showSkeleton?SkeletonData:aNearbyShop}}" wx:key="{{index}}">
+  <view hidden="{{currentTab == 1}}">
+    <view class='cuisine-center active' wx:for="{{showSkeleton?SkeletonData:aNearbyShop}}" wx:key="{{index}}">
       <template is="flashSale" data="{{item}}" />
     </view>
     <view class='placeholder' wx:if="{{aNearbyShop.length<1}}">
@@ -30,8 +29,8 @@
   </view>
 
   <!--我的秒杀-->
-  <view hidden="{{currentTab == 0}}"  >
-    <view class='cuisine-center'  wx:if="{{aNearbyShop.length>0}}" wx:for="{{aNearbyShop}}" wx:key="{{index}}" wx:for-index="idx">
+  <view hidden="{{currentTab == 0}}">
+    <view class='cuisine-center' wx:if="{{aNearbyShop.length>0}}" wx:for="{{aNearbyShop}}" wx:key="{{index}}" wx:for-index="idx">
       <view class="mySeckillWrap" id="{{item.goodsSkuOut.id}}" data-shopid="{{item.shop.id}}" data-categoryid="{{item.goodsSkuOut.categoryId}}" bindtap='toSecKillDetail' hover-class='listhover' hover-stay-time="200">
         <view class="mySeckill_l">
           <image src="{{item.goodsSkuOut.skuPic}}"></image>
@@ -54,8 +53,11 @@
     </view>
   </view>
 </view>
- <view class='loadingBox' style="background-color:#78B6FC;" wx:if="{{aNearbyShop.length>0 && currentTab == 0}}">
-      <i-spin custom wx:if="{{loading}}">
-        <view class="loading"></view>
-      </i-spin>
- </view>
+<view>
+  <view class='loadingBox' style="background:#78b6fc;">
+    <i-spin custom wx:if="{{loading}}">
+      <!-- <view class="loading"></view> -->
+      <image style='width:100rpx;height:100rpx;' src="https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/23.gif"></image>
+    </i-spin>
+  </view>
+</view>

@@ -879,8 +879,8 @@ button::after {
 
 .loadingBox {
   /* position: fixed; *//* bottom: 40rpx; */
-  height: 50rpx;
-  padding: 20rpx 0;
+  height: 100rpx;
+  padding: 5rpx 0;
   /* left: 0; */
   text-align: center;
   width: 750rpx;

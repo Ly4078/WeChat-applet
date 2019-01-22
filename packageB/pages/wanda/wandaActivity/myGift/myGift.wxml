@@ -6,12 +6,15 @@
       <view class="gift_i_b">{{item.createTime}}</view>
     </view>
   </view>
-  <view class='loadingBox'>
-    <i-spin custom wx:if="{{loading}}">
-      <view class="loading"></view>
-      <!-- <image style='width:124rpx;height:108rpx;' src="/images/33.gif"></image> -->
-    </i-spin>
+  <view>
+    <view class='loadingBox'>
+      <i-spin custom wx:if="{{loading}}">
+        <!-- <view class="loading"></view> -->
+        <image style='width:100rpx;height:100rpx;' src="https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/23.gif"></image>
+      </i-spin>
+    </view>
   </view>
+
 </view>
 <view style="width:100%;height:88rpx;"></view>
 <view class='exchange' bindtap='handexchange'>前往兑换</view>

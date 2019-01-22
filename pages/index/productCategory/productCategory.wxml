@@ -6,14 +6,15 @@
   <view class="spin"></view>
 </view>
 
-<view class='proTop' >
+<view class='proTop'>
   <scroll-view scroll-x="true" bindscroll="scroll" class="scroll-view_H list-liu">
     <view wx:key="{{index}}" id="{{item.id}}" data-current="{{item.id}}" class="scroll-view-item_H swiper-tab-list {{sortId==item.id?'scrAction':''}}" wx:for="{{sort}}" bindtap="bindSort">{{item.categoryName}}</view>
   </scroll-view>
 </view>
 
-<view class='proContent'  >
-  <view wx:if="{{comList.length > 0}}" wx:for="{{comList}}" wx:key="{{index}}" hover-class='itemhover' class="classify_item" id="{{item.id}}" data-cate="{{item.id}}" data-categoryid="{{item.categoryId}}" data-shopid="{{item.shopId}}" bindtap='bindItem' hover-class='listhover' hover-stay-time="200">
+<view class='proContent'>
+  <view wx:if="{{comList.length > 0}}" wx:for="{{comList}}" wx:key="{{index}}" hover-class='itemhover' class="classify_item" id="{{item.id}}" data-cate="{{item.id}}" data-categoryid="{{item.categoryId}}" data-shopid="{{item.shopId}}" bindtap='bindItem'
+    hover-class='listhover' hover-stay-time="200">
     <image-loader width="360rpx" height="360rpx" default-image='/images/icon/morentu.png' mode='aspectFill' original-image="{{item.skuPic?item.skuPic:'/images/icon/morentu.png'}}" />
     <view style="width:360rpx;height:360rpx;" wx:if="{{item.actGoodsSkuOut.stockNum <= 0}}" class="notstockNumshadedow">
       <image style="width:108rpx;height:108rpx;" wx:if="{{item.actGoodsSkuOut.stockNum <= 0}}" class="sellOutIcon" src="/images/icon/sellOut.png"></image>
@@ -38,10 +39,12 @@
 <view>
   <view class='loadingBox'>
     <i-spin custom wx:if="{{loading}}">
-      <view class="loading"></view>
+      <!-- <view class="loading"></view> -->
+      <image style='width:100rpx;height:100rpx;' src="https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/23.gif"></image>
     </i-spin>
   </view>
 </view>
+
 
 <!-- 骨架屏模块 -->
 

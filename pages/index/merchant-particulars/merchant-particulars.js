@@ -117,8 +117,6 @@ Page({
   onShow: function () {
     let that = this;
     this.merchantInit();
-    this.commentList();
-
     let _token = wx.getStorageSync('token') || "";
     let userInfo = wx.getStorageSync('userInfo') || {};
     // app.globalData.userInfo = userInfo;
@@ -155,7 +153,6 @@ Page({
       if (app.globalData.userInfo.mobile) {
         if (app.globalData.token) {
           this.getmoredata();
-          this.selectForOne();
         } else {
           this.authlogin();
         }
@@ -165,7 +162,6 @@ Page({
         })
         if (app.globalData.token) {
           this.getmoredata();
-          this.selectForOne();
         } else {
           this.authlogin();
         }
@@ -224,7 +220,6 @@ Page({
           let _token = 'Bearer ' + res.data.data;
           app.globalData.token = _token;
           that.getmoredata();
-          that.selectForOne();
           if (!app.globalData.userInfo.mobile) {
             that.setData({
               isnew: true
@@ -266,39 +261,6 @@ Page({
             }
           }
         })
-      }
-    })
-  },
-  //查询是否已领取免费券
-  getsetget: function () {
-    let that = this;
-    wx.request({
-      url: that.data._build_url + 'sku/listForAgio',
-      data: {
-        userId: app.globalData.userInfo.userId
-      },
-      header: {
-        "Authorization": app.globalData.token
-      },
-      success: function (res) {
-        if (res.data.code == 0) {
-          let data = res.data;
-          if (res.data.data.list && res.data.data.list.length > 0) {
-            let _data = data.data.list[0];
-            if (_data.isAgio) { //已领取
-              that.setData({
-                isAgio: false
-              })
-            } else { //未领取
-              that.setData({
-                isAgio: true
-              })
-            }
-            that.setData({
-              listagio: _data
-            });
-          }
-        }
       }
     })
   },
@@ -380,33 +342,6 @@ Page({
       }
     })
   },
-  //参赛菜品列表
-  getDishList() {
-    let dateStr = new Date();
-    let milisecond = new Date(this.dateConv(dateStr)).getTime() + 86400000;
-    let _parms = {
-      shopId: this.data.shopid,
-      actId: 37,
-      beginTime: this.dateConv(dateStr),
-      endTime: this.dateConv(new Date(milisecond)),
-      voteUserId: app.globalData.userInfo.userId,
-      city: this.data.shareCity ? this.data.shareCity : this.data.city,
-      page: 1,
-      rows: 6,
-      token: app.globalData.token
-    };
-    Api.dishList(_parms).then((res) => {
-      let data = res.data;
-      if (data.code == 0) {
-        let list = data.data.list;
-        if (list != "null" && list != null && list != "" && list != []) {
-          this.setData({
-            dishLish: list
-          });
-        }
-      }
-    });
-  },
   //跳转至菜品详情
   toDishDetail(e) {
     if (!app.globalData.userInfo.mobile) {
@@ -418,28 +353,6 @@ Page({
     wx.navigateTo({
       url: '../../activityDetails/dish-detail/dish-detail?actId=37&skuId=' + e.target.id
     })
-  },
-  //数量
-  availableVote() {
-    let _parms = {
-      actId: 37,
-      userId: app.globalData.userInfo.userId,
-      token: app.globalData.token
-    }
-    Api.availableVote(_parms).then((res) => {
-      let sku = 0;
-      if (res.data.code == 0) {
-        sku = res.data.data.sku;
-      }
-      this.setData({
-        sku: sku
-      });
-    });
-    if (!app.globalData.userInfo.mobile) {
-      this.setData({
-        sku: 0
-      });
-    }
   },
   //对菜品投票
   castvote: function (e) {
@@ -681,31 +594,6 @@ Page({
       }
     }, vm.data.interval);
   },
-  //查询是否支持买单
-  selectForOne: function (val) {
-    let _parms = {
-      shopId: val ? val : this.data.shopid,
-      token: app.globalData.token
-    }
-    Api.selectForOne(_parms).then((res) => {
-      if (res.data.code == 0) {
-        let data = res.data.data;
-        if (data && data.paymentMethod == 2 && data.isDelete == 0) {
-          this.setData({
-            isoter: true
-          })
-        } else {
-          this.setData({
-            isoter: false
-          })
-        }
-      } else {
-        this.setData({
-          isoter: false
-        })
-      }
-    })
-  },
   getmoredata: function () {
 
 
@@ -715,17 +603,9 @@ Page({
     if (app.globalData.userInfo.lat && app.globalData.userInfo.lng) {
       this.getstoredata();
     }
-
-
     this.selectByShopId();
-    this.recommendation();
-    this.isCollected();
     this.merchantArt();
-    // this.getpackage();
-    this.availableVote();
     this.commentList();
-    this.getsetget();
-    this.hotDishList();
     this.wandaDish();
   },
   //点击拼菜展开
@@ -733,7 +613,7 @@ Page({
     this.setData({
       isBarg: !this.data.isBarg
     });
-    this.hotDishList();
+    // this.hotDishList();
   },
   hotDishList() { //拼价砍菜列表
     //browSort 0附近 1销量 2价格
@@ -855,9 +735,19 @@ Page({
             if (_data.shopInfo && _data.shopInfo != 'null') {
               _data.shopInfo2 = _data.shopInfo.slice(0, 20) + '...';
             }
+            if (_data.shopAllocationOut && _data.shopAllocationOut.paymentMethod == 2 && _data.shopAllocationOut.isDelete == 0) {
+              that.setData({
+                isoter: true
+              })
+            } else {
+              that.setData({
+                isoter: false
+              })
+            }
 
             that.setData({
               store_details: _data,
+              isCollected: _data.collected,
               store_images: _data.shopTopPics.length,
               storeType: _storeType,
               city: _data.city
@@ -868,7 +758,6 @@ Page({
               });
             }
             that.shopList();
-            that.getDishList();
           }
         }
       }
@@ -938,30 +827,6 @@ Page({
       url: '../voucher-details/voucher-details?id=' + id + "&sell=" + _sell + "&inp=" + _inp + "&rule=" + _rule,
     })
   },
-  //推荐菜列表
-  recommendation: function () {
-    let that = this;
-    wx.request({
-      url: that.data._build_url + 'sku/tsc',
-      header: {
-        "Authorization": app.globalData.token
-      },
-      data: {
-        shopId: that.data.shopid,
-        page: 1,
-        rows: 3
-      },
-      success: function (res) {
-        wx.stopPullDownRefresh();
-        if (res.data.code == 0) {
-          let data = res.data;
-          that.setData({
-            recommend_list: data.data.list ? data.data.list : []
-          });
-        }
-      }
-    })
-  },
   //查看推荐菜详情
   fooddetails: function (e) {
     let ind = e.currentTarget.id
@@ -969,45 +834,6 @@ Page({
     wx.navigateTo({
       url: 'food-details/food-details?id=' + ind + '&shopid=' + shopId
     })
-  },
-  //套餐数据
-  getpackage: function () {
-    let that = this;
-    wx.request({
-      url: that.data._build_url + 'sku/agioList',
-      data: {
-        shopId: this.data.shopid
-      },
-      header: {
-        "Authorization": app.globalData.token
-      },
-      success: function (res) {
-        let data = res.data;
-        if (data.code == 0) {
-          that.setData({
-            oldpackage: data.data.list
-          });
-          if (that.data.oldpackage) {
-            if (that.data.oldpackage.length > 3) {
-              that.setData({
-                ismore: true
-              })
-              let _arr = that.data.oldpackage.slice(0, 2);
-              that.setData({
-                newpackage: _arr
-              })
-            } else {
-              that.setData({
-                newpackage: that.data.oldpackage
-              })
-            }
-          }
-        }
-      }
-    })
-
-
-
   },
   //餐厅推荐菜
   recommendedRestaurant: function () {
@@ -1191,8 +1017,6 @@ Page({
       fail: function (res) { }
     })
   },
-  //获取用户位置经纬度
- 
 
   //评论列表
   commentList: function () {
@@ -1348,26 +1172,6 @@ Page({
         }
       })
     }
-  },
-  //查询是否收藏
-  isCollected: function () {
-    let that = this;
-    wx.request({
-      url: that.data._build_url + 'fvs/isCollected?shopId=' + that.data.shopid,
-      method: "POST",
-      header: {
-        "Authorization": app.globalData.token
-      },
-      success: function (res) {
-        if (res.data.code == 0) {
-          const data = res.data;
-          that.setData({
-            isCollected: data.data
-          })
-
-        }
-      }
-    })
   },
   //收藏  / 取消收藏
   onCollect: function (event) {

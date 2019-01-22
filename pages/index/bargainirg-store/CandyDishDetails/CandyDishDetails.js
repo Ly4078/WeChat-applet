@@ -523,6 +523,15 @@ Page({
             })
           })
         } else {
+          wx.showToast({
+            title: '该商品已下架',
+            icon:'none'
+          })
+          setTimeout( ()=>{
+            wx.navigateBack({
+              delta:1
+            })
+          },2000)
           that.setData({
             showSkeleton: false
           })

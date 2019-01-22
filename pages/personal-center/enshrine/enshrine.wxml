@@ -3,16 +3,16 @@
 
 <view wx:if="{{posts_key.length > 0}}">
   <block wx:for="{{posts_key}}" wx:key="index">
-    <view class='enshrineWrap'  catchtap='enshrineXim' id="{{item.id}}">
+    <view class='enshrineWrap' catchtap='enshrineXim' id="{{item.id}}">
       <view class='enshrineLeft'>
         <view class='enshrineImages-wrap'>
           <view class="hot-recoItem-left">
-            <image-loader width="198rpx" height="202rpx" class='hot-recoItem-leftImg'  default-image='/images/icon/morentu.png' mode='aspectFill' original-image="{{item.logoUrl?item.logoUrl:'/images/icon/morentu.png'}}"  />
+            <image-loader width="198rpx" height="202rpx" class='hot-recoItem-leftImg' default-image='/images/icon/morentu.png' mode='aspectFill' original-image="{{item.logoUrl?item.logoUrl:'/images/icon/morentu.png'}}" />
           </view>
         </view>
         <view class='enshrine-caip'>
           <text class='enshrine-name'>{{item.shopName}}<text  wx:if="{{item.ruleDescs.length}}" class="tips quan">劵</text></text>
-          
+
           <view class='hotDining-Wrap'>
             <image class='hotDining' src='/images/icon/popularity.png'></image>
             <text class='hotText'>{{item.popNum}}</text>
@@ -21,10 +21,10 @@
           <view class='recommended' catchtap='recommendation'>
             <text class='dishes' wx:if="{{item.skuName.length>0}}">{{item.skuName}}</text>
           </view>
-     
 
-           <view class="fullreduction skeleton-rect">
-              <text wx:for="{{item.ruleDescs}}" wx:if="{{index <=1}}" wx:key="index">{{item}}</text>
+
+          <view class="fullreduction skeleton-rect">
+            <text wx:for="{{item.ruleDescs}}" wx:if="{{index <=1}}" wx:key="index">{{item}}</text>
           </view>
 
         </view>
@@ -43,8 +43,11 @@
 <view wx:else class='placeholder'>
   <image src="/images/icon/zhanweitu.png"></image>
 </view>
-<view class='loadingBox'>
-      <i-spin custom wx:if="{{loading}}">
-      <view class="loading"></view>
-      </i-spin>
+<view>
+  <view class='loadingBox'>
+    <i-spin custom wx:if="{{loading}}">
+      <!-- <view class="loading"></view> -->
+      <image style='width:100rpx;height:100rpx;' src="https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/23.gif"></image>
+    </i-spin>
+  </view>
 </view>

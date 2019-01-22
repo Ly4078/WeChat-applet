@@ -223,12 +223,12 @@
 
     </view>
   </view>
-  <!--拼菜砍价列表  -->
+  <!--加载中loading -->
   <view>
     <view class='loadingBox'>
       <i-spin custom wx:if="{{loading}}">
-        <view class="loading"></view>
-        <!-- <image style='width:124rpx;height:108rpx;' src="/images/33.gif"></image> -->
+        <!-- <view class="loading"></view> -->
+        <image style='width:100rpx;height:100rpx;' src="https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/23.gif"></image>
       </i-spin>
     </view>
   </view>
