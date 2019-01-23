@@ -2,7 +2,6 @@
 <skeleton selector="skeleton" loading="spin" bgcolor="#FFF" wx:if="{{showSkeleton}}"></skeleton>
 
 <view>
-  <view wx:for="{{titles}}" wx:key="{{index}}" id="{{index}}" bindtap='bindTab' class="titleTab {{titlenub == index?'actTab':''}}">{{item}}</view>
   <block wx:for="{{bargainList}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
     <view class='previously' id="{{item.skuId}}" data-groupid="{{item.groupId}}" data-skuType="{{item.skuType}}" data-categoryId="{{item.goodsSkuOut.categoryId}}" bindtap='bargainDetail'>
       <view class="hot-recoItem-left">

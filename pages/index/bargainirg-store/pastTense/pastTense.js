@@ -17,11 +17,8 @@ Page({
     page: 1,
     page1: 1,
     timer: null,
-    isAct: false, //是否是活动
     timeArr: [], //时间集合
     actid:'',
-    titlenub: '0',
-    titles: ["菜品砍价", "商品砍价"],
     flag: true
   },
   onLoad: function (options) {
@@ -33,14 +30,7 @@ Page({
     }, 5000)
     if (options.actid) {
       this.setData({
-        actid: options.actid,
-        isAct: true,
-        titlenub: 1
-      })
-    } else {
-      this.setData({
-        isAct: false,
-        titlenub: 0
+        actid: options.actid
       })
     }
   },
@@ -68,34 +58,14 @@ Page({
       timer: null
     });
   },
-  bindTab: function(e) {
-    let ind = e.currentTarget.id;
-    clearInterval(this.data.timer);
-    this.setData({
-      titlenub: ind,
-      bargainList: []
-    })
-    if(this.data.titlenub == 0){
-      this.setData({page:0})
-    }else{
-      this.setData({ page1: 0 })
-    }
-    this.vegetablesInquire(); //查询菜品列表
-  },
   vegetablesInquire: function() { //查询菜品列表
     let _parms = {},
-      _this = this,
-      url = "";
-    if (this.data.titlenub == 0) {
-      url = _this.data._build_url + 'bargain/userRedis';
-    } else {
-      url = _this.data._build_url + 'goodsBar/userRedis?type=4';
-    }
+      _this = this;
     this.setData({
       flag: false
     });
     wx.request({
-      url: url,
+      url: this.data._build_url + 'goodsBar/userRedis?type=4',
       header: {
         "Authorization": app.globalData.token
       },

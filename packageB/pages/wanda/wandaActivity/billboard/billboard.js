@@ -149,6 +149,9 @@ Page({
                 voteArr.push(list[i]);
               }
             }
+            if (voteArr.length >= 100) {
+              voteArr = voteArr.slice(0, 100);
+            }
             that.setData({
               voteArr: voteArr,
               votePage: Math.ceil(res.data.data.total / 16)
