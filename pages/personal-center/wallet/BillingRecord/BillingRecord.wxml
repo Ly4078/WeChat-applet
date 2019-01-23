@@ -1,6 +1,9 @@
 
 <!-- 骨架屏模块 -->
 <skeleton selector="skeleton" loading="spin" bgcolor="#FFF" wx:if="{{showSkeleton}}"></skeleton>
+ <view wx:if="{{dataList.length < 1}}" class='placeholder'>
+    <image src="/images/icon/zhanweitu.png"></image>
+  </view>
 <view>
 
     <view class="billing_box">

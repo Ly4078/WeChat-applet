@@ -322,12 +322,12 @@ button[plain] {
   width: 100rpx;
   height:100rpx;
   border-radius: 50%;
-  background: #fff;
+  background: rgba(0,0,0,.8);
   text-align: center;
   font-size: 28rpx;
   font-family: PingFangSC-Regular;
   font-weight: 400;
-  color: #fc5e2d;
+  color: #fff;
   display: flex;
   z-index: 999;
   flex-direction: column;

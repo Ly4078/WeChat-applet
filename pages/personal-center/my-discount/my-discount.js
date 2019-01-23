@@ -159,7 +159,38 @@ Page({
         }
       }
     }
-    // that.getShare();
+    if (this.data.notShow){
+      this.setData({ notShow:false});
+      return false
+    }
+    wx.pageScrollTo({
+      scrollTop: 0,
+      duration:0
+    })
+    let index = this.data.ind;
+    if (index == 0 || index == 3) {
+      if (swichrequestflag[index]) {
+        return false
+      }
+      that.setData({ pxpage: 1 })
+      that.getorderCoupon(index, 'reset')
+
+    } else if (index == 1) {
+      if (swichrequestflag[index]) {
+        return false
+      }
+      that.setData({ sendpage: 1, sendData: [] })
+      that.getlistCoupon(1)
+    } else if (index == 2) {
+      if (swichrequestflag[index]) {
+        return false
+      }
+      that.setData({ recpage: 1, recData: [] })
+      that.getlistCouponReceive(2)
+
+    }
+
+
   },
   getShare(){
     let that = this;
@@ -661,6 +692,7 @@ Page({
   redeemNow: function (e) {  //点击某张票券
     let id = e.currentTarget.id,
       isDue = e.currentTarget.dataset.isdue;
+      this.setData({notShow:true})
     wx.navigateTo({
       url: '/pages/index/crabShopping/voucherDetails/voucherDetails?id=' + id + '&isDue=' + isDue
     })

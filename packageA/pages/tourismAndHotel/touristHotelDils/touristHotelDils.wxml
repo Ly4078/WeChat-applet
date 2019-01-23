@@ -167,7 +167,7 @@
         <view class='referral'>
           <text style="display:block;"> 拼购规则:</text>
           <text style="display:inline-block;margin:0 10rpx;">1、 点击商品进入商品详情，通过拼购参与开团入口进入微信支付，用户付款成功后，参团成功；</text>
-          <text style="display:inline-block;margin:0 10rpx;">2、 规定时间内满足开团人数，可在【我的】页面中【券包】里查看所购买的商品券兑换券，可以兑换相应的商品（部分商品兑换时需要支付邮费)；</text>
+          <text style="display:inline-block;margin:0 10rpx;">2、 规定时间内满足开团人数，可在【券包】页面中里查看所购买的商品券兑换券，可以兑换相应的商品（部分商品兑换时需要支付邮费)；</text>
           <text style="display:inline-block;margin:0 10rpx;">3、 支付人数在有效期内未达到规定人数，拼购失败，将原路全额退款；</text>
           <text style="display:inline-block;margin:0 10rpx;">4、 活动用户需依照页面提示进行操作，如出现违规操作导致活动无法继续等异常错误，将取消用户参与资格；</text>
           <text style="display:inline-block;margin:0 10rpx;">5、 拼购成功的商品兑换券不支持退款、兑现，有效期为3个月，过期失效；</text>
