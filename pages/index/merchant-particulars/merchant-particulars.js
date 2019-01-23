@@ -58,7 +58,7 @@ Page({
     zanFlag: true, //点赞节流阀
     shareCity: "",
     hotpage: 1,
-    hotrows: 10,
+    hotrows: 30,
     hottotal: 0,
     hotlist: [], //热销商品
     hotlist2: [], //热销商品
@@ -449,15 +449,17 @@ Page({
             if (_hotlist[i].actGoodsSkuOuts && _hotlist[i].actGoodsSkuOuts.length > 0) {
               let arr = [];
               for (let j in _hotlist[i].actGoodsSkuOuts) {
-                _hotlist[i].skuName = utils.uncodeUtf16(_hotlist[i].skuName);
-                _hotlist[i].actGoodsSkuOuts[j].skuName = _hotlist[i].skuName;
-                _hotlist[i].actGoodsSkuOuts[j].id = _hotlist[i].id;
-                _hotlist[i].actGoodsSkuOuts[j].sellPrice = _hotlist[i].sellPrice;
-                _discount = _hotlist[i].actGoodsSkuOuts[j].goodsPromotionRules.actAmount / _hotlist[i].sellPrice * 10;
-                _hotlist[i].actGoodsSkuOuts[j].discount = _discount.toFixed(2);
-                let actId = _hotlist[i].actGoodsSkuOuts[j].actId;
-                if (actId != 41 && actId != 45) {
-                  arr.push(_hotlist[i].actGoodsSkuOuts[j]);
+                  _hotlist[i].skuName = utils.uncodeUtf16(_hotlist[i].skuName);
+                  _hotlist[i].actGoodsSkuOuts[j].skuName = _hotlist[i].skuName;
+                  _hotlist[i].actGoodsSkuOuts[j].id = _hotlist[i].id;
+                  _hotlist[i].actGoodsSkuOuts[j].sellPrice = _hotlist[i].sellPrice;
+                  _discount = _hotlist[i].actGoodsSkuOuts[j].goodsPromotionRules.actAmount / _hotlist[i].sellPrice * 10;
+                  _hotlist[i].actGoodsSkuOuts[j].discount = _discount.toFixed(2);
+                if (j > 0) {
+                  let actId = _hotlist[i].actGoodsSkuOuts[j].actId;
+                  if (actId != 45) {
+                    arr.push(_hotlist[i].actGoodsSkuOuts[j]);
+                  }
                 }
               }
               _hotlist[i].actGoodsSkuOuts2 = arr;
@@ -1322,13 +1324,13 @@ Page({
       this.setData({
         hotlist2: this.data.hotlist
       })
-      if (this.data.hotDiff > 0) {
-        this.setData({
-          hotpage: this.data.hotpage + 1,
-          hotrows: this.data.hotDiff
-        })
-        this.gethotdish();
-      }
+      // if (this.data.hotDiff > 0) {
+      //   this.setData({
+      //     hotpage: this.data.hotpage + 1,
+      //     hotrows: this.data.hotDiff
+      //   })
+      //   this.gethotdish();
+      // }
     } else {
       this.setData({
         hotlist2: this.data.hotlist.slice(0, 3)

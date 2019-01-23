@@ -132,10 +132,15 @@ Page({
         })
       }else{
         wx.showToast({
-          title: '此类商品无详情，或已结束',
+          title: '此类商品无详情或已结束',
           icon:'none'
         })
       }
+    }else{
+      wx.showToast({
+        title: '此类商品无详情或已结束',
+        icon: 'none'
+      })
     }
   },
   examineLogistics:function(){

@@ -88,9 +88,9 @@
             </view>
           </view>
         </view>
-        <!-- <view class="placeholder" wx:if="{{dishList.length <= 0}}">
+        <view class="placeholder" wx:if="{{dishList.length <= 0}}">
           <image src="/images/icon/zhanweitu.png"></image>
-        </view> -->
+        </view>
       </view>
     </view>
   </view>
