@@ -46,6 +46,13 @@
     </view>
   </view>
 
+  <!-- 活动列表 -->
+  <view class="actList">
+    <scroll-view class="actItem scroll_view_H" scroll-x scroll-with-animation="true" style="width: 100%">
+      <image wx:for="{{activityList}}" wx:key="index" src="{{item.imgUrl}}" data-url="{{item.linkUrl}}" data-msg="{{item.msg}}" catchtap="toLink"></image>
+    </scroll-view>
+  </view>
+
 
   <!-- 抽奖 -->
 

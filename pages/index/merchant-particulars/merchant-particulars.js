@@ -430,20 +430,9 @@ Page({
     Api.crabList(_parms).then((res) => { //查询同类规格列表
       if (res.data.code == 0) {
         let _hotlist = res.data.data.list,
-          _total = res.data.data.total,
           _hotlist2 = [],
           hotdata = that.data.hotlist,
           _discount = '';
-        if (_total > this.data.hotrows) {
-          let _diff = _total * 1 - this.data.hotrows * 1;
-          that.setData({
-            hotDiff: _diff
-          })
-        } else {
-          that.setData({
-            hotDiff: 0
-          })
-        }
         if (_hotlist && _hotlist.length > 0) {
           for (let i in _hotlist) {
             if (_hotlist[i].actGoodsSkuOuts && _hotlist[i].actGoodsSkuOuts.length > 0) {
@@ -477,12 +466,12 @@ Page({
             })
           }
           that.setData({
-            hottotal: _total,
-            hotlist: _hotlist2
+            hotlist: _hotlist2,
+            hottotal: 3
           })
         } else {
           that.setData({
-            hottotal: _total,
+            hottotal: 0,
             hotlist: [],
             hotlist2: []
           })
@@ -1320,20 +1309,16 @@ Page({
     this.setData({
       isdity: !this.data.isdity
     })
+    let hotlist = this.data.hotlist;
     if (this.data.isdity) {
       this.setData({
-        hotlist2: this.data.hotlist
+        hotlist2: hotlist,
+        hottotal: hotlist.length
       })
-      // if (this.data.hotDiff > 0) {
-      //   this.setData({
-      //     hotpage: this.data.hotpage + 1,
-      //     hotrows: this.data.hotDiff
-      //   })
-      //   this.gethotdish();
-      // }
     } else {
       this.setData({
-        hotlist2: this.data.hotlist.slice(0, 3)
+        hotlist2: hotlist.slice(0, 3),
+        hottotal: 3
       })
     }
   },

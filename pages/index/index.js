@@ -30,6 +30,7 @@ Page({
     fresh1: {}, //享7生鲜图片1
     fresh2: {}, //享7生鲜图片2
     fresh3: {}, //享7生鲜图片3
+    activityList: [],    //活动列表
     bannthree: [],
     navs: [{
       imgUrl: '',
@@ -132,6 +133,7 @@ Page({
         fresh1: txtObj ? txtObj.fresh1 : '',
         fresh2: txtObj ? txtObj.fresh2 : '',
         fresh3: txtObj ? txtObj.fresh3 : '',
+        activityList: txtObj ? txtObj.activityList : '',
         navs: txtObj.navs ? txtObj.navs : that.data.navs
       });
     }
@@ -256,6 +258,7 @@ Page({
             fresh1: res.data.fresh1,
             fresh2: res.data.fresh2,
             fresh3: res.data.fresh3,
+            activityList: res.data.activityList,
             bannerList: res.data.carousel ? res.data.carousel : [],
             navs: res.data.navs || [],
             indexShare: res.data.indexShare || ''
