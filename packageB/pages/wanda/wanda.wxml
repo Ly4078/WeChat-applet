@@ -21,5 +21,10 @@
   </view>
 </view>
 
+<!-- 数据不多时底部水印 -->
+<view wx:if="{{list.length <= 2}}" class="bottom_shade">
+  <image src="/images/icon/shade.png"></image>
+</view>
+
 <!-- 回到首页 -->
 <image class="indexIcon" src="/images/icon/goindex.png" bindtap='toIndex' wx:if="{{shareId}}"></image>

@@ -122,23 +122,34 @@ page{
 
 .presentName{
   width: 90%;
-  overflow:hidden;
-  /* text-overflow:ellipsis; */
-  /* white-space:nowrap; */
   font-size:28rpx;
   font-weight: 600rpx;
   color:rgba(25,25,25,1);
-  /* padding-top: 24rpx; */
+}
+
+.presentName text {
+  width: 100%;
+  display: inline-block;
+  overflow:hidden;
+  text-overflow: ellipsis;
+  display:-webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
 }
 
 .presentNameSize{
   width: 90%;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  white-space:nowrap;
   font-size:20rpx;
   color:rgba(128,128,128,1);
   padding: 16rpx 0rpx 24rpx 0rpx;
+}
+
+.presentNameSize text {
+  width: 100%;
+  display: inline-block;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
 }
 
 .priceAmount{

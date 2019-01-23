@@ -303,7 +303,8 @@ page{
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  width: 100%;
+  width: 680rpx;
+  display: inline-block;
 }
 
 .house{
@@ -321,6 +322,11 @@ page{
 .lemon text:nth-child(2){
   padding-left: 6rpx;
   vertical-align: middle;
+  width: 530rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display:inline-block;
 }
 
 .lemon text:nth-child(3){
@@ -682,3 +688,9 @@ page{
   font-size: 24rpx;
 }
 
+.shopName {
+  width: 500rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
