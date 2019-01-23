@@ -1354,7 +1354,7 @@ Page({
     _parms = {
       locationX: app.globalData.userInfo.lng,
       locationY: app.globalData.userInfo.lat,
-      city: this.data.shareCity ? this.data.shareCity : app.globalData.userInfo.city,
+      city: app.globalData.userInfo.city ? app.globalData.userInfo.city : this.data.shareCity,
       page: this.data._page,
       rows: 10,
       token: app.globalData.token

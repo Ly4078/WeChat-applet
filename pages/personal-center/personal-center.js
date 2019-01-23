@@ -427,9 +427,15 @@ Page({
     Public.addFormIdCache(_formId);
   },
   todiscount: function() {
-    wx.navigateTo({
-      url: 'my-discount/my-discount'
-    });
+    wx.switchTab({
+      url: '/pages/personal-center/my-discount/my-discount',
+      success:function(){},
+      fail:function(){
+        wx.navigateTo({
+          url: '/pages/personal-center/my-discount/my-discount'
+        })
+      }
+    })
   },
   carefulness: function(e) { //订单
     let id = e.currentTarget.id;
