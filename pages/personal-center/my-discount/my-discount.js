@@ -597,28 +597,37 @@ Page({
   },
   //用户下拉刷新
   onPullDownRefresh: function() {
-    if (requesting) {
-      return;
-    }
-    var tabId = this.data.isUsed;
-    if (tabId == 0) {
-      if (this.data.page >= this.data.yesPageTotal) {
-        return
+    let that = this, index = this.data.ind;
+    if (index == 0 || index == 3) {
+      if (swichrequestflag[index]) {
+        return false
       }
+      that.setData({ pxpage:1})
+      that.getorderCoupon(index, 'reset')
+      wx.showLoading({
+        title: '加载中',
+      })
 
-    } else if (tabId == 1) {
-      if (this.data.page >= this.data.notPageTotal) {
-        return
+    } else if (index == 1) {
+      if (swichrequestflag[index]) {
+        return false
       }
-
+      that.setData({ sendpage: 1, sendData:[]})
+        that.getlistCoupon(1)
+        wx.showLoading({
+          title: '加载中',
+        })
+    } else if (index == 2) {
+      if (swichrequestflag[index]) {
+        return false
+      }
+      that.setData({ recpage: 1, recData:[]})
+        that.getlistCouponReceive(2)
+        wx.showLoading({
+          title: '加载中',
+        })
+   
     }
-    // this.setData({
-    //   ticket_list: [],
-    //   page: 1,
-    //   isUpdate: true
-    // }, () => {
-    //   this.getTicketList();
-    // });
   },
 
   immediateUse: function(e) {
