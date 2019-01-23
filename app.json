@@ -142,7 +142,7 @@
   "tabBar": {
     "selectedColor": "#FF4411",
     "backgroundColor": "#FFFFFF",
-    "position": "button",
+    "position": "bottom",
     "list": [
       {
         "selectedColor": "#FF4411",

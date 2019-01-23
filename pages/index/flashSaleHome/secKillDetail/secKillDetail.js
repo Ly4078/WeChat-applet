@@ -105,7 +105,7 @@ Page({
         } else { //是新用户，
           let _actId = this.data.actId ? this.data.actId : 44;
           wx.navigateTo({
-            url: '/pages/personal-center/securities-sdb/securities-sdb?parentId=' + this.data.initiator + '&skuId=' + this.data.id + '&shopId=' + this.data.shopId + '&actId=' + _actId
+            url:'/pages/init/init'
           })
         }
       }

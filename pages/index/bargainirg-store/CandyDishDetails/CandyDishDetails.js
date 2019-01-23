@@ -163,6 +163,15 @@ Page({
         }).then((res) => {
           if (res.data.code == 0) {
             let data = res.data.data;
+            if (!data.mobile) { //是新用户，去注册页面
+              that.setData({
+                isnew: true
+              });
+              wx.navigateTo({
+                url: '/pages/init/init?isback=1'
+              })
+              return false;
+            }
             if (data.id) {
               app.globalData.userInfo.userId = data.id;
               for (let key in data) {
@@ -172,11 +181,7 @@ Page({
                   }
                 }
               }
-              if (!data.mobile) { //是新用户，去注册页面
-                that.setData({
-                  isnew: true
-                });
-              }
+             
               let userInfo = app.globalData.userInfo;
               if (userInfo.lat || userInfo.lng || userInfo.city) {
                 that.authlogin(); //获取token
