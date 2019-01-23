@@ -125,6 +125,7 @@ page {
   padding: 15rpx 0;
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-around;
 }
 
 .navitem {

@@ -40,7 +40,7 @@
   </view>
   <!-- 导航nav_one -->
   <view class='indexNavOne'>
-    <view wx:for="{{navs}}" wx:if="{{!item.hide}}" hover-class='listhover' hover-stay-time="200" wx:key="index" data-url="{{item.linkUrl}}" class='navitem' id="{{item.id}}" data-msg="{{item.title=='酒店'?'商家正在入驻中...':''}}" bindtap='toLink'>
+    <view wx:for="{{navs}}" wx:if="{{!item.hide && item.title !='短视频'}}" hover-class='listhover' hover-stay-time="200" wx:key="index" data-url="{{item.linkUrl}}" class='navitem' id="{{item.id}}" data-msg="{{item.title=='酒店'?'商家正在入驻中...':''}}" bindtap='toLink'>
       <image class="img{{index+1}} skeleton-radius" src='{{item.imgUrl}}'></image>
       <text class="navitem_txt skeleton-rect">{{item.title}}</text>
     </view>
