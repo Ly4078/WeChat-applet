@@ -232,6 +232,12 @@
   padding: 0 6rpx;
   border-radius: 5rpx;
   font-size: 24rpx;
+  display: inline-block;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  display:-webkit-box;
+  -webkit-line-clamp:3;
+  -webkit-box-orient:vertical;
 }
 
 .hot-recoItem-rightInfo  .fullreduction {

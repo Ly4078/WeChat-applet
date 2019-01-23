@@ -16,7 +16,7 @@
   </view>
 
   <view class="Terms">
-    <text>登录即代表你同意享7美食</text>
+    <text>登录即代表你同意享7购</text>
     <text catchtap='showProtocol' class="protocol">服务协议</text>
   </view>
 

@@ -32,7 +32,7 @@
     </view>
     <view class="descri_item">
       <text class="descri_tit">未划线价格：</text>
-      <text class="descri_cont">未划线的价格指该商品在享7美食平台实时标价，具体成交价格根据商品参加的活动，或者您使用优惠券等发生变化，最终以订单结算页面价格为准</text>
+      <text class="descri_cont">未划线的价格指该商品在享7购平台实时标价，具体成交价格根据商品参加的活动，或者您使用优惠券等发生变化，最终以订单结算页面价格为准</text>
     </view>
   </view> -->
   <image class="instruction" src="https://xqmp4-1256079679.file.myqcloud.com/15827245422_instruction.png"></image>

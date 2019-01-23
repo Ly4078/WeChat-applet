@@ -653,7 +653,7 @@ Page({
     let userInfo = app.globalData.userInfo;
     return {
       title: '帮好友砍价',
-      desc: '享7美食',
+      desc: '享7购',
       path: '/pages/index/crabShopping/crabDetails/crabShare/crabShare?refId=' + this.data.refId + '&shopId=' + this.data.shopId + '&skuMoneyOut=' + this.data.skuMoneyOut + '&skuMoneyMin=' + this.data.skuMoneyMin + '&initiator=' + initiator + '&groupId=' + this.data.groupId + '&lat=' + userInfo.lat + '&lng=' + userInfo.lng + '&city=' + userInfo.city,
       success: function(res) {
 

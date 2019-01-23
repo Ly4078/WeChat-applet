@@ -940,7 +940,7 @@ Page({
       city = this.data._city ? this.data._city : userInfo.city;
     return {
       title: '帮我砍价！你也有机会直接拿走商品↓↓↓',
-      desc: '享7美食',
+      desc: '享7购',
       imageUrl: this.data.shareImg,
       path: '/pages/index/bargainirg-store/AprogressBar/AprogressBar?refId=' + this.data.refId + '&shopId=' + this.data.shopId + '&skuMoneyOut=' + this.data.skuMoneyOut + '&skuMoneyMin=' + this.data.skuMoneyMin + '&initiator=' + initiator + '&groupId=' + this.data.groupId + '&lat=' + userInfo.lat + '&lng=' + userInfo.lng + '&city=' + city + '&actId=' + this.data.actId + '&categoryId=' + this.data.categoryId,
       success: function(res) {

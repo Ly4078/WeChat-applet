@@ -201,6 +201,16 @@
   padding-right: 10rpx;
 }
 
+.logistics-ctn-name text {
+  display: inline-block;
+  width:500rpx;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  display:-webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+}
+
 .logistics-ctn-spn{
   font-size:24rpx;
   color:rgba(177,177,177,1);
