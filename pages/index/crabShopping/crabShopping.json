@@ -1,6 +1,6 @@
 {
   "navigationBarTitleText": "享7生鲜",
   "usingComponents": {
-    "i-spin": "../../../dist/spin/index"
+    "i-spin": "/dist/spin/index"
   }
 }

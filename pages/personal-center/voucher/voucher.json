@@ -1,6 +1,6 @@
 {
   "navigationBarTitleText": "提蟹券",
   "usingComponents": {
-    "i-spin": "../../../dist/spin/index"
+    "i-spin": "/dist/spin/index"
   }
 }

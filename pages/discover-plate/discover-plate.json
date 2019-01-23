@@ -1,6 +1,6 @@
 {
   "navigationBarTitleText": "微生活",
   "usingComponents": {
-    "i-spin": "../../dist/spin/index"
+    "i-spin": "/dist/spin/index"
   }
 }

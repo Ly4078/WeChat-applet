@@ -2,7 +2,7 @@
   "navigationBarTitleText": "钱包明细",
   "enablePullDownRefresh": true,
   "usingComponents": {
-    "i-spin": "../../../dist/spin/index",
+    "i-spin": "/dist/spin/index",
     "skeleton": "/components/skeleton/skeleton",
     "image-loader": "/components/image-loader"
   }

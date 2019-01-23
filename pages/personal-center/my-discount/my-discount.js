@@ -653,7 +653,7 @@ Page({
     let id = e.currentTarget.id,
       isDue = e.currentTarget.dataset.isdue;
     wx.navigateTo({
-      url: '../../index/crabShopping/voucherDetails/voucherDetails?id=' + id + '&isDue=' + isDue
+      url: '/pages/index/crabShopping/voucherDetails/voucherDetails?id=' + id + '&isDue=' + isDue
     })
   },
   //点击购买券
@@ -665,7 +665,7 @@ Page({
   //点击兑换记录
   handexchange: function () {
     wx.navigateTo({
-      url: '../voucher/record/record',
+      url: '/pages/personal-center/voucher/record/record',
     })
   }
 })
