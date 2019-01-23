@@ -30,8 +30,6 @@ Page({
     userId: app.globalData.userInfo.userId
   },
   onLoad: function (options) {
-    let hidecai = wx.getStorageSync('txtObj') ? wx.getStorageSync('txtObj').hidecai:true;
-    this.setData({ hidecai:false})
     let that = this;
     let selectType = options.let
     timer = setTimeout(() => {
@@ -228,7 +226,7 @@ Page({
         page: this.data.pxpage,
         token: app.globalData.token,
         // isUsed:0,
-        rows: 10
+        rows: 20
       };
       if(this.data.ind == 0){
         _parms.isUsed = 0;
@@ -267,7 +265,7 @@ Page({
             }
             that.setData({
               listData: arr,
-              pageTotal: Math.ceil(res.data.data.total / 10),
+              pageTotal: Math.ceil(res.data.data.total / 20),
               loading: false
             })
           } else {
@@ -302,7 +300,7 @@ Page({
       this.findByCode();
     }else{
       _parms = {
-        row: 10
+        rows: 20
       };
       _parms.page = this.data.sendpage;
       _parms.sendUserId = app.globalData.userInfo.userId;
@@ -328,7 +326,7 @@ Page({
 
             that.setData({
               sendData: _sendData.concat(_lists),
-              sendTotal: Math.ceil(res.data.data.total / 10),
+              sendTotal: Math.ceil(res.data.data.total / 20),
               loading: false
 
             })

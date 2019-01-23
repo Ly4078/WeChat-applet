@@ -160,10 +160,10 @@
       },
       {
         "selectedColor": "#FF4411",
-        "pagePath": "pages/activityDetails/activity-details",
-        "text": "活动",
-        "iconPath": "images/icon/home_tab_huodong.png",
-        "selectedIconPath": "images/icon/home_tab_huodonged.png"
+        "pagePath": "pages/personal-center/my-discount/my-discount",
+        "text": "券包",
+        "iconPath": "images/icon/quanbao.png",
+        "selectedIconPath": "images/icon/quanbao2.png"
       },
       {
         "selectedColor": "#FF4411",

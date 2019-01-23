@@ -326,8 +326,14 @@ Page({
   },
   //点击立即使用--进入提蟹券详情页面
   nowuse: function() {
-    wx.navigateTo({
-      url: "/pages/personal-center/my-discount/my-discount"
+    wx.switchTab({
+      url: '/pages/personal-center/my-discount/my-discount',
+      success: function () { },
+      fail: function () {
+        wx.navigateTo({
+          url: "/pages/personal-center/my-discount/my-discount",
+        })
+      }
     })
   },
   //点击继续支付  -- 先更新openid
@@ -409,8 +415,14 @@ Page({
   },
   seeMygoods: function() {
     let that = this;
-    wx.navigateTo({
+    wx.switchTab({
       url: '/pages/personal-center/my-discount/my-discount',
+      success: function () { },
+      fail: function () {
+        wx.navigateTo({
+          url: "/pages/personal-center/my-discount/my-discount",
+        })
+      }
     })
   },
   //调起微信支付
@@ -585,8 +597,14 @@ Page({
 
   },
   seepiaoDetail: function() { //查看票券
-    wx.navigateTo({
+    wx.switchTab({
       url: '/pages/personal-center/my-discount/my-discount',
+      success: function () { },
+      fail: function () {
+        wx.navigateTo({
+          url: "/pages/personal-center/my-discount/my-discount",
+        })
+      }
     })
   },
   // 遮罩层显示

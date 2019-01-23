@@ -75,8 +75,15 @@ Page({
   },
   //立即兑换
   handexchange: function (e) {  //点击某张票券
-    wx.navigateTo({
-      url: "/pages/personal-center/my-discount/my-discount",
+    wx.switchTab({
+      url: '/pages/personal-center/my-discount/my-discount',
+      success:function(){},
+      fail:function(){
+        wx.navigateTo({
+          url: "/pages/personal-center/my-discount/my-discount",
+        })
+      }
     })
+    
   }
 })

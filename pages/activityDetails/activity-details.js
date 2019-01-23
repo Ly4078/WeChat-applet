@@ -71,7 +71,6 @@ Page({
     if (actList.length){
       that.setData({ actdata: actList, showSkeleton:false});
     }
-  
   },
   findByCode: function () { //通过code查询用户信息
     let that = this;

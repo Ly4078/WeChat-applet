@@ -56,8 +56,14 @@ Page({
             method: 'POST',
             success: function (res) {
               if (res.data.code == 0) {
-                wx.navigateTo({
-                  url: "/pages/personal-center/my-discount/my-discount"
+                wx.switchTab({
+                  url: '/pages/personal-center/my-discount/my-discount',
+                  success: function () { },
+                  fail: function () {
+                    wx.navigateTo({
+                      url: "/pages/personal-center/my-discount/my-discount",
+                    })
+                  }
                 })
               } else {
                 wx.showToast({

@@ -523,14 +523,15 @@ Page({
             })
           })
         } else {
+          https://xqmp4-1256079679.file.myqcloud.com/13297932982_xqrz0190123094732.jpghttps://xqmp4-1256079679.file.myqcloud.com/13297932982_xqrz0190123094732.jpghttps://xqmp4-1256079679.file.myqcloud.com/13297932982_xqrz0190123094732.j
           wx.showModal({
             title: '提示',
             content: '该商品已下架',
-            showCancel: false,
+            showCancel:false,
             success(res) {
               if (res.confirm) {
                 wx.navigateBack({
-                  delta: 1
+                  delta:1
                 })
               }
             }
