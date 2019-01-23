@@ -1,6 +1,7 @@
 import Countdown from '../../../../utils/Countdown.js';
 var WxParse = require('../../../../utils/wxParse/wxParse.js');
 import canvasShareImg from '../../../../utils/canvasShareImg.js';
+var utils = require('../../../../utils/util.js');
 import {
   GLOBAL_API_DOMAIN
 } from '../../../../utils/config/config.js';
@@ -20,32 +21,47 @@ Page({
     shadowFlag:true
   },
   onLoad: function(options) {
-    let that = this;
-    if (options.shareType =='2'){
+    console.log("options:", options)
+    let that = this, _id = '', _groupid = '', _actid='';
+    let q = decodeURIComponent(options.q);
+    if (q && q != 'undefined') {
+      if (utils.getQueryString(q, 'flag') == 7) {
+        _id = utils.getQueryString(q, 'id');
+        _groupid = utils.getQueryString(q, 'groupid');
+        _actid = utils.getQueryString(q, 'actid');
+      }
       that.setData({
-        shareGroup:true
+        id: _id,
+        actid: _actid,
+        groupid: _groupid
       })
-    }
-    if (options.types == 'share'){
+    }else{
+      if (options.shareType == '2') {
+        that.setData({
+          shareGroup: true
+        })
+      }
+      if (options.types == 'share') {
+        that.setData({
+          isShare: true,
+          parentId: options.parentId
+        })
+        app.globalData.currentScene.query = {
+          id: options.id,
+          actid: options.actid,
+          types: 'share',
+          groupid: options.groupid,
+          parentId: options.parentId
+        }
+        app.globalData.currentScene.path = "/packageA/pages/tourismAndHotel/touristHotelDils/touristHotelDils"
+      }
       that.setData({
-        isShare:true,
-        parentId: options.parentId
-      })
-      app.globalData.currentScene.query = {
         id: options.id,
         actid: options.actid,
-        types:'share',
         groupid: options.groupid,
-        parentId: options.parentId
-      }
-      app.globalData.currentScene.path =        "/packageA/pages/tourismAndHotel/touristHotelDils/touristHotelDils" 
+        parentId: options.parentId || ''
+      })
     }
-    that.setData({
-      id: options.id,
-      actid: options.actid,
-      groupid: options.groupid,
-      parentId:options.parentId || ''
-    })
   },
   seebigImg: function (e) {
     let that = this,currentImg = e.currentTarget.dataset.img,urls = [];
@@ -60,7 +76,6 @@ Page({
   onShow:function(){
     let that = this;
     if (app.globalData.newcomer == '1') {
-      console.log('新人注册返回详情页')
       that.setData({
         newcomer: true
       })

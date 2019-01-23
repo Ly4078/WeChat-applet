@@ -226,8 +226,6 @@
         <view class="video-item-title">{{item.title}}</view>
       </view>
 
-
-
     </view>
   </view>
   <!--加载中loading -->

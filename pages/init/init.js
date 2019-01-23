@@ -63,6 +63,7 @@ Page({
       success: res => {
         Api.findByCode({
           code: res.code
+         
         }).then((res) => {
           if (res.data.code == 0) {
             wx.setStorageSync('userInfo', res.data.data)

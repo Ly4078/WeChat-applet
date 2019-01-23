@@ -73,18 +73,25 @@ Page({
   onLoad(options) {
     //在此函数中获取扫描普通链接二维码参数
     console.log('options:', options)
-    let _title = '', _id = '', _shopId = '',_actId='',that = this;
+    let that = this,
+      _title = '',
+      _id = '',
+      _categoryId = '',
+      _actId = '',
+      _shopId = '';
     let q = decodeURIComponent(options.q);
     if (q && q != 'undefined') {
       if (utils.getQueryString(q, 'flag') == 2) {
         _id = utils.getQueryString(q, 'id');
         _shopId = utils.getQueryString(q, 'shopId');
+        _categoryId = utils.getQueryString(q, 'categoryId');
         _actId = utils.getQueryString(q, 'actId');
       }
       let _optOjb={
-        id:_id,
-        shopId:_shopId,
-        actId: _actId ? _actId:''
+        id: _id,
+        shopId: _shopId,
+        categoryId: _categoryId,
+        actId: _actId
       };
       that.setData({
         optObj: _optOjb,
@@ -99,16 +106,15 @@ Page({
         optObj: options,
         flag: true,
         page: 1,
+        categoryId: options.categoryId,
         shopId: options.shopId ? options.shopId : '',
         id: options.id ? options.id : '',
         actId: options.actId ? options.actId : '',
         _city: options.city ? options.city : ''
       });
+      _categoryId = options.categoryId;
     }
-    let _categoryId = options.categoryId;
-    this.setData({
-      categoryId: _categoryId
-    });
+  
     if (_categoryId == 5) {
       _title = '酒店详情';
     } else if (_categoryId == 6) {
@@ -121,8 +127,12 @@ Page({
     wx.setNavigationBarTitle({
       title: _title
     })
+    // this.init();
   },
   onShow() {
+    this.init();
+  },
+  init(){
     let that = this;
     this.setData({
       isApro: true
@@ -493,7 +503,6 @@ Page({
 
           if (data.goodsSpuOut && data.goodsSpuOut.goodsSpuDesc && data.goodsSpuOut.goodsSpuDesc.content) {
             article = data.goodsSpuOut.goodsSpuDesc.content;
-            console.log('article:', article)
             WxParse.wxParse('article', 'html', article, that, 0);
           }
           data.skuName = utils.uncodeUtf16(data.skuName);
@@ -915,7 +924,6 @@ Page({
                   url: '../AprogressBar/AprogressBar?refId=' + that.data.id + '&shopId=' + _shopId + '&skuMoneyMin=' + that.data.agioPrice + '&skuMoneyOut=' + that.data.sellPrice + '&categoryId=' + that.data.categoryId
                 })
               }
-              console.log(that.data.categoryId)
             }
             that.setData({
               isApro: true

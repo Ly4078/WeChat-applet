@@ -109,15 +109,15 @@ Page({
     try {
       //版本更新
       const updateManager = wx.getUpdateManager();
-      updateManager.onCheckForUpdate(function (res) {
+      updateManager.onCheckForUpdate(function(res) {
         // 请求完新版本信息的回调
         // console.log(res.hasUpdate)
       });
-      updateManager.onUpdateReady(function () {
+      updateManager.onUpdateReady(function() {
         // 新的版本已经下载好，调用 applyUpdate 应用新版本并重启
         updateManager.applyUpdate()
       });
-      updateManager.onUpdateFailed(function () {
+      updateManager.onUpdateFailed(function() {
         // 新的版本下载失败
       });
     } catch (err) {
@@ -143,11 +143,13 @@ Page({
       carousel
     });
   },
-  onShow: function () {
-    let hideWanda = wx.getStorageSync("hideWanda") ? wx.getStorageSync("hideWanda") : '';
-    if (hideWanda == '2') {
-    } else {
-      this.setData({ showwandaactivity: true })
+
+  onShow: function() {
+    let newcomer = wx.getStorageSync("newcomer");
+    if (newcomer == '1') {
+      this.setData({
+        showwandaactivity: true
+      })
     }
     let that = this;
     //获取地理位置
@@ -242,7 +244,9 @@ Page({
 
         if (res.data.flag == 0) { //0显示  
           app.globalData.isflag = true;
-
+          try {
+            res.data.navs[4].title = "短视频";
+          } catch (err) {}
         } else if (res.data.flag == 1) { //1不显示
           app.globalData.isflag = false;
           that.setData({
@@ -515,8 +519,7 @@ Page({
     })
     try {
 
-    } catch (err) {
-    }
+    } catch (err) {}
   },
   toVideo: function (e) { //视频详情
     let event = e.currentTarget.dataset

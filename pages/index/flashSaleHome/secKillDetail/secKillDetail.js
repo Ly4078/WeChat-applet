@@ -48,24 +48,27 @@ Page({
     legend: []
   },
   onLoad: function(options) {
-    console.log("options:", options)
+    let q = decodeURIComponent(options.q);
     app.globalData.currentScene.path = "pages/index/flashSaleHome/secKillDetail/secKillDetail";
     app.globalData.currentScene.query = options;
     let _this = this,
       _id = '',
+      _categoryId='',
+      _actId='',
       _shopId = '';
-    clearInterval(_this.data.timer);
-    let q = decodeURIComponent(options.q);
+   
     if (q && q != 'undefined') {
       if (utils.getQueryString(q, 'flag') == 4) {
         _id = utils.getQueryString(q, 'id');
         _shopId = utils.getQueryString(q, 'shopId');
         _categoryId = utils.getQueryString(q, 'categoryId');
+        _actId = utils.getQueryString(q, 'actId');
       }
       this.setData({
         id: _id,
         shopId: _shopId,
-        categoryId: _categoryId
+        categoryId: _categoryId,
+        actId: _actId
       })
     } else {
       this.setData({
@@ -80,8 +83,12 @@ Page({
     this.setData({
       timer: null
     });
+    // this.init();
   },
   onShow: function() {
+    this.init();
+  },
+  init(){
     let _this = this,
       that = this;
     clearInterval(_this.data.timer);
@@ -242,7 +249,6 @@ Page({
     } else {
       _Url = this.data._build_url + 'sku/getQgc?' + _value;
     }
-
     wx.request({
       url: _Url,
       header: {
@@ -300,7 +306,6 @@ Page({
           }
           if (data.goodsSpuOut && data.goodsSpuOut.goodsSpuDesc && data.goodsSpuOut.goodsSpuDesc.content) {
             article = data.goodsSpuOut.goodsSpuDesc.content;
-            console.log('article:', article)
             WxParse.wxParse('article', 'html', article, that, 0);
           }
           let imgUrl = data.picUrl ? data.picUrl : data.skuPic,
