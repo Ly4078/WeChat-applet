@@ -48,9 +48,7 @@ Page({
     })
   },
   seebigImg: function (e) {
-    let that = this;
-    let currentImg = e.currentTarget.dataset.img;
-    let urls = [];
+    let that = this,currentImg = e.currentTarget.dataset.img,urls = [];
     for (let i = 0; i < that.data.singleData.attachments.length; i++) {
       urls.push(that.data.singleData.attachments[i].picUrl)
     }
