@@ -167,6 +167,7 @@ Page({
       scrollTop: 0,
       duration:0
     })
+    this.setData({ ind:0})
     let index = this.data.ind;
     if (index == 0 || index == 3) {
       if (swichrequestflag[index]) {
