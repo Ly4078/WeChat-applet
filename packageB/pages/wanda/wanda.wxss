@@ -74,17 +74,3 @@
   width: 100rpx;
   height: 100rpx;
 }
-
-.bottom_shade {
-  width: 100%;
-  height: 116rpx;
-  position: fixed;
-  bottom: 100rpx;
-  display: flex;
-  justify-content:center;
-}
-
-.bottom_shade image {
-  width: 256rpx;
-  height: 116rpx;
-}

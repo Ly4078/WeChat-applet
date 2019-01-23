@@ -22,7 +22,7 @@
 </view>
 
 <!-- 数据不多时底部水印 -->
-<view wx:if="{{list.length <= 2}}" class="bottom_shade">
+<view wx:if="{{list.length <= 2 && list.length > 0}}" class="bottom_shade">
   <image src="/images/icon/shade.png"></image>
 </view>
 

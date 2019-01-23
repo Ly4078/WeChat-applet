@@ -8,3 +8,8 @@
   </view>
   <view wx:else class="cardItem noCard" bindtap='modifyCard'>+请添加银行卡号</view>
 </view>
+
+<!-- 数据不多时底部水印 -->
+<view class="bottom_shade">
+  <image src="/images/icon/shade.png"></image>
+</view>
