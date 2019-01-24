@@ -48,6 +48,7 @@ Page({
     legend: []
   },
   onLoad: function(options) {
+    console.log('options:',options)
     let q = decodeURIComponent(options.q);
     app.globalData.currentScene.path = "pages/index/flashSaleHome/secKillDetail/secKillDetail";
     app.globalData.currentScene.query = options;
