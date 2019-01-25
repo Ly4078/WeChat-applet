@@ -111,7 +111,7 @@
         <text>同店推荐</text>
       </view>
       <block wx:for="{{isBarg ? dishList : preDishList}}" wx:key="{{index}}" id="{{index}}" wx:for-index="idx" wx:if="{{shopId!=0}}">
-        <view class='merchantROM' id="{{item.id}}" data-actId="41" catchtap='dishesDiscounts'>
+        <view class='merchantROM' id="{{item.id}}" data-actId="{{item.actGoodsSkuOut.actId}}" catchtap='dishesDiscounts'>
           <view class='merchantLeft'>
             <view class='acuisineMessage'>
               <text class='acuisineName'>{{item.skuName}}</text>
