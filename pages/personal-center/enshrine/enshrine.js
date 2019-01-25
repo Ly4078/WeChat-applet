@@ -107,6 +107,7 @@ Page({
         } else {
           wx.hideLoading();
         }
+        that.setData({ showSkeleton:false})
       },
       fail () {
         this.setData({

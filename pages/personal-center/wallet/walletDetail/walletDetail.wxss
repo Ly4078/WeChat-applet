@@ -57,6 +57,6 @@ page {
 }
 
 .noList image{
-  width: 312rpx;
-  height: 203rpx;
+  width: 230rpx;
+  height: 230rpx;
 }

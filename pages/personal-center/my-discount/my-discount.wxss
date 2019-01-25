@@ -61,6 +61,7 @@ page {
 .placeholder image {
   top: 40%;
   margin-top: 0;
+  margin-left:-156rpx;
 }
 
 .conceal-dot {

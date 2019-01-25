@@ -68,8 +68,9 @@ Page({
     if (app.globalData.userInfo.lat && app.globalData.userInfo.lng && app.globalData.userInfo.city) {
       that.cityQuery();
     } else {
+      that.setData({ showSkeleton:false})
       getCurrentLocation(that).then( ()=>{
-     
+        
         that.cityQuery();
       })
     }
@@ -431,8 +432,14 @@ Page({
     })
     wx.openSetting({
       success: (res) => {
-        if (res.authSetting['scope.userLocation']) { //打开位置授权          
-            
+        if (res.authSetting['scope.userLocation']) { //打开位置授权
+          that.setData({ showSkeleton: true, isshowlocation: false})          
+              setTimeout( ()=>{
+                getCurrentLocation(that).then(() => {
+                 
+                  that.cityQuery();
+                })
+              },300)
         } else {
           that.setData({
             isshowlocation: true

@@ -1,11 +1,12 @@
 <!--pages/index/notification/notification.wxml-->
-
+<!-- 骨架屏模块 -->
+<skeleton selector="skeleton" loading="spin" bgcolor="#FFF" wx:if="{{showSkeleton}}"></skeleton>
 <view class='notifBbox' wx:for="{{arrdata}}" wx:key="{{index}}" id="{{index}}" bindtap='handItem'>
   <view class='num' wx:if="{{item.total>0}}">{{item.total}}</view>
   <image src="{{item.imgUrl}}" class='notifleft'></image>
   <view class='notifright'>
     <view class='notifttop'><text>{{item.messageText.title}}</text><text>{{item.messageText.sendTime}}</text></view>
-    <view class='notiftbot'>{{item.messageText.content}}</view>
+    <view class='notiftbot'>{{item.messageText.content?item.messageText.content:'暂无通知消息'}}</view>
   </view>
 </view>
 

@@ -48,9 +48,6 @@ Page({
 
   },
   walletPage() {
-    wx.showLoading({
-      title: '加载中...'
-    })
     let _this = this;
     //type   ----  记录类型 3, 钱包明细 4，已获得，5，在路上，6，已失败
     //operateType  --- 操作类型 1支出 2收入（查询钱包明细时使用）
@@ -86,12 +83,6 @@ Page({
             });
             requestTask = false;
           }
-          setTimeout(() => {
-            _this.setData({
-              showSkeleton: false,
-              loading: false
-            });
-          }, 500);
         } else {
           _this.setData({
             flag: false,
@@ -100,6 +91,10 @@ Page({
             requestTask = false;
           });
         }
+        _this.setData({
+          showSkeleton: false,
+          loading: false
+        });
         wx.hideLoading();
       },
       fail() {

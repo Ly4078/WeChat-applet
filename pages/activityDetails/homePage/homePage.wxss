@@ -226,7 +226,7 @@
 
 .merchant_none image{
   width:312rpx;
-  height:203rpx;
+  height:312rpx;
   position:absolute;
   left:58%;
   margin:260rpx 0 50rpx -200rpx;

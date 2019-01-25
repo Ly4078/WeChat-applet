@@ -96,6 +96,6 @@ page {
 }
 
 .noList image{
-  width: 312rpx;
-  height: 203rpx;
+  width: 260rpx;
+  height: 260rpx;
 }

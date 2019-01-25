@@ -174,7 +174,7 @@ Page({
     })
     let commoditys = that.data.commoditys
     for (let i = 0; i < commoditys.length; i++) {
-      if (that.data.logId == commoditys[i].id) {
+      if (that.data.elephant == i) {
         if (commoditys[i].data && commoditys[i].data.length) {
           that.setData({
             logisticsList: commoditys[i].data,
@@ -256,7 +256,7 @@ Page({
           }
           let commoditys = that.data.commoditys;
           for (let i = 0; i < commoditys.length; i++) {
-            if (commoditys[i].id == that.data.logId) {
+            if (i == that.data.elephant) {
               commoditys[i].data = commoditys[i].data ? commoditys[i].data : [];
               commoditys[i].data = commoditys[i].data.concat(logistics);
               commoditys[i].page = that.data.page;

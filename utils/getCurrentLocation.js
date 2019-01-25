@@ -12,11 +12,13 @@ var getCurrentLocation = function (that) {
       fail: function (res) {
         wx.getSetting({
           success: (res) => {
-            if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其位置信息          
+            if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其位置信息     
+
               that.setData({
                 isshowlocation: true
               })
             } else {
+              
             }
           }
         })

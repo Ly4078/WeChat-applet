@@ -501,13 +501,13 @@ button {
 }
 
 .placeholder image {
-  width: 312rpx;
-  height: 203rpx;
+  width: 260rpx;
+  height: 260rpx;
   position: absolute;
   top: 50%;
   left: 50%;
   margin-top: 484rpx;
-  margin-left: -156rpx;
+  margin-left: -130rpx;
 }
 
 .drawer_screen {

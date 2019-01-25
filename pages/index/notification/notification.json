@@ -1,4 +1,9 @@
 {
   "navigationBarTitleText": "消息通知",
-  "enablePullDownRefresh": false
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "i-spin": "/dist/spin/index",
+    "skeleton": "/components/skeleton/skeleton",
+    "image-loader": "/components/image-loader"
+  }
 }

@@ -35,7 +35,7 @@
     <view class="menuItem" wx:for="{{showSkeleton?SkeletonData:dishList}}" wx:key="index" id="{{item.id}}">
       <view class="menuItemWrap" id="{{item.id}}" data-actid="{{item.actGoodsSkuOut.actId}}" data-shopid="{{item.shop.id}}" data-categoryid="{{item.categoryId}}" bindtap='toBuy'>
         <view class="skeleton-rect">
-          <image-loader width="100%" height="340rpx" class='menuPic' default-image='/images/icon/morentu.png' original-image="{{item.skuPic?item.skuPic:'/images/icon/morentu.png'}}" />
+          <image-loader width="100%" mode="aspectFill" height="340rpx" class='menuPic' default-image='/images/icon/morentu.png' original-image="{{(item.smallSkuPic?item.smallSkuPic:item.skuPic)?(item.smallSkuPic?item.smallSkuPic:item.skuPic):'/images/icon/morentu.png'}}" />
         </view>
         <view style="height:340rpx;" wx:if="{{item.actGoodsSkuOut.stockNum <= 0}}" class="notstockNumshadedow">
           <image style="width:108rpx;height:108rpx;" wx:if="{{item.actGoodsSkuOut.stockNum <= 0}}" class="sellOutIcon" src="/images/icon/sellOut.png"></image>
@@ -63,8 +63,8 @@
         </view>
       </view>
     </view>
-    <view class="placeholder" wx:if="{{isEmpty}}">
-      <image src="/images/icon/zhanweitu.png"></image>
+    <view class="placeholder" wx:if="{{isEmpty || dishList.length <= 0}}">
+      <image src="/images/icon/zhanweitu1.png"></image>
     </view>
   </view>
 </view>

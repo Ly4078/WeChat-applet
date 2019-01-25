@@ -611,6 +611,12 @@ Page({
     wx.navigateTo({
       url: '/pages/personal-center/sharepull-sdb/sharepull-sdb?picUrl=' + this.data.picUrl
     })
+  },
+  onPullDownRefresh:function(){
+    this.onShow();
+    setTimeout( ()=>{
+      wx.stopPullDownRefresh();
+    },1500)
   }
   // toAgent() {   //跳转至代理商
   //   wx.navigateTo({

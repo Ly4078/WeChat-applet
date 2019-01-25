@@ -47,7 +47,7 @@
   </view>
 
   <!-- 活动列表 -->
-  <view class="actList">
+  <view class="actList" wx:if="{{!showSkeleton}}">
     <scroll-view class="actItem scroll_view_H" scroll-x scroll-with-animation="true" style="width: 100%">
       <image wx:for="{{activityList}}" wx:key="index" src="{{item.imgUrl}}" data-url="{{item.linkUrl}}" data-msg="{{item.msg}}" catchtap="toLink"></image>
     </scroll-view>
@@ -125,7 +125,7 @@
 
         <view class="hot-recoItem-left">
           <!-- <image src="{{item.picUrl}}" mode='aspectFill' class='hot-recoItem-leftImg'></image> -->
-          <image-loader width="180rpx" height="180rpx" class='hot-recoItem-leftImg' default-image='/images/icon/morentu.png' mode='aspectFill' original-image="{{item.picUrl?item.picUrl:'/images/icon/morentu.png'}}" />
+          <image-loader width="180rpx" height="180rpx" class='hot-recoItem-leftImg' default-image='/images/icon/morentu.png' mode='aspectFill' original-image="{{(item.smallSkuPic?item.smallSkuPic:item.skuPic)?(item.smallSkuPic?item.smallSkuPic:item.skuPic):'/images/icon/morentu.png'}}" />
         </view>
         <view class="hot-recoItem-right">
           <view class="title_tips">
@@ -159,7 +159,7 @@
         <image src="/images/newIndex/bargain.png" class="bargain-img"></image>
         <view class="hot-recoItem-left">
           <!-- <image src="{{item.skuPic}}" mode='aspectFill' class='hot-recoItem-leftImg'></image> -->
-          <image-loader width="180rpx" height="180rpx" class='hot-recoItem-leftImg' default-image='/images/icon/morentu.png' mode='aspectFill' original-image="{{item.skuPic?item.skuPic:'/images/icon/morentu.png'}}" />
+          <image-loader width="180rpx" height="180rpx" class='hot-recoItem-leftImg' default-image='/images/icon/morentu.png' mode='aspectFill' original-image="{{(item.smallSkuPic?item.smallSkuPic:item.skuPic)?(item.smallSkuPic?item.smallSkuPic:item.skuPic):'/images/icon/morentu.png'}}" />
           <view wx:if="{{item.actGoodsSkuOut.stockNum <= 0}}" class="notstockNumshadedow">
             <image style="width:108rpx;height:108rpx;" wx:if="{{item.actGoodsSkuOut.stockNum <= 0}}" class="sellOutIcon" src="/images/icon/sellOut.png"></image>
           </view>
@@ -197,7 +197,7 @@
       <view  wx:for="{{allList[bigindex].skuMS}}" wx:key="index" id='{{item.id}}' data-shopid="{{item.shopId}}" data-actid="44" data-distance="{{item.distance}}" data-categoryid="{{item.categoryId}}" catchtap='toSecKillDetail' class="Dishes-item"
         hover-class='listhover' hover-stay-time="200">
         <view class="Dishes-top">
-          <image-loader width="344rpx" height="344rpx" class='hot-recoItem-leftImg' default-image='/images/icon/morentu.png' mode='aspectFill' original-image="{{item.skuPic?item.skuPic:'/images/icon/morentu.png'}}" />
+          <image-loader width="344rpx" height="344rpx" class='hot-recoItem-leftImg' default-image='/images/icon/morentu.png' mode='aspectFill' original-image="{{(item.smallSkuPic?item.smallSkuPic:item.skuPic)?(item.smallSkuPic?item.smallSkuPic:item.skuPic):'/images/icon/morentu.png'}}" />
           <view class="Dishes-desc">
             <view class="desc-msg">{{item.shop.shopName}}</view>
             <!-- <view class="desc-loca">{{item.distance}}</view> -->

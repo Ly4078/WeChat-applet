@@ -12,6 +12,7 @@ Page({
    */
   data: {
     _build_url: GLOBAL_API_DOMAIN,
+    showSkeleton:true,
     oldData: [
       {
         id: 1,
@@ -36,13 +37,16 @@ Page({
     ],
     arrdata:[]
   },
-
+  onLoad:function(options){
+  
+  },
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
+    let arrData = wx.getStorageSync("arrdata") ? wx.getStorageSync("arrdata") : this.data.oldData;
     this.setData({
-      arrdata:this.data.oldData
+      arrdata: arrData
     })
     this.getMessageTotal();
   },
@@ -55,6 +59,7 @@ Page({
         "Authorization": app.globalData.token
       },
       success: function(res) {
+        
         if (res.data.code == 0) {
           let _data = res.data.data,
             _Data = that.data.arrdata;
@@ -76,12 +81,14 @@ Page({
           _Data[0].messageText.sendTime = utils.daysAgo(_Data[0].messageText.sendTime);
           _Data[1].messageText.sendTime = utils.daysAgo(_Data[1].messageText.sendTime);
 
-          // console.log('_Data:', _Data)
+          wx.setStorageSync("arrdata", _Data)
           that.setData({
-            arrdata: _Data
+            arrdata: _Data,
+            oldData: _Data
           })
         }
-      }
+        that.setData({ showSkeleton:false})
+      },
     })
   },
   handItem: function (e) {

@@ -110,8 +110,8 @@ page{
 }
 
 .noneBox image {
-  width: 250rpx;
-  height: 200rpx;
+  width: 260rpx;
+  height: 260rpx;
 }
 
 .hot-recoItem-left {

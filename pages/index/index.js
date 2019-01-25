@@ -145,8 +145,10 @@ Page({
   },
 
   onShow: function() {
-    let newcomer = wx.getStorageSync("newcomer");
-    if (newcomer == '1') {
+    let hideWanda = wx.getStorageSync("hideWanda");
+    if (hideWanda == '2') {
+        
+    }else{
       this.setData({
         showwandaactivity: true
       })
@@ -476,7 +478,9 @@ Page({
     wx.openSetting({
       success: (res) => {
         if (res.authSetting['scope.userLocation']) {
-            
+            setTimeout( ()=>{
+              that.onShow();
+            },300)
         } else {
           that.setData({
             isshowlocation: true
