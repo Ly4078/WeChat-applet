@@ -85,10 +85,6 @@ page{
   background-color: #B1B1B1;
 }
 
-.zuoText{
-  margin-right: 8rpx;
-}
-
 .portraitRight{
   width: 30%;
   display: flex;

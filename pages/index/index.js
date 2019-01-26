@@ -99,7 +99,8 @@ Page({
       path: '/pages/home?path=1&roomId=633505',
     })
   },
-  onLoad: function (options) {
+
+  onLoad: function(options) {
     let that = this;
     setTimeout(() => {
       that.setData({

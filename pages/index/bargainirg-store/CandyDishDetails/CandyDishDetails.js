@@ -16,7 +16,7 @@ var village_LBS = function(that) {
         longitude = res.longitude;
       app.globalData.userInfo.lat = latitude;
       app.globalData.userInfo.lng = longitude;
-      that.requestCityName(latitude, longitude);
+      that.requestCityName(latitude, longitude);  
     },
   })
 }

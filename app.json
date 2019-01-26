@@ -49,6 +49,7 @@
     "pages/personal-center/wallet/BillingRecord/BillingRecord",
     "pages/discover-plate/discover-plate",
     "pages/index/voucher-details/voucher-details",
+    "pages/index/voucher-details/webtz/webtz",
     "pages/index/user-location/user-location",
     "pages/index/chartOfDisheses/chartOfDisheses",
     "pages/index/user-seek/user-seek",
