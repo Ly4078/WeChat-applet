@@ -62,8 +62,10 @@ Page({
       disabled: false,
       img: '/images/icon/weixinzhifu.png',
       checked: true
-    }
-    ]
+    }],
+    isuserye:false,  //是否开启余额支付
+    balance:140,  //余额数值
+    lessbal: 0  //减掉的价格
   },
   onLoad: function(options) {
     console.log('options:', options)
@@ -117,8 +119,10 @@ Page({
       _total = _total.toFixed(2);
       this.setData({
         picUrl: '/images/icon/ticket_txt.png',
-        total: _total
+        total: _total,
+        lessbal: _total
       });
+      that.changmoney();
     } else{
       let _day = 60 * 60 * 24 * 1000,
         _today = '',
@@ -162,8 +166,10 @@ Page({
       let _total = this.data.sellPrice * this.data.ssnum;
       _total = _total.toFixed(2);
       this.setData({
-        total: _total
+        total: _total,
+        lessbal: _total
       })
+      this.changmoney();
     }else{
       this.setData({ issoid: false })
       if (this.data.issku != 2) {
@@ -180,6 +186,34 @@ Page({
   onUnload() {
     app.globalData.Express = {};
   },
+  checkboxChange(val){
+    this.setData({
+      isuserye: !this.data.isuserye
+    })
+    this.changmoney();
+    console.log("isuserye:", this.data.isuserye)
+  },
+  //价格发生变化 时
+  changmoney(){
+    let _total = this.data.total, _lessbal = this.data.lessbal;
+    if (this.data.isuserye) {
+      _total = _total * 1 - this.data.balance * 1;
+      if(_total<0){
+        _total=0;
+      }
+    } else {
+      _total = this.data.sellPrice * this.data.ssnum;
+    }
+    _total = _total.toFixed(2);
+    if (_total > this.data.balance){
+      _lessbal=this.data.balance
+    }
+    this.setData({
+      total: _total,
+      lessbal: _lessbal
+    })
+  },
+  //数量加一
   addnum:function(){
     let _ssnum = this.data.ssnum;
     if (this.data.stockNum) {
@@ -196,11 +230,16 @@ Page({
       ssnum: _ssnum
     })
     let _total = this.data.sellPrice * this.data.ssnum;
+    let _lessbal = this.data.sellPrice * this.data.ssnum;
+    console.log('_totaladd:', _total)
     _total = _total.toFixed(2);
     this.setData({
-      total: _total
+      total: _total,
+      lessbal: _lessbal
     })
+    this.changmoney();
   },
+  //数量减一
   lessnum: function () {
     let _ssnum = this.data.ssnum;
     _ssnum--;
@@ -214,10 +253,14 @@ Page({
       })
     }
     let _total = this.data.sellPrice*this.data.ssnum;
+    let _lessbal = this.data.sellPrice * this.data.ssnum;
+    console.log('_totalless:', _total)
     _total = _total.toFixed(2);
     this.setData({
-      total: _total
+      total: _total,
+      lessbal: _lessbal
     })
+    this.changmoney();
   },
   //查询当前商品详情
   getDetailBySkuId: function(val) {
@@ -394,9 +437,7 @@ Page({
             that.setData({
               current: _obj
             })
-          } else {
-            
-          }
+          } 
         } else {
           that.setData({
             errmsg: res.data.message,

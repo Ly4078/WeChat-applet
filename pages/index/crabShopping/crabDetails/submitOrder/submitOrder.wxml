@@ -91,27 +91,34 @@
         <view class='butanliu' bindtap='addnum'>+</view>
       </view>
       <view class='equally'>
+        <text>余额:(可用余额{{balance}}元)</text>
+        <view class='boxsss'></view>
+        <text class='delicatese'>-¥{{lessbal}}</text>
+        <checkbox-group bindchange="checkboxChange">
+            <checkbox value="1" />
+        </checkbox-group>
+      </view>
+      <view class='equally'>
         <text>合计:</text>
-        <text class='delicatese'>￥{{current.total?current.total:total}}</text>
+        <text class='delicatese'>￥{{total}}</text>
       </view>
     </view>
   </view>
   <!-- 微信支付 -->
-<view class='paymentPayWay'>
-<radio-group class="radio-group" bindchange="radioChange">
-<label class="radio" wx:for="{{items}}" wx:key='index' class='paymentPayTop'>
-<image class='paymentPayImg' src='{{item.img}}'></image>{{item.name}}
-<radio class='riradio' value="{{item.id}}" disabled="{{item.disabled}}" checked="{{item.checked}}" />
-</label>
-</radio-group>
-</view>
-
+  <view class='paymentPayWay'>
+    <radio-group class="radio-group" bindchange="radioChange">
+      <label class="radio" wx:for="{{items}}" wx:key='index' class='paymentPayTop'>
+        <image class='paymentPayImg' src='{{item.img}}'></image>{{item.name}}
+        <radio class='riradio' value="{{item.id}}" disabled="{{item.disabled}}" checked="{{item.checked}}" />
+      </label>
+    </radio-group>
+  </view>
   <view class='presentCommtop'></view>
   <!-- 提交订单 -->
   <view class='presentComm'>
     <view class='presentCommLeft'>
       <view>订单金额：
-        <text>￥{{current.total?current.total:total}}</text>
+        <text>￥{{total}}</text>
       </view>
     </view>
 

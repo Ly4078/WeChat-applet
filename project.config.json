@@ -38,7 +38,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 3,
+			"current": 4,
 			"list": [
 				{
 					"id": -1,
@@ -64,6 +64,12 @@
 					"pathName": "pages/index/bargainirg-store/AprogressBar/AprogressBar",
 					"query": "refId=8229&shopId=1770&skuMoneyMin=42&skuMoneyOut=46&actId=41&categoryId=42&city=",
 					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "支付",
+					"pathName": "pages/index/crabShopping/crabDetails/submitOrder/submitOrder",
+					"query": "num=1&issku=3&flag=1&picUrl=https://xq-1256079679.file.myqcloud.com/13006154118_1548397038_20190125141717757_0.8.jpg&sellPrice=15&id=8246&actId=41&skuName=三文鱼寿司&remark=null&shopId=1781&singleType=1&spuId=4230&cfom=candy&stockNum=99"
 				}
 			]
 		}

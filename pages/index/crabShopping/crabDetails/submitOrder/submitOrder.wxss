@@ -191,6 +191,9 @@ page{
 .boxss{
   width: 380rpx;
 }
+.boxsss{
+  width: 140rpx;
+}
 .eqpicker{
   width: 100%;
   height: 88rpx;
