@@ -967,14 +967,14 @@ Page({
     if (this.data.pageTotal <= this.data.page) {
       return
     }
-    // if (!this.data.actId) {
+    if (!this.data.shopId != 0) {
     this.setData({
       page: this.data.page + 1,
       loading: true
     }, () => {
       this.hotDishList();
     });
-    // }
+    }
   },
   onPullDownRefresh: function() { //下拉刷新 
     this.setData({

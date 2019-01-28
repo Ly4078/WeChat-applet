@@ -250,7 +250,7 @@ Page({
       _value += key + "=" + _parms[key] + "&";
     }
     _value = _value.substring(0, _value.length - 1);
-    url = _this.data._build_url + 'orderCoupon/sendVersionCoupon?' + _value;
+    url = _this.data._build_url + ' ?' + _value;
     _Url = encodeURI(url);
     wx.request({
       url: _Url,
@@ -341,7 +341,24 @@ Page({
     return val;
   },
   express() { //跳转至快递配送
-    this.getorderCoupon(2);
+    let txtObj = wx.getStorageSync("txtObj");
+    let that = this;
+    if (txtObj.isShowexpressMsg == '1') {
+      wx.showModal({
+        title: '提示',
+        content: txtObj.expressMsg,
+        success(res) {
+          if (res.confirm) {
+            that.getorderCoupon(2);
+          } else if (res.cancel) {
+           
+          }
+        }
+      })
+    }else{
+      that.getorderCoupon(2);
+    }
+   
   },
   storeList() { //跳转至门店列表
     let storeList = '';

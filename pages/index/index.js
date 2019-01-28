@@ -94,13 +94,12 @@ Page({
     })
   },
   getfptt: function () {
-    wx.navigateToMiniProgram({
-      appId: 'wxca1e7ba3fe18ff12',
-      path: '/pages/home?path=1&roomId=633505',
+    wx.navigateTo({
+      url: '/packageA/pages/redBagIndex/index',
     })
   },
-
-  onLoad: function(options) {
+  onLoad: function (options) {
+    this.getfptt();
     let that = this;
     setTimeout(() => {
       that.setData({

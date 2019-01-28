@@ -670,11 +670,11 @@ page{
   padding: 0 28rpx 28rpx 28rpx;
   background: #fff;
   color: #191919;
-  font-size: 24rpx;
+  font-size: 28rpx;
 }
 .legend_name{
   color: #191919;
-  font-size: 28rpx;
+  font-size: 30rpx;
   font-weight: 600;
   padding: 18rpx 0;
 }

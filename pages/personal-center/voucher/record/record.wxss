@@ -55,5 +55,5 @@ page{
 .placeholder image {
   /* left: 90%; */
   transform: translate(-50%,-50%);
-  margin-left: 0;
+  margin-left: -20rpx;
 }

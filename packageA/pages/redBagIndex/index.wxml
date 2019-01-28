@@ -1,0 +1,27 @@
+<view class="containers" style="min-height:{{windowHeight?windowHeight+'px':'auto'}}">
+  <view class="banner">
+    <image src="../../images/redbagBanner.png" mode='aspectFill'></image>
+  </view>
+  <view class="content">
+    <view class="title">选择红包金额 - 购买红包 - 赠送亲友</view>
+    <view class="redBagList_content">
+      <view class="item {{index==currentIndex?'active':''}}" wx:for="{{list}}" wx:key="index">
+        <image src="{{index==currentIndex?'../../images/redbag2.png':'../../images/redbag1.png'}}"></image>
+        <text>{{item}}</text>
+      </view>
+    </view>
+    <view class="selectNum_pay">
+      <view class="selectLeft">
+        <view class="numTitle">购买数量</view>
+        <view class="numBox">
+          <image src="../../images/jian.png"></image>
+          <view class="currentNum">8</view>
+          <image src="../../images/add.png"></image>
+        </view>
+      </view>
+      <view class="selectConfirm">购买</view>
+    </view>
+    <view class="msgdetail">详细说明</view>
+  </view>
+  <view class="bottomBG"><image src="../../images/redbagBottombg.png"></image></view>
+</view>

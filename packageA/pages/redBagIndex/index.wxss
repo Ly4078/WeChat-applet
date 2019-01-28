@@ -1,0 +1,140 @@
+.containers {
+  background: #d43b2f;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.containers .banner {
+  width: 100%;
+  height: 382rpx;
+}
+.containers .bottomBG{
+  position: absolute;
+  width: 100%;
+  height: 98rpx;
+  left: 0;
+  bottom:0;
+}
+.containers .bottomBG image{
+  width: 100%;
+  height: 98rpx;
+}
+.containers .banner image {
+  width: 100%;
+  height: 382rpx;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 20rpx 0;
+}
+
+.content .title {
+  color: #ffe15f;
+  font-size: 32rpx;
+  text-align: center;
+}
+
+.content .redBagList_content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding: 20rpx 0;
+}
+
+.content .redBagList_content .item {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 216rpx;
+  height: 120rpx;
+  margin: 15rpx 0;
+  border-radius: 15rpx;
+  border: 1rpx solid #fbd1ce;
+}
+.content .redBagList_content .item.active{
+  border: 1rpx solid #FFE15F;
+ }
+ .content .redBagList_content .item.active text{
+  color:#FFE15F;
+ }
+.content .redBagList_content .item text {
+  font-size: 40rpx;
+  color: #fbd1ce;
+  margin-left: 15rpx;
+}
+
+.content .redBagList_content .item image {
+  width: 32rpx;
+  height: 40rpx;
+}
+
+.selectNum_pay {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0 20rpx;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.selectNum_pay .selectLeft {
+  flex: 1;
+  height: 100rpx;
+  background: #fff;
+  border-radius: 15rpx;
+  margin-right: 35rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.selectNum_pay .selectLeft .numTitle {
+  flex: 1;
+  margin-left: 20rpx;
+}
+
+.selectNum_pay .selectLeft .numBox {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 240rpx;
+  justify-content: space-around;
+}
+ .currentNum{
+   font-size: 40rpx;
+   color: #D64136;
+ }
+
+.selectNum_pay .selectLeft view image {
+  width: 52rpx;
+  height: 52rpx;
+}
+
+.selectNum_pay .selectConfirm {
+  background: #ffe15f;
+  font-size: 38rpx;
+  color: #ba3127;
+  text-align: center;
+  line-height: 100rpx;
+  border-radius: 15rpx;
+  width: 216rpx;
+  height: 100rpx;
+}
+.msgdetail{
+  font-size: 30rpx;
+  color:#FFE15F;
+  text-align: center;
+  width: 163rpx;
+  height: 60rpx;
+  line-height: 60rpx;
+  border:1rpx solid #BA3127;
+  border-radius: 15rpx;
+  margin: 50rpx auto 150rpx auto;
+}
