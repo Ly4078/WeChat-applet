@@ -636,12 +636,12 @@ Page({
       issoid: true
     })
     let _parms = {
-      // userId: app.globalData.userInfo.userId,
-      // userName: app.globalData.userInfo.userName,
       shopId: this.data.shopId,
       payType: 2,
       sendType: 2, //到店自提
       salepointId: this.data.salepointId, //到店自提销售点id
+      singleType: 1,
+      flagType: 1,
       orderItemList: [{
         goodsSkuId: this.data.id,
         goodsSpuId: this.data.spuId,
@@ -793,7 +793,7 @@ Page({
     if (that.data.current.spuId != 3 && that.data.issku != 3 && that.data.issku != 2){
       url = that.data._build_url + 'wxpay/doUnifiedOrderForShoppingMall?' + _value;
     }else{
-      url = that.data._build_url + 'wxpay/shoppingMallForCouponNew?' + _value;
+      url = that.data._build_url + 'wxpay/shoppingMallForCouponNew?' + _value + '&type=1';
     }
     if (this.data.actId) {
       url = that.data._build_url + 'wxpay/shoppingMallForCouponNew?' + _value + '&actId=' + this.data.actId;

@@ -212,3 +212,27 @@ page {
 .placeholder image {
   margin-top: 360rpx;
 }
+
+.menuPrice2 {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding-top: 20rpx;
+  font-size: 22rpx;
+}
+
+.red {
+  color: #FF4343;
+}
+
+.fz26 {
+  font-size: 26rpx;
+}
+
+.fz36 {
+  font-size: 36rpx;
+}
+
+.fz50 {
+  font-size: 50rpx;
+}

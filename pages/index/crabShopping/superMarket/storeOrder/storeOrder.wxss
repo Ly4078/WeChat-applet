@@ -158,3 +158,53 @@
   width: 100rpx;
   height: 100rpx;
 }
+
+.specialWrap {
+  height:80rpx;
+  display:flex;
+  padding:0 28rpx;
+  align-items:center;
+  background:#fff;
+  position:relative;
+}
+
+.special {
+  width: 6rpx;
+  height:26rpx;
+  background-color:#FC5F2F;
+  display:inline-block;
+}
+
+.specialWrap text {
+  font-family:PingFangSC-Regular;
+  color:rgba(25,25,25,1);
+  padding-left:16rpx;
+  background:#fff;
+}
+.wxParse-p {
+  padding:14px;
+  color:#191919;
+  font-size:30rpx;
+  background:#F5F5FA;
+}
+.dishImg,.dishtext {
+  padding:28rpx;
+  color:#191919;
+  font-size:28rpx;
+  background:#fff;
+}
+.openImg {
+  width:196rpx;
+  height:56rpx;
+  border-radius:56rpx;
+  border:1rpx solid #969696;
+  color:#969696;
+  text-align:center;
+  line-height:56rpx;
+  font-size:24rpx;
+  margin:0 auto;
+}
+.detailsImag {
+  width:100%;
+  height:750rpx;
+}

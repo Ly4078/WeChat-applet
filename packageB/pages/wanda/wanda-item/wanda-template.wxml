@@ -1,0 +1,9 @@
+<template name="wanda_temp">
+  <view class="shopItem_inner">
+    <image-loader wx:if="{{item.listType == 1}}" class="itemBg skeleton-rect" mode="aspectFill" width="100%" height="150rpx" default-image='/images/icon/morentu.png' original-image="{{item.picUrl?item.picUrl:'/images/icon/morentu.png'}}" />
+    <image-loader wx:if="{{item.listType == 2}}" class="itemBg skeleton-rect" mode="aspectFill" width="100%" height="150rpx" default-image='/images/icon/morentu.png' original-image="{{item.indexUrl?item.indexUrl:'/images/icon/morentu.png'}}" />
+    <view class="itemShadow"></view>
+    <view class="itemDistance">{{item.distance}}</view>
+    <view class="shopName skeleton-rect">{{item.listType == 1 ? item.name : item.salepointName}}</view>
+  </view>
+</template>

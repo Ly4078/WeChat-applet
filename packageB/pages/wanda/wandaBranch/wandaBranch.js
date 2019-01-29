@@ -19,11 +19,13 @@ Page({
     isEmpty: false, //列表是否为空
     shareId: 0,
     actId: '41',
+    id: '',
     name: '',
     address: '',
     distance: '',
     picUrl: '',
     city: '',
+    type: '',
     rows: 10,
     page: 1,
     pageTotal: 1,
@@ -51,8 +53,12 @@ Page({
       picUrl: options.picUrl,
       city: options.city,
       locationX: options.locationX,
-      locationY: options.locationY
+      locationY: options.locationY,
+      type: options.type
     });
+    wx.setNavigationBarTitle({
+      title: options.name,
+    })
     if (!app.globalData.token) { //没有token 获取token
       getToken(app).then(() => {
         that.getData();
@@ -78,72 +84,111 @@ Page({
   },
   dishL() { //砍菜列表
     let that = this,
-      lng = "",
-      lat = "",
+      str = "",
+      _url = "",
       _parms = {};
-    lng = wx.getStorageInfoSync('userInfo').lng ? wx.getStorageInfoSync('userInfo').lng : "110.77877";
-    lat = wx.getStorageInfoSync('userInfo').lat ? wx.getStorageInfoSync('userInfo').lat : "32.6226";
-    _parms = {
-      actId: this.data.actId,
-      zanUserId: app.globalData.userInfo.userId,
-      browSort: 0, //0附近 1销量 2价格
-      locationX: app.globalData.userInfo.lng ? app.globalData.userInfo.lng : lng,
-      locationY: app.globalData.userInfo.lat ? app.globalData.userInfo.lat : lat,
-      city: this.data.city,
-      isDeleted: 0,
-      page: this.data.page,
-      rows: this.data.rows,
-      token: app.globalData.token,
-      shopZoneItemId: that.data.id
-    };
+    if (this.data.type == 1) {    //万达
+      let lng = wx.getStorageInfoSync('userInfo').lng ? wx.getStorageInfoSync('userInfo').lng : "110.77877",
+      lat = wx.getStorageInfoSync('userInfo').lat ? wx.getStorageInfoSync('userInfo').lat : "32.6226";
+      _parms = {
+        actId: this.data.actId,
+        zanUserId: app.globalData.userInfo.userId,
+        browSort: 0, //0附近 1销量 2价格
+        locationX: app.globalData.userInfo.lng ? app.globalData.userInfo.lng : lng,
+        locationY: app.globalData.userInfo.lat ? app.globalData.userInfo.lat : lat,
+        city: this.data.city,
+        isDeleted: 0,
+        page: this.data.page,
+        rows: this.data.rows,
+        token: app.globalData.token,
+        shopZoneItemId: that.data.id
+      };
+      _url = this.data._build_url + 'goodsSku/listForAct?';
+    } else {    //武商
+      _parms = {
+        id: this.data.id, 
+        sendType: 2,
+        page: this.data.page,
+        rows: this.data.rows
+      };
+      _url = this.data._build_url + 'salePoint/getGoodsListBySalePointIdNew?';
+    }
     swichrequestflag = true;
-    Api.partakerList(_parms).then((res) => {
-      wx.stopPullDownRefresh();
-      if (res.data.code == 0) {
-        if (res.data.data.list && res.data.data.list.length > 0) {
-          let list = res.data.data.list,
-            dishList = that.data.dishList;
-          for (let i = 0; i < list.length; i++) {
-            list[i].distance = utils.transformLength(list[i].distance);
-            dishList.push(list[i]);
+    for (let key in _parms) {
+      str += key + "=" + _parms[key] + "&";
+    }
+    str = str.substring(0, str.length - 1);
+    wx.request({
+      url: _url + str,
+      method: 'GET',
+      header: {
+        "Authorization": app.globalData.token
+      },
+      success: function (res) {
+        wx.stopPullDownRefresh();
+        if (res.data.code == 0) {
+          if (res.data.data.list && res.data.data.list.length > 0) {
+            let list = res.data.data.list,
+              dishList = that.data.dishList;
+            for (let i = 0; i < list.length; i++) {
+              list[i].distance = utils.transformLength(list[i].distance);
+              if (that.data.type == 1) {
+                list[i].stockNum = list[i].actGoodsSkuOut.stockNum;
+              }
+              dishList.push(list[i]);
+            }
+            that.setData({
+              dishList: dishList,
+              pageTotal: Math.ceil(res.data.data.total / 10)
+            });
+          } else {
+            if (that.data.dishList.length <= 0) {
+              that.setData({
+                isEmpty: true
+              });
+            }
           }
           that.setData({
-            dishList: dishList,
-            pageTotal: Math.ceil(res.data.data.total / 10)
+            showSkeleton: false,
+            loading: false
           });
         } else {
-          if (that.data.dishList.length <= 0) {
-            that.setData({
-              isEmpty: true
-            });
-          }
+          that.setData({
+            showSkeleton: false,
+            loading: false
+          });
         }
-        that.setData({
-          showSkeleton: false,
-          loading: false
-        });
-      } else {
-        that.setData({
-          showSkeleton: false,
-          loading: false
-        });
+        swichrequestflag = false;
+      },
+      fail() {
+        
       }
-      swichrequestflag = false;
     }, () => {
       swichrequestflag = false;
       that.setData({
         loading: false
       });
-    });
+    })
   },
   toBuy(e) { //买菜
-    let id = e.currentTarget.id,
-      actId = e.currentTarget.dataset.actid,
-      shopId = e.currentTarget.dataset.shopid,
-      categoryId = e.currentTarget.dataset.categoryid;
-    wx.navigateTo({
-      url: '../../../../pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails?id=' + id + '&shopId=' + shopId + '&actId=' + actId + '&categoryId=' + categoryId + '&city=' + this.data.city
-    })
+    let id = e.currentTarget.id, dishList = this.data.dishList;
+    if (this.data.type == 1) {
+      let actId = '', shopId = '', categoryId = '';
+      for (let i = 0; i < dishList.length; i++) {
+        if (dishList[i].id == id){
+          actId = dishList[i].actGoodsSkuOut.actId;
+          shopId = dishList[i].shop.id;
+          categoryId = dishList[i].categoryId;
+        }
+      }
+      wx.navigateTo({
+        url: '../../../../pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails?id=' + id + '&shopId=' + shopId + '&actId=' + actId + '&categoryId=' + categoryId + '&city=' + this.data.city
+      })
+    } else {
+      wx.navigateTo({
+        url: '../../../../pages/index/crabShopping/superMarket/storeOrder/storeOrder?id=' + id + '&salepointId=' + this.data.id
+      })
+    }
   },
   onPullDownRefresh: function() { //刷新
     if (swichrequestflag) {
@@ -215,7 +260,7 @@ Page({
     wx.openLocation({
       longitude: Number(that.data.locationX),
       latitude: Number(that.data.locationY),
-      scale: 18,
+      scale: 14,
       name: that.data.name,
       address: that.data.address,
       success: function(res) {},

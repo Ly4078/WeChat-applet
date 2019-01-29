@@ -6,17 +6,17 @@
   </view>
 </view>
 <view class="wdBranch">
-  
+
   <!-- 回到首页 -->
   <image class="indexIcon" src="/images/icon/goindex.png" bindtap='toIndex' wx:if="{{shareId}}"></image>
-  
+
   <!-- 回到顶部 -->
   <view class='toTop' wx:if="{{toTops}}" bindtap='toTop'>
     <image src='/images/icon/toTop.png'></image>
   </view>
 
   <view class="branchTop">
-    <image class="wdPic" src="{{picUrl}}"></image>
+    <image class="wdPic" mode="aspectFill" src="{{picUrl}}"></image>
     <view class="wdShadow"></view>
     <button class="shareIcon" plain="true" data-name="shareBtn" open-type="share">
       <image src="/images/icon/share.png"></image>
@@ -31,18 +31,21 @@
       </view>
     </view>
   </view>
+
+
   <view class="branchList">
     <view class="menuItem" wx:for="{{showSkeleton?SkeletonData:dishList}}" wx:key="index" id="{{item.id}}">
-      <view class="menuItemWrap" id="{{item.id}}" data-actid="{{item.actGoodsSkuOut.actId}}" data-shopid="{{item.shop.id}}" data-categoryid="{{item.categoryId}}" bindtap='toBuy'>
+      <view class="menuItemWrap" id="{{item.id}}" bindtap='toBuy'>
         <view class="skeleton-rect">
-          <image-loader width="100%" mode="aspectFill" height="340rpx" class='menuPic' default-image='/images/icon/morentu.png' original-image="{{(item.smallSkuPic?item.smallSkuPic:item.skuPic)?(item.smallSkuPic?item.smallSkuPic:item.skuPic):'/images/icon/morentu.png'}}" />
+          <image-loader width="100%" mode="aspectFill" height="340rpx" class='menuPic' default-image='/images/icon/morentu.png' original-image="{{(item.smallSkuPic?item.smallSkuPic:item.skuPic)?(item.smallSkuPic?item.smallSkuPic:item.skuPic):'/images/icon/morentu.png'}}"
+          />
         </view>
-        <view style="height:340rpx;" wx:if="{{item.actGoodsSkuOut.stockNum <= 0}}" class="notstockNumshadedow">
-          <image style="width:108rpx;height:108rpx;" wx:if="{{item.actGoodsSkuOut.stockNum <= 0}}" class="sellOutIcon" src="/images/icon/sellOut.png"></image>
+        <view style="height:340rpx;" wx:if="{{item.stockNum <= 0}}" class="notstockNumshadedow">
+          <image style="width:108rpx;height:108rpx;" wx:if="{{item.stockNum <= 0}}" class="sellOutIcon" src="/images/icon/sellOut.png"></image>
         </view>
         <view class="menuInfo">
-          <view class="menu_skuName skeleton-rect">{{item.skuName}}</view>
-          <view class="shopName skeleton-rect">
+          <view class="menu_skuName skeleton-rect {{type == 2 ? 'fz26' : ''}}">{{item.skuName}}</view>
+          <view wx:if="{{type == 1}}" class="shopName skeleton-rect">
             <view class="shopName_l">
               <image src="/images/icon/house.png"></image>
               <view wx:if="{{item.shopName}}">{{item.shopName}}</view>
@@ -50,7 +53,7 @@
             </view>
             <view class="shopName_r">{{item.distance}}</view>
           </view>
-          <view class="menuPrice skeleton-rect">
+          <view wx:if="{{type == 1}}" class="menuPrice skeleton-rect">
             <view class="menuPrice_l">
               <view class="cost_l">
                 <text class="priceIcon">￥</text>
@@ -59,6 +62,13 @@
               <view class="cost_r">{{item.actGoodsSkuOut.goodsPromotionRules.actAmount}}</view>
             </view>
             <view class="menuPrice_r">原价￥{{item.sellPrice}}</view>
+          </view>
+          <view wx:if="{{type == 2}}" class="menuPrice2 skeleton-rect">
+            <view class="red">
+              <text class="fz36">￥</text>
+              <text class="fz50">{{item.sellPrice}}</text>
+            </view>
+            <view>原价￥{{item.marketPrice}}</view>
           </view>
         </view>
       </view>
@@ -71,10 +81,10 @@
 
 <!-- loading -->
 <view>
-<view class='loadingBox'>
-<i-spin custom wx:if="{{loading}}">
-<!-- <view class="loading"></view> -->
-<image style='width:100rpx;height:100rpx;' src="https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/23.gif"></image>
-</i-spin>
-</view>
+  <view class='loadingBox'>
+    <i-spin custom wx:if="{{loading}}">
+      <!-- <view class="loading"></view> -->
+      <image style='width:100rpx;height:100rpx;' src="https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/23.gif"></image>
+    </i-spin>
+  </view>
 </view>

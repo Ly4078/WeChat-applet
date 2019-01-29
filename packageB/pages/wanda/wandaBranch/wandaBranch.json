@@ -1,5 +1,5 @@
 {
-  "navigationBarTitleText": "万达广场",
+  "navigationBarTitleText": "",
   "usingComponents": {
     "i-spin": "/dist/spin/index",
     "skeleton": "/components/skeleton/skeleton",

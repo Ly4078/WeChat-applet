@@ -1,28 +1,40 @@
+<import src="wanda-item/wanda-template.wxml" />
 <view class='modal_box  modal_box11' wx:if="{{isshowlocation}}">
   <view class='weizhi'>
     更多体验需要你授权位置信息
     <button bindtap="openSetting">确定</button>
   </view>
 </view>
-<view class="shopList skeleton">
-  <view class="shopItem skeleton-rect" wx:for="{{list}}" wx:key="index" bindtap='toBranch' id="{{item.id}}">
-    <image-loader class="itemBg skeleton-rect" width="100%" height="340rpx" default-image='/images/icon/morentu.png' original-image="{{item.picUrl?item.picUrl:'/images/icon/morentu.png'}}" />
-    <view class="itemShadow"></view>
-    <view class="shopInfo">
-      <view class="shopName skeleton-rect">{{item.name}}</view>
-      <view class="shopAdr skeleton-rect">
-        <view class="shopAdr_l">{{item.address}}</view>
-        <view>{{item.distance}}</view>
-      </view>
-    </view>
+<view class="wandaWrap" wx:if="{{wandaL.length > 0}}">
+  <view class="listTitle">
+    <image src="https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/wanda.png"></image>
+    <view>湖北万达专区</view>
   </view>
-  <view class="placeholder" wx:if="{{isEmpty}}">
-    <image src="/images/icon/zhanweitu.png"></image>
+  <view class="shopList skeleton">
+    <view class="shopItem skeleton-rect" wx:for="{{wandaL}}" wx:key="index" bindtap='toBranch' id="{{item.id}}" data-type="{{item.listType}}">
+      <template is="wanda_temp" data="{{item}}" />
+    </view>
   </view>
 </view>
 
+<view class="wandaWrap" wx:if="{{wushangL.length > 0}}">
+  <view class="listTitle">
+    <image src="https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/wushang.png"></image>
+    <view>十堰武商超市专区（支持门店自提）</view>
+  </view>
+  <view class="shopList skeleton">
+    <view class="shopItem skeleton-rect" wx:for="{{wushangL}}" wx:key="index" bindtap='toBranch' id="{{item.id}}" data-type="{{item.listType}}">
+      <template is="wanda_temp" data="{{item}}" />
+    </view>
+  </view>
+</view>
+
+<view class="placeholder" wx:if="{{wandaL.length <= 0 && wushangL.length <= 0}}">
+  <image src="/images/icon/zhanweitu.png"></image>
+</view>
+
 <!-- 数据不多时底部水印 -->
-<view wx:if="{{list.length <= 2 && list.length > 0}}" class="bottom_shade">
+<view wx:if="{{wushangL.length <= 0}}" class="bottom_shade">
   <image src="/images/icon/shade.png"></image>
 </view>
 

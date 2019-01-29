@@ -1,8 +1,13 @@
+<import src="../../../../../utils/wxParse/wxParse.wxml" />
 <view class="storeOrder">
   <image class="indexIcon" src="/images/icon/indexIcon.png" bindtap='toIndex' wx:if="{{isShare}}"></image>
   <view class="storeOrder_top">
-    <image wx:if="{{skuPic}}" class="crabIcon" src="{{skuPic}}"></image>
-    <image wx:else class="crabIcon" src="/images/icon/morentu.png"></image>
+    <swiper indicator-dots indicator-active-color="#FC6232" style="width:100%;height:750rpx;background:#fff;">
+      <swiper-item wx:key="index" wx:for="{{attachments}}">
+        <image class='detailsImag' catchtap='seebigImg' data-img="{{item.picUrl}}" mode='aspectFill' wx:if="{{item.picUrl}}" src='{{item.picUrl}}'></image>
+        <image class='detailsImag' mode='aspectFill' wx:else src='/images/icon/morentu.png'></image>
+      </swiper-item>
+    </swiper>
     <view class="crabBox">
       <view class="crabName">{{skuName}}</view>
       <view class="calculate">
@@ -20,7 +25,39 @@
       </view>
     </view>
   </view>
-  <!-- <view class="description">
+
+  <view class='embedded'>
+    <!-- 商品详情 -->
+    <view class='specialWrap'>
+      <view class='special'></view>
+      <text>商品详情</text>
+    </view>
+    <view class='parewx' hidden="{{!isopenimg}}" wx:if="{{article}}">
+      <template is="wxParse" data="{{wxParseData:article.nodes}}" />
+    </view>
+    <view class='dishtext' hidden="{{isopenimg}}" wx:if="{{pattern}}">
+    </view>
+    <view class='dishImg' wx:if="{{article}}">
+      <view class='openImg' bindtap='clickopen'>{{isopenimg?'收起图文详情':'查看图文详情'}}</view>
+    </view>
+
+    <!-- 购买须知start -->
+    <view class='specialWrap' wx:if="{{legend}}">
+      <view class='special'></view>
+      <text>购买须知</text>
+    </view>
+    <view class='legend'>
+      <view class='legend_one' wx:for="{{legend}}" wx:key="{{index}}">
+        <view class='legend_name'> {{item.name}}</view>
+        <view class='legend_info' wx:for="{{item.info}}" wx:key="{{index}}">·
+          <text>{{item}}</text>
+        </view>
+      </view>
+    </view>
+    <!-- 购买须知end -->
+  </view>
+
+  <view class="description">
     <view class="descri_header">购买须知</view>
     <view class="descri_item">
       <text class="descri_tit">自提说明：</text>
@@ -34,9 +71,8 @@
       <text class="descri_tit">未划线价格：</text>
       <text class="descri_cont">未划线的价格指该商品在享7购平台实时标价，具体成交价格根据商品参加的活动，或者您使用优惠券等发生变化，最终以订单结算页面价格为准</text>
     </view>
-  </view> -->
-  <image class="instruction" src="https://xqmp4-1256079679.file.myqcloud.com/15827245422_instruction.png"></image>
-  <image class='imgUlrs' wx:for="{{crabImgUrl}}" wx:for-item="item" wx:for-index="index" wx:key="{{index}}" mode="widthFix" src='{{item}}'></image>
+  </view>
+
   <view class='storeOrder_bbj'></view>
   <view class="storeOrder_b">
     <view class="orderNum">共{{num}}件商品</view>

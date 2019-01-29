@@ -11,11 +11,11 @@ Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
     shareId: 0,
-    isEmpty: false,   //数据是否为空
     isshowlocation: false,
-    list: []
+    wandaL: [], //万达列表
+    wushangL: [] //武商列表
   },
-  onLoad: function (options) {
+  onLoad: function(options) {
     this.setData({
       isshowlocation: false
     });
@@ -33,34 +33,40 @@ Page({
       this.getData();
     }
   },
-  onShow: function() {
-
-  },
   getData() { //获取数据
     let that = this;
     if (app.globalData.userInfo.lat && app.globalData.userInfo.lng && app.globalData.userInfo.city) {
-      if (this.data.list.length <= 0) {
+      if (this.data.wandaL.length <= 0) {
         this.wandaList();
       }
+      console.log(app.globalData.userInfo.city);
+      if (app.globalData.userInfo.city == '十堰市' && this.data.wushangL.length <= 0) {
+        this.wushangList();
+      }
     } else {
-      getCurrentLocation(that).then( (res)=>{
+      getCurrentLocation(that).then((res) => {
         that.wandaList();
+        if (app.globalData.userInfo.city == '十堰市') {
+          that.wushangList();
+        }
       })
-      
+
     }
   },
   wandaList() {
     wx.showLoading({
       title: '加载中...'
     })
-    let _param = {}, str = "", that = this;
+    let _param = {},
+      str = "",
+      that = this;
     _param = {
       locationX: app.globalData.userInfo.lng,
       locationY: app.globalData.userInfo.lat,
       city: app.globalData.userInfo.city,
       regionName: "万达"
     }
-    for(let key in _param) {
+    for (let key in _param) {
       str += key + "=" + _param[key] + "&";
     }
     str = str.substring(0, str.length - 1);
@@ -73,20 +79,65 @@ Page({
       header: {
         "Authorization": app.globalData.token
       },
-      success: function (res) {
+      success: function(res) {
         wx.stopPullDownRefresh();
         wx.hideLoading();
         if (res.data.code == 0) {
-          let list = res.data.data.list;
-          if(list.length > 0) {
-            for (let i = 0; i < list.length; i++) {
-              list[i].distance = utils.transformLength(list[i].distance);
+          let wandaL = res.data.data.list;
+          if (wandaL && wandaL.length > 0) {
+            for (let i = 0; i < wandaL.length; i++) {
+              wandaL[i].distance = utils.transformLength(wandaL[i].distance);
+              wandaL[i].listType = 1;
             }
             that.setData({
-              list: list
+              wandaL: wandaL
             });
-          }else{
-            that.setData({ isEmpty: true })
+          }
+        }
+      },
+      fail() {
+        wx.hideLoading();
+      }
+    })
+  },
+  wushangList() {
+    let _param = {},
+      str = "",
+      that = this;
+    _param = {
+      page: 1,
+      rows: 20,
+      locationX: app.globalData.userInfo.lng,
+      locationY: app.globalData.userInfo.lat,
+      city: "十堰市",
+      chainType: 1,
+      type: 1
+    }
+    for (let key in _param) {
+      str += key + "=" + _param[key] + "&";
+    }
+    str = str.substring(0, str.length - 1);
+    let _url = this.data._build_url + 'salePoint/listNew?' + str;
+    _url = encodeURI(_url);
+    wx.request({
+      url: _url,
+      method: 'GET',
+      header: {
+        "Authorization": app.globalData.token
+      },
+      success: function(res) {
+        wx.stopPullDownRefresh();
+        wx.hideLoading();
+        if (res.data.code == 0) {
+          let wushangL = res.data.data.list;
+          if (wushangL && wushangL.length > 0) {
+            for (let i = 0; i < wushangL.length; i++) {
+              wushangL[i].distance = utils.transformLength(wushangL[i].distance);
+              wushangL[i].listType = 2;
+            }
+            that.setData({
+              wushangL: wushangL
+            });
           }
         }
       },
@@ -96,11 +147,23 @@ Page({
     })
   },
   toBranch(e) { //跳转至万达各店
-    let id = e.currentTarget.id, list = this.data.list, picUrl = '', name = '', address = '', distance = '', locationX = '', locationY = '';
+    let type = e.currentTarget.dataset.type, list = [];
+    if (type == 1) {
+      list = this.data.wandaL;
+    } else if (type == 2) {
+      list = this.data.wushangL;
+    }
+    let id = e.currentTarget.id,
+      picUrl = '',
+      name = '',
+      address = '',
+      distance = '',
+      locationX = '',
+      locationY = '';
     for (let i = 0; i < list.length; i++) {
       if (list[i].id == id) {
-        picUrl = list[i].picUrl;
-        name = list[i].name;
+        picUrl = type == 1 ? list[i].picUrl : list[i].indexUrl;
+        name = type == 1 ? list[i].name : list[i].salepointName;
         address = list[i].address;
         distance = list[i].distance;
         locationX = list[i].locationX;
@@ -108,16 +171,16 @@ Page({
       }
     }
     wx.navigateTo({
-      url: 'wandaBranch/wandaBranch?id=' + id + '&picUrl=' + picUrl + '&name=' + name + '&address=' + address + '&distance=' + distance + '&city=' + app.globalData.userInfo.city + '&locationX=' + locationX + '&locationY=' + locationY
+      url: 'wandaBranch/wandaBranch?id=' + id + '&picUrl=' + picUrl + '&name=' + name + '&address=' + address + '&distance=' + distance + '&city=' + app.globalData.userInfo.city + '&locationX=' + locationX + '&locationY=' + locationY + '&type=' + type
     })
   },
   onShareAppMessage: function() {
     return {
       title: '万达专区活动',
-      imageUrl:'https://xqmp4-1256079679.file.myqcloud.com/15927505686_wandazhuanqu.jpg',
+      imageUrl: 'https://xqmp4-1256079679.file.myqcloud.com/15927505686_wandazhuanqu.jpg',
       path: '/packageB/pages/wanda/wanda?shareId=1',
-      success: function (res) { },
-      fail: function (res) { }
+      success: function(res) {},
+      fail: function(res) {}
     }
   },
   //跳转至首页

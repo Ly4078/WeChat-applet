@@ -2,6 +2,7 @@ import Api from '../../../../../utils/config/api.js';
 import {
   GLOBAL_API_DOMAIN
 } from '../../../../../utils/config/config.js';
+var WxParse = require('../../../../../utils/wxParse/wxParse.js');
 var utils = require('../../../../../utils/util.js');
 var app = getApp();
 
@@ -22,7 +23,10 @@ Page({
     num: 1,
     shopId: '',
     spuId: 1, //判断是散装还是礼盒
-    salepointId: '' //自提点id
+    salepointId: '', //自提点id
+    isopenimg: true,
+    article: '',
+    attachments: []
   },
   onLoad: function(options) {
 
@@ -163,25 +167,50 @@ Page({
 
   //查询单个详情
   getDetailBySkuId: function(val) {
+    let that = this, _url = '';
+    _url = this.data._build_url + 'goodsSku/selectDetailBySkuIdNew?id=' + this.data.id + '&token=' + app.globalData.token;
+    _url = encodeURI(_url);
+    wx.request({
+      url: _url,
+      header: {
+        "Authorization": app.globalData.token
+      },
+      success: function (res) {
+        wx.hideLoading();
+        if (res.data.code == 0) {
+          let data = res.data.data,
+            article = '';
+          console.log(data);
+          that.setData({
+            skuName: data.skuName ? data.skuName : 0,
+            skuPic: data.skuPic ? data.skuPic : data.smallSkuPic,
+            sellNum: data.sellNum,
+            marketPrice: data.marketPrice ? data.marketPrice : 0,
+            sellPrice: data.sellPrice ? data.sellPrice : 0,
+            orderPrice: (data.sellPrice * that.data.num).toFixed(2),
+            spuId: data.spuId,
+            shopId: data.shopId,
+            attachments: data.attachments ? data.attachments : []
+          })
+          if (data.goodsSpuOut && data.goodsSpuOut.goodsSpuDesc && data.goodsSpuOut.goodsSpuDesc.content) {
+            article = data.goodsSpuOut.goodsSpuDesc.content;
+            WxParse.wxParse('article', 'html', article, that, 0);
+          }
+        }
+      },
+      fail() {}
+    });
+  },
+  seebigImg: function (e) {   //查看大图
     let that = this;
-    Api.DetailBySkuId({
-      id: this.data.id,
-      token: app.globalData.token
-    }).then((res) => {
-      wx.hideLoading();
-      if (res.data.code == 0) {
-        let data = res.data.data;
-        this.setData({
-          skuName: data.skuName,
-          skuPic: data.skuPic,
-          sellNum: data.sellNum,
-          marketPrice: data.marketPrice,
-          sellPrice: data.sellPrice,
-          orderPrice: (data.sellPrice * this.data.num).toFixed(2),
-          spuId: data.spuId,
-          shopId: data.shopId
-        })
-      }
+    let currentImg = e.currentTarget.dataset.img;
+    let urls = [];
+    for (let i = 0; i < that.data.attachments.length; i++) {
+      urls.push(that.data.attachments[i].picUrl)
+    }
+    wx.previewImage({
+      urls: urls,
+      current: currentImg
     })
   },
   add() { //点击加号
@@ -230,14 +259,14 @@ Page({
               } else if (app.globalData.userInfo.userId) {
                 if (that.data.num <= 0) {
                   wx.showToast({
-                    title: '请至少选择一只',
+                    title: '请至少选择一个',
                     icon: 'none'
                   })
                   return false;
                 }
                 //issku=3为到店自提
                 wx.navigateTo({
-                  url: '../../crabDetails/submitOrder/submitOrder?spuId=' + that.data.spuId + '&id=' + that.data.id + '&num=' + that.data.num + '&issku=3&shopId=' + that.data.shopId + '&salepointId=' + that.data.salepointId
+                  url: '../../crabDetails/submitOrder/submitOrder?spuId=' + that.data.spuId + '&id=' + that.data.id + '&num=' + that.data.num + '&issku=3&shopId=' + that.data.shopId + '&salepointId=' + that.data.salepointId + '&flag=1'
                 })
               }
             }else{
@@ -250,6 +279,12 @@ Page({
           }
         })
       }
+    })
+  },
+  //点击查看图文详情
+  clickopen: function () {
+    this.setData({
+      isopenimg: !this.data.isopenimg
     })
   },
   //跳转至首页
