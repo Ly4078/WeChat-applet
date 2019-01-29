@@ -1,6 +1,8 @@
 {
   "navigationBarTitleText": "票券详情",
   "enablePullDownRefresh": false,
+  "navigationBarTextStyle":"black",
+  "navigationBarBackgroundColor": "white",
   "usingComponents": {
     "i-spin": "/dist/spin/index",
     "skeleton": "/components/skeleton/skeleton",

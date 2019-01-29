@@ -1,11 +1,19 @@
+
+var app = getApp();
+import getToken from "../../../utils/getToken.js";
+import {
+  GLOBAL_API_DOMAIN
+} from '../../../utils/config/config.js';
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+    _build_url: GLOBAL_API_DOMAIN,
     list:['1','2','3','4','5','6','7','8','9'],
-    currentIndex:0
+    currentIndex:0,
+    currentNum:1,
 
   },
 
@@ -18,6 +26,75 @@ Page({
       success: function(res) {
         that.setData({ windowHeight: res.windowHeight})
       },
+    })
+    if (!app.globalData.token) {
+      getToken(app).then( ()=>{
+        that.getData();
+      })
+    }else{
+      that.getData();
+    }
+  },
+  getData:function(e){
+      let that = this;
+    wx.request({
+      url: this.data._build_url + 'goodsSku/listNew?page=1&rows=50&spuType=10&categoryId=71&shopId=0',
+      header: {
+        "Authorization": app.globalData.token
+      },
+      success:function(res){
+         if(res.data.code=='0') {
+           if(res.data.data.list && res.data.data.list.length) {
+             that.setData({ list: res.data.data.list});
+             if(that.data.currentIndex == '0') {
+               that.setData({ currentRedBagData:res.data.data.list[0]})
+             }
+           }
+         }
+      },fail:function(){},
+      complete:function(){
+
+      }
+    })
+  },
+  selectRedbag:function(e){
+    let that = this,index=e.currentTarget.dataset.index;
+    let data = e.currentTarget.dataset.data
+    if (that.data.currentIndex == index) {
+      
+    } else {
+      that.setData({ currentNum: 1 })
+    }
+    that.setData({currentIndex:index,currentRedBagData:data})
+    
+  },
+  toPay:function(){
+      let that = this;
+    wx.request({
+      url: this.data._build_url + 'goodsSku/selectDetailBySkuIdNew?id=' + that.data.currentRedBagData.id,
+      header: {
+        "Authorization": app.globalData.token
+      },
+      success:function(res){
+        if(res.data.code=='0') {
+          app.globalData.singleData = res.data.data;
+          wx.navigateTo({
+            url: '/packageA/pages/tourismAndHotel/touristHotelDils/order-for-goods/order-for-goods?number=' + that.data.currentNum,
+          })
+        }else{
+          that.data.currentRedBagData.singleType = '1';
+          app.globalData.singleData = that.data.currentRedBagData;
+          wx.navigateTo({
+            url: '/packageA/pages/tourismAndHotel/touristHotelDils/order-for-goods/order-for-goods?number=' + that.data.currentNum,
+          })
+        }
+      },fail:function(){
+        that.data.currentRedBagData.singleType = '1';
+        app.globalData.singleData = that.data.currentRedBagData;
+        wx.navigateTo({
+          url: '/packageA/pages/tourismAndHotel/touristHotelDils/order-for-goods/order-for-goods?number=' + that.data.currentNum,
+        })
+      }
     })
   },
 
@@ -33,6 +110,15 @@ Page({
    */
   onShow: function () {
     
+  },
+  numCut:function(){
+    if (this.data.currentNum == 1){
+      return false
+    }
+    this.setData({ currentNum: this.data.currentNum-1})
+  },
+  numAdd: function () {
+    this.setData({ currentNum: this.data.currentNum + 1 })
   },
 
   /**

@@ -4,7 +4,7 @@
 <skeleton selector="skeleton" loading="spin" bgcolor="#FFF" wx:if="{{showSkeleton}}"></skeleton>
  <!-- <button catchtap='toWanda'>万达十大招牌菜 快捷入口</button> -->
 <!-- <button catchtap='toWandaCai'>万达专区 快捷入口</button> -->
-<!-- <button catchtap='togrourp'>拼购演示 快捷入口</button> -->
+<button catchtap='togrourp'>购买红包</button>
 <button  catchtap='getfptt'>红包快捷</button>
 <view class="container">
   <!--顶部 定位 搜索 卷  -->

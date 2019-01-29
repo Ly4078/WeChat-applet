@@ -1,0 +1,144 @@
+page {
+  background: #ba3127;
+  position: relative;
+  height: 100%;
+}
+
+.containers {
+  background: #ba3127;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+.containers .bottomBG {
+  position: absolute;
+  width: 100%;
+  height: 98rpx;
+  left: 0;
+  bottom: 0;
+}
+
+.containers .bottomBG image {
+  position: absolute;
+  width: 100%;
+  height: 98rpx;
+  left: 0;
+  bottom: 0;
+}
+
+.banners {
+  width: 100%;
+  height: 726rpx;
+  position: relative;
+}
+
+.banners image {
+  width: 100%;
+  height: 726rpx;
+}
+
+.banners .avatarImg {
+  position: absolute;
+  width: 120rpx;
+  height: 120rpx;
+  bottom: -30rpx;
+  left: 50%;
+  /* border:6rpx solid #FFE549; */
+  border-radius: 50%;
+  transform: translateX(-50%);
+}
+
+.redbagDetail{
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  padding: 60rpx 20rpx 40rpx 20rpx;
+  color: #FFE549;
+  box-sizing: border-box;
+}
+.redbagDetail .nickName{
+    font-size: 32rpx;
+    font-weight: 700;
+    margin-bottom: 20rpx;
+}
+.redbagDetail .redbagMsg{
+  font-size: 28rpx;
+}
+
+.redBagTypedetail{
+  display: flex;
+  flex-direction: column;
+  padding-bottom:180rpx;
+}
+.redBagTypedetail .chai{
+  width: 304rpx;
+  height: 106rpx;
+  border-radius: 106rpx;
+  background: #F7E051;
+  color:#BA3127;
+  text-align: center;
+  line-height: 106rpx;
+  font-size: 40rpx;
+  margin: 40rpx auto 0 auto;
+  font-weight: 700;
+ }
+.redBagTypedetail .price{
+  font-size: 50rpx;
+  font-weight: 700;
+  color:#fff;
+  margin: 0 auto;
+}
+.redBagTypedetail .towallet{
+  display: flex;
+   color:#fff;
+  align-items: center;
+  flex-direction: row;
+  font-size: 30rpx;
+  justify-content: center;
+  margin-top: 50rpx;
+}
+.redBagTypedetail .towallet image{
+  width: 26rpx;
+  height: 26rpx;
+}
+.redBagTypedetail .Recipients{
+  margin: 25rpx 20rpx 0;
+  padding: 25rpx 10rpx;
+  border-top:1rpx solid #A9251B;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.Recipients image{
+  width: 69rpx;
+  height: 69rpx;
+  border-radius: 50%;
+}
+.Recipients  .name_time{
+  flex:1;
+  margin: 0 30rpx;
+  display: flex;
+  flex-direction: column;
+}
+.Recipients  .name_time .name{
+  font-size: 32rpx;
+  color:#fff;
+}
+.Recipients  .name_time .time{
+  font-size: 28rpx;
+  color:#EB6C63;
+}
+.Recipients .getPrice{
+  color:#FFE549;
+  font-size: 32rpx;
+}
+.flipOutY{
+  /* -webkit-animation-name:flipOutY;animation-name:flipOutY;-webkit-animation-duration:.75s;animation-duration:.75s; */
+  animation:flipOutY 1.2s infinite linear ;
+}
+ @keyframes flipOutY{
+   0%{-webkit-transform:perspective(400px);transform:perspective(400px)rotate3d(0,1,0,0deg)}
+/* 30%{-webkit-transform:perspective(400px) rotate3d(0,1,0,0deg);transform:perspective(400px) rotate3d(0,1,0,-15deg);opacity:1} */
+100%{-webkit-transform:perspective(400px) rotate3d(0,1,0,90deg);transform:perspective(400px) rotate3d(0,1,0,360deg);}}

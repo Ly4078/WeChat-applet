@@ -62,7 +62,7 @@ Page({
   },
   togrourp: function () {
     wx.navigateTo({
-      url: '/packageA/pages/tourismAndHotel/tourismAndHotel?id=43',
+      url: '/packageA/pages/redBagIndex/index',
     })
   },
   linkTowanda: function () {
@@ -95,11 +95,11 @@ Page({
   },
   getfptt: function () {
     wx.navigateTo({
-      url: '/packageA/pages/redBagIndex/index',
+      url: '/packageA/pages/redBagIndex/redbagDetail/index',
     })
   },
   onLoad: function (options) {
-    this.getfptt();
+    // this.getfptt();
     let that = this;
     setTimeout(() => {
       that.setData({

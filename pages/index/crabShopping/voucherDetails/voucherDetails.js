@@ -13,6 +13,7 @@ Page({
     isshowlocation: false,
     id: '',
     isDue: '',
+    detailType:'0',
     imagePath: '',//动态二维码图片链接
     sendType: '', // 0-均有/1-快递/2-门店
     isReceived: false, //是否被领取
@@ -21,6 +22,13 @@ Page({
     showSkeleton:true,
   },
   onLoad: function(options) {
+    let that = this;
+    wx.getSystemInfo({
+      success: function (res) {
+        that.setData({ windowHeight: res.windowHeight })
+      },
+    })
+ 
     this.setData({
       id: options.id,
       isDue: options.isDue
@@ -75,10 +83,20 @@ Page({
       },
       success: function(res) {
         if (res.data.code == 0) {
-          console.log('orderCoupon/getDetail:',res)
           wx.hideLoading();
-          let data = res.data.data,
-            userId = app.globalData.userInfo.userId;
+          let data = res.data.data, userId = app.globalData.userInfo.userId;
+          if (data.goodsCategories[0].parent[0].id == '70') {
+            _this.setData({ detailType:'1'})
+            wx.setNavigationBarColor({
+              frontColor: '#ffffff',
+              backgroundColor: '#D43B2F',
+            })
+            wx.setNavigationBarTitle({
+              title: '送祝福',
+            })
+          }else{
+            _this.setData({ detailType: '0' })
+          }
           if (!_this.data.imagePath) {
             url = _this.data._build_url + 'orderCoupon/getByCode/' + res.data.data.couponCode;
             let size = _this.setCanvasSize();//动态设置画布大小 
@@ -251,7 +269,7 @@ Page({
       _value += key + "=" + _parms[key] + "&";
     }
     _value = _value.substring(0, _value.length - 1);
-    url = _this.data._build_url + ' ?' + _value;
+    url = _this.data._build_url + 'orderCoupon/sendVersionCoupon?' + _value;
     _Url = encodeURI(url);
     wx.request({
       url: _Url,
@@ -282,26 +300,42 @@ Page({
   },
   onShareAppMessage: function() { //赠送好友转发、
   let that = this;
-    return {
-      title: '送您一张「' + this.data.skuName +'」兑换券',
-      // imageUrl: this.data.skuPic,
-      imageUrl:'https://xqmp4-1256079679.file.myqcloud.com/15927505686_share201811201231232.jpg',
-      path: '/pages/index/crabShopping/voucherDetails/voucherDetails?id=' + this.data.id + '&shareId=' + app.globalData.userInfo.userId + '&versionNo=' + this.data.versionNo,
-      success: function(res) {
-        let flag = true;
-        let piaosharelist = wx.getStorageSync('piaosharelist') ? wx.getStorageSync('piaosharelist'):[];
-        for (let i = 0; i < piaosharelist.length;i++){
-          if (piaosharelist[i] == that.data.couponCode){
-            flag = false
+    if (that.data.detailType == '1') {
+      let title = '恭喜发财，大吉大利！';
+      var url = '/packageA/pages/redBagIndex/redbagDetail/index?shareId=' + app.globalData.userInfo.userId + '&id=' + that.data.id + '&nickName=' + app.globalData.userInfo.nickName + '&iconUrl=' + app.globalData.userInfo.iconUrl + '&title=' + (that.data.redbagMsg ? that.data.redbagMsg :title);
+      console.log(url)
+        return {
+          // title: that.data.redbagMsg ? that.data.redbagMsg:'恭喜发财，大吉大利！',
+          title: '新春来贺喜，情藏红包里 ',
+          imageUrl:'https://xqmp4-1256079679.file.myqcloud.com/15927505686_12312321312321312321312.png',
+          path: url,
+          success: function (res){
+                
           }
         }
-        if (flag){
-          console.log(piaosharelist)
-          piaosharelist.push(that.data.couponCode)
-          wx.setStorageSync("piaosharelist", piaosharelist)
+    }else{
+      return {
+        title: '送您一张「' + this.data.skuName + '」兑换券',
+        // imageUrl: this.data.skuPic,
+        imageUrl: 'https://xqmp4-1256079679.file.myqcloud.com/15927505686_share201811201231232.jpg',
+        path: '/pages/index/crabShopping/voucherDetails/voucherDetails?id=' + this.data.id + '&shareId=' + app.globalData.userInfo.userId + '&versionNo=' + this.data.versionNo,
+        success: function (res) {
+          let flag = true;
+          let piaosharelist = wx.getStorageSync('piaosharelist') ? wx.getStorageSync('piaosharelist') : [];
+          for (let i = 0; i < piaosharelist.length; i++) {
+            if (piaosharelist[i] == that.data.couponCode) {
+              flag = false
+            }
+          }
+          if (flag) {
+            console.log(piaosharelist)
+            piaosharelist.push(that.data.couponCode)
+            wx.setStorageSync("piaosharelist", piaosharelist)
+          }
         }
       }
     }
+    
   },
   storeData(data) { //门店列表
     let storeList = [],
@@ -360,6 +394,57 @@ Page({
       that.getorderCoupon(2);
     }
    
+  },
+  toMyself:function(){//自己使用
+    let that = this;
+    wx.showModal({
+      title: '提示',
+      content: '确定兑换？',
+      success(res) {
+        if (res.confirm) {
+          wx.showLoading({
+            title: '兑换中...',
+          })
+          wx.request({
+            url: that.data._build_url + "orderCoupon/useCouponForRedPacket?id=" + that.data.id + "&remark=" + (that.data.redbagMsg ? that.data.redbagMsg : '恭喜发财，大吉大利'),
+            method:'POST',
+            header: {
+              "Authorization": app.globalData.token
+            },
+            success: function (res) {
+              if(res.data.code=='0' && res.data.data == '1') {
+                app.globalData.exchangeId = that.data.id;
+                wx.showModal({
+                  title: '提示',
+                  content: '兑换成功',
+                  showCancel:false,
+                  success(res) {
+                    if (res.confirm) {
+                      wx.navigateBack({
+                        delta:1
+                      })
+                    }
+                  }
+                })
+              }
+
+            },
+            fail:function(){
+
+            },
+            complete:function(){
+              wx.hideLoading()
+            }
+
+          })
+
+        } else if (res.cancel) {
+          console.log('用户点击取消')
+        }
+      }
+    })
+   
+
   },
   storeList() { //跳转至门店列表
     let storeList = '';
@@ -480,6 +565,12 @@ Page({
           }
         })
       }
+    })
+  },
+  redbagMsg:function(e){
+    console.log(e);
+    this.setData({
+      redbagMsg:e.detail.value
     })
   }
 })

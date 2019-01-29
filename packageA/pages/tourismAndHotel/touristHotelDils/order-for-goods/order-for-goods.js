@@ -28,6 +28,13 @@ Page({
         disabled: false,
         img: '/images/icon/weixinzhifu.png',
         checked: true
+      },
+      {
+        name: '余额支付',
+        id: '2',
+        disabled: false,
+        img: '/images/icon/yuezhifu.png',
+        checked: false
       }
     ]
   },
@@ -48,9 +55,15 @@ Page({
     let singleData = app.globalData.singleData
     that.setData({
       singleData: singleData,
-      paymentAmount: singleData.sellPrice
+      paymentAmount: options.number ? (singleData.sellPrice * 1) * options.number : singleData.sellPrice
     })
+    if(options.number){
+      that.setData({ number: options.number})
+    }
 
+  },
+  onShow:function(){
+    this.walletDetail();
   },
   sponsorVgts: function () {//点击付款按钮
     let that = this, _parms = {};
@@ -64,9 +77,20 @@ Page({
         goodsSpuId: that.data.singleData.spuId,
         goodsNum: that.data.number ? that.data.number:'1',
         shopId: that.data.singleData.shopId,
-        orderItemShopId: '0',
+        orderItemShopId: '0'
       }]
     };
+    if (that.data.paytype == '2') {//选择余额支付
+      if ((that.data.userAmount - 0) >= (that.data.paymentAmount-0)) {
+        _parms.useAccount = '1';
+      }else{
+        wx.showToast({
+          title: '余额不足',
+          icon:'none'
+        })
+        return false
+      }
+    }
     payrequest = false
     _parms.flagType = 1
     wx.showLoading({
@@ -74,7 +98,8 @@ Page({
       mask: true
     })
     wx.request({
-      url: that.data._build_url + 'orderInfo/createNew',
+      // url: that.data._build_url + 'orderInfo/createNew',
+      url: that.data._build_url + 'orderInfo/createv1',
       data: JSON.stringify(_parms),
       method: 'POST',
       header: {
@@ -82,11 +107,25 @@ Page({
       },
       success: function (res) {
         if (res.data.code == '0' && res.data.data) {
-          that.setData({
-            orderId: res.data.data
-          }, () => {
-            that.wxpayment();
-          })
+         if(res.data.data.status == '3') {
+            payrequest = true
+              wx.hideLoading();
+              wx.showToast({
+                title: '支付成功',
+                icon:'none'
+              })
+              setTimeout( ()=>{
+                wx.navigateTo({
+                  url: '/pages/personal-center/personnel-order/logisticsDetails/logisticsDetails?soId=' + res.data.data.id,
+                })
+              },1500)
+         }else{
+           that.setData({
+             orderId: res.data.data.id
+           }, () => {
+             that.wxpayment();
+           })
+         }
 
         } else {
           payrequest = true
@@ -183,6 +222,30 @@ Page({
       }
     })
   },
+  walletDetail() {
+    let _this = this;
+    wx.request({
+      url: this.data._build_url + 'account/getUserAccount',
+      method: 'POST',
+      data: {},
+      header: {
+        "Authorization": app.globalData.token
+      },
+      success: function (res) {
+        wx.stopPullDownRefresh();
+        if (res.data.code == 0) {
+          let data = res.data.data;
+          _this.setData({
+            userAmount: data.userAmount ? data.userAmount.toFixed(2) : '0.00',
+          });
+        }
+
+      },
+      fail() {
+        wx.stopPullDownRefresh();
+      }
+    });
+  },
   radioChange: function(e) { //选框
     let num = e.detail.value;
     this.setData({
@@ -212,7 +275,6 @@ Page({
     this.setData({
       paymentAmount: _paymentAmount
     });
-
   },
 
   bindPlus: function() { //点击加号
@@ -226,7 +288,6 @@ Page({
       this.setData({
         paymentAmount: _paymentAmount
       });
-
   },
   bindManual: function(e) {  //输入的数值
     var number = e.detail.value;

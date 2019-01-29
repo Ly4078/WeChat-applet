@@ -41,7 +41,11 @@
   <view class='paymentPayWay'>
     <radio-group class="radio-group" bindchange="radioChange">
       <label class="radio" wx:for="{{items}}" wx:key='index' class='paymentPayTop'>
-        <image class='paymentPayImg' src='{{item.img}}'></image>{{item.name}}
+        <image class='paymentPayImg' src='{{item.img}}'></image>
+         <view style="flex:1;">
+          <view>{{item.name}}</view>
+          <text style="color:#969696;font-size:26rpx;" wx:if="{{item.name=='余额支付'}}">余额 ¥{{userAmount}}</text>
+         </view>
         <radio class='riradio' value="{{item.id}}" disabled="{{item.disabled}}" checked="{{item.checked}}" />
       </label>
     </radio-group>

@@ -150,5 +150,5 @@ page{
   }
   .riradio{
     position: relative;
-    left: 403rpx;
+    /* left: 403rpx; */
    }

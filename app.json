@@ -104,6 +104,7 @@
       "pages": [
         "pages/tourismAndHotel/tourismAndHotel",
         "pages/redBagIndex/index",
+        "pages/redBagIndex/redbagDetail/index",
         "pages/tourismAndHotel/touristHotelDils/touristHotelDils",
         "pages/tourismAndHotel/touristHotelDils/order-for-goods/order-for-goods"
       ]

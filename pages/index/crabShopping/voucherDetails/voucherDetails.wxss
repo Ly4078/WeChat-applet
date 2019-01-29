@@ -11,7 +11,7 @@
 }
 
 .gray {
-  color: #CCCCCC;
+  color: #ccc;
 }
 
 page {
@@ -20,7 +20,7 @@ page {
 }
 
 .tickPage {
-  background-color: #FC5E2D;
+  background-color: #fc5e2d;
   width: 100%;
   height: 100%;
   color: #191919;
@@ -28,9 +28,11 @@ page {
   box-sizing: border-box;
   letter-spacing: 2rpx;
 }
-.isfalse view,.isfalse text{
+
+.isfalse view, .isfalse text {
   color: #969696;
 }
+
 .ticketDetail {
   padding-top: 90rpx;
   width: 100%;
@@ -57,7 +59,7 @@ page {
   padding: 110rpx 0 60rpx 0;
   box-sizing: border-box;
   background-color: #fff;
-  border-bottom: 1rpx dotted #CCCCCC;
+  border-bottom: 1rpx dotted #ccc;
   text-align: center;
   position: relative;
   border-top-right-radius: 10rpx;
@@ -79,24 +81,24 @@ page {
 }
 
 .storeBtn {
-  background-color: #FC5E2D;
+  background-color: #fc5e2d;
   color: #fff;
 }
 
 .storeBtn.active {
-  background-color: #CCCCCC;
+  background-color: #ccc;
 }
 
 .expressBtn {
-  background-color: #FFF5F2;
-  color: #FC5E2D;
-  border: 1rpx solid #FC5E2D;
+  background-color: #fff5f2;
+  color: #fc5e2d;
+  border: 1rpx solid #fc5e2d;
   box-sizing: border-box;
 }
 
 .expressBtn.active {
-  border: 1rpx solid #CCCCCC;
-  color: #CCCCCC;
+  border: 1rpx solid #ccc;
+  color: #ccc;
 }
 
 .top_time {
@@ -104,17 +106,17 @@ page {
   font-size: 24rpx;
   color: #969696;
 }
-.top_times{
+
+.top_times {
   font-size: 24rpx;
   padding-top: 14rpx;
   color: #969696;
 }
 
-
 .leftCircle, .rightCircle {
   width: 30rpx;
   height: 30rpx;
-  background-color: #FC5E2D;
+  background-color: #fc5e2d;
   position: absolute;
   bottom: -15rpx;
   border-radius: 50%;
@@ -143,11 +145,11 @@ page {
   width: 100%;
   display: flex;
   justify-content: space-between;
-  color: #555555;
+  color: #555;
 }
 
 .detail_bot_item:first-child {
-  border-bottom: 1rpx solid #EBEBEB;
+  border-bottom: 1rpx solid #ebebeb;
 }
 
 .detail_bot_item text {
@@ -165,7 +167,7 @@ page {
   height: 108rpx;
   line-height: 108rpx;
   text-align: center;
-  color: #FC5E2D;
+  color: #fc5e2d;
   background-color: #fff;
   margin-top: 20rpx;
   border-radius: 10rpx;
@@ -205,6 +207,7 @@ page {
   /* opacity: 0.9; */
   text-align: center;
 }
+
 .qrcode_inner {
   width: 532rpx;
   height: 550rpx;
@@ -230,13 +233,13 @@ page {
   height: 70rpx;
 }
 
-.canvasBox{
-  width:309rpx;
-  height:313rpx;
-  background:#fff;
-  margin-top:46rpx;
-  border-radius:20rpx;
-  margin-left:106rpx;
+.canvasBox {
+  width: 309rpx;
+  height: 313rpx;
+  background: #fff;
+  margin-top: 46rpx;
+  border-radius: 20rpx;
+  margin-left: 106rpx;
 }
 
 .indexIcon {
@@ -247,13 +250,127 @@ page {
   width: 100rpx;
   height: 100rpx;
 }
-.spreds{
-  color:#FC5E2D;
-  margin:48rpx 0 60rpx 0;
+
+.spreds {
+  color: #fc5e2d;
+  margin: 48rpx 0 60rpx 0;
   font-size: 40rpx;
 }
-.spredss{
-  margin:48rpx 0 60rpx 0;
+
+.spredss {
+  margin: 48rpx 0 60rpx 0;
   font-size: 40rpx;
   color: #969696;
 }
+
+.redBag {
+  background: #ba3127;
+  position: relative;
+}
+
+.redBag .bottomBG {
+  position: absolute;
+  width: 100%;
+  height: 98rpx;
+  left: 0;
+  bottom: 0;
+}
+
+.redBag .banner {
+  width: 100%;
+  height: 410rpx;
+  position: relative;
+  padding: 20rpx 0 40rpx 0;
+}
+
+.redBag .banner image {
+  width: 100%;
+  height: 410rpx;
+}
+
+.redBag .banner .redbagPrice {
+  font-size: 34rpx;
+  font-weight: 700;
+  position: absolute;
+  bottom: 80rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #f7e051;
+}
+
+.redBag .bottomBG image {
+  position: absolute;
+  width: 100%;
+  height: 98rpx;
+  left: 0;
+  bottom: 0;
+}
+
+.redBag .formBox {
+  margin: 30rpx 30rpx;
+  background: #fff;
+  padding: 30rpx;
+  box-sizing: border-box;
+  border-radius: 10rpx;
+}
+
+.redBag .formBox .inputBox {
+  background: #EDEDED;
+  border-radius: 15rpx;
+  padding-bottom: 40rpx;
+  position: relative;
+}
+
+.redBag .formBox .inputBox textarea {
+  width: 100%;
+  height: 120rpx;
+  padding: 15rpx;
+  font-size: 34rpx;
+  color:#333;
+}
+.redBag .formBox .inputBox text{
+  position: absolute;
+  bottom:5rpx;
+  right:10rpx;
+  color:#666;
+  font-size: 26rpx;
+}
+.redBag .formBox .buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 30rpx;
+
+}
+.redBag .formBox .buttons button,.redBag .formBox .buttons view{
+  width: 300rpx;
+  height: 99rpx;
+  font-size: 34rpx;
+  text-align: center;
+  line-height: 99rpx;
+  border-radius: 15rpx;
+
+}
+.redBag .formBox .buttons view{
+  color:#F23B2E;
+  background: #fff;
+  border:1rpx solid #F23B2E;
+  box-sizing: content-box;
+}
+.redBag .formBox .buttons button{
+  background: #F23B2E;
+  color:#fff;
+}
+.msgdetail{
+  font-size: 30rpx;
+  color:#FFE15F;
+  text-align: center;
+  width: 163rpx;
+  height: 60rpx;
+  line-height: 60rpx;
+  border:1rpx solid #A91C12;
+  border-radius: 5rpx;
+  margin: 50rpx auto 150rpx auto;
+}
+
