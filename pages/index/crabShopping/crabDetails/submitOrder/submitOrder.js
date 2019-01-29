@@ -739,8 +739,19 @@ Page({
         remark: this.data.remarks
       }]
     };
+    if (that.data.paytype == '2') {//选择余额支付
+      if ((that.data.userAmount - 0) >= (that.data.total - 0)) {
+        _parms.useAccount = '1';
+      } else {
+        wx.showToast({
+          title: '余额不足',
+          icon: 'none'
+        })
+        return false
+      }
+    }
     wx.request({
-      url: that.data._build_url + 'orderInfo/create',
+      url: that.data._build_url + 'orderInfo/createv1',
       data: JSON.stringify(_parms),
       method: 'POST',
       header: {
@@ -749,10 +760,25 @@ Page({
       success: function (res) {
         if (res.data.code == 0) {
           if (res.data.data) {
-            that.setData({
-              orderId: res.data.data
-            })
-            that.wxpayment();
+            if (res.data.data.status == '3') {
+              payrequest = true
+              wx.hideLoading();
+              wx.showToast({
+                title: '支付成功',
+                icon: 'none'
+              })
+              setTimeout(() => {
+                wx.navigateTo({
+                  url: '/pages/personal-center/personnel-order/logisticsDetails/logisticsDetails?soId=' + res.data.data.id,
+                })
+              }, 1500)
+            } else {
+              that.setData({
+                orderId: res.data.data.id
+              })
+              that.wxpayment();
+            }
+           
             // that.updataUser();
           }
         }
@@ -795,6 +821,17 @@ Page({
           _parms.orderAddressId = this.data.actaddress.id,
             _parms.sendTime = this.data.date
         }
+        if (that.data.paytype == '2') {//选择余额支付
+          if ((that.data.userAmount - 0) >= (that.data.total - 0)) {
+            _parms.useAccount = '1';
+          } else {
+            wx.showToast({
+              title: '余额不足',
+              icon: 'none'
+            })
+            return false
+          }
+        }
         wx.request({
           url: that.data._build_url + 'orderInfo/create',
           data: JSON.stringify(_parms),
@@ -805,10 +842,24 @@ Page({
           success: function (res) {
             if (res.data.code == 0) {
               if (res.data.data) {
-                that.setData({
-                  orderId: res.data.data
-                })
-                that.wxpayment();
+                if (res.data.data.status == '3') {
+                  payrequest = true
+                  wx.hideLoading();
+                  wx.showToast({
+                    title: '支付成功',
+                    icon: 'none'
+                  })
+                  setTimeout(() => {
+                    wx.navigateTo({
+                      url: '/pages/personal-center/personnel-order/logisticsDetails/logisticsDetails?soId=' + res.data.data.id,
+                    })
+                  }, 1500)
+                } else {
+                  that.setData({
+                    orderId: res.data.data.id
+                  })
+                  that.wxpayment();
+                }
                 // that.updataUser();
               }
             }
