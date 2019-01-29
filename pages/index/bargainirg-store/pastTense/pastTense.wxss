@@ -141,4 +141,5 @@ page{
   max-width: 180rpx;
   height: 180rpx;
   border-radius: 18rpx;
+  border: 1rpx solid #F6F6F6;
 }
