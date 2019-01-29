@@ -2,6 +2,7 @@ import Api from '../../../../../utils/config/api.js';
 import {
   GLOBAL_API_DOMAIN
 } from '../../../../../utils/config/config.js';
+import getToken from '../../../../../utils/getToken.js';
 var WxParse = require('../../../../../utils/wxParse/wxParse.js');
 var utils = require('../../../../../utils/util.js');
 var app = getApp();
@@ -13,6 +14,7 @@ Page({
    */
   data: {
     _build_url: GLOBAL_API_DOMAIN,
+    isshowlocation: false,
     id: '',
     skuPic: '',
     skuName: '',
@@ -29,7 +31,7 @@ Page({
     attachments: []
   },
   onLoad: function(options) {
-
+    let that = this;
     this.setData({
       id: options.id,
       salepointId: options.salepointId
@@ -39,95 +41,18 @@ Page({
         isShare: options.isShare
       });
     }
-  },
-  onShow: function() {
-    let _ruleImg = '',
-      _crabImgUrl = [],
-      that = this;
-    console.log("userInfo:", app.globalData.userInfo)
-    if (app.globalData.userInfo.userId) {
-      if (app.globalData.userInfo.mobile) {
-        if (app.globalData.token) {
-          console.log('show_token:', app.globalData.token)
-          this.getTXT();
-          this.getDetailBySkuId();
-        } else {
-          this.authlogin();
-        }
-      } else {
-        this.authlogin();
-      }
+    if (!app.globalData.token) { //没有token 获取token
+      getToken(app).then(() => {
+        that.getTXT();
+        that.getDetailBySkuId();
+      })
     } else {
-      this.findByCode();
+      this.getTXT();
+      this.getDetailBySkuId();
     }
   },
   onHide: function() {
     wx.hideLoading();
-  },
-  findByCode: function () { //通过code查询用户信息
-    let that = this;
-    wx.login({
-      success: res => {
-        Api.findByCode({
-          code: res.code
-        }).then((res) => {
-          if (res.data.code == 0) {
-            console.log('res:',res)
-           
-            if (res.data.data.id){
-              let data = res.data.data;
-              app.globalData.userInfo.userId = data.id;
-              for (let key in data) {
-                for (let ind in app.globalData.userInfo) {
-                  if (key == ind) {
-                    app.globalData.userInfo[ind] = data[key]
-                  }
-                }
-              }
-              if (!data.mobile) {
-                wx.navigateTo({
-                  url: '/pages/init/init?isback=1'
-                })
-              } else {
-                that.authlogin();//获取token
-              }
-            }else{
-              wx.navigateTo({
-                url: '/pages/init/init?isback=1'
-              })
-            }
-          } else {
-            that.findByCode();
-          }
-        })
-      }
-    })
-  },
-  authlogin: function () { //获取token
-    let that = this;
-    console.log("authlogin:")
-    wx.request({
-      url: this.data._build_url + 'auth/login?userName=' + app.globalData.userInfo.userName,
-      method: "POST",
-      data: {},
-      header: {
-        'content-type': 'application/json' // 默认值
-      },
-      success: function (res) {
-        if (res.data.code == 0) {
-          let _token = 'Bearer ' + res.data.data;
-          app.globalData.token = _token;
-          if (app.globalData.userInfo.mobile) {
-            that.getTXT();
-            that.getDetailBySkuId();
-          }else{
-            wx.navigateTo({
-              url: '/pages/init/init?isback=1'
-            })
-          }
-        }
-      }
-    })
   },
   getTXT: function () {
     let _crabImgUrl = [],
@@ -163,8 +88,6 @@ Page({
       })
     }
   },
- 
-
   //查询单个详情
   getDetailBySkuId: function(val) {
     let that = this, _url = '';
@@ -275,7 +198,7 @@ Page({
               })
             }
           } else {
-            that.findByCode();
+            
           }
         })
       }
@@ -299,5 +222,21 @@ Page({
       title: this.data.skuName,
       path: '/pages/index/crabShopping/superMarket/storeOrder/storeOrder?id=' + this.data.id + '&salepointId=' + this.data.salepointId + '&isShare=true'
     }
+  },
+  openSetting() { //打开授权设置界面
+    let that = this;
+    that.setData({
+      isshowlocation: false
+    })
+    wx.openSetting({
+      success: (res) => {
+        if (res.authSetting['scope.userLocation']) { //打开位置授权          
+        } else {
+          that.setData({
+            isshowlocation: true
+          })
+        }
+      }
+    })
   }
 })

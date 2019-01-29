@@ -1,4 +1,10 @@
 <import src="../../../../../utils/wxParse/wxParse.wxml" />
+<view class='modal_box  modal_box11' wx:if="{{isshowlocation}}">
+  <view class='weizhi'>
+    更多体验需要你授权位置信息
+    <button bindtap="openSetting">确定</button>
+  </view>
+</view>
 <view class="storeOrder">
   <image class="indexIcon" src="/images/icon/indexIcon.png" bindtap='toIndex' wx:if="{{isShare}}"></image>
   <view class="storeOrder_top">
@@ -14,7 +20,7 @@
         <view class="calculate_l">
           <!-- <view class="sellNum">已售{{sellNum}}</view> -->
           <text class="discountPrice">￥{{sellPrice}}</text>
-          <text>/只</text>
+          <text wx:if="{{marketPrice > 0}}" class="marketPrice">￥{{marketPrice}}</text>
           <!-- <text class="originalPrice">￥{{marketPrice}}</text> -->
         </view>
         <view class="calculate_r">
@@ -58,18 +64,17 @@
   </view>
 
   <view class="description">
-    <view class="descri_header">购买须知</view>
+    <view class="descri_header">使用须知</view>
     <view class="descri_item">
-      <text class="descri_tit">自提说明：</text>
-      <text class="descri_cont">【选择商品】选择购买的商品和数量；【提交订单】在提交订单页面，选择“门店自提”配送方式，提交订单并支付；【门店自取】订单付款成功后，系统会下发提货二维码，也可以去我的订单中查看提货二维码</text>
+      <text class="descri_cont">兑换券有限期——自购买之日起到2月19号（正月十五）结束</text>
     </view>
+    <view class="descri_header">使用规则</view>
     <view class="descri_item">
-      <text class="descri_tit">划线价格：</text>
-      <text class="descri_cont">划线的价格并非《中华人民共和国价格法》及《禁止价格欺诈行为的规定》等相关法律法规中所指商品“原价”的含义，仅为该商品的供应商指导价或建议零售价，并非商品原价</text>
-    </view>
-    <view class="descri_item">
-      <text class="descri_tit">未划线价格：</text>
-      <text class="descri_cont">未划线的价格指该商品在享7购平台实时标价，具体成交价格根据商品参加的活动，或者您使用优惠券等发生变化，最终以订单结算页面价格为准</text>
+      <text class="descri_cont">1.购买后在券包--我的票券--立即使用--门店兑换
+2.所有消费者购买后均不兑现、不找零
+3.所有券仅限在手机微信支付款后使用
+4.若用户因个人原因错过兑换有效期，门店将不再兑换且不允许退款
+5.享7平台拥有最终解释权</text>
     </view>
   </view>
 

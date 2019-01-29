@@ -285,58 +285,64 @@ Page({
     let that = this,
       man = 0,
       _bzf = 0,
-      _ceil = 0;
-    Api.DetailBySkuId({
-      id: this.data.id
-    }).then((res) => {
-      wx.hideLoading();
-      if (res.data.code == 0) {
-        let _obj = res.data.data,
-          _bzf = 0,
-          _rules = '',
-          zbzf = 0,
-          _total = 0;
-        if (_obj.unit == '盒') {
-          this.setData({
-            isunit: false
-          })
-        }
-        if (_obj.unit) {
+      _ceil = 0,
+      _url = '';
+    _url = this.data._build_url + 'goodsSku/selectDetailBySkuIdNew?id=' + this.data.id + '&token=' + app.globalData.token;
+    _url = encodeURI(_url);
+    wx.request({
+      url: _url,
+      header: {
+        "Authorization": app.globalData.token
+      },
+      success: function (res) {
+        wx.hideLoading();
+        if (res.data.code == 0) {
+          let _obj = res.data.data,
+            _bzf = 0,
+            _rules = '',
+            zbzf = 0,
+            _total = 0;
+          if (_obj.unit == '盒') {
+            that.setData({
+              isunit: false
+            })
+          }
           rules = _obj.goodsPromotionRules;
           if (rules.length > 0) {
             rules.sort(that.compareUp("ruleType"));
             for (let i = 0; i < rules.length; i++) {
               if (rules[i].ruleType == 2) {
-                if (this.data.num > rules[i].manNum * 1 - 0.5) {
-                  man = Math.floor(this.data.num / rules[i].manNum);
+                if (that.data.num > rules[i].manNum * 1 - 0.5) {
+                  man = Math.floor(that.data.num / rules[i].manNum);
                 }
                 _rules = rules[i].ruleDesc;
               }
               if (rules[i].ruleType == 3) {
-                _ceil = Math.ceil(this.data.num / rules[i].manNum);
+                _ceil = Math.ceil(that.data.num / rules[i].manNum);
                 _bzf += _ceil * rules[i].giftNum;
                 _bzf += man * rules[i].giftNum;
                 _obj.bzf = _bzf;
               }
             }
           } else {
-            this.setData({
+            that.setData({
               isvoucher: true
             })
           }
           zbzf = _obj.bzf ? _obj.bzf : 0;
           //到店提货不需要运费
-          zbzf = this.data.issku == 3 ? 0 : zbzf;
-          _total = this.data.ssnum * _obj.sellPrice + zbzf;
+          zbzf = that.data.issku == 3 ? 0 : zbzf;
+          _total = that.data.ssnum * _obj.sellPrice + zbzf;
           _total = _total.toFixed(2);
           _obj.total = _total;
-        }
-        this.setData({
-          current: _obj,
-          _rules: _rules
-        })
-        if (_obj.spuId != 3 && this.data.issku != 3 && this.data.issku != 2) {
-          this.getcalculateCost();
+          that.setData({
+            current: _obj,
+            total: _total,
+            _rules: _rules
+          })
+          if (_obj.spuId != 3 && that.data.issku != 3 && that.data.issku != 2) {
+            that.getcalculateCost();
+          }
         }
       }
     })
@@ -425,7 +431,10 @@ Page({
       return;
     }
     let _weight = this.data.current.realWeight * this.data.num;
-    let _obj = {}, _parms = {}, that = this, _val = '';
+    let _obj = {},
+       _parms = {},
+      that = this,
+      _val = '';
     _parms = {
       dictProvinceId: this.data.actaddress.dictProvinceId,
       dictCityId: this.data.actaddress.dictCityId,
@@ -516,7 +525,8 @@ Page({
         this.superMarketOrder();
       }
     } else if (this.data.issku == 2) {    //现金券
-      let _parms = {}, that = this;
+      let _parms = {},
+        that = this;
       _parms = {
         shopId: '0',
         payType: 2,
@@ -582,7 +592,8 @@ Page({
             wx.hideLoading();
             payrequest = true;
           }
-        }, fail() {
+        },
+        fail() {
           wx.hideLoading();
           payrequest = true;
         }
@@ -605,7 +616,8 @@ Page({
       return
     }
     payrequest = false;
-    let _parms = {}, that = this;
+    let _parms = {},
+    that = this;
     _parms = {
       shopId: this.data.shopId,
       payType: 2,
@@ -693,7 +705,8 @@ Page({
             icon: 'none'
           })
         }
-      }, fail() {
+      },
+      fail() {
         payrequest = true;
       },
       complete() {
@@ -890,7 +903,8 @@ Page({
         } else {
           payrequest = true
         }
-      }, fail() {
+      },
+      fail() {
         wx.hideLoading();
         payrequest = true
       }
