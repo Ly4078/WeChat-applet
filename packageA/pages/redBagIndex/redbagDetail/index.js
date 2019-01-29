@@ -36,7 +36,7 @@ Page({
         nickName: options.nickName,
         redBagTitle: options.title
       }
-      app.globalData.currentScene.path = "/packageA/pages/redBagIndex/redbagDetail/index"
+      app.globalData.currentScene.path = "packageA/pages/redBagIndex/redbagDetail/index"
     }else{
       wx.showToast({
         title: '参数错误',
@@ -49,7 +49,10 @@ Page({
         that.setData({ windowHeight: res.windowHeight })
       },
     })
-    
+
+  },
+  onShow: function () {
+    let that = this;
     if (!app.globalData.token) {
       getToken(app).then(() => {
         that.getData();
@@ -60,9 +63,11 @@ Page({
   },
   getData: function () {
     let that = this;
-    let userInfo = wx.getStorageSync("userInfo")
+    let userInfo = wx.getStorageSync("userInfo");
+    let url = that.data._build_url + 'orderCoupon/getDetail?id=' + that.data.id + '&sendOrReceiveUserId=' + that.data.shareId;
+    let urls = encodeURI(url)
     wx.request({
-      url: that.data._build_url + 'orderCoupon/getDetail?id='+that.data.id+'&sendOrReceiveUserId='+that.data.shareId,
+      url: urls ,
       header: {
         "Authorization": app.globalData.token
       },
@@ -107,9 +112,7 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
 
-  },
   click: function () {
     let that = this;
     this.setData({ isclick: true })
@@ -152,8 +155,10 @@ Page({
   },
   chairedbag: function () {
     let that = this;
+    let url = that.data._build_url + "orderCoupon/useCouponForRedPacket?id=" + that.data.id + "&remark=" + that.data.redBagTitle;
+    let urls = encodeURI(url);
     wx.request({
-      url: that.data._build_url + "orderCoupon/useCouponForRedPacket?id=" + that.data.id + "&remark="+that.data.redBagTitle,
+      url: urls ,
       method: 'POST',
       header: {
         "Authorization": app.globalData.token
@@ -163,6 +168,12 @@ Page({
         if (res.data.code == '0' && res.data.data == '1') {
           that.setData({ isclick: false, redBagType: '3' })
           that.audio();
+        }else{
+          wx.showToast({
+            title: '领取失败',
+          })
+          that.setData({ isclick: false})
+          that.onShow();
         }
       },
       fail: function () {

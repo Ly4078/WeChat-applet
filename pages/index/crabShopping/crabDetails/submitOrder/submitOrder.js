@@ -13,13 +13,13 @@ Page({
     _build_url: GLOBAL_API_DOMAIN,
     current: {},
     payObj: {},
-    isclick:true,
-    issyzf:false,
+    isclick: true,
+    issyzf: false,
     username: '',
     phone: '',
     address: '',
     issku: '', //issku=3为到店自提 issku=2为现金券
-    ssnum:1,
+    ssnum: 1,
     num: '',
     sellPrice: '',
     skuName: '',
@@ -31,13 +31,14 @@ Page({
     bzf: 0,
     isbox: 0,
     id: '',
+    paytype: '1',//支付方式
     shopId: '',
     errmsg: '',
     spuId: '',
     orderId: '',
     _rules: '',
     actaddress: {},
-    stockNum:'',//库存
+    stockNum: '',//库存
     weight: '',
     postage: 0, //配送费
     remarks: '', //备注内容
@@ -47,27 +48,33 @@ Page({
     distribution: '顺丰速运', //配送方式
     storeName: '',
     address: '',
-    picUrl:'',
-    skuName:'',
-    sellPrice:'',
-    actId:'',
-    flag:'',
-    sendType:'',
-    groupId:'',
-    singleType:'',
-    optionsObj:{},
+    picUrl: '',
+    skuName: '',
+    sellPrice: '',
+    actId: '',
+    flag: '',
+    sendType: '',
+    groupId: '',
+    singleType: '',
+    optionsObj: {},
     items: [{
       name: '微信支付',
       id: '1',
       disabled: false,
       img: '/images/icon/weixinzhifu.png',
       checked: true
+    }, {
+      name: '余额支付',
+      id: '2',
+      disabled: false,
+      img: '/images/icon/yuezhifu.png',
+      checked: false
     }],
-    isuserye:false,  //是否开启余额支付
-    balance:140,  //余额数值
+    isuserye: false,  //是否开启余额支付
+    userAmount: 0,  //余额数值
     lessbal: 0  //减掉的价格
   },
-  onLoad: function(options) {
+  onLoad: function (options) {
     console.log('options:', options)
     if (options.id) {
       app.globalData.OrderObj = options;
@@ -75,35 +82,35 @@ Page({
       options = app.globalData.OrderObj;
     }
     this.setData({
-      optionsObj:options,
-      id: options.id ? options.id:'',
-      num: options.num ? options.num:'',
+      optionsObj: options,
+      id: options.id ? options.id : '',
+      num: options.num ? options.num : '',
       ssnum: options.num ? options.num : '',
-      actId: options.actId ? options.actId:'',
-      issku: options.issku ? options.issku:'',
-      shopId: options.shopId ? options.shopId:'',
-      spuId: options.spuId ?options.spuId:'',
+      actId: options.actId ? options.actId : '',
+      issku: options.issku ? options.issku : '',
+      shopId: options.shopId ? options.shopId : '',
+      spuId: options.spuId ? options.spuId : '',
       picUrl: options.picUrl ? options.picUrl : '',
       skuName: options.skuName ? options.skuName : '',
       sellPrice: options.sellPrice ? options.sellPrice : '',
       flag: options.flag ? options.flag : '',
-      stockNum: options.stockNum ? options.stockNum:'',
-      remarks: options.remark ? options.remark:'',
+      stockNum: options.stockNum ? options.stockNum : '',
+      remarks: options.remark ? options.remark : '',
       sendType: options.sendType ? options.sendType : '',
       groupId: options.groupId ? options.groupId : '',
       singleType: options.singleType ? options.singleType : '',
     })
     if (this.data.actId == 41 || this.data.actId == 44 || this.data.actId == 45) {
       this.setData({
-        totleKey: options.totleKey ? options.totleKey:'',
-        valueKey: options.valueKey ? options.valueKey:''
+        totleKey: options.totleKey ? options.totleKey : '',
+        valueKey: options.valueKey ? options.valueKey : ''
       });
     }
     app.globalData.OrderObj = options;
   },
-  onShow: function(res) {
+  onShow: function (res) {
     if (this.data.issku == 3) {
-      if(!this.data.actId){
+      if (!this.data.actId) {
         this.setData({
           salepointId: app.globalData.OrderObj.salepointId,
           distribution: '到店自提'
@@ -113,7 +120,7 @@ Page({
     } else if (this.data.issku == 2) {
       //现金券
       let _total = this.data.sellPrice;
-      if (this.data.ssnum){
+      if (this.data.ssnum) {
         _total = this.data.sellPrice * this.data.ssnum;
       }
       _total = _total.toFixed(2);
@@ -122,8 +129,7 @@ Page({
         total: _total,
         lessbal: _total
       });
-      that.changmoney();
-    } else{
+    } else {
       let _day = 60 * 60 * 24 * 1000,
         _today = '',
         hours = '',
@@ -162,15 +168,14 @@ Page({
         }
       }
     }
-    if(this.data.actId){
+    if (this.data.actId) {
       let _total = this.data.sellPrice * this.data.ssnum;
       _total = _total.toFixed(2);
       this.setData({
         total: _total,
         lessbal: _total
       })
-      this.changmoney();
-    }else{
+    } else {
       this.setData({ issoid: false })
       if (this.data.issku != 2) {
         wx.showLoading({
@@ -179,6 +184,47 @@ Page({
         this.getDetailBySkuId();
       }
     }
+    this.walletDetail();
+  },
+  radioChange: function (e) { //选框
+    let num = e.detail.value;
+    this.setData({
+      issecond: false
+    })
+    if (num == 1) { //1微信支付
+      this.setData({
+        paytype: 1
+      })
+    } else if (num == 2) { //2余额支付
+      this.setData({
+        paytype: 2
+      })
+    }
+  },
+
+  walletDetail() {
+    let _this = this;
+    wx.request({
+      url: _this.data._build_url + 'account/getUserAccount',
+      method: 'POST',
+      data: {},
+      header: {
+        "Authorization": app.globalData.token
+      },
+      success: function (res) {
+        wx.stopPullDownRefresh();
+        if (res.data.code == 0) {
+          let data = res.data.data;
+          _this.setData({
+            userAmount: data.userAmount ? data.userAmount.toFixed(2) : '0.00',
+          });
+        }
+
+      },
+      fail() {
+        wx.stopPullDownRefresh();
+      }
+    });
   },
   onHide() {
     wx.hideLoading();
@@ -186,41 +232,15 @@ Page({
   onUnload() {
     app.globalData.Express = {};
   },
-  checkboxChange(val){
-    this.setData({
-      isuserye: !this.data.isuserye
-    })
-    this.changmoney();
-    console.log("isuserye:", this.data.isuserye)
-  },
   //价格发生变化 时
-  changmoney(){
-    let _total = this.data.total, _lessbal = this.data.lessbal;
-    if (this.data.isuserye) {
-      _total = _total * 1 - this.data.balance * 1;
-      if(_total<0){
-        _total=0;
-      }
-    } else {
-      _total = this.data.sellPrice * this.data.ssnum;
-    }
-    _total = _total.toFixed(2);
-    if (_total > this.data.balance){
-      _lessbal=this.data.balance
-    }
-    this.setData({
-      total: _total,
-      lessbal: _lessbal
-    })
-  },
   //数量加一
-  addnum:function(){
+  addnum: function () {
     let _ssnum = this.data.ssnum;
     if (this.data.stockNum) {
-      if (this.data.ssnum >= this.data.stockNum){
+      if (this.data.ssnum >= this.data.stockNum) {
         wx.showToast({
           title: '库存不足',
-          icon:'none'
+          icon: 'none'
         })
         return false
       }
@@ -237,22 +257,21 @@ Page({
       total: _total,
       lessbal: _lessbal
     })
-    this.changmoney();
   },
   //数量减一
   lessnum: function () {
     let _ssnum = this.data.ssnum;
     _ssnum--;
-    if (_ssnum<1){
+    if (_ssnum < 1) {
       this.setData({
         ssnum: 1
       })
-    }else{
+    } else {
       this.setData({
         ssnum: _ssnum
       })
     }
-    let _total = this.data.sellPrice*this.data.ssnum;
+    let _total = this.data.sellPrice * this.data.ssnum;
     let _lessbal = this.data.sellPrice * this.data.ssnum;
     console.log('_totalless:', _total)
     _total = _total.toFixed(2);
@@ -260,10 +279,9 @@ Page({
       total: _total,
       lessbal: _lessbal
     })
-    this.changmoney();
   },
   //查询当前商品详情
-  getDetailBySkuId: function(val) {
+  getDetailBySkuId: function (val) {
     let that = this,
       man = 0,
       _bzf = 0,
@@ -339,15 +357,15 @@ Page({
     })
   },
   // 升序排序
-  compareUp: function(propertyName) {
+  compareUp: function (propertyName) {
     if ((typeof rules[0][propertyName]) != "number") { // 属性值为非数字
-      return function(object1, object2) {
+      return function (object1, object2) {
         var value1 = object1[propertyName];
         var value2 = object2[propertyName];
         return value1.localeCompare(value2);
       }
     } else {
-      return function(object1, object2) { // 属性值为数字
+      return function (object1, object2) { // 属性值为数字
         var value1 = object1[propertyName];
         var value2 = object2[propertyName];
         return value1 - value2;
@@ -355,7 +373,7 @@ Page({
     }
   },
   //查询已有收货地址
-  getAddressList: function(val) {
+  getAddressList: function (val) {
     let that = this,
       actaddress = {};
     let _parms = {
@@ -369,7 +387,7 @@ Page({
           _dictCounty = "",
           actList = {};
         for (let i = 0; i < _list.length; i++) {
-          if (_list[i].dictCounty == null || !_list[i].dictCounty) {} else {
+          if (_list[i].dictCounty == null || !_list[i].dictCounty) { } else {
             _dictCounty = _list[i].dictCounty
           }
           _list[i].address = _list[i].dictProvince + _list[i].dictCity + _dictCounty + _list[i].detailAddress;
@@ -390,14 +408,14 @@ Page({
     })
   },
   // 选择收货地址
-  additionSite: function() {
+  additionSite: function () {
     wx.navigateTo({
       url: '../../../../personal-center/shipping/shipping',
     })
   },
 
   //查询运费
-  getcalculateCost: function() {
+  getcalculateCost: function () {
     if (!this.data.current) {
       this.getDetailBySkuId('val');
       return;
@@ -417,14 +435,14 @@ Page({
     for (var key in _parms) {
       _val += key + '=' + _parms[key] + '&';
     }
-    _val = _val.substring(0, _val.length -1);
+    _val = _val.substring(0, _val.length - 1);
     wx.request({
       url: that.data._build_url + 'deliveryCost/calculateCost?' + _val,
       method: 'POST',
       header: {
         "Authorization": app.globalData.token
       },
-      success: function(res) {
+      success: function (res) {
         if (res.data.code == 0) {
           if (res.data.data) {
             _obj = that.data.current;
@@ -437,7 +455,7 @@ Page({
             that.setData({
               current: _obj
             })
-          } 
+          }
         } else {
           that.setData({
             errmsg: res.data.message,
@@ -452,20 +470,20 @@ Page({
     })
   },
   //选择送达时间
-  bindDateChange: function(e) {
+  bindDateChange: function (e) {
     this.setData({
       date: e.detail.value
     })
   },
   //监听备注输入
-  bindremarks: function(e) {
+  bindremarks: function (e) {
     let _value = e.detail.value;
     this.setData({
       remarks: _value
     })
   },
   //点击包装费疑问
-  handbzf: function() {
+  handbzf: function () {
     let str = '';
     for (let i = 0; i < rules.length; i++) {
       str += rules[i].ruleDesc + ' ';
@@ -474,7 +492,7 @@ Page({
       title: '',
       content: str,
       showCancel: false,
-      success: function(res) {
+      success: function (res) {
         if (res.confirm) {
           console.log('用户点击确定')
         } else if (res.cancel) {
@@ -483,18 +501,18 @@ Page({
       }
     })
   },
-  formSubmit:function(e){
+  formSubmit: function (e) {
     let _formId = e.detail.formId;
-    if(!this.data.isclick){
+    if (!this.data.isclick) {
       return
     }
     this.setData({
-      isclick:false
+      isclick: false
     })
-    if (this.data.issku == 3){
-      if(this.data.actId){
+    if (this.data.issku == 3) {
+      if (this.data.actId) {
         this.createActOrder();
-      }else{
+      } else {
         this.superMarketOrder();
       }
     } else if (this.data.issku == 2) {    //现金券
@@ -512,12 +530,24 @@ Page({
           orderItemShopId: '0'
         }]
       };
+      if (that.data.paytype == '2') {//选择余额支付
+        if ((that.data.userAmount - 0) >= (that.data.total - 0)) {
+          _parms.useAccount = '1';
+        } else {
+          wx.showToast({
+            title: '余额不足',
+            icon: 'none'
+          })
+          return false
+        }
+      }
+
       wx.showLoading({
         title: '加载中...',
         mask: true
       })
       wx.request({
-        url: that.data._build_url + 'orderInfo/createNew',
+        url: that.data._build_url + 'orderInfo/createv1',
         data: JSON.stringify(_parms),
         method: 'POST',
         header: {
@@ -526,10 +556,27 @@ Page({
         success: function (res) {
           if (res.data.code == 0 && res.data.data != null) {
             if (res.data.data) {
-              that.setData({
-                orderId: res.data.data
-              })
-              that.wxpayment();
+              if (res.data.data.status == '3') {
+                payrequest = true
+                wx.hideLoading();
+                wx.showToast({
+                  title: '支付成功',
+                  icon: 'none'
+                })
+                setTimeout(() => {
+                  wx.navigateTo({
+                    url: '/pages/personal-center/personnel-order/logisticsDetails/logisticsDetails?soId=' + res.data.data.id,
+                  })
+                }, 1500)
+              } else {
+
+                that.setData({
+                  orderId: res.data.data.id
+                })
+                that.wxpayment();
+              }
+
+
             }
           } else {
             wx.hideLoading();
@@ -540,17 +587,17 @@ Page({
           payrequest = true;
         }
       })
-    } else{
+    } else {
       this.submitSoid();
     }
-    Public.addFormIdCache(_formId); 
+    Public.addFormIdCache(_formId);
   },
   //创建活动订单
-  createActOrder:function(){
-    if (!payrequest){
+  createActOrder: function () {
+    if (!payrequest) {
       return false
     }
-    if (this.data.issyzf){
+    if (this.data.issyzf) {
       wx.showToast({
         title: '此砍价是已过期，请重新发起砍价',
         icon: 'none'
@@ -558,7 +605,7 @@ Page({
       return
     }
     payrequest = false;
-    let _parms={},that=this;
+    let _parms = {}, that = this;
     _parms = {
       shopId: this.data.shopId,
       payType: 2,
@@ -572,29 +619,41 @@ Page({
         orderItemShopId: '0'
       }]
     };
+    if (that.data.paytype == '2') {//选择余额支付
+      if ((that.data.userAmount - 0) >= (that.data.total - 0)) {
+        _parms.useAccount = '1';
+      } else {
+        wx.showToast({
+          title: '余额不足',
+          icon: 'none'
+        })
+        return false
+      }
+    }
+
     wx.showLoading({
       title: '加载中...',
       mask: true
     })
     if (this.data.actId == 41 || this.data.actId == 44 || this.data.actId == 45) {
-      if (this.data.totleKey){
+      if (this.data.totleKey) {
         _parms['totalKey'] = this.data.totleKey;
       }
       if (this.data.totleKey) {
         _parms['valueKey'] = this.data.valueKey;
       }
     }
-    if (this.data.flag==4){
+    if (this.data.flag == 4) {
       _parms.groupId = this.data.groupId;
     }
     // if (this.data.flag != 1) {
     //   _parms.actId = this.data.actId;
     // }
-    if (this.data.actId){
+    if (this.data.actId) {
       _parms.actId = this.data.actId;
     }
     wx.request({
-      url: that.data._build_url + 'orderInfo/createNew',
+      url: that.data._build_url + 'orderInfo/createv1',
       data: JSON.stringify(_parms),
       method: 'POST',
       header: {
@@ -603,25 +662,41 @@ Page({
       success: function (res) {
         if (res.data.code == 0 && res.data.data != null) {
           if (res.data.data) {
-            that.setData({
-              orderId: res.data.data
-            })
-            that.wxpayment();
+            if (res.data.data.status == '3') {
+              payrequest = true
+              wx.hideLoading();
+              wx.showToast({
+                title: '支付成功',
+                icon: 'none'
+              })
+              setTimeout(() => {
+                wx.navigateTo({
+                  url: '/pages/personal-center/personnel-order/logisticsDetails/logisticsDetails?soId=' + res.data.data.id,
+                })
+              }, 1500)
+            } else {
+              that.setData({
+                orderId: res.data.data.id
+              })
+              that.wxpayment();
+            }
+
+
           }
-        }else{
+        } else {
           payrequest = true;
           that.setData({
-            issyzf:true
+            issyzf: true
           })
           wx.showToast({
             title: '此砍价是已过期，请重新发起砍价',
-            icon:'none'
+            icon: 'none'
           })
         }
-      },fail(){
+      }, fail() {
         payrequest = true;
       },
-      complete(){
+      complete() {
         wx.hideLoading();
       }
     })
@@ -658,7 +733,7 @@ Page({
       header: {
         "Authorization": app.globalData.token
       },
-      success: function(res) {
+      success: function (res) {
         if (res.data.code == 0) {
           if (res.data.data) {
             that.setData({
@@ -672,7 +747,7 @@ Page({
     })
   },
   //点击提交订单
-  submitSoid: function() {
+  submitSoid: function () {
     let that = this;
     if (this.data.errmsg) {
       wx.showToast({
@@ -705,7 +780,7 @@ Page({
         };
         if (this.data.current.spuId != 3) {
           _parms.orderAddressId = this.data.actaddress.id,
-          _parms.sendTime = this.data.date
+            _parms.sendTime = this.data.date
         }
         wx.request({
           url: that.data._build_url + 'orderInfo/create',
@@ -714,7 +789,7 @@ Page({
           header: {
             "Authorization": app.globalData.token
           },
-          success: function(res) {
+          success: function (res) {
             if (res.data.code == 0) {
               if (res.data.data) {
                 that.setData({
@@ -735,7 +810,7 @@ Page({
     }
   },
   //更新用户信息
-  updataUser: function() {
+  updataUser: function () {
     let that = this;
     wx.login({
       success: res => {
@@ -763,11 +838,11 @@ Page({
     })
   },
   //调起微信支付
-  wxpayment: function() {
+  wxpayment: function () {
     let _parms = {},
       that = this,
-      url="",
-      _Url="",
+      url = "",
+      _Url = "",
       _value = "";
     _parms = {
       orderId: this.data.orderId,
@@ -778,7 +853,7 @@ Page({
     })
     if (this.data.actId) {
       _parms.type = this.data.flag;
-      if (this.data.groupId){
+      if (this.data.groupId) {
         _parms.groupId = this.data.groupId
       }
     }
@@ -788,11 +863,11 @@ Page({
     for (var key in _parms) {
       _value += key + "=" + _parms[key] + "&";
     }
-    
+
     _value = _value.substring(0, _value.length - 1);
-    if (that.data.current.spuId != 3 && that.data.issku != 3 && that.data.issku != 2){
+    if (that.data.current.spuId != 3 && that.data.issku != 3 && that.data.issku != 2) {
       url = that.data._build_url + 'wxpay/doUnifiedOrderForShoppingMall?' + _value;
-    }else{
+    } else {
       url = that.data._build_url + 'wxpay/shoppingMallForCouponNew?' + _value + '&type=1';
     }
     if (this.data.actId) {
@@ -812,17 +887,17 @@ Page({
             payObj: res.data.data
           })
           that.pay();
-        }else{
+        } else {
           payrequest = true
         }
-      },fail(){
+      }, fail() {
         wx.hideLoading();
         payrequest = true
       }
     })
   },
   //支付
-  pay: function() {
+  pay: function () {
     payrequest = true
     let _data = this.data.payObj,
       that = this;
@@ -832,19 +907,19 @@ Page({
       'package': _data.package,
       'signType': 'MD5',
       'paySign': _data.paySign,
-      success: function(res) {
+      success: function (res) {
         payrequest = true;
         wx.showLoading({
           title: '订单确认中...',
         })
-        setTimeout( ()=>{
+        setTimeout(() => {
           wx.hideLoading();
           wx.navigateTo({
             url: '/pages/personal-center/personnel-order/logisticsDetails/logisticsDetails?soId=' + that.data.orderId,
           })
-        },3000)
+        }, 3000)
       },
-      fail: function(res) {
+      fail: function (res) {
         wx.hideLoading();
         payrequest = true
         wx.showToast({
@@ -853,7 +928,7 @@ Page({
           duration: 1200
         })
       },
-      complete: function(res) {
+      complete: function (res) {
         payrequest = true
         that.setData({
           issoid: false

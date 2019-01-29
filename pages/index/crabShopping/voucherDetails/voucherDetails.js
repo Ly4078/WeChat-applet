@@ -85,18 +85,16 @@ Page({
         if (res.data.code == 0) {
           wx.hideLoading();
           let data = res.data.data, userId = app.globalData.userInfo.userId;
-          if (data.goodsCategories[0].parent[0].id == '70') {
-            _this.setData({ detailType:'1'})
-            wx.setNavigationBarColor({
-              frontColor: '#ffffff',
-              backgroundColor: '#D43B2F',
-            })
-            wx.setNavigationBarTitle({
-              title: '送祝福',
-            })
-          }else{
-            _this.setData({ detailType: '0' })
-          }
+          try{
+            if (data.goodsCategories[0].parent[0].id == '70') {
+              _this.setData({ detailType: '1' })
+              wx.setNavigationBarTitle({
+                title: '送红包贺卡',
+              })
+            } else {
+              _this.setData({ detailType: '0' })
+            }
+          }catch(err){}
           if (!_this.data.imagePath) {
             url = _this.data._build_url + 'orderCoupon/getByCode/' + res.data.data.couponCode;
             let size = _this.setCanvasSize();//动态设置画布大小 
@@ -310,7 +308,7 @@ Page({
           imageUrl:'https://xqmp4-1256079679.file.myqcloud.com/15927505686_12312321312321312321312.png',
           path: url,
           success: function (res){
-                
+              
           }
         }
     }else{
@@ -405,8 +403,10 @@ Page({
           wx.showLoading({
             title: '兑换中...',
           })
+          let url = that.data._build_url + "orderCoupon/useCouponForRedPacket?id=" + that.data.id + "&remark=" + (that.data.redbagMsg ? that.data.redbagMsg : '恭喜发财，大吉大利');
+          let urls = encodeURI(url)
           wx.request({
-            url: that.data._build_url + "orderCoupon/useCouponForRedPacket?id=" + that.data.id + "&remark=" + (that.data.redbagMsg ? that.data.redbagMsg : '恭喜发财，大吉大利'),
+            url: urls,
             method:'POST',
             header: {
               "Authorization": app.globalData.token
@@ -426,6 +426,12 @@ Page({
                     }
                   }
                 })
+              }else{
+                wx.showToast({
+                  title: '兑换失败',
+                  icon:"none"
+                })
+                that.onShow();
               }
 
             },

@@ -3,7 +3,7 @@
     <image src="../../images/redbagBanner.png" mode='aspectFill'></image>
   </view>
   <view class="content">
-    <view class="title">选择红包金额 - 购买红包 - 赠送亲友</view>
+    <view class="title">选择红包金额购买 - 写下祝福语 - 赠送亲朋好友</view>
     <view class="redBagList_content">
       <view data-index="{{index}}" catchtap='selectRedbag' class="item {{index==currentIndex?'active':''}}" wx:for="{{list}}" data-data="{{item}}" wx:key="index">
         <image src="{{index==currentIndex?'../../images/redbag2.png':'../../images/redbag1.png'}}"></image>

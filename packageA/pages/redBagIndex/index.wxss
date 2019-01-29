@@ -1,10 +1,11 @@
 page{
-    background: #d43b2f;
+    background: #C11312;
     position: relative;
+    height: auto;
 }
 
 .containers {
-  background: #d43b2f;
+  background: #C11312;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -60,8 +61,9 @@ page{
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  width: 216rpx;
+  width: 186rpx;
   height: 120rpx;
+  padding: 0 15rpx;
   margin: 15rpx 0;
   border-radius: 15rpx;
   border: 1rpx solid #fbd1ce;
@@ -73,7 +75,7 @@ page{
   color:#FFE15F;
  }
 .content .redBagList_content .item text {
-  font-size: 40rpx;
+  font-size: 32rpx;
   color: #fbd1ce;
   margin-left: 15rpx;
 }

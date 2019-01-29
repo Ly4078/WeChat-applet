@@ -1,11 +1,11 @@
 page {
-  background: #ba3127;
+  background: #C11312;
   position: relative;
-  height: 100%;
+  height: auto;
 }
 
 .containers {
-  background: #ba3127;
+  background: #C11312;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -30,31 +30,32 @@ page {
 
 .banners {
   width: 100%;
-  height: 726rpx;
+  height: 421rpx;
   position: relative;
 }
 
 .banners image {
-  width: 100%;
-  height: 726rpx;
+  width: 724rpx;
+  height: 421rpx;
+  display: block;
+  margin: 0 auto;
+  position: relative;
 }
 
-.banners .avatarImg {
-  position: absolute;
+.redbagMaster .avatarImg {
   width: 120rpx;
   height: 120rpx;
-  bottom: -30rpx;
-  left: 50%;
-  /* border:6rpx solid #FFE549; */
   border-radius: 50%;
-  transform: translateX(-50%);
+  margin: 40rpx  auto 25rpx;
+  display: block;
+  border:6rpx solid #FBEC7B;
 }
 
 .redbagDetail{
   text-align: center;
   display: flex;
   flex-direction: column;
-  padding: 60rpx 20rpx 40rpx 20rpx;
+  padding: 0rpx 20rpx 40rpx 20rpx;
   color: #FFE549;
   box-sizing: border-box;
 }
@@ -64,13 +65,19 @@ page {
     margin-bottom: 20rpx;
 }
 .redbagDetail .redbagMsg{
-  font-size: 28rpx;
+  font-size:28rpx;
+  padding:0 40rpx;
+  line-height:56rpx;
 }
-
+.redBagType{
+  width: 100%;
+  min-height: 500rpx;
+}
 .redBagTypedetail{
   display: flex;
   flex-direction: column;
-  padding-bottom:180rpx;
+  margin-bottom:150rpx;
+  margin-top: 50rpx;
 }
 .redBagTypedetail .chai{
   width: 304rpx;

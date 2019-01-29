@@ -229,7 +229,7 @@
   <view wx:else class='secondOrderLeader'>
   
     <form bindsubmit="formSubmits" report-submit="true">
-      <button formType="submit" class="Refund" wx:if="{{soDetail.status == 3 && groupOrderDetail.actInfo.type !='7'&& soDetail.isOrderInvoice =='0'}}">申请退款</button>
+      <button formType="submit" class="Refund" wx:if="{{soDetail.isPayRefund == '0'}}">申请退款</button>
     </form>
   <button wx:if="{{soDetail.isOrderInvoice =='0'}}" catchtap='applybilling' style="color:#B1B1B1;border:2rpx solid #B1B1B1;background:#fff;">申请开票</button>
     <button open-type='contact' style="color:#B1B1B1;border:2rpx solid #B1B1B1;background:#fff;">联系客服</button>

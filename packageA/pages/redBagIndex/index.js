@@ -27,11 +27,15 @@ Page({
         that.setData({ windowHeight: res.windowHeight})
       },
     })
+ 
+  },
+  onShow: function () {
+    let that = this;
     if (!app.globalData.token) {
-      getToken(app).then( ()=>{
+      getToken(app).then(() => {
         that.getData();
       })
-    }else{
+    } else {
       that.getData();
     }
   },
@@ -108,9 +112,7 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
-    
-  },
+
   numCut:function(){
     if (this.data.currentNum == 1){
       return false

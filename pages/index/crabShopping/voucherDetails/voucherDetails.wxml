@@ -87,23 +87,23 @@
 <view class="redBag" wx:if="{{detailType == '1'}}" style="min-height:{{windowHeight?windowHeight+'px':'auto'}}">
   <view class="banner">
     <view class="redbagPrice">{{skuName}}</view>
-    <image src="https://xqmp4-1256079679.file.myqcloud.com/15927505686_hongbao_20190128173257.jpg"></image>
+    <image src="https://xqmp4-1256079679.file.myqcloud.com/15927505686_quanbaobanner.png"></image>
   </view>
     <view class="formBox">
         <view class="inputBox">
-            <textarea bindinput='redbagMsg' maxlength='20' placeholder='祝福语：恭喜发财，大吉大利'></textarea>
-            <text>{{redbagMsg?redbagMsg.length:0}}/20</text>
+            <textarea show-confirm-bar="false" bindinput='redbagMsg' maxlength='20' placeholder="{{showSkeleton?'':'祝福语：恭喜发财，大吉大利'}}"></textarea>
+            <!-- <text>{{redbagMsg?redbagMsg.length:0}}/20</text> -->
         </view>
         <view class="buttons">
           <view wx:if="{{sendType == '3'}}"  catchtap='toMyself'>自己用</view>
-           <view wx:if="{{sendType == 0 || sendType == 2}}" class="storeBtn" bindtap='exchange'>门店兑换</view>
-        <view wx:if="{{sendType == 0 || sendType == 1}}" class="expressBtn" bindtap='express'>快递配送</view>
-          <button open-type='share'>发红包</button>
+           <!-- <view wx:if="{{sendType == 0 || sendType == 2}}" class="storeBtn" bindtap='exchange'>门店兑换</view>
+        <view wx:if="{{sendType == 0 || sendType == 1}}" class="expressBtn" bindtap='express'>快递配送</view> -->
+          <button open-type='share'>发红包贺卡</button>
         </view>
       
     </view>
       <view class="msgdetail">详细说明</view>
-  <view class="bottomBG">
+  <!-- <view class="bottomBG">
     <image src="https://xqmp4-1256079679.file.myqcloud.com/15927505686_redbagBottombg.png"></image>
-  </view>
+  </view> -->
 </view>

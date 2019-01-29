@@ -53,7 +53,7 @@ Page({
           groupid: options.groupid,
           parentId: options.parentId
         }
-        app.globalData.currentScene.path = "/packageA/pages/tourismAndHotel/touristHotelDils/touristHotelDils"
+        app.globalData.currentScene.path = "packageA/pages/tourismAndHotel/touristHotelDils/touristHotelDils"
       }
       that.setData({
         id: options.id,

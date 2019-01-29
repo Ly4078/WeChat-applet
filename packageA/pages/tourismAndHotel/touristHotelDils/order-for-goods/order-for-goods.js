@@ -19,7 +19,7 @@ Page({
     sostatus: 0,
     issnap: false,
     issecond: false,
-    paytype: '', //支付方式， 1微信支付  2余额支付
+    paytype: '1', //支付方式， 1微信支付  2余额支付
     balance: 0, //余额
     skuName: "",
     items: [{
@@ -52,6 +52,7 @@ Page({
       }, 2000)
       return
     }
+    
     let singleData = app.globalData.singleData
     that.setData({
       singleData: singleData,
@@ -59,6 +60,16 @@ Page({
     })
     if(options.number){
       that.setData({ number: options.number})
+    }
+    try{
+      that.setData({
+        payType: options.payType,
+        actId: options.actId,
+        notadd: options.notadd
+      })
+
+    }catch(err){
+
     }
 
   },
@@ -156,7 +167,16 @@ Page({
       orderId: that.data.orderId,
       openId: app.globalData.userInfo.openId,
     };
+    if (that.data.payType == 'sellPrice') {
       _parms.type = 1
+    } else {
+      if(that.data.actId) {
+        _parms.actId = that.data.actId;
+        _parms.type = 7
+      }else{
+        _parms.type = 1
+      }
+    }
     for (var key in _parms) {
       _value += key + "=" + _parms[key] + "&";
     }
@@ -208,7 +228,7 @@ Page({
           wx.navigateTo({
             url: '/pages/personal-center/personnel-order/logisticsDetails/logisticsDetails?soId=' + that.data.orderId,
           })
-        },3000)
+        },1000)
         
       }, fail: function (res) {
         payrequest = true
@@ -262,6 +282,9 @@ Page({
     }
   },
   bindMinus: function() { //点击减号
+    if (this.data.notadd) {
+      return false
+    }
     let number = this.data.number;
     if (number > 1) {
       --number;
@@ -278,6 +301,9 @@ Page({
   },
 
   bindPlus: function() { //点击加号
+    if (this.data.notadd) {
+        return false
+    }
       let number = this.data.number;
       ++number;
         this.setData({
