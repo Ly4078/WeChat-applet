@@ -18,10 +18,13 @@ Page({
     tenLater: '', //十天后
     remarks: '', //备注内容
     freight: 0, //运费
-    notsent:false
+    notsent:false,
+    createId:'',
+    soData:{}
   },
   onLoad: function(options) {
     this.setData({
+      soData:options,
       weight: options.weight,
       tempateId: options.tempateId,
       id: options.id,
@@ -156,6 +159,7 @@ Page({
   },
   //提交兑换
   submit() {
+    let _this = this;
     if (this.data.notsent){
       wx.showToast({
         title: '不支持配送',
@@ -188,11 +192,14 @@ Page({
       return false;
     }
     //查询详情是否被领取或被使用
+
+    this.couponPostage();
+    return
     wx.showLoading({
       title: '加载中...',
-      mask:true
+      mask: true
     })
-    let _this = this;
+    
     wx.request({
       url: this.data._build_url + 'orderCoupon/getDetail?id=' + this.data.id + '&locationX=' + this.data.locationX + '&locationY=' + this.data.locationY,
       header: {
@@ -222,6 +229,63 @@ Page({
         wx.hideLoading()
       },
       complete: function() {
+        // wx.hideLoading();
+      }
+    })
+  },
+  //创建运费订单
+  couponPostage(){
+    let _parms = {}, that = this, _value="";
+    _parms={
+      orderCouponId: this.data.soData.id,
+      orderCouponCode: this.data.soData.couponCode,
+      shopId: this.data.soData.shopId,
+      couponAddressId: app.globalData.Express.id ? app.globalData.Express.id : this.data.address.id,
+      sendTime: this.data.date+" 00:00:00", 
+      realWeight: this.data.weight,
+      templateId: this.data.tempateId,
+      formulaMode: this.data.formulaMode,//计费方式
+      piece: this.data.piece,//件数
+      bulk: this.data.bluk//体积
+    };
+    if (this.data.remarks){
+      _parms.remark = this.data.remarks
+    }
+    console.log('_parms:', _parms);
+
+    wx.request({
+      url: that.data._build_url + 'couponPostage/create',
+      data: JSON.stringify(_parms),
+      method: 'POST',
+      header: {
+        "Authorization": app.globalData.token
+      },
+      success: function (res) {
+        console.log("fdsafas_res:", res, res.data.code, res.data.data.postFree)
+        if(res.data.code == 0){
+          // postFree是否包邮 0 否  1 是
+          if (res.data.data.postFree == 0){
+            that.setData({
+              createId:res.data.data.id
+            })
+            that.wxpayment();
+          } else if (res.data.data.postFree == 1){
+            wx.showToast({
+              title: '兑换成功',
+              icon: 'none',
+              duration: 3000
+            })
+            setTimeout(() => {
+              wx.redirectTo({
+                url: '../../../../pages/personal-center/voucher/exchangeDetails/exchangeDetails?id=' + _this.data.id
+              })
+            }, 1500)
+          }
+        }
+      },fail() {
+        wx.hideLoading()
+      },
+      complete: function () {
         // wx.hideLoading();
       }
     })
@@ -278,42 +342,28 @@ Page({
         }
       }
     })
-    return
-    Api.useCoupon(_parms).then((res) => {
-      if (res.data.code == 0) {
-        wx.showToast({
-          title: '兑换成功',
-          icon: 'none',
-          duration: 3000
-        })
-        setTimeout(() => {
-          wx.redirectTo({
-            url: '../voucherDetails/voucherDetails?id=' + _this.data.id,
-          })
-        }, 1500)
-      } else {
-        wx.showToast({
-          title: res.data.message,
-          icon: 'none'
-        })
-      }
-    })
   },
   //调起微信支付
   wxpayment: function () {
     let _parms = {}, _this = this, _value = "", url = "", _Url = "";
+    // _parms = {
+    //   orderCouponId: this.data.id,
+    //   orderAddressId: this.data.address.id,
+    //   realWeight: this.data.weight,
+    //   templateId: this.data.tempateId,
+    //   openId: app.globalData.userInfo.openId
+    // };
     _parms = {
-      orderCouponId: this.data.id,
-      orderAddressId: this.data.address.id,
-      realWeight: this.data.weight,
-      templateId: this.data.tempateId,
+      id: this.data.createId,
       openId: app.globalData.userInfo.openId
     };
     for (var key in _parms) {
       _value += key + "=" + _parms[key] + "&";
     }
+    
     _value = _value.substring(0, _value.length - 1);
-    url = _this.data._build_url + 'wxpay/orderCouponForSendAmountNew?' + _value;
+    // url = _this.data._build_url + 'wxpay/orderCouponForSendAmountNew?' + _value;
+    url = _this.data._build_url + 'wxpay/orderCouponForSendAmountV1?' + _value;
     _Url = encodeURI(url);
     wx.request({
       url: _Url,
@@ -350,7 +400,16 @@ Page({
       'signType': 'MD5',
       'paySign': _data.paySign,
       success: function (res) {
-        _this.seduseCoupon();
+        wx.showToast({
+          title: '兑换成功',
+          icon: 'none',
+          duration: 3000
+        })
+        setTimeout(() => {
+          wx.redirectTo({
+            url: '../../../../pages/personal-center/voucher/exchangeDetails/exchangeDetails?id=' + _this.data.id
+          })
+        }, 1500)
       },
       fail: function (res) {
         wx.showToast({

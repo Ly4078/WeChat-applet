@@ -516,8 +516,6 @@ Page({
         title: '加载中...',
         mask: true
       })
-      const _formObj = JSON.stringify(_parms);
-      // console.log("_formObj:", _formObj);
       wx.request({
         url: that.data._build_url + 'orderInfo/createNew',
         data: JSON.stringify(_parms),
@@ -595,8 +593,6 @@ Page({
     if (this.data.actId){
       _parms.actId = this.data.actId;
     }
-    const _formObj = JSON.stringify(_parms);
-    // console.log("_formObj:", _formObj);
     wx.request({
       url: that.data._build_url + 'orderInfo/createNew',
       data: JSON.stringify(_parms),

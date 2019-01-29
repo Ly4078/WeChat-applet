@@ -75,7 +75,7 @@ Page({
       },
       success: function(res) {
         if (res.data.code == 0) {
-          
+          console.log('orderCoupon/getDetail:',res)
           wx.hideLoading();
           let data = res.data.data,
             userId = app.globalData.userInfo.userId;
@@ -181,8 +181,9 @@ Page({
               })
               return;
             }
+            console.log('piaodata:', _this.data.piaodata)
             wx.navigateTo({
-              url: '../express/express?weight=' + _this.data.realWeight + '&tempateId=' + _this.data.tempateId + '&id=' + _this.data.id + '&locationX=' + app.globalData.userInfo.lng + '&locationY=' + app.globalData.userInfo.lat + '&bluk=' + _this.data.bluk + '&piece=' + _this.data.piece + '&formulaMode=' + _this.data.formulaMode
+              url: '../express/express?weight=' + _this.data.realWeight + '&tempateId=' + _this.data.tempateId + '&id=' + _this.data.id + '&locationX=' + app.globalData.userInfo.lng + '&locationY=' + app.globalData.userInfo.lat + '&bluk=' + _this.data.bluk + '&piece=' + _this.data.piece + '&formulaMode=' + _this.data.formulaMode + "&shopId=" + _this.data.piaodata.shopId + "&couponCode=" + _this.data.piaodata.couponCode + "&couId=" + _this.data.piaodata.id
             })
           }
         }

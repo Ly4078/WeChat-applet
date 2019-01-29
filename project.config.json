@@ -38,19 +38,13 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 4,
+			"current": 6,
 			"list": [
 				{
 					"id": -1,
 					"name": "1232131",
 					"pathName": "packageB/pages/wanda/wandaBranch/wandaBranch",
 					"query": "id=9&picUrl=https://xqmp4-1256079679.file.myqcloud.com/13297932982_lingjiaohuwanda.jpg&name=菱角湖万达&address=武汉市江汉区唐家墩路5号&distance=14.2km&city=武汉市&locationX=114.268504&locationY=30.610058"
-				},
-				{
-					"id": 1,
-					"name": "砍价",
-					"pathName": "pages/index/bargainirg-store/AprogressBar/AprogressBar",
-					"query": "refId=1482&shopId=366&skuMoneyMin=99&skuMoneyOut=178&actId=41&categoryId=11&city="
 				},
 				{
 					"id": 2,
@@ -70,6 +64,24 @@
 					"name": "支付",
 					"pathName": "pages/index/crabShopping/crabDetails/submitOrder/submitOrder",
 					"query": "num=1&issku=3&flag=1&picUrl=https://xq-1256079679.file.myqcloud.com/13006154118_1548397038_20190125141717757_0.8.jpg&sellPrice=15&id=8246&actId=41&skuName=三文鱼寿司&remark=null&shopId=1781&singleType=1&spuId=4230&cfom=candy&stockNum=99"
+				},
+				{
+					"id": -1,
+					"name": "小叮当",
+					"pathName": "pages/personal-center/my-discount/my-discount",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "nnux",
+					"pathName": "pages/index/crabShopping/voucherDetails/voucherDetails",
+					"query": "id=2124317&isDue=0"
+				},
+				{
+					"id": -1,
+					"name": "aa",
+					"pathName": "pages/index/crabShopping/express/express",
+					"query": "weight=1&tempateId=8&id=3000033&locationX=114.34253&locationY=30.49984&bluk=1&piece=1&formulaMode=1&shopId=0&couponCode=0836486927&couId=3000033"
 				}
 			]
 		}
