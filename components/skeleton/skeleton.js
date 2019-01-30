@@ -20,7 +20,6 @@ Component({
 		skeletonCircleLists: []
 	},
   myCatchTouch:function(e){
-    console.log(e)
     return
   },
 	attached: function () {

@@ -260,7 +260,7 @@ Page({
     _parms = {
       orderCouponCode: this.data.couponCode,
       sendUserId: this.data.ownId,
-      versionNo: this.data.versionNo,
+      versionNo: this.data.versionNo,//版本号传错了 需要传页面带过来参数的老版本号
       token: app.globalData.token
     };
     for (var key in _parms) {
@@ -300,7 +300,7 @@ Page({
   let that = this;
     if (that.data.detailType == '1') {
       let title = '恭喜发财，大吉大利！';
-      var url = '/packageA/pages/redBagIndex/redbagDetail/index?shareId=' + app.globalData.userInfo.userId + '&id=' + that.data.id + '&nickName=' + app.globalData.userInfo.nickName + '&iconUrl=' + app.globalData.userInfo.iconUrl + '&title=' + (that.data.redbagMsg ? that.data.redbagMsg :title);
+      var url = '/packageA/pages/redBagIndex/redbagDetail/index?shareId=' + app.globalData.userInfo.userId + '&versionNo=' + that.data.versionNo+ '&id=' + that.data.id + '&nickName=' + app.globalData.userInfo.nickName + '&iconUrl=' + app.globalData.userInfo.iconUrl + '&title=' + (that.data.redbagMsg ? that.data.redbagMsg :title);
       console.log(url)
         return {
           // title: that.data.redbagMsg ? that.data.redbagMsg:'恭喜发财，大吉大利！',
@@ -350,16 +350,18 @@ Page({
         });
       }
     }
-    if (data.shopOut.id != 0) {
-      storeList.push({
-        salepointName: data.shopOut.shopName,
-        address: data.shopOut.address,
-        distance: this.calculate(data.shopOut.distance),
-        locationX: data.shopOut.locationX,
-        locationY: data.shopOut.locationY,
-        mobile: data.shopOut.mobile ? data.shopOut.mobile : data.shopOut.phone
-      });
-    }
+    try{
+      if (data.shopOut.id != 0) {
+        storeList.push({
+          salepointName: data.shopOut.shopName,
+          address: data.shopOut.address,
+          distance: this.calculate(data.shopOut.distance),
+          locationX: data.shopOut.locationX,
+          locationY: data.shopOut.locationY,
+          mobile: data.shopOut.mobile ? data.shopOut.mobile : data.shopOut.phone
+        });
+      }
+    }catch(err){}
     this.setData({
       storeList: storeList
     });
@@ -578,5 +580,10 @@ Page({
     this.setData({
       redbagMsg:e.detail.value
     })
-  }
+  },
+  todetailMsg: function () {
+    wx.navigateTo({
+      url: '/pages/index/crabShopping/getFailure/getFailure?redbag=true',
+    })
+  },
 })

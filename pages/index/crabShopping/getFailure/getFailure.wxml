@@ -1,15 +1,7 @@
-<!-- 领取失败布局 -->
-<!-- <view class="getFailure">
-  <view>
-    <image src="/images/icon/subtract.png"></image>
-    <view class="failureTxt">领取失败</view>
-    <view class="fz24 gray">该票券已经被领取</view>
-  </view>
-  <view class="toIndex"><view>返回首页</view></view>
-</view> -->
+
 
 <!-- 使用说明 -->
-<view class="infoWrap">
+<view class="infoWrap" wx:if="{{!redbag}}">
   <view class="title black">
     <view class="titleIcon"></view>
     <text>使用须知</text>
@@ -34,5 +26,48 @@
     <view class="p30">7.活动用户需依照页面提示进行操作，如出现违规操作导致商品无法发放或无法正常使用券票、活动无法继续等异常错误，将取消用户参与资格。</view>
     <view class="p30">8.拼团等所有商品库存有限，如因库存不足导致抢购失败或发货失败，订单将全额退款。</view>
     <view class="p30">9.因可能存在系统缓存、页面更新导致价格变动异常等不确定性情况出现，如您发现页面异常，请等待页面刷新，并及时联系我们。</view>
+  </view>
+</view>
+
+
+<view class="infoWrap" wx:if="{{redbag}}">
+  <view class="title black">
+    <view class="titleIcon"></view>
+    <text>帮助中心</text>
+  </view>
+  <view class="infoCont">
+    <view class="contTit gray">
+      <view class="contIcon"></view>
+      <text>什么是红包贺卡？</text>
+    </view>
+    <view class="p30">享7小程序新推出的红包玩法，您可以通过享7购小程序购买红包贺卡，并编辑红包祝福语，赠送给一个或多个好友。红包在领取后失效，红包资金以余额的形式进入领取用户的【钱包】，红包资金可在享7购平台内抵扣消费。</view>
+    <view class="contTit gray">
+      <view class="contIcon"></view>
+      <text>如何领取红包贺卡？</text>
+    </view>
+    <view class="p30">用户在聊天界面点击送出的红包，领到红包后即以余额形式进入领取用户的【钱包】余额。用户可在享7小程序【我的】-【钱包】页面查看全部余额及钱包明细等。</view>
+    <view class="p30">温馨提示：未注册享7购小程序账号的微信用户，将在领取红包前自动进入注册页面，注册成功后，领取流程相同。</view>
+     <view class="contTit gray">
+      <view class="contIcon"></view>
+      <text>红包退回说明：</text>
+    </view>
+    <view class="p30">红包贺卡有效期为3个月，购买后可手动申请退款。</view>
+    <view class="contTit gray">
+      <view class="contIcon"></view>
+      <text>红包使用说明：</text>
+    </view>
+    <view class="p30">红包资金以余额的形式直接进入【钱包】，可在享7购平台直接抵扣使用，使用规则与余额支付规则相同。同时支持提现功能。</view>
+
+    <view class="contTit gray">
+      <view class="contIcon"></view>
+      <text>温馨提示：</text>
+    </view>
+    <view class="p30">春节期间，即2019年02月01日起暂时关闭提现功能。提现功能开放后，用户可直接在享7小程序进入【我的】-【钱包】，进行提现。具体重新开放时间另行通知。</view>
+
+    <view class="contTit gray">
+      <view class="contIcon"></view>
+      <text>提现到账时间：</text>
+    </view>
+    <view class="p30">以各银行规定到账时间为准。</view>
   </view>
 </view>

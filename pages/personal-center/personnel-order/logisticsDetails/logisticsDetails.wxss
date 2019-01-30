@@ -251,7 +251,7 @@ page {
 
 .paymentMagic {
   width: 100%;
-  height: 350rpx;
+  /* height: 350rpx; */
   margin-top: 20rpx;
   letter-spacing: 2rpx;
   background-color: #fff;
@@ -259,11 +259,11 @@ page {
 
 .paymentHead {
   width: 100%;
-  height: 62rpx;
+  /* height: 62rpx; */
   display: flex;
   justify-content: center;
   border-bottom: 1px dotted #e0e0e0;
-  margin-bottom: 25rpx;
+  /* margin-bottom: 25rpx; */
 }
 
 .paymentHeadkd {
@@ -282,8 +282,9 @@ page {
 
 .payment-execute {
   width: 100%;
-  height: 222rpx;
-  padding-bottom: 140rpx;
+  /* height: 222rpx; */
+  /* padding-bottom: 140rpx; */
+  padding: 25rpx 0;
 }
 
 .copybut {
@@ -332,7 +333,8 @@ page {
   width: 100%;
   font-size: 22rpx;
   color: rgba(85, 85, 85, 1);
-  margin-bottom: 24rpx;
+  /* margin-bottom: 24rpx; */
+  padding: 15rpx 0;
 }
 
 .inconformity text:nth-child(1) {

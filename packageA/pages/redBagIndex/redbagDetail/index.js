@@ -19,7 +19,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log('options', options);
     let that = this;
     if (options.shareId) {
       that.setData({
@@ -27,7 +26,8 @@ Page({
         id: options.id,
         iconUrl: options.iconUrl,
         nickName: options.nickName,
-        redBagTitle: options.title
+        redBagTitle: options.title,
+        oldVersionNo: options.versionNo
       })
       app.globalData.currentScene.query = {
         shareId: options.shareId,
@@ -37,11 +37,11 @@ Page({
         redBagTitle: options.title
       }
       app.globalData.currentScene.path = "packageA/pages/redBagIndex/redbagDetail/index"
-    }else{
+    } else {
       wx.showToast({
         title: '参数错误',
-        icon:"none",
-        duration:4000
+        icon: "none",
+        duration: 4000
       })
     }
     wx.getSystemInfo({
@@ -67,12 +67,11 @@ Page({
     let url = that.data._build_url + 'orderCoupon/getDetail?id=' + that.data.id + '&sendOrReceiveUserId=' + that.data.shareId;
     let urls = encodeURI(url)
     wx.request({
-      url: urls ,
+      url: urls,
       header: {
         "Authorization": app.globalData.token
       },
       success: function (res) {
-        console.log('res',res)
         if (res.data.code == '0') {
           let data = res.data.data;
           let type = '';
@@ -83,21 +82,29 @@ Page({
               type = 1
             }
           } else {//已领取
-            if (data.orderCouponSendOuts.length &&  data.orderCouponSendOuts[0].receiveUserId == userInfo.id){
-                type = 3
-              }else{
-                type = 4
+            if (data.orderCouponSendOuts.length) {
+              for (let i = 0; i < data.orderCouponSendOuts.length; i++) {
+                if (data.ownId == data.orderCouponSendOuts[i].receiveUserId) {
+                  data.orderCouponSendOuts[0] = data.orderCouponSendOuts[i];
+                  break;
+                }
               }
+            }
+            if (data.orderCouponSendOuts.length && data.orderCouponSendOuts[0].receiveUserId == userInfo.id) {
+              type = 3
+            } else {
+              type = 4
+            }
           }
           that.setData({
             redBagType: type,
-            data:data
+            data: data
           })
         }
       }
     })
   },
-  towallet:function(){
+  towallet: function () {
     wx.navigateTo({
       url: '/pages/personal-center/wallet/wallet',
     })
@@ -115,8 +122,32 @@ Page({
 
   click: function () {
     let that = this;
-    this.setData({ isclick: true })
-    this.getsendCoupon()
+    that.setData({ isclick: true });
+    let url = that.data._build_url + 'orderCoupon/getDetail?id=' + that.data.id + '&sendOrReceiveUserId=' + that.data.shareId;
+    let urls = encodeURI(url)
+    wx.request({
+      url: urls,
+      header: {
+        "Authorization": app.globalData.token
+      },
+      success: function () {
+        if (res.data.code == '0') {
+          if (res.data.data.isUsed == '0') {
+            that.getsendCoupon()
+          } else {
+            wx.showToast({
+              title: '红包已被领取',
+              icon: 'none'
+            })
+          }
+        } else {
+
+        }
+      }
+
+
+    })
+
   },
   getsendCoupon: function () { //领取券
     let _parms = {},
@@ -128,7 +159,7 @@ Page({
     _parms = {
       orderCouponCode: _this.data.data.couponCode,
       sendUserId: _this.data.data.ownId,
-      versionNo: _this.data.data.versionNo,
+      versionNo: _this.data.oldVersionNo ? _this.data.oldVersionNo : _this.data.data.versionNo,
       token: app.globalData.token
     };
     for (var key in _parms) {
@@ -144,11 +175,17 @@ Page({
       },
       method: 'POST',
       success: function (res) {
-        console.log('领取',res)
+        console.log('领取', res)
         if (res.data.code == 0) {
           _this.chairedbag();
         } else {
-          
+          _this.setData({ isclick: false });
+          wx.showToast({
+            title: '红包已被领取',
+            icon: 'none',
+            duration: 2000
+          })
+          _this.onShow();
         }
       }
     })
@@ -158,7 +195,7 @@ Page({
     let url = that.data._build_url + "orderCoupon/useCouponForRedPacket?id=" + that.data.id + "&remark=" + that.data.redBagTitle;
     let urls = encodeURI(url);
     wx.request({
-      url: urls ,
+      url: urls,
       method: 'POST',
       header: {
         "Authorization": app.globalData.token
@@ -168,12 +205,14 @@ Page({
         if (res.data.code == '0' && res.data.data == '1') {
           that.setData({ isclick: false, redBagType: '3' })
           that.audio();
-        }else{
+        } else {
+          _this.setData({ isclick: false });
           wx.showToast({
-            title: '领取失败',
+            title: '红包已被领取',
+            icon: 'none',
+            duration: 2000
           })
-          that.setData({ isclick: false})
-          that.onShow();
+          _this.onShow();
         }
       },
       fail: function () {
@@ -227,10 +266,10 @@ Page({
    */
   onShareAppMessage: function () {
     let that = this;
-      return {
-        title:'新春来贺喜，情藏红包里 ',
-        path: '/packageA/pages/redBagIndex/redbagDetail/index?id=' + that.data.id + '&shareId=' + that.data.shareId + '&redBagTitle=' + that.data.redBagTitle + '&iconUrl=' + that.data.iconUrl + '&nickName=' + that.data.nickName,
-        imageUrl:'https://xqmp4-1256079679.file.myqcloud.com/15927505686_12312321312321312321312.png'
-      }
+    return {
+      title: '新春来贺喜，情藏红包里 ',
+      path: '/packageA/pages/redBagIndex/redbagDetail/index?id=' + that.data.id + '&shareId=' + that.data.shareId + '&redBagTitle=' + that.data.redBagTitle + '&iconUrl=' + that.data.iconUrl + '&nickName=' + that.data.nickName,
+      imageUrl: 'https://xqmp4-1256079679.file.myqcloud.com/15927505686_12312321312321312321312.png'
+    }
   }
 })

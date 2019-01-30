@@ -146,6 +146,28 @@ page {
   border-radius: 50%;
 }
 
+.navsNewYear {
+  background: url('https://xqmp4-1256079679.file.myqcloud.com/15927505686_navbanner.jpg') no-repeat;
+  background-size: 100% 100%;
+}
+
+.navsNewYear .navitem image {
+  width: 84rpx;
+  height: 98rpx;
+}
+
+.navsNewYear .navitem_txt {
+  color: #fee4d2;
+}
+
+.redbagImg {
+  width: 478rpx;
+  height: 127rpx;
+  display: block;
+  margin: 0 auto;
+  padding: 40rpx 0;
+}
+
 .navitem_txt {
   color: #191919;
   font-size: 26rpx;

@@ -63,9 +63,9 @@ Page({
     }
     try{
       that.setData({
-        payType: options.payType,
         actId: options.actId,
-        notadd: options.notadd
+        notadd: options.notadd,
+        flagType: options.flagType
       })
 
     }catch(err){
@@ -103,7 +103,11 @@ Page({
       }
     }
     payrequest = false
-    _parms.flagType = 1
+    _parms.flagType = 1;
+    if (that.data.notadd) {
+      _parms.flagType = that.data.flagType;
+      _parms.actId = that.data.actId;
+    }
     wx.showLoading({
       title: '加载中...',
       mask: true
@@ -167,16 +171,13 @@ Page({
       orderId: that.data.orderId,
       openId: app.globalData.userInfo.openId,
     };
-    if (that.data.payType == 'sellPrice') {
-      _parms.type = 1
-    } else {
-      if(that.data.actId) {
+      if(that.data.notadd) {
         _parms.actId = that.data.actId;
         _parms.type = 7
       }else{
-        _parms.type = 1
+        // _parms.type = 1
       }
-    }
+
     for (var key in _parms) {
       _value += key + "=" + _parms[key] + "&";
     }

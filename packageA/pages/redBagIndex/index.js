@@ -11,7 +11,7 @@ Page({
    */
   data: {
     _build_url: GLOBAL_API_DOMAIN,
-    list:['1','2','3','4','5','6','7','8','9'],
+    list:[],
     currentIndex:0,
     currentNum:1,
 
@@ -121,6 +121,11 @@ Page({
   },
   numAdd: function () {
     this.setData({ currentNum: this.data.currentNum + 1 })
+  },
+  todetailMsg:function(){
+    wx.navigateTo({
+      url: '/pages/index/crabShopping/getFailure/getFailure?redbag=true',
+    })
   },
 
   /**

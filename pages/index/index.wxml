@@ -2,10 +2,10 @@
 <import src="bargainirg-store/bargainirg-template/bargainirg-template.wxml" />
 <!-- 骨架屏模块 -->
 <skeleton selector="skeleton" loading="spin" bgcolor="#FFF" wx:if="{{showSkeleton}}"></skeleton>
- <!-- <button catchtap='toWanda'>万达十大招牌菜 快捷入口</button> -->
+<!-- <button catchtap='toWanda'>万达十大招牌菜 快捷入口</button> -->
 <!-- <button catchtap='toWandaCai'>万达专区 快捷入口</button> -->
-<button catchtap='togrourp'>购买红包</button>
-<button  catchtap='getfptt'>红包快捷</button>
+<!-- <button catchtap='togrourp'>购买红包</button> -->
+<button catchtap='getfptt'>红包快捷</button>
 <view class="container">
   <!--顶部 定位 搜索 卷  -->
   <!-- 头部搜索 after  -->
@@ -39,11 +39,24 @@
     </view>
   </view>
   <!-- 导航nav_one -->
-  <view class='indexNavOne'>
+  <view class='indexNavOne ' wx:if="{{!navsNewYear.length}}">
     <view wx:for="{{navs}}" wx:if="{{!item.hide && item.title !='短视频'}}" hover-class='listhover' hover-stay-time="200" wx:key="index" data-url="{{item.linkUrl}}" class='navitem' id="{{item.id}}" data-msg="{{item.title=='酒店'?'商家正在入驻中...':''}}" bindtap='toLink'>
       <image class="img{{index+1}} skeleton-radius" src='{{item.imgUrl}}'></image>
       <text class="navitem_txt skeleton-rect">{{item.title}}</text>
     </view>
+  </view>
+
+  <view class="navsNewYear"  wx:if="{{navsNewYear.length}}">
+    <image catchtap='togrourp' class="redbagImg" src="https://xqmp4-1256079679.file.myqcloud.com/15927505686_redbag.gif"></image>
+    <view class='indexNavOne ' style="background:none;">
+
+      <view wx:for="{{navsNewYear}}" wx:if="{{!item.hide && item.title !='短视频'}}"  wx:key="index" data-url="{{item.linkUrl}}" class='navitem' id="{{item.id}}" data-msg="{{item.title=='酒店'?'商家正在入驻中...':''}}" bindtap='toLink'>
+        <image class="img{{index+1}} skeleton-radius" src='{{item.imgUrl}}'></image>
+        <text class="navitem_txt skeleton-rect">{{item.title}}</text>
+      </view>
+    </view>
+
+
   </view>
 
   <!-- 活动列表 -->
@@ -61,7 +74,7 @@
   </view>
 
   <!-- 生鲜 -->
-  <view class="triple" >
+  <view class="triple">
     <view class="tripleItem it1 skeleton-rect">
       <image mode='aspectFill' catchtap='toLink' class="" data-url="{{fresh1.linkUrl}}" src="{{fresh1.imgUrl}}"></image>
     </view>
@@ -83,7 +96,7 @@
     <view class="title">—热门推荐—</view>
 
     <view class="contents" wx:for="{{allList}}" wx:key="bigindex" wx:for-index="bigindex">
-      <view  class="hot-recoItem " catchtap='onTouchItem' wx:for="{{allList[bigindex].shop}}" wx:key="index" data-id="{{item.id}}" hover-class='listhover' hover-stay-time="200">
+      <view class="hot-recoItem " catchtap='onTouchItem' wx:for="{{allList[bigindex].shop}}" wx:key="index" data-id="{{item.id}}" hover-class='listhover' hover-stay-time="200">
         <view class="hot-recoItem-left">
           <image-loader width="180rpx" height="180rpx" class='hot-recoItem-leftImg' default-image='/images/icon/morentu.png' mode='aspectFill' original-image="{{item.logoUrl?item.logoUrl:'/images/icon/morentu.png'}}" />
 
@@ -125,7 +138,8 @@
 
         <view class="hot-recoItem-left">
           <!-- <image src="{{item.picUrl}}" mode='aspectFill' class='hot-recoItem-leftImg'></image> -->
-          <image-loader width="180rpx" height="180rpx" class='hot-recoItem-leftImg' default-image='/images/icon/morentu.png' mode='aspectFill' original-image="{{(item.smallSkuPic?item.smallSkuPic:item.skuPic)?(item.smallSkuPic?item.smallSkuPic:item.skuPic):'/images/icon/morentu.png'}}" />
+          <image-loader width="180rpx" height="180rpx" class='hot-recoItem-leftImg' default-image='/images/icon/morentu.png' mode='aspectFill' original-image="{{(item.smallSkuPic?item.smallSkuPic:item.skuPic)?(item.smallSkuPic?item.smallSkuPic:item.skuPic):'/images/icon/morentu.png'}}"
+          />
         </view>
         <view class="hot-recoItem-right">
           <view class="title_tips">
@@ -154,12 +168,13 @@
           </view>
         </view>
       </view>
-      <view class="hot-recoItem"  catchtap='candyDetails' id='{{item.id}}' data-index="{{item.shopId}}" data-actid="{{item.actGoodsSkuOut.actId}}" data-categoryid="{{item.categoryId}}" wx:for="{{allList[bigindex].goodsSku}}" wx:key="index"
-        hover-class='listhover' hover-stay-time="200">
+      <view class="hot-recoItem" catchtap='candyDetails' id='{{item.id}}' data-index="{{item.shopId}}" data-actid="{{item.actGoodsSkuOut.actId}}" data-categoryid="{{item.categoryId}}" wx:for="{{allList[bigindex].goodsSku}}" wx:key="index" hover-class='listhover'
+        hover-stay-time="200">
         <image src="/images/newIndex/bargain.png" class="bargain-img"></image>
         <view class="hot-recoItem-left">
           <!-- <image src="{{item.skuPic}}" mode='aspectFill' class='hot-recoItem-leftImg'></image> -->
-          <image-loader width="180rpx" height="180rpx" class='hot-recoItem-leftImg' default-image='/images/icon/morentu.png' mode='aspectFill' original-image="{{(item.smallSkuPic?item.smallSkuPic:item.skuPic)?(item.smallSkuPic?item.smallSkuPic:item.skuPic):'/images/icon/morentu.png'}}" />
+          <image-loader width="180rpx" height="180rpx" class='hot-recoItem-leftImg' default-image='/images/icon/morentu.png' mode='aspectFill' original-image="{{(item.smallSkuPic?item.smallSkuPic:item.skuPic)?(item.smallSkuPic?item.smallSkuPic:item.skuPic):'/images/icon/morentu.png'}}"
+          />
           <view wx:if="{{item.actGoodsSkuOut.stockNum <= 0}}" class="notstockNumshadedow">
             <image style="width:108rpx;height:108rpx;" wx:if="{{item.actGoodsSkuOut.stockNum <= 0}}" class="sellOutIcon" src="/images/icon/sellOut.png"></image>
           </view>
@@ -194,10 +209,11 @@
           </view>
         </view>
       </view>
-      <view  wx:for="{{allList[bigindex].skuMS}}" wx:key="index" id='{{item.id}}' data-shopid="{{item.shopId}}" data-actid="44" data-distance="{{item.distance}}" data-categoryid="{{item.categoryId}}" catchtap='toSecKillDetail' class="Dishes-item"
-        hover-class='listhover' hover-stay-time="200">
+      <view wx:for="{{allList[bigindex].skuMS}}" wx:key="index" id='{{item.id}}' data-shopid="{{item.shopId}}" data-actid="44" data-distance="{{item.distance}}" data-categoryid="{{item.categoryId}}" catchtap='toSecKillDetail' class="Dishes-item" hover-class='listhover'
+        hover-stay-time="200">
         <view class="Dishes-top">
-          <image-loader width="344rpx" height="344rpx" class='hot-recoItem-leftImg' default-image='/images/icon/morentu.png' mode='aspectFill' original-image="{{(item.smallSkuPic?item.smallSkuPic:item.skuPic)?(item.smallSkuPic?item.smallSkuPic:item.skuPic):'/images/icon/morentu.png'}}" />
+          <image-loader width="344rpx" height="344rpx" class='hot-recoItem-leftImg' default-image='/images/icon/morentu.png' mode='aspectFill' original-image="{{(item.smallSkuPic?item.smallSkuPic:item.skuPic)?(item.smallSkuPic?item.smallSkuPic:item.skuPic):'/images/icon/morentu.png'}}"
+          />
           <view class="Dishes-desc">
             <view class="desc-msg">{{item.shop.shopName}}</view>
             <!-- <view class="desc-loca">{{item.distance}}</view> -->

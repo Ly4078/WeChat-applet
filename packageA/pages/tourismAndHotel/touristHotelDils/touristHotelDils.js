@@ -395,38 +395,11 @@ Page({
       })
       return false
     }
-    if (payType !='sellPrice'){
-      if (that.data.Countdowns.isEnd) {
-        wx.showToast({
-          title: '该团已结束',
-          icon: 'none'
-
-        })
-        return false
-      }
-    }
-    if (!payrequest){
-      return false
-    }
-    payrequest = false
-    _parms = {
-      shopId: that.data.singleData.shopId,
-      payType: 2,
-      flagType: 7,
-      singleType: that.data.singleData.singleType,
-      orderItemList: [{
-        goodsSkuId: that.data.singleData.id,
-        goodsSpuId: that.data.singleData.spuId,
-        goodsNum: 1,
-        shopId: that.data.singleData.shopId,
-        orderItemShopId: '0',
-      }]
-    };
-    if (payType == 'sellPrice'){
-      _parms.flagType = 1
-    }else{
-      _parms.actId =  that.data.actid
-    }
+    app.globalData.singleData = that.data.singleData
+    wx.navigateTo({
+      url: '/packageA/pages/tourismAndHotel/touristHotelDils/order-for-goods/order-for-goods?actId=' + that.data.actid +'&notadd=true&flagType=7',
+    })
+    return 
     wx.showLoading({
       title: '加载中...',
       mask:true

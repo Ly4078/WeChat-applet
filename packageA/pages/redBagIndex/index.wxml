@@ -21,7 +21,7 @@
       </view>
       <view class="selectConfirm" catchtap='toPay'>购买</view>
     </view>
-    <view class="msgdetail">详细说明</view>
+    <view class="msgdetail" catchtap='todetailMsg'>帮助中心</view>
   </view>
   <view class="bottomBG"><image src="../../images/redbagBottombg.png"></image></view>
 </view>

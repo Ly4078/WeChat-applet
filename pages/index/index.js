@@ -264,6 +264,7 @@ Page({
             fresh1: res.data.fresh1,
             fresh2: res.data.fresh2,
             fresh3: res.data.fresh3,
+            navsNewYear: res.data.navsNewYear ? res.data.navsNewYear:[],
             activityList: res.data.activityList,
             bannerList: res.data.carousel ? res.data.carousel : [],
             navs: res.data.navs || [],

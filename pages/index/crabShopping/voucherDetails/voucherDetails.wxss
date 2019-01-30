@@ -289,14 +289,14 @@ page {
 }
 
 .redBag .banner .redbagPrice {
-  font-size: 34rpx;
+  font-size: 40rpx;
   font-weight: 700;
   position: absolute;
-  bottom: 80rpx;
-  right:40rpx;
+  bottom:88rpx;
+  left:66rpx;
   /* left: 50%;
   transform: translateX(-50%); */
-  color: #f7e051;
+  color: #fbec7b;
 }
 
 .redBag .bottomBG image {

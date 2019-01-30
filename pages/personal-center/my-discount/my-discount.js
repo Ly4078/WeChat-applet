@@ -255,7 +255,6 @@ Page({
     if (!app.globalData.token) {
       this.findByCode();
     } else {
-      console.log('userId',app.globalData.userInfo)
       let _parms = {
         userId: app.globalData.userInfo.userId ? app.globalData.userInfo.userId : app.globalData.userInfo.id,
         page: this.data.pxpage,
@@ -269,11 +268,9 @@ Page({
         _parms.isUsed = 1;
       }
       swichrequestflag[types] = true;
-      console.log('_parms:', _parms)
       Api.orderCoupon(_parms).then((res) => {
         // wx.stopPullDownRefresh();
         wx.hideLoading();
-        console.log("orderCoupon_res:",res)
         that.setData({
           loading: false
         })

@@ -1,4 +1,5 @@
 /* 领取失败css */
+
 .fz24 {
   font-size: 24rpx;
 }
@@ -10,7 +11,7 @@
 page {
   width: 100%;
   height: 100%;
-  background-color: #F5F5FA;
+  background-color: #f5f5fa;
 }
 
 .getFailure {
@@ -44,17 +45,20 @@ page {
   line-height: 66rpx;
   text-align: center;
   color: #fff;
-  background-color: #FF6E02;
+  background-color: #ff6e02;
   border-radius: 50rpx;
 }
 
 /* 详细说明css */
+
 .black {
   color: #191919;
 }
 
 .gray {
-  color: #808080;
+  color: #333;
+  font-size: 30rpx;
+  font-weight: 700;
 }
 
 .p30 {
@@ -63,7 +67,7 @@ page {
 
 .infoWrap {
   font-size: 24rpx;
-  color: #555555;
+  color: #555;
   width: 100%;
   padding: 36rpx 0 44rpx 28rpx;
   box-sizing: border-box;
@@ -80,7 +84,7 @@ page {
   display: inline-block;
   width: 8rpx;
   height: 20rpx;
-  background-color: #FC5E2D;
+  background-color: #fc5e2d;
   margin-right: 22rpx;
 }
 
