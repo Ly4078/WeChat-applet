@@ -8,7 +8,15 @@ Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
     isNew: 0,
-    isClick:true
+    isClick:true,
+    id: 4
+  },
+  onLoad(options) {
+    if (options.id) {
+      this.setData({
+        id: options.id
+      });
+    }
   },
   onShow: function () {
     this.isNewUser();

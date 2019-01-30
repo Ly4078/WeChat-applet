@@ -96,7 +96,7 @@ Page({
         browSort: 0, //0附近 1销量 2价格
         locationX: app.globalData.userInfo.lng ? app.globalData.userInfo.lng : lng,
         locationY: app.globalData.userInfo.lat ? app.globalData.userInfo.lat : lat,
-        city: this.data.city,
+        // city: this.data.city,
         isDeleted: 0,
         page: this.data.page,
         rows: this.data.rows,
@@ -283,7 +283,5 @@ Page({
         }
       }
     })
-  },
-
-
+  }
 })

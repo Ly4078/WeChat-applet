@@ -32,35 +32,20 @@
     </view>
   </view>
 
-  <view class='embedded'>
+  <view class='embedded' wx:if="{{article}}">
     <!-- 商品详情 -->
     <view class='specialWrap'>
       <view class='special'></view>
       <text>商品详情</text>
     </view>
-    <view class='parewx' hidden="{{!isopenimg}}" wx:if="{{article}}">
+    <view class='parewx' hidden="{{!isopenimg}}">
       <template is="wxParse" data="{{wxParseData:article.nodes}}" />
     </view>
     <view class='dishtext' hidden="{{isopenimg}}" wx:if="{{pattern}}">
     </view>
-    <view class='dishImg' wx:if="{{article}}">
+    <view class='dishImg'>
       <view class='openImg' bindtap='clickopen'>{{isopenimg?'收起图文详情':'查看图文详情'}}</view>
     </view>
-
-    <!-- 购买须知start -->
-    <view class='specialWrap' wx:if="{{legend}}">
-      <view class='special'></view>
-      <text>购买须知</text>
-    </view>
-    <view class='legend'>
-      <view class='legend_one' wx:for="{{legend}}" wx:key="{{index}}">
-        <view class='legend_name'> {{item.name}}</view>
-        <view class='legend_info' wx:for="{{item.info}}" wx:key="{{index}}">·
-          <text>{{item}}</text>
-        </view>
-      </view>
-    </view>
-    <!-- 购买须知end -->
   </view>
 
   <view class="description">

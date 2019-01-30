@@ -1,8 +1,9 @@
 <view class="new_exclusive">
   <view class="newE_header">
-    <image src="https://xqmp4-1256079679.file.myqcloud.com/13971489895_test20190102174057.png"></image>
+    <image wx:if="{{id == 4}}" src="https://xqmp4-1256079679.file.myqcloud.com/13971489895_test20190102174057.png"></image>
+    <image wx:if="{{id == 3}}" src="https://xqmp4-1256079679.file.myqcloud.com/15927505686_d2031a8157f1f5e0e282a153add2d31.jpg"></image>
   </view>
-  <view class="newE_rule">
+  <view class="newE_rule" wx:if="{{id == 4}}">
     <view class="newE_title">————<text>使用规则</text>————</view>
     <text class="newE_content">
       1、新用户首单免费，最高可以领取一张100克巧克力兑换券。
@@ -14,7 +15,25 @@
       好了，快快点击下面按钮领取福利吧！
     </text>
   </view>
-  <view class="clickBox">
+  
+  <view class="newE_rule" wx:if="{{id == 3}}">
+    <view class="newE_title">————<text>活动详情</text>————</view>
+    <text class="newE_content">
+      说明：本活动的核心，是联合武商超市十堰专区春节特卖，以线下门店春节活动期间限购商品为准，在享7平台下单额外优惠立减！
+      活动时间：2月3日起2月19日（正月十五）截止
+    </text>
+    <view class="newE_title">————<text>活动规则</text>————</view>
+    <text class="newE_content">
+      1、平台下单，在所属门店自提
+      2、选择要购买门店--选择活动期间限购商品--支付完成
+      3、所购商品凭生成的二维码到所选门店使用
+      4、商品券存在有效期限制，过期失效，请在有效期内使用
+      5、所有商品券使用规则以商家活动为准
+      6、享7平台拥有最终解释权
+    </text>
+  </view>
+
+  <view class="clickBox" wx:if="{{id == 4}}">
     <view class="clickto_get" bindtap="toReceive">立即领取</view>
   </view>
 </view>

@@ -39,17 +39,13 @@ Page({
       if (this.data.wandaL.length <= 0) {
         this.wandaList();
       }
-      console.log(app.globalData.userInfo.city);
-      // if (app.globalData.userInfo.city == '十堰市' && this.data.wushangL.length <= 0) {
       if (this.data.wushangL.length <= 0) {
         this.wushangList();
       }
     } else {
       getCurrentLocation(that).then((res) => {
         that.wandaList();
-        // if (app.globalData.userInfo.city == '十堰市') {
-          that.wushangList();
-        // }
+        that.wushangList();
       })
 
     }
@@ -159,6 +155,7 @@ Page({
       name = '',
       address = '',
       distance = '',
+      city = '',
       locationX = '',
       locationY = '';
     for (let i = 0; i < list.length; i++) {
@@ -167,12 +164,13 @@ Page({
         name = type == 1 ? list[i].name : list[i].salepointName;
         address = list[i].address;
         distance = list[i].distance;
+        city = list[i].city;
         locationX = list[i].locationX;
         locationY = list[i].locationY;
       }
     }
     wx.navigateTo({
-      url: 'wandaBranch/wandaBranch?id=' + id + '&picUrl=' + picUrl + '&name=' + name + '&address=' + address + '&distance=' + distance + '&city=' + app.globalData.userInfo.city + '&locationX=' + locationX + '&locationY=' + locationY + '&type=' + type
+      url: 'wandaBranch/wandaBranch?id=' + id + '&picUrl=' + picUrl + '&name=' + name + '&address=' + address + '&distance=' + distance + '&city=' + city + '&locationX=' + locationX + '&locationY=' + locationY + '&type=' + type
     })
   },
   onShareAppMessage: function() {

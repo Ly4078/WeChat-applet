@@ -20,7 +20,7 @@ page {
 .newE_rule {
   font-size: 26rpx;
   color: #fff;
-  padding-top: 20rpx;
+  padding: 20rpx 0 40rpx 0;
 }
 
 .newE_title {
@@ -40,7 +40,6 @@ page {
   line-height: 50rpx; 
   letter-spacing: 6rpx;
   overflow: scroll;
-  height: 620rpx;
 }
 
 .clickBox {

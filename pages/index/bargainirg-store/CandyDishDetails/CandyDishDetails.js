@@ -1112,7 +1112,8 @@ Page({
       _values = _values.substring(0, _values.length - 1);
       _path = '/pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails?' + _values;
     } else {
-      _path: '/pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails?shopId=' + this.data.shopId + '&id=' + this.data.id + '&lat=' + userInfo.lat + '&lng=' + userInfo.lng + '&city=' + userInfo.city;
+      let city = this.data._city ? this.data._city : userInfo.city;
+      _path: '/pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails?shopId=' + this.data.shopId + '&id=' + this.data.id + '&lat=' + userInfo.lat + '&lng=' + userInfo.lng + '&city=' + city;
     }
     return {
       // title: this.data.skuName,

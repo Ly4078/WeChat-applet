@@ -28,7 +28,8 @@ Page({
     salepointId: '', //自提点id
     isopenimg: true,
     article: '',
-    attachments: []
+    attachments: [],
+    isShare: false
   },
   onLoad: function(options) {
     let that = this;
