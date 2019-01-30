@@ -103,7 +103,9 @@ Page({
               type = 4
             }
           }
-          clearInterval(timer);
+          if(timer != null){
+            clearInterval(timer);
+          }
           that.setData({
             redBagType: type,
             data: data
@@ -255,14 +257,18 @@ Page({
    * 生命周期函数--监听页面隐藏
    */
   onHide: function () {
-
+    if (timer != null) {
+      clearInterval(timer);
+    }
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-
+    if (timer != null) {
+      clearInterval(timer);
+    }
   },
 
   /**
