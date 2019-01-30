@@ -219,7 +219,7 @@ Page({
     return {
       title: this.data.name + '专区菜品',
       imageUrl: 'https://xqmp4-1256079679.file.myqcloud.com/15927505686_wandazhuanqu.jpg',
-      path: '/packageB/pages/wanda/wandaBranch/wandaBranch?shareId=1&id=' + this.data.id + '&picUrl=' + this.data.picUrl + '&name=' + this.data.name + '&address=' + this.data.address + '&distance=' + this.data.distance + '&city=' + this.data.city + '&locationX=' + this.data.locationX + '&locationY=' + this.data.locationY,
+      path: '/packageB/pages/wanda/wandaBranch/wandaBranch?shareId=1&id=' + this.data.id + '&picUrl=' + this.data.picUrl + '&name=' + this.data.name + '&address=' + this.data.address + '&distance=' + this.data.distance + '&city=' + this.data.city + '&locationX=' + this.data.locationX + '&locationY=' + this.data.locationY + '&type=' + this.data.type,
       success: function(res) {},
       fail: function(res) {}
     }

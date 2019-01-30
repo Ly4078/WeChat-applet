@@ -22,11 +22,11 @@
   </view>
 
   <!-- 到店自提地址 -->
-  <view class="storeBox" wx:if="{{issku == 3 && !actId}}">
+  <!-- <view class="storeBox" wx:if="{{_obj.sendType == 2}}">
     <view>
       <text class="storeName_l">自提门店</text>{{storeName}}</view>
     <view class="storeAddr">{{address}}</view>
-  </view>
+  </view> -->
 
   <!-- 订单详情 -->
   <view class='indentDetails'>
@@ -52,10 +52,10 @@
         <view>优惠
           <text class='manzen'>满赠</text>{{_rules}}</view>
       </view>
-      <view class='equally' wx:if="{{current.spuId != 3 && !actId && issku != 2}}">
+      <!-- <view class='equally' wx:if="{{current.spuId != 3 && !actId && issku != 2}}">
         <text>配送方式</text>
         <text>{{distribution}}</text>
-      </view>
+      </view> -->
       <view class='equally' wx:if="{{postage && issku != 3 && issku != 2}}">
         <text>配送费</text>
         <text class='delicatese'>￥{{postage}}</text>

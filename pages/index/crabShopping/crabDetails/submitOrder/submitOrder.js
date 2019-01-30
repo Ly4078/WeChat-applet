@@ -111,10 +111,9 @@ Page({
   onShow: function (res) {
     if (this.data.issku == 3) {
       if (!this.data.actId) {
-        this.setData({
-          salepointId: app.globalData.OrderObj.salepointId,
-          distribution: '到店自提'
-        });
+        // this.setData({
+        //   salepointId: app.globalData.OrderObj.salepointId ? app.globalData.OrderObj.salepointId:''
+        // });
         this.marketDetail();
       }
     } else if (this.data.issku == 2) {
@@ -349,7 +348,7 @@ Page({
   },
   marketDetail() { //超市详细信息
     let _parms = {
-      id: this.data.salepointId,
+      // id: this.data.salepointId,
       token: app.globalData.token
     };
     Api.superMarketDetail(_parms).then((res) => {
@@ -736,7 +735,7 @@ Page({
       shopId: this.data.shopId,
       payType: 2,
       sendType: 2, //到店自提
-      salepointId: this.data.salepointId, //到店自提销售点id
+      // salepointId: this.data.salepointId, //到店自提销售点id
       singleType: 1,
       flagType: 1,
       orderItemList: [{
