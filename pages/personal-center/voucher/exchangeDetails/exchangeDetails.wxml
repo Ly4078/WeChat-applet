@@ -20,7 +20,7 @@
 </view>
 
 <!-- 物流信息 -->
-<view class='expressage' wx:if="{{current.expressCode}}" catchtap='examineLogistics'>
+<view class='expressage' style="padding:20rpx;" wx:if="{{current.expressCode}}" catchtap='examineLogistics'>
     <image class='expressageImg' src='/images/icon/expressagecheche.png'></image>
     <view class='expressageText'>
       <view class='expressageSite'>
