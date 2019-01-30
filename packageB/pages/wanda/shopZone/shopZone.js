@@ -19,6 +19,10 @@ Page({
     this.setData({
       type: options.type
     });
+    let title = this.data.type == 1 ? '万达专区' : '武商专区';
+    wx.setNavigationBarTitle({
+      title: title
+    })
     if (options.shareId) {
       this.setData({
         shareId: options.shareId
@@ -65,34 +69,21 @@ Page({
   listData() {
     wx.showLoading({
       title: '加载中...'
-    })
+    });
     let _param = {},
       str = "",
       _url = "",
-      type = this.data.type,
-      that = this;
+      type = this.data.type;
     if (type == 1) {
       _param = {
         locationX: app.globalData.userInfo.lng,
         locationY: app.globalData.userInfo.lat,
         regionName: "万达"
-      }
+      };
       _url = this.data._build_url + 'shopZone/listItem';
       _url = encodeURI(_url);
-      wx.request({
-        url: _url,
-        data: JSON.stringify(_param),
-        method: 'POST',
-        header: {
-          "Authorization": app.globalData.token
-        },
-        success: function (res) {
-          that.succFunc(res);
-        },
-        fail() {
-          wx.hideLoading();
-        }
-      })
+      _param = JSON.stringify(_param);
+      this.requestFunc(_url, _param, 'POST');
     } else if (type == 2) {
       _param = {
         page: 1,
@@ -101,44 +92,44 @@ Page({
         locationY: app.globalData.userInfo.lat,
         chainType: 1,
         type: 1
-      }
+      };
       for (let key in _param) {
         str += key + "=" + _param[key] + "&";
-      }
+      };
       str = str.substring(0, str.length - 1);
       let _url = this.data._build_url + 'salePoint/listNew?' + str;
       _url = encodeURI(_url);
-      wx.request({
-        url: _url,
-        method: 'GET',
-        header: {
-          "Authorization": app.globalData.token
-        },
-        success: function (res) {
-          // console.log(res);
-          that.succFunc(res);
-        },
-        fail() {
-          wx.hideLoading();
-        }
-      })
+      this.requestFunc(_url, '', 'GET');
     }
   },
-  succFunc(res) {    //接口成功回调
-    console.log(res);
-    wx.stopPullDownRefresh();
-    wx.hideLoading();
-    if (res.data.code == 0) {
-      let list = res.data.data.list;
-      if (list && list.length > 0) {
-        for (let i = 0; i < list.length; i++) {
-          list[i].distance = utils.transformLength(list[i].distance);
+  requestFunc(url, data, method) {    //请求接口回调
+    let that = this;
+    wx.request({
+      url: url,
+      data: data,
+      method: method,
+      header: {
+        "Authorization": app.globalData.token
+      },
+      success: function (res) {
+        wx.stopPullDownRefresh();
+        wx.hideLoading();
+        if (res.data.code == 0) {
+          let list = res.data.data.list;
+          if (list && list.length > 0) {
+            for (let i = 0; i < list.length; i++) {
+              list[i].distance = utils.transformLength(list[i].distance);
+            }
+            that.setData({
+              list: list
+            });
+          }
         }
-        this.setData({
-          list: list
-        });
+      },
+      fail() {
+        wx.hideLoading();
       }
-    }
+    })
   },
   toBranch(e) { //跳转至各店
     let type = this.data.type, list = this.data.list;
