@@ -5,7 +5,7 @@
 <!-- <button catchtap='toWanda'>武商超市</button> -->
 <!-- <button catchtap='toWandaCai'>万达专区 快捷入口</button> -->
 <!-- <button catchtap='togrourp'>购买红包</button> -->
-<button catchtap='getfptt'>红包快捷</button>
+<!-- <button catchtap='getfptt'>红包快捷</button> -->
 <view class="container">
   <!--顶部 定位 搜索 卷  -->
   <!-- 头部搜索 after  -->
@@ -47,7 +47,7 @@
   </view>
 
   <view class="navsNewYear"  wx:if="{{navsNewYear.length}}">
-    <image catchtap='togrourp' class="redbagImg" src="https://xqmp4-1256079679.file.myqcloud.com/15927505686_redbag.gif"></image>
+    <image catchtap='togrourp' wx:if="{{!showSkeleton}}" class="redbagImg" src="https://xqmp4-1256079679.file.myqcloud.com/15927505686_redbag.gif"></image>
     <view class='indexNavOne ' style="background:none;">
 
       <view wx:for="{{navsNewYear}}" wx:if="{{!item.hide && item.title !='短视频'}}"  wx:key="index" data-url="{{item.linkUrl}}" class='navitem' id="{{item.id}}" data-msg="{{item.title=='酒店'?'商家正在入驻中...':''}}" bindtap='toLink'>
@@ -73,7 +73,7 @@
     <image catchtap='toLink' data-msg="正在建设中" src="{{bannthree[0].imgUrl}}" data-url="{{bannthree[0].linkUrl}}" class=" skeleton-rect"></image>
   </view> -->
   <!--商家广告位  -->
-  <image class='Advertising' wx:if="{{fresh0.imgUrl}}" data-msg="{{fresh0.msg?fresh0.msg:''}}" data-url="{{fresh0.linkUrl}}" bindtap="toLink" src="{{fresh0.imgUrl}}"></image>
+  <image class='Advertising' wx:if="{{fresh0.imgUrl && !showSkeleton}}" data-msg="{{fresh0.msg?fresh0.msg:''}}" data-url="{{fresh0.linkUrl}}" bindtap="toLink" src="{{fresh0.imgUrl}}"></image>
   <!-- 生鲜 -->
   <view class="triple">
     <view class="tripleItem it1 skeleton-rect">

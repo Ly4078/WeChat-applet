@@ -642,14 +642,14 @@ Page({
   // 物流订单-->订单详情
   clickLogistics:function(e){
     let id = e.currentTarget.id, sendType = e.currentTarget.dataset.sendtype;
-    if (sendType == 2) {
-      wx.navigateTo({
-        url: '../../index/crabShopping/superMarket/orderDetail/orderDetail?soId=' + id
-      })
-    } else {
+    // if (sendType == 2) {
+    //   wx.navigateTo({
+    //     url: '../../index/crabShopping/superMarket/orderDetail/orderDetail?soId=' + id
+    //   })
+    // } else {
       wx.navigateTo({
         url: 'logisticsDetails/logisticsDetails?soId=' + id
       })
-    }
+    // }
   }
 })
