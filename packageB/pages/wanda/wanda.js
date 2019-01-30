@@ -40,15 +40,16 @@ Page({
         this.wandaList();
       }
       console.log(app.globalData.userInfo.city);
-      if (app.globalData.userInfo.city == '十堰市' && this.data.wushangL.length <= 0) {
+      // if (app.globalData.userInfo.city == '十堰市' && this.data.wushangL.length <= 0) {
+      if (this.data.wushangL.length <= 0) {
         this.wushangList();
       }
     } else {
       getCurrentLocation(that).then((res) => {
         that.wandaList();
-        if (app.globalData.userInfo.city == '十堰市') {
+        // if (app.globalData.userInfo.city == '十堰市') {
           that.wushangList();
-        }
+        // }
       })
 
     }
@@ -63,7 +64,7 @@ Page({
     _param = {
       locationX: app.globalData.userInfo.lng,
       locationY: app.globalData.userInfo.lat,
-      city: app.globalData.userInfo.city,
+      // city: app.globalData.userInfo.city,
       regionName: "万达"
     }
     for (let key in _param) {
@@ -109,7 +110,7 @@ Page({
       rows: 20,
       locationX: app.globalData.userInfo.lng,
       locationY: app.globalData.userInfo.lat,
-      city: "十堰市",
+      // city: "十堰市",
       chainType: 1,
       type: 1
     }
