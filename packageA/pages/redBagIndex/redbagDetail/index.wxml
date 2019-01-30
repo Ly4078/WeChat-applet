@@ -48,3 +48,5 @@
     <image src="../../../images/redbagBottombg.png"></image>
   </view>
 </view>
+
+<image class="indexIcon" src="/images/icon/goindex.png" bindtap='toIndex'></image>

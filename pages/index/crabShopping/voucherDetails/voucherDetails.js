@@ -86,7 +86,7 @@ Page({
           wx.hideLoading();
           let data = res.data.data, userId = app.globalData.userInfo.userId;
           try{
-            if (data.goodsCategories[0].parent[0].id == '70') {
+            if (data.goodsCategories[0].parent[0].id == '70' && data.isUsed == '0') {
               _this.setData({ detailType: '1' })
               wx.setNavigationBarTitle({
                 title: '送红包贺卡',
@@ -467,8 +467,14 @@ Page({
     this.getorderCoupon(1);
   },
   infoDetail() {   //跳转至详细说明
+    let url = '../getFailure/getFailure';
+    try{
+      if (this.data.piaodata.goodsCategories[0].parent[0].id == '70') {
+        url = '../getFailure/getFailure?redbag=true'
+      }
+    }catch(err){}
     wx.navigateTo({
-      url: '../getFailure/getFailure',
+      url: url ,
     })
   },
   cancelQr() { //取消兑换

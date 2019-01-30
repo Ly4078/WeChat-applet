@@ -432,7 +432,7 @@ Page({
     }
     let _weight = this.data.current.realWeight * this.data.num;
     let _obj = {},
-       _parms = {},
+      _parms = {},
       that = this,
       _val = '';
     _parms = {
@@ -512,12 +512,6 @@ Page({
   },
   formSubmit: function (e) {
     let _formId = e.detail.formId;
-    if (!this.data.isclick) {
-      return
-    }
-    this.setData({
-      isclick: false
-    })
     if (this.data.issku == 3) {
       if (this.data.actId) {
         this.createActOrder();
@@ -525,6 +519,10 @@ Page({
         this.superMarketOrder();
       }
     } else if (this.data.issku == 2) {    //现金券
+      if (!payrequest) {
+        return false;
+      }
+
       let _parms = {},
         that = this;
       _parms = {
@@ -556,6 +554,7 @@ Page({
         title: '加载中...',
         mask: true
       })
+      payrequest = false;
       wx.request({
         url: that.data._build_url + 'orderInfo/createv1',
         data: JSON.stringify(_parms),
@@ -569,15 +568,22 @@ Page({
               if (res.data.data.status == '3') {
                 payrequest = true
                 wx.hideLoading();
-                wx.showToast({
-                  title: '支付成功',
-                  icon: 'none'
+                let id = res.data.data.id;
+                wx.showModal({
+                  title: '提示',
+                  showCancel: false,
+                  content: '支付成功',
+                  success(res) {
+                    if (res.confirm) {
+                      wx.navigateTo({
+                        url: '/pages/personal-center/personnel-order/logisticsDetails/logisticsDetails?soId='+id,
+                      })
+                    }
+                  }
                 })
-                setTimeout(() => {
-                  wx.navigateTo({
-                    url: '/pages/personal-center/personnel-order/logisticsDetails/logisticsDetails?soId=' + res.data.data.id,
-                  })
-                }, 1500)
+
+
+
               } else {
 
                 that.setData({
@@ -617,7 +623,7 @@ Page({
     }
     payrequest = false;
     let _parms = {},
-    that = this;
+      that = this;
     _parms = {
       shopId: this.data.shopId,
       payType: 2,
@@ -677,15 +683,19 @@ Page({
             if (res.data.data.status == '3') {
               payrequest = true
               wx.hideLoading();
-              wx.showToast({
-                title: '支付成功',
-                icon: 'none'
+              let id = res.data.data.id;
+              wx.showModal({
+                title: '提示',
+                showCancel: false,
+                content: '支付成功',
+                success(res) {
+                  if (res.confirm) {
+                    wx.navigateTo({
+                      url: '/pages/personal-center/personnel-order/logisticsDetails/logisticsDetails?soId='+id,
+                    })
+                  }
+                }
               })
-              setTimeout(() => {
-                wx.navigateTo({
-                  url: '/pages/personal-center/personnel-order/logisticsDetails/logisticsDetails?soId=' + res.data.data.id,
-                })
-              }, 1500)
             } else {
               that.setData({
                 orderId: res.data.data.id
@@ -710,19 +720,18 @@ Page({
         payrequest = true;
       },
       complete() {
+        // payrequest = true;
         wx.hideLoading();
       }
     })
   },
   //到店自提
   superMarketOrder() {
-    let that = this;
-    if (this.data.issoid) {
-      return
+    if (!payrequest) {
+      return false
     }
-    this.setData({
-      issoid: true
-    })
+    payrequest = false
+    let that = this;
     let _parms = {
       shopId: this.data.shopId,
       payType: 2,
@@ -763,25 +772,34 @@ Page({
             if (res.data.data.status == '3') {
               payrequest = true
               wx.hideLoading();
-              wx.showToast({
-                title: '支付成功',
-                icon: 'none'
+              let id = res.data.data.id;
+              wx.showModal({
+                title: '提示',
+                showCancel: false,
+                content: '支付成功',
+                success(res) {
+                  if (res.confirm) {
+                    wx.navigateTo({
+                      url: '/pages/personal-center/personnel-order/logisticsDetails/logisticsDetails?soId='+id,
+                    })
+                  }
+                }
               })
-              setTimeout(() => {
-                wx.navigateTo({
-                  url: '/pages/personal-center/personnel-order/logisticsDetails/logisticsDetails?soId=' + res.data.data.id,
-                })
-              }, 1500)
             } else {
               that.setData({
                 orderId: res.data.data.id
               })
               that.wxpayment();
             }
-           
+
             // that.updataUser();
           }
         }
+      }, fail: function () {
+        payrequest = true
+      },
+      complete: function () {
+
       }
     })
   },
@@ -794,12 +812,9 @@ Page({
         icon: 'none'
       })
     } else {
-      if (this.data.issoid) {
-        return
+      if (!payrequest) {
+        return false;
       }
-      this.setData({
-        issoid: true
-      })
       if (this.data.actaddress.id || this.data.isvoucher || this.data.current.spuId == 3) {
         let _parms = {
           token: app.globalData.token,
@@ -832,8 +847,9 @@ Page({
             return false
           }
         }
+        payrequest = false
         wx.request({
-          url: that.data._build_url + 'orderInfo/create',
+          url: that.data._build_url + 'orderInfo/createv1',
           data: JSON.stringify(_parms),
           method: 'POST',
           header: {
@@ -845,15 +861,19 @@ Page({
                 if (res.data.data.status == '3') {
                   payrequest = true
                   wx.hideLoading();
-                  wx.showToast({
-                    title: '支付成功',
-                    icon: 'none'
+                  let id = res.data.data.id;
+                  wx.showModal({
+                    title: '提示',
+                    showCancel: false,
+                    content: '支付成功',
+                    success(res) {
+                      if (res.confirm) {
+                        wx.navigateTo({
+                          url: '/pages/personal-center/personnel-order/logisticsDetails/logisticsDetails?soId='+id,
+                        })
+                      }
+                    }
                   })
-                  setTimeout(() => {
-                    wx.navigateTo({
-                      url: '/pages/personal-center/personnel-order/logisticsDetails/logisticsDetails?soId=' + res.data.data.id,
-                    })
-                  }, 1500)
                 } else {
                   that.setData({
                     orderId: res.data.data.id
@@ -862,7 +882,11 @@ Page({
                 }
                 // that.updataUser();
               }
+            } else {
+              payrequest = true
             }
+          }, fail: function () {
+            payrequest = true
           }
         })
       } else {
@@ -982,7 +1006,7 @@ Page({
           wx.navigateTo({
             url: '/pages/personal-center/personnel-order/logisticsDetails/logisticsDetails?soId=' + that.data.orderId,
           })
-        }, 3000)
+        },1000)
       },
       fail: function (res) {
         wx.hideLoading();

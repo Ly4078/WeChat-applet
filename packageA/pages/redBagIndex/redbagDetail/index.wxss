@@ -141,6 +141,15 @@ page {
   color:#FFE549;
   font-size: 32rpx;
 }
+
+.indexIcon {
+  position: fixed;
+  right: 20rpx;
+  bottom: 120rpx;
+  z-index: 1000;
+  width: 100rpx;
+  height: 100rpx;
+}
 .flipOutY{
   /* -webkit-animation-name:flipOutY;animation-name:flipOutY;-webkit-animation-duration:.75s;animation-duration:.75s; */
   animation:flipOutY 1.2s infinite linear ;

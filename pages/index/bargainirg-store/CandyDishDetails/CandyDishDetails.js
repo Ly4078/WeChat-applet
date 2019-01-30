@@ -845,7 +845,7 @@ Page({
         _shopId = this.data.shopId ? this.data.shopId : this.data.soData.shopId;
       if (this.data.actId) {
         wx.navigateTo({
-          url: '/pages/index/crabShopping/crabDetails/submitOrder/submitOrder?num=1&issku=3&flag=1&picUrl=' + this.data.picUrl + '&sellPrice=' + sellPrice + '&id=' + this.data.id + '&actId=' + this.data.actId + '&skuName=' + _soData.skuName + '&remark=' + _soData.remark + '&shopId=' + _soData.shopId + '&singleType=' + _soData.singleType + '&spuId=' + _soData.spuId + '&cfom=candy&stockNum=' + _soData.stockNum
+          url: '/pages/index/crabShopping/crabDetails/submitOrder/submitOrder?num=1&issku=3&flag=1&picUrl=' + this.data.picUrl + '&sellPrice=' + sellPrice + '&id=' + this.data.id  + '&skuName=' + _soData.skuName + '&remark=' + _soData.remark + '&shopId=' + _soData.shopId + '&singleType=' + _soData.singleType + '&spuId=' + _soData.spuId + '&cfom=candy&stockNum=' + _soData.stockNum
         })
       } else {
         wx.navigateTo({

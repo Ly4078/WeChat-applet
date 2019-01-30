@@ -47,8 +47,8 @@
 </view>
 <!-- 收货地址/平台兑换 -->
 <view wx:else class='expressage shopAddress'>
-  <view class='yourself'>
-    <view class='expressageSiteName'>自提门店： {{current.salePoint ? current.salePoint.salepointName : current.shopOut.shopName}}
+  <view wx:if="{{current.salePoint ? current.salePoint.salepointName : current.shopOut.shopName}}" class='yourself'>
+    <view  class='expressageSiteName'>自提门店： {{current.salePoint ? current.salePoint.salepointName : current.shopOut.shopName}}
       <!-- <text>{{current.salePoint.mobile}}</text> -->
     </view>
     <view class='expressageMsg'>

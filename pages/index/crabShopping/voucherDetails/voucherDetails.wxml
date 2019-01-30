@@ -84,14 +84,14 @@
 
 
 
-<view class="redBag" wx:if="{{detailType == '1'}}" style="min-height:{{windowHeight?windowHeight+'px':'auto'}}">
+<view class="redBag " wx:if="{{detailType == '1'}}" style="min-height:{{windowHeight?windowHeight+'px':'auto'}}">
   <view class="banner">
     <view class="redbagPrice">{{skuName}}</view>
     <image src="https://xqmp4-1256079679.file.myqcloud.com/15927505686_quanbaobanner.png"></image>
   </view>
     <view class="formBox">
         <view class="inputBox">
-            <textarea show-confirm-bar="{{false}}" bindinput='redbagMsg' maxlength='20' placeholder="{{showSkeleton?'':'祝福语：恭喜发财，大吉大利'}}"></textarea>
+            <textarea show-confirm-bar="{{false}}" bindinput='redbagMsg' maxlength='40' placeholder="{{showSkeleton?'':'祝福语：恭喜发财，大吉大利'}}"></textarea>
             <!-- <text>{{redbagMsg?redbagMsg.length:0}}/20</text> -->
         </view>
         <view class="buttons">

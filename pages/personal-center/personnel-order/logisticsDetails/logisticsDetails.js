@@ -14,6 +14,7 @@ Page({
     _build_url: GLOBAL_API_DOMAIN,
     soId: '',
     id: '',
+    payTypeText:['','免费赠送','微信支付','','余额支付'],
     timer: null,
     shadowFlag: true,
     showSkeleton: true,
@@ -24,7 +25,6 @@ Page({
     isGroup: false
   },
   onLoad: function(options) {
-    console.log('options:', options)
     this.setData({
       soId: options.soId || ''
     })
@@ -46,7 +46,6 @@ Page({
       that.getorderInfoDetail();
       that.getgroupOrderDetail();
       timerNum++
-      console.log(timerNum)
     }, 2000)
   },
   onPullDownRefresh: function() {
@@ -452,7 +451,6 @@ Page({
       urls = url + '&type=1'
     }
     _Url = encodeURI(urls);
-    console.log('url', urls)
     wx.request({
       url: _Url,
       header: {

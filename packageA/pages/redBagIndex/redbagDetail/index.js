@@ -130,7 +130,7 @@ Page({
       header: {
         "Authorization": app.globalData.token
       },
-      success: function () {
+      success: function (res) {
         if (res.data.code == '0') {
           if (res.data.data.isUsed == '0') {
             that.getsendCoupon()
@@ -138,7 +138,9 @@ Page({
             wx.showToast({
               title: '红包已被领取',
               icon: 'none'
-            })
+            });
+            that.setData({ isclick: false });
+            that.onShow();
           }
         } else {
 
@@ -206,13 +208,13 @@ Page({
           that.setData({ isclick: false, redBagType: '3' })
           that.audio();
         } else {
-          _this.setData({ isclick: false });
+          that.setData({ isclick: false });
           wx.showToast({
             title: '红包已被领取',
             icon: 'none',
             duration: 2000
           })
-          _this.onShow();
+          that.onShow();
         }
       },
       fail: function () {
@@ -231,6 +233,11 @@ Page({
     innerAudioContext.src = "https://xqmp4-1256079679.file.myqcloud.com/15927505686_pd-5b76903d9df2c896.mp3";
     innerAudioContext.onPlay(() => {
       console.log('开始播放')
+    })
+  },
+  toIndex() {
+    wx.switchTab({
+      url: '/pages/index/index'
     })
   },
   /**

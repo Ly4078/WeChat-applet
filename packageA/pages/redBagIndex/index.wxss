@@ -2,6 +2,7 @@ page{
     background: #C11312;
     position: relative;
     height: auto;
+    width: 100%;
 }
 
 .containers {
@@ -10,6 +11,7 @@ page{
   flex-direction: column;
   width: 100%;
   height: 100%;
+  overflow: hidden;
   /* position: relative; */
 }
 
@@ -52,7 +54,7 @@ page{
 .content .redBagList_content {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
+  /* justify-content: space-around; */
   padding: 20rpx 0;
 }
 
@@ -61,10 +63,11 @@ page{
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  width: 186rpx;
-  height: 120rpx;
-  padding: 0 15rpx;
-  margin: 15rpx 0;
+  width:200rpx;
+height:120rpx;
+padding:0 5rpx;
+margin:18rpx;
+
   border-radius: 15rpx;
   border: 1rpx solid #fbd1ce;
 }
@@ -75,9 +78,9 @@ page{
   color:#FFE15F;
  }
 .content .redBagList_content .item text {
-  font-size: 32rpx;
+  font-size: 30rpx;
   color: #fbd1ce;
-  margin-left: 15rpx;
+  margin-left:10rpx;
 }
 
 .content .redBagList_content .item image {

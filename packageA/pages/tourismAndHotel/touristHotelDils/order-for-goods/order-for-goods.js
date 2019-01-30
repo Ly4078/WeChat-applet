@@ -23,22 +23,22 @@ Page({
     balance: 0, //余额
     skuName: "",
     items: [{
-        name: '微信支付',
-        id: '1',
-        disabled: false,
-        img: '/images/icon/weixinzhifu.png',
-        checked: true
-      },
-      {
-        name: '余额支付',
-        id: '2',
-        disabled: false,
-        img: '/images/icon/yuezhifu.png',
-        checked: false
-      }
+      name: '微信支付',
+      id: '1',
+      disabled: false,
+      img: '/images/icon/weixinzhifu.png',
+      checked: true
+    },
+    {
+      name: '余额支付',
+      id: '2',
+      disabled: false,
+      img: '/images/icon/yuezhifu.png',
+      checked: false
+    }
     ]
   },
-  onLoad: function(options) {
+  onLoad: function (options) {
     let that = this;
     if (!app.globalData.singleData) {
       wx.showToast({
@@ -52,28 +52,28 @@ Page({
       }, 2000)
       return
     }
-    
+
     let singleData = app.globalData.singleData
     that.setData({
       singleData: singleData,
-      paymentAmount: options.number ? (singleData.sellPrice * 1) * options.number : singleData.sellPrice
+      paymentAmount: (options.number ? (singleData.sellPrice * 1) * options.number : singleData.sellPrice).toFixed(2)
     })
-    if(options.number){
-      that.setData({ number: options.number})
+    if (options.number) {
+      that.setData({ number: options.number })
     }
-    try{
+    try {
       that.setData({
-        actId: options.actId,
-        notadd: options.notadd,
-        flagType: options.flagType
+        actId: options.actId ? options.actId:'',
+        notadd: options.notadd ? options.notadd:false,
+        flagType: options.flagType ? options.flagType:''
       })
 
-    }catch(err){
+    } catch (err) {
 
     }
 
   },
-  onShow:function(){
+  onShow: function () {
     this.walletDetail();
   },
   sponsorVgts: function () {//点击付款按钮
@@ -86,18 +86,18 @@ Page({
       orderItemList: [{
         goodsSkuId: that.data.singleData.id,
         goodsSpuId: that.data.singleData.spuId,
-        goodsNum: that.data.number ? that.data.number:'1',
+        goodsNum: that.data.number ? that.data.number : '1',
         shopId: that.data.singleData.shopId,
         orderItemShopId: '0'
       }]
     };
     if (that.data.paytype == '2') {//选择余额支付
-      if ((that.data.userAmount - 0) >= (that.data.paymentAmount-0)) {
+      if ((that.data.userAmount - 0) >= (that.data.paymentAmount - 0)) {
         _parms.useAccount = '1';
-      }else{
+      } else {
         wx.showToast({
           title: '余额不足',
-          icon:'none'
+          icon: 'none'
         })
         return false
       }
@@ -122,25 +122,29 @@ Page({
       },
       success: function (res) {
         if (res.data.code == '0' && res.data.data) {
-         if(res.data.data.status == '3') {
-            payrequest = true
-              wx.hideLoading();
-              wx.showToast({
-                title: '支付成功',
-                icon:'none'
-              })
-              setTimeout( ()=>{
-                wx.navigateTo({
-                  url: '/pages/personal-center/personnel-order/logisticsDetails/logisticsDetails?soId=' + res.data.data.id,
-                })
-              },1500)
-         }else{
-           that.setData({
-             orderId: res.data.data.id
-           }, () => {
-             that.wxpayment();
-           })
-         }
+          if (res.data.data.status == '3') {
+            payrequest = true;
+            let id = res.data.data.id;
+            wx.hideLoading();
+            wx.showModal({
+              title: '提示',
+              showCancel: false,
+              content: '支付成功',
+              success(res) {
+                if (res.confirm) {
+                  wx.navigateTo({
+                    url: '/pages/personal-center/personnel-order/logisticsDetails/logisticsDetails?soId='+id,
+                  })
+                }
+              }
+            })
+          } else {
+            that.setData({
+              orderId: res.data.data.id
+            }, () => {
+              that.wxpayment();
+            })
+          }
 
         } else {
           payrequest = true
@@ -171,12 +175,12 @@ Page({
       orderId: that.data.orderId,
       openId: app.globalData.userInfo.openId,
     };
-      if(that.data.notadd) {
-        _parms.actId = that.data.actId;
-        _parms.type = 7
-      }else{
-        // _parms.type = 1
-      }
+    if (that.data.notadd) {
+      _parms.actId = that.data.actId;
+      _parms.type = 7
+    } else {
+      _parms.type = 1
+    }
 
     for (var key in _parms) {
       _value += key + "=" + _parms[key] + "&";
@@ -224,13 +228,13 @@ Page({
         wx.showLoading({
           title: '订单确认中...',
         })
-        setTimeout( ()=>{
+        setTimeout(() => {
           wx.hideLoading();
           wx.navigateTo({
             url: '/pages/personal-center/personnel-order/logisticsDetails/logisticsDetails?soId=' + that.data.orderId,
           })
-        },1000)
-        
+        }, 1000)
+
       }, fail: function (res) {
         payrequest = true
         wx.showToast({
@@ -267,7 +271,7 @@ Page({
       }
     });
   },
-  radioChange: function(e) { //选框
+  radioChange: function (e) { //选框
     let num = e.detail.value;
     this.setData({
       issecond: false
@@ -282,7 +286,7 @@ Page({
       })
     }
   },
-  bindMinus: function() { //点击减号
+  bindMinus: function () { //点击减号
     if (this.data.notadd) {
       return false
     }
@@ -301,37 +305,37 @@ Page({
     });
   },
 
-  bindPlus: function() { //点击加号
+  bindPlus: function () { //点击加号
     if (this.data.notadd) {
-        return false
+      return false
     }
-      let number = this.data.number;
-      ++number;
-        this.setData({
-          number: number
-        })
-      let _paymentAmount = this.data.number * this.data.singleData.sellPrice * 1;
-      _paymentAmount = _paymentAmount.toFixed(2)
-      this.setData({
-        paymentAmount: _paymentAmount
-      });
+    let number = this.data.number;
+    ++number;
+    this.setData({
+      number: number
+    })
+    let _paymentAmount = this.data.number * this.data.singleData.sellPrice * 1;
+    _paymentAmount = _paymentAmount.toFixed(2)
+    this.setData({
+      paymentAmount: _paymentAmount
+    });
   },
-  bindManual: function(e) {  //输入的数值
+  bindManual: function (e) {  //输入的数值
     var number = e.detail.value;
     this.setData({
       number: number
     });
   },
-  formSubmit:function(e){  //获取fromId
+  formSubmit: function (e) {  //获取fromId
     let _formId = e.detail.formId;
     Public.addFormIdCache(_formId);
-    if (!payrequest){
+    if (!payrequest) {
       return false
     }
     this.sponsorVgts();
-    
+
   },
-  closetel: function(e) {  //新用户去注册
+  closetel: function (e) {  //新用户去注册
     let id = e.target.id;
     this.setData({
       issnap: false

@@ -200,7 +200,7 @@
       </view>
       <view class='inconformity'>
         <text>支付方式</text>
-        <text>微信支付</text>
+        <text>{{payTypeText[soDetail.payType]}}</text>
       </view>
       <view class='inconformity'>
         <text>下单时间</text>

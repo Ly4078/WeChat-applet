@@ -71,7 +71,7 @@ page{
 
 .expressage{
   width: 100%;
-  height: 126rpx;
+  /* height: 126rpx; */
   background-color: #FFFFFF;
   display: flex;
   justify-content: space-between;

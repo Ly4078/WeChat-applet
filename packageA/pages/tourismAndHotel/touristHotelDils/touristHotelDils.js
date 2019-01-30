@@ -395,7 +395,9 @@ Page({
       })
       return false
     }
-    app.globalData.singleData = that.data.singleData
+    app.globalData.singleData = null;
+    app.globalData.singleData = that.data.singleData;
+    app.globalData.singleData.sellPrice = app.globalData.singleData.goodsPromotionRules[0].actAmount;
     wx.navigateTo({
       url: '/packageA/pages/tourismAndHotel/touristHotelDils/order-for-goods/order-for-goods?actId=' + that.data.actid +'&notadd=true&flagType=7',
     })
@@ -537,6 +539,7 @@ Page({
     if (!that.data.singleData){
       return false
     }
+    app.globalData.singleData = null;
     app.globalData.singleData = that.data.singleData
     wx.navigateTo({
       url: './order-for-goods/order-for-goods',
