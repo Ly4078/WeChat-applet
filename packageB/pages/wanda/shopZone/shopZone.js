@@ -154,10 +154,13 @@ Page({
     })
   },
   onShareAppMessage: function() {
+    let type = this.data.type, title = '万达专区活动', imageUrl = '';
+    title = type == 1 ? '万达专区' : '武商专区';
+    imageUrl = type == 1 ? 'https://xqmp4-1256079679.file.myqcloud.com/15927505686_wandazhuanqu.jpg' : 'https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/微信图片_20190130212056.jpg';
     return {
-      title: '万达专区活动',
-      imageUrl: 'https://xqmp4-1256079679.file.myqcloud.com/15927505686_wandazhuanqu.jpg',
-      path: '/packageB/pages/wanda/shopZone/shopZone?shareId=1&type=' + this.data.type,
+      title: title,
+      imageUrl: imageUrl,
+      path: '/packageB/pages/wanda/shopZone/shopZone?shareId=1&type=' + type,
       success: function(res) {},
       fail: function(res) {}
     }

@@ -270,9 +270,11 @@ Page({
           wx.showToast({
             title: '核销成功',
           })
-          wx.switchTab({
-            url: '../personal-center'
-          })
+          setTimeout( ()=>{
+            wx.switchTab({
+              url: '../personal-center'
+            })
+          },2000)
         } else {
           wx.showToast({
             title: '核销失败',

@@ -175,7 +175,7 @@ Page({
   },
   onShareAppMessage: function() {
     return {
-      title: '万达专区活动',
+      title: '商圈/超市',
       imageUrl: 'https://xqmp4-1256079679.file.myqcloud.com/15927505686_wandazhuanqu.jpg',
       path: '/packageB/pages/wanda/wanda?shareId=1',
       success: function(res) {},

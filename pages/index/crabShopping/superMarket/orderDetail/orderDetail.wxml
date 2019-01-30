@@ -75,11 +75,10 @@
         <text>下单时间</text>
         <text>{{soDetail.createTime}}</text>
       </view>
-      <view class='inconformity'>
+      <!-- <view class='inconformity'>
         <text>运输方式</text>
         <text>到店自提</text>
-      </view>
-   
+      </view> -->
     </view>
   </view>
   <!-- 底部联系客服再次/购买 -->
