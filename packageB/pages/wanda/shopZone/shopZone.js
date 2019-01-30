@@ -18,6 +18,7 @@ Page({
   onLoad: function (options) {
     this.setData({
       type: options.type
+      // type: 2
     });
     let title = this.data.type == 1 ? '万达专区' : '武商专区';
     wx.setNavigationBarTitle({
@@ -153,7 +154,7 @@ Page({
       }
     }
     wx.navigateTo({
-      url: 'wandaBranch/wandaBranch?id=' + id + '&picUrl=' + picUrl + '&name=' + name + '&address=' + address + '&distance=' + distance + '&city=' + city + '&locationX=' + locationX + '&locationY=' + locationY + '&type=' + type
+      url: '../wandaBranch/wandaBranch?id=' + id + '&picUrl=' + picUrl + '&name=' + name + '&address=' + address + '&distance=' + distance + '&city=' + city + '&locationX=' + locationX + '&locationY=' + locationY + '&type=' + type
     })
   },
   onShareAppMessage: function () {
