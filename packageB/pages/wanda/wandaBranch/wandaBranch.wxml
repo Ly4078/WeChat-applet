@@ -22,7 +22,8 @@
       <image src="/images/icon/share.png"></image>
     </button>
     <view class="branchInfo">
-      <view class="branchName skeleton-rect">{{name}}
+      <view class="branchName skeleton-rect">
+      <text style="display:inline-block;max-width:450rpx;">{{name}}</text>
         <view class="b_navigation" bindtap='openmap'>导航</view>
       </view>
       <view class="branchAdr skeleton-rect">

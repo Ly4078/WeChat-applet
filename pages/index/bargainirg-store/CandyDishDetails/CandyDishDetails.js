@@ -112,6 +112,7 @@ Page({
         actId: options.actId ? options.actId : '',
         _city: options.city ? options.city : ''
       });
+      console.log(that.data._city);
       _categoryId = options.categoryId;
     }
   

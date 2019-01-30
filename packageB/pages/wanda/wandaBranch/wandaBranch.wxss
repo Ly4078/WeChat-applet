@@ -61,7 +61,7 @@ page {
 .branchInfo {
   width: 100%;
   position: absolute;
-  top: 100rpx;
+  top: 45rpx;
   left: 0;
   color: #fff;
   padding: 0 26rpx 0 30rpx;
