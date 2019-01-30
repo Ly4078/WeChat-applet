@@ -29,7 +29,7 @@ Page({
     }
     if (!_val) {
       that.setData({
-        type: options.type
+        type: options.type ? options.type:'1'
       });
     }
 

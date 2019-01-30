@@ -666,9 +666,11 @@ Page({
               success: function(res) {
                 payrequest = true;
                 that.messagepush();
-                wx.showLoading({
-                  title: '订单确认中...',
-                })
+                setTimeout(() => {
+                  wx.showLoading({
+                    title: '订单确认中...',
+                  })
+                }, 500)
                 setTimeout( ()=>{
                   wx.redirectTo({
                     url: '../../personal-center/my-discount/my-discount?let=let'
@@ -737,9 +739,11 @@ Page({
               'paySign': res.data.data.paySign,
               success: function(res) {
                 payrequest = true;
-                wx.showLoading({
-                  title: '订单确认中...',
-                })
+                setTimeout(() => {
+                  wx.showLoading({
+                    title: '订单确认中...',
+                  })
+                }, 500)
                 setTimeout( ()=>{
                   wx.hideLoading()
                   wx.redirectTo({
@@ -802,9 +806,11 @@ Page({
               'paySign': res.data.data.paySign,
               success: function(res) {
                 payrequest = true;
-                wx.showLoading({
-                  title: '订单确认中...',
-                })
+                setTimeout(() => {
+                  wx.showLoading({
+                    title: '订单确认中...',
+                  })
+                }, 500)
                 setTimeout( ()=>{
                   wx.hideLoading()
                   wx.redirectTo({
@@ -872,9 +878,11 @@ Page({
               'paySign': res.data.data.paySign,
               success: function(res) {
                 payrequest = true;
-                wx.showLoading({
-                  title: '订单确认中...',
-                })
+                setTimeout(() => {
+                  wx.showLoading({
+                    title: '订单确认中...',
+                  })
+                }, 500)
                 setTimeout( ()=>{
                   wx.hideLoading()
                   wx.redirectTo({
@@ -925,9 +933,11 @@ Page({
               'paySign': res.data.data.paySign,
               success: function(res) {
                 payrequest = true;
-                wx.showLoading({
-                  title: '订单确认中...',
-                })
+                setTimeout(() => {
+                  wx.showLoading({
+                    title: '订单确认中...',
+                  })
+                }, 500)
                 setTimeout( ()=>{
                   wx.hideLoading()
                   wx.redirectTo({

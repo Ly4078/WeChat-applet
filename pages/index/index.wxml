@@ -2,7 +2,7 @@
 <import src="bargainirg-store/bargainirg-template/bargainirg-template.wxml" />
 <!-- 骨架屏模块 -->
 <skeleton selector="skeleton" loading="spin" bgcolor="#FFF" wx:if="{{showSkeleton}}"></skeleton>
-<!-- <button catchtap='toWanda'>万达十大招牌菜 快捷入口</button> -->
+<!-- <button catchtap='toWanda'>武商超市</button> -->
 <!-- <button catchtap='toWandaCai'>万达专区 快捷入口</button> -->
 <!-- <button catchtap='togrourp'>购买红包</button> -->
 <!-- <button catchtap='getfptt'>红包快捷</button> -->
@@ -69,28 +69,27 @@
 
   <!-- 抽奖 -->
 
-  <view class="lotteryBanner">
+  <!-- <view class="lotteryBanner">
     <image catchtap='toLink' data-msg="正在建设中" src="{{bannthree[0].imgUrl}}" data-url="{{bannthree[0].linkUrl}}" class=" skeleton-rect"></image>
-  </view>
-
+  </view> -->
+  <!--商家广告位  -->
+  <image class='Advertising' wx:if="{{fresh0.imgUrl}}" data-msg="{{fresh0.msg?fresh0.msg:''}}" data-url="{{fresh0.linkUrl}}" bindtap="toLink" src="{{fresh0.imgUrl}}"></image>
   <!-- 生鲜 -->
   <view class="triple">
     <view class="tripleItem it1 skeleton-rect">
-      <image mode='aspectFill' catchtap='toLink' class="" data-url="{{fresh1.linkUrl}}" src="{{fresh1.imgUrl}}"></image>
+      <image mode='aspectFill' data-msg="{{fresh1.msg?fresh1.msg:''}}" catchtap='toLink' class="" data-url="{{fresh1.linkUrl}}" src="{{fresh1.imgUrl}}"></image>
     </view>
     <view class="tripleItem">
       <view class="tripleItem-list t1 skeleton-rect">
-        <image mode='aspectFill' class="skeleton-rect" data-url="{{fresh2.linkUrl}}" catchtap='toLink' src="{{fresh2.imgUrl}}"></image>
+        <image mode='aspectFill' data-msg="{{fresh2.msg?fresh2.msg:''}}" class="skeleton-rect" data-url="{{fresh2.linkUrl}}" catchtap='toLink' src="{{fresh2.imgUrl}}"></image>
       </view>
       <view class="tripleItem-list skeleton-rect">
-        <image mode='aspectFill' class="skeleton-rect" data-url="{{fresh3.linkUrl}}" catchtap='toLink' src="{{fresh3.imgUrl}}"></image>
+        <image mode='aspectFill' data-msg="{{fresh3.msg?fresh3.msg:''}}"  class="skeleton-rect" data-url="{{fresh3.linkUrl}}" catchtap='toLink' src="{{fresh3.imgUrl}}"></image>
       </view>
     </view>
   </view>
 
 
-  <!--商家广告位  -->
-  <image class='Advertising' id="3" data-ind="3" bindtap="handbaoming" src="{{bannthree[2].imgUrl}}"></image>
   <!-- 2018-11-09 热门推荐 -->
   <view class="hot-recommend">
     <view class="title">—热门推荐—</view>

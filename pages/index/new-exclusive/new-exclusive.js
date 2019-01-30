@@ -16,7 +16,13 @@ Page({
       this.setData({
         id: options.id
       });
+      if(options.id == '3'){
+        wx.setNavigationBarTitle({
+          title: '详情',
+        })
+      }
     }
+
   },
   onShow: function () {
     this.isNewUser();

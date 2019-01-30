@@ -27,6 +27,7 @@ Page({
     showwandaactivity: false,//活动海报
     loading: false,
     // 改版新增变量 
+    fresh0: {},
     fresh1: {}, //享7生鲜图片1
     fresh2: {}, //享7生鲜图片2
     fresh3: {}, //享7生鲜图片3
@@ -85,7 +86,7 @@ Page({
     wx.navigateTo({
       // url: '/packageB/pages/wanda/wanda'
       // url: 'merchant-particulars/merchant-particulars?shopid=500'
-      url: '/packageB/pages/wanda/wandaActivity/wandaActivity'
+      url: '/packageB/pages/wanda/shopZone/shopZone?type=2'
     })
   },
   toWandaCai() {
@@ -130,6 +131,7 @@ Page({
     bannthree[0].loadType = 'storage'
     if (Object.keys(txtObj).length != 0) {
       that.setData({
+        fresh0: txtObj ? txtObj.fresh0 : '',
         fresh1: txtObj ? txtObj.fresh1 : '',
         fresh2: txtObj ? txtObj.fresh2 : '',
         fresh3: txtObj ? txtObj.fresh3 : '',
@@ -261,6 +263,7 @@ Page({
         }
         if (res.data.fresh1) {
           that.setData({
+            fresh0: res.data.fresh0,
             fresh1: res.data.fresh1,
             fresh2: res.data.fresh2,
             fresh3: res.data.fresh3,
@@ -561,26 +564,6 @@ Page({
       url: 'bargainirg-store/CandyDishDetails/CandyDishDetails?id=' + id + '&shopId=' + shopId + '&categoryId=' + categoryId + '&actId=' + actid
     })
   },
-  handbaoming(e) {
-    let id = e.currentTarget.id,
-      ind = e.currentTarget.dataset.ind,
-      reg1 = new RegExp("shopId"),
-      reg2 = new RegExp("topicId"),
-      reg3 = new RegExp("actId"),
-      reg4 = new RegExp("type"),
-      arr = this.data.bannthree;
-
-    if (id == 3) { //点击商家广告位，进入指定商家页面
-      let str = arr[2].linkUrl;
-      if (reg1.test(str)) {
-        let _arr = str.split("=");
-        wx.navigateTo({
-          url: 'merchant-particulars/merchant-particulars?shopid=' + _arr[1]
-        })
-      }
-    }
-  },
-
   onPageScroll: function (e) {
     if (e.scrollTop > 400) {
       this.setData({

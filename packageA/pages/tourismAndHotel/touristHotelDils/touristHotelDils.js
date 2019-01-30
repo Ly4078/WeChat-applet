@@ -505,9 +505,11 @@ Page({
       'paySign': _data.paySign,
       success:function(res){
         payrequest = true
-        wx.showLoading({
-          title: '订单确认中...',
-        })
+        setTimeout(() => {
+          wx.showLoading({
+            title: '订单确认中...',
+          })
+        }, 500)
         setTimeout( ()=>{
           wx.hideLoading()
           wx.navigateTo({

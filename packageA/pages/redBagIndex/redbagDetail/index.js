@@ -5,6 +5,7 @@ import getToken from "../../../../utils/getToken.js";
 import {
   GLOBAL_API_DOMAIN
 } from '../../../../utils/config/config.js';
+var timer = null;
 Page({
 
   /**
@@ -49,6 +50,9 @@ Page({
         that.setData({ windowHeight: res.windowHeight })
       },
     })
+    wx.showLoading({
+      title: '红包正在赶来...',
+    })
 
   },
   onShow: function () {
@@ -59,6 +63,9 @@ Page({
       })
     } else {
       that.getData();
+      timer = clearInterval( ()=>{
+        that.getData();
+      },1000)
     }
   },
   getData: function () {
@@ -96,11 +103,15 @@ Page({
               type = 4
             }
           }
+          clearInterval(timer);
           that.setData({
             redBagType: type,
             data: data
           })
         }
+      },fail:function(){},
+      complete:function(){
+        wx.hideLoading();
       }
     })
   },
