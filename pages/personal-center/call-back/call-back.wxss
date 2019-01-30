@@ -11,23 +11,26 @@ page {
   align-items: center;
 } */
 
-.setcode{
+.setcode {
   width: 694rpx;
-  margin:0 28rpx;
+  margin: 0 28rpx;
 }
-.setcode input{
-  width:100%;
+
+.setcode input {
+  width: 100%;
   height: 112rpx;
   line-height: 112rpx;
   font-size: 36rpx;
   background: #fff;
   color: #191919;
   text-align: center;
-  margin:28rpx 0;
+  margin: 28rpx 0;
 }
-.setcode inpu::after{
+
+.setcode inpu::after {
   border: none;
 }
+
 .verification-inside {
   width: 694rpx;
   height: 112rpx;
@@ -48,22 +51,34 @@ page {
   border-bottom-left-radius: 12rpx;
   border-bottom-right-radius: 12rpx;
 }
-.inputBox:nth-child(1){
-  border: 1rpx solid #E0E0E0;
+
+.inputBox:nth-child(1) {
+  border: 1rpx solid #e0e0e0;
 }
- .inputBox text:nth-child(1){
-   float: left;
-   margin-left:20rpx;
- }
- .inputBox text:nth-child(2){
-   float: right;
-   margin-right:20rpx;
- }
+
+.inputBox text:nth-child(1) {
+  float: left;
+  margin-left: 20rpx;
+}
+
+.inputBox text:nth-child(2) {
+  float: right;
+  margin-right: 20rpx;
+}
+
 .inputBox text {
   height: 100%;
   line-height: 108rpx;
   color: #191919;
   font-size: 32rpx;
+}
+
+.goodsSkuName {
+  display: inline-block;
+  width: 470rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .accountInp {
@@ -75,16 +90,16 @@ page {
   border-radius: 5px;
   text-align: right;
 }
- 
-.discountInfo,.paymentBox{
+
+.discountInfo, .paymentBox {
   font-size: 30rpx;
   display: flex;
   justify-content: space-between;
   padding-top: 34rpx;
-} 
+}
 
-.paymentBox{
-  color: #555555;
+.paymentBox {
+  color: #555;
 }
 
 .discountInfo text {
@@ -94,41 +109,39 @@ page {
 .discountInfo {
   color: #ff4545;
 }
-button[plan]{
+
+button[plan] {
   border: 0;
 }
 
 .okBtn {
-    margin-top: 60rpx;
-    display: block;
-    height: 100rpx;
-    line-height: 100rpx;
-    width: 100%;
-    border-radius: 5px;
-    background-color: #B1B1B1;
-    color: #fff;
-    font-size: 36rpx;
-    text-align: center;
-    letter-spacing: 2px;
+  margin-top: 60rpx;
+  display: block;
+  height: 100rpx;
+  line-height: 100rpx;
+  width: 100%;
+  border-radius: 5px;
+  background-color: #b1b1b1;
+  color: #fff;
+  font-size: 36rpx;
+  text-align: center;
+  letter-spacing: 2px;
 }
 
-
-.look{
+.look {
   background-color: #fc512d;
 }
 
-
-.define{
-   margin-top: 174rpx; 
- width: 160rpx;
- height: 160rpx;
- line-height: 160rpx;
- color: #fff;
- font-size: 46rpx;
- text-align: center;
- background: #FC5E2D;
- border-radius: 50%;
- border: 1rpx solid #FC5E2D;
- margin-left: 295rpx;
+.define {
+  margin-top: 174rpx;
+  width: 160rpx;
+  height: 160rpx;
+  line-height: 160rpx;
+  color: #fff;
+  font-size: 46rpx;
+  text-align: center;
+  background: #fc5e2d;
+  border-radius: 50%;
+  border: 1rpx solid #fc5e2d;
+  margin-left: 295rpx;
 }
-
