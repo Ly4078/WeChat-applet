@@ -76,7 +76,7 @@
 .description {
   background-color: #fff;
   color: #191919;
-  font-size: 20rpx;
+  font-size: 28rpx;
   padding: 0 42rpx 90rpx 28rpx;
   width: 100%;
   box-sizing: border-box;
@@ -85,7 +85,7 @@
 
 .descri_header {
   padding: 30rpx 0 28rpx 0;
-  font-size: 28rpx;
+  font-size: 30rpx;
   width: 100%;
   text-align: center;
   font-weight: 600;

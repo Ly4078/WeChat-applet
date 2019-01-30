@@ -6,7 +6,7 @@
   </view>
 </view>
 <view class="storeOrder">
-  <image class="indexIcon" src="/images/icon/indexIcon.png" bindtap='toIndex' wx:if="{{isShare}}"></image>
+  <image class="indexIcon" src="/images/icon/goindex.png" bindtap='toIndex' wx:if="{{isShare}}"></image>
   <view class="storeOrder_top">
     <swiper indicator-dots indicator-active-color="#FC6232" style="width:100%;height:750rpx;background:#fff;">
       <swiper-item wx:key="index" wx:for="{{attachments}}">

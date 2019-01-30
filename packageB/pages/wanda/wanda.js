@@ -164,7 +164,7 @@ Page({
         name = type == 1 ? list[i].name : list[i].salepointName;
         address = list[i].address;
         distance = list[i].distance;
-        city = list[i].city;
+        city = type == 1 ? list[i].shopZone.city : list[i].city;
         locationX = list[i].locationX;
         locationY = list[i].locationY;
       }

@@ -118,8 +118,9 @@ Page({
       str += key + "=" + _parms[key] + "&";
     }
     str = str.substring(0, str.length - 1);
+    _url = encodeURI(_url + str);
     wx.request({
-      url: _url + str,
+      url: _url,
       method: 'GET',
       header: {
         "Authorization": app.globalData.token
