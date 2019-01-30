@@ -328,6 +328,8 @@ page {
   padding: 30rpx;
   font-size: 34rpx;
   color:#333;
+  box-sizing:border-box;
+
 }
 .redBag .formBox .inputBox text{
   position: absolute;

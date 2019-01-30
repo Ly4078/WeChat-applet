@@ -114,6 +114,7 @@ page{
 
 .yourself{
   width: 88%;
+  padding: 20rpx 0;
 }
 
 .expressageSiteName{

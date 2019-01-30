@@ -160,6 +160,9 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-    
+      return {
+        title:'发红包贺卡，送祝福',
+        imageUrl:'https://xqmp4-1256079679.file.myqcloud.com/15927505686_4bc2d2fafd249a029150a4b3c0821cf.jpg'
+      }
   }
 })

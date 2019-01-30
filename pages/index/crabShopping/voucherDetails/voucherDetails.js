@@ -85,16 +85,6 @@ Page({
         if (res.data.code == 0) {
           wx.hideLoading();
           let data = res.data.data, userId = app.globalData.userInfo.userId;
-          try{
-            if (data.goodsCategories[0].parent[0].id == '70' && data.isUsed == '0') {
-              _this.setData({ detailType: '1' })
-              wx.setNavigationBarTitle({
-                title: '送红包贺卡',
-              })
-            } else {
-              _this.setData({ detailType: '0' })
-            }
-          }catch(err){}
           if (!_this.data.imagePath) {
             url = _this.data._build_url + 'orderCoupon/getByCode/' + res.data.data.couponCode;
             let size = _this.setCanvasSize();//动态设置画布大小 
@@ -142,6 +132,16 @@ Page({
           }else{
             
           }
+          try {
+            if (data.goodsCategories[0].parent[0].id == '70' && data.isUsed == '0' && !_this.data.isEnd) {
+              _this.setData({ detailType: '1' })
+              wx.setNavigationBarTitle({
+                title: '送红包贺卡',
+              })
+            } else {
+              _this.setData({ detailType: '0' })
+            }
+          } catch (err) { }
           _this.setData({
             giftTxt: giftTxt
           });

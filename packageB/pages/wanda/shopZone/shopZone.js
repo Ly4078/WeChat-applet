@@ -16,26 +16,37 @@ Page({
     type: 1
   },
   onLoad: function (options) {
-    this.setData({
-      type: options.type
-      // type: 2
-    });
-    let title = this.data.type == 1 ? '万达专区' : '武商专区';
+    let that = this;
+      //在此函数中获取扫描普通链接二维码参数
+    let q = decodeURIComponent(options.q)
+    if (q) {
+      if (utils.getQueryString(q, 'flag') == 11) {
+        var _val = utils.getQueryString(q, 'type');
+        that.setData({
+          type: _val
+        })
+      }
+    }
+    console.log(options)
+    // that.setData({
+    //   type: options.type
+    //   // type: 2
+    // });
+    let title = that.data.type == 1 ? '万达专区' : '武商专区';
     wx.setNavigationBarTitle({
       title: title
     })
     if (options.shareId) {
-      this.setData({
+      that.setData({
         shareId: options.shareId
       })
     }
     if (!app.globalData.token) { //没有token获取
-      let that = this;
       getToken(app).then(() => {
         that.getData();
       })
     } else {
-      this.getData();
+      that.getData();
     }
   },
   onShow() {

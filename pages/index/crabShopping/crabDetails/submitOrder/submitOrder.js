@@ -1006,7 +1006,7 @@ Page({
           wx.navigateTo({
             url: '/pages/personal-center/personnel-order/logisticsDetails/logisticsDetails?soId=' + that.data.orderId,
           })
-        },1000)
+        },2500)
       },
       fail: function (res) {
         wx.hideLoading();

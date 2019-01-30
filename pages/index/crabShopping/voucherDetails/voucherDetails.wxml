@@ -91,8 +91,8 @@
   </view>
     <view class="formBox">
         <view class="inputBox">
-            <textarea show-confirm-bar="{{false}}" bindinput='redbagMsg' maxlength='40' placeholder="{{showSkeleton?'':'祝福语：恭喜发财，大吉大利'}}"></textarea>
-            <!-- <text>{{redbagMsg?redbagMsg.length:0}}/20</text> -->
+            <textarea show-confirm-bar="{{false}}" bindinput='redbagMsg' maxlength='30' placeholder="{{showSkeleton?'':'祝福语：恭喜发财，大吉大利'}}"></textarea>
+            <text>{{redbagMsg?redbagMsg.length:0}}/30</text>
         </view>
         <view class="buttons">
           <!-- <view wx:if="{{sendType == '3'}}"  catchtap='toMyself'>自己用</view> -->
