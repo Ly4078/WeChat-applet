@@ -161,7 +161,7 @@ Page({
     return {
       title: '万达专区活动',
       imageUrl: 'https://xqmp4-1256079679.file.myqcloud.com/15927505686_wandazhuanqu.jpg',
-      path: '/packageB/pages/wanda/wanda?shareId=1',
+      path: '/packageB/pages/wanda/shopZone/shopZone?shareId=1&type=' + this.data.type,
       success: function (res) { },
       fail: function (res) { }
     }
