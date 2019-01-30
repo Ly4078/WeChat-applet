@@ -117,7 +117,8 @@
         "pages/wanda/wandaBranch/wandaBranch",
         "pages/wanda/wandaActivity/wandaActivity",
         "pages/wanda/wandaActivity/billboard/billboard",
-        "pages/wanda/wandaActivity/myGift/myGift"
+        "pages/wanda/wandaActivity/myGift/myGift",
+        "pages/wanda/shopZone/shopZone"
       ]
     }
   ],
