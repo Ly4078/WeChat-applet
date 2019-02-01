@@ -15,7 +15,7 @@ Page({
     list: [], //列表
     type: 1
   },
-  onLoad: function(options) {
+  onLoad: function (options) {
     let that = this;
     //在此函数中获取扫描普通链接二维码参数
     let q = decodeURIComponent(options.q), _val = "";
@@ -29,7 +29,7 @@ Page({
     }
     if (!_val) {
       that.setData({
-        type: options.type ? options.type:'1'
+        type: options.type ? options.type : '1'
       });
     }
 
@@ -107,14 +107,16 @@ Page({
       header: {
         "Authorization": app.globalData.token
       },
-      success: function(res) {
+      success: function (res) {
         wx.stopPullDownRefresh();
         wx.hideLoading();
         if (res.data.code == 0) {
           let list = res.data.data.list;
           if (list && list.length > 0) {
             for (let i = 0; i < list.length; i++) {
-              list[i].distance = utils.transformLength(list[i].distance);
+              if (list[i].distance) {
+                list[i].distance = utils.transformLength(list[i].distance);
+              }
             }
             that.setData({
               list: list
@@ -153,7 +155,7 @@ Page({
       url: '../wandaBranch/wandaBranch?id=' + id + '&picUrl=' + picUrl + '&name=' + name + '&address=' + address + '&distance=' + distance + '&city=' + city + '&locationX=' + locationX + '&locationY=' + locationY + '&type=' + type
     })
   },
-  onShareAppMessage: function() {
+  onShareAppMessage: function () {
     let type = this.data.type, title = '万达专区活动', imageUrl = '';
     title = type == 1 ? '万达专区' : '武商专区';
     imageUrl = type == 1 ? 'https://xqmp4-1256079679.file.myqcloud.com/15927505686_wandazhuanqu.jpg' : 'https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/微信图片_20190130212056.jpg';
@@ -161,8 +163,8 @@ Page({
       title: title,
       imageUrl: imageUrl,
       path: '/packageB/pages/wanda/shopZone/shopZone?shareId=1&type=' + type,
-      success: function(res) {},
-      fail: function(res) {}
+      success: function (res) { },
+      fail: function (res) { }
     }
   },
   //跳转至首页

@@ -17,6 +17,7 @@ Page({
     ismodel:false,
     loading:false,
     messageTextId:'',
+    showSkeleton:true,
     page:1,
     msgtype: 2, //系统通知 3  活动通知 2
     data:[]
@@ -167,6 +168,10 @@ Page({
             loading: false
           })
         }
+      },fail:function(){
+
+      },complete:function(){
+        that.setData({ showSkeleton:false})
       }
     })
   },

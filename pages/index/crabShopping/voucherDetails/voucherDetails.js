@@ -6,7 +6,7 @@ var utils = require('../../../../utils/util.js');
 import Public from '../../../../utils/public.js';
 var QR = require("../../../../utils/qrcode.js");
 var app = getApp();
-
+var redbagTimer = null;
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
@@ -40,13 +40,22 @@ Page({
       });
     }
   },
+  onHide:function(){
+    wx.hideLoading();
+    if (redbagTimer != null) {
+      clearInterval(redbagTimer)
+    }
+  },
   onUnload() {
     wx.hideLoading();
+    if (redbagTimer != null) {
+      clearInterval(redbagTimer)
+    }
   },
   onShow: function() {
     let _token = wx.getStorageSync('token') || "";
     let userInfo = wx.getStorageSync('userInfo') || {};
-
+    let that = this;
     if (userInfo) {
       app.globalData.userInfo = userInfo;
     }
@@ -58,12 +67,18 @@ Page({
       if (app.globalData.userInfo.mobile) {
         if (app.globalData.token) {
           if (app.globalData.userInfo.lat && app.globalData.userInfo.lng) {
-            this.getorderCoupon();
+            that.getorderCoupon();
+            if (redbagTimer !=null ) {
+              clearInterval(redbagTimer)
+            }
+            redbagTimer = setInterval(() => {
+              that.getorderCoupon();
+            }, 2000)
           } else {
-            this.getlocation();
+            that.getlocation();
           }
         } else {
-          this.authlogin();
+          that.authlogin();
         }
       } else { //是新用户，去注册页面
         wx.navigateTo({
@@ -76,6 +91,7 @@ Page({
   },
   getorderCoupon: function(val) { //查询券详情
     let _this = this,url='';
+    let userInfo = wx.getStorageSync("userInfo")
     wx.request({
       url: this.data._build_url + 'orderCoupon/getDetail?id=' + this.data.id + '&locationX=' + app.globalData.userInfo.lng + '&locationY=' + app.globalData.userInfo.lat,
       header: {
@@ -117,7 +133,12 @@ Page({
           }
           let giftTxt = _this.data.giftTxt;
           _this.setData({ isEnd: false })
+          if(data.ownId != userInfo.id) {
+            app.globalData.exchangeId = data.id
+          }
+          
           if (data.isUsed == 1) {
+            app.globalData.exchangeId = data.id
             giftTxt = '已被使用';
             _this.setData({isEnd:true})
           } else if (data.status == 4) {
@@ -582,7 +603,7 @@ Page({
     })
   },
   redbagMsg:function(e){
-    console.log(e);
+    console.log(e.detail.value);
     this.setData({
       redbagMsg:e.detail.value
     })

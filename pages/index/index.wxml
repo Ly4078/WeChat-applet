@@ -2,7 +2,7 @@
 <import src="bargainirg-store/bargainirg-template/bargainirg-template.wxml" />
 <!-- 骨架屏模块 -->
 <skeleton selector="skeleton" loading="spin" bgcolor="#FFF" wx:if="{{showSkeleton}}"></skeleton>
-<!-- <button catchtap='toWanda'>武商超市</button> -->
+<!-- <button catchtap='toWanda'>武商 快捷入口</button> -->
 <!-- <button catchtap='toWandaCai'>万达专区 快捷入口</button> -->
 <!-- <button catchtap='togrourp'>购买红包</button> -->
 <!-- <button catchtap='getfptt'>红包快捷</button> -->
@@ -47,10 +47,10 @@
   </view>
 
   <view class="navsNewYear"  wx:if="{{navsNewYear.length}}">
-    <image catchtap='togrourp' wx:if="{{!showSkeleton}}" class="redbagImg" src="https://xqmp4-1256079679.file.myqcloud.com/15927505686_redbag.gif"></image>
+    <image catchtap='togrourp' wx:if="{{!showSkeleton && showRebbag}}" class="redbagImg" src="https://xqmp4-1256079679.file.myqcloud.com/15927505686_redbag.gif"></image>
     <view class='indexNavOne ' style="background:none;">
 
-      <view wx:for="{{navsNewYear}}" wx:if="{{!item.hide && item.title !='短视频'}}"  wx:key="index" data-url="{{item.linkUrl}}" class='navitem' id="{{item.id}}" data-msg="{{item.title=='酒店'?'商家正在入驻中...':''}}" bindtap='toLink'>
+      <view wx:for="{{navsNewYear}}" wx:if="{{!item.hide && item.title !='短视频'}}"  wx:key="index" data-url="{{item.linkUrl}}" class='navitem' id="{{item.id}}" data-msg="{{item.title=='酒店'?'商家正在入驻中...':item.msg}}" bindtap='toLink'>
         <image class="img{{index+1}} skeleton-radius" src='{{item.imgUrl}}'></image>
         <text class="navitem_txt skeleton-rect">{{item.title}}</text>
       </view>

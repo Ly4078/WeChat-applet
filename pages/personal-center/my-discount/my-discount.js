@@ -146,8 +146,7 @@ Page({
     var exchangeId = app.globalData.exchangeId;
     let that = this;
     let listData = that.data.listData
-    
-    if (exchangeId){
+    if (exchangeId && that.data.ind == '0'){
       for (let i = 0; i < listData.length; i++) {
         if (exchangeId == listData[i].id){
           listData.splice(i,1)
@@ -287,6 +286,11 @@ Page({
                 }
               }
               _list[i]["isDue"] = that.isDueFunc(_list[i].expiryDate);
+              let str = _list[i].goodsSkuName.substring(_list[i].goodsSkuName.length - 2, _list[i].goodsSkuName.length)
+              console.log(str)
+              if (str == '红包'){
+                _list[i].redbag = true; 
+              }
             }
             let arr = [];
             if (loadtype =='reset') {
@@ -350,7 +354,11 @@ Page({
               if (_lists[i].sendUserName) {
                 _lists[i].sendUserName = _lists[i].sendUserName.substr(0, 3) + "****" + _lists[i].sendUserName.substr(7);
               }
-              // _sendData.push(_lists[i]);
+              let str = _lists[i].goodsSkuName.substring(_lists[i].goodsSkuName.length - 2, _lists[i].goodsSkuName.length)
+              console.log(str)
+              if (str == '红包') {
+                _lists[i].redbag = true;
+              }
 
             }
             let _sendData = this.data.sendpage == 1 ? [] : this.data.sendData;
@@ -411,6 +419,11 @@ Page({
               }
               if (_lists[i].sendUserName) {
                 _lists[i].sendUserName = _lists[i].sendUserName.substr(0, 3) + "****" + _lists[i].sendUserName.substr(7);
+              }
+              let str = _lists[i].goodsSkuName.substring(_lists[i].goodsSkuName.length - 2, _lists[i].goodsSkuName.length)
+              console.log(str)
+              if (str == '红包') {
+                _lists[i].redbag = true;
               }
             }
             let _recData = this.data.recpage == 1 ? [] : this.data.recData;

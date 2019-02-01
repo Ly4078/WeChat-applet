@@ -55,9 +55,12 @@
         <image src='/images/icon/myStar.png'></image>
         <text class='messageTop'>收藏</text>
       </view>
-      <view class='messageWrap' catchtap='toWallet'>
+      <view class='messageWrap'  catchtap='toWallet'>
         <image src='/images/icon/myCircle.png'></image>
         <text class='messageTop'>钱包</text>
+
+        <!-- ￥{{userAmount?userAmount:'0.00'}} -->
+        <view style="margn-top:10rpx;display:block" class="userAmount">¥{{userAmount?userAmount:'0.00'}}</view>
       </view>
       <view class='messageWrap' catchtap='personalCenter'>
         <image src='/images/icon/myHeart.png'></image>

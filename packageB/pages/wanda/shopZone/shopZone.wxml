@@ -13,7 +13,7 @@
       <view class="shopName skeleton-rect">{{type == 1 ? item.name : item.salepointName}}</view>
       <view class="shopAdr skeleton-rect">
         <view class="shopAdr_l">{{item.address}}</view>
-        <view>{{item.distance}}</view>
+        <view wx:if="{{item.distance}}">{{item.distance}}</view>
       </view>
     </view>
   </view>

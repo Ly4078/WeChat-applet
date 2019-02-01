@@ -181,6 +181,31 @@ Page({
     })
     // 查询是否配置
     that.getPullUser();
+    that.walletDetail()
+  },
+  walletDetail() {
+    let _this = this;
+    wx.request({
+      url: this.data._build_url + 'account/getUserAccount',
+      method: 'POST',
+      data: {},
+      header: {
+        "Authorization": app.globalData.token
+      },
+      success: function (res) {
+        wx.stopPullDownRefresh();
+        if (res.data.code == 0) {
+          let data = res.data.data;
+          _this.setData({
+            userAmount: data.userAmount ? data.userAmount.toFixed(2) : '0.00',
+          });
+        }
+
+      },
+      fail() {
+        wx.stopPullDownRefresh();
+      }
+    });
   },
   getPullUser: function () {
     let that = this;

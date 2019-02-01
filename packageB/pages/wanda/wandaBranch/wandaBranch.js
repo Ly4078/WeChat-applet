@@ -50,7 +50,7 @@ Page({
       isshowlocation: false,
       id: options.id,
       address: address,
-      distance: options.distance,
+      distance: options.distance ? options.distance:'',
       name: options.name,
       picUrl: options.picUrl,
       city: options.city,
@@ -134,7 +134,9 @@ Page({
             let list = res.data.data.list,
               dishList = that.data.dishList;
             for (let i = 0; i < list.length; i++) {
-              list[i].distance = utils.transformLength(list[i].distance);
+              if (list[i].distance){
+      list[i].distance = utils.transformLength(list[i].distance);
+              }
               if (that.data.type == 1) {
                 list[i].stockNum = list[i].actGoodsSkuOut.stockNum;
               }

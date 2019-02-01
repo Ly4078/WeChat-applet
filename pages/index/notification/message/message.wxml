@@ -1,5 +1,9 @@
 <!--pages/index/notification/message/message.wxml-->
 
+<skeleton selector="skeleton" loading="spin" bgcolor="#FFF" wx:if="{{showSkeleton}}"></skeleton>
+
+
+
 <view style="width:100%">
   <view class='msgbox' wx:for="{{data}}" wx:key="{{index}}" id="{{item.messageText.id}}" bindtouchstart="bindTouchStart" bindtouchend="bindTouchEnd" bindlongtap="bingLongTap" bindtap="bindTap">
 
@@ -23,6 +27,6 @@
 </view>
 
 
-<view wx:if="{{data.length < 1}}" class='placeholder'>
+<view wx:if="{{ data.length <= 0}}" class='placeholder'>
   <image src="/images/icon/zhanweitu.png"></image>
 </view>

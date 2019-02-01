@@ -14,7 +14,7 @@ Page({
         id: 1,
         name: '我的金币',
         iconUrl: '/images/icon/gold.png',
-        linkUrl:'/pages/personal-center/integratorMs/integratorMs'
+        linkUrl: '/pages/personal-center/integratorMs/integratorMs'
       },
       {
         id: 2,
@@ -55,7 +55,7 @@ Page({
     this.walletDetail();
   },
   onUnload: function () {
-    
+
   },
   walletDetail() {
     let _this = this;
@@ -73,7 +73,7 @@ Page({
           _this.setData({
             userAmount: data.userAmount ? data.userAmount.toFixed(2) : '0.00',
             accountStatus: data.accountStatus,
-            cardBankname: data.cardBankname ? data.cardBankname: '',
+            cardBankname: data.cardBankname ? data.cardBankname : '',
             accountName: data.accountName ? data.accountName : '',
             accountCardholder: data.accountCardholder ? data.accountCardholder : '',
             passedAmount: data.passedAmount ? data.passedAmount : 0,
@@ -93,22 +93,27 @@ Page({
     });
   },
   toWithdraw() {  //跳转至提现
-    wx.showModal({
-      title: '提示',
-      showCancel:false,
-      content: '尊敬的用户：由于系统升级中，提现功能于2019年3月1日正式开发，开放后方可自由提现，如您有任何问题，请于2019年2月12日后拨打客服电话027-59728176进行咨询。如给您带来不便，敬请谅解。感谢您对享7购的支持！',
-      success(res) {
-        if (res.confirm) {
-          console.log('用户点击确定')
-        } else if (res.cancel) {
-          console.log('用户点击取消')
+    let txtObj = wx.getStorageSync("txtObj");
+    if (txtObj.withdrawMsg) {
+      wx.showModal({
+        title: '提示',
+        showCancel: false,
+        content: txtObj.withdrawMsg,
+        success(res) {
+          if (res.confirm) {
+            console.log('用户点击确定')
+          } else if (res.cancel) {
+            console.log('用户点击取消')
+          }
         }
-      }
-    })
-    return false
-    wx.navigateTo({
-      url: 'withdraw/withdraw'
-    })
+      })
+    } else {
+      wx.navigateTo({
+        url: 'withdraw/withdraw'
+      })
+    }
+
+
   },
   toAward() {   //跳转至奖励进度
     wx.navigateTo({
@@ -120,8 +125,8 @@ Page({
     let url = e.currentTarget.dataset.url;
     wx.navigateTo({
       url: url,
-      success:function(){},
-      fail:function(){
+      success: function () { },
+      fail: function () {
         wx.switchTab({
           url: url,
         })

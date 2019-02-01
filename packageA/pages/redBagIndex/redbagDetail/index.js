@@ -5,6 +5,7 @@ import getToken from "../../../../utils/getToken.js";
 import {
   GLOBAL_API_DOMAIN
 } from '../../../../utils/config/config.js';
+var utils = require('../../../../utils/util.js')
 var timer = null;
 Page({
 
@@ -72,7 +73,7 @@ Page({
     let that = this;
     let userInfo = wx.getStorageSync("userInfo");
     let url = that.data._build_url + 'orderCoupon/getDetail?id=' + that.data.id + '&sendOrReceiveUserId=' + that.data.shareId;
-    let urls = encodeURI(url)
+    let urls = encodeURI(url);
     wx.request({
       url: urls,
       header: {
@@ -135,6 +136,7 @@ Page({
 
   click: function () {
     let that = this;
+    let userInfo = wx.getStorageSync('userInfo');
     that.setData({ isclick: true });
     let url = that.data._build_url + 'orderCoupon/getDetail?id=' + that.data.id + '&sendOrReceiveUserId=' + that.data.shareId;
     let urls = encodeURI(url)
@@ -146,14 +148,19 @@ Page({
       success: function (res) {
         if (res.data.code == '0') {
           if (res.data.data.isUsed == '0') {
-            that.getsendCoupon()
+            that.getsendCoupon(res.data.data.ownId)
           } else {
-            wx.showToast({
-              title: '红包已被领取',
-              icon: 'none'
-            });
-            that.setData({ isclick: false });
-            that.onShow();
+            if (userInfo.id == res.data.data.ownId) {
+              that.chairedbag();
+            }else{
+              wx.showToast({
+                title: '红包已被领取',
+                icon: 'none'
+              });
+              that.setData({ isclick: false });
+              that.onShow();
+            }
+            
           }
         } else {
 
@@ -164,7 +171,8 @@ Page({
     })
 
   },
-  getsendCoupon: function () { //领取券
+  getsendCoupon: function (ownId) { //领取券
+    let userInfo = wx.getStorageSync('userInfo');
     let _parms = {},
       _this = this,
       _value = "",
@@ -194,20 +202,25 @@ Page({
         if (res.data.code == 0) {
           _this.chairedbag();
         } else {
-          _this.setData({ isclick: false });
-          wx.showToast({
-            title: '红包已被领取',
-            icon: 'none',
-            duration: 2000
-          })
-          _this.onShow();
+          if (userInfo.id == ownId) {
+            _this.chairedbag();
+          } else {
+            wx.showToast({
+              title: '红包已被领取',
+              icon: 'none'
+            });
+            _this.setData({ isclick: false });
+            _this.onShow();
+          }
         }
       }
     })
   },
   chairedbag: function () {
     let that = this;
-    let url = that.data._build_url + "orderCoupon/useCouponForRedPacket?id=" + that.data.id + "&remark=" + that.data.redBagTitle;
+    // let remark = utils.utf16toEntities(that.data.redBagTitle);
+    let remark = that.data.redBagTitle
+    let url = that.data._build_url + "orderCoupon/useCouponForRedPacket?id=" + that.data.id + "&remark=" + remark;
     let urls = encodeURI(url);
     wx.request({
       url: urls,

@@ -4,7 +4,7 @@ page{
   height: 100%;
 }
 .personal_Top {
-  height: 318rpx;
+  height: 350rpx;
   background: linear-gradient(to bottom, #FC8E2D, #FC5E2D);
 }
 .centreWrap {
@@ -95,14 +95,17 @@ page{
   letter-spacing: 4rpx;
   font-weight: 600;
   color: #fff;
+  margin-bottom:10rpx;
 }
 
 .messageWrap {
   flex-grow: 1;
   text-align: center;
   font-size: 26rpx;
+  position: relative;
   color: #fff;
 }
+
 
 .messageWrap button ,.botton-hover{
   background: none;

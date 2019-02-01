@@ -68,6 +68,7 @@ page {
   font-size:28rpx;
   padding:0 40rpx;
   line-height:56rpx;
+  text-align: left;
 }
 .redBagType{
   width: 100%;

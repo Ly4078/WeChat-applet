@@ -58,16 +58,18 @@ page, .categoryBox {
 }
 
 .classify_item {
-  width: 360rpx;
+  width: 375rpx;
   min-height: 500rpx;
-  margin-top: 10rpx;
-  margin-left: 10rpx;
+  border-right:0.5rpx solid #f5f5fa;
+  border-bottom:0.5rpx solid #f5f5fa;
   float: left;
+  padding: 20rpx;
+  box-sizing: border-box;
   position: relative;
   background: #fff;
 }
 .classify_item:nth-child(2n-1){
-  margin-left: 15rpx;
+  /* margin-left: 15rpx; */
 }
 .classify_item image{
   width: 360rpx;
@@ -78,7 +80,7 @@ page, .categoryBox {
 }
 .contTxt{
   width: 340rpx;
-  padding: 16rpx 10rpx 20rpx 10rpx;
+  padding:  16rpx 0rpx 20rpx 0rpx;
 }
 .goods_tit {
   font-size: 28rpx;

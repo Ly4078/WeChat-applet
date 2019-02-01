@@ -27,7 +27,9 @@ Page({
     showwandaactivity: false,//活动海报
     loading: false,
     // 改版新增变量 
+    showRebbag:false,
     fresh0: {},
+
     fresh1: {}, //享7生鲜图片1
     fresh2: {}, //享7生鲜图片2
     fresh3: {}, //享7生鲜图片3
@@ -135,6 +137,7 @@ Page({
         fresh1: txtObj ? txtObj.fresh1 : '',
         fresh2: txtObj ? txtObj.fresh2 : '',
         fresh3: txtObj ? txtObj.fresh3 : '',
+        showRebbag: txtObj ? txtObj.showRebbag:false,
         activityList: txtObj ? txtObj.activityList : '',
         navs: txtObj.navs ? txtObj.navs : that.data.navs
       });
@@ -267,6 +270,7 @@ Page({
             fresh1: res.data.fresh1,
             fresh2: res.data.fresh2,
             fresh3: res.data.fresh3,
+            showRebbag: res.data.showRebbag ? res.data.showRebbag:false,
             navsNewYear: res.data.navsNewYear ? res.data.navsNewYear:[],
             activityList: res.data.activityList,
             bannerList: res.data.carousel ? res.data.carousel : [],
@@ -511,7 +515,7 @@ Page({
     }
     if (!url) {
       wx.showToast({
-        title: msg ? msg : '下月正式开放',
+        title: msg ? msg : '即将开放',
         icon: "none"
       })
       return

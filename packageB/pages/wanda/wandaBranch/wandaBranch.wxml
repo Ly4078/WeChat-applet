@@ -28,7 +28,7 @@
       </view>
       <view class="branchAdr skeleton-rect">
         <text class="branchAdr_l">{{address}}</text>
-        <text>{{distance}}</text>
+        <text wx:if="{{distance && distance!= 'null'}}">{{distance}}</text>
       </view>
     </view>
   </view>
