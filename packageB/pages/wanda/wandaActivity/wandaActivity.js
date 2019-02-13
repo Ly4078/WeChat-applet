@@ -34,7 +34,17 @@ Page({
     actDesc: ''
   },
   onLoad: function(options) {
-    let that = this;
+    let that = this, _currCity = this.data.currCity;
+    let q = decodeURIComponent(options.q);
+    if (q && q != 'undefined') {
+      if (utils.getQueryString(q, 'flag') == 12) {
+        _currCity = utils.getQueryString(q, 'currCity');
+      }
+      that.setData({
+        currCity: _currCity
+      })
+    }
+
     this.setData({
       isshowlocation: false
     })
@@ -70,7 +80,6 @@ Page({
     } else {
       that.setData({ showSkeleton:false})
       getCurrentLocation(that).then( ()=>{
-        
         that.cityQuery();
       })
     }
@@ -94,9 +103,13 @@ Page({
             city.push(data[i].city);
             branch.push(data[i].shopZoneItem);
             if (data[i].city == app.globalData.userInfo.city) {
-              that.setData({
-                currCity: i
-              });
+              if (that.data.currCity ==2 ){
+
+              }else{
+                that.setData({
+                  currCity: i
+                });
+              }
             }
           }
           that.setData({
@@ -250,7 +263,6 @@ Page({
                     dishList[i].actGoodsSkuOut.voteNum++;
                   }
                 }
-
                 that.setData({
                   dishList: dishList,
                   drawNum: that.data.drawNum + 1
