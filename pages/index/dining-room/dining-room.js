@@ -31,7 +31,9 @@ Page({
   },
 
   onLoad: function (options) {
-    console.log('options:', options)
+    console.log('options:', options);
+    console.log('fdsafs')
+    
     let that = this, _val = "";
     setTimeout(()=>{
       that.setData({
@@ -52,16 +54,19 @@ Page({
     app.globalData.userInfo = userInfo
 
     //在此函数中获取扫描普通链接二维码参数
-    let q = decodeURIComponent(options.q)
+    let q = decodeURIComponent(options.q);
     if (q) {
       if (utils.getQueryString(q, 'flag') == 1){
         _val = utils.getQueryString(q, 'shopCode');
       }
+      that.setData({ _val })
     }
-    
-    if(_val){
-      this.setData({ _val})
+    if (options.flag == 1) {
+      _val = options.shopCode;
+      console.log("_valu123:", _val)
+      this.setData({ _val })
     }
+  
     this.setData({
       isclosure: true,
       isshowlocation: false

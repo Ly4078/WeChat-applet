@@ -461,8 +461,6 @@ Page({
     for (var key in _parms) {
       _value += key + "=" + _parms[key] + "&";
     }
-
-
     _value = _value.substring(0, _value.length - 1);
     url = that.data._build_url + 'wxpay/shoppingMallForCouponNew?' + _value
     _Url = encodeURI(url);

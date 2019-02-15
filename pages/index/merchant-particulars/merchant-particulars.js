@@ -64,7 +64,7 @@ Page({
     hotlist2: [], //热销商品
     wandaDish: [] //万达的菜
   },
-  onLoad: function (options) {
+  onLoad: function(options) {
     let txt = wx.getStorageSync('txtObj');
     this.setData({
       isShowvedeo: txt.flag,
@@ -105,8 +105,8 @@ Page({
     // 分享功能
     wx.showShareMenu({
       withShareTicket: true,
-      success: function (res) { },
-      fail: function (res) {
+      success: function(res) {},
+      fail: function(res) {
 
       }
     });
@@ -114,7 +114,7 @@ Page({
     // this.merchantInit();
 
   },
-  onShow: function () {
+  onShow: function() {
     let that = this;
     this.merchantInit();
     let _token = wx.getStorageSync('token') || "";
@@ -122,7 +122,7 @@ Page({
     // app.globalData.userInfo = userInfo;
     if (!userInfo.lat || !userInfo.lng || !userInfo.city || !app.globalData.userInfo.lat || !app.globalData.userInfo.lng) {
       // this.getUserlocation();
-      getCurrentLocation(that).then( (res)=>{
+      getCurrentLocation(that).then((res) => {
         console.log(res);
         that.getstoredata();
         if (that.data.isMpa) {
@@ -147,7 +147,7 @@ Page({
     vm.bearing(); // 第一个字消失后立即从右边出现
   },
   //初始化
-  merchantInit: function () {
+  merchantInit: function() {
     let that = this;
     if (app.globalData.userInfo.userId) {
       if (app.globalData.userInfo.mobile) {
@@ -171,7 +171,7 @@ Page({
     }
   },
   //通过code查询用户信息
-  findByCode: function () {
+  findByCode: function() {
     let that = this;
     wx.login({
       success: res => {
@@ -206,7 +206,7 @@ Page({
     })
   },
   //获取token
-  authlogin: function () {
+  authlogin: function() {
     let that = this;
     wx.request({
       url: this.data._build_url + 'auth/login?userName=' + app.globalData.userInfo.userName,
@@ -215,7 +215,7 @@ Page({
       header: {
         'content-type': 'application/json' // 默认值
       },
-      success: function (res) {
+      success: function(res) {
         if (res.data.code == 0) {
           let _token = 'Bearer ' + res.data.data;
           app.globalData.token = _token;
@@ -230,11 +230,11 @@ Page({
     })
   },
   //点击获取用户unionId
-  againgetinfo: function () {
+  againgetinfo: function() {
     let that = this;
     wx.getUserInfo({
       withCredentials: true,
-      success: function (res) {
+      success: function(res) {
         let _sessionKey = app.globalData.userInfo.sessionKey,
           _ivData = res.iv,
           _encrypData = res.encryptedData;
@@ -251,7 +251,7 @@ Page({
             'content-type': 'application/json' // 默认值
           },
           method: 'POST',
-          success: function (resv) {
+          success: function(resv) {
             if (resv.data.code == 0) {
               that.setData({
                 istouqu: false
@@ -284,7 +284,7 @@ Page({
       header: {
         "Authorization": app.globalData.token
       },
-      success: function (res) {
+      success: function(res) {
         if (res.data.code == 0) {
           let list = res.data.data.list;
           if (list && list.length > 0) {
@@ -308,7 +308,7 @@ Page({
       header: {
         "Authorization": app.globalData.token
       },
-      success: function (res) {
+      success: function(res) {
         let code = res.data.code;
         if (code == 0) {
           that.vote(id);
@@ -329,7 +329,7 @@ Page({
       header: {
         "Authorization": app.globalData.token
       },
-      success: function (res) {
+      success: function(res) {
         let code = res.data.code;
         if (code == 0) {
           that.showToast('投票成功');
@@ -355,7 +355,7 @@ Page({
     })
   },
   //对菜品投票
-  castvote: function (e) {
+  castvote: function(e) {
     let that = this,
       id = e.currentTarget.id;
     if (!this.data.isclick) {
@@ -407,7 +407,7 @@ Page({
           dishLish: dishLish
         });
       }
-      setTimeout(function () {
+      setTimeout(function() {
         that.setData({
           isclick: true
         })
@@ -415,7 +415,7 @@ Page({
     });
   },
   //查询热销商品
-  gethotdish: function () {
+  gethotdish: function() {
     let _parms = {},
       that = this;
     _parms = {
@@ -438,12 +438,12 @@ Page({
             if (_hotlist[i].actGoodsSkuOuts && _hotlist[i].actGoodsSkuOuts.length > 0) {
               let arr = [];
               for (let j in _hotlist[i].actGoodsSkuOuts) {
-                  _hotlist[i].skuName = utils.uncodeUtf16(_hotlist[i].skuName);
-                  _hotlist[i].actGoodsSkuOuts[j].skuName = _hotlist[i].skuName;
-                  _hotlist[i].actGoodsSkuOuts[j].id = _hotlist[i].id;
-                  _hotlist[i].actGoodsSkuOuts[j].sellPrice = _hotlist[i].sellPrice;
-                  _discount = _hotlist[i].actGoodsSkuOuts[j].goodsPromotionRules.actAmount / _hotlist[i].sellPrice * 10;
-                  _hotlist[i].actGoodsSkuOuts[j].discount = _discount.toFixed(2);
+                _hotlist[i].skuName = utils.uncodeUtf16(_hotlist[i].skuName);
+                _hotlist[i].actGoodsSkuOuts[j].skuName = _hotlist[i].skuName;
+                _hotlist[i].actGoodsSkuOuts[j].id = _hotlist[i].id;
+                _hotlist[i].actGoodsSkuOuts[j].sellPrice = _hotlist[i].sellPrice;
+                _discount = _hotlist[i].actGoodsSkuOuts[j].goodsPromotionRules.actAmount / _hotlist[i].sellPrice * 10;
+                _hotlist[i].actGoodsSkuOuts[j].discount = _discount.toFixed(2);
                 if (j > 0) {
                   let actId = _hotlist[i].actGoodsSkuOuts[j].actId;
                   if (actId != 45) {
@@ -480,7 +480,7 @@ Page({
     });
   },
   //点击抢购
-  ClickSnatch: function (e) {
+  ClickSnatch: function(e) {
     let id = e.currentTarget.id,
       actId = e.currentTarget.dataset.actid,
       actName = e.currentTarget.dataset.actname,
@@ -542,9 +542,9 @@ Page({
     })
   },
   //获取页面参数
-  antifriction: function () {
+  antifriction: function() {
     var vm = this;
-    var interval = setInterval(function () {
+    var interval = setInterval(function() {
       if (-vm.data.marqueeDistance < vm.data.length) {
         vm.setData({
           marqueeDistance: vm.data.marqueeDistance - vm.data.marqueePace,
@@ -559,9 +559,9 @@ Page({
     }, vm.data.interval);
   },
   //页面参数
-  bearing: function () {
+  bearing: function() {
     var vm = this;
-    var interval = setInterval(function () {
+    var interval = setInterval(function() {
       if (-vm.data.marqueeDistance2 < vm.data.length) {
         // 如果文字滚动到出现marquee2_margin=30px的白边，就接着显示
         vm.setData({
@@ -585,7 +585,7 @@ Page({
       }
     }, vm.data.interval);
   },
-  getmoredata: function () {
+  getmoredata: function() {
 
 
     if (!this.data.hotlist2.length) {
@@ -696,7 +696,7 @@ Page({
       header: {
         "Authorization": app.globalData.token
       },
-      success: function (res) {
+      success: function(res) {
         wx.stopPullDownRefresh();
         if (res.data.code == 0) {
           if (res.data.data) {
@@ -754,12 +754,12 @@ Page({
       }
     })
   },
-  clickjt: function () {
+  clickjt: function() {
     this.setData({
       isunfold: !this.data.isunfold
     })
   },
-  selectByShopId: function () { //获取商家活动列表
+  selectByShopId: function() { //获取商家活动列表
     let id = this.data.shopid,
       that = this,
       _parms = {};
@@ -788,13 +788,13 @@ Page({
       }
     })
   },
-  onPageScroll: function () { //监听页面滑动
+  onPageScroll: function() { //监听页面滑动
     this.setData({
       isComment: false
     })
   },
   //商户动态上拉加载
-  onReachBottom: function () {
+  onReachBottom: function() {
     if (this.data._page != 1) {
       this.setData({
         _page: this.data._page + 1
@@ -802,7 +802,7 @@ Page({
     }
     this.shopList();
   },
-  buynow: function (ev) { //点击立即购买
+  buynow: function(ev) { //点击立即购买
     let id = ev.currentTarget.id,
       _sell = '',
       _inp = '',
@@ -819,7 +819,7 @@ Page({
     })
   },
   //查看推荐菜详情
-  fooddetails: function (e) {
+  fooddetails: function(e) {
     let ind = e.currentTarget.id
     let shopId = this.data.shopid
     wx.navigateTo({
@@ -827,13 +827,13 @@ Page({
     })
   },
   //餐厅推荐菜
-  recommendedRestaurant: function () {
+  recommendedRestaurant: function() {
     wx.navigateTo({
       url: 'recommendation/recommendation?id=' + this.data.store_details.id,
     })
   },
   //商家动态
-  merchantArt: function () {
+  merchantArt: function() {
     let that = this,
       _parms = {
         shopId: this.data.shopid,
@@ -873,7 +873,7 @@ Page({
     })
   },
   //跳转至文章详情
-  toArticleInfo: function (e) {
+  toArticleInfo: function(e) {
     const id = e.currentTarget.id
     let _data = this.data.merchantArt
     let zan = ''
@@ -893,39 +893,39 @@ Page({
     }
   },
   //分享给好友
-  onShareAppMessage: function () {
+  onShareAppMessage: function() {
     let _shareCity = this.data.shareCity ? this.data.shareCity : app.globalData.userInfo.city;
     return {
       title: this.data.store_details.shopName,
       path: '/pages/index/merchant-particulars/merchant-particulars?shopid=' + this.data.shopid + '&shareCity=' + _shareCity,
       imageUrl: this.data.store_details.logoUrl,
-      success: function (res) {
+      success: function(res) {
         wx.getShareInfo({
           shareTicket: res.shareTickets[0],
-          success: function (res) { },
-          fail: function (res) { },
-          complete: function (res) {
+          success: function(res) {},
+          fail: function(res) {},
+          complete: function(res) {
 
           }
         })
       },
-      fail: function (res) {
+      fail: function(res) {
         // 分享失败
       }
     }
   },
   // 电话号码功能
-  calling: function () {
+  calling: function() {
     let that = this,
       tell = "";
     tell = that.data.store_details.phone ? that.data.store_details.phone : that.data.store_details.mobile;
     if (tell) {
       wx.makePhoneCall({
         phoneNumber: tell,
-        success: function () {
+        success: function() {
           console.log("拨打电话成功！")
         },
-        fail: function () {
+        fail: function() {
           console.log("拨打电话失败！")
         }
       })
@@ -936,7 +936,7 @@ Page({
     }
   },
   //查看店铺图片
-  moreImages: function (event) {
+  moreImages: function(event) {
     if (!this.data.isshowlocation) {
       wx.navigateTo({
         url: 'preview-picture/preview-picture?id=' + this.data.store_details.id + '&firstImg=' + this.data.store_details.logoUrl,
@@ -954,7 +954,7 @@ Page({
     wx.openSetting({
       success: (res) => {
         if (res.authSetting['scope.userLocation']) {
-          setTimeout( ()=>{
+          setTimeout(() => {
             getCurrentLocation(that).then((res) => {
               console.log(res);
               that.getstoredata();
@@ -964,7 +964,7 @@ Page({
                 that.shopList();
               }
             })
-          },200)
+          }, 200)
         } else {
           that.setData({
             isshowlocation: true
@@ -974,7 +974,7 @@ Page({
     })
   },
   //打开地图导航，先查询是否已授权位置
-  TencentMap: function (event) {
+  TencentMap: function(event) {
     let that = this;
     if (event && event.type == 'tap') {
       this.setData({
@@ -985,7 +985,7 @@ Page({
         isMpa: false
       })
     }
-    getCurrentLocation(that).then( (res)=>{
+    getCurrentLocation(that).then((res) => {
       if (that.data.isMpa) {
         that.openmap();
       } else {
@@ -995,7 +995,7 @@ Page({
 
   },
   //打开地图，已授权位置
-  openmap: function () {
+  openmap: function() {
     let that = this,
       storeDetails = that.data.store_details;;
     wx.openLocation({
@@ -1004,13 +1004,13 @@ Page({
       scale: 18,
       name: storeDetails.shopName,
       address: storeDetails.address,
-      success: function (res) { },
-      fail: function (res) { }
+      success: function(res) {},
+      fail: function(res) {}
     })
   },
 
   //评论列表
-  commentList: function () {
+  commentList: function() {
     let that = this;
     if (this.data.comment_list.length > 7) {
       return
@@ -1027,7 +1027,7 @@ Page({
       header: {
         "Authorization": app.globalData.token
       },
-      success: function (res) {
+      success: function(res) {
         wx.stopPullDownRefresh();
         if (res.data.code == 0) {
           const data = res.data;
@@ -1059,14 +1059,14 @@ Page({
     })
   },
   //跳转至所有评论
-  jumpTotalComment: function () {
+  jumpTotalComment: function() {
     let that = this;
     wx.navigateTo({
       url: 'total-comment/total-comment?id=' + that.data.shopid + '&cmtType=5'
     })
   },
   //评论点赞
-  toLike: function (event) {
+  toLike: function(event) {
     let that = this
     if (!app.globalData.userInfo.mobile) {
       this.setData({
@@ -1091,8 +1091,8 @@ Page({
         header: {
           "Authorization": app.globalData.token
         },
-        success: function (res) {
-          setTimeout(function () {
+        success: function(res) {
+          setTimeout(function() {
             that.setData({
               zanFlag: true
             });
@@ -1115,7 +1115,7 @@ Page({
     }
   },
   //取消点赞
-  cancelLike: function (event) {
+  cancelLike: function(event) {
     let that = this,
       id = event.currentTarget.id,
       cmtType = "",
@@ -1141,8 +1141,8 @@ Page({
         header: {
           "Authorization": app.globalData.token
         },
-        success: function (res) {
-          setTimeout(function () {
+        success: function(res) {
+          setTimeout(function() {
             that.setData({
               zanFlag: true
             });
@@ -1165,7 +1165,7 @@ Page({
     }
   },
   //收藏  / 取消收藏
-  onCollect: function (event) {
+  onCollect: function(event) {
     let that = this,
       url = "",
       _title = "";
@@ -1188,7 +1188,7 @@ Page({
         header: {
           "Authorization": app.globalData.token
         },
-        success: function (res) {
+        success: function(res) {
           if (res.data.code == 0) {
             that.setData({
               isCollected: !that.data.isCollected
@@ -1204,7 +1204,7 @@ Page({
     }
   },
   //确定or取消   未注册用户
-  closetel: function (e) {
+  closetel: function(e) {
     let id = e.target.id;
     this.setData({
       issnap: false
@@ -1216,7 +1216,7 @@ Page({
     }
   },
   //领取/使用免费券
-  receive: function () {
+  receive: function() {
     let that = this,
       _parms = {},
       _values = "";
@@ -1242,7 +1242,7 @@ Page({
           "Authorization": app.globalData.token
         },
         method: 'POST',
-        success: function (res) {
+        success: function(res) {
           if (res.data.code == 0) {
             wx.showToast({
               title: '领取成功！',
@@ -1264,14 +1264,14 @@ Page({
     }
   },
   //券
-  moreinfo: function (e) {
+  moreinfo: function(e) {
     let _id = e.currentTarget.id;
     wx.navigateTo({
       url: './coupon_details/coupon_details?id=' + _id + '&shopid=' + this.data.shopid,
     })
   },
   //查看全部
-  clickactmore: function () {
+  clickactmore: function() {
     this.setData({
       isactmore: !this.data.isactmore
     })
@@ -1288,7 +1288,7 @@ Page({
     }
   },
   //查看部分
-  clickmore: function () {
+  clickmore: function() {
     this.setData({
       ismore: !this.data.ismore,
       newpackage: []
@@ -1305,7 +1305,7 @@ Page({
       })
     }
   },
-  clickdity: function () {
+  clickdity: function() {
     this.setData({
       isdity: !this.data.isdity
     })
@@ -1323,7 +1323,7 @@ Page({
     }
   },
   //去代金券页面
-  gotouse: function () {
+  gotouse: function() {
     wx.navigateTo({
       url: '../voucher-details/voucher-details?cfrom=pack',
     })
@@ -1347,6 +1347,7 @@ Page({
     if (this.data.store_details.businessCate) {
       _parms.businessCate = this.data.store_details.businessCate.split('/')[0].split(',')[0];
     }
+    console.log('_parms:', _parms)
     Api.shoplist(_parms).then((res) => {
       if (res.data.code == 0) {
         let data = res.data;
@@ -1393,7 +1394,7 @@ Page({
     this.onShow();
   },
   //买单
-  paymentPay: function () {
+  paymentPay: function() {
     if (!app.globalData.userInfo.mobile) {
       this.setData({
         issnap: true
@@ -1427,12 +1428,12 @@ Page({
     this.queryMultipleNodes('#merchantBox');
   },
   //页面滚动
-  queryMultipleNodes: function (dom) {
+  queryMultipleNodes: function(dom) {
     var query = wx.createSelectorQuery(),
       that = this;
     query.select(dom).boundingClientRect()
     query.selectViewport().scrollOffset()
-    query.exec(function (res) {
+    query.exec(function(res) {
       let isFixed = false;
       if (res[1].scrollTop >= 330) {
         isFixed = true;
@@ -1443,7 +1444,7 @@ Page({
     })
   },
   //时间转换
-  dateConv: function (dateStr) {
+  dateConv: function(dateStr) {
     let year = dateStr.getFullYear(),
       month = dateStr.getMonth() + 1,
       today = dateStr.getDate();
@@ -1452,7 +1453,7 @@ Page({
     return year + "-" + month + "-" + today;
   },
   //店铺螃蟹栏
-  crabSection: function () {
+  crabSection: function() {
     wx.navigateTo({
       url: '../crabShopping/crabShopping?currentTab=1',
     })
@@ -1471,7 +1472,7 @@ Page({
       header: {
         "Authorization": app.globalData.token
       },
-      success: function (res) {
+      success: function(res) {
         let code = res.data.code;
         if (code == 0) {
           that.vote(id);
@@ -1496,7 +1497,7 @@ Page({
             header: {
               "Authorization": app.globalData.token
             },
-            success: function (res) {
+            success: function(res) {
               if (res.data.code == 0) {
                 that.showToast('投票成功');
               }
