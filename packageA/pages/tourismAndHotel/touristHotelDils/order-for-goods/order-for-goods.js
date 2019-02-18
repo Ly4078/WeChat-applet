@@ -85,7 +85,7 @@ Page({
   sponsorVgts: function () {//点击付款按钮
     let that = this, _parms = {};
     _parms = {
-      shopId: that.data.singleData.shopId,
+      shopId: that.data.singleData.shopId ? that.data.singleData.shopId : '0',
       payType: 2,
       flagType: 7,
       singleType: that.data.singleData.singleType,
@@ -93,8 +93,8 @@ Page({
         goodsSkuId: that.data.singleData.id,
         goodsSpuId: that.data.singleData.spuId,
         goodsNum: that.data.number ? that.data.number : '1',
-        shopId: that.data.singleData.shopId,
-        orderItemShopId: '0'
+        shopId: that.data.singleData.shopId ? that.data.singleData.shopId : '0',
+        orderItemShopId: that.data.singleData.shopId ? that.data.singleData.shopId:'0'
       }]
     };
     if (that.data.paytype == '2') {//选择余额支付

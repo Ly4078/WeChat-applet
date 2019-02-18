@@ -65,7 +65,7 @@ Page({
     legends: [{
       name: '有效期',
       info: [
-        '普通商品购买后3个月内使用有效,湖北万达十大招牌菜活动内所购买的商品，在活动期内有效，过期作废。活动截止日期2019年2月16日22:00'
+        '普通商品购买后3个月内使用有效,湖北万达十大招牌菜活动内所购买的商品，在活动期内有效，过期作废。活动截止日期2019年2月27日24:00'
       ]
     }],
     legend: []
@@ -370,6 +370,9 @@ Page({
   },
   //查询单个砍价菜
   dishDetail() {
+    let userInfo = wx.getStorageSync("userInfo");
+    let locationX = app.globalData.userInfo.lng ? app.globalData.userInfo.lng : userInfo.lng
+    let locationY = app.globalData.userInfo.lat ? app.globalData.userInfo.lat : userInfo.lat
     let that = this,
       _parms = {},
       _values = "",
@@ -377,8 +380,8 @@ Page({
     _parms = {
       Id: this.data.id,
       shopId: this.data.shopId,
-      locationX: app.globalData.userInfo.lng,
-      locationY: app.globalData.userInfo.lat
+      locationX: locationX,
+      locationY: locationY
     };
     if (that.data.actId) {
       _parms.actId = this.data.actId

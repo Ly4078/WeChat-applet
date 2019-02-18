@@ -441,7 +441,11 @@ Page({
       })
     }
   },
-
+  tocheckin:function(){
+    wx.navigateTo({
+      url: '/packageC/pages/checkin/checkin',
+    })
+  },
   DynamicState: function (e) {
     wx.navigateTo({
       url: 'allDynamicState/allDynamicState',

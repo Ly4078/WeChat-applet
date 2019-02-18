@@ -299,6 +299,7 @@ Page({
           app.globalData.currentScene.query == '';
           app.globalData.newcomer = 1;
           wx.setStorageSync("newcomer", '1')
+          that.receive();
           if (that.data.isBack) {
             wx.navigateBack({
               delta: 1
@@ -382,6 +383,28 @@ Page({
   hideThis: function () {
     this.setData({
       getPhone: false
+    })
+  },
+  receive:function(){
+   let that = this;
+    wx.request({
+      url: that.data._build_url + 'actLottery/add?userId=' + app.globalData.userInfo.userId,
+      header: {
+        "Authorization": app.globalData.token
+      },
+      method: 'POST',
+      success: function (res) {
+        if (res.data.code == 0) {
+            setTimeout( ()=>{
+              wx.showToast({
+                title: '已自动领取新用户福利，抽奖机会一次',
+                icon:'none',
+                duration:2500
+              })
+            },1500)
+            
+        }
+      }
     })
   }
 })

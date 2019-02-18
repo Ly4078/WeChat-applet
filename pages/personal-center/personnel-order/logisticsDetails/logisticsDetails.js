@@ -14,7 +14,7 @@ Page({
     _build_url: GLOBAL_API_DOMAIN,
     soId: '',
     id: '',
-    payTypeText:['','免费赠送','微信支付','','余额支付'],
+    payTypeText: ['免费赠送', '','微信支付','','余额支付'],
     timer: null,
     shadowFlag: true,
     showSkeleton: true,

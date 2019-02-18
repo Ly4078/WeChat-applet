@@ -109,6 +109,10 @@
           <image class='myListImages' src='/images/icon/bargainirg_kj.png'></image>
           <view class='mylistText'>我的砍价</view>
         </view>
+         <view class='myList' hover-class='listhover' hover-stay-time="200" catchtap='tocheckin'>
+          <image class='myListImages' src='/images/icon/checkin.png'></image>
+          <view class='mylistText'>每日签到</view>
+        </view>
         <view class='myList' hover-class='listhover' hover-stay-time="200" catchtap='contact'>
           <image class='myListImages' src='/images/icon/customer_service.png'></image>
           <view class='mylistText'>联系客服</view>

@@ -8,21 +8,18 @@ import getCurrentLocation from '../../../utils/getCurrentLocation.js';
 var app = getApp();
 var timer = null;
 let gameFlag = true; //防止重复点击
-
-
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
     isMpa: false,
     isshowlocation: false,
-    shareId: 0,
+    shareId: '',
     userId: '',
     _city: '',
     currentCity: '',
     _lat: '',
     _lng: '',
-    regulation: [
-      ],
+    regulation: [],
     prizeList: [], //奖品列表
     turnIdx: 2, //转动序号
     // turnFlag: false,  //转动标识
@@ -38,17 +35,21 @@ Page({
       this.setData({
         shareId: options.shareId
       });
+      app.globalData.currentScene.query = {
+        shareId: options.shareId,
+      }
+      app.globalData.currentScene.path = "packageC/pages/xiangqiLottery/xiangqiLottery"
     }
     this.circleShow();
     this.setData({
       inviter: options.inviter ? options.inviter : app.globalData.userInfo.userId
     });
-    this.createUser()
+    // this.createUser()
   },
   getwinningList() {
     let that = this
     wx.request({
-      url: that.data._build_url + 'orderInfo/listFree?page=1&rows=50&actId=42&payType=0',
+      url: that.data._build_url + 'orderInfo/listFree?actId=46&page=1&rows=50&payType=0',
       method: 'get',
       header: {
         "Authorization": app.globalData.token
@@ -64,16 +65,17 @@ Page({
             const msgList = [];
 
             data.list.forEach((item, index) => {
-              let phone = '', obj = {};
+              let phone = '',
+                obj = {};
               if (item.userName) {
                 phone = item.userName.substring(0, 3) + '****' + item.userName.substring(7, item.userName.length)
-              }else{
+              } else {
                 phone = item.userId
               }
-             
+
               obj.title = '恭喜' + phone + '获得' + item.orderItemOuts[0].goodsSkuName;
-              if(obj.title.length > 23) {
-                obj.title = obj.title.substring(0,23)+'...'
+              if (obj.title.length > 23) {
+                obj.title = obj.title.substring(0, 23) + '...'
               }
               obj.url = 'url'
               obj.id = item.id
@@ -84,7 +86,8 @@ Page({
             })
           }
         }
-      }, fail() {
+      },
+      fail() {
         wx.stopPullDownRefresh()
         wx.hideLoading()
       }
@@ -149,16 +152,20 @@ Page({
   },
   onShow: function () {
     let that = this;
-    getCurrentLocation(that).then( (res)=>{
-      that.setData({ currentCity:res })
+    getCurrentLocation(that).then((res) => {
+      console.log("res:",res)
+      that.setData({
+        currentCity: res
+      })
     })
     this.setData({
       isshowlocation: false
     })
-    if(!app.globalData.token) {
-      getToken(app).then( ()=>{
+    if (!app.globalData.token) {
+      getToken(app).then(() => {
         //调接口
-        that.createUser();
+        // that.createUser();
+        that.addlotteryNum();
         that.getUserNum();
         that.getwinningList()
         if (!that.data.prizeList.length) {
@@ -166,9 +173,11 @@ Page({
             title: '加载中...',
           })
           that.getData();
+          that.getDesc();
         }
       })
-    }else{
+    } else {
+      that.addlotteryNum();
       that.getUserNum();
       that.getwinningList()
       if (!that.data.prizeList.length) {
@@ -176,11 +185,45 @@ Page({
           title: '加载中...',
         })
         that.getData();
+        that.getDesc();
       }
     }
 
   },
-  openSetting() {//打开授权设置界面
+  addlotteryNum: function () {
+    let that = this;
+    let shareId = that.data.shareId ? that.data.shareId : '';
+    let newcomer = wx.getStorageSync("newcomer");
+    if (newcomer == '1' && shareId) {
+      wx.request({
+        url: that.data._build_url + 'actLottery/add?userId=' + shareId,
+        method: 'post',
+        header: {
+          "Authorization": app.globalData.token
+        },
+        success: function (res) {
+          if (res.data.code == '0' && res.data.data) {
+            wx.setStorageSync("newcomer", '3');
+            // wx.showModal({
+            //   title: '提示',
+            //   confirmText: '前往签到',
+            //   content: '签到获取抽奖次数',
+            //   success(res) {
+            //     if (res.confirm) {
+            //       wx.navigateTo({
+            //         url: '/packageC/pages/checkin/checkin',
+            //       })
+            //     } else if (res.cancel) {
+            //     }
+            //   }
+            // })
+          }
+        }
+      })
+
+    }
+  },
+  openSetting() { //打开授权设置界面
     let that = this;
     that.setData({
       isshowlocation: false
@@ -212,7 +255,9 @@ Page({
           //   prize += res.data.data.list[i].name + '、'
           // }
           // prize = prize.substring(0, prize.length - 1);
-          that.setData({ prize: res.data.data.list })
+          that.setData({
+            prize: res.data.data.list
+          })
         }
       },
       fail() {
@@ -224,7 +269,7 @@ Page({
   getUserNum() {
     let that = this;
     wx.request({
-      url: that.data._build_url + 'actLottery/get?actId=45',
+      url: that.data._build_url + 'actLottery/get?actId=46',
       method: 'get',
       header: {
         "Authorization": app.globalData.token
@@ -254,7 +299,7 @@ Page({
   getData() {
     let that = this;
     wx.request({
-      url: that.data._build_url + 'actGoodsSku/getSpuList?actId=42',
+      url: that.data._build_url + 'actGoodsSku/getSpuList?actId=46',
       method: 'get',
       header: {
         "Authorization": app.globalData.token
@@ -264,12 +309,45 @@ Page({
           wx.hideLoading()
           let data = res.data.data
           that.computed(data)
-          let arr = '';
-          arr = data[0].actInfo.actDesc.split(',');
-          that.setData({
-            regulation:arr
-          })
+          // let arr = '';
+          // arr = data[0].actInfo.actDesc.split('[]');
+          // that.setData({
+          //   regulation: arr
+          // })
 
+        } else {
+          wx.hideLoading()
+          wx.showToast({
+            title: '加载数据失败，请重新进入',
+            icon: 'none'
+          })
+        }
+      },
+      fail() {
+        wx.hideLoading()
+        wx.showToast({
+          title: '服务器繁忙，请重新进入',
+          icon: 'none'
+        })
+      }
+    })
+  },
+  getDesc(){
+    let that = this;
+    wx.request({
+      url: that.data._build_url + 'act/get/47',
+      method: 'get',
+      header: {
+        "Authorization": app.globalData.token
+      },
+      success: function (res) {
+        if (res.data.code == '0' && res.data.data.id) {
+          let data = res.data.data,arr =[];
+          arr = data.actDesc.split('[]');
+          // arr = _str.split('[]');
+          that.setData({
+            regulation: arr
+          })
         } else {
           wx.hideLoading()
           wx.showToast({
@@ -326,17 +404,19 @@ Page({
     let userData = that.data.lotteryData;
     if (!that.data.currentCity) {
       getCurrentLocation(that).then((res) => {
-        that.setData({ currentCity: res })
+        that.setData({
+          currentCity: res
+        })
         that.drawBtn();
       })
-      
+
       return false
     }
     if (!gameFlag) { //游戏正在运行中
       return false
     }
 
-    if (!userData || userData.totalNumber < 1  ) {
+    if (!userData || userData.totalNumber < 1) {
       wx.showToast({
         title: '抽奖次数不足!',
         icon: 'none'
@@ -356,9 +436,9 @@ Page({
   },
   sendGamerequest() {
     let that = this;
-    let url = encodeURI(that.data._build_url + 'actGoodsSku/zoneLottery?actId=42&city=' + that.data.currentCity);
+    let url = encodeURI(that.data._build_url + 'actGoodsSku/aloneLottery?actId=46');
     wx.request({
-      url: url ,
+      url: url,
       method: 'post',
       header: {
         "Authorization": app.globalData.token
@@ -433,7 +513,7 @@ Page({
       frameClass1: "z2 back",
       frameClass2: "z1 front",
     })
-    if (_this.data.winning.skuId == '8053') {//谢谢参与
+    if (_this.data.winning.skuId == '8053') { //谢谢参与
       wx.showToast({
         title: '谢谢参与，请再接再厉',
         icon: 'none'
@@ -445,12 +525,12 @@ Page({
       wx.showModal({
         title: '恭喜',
         confirmText: '立即查看',
-        content: _this.data.winning.goodsSkuOut[0].skuName,
+        content: _this.data.winning.goodsSkuOut[0].skuName+'，已存入余额',
         success(res) {
           if (res.confirm) {
             gameFlag = true
             wx.navigateTo({
-              url: '/packageB/pages/wanda/wandaActivity/myGift/myGift',
+              url: '/pages/personal-center/wallet/wallet',
             })
           } else if (res.cancel) {
             gameFlag = true
@@ -472,61 +552,52 @@ Page({
       })
     }
   },
-  //跳转至首页
-  toIndex() {
-    wx.switchTab({
-      url: '/pages/index/index'
-    })
-  },
-
-  share() { //分享
-    if (!app.globalData.userInfo.mobile) {
-      this.closetel();
-    } else {
-      //调接口
-
-      return
-      if (this.data.isInvite) {
-        this.onShareAppMessage();
-      } else {
-      }
-    }
-  },
   //分享给好友
   onShareAppMessage: function () { //分享给好友帮忙砍价
     return {
-      title: '幸运九宫格，人人有机会!',
-      imageUrl: 'https://xqmp4-1256079679.file.myqcloud.com/15927505686_choujiang.jpg',
-      path: '/pages/activityDetails/holdingActivity/holdingActivity?shareId=1',
+      title: '抽奖赢现金',
+      imageUrl: 'https://xqmp4-1256079679.file.myqcloud.com/15927505686_1550131862_b0b717347ad81160558a398ec89f1a7.jpg',
+      path: '/packageC/pages/xiangqiLottery/xiangqiLottery?shareId=' + app.globalData.userInfo.userId,
       success: function (res) { },
       fail: function (res) { }
     }
   },
   toIndex() { //跳转至首页
     wx.switchTab({
-      url: '../../index/index'
+      url: '/pages/index/index'
     })
   },
-  myGift() {    //跳转至我的奖品
+  tomyGift() { //跳转至我的奖品
     wx.navigateTo({
-      url: '/packageB/pages/wanda/wandaActivity/myGift/myGift'
+      url: '/packageC/pages/xiangqiLottery/myGift/myGift'
     })
   },
- 
+
   onPullDownRefresh: function () {
     let that = this;
-    that.createUser()
+     that.getUserNum()
     that.getwinningList()
     if (!that.data.prizeList.length) {
       wx.showLoading({
         title: '加载中...',
       })
       that.getData();
+      that.getDesc();
     }
   },
- 
- 
+  toTicket: function () {
+    wx.switchTab({
+      url: '/pages/personal-center/my-discount/my-discount',
+    })
+  },
+  toCheckin: function () {
+    wx.navigateTo({
+      url: '/packageC/pages/checkin/checkin',
+    })
+  },
+
 })
+
 function myFunction(begin, end) {
   var num = Math.round(Math.random() * (end - begin) + begin);
   return num;

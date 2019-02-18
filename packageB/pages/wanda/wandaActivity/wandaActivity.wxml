@@ -22,12 +22,9 @@
   <view class="modalDlg" wx:if="{{instruct}}">
     <view class='windows_tishi'>———— 规则说明 ————</view>
     <view class='windows_text'>
-      <text>{{actDesc}}</text>
+      <view wx:for="{{actDesc}}" wx:key="index">{{item}}</view>
     </view>
   </view>
-
-
-
 
   <image class="banner_img skeleton-rect" src="{{mainPic}}"></image>
   <view class="act_contain">

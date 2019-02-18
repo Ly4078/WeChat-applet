@@ -17,9 +17,9 @@
 <image class="indexIcon" src="/images/icon/goindex.png" bindtap='toIndex' wx:if="{{shareId}}"></image>
 
 <view class='holdingWrap'>
-  <image class="holdBanner" src="https://xqmp4-1256079679.file.myqcloud.com/15927505686_1d76e921a072401b452a0025de56609.jpg"></image>
+  <image class="holdBanner" src="https://xqmp4-1256079679.file.myqcloud.com/15927505686_1550044965_a82ae6714a7388cf806c31003166ea2.jpg"></image>
   <view class="lotteryBox">
-    <image class="lotteryBg" src="/images/icon/lottery.png"></image>
+    <image class="lotteryBg" src="https://xqmp4-1256079679.file.myqcloud.com/15927505686_1550044874_3d62f26f62d70a1f7c0808e31963b3f.png"></image>
     <view class="lotteryCont">
       <swiper wx:if="{{msgList.length}}" class="swiper_container" vertical="true" autoplay="true" circular="true" interval="2000">
         <block wx:for="{{msgList}}" wx:key="{{index}}">
@@ -41,10 +41,9 @@
             <block wx:for="{{prizeList}}" wx:key="index">
               <view class="ticketLiBox" wx:if="{{index != 4}}" data-index="{{index}}">
                 <view class="ticketLi {{turnIdx == sortArr[index] && Countdown == 0 ? frameClass2 : ''}}">
-                  <view class="orange">
-
-                    <image wx:if="{{winning.goodsSkuOut[0].skuPic}}" mode='aspectFill' style='width:170rpx;height:170rpx;border-radius:15rpx;' src="{{winning.goodsSkuOut[0].skuPic}}"></image>
-                    <text wx:else class="">{{winning.goodsSkuOut[0].skuName}}</text>
+                  <view class="orange" style="display:flex;flex-direction:column;">
+                    <image  mode='aspectFill' style='width:93rpx;height:98rpx;border-radius:15rpx;' src="https://xqmp4-1256079679.file.myqcloud.com/15927505686_1550213288_0deb9ccf65974a90ef89eebb4aa3b57.png"></image>
+                    <text  style="padding:5prx;font-size:26rpx;color:#F9434C;" class="">{{winning.goodsSkuOut[0].skuName}}</text>
                   </view>
                 </view>
                 <view class="reverse {{turnIdx == sortArr[index] && Countdown == 0 ? frameClass1 : ''}}">
@@ -72,15 +71,65 @@
           <text>{{lotteryData.totalNumber || '0'}}</text>次
         </view>
         <!-- <view  class="bot_txt_r"><button open-type='share'>邀请好友</button></view> -->
-        <view class="bot_txt_r" bindtap='myGift'>
+        <view class="bot_txt_r" bindtap='tomyGift'>
           <button>我的奖品</button>
         </view>
       </view>
     </view>
   </view>
+  <view class="missionContent">
+    <view class="title">获得更多抽奖次数</view>
+
+    <view class="missionBox">
+        <view class="missionItem">
+          <image class="iconImg" src="../../images/07b6ca370bddc74f5daeb41f6cacc09.png"></image>
+          <view class="ruleContent">
+              <view class="ruleBox">
+                  <view   class="title">
+                    <text>使用券票</text>
+                    <text style="color:#FC5E2D;font-weight:400;">+1</text>
+                  </view>
+                  <text class="subtitle">使用券票后获得1次抽奖</text>
+              </view>
+              <button class="complete" catchtap='toTicket'>去完成</button>
+          </view>
+        </view>
+
+         <view class="missionItem">
+          <image class="iconImg" src="../../images/d0d65424260210f87778509b55d1950.png"></image>
+          <view class="ruleContent">
+              <view class="ruleBox">
+                  <view   class="title">
+                    <text>每日签到</text>
+                    <text style="color:#FC5E2D;font-weight:400;">+1</text>
+                  </view>
+                  <text class="subtitle">每日签到可获得1次抽奖</text>
+              </view>
+              <button class="complete" catchtap='toCheckin'>去签到</button>
+          </view>
+        </view>
+
+         <view class="missionItem">
+          <image class="iconImg" src="../../images/137da3d339afb0b635bca61ec5af376.png"></image>
+          <view class="ruleContent">
+              <view class="ruleBox">
+                  <view   class="title">
+                    <text>邀请好友</text>
+                    <text style="color:#FC5E2D;font-weight:400;">+1</text>
+                  </view>
+                  <text class="subtitle">每邀请1位好友注册各获得1次抽奖</text>
+              </view>
+              <button open-type='share' class="complete">去邀请</button>
+          </view>
+        </view>
+    
+    
+    </view>
+  
+  </view>
   <view class="activity_rule">
-    <view class="rule_tit"> ——— 奖品设置 ———</view>
-    <view class="rule_cont" wx:for="{{prize}}" wx:key="{{index}}">{{(index+1)+'.'+item.name}}</view>
+    <view class="rule_tit" wx:if="{{prize.length}}"> ——— 奖品设置 ———</view>
+    <view class="rule_cont" wx:for="{{prize}}" wx:key="{{index}}">{{(index+1)+'.'+item.name}}   </view>
     <view class="rule_tit"> ——— 使用规则 ———</view>
     <view class="rule_cont" wx:for="{{regulation}}" wx:key="{{index}}">{{item}}</view>
   </view>

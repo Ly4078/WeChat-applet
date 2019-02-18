@@ -120,6 +120,16 @@
         "pages/wanda/wandaActivity/myGift/myGift",
         "pages/wanda/shopZone/shopZone"
       ]
+    },
+    {
+      "root": "packageC",
+      "name": "pack3",
+      "pages": [
+        "pages/checkin/checkin",
+        "pages/xiangqiLottery/xiangqiLottery",
+        "pages/xiangqiLottery/myGift/myGift"
+        
+      ]
     }
   ],
   "preloadRule": {

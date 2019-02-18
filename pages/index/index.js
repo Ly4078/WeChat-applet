@@ -63,6 +63,12 @@ Page({
     this.setData({ showwandaactivity: false });
     wx.setStorageSync('hideWanda', '2');
   },
+  
+  tocheckin: function() {
+    wx.navigateTo({
+      url: '/packageC/pages/checkin/checkin',
+    })
+  },
   togrourp: function () {
     wx.navigateTo({
       url: '/packageA/pages/redBagIndex/index',
@@ -98,7 +104,7 @@ Page({
   },
   getfptt: function () {
     wx.navigateTo({
-      url: '/packageA/pages/redBagIndex/redbagDetail/index',
+      url: '/packageC/pages/xiangqiLottery/xiangqiLottery',
     })
   },
   onLoad: function (options) {

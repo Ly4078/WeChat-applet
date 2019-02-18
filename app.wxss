@@ -943,14 +943,14 @@ button::after {
   line-height: 80rpx;
   text-align: center;
   color: #555;
-  font-size: 24rpx;
+  font-size: 30rpx;
 }
 
 .windows_text {
   overflow-y: auto;
   width: 100%;
   color: #555;
-  font-size: 24rpx;
+  font-size: 28rpx;
   padding: 0 20rpx 0 30rpx;
   box-sizing: border-box;
 }

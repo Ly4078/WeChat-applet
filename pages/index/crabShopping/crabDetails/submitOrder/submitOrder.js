@@ -354,10 +354,12 @@ Page({
     Api.superMarketDetail(_parms).then((res) => {
       if (res.data.code == 0) {
         let data = res.data.data;
-        this.setData({
-          storeName: data.salepointName,
-          address: data.address
-        });
+        if(data){
+          this.setData({
+            storeName: data.salepointName ? data.salepointName : '',
+            address: data.address
+          });
+        }
       }
     })
   },
@@ -519,13 +521,14 @@ Page({
       }
     } else if (this.data.issku == 2) {    //现金券
       if (!payrequest) {
+        console.log('支付阻断')
         return false;
       }
 
       let _parms = {},
         that = this;
       _parms = {
-        shopId: '0',
+        shopId: this.data.shopId ? this.data.shopId : '0',
         payType: 2,
         flagType: this.data.flag,
         singleType: this.data.singleType,
@@ -533,8 +536,8 @@ Page({
           goodsSkuId: this.data.id,
           // goodsSpuId: this.data.spuId,
           goodsNum: this.data.ssnum,
-          shopId: '0',
-          orderItemShopId: '0'
+          shopId: this.data.shopId ? this.data.shopId : '0',
+          orderItemShopId: this.data.shopId ? this.data.shopId : '0'
         }]
       };
       if (that.data.paytype == '2') {//选择余额支付
@@ -545,6 +548,7 @@ Page({
             title: '余额不足',
             icon: 'none'
           })
+          payrequest = true;
           return false
         }
       }
@@ -624,7 +628,7 @@ Page({
     let _parms = {},
       that = this;
     _parms = {
-      shopId: this.data.shopId,
+      shopId: this.data.shopId ? this.data.shopId : '0',
       payType: 2,
       flagType: this.data.flag,
       singleType: this.data.singleType,
@@ -632,8 +636,8 @@ Page({
         goodsSkuId: this.data.id,
         goodsSpuId: this.data.spuId,
         goodsNum: this.data.ssnum,
-        shopId: this.data.shopId,
-        orderItemShopId: '0'
+        shopId: this.data.shopId ? this.data.shopId : '0',
+        orderItemShopId: this.data.shopId ? this.data.shopId:'0'
       }]
     };
     if (that.data.paytype == '2') {//选择余额支付
@@ -669,6 +673,7 @@ Page({
     if (this.data.actId) {
       _parms.actId = this.data.actId;
     }
+    console.log("parms:", _parms)
     wx.request({
       url: that.data._build_url + 'orderInfo/createv1',
       data: JSON.stringify(_parms),
@@ -729,10 +734,10 @@ Page({
     if (!payrequest) {
       return false
     }
-    payrequest = false
+    
     let that = this;
     let _parms = {
-      shopId: this.data.shopId,
+      shopId: this.data.shopId ? this.data.shopId : '0',
       payType: 2,
       sendType: 2, //到店自提
       // salepointId: this.data.salepointId, //到店自提销售点id
@@ -741,9 +746,9 @@ Page({
       orderItemList: [{
         goodsSkuId: this.data.id,
         goodsSpuId: this.data.spuId,
-        goodsNum: this.data.num,
-        shopId: this.data.shopId,
-        orderItemShopId: '0',
+        goodsNum: this.data.ssnum,
+        shopId: this.data.shopId ? this.data.shopId : '0',
+        orderItemShopId: this.data.shopId ? this.data.shopId : '0',
         remark: this.data.remarks
       }]
     };
@@ -758,6 +763,10 @@ Page({
         return false
       }
     }
+    wx.showLoading({
+      title: '加载中...',
+    })
+    payrequest = false
     wx.request({
       url: that.data._build_url + 'orderInfo/createv1',
       data: JSON.stringify(_parms),
@@ -812,6 +821,7 @@ Page({
       })
     } else {
       if (!payrequest) {
+        console.log('支付阻断')
         return false;
       }
       if (this.data.actaddress.id || this.data.isvoucher || this.data.current.spuId == 3) {
@@ -819,18 +829,19 @@ Page({
           token: app.globalData.token,
           // userId: app.globalData.userInfo.userId,
           // userName: app.globalData.userInfo.userName,
-          shopId: this.data.shopId,
+          shopId: this.data.shopId ? this.data.shopId : '0',
           payType: 2,
           sendType: 1, //非自提
           orderItemList: [{
             goodsSkuId: this.data.id,
             goodsSpuId: this.data.spuId,
-            goodsNum: this.data.num,
-            shopId: this.data.shopId,
-            orderItemShopId: '0',
+            goodsNum: this.data.ssnum,
+            shopId: this.data.shopId ? this.data.shopId : '0',
+            orderItemShopId: this.data.shopId ? this.data.shopId : '0',
             remark: this.data.remarks
           }]
         };
+        console.log("_parms_parms:", _parms)
         if (this.data.current.spuId != 3) {
           _parms.orderAddressId = this.data.actaddress.id,
             _parms.sendTime = this.data.date
@@ -843,6 +854,7 @@ Page({
               title: '余额不足',
               icon: 'none'
             })
+            payrequest = true;
             return false
           }
         }

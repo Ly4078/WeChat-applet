@@ -815,7 +815,8 @@ Page({
       }
     }
     wx.navigateTo({
-      url: '../voucher-details/voucher-details?id=' + id + "&sell=" + _sell + "&inp=" + _inp + "&rule=" + _rule,
+      url: '../voucher-details/voucher-details?id=' + id + "&sell=" + _sell + "&inp=" + _inp + "&rule=" + _rule + '&shopId=' + this.data.shopid + '&actId=' + this.data.actId + '&skuId=' + this.data.listagio.id
+,
     })
   },
   //查看推荐菜详情

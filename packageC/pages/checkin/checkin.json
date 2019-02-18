@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "签到-抽现金红包",
+  "usingComponents": {
+    "i-spin": "/dist/spin/index",
+    "skeleton": "/components/skeleton/skeleton",
+    "image-loader": "/components/image-loader"
+  }
+}

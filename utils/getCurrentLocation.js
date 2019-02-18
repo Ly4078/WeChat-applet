@@ -27,8 +27,7 @@ var getCurrentLocation = function (that) {
   })
 }
 var getCurrentCity = function (lat, lng, resolve) {
-  app.globalData.userInfo.lat = lat;
-  app.globalData.userInfo.lng = lng;
+ 
   wx.request({
     url: 'https://apis.map.qq.com/ws/geocoder/v1/?location=' + lat + "," + lng + "&key=4YFBZ-K7JH6-OYOS4-EIJ27-K473E-EUBV7",
     header: {
@@ -44,8 +43,11 @@ var getCurrentCity = function (lat, lng, resolve) {
         }
         app.globalData.oldcity = app.globalData.userInfo.city;
         app.globalData.picker = res.data.result.address_component;
+        app.globalData.userInfo.lat = lat;
+        app.globalData.userInfo.lng = lng;
         let userInfo = app.globalData.userInfo;
         wx.setStorageSync('userInfo', userInfo);
+        
         return resolve(app.globalData.userInfo.city);
       }
     }, fail() {
@@ -54,5 +56,4 @@ var getCurrentCity = function (lat, lng, resolve) {
   })
 
 }
-
 module.exports = getCurrentLocation

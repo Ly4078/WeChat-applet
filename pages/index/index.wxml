@@ -4,8 +4,8 @@
 <skeleton selector="skeleton" loading="spin" bgcolor="#FFF" wx:if="{{showSkeleton}}"></skeleton>
 <!-- <button catchtap='toWanda'>武商 快捷入口</button> -->
 <!-- <button catchtap='toWandaCai'>万达专区 快捷入口</button> -->
-<!-- <button catchtap='togrourp'>购买红包</button> -->
-<!-- <button catchtap='getfptt'>红包快捷</button> -->
+<!-- <button catchtap='tocheckin'>签到 快捷入口</button> -->
+<!-- <button catchtap='getfptt'>享7公共抽奖 快捷入口</button> -->
 <view class="container">
   <!--顶部 定位 搜索 卷  -->
   <!-- 头部搜索 after  -->
@@ -39,24 +39,27 @@
     </view>
   </view>
   <!-- 导航nav_one -->
-  <view class='indexNavOne ' wx:if="{{!navsNewYear.length}}">
-    <view wx:for="{{navs}}" wx:if="{{!item.hide && item.title !='短视频'}}" hover-class='listhover' hover-stay-time="200" wx:key="index" data-url="{{item.linkUrl}}" class='navitem' id="{{item.id}}" data-msg="{{item.title=='酒店'?'商家正在入驻中...':''}}" bindtap='toLink'>
-      <image class="img{{index+1}} skeleton-radius" src='{{item.imgUrl}}'></image>
-      <text class="navitem_txt skeleton-rect">{{item.title}}</text>
-    </view>
-  </view>
-
-  <view class="navsNewYear"  wx:if="{{navsNewYear.length}}">
+  <view style="background:#fff;" wx:if="{{!navsNewYear.length}}">
     <image catchtap='togrourp' wx:if="{{!showSkeleton && showRebbag}}" class="redbagImg" src="https://xqmp4-1256079679.file.myqcloud.com/15927505686_redbag.gif"></image>
-    <view class='indexNavOne ' style="background:none;">
+    <view class='indexNavOne ' >
 
-      <view wx:for="{{navsNewYear}}" wx:if="{{!item.hide && item.title !='短视频'}}"  wx:key="index" data-url="{{item.linkUrl}}" class='navitem' id="{{item.id}}" data-msg="{{item.title=='酒店'?'商家正在入驻中...':item.msg}}" bindtap='toLink'>
+      <view wx:for="{{navs}}" wx:if="{{item.title !='短视频'}}" hover-class='listhover' hover-stay-time="200" wx:key="index" data-url="{{item.linkUrl}}" class='navitem' id="{{item.id}}" data-msg="{{item.title=='酒店'?'商家正在入驻中...':''}}" bindtap='toLink'>
         <image class="img{{index+1}} skeleton-radius" src='{{item.imgUrl}}'></image>
         <text class="navitem_txt skeleton-rect">{{item.title}}</text>
       </view>
     </view>
+  </view>
 
 
+  <view class="navsNewYear" wx:if="{{navsNewYear.length}}">
+    <image catchtap='togrourp' wx:if="{{!showSkeleton && showRebbag2}}" class="redbagImg" src="https://xqmp4-1256079679.file.myqcloud.com/15927505686_redbag.gif"></image>
+    <view class='indexNavOne ' style="background:none;">
+
+      <view wx:for="{{navsNewYear}}" wx:if="{{!item.hide && item.title !='短视频'}}" wx:key="index" data-url="{{item.linkUrl}}" class='navitem' id="{{item.id}}" data-msg="{{item.title=='酒店'?'商家正在入驻中...':item.msg}}" bindtap='toLink'>
+        <image class="img{{index+1}} skeleton-radius" src='{{item.imgUrl}}'></image>
+        <text class="navitem_txt skeleton-rect">{{item.title}}</text>
+      </view>
+    </view>
   </view>
 
   <!-- 活动列表 -->
@@ -84,7 +87,7 @@
         <image mode='aspectFill' data-msg="{{fresh2.msg?fresh2.msg:''}}" class="skeleton-rect" data-url="{{fresh2.linkUrl}}" catchtap='toLink' src="{{fresh2.imgUrl}}"></image>
       </view>
       <view class="tripleItem-list skeleton-rect">
-        <image mode='aspectFill' data-msg="{{fresh3.msg?fresh3.msg:''}}"  class="skeleton-rect" data-url="{{fresh3.linkUrl}}" catchtap='toLink' src="{{fresh3.imgUrl}}"></image>
+        <image mode='aspectFill' data-msg="{{fresh3.msg?fresh3.msg:''}}" class="skeleton-rect" data-url="{{fresh3.linkUrl}}" catchtap='toLink' src="{{fresh3.imgUrl}}"></image>
       </view>
     </view>
   </view>
@@ -265,10 +268,10 @@
 
 
 
-<view class="wandaactivity" wx:if="{{showwandaactivity}}">
+<!-- <view class="wandaactivity" wx:if="{{showwandaactivity}}">
   <view class="activityshadow"></view>
   <view class="activityContent">
     <image src="https://xqmp4-1256079679.file.myqcloud.com/15927505686_wandanew.gif" catchtap='linkTowanda'></image>
     <icon catchtap='hidewandaactivity' type="cancel" size="32" style="text-align:center;margin-top:30rpx;" color="#fff"></icon>
   </view>
-</view>
+</view> -->

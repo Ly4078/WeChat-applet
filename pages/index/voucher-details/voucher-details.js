@@ -10,16 +10,20 @@ Page({
     obj:{},
     orig:'',
     cfrom:'',
+    spshopId:'',
     shidian:false
   },
   onLoad: function (options) {
     console.log("options:", options)
-    if (options.actId) {
+    // if (options.actId) {
       this.setData({
         actId: options.actId,
         shopId: options.shopId,
         skuId: options.skuId
       });
+    // }
+    if(options.id){
+      this.getspinfo(options.id)
     }
     if (options.shidian){
       this.setData({
@@ -50,6 +54,25 @@ Page({
       }
     }
   },
+  getspinfo(_id){
+    let that=this;
+    let url = that.data._build_url + 'goodsSku/selectDetailBySkuIdNew?id=' +_id;
+    wx.request({
+      url: url,
+      header: {
+        "Authorization": app.globalData.token
+      },
+      method: 'GET',
+      success: function (res) {
+        console.log("fdsafaf:",res)
+        if(res.data.code ==0){
+          that.setData({
+            spshopId: res.data.data.shopId
+          })
+        }
+      }
+    })
+  },
   formSubmit:function(e){
     let data = this.data.obj, parameter = '',_formId = e.detail.formId;
     Public.addFormIdCache(_formId); 
@@ -65,7 +88,7 @@ Page({
     console.log(this.data.shopId)
     wx.navigateTo({
       // url: '/pages/index/crabShopping/crabDetails/submitOrder/submitOrder?' + parameter
-      url: '/pages/index/crabShopping/crabDetails/submitOrder/submitOrder?num=1&issku=2&flag=1&&sellPrice=' + data.sell + '&id=' + data.id + '&skuName=' + data.inp+'元现金劵&shopId=' + this.data.shopId + '&singleType=1&cfom=candy'
+      url: '/pages/index/crabShopping/crabDetails/submitOrder/submitOrder?num=1&issku=2&flag=1&&sellPrice=' + data.sell + '&id=' + data.id + '&skuName=' + data.inp + '元现金劵&shopId=' + this.data.spshopId + '&singleType=1&cfom=candy'
     })
   }
   // auto: function () {
