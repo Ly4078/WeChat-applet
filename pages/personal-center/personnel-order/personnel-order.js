@@ -1,34 +1,47 @@
 import Api from '../../../utils/config/api.js';
+import {
+  GLOBAL_API_DOMAIN
+} from '../../../utils/config/config.js';
+var utils = require('../../../utils/util.js');
+import getToken from '../../../utils/getToken.js';
+import getCurrentLocation from '../../../utils/getCurrentLocation.js';
 var app = getApp();
-var requestTask = [false,false,false];
+var requestTask = [false, false, false];
+var dishrequestflag = false;
 let timer = null;
 Page({
   data: {
+    _build_url: GLOBAL_API_DOMAIN,
     showSkeleton: true,
     order_list: [],
+    dishList: [],
     page: 1,
-    orpage:1,
-    toView:'',
+    orpage: 1,
+    dishPage: 1,
+    total: 1,
+    ortotal: [0, 0, 0, 0, 0],
+    dishTotal: 1,
+    tipisShow: false,
+    toView: '',
     reFresh: true,
     completed: true,
     isfirst: false,
     currentTab: '', // 1待支付 2 已支付 3已核销 10取消, 订单状态 1待支付 2 已支付 3已核销 10取消
     shoporderlist: [],
-    logisticsList:[],//物流订单列表
-    navbar: ['实物订单','票劵订单',],
+    logisticsList: [], //物流订单列表
+    navbar: ['实物订单', '票劵订单', ],
     shopping: 0,
-    lostr:0,
-    commoditys:[
-      {
-        title:'全部订单',
-        id:''
+    lostr: 0,
+    commoditys: [{
+        title: '全部订单',
+        id: ''
       },
       {
         title: '待付款',
         id: '1'
-      // }, {
-      //   title: '待收货',
-      //   id: '2'
+        // }, {
+        //   title: '待收货',
+        //   id: '2'
       }, {
         title: '已完成',
         id: '3'
@@ -38,24 +51,23 @@ Page({
       }, {
         title: '退款',
         id: '4',
-        toview:'tuikuan'
+        toview: 'tuikuan'
       }
     ],
-    logId:'',
-    elephant: 0
+    logId: '',
+    elephant: 0,
+    actId: 41
   },
-  onLoad: function (options) {
-    
+  onLoad: function(options) {
     let that = this;
-    setTimeout(() => {
-      that.setData({
-        showSkeleton: false
-      })
-    }, 5000)
-    // console.log("options:", options)
+    // setTimeout(() => {
+    //   that.setData({
+    //     showSkeleton: false
+    //   })
+    // }, 5000)
     this.setData({
-      elephant: options.elephant,
-      toView: options.toview ? options.toview:''
+      elephant: options.elephant ? options.elephant : 0,
+      toView: options.toview ? options.toview : ''
     })
     // if (options.toview){
     //   wx.setNavigationBarTitle({
@@ -68,18 +80,37 @@ Page({
       this.getOrderList();
       this.getshopOrderList();
     }
+    if (!app.globalData.token) { //获取token
+      getToken(app).then(() => {
+        if (app.globalData.userInfo.lat && app.globalData.userInfo.lng && app.globalData.userInfo.city) {
+          if (that.data.dishList.length <= 0) {
+            that.hotDishList(); //砍价菜精选推荐列表
+          }
+        } else {
+          getCurrentLocation(that).then((res) => {
+            if (that.data.dishList.length <= 0) {
+              that.hotDishList();
+            }
+          })
+        }
+      })
+    } else {
+      if (that.data.dishList.length <= 0) {
+        that.hotDishList();
+      }
+    }
   },
-  onShow: function () {
+  onShow: function() {
     // this.getOrderList();
     // this.getshopOrderList();
     // this.getlogisticsList(this.data.lostr);
     // this.setData({
     //   elephant:0
     // })
-    
+
   },
-  onHide: function () {
-    requestTask = [false,false,false]
+  onHide: function() {
+    requestTask = [false, false, false]
     wx.hideLoading();
     this.setData({
       order_list: [],
@@ -94,8 +125,8 @@ Page({
     wx.hideLoading();
   },
   //切换票券订单tab
-  clickTab: function (event) {
-    if (requestTask[1] && requestTask[2]){
+  clickTab: function(event) {
+    if (requestTask[1] && requestTask[2]) {
       return
     }
     wx.showLoading({
@@ -114,7 +145,7 @@ Page({
       this.getshopOrderList(2);
     }
   },
-  navbarTap: function (e) { //顶部第一级tab栏
+  navbarTap: function(e) { //顶部第一级tab栏
     wx.showLoading({
       title: '加载中...'
     })
@@ -124,14 +155,13 @@ Page({
       shopping: e.currentTarget.dataset.idx
     })
     if (this.data.shopping == 0) {
-      if (requestTask[0]){
+      if (requestTask[0]) {
         return
       }
-      this.setData({
-      },()=>{
-        this.getlogisticsList(this.data.logId,'reset');
+      this.setData({}, () => {
+        this.getlogisticsList(this.data.logId, 'reset');
       })
-      
+
     } else if (this.data.shopping == 1) {
       if (requestTask[1] && requestTask[2]) {
         return
@@ -144,10 +174,10 @@ Page({
       this.getshopOrderList();
     }
   },
-  onPageScroll: function (e) {
+  onPageScroll: function(e) {
     let that = this;
     let commoditys = that.data.commoditys;
-    let index = that.data.elephant ? that.data.elephant:0
+    let index = that.data.elephant ? that.data.elephant : 0
     commoditys[index].scrollTop = e.scrollTop;
     if (timer) {
       clearTimeout(timer)
@@ -160,10 +190,13 @@ Page({
     }, 200)
 
   },
-  distributionmag: function (e) { //物流订单tab
-  let that = this;
-    if (requestTask[0]){
+  distributionmag: function(e) { //物流订单tab
+    let that = this;
+    if (requestTask[0]) {
       return
+    }
+    if (dishrequestflag) {
+      return false;
     }
     let id = e.currentTarget.dataset.subid;
     this.setData({
@@ -176,10 +209,21 @@ Page({
     for (let i = 0; i < commoditys.length; i++) {
       if (that.data.elephant == i) {
         if (commoditys[i].data && commoditys[i].data.length) {
+          let listLength = this.data.commoditys[this.data.elephant].data.length,
+            total = this.data.ortotal[this.data.elephant];
+          if (listLength >= total) {
+            this.setData({
+              tipisShow: true
+            });
+          } else {
+            this.setData({
+              tipisShow: false
+            });
+          }
           that.setData({
             logisticsList: commoditys[i].data,
-            orpage: commoditys[i].page,
-            total: commoditys[i].total
+            orpage: commoditys[i].page
+            // total: commoditys[i].total
           })
           wx.pageScrollTo({
             scrollTop: commoditys[i].scrollTop ? commoditys[i].scrollTop : 0,
@@ -198,40 +242,43 @@ Page({
       }
     }
 
-    
+
   },
   // 查询物流订单列表
-  getlogisticsList:function(val,types){
+  getlogisticsList: function(val, types) {
     let that = this;
     let _parms = {
       // userId: app.globalData.userInfo.userId,
-      row:10,
+      row: 10,
       page: this.data.orpage,
       token: app.globalData.token
     };
     if (val) {
-      if (this.data.elephant ==4){
-        _parms.otherStatus = val 
-      }else{
-        _parms.status = val 
+      if (this.data.elephant == 4) {
+        _parms.otherStatus = val
+      } else {
+        _parms.status = val
       }
-     
+
     }
-    if (!val && this.data.elephant !=0){
+    if (!val && this.data.elephant != 0) {
       if (this.data.elephant == 4) {
         _parms.otherStatus = this.data.commoditys[this.data.elephant].id
-      }else{
+      } else {
         _parms.status = this.data.commoditys[this.data.elephant].id
       }
-     
+
     }
     requestTask[0] = true;
-    Api.orderInfoList(_parms).then((res)=>{
-      
-      if(res.data.code == 0 ){
+    Api.orderInfoList(_parms).then((res) => {
+
+      if (res.data.code == 0) {
         // 1待付款  2待收货  3已完成 10取消，
-        let _list = res.data.data.list, logistics = [];
-        if (_list && _list.length>0){
+        let _list = res.data.data.list,
+          total = res.data.data.total,
+          logistics = [];
+        that.getPage(_parms.page, total, _parms.row);
+        if (_list && _list.length > 0) {
           for (let i = 0; i < _list.length; i++) {
             if (_list[i].status == 1) {
               _list[i].status2 = '待付款';
@@ -247,9 +294,9 @@ Page({
               _list[i].status2 = '已退款';
             }
             _list[i].realAmount = _list[i].realAmount.toFixed(2);
-            if (_list[i].orderItemOuts[0].unit == '只' || _list[i].orderItemOuts[0].unit == '斤'){
-              _list[i].units="散装";
-            } else if (_list[i].orderItemOuts[0].unit == '盒'){
+            if (_list[i].orderItemOuts[0].unit == '只' || _list[i].orderItemOuts[0].unit == '斤') {
+              _list[i].units = "散装";
+            } else if (_list[i].orderItemOuts[0].unit == '盒') {
               _list[i].units = "礼盒装";
             }
             logistics.push(_list[i]);
@@ -260,52 +307,63 @@ Page({
               commoditys[i].data = commoditys[i].data ? commoditys[i].data : [];
               commoditys[i].data = commoditys[i].data.concat(logistics);
               commoditys[i].page = that.data.page;
-              commoditys[i].total = Math.ceil(res.data.data.total / 10)
+              // commoditys[i].total = Math.ceil(total / _parms.row)
               that.setData({
                 commoditys: commoditys
               })
             }
           }
           let arr = [];
-          if(types == 'reset') {
+          if (types == 'reset') {
             arr = logistics;
-          }else{
-            let arrs = that.data.logisticsList.length ? that.data.logisticsList:[];
+          } else {
+            let arrs = that.data.logisticsList.length ? that.data.logisticsList : [];
             arr = arrs.concat(logistics)
           }
+          let ortotal = that.data.ortotal,
+            elephant = parseInt(that.data.elephant);
+          ortotal[elephant] = total;
           this.setData({
             logisticsList: arr,
-            total: Math.ceil(res.data.data.total / 10),
+            ortotal: ortotal,
             loading: false
-          },()=>{
+          }, () => {
             requestTask[0] = false;
             wx.hideLoading();
           });
-        }else{
-          if(types == 'reset') {
-            this.setData({ logisticsList:[]})
+        } else {
+          if (types == 'reset') {
+            this.setData({
+              logisticsList: []
+            })
           }
-          this.setData({loading: false})
+          this.setData({
+            loading: false
+          })
           requestTask[0] = false;
           wx.hideLoading();
         }
-        setTimeout(() => {
-          that.setData({
-            showSkeleton: false
-          })
-        }, 400)
-      }else{
-        this.setData({ loading: false })
+        // setTimeout(() => {
+        //   that.setData({
+        //     showSkeleton: false
+        //   })
+        // }, 400)
+      } else {
+        this.setData({
+          loading: false
+        })
         requestTask[0] = false;
         wx.hideLoading();
       }
-    },()=>{
-      this.setData({ loading: false })
+    }, () => {
+      this.setData({
+        loading: false
+      })
       requestTask[0] = false;
       wx.hideLoading();
     })
   },
-  getOrderList: function (types) { //获取平台订单列表
+  getOrderList: function(types) { //获取平台订单列表
     let that = this;
     let _parms = {
       userId: app.globalData.userInfo.userId,
@@ -315,24 +373,24 @@ Page({
       token: app.globalData.token
     };
     if (this.data.currentTab) {
-      if (this.data.currentTab ==4){
+      if (this.data.currentTab == 4) {
         _parms.otherStatus = this.data.currentTab,
           _parms.rows = 20
-      }else{
+      } else {
         _parms.soStatus = this.data.currentTab,
           _parms.rows = 20
       }
-      
+
     }
     if (this.data.currentTab == 1 || !this.data.currentTab) {
       _parms.rows = 20
     }
     requestTask[1] = true;
     Api.somyorder(_parms).then((res) => {
-      
+
       let data = res.data;
       if (data.code == 0 && data.data != null && data.data != "" && data.data != []) {
-        let order_list = types==2?[]:that.data.order_list;
+        let order_list = types == 2 ? [] : that.data.order_list;
         if (data.data.length && data.data.length > 0) {
           for (let i = 0; i < data.data.length; i++) {
             data.data[i].soAmount = data.data[i].soAmount.toFixed(2);
@@ -346,10 +404,11 @@ Page({
             }
           }
           that.setData({
+            // total: Math.ceil(res.data.data.total / _parms.rows),
             order_list: order_list,
             reFresh: true,
             loading: false
-          },()=>{
+          }, () => {
             requestTask[1] = false;
             wx.hideLoading();
           });
@@ -370,11 +429,11 @@ Page({
             this.getOrderList();
           }
         }
-        setTimeout(() => {
-          that.setData({
-            showSkeleton: false
-          })
-        }, 400)
+        // setTimeout(() => {
+        //   that.setData({
+        //     showSkeleton: false
+        //   })
+        // }, 400)
       } else {
         that.setData({
           reFresh: false,
@@ -383,7 +442,7 @@ Page({
         requestTask[1] = false;
         wx.hideLoading();
       }
-    },()=>{
+    }, () => {
       requestTask[1] = false;
       wx.hideLoading();
       this.setData({
@@ -408,15 +467,16 @@ Page({
             order_list.push(data.data[i]);
           }
           that.setData({
+            // total: Math.ceil(res.data.data.total / _parms.rows),
             order_list: order_list,
             completed: true,
             loading: false
           });
-          setTimeout(() => {
-            that.setData({
-              showSkeleton: false
-            })
-          }, 400)
+          // setTimeout(() => {
+          //   that.setData({
+          //     showSkeleton: false
+          //   })
+          // }, 400)
         } else {
           that.setData({
             completed: false,
@@ -431,7 +491,7 @@ Page({
       wx.hideLoading();
     }
   },
-  getshopOrderList: function (types) { //获取商家订单列表
+  getshopOrderList: function(types) { //获取商家订单列表
     let that = this;
 
 
@@ -447,27 +507,28 @@ Page({
       Api.myorderForShop(_parms).then((res) => {
         if (res.data.code == 0) {
           if (res.data.data.list && res.data.data.list.length > 0) {
-            let shoplist = that.data.shoporderlist, _list = res.data.data.list;
+            let shoplist = that.data.shoporderlist,
+              _list = res.data.data.list;
             for (let i = 0; i < _list.length; i++) {
               shoplist.push(_list[i]);
             }
             that.setData({
+              // total: Math.ceil(res.data.data.total / _parms.rows),
               shoporderlist: shoplist,
               completed: true
             });
-            console.log("shoporderlist:", that.data.shoporderlist)
           }
-          setTimeout(() => {
-            that.setData({
-              showSkeleton: false
-            })
-          }, 400)
+          // setTimeout(() => {
+          //   that.setData({
+          //     showSkeleton: false
+          //   })
+          // }, 400)
         } else {
           that.setData({
             completed: false
           });
         }
-      },()=>{
+      }, () => {
         requestTask[2] = false;
         wx.hideLoading();
         this.setData({
@@ -482,7 +543,7 @@ Page({
     }
   },
   //点击某张券
-  lowerLevel: function (e) {
+  lowerLevel: function(e) {
     let id = e.currentTarget.id,
       skuid = e.currentTarget.dataset.skuid,
       sostatus = e.currentTarget.dataset.sostatus,
@@ -544,22 +605,71 @@ Page({
       }
     }
   },
+  //菜品砍价详情
+  candyDetails: function(e) {
+    let id = e.currentTarget.id,
+      distance = e.currentTarget.dataset.distance,
+      shopId = e.currentTarget.dataset.index,
+      categoryId = e.currentTarget.dataset.categoryid;
+    this.setData({
+      notShow: true
+    })
+    wx.navigateTo({
+      url: '../../index/bargainirg-store/CandyDishDetails/CandyDishDetails?id=' + id + '&shopId=' + shopId + '&actId=41&categoryId=' + categoryId
+    })
+  },
+  //计算页数
+  getPage(page, total, rows) {
+    let pageNum = parseInt(page),
+      totalNum = parseInt(total),
+      rowsNum = parseInt(rows),
+      pages = 0,
+      tipisShow = false;
+    pages = Math.ceil(totalNum / rowsNum);
+    tipisShow = pageNum >= pages ? true : false;
+    this.setData({
+      tipisShow: tipisShow
+    });
+  },
+  getDishPage() { //精选推荐翻页
+    if (this.data.tipisShow && !dishrequestflag && this.data.dishPage < this.data.dishTotal) {
+      if (this.data.dishPage >= 15) {
+        return false;
+      } else {
+        this.setData({
+          loading: true,
+          dishPage: this.data.dishPage + 1
+        });
+        this.hotDishList();
+      }
+    }
+  },
   //用户上拉触底
-  onReachBottom: function () {
-    if(this.data.shopping==0){
-      if (requestTask[0]){
+  onReachBottom: function() {
+    if (this.data.shopping == 0) {
+      if (requestTask[0]) {
         return
       }
-
-    }
-    if (this.data.shopping == 1) {
-      
+      if (this.data.logisticsList.length >= this.data.ortotal[this.data.elephant]) {
+        this.setData({
+          tipisShow: true
+        });
+        this.getDishPage();
+      } else {
+        this.setData({
+          orpage: this.data.orpage + 1,
+          loading: true
+        })
+        this.getlogisticsList(this.data.logId);
+      }
+    } else if (this.data.shopping == 1) {
       if (requestTask[1] && requestTask[2]) {
         return
       }
-      this.setData({ page: this.data.page + 1, loading: true})
-    }
-    if(this.data.shopping == 1){
+      this.setData({
+        page: this.data.page + 1,
+        loading: true
+      })
       if (this.data.currentTab != 2 && this.data.reFresh) {
         wx.showLoading({
           title: '加载中..'
@@ -576,31 +686,25 @@ Page({
         this.getOrderList();
         this.getshopOrderList();
       }
-    }else if(this.data.shopping == 0){
-      if(this.data.orpage >= this.data.total) {
-        return false
-      }
-      this.setData({ orpage: this.data.orpage + 1, loading: true })
-      this.getlogisticsList(this.data.logId);
     }
   },
   //用户下拉刷新
-  onPullDownRefresh: function () {
+  onPullDownRefresh: function() {
     let that = this;
     if (this.data.shopping == 1) {
-        if (requestTask[1] && requestTask[2]) {
-          wx.stopPullDownRefresh()
-          return
-        }
+      if (requestTask[1] && requestTask[2]) {
+        wx.stopPullDownRefresh()
+        return
+      }
       this.setData({
         order_list: [],
         page: 1,
         reFresh: true,
-      },()=>{
+      }, () => {
         this.getOrderList();
         this.getshopOrderList();
       });
-      
+
     } else if (this.data.shopping == 0) {
       if (requestTask[0]) {
         wx.stopPullDownRefresh()
@@ -614,20 +718,22 @@ Page({
             commoditys[i].scrollTop = 0;
           }
         }
-        that.setData({ commoditys });
+        that.setData({
+          commoditys
+        });
       } catch (err) {
 
       }
       this.setData({
         orpage: 1,
-      },()=>{
-        this.getlogisticsList(this.data.logId,'reset');
+      }, () => {
+        this.getlogisticsList(this.data.logId, 'reset');
       });
-      
+
     }
   },
   //对比时间是否过期
-  isDueFunc: function (createTime) {
+  isDueFunc: function(createTime) {
     //isDue=0   已过期 isDue=1未过期
     createTime = createTime.replace(/\-/g, "/");
     let _createTime = new Date(createTime).getTime();
@@ -640,16 +746,92 @@ Page({
   },
 
   // 物流订单-->订单详情
-  clickLogistics:function(e){
-    let id = e.currentTarget.id, sendType = e.currentTarget.dataset.sendtype;
+  clickLogistics: function(e) {
+    let id = e.currentTarget.id,
+      sendType = e.currentTarget.dataset.sendtype;
     // if (sendType == 2) {
     //   wx.navigateTo({
     //     url: '../../index/crabShopping/superMarket/orderDetail/orderDetail?soId=' + id
     //   })
     // } else {
-      wx.navigateTo({
-        url: 'logisticsDetails/logisticsDetails?soId=' + id
-      })
+    wx.navigateTo({
+      url: 'logisticsDetails/logisticsDetails?soId=' + id
+    })
     // }
+  },
+  //精选推荐列表
+  hotDishList() {
+    let that = this,
+      _parms = {},
+      str = "",
+      _url = "";
+    _parms = {
+      zanUserId: app.globalData.userInfo.userId,
+      browSort: 1,
+      locationX: app.globalData.userInfo.lng,
+      locationY: app.globalData.userInfo.lat,
+      city: app.globalData.userInfo.city,
+      isDeleted: 0,
+      actId: this.data.actId,
+      page: this.data.dishPage,
+      rows: 10
+    };
+    for (var key in _parms) {
+      str += key + "=" + _parms[key] + "&";
+    }
+    str = str.substring(0, str.length - 1);
+    _url = that.data._build_url + 'goodsSku/listForAct?' + str;
+    _url = encodeURI(_url);
+    dishrequestflag = true;
+    wx.request({
+      url: _url,
+      method: 'GET',
+      header: {
+        "Authorization": app.globalData.token
+      },
+      success: function(res) {
+        if (res.data.code == 0) {
+          let list = res.data.data.list,
+            total = res.data.data.total;
+          if (list && list.length > 0) {
+            for (let i = 0; i < list.length; i++) {
+              list[i].distance = utils.transformLength(list[i].distance);
+            }
+            let dishList = that.data.dishPage == 1 ? [] : that.data.dishList;
+            that.setData({
+              loading: false,
+              dishList: dishList.concat(list),
+              dishTotal: Math.ceil(total / 10)
+            });
+          } else {
+            that.setData({
+              loading: false
+            });
+          }
+          dishrequestflag = false;
+          setTimeout(() => {
+            that.setData({
+              showSkeleton: false
+            })
+          }, 400)
+        }
+      },
+      fail() {
+        that.setData({
+          loading: false
+        });
+        dishrequestflag = false;
+      }
+    }, () => {
+      that.setData({
+        loading: false
+      });
+      dishrequestflag = false;
+    })
+  },
+  toindex() { //去首页
+    wx.switchTab({
+      url: '../../index/index',
+    })
   }
 })

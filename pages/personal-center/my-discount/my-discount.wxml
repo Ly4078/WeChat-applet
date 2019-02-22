@@ -1,7 +1,7 @@
 <import src="discount-template/discount-template.wxml" />
+<import src="../../index/bargainirg-store/bargainirg-template/bargainirg-template.wxml" />
 <!-- 骨架屏模块 -->
 <skeleton selector="skeleton" loading="spin" bgcolor="#FFF" wx:if="{{showSkeleton}}"></skeleton>
-
 <!-- <view class="navbar">
   <form bindsubmit="submit" report-submit='true' wx:for="{{navbar}}" data-idx="{{index}}" wx:key="index">
     <button form-type="submit" type="default" class="item {{currentIndex==index ? 'active' : ''}}">{{item}}
@@ -13,7 +13,7 @@
     <view hover-class='listhover' hover-stay-time="200" class=" {{ind == index?'active':''}}" data-index="{{index}}" wx:for="{{tabs}}" wx:key="index" id='{{index}}' bindtap='handtab'>{{item}}
     </view>
   </view>
-
+  <view class="nav_box"></view>
 
   <!-- 礼品券 -->
   <view class='voucherBox' wx:if="{{ind == 0 || ind == 3}}">
@@ -62,23 +62,12 @@
 
         </view>
       </view>
-
-
-
-
-      <view>
-        <view class='loadingBox'>
-          <i-spin custom wx:if="{{loading}}">
-            <!-- <view class="loading"></view> -->
-            <image style='width:100rpx;height:100rpx;' src="https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/23.gif"></image>
-          </i-spin>
-        </view>
-      </view>
-
     </view>
 
-    <view wx:if="{{listData.length < 1}}" class='placeholder'>
-      <image src="/images/icon/zhanweitu.png"></image>
+    <view wx:if="{{listData.length < 1}}" class='md_placeholder'>
+      <image src="/images/icon/empty.png"></image>
+      <view class="emptyTxt">空空如也</view>
+      <view class="emptyBtn" bindtap='toindex'>去逛逛</view>
     </view>
     <!-- <text wx:if="{{listData.length<1}}" class='buyvoucher' bindtap='buyVoucher'>购买提蟹券</text> -->
  
@@ -132,18 +121,11 @@
 
         </view>
       </view>
-      <view>
-        <view class='loadingBox'>
-          <i-spin custom wx:if="{{loading}}">
-            <!-- <view class="loading"></view> -->
-            <image style='width:100rpx;height:100rpx;' src="https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/23.gif"></image>
-          </i-spin>
-        </view>
-      </view>
-
     </view>
-    <view wx:if="{{sendData.length < 1}}" class='placeholder'>
-      <image src="/images/icon/zhanweitu.png"></image>
+    <view wx:if="{{sendData.length < 1}}" class='md_placeholder'>
+      <image src="/images/icon/empty.png"></image>
+      <view class="emptyTxt">空空如也</view>
+      <view class="emptyBtn" bindtap='toindex'>去逛逛</view>
     </view>
   </view>
 
@@ -195,15 +177,6 @@
 
         </view>
       </view>
-      <view>
-        <view class='loadingBox'>
-          <i-spin custom wx:if="{{loading}}">
-            <!-- <view class="loading"></view> -->
-            <image style='width:100rpx;height:100rpx;' src="https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/23.gif"></image>
-          </i-spin>
-        </view>
-      </view>
-
     </view>
 
     <!-- 
@@ -233,8 +206,10 @@
         </view>
       </view>
     </view> -->
-    <view wx:if="{{recData.length < 1}}" class='placeholder'>
-      <image src="/images/icon/zhanweitu.png"></image>
+    <view wx:if="{{recData.length < 1}}" class='md_placeholder'>
+      <image src="/images/icon/empty.png"></image>
+      <view class="emptyTxt">空空如也</view>
+      <view class="emptyBtn" bindtap='toindex'>去逛逛</view>
     </view>
 
   </view>
@@ -256,32 +231,44 @@
       <template is="discountList" data="{{item}}"></template>
     </block>
   </view>
-  <view class='placeholder' wx:if="{{ticket_list.length<1}}">
-    <image src="/images/icon/zhanweitu.png"></image>
+  <view class='md_placeholder' wx:if="{{ticket_list.length<1}}">
+    <image src="/images/icon/empty.png"></image>
+    <view class="emptyTxt">空空如也</view>
+    <view class="emptyBtn" bindtap='toindex'>去逛逛</view>
   </view>
-  <view>
-    <view class='loadingBox'>
-      <i-spin custom wx:if="{{loading}}">
-        <!-- <view class="loading"></view> -->
-        <image style='width:100rpx;height:100rpx;' src="https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/23.gif"></image>
-      </i-spin>
-    </view>
-  </view>
-
 </view>
 
-
-
-
-
-
-
+<!-- 精选推荐 -->
+<view wx:if="{{tipisShow && dishList.length>0}}">
+  <view class='selectionIo'>
+    <image class='selectionIoImg' src='/images/icon/sevenribbon.png'></image>
+    <text>精选推荐</text>
+    <image class='selectionIoImg ImgRight' src='/images/icon/sevenribbon.png'></image>
+  </view>
+  <view class="tipList">
+    <view class='cutCuisine'>
+      <block wx:for="{{dishList}}" wx:key="{{index}}" id="{{index}}" wx:for-index="idx">
+        <template is="cuisine" data="{{item}}" />
+      </block>
+    </view>
+  </view>
+</view>
 
 <!-- <view class='already-past-wrap' bindtap="toDueList">
   <view class='already-past-due'>
     <text>查看过期/已用劵</text>active
   </view>
 </view> -->
+
+
+<!-- loading -->
+<view>
+  <view class='loadingBox'>
+    <i-spin custom wx:if="{{loading}}">
+      <image style='width:100rpx;height:100rpx;' src="https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/23.gif"></image>
+    </i-spin>
+  </view>
+</view>
 
 
 <image class='ball' wx:if="{{isball}}" bindtap='toindex' src='/images/icon/shouye.png'></image>

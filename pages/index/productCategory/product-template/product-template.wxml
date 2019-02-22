@@ -1,0 +1,19 @@
+<template name="product">
+  <view hover-class='itemhover' class="classify_item" id="{{item.id}}" data-cate="{{item.id}}" data-categoryid="{{item.categoryId}}" data-shopid="{{item.shopId}}" bindtap='bindItem'
+    hover-class='listhover' hover-stay-time="200">
+    <image-loader width="100%" height="360rpx" default-image='/images/icon/morentu.png' mode='aspectFill' original-image="{{item.skuPic?item.skuPic:'/images/icon/morentu.png'}}" />
+    <view style="width:360rpx;height:360rpx;" wx:if="{{item.actGoodsSkuOut.stockNum <= 0}}" class="notstockNumshadedow">
+      <image style="width:108rpx;height:108rpx;" wx:if="{{item.actGoodsSkuOut.stockNum <= 0}}" class="sellOutIcon" src="/images/icon/sellOut.png"></image>
+    </view>
+
+    <view class='contTxt'>
+      <view class="goods_tit">{{item.skuName}}</view>
+      <view class="goods_addr">{{item.salePointOuts[0].address}}</view>
+      <text class="goods_icon">全民砍价</text>
+      <view class="priceBox">
+        <text class="discount_price">￥{{item.goodsPromotionRules[0].actAmount}}</text>
+        <text class="original_price">￥{{item.marketPrice}}</text>
+      </view>
+    </view>
+  </view>
+</template>

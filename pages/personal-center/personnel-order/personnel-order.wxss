@@ -1,4 +1,5 @@
 @import "order-template-item/order-template-item.wxss";
+@import "../../index/bargainirg-store/bargainirg-template/bargainirg-template.wxss";
 /* tab栏样式 */
 page {
   width: 100%;
@@ -40,8 +41,30 @@ page {
   border-bottom: 5rpx solid #fc5e2d;
 }
 
-.placeholder {
-  height: 80%;
+.md_placeholder {
+  width: 100%;
+  padding-top: 110rpx;
+  text-align: center;
+  font-size: 28rpx;
+  letter-spacing: 2rpx;
+}
+
+.md_placeholder image {
+  width: 178rpx;
+  height: 178rpx;
+}
+
+.emptyTxt {
+  color: #808080;
+  padding: 20rpx 0;
+}
+
+.emptyBtn {
+  display: inline-block;
+  padding: 20rpx 60rpx;
+  border-radius: 50rpx;
+  border: 1rpx solid #FC5E2D;
+  color: #FC5E2D;
 }
 
 .navbar{
@@ -130,4 +153,46 @@ page {
   right: 0;
   height: 4rpx;
   background: #FC5E2D;
+}
+
+/* 精选推荐 */
+.tipList {
+  padding: 30rpx 0;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.selectionIo {
+  display: flex;
+  justify-content: center;
+  vertical-align: middle;
+  align-items: center;
+  margin-top: 80rpx;
+}
+
+.selectionIo text {
+  padding: 0rpx 22rpx;
+  font-size: 30rpx;
+  font-family: 'PingFangSC-Medium';
+  color: #FC5E2D;
+  letter-spacing: 2rpx;
+}
+
+.selectionIoImg {
+  width: 64rpx;
+  height: 24rpx;
+}
+
+.ImgRight {
+  transform: rotate(180deg);
+}
+
+.cutCuisine {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.pt30 {
+  padding-top: 30rpx;
 }

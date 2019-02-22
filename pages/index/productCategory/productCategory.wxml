@@ -1,3 +1,4 @@
+<import src="product-template/product-template.wxml" />
 <skeleton selector="skeleton" loading="spin" bgcolor="#FFF" wx:if="{{showSkeleton}}"></skeleton>
 
 
@@ -7,32 +8,36 @@
 </view>
 
 <view class='proTop'>
-  <scroll-view scroll-x="true" bindscroll="scroll" class="scroll-view_H list-liu">
+  <scroll-view scroll-x="true" bindscroll="scroll" class="list-liu">
     <view wx:key="{{index}}" id="{{item.id}}" data-current="{{item.id}}" class="scroll-view-item_H swiper-tab-list {{sortId==item.id?'scrAction':''}}" wx:for="{{sort}}" bindtap="bindSort">{{item.categoryName}}</view>
   </scroll-view>
 </view>
 
 <view class='proContent'>
-  <view wx:if="{{comList.length > 0}}" wx:for="{{comList}}" wx:key="{{index}}" hover-class='itemhover' class="classify_item" id="{{item.id}}" data-cate="{{item.id}}" data-categoryid="{{item.categoryId}}" data-shopid="{{item.shopId}}" bindtap='bindItem'
-  >
-    <image-loader width="100%" height="360rpx" default-image='/images/icon/morentu.png' mode='aspectFill' original-image="{{item.skuPic?item.skuPic:'/images/icon/morentu.png'}}" />
-    <view style="width:360rpx;height:360rpx;" wx:if="{{item.actGoodsSkuOut.stockNum <= 0}}" class="notstockNumshadedow">
-      <image style="width:108rpx;height:108rpx;" wx:if="{{item.actGoodsSkuOut.stockNum <= 0}}" class="sellOutIcon" src="/images/icon/sellOut.png"></image>
-    </view>
 
-    <view class='contTxt'>
-      <view class="goods_tit">{{item.skuName}}</view>
-      <view class="goods_addr">{{item.salePointOuts[0].address}}</view>
-      <text class="goods_icon">全民砍价</text>
-      <view class="priceBox">
-        <text class="discount_price">￥{{item.goodsPromotionRules[0].actAmount}}</text>
-        <text class="original_price">￥{{item.marketPrice}}</text>
-      </view>
-    </view>
-  </view>
+  <block wx:for="{{comList}}" wx:key="{{index}}">
+    <template is="product" data="{{item}}" />
+  </block>
 
   <view wx:if="{{comList.length < 1}}" class='placeholder'>
     <image src="/images/icon/zhanweitu.png"></image>
+  </view>
+</view>
+
+
+<!-- 精选推荐 -->
+<view wx:if="{{tipisShow && productList.length>0}}">
+  <view class='selectionIo'>
+    <image class='selectionIoImg' src='/images/icon/sevenribbon.png'></image>
+    <text>精选推荐</text>
+    <image class='selectionIoImg ImgRight' src='/images/icon/sevenribbon.png'></image>
+  </view>
+  <view class="tipList">
+    <view class='cutCuisine'>
+      <block wx:for="{{productList}}" wx:key="{{index}}">
+        <template is="product" data="{{item}}" />
+      </block>
+    </view>
   </view>
 </view>
 

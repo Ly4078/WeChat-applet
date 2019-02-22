@@ -1,3 +1,4 @@
+@import "../../index/dining-room/dining-room-tiem/dining-room-tiem-template.wxss";
 page{
   background-color: #EBEBEB;
   width: 100%;
@@ -7,15 +8,12 @@ page{
 .enshrineWrap{
   width: 100%;
   height: 270rpx;
+  box-sizing: border-box;
   background-color: white;
   display: flex;
   justify-content: space-between;
   border: 1px solid #E0E0E0;
   position: relative;
-}
-.placeholder image{
-  margin-top: 0;
-  top: 40%;
 }
 .enshrineLeft{
   width: 90%;
@@ -168,4 +166,71 @@ page{
   background:#fae0e0;
   padding:0 6rpx;
   border:1rpx solid #ffb1b1;
+}
+/* 占位图 */
+.md_placeholder {
+  width: 100%;
+  padding: 110rpx 0;
+  text-align: center;
+  font-size: 28rpx;
+  letter-spacing: 2rpx;
+}
+
+.md_placeholder image {
+  width: 178rpx;
+  height: 178rpx;
+}
+
+.emptyTxt {
+  color: #808080;
+  padding: 20rpx 0;
+}
+
+.emptyBtn {
+  display: inline-block;
+  padding: 20rpx 60rpx;
+  border-radius: 50rpx;
+  border: 1rpx solid #FC5E2D;
+  color: #FC5E2D;
+}
+
+/* 精选推荐 */
+.tipList {
+  padding: 30rpx 0;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.selectionIo {
+  display: flex;
+  justify-content: center;
+  vertical-align: middle;
+  align-items: center;
+  margin-top: 80rpx;
+}
+
+.selectionIo text {
+  padding: 0rpx 22rpx;
+  font-size: 30rpx;
+  font-family: 'PingFangSC-Medium';
+  color: #FC5E2D;
+  letter-spacing: 2rpx;
+}
+
+.selectionIoImg {
+  width: 64rpx;
+  height: 24rpx;
+}
+
+.ImgRight {
+  transform:rotate(180deg);
+}
+
+.cutCuisine {
+  width: 100%;
+}
+
+.hot-recoItem {
+  width: 100%;
 }

@@ -1,6 +1,8 @@
+<import src="../../index/dining-room/dining-room-tiem/dining-room-tiem-template.wxml" />
 <!-- 骨架屏模块 -->
 <skeleton selector="skeleton" loading="spin" bgcolor="#FFF" wx:if="{{showSkeleton}}"></skeleton>
 
+<!-- 收藏列表 -->
 <view wx:if="{{posts_key.length > 0}}">
   <block wx:for="{{posts_key}}" wx:key="index">
     <view class='enshrineWrap' catchtap='enshrineXim' id="{{item.id}}">
@@ -40,13 +42,34 @@
     </view>
   </block>
 </view>
-<view wx:else class='placeholder'>
-  <image src="/images/icon/zhanweitu.png"></image>
+<view wx:else class='md_placeholder'>
+  <image src="/images/icon/empty.png"></image>
+  <view class="emptyTxt">空空如也</view>
+  <view class="emptyBtn" bindtap='toindex'>去逛逛</view>
 </view>
+
+
+<!-- 精选推荐 -->
+<view wx:if="{{tipisShow && shopList.length>0}}">
+  <view class='selectionIo'>
+    <image class='selectionIoImg' src='/images/icon/sevenribbon.png'></image>
+    <text>精选推荐</text>
+    <image class='selectionIoImg ImgRight' src='/images/icon/sevenribbon.png'></image>
+  </view>
+  <view class="tipList">
+    <view class='cutCuisine'>
+      <block wx:for="{{shopList}}" wx:key="{{index}}" id="{{index}}" wx:for-index="idx">
+        <template is="tpeMerchant" data="{{item}}" />
+      </block>
+    </view>
+  </view>
+</view>
+
+
+<!-- loading -->
 <view>
   <view class='loadingBox'>
     <i-spin custom wx:if="{{loading}}">
-      <!-- <view class="loading"></view> -->
       <image style='width:100rpx;height:100rpx;' src="https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/23.gif"></image>
     </i-spin>
   </view>

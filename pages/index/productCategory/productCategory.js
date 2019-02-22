@@ -5,6 +5,7 @@ import Api from '../../../utils/config/api.js'
 var utils = require('../../../utils/util.js');
 var app = getApp();
 var requestTask = false,
+  selectedFlag = false,
   goodsRequestTask = null;
 Page({
   data: {
@@ -13,6 +14,10 @@ Page({
     sort: [], //类别列表
     sortId: '', //类别ID
     comList: [], //商品列表
+    productList: [],   //推荐商品列表
+    productPage: 1,
+    productTotal: 1,
+    tipisShow: false,
     loading: false,
     rows: 10,
     page: 1,
@@ -138,9 +143,13 @@ Page({
             }
             that.setData({
               sort: sortarr,
-              sortId: sortarr[0].id
+              sortId: sortarr[0].id,
+              productList: [],
+              productPage: 1,
+              productTotal: 1
             })
             that.getlistdata(sortarr[0].id, 'reset');
+            that.selectedList('reset');
           } else {
             that.setData({
               loading: false,
@@ -169,8 +178,10 @@ Page({
 
   // ==============
   //点击某个类别
-  bindSort: function(e) {
-    // console.log('id_:', e.currentTarget.id)
+  bindSort: function (e) {
+    if (selectedFlag) {
+      return false;
+    }
     let that = this,
       _cachearr = [];
     if (e.currentTarget.id == this.data.sortId) {
@@ -183,6 +194,7 @@ Page({
     this.setData({
       sortId: e.currentTarget.id,
       page: 1,
+      productPage: 1,
       noMore:false,
       showSkeletonRight: true
     }, () => {
@@ -198,16 +210,22 @@ Page({
           })
         } else {
           that.setData({
-            comList: [],
+            comList: []
           });
           that.getlistdata(e.currentTarget.id, 'reset');
         }
       }else{
         that.setData({
-          comList: [],
+          comList: []
         });
         that.getlistdata(e.currentTarget.id, 'reset');
       }
+      that.setData({
+        productList: [],
+        productPage: 1,
+        productTotal: 1
+      });
+      that.selectedList('reset');
     })
   },
   //获取商品列表数据 
@@ -239,13 +257,14 @@ Page({
       success: function(res) {
         wx.stopPullDownRefresh();
         if (res.data.code == 0) {
-          if (res.data.data.list && res.data.data.list.length > 0) {
+          let list = res.data.data.list, total = res.data.data.total;
+          if (list && list.length > 0) {
             let arr = [];
             if (types == 'reset') {
-              arr = res.data.data.list.length ? res.data.data.list : []
+              arr = list.length ? list : []
             } else {
               arr = that.data.comList ? that.data.comList : []
-              arr = arr.concat(res.data.data.list)
+              arr = arr.concat(list)
             }
             if (that.data.page == 1) {
               let _inds = sortId;
@@ -264,18 +283,12 @@ Page({
               showSkeleton: false,
               showSkeletonRight: false
             }, () => {
-              requestTask = false
+              requestTask = false;
             })
           } else {
             requestTask = false;
             if (that.data.comList.length > 0) {
-              that.setData({
-                noMore: true
-              })
-              wx.showToast({
-                title: '没有更多数据了',
-                icon: 'none'
-              })
+
             } else {
               that.setData({
                 comList: [],
@@ -291,6 +304,17 @@ Page({
               showSkeleton: false,
               showSkeletonRight: false
             })
+          }
+          if (that.data.comList.length >= total) {
+            that.setData({
+              tipisShow: true,
+              noMore: true
+            });
+          } else {
+            that.setData({
+              tipisShow: false,
+              noMore: false
+            });
           }
         } else {
           requestTask = false
@@ -315,6 +339,69 @@ Page({
     })
   },
 
+  // 享购精选推荐列表
+  selectedList(types){
+    let that = this, url = '';
+    selectedFlag = true;
+    url = this.data._build_url + 'goodsSku/listForActOut?actId=' + this.data.actId + '&notCategoryId=' + this.data.sortId + '&page=' + this.data.productPage + '&rows=10';
+    wx.request({
+      url: encodeURI(url),
+      header: {
+        "Authorization": app.globalData.token
+      },
+      success: function (res) {
+        if (res.data.code == 0) {
+          let list = res.data.data.list, total = res.data.data.total;
+          if (list && list.length > 0) {
+            let arr = [];
+            if (types == 'reset') {
+              arr = list.length > 0 ? list : [];
+            } else {
+              arr = that.data.productList ? that.data.productList : [];
+              // arr = arr.concat(list);
+              for (let i = 0; i < list.length; i++) {
+                arr.push(list[i]);
+              }
+            }
+            that.setData({
+              productList: arr,
+              productTotal: Math.ceil(total / 10),
+              loading: false
+            }, () => {
+              selectedFlag = false
+              })
+          }
+          setTimeout(() => {
+            that.setData({
+              showSkeleton: false
+            })
+          }, 400)
+        } else {
+          selectedFlag = false
+          that.setData({
+            loading: false,
+            showSkeleton: false
+          })
+        }
+      },
+      fail() {
+        selectedFlag = false
+      }
+    })
+  },
+  selectedPage() { //精选推荐翻页
+    if (this.data.tipisShow && !selectedFlag && this.data.productPage < this.data.productTotal) {
+      if (this.data.dishPage >= 15) {
+        return false;
+      } else {
+        this.setData({
+          loading: true,
+          productPage: this.data.productPage + 1
+        });
+        this.selectedList();
+      }
+    }
+  },
   //点击某个商品
   bindItem: function(e) {
     let _id = e.currentTarget.id,
@@ -341,14 +428,21 @@ Page({
     if (requestTask) {
       return false
     }
-    if (this.data.noMore) {
-      return
+    if (selectedFlag) {
+      return false
     }
-    this.setData({
-      page: this.data.page + 1,
-      loading: true
-    })
-    this.getlistdata(this.data.sortId, '');
+    if (this.data.noMore) {
+      this.setData({
+        tipisShow: true
+      });
+      this.selectedPage();
+    } else {
+      this.setData({
+        page: this.data.page + 1,
+        loading: true
+      })
+      this.getlistdata(this.data.sortId, '');
+    }
   },
   onShareAppMessage: function(res) {
     return {

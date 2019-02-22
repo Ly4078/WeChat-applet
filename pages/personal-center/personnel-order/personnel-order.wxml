@@ -1,4 +1,5 @@
 <import src="order-template-item/order-template-item.wxml" />
+<import src="../../index/bargainirg-store/bargainirg-template/bargainirg-template.wxml" />
 <!-- 骨架屏模块 -->
 <skeleton selector="skeleton" loading="spin" bgcolor="#FFF" wx:if="{{showSkeleton}}"></skeleton>
 
@@ -15,7 +16,7 @@
       <view class="myorder_tab_list {{currentTab=='1' ? 'on' : ''}}" data-current="1" bindtap="clickTab">待付款</view>
       <view class="myorder_tab_list {{currentTab=='2' ? 'on' : ''}}" data-current="2" bindtap="clickTab">已完成</view>
       <view class="myorder_tab_list {{currentTab=='10' ? 'on' : ''}}" data-current="10" bindtap="clickTab">已取消</view>
-       <view class="myorder_tab_list {{currentTab=='4' ? 'on' : ''}}" data-current="4" bindtap="clickTab">退款</view>
+      <view class="myorder_tab_list {{currentTab=='4' ? 'on' : ''}}" data-current="4" bindtap="clickTab">退款</view>
     </view>
   </view>
   <view class='zhanwei'></view>
@@ -31,15 +32,17 @@
       </block>
     </view>
   </view>
-  <view wx:if="{{order_list.length < 1}}" class='placeholder'>
-    <image src="/images/icon/zhanweitu.png"></image>
+  <view wx:if="{{order_list.length < 1}}" class='md_placeholder'>
+    <image src="/images/icon/empty.png"></image>
+    <view class="emptyTxt">空空如也</view>
+    <view class="emptyBtn" bindtap='toindex'>去逛逛</view>
   </view>
 </view>
 
 <!--物流订单-->
 <view hidden="{{shopping==1}}">
   <!--导航条-->
-    <!-- <scroll-view scroll-x scroll-with-animation scroll-into-view="{{toView}}" class="commoditys">
+  <!-- <scroll-view scroll-x scroll-with-animation scroll-into-view="{{toView}}" class="commoditys">
 
     <view wx:for="{{commoditys}}" data-idx="{{index}}" id="{{item.toview ||''}}" data-subid='{{item.id}}' class="item {{elephant==index ? 'active' : ''}}" wx:key="unique" bindtap="distributionmag">{{item.title}}</view>
 
@@ -56,15 +59,43 @@
   </view>
 
 
-  <view wx:if="{{logisticsList.length < 1}}" class='placeholder'>
-    <image src="/images/icon/zhanweitu.png"></image>
+  <view wx:if="{{logisticsList.length < 1}}" class='md_placeholder'>
+    <image src="/images/icon/empty.png"></image>
+    <view class="emptyTxt">空空如也</view>
+    <view class="emptyBtn" bindtap='toindex'>去逛逛</view>
   </view>
 </view>
-<view>
-<view class='loadingBox'>
-<i-spin custom wx:if="{{loading}}">
-<!-- <view class="loading"></view> -->
-<image style='width:100rpx;height:100rpx;' src="https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/23.gif"></image>
-</i-spin>
+
+
+<!-- 精选推荐 -->
+<view wx:if="{{tipisShow && dishList.length>0}}">
+  <view class='selectionIo'>
+    <image class='selectionIoImg' src='/images/icon/sevenribbon.png'></image>
+    <text>精选推荐</text>
+    <image class='selectionIoImg ImgRight' src='/images/icon/sevenribbon.png'></image>
+  </view>
+  <view class="tipList">
+    <view class='cutCuisine'>
+      <block wx:for="{{dishList}}" wx:key="{{index}}" id="{{index}}" wx:for-index="idx">
+        <template is="cuisine" data="{{item}}" />
+      </block>
+      <!-- <view class="pt30">
+        <view class='loadingBox'>
+          <i-spin custom wx:if="{{loading}}">
+            <image style='width:100rpx;height:100rpx;' src="https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/23.gif"></image>
+          </i-spin>
+        </view>
+      </view> -->
+    </view>
+  </view>
 </view>
+
+
+<!-- loading -->
+<view>
+  <view class='loadingBox'>
+    <i-spin custom wx:if="{{loading}}">
+      <image style='width:100rpx;height:100rpx;' src="https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/23.gif"></image>
+    </i-spin>
+  </view>
 </view>

@@ -1,4 +1,5 @@
 @import "discount-template/discount-template.wxss";
+@import "../../index/bargainirg-store/bargainirg-template/bargainirg-template.wxss";
 
 page {
   background-color: #ebebeb;
@@ -6,6 +7,15 @@ page {
 
 .gray {
   color: #969696;
+}
+
+.pt30 {
+  padding-top: 30rpx;
+}
+
+.nav_box {
+  height: 115rpx;
+  widows: 100%;
 }
 
 .navbar {
@@ -52,16 +62,30 @@ page {
   height: 4rpx;
 }
 
-.placeholder {
-  position: absolute;
-  height: 90%;
-  z-index: -1;
+.md_placeholder {
+  width: 100%;
+  padding: 110rpx 0;
+  text-align: center;
+  font-size: 28rpx;
+  letter-spacing: 2rpx;
 }
 
-.placeholder image {
-  top: 40%;
-  margin-top: 0;
-  margin-left:-156rpx;
+.md_placeholder image {
+  width: 178rpx;
+  height: 178rpx;
+}
+
+.emptyTxt {
+  color: #808080;
+  padding: 20rpx 0;
+}
+
+.emptyBtn {
+  display: inline-block;
+  padding: 20rpx 60rpx;
+  border-radius: 50rpx;
+  border: 1rpx solid #FC5E2D;
+  color: #FC5E2D;
 }
 
 .conceal-dot {
@@ -154,9 +178,6 @@ page {
   margin-top: 170rpx;
 }
 
-
-
-
 .voucherBox {
   width: 100%;
   height: 100%;
@@ -167,7 +188,6 @@ page {
 .voucher {
   width: 100%;
   /* height:458rpx; */
-  padding-top: 115rpx;
   overflow: hidden;
 }
 
@@ -321,9 +341,9 @@ button[plain] {
 
 .exchange {
   width: 100rpx;
-  height:100rpx;
+  height: 100rpx;
   border-radius: 50%;
-  background: rgba(0,0,0,.8);
+  background: rgba(0, 0, 0, 0.8);
   text-align: center;
   font-size: 28rpx;
   font-family: PingFangSC-Regular;
@@ -335,10 +355,9 @@ button[plain] {
   align-items: center;
   justify-content: center;
   position: fixed;
-  box-shadow: 0px 0px 10rpx rgba(221,221,221, 1);
-  bottom:110rpx;
-  right:20rpx;
-
+  box-shadow: 0px 0px 10rpx rgba(221, 221, 221, 1);
+  bottom: 110rpx;
+  right: 20rpx;
 }
 
 .buyvoucher {
@@ -599,4 +618,43 @@ button[plain] {
   position: absolute;
   top: 28rpx;
   left: 0;
+}
+
+/* 精选推荐 */
+.tipList {
+  padding: 30rpx 0;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.selectionIo {
+  display: flex;
+  justify-content: center;
+  vertical-align: middle;
+  align-items: center;
+  margin-top: 80rpx;
+}
+
+.selectionIo text {
+  padding: 0rpx 22rpx;
+  font-size: 30rpx;
+  font-family: 'PingFangSC-Medium';
+  color: #FC5E2D;
+  letter-spacing: 2rpx;
+}
+
+.selectionIoImg {
+  width: 64rpx;
+  height: 24rpx;
+  vertical-align: middle;
+}
+
+.ImgRight {
+  transform: rotate(180deg);
+}
+
+.cutCuisine {
+  display: flex;
+  flex-wrap: wrap;
 }

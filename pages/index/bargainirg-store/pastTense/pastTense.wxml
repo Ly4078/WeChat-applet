@@ -1,3 +1,4 @@
+<import src="../bargainirg-template/bargainirg-template.wxml" />
 <!-- 骨架屏模块 -->
 <skeleton selector="skeleton" loading="spin" bgcolor="#FFF" wx:if="{{showSkeleton}}"></skeleton>
 
@@ -40,7 +41,36 @@
       </view>
     </view>
   </block>
-  <view class='placeholder' wx:if="{{bargainList.length<1}}">
-  <image src="/images/icon/zhanweitu.png"></image>
+  <view wx:if="{{bargainList.length<1}}" class='md_placeholder'>
+    <image src="/images/icon/empty.png"></image>
+    <view class="emptyTxt">空空如也</view>
+    <view class="emptyBtn" bindtap='toindex'>去逛逛</view>
+  </view>
 </view>
+
+
+<!-- 精选推荐 -->
+<view wx:if="{{dishList.length>0}}">
+  <view class='selectionIo'>
+    <image class='selectionIoImg' src='/images/icon/sevenribbon.png'></image>
+    <text>精选推荐</text>
+    <image class='selectionIoImg ImgRight' src='/images/icon/sevenribbon.png'></image>
+  </view>
+  <view class="tipList">
+    <view class='cutCuisine'>
+      <block wx:for="{{dishList}}" wx:key="{{index}}" id="{{index}}" wx:for-index="idx">
+        <template is="cuisine" data="{{item}}" />
+      </block>
+    </view>
+  </view>
+</view>
+
+
+<!-- loading -->
+<view>
+  <view class='loadingBox'>
+    <i-spin custom wx:if="{{loading}}">
+      <image style='width:100rpx;height:100rpx;' src="https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/23.gif"></image>
+    </i-spin>
+  </view>
 </view>
