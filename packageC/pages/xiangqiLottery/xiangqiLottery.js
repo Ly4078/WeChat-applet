@@ -4,7 +4,6 @@ import {
   GLOBAL_API_DOMAIN
 } from '../../../utils/config/config.js';
 import getToken from '../../../utils/getToken.js';
-import getCurrentLocation from '../../../utils/getCurrentLocation.js';
 var app = getApp();
 var timer = null;
 let gameFlag = true; //防止重复点击
@@ -16,7 +15,6 @@ Page({
     shareId: '',
     userId: '',
     _city: '',
-    currentCity: '',
     _lat: '',
     _lng: '',
     regulation: [],
@@ -47,7 +45,8 @@ Page({
     // this.createUser()
   },
   getwinningList() {
-    let that = this
+    let that = this;
+    return false;
     wx.request({
       url: that.data._build_url + 'orderInfo/listFree?actId=46&page=1&rows=50&payType=0',
       method: 'get',
@@ -152,12 +151,6 @@ Page({
   },
   onShow: function () {
     let that = this;
-    getCurrentLocation(that).then((res) => {
-      console.log("res:",res)
-      that.setData({
-        currentCity: res
-      })
-    })
     this.setData({
       isshowlocation: false
     })
@@ -402,16 +395,6 @@ Page({
   drawBtn() { //点击抽奖按钮
     let that = this;
     let userData = that.data.lotteryData;
-    if (!that.data.currentCity) {
-      getCurrentLocation(that).then((res) => {
-        that.setData({
-          currentCity: res
-        })
-        that.drawBtn();
-      })
-
-      return false
-    }
     if (!gameFlag) { //游戏正在运行中
       return false
     }

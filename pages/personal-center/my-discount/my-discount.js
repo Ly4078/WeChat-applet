@@ -36,14 +36,9 @@ Page({
     navbar: ['兑换券', '优惠券'],
     tabs: ["我的票券", "已赠送", "已领取", "已失效"],
     userId: app.globalData.userInfo.userId,
-    hidecai: false,
     actId: 41
   },
   onLoad: function(options) {
-    let hidecai = wx.getStorageSync('txtObj') ? wx.getStorageSync('txtObj').hidecai : true;
-    this.setData({
-      hidecai
-    })
     let that = this;
     // let selectType = options.let
     // timer = setTimeout(() => {
@@ -83,6 +78,7 @@ Page({
         isball: true
       })
     }
+
   },
   submit: function(e) {
     let index = e.currentTarget.dataset.idx,

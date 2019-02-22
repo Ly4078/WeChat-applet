@@ -25,9 +25,9 @@
   </view>
   <!-- 轮播组件 -->
   <swiper class="homePage_banner skeleton-rect" indicator-dots="true" autoplay="true" circular="true" interval="5000" indicator-active-color="rgba(252, 94, 45,0.8)">
-    <block wx:for="{{carousel}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
+    <block wx:for="{{carousel}}" wx:if="{{item.isShow}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
       <swiper-item>
-        <image bindtap="toLink" data-type="{{item.type}}" data-url="{{item.linkUrl}}" mode="aspectFill" id="{{item.id}}" class="lbtupian " src='{{item.imgUrl}}'></image>
+        <image bindtap="toLink" data-isLink="{{item.isLink}}" data-msg="{{item.tips}}" data-type="{{item.type}}" data-url="{{item.linkUrl}}" mode="aspectFill" id="{{item.id}}" class="lbtupian " src='{{item.imgUrl}}'></image>
       </swiper-item>
     </block>
   </swiper>
@@ -39,18 +39,18 @@
     </view>
   </view>
   <!-- 导航nav_one -->
-  <view style="background:#fff;" wx:if="{{!navsNewYear.length}}">
-    <image catchtap='togrourp' wx:if="{{!showSkeleton && showRebbag}}" class="redbagImg" src="https://xqmp4-1256079679.file.myqcloud.com/15927505686_redbag.gif"></image>
+  <view style="background:#fff;">
+    <image catchtap='toLink' data-isLink="{{navbannerData.isLink}}" data-url="{{navbannerData.linkUrl}}"  data-msg="{{navbannerData.tips}}" style="width:{{navbannerData.width+'rpx;height:'+navbannerData.height+'rpx;'}}"  wx:if="{{!showSkeleton && showRebbag}}" class="redbagImg" src="{{navbannerData.imgUrl}}"></image>
     <view class='indexNavOne ' >
 
-      <view wx:for="{{navs}}" wx:if="{{item.title !='短视频'}}" hover-class='listhover' hover-stay-time="200" wx:key="index" data-url="{{item.linkUrl}}" class='navitem' id="{{item.id}}" data-msg="{{item.title=='酒店'?'商家正在入驻中...':''}}" bindtap='toLink'>
+      <view wx:for="{{navs}}" data-isLink="{{item.isLink}}"  wx:if="{{item.isShow}}" hover-class='listhover' hover-stay-time="200" wx:key="index" data-url="{{item.linkUrl}}" class='navitem' id="{{item.id}}" data-msg="{{item.tips?item.tips:''}}" bindtap='toLink'>
         <image class="img{{index+1}} skeleton-radius" src='{{item.imgUrl}}'></image>
-        <text class="navitem_txt skeleton-rect">{{item.title}}</text>
+        <text class="navitem_txt skeleton-rect">{{item.name}}</text>
       </view>
     </view>
   </view>
 
-
+<!-- 
   <view class="navsNewYear" wx:if="{{navsNewYear.length}}">
     <image catchtap='togrourp' wx:if="{{!showSkeleton && showRebbag2}}" class="redbagImg" src="https://xqmp4-1256079679.file.myqcloud.com/15927505686_redbag.gif"></image>
     <view class='indexNavOne ' style="background:none;">
@@ -60,12 +60,12 @@
         <text class="navitem_txt skeleton-rect">{{item.title}}</text>
       </view>
     </view>
-  </view>
+  </view> -->
 
   <!-- 活动列表 -->
   <view class="actList" wx:if="{{!showSkeleton}}">
     <scroll-view class="actItem scroll_view_H" scroll-x scroll-with-animation="true" style="width: 100%">
-      <image wx:for="{{activityList}}" wx:key="index" src="{{item.imgUrl}}" data-url="{{item.linkUrl}}" data-msg="{{item.msg}}" catchtap="toLink"></image>
+      <image wx:for="{{activityList}}" data-isLink="{{item.isLink}}"  wx:if="{{item.isShow}}" wx:key="index" src="{{item.imgUrl}}" data-url="{{item.linkUrl}}" data-msg="{{item.tips}}" catchtap="toLink"></image>
     </scroll-view>
   </view>
 
@@ -76,18 +76,18 @@
     <image catchtap='toLink' data-msg="正在建设中" src="{{bannthree[0].imgUrl}}" data-url="{{bannthree[0].linkUrl}}" class=" skeleton-rect"></image>
   </view> -->
   <!--商家广告位  -->
-  <image class='Advertising' wx:if="{{fresh0.imgUrl && !showSkeleton}}" data-msg="{{fresh0.msg?fresh0.msg:''}}" data-url="{{fresh0.linkUrl}}" bindtap="toLink" src="{{fresh0.imgUrl}}"></image>
+  <image class='Advertising' wx:if="{{!showSkeleton && fresh0.isShow}}" data-isLink="{{fresh0.isLink}}"  data-msg="{{fresh0.tips?fresh0.tips:''}}" data-url="{{fresh0.linkUrl}}" bindtap="toLink" src="{{fresh0.imgUrl}}"></image>
   <!-- 生鲜 -->
   <view class="triple">
     <view class="tripleItem it1 skeleton-rect">
-      <image mode='aspectFill' data-msg="{{fresh1.msg?fresh1.msg:''}}" catchtap='toLink' class="" data-url="{{fresh1.linkUrl}}" src="{{fresh1.imgUrl}}"></image>
+      <image mode='aspectFill' data-isLink="{{zoneList[0].isLink}}"  data-msg="{{zoneList[0].tips?zoneList[0].tips:''}}" catchtap='toLink' class="" data-url="{{zoneList[0].linkUrl}}" src="{{zoneList[0].imgUrl}}"></image>
     </view>
     <view class="tripleItem">
       <view class="tripleItem-list t1 skeleton-rect">
-        <image mode='aspectFill' data-msg="{{fresh2.msg?fresh2.msg:''}}" class="skeleton-rect" data-url="{{fresh2.linkUrl}}" catchtap='toLink' src="{{fresh2.imgUrl}}"></image>
+        <image mode='aspectFill' data-isLink="{{zoneList[1].isLink}}" data-msg="{{zoneList[1].tips?zoneList[1].tips:''}}" class="skeleton-rect" data-url="{{zoneList[1].linkUrl}}" catchtap='toLink' src="{{zoneList[1].imgUrl}}"></image>
       </view>
       <view class="tripleItem-list skeleton-rect">
-        <image mode='aspectFill' data-msg="{{fresh3.msg?fresh3.msg:''}}" class="skeleton-rect" data-url="{{fresh3.linkUrl}}" catchtap='toLink' src="{{fresh3.imgUrl}}"></image>
+        <image mode='aspectFill' data-isLink="{{zoneList[2].isLink}}" data-msg="{{zoneList[2].tips?zoneList[2].tips:''}}" class="skeleton-rect" data-url="{{zoneList[2].linkUrl}}" catchtap='toLink' src="{{zoneList[2].imgUrl}}"></image>
       </view>
     </view>
   </view>
@@ -238,7 +238,7 @@
         <view class="video-item-title">{{item.title}}</view>
       </view>
 
-      <view wx:if="{{!hideVideo }}" class="video-item" wx:for="{{allList[bigindex].topicVideo}}" wx:key="index" data-id="{{item.id}}" data-zan="{{item.zan}}" catchtap='toVideo'>
+      <view wx:if="{{hideVideo}}" class="video-item" wx:for="{{allList[bigindex].topicVideo}}" wx:key="index" data-id="{{item.id}}" data-zan="{{item.zan}}" catchtap='toVideo'>
         <image mode='aspectFill' src="{{item.homePic}}" style="width:700rpx;height:300rpx;border-radius:10rpx;"></image>
         <image src="/images/icon/paly.png" class="play"></image>
         <view class="video-item-title">{{item.title}}</view>

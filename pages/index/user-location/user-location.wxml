@@ -2,7 +2,7 @@
   <view class="title">- 已开通城市 -</view>
 
   <view class="cityBox">
-    <view class="cityItem" catchtap='selectCity' data-isopen="{{item.isopen}}" data-city="{{item.name}}" wx:for="{{txtObj}}" wx:key="index" >
+    <view class="cityItem" wx:if="{{item.isShow}}" data-isopen="{{item.isOpen}}" catchtap='selectCity' data-msg="{{item.tips}}" data-city="{{item.name}}" wx:for="{{txtObj}}" wx:key="index" >
       {{item.name}}
       <image src="{{item.imgUrl}}"></image>
     </view>

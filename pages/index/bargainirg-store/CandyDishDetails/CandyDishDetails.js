@@ -3,6 +3,7 @@ var utils = require('../../../../utils/util.js');
 import {
   GLOBAL_API_DOMAIN
 } from '../../../../utils/config/config.js';
+import getToken from '../../../../utils/getToken.js';
 var app = getApp();
 import canvasShareImg from '../../../../utils/canvasShareImg.js';
 var WxParse = require('../../../../utils/wxParse/wxParse.js');
@@ -129,6 +130,7 @@ Page({
       title: _title
     })
     // this.init();
+    getToken(app).then( ()=>{})
   },
   onShow() {
     this.init();
@@ -419,6 +421,20 @@ Page({
             name: '使用规则',
             info: []
           };
+          if (data.status == '2') {
+            wx.showModal({
+              title: '提示',
+              content: '该商品已下架',
+              showCancel: false,
+              success(res) {
+                if (res.confirm) {
+                  wx.navigateBack({
+                    delta: 1
+                  })
+                }
+              }
+            })
+          }
           if (data.skuInfo) {
             skuInfo = data.skuInfo;
             if (skuInfo && skuInfo.indexOf("Œ") != -1) {

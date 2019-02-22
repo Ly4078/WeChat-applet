@@ -111,8 +111,18 @@ page {
 .cuisineRight {
   width: 68%;
   height: auto;
+  position: relative;
 }
-
+.cuisineRight .kj_success{
+  position: absolute;
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  z-index: 999;
+  right:20rpx;
+  top:50%;
+  transform: translateY(-50%);
+}
 .cuisineRight-Top {
   display: flex;
   justify-content: space-between;
@@ -225,12 +235,12 @@ page {
   text-align: center;
 }
 
-.invitation button:nth-child(1) {
+.invitation .share {
   background: rgba(255, 178, 14, 1);
   box-shadow: 0px 4px 0px 0px #db9603;
 }
 
-.invitation button:nth-child(2) {
+.invitation .pay {
   background: rgba(255, 85, 0, 1);
   box-shadow: 0px 4px 0px 0px #d24702;
 }

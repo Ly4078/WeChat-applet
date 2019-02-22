@@ -94,19 +94,26 @@ Page({
   },
   toWithdraw() {  //跳转至提现
     let txtObj = wx.getStorageSync("txtObj");
-    if (txtObj.withdrawMsg) {
-      wx.showModal({
-        title: '提示',
-        showCancel: false,
-        content: txtObj.withdrawMsg,
-        success(res) {
-          if (res.confirm) {
-            console.log('用户点击确定')
-          } else if (res.cancel) {
-            console.log('用户点击取消')
+    if (txtObj.withdraw) {
+      if (txtObj.withdraw.isOpen){
+        wx.navigateTo({
+          url: 'withdraw/withdraw'
+        })
+      }else{
+        wx.showModal({
+          title: '提示',
+          showCancel: false,
+          content: txtObj.withdraw.tips,
+          success(res) {
+            if (res.confirm) {
+              console.log('用户点击确定')
+            } else if (res.cancel) {
+              console.log('用户点击取消')
+            }
           }
-        }
-      })
+        })
+      }
+      
     } else {
       wx.navigateTo({
         url: 'withdraw/withdraw'

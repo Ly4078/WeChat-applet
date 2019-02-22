@@ -41,6 +41,15 @@ Page({
           _data[i].title = utils.uncodeUtf16(_data[i].title);
           _data[i].timeDiffrence = utils.timeDiffrence(data.currentTime, _data[i].updateTime, _data[i].createTime)
           articleList.push(_data[i]);
+          _data[i].hideVideo = true;
+          if (_data[i].topicType == '2') {
+            let txtObj = wx.getStorageSync("txtObj");
+            if (txtObj.videoShow) {
+              _data[i].hideVideo = true;
+            } else {
+              _data[i].hideVideo = false;
+            }
+          }
         }
         this.setData({
           merchantArt: articleList

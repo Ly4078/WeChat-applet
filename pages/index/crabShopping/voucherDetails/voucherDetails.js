@@ -31,7 +31,8 @@ Page({
  
     this.setData({
       id: options.id,
-      isDue: options.isDue
+      isDue: options.isDue,
+      fromType: options.fromType || ''
     });
     if (options.shareId) {
       this.setData({
@@ -223,6 +224,13 @@ Page({
               url: '../express/express?weight=' + _this.data.realWeight + '&tempateId=' + _this.data.tempateId + '&id=' + _this.data.id + '&locationX=' + app.globalData.userInfo.lng + '&locationY=' + app.globalData.userInfo.lat + '&bluk=' + _this.data.bluk + '&piece=' + _this.data.piece + '&formulaMode=' + _this.data.formulaMode + "&shopId=" + _this.data.piaodata.shopId + "&couponCode=" + _this.data.piaodata.couponCode + "&couId=" + _this.data.piaodata.id
             })
           }
+
+          // if (_this.data.fromType == 'employ' && !_this.data.isReceived && _this.data.isUsed == 0 && (_this.data.status == 0 || _this.data.status == null) && _this.data.isDue == 0 && (_this.data.sendType == 0 || _this.data.sendType == 2)){
+          //   setTimeout( ()=>{
+          //     _this.exchange();
+          //     _this.setData({ fromType: '' })
+          //   },250)
+          // }
         }
       },
       complete: function() {
@@ -261,8 +269,9 @@ Page({
       canvasId: 'voucanvas',
       success: function (res) {
         var tempFilePath = res.tempFilePath;
+        console.log('resssss',res)
         that.setData({
-          imagePath: tempFilePath,
+          imagePath: tempFilePath
           // canvasHidden:true
         });
       },
@@ -399,18 +408,23 @@ Page({
   express() { //跳转至快递配送
     let txtObj = wx.getStorageSync("txtObj");
     let that = this;
-    if (txtObj.isShowexpressMsg == '1') {
-      wx.showModal({
-        title: '提示',
-        content: txtObj.expressMsg,
-        success(res) {
-          if (res.confirm) {
-            that.getorderCoupon(2);
-          } else if (res.cancel) {
-           
+    if (txtObj.express) {
+      if (txtObj.express.isOpen){
+        that.getorderCoupon(2);
+      }else{
+        wx.showModal({
+          title: '提示',
+          content: txtObj.express.tips,
+          success(res) {
+            if (res.confirm) {
+              that.getorderCoupon(2);
+            } else if (res.cancel) {
+
+            }
           }
-        }
-      })
+        })
+      }
+      
     }else{
       that.getorderCoupon(2);
     }
@@ -485,7 +499,10 @@ Page({
     })
   },
   exchange() { //点击兑换按钮
-    this.getorderCoupon(1);
+  wx.previewImage({
+    urls: [this.data.imagePath],
+  })
+    // this.getorderCoupon(1);
   },
   infoDetail() {   //跳转至详细说明
     let url = '../getFailure/getFailure';

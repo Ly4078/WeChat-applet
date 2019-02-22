@@ -8,7 +8,7 @@
       <view class="qrcode_txt fz24">请持兑换码至适用门店</view>
       <view class="fz24">兑换商品</view>
 
-      <canvas class='canvasBox' canvas-id="voucanvas" />
+      <!-- <canvas class='canvasBox' canvas-id="voucanvas" /> -->
 
       <!-- <image src="{{qrcodeUrl}}"></image> -->
 
@@ -23,17 +23,27 @@
         <image wx:else mode="aspectFill" src="/images/icon/morentu.png"></image>
       </view>
       <view style="padding:0 22rpx;font-weight:600;" class="fz36">{{skuName}}{{goodsNum > 1 ? 'X'+goodsNum : ''}}</view>
-      <view wx:if="{{!isReceived && isUsed == 0 && (status == 0 || status == null) && isDue == 0}}" style="color:#FC5E2D;margin:48rpx 0 25rpx 0;">{{piaodata.goodsSku.otherMarkerPrice?'￥'+piaodata.goodsSku.otherMarkerPrice:'￥'+piaodata.orderItemOuts[0].goodsPrice}}</view>
+      <view wx:if="{{!isReceived && isUsed == 0 && (status == 0 || status == null) && isDue == 0}}" style="color:#FC5E2D;margin:5rpx 0 40rpx 0;">{{piaodata.goodsSku.otherMarkerPrice?'￥'+piaodata.goodsSku.otherMarkerPrice:'￥'+piaodata.orderItemOuts[0].goodsPrice}}</view>
       <view wx:else style="margin:48rpx 0 25rpx 0;">
         {{piaodata.goodsSku.otherMarkerPrice?'￥'+piaodata.goodsSku.otherMarkerPrice:'￥'+piaodata.orderItemOuts[0].goodsPrice}}
       </view>
 
-      <view wx:if="{{!isReceived && isUsed == 0 && (status == 0 || status == null) && isDue == 0}}" class="detail_top_btn fz30">
+      <view wx:if="{{!isReceived && isUsed == 0 && (status == 0 || status == null) && isDue == 0}}" class="detail_top_btn fz30" style=" flex-direction: column;align-items: center;">
 
-        <view wx:if="{{sendType == 0 || sendType == 2}}" class="storeBtn" bindtap='exchange'>门店兑换</view>
-        <view wx:if="{{sendType == 0 || sendType == 1}}" class="expressBtn" bindtap='express'>快递配送</view>
+        <view style="height:auto;background-color:transparent;width:100%;" wx:if="{{sendType == 0 || sendType == 2}}" class="storeBtn" bindtap='exchange'>
+          <canvas class='canvasBox' style="margin:0 auto 0rpx;" canvas-id="voucanvas" />
+          <text class="top_time fz24" style="padding-bottom:0rpx;padding-top:0;">出示此券，到店扫码核销兑换</text>
+        </view>
+        <view style="display:flex;justify-content: center;flex-direction: row;width:100%;margin-top:20rpx;">
+          <view style="width:280rpx;" wx:if="{{!isReceived && isUsed == 0 && (status == 0 || status == null) && isDue == 0}}" class="giftBTn fz36">
+            <button style="background:#FC5E2D;font-size:30rpx;color:#fff;" plain="true" data-name="shareBtn" open-type="share">赠送好友</button>
+          </view>
+          <view style="width:280rpx;" wx:if="{{sendType == 0 || sendType == 1}}" class="expressBtn" bindtap='express'>快递配送</view>
+        </view>
+
       </view>
       <view wx:else class="detail_top_btn fz30">
+        <view style="padding:0 15rpx;" class="storeBtn active">{{giftTxt}}</view>
         <view wx:if="{{sendType == 0 || sendType == 2}}" class="storeBtn active">门店兑换</view>
         <view wx:if="{{sendType == 0 || sendType == 1}}" class="expressBtn active">快递配送</view>
       </view>
@@ -70,7 +80,7 @@
       </view>
     </view>
   </view>
-  <view wx:if="{{!isReceived && isUsed == 0 && (status == 0 || status == null) && isDue == 0}}" class="giftBTn fz36">
+  <!-- <view wx:if="{{!isReceived && isUsed == 0 && (status == 0 || status == null) && isDue == 0}}" class="giftBTn fz36">
     <button plain="true" data-name="shareBtn" open-type="share">
       <image src="/images/icon/gift.png"></image>
       <text>赠送好友</text>
@@ -79,7 +89,7 @@
   <view wx:else class="giftBTn fz36">
     <image src="/images/icon/cancelGift.png"></image>
     <text class="gray">{{giftTxt}}</text>
-  </view>
+  </view> -->
 </view>
 
 
@@ -89,20 +99,20 @@
     <view class="redbagPrice">{{skuName}}</view>
     <image src="https://xqmp4-1256079679.file.myqcloud.com/15927505686_quanbaobanner.png"></image>
   </view>
-    <view class="formBox">
-        <view class="inputBox">
-            <textarea show-confirm-bar="{{false}}" bindinput='redbagMsg' maxlength='50' placeholder="{{showSkeleton?'':'祝福语：恭喜发财，大吉大利'}}"></textarea>
-            <text>{{redbagMsg?redbagMsg.length:0}}/50</text>
-        </view>
-        <view class="buttons">
-          <!-- <view wx:if="{{sendType == '3'}}"  catchtap='toMyself'>自己用</view> -->
-           <!-- <view wx:if="{{sendType == 0 || sendType == 2}}" class="storeBtn" bindtap='exchange'>门店兑换</view>
-        <view wx:if="{{sendType == 0 || sendType == 1}}" class="expressBtn" bindtap='express'>快递配送</view> -->
-          <button open-type='share'>发红包贺卡</button>
-        </view>
-      
+  <view class="formBox">
+    <view class="inputBox">
+      <textarea show-confirm-bar="{{false}}" bindinput='redbagMsg' maxlength='50' placeholder="{{showSkeleton?'':'祝福语：恭喜发财，大吉大利'}}"></textarea>
+      <text>{{redbagMsg?redbagMsg.length:0}}/50</text>
     </view>
-      <view class="msgdetail" catchtap='todetailMsg'>帮助中心</view>
+    <view class="buttons">
+      <!-- <view wx:if="{{sendType == '3'}}"  catchtap='toMyself'>自己用</view> -->
+      <!-- <view wx:if="{{sendType == 0 || sendType == 2}}" class="storeBtn" bindtap='exchange'>门店兑换</view>
+        <view wx:if="{{sendType == 0 || sendType == 1}}" class="expressBtn" bindtap='express'>快递配送</view> -->
+      <button open-type='share'>发红包贺卡</button>
+    </view>
+
+  </view>
+  <view class="msgdetail" catchtap='todetailMsg'>帮助中心</view>
   <!-- <view class="bottomBG">
     <image src="https://xqmp4-1256079679.file.myqcloud.com/15927505686_redbagBottombg.png"></image>
   </view> -->

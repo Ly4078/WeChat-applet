@@ -46,7 +46,7 @@ Page({
       that.getorderInfoDetail();
       that.getgroupOrderDetail();
       timerNum++
-    }, 2000)
+    },4000)
   },
   onPullDownRefresh: function() {
     this.findByCode()
@@ -343,6 +343,12 @@ Page({
       url = "",
       urll = "",
       _Urll = "";
+      if(that.data.soDetail.flagType == '4' ) {
+        wx.navigateTo({
+          url: '/pages/index/bargainirg-store/pastTense/pastTense',
+        })
+        return false
+      }
     if (this.data.ispay) {
       that.setData({
         ispay: false
@@ -595,15 +601,36 @@ Page({
 
   },
   seepiaoDetail: function() { //查看票券
-    wx.switchTab({
-      url: '/pages/personal-center/my-discount/my-discount',
-      success: function () { },
-      fail: function () {
+  let that = this;
+    if (that.data.soDetail.orderCoupons.length == '1') {
+      let isDue = that.isDueFunc(that.data.soDetail.orderCoupons[0].expiryDate);
+      let id = that.data.soDetail.orderCoupons[0].id;
         wx.navigateTo({
-          url: "/pages/personal-center/my-discount/my-discount",
+          url: '/pages/index/crabShopping/voucherDetails/voucherDetails?id=' + id + '&isDue=' + isDue +'&fromType=employ'
         })
-      }
-    })
+    }else{
+      wx.switchTab({
+        url: '/pages/personal-center/my-discount/my-discount',
+        success: function () { },
+        fail: function () {
+          wx.navigateTo({
+            url: "/pages/personal-center/my-discount/my-discount",
+          })
+        }
+      })
+    }
+    
+  },
+  //对比时间是否过期
+  isDueFunc: function (expiryDate) {
+    //isDue=1 已过期 isDue=0未过期
+    let getMonth = parseInt(new Date().getMonth()) + 1;
+    let currentT = new Date().getFullYear() + '-' + getMonth + '-' + new Date().getDate() + " 23:59:59",
+      isDue = 0;
+    if (new Date(currentT).getTime() > new Date(expiryDate + " 23:59:59").getTime()) {
+      isDue = 1;
+    }
+    return isDue;
   },
   // 遮罩层显示
   showShade: function() {

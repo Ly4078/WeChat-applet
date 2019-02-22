@@ -25,8 +25,6 @@ Page({
     attention: []
   },
   onLoad: function(options) {
-    let hidecai = wx.getStorageSync('txtObj') ? wx.getStorageSync('txtObj').hidecai : true;
-    this.setData({ hidecai })
     let that = this;
     try{
       var query = wx.createSelectorQuery();

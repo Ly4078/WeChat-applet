@@ -4,6 +4,7 @@ import {
   GLOBAL_API_DOMAIN
 } from '../../../utils/config/config.js';
 var app = getApp();
+var requestTask = true;
 Page({
 
   /**
@@ -228,6 +229,9 @@ Page({
         duration: 2000
       })
     }else{
+      if (!requestTask){
+        return false;
+      }
       this.hxCouponV1();
     }
     this.setData({
@@ -258,6 +262,10 @@ Page({
   },
   //核销此券
   hxCouponV1() {
+    requestTask = false;
+    wx.showLoading({
+      title: '加载中...',
+    })
     wx.request({
       url: this.data._build_url + 'orderCoupon/hxCouponV1?id=' + this.data.soDataId,
       header: {
@@ -281,6 +289,12 @@ Page({
             icon: 'none'
           })
         }
+      },fail:function(){},
+      complete:function(){
+        wx.hideLoading();
+        setTimeout( ()=>{
+          requestTask = true;
+        },300)
       }
     })
   }

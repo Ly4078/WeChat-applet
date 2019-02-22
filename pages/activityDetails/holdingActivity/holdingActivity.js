@@ -46,7 +46,7 @@ Page({
     this.createUser()
   },
   getwinningList() {
-    let that = this
+    let that = this;
     wx.request({
       url: that.data._build_url + 'orderInfo/listFree?page=1&rows=50&actId=42&payType=0',
       method: 'get',

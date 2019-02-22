@@ -388,7 +388,6 @@ Page({
       token: app.globalData.token
     }
     Api.AddressList(_parms).then((res) => {
-      wx.hideLoading();
       if (res.data.code == 0 && res.data.data.list) {
         let _list = res.data.data.list,
           _dictCounty = "",
@@ -1013,13 +1012,13 @@ Page({
           wx.showLoading({
             title: '订单确认中...',
           })
-        }, 500)
+        },500)
         setTimeout(() => {
           wx.hideLoading();
           wx.navigateTo({
             url: '/pages/personal-center/personnel-order/logisticsDetails/logisticsDetails?soId=' + that.data.orderId,
           })
-        },3000)
+        },1000)
       },
       fail: function (res) {
         wx.hideLoading();

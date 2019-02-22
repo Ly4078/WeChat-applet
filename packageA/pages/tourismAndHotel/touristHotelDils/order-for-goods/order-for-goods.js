@@ -241,7 +241,7 @@ Page({
           wx.navigateTo({
             url: '/pages/personal-center/personnel-order/logisticsDetails/logisticsDetails?soId=' + that.data.orderId,
           })
-        },3000)
+        },1000)
 
       }, fail: function (res) {
         payrequest = true

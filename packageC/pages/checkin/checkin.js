@@ -104,7 +104,9 @@ Page({
 
       },
       complete:function(){
-        checkinFlag = true;
+        setTimeout( ()=>{
+          checkinFlag = true;
+        },300)
       }
     })
   },

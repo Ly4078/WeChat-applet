@@ -92,13 +92,21 @@ App({
   getconfig: function () { //请求配置数据
     let that = this;
     wx.request({
-      url: this.data._build_url + 'version.txt',
+      url: this.data._build_url + 'globalConfig/list?type=1',
       header: {
         "Authorization": that.globalData.token
       },
       success: function (res) {
-        that.globalData.txtObj = res.data;
-        wx.setStorageSync("txtObj", res.data);
+        console.log('config',res);
+          if(res.data.code=='0') {
+            let data = res.data.data;
+            let txtObj = data;
+            for(var k in data){
+              txtObj[k] = JSON.parse(data[k].configValue)
+            }
+            console.log(txtObj)
+            wx.setStorageSync("txtObj", txtObj);
+          }
       }
     })
   }

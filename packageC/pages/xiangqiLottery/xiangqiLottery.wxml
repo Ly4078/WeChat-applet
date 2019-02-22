@@ -31,7 +31,7 @@
           </navigator>
         </block>
       </swiper>
-      <view wx:if="{{!msgList.length}}" style="font-size:26rpx;text-align:center;color:#fff;margin-top:22rpx;">数据加载中...</view>
+      <view wx:if="{{!msgList.length}}" style="font-size:26rpx;text-align:center;color:#fff;margin-top:22rpx;">抽奖赢现金</view>
       <view class='circleListWrap'>
         <view class="circle" wx:for="{{circleList}}" wx:key="{{index}}" style="top:{{item.topCircle}}rpx;left:{{item.leftCircle}}rpx;background-color: {{(index%2==0)?colorCircleFirst:colorCircleSecond}};"></view>
       </view>

@@ -165,7 +165,7 @@ page {
   height: 127rpx;
   display: block;
   margin: 0 auto;
-  padding: 40rpx 0;
+  padding: 40rpx 0 10rpx 0;
 }
 
 .navitem_txt {

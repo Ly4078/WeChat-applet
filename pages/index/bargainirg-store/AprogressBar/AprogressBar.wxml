@@ -44,6 +44,7 @@
       <view class='cuisine' id="{{dishData.id}}" data-shipid="{{dishData.shopId}}" data-cate="{{dishData.categoryId}}" catchtap='chilkDish'>
         <image class='cuisineImages' mode='aspectFill' src='{{dishData.picUrl?dishData.picUrl:dishData.skuPic}}'></image>
         <view class='cuisineRight'>
+          <image wx:if="{{isMine && status == '4' && otherStatus == '3'}}" class="kj_success" src="https://xqmp4-1256079679.file.myqcloud.com/13971489895_1550730002_e6ca4a13490ac6ec5a10a8c05e1b756.png"></image>
           <view class='cuisineRight-Top'>
             <view class='cuisineRight-text'>
               <text>{{dishData.skuName?dishData.skuName:dishData.salePointOuts[0].logoUrl}}</text>
@@ -98,8 +99,8 @@
 
       <!-- 邀请/购买按钮 -->
       <view wx:if="{{isMine && status != 3}}" class='invitation'>
-        <button plain="true" data-name="shareBtn" open-type="share" bindtap='transpond'>邀请好友帮忙砍</button>
-        <button bindtap='toBuy'>￥
+        <button class="share" wx:if="{{status == 1 || otherStatus == 1}}" plain="true"  data-name="shareBtn" open-type="share" bindtap='transpond'>邀请好友帮忙砍</button>
+        <button class="pay" bindtap='toBuy'>￥
           <text>{{skuMoneyNow}}</text>立即购买</button>
       </view>
       <!-- 分享出去朋友进来未砍状态 -->

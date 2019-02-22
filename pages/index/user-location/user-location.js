@@ -15,16 +15,17 @@ Page({
     let that = this;
     let txtObj = wx.getStorageSync("txtObj");
     that.setData({
-      txtObj: txtObj.citylist
+      txtObj: txtObj.cityList
     })
   },
   selectCity:function(e){
     let that = this;
     let city = e.currentTarget.dataset.city;
     let isopen = e.currentTarget.dataset.isopen;
+    let msg = e.currentTarget.dataset.msg;
     console.log(city)
     console.log(isopen)
-    if (isopen == '1') {
+    if (isopen) {
       let userInfo = wx.getStorageSync('userInfo')
       userInfo.city = city
       wx.setStorageSync("userInfo", userInfo)
@@ -35,7 +36,7 @@ Page({
       })
     }else{
       wx.showToast({
-        title: '暂未开放',
+        title: msg ? msg:'暂未开放',
         icon:'none'
       })
     }

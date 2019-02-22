@@ -693,6 +693,22 @@
   }
 
 
+  var drawImg = function (src, width, ctx) {
+    var imgSize = width / 5;
+    var imgPos = width / 10 * 4;
+    var imgPosFix = width / 120;
+    ctx.strokeStyle = '#fff';
+    var avatorWidth = width * 64
+      , avatorHeight = width * 64;
+    var avatarurlX = width * 25;   //绘制的头像在画布上的位置
+    var avatarurlY = width * 25;   //绘制的头像在画布上的位置
+    ctx.save();
+    ctx.beginPath(); //开始绘制
+    ctx.arc(avatorWidth / 2 + avatarurlX, avatorHeight / 2 + avatarurlY, avatorWidth / 2, 0, Math.PI * 2, false);
+    ctx.clip();
+    ctx.restore();
+    ctx.drawImage(src, imgPos, imgPos, imgSize, imgSize);
+  }
 
 
   var _canvas = null;
@@ -780,6 +796,7 @@
           }
         }
       }
+      // drawImg('/images/icon/logo.png', cavW, ctx);
       ctx.draw();
     }
   }

@@ -1,7 +1,4 @@
 var app = getApp();
-
-
-
 let canvasShareImg = function(imgUrl,text1,text2){
   return new Promise((resolve, reject)=>{
     wx.getImageInfo({

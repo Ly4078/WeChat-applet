@@ -29,28 +29,27 @@ Page({
     // 改版新增变量 
     showRebbag:false,
     fresh0: {},
-
-    fresh1: {}, //享7生鲜图片1
-    fresh2: {}, //享7生鲜图片2
-    fresh3: {}, //享7生鲜图片3
     activityList: [],    //活动列表
-    bannthree: [],
     navs: [{
       imgUrl: '',
       title: '',
-      flag: false
+      flag: false,
+      isShow:true
     },
     {
       imgUrl: '',
-      title: ''
+      title: '',
+      isShow: true
     },
     {
       imgUrl: '',
-      title: ''
+      title: '',
+      isShow: true
     },
     {
       imgUrl: '',
-      title: ''
+      title: '',
+      isShow: true
     },
     {
       imgUrl: '',
@@ -132,27 +131,22 @@ Page({
     } catch (err) {
       console.log(err)
     }
-    let carousel = wx.getStorageSync("carousel") || [{}];
-    let bannthree = wx.getStorageSync("bannthree") || [{}];
-    let txtObj = wx.getStorageSync('txtObj') || {};
-    carousel[0].loadType = 'storage';
-    bannthree[0].loadType = 'storage'
-    if (Object.keys(txtObj).length != 0) {
+   var txtObj = wx.getStorageSync("txtObj") || {};
+    if (txtObj.bannerList) {
       that.setData({
-        fresh0: txtObj ? txtObj.fresh0 : '',
-        fresh1: txtObj ? txtObj.fresh1 : '',
-        fresh2: txtObj ? txtObj.fresh2 : '',
-        fresh3: txtObj ? txtObj.fresh3 : '',
-        showRebbag: txtObj ? txtObj.showRebbag:false,
-        activityList: txtObj ? txtObj.activityList : '',
-        navs: txtObj.navs ? txtObj.navs : that.data.navs
-      });
+        carousel: txtObj.bannerList,
+        navs: txtObj.navsList,
+        navbannerData: txtObj.navbannerData,
+        showRebbag: txtObj.showRebbag,
+        showRebbag2: txtObj.showRebbag2,
+        fresh0: txtObj.fresh0,
+        activityList: txtObj.activityList,
+        zoneList: txtObj.zoneList,
+        indexShare: txtObj.indexShare,
+        hideVideo:txtObj.videoShow
+      })
     }
-    that.setData({
-      bannthree,
-      windowHeight: app.globalData.systemInfo.windowHeight,
-      carousel
-    });
+
   },
 
   onShow: function() {
@@ -183,8 +177,6 @@ Page({
     }
     if (!app.globalData.token) { //没有token 获取token
       getToken(app).then(() => {
-        that.getcarousel(); //首页轮播图
-        that.gettoplistFor() //快捷入口
         that.getconfig(); //配置文件
         that.gettips(); //获取推送
         if (app.globalData.userInfo.city) {
@@ -219,12 +211,6 @@ Page({
           that.setData({ city: res })
         })
       }
-      if (that.data.carousel[0].loadType == 'storage') {
-        that.getcarousel(); //没有轮播图，请求轮播图
-      }
-      if (that.data.bannthree[0].loadType == 'storage') {
-        that.gettoplistFor();
-      }
     }
     
     that.data.timer = setTimeout(function () {
@@ -246,67 +232,30 @@ Page({
   getconfig: function () { //请求配置数据
     let that = this;
     wx.request({
-      url: this.data._build_url + 'version.txt',
+      url: this.data._build_url + 'globalConfig/list?type=1',
       header: {
         "Authorization": app.globalData.token
       },
       success: function (res) {
-        wx.stopPullDownRefresh()
-        app.globalData.txtObj = res.data;
-        wx.setStorageSync("txtObj", res.data);
-
-        if (res.data.flag == 0) { //0显示  
-          app.globalData.isflag = true;
-          try {
-            res.data.navs[4].title = "短视频";
-          } catch (err) {}
-        } else if (res.data.flag == 1) { //1不显示
-          app.globalData.isflag = false;
-          that.setData({
-            hideVideo: true
-          })
-          try {
-            res.data.navs[4].hide = true;
-          } catch (err) {
+        if (res.data.code == '0') {
+          let data = res.data.data;
+          let txtObj = data;
+          for (var k in data) {
+            txtObj[k] = JSON.parse(data[k].configValue)
           }
-        }
-        if (res.data.fresh1) {
+          wx.setStorageSync("txtObj", txtObj);
           that.setData({
-            fresh0: res.data.fresh0,
-            fresh1: res.data.fresh1,
-            fresh2: res.data.fresh2,
-            fresh3: res.data.fresh3,
-            showRebbag: res.data.showRebbag ? res.data.showRebbag:false,
-            navsNewYear: res.data.navsNewYear ? res.data.navsNewYear:[],
-            activityList: res.data.activityList,
-            bannerList: res.data.carousel ? res.data.carousel : [],
-            navs: res.data.navs || [],
-            indexShare: res.data.indexShare || ''
+            carousel: txtObj.bannerList,
+            navs: txtObj.navsList,
+            showRebbag: txtObj.showRebbag,
+            showRebbag2: txtObj.showRebbag2,
+            navbannerData: txtObj.navbannerData,
+            fresh0: txtObj.fresh0,
+            activityList: txtObj.activityList,
+            zoneList: txtObj.zoneList,
+            indexShare:txtObj.indexShare,
+            hideVideo: txtObj.videoShow
           })
-        }
-      }
-    })
-  },
-
-  gettoplistFor: function () { //加载广告位，快捷入口
-    let _list = [],
-      _shop = [],
-      _parms = {},
-      that = this;
-    _parms = {
-      token: app.globalData.token
-    };
-    Api.listForHomePage(_parms).then((res) => {
-      wx.stopPullDownRefresh()
-      if (res.data.code == 0) {
-        if (!res.data.data && res.data.data.length > 0) {
-          that.gettoplistFor();
-        } else {
-          let listarr = res.data.data.slice(0, 3);
-          that.setData({
-            bannthree: listarr
-          })
-          wx.setStorageSync('bannthree', listarr) //商家广告位-砍价拼菜banner图
         }
       }
     })
@@ -467,23 +416,6 @@ Page({
       }
     })
   },
-  getcarousel: function () { //轮播图
-    let that = this,
-      _parms = {};
-    _parms = {
-      token: app.globalData.token
-    }
-    Api.hcllist(_parms).then((res) => {
-      wx.stopPullDownRefresh()
-      if (res.data.data) {
-        wx.setStorageSync('carousel', res.data.data)
-        this.setData({
-          carousel: res.data.data
-        })
-      }
-    })
-
-  },
   openSetting() { //打开授权设置界面
     let that = this;
     that.setData({
@@ -511,6 +443,8 @@ Page({
   toLink(e) {
     let url = e.currentTarget.dataset.url;
     let msg = e.currentTarget.dataset.msg;
+    let isLink = e.currentTarget.dataset.islink;
+    console.log(e)
     let type = e.currentTarget.dataset.type;//type=2 代表跳转其他小程序
     if (type == '2') {
       try {
@@ -519,7 +453,7 @@ Page({
       } catch (err) { }
       return false;
     }
-    if (!url) {
+    if (!isLink) {
       wx.showToast({
         title: msg ? msg : '即将开放',
         icon: "none"
@@ -588,8 +522,6 @@ Page({
   },
   onPullDownRefresh: function () { //下拉刷新
     let that = this;
-    that.getcarousel(); //首页轮播图
-    that.gettoplistFor() //快捷入口
     that.getconfig(); //配置文件
     that.gettips(); //获取推送
     that.gethomeData('reset')
@@ -626,7 +558,7 @@ Page({
     return {
       title: that.data.indexShare.title,
       path: 'pages/index/index',
-      imageUrl: that.data.indexShare.url,
+      imageUrl: that.data.indexShare.imgUrl,
       success: function (res) {
         // 转发成功
       },
