@@ -636,8 +636,13 @@ Page({
               list[i].distance = utils.transformLength(list[i].distance);
             }
             let dishList = that.data.dishPage == 1 ? [] : that.data.dishList;
+            let istruenodata = that.data.dishPage == '15'?true:false;
+            if (that.data.dishPage == '15'){}else{
+              istruenodata = that.data.dishPage == Math.ceil(total/10)?true:false;
+            }
             that.setData({
               loading: false,
+              istruenodata,
               dishList: dishList.concat(list),
               dishTotal: Math.ceil(total / 10)
             });

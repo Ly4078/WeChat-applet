@@ -84,21 +84,15 @@ Page({
       getToken(app).then( ()=>{
         if (app.globalData.userInfo.lat && app.globalData.userInfo.lng) {
           if (that.data._city || app.globalData.userInfo.city) {
-            this.hotDishList();
+            that.hotDishList();
           } else {
             getCurrentLocation(that).then(() => {
-            that.getCutDish();
+              that.hotDishList();
             })
           }
         } else {
           getCurrentLocation(that).then(() => {
-            if (that.data.groupId) {
-              that.dishDetail();
-              that.hotDishList();
-              that.bargain();
-            } else {
-              that.createBargain();
-            }
+            that.hotDishList();
           })
         }
         this.dishDetail(); //查询菜详情
@@ -111,21 +105,15 @@ Page({
     }else{
       if (app.globalData.userInfo.lat && app.globalData.userInfo.lng) {
         if (that.data._city || app.globalData.userInfo.city) {
-          this.hotDishList();
+          that.hotDishList();
         } else {
           getCurrentLocation(that).then(() => {
-            that.getCutDish();
+            that.hotDishList();
           })
         }
       } else {
         getCurrentLocation(that).then(() => {
-          if (that.data.groupId) {
-            that.dishDetail();
-            that.hotDishList();
-            that.bargain();
-          } else {
-            that.createBargain();
-          }
+          that.hotDishList();
         })
       }
       this.dishDetail(); //查询菜详情
@@ -918,9 +906,15 @@ Page({
   },
   // 使用规则
   instructions: function() {
-    this.setData({
-      showModal: true,
-      instruct: true
+    let that = this;
+    let url = ''
+    if (that.data.shopId != '0') {
+      url = '/pages/index/crabShopping/getFailure/getFailure?onekey=bargain&twokey=dish'
+    } else {
+      url = '/pages/index/crabShopping/getFailure/getFailure?onekey=bargain&twokey=goods'
+    }
+    wx.navigateTo({
+      url: url,
     })
   },
   // 关闭弹窗

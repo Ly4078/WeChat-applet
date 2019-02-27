@@ -124,7 +124,7 @@ Page({
   },
   todetailMsg:function(){
     wx.navigateTo({
-      url: '/pages/index/crabShopping/getFailure/getFailure?redbag=true',
+      url: '/pages/index/crabShopping/getFailure/getFailure?onekey=redbagdesc',
     })
   },
 

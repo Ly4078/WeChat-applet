@@ -231,10 +231,10 @@ Page({
       shopId: this.data.shopId
     };
     if (app.globalData.userInfo.lng) {
-      _parms.ocationX = app.globalData.userInfo.lng;
+      _parms.ocationX = app.globalData.userInfo.lng ? app.globalData.userInfo.lng:wx.getStorageSync('userInfo').lng;
     }
     if (app.globalData.userInfo.lat) {
-      _parms.locationY = app.globalData.userInfo.lat;
+      _parms.locationY = app.globalData.userInfo.lat ? app.globalData.userInfo.lat : wx.getStorageSync('userInfo').lat;
     }
     if (that.data.actId) {
       _parms.actId = this.data.actId

@@ -142,7 +142,9 @@ Page({
               }
               dishList.push(list[i]);
             }
+            let istruenodata = that.data.page == Math.ceil(res.data.data.total / 10)?true:false;
             that.setData({
+              istruenodata,
               dishList: dishList,
               pageTotal: Math.ceil(res.data.data.total / 10)
             });

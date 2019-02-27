@@ -1,3 +1,5 @@
+var WxParse = require('../../../../utils/wxParse/wxParse.js');
+
 Page({
 
   /**
@@ -11,7 +13,16 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.setData({ redbag: options.redbag ? options.redbag:false})
+    let html = '';
+    if(options.onekey){
+      let regulation = wx.getStorageSync('txtObj').regulation;
+      if(options.twokey){
+        html = regulation[options.onekey][options.twokey]
+      }else{
+        html = regulation[options.onekey]
+      }
+    }
+    WxParse.wxParse('article', 'html', html, this, 10);
   },
 
   /**

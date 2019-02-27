@@ -8,6 +8,7 @@ import Public from '../../utils/public.js';
 import getToken from '../../utils/getToken.js';
 import getCurrentLocation from '../../utils/getCurrentLocation.js';
 var app = getApp();
+var scrollTimer = null;
 var isgetHomeData = false;
 
 Page({
@@ -18,6 +19,7 @@ Page({
     toTops: false,
     isnewTips: false,
     allList: [],
+    scrollEnd:true,
     _build_url: GLOBAL_API_DOMAIN,
     city: "", //默认值十堰市
     isshowlocation: false, //是否显示请求位置授权弹框
@@ -146,7 +148,7 @@ Page({
         hideVideo:txtObj.videoShow
       })
     }
-
+  
   },
 
   onShow: function() {
@@ -368,6 +370,13 @@ Page({
           loading: false,
           showSkeleton: false,
         })
+      },complete(){
+        isgetHomeData = false
+        wx.hideLoading();
+        that.setData({
+          loading: false,
+          showSkeleton: false,
+        })
       }
     })
   },
@@ -473,6 +482,11 @@ Page({
 
     } catch (err) {}
   },
+  closeredBag:function(){
+    this.setData({
+      hidefiexdredbag:true
+    })
+  },
   toVideo: function (e) { //视频详情
     let event = e.currentTarget.dataset
     wx.navigateTo({
@@ -509,7 +523,8 @@ Page({
     })
   },
   onPageScroll: function (e) {
-    if (e.scrollTop > 400) {
+    let that = this;
+    if (e.scrollTop > 1200) {
       this.setData({
         toTops: true
       })
@@ -518,7 +533,15 @@ Page({
         toTops: false
       })
     }
-
+    if (scrollTimer){
+      clearTimeout(scrollTimer)
+    }
+    if (that.data.scrollEnd){
+      that.setData({ scrollEnd: false })
+    }
+    scrollTimer = setTimeout( ()=>{
+      that.setData({scrollEnd:true})
+    },300)
   },
   onPullDownRefresh: function () { //下拉刷新
     let that = this;

@@ -10,6 +10,9 @@ page{
   width: 750rpx;
   height: 455rpx;
 }
+.proContent{
+  overflow: hidden;
+}
 .itemP{
   width: 100%;
   margin-bottom:15rpx;

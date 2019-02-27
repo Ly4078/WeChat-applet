@@ -8,9 +8,9 @@
     <view class="rule" catchtap='showmodal'>规则</view>
     <view class="checkinBox">
       <text class="title">累计签到</text>
-      <view class="days">
-        <text class="num">{{registerTotal?registerTotal:'0'}}</text>
-        <text class="day">天</text>
+      <view class="days" >
+        <text class="num" >{{registerTotal?registerTotal:'0'}}</text>
+        <text class="day" >天</text>
       </view>
       <view class="checkinButton {{ischeckin?'ischeckin':''}}" catchtap='checkin'>{{ischeckin?'已签到':'签到'}}</view>
     </view>
@@ -55,9 +55,10 @@
 
     <view>
       <view class='loadingBox'>
+      <image wx:if="{{istruenodata}}" src="/images/icon/bottomnodata.png" style="width:304rpx;height:64rpx;"></image>
         <i-spin custom wx:if="{{loading}}">
           <!-- <view class="loading"></view> -->
-          <image style='width:100rpx;height:100rpx;' src="https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/23.gif"></image>
+          <image style='width:100rpx;height:100rpx;' src="/images/icon/bottom_loading.gif"></image>
         </i-spin>
       </view>
     </view>

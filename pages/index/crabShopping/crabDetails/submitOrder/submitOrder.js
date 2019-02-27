@@ -551,7 +551,6 @@ Page({
           return false
         }
       }
-
       wx.showLoading({
         title: '加载中...',
         mask: true
@@ -647,6 +646,7 @@ Page({
           title: '余额不足',
           icon: 'none'
         })
+        payrequest = true;
         return false
       }
     }
@@ -759,6 +759,7 @@ Page({
           title: '余额不足',
           icon: 'none'
         })
+        payrequest = true;
         return false
       }
     }

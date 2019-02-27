@@ -218,7 +218,7 @@ Page({
   },
   confirm: function () { //确认核销
     let that = this,
-      _msg = '不符合核销条件，请重新输入',
+      _msg = '不符合核销条件',
       _hxData = this.data._soData;
     if (!this.data.isconfirm) {
     }else if (!this.data.okhx) {
@@ -252,10 +252,17 @@ Page({
         if (res.data.code == 0) {
           // that.hxCouponV1();
         } else {
-          wx.showToast({
-            title: res.data.data.errorMessage,
-            icon: 'none'
+          that.setData({
+            okhx:false
           })
+          wx.showModal({
+            title: '提示',
+            content: res.data.data.errorMessage,
+          })
+          // wx.showToast({
+          //   title: res.data.data.errorMessage,
+          //   icon: 'none'
+          // })
         }
       }
     })
@@ -268,6 +275,7 @@ Page({
     })
     wx.request({
       url: this.data._build_url + 'orderCoupon/hxCouponV1?id=' + this.data.soDataId,
+      // url: this.data._build_url + 'orderCoupon/hxCouponV2?id=' + this.data.soDataId,
       header: {
         "Authorization": app.globalData.token
       },
@@ -275,19 +283,25 @@ Page({
       success: function (res) {
         console.log('res:', res)
         if (res.data.code == 0) {
-          wx.showToast({
-            title: '核销成功',
-          })
+          setTimeout( ()=>{
+            wx.showToast({
+              title: '核销成功',
+              duration:3000
+            })
+          },150)
           setTimeout( ()=>{
             wx.switchTab({
               url: '../personal-center'
             })
           },2000)
         } else {
-          wx.showToast({
-            title: '核销失败',
-            icon: 'none'
-          })
+          setTimeout(() => {
+            wx.showToast({
+              title: '核销失败',
+              icon: 'none',
+              duration: 3000
+            })
+          }, 150)
         }
       },fail:function(){},
       complete:function(){

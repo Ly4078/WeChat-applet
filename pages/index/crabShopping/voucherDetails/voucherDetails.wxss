@@ -29,7 +29,7 @@ page {
   box-sizing: border-box;
   letter-spacing: 2rpx;
   overflow: hidden;
-  margin-bottom:40rpx;
+  margin-bottom:120rpx;
 
 }
 
@@ -41,6 +41,7 @@ page {
   padding-top: 90rpx;
   width: 100%;
   box-sizing: border-box;
+  padding-bottom: 50rpx;
 }
 
 .iconBox {

@@ -352,7 +352,13 @@ Page({
       success: function (res) {
         if (res.data.code == 0) {
           let list = res.data.data.list, total = res.data.data.total;
+
           if (list && list.length > 0) {
+            if (that.data.productPage >= Math.ceil(total / 10)) {
+              if (list.length % 2 != 0) {
+                list.pop();
+              }
+            }
             let arr = [];
             if (types == 'reset') {
               arr = list.length > 0 ? list : [];
@@ -363,7 +369,9 @@ Page({
                 arr.push(list[i]);
               }
             }
+            let istruenodata = that.data.productPage == Math.ceil(total/10)?true:false
             that.setData({
+              istruenodata,
               productList: arr,
               productTotal: Math.ceil(total / 10),
               loading: false
@@ -442,6 +450,7 @@ Page({
         loading: true
       })
       this.getlistdata(this.data.sortId, '');
+      
     }
   },
   onShareAppMessage: function(res) {

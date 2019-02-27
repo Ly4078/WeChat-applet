@@ -1,5 +1,6 @@
 import Api from '../../../utils/config/api.js';
 var utils = require('../../../utils/util.js');
+var WxParse = require('../../../utils/wxParse/wxParse.js');
 import {
   GLOBAL_API_DOMAIN
 } from '../../../utils/config/config.js';
@@ -29,6 +30,8 @@ Page({
     colorCircleSecond: '#FE4D32', //圆点颜色2
   },
   onLoad: function (options) {
+    let html = wx.getStorageSync('txtObj').regulation.lotteryredbag;
+    WxParse.wxParse('article', 'html', html, this, 10);
     if (options.shareId) {
       this.setData({
         shareId: options.shareId
@@ -337,7 +340,6 @@ Page({
         if (res.data.code == '0' && res.data.data.id) {
           let data = res.data.data,arr =[];
           arr = data.actDesc.split('[]');
-          // arr = _str.split('[]');
           that.setData({
             regulation: arr
           })

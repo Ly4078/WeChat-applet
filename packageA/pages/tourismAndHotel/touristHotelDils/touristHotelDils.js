@@ -562,8 +562,8 @@ Page({
   },
   // 遮罩层显示
   showShade: function () {
-    this.setData({
-      shadowFlag: false
+    wx.navigateTo({
+      url: '/pages/index/crabShopping/getFailure/getFailure?onekey=pintuan&twokey=detaildesc',
     })
   },
   touchmove:function(){

@@ -48,7 +48,7 @@
   <view class='loadingBox'>
     <i-spin custom wx:if="{{loading}}">
       <!-- <view class="loading"></view> -->
-      <image style='width:100rpx;height:100rpx;' src="https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/23.gif"></image>
+      <image style='width:100rpx;height:100rpx;' src="/images/icon/bottom_loading.gif"></image>
     </i-spin>
   </view>
 </view>

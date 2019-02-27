@@ -7,6 +7,7 @@ var getCurrentLocation = function (that) {
       success: function (res) {
         let latitude = res.latitude,
           longitude = res.longitude;
+        console.log(wx.getStorageSync("userInfo"))
         getCurrentCity(latitude, longitude, resolve)
       },
       fail: function (res) {
@@ -17,6 +18,7 @@ var getCurrentLocation = function (that) {
               that.setData({
                 isshowlocation: true
               })
+              return reject('err')
             } else {
               
             }
@@ -45,6 +47,7 @@ var getCurrentCity = function (lat, lng, resolve) {
         app.globalData.picker = res.data.result.address_component;
         app.globalData.userInfo.lat = lat;
         app.globalData.userInfo.lng = lng;
+    
         let userInfo = app.globalData.userInfo;
         wx.setStorageSync('userInfo', userInfo);
         

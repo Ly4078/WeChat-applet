@@ -1,9 +1,31 @@
-var app = getApp();
+// var app = getApp();
 var config = require('./config/config.js');
+var objUserInfo ={
+  id: '',
+  openId: '',
+  unionId: '',
+  sessionKey: '',
+  password: '',
+  userType: '',
+  userId: '',
+  shopId: '',
+  userName: '',
+  nickName: '',
+  phone: '',
+  mobile: '',
+  iconUrl: '',
+  sourceType: '',
+  city: '',
+  loginTimes: '',
+  sex: '', //gender	用户的性别，值为1时是男性，值为2时是女性，值为0时是未知
+  lat: '',
+  lng: '',
+  actInfoImg: '' //活动详情图片
+    }
 import Api from './config/api.js';
 var getToken = function (that,isLogin) {
   return new Promise( (resolve,reject)=>{
-    var App = that ? that:app
+    var App = that ? that:getApp();
       wx.login({
         success: res => {
           Api.findByCode({
@@ -12,17 +34,17 @@ var getToken = function (that,isLogin) {
             if (res.data.code == 0) {
               let _data = res.data.data;
               if (_data && _data.id) {
-                App.globalData.userInfo.userId = _data.id;
                 for (let key in _data) {
-                  for (let ind in App.globalData.userInfo) {
+                  for (let ind in objUserInfo) {
                     if (key == ind) {
-                      App.globalData.userInfo[ind] = _data[key]
+                      objUserInfo[ind] = _data[key]
                     }
                   }
                  
                 };
-                
-                wx.setStorageSync("userInfo", App.globalData.userInfo)
+                objUserInfo.userId = _data.id;
+                App.globalData.userInfo = objUserInfo;
+                wx.setStorageSync("userInfo", objUserInfo)
                 if (_data.mobile) {
                   authlogin(resolve, App);
                 } else {
@@ -67,11 +89,11 @@ let authlogin = function (resolve, App) { //获取token
         wx.setStorageSync('token', _token);
         return resolve(_token)
       } else {
-        getToken()
+        // getToken()
       }
     },
     fail() {
-      getToken()
+      // getToken()
     }
   })
 }

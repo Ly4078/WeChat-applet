@@ -319,7 +319,7 @@ page, .categoryBox {
   justify-content:center;
   align-items:center;
   height:100%;
-  margin-top:100rpx;
+  margin-top:86rpx;
   width:100%;
   background:#fff;
   z-index:9999;
@@ -351,7 +351,7 @@ page, .categoryBox {
 
 /* 精选推荐 */
 .tipList {
-  padding: 30rpx 0;
+  padding: 30rpx 0 10rpx 0;
   display: flex;
   justify-content: center;
   width: 100%;

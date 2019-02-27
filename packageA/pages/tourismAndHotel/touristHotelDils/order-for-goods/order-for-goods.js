@@ -105,6 +105,7 @@ Page({
           title: '余额不足',
           icon: 'none'
         })
+
         return false
       }
     }
@@ -118,6 +119,7 @@ Page({
       title: '加载中...',
       mask: true
     })
+    console.log(_parms)
     wx.request({
       // url: that.data._build_url + 'orderInfo/createNew',
       url: that.data._build_url + 'orderInfo/createv1',
@@ -212,6 +214,7 @@ Page({
           })
         }
       }, fail() {
+        payrequest = true
         wx.hideLoading();
         wx.showToast({
           title: '支付失败',

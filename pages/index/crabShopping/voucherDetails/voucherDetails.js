@@ -505,10 +505,10 @@ Page({
     // this.getorderCoupon(1);
   },
   infoDetail() {   //跳转至详细说明
-    let url = '../getFailure/getFailure';
+    let url = '../getFailure/getFailure?onekey=voucher';
     try{
       if (this.data.piaodata.goodsCategories[0].parent[0].id == '70') {
-        url = '../getFailure/getFailure?redbag=true'
+        url = '/pages/index/crabShopping/getFailure/getFailure?onekey=redbagdesc'
       }
     }catch(err){}
     wx.navigateTo({
@@ -627,7 +627,8 @@ Page({
   },
   todetailMsg: function () {
     wx.navigateTo({
-      url: '/pages/index/crabShopping/getFailure/getFailure?redbag=true',
+      url:
+        '/pages/index/crabShopping/getFailure/getFailure?onekey=redbagdesc',
     })
   },
 })

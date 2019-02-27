@@ -194,44 +194,6 @@ Page({
     //查询详情是否被领取或被使用
 
     this.couponPostage();
-    return
-    wx.showLoading({
-      title: '加载中...',
-      mask: true
-    })
-    
-    wx.request({
-      url: this.data._build_url + 'orderCoupon/getDetail?id=' + this.data.id + '&locationX=' + this.data.locationX + '&locationY=' + this.data.locationY,
-      header: {
-        "Authorization": app.globalData.token
-      },
-      success: function(res) {
-        if (res.data.code == 0) {
-          let data = res.data.data,
-            userId = app.globalData.userInfo.userId;
-          _this.setData({
-            dateObj: data,
-            isUsed: data.isUsed, //是否使用 0否/1是
-            ownId: data.ownId //券所有人
-          });
-          if (_this.data.isUsed == 0 && (_this.data.ownId == null || _this.data.ownId == userId)) {
-            if(_this.data.freight == 0) {
-              _this.seduseCoupon();
-            } else if (_this.data.freight > 0) {
-              //符合支付要求调起支付
-              _this.wxpayment();
-            }
-          }
-        }else{
-          wx.hideLoading()
-        }
-      },fail(){
-        wx.hideLoading()
-      },
-      complete: function() {
-        // wx.hideLoading();
-      }
-    })
   },
   //创建运费订单
   couponPostage(){
@@ -277,7 +239,7 @@ Page({
             })
             setTimeout(() => {
               wx.redirectTo({
-                url: '../../../../pages/personal-center/voucher/exchangeDetails/exchangeDetails?id=' + _this.data.id
+                url: '../../../../pages/personal-center/voucher/exchangeDetails/exchangeDetails?id=' + that.data.id
               })
             }, 1500)
           }
@@ -287,59 +249,6 @@ Page({
       },
       complete: function () {
         // wx.hideLoading();
-      }
-    })
-  },
-  //执行立即兑换
-  seduseCoupon: function() {
-    let _parms = {},
-      _this = this,
-      _value = "",
-      _url = "";
-    _parms = {
-      sendTime: this.data.date,
-      remark: this.data.remarks,
-      id: this.data.id,
-      sendAmount: this.data.freight,
-      couponAddressId: this.data.address.id
-    };
-    if (this.data.dateObj.shopOut){
-      _parms.shopId = this.data.dateObj.shopOut.id;
-      _parms.shopName = this.data.dateObj.shopOut.shopName;
-    }
-
-    for (var key in _parms) {
-      _value += key + "=" + _parms[key] + "&";
-    }
-    _value = _value.substring(0, _value.length - 1);
-    _url = encodeURI(_this.data._build_url + 'orderCoupon/useCoupon?' + _value);
-    wx.request({
-      url: _url,
-      header: {
-        "Authorization": app.globalData.token
-      },
-      method: 'POST',
-      success: function(res) {
-        wx.hideLoading()
-        if (res.data.code == 0) {
-          app.globalData.exchangeId = _this.data.id
-          wx.showToast({
-            title: '兑换成功',
-            icon: 'none',
-            duration: 3000
-          })
-          setTimeout(() => {
-            wx.redirectTo({
-              url: '../../../../pages/personal-center/voucher/exchangeDetails/exchangeDetails?id=' + _this.data.id
-            })
-          }, 1500)
-        } else {
-          wx.hideLoading()
-          wx.showToast({
-            title: res.data.message,
-            icon: 'none'
-          })
-        }
       }
     })
   },

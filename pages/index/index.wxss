@@ -977,3 +977,71 @@ page {
   height: 0;
   color: transparent;
 }
+
+
+
+/* 悬浮窗 快捷入口 */ 
+.fiexdCheckin{
+  position: fixed;
+  right: 0;
+  top: 150rpx;
+  z-index: 1;
+  background: #fff;
+  padding: 12rpx 10rpx 12rpx 20rpx;
+  border-radius: 50rpx 0 0 50rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: 26rpx;
+  transition: .3s all;
+  box-shadow:0px 0px 10rpx rgba(221, 221, 221, 1);
+
+}
+.fiexdCheckin image{
+  width: 28.6rpx;
+  height: 27.5rpx;
+  margin-right:6rpx;
+}
+.fiexdRedbag{
+    position: fixed;
+  right:10rpx;
+  bottom: 250rpx;
+  z-index: 1;
+   transition: .3s all;
+}
+.fiexdRedbag image{
+  width: 110rpx;
+  height: 134rpx;
+  animation:tada 2s .2s ease infinite;
+}
+.fiexdRedbag .close{
+  position: absolute;
+  z-index: 1;
+ left:50%;
+ transform: translateX(-50%);
+top:-40rpx;
+
+}
+ @keyframes tada {
+    0% {
+     transform: scale(1)
+    }
+    10%,
+    20% {
+     transform: scale(0.9) rotate(-3deg)
+    }
+    30%,
+    50%,
+    70%,
+    90% {
+     transform: scale(1.1) rotate(3deg)
+    }
+    40%,
+    60%,
+    80% {
+    transform: scale(1.1) rotate(-3deg)
+    }
+    100% {
+     transform: scale(1) rotate(0)
+    }
+   }

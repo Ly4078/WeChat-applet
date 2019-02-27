@@ -51,7 +51,10 @@ Page({
   },
   
   showmodal: function() {
-    this.setData({ showModal: true })
+    wx.navigateTo({
+      url: '/pages/index/crabShopping/getFailure/getFailure?onekey=checkin',
+    })
+    // this.setData({ showModal: true })
   },
   understand:function(){
     this.setData({ showModal:false})
@@ -64,6 +67,9 @@ Page({
         icon:'none'
       });
       return false
+    }
+    if (!that.data.isready){
+      return false;
     }
     if (!checkinFlag){
         return false;
@@ -122,6 +128,7 @@ Page({
         let _str ="1.用户每天签到可增加抽现金红包1次，一个用户每天只能签到1次;[]2.参与抽奖现金红包活动所得现金红包，自动转入账户钱包余额，账户钱包余额达10元以上即可提现兑换（3月1日开放提现功能）;[]3.活动期间，若发现用户参与活动过程中存在可疑异常行为或通过非正常方式参与活动（包括但不限于恶意套现，机器作弊等），享7平台将有权取消该用户资格。"
         if(res.data.data){
           that.setData({
+            isready:true,
             registerTotal: res.data.data.registerTotal,
             ischeckin: res.data.data.isRegister>0?true:false,
             // desc: res.data.data.actInfo.actDesc.split('[]')
@@ -155,7 +162,9 @@ Page({
               let dataList = that.data.recommenddata ? that.data.recommenddata : [];
               arr = dataList.concat(data)
             }
+            let istruenodata = that.data.page == Math.ceil(res.data.data.total/that.data.rows)?true:false
             that.setData({ 
+              istruenodata,
               recommenddata: arr,
               total: Math.ceil(res.data.data.total / that.data.rows)
               })

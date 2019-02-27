@@ -218,7 +218,9 @@ Page({
               list[i].distance = utils.transformLength(list[i].distance);
             }
             let dishList = that.data.dishPage == 1 ? [] : that.data.dishList;
+            let istruenodata = that.data.dishPage == '11'?true:false
             that.setData({
+              istruenodata,
               loading: false,
               dishList: dishList.concat(list),
               dishPages: Math.ceil(total / 10)

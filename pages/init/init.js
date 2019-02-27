@@ -217,7 +217,7 @@ Page({
       }
     })
   },
-  authlogin: function (userName) { //获取token
+  authlogin: function (userName, loginType) { //获取token
     let that = this;
     wx.request({
       url: that.data._build_url + 'auth/login?userName=' + userName,
@@ -239,7 +239,7 @@ Page({
           wx.setStorageSync("tokenTime", tokenTime)
           var mobile = String(userInfo.mobile);
           if (mobile.length >= 11) {
-            that.updatauser(that.data.wechatUserInfo);
+            that.updatauser(that.data.wechatUserInfo,loginType);
           } else {
             that.setData({
               getPhone: true
@@ -251,7 +251,7 @@ Page({
       }
     })
   },
-  updatauser: function (data) { //更新用户信息
+  updatauser: function (data, loginType) { //更新用户信息
     let that = this,
       _values = "",
       _parms = {},
@@ -297,9 +297,11 @@ Page({
           app.globalData.userInfo.nickName = data.userInfo.nickName;
           app.globalData.userInfo.iconUrl = data.userInfo.avatarUrl;
           app.globalData.currentScene.query == '';
-          app.globalData.newcomer = 1;
-          wx.setStorageSync("newcomer", '1')
-          that.receive();
+          if (loginType == 'bindphone') {
+            app.globalData.newcomer = 1;
+            wx.setStorageSync("newcomer", '1')
+            that.receive();
+          }
           if (that.data.isBack) {
             wx.navigateBack({
               delta: 1
@@ -365,7 +367,7 @@ Page({
             wx.setStorageSync('userInfo', res.data.data)
             app.globalData.userInfo = res.data.data;
             app.globalData.userInfo.userId = res.data.data.id;
-            that.authlogin(res.data.data.userName)
+            that.authlogin(res.data.data.userName,'bindphone')
           }
         }
       }

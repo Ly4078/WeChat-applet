@@ -180,7 +180,12 @@ Page({
               }
             }
             let shopList = that.data.shopPage == 1 ? [] : that.data.shopList;
+            let istruenodata = that.data.shopPage == '15'?true:false;
+            if (that.data.shopPage == Math.ceil(total / 10)){
+              istruenodata = true;
+            }
             that.setData({
+              istruenodata,
               loading: false,
               shopList: shopList.concat(list),
               shopPages: Math.ceil(total / 10)
@@ -219,9 +224,7 @@ Page({
     if (shoprequestflag) {
       return false;
     }
-    this.setData({
-      loading: true
-    });
+    
     if (this.data.posts_key.length >= this.data.total) {
       if (this.data.shopPage >= 15) {
         this.setData({
@@ -229,8 +232,12 @@ Page({
         });
         return false;
       };
+      if(this.data.shopPage >= this.data.shopPages){
+        return false
+      }
       this.setData({
         tipisShow: true,
+        loading:true,
         shopPage: this.data.shopPage + 1
       }, () => {
         this.hotShopList();
@@ -238,6 +245,7 @@ Page({
     } else {
       this.setData({
         tipisShow: false,
+        loading: true,
         page: this.data.page + 1
       }, () => {
         this.getShareList();

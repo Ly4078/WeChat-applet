@@ -146,6 +146,7 @@
     "navigationBarTitleText": "享7",
     "navigationBarTextStyle": "black",
     "navigationStyle": "default",
+    "onReachBottomDistance":20,
     "enablePullDownRefresh": true,
     "backgroundColor": "#f5f5fa"
   },

@@ -8,7 +8,7 @@ page{
   width: 670rpx;
   padding: 10rpx 10rpx 28rpx 10rpx;
   background: #fff;
-  margin-top: 20rpx;
+  margin: 20rpx auto 0;
   display: flex;
   flex-direction: row;
 }

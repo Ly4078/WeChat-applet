@@ -2,10 +2,6 @@
 <import src="bargainirg-store/bargainirg-template/bargainirg-template.wxml" />
 <!-- 骨架屏模块 -->
 <skeleton selector="skeleton" loading="spin" bgcolor="#FFF" wx:if="{{showSkeleton}}"></skeleton>
-<!-- <button catchtap='toWanda'>武商 快捷入口</button> -->
-<!-- <button catchtap='toWandaCai'>万达专区 快捷入口</button> -->
-<!-- <button catchtap='tocheckin'>签到 快捷入口</button> -->
-<!-- <button catchtap='getfptt'>享7公共抽奖 快捷入口</button> -->
 <view class="container">
   <!--顶部 定位 搜索 卷  -->
   <!-- 头部搜索 after  -->
@@ -32,12 +28,7 @@
     </block>
   </swiper>
 
-  <view class='modal_box' wx:if="{{isshowlocation}}">
-    <view class='weizhi'>
-      更多体验需要你授权位置信息
-      <button bindtap="openSetting">确定</button>
-    </view>
-  </view>
+
   <!-- 导航nav_one -->
   <view style="background:#fff;">
     <image catchtap='toLink' data-isLink="{{navbannerData.isLink}}" data-url="{{navbannerData.linkUrl}}"  data-msg="{{navbannerData.tips}}" style="width:{{navbannerData.width+'rpx;height:'+navbannerData.height+'rpx;'}}"  wx:if="{{!showSkeleton && showRebbag}}" class="redbagImg" src="{{navbannerData.imgUrl}}"></image>
@@ -50,17 +41,6 @@
     </view>
   </view>
 
-<!-- 
-  <view class="navsNewYear" wx:if="{{navsNewYear.length}}">
-    <image catchtap='togrourp' wx:if="{{!showSkeleton && showRebbag2}}" class="redbagImg" src="https://xqmp4-1256079679.file.myqcloud.com/15927505686_redbag.gif"></image>
-    <view class='indexNavOne ' style="background:none;">
-
-      <view wx:for="{{navsNewYear}}" wx:if="{{!item.hide && item.title !='短视频'}}" wx:key="index" data-url="{{item.linkUrl}}" class='navitem' id="{{item.id}}" data-msg="{{item.title=='酒店'?'商家正在入驻中...':item.msg}}" bindtap='toLink'>
-        <image class="img{{index+1}} skeleton-radius" src='{{item.imgUrl}}'></image>
-        <text class="navitem_txt skeleton-rect">{{item.title}}</text>
-      </view>
-    </view>
-  </view> -->
 
   <!-- 活动列表 -->
   <view class="actList" wx:if="{{!showSkeleton}}">
@@ -249,29 +229,36 @@
   <!--加载中loading -->
   <view>
     <view class='loadingBox'>
+       <image wx:if="{{notData}}" src="/images/icon/bottomnodata.png" style="width:304rpx;height:64rpx;"></image>
       <i-spin custom wx:if="{{loading}}">
         <!-- <view class="loading"></view> -->
-        <image style='width:100rpx;height:100rpx;' src="https://lg-dn28ltjg-1256805295.cos.ap-shanghai.myqcloud.com/23.gif"></image>
+        <image style='width:100rpx;height:100rpx;' src="/images/icon/bottom_loading.gif"></image>
       </i-spin>
     </view>
   </view>
-
+  <view class='modal_box' wx:if="{{isshowlocation}}">
+    <view class='weizhi'>
+      更多体验需要你授权位置信息
+      <button bindtap="openSetting">确定</button>
+    </view>
+  </view>
   <!-- 回到顶部 -->
   <view class='toTop' wx:if="{{toTops}}" bindtap='toTop'>
     <image src='/images/icon/toTop.png'></image>
   </view>
-
-  <view class='buttomBox' style="font-size:26rpx;color:#666;text-align:center;" wx:if="{{notData}}">已经到底啦~~~</view>
-
 </view>
 
+<navigator url="/packageC/pages/checkin/checkin">
+  <view class="fiexdCheckin" style="right:{{scrollEnd?'0rpx;':'-58rpx;'}}">
+  <image src="/images/icon/checkinxuanfu.png"></image>
+  <text>签到</text>
+</view>
+</navigator>
+<view wx:if="{{!hidefiexdredbag}}" class="fiexdRedbag" style="right:{{scrollEnd?'10rpx;':'-60rpx;'}}">
+<icon class="close" catchtap='closeredBag' type="clear" color="rgba(0,0,0,0.6)" size="18"></icon>
 
+  <navigator url="/packageC/pages/xiangqiLottery/xiangqiLottery">
+    <image src="https://xqmp4-1256079679.file.myqcloud.com/13971489895_1550903727_9967555cdee8354d3bb38a3a0972714.png"></image>
+  </navigator>
+</view>
 
-
-<!-- <view class="wandaactivity" wx:if="{{showwandaactivity}}">
-  <view class="activityshadow"></view>
-  <view class="activityContent">
-    <image src="https://xqmp4-1256079679.file.myqcloud.com/15927505686_wandanew.gif" catchtap='linkTowanda'></image>
-    <icon catchtap='hidewandaactivity' type="cancel" size="32" style="text-align:center;margin-top:30rpx;" color="#fff"></icon>
-  </view>
-</view> -->

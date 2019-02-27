@@ -187,8 +187,10 @@ Page({
               navList[i].data = navList[i].data ? navList[i].data:[];
               navList[i].data =  navList[i].data.concat(_data);
               navList[i].page = that.data.page;
-              navList[i].total = Math.ceil(res.data.data.total / 10)
+              navList[i].total = Math.ceil(res.data.data.total / 10);
+              let istruenodata = that.data.page == Math.ceil(res.data.data.total / 10)?true:false;
               that.setData({
+                istruenodata,
                 navList: navList
               })
             }

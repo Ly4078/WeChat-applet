@@ -62,13 +62,33 @@ App({
         that.globalData.systemInfo = res
       },
     })
+    // getToken(that, 'notTologin').then((res) => {
+    //   that.getconfig();
+    // })
+     try {
+      //版本更新
+      const updateManager = wx.getUpdateManager();
+      updateManager.onCheckForUpdate(function(res) {
+        // 请求完新版本信息的回调
+        // console.log(res.hasUpdate)
+      });
+      updateManager.onUpdateReady(function() {
+        // 新的版本已经下载好，调用 applyUpdate 应用新版本并重启
+        updateManager.applyUpdate()
+      });
+      updateManager.onUpdateFailed(function() {
+        // 新的版本下载失败
+      });
+    } catch (err) {
+      console.log(err)
+    }
     let token = wx.getStorageSync("token") || '';
     let tokenTime = wx.getStorageSync("tokenTime");
     // let userInfo = wx.getStorageSync('userInfo');
     var nowTime = Date.parse(new Date());
-    if (token && tokenTime && userInfo){
+    if (token && tokenTime && userInfo) {
       if (nowTime > tokenTime) {
-        getToken(that,'notTologin').then((res) => {
+        getToken(that, 'notTologin').then((res) => {
           that.getconfig();
         })
       } else {
@@ -77,11 +97,12 @@ App({
         that.globalData.userInfo.userId = userInfo.id;
         that.getconfig();
       }
-    }else{
-      getToken(that,'notTologin').then((res) => {
+    } else {
+      getToken(that, 'notTologin').then((res) => {
         that.getconfig();
       })
     }
+    
   },
   onPullDownRefresh: function() {
     wx.stopPullDownRefresh()
@@ -97,14 +118,12 @@ App({
         "Authorization": that.globalData.token
       },
       success: function (res) {
-        console.log('config',res);
           if(res.data.code=='0') {
             let data = res.data.data;
             let txtObj = data;
             for(var k in data){
               txtObj[k] = JSON.parse(data[k].configValue)
             }
-            console.log(txtObj)
             wx.setStorageSync("txtObj", txtObj);
           }
       }

@@ -864,8 +864,8 @@ button::after {
 }
 
 .toTop {
-  width: 68rpx;
-  height: 68rpx;
+  width: 80rpx;
+  height: 80rpx;
   position: fixed;
   bottom: 88rpx;
   right: 30rpx;
@@ -1036,4 +1036,7 @@ button::after {
 .bottom_shade image {
   width:380rpx;
   height:170rpx;
+}
+.wxParse-p{
+  margin: 15rpx 0;
 }

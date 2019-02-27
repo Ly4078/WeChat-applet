@@ -103,7 +103,7 @@ Page({
             })
           }
           if (types == 2) {
-            that.updatauser(app.globalData.loginData.userInfo)
+            that.updatauser(app.globalData.loginData.userInfo,'bindphone')
           }
           // if (types == 3) {
           //   that.isVerity();
@@ -112,7 +112,7 @@ Page({
       }
     })
   },
-  updatauser: function(data) { //更新用户信息
+  updatauser: function (data, loginType) { //更新用户信息
     let that = this,
       _values = "",
       _parms = {},
@@ -153,9 +153,11 @@ Page({
           app.globalData.userInfo.nickName = data.nickName;
           app.globalData.userInfo.iconUrl = data.avatarUrl;
           app.globalData.currentScene.query == ''
-          app.globalData.newcomer = 1
-          wx.setStorageSync("newcomer", '1')
-          that.receive();
+          if (loginType == 'bindphone') {
+            app.globalData.newcomer = 1
+            wx.setStorageSync("newcomer", '1')
+            that.receive();
+          }
           if (that.data.isBack) {
             wx.navigateBack({
               delta: 2
@@ -370,14 +372,30 @@ Page({
    * 生命周期函数--监听页面隐藏
    */
   onHide: function() {
-
+    if (!app.globalData.userInfo.mobile){
+      app.globalData.token = null;
+      wx.removeStorage({
+        key: 'userInfo',
+        success(res) {
+          console.log(res.data)
+        }
+      })
+    }
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
   onUnload: function() {
-
+    if (!app.globalData.userInfo.mobile) {
+      app.globalData.token = null;
+      wx.removeStorage({
+        key: 'userInfo',
+        success(res) {
+          console.log(res.data)
+        }
+      })
+    }
   },
 
   /**

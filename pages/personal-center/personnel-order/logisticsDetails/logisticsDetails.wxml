@@ -74,7 +74,7 @@
 
         </view>
         <view class="Single-detail-info">
-          <view catchtap='seeMygoods' class="Single-detail-info-share" wx:if="{{groupOrderDetail.actOrder.state =='2'}}">查看票券</view>
+          <view catchtap='seepiaoDetail' class="Single-detail-info-share" wx:if="{{groupOrderDetail.actOrder.state =='2'}}">查看票券</view>
           <!-- <view catchtap='seeMore' class="Single-detail-info-share" wx:if="{{groupOrderDetail.actOrder.state !='2' || groupOrderDetail.actOrder.state=='4'}}">查看更多</view> -->
             <view class="info-friend-title">
             <text class="lineleft line"></text>

@@ -17,7 +17,6 @@ Page({
     newname: '',
     qrCode: '',
     sumTotal: 0,
-    collectTotal: 0,
     ismobile: true,
     istouqu: false,
     isshop: false,
@@ -158,27 +157,6 @@ Page({
       }
     })
 
-    wx.request({
-      url: that.data._build_url + 'fvs/list?page=' + that.data.page + '&rows=10',
-      method: 'GET',
-      header: {
-        "Authorization": app.globalData.token
-      },
-      data: {
-        userId: app.globalData.userInfo.userId,
-        page: '1',
-        rows: 1,
-      },
-      success: function (res) {
-        if (res.data.code == 0) {
-          let _total = res.data.data.total
-          _total = utils.million(_total)
-          that.setData({
-            collectTotal: _total
-          })
-        }
-      }
-    })
     // 查询是否配置
     that.getPullUser();
     that.walletDetail()
@@ -537,7 +515,7 @@ Page({
   },
   VoucherCode: function () { //输入券码核销
     wx.navigateTo({
-      url: '../personal-center/call-back/call-back?ent=ent&isshopuser=' + this.data.isshopuser + '&iszy=' + this.data.iszhiying
+      url: '/pages/personal-center/call-back/call-back?ent=ent&isshopuser=' + this.data.isshopuser + '&iszy=' + this.data.iszhiying
     })
   },
   scanAqrCode: function (e) { //扫一扫核销
@@ -602,7 +580,7 @@ Page({
         console.log('res:', res)
         if (res.data.code == 0) {
           wx.navigateTo({
-            url: '../personal-center/call-back/call-back?code=' + that.data.qrCode + '&discount=' + that.data.soData.discount + '&ByCode=' + that.data.qrdata.result + '&iszy=' + that.data.iszhiying + '&isshopuser=' + that.data.isshopuser + '&id=' + that.data.soData.id
+            url: '/pages/personal-center/call-back/call-back?code=' + that.data.qrCode + '&discount=' + that.data.soData.discount + '&ByCode=' + that.data.qrdata.result + '&iszy=' + that.data.iszhiying + '&isshopuser=' + that.data.isshopuser + '&id=' + that.data.soData.id
           })
           // that.hxCouponV1(val);
         } else {

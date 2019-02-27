@@ -4,16 +4,18 @@ let app = getApp();
 import {
   GLOBAL_API_DOMAIN
 } from '../../../utils/config/config.js';
+import getToken from '../../../utils/getToken.js';
+import getCurrentLocation from '../../../utils/getCurrentLocation.js';
 let requesting = false;
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
     nearbydatas: ['由近到远'],
     fooddatas: [],
-    sortingdatas: ['全部','人气排序'],
+    sortingdatas: ['全部', '人气排序'],
     page: 1,
-    shopCate:'',
-    isclosure:false,
+    shopCate: '',
+    isclosure: false,
     isScroll: true,
     ismodel: false,
     isnearby: false,
@@ -21,26 +23,27 @@ Page({
     issorting: false,
     businessCate: '',
     browSort: '',
-    searchValue:'',
-    timer:null,
-    posts_key:[],
-    SkeletonData:['','','','','',''],
-    pageTotal:1,
-    _val:"",
-    showSkeleton:true
+    searchValue: '',
+    timer: null,
+    posts_key: [],
+    SkeletonData: ['', '', '', '', '', ''],
+    pageTotal: 1,
+    _val: "",
+    showSkeleton: true
   },
 
-  onLoad: function (options) {
+  onLoad: function(options) {
     console.log('options:', options);
     console.log('fdsafs')
-    
-    let that = this, _val = "";
-    setTimeout(()=>{
+
+    let that = this,
+      _val = "";
+    setTimeout(() => {
       that.setData({
-        showSkeleton:false
+        showSkeleton: false
       })
-    },5000);
-    if (options.shopCate){
+    }, 5000);
+    if (options.shopCate) {
       this.setData({
         shopCate: options.shopCate
       })
@@ -50,50 +53,96 @@ Page({
     }
     let _token = wx.getStorageSync('token') || "";
     let userInfo = wx.getStorageSync('userInfo') || {};
-    app.globalData.token = _token.length > 5 ? _token:"";
+    app.globalData.token = _token.length > 5 ? _token : "";
     app.globalData.userInfo = userInfo
 
     //在此函数中获取扫描普通链接二维码参数
     let q = decodeURIComponent(options.q);
     if (q) {
-      if (utils.getQueryString(q, 'flag') == 1){
+      if (utils.getQueryString(q, 'flag') == 1) {
         _val = utils.getQueryString(q, 'shopCode');
       }
-      that.setData({ _val })
+      that.setData({
+        _val
+      })
     }
     if (options.flag == 1) {
       _val = options.shopCode;
       console.log("_valu123:", _val)
-      this.setData({ _val })
+      this.setData({
+        _val
+      })
     }
-  
+
     this.setData({
       isclosure: true,
       isshowlocation: false
     })
+  },
+  onShow: function() {
+    console.log(app)
+    let that = this;
     if (!app.globalData.token) {
-      this.findByCode();
+      getToken(app).then(() => {
+        if (app.globalData.userInfo.city && app.globalData.userInfo.lat && app.globalData.userInfo.lng) {
+
+          if (that.data.posts_key.length >= 1) {
+
+          } else {
+            that.getData();
+          }
+          that.getfooddatas()
+          if (that.data._val) {
+            that.getshopInfo(that.data._val);
+          }
+        } else {
+          getCurrentLocation(that).then((res) => {
+            if (that.data.posts_key.length >= 1) {
+
+            } else {
+              that.getData();
+            }
+            that.getfooddatas()
+            if (that.data._val) {
+              that.getshopInfo(that.data._val);
+            }
+          }).catch( ()=>{
+            that.setData({ showSkeleton:false})
+          })
+        }
+      })
     } else {
-      // that.getData();
-      if (app.globalData.userInfo.city && app.globalData.userInfo.lat && app.globalData.userInfo.lng){
-        that.getData();
-      }else{
-        that.getUserlocation();
-      }
-      
-      that.getfooddatas()
-      if (that.data._val) {
-        console.log('_val:', _val)
-        that.getshopInfo(_val);
+      if (app.globalData.userInfo.city && app.globalData.userInfo.lat && app.globalData.userInfo.lng) {
+
+        if (that.data.posts_key.length >= 1) {
+
+        } else {
+          that.getData();
+        }
+        that.getfooddatas()
+        if (that.data._val) {
+          that.getshopInfo(that.data._val);
+        }
+      } else {
+        getCurrentLocation(that).then((res) => {
+          if (that.data.posts_key.length >= 1) {
+
+          } else {
+            that.getData();
+          }
+          that.getfooddatas()
+          if (that.data._val) {
+            that.getshopInfo(that.data._val);
+          }
+        }).catch(() => {
+          that.setData({ showSkeleton: false })
+        })
       }
     }
   },
-  onShow: function () {
-  
-  },
 
   // 初始化start
-  findByCode: function () { //通过code查询用户信息
+  findByCode: function() { //通过code查询用户信息
     let that = this;
     wx.login({
       success: res => {
@@ -113,7 +162,7 @@ Page({
               };
               app.globalData.userInfo.userName = _data.userName
               that.authlogin();
-            }else{
+            } else {
               wx.navigateTo({
                 url: '/pages/init/init'
               })
@@ -123,7 +172,7 @@ Page({
       }
     })
   },
-  authlogin: function () { //获取token
+  authlogin: function() { //获取token
     let that = this;
     wx.request({
       url: this.data._build_url + 'auth/login?userName=' + app.globalData.userInfo.userName,
@@ -132,7 +181,7 @@ Page({
       header: {
         'content-type': 'application/json' // 默认值
       },
-      success: function (res) {
+      success: function(res) {
         if (res.data.code == 0) {
           let _token = 'Bearer ' + res.data.data;
           app.globalData.token = _token;
@@ -140,7 +189,7 @@ Page({
           // that.getData();
           that.getUserlocation();
           that.getfooddatas()
-          if (that.data._val){
+          if (that.data._val) {
             that.getshopInfo(_val);
           }
         }
@@ -148,21 +197,26 @@ Page({
     })
   },
   //通过shopcode查询商家信息
-  getshopInfo: function (val) {
+  getshopInfo: function(val) {
     let _parms = {
       code: val,
       token: app.globalData.token
     }
     Api.getByCode(_parms).then((res) => {
       if (res.data.code == 0) {
+        this.setData({
+          _val:''
+        })
         wx.navigateTo({
           url: '../merchant-particulars/merchant-particulars?shopid=' + res.data.data.id + '&flag=1'
         })
       }
     })
   },
-  getfooddatas:function(){
-    let that = this, _typeData=[],_children=[];
+  getfooddatas: function() {
+    let that = this,
+      _typeData = [],
+      _children = [];
     wx.request({
       url: that.data._build_url + 'shopCategory/list?',
       method: "GET",
@@ -170,18 +224,18 @@ Page({
       header: {
         "Authorization": app.globalData.token
       },
-      success: function (res) {
-        if(res.data.code == 0){
-          if(res.data.data.length>0){
+      success: function(res) {
+        if (res.data.code == 0) {
+          if (res.data.data.length > 0) {
             _typeData = res.data.data;
-            for(let i in _typeData){
-              if(_typeData[i].id == that.data.shopCate){
-                for (let j in _typeData[i].children){
+            for (let i in _typeData) {
+              if (_typeData[i].id == that.data.shopCate) {
+                for (let j in _typeData[i].children) {
                   _children.push(_typeData[i].children[j].categoryName)
                 }
                 _children.unshift('全部');
                 that.setData({
-                  fooddatas:_children
+                  fooddatas: _children
                 })
               }
             }
@@ -190,19 +244,20 @@ Page({
       }
     })
   },
-  getData: function (types){
-    let that = this, _parms = {};
-    let lng = wx.getStorageInfoSync('userInfo').lng ? wx.getStorageInfoSync('userInfo').lng:"110.77877";
-    let lat = wx.getStorageInfoSync('userInfo').lat ? wx.getStorageInfoSync('userInfo').lat:"32.6226";
+  getData: function(types) {
+    let that = this,
+      _parms = {};
+    let lng = wx.getStorageInfoSync('userInfo').lng ? wx.getStorageInfoSync('userInfo').lng : "110.77877";
+    let lat = wx.getStorageInfoSync('userInfo').lat ? wx.getStorageInfoSync('userInfo').lat : "32.6226";
     _parms = {
       locationX: app.globalData.userInfo.lng ? app.globalData.userInfo.lng : lng,
       locationY: app.globalData.userInfo.lat ? app.globalData.userInfo.lat : lat,
       city: app.globalData.userInfo.city ? app.globalData.userInfo.city : '十堰市',
-      page: this.data.page ? this.data.page:1,
+      page: this.data.page ? this.data.page : 1,
       rows: 20,
       token: app.globalData.token
     };
-    if (this.data.shopCate) {//酒店 2    景点3   美食1
+    if (this.data.shopCate) { //酒店 2    景点3   美食1
       _parms.shopCate = this.data.shopCate
     }
     if (this.data.businessCate) { //美食类别 
@@ -211,15 +266,15 @@ Page({
     if (this.data.browSort) { //综合排序
       _parms.browSort = this.data.browSort
     }
-    if (this.data.searchValue){
-      _parms.searchKey=this.data.searchValue
+    if (this.data.searchValue) {
+      _parms.searchKey = this.data.searchValue
     }
     requesting = true
     if (this.data.businessCate == '川湘菜') {
       Api.listForChuangXiang(_parms).then((res) => {
         wx.stopPullDownRefresh();
-        if(res.data.code == 0){
-          if(res.data.data.list.length>0){
+        if (res.data.code == 0) {
+          if (res.data.data.list.length > 0) {
             let data = res.data;
             let posts = that.data.posts_key;
             let _data = data.data.list
@@ -228,22 +283,24 @@ Page({
               _data[i].activity = _data[i].ruleDescs ? _data[i].ruleDescs.join(',') : '';
               posts.push(_data[i])
             }
+            let istruenodata = that.data.page == Math.ceil(res.data.data.total / 20)?true:false;
             that.setData({
+              istruenodata,
               posts_key: posts,
               pageTotal: Math.ceil(res.data.data.total / 20),
               loading: false,
-              showSkeleton:false
+              showSkeleton: false
             }, () => {
               requesting = false;
             })
           }
-        }else{
+        } else {
           this.setData({
             loading: false
           })
           requesting = false;
         }
-      },()=>{
+      }, () => {
         this.setData({
           loading: false
         })
@@ -253,38 +310,41 @@ Page({
       Api.shoplist(_parms).then((res) => {
         let that = this;
         wx.stopPullDownRefresh();
-        if (res.data.code == 0){
-          if(res.data.data.list && res.data.data.list.length>0){
-            let posts = this.data.posts_key,_data = res.data.data.list;
+        if (res.data.code == 0) {
+          if (res.data.data.list && res.data.data.list.length > 0) {
+            let posts = this.data.posts_key,
+              _data = res.data.data.list;
             for (let i = 0; i < _data.length; i++) {
               _data[i].distance = utils.transformLength(_data[i].distance);
               _data[i].activity = _data[i].ruleDescs ? _data[i].ruleDescs.join(',') : '';
-              if (_data[i].businessCate){
+              if (_data[i].businessCate) {
                 _data[i].businessCate = _data[i].businessCate.split('/')[0].split(',')[0];
               }
               posts.push(_data[i]);
             }
+            let istruenodata = that.data.page == Math.ceil(res.data.data.total / 20) ? true : false;
             that.setData({
+              istruenodata,
               posts_key: posts,
-              pageTotal: Math.ceil(res.data.data.total / 8),
+              pageTotal: Math.ceil(res.data.data.total / 20),
               loading: false,
               showSkeleton: false
-            },()=>{
+            }, () => {
               this.setData({
                 loading: false
               })
               requesting = false;
             })
-          }else{
+          } else {
             this.setData({
-              isclosure:false,
+              isclosure: false,
               loading: false,
-              showSkeleton:false
+              showSkeleton: false
             })
             requesting = false;
           }
         }
-      },()=>{
+      }, () => {
         this.setData({
           loading: false
         })
@@ -292,10 +352,13 @@ Page({
       })
     }
   },
-  onInputText: function (e) { //获取搜索框内的值
-    let _value = e.detail.value, _this = this, ms = 0, _timer = null;
+  onInputText: function(e) { //获取搜索框内的值
+    let _value = e.detail.value,
+      _this = this,
+      ms = 0,
+      _timer = null;
     clearInterval(this.data.timer);;
-    _timer = setInterval(function () {
+    _timer = setInterval(function() {
       ms += 50;
       if (ms == 100) {
         _this.setData({
@@ -312,8 +375,9 @@ Page({
         }
         Api.shoplist(_parms).then((res) => {
           if (res.data.code == 0) {
-            if(res.data.data.list && res.data.data.list.length>0){
-              let posts = [], _data =res.data.data.list;
+            if (res.data.data.list && res.data.data.list.length > 0) {
+              let posts = [],
+                _data = res.data.data.list;
               for (let i = 0; i < _data.length; i++) {
                 _data[i].distance = utils.transformLength(_data[i].distance);
                 _data[i].activity = _data[i].ruleDescs ? _data[i].ruleDescs.join(',') : '';
@@ -323,7 +387,7 @@ Page({
               _this.setData({
                 posts_key: posts
               })
-            }else{
+            } else {
               _this.setData({
                 searchValue: ''
               })
@@ -341,27 +405,27 @@ Page({
     _this.setData({
       timer: _timer
     });
-   
+
   },
 
   //点击列表跳转详情
-  onTouchItem: function (event) {
+  onTouchItem: function(event) {
     let _distance = event.currentTarget.dataset.distance;
     wx.navigateTo({
       url: '../merchant-particulars/merchant-particulars?shopid=' + event.currentTarget.id
     })
   },
-  getUserlocation: function () { //获取用户位置经纬度
+  getUserlocation: function() { //获取用户位置经纬度
     let that = this;
     wx.getLocation({
       type: 'wgs84',
-      success: function (res) {
+      success: function(res) {
         let latitude = res.latitude,
           longitude = res.longitude;
 
         that.requestCityName(latitude, longitude);
       },
-      fail: function (res) {
+      fail: function(res) {
         wx.getSetting({
           success: (res) => {
             if (!res.authSetting['scope.userLocation']) { // 用户未授受获取其位置信息          
@@ -375,7 +439,7 @@ Page({
       }
     })
   },
-  openSetting() {//打开授权设置界面
+  openSetting() { //打开授权设置界面
     let that = this;
     that.setData({
       isshowlocation: false
@@ -384,7 +448,7 @@ Page({
       success: (res) => {
         if (res.authSetting['scope.userLocation']) { //打开位置授权  
           wx.getLocation({
-            success: function (res) {
+            success: function(res) {
               let latitude = res.latitude,
                 longitude = res.longitude;
               that.requestCityName(latitude, longitude);
@@ -419,53 +483,54 @@ Page({
           app.globalData.oldcity = app.globalData.userInfo.city;
           wx.setStorageSync('userInfo', app.globalData.userInfo);
           that.setData({
-            page:1
+            page: 1
           })
           that.getData();
         }
       }
     })
   },
-  onReachBottom: function () {  //用户上拉触底加载更多
-    if (requesting){
+  onReachBottom: function() { //用户上拉触底加载更多
+    if (requesting) {
       return false
     }
-    if (this.data.pageTotal <= this.data.page){
+    if (this.data.pageTotal <= this.data.page) {
       return
     }
-    if (!this.data.isclosure){
+    if (!this.data.isclosure) {
       return false
     }
     let oldpage = this.data.page
     this.setData({
       page: this.data.page + 1,
       loading: true
-    },()=>{
+    }, () => {
       this.getData(1)
     });
   },
-  onPullDownRefresh: function () {
-    if (requesting){
+  onPullDownRefresh: function() {
+    if (requesting) {
       return
     }
     this.setData({
       posts_key: [],
       page: 1,
-      searchValue:''
-    },()=>{
+      searchValue: ''
+    }, () => {
       this.getData();
       // this.getLocation();
     });
-    
-    
+
+
   },
 
-  getLocation:function(){
+  getLocation: function() {
     let that = this;
     wx.getLocation({
       type: 'wgs84',
-      success: function (res) {
-        let latitude = res.latitude, longitude = res.longitude;
+      success: function(res) {
+        let latitude = res.latitude,
+          longitude = res.longitude;
         app.globalData.userInfo.lat = latitude;
         app.globalData.userInfo.lng = longitude;
         // that.getData();
@@ -474,7 +539,7 @@ Page({
   },
 
   // 模态框 start
-  openmodel: function (e) {  //打开模态框
+  openmodel: function(e) { //打开模态框
     let id = e.currentTarget.id
     this.setData({
       ismodel: true,
@@ -494,7 +559,7 @@ Page({
       })
     }
   },
-  closemodel: function () {  //关闭模态框
+  closemodel: function() { //关闭模态框
     this.setData({
       ismodel: false,
       isnearby: false,
@@ -503,29 +568,31 @@ Page({
       isScroll: true
     })
   },
-  nearby: function () {  //附近
+  nearby: function() { //附近
     this.setData({
       isnearby: true,
       isfood: false,
       issorting: false
     })
   },
-  goodfood: function () {  //美食
+  goodfood: function() { //美食
     this.setData({
       isnearby: false,
       isfood: true,
       issorting: false
     })
   },
-  sorting: function () {   //综合排序
+  sorting: function() { //综合排序
     this.setData({
       isnearby: false,
       isfood: false,
       issorting: true
     })
   },
-  clicknearby: function (ev) { //附近之一
-    let id = ev.currentTarget.id, _data = this.data.nearbydatas, _value = '';
+  clicknearby: function(ev) { //附近之一
+    let id = ev.currentTarget.id,
+      _data = this.data.nearbydatas,
+      _value = '';
     for (let i = 0; i < _data.length; i++) {
       if (id == i) {
         _value = _data[i]
@@ -540,10 +607,12 @@ Page({
     })
     this.closemodel();
     this.getData();
-    
+
   },
-  clickfood: function (ev) { //美食之一
-    let id = ev.currentTarget.id,_data = this.data.fooddatas,_value = '';
+  clickfood: function(ev) { //美食之一
+    let id = ev.currentTarget.id,
+      _data = this.data.fooddatas,
+      _value = '';
     for (let i = 0; i < _data.length; i++) {
       if (id == i) {
         _value = _data[i]
@@ -556,12 +625,12 @@ Page({
       isclosure: true,
       businessCate: _value,
       posts_key: [],
-      page:1
+      page: 1
     })
     this.closemodel()
     this.getData()
   },
-  clicksorting: function (ev) { //综合排序之一
+  clicksorting: function(ev) { //综合排序之一
     let id = ev.currentTarget.id
     let _data = this.data.sortingdatas;
     let _value = ''
@@ -577,7 +646,7 @@ Page({
         posts_key: [],
         page: 1
       })
-    }else{
+    } else {
       this.setData({
         browSort: '2',
         posts_key: []
@@ -587,7 +656,7 @@ Page({
     this.getData()
   },
   //图片加载出错，替换为默认图片
-  imageError: function (e) {
+  imageError: function(e) {
     let id = e.target.id;
     let posts_key = this.data.posts_key;
     for (let i = 0; i < posts_key.length; i++) {
@@ -599,10 +668,10 @@ Page({
       posts_key: posts_key
     });
   },
-  onShareAppMessage: function (res) {
+  onShareAppMessage: function(res) {
     return {
-      title:'享7,‘购’实惠',
-      imageUrl:'https://xq-1256079679.file.myqcloud.com/15927505686_1545389545_xiang7logo_0.png'
+      title: '享7,‘购’实惠',
+      imageUrl: 'https://xq-1256079679.file.myqcloud.com/15927505686_1545389545_xiang7logo_0.png'
     }
   }
 })

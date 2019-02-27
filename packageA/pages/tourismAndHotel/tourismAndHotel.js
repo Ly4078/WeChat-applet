@@ -25,6 +25,7 @@ Page({
     attention: []
   },
   onLoad: function(options) {
+    
     let that = this;
     try{
       var query = wx.createSelectorQuery();
@@ -258,9 +259,12 @@ Page({
   },
   // 遮罩层显示
   showShade: function() {
-    this.setData({
-      shadowFlag: false
+    wx.navigateTo({
+      url: '/pages/index/crabShopping/getFailure/getFailure?onekey=pintuan&twokey=listdesc',
     })
+    // this.setData({
+    //   shadowFlag: false
+    // })
   },
   // 遮罩层隐藏
   conceal: function() {
