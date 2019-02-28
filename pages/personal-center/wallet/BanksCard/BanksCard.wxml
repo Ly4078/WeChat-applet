@@ -1,7 +1,7 @@
 <view class="banksCard">
-  <view wx:if="{{accountType == 3}}" class="cardItem" bindtap='modifyCard'>
+  <view wx:if="{{accountBankCard}}" class="cardItem" bindtap='modifyCard'>
     <view class="cardItem_t">
-      <text>{{cardBankname}}</text>
+      <text>{{bankCardName}}</text>
       <text>编辑</text>
     </view>
     <view class="cardItem_b">{{Encryption}}</view>

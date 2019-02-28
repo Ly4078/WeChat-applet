@@ -37,8 +37,8 @@ Page({
     ],
     userAmount: '0.00',
     accountStatus: '',
-    cardBankname: '',
-    accountName: '',
+    bankCardName: '',
+    accountBankCard: '',
     passedAmount: '',  //已获得
     reviewAmount: '',  //审核中
     failAmount: ''     //已失效
@@ -73,9 +73,9 @@ Page({
           _this.setData({
             userAmount: data.userAmount ? data.userAmount.toFixed(2) : '0.00',
             accountStatus: data.accountStatus,
-            cardBankname: data.cardBankname ? data.cardBankname : '',
-            accountName: data.accountName ? data.accountName : '',
-            accountCardholder: data.accountCardholder ? data.accountCardholder : '',
+            bankCardName: data.bankCardName ? data.bankCardName : '',
+            accountBankCard: data.accountBankCard ? data.accountBankCard : '',
+            accountCardholderName: data.accountCardholderName ? data.accountCardholderName : '',
             passedAmount: data.passedAmount ? data.passedAmount : 0,
             reviewAmount: data.reviewAmount ? data.reviewAmount : 0,
             failAmount: data.failAmount ? data.failAmount : 0
@@ -93,34 +93,32 @@ Page({
     });
   },
   toWithdraw() {  //跳转至提现
-    let txtObj = wx.getStorageSync("txtObj");
-    if (txtObj.withdraw) {
-      if (txtObj.withdraw.isOpen){
-        wx.navigateTo({
-          url: 'withdraw/withdraw'
-        })
-      }else{
-        wx.showModal({
-          title: '提示',
-          showCancel: false,
-          content: txtObj.withdraw.tips,
-          success(res) {
-            if (res.confirm) {
-              console.log('用户点击确定')
-            } else if (res.cancel) {
-              console.log('用户点击取消')
-            }
-          }
-        })
-      }
+    // let txtObj = wx.getStorageSync("txtObj");
+    // if (txtObj.withdraw) {
+    //   if (txtObj.withdraw.isOpen){
+    //     wx.navigateTo({
+    //       url: 'withdraw/withdraw'
+    //     })
+    //   }else{
+    //     wx.showModal({
+    //       title: '提示',
+    //       showCancel: false,
+    //       content: txtObj.withdraw.tips,
+    //       success(res) {
+    //         if (res.confirm) {
+    //           console.log('用户点击确定')
+    //         } else if (res.cancel) {
+    //           console.log('用户点击取消')
+    //         }
+    //       }
+    //     })
+    //   }
       
-    } else {
+    // } else {
       wx.navigateTo({
         url: 'withdraw/withdraw'
       })
-    }
-
-
+    // }
   },
   toAward() {   //跳转至奖励进度
     wx.navigateTo({

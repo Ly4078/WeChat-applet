@@ -49,3 +49,14 @@ page {
 .submit view.active {
   background-color: #FFC0AC;
 }
+
+.getCode {
+  font-size: 28rpx;
+  color: #FC5E2D;
+  width: 210rpx!important;
+  text-align: right;
+}
+
+.gray {
+  color: #a7a7a7;
+}

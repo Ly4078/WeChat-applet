@@ -8,7 +8,7 @@ var getCurrentLocation = function (that) {
         let latitude = res.latitude,
           longitude = res.longitude;
         console.log(wx.getStorageSync("userInfo"))
-        getCurrentCity(latitude, longitude, resolve)
+        getCurrentCity(latitude, longitude, resolve, reject)
       },
       fail: function (res) {
         wx.getSetting({
@@ -28,7 +28,7 @@ var getCurrentLocation = function (that) {
     })
   })
 }
-var getCurrentCity = function (lat, lng, resolve) {
+var getCurrentCity = function (lat, lng, resolve, reject) {
  
   wx.request({
     url: 'https://apis.map.qq.com/ws/geocoder/v1/?location=' + lat + "," + lng + "&key=4YFBZ-K7JH6-OYOS4-EIJ27-K473E-EUBV7",

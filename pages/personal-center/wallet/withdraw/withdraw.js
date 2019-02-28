@@ -5,16 +5,19 @@ import Api from '../../../../utils/config/api.js';
 var utils = require('../../../../utils/util.js');
 import Public from '../../../../utils/public.js';
 var app = getApp();
+let parse = null, flag = true;
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
-    cardBankname: '',
-    accountName: '',
+    bankCardName: '',
+    accountBankCard: '',
     lastAccount: '',
     inpMoney: '',
     userAmount: '',
     isUsed: false,
-    isWithDraw: true
+    isWithDraw: true,
+    serviceAmount: 0,
+    serviceRatio: ''
   },
   onLoad: function(options) {
 
@@ -38,7 +41,6 @@ Page({
         if (res.data.code == 0) {
           let data = res.data.data;
           _this.setData({
-            accountType: data.accountType,
             userAmount: data.userAmount ? data.userAmount.toFixed(2) : 0
           });
           if (_this.data.userAmount > 0) {
@@ -50,14 +52,14 @@ Page({
               isUsed: false
             });
           }
-          if (data.accountType == 3) {
-            let accountName = '',
+          if (data.bankCardName) {
+            let accountBankCard = '',
               lastAccount = '';
-            accountName = data.accountName;
-            lastAccount = accountName.substring(accountName.length - 4, accountName.length);
+            accountBankCard = data.accountBankCard;
+            lastAccount = accountBankCard.substring(accountBankCard.length - 4, accountBankCard.length);
             _this.setData({
-              cardBankname: data.cardBankname ? data.cardBankname : '',
-              accountName: accountName ? accountName : '',
+              bankCardName: data.bankCardName ? data.bankCardName : '',
+              accountBankCard: accountBankCard ? accountBankCard : '',
               lastAccount: lastAccount
             });
           }
@@ -72,11 +74,20 @@ Page({
     })
   },
   inpFunc(e) { //输入金额
+    let that = this;
+    if (parse) {
+      clearTimeout(parse);
+    }
     let re = /^\d+(?=\.{0,1}\d+$|$)|^\d+(?=\.{0,1}$)/, val = e.detail.value;
     if (re.test(val)) {
       this.setData({
         inpMoney: val
       });
+      if (this.data.inpMoney >= 10) {
+        parse = setTimeout(() => {
+          that.serviceCharge();
+        }, 500);
+      }
     } else {
       this.setData({
         inpMoney: ''
@@ -92,16 +103,50 @@ Page({
       });
     }
   },
+  serviceCharge(types) {  //获取服务费
+    let that = this;
+    wx.request({
+      url: this.data._build_url + 'tx/getServiceAmount?cashAmount=' + this.data.inpMoney,
+      method: 'GET',
+      data: {},
+      header: {
+        "Authorization": app.globalData.token
+      },
+      success: function (res) {
+        if (res.data.code == 0) {
+          let data = res.data.data;
+          if(types == 'all') {
+            that.setData({
+              inpMoney:data.cashAmount
+            })
+          }
+          that.setData({
+            inputchange: types == 'all'?false:true,               
+            cashAmount: data.cashAmount,
+            serviceAmount: data.serviceAmount,
+            serviceRatio: data.serviceRatio * 100 + '%'
+          });
+        }
+      },
+      fail() { }
+    });
+  },
   allAccount() { //全部提现
     this.setData({
       inpMoney: this.data.userAmount
     });
+    if (this.data.inpMoney >= 10) {
+      this.serviceCharge('all');
+    }
   },
   submit() { //提现
+    if (!flag) {
+      return false;
+    }
     let title = '';
     if (+this.data.userAmount == 0) {
       title = '无可提现余额';
-    } else if (+this.data.accountType != 3) {
+    } else if (!this.data.bankCardName) {
       title = '请添加银行卡号';
     } else if (+this.data.inpMoney > +this.data.userAmount) {
       title = '输入金额超过钱包余额';
@@ -115,9 +160,10 @@ Page({
       })
       return;
     }
+    flag = false;
     let _this = this;
     wx.request({
-      url: this.data._build_url + 'tx/userApply?cashAmount=' + this.data.inpMoney,
+      url: this.data._build_url + 'tx/userApply?cashAmount=' + this.data.cashAmount + '&serviceAmount=' + this.data.serviceAmount,
       method: 'POST',
       data: {},
       header: {
@@ -133,6 +179,9 @@ Page({
               title: '提现成功',
               icon: 'none'
             })
+            _this.setData({
+              inpMoney: ''
+            });
             _this.walletDetail();
           } else {
             wx.showToast({
@@ -141,8 +190,15 @@ Page({
             })
           }
         }
+        setTimeout(() => {
+          flag = true;
+        }, 1000);
       },
-      fail() {}
+      fail() {
+        setTimeout(() => {
+          flag = true;
+        }, 1000);
+      }
     });
   }
 })

@@ -352,7 +352,6 @@ Page({
       success: function (res) {
         if (res.data.code == 0) {
           let list = res.data.data.list, total = res.data.data.total;
-
           if (list && list.length > 0) {
             if (that.data.productPage >= Math.ceil(total / 10)) {
               if (list.length % 2 != 0) {
@@ -450,7 +449,6 @@ Page({
         loading: true
       })
       this.getlistdata(this.data.sortId, '');
-      
     }
   },
   onShareAppMessage: function(res) {

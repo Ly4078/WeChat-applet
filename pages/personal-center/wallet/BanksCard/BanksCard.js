@@ -8,9 +8,10 @@ var app = getApp();
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
-    cardBankname: '',
-    accountName: '',
-    accountCardholder: '',
+    id: '',
+    bankCardName: '',
+    accountBankCard: '',
+    accountCardholderName: '',
     Encryption: ''
   },
   onLoad: function (options) {
@@ -35,11 +36,13 @@ Page({
         if (res.data.code == 0) {
           let data = res.data.data;
           _this.setData({
-            accountType: data.accountType,
-            cardBankname: data.cardBankname ? data.cardBankname : '',
-            accountName: data.accountName ? data.accountName : '',
-            accountCardholder: data.accountCardholder ? data.accountCardholder : '',
-            Encryption: '**** **** **** ' + data.accountName.substr(-4)
+            id: data.id,
+            bankCardName: data.bankCardName ? data.bankCardName : '',
+            accountBankCard: data.accountBankCard ? data.accountBankCard : '',
+            accountCardholderName: data.accountCardholderName ? data.accountCardholderName : '',
+            Encryption: data.accountBankCard ? '**** **** **** ' + data.accountBankCard.substr(-4) : '',
+            accountIdentityCard: data.accountIdentityCard ? data.accountIdentityCard : '',
+            bankCardPhone: data.bankCardPhone ? data.bankCardPhone : ''
           });
         }
       },
@@ -48,7 +51,7 @@ Page({
   },
   modifyCard() {
     wx.navigateTo({
-      url: '../addBanksCard/addBanksCard?accountType=' + this.data.accountType + '&cardBankname=' + this.data.cardBankname + '&accountName=' + this.data.accountName +'&accountCardholder=' + this.data.accountCardholder
+      url: '../addBanksCard/addBanksCard?id=' + this.data.id +'&bankCardName=' + this.data.bankCardName + '&accountBankCard=' + this.data.accountBankCard + '&accountCardholderName=' + this.data.accountCardholderName + '&accountIdentityCard=' + this.data.accountIdentityCard + '&bankCardPhone=' + this.data.bankCardPhone
     })
   },
   onPullDownRefresh: function () {
