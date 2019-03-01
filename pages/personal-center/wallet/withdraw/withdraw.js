@@ -16,6 +16,7 @@ Page({
     userAmount: '',
     isUsed: false,
     isWithDraw: true,
+    inputchange: false,
     serviceAmount: 0,
     serviceRatio: ''
   },
@@ -93,6 +94,7 @@ Page({
         inpMoney: ''
       });
     }
+    console.log(+this.data.userAmount >= +this.data.inpMoney)
     if (+this.data.userAmount < +this.data.inpMoney) {
       this.setData({
         isWithDraw: false
@@ -121,7 +123,7 @@ Page({
             })
           }
           that.setData({
-            inputchange: types == 'all'?false:true,               
+            inputchange: types == 'all' ? true : false,               
             cashAmount: data.cashAmount,
             serviceAmount: data.serviceAmount,
             serviceRatio: data.serviceRatio * 100 + '%'
@@ -173,7 +175,6 @@ Page({
         //返回为大于0的数字则申请成功
         if (res.data.code == 0) {
           let data = res.data.data;
-          console.log(data);
           if (data > 0) {
             wx.showToast({
               title: '提现成功',

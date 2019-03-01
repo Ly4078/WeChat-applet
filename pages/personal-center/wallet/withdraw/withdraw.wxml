@@ -2,7 +2,7 @@
   <view class="selectedBank commen" bindtap='toAddCard'>
     <view wx:if="{{bankCardName}}">
       <view class="banksName">{{bankCardName}}(尾号{{lastAccount}})</view>
-      <view class="gray">24小时内到账</view>
+      <view class="gray2">工作日24小时内到账，非工作日48小时内到账</view>
     </view>
     <view wx:else class="banksName">+请添加银行卡号</view>
     <image src="/images/icon/home_arrow.png"></image>
@@ -17,12 +17,12 @@
       <text class="gray">本次可提现￥{{userAmount}}</text>
       <text bindtap='allAccount'>全部提现</text>
     </view>
-     <view wx:if="{{inputchange}}" class="available">
+    <view wx:if="{{inpMoney >= 10 && isWithDraw}}" class="available">
       <text style="margin-left:0;" class="gray">实际到账金额￥{{cashAmount}}</text>
     </view>
     <view wx:if="{{isUsed && !isWithDraw}}" class="available red">输入金额超过钱包余额</view>
     <view wx:if="{{isUsed && inpMoney < 10}}" class="available red">每次提现金额不小于10元</view>
-    <view wx:if="{{inpMoney >= 10 && serviceAmount}}" class="available red">提现到银行额外扣除¥{{serviceAmount}}服务费（{{serviceRatio}}服务费）</view>
+    <view wx:if="{{inpMoney >= 10 && serviceAmount && isWithDraw}}" class="available red">提现到银行额外扣除¥{{serviceAmount}}服务费（{{serviceRatio}}服务费）</view>
     <view wx:if="{{!isUsed}}" class="available red">钱包无余额可提现</view>
     <view class="withdrawBtn {{!isUsed || !isWithDraw ? 'active' : ''}}" bindtap="submit">提现</view>
   </view>

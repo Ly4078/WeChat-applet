@@ -93,32 +93,32 @@ Page({
     });
   },
   toWithdraw() {  //跳转至提现
-    // let txtObj = wx.getStorageSync("txtObj");
-    // if (txtObj.withdraw) {
-    //   if (txtObj.withdraw.isOpen){
-    //     wx.navigateTo({
-    //       url: 'withdraw/withdraw'
-    //     })
-    //   }else{
-    //     wx.showModal({
-    //       title: '提示',
-    //       showCancel: false,
-    //       content: txtObj.withdraw.tips,
-    //       success(res) {
-    //         if (res.confirm) {
-    //           console.log('用户点击确定')
-    //         } else if (res.cancel) {
-    //           console.log('用户点击取消')
-    //         }
-    //       }
-    //     })
-    //   }
+    let txtObj = wx.getStorageSync("txtObj");
+    if (txtObj.withdraw) {
+      if (txtObj.withdraw.isOpen){
+        wx.navigateTo({
+          url: 'withdraw/withdraw'
+        })
+      }else{
+        wx.showModal({
+          title: '提示',
+          showCancel: false,
+          content: txtObj.withdraw.tips,
+          success(res) {
+            if (res.confirm) {
+              console.log('用户点击确定')
+            } else if (res.cancel) {
+              console.log('用户点击取消')
+            }
+          }
+        })
+      }
       
-    // } else {
+    } else {
       wx.navigateTo({
         url: 'withdraw/withdraw'
       })
-    // }
+    }
   },
   toAward() {   //跳转至奖励进度
     wx.navigateTo({

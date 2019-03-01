@@ -375,7 +375,7 @@ Page({
               //好友进入砍菜页面人数满3人并且超过半小时不能砍价
               let  maxNum =4;
               try {
-                maxNum = _this.data.dishData.actGoodsSkuOut.peopleNum;
+                maxNum = data[0].maxPeoplenum;
               }catch(err){
                 
               }

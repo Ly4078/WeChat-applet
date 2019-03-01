@@ -9,6 +9,10 @@ page {
   color: #808080;
 }
 
+.gray2 {
+   color: #555555;
+}
+
 .red {
   color: #FF2525;
 }
