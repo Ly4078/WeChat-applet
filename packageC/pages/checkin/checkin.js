@@ -85,19 +85,28 @@ Page({
       success:function(res){
         if(res.data.code=='0' && res.data.data){
           that.getData();
-          wx.showModal({
-            title: '提示',
-            content: '签到成功，可抽奖一次。前往抽奖？',
-            success(res) {
-              if (res.confirm) {
-                  wx.navigateTo({
-                    url: '../xiangqiLottery/xiangqiLottery',
-                  })
-              } else if (res.cancel) {
-                
-              }
-            }
+          wx.showToast({
+            title: '签到成功,可抽奖一次。前往抽奖中...',
+            icon: 'none'
           })
+          setTimeout(function () {
+            wx.navigateTo({
+              url: '../xiangqiLottery/xiangqiLottery',
+            })
+          }, 1500);
+          // wx.showModal({
+          //   title: '提示',
+          //   content: '签到成功，可抽奖一次。前往抽奖？',
+          //   success(res) {
+          //     if (res.confirm) {
+          //         wx.navigateTo({
+          //           url: '../xiangqiLottery/xiangqiLottery',
+          //         })
+          //     } else if (res.cancel) {
+                
+          //     }
+          //   }
+          // })
         }else{
           wx.showToast({
             title: '签到失败,即将刷新页面',
