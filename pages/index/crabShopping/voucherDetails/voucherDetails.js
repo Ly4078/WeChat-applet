@@ -7,6 +7,7 @@ import Public from '../../../../utils/public.js';
 var QR = require("../../../../utils/qrcode.js");
 var app = getApp();
 var redbagTimer = null;
+var womenDayflag = false;  //控制女神节文字是否显示
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
@@ -20,6 +21,7 @@ Page({
     isExchange: false, //是否弹出兑换码
     giftTxt: '已被领取', //赠送文字,
     showSkeleton:true,
+    girlsDayResult: ''   //女神节扫码赠送文字
   },
   onLoad: function(options) {
     let that = this;
@@ -68,9 +70,9 @@ Page({
       if (app.globalData.userInfo.mobile) {
         if (app.globalData.token) {
           if (app.globalData.userInfo.lat && app.globalData.userInfo.lng) {
-            that.getorderCoupon();
+            that.getorderCoupon('', 'reset');
             if (redbagTimer !=null ) {
-              clearInterval(redbagTimer)
+              clearInterval(redbagTimer);
             }
             redbagTimer = setInterval(() => {
               that.getorderCoupon();
@@ -90,7 +92,7 @@ Page({
       this.findByCode();
     }
   },
-  getorderCoupon: function(val) { //查询券详情
+  getorderCoupon: function(val, reset) { //查询券详情
     let _this = this,url='';
     let userInfo = wx.getStorageSync("userInfo")
     wx.request({
@@ -231,6 +233,26 @@ Page({
           //     _this.setData({ fromType: '' })
           //   },250)
           // }
+          if (reset == 'reset' && !res.data.data.girlsDayResult) {
+            womenDayflag = true;
+          }
+          let currentTime = res.data.currentTime, startT = 1551888000000, endT = 1552060799000;
+          if (currentTime >= startT && currentTime <= endT && res.data.data.girlsDayResult && womenDayflag) {
+            womenDayflag = false;
+            _this.setData({
+              girlsDayResult: res.data.data.girlsDayResult
+            });
+            wx.showModal({
+              title: _this.data.girlsDayResult,
+              success(res) {
+                if (res.confirm) {
+                  wx.navigateTo({
+                    url: '../../../personal-center/wallet/wallet'
+                  })
+                } else if (res.cancel) {}
+              }
+            })
+          }
         }
       },
       complete: function() {
@@ -246,7 +268,8 @@ Page({
     var size = {};
     try {
       var res = wx.getSystemInfoSync();
-      var scale = 750 / 686; //不同屏幕下canvas的适配比例；设计稿是750宽
+      //不同屏幕下canvas的适配比例；设计稿是750宽
+      var scale = 750 / 686; 
       var width = res.windowWidth / scale * 0.9;
       var height = width;//canvas画布为正方形
       size.w = width/2;
