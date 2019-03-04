@@ -1,11 +1,11 @@
 page {
-  background: #C11312;
+  background: #FFF7F0;
   position: relative;
   height: auto;
 }
 
 .containers {
-  background: #C11312;
+  background: #FFF7F0;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -30,13 +30,13 @@ page {
 
 .banners {
   width: 100%;
-  height: 421rpx;
+  height: 508rpx;
   position: relative;
 }
 
 .banners image {
   width: 724rpx;
-  height: 421rpx;
+  height: 508rpx;
   display: block;
   margin: 0 auto;
   position: relative;
@@ -48,7 +48,7 @@ page {
   border-radius: 50%;
   margin: 40rpx  auto 25rpx;
   display: block;
-  border:6rpx solid #FBEC7B;
+  border:6rpx solid #FFBB3B;
 }
 
 .redbagDetail{
@@ -60,14 +60,16 @@ page {
   box-sizing: border-box;
 }
 .redbagDetail .nickName{
-    font-size: 32rpx;
+    font-size: 40rpx;
     font-weight: 700;
+    color: #333333;
     margin-bottom: 20rpx;
 }
 .redbagDetail .redbagMsg{
   font-size:28rpx;
   padding:0 40rpx;
   line-height:56rpx;
+  color: #FF8339;
   text-align: left;
 }
 .redBagType{
@@ -81,26 +83,25 @@ page {
   margin-top: 50rpx;
 }
 .redBagTypedetail .chai{
-  width: 304rpx;
-  height: 106rpx;
+  width: 324rpx;
+  height: 88rpx;
   border-radius: 106rpx;
-  background: #F7E051;
-  color:#BA3127;
+  background:#FF5F05;
+  color:#fff;
   text-align: center;
-  line-height: 106rpx;
-  font-size: 40rpx;
+  line-height: 88rpx;
+  font-size: 32rpx;
   margin: 40rpx auto 0 auto;
-  font-weight: 700;
  }
 .redBagTypedetail .price{
   font-size: 50rpx;
   font-weight: 700;
-  color:#fff;
+  color:#FF943A;
   margin: 0 auto;
 }
 .redBagTypedetail .towallet{
   display: flex;
-   color:#fff;
+   color:#FF943A;
   align-items: center;
   flex-direction: row;
   font-size: 30rpx;
@@ -114,7 +115,7 @@ page {
 .redBagTypedetail .Recipients{
   margin: 25rpx 20rpx 0;
   padding: 25rpx 10rpx;
-  border-top:1rpx solid #A9251B;
+  border-top:1rpx solid #FAB77E;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -123,6 +124,7 @@ page {
   width: 69rpx;
   height: 69rpx;
   border-radius: 50%;
+  border:2rpx solid #FFBB3B;
 }
 .Recipients  .name_time{
   flex:1;
@@ -132,15 +134,16 @@ page {
 }
 .Recipients  .name_time .name{
   font-size: 32rpx;
-  color:#fff;
+  color:#FF943A;
 }
 .Recipients  .name_time .time{
   font-size: 28rpx;
-  color:#EB6C63;
+  color:#FEBE87;
 }
 .Recipients .getPrice{
-  color:#FFE549;
+  color:#FF943A;
   font-size: 32rpx;
+  font-weight: 700;
 }
 
 .indexIcon {

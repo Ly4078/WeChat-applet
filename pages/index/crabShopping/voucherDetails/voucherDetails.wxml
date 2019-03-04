@@ -97,7 +97,7 @@
 <view class="redBag " wx:if="{{detailType == '1'}}" style="min-height:{{windowHeight?windowHeight+'px':'auto'}}">
   <view class="banner">
     <view class="redbagPrice">{{skuName}}</view>
-    <image src="https://xqmp4-1256079679.file.myqcloud.com/15927505686_quanbaobanner.png"></image>
+    <image src="https://xqmp4-1256079679.file.myqcloud.com/15927505686_1551430569_e0eeda2f28f4ff667a32edd8bffdafe.png"></image>
   </view>
   <view class="formBox">
     <view class="inputBox">
@@ -112,7 +112,10 @@
     </view>
 
   </view>
-  <view class="msgdetail" catchtap='todetailMsg'>帮助中心</view>
+  <view class="msgdetail" catchtap='todetailMsg'>
+    <image style="width:30rpx;height:30rpx;margin-right:4rpx;" src="https://xqmp4-1256079679.file.myqcloud.com/15927505686_1551430801_d955c0ce6fac5d72da80f55f3b372c6.png"></image>
+    <text>帮助中心</text>
+  </view>
   <!-- <view class="bottomBG">
     <image src="https://xqmp4-1256079679.file.myqcloud.com/15927505686_redbagBottombg.png"></image>
   </view> -->

@@ -1,6 +1,6 @@
 {
   "navigationBarTitleText": "红包贺卡",
-  "navigationBarBackgroundColor": "#C11312",
-  "navigationBarTextStyle": "white",
+  "navigationBarBackgroundColor": "#FFF7F0",
+  "navigationBarTextStyle": "black",
   "enablePullDownRefresh": false
 }

@@ -112,23 +112,20 @@
     </view>
     <view class="wandaList">
       <view class="wandaItem" wx:for="{{wandaDish}}" wx:key="index">
-        <view class="w_dish_l" id="{{item.id}}" data-categoryid="{{item.categoryId}}" bindtap='toBuy'>
-          <image wx:if="{{item.skuPic}}" mode="aspectFill" src="{{item.skuPic}}"></image>
+        <view class="w_dish_l" id="{{item.skuId}}" data-categoryid="{{item.actGoodsSku.categoryId}}" bindtap='toBuy'>
+          <image wx:if="{{item.goodsSkuOut[0].skuPic}}" mode="aspectFill" src="{{item.goodsSkuOut[0].skuPic}}"></image>
           <image wx:else src="/images/icon/morentu.png"></image>
           <view>
-            <view class="w_dish_name">{{item.skuName}}</view>
-            <view class="w_dish_flag">
-              <text>砍价</text>
-            </view>
+            <view class="w_dish_name">{{item.goodsSkuOut[0].skuName}}</view>
+            <view class="w_dish_sort">寻味湖北万达十大招牌菜第{{item.sortNum}}名</view>
             <view class="w_dish_price">
-              <text>￥{{item.goodsPromotionRules[0].actAmount}}</text>
-              <text>￥{{item.sellPrice}}</text>
+              <text>￥{{item.goodsPromotionRules.actAmount}}</text>
+              <text>￥{{item.goodsSkuOut[0].sellPrice}}</text>
             </view>
           </view>
         </view>
         <view class="w_dish_r">
-          <view id="{{item.actGoodsSkuOut.id}}" bindtap="isVote">投票</view>
-          <view id="{{item.id}}" data-categoryid="{{item.categoryId}}" bindtap='toBuy'>购买</view>
+          <view id="{{item.skuId}}" data-categoryid="{{item.actGoodsSku.categoryId}}" bindtap='toBuy'>购买</view>
         </view>
       </view>
     </view>

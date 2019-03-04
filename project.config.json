@@ -38,7 +38,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 4,
+			"current": 7,
 			"list": [
 				{
 					"id": -1,
@@ -73,6 +73,27 @@
 					"name": "aa12321312",
 					"pathName": "pages/index/dining-room/dining-room",
 					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "aa12321312",
+					"pathName": "packageB/pages/wanda/wandaActivity/wandaActivity",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "aa12321312",
+					"pathName": "packageA/pages/redBagIndex/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 7,
+					"name": "红包",
+					"pathName": "packageA/pages/redBagIndex/redbagDetail/index",
+					"query": "shareId=77727&versionNo=0&id=4008996&nickName=我小叮当还能说点啥&iconUrl=https://wx.qlogo.cn/mmopen/vi_32/EAUBgSfWqX9hicXvErNgFvqVEdgoyswtRKsdGQ7a9FGxoqNuTbaNysL2aom15NT7tfaYsDB2jibicpphdXlflyvwA/132&title=恭喜发财，大吉大利！",
 					"scene": null
 				}
 			]

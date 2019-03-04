@@ -1,4 +1,55 @@
-<view class="containers" style="min-height:{{windowHeight?windowHeight+'px':'auto'}}">
+<view class="containers">
+
+  <view class="banner">
+    <image src="https://xqmp4-1256079679.file.myqcloud.com/15927505686_1551423239_8d3761a0a16164e47e88ce4f19398de.png"></image>
+  </view>
+  <view class="redbag_content">
+    <view class="redbag_box">
+      <view class="redbag_title">选择红包金额 · 留下祝福语</view>
+      <view class="item_box">
+        <view data-index="{{index}}" catchtap='selectRedbag' class="item {{index==currentIndex?'active':''}}" wx:for="{{list}}" data-data="{{item}}" wx:key="index">
+          <image src="/images/icon/{{index==currentIndex?'newredbag1.png':'newredbag2.png'}}"></image>
+          <text>{{item.skuName}}</text>
+        </view>
+
+      </view>
+    </view>
+    <view class="pay_button">
+      <view class="num">
+          <text>购买数量</text>
+          <image catchtap='numCut' src="../../images/jian.png"></image>
+          <view class="currentNum">{{currentNum?currentNum:1}}</view>
+          <image catchtap='numAdd' src="../../images/add.png"></image>
+      </view>
+      <view class="to_pay" catchtap='toPay'>购买</view>
+      
+    </view>
+    <view catchtap='todetailMsg' style='color:#FD3E17;font-size:28rpx;text-align:center;margin-bottom:60rpx;'>—— 详细说明 ——</view>
+  </view>
+
+
+
+
+
+</view>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <view class="containers" style="min-height:{{windowHeight?windowHeight+'px':'auto'}}">
   <view class="banner">
     <image src="../../images/redbagBanner.png" mode='aspectFill'></image>
   </view>
@@ -24,4 +75,4 @@
     <view class="msgdetail" catchtap='todetailMsg'>帮助中心</view>
   </view>
   <view class="bottomBG"><image src="../../images/redbagBottombg.png"></image></view>
-</view>
+</view> -->

@@ -291,18 +291,18 @@ page {
 
 .redBag .banner image {
   width: 100%;
-  height: 421rpx;
+  height: 508rpx;
 }
 
 .redBag .banner .redbagPrice {
-  font-size: 40rpx;
+  font-size: 60rpx;
   font-weight: 700;
   position: absolute;
   bottom:88rpx;
   left:66rpx;
   /* left: 50%;
   transform: translateX(-50%); */
-  color: #fbec7b;
+  color: #fff;
 }
 
 .redBag .bottomBG image {
@@ -322,7 +322,7 @@ page {
 }
 
 .redBag .formBox .inputBox {
-  background: #EDEDED;
+  background: #F7F8FB;
   border-radius: 15rpx;
   /* padding-bottom: 40rpx; */
   position: relative;
@@ -371,9 +371,9 @@ page {
   box-sizing: content-box;
 }
 .redBag .formBox .buttons button{
-  background: #F23B2E;
+  background: #FF5F05;
   color:#fff;
-  width: 400rpx;
+  width: 100%;
   margin: 0 auto;
 }
 .msgdetail{

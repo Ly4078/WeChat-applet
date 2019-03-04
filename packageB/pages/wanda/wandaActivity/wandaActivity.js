@@ -30,10 +30,10 @@ Page({
     rows: 10,
     page: 1,
     pageTotal: 1,
-    drawNum: 0, //抽奖次数
-    actDesc: []
+    actDesc: [],
+    rankingColor: ['#FFC30E', '#A1A1A1', '#D5783A']
   },
-  onLoad: function(options) {
+  onLoad: function (options) {
     let that = this, _currCity = this.data.currCity;
     let q = decodeURIComponent(options.q);
     if (q && q != 'undefined') {
@@ -60,72 +60,29 @@ Page({
     }
     if (!app.globalData.token) { //没有token 获取token
       getToken(app).then(() => {
-        that.drawNum();
         that.getRule();
         that.getData();
       })
     } else {
-      this.drawNum();
       this.getRule();
       this.getData();
     }
   },
-  onShow: function() {
+  onShow: function () {
 
   },
   getData() { //获取数据
     let that = this;
     if (app.globalData.userInfo.lat && app.globalData.userInfo.lng && app.globalData.userInfo.city) {
-      that.cityQuery();
+      that.dishL();
     } else {
-      that.setData({ showSkeleton:false})
-      getCurrentLocation(that).then( ()=>{
-        that.cityQuery();
+      that.setData({ showSkeleton: false })
+      getCurrentLocation(that).then(() => {
+        that.dishL();
       })
     }
   },
-  cityQuery() {
-    let that = this;
-    let _url = this.data._build_url + 'shopZone/listAllShopZone';
-    _url = encodeURI(_url);
-    wx.request({
-      url: _url,
-      method: 'GET',
-      header: {
-        "Authorization": app.globalData.token
-      },
-      success: function(res) {
-        if (res.data.code == 0 && res.data.data) {
-          let data = res.data.data,
-            city = [],
-            branch = [];
-          for (let i = 0; i < data.length; i++) {
-            city.push(data[i].city);
-            branch.push(data[i].shopZoneItem);
-            if (data[i].city == app.globalData.userInfo.city) {
-              if (that.data.currCity ==2 ){
 
-              }else{
-                that.setData({
-                  currCity: i
-                });
-              }
-            }
-          }
-          that.setData({
-            city: city,
-            branch: branch,
-            currBranch: branch[that.data.currCity][0].name,
-            dishList: []
-          });
-          that.dishL();
-        }
-      },
-      fail() {
-
-      }
-    })
-  },
   dishL() {
     let that = this,
       _param = {},
@@ -133,20 +90,18 @@ Page({
       shopZoneCity = "";
     shopZoneCity = this.data.city[this.data.currCity];
     _param = {
-      actId: this.data.actId,
-      shopZoneCity: shopZoneCity,
-      shopZoneItem: this.data.currBranch,
+      actId: '45',
+      type: '3',
       locationX: app.globalData.userInfo.lng,
       locationY: app.globalData.userInfo.lat,
-      page: this.data.page,
-      rows: this.data.rows
+
     };
     for (let key in _param) {
       str += key + "=" + _param[key] + "&";
     }
     str = str.substring(0, str.length - 1);
     swichrequestflag = true;
-    let _url = this.data._build_url + 'goodsSku/listForAct?' + str;
+    let _url = this.data._build_url + 'actRanking/list?' + str;
     _url = encodeURI(_url);
     wx.request({
       url: _url,
@@ -154,41 +109,29 @@ Page({
       header: {
         "Authorization": app.globalData.token
       },
-      success: function(res) {
-        wx.stopPullDownRefresh();
-        wx.hideLoading();
+      success: function (res) {
         if (res.data.code == 0) {
-          let list = res.data.data.list;
+          let list = res.data.data;
           if (list && list.length > 0) {
-            let dishList = that.data.dishList;
             for (let i = 0; i < list.length; i++) {
               list[i].distance = utils.transformLength(list[i].distance);
-              dishList.push(list[i]);
             }
             that.setData({
-              dishList: dishList,
-              pageTotal: Math.ceil(res.data.data.total / 10)
+              dishList: list
             });
           }
-          that.setData({
-            showSkeleton: false,
-            loading: false
-          });
-        } else {
-          that.setData({
-            showSkeleton: false,
-            loading: false
-          });
         }
-        swichrequestflag = false;
       },
       fail() {
-        that.setData({
-          loading: false,
-          showSkeleton: false
-        })
+
+      }, complete() {
         wx.stopPullDownRefresh();
         wx.hideLoading();
+        swichrequestflag = false;
+        that.setData({
+          showSkeleton: false,
+          loading: false
+        });
       }
     }, () => {
       swichrequestflag = false;
@@ -204,7 +147,7 @@ Page({
       header: {
         "Authorization": app.globalData.token
       },
-      success: function(res) {
+      success: function (res) {
         let data = res.data.data;
         that.setData({
           mainPic: data.mainPic,
@@ -217,183 +160,21 @@ Page({
       }
     })
   },
-  isVote(e) { //是否可以投票
-    let that = this,
-      id = e.target.id,
-      _url = this.data._build_url + 'vote/canVoteToday?actId=' + this.data.actId;
-    _url = encodeURI(_url);
-    wx.request({
-      url: _url,
-      method: 'GET',
-      header: {
-        "Authorization": app.globalData.token
-      },
-      success: function(res) {
-        let code = res.data.code;
-        if (code == 0) {
-          that.vote(id);
-        } else if (code == 200029) {
-          that.showToast(res.data.message);
-        }
-      },
-      fail() {
-
-      }
-    })
-  },
-  vote(id) { //投票
-    let that = this;
-    wx.showModal({
-      title: '是否对该菜进行投票?',
-      success(res) {
-        if (res.confirm) {
-          let _url = that.data._build_url + 'vote/addVoteFree?actGoodsSkuId=' + id + '&actId=' + that.data.actId;
-          _url = encodeURI(_url);
-          wx.request({
-            url: _url,
-            method: 'GET',
-            header: {
-              "Authorization": app.globalData.token
-            },
-            success: function(res) {
-              if (res.data.code == 0) {
-                that.showToast('投票成功,赶紧参与抽奖吧', 2000);
-                let dishList = that.data.dishList;
-                for (let i = 0; i < dishList.length; i++) {
-                  if (dishList[i].actGoodsSkuOut.id == id) {
-                    dishList[i].actGoodsSkuOut.voteNum++;
-                  }
-                }
-                that.setData({
-                  dishList: dishList,
-                  drawNum: that.data.drawNum + 1
-                });
-              } else if (code == 200029) {
-                that.showToast(res.data.message);
-              }
-            },
-            fail() {
-
-            }
-          })
-        }
-      }
-    })
-  },
-  toBuy(e) { //买菜
-    let id = e.currentTarget.id,
-      shopId = e.currentTarget.dataset.shopid,
-      city = this.data.city[this.data.currCity],
-      categoryId = e.currentTarget.dataset.categoryid;
-    wx.navigateTo({
-      url: '../../../../pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails?id=' + id + '&shopId=' + shopId + '&actId='+ this.data.actId +'&categoryId=' + categoryId + '&city=' + city
-    })
-  },
-  drawNum() { //可抽奖次数
-    let that = this,
-      _url = this.data._build_url + 'actLottery/get?actId=' + this.data.actId;
-    _url = encodeURI(_url);
-    wx.request({
-      url: _url,
-      method: 'GET',
-      header: {
-        "Authorization": app.globalData.token
-      },
-      success: function(res) {
-        if (res.data.code == 0) {
-          that.setData({
-            drawNum: res.data.data ? res.data.data.totalNumber : 0
-          });
-        }
-      },
-      fail() {
-
-      }
-    })
-  },
-  holdingActivity() {
-    // if (this.data.drawNum <= 0) {
-    //   this.showToast('抽奖次数已用完，参与活动获得更多抽奖次数');
-    //   return;
-    // }
-    wx.navigateTo({
-      url: '/pages/activityDetails/holdingActivity/holdingActivity'
-    })
-  },
-  toBillboard() { //至排行榜
-    wx.navigateTo({
-      url: 'billboard/billboard?actId=' + this.data.actId
-    })
-  },
-  switchTab(e) { //切换tab
+  onPullDownRefresh: function () { //刷新
     if (swichrequestflag) {
       return;
     }
-    let id = e.currentTarget.id,
-      branch = this.data.branch;
-    if (id == this.data.currCity) {
-      return;
-    }
-    wx.showLoading({
-      title: '加载中...'
-    })
-    this.setData({
-      currCity: id,
-      currBranch: branch[id][0].name,
-      dishList: [],
-      page: 1
-    });
     this.dishL();
   },
-  switchWd(e) { //切换万达分店
-    if (swichrequestflag) {
-      return;
-    }
-    let name = e.currentTarget.dataset.name;
-    if (this.data.currBranch == name) {
-      return;
-    }
-    wx.showLoading({
-      title: '加载中...'
-    })
-    this.setData({
-      currBranch: name,
-      dishList: [],
-      page: 1
-    });
-    this.dishL();
+  onReachBottom: function () { // 翻页
   },
-  onPullDownRefresh: function() { //刷新
-    if (swichrequestflag) {
-      return;
-    }
-    this.setData({
-      page: 1,
-      dishList: []
-    });
-    this.drawNum();
-    this.dishL();
-  },
-  onReachBottom: function() { // 翻页
-    if (this.data.page >= this.data.pageTotal) {
-      return;
-    }
-    if (swichrequestflag) {
-      return;
-    }
-    this.setData({
-      page: this.data.page + 1,
-      loading: true
-    });
-    this.dishL();
-  },
-  onShareAppMessage: function() {
+  onShareAppMessage: function () {
     return {
-      title: '湖北万达十大招牌菜',
-      imageUrl: 'https://xqmp4-1256079679.file.myqcloud.com/15927505686_wandashare.jpg',
+      title: '湖北万达十大招牌菜-排行榜',
+      imageUrl: 'https://xqmp4-1256079679.file.myqcloud.com/15927505686_1551662589_db2faf7180cca2c406228a01a7cc414.jpg',
       path: '/packageB/pages/wanda/wandaActivity/wandaActivity?shareId=1',
-      success: function(res) {},
-      fail: function(res) {}
+      success: function (res) { },
+      fail: function (res) { }
     }
   },
   showToast(title, time) { //提示信息
@@ -407,6 +188,15 @@ Page({
     this.setData({
       instruct: true
     });
+  },
+  toBuy(e) { //买菜
+    let id = e.currentTarget.id,
+      shopId = e.currentTarget.dataset.shopid,
+      city = e.currentTarget.dataset.city,
+      categoryId = e.currentTarget.dataset.categoryid;
+    wx.navigateTo({
+      url: '/pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails?id=' + id + '&shopId=' + shopId + '&actId=' + this.data.actId + '&categoryId=' + categoryId + '&city=' + city
+    })
   },
   closeRule() { //关闭规则
     this.setData({
@@ -427,7 +217,7 @@ Page({
     })
   },
   //滚动事件
-  onPageScroll: function(e) {
+  onPageScroll: function (e) {
     if (e.scrollTop > 400) {
       this.setData({
         toTops: true
@@ -446,13 +236,12 @@ Page({
     wx.openSetting({
       success: (res) => {
         if (res.authSetting['scope.userLocation']) { //打开位置授权
-          that.setData({ showSkeleton: true, isshowlocation: false})          
-              setTimeout( ()=>{
-                getCurrentLocation(that).then(() => {
-                 
-                  that.cityQuery();
-                })
-              },300)
+          that.setData({ showSkeleton: true, isshowlocation: false })
+          setTimeout(() => {
+            getCurrentLocation(that).then(() => {
+              that.dishL();
+            })
+          }, 300)
         } else {
           that.setData({
             isshowlocation: true

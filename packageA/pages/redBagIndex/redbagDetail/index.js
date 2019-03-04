@@ -304,9 +304,9 @@ Page({
   onShareAppMessage: function () {
     let that = this;
     return {
-      title: '新春来贺喜，情藏红包里 ',
+      title: '发红包贺卡，送祝福',
       path: '/packageA/pages/redBagIndex/redbagDetail/index?id=' + that.data.id + '&shareId=' + that.data.shareId + '&redBagTitle=' + that.data.redBagTitle + '&iconUrl=' + that.data.iconUrl + '&nickName=' + that.data.nickName,
-      imageUrl: 'https://xqmp4-1256079679.file.myqcloud.com/15927505686_12312321312321312321312.png'
+      imageUrl: 'https://xqmp4-1256079679.file.myqcloud.com/15927505686_1551439824_a0065022a78110ba8dc2a22369225ba.png'
     }
   }
 })

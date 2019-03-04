@@ -1041,7 +1041,14 @@ page {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-
+.w_dish_sort{
+  color: #FFFFFF;
+  font-size: 24rpx;
+  background: #B59461;
+  padding: 5rpx 10rpx;
+  border-radius: 5rpx;
+  margin-top:14rpx;
+}
 .w_dish_flag text {
   font-size: 22rpx;
   border: 1rpx solid #FC5E2D;
@@ -1083,6 +1090,8 @@ page {
 .w_dish_r {
   display: flex;
   flex-direction: column;
+  justify-content:flex-end;
+
 }
 
 .w_dish_r view{
@@ -1096,8 +1105,9 @@ page {
 }
 
 .w_dish_r view:nth-child(1) {
-  background-color: #FC5E2D;
-  color: #fff;
+  color:#fc5e2d;
+border:1rpx solid #fc5e2d;
+
 }
 
 .w_dish_r view:nth-child(2) {

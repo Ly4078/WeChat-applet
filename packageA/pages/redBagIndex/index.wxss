@@ -1,153 +1,124 @@
-page{
-    background: #C11312;
-    position: relative;
-    height: auto;
-    width: 100%;
+page {
+  background: #ffeadf;
 }
 
 .containers {
-  background: #C11312;
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  /* position: relative; */
+  position: relative;
 }
 
 .containers .banner {
   width: 100%;
-  height: 382rpx;
+  height: 557rpx;
 }
-.containers .bottomBG{
-  position: absolute;
-  width: 100%;
-  height: 98rpx;
-  left: 0;
-  bottom:0;
-}
-.containers .bottomBG image{
-   position: absolute;
-  width: 100%;
-  height: 98rpx;
-  left: 0;
-  bottom:0;
-}
+
 .containers .banner image {
   width: 100%;
-  height: 382rpx;
+  height: 557rpx;
 }
 
-.content {
-  display: flex;
-  flex-direction: column;
+.redbag_content {
+  position: absolute;
+  left: 0;
   width: 100%;
-  padding: 20rpx 0;
+  top: 330rpx;
 }
 
-.content .title {
-  color: #ffe15f;
-  font-size: 32rpx;
+.redbag_box {
+  position: relative;
+  margin: 0 30rpx;
+  background: #fff;
+  padding: 70rpx 20rpx 20rpx 20rpx;
+  box-sizing: border-box;
+  border-radius: 14rpx;
+}
+
+.redbag_box .redbag_title {
+  position: absolute;
+  width: 480rpx;
+  height: 72rpx;
+  left: 50%;
+  top: -36rpx;
   text-align: center;
+  color: #fff;
+  line-height: 72rpx;
+  transform: translateX(-50%);
+  font-size: 30rpx;
+  background: #ffa241;
+  border-radius: 6rpx;
 }
 
-.content .redBagList_content {
+.redbag_title::before {
+  content: '';
+  position: absolute;
+  left: -25rpx;
+  top: 0rpx;
+  width: 0;
+  height: 0;
+  border-bottom: 36rpx solid #ff8b0e;
+  border-left: 25rpx solid transparent;
+}
+
+.item_box {
   display: flex;
   flex-wrap: wrap;
-  /* justify-content: space-around; */
-  padding: 20rpx 0;
-}
-
-.content .redBagList_content .item {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  width:200rpx;
-height:120rpx;
-padding:0 5rpx;
-margin:18rpx;
-
-  border-radius: 15rpx;
-  border: 1rpx solid #fbd1ce;
-}
-.content .redBagList_content .item.active{
-  border: 1rpx solid #FFE15F;
- }
- .content .redBagList_content .item.active text{
-  color:#FFE15F;
- }
-.content .redBagList_content .item text {
-  font-size: 30rpx;
-  color: #fbd1ce;
-  margin-left:10rpx;
-}
-
-.content .redBagList_content .item image {
-  width: 32rpx;
-  height: 40rpx;
-}
-
-.selectNum_pay {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 0 20rpx;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.selectNum_pay .selectLeft {
-  flex: 1;
-  height: 100rpx;
-  background: #fff;
-  border-radius: 15rpx;
-  margin-right: 35rpx;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-.selectNum_pay .selectLeft .numTitle {
-  flex: 1;
-  margin-left: 20rpx;
-}
-
-.selectNum_pay .selectLeft .numBox {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  width: 240rpx;
   justify-content: space-around;
 }
- .currentNum{
-   font-size: 40rpx;
-   color: #D64136;
- }
 
-.selectNum_pay .selectLeft view image {
-  width: 52rpx;
-  height: 52rpx;
+.item_box .item {
+  display: flex;
+  border-radius: 10rpx;
+  flex-direction: column;
+  width: 150rpx;
+  height: 160rpx;
+  margin: 15rpx 30rpx;
+  font-size: 28rpx;
+  color: #707282;
+  align-items: center;
+  justify-content: center;
 }
 
-.selectNum_pay .selectConfirm {
-  background: #ffe15f;
-  font-size: 38rpx;
-  color: #ba3127;
-  text-align: center;
-  line-height: 100rpx;
-  border-radius: 15rpx;
-  width: 216rpx;
-  height: 100rpx;
+.item_box .item.active {
+  color: #fff;
+  background-image: linear-gradient(to top, #fe3e17, #ff6444);
 }
-.msgdetail{
-  font-size: 30rpx;
-  color:#FFE15F;
+
+.item_box .item image {
+  width: 33rpx;
+  height: 35rpx;
+  margin-bottom: 15rpx;
+}
+
+.pay_button {
+  margin: 50rpx 30rpx;
+  display: flex;
+  flex-direction: row;
+  border-radius: 70rpx;
+  overflow: hidden;
+}
+
+.pay_button .num {
+  flex: 1;
+  background-image: linear-gradient(to top, #ff5a00, #ffad4c);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0 50rpx;
+  justify-content: space-around;
+  color: #fff;
+  font-size: 32rpx;
+}
+
+.pay_button .num image {
+  width: 42rpx;
+  height: 42rpx;
+}
+
+.pay_button .to_pay {
+  width: 160rpx;
+  background-image: linear-gradient(to top, #ff5a00, #ffad4c);
+  margin-left: 2rpx;
   text-align: center;
-  width: 163rpx;
-  height: 60rpx;
-  line-height: 60rpx;
-  border:1rpx solid #A91C12;
-  border-radius: 5rpx;
-  margin: 50rpx auto 150rpx auto;
+  padding: 40rpx 0;
+  color: #fbef57;
+  font-size: 32rpx;
 }

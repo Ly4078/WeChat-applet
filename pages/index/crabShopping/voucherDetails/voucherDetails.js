@@ -357,8 +357,8 @@ Page({
       console.log(url)
         return {
           // title: that.data.redbagMsg ? that.data.redbagMsg:'恭喜发财，大吉大利！',
-          title: '新春来贺喜，情藏红包里 ',
-          imageUrl:'https://xqmp4-1256079679.file.myqcloud.com/15927505686_12312321312321312321312.png',
+          title: '发红包贺卡，送祝福',
+          imageUrl:'https://xqmp4-1256079679.file.myqcloud.com/15927505686_1551439824_a0065022a78110ba8dc2a22369225ba.png',
           path: url,
           success: function (res){
               

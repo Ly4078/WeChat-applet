@@ -18,6 +18,7 @@ var deepCopy = function (o) {
   } else {
     return o;
   }
+  
 }
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {

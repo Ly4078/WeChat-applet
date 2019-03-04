@@ -26,69 +26,43 @@
     </view>
   </view>
 
-  <image class="banner_img skeleton-rect" src="{{mainPic}}"></image>
+  <image class="banner_img" src="https://xqmp4-1256079679.file.myqcloud.com/15927505686_1551662533_46647851dc884f5cba2038ba1e8ed01.jpg"></image>
   <view class="act_contain">
-    <view class="drawABtn" bindtap="holdingActivity">
-      <image class="skeleton-rect" src="/images/icon/wd_1.png"></image>
-      <view class="drawNum">可抽奖{{drawNum}}次</view>
-    </view>
-    <view class="drawInstruct skeleton-rect">每天可投票1次，抽奖1次；消费自动投5票，抽奖5次</view>
-    <view>
-      <view class="wd_act_tab">
-        <view class="act_tab_l">
-          <view class="act_tab_l_inner">
-            <view class="act_tab_item skeleton-rect {{index == currCity ? 'active' : ''}}" wx:for="{{showSkeleton?SkeletonData:city}}" wx:key="index" id="{{index}}" bindtap='switchTab'>
-              {{item}}
-              <view class="lineThrough">
-                <view></view>
-              </view>
-            </view>
-          </view>
-        </view>
-        <view class="act_tab_r">
-          <view class="tab_r_Billboard" bindtap='toBillboard'>
-            <image src="/images/icon/wd_4.png"></image>
-            <text>排行榜</text>
-          </view>
+    <view class="act_item" wx:for="{{dishList}}" wx:key="index" id="{{item.skuId}}" data-categoryid="{{item.actGoodsSku.categoryId}}" data-shopid="{{item.shopId}}" data-city="{{item.shop.city}}" catchtap='toBuy'>
+      <view class="img_box">
+        <image-loader width="210rpx" mode="aspectFill" height="210rpx" default-image='/images/icon/morentu.png' original-image="{{item.goodsSkuOut[0].skuPic?item.goodsSkuOut[0].skuPic:'/images/icon/morentu.png'}}" />
+        <image src="/images/icon/morentu.png"></image>
+        <view class="ranking" style="background:{{rankingColor[index]?rankingColor[index]:'#FC5E2D'}}">
+          <text class="title">TOP</text>
+          <text class="num">{{item.sortNum}}</text>
         </view>
       </view>
-      <view class="wd_branch">
-        <view class="wd_branch_inner">
-          <view class="wd_branch_item skeleton-rect {{item.name == currBranch ? 'active' : ''}}" wx:for="{{showSkeleton?SkeletonData:branch[currCity]}}" wx:key="index" data-name="{{item.name}}" bindtap="switchWd">
-            <image src="/images/icon/wd_3.png"></image>
-            {{item.name}}
+      <view class="right_detail">
+        <view class="goods_name">{{item.goodsSkuOut[0].skuName}}</view>
+        <view class="num_votes">
+          <text class="num">{{item.actGoodsSku.goodsSkuNumber}}号</text>
+          <text class="votes">{{item.actGoodsSku.voteNum}}票</text>
+        </view>
+        <view class="shop_loca">
+          <view class="shop">
+            <image src="/images/icon/house.png"></image>
+            <text>{{item.shop.shopName}}</text>
           </view>
+          <view class="loca">距你约{{item.distance}}</view>
+        </view>
+        <view class="price_pay">
+          <view class="price">
+            <text class="current_price">¥{{item.goodsPromotionRules.actAmount}}</text>
+            <text class="sell_price">¥{{item.goodsSkuOut[0].sellPrice}}</text>
+          </view>
+
+          <!-- <form bindsubmit="formSubmit" report-submit="true"> -->
+            <button class="pay" formType="submit">购买</button>
+          <!-- </form> -->
+
         </view>
       </view>
-      <view class="wd_act_list">
-        <view class="wd_act_item" wx:for="{{dishList}}" wx:key="index">
-          <view class="act_item_inner">
-            <view class="act_item_t">
-              <text class="item_shopName">{{item.shop.shopName}}</text>
-              <text>{{item.distance}}</text>
-            </view>
-            <image-loader width="100%" mode="aspectFill" height="360rpx" class='act_item_pic' default-image='/images/icon/morentu.png' original-image="{{(item.smallSkuPic?item.smallSkuPic:item.skuPic)?(item.smallSkuPic?item.smallSkuPic:item.skuPic):'/images/icon/morentu.png'}}" id="{{item.id}}" data-shopid="{{item.shop.id}}" data-categoryid="{{item.categoryId}}" bindtap='toBuy' />
-            <view class="act_item_b">
-              <view class="item_dishName">{{item.skuName}}</view>
-              <view class="item_ticket">
-                <view>{{item.actGoodsSkuOut.goodsSkuNumber}}号</view>
-                <view>{{item.actGoodsSkuOut.voteNum}}票</view>
-              </view>
-              <view class="item_dishPrice">
-                <text>￥{{item.actGoodsSkuOut.goodsPromotionRules.actAmount}}</text>
-                <text>￥{{item.sellPrice}}</text>
-              </view>
-              <view class="item_btn">
-                <view id="{{item.actGoodsSkuOut.id}}" bindtap="isVote">投票</view>
-                <view id="{{item.id}}" data-shopid="{{item.shop.id}}" bindtap='toBuy'>购买</view>
-              </view>
-            </view>
-          </view>
-        </view>
-        <view class="placeholder" wx:if="{{dishList.length <= 0}}">
-          <image src="/images/icon/zhanweitu1.png"></image>
-        </view>
-      </view>
+
     </view>
   </view>
 </view>

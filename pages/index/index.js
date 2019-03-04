@@ -123,7 +123,7 @@ Page({
         // 请求完新版本信息的回调
         // console.log(res.hasUpdate)
       });
-      updateManager.onUpdateReady(function() {
+      updateManager.onUpdateReady(function() { 
         // 新的版本已经下载好，调用 applyUpdate 应用新版本并重启
         updateManager.applyUpdate()
       });

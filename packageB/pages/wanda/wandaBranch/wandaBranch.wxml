@@ -37,10 +37,12 @@
   <view class="branchList">
     <view class="menuItem" wx:for="{{showSkeleton?SkeletonData:dishList}}" wx:key="index" id="{{item.id}}">
       <view class="menuItemWrap" id="{{item.id}}" bindtap='toBuy'>
-        <view class="skeleton-rect">
+        <view class="skeleton-rect" style="position: relative;overflow: hidden;height:340rpx;">
           <image-loader width="100%" mode="aspectFill" height="340rpx" class='menuPic' default-image='/images/icon/morentu.png' original-image="{{(item.smallSkuPic?item.smallSkuPic:item.skuPic)?(item.smallSkuPic?item.smallSkuPic:item.skuPic):'/images/icon/morentu.png'}}"
           />
+           <view wx:if="{{item.actRankingOut.length}}" class="wd_ranking">寻味万达十大美食第{{item.actRankingOut[0].sortNum}}名</view>
         </view>
+       
         <view style="height:340rpx;" wx:if="{{item.stockNum <= 0}}" class="notstockNumshadedow">
           <image style="width:108rpx;height:108rpx;" wx:if="{{item.stockNum <= 0}}" class="sellOutIcon" src="/images/icon/sellOut.png"></image>
         </view>

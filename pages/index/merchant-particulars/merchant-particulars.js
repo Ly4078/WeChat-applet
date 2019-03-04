@@ -271,22 +271,21 @@ Page({
     _param = {
       actId: 45,
       shopId: this.data.shopid,
-      page: 1,
-      rows: 10
+      type:'3',
     };
     for (let key in _param) {
       str += key + "=" + _param[key] + "&";
     }
     str = str.substring(0, str.length - 1);
     wx.request({
-      url: that.data._build_url + 'goodsSku/listForAct?' + str,
+      url: that.data._build_url + 'actRanking/list?' + str,
       method: 'GET',
       header: {
         "Authorization": app.globalData.token
       },
       success: function(res) {
         if (res.data.code == 0) {
-          let list = res.data.data.list;
+          let list = res.data.data;
           if (list && list.length > 0) {
             that.setData({
               wandaDish: list

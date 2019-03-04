@@ -8,7 +8,7 @@
 
   </view>
    <view class="banners">
-    <image src="https://xqmp4-1256079679.file.myqcloud.com/15927505686_quanbaobanner.png"></image>
+    <image src="https://xqmp4-1256079679.file.myqcloud.com/15927505686_1551431702_65863ab3a8e16cb3250495804aa9cd6.png"></image>
   </view>
 
 
@@ -16,11 +16,11 @@
   <view class="redBagType" style="overflow:hidden;">
     <!-- redBagType=='1' 红包未领取 并且当前用户不是红包送出人 -->
     <view class="redBagTypedetail" wx:if="{{redBagType=='1'}}">
-      <view catchtap='click' class="chai {{isclick?'flipOutY':''}}">拆红包</view>
+      <view catchtap='click' class="chai {{isclick?'flipOutY':''}}">领取红包</view>
     </view>
     <!-- redBagType=='2' 我是送出人，红包未领取 -->
     <view class="redBagTypedetail" wx:if="{{redBagType=='2'}}">
-      <view style="color:#fff;font-size:30rpx;margin:0 auto;">{{data.goodsSkuName}}，等待对方领取</view>
+      <view style="color:#FF943A;font-size:30rpx;margin:0 auto;">{{data.goodsSkuName}}，等待对方领取</view>
     </view>
     <!-- redBagType=='3' 我是领取人 红包被我领了-->
     <view class="redBagTypedetail" wx:if="{{redBagType=='3'}}">
@@ -32,7 +32,7 @@
     </view>
     <!-- redBagType=='4' 红包已被领取 我不是领取人 -->
     <view class="redBagTypedetail" wx:if="{{redBagType=='4'}}">
-      <view style="color:#fff;font-size:30rpx;margin:0 auto;">1个红包共{{data.goodsSkuName}}</view>
+      <view style="color:#FF943A;font-size:30rpx;margin:0 auto;">1个红包共{{data.goodsSkuName}}</view>
       <view class="Recipients">
         <image src="{{data.orderCouponSendOuts[0].receiveIconUrl}}"></image>
         <view class="name_time">
@@ -42,10 +42,6 @@
         <view class="getPrice">{{data.goodsSkuName}}</view>
       </view>
     </view>
-  </view>
-
-  <view class="bottomBG">
-    <image src="../../../images/redbagBottombg.png"></image>
   </view>
 </view>
 
