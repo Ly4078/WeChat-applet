@@ -212,12 +212,12 @@ Page({
     })
   },
   onReachBottom: function () { //用户上拉触底加载更多
-    // if (this.data.pageTotal <= this.data.page){
-    //   return
-    // }
-    // if (swichrequestflag) {
-    //   return;
-    // }
+    if (this.data.pageTotal <= this.data.page){
+      return
+    }
+    if (swichrequestflag) {
+      return;
+    }
     this.setData({
       page: this.data.page + 1,
       loading: true

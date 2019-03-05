@@ -16,7 +16,7 @@
   </view>
 
   <!-- 查看规则 -->
-  <view class="wd_regulation" bindtap='openRule'>规则</view>
+  <!-- <view class="wd_regulation" bindtap='openRule'>规则</view> -->
   <!-- 规则说明 -->
   <view class="mask" catchtap="closeRule" wx:if="{{instruct}}"></view>
   <view class="modalDlg" wx:if="{{instruct}}">
@@ -26,7 +26,7 @@
     </view>
   </view>
 
-  <image class="banner_img" src="https://xqmp4-1256079679.file.myqcloud.com/15927505686_1551662533_46647851dc884f5cba2038ba1e8ed01.jpg"></image>
+  <image class="banner_img" src="https://xqmp4-1256079679.file.myqcloud.com/15927505686_1551765285_9dd89f505b639ec5659630c1f2a0ec5.jpg"></image>
   <view class="act_contain">
     <view class="act_item" wx:for="{{dishList}}" wx:key="index" id="{{item.skuId}}" data-categoryid="{{item.actGoodsSku.categoryId}}" data-shopid="{{item.shopId}}" data-city="{{item.shop.city}}" catchtap='toBuy'>
       <view class="img_box">

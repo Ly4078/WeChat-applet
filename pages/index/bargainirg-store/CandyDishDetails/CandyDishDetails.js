@@ -10,8 +10,10 @@ var WxParse = require('../../../../utils/wxParse/wxParse.js');
 import getCurrentLocation from '../../../../utils/getCurrentLocation.js';
 let requesting = false;
 var payrequest = true;
+var pagescrollTimer = null;
 Page({
   data: {
+   
     _build_url: GLOBAL_API_DOMAIN,
     isshowlocation: false,
     showModal: false,
@@ -56,9 +58,16 @@ Page({
         '购买后3个月内使用有效。'
       ]
     }],
-    legend: []
+    legend: [],
+    isready:false,
+    goodsPayType: 3,
   },
   onLoad(options) {
+    setTimeout( ()=>{
+      this.setData({
+        isready:true
+      })
+    },2000)
     //在此函数中获取扫描普通链接二维码参数
     console.log('options:', options)
     let that = this,
@@ -125,6 +134,7 @@ Page({
     }
     app.globalData.currentScene.path = "pages/index/bargainirg-store/CandyDishDetails/CandyDishDetails"
   },
+
   onShow() {
     let that = this;
     if(app.globalData.token) {
@@ -137,7 +147,6 @@ Page({
           that.setData({ showSkeleton: false })
         })
       }
-      
     }else{
       getToken(app).then(() => {
         if (app.globalData.userInfo.city) {
@@ -453,6 +462,8 @@ Page({
           }catch(err){}
           that.setData({
             pattern: pattern,
+            goodsPayType: data.goodsPayType,
+            isready:true,
             soData: data,
             picUrl: data.picUrl ? data.picUrl : data.skuPic,
             skuName: data.skuName,

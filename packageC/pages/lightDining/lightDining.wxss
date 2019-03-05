@@ -1,0 +1,127 @@
+
+page{
+  background:rgba(245,245,250,1);
+}
+.navigation view.active {
+border-bottom:6rpx solid #FC171A;
+color:#FC171A;
+
+}
+.content{
+  display: flex;
+  flex-direction: column;
+}
+
+.content .goods_item{
+  display: flex;
+  flex-direction: row;
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 22rpx;
+  margin: 0 24rpx 24rpx 24rpx;
+  box-shadow:0px 6px 10px 0px rgba(134,134,134,0.18);
+}
+.content .goods_item .img_box{
+  width: 188rpx;
+  height: 188rpx;
+  overflow: hidden;
+  border-radius: 15rpx;
+  margin-right: 20rpx;
+}
+.content .goods_item .img_box image{
+  width: 188rpx;
+  height: 188rpx;
+}
+.content .goods_item  .right_detail{
+  flex:1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.right_detail .goods_name{
+  font-size: 32rpx;
+  font-family:PingFangSC-Medium;
+font-weight:500;
+color:rgba(25,25,25,1);
+overflow:hidden;
+text-overflow:ellipsis;
+white-space:nowrap;
+display:block;
+width:400rpx;
+
+}
+.right_detail .shop{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.right_detail .shop .shop_name{
+    display: flex;
+  flex-direction: row;
+  align-items: center;
+  background:rgba(245,245,250,1);
+border-radius:8rpx;
+color: #969696;
+font-size: 22rpx;
+padding: 2rpx 4rpx;
+
+}
+.right_detail .shop .shop_name text{
+overflow:hidden;
+text-overflow:ellipsis;
+white-space:nowrap;
+display:block;
+max-width:300rpx;
+}
+.right_detail .shop .shop_name image{
+  width: 22rpx;
+  height: 22rpx;
+  margin-right: 4rpx;
+}
+.right_detail .shop .shop_loca{
+  font-size:28rpx;  
+  margin-left: 20rpx;
+font-family:PingFangSC-Regular;
+font-weight:400;
+color:rgba(178,178,178,1);
+}
+.right_detail .price_box{
+  display: flex;
+  flex-direction: row;
+}
+.right_detail .price_box .left_price{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex:1;
+}
+.left_price .currnet_price{
+  color: #FC0D1B;
+  font-size: 40rpx;
+  font-weight: 700;
+  margin-right: 10rpx;
+}
+.left_price .sell_price{
+  color: #B2B2B2;
+  font-size: 28rpx;
+  margin-right:10rpx;
+  text-decoration: line-through;
+}
+.left_price .discount{
+  position: relative;
+  font-size: 22rpx;
+  color: #FC0D1B;
+  background: #FFF3F4;
+  border-radius: 8rpx;
+  padding: 4rpx 10rpx;
+  border:0.5rpx solid #FFE0E3;
+}
+.right_pay{
+  background-image:linear-gradient(to right, #FC101B, #FC6310); 
+  color: #fff;
+  font-size: 32rpx;
+  font-weight: 700;
+  box-shadow:0px 10rpx 14rpx 0px rgba(252,24,26,0.22);
+border-radius:60rpx;
+padding: 12rpx 38rpx;
+}

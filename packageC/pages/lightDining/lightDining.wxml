@@ -1,0 +1,57 @@
+<!-- 骨架屏模块 -->
+<skeleton selector="skeleton" loading="spin" bgcolor="#FFF" wx:if="{{showSkeleton}}"></skeleton>
+<view>
+    <view class="navigation">
+      <view catchtap='selectTap' data-index="{{index}}" id="{{item.id}}" class="item {{navIndex==index?'active':''}}" wx:for="{{navs}}" wx:key="index" >{{item.name}}</view>
+    
+    </view>
+    <view style="height:120rpx;width:100%;"></view>
+
+    <view class="content">
+      <view class="goods_item" wx:for="{{cuisineArray}}" wx:key="index" id="{{item.id}}" data-index="{{item.shopId}}" data-cate="{{item.categoryId}}"  data-distance="{{item.distance}}" data-categoryid="{{item.categoryId}}" catchtap='candyDetails' hover-class='listhover' hover-stay-time="200">
+          <view class="img_box">
+          <!-- <image src="{{item.smallSkuPic}}"></image>
+           -->
+           <image-loader width="188rpx" height="188rpx" class='hot-recoItem-leftImg' default-image='/images/icon/morentu.png' mode='aspectFill' original-image="{{(item.smallSkuPic?item.smallSkuPic:item.skuPic)?(item.smallSkuPic?item.smallSkuPic:item.skuPic):'/images/icon/morentu.png'}}" />
+          </view>
+          <view class="right_detail">
+            <text class="goods_name">{{item.skuName}}</text>
+            <view class="shop">
+              <view class="shop_name">
+                <image src="/images/icon/house.png"></image>
+                <text>{{item.shopName}}</text>
+              </view>
+              <view class="shop_loca">{{item.distance}}</view>
+            </view>
+            <view class="price_box">
+              <view class="left_price">
+                <text class="currnet_price">¥{{item.actGoodsSkuOut.goodsPromotionRules.actAmount}}</text>
+                <text class="sell_price">¥{{item.sellPrice}}</text>
+                <view class="discount" wx:if="{{item.discount<10 && item.discount}}">
+                  <text >{{item.discount}}折</text>
+                </view>
+              </view>
+              <view class="right_pay">抢购</view>
+            </view>
+          </view>
+      </view>
+    </view>
+
+</view>
+  <view class='modal_box' wx:if="{{isshowlocation}}">
+    <view class='weizhi'>
+      更多体验需要你授权位置信息
+      <button bindtap="openSetting">确定</button>
+    </view>
+  </view>
+
+    <!--加载中loading -->
+  <view>
+    <view class='loadingBox'>
+       <image wx:if="{{istruenodata}}" src="/images/icon/bottomnodata.png" style="width:304rpx;height:64rpx;"></image>
+      <i-spin custom wx:if="{{loading}}">
+        <!-- <view class="loading"></view> -->
+        <image style='width:100rpx;height:100rpx;' src="/images/icon/bottom_loading.gif"></image>
+      </i-spin>
+    </view>
+  </view>

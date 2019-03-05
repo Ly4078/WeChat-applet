@@ -126,6 +126,7 @@
       "name": "pack3",
       "pages": [
         "pages/checkin/checkin",
+        "pages/lightDining/lightDining",
         "pages/xiangqiLottery/xiangqiLottery",
         "pages/xiangqiLottery/myGift/myGift"
         

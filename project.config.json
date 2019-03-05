@@ -20,7 +20,11 @@
 	"debugOptions": {
 		"hidedInDevtools": []
 	},
-	"scripts": {},
+	"scripts": {
+		"beforeCompile": "",
+		"beforePreview": "",
+		"beforeUpload": ""
+	},
 	"condition": {
 		"search": {
 			"current": -1,
@@ -38,7 +42,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 7,
+			"current": 8,
 			"list": [
 				{
 					"id": -1,
@@ -93,6 +97,13 @@
 					"id": 7,
 					"name": "红包",
 					"pathName": "packageA/pages/redBagIndex/redbagDetail/index",
+					"query": "shareId=77727&versionNo=0&id=4008996&nickName=我小叮当还能说点啥&iconUrl=https://wx.qlogo.cn/mmopen/vi_32/EAUBgSfWqX9hicXvErNgFvqVEdgoyswtRKsdGQ7a9FGxoqNuTbaNysL2aom15NT7tfaYsDB2jibicpphdXlflyvwA/132&title=恭喜发财，大吉大利！",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "红包",
+					"pathName": "packageC/pages/lightDining/lightDining",
 					"query": "shareId=77727&versionNo=0&id=4008996&nickName=我小叮当还能说点啥&iconUrl=https://wx.qlogo.cn/mmopen/vi_32/EAUBgSfWqX9hicXvErNgFvqVEdgoyswtRKsdGQ7a9FGxoqNuTbaNysL2aom15NT7tfaYsDB2jibicpphdXlflyvwA/132&title=恭喜发财，大吉大利！",
 					"scene": null
 				}

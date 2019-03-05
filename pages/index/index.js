@@ -59,6 +59,11 @@ Page({
     }
     ]
   },
+  toqcy:function(){
+    wx.navigateTo({
+      url: '/packageC/pages/lightDining/lightDining',
+    })
+  },
   hidewandaactivity: function () {
     // app.globalData.newcomer = 0;
     this.setData({ showwandaactivity: false });

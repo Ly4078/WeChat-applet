@@ -41,6 +41,12 @@
           <text class='abandon' wx:if="{{shopId==0}}">参考价 ￥{{soData.marketPrice}}</text>
           <text class='abandon' wx:else>￥{{sellPrice}}</text>
         </view>
+        <!-- <view class='shopsConter' wx:else>
+          <view class='shopscCurrency'>￥ 现价
+          </view>
+          <text class='lowValue'>{{sellPrice}}</text>
+        </view> -->
+
       </view>
       <view class='kanj' catchtap="understand" hover-class='listhover' hover-stay-time="200">
         <view class='kjicon'>砍价购</view>
@@ -54,7 +60,7 @@
   <view class='theFollowing'>
     <view class='embedded'>
       <!-- 商品详情 -->
-      <view class='specialWrap' wx:if="{{article || pattern}}">
+      <view class='specialWrap goods_detail' wx:if="{{article || pattern}}">
         <view class='special'></view>
         <text>商品详情</text>
       </view>
@@ -84,7 +90,7 @@
       <!-- 购买须知end -->
 
       <!-- 标题 -->
-      <view class='specialWrap' wx:if="{{shopName}}">
+      <view class='specialWrap shop_detail' wx:if="{{shopName}}">
         <view class='special'></view>
         <text class="shopName">{{shopName}}</text>
         <view class='diningRight shopindex' bindtap="toShopDetail">
@@ -194,7 +200,7 @@
 
 
   <!-- 底部tab功能键 -->
-  <view class='function'>
+  <view class='function' >
     <view class='returnHome home' catchtap='returnHomeArrive'>
       <image class='houselet' src='/images/icon/houselet.png'></image>
       <text>首页</text>
@@ -205,13 +211,13 @@
       <text>分享</text>
     </button>
 
-    <view style="background:{{soData.stockNum<=0?'#999':''}}" class='returnPrice' catchtap='originalPrice'>
+    <view  style="background:{{soData.stockNum<=0?'#999':''}}" class='returnPrice' catchtap='originalPrice'>
       <view>￥
         <text>{{sellPrice}}</text>
       </view>
-      <text class='directly'>单独购买</text>
+      <text class='directly'>{{goodsPayType=='1'?'立即购买':'原价购买'}}</text>
     </view>
-    <view style="background:{{soData.actGoodsSkuOut.stockNum<=0?'#999':''}}" class='returnSponsor' catchtap='sponsorVgts'>
+    <view  style="background:{{soData.actGoodsSkuOut.stockNum<=0?'#999':''}}" class='returnSponsor' catchtap='sponsorVgts'>
       <view>最低￥
         <text>{{agioPrice}}</text>
       </view>

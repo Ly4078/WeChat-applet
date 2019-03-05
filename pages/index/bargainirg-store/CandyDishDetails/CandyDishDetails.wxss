@@ -507,6 +507,7 @@ page{
 .function{
   width: 100%;
   height: 86rpx;
+  transition: .3s all;
   display: flex;
   border-top:1px solid  #EBEBEB;
   position: fixed;
@@ -546,15 +547,17 @@ page{
 .returnPrice{
   width: 200rpx;
   height: 86rpx;
-  background-color: #FFC0AC;
+  background:linear-gradient(90deg,rgba(252,190,3,1) 0%,rgba(252,190,3,1) 100%);
   text-align: center;
   line-height: 30rpx;
+  flex:1;
 }
 
 .returnSponsor{
   width: 320rpx;
   height: 86rpx;
-  background-color: #FC6232;
+  flex:1;
+  background:linear-gradient(90deg,rgba(255,83,69,1) 0%,rgba(252,96,83,1) 100%);
   text-align: center;
   line-height: 34rpx;
   font-size:24rpx;
@@ -694,3 +697,4 @@ page{
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
